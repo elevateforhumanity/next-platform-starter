@@ -27,6 +27,7 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { PROGRAM_REGISTRY } from '@/lib/platform/system-registry';
 import { emitEvent } from '@/lib/platform/events';
+import { describeCheckedAppDirs, discoverNextAppDirs } from '@/lib/devstudio/next-app-dirs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -79,33 +80,52 @@ export async function GET(req: NextRequest) {
         if (scope === 'all' || scope === 'routes') {
           head('1. Route Health');
           const { readdirSync, statSync } = await import('fs');
-          const { join } = await import('path');
-          const appDir = join(process.cwd(), 'app');
+          const { join, relative } = await import('path');
+          const appDirs = discoverNextAppDirs();
           let pages = 0, apis = 0;
           const slugMap = new Map<string, string[]>();
 
-          function walkRoutes(dir: string) {
+          if (appDirs.length === 0) {
+            warn('Route source scan unavailable: no Next.js app directory found');
+            info(`Checked: ${describeCheckedAppDirs()}`);
+          }
+
+          function routeFromFile(rootDir: string, full: string, suffix: 'page.tsx' | 'route.ts') {
+            let relPath = relative(rootDir, full).replace(/\\/g, '/');
+            if (relPath === suffix) {
+              relPath = '';
+            } else if (relPath.endsWith(`/${suffix}`)) {
+              relPath = relPath.slice(0, -suffix.length - 1);
+            }
+            return `/${relPath}`.replace(/\/\([^)]+\)/g, '').replace(/\/+/g, '/');
+          }
+
+          function walkRoutes(rootDir: string, dir: string) {
             for (const f of readdirSync(dir)) {
               const full = join(dir, f);
-              if (statSync(full).isDirectory()) { walkRoutes(full); continue; }
+              if (statSync(full).isDirectory()) { walkRoutes(rootDir, full); continue; }
               if (f === 'page.tsx') {
                 pages++;
-                const slug = full.replace(appDir, '').replace('/page.tsx', '').split('/').pop() ?? '';
+                const route = routeFromFile(rootDir, full, 'page.tsx');
+                const slug = route.split('/').pop() ?? '';
                 if (!slugMap.has(slug)) slugMap.set(slug, []);
-                slugMap.get(slug)!.push(full.replace(appDir, ''));
+                slugMap.get(slug)!.push(route);
               }
               if (f === 'route.ts') apis++;
             }
           }
-          walkRoutes(appDir);
+          for (const appDir of appDirs) walkRoutes(appDir.dir, appDir.dir);
 
-          pass(`${pages} page routes, ${apis} API routes`);
-          const dups = [...slugMap.entries()].filter(([, paths]) => paths.length > 1 && !['page', 'route', 'layout', 'loading'].includes(paths[0].split('/').pop() ?? ''));
-          if (dups.length > 0) {
-            warn(`${dups.length} duplicate route slugs detected`);
-            dups.slice(0, 5).forEach(([slug, paths]) => info(`${slug}: ${paths.slice(0, 2).join(', ')}`));
-          } else {
-            pass('No duplicate route slugs');
+          if (appDirs.length > 0) {
+            pass(`${pages} page routes, ${apis} API routes`);
+            info(`App roots: ${appDirs.map((dir) => dir.label).join(', ')}`);
+            const dups = [...slugMap.entries()].filter(([, paths]) => paths.length > 1 && !['page', 'route', 'layout', 'loading'].includes(paths[0].split('/').pop() ?? ''));
+            if (dups.length > 0) {
+              warn(`${dups.length} duplicate route slugs detected`);
+              dups.slice(0, 5).forEach(([slug, paths]) => info(`${slug}: ${paths.slice(0, 2).join(', ')}`));
+            } else {
+              pass('No duplicate route slugs');
+            }
           }
         }
 
@@ -114,7 +134,14 @@ export async function GET(req: NextRequest) {
           head('2. Auth Coverage');
           const { readdirSync, statSync, readFileSync } = await import('fs');
           const { join } = await import('path');
-          const apiDir = join(process.cwd(), 'app', 'api');
+          const appDirs = discoverNextAppDirs();
+          const apiDirs = appDirs.map((appDir) => join(appDir.dir, 'api')).filter((dir) => {
+            try {
+              return statSync(dir).isDirectory();
+            } catch {
+              return false;
+            }
+          });
           let checked = 0, noAuth = 0, adminNoRole = 0;
 
           function walkAuth(dir: string) {
@@ -136,18 +163,24 @@ export async function GET(req: NextRequest) {
               }
             }
           }
-          walkAuth(apiDir);
-
-          info(`Checked ${checked} API routes`);
-          if (noAuth === 0) {
-            pass('All API routes have auth checks');
-          } else {
-            fail(`${noAuth} API routes missing auth checks`);
+          if (apiDirs.length === 0) {
+            warn('Auth coverage scan unavailable: no app/api directory found');
+            info(`Checked app roots: ${describeCheckedAppDirs()}`);
           }
-          if (adminNoRole === 0) {
-            pass('All admin routes have role checks');
-          } else {
-            warn(`${adminNoRole} admin routes may lack role enforcement`);
+          for (const apiDir of apiDirs) walkAuth(apiDir);
+
+          if (apiDirs.length > 0) {
+            info(`Checked ${checked} API routes`);
+            if (noAuth === 0) {
+              pass('All API routes have auth checks');
+            } else {
+              fail(`${noAuth} API routes missing auth checks`);
+            }
+            if (adminNoRole === 0) {
+              pass('All admin routes have role checks');
+            } else {
+              warn(`${adminNoRole} admin routes may lack role enforcement`);
+            }
           }
         }
 

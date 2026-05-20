@@ -47,6 +47,7 @@ import { getAdminUrl, getSiteUrl } from '@/lib/utils/siteUrl';
 import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform/knowledge-graph';
 import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
 import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
+import { describeCheckedAppDirs, discoverNextAppDirs } from '@/lib/devstudio/next-app-dirs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -2392,20 +2393,39 @@ async function executeAction(
       write(`\x1b[33m⚙  Scanning Next.js routes (${filter})…\x1b[0m`);
       try {
         const { readdirSync, statSync } = await import('fs');
-        const { join } = await import('path');
-        const appDir = join(process.cwd(), 'app');
+        const { join, relative } = await import('path');
+        const appDirs = discoverNextAppDirs();
         const pages: string[] = [];
         const apis: string[] = [];
-        function walk(dir: string) {
+
+        if (appDirs.length === 0) {
+          write('\x1b[33m⚠  Route source scan unavailable: no Next.js app directory found.\x1b[0m');
+          write(`   Checked: ${describeCheckedAppDirs()}`);
+          break;
+        }
+
+        function toRoute(rootDir: string, full: string, suffix: 'page.tsx' | 'route.ts') {
+          let relPath = relative(rootDir, full).replace(/\\/g, '/');
+          if (relPath === suffix) {
+            relPath = '';
+          } else if (relPath.endsWith(`/${suffix}`)) {
+            relPath = relPath.slice(0, -suffix.length - 1);
+          }
+          const route = `/${relPath}`.replace(/\/\([^)]+\)/g, '').replace(/\/+/g, '/');
+          return route === '/.' ? '/' : route;
+        }
+
+        function walk(rootDir: string, dir: string) {
           for (const f of readdirSync(dir)) {
             const full = join(dir, f);
-            if (statSync(full).isDirectory()) { walk(full); continue; }
-            if (f === 'page.tsx') pages.push(full.replace(appDir, '').replace('/page.tsx', '') || '/');
-            if (f === 'route.ts') apis.push(full.replace(appDir, '').replace('/route.ts', ''));
+            if (statSync(full).isDirectory()) { walk(rootDir, full); continue; }
+            if (f === 'page.tsx') pages.push(toRoute(rootDir, full, 'page.tsx'));
+            if (f === 'route.ts') apis.push(toRoute(rootDir, full, 'route.ts'));
           }
         }
-        walk(appDir);
+        for (const appDir of appDirs) walk(appDir.dir, appDir.dir);
         write(`\x1b[32m✓  Scan complete\x1b[0m`);
+        write(`   App roots: ${appDirs.map((dir) => dir.label).join(', ')}`);
         write(`   Pages:     ${pages.length}`);
         write(`   API routes: ${apis.length}`);
         if (filter === 'all' || filter === 'pages') {
@@ -2466,12 +2486,34 @@ async function executeAction(
       const scanPath = String(args.path ?? 'app');
       write(`\x1b[33m⚙  Scanning for broken internal links in ${scanPath}…\x1b[0m`);
       try {
-        const { readdirSync, statSync, readFileSync } = await import('fs');
-        const { join } = await import('path');
-        const root = join(process.cwd(), scanPath);
+        const { existsSync, readdirSync, statSync, readFileSync } = await import('fs');
+        const { join, relative } = await import('path');
+        const appDirs = discoverNextAppDirs();
+        const explicitRoot = join(process.cwd(), scanPath);
+        const roots = scanPath === 'app'
+          ? appDirs
+          : existsSync(explicitRoot)
+            ? [{ dir: explicitRoot, label: scanPath }]
+            : [];
         const hrefRe = /href=["'](\/((?!http|mailto|tel|#)[^"']+))["']/g;
         const broken: string[] = [];
         let scanned = 0;
+
+        if (roots.length === 0) {
+          write('\x1b[33m⚠  Link source scan unavailable: no matching source directory found.\x1b[0m');
+          write(`   Requested: ${scanPath}`);
+          write(`   Checked app roots: ${describeCheckedAppDirs()}`);
+          break;
+        }
+
+        function hasPageForHref(href: string) {
+          return appDirs.some((appDir) => {
+            const pagePath = join(appDir.dir, href, 'page.tsx');
+            const dynPath = join(appDir.dir, href.replace(/\/[^/]+$/, '/[...slug]'), 'page.tsx');
+            return existsSync(pagePath) || existsSync(dynPath);
+          });
+        }
+
         function walk(dir: string) {
           for (const f of readdirSync(dir)) {
             const full = join(dir, f);
@@ -2483,18 +2525,15 @@ async function executeAction(
             while ((m = hrefRe.exec(src)) !== null) {
               const href = m[1].split('?')[0].split('#')[0];
               // Check if a page.tsx exists for this route
-              const pagePath = join(process.cwd(), 'app', href, 'page.tsx');
-              const dynPath  = join(process.cwd(), 'app', href.replace(/\/[^/]+$/, '/[...slug]'), 'page.tsx');
-              try { statSync(pagePath); } catch {
-                try { statSync(dynPath); } catch {
-                  broken.push(`${full.replace(process.cwd(), '')}  →  ${href}`);
-                }
+              if (!hasPageForHref(href)) {
+                broken.push(`${relative(process.cwd(), full)}  →  ${href}`);
               }
             }
           }
         }
-        walk(root);
+        for (const root of roots) walk(root.dir);
         write(`\x1b[32m✓  Scanned ${scanned} files\x1b[0m`);
+        write(`   Source roots: ${roots.map((root) => root.label).join(', ')}`);
         const unique = [...new Set(broken)].slice(0, 30);
         write(`   Potential broken links: ${unique.length}`);
         unique.forEach(b => write(`   \x1b[31m✗\x1b[0m  ${b}`));
