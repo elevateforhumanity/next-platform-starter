@@ -3,14 +3,12 @@ import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
-  Settings,
   Bell,
   Shield,
   CreditCard,
   Globe,
   Mail,
   Webhook,
-  ChevronRight,
   ArrowRight,
   Share2,
 } from 'lucide-react';
@@ -107,91 +105,81 @@ export default async function AdminSettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-white border-b border-slate-200 px-6 py-5">
-        <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
-          <Link href="/admin/dashboard" className="hover:text-slate-700">
-            Admin
-          </Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-slate-900 font-medium">Settings</span>
-        </nav>
-        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-          <Settings className="w-6 h-6 text-slate-600" /> Platform Settings
-        </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Configure platform behaviour, integrations, and security
+    <div className="w-full space-y-6 px-6 py-6">
+      <div>
+        <p className="text-sm font-medium text-slate-500">Admin</p>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Settings</h1>
+        <p className="text-slate-500">
+          Configure platform behaviour, integrations, and security.
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {sections.map((section) => {
-            const Icon = section.icon;
-            return (
-              <Link
-                key={section.title}
-                href={section.href}
-                className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:border-brand-blue-300 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-slate-600" />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {sections.map((section) => {
+          const Icon = section.icon;
+          return (
+            <Link
+              key={section.title}
+              href={section.href}
+              className="rounded-2xl border border-slate-200 shadow-sm p-6 hover:border-brand-blue-300 hover:shadow-md transition-all group"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                  <Icon className="w-5 h-5 text-slate-600" />
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-500 transition-colors" />
+              </div>
+              <h2 className="font-semibold text-slate-900 mb-3">{section.title}</h2>
+              <div className="space-y-2">
+                {section.fields.map((f) => (
+                  <div key={f.label} className="flex items-center justify-between">
+                    <span className="text-xs text-slate-400">{f.label}</span>
+                    <span className="text-xs font-medium text-slate-700 truncate max-w-[120px] text-right">
+                      {f.value}
+                    </span>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-500 transition-colors" />
-                </div>
-                <h2 className="font-semibold text-slate-900 mb-3">{section.title}</h2>
-                <div className="space-y-2">
-                  {section.fields.map((f) => (
-                    <div key={f.label} className="flex items-center justify-between">
-                      <span className="text-xs text-slate-400">{f.label}</span>
-                      <span className="text-xs font-medium text-slate-700 truncate max-w-[120px] text-right">
-                        {f.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Raw settings table for super_admin */}
-        {settingsRows && settingsRows.length > 0 && (
-          <div className="mt-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-100">
-              <h2 className="font-semibold text-slate-900 text-sm">All Platform Settings</h2>
-            </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-100 bg-slate-50">
-                  {['Key', 'Value', 'Last Updated'].map((h) => (
-                    <th
-                      key={h}
-                      className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {settingsRows.map((r: any) => (
-                  <tr key={r.key} className="hover:bg-slate-50">
-                    <td className="py-3 px-5 font-mono text-xs text-slate-700">{r.key}</td>
-                    <td className="py-3 px-5 text-slate-600 text-xs max-w-xs truncate">
-                      {r.value ?? '—'}
-                    </td>
-                    <td className="py-3 px-5 text-slate-400 text-xs">
-                      {r.updated_at ? new Date(r.updated_at).toLocaleDateString() : '—'}
-                    </td>
-                  </tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              </div>
+            </Link>
+          );
+        })}
       </div>
+
+      {/* Raw settings table for super_admin */}
+      {settingsRows && settingsRows.length > 0 && (
+        <div className="rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h2 className="font-semibold text-slate-900 text-sm">All Platform Settings</h2>
+          </div>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50">
+                {['Key', 'Value', 'Last Updated'].map((h) => (
+                  <th
+                    key={h}
+                    className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {settingsRows.map((r: any) => (
+                <tr key={r.key} className="hover:bg-slate-50">
+                  <td className="py-3 px-5 font-mono text-xs text-slate-700">{r.key}</td>
+                  <td className="py-3 px-5 text-slate-600 text-xs max-w-xs truncate">
+                    {r.value ?? '—'}
+                  </td>
+                  <td className="py-3 px-5 text-slate-400 text-xs">
+                    {r.updated_at ? new Date(r.updated_at).toLocaleDateString() : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
