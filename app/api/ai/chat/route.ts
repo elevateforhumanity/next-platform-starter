@@ -5,17 +5,13 @@ export const maxDuration = 60;
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-function getOpenAIClient() {
-  return new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-}
+
 
 async function _POST(req: Request) {
   try {
@@ -114,9 +110,8 @@ async function _POST(req: Request) {
       .order('created_at', { ascending: true })
       .limit(20);
 
-    // OpenAI call
-    const openai = getOpenAIClient();
-    const completion = await openai.chat.completions.create({
+    // Use shared AI service — provider fallback chain handled in lib/ai/ai-service.ts
+    const result = await aiChat({
       model: 'gpt-4.1-mini',
       messages: [
         {
@@ -130,10 +125,10 @@ async function _POST(req: Request) {
         })),
       ],
       temperature: 0.7,
-      max_tokens: 500,
+      maxTokens: 500,
     });
 
-    const reply = completion.choices[0].message.content || "I'm here to help!";
+    const reply = result.content || "I'm here to help!";
 
     // Save assistant message
     await db.from('chat_messages').insert({

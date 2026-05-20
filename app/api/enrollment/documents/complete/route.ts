@@ -43,10 +43,7 @@ async function _POST(req: Request) {
     // Orientation gate — single source of truth is enrollments.enrollment_state.
     // profiles.orientation_completed is a denormalized cache; do not gate on it here.
     if (enrollment.enrollment_state !== 'orientation_complete') {
-      if (
-        enrollment.enrollment_state === 'documents_complete' ||
-        enrollment.enrollment_state === 'active'
-      ) {
+      if (enrollment.enrollment_state === 'active') {
         return NextResponse.json({
           success: true,
           message: 'Documents already submitted',
@@ -71,13 +68,16 @@ async function _POST(req: Request) {
 
     const now = new Date().toISOString();
 
-    // Advance state to active in program_enrollments
+    // Advance state to active in program_enrollments.
+    // access_granted_at is set here so students can enter the LMS immediately
+    // without waiting for a manual admin grant-access action.
     const { error: updateError } = await supabase
       .from('program_enrollments')
       .update({
         enrollment_state: 'active',
         documents_completed_at: now,
         documents_submitted_at: now,
+        access_granted_at: now,
         next_required_action: 'START_COURSE_1',
         status: 'ACTIVE',
       })

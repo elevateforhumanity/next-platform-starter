@@ -113,8 +113,7 @@ const excludedPatterns = [
   /^\/signup/i,
   /^\/register/i,
   /^\/staff-portal/i,
-  /^\/partner-portal/i,
-  /^\/employer-portal/i,
+  /^\/partner/i,
   /^\/instructor/i,
 ];
 

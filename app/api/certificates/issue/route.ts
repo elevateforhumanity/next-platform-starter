@@ -1,8 +1,9 @@
+import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
-
-import { NextRequest, NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
-import { generateCertificateNumber, generateCertificatePDF } from '@/lib/certificates/generator';
+import { randomBytes } from 'node:crypto';
+import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -10,162 +11,134 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function parseBody<T>(request: NextRequest): Promise<T> {
-  return request.json() as Promise<T>;
+function makeSerial() {
+  return `EFH-${randomBytes(4).toString('hex').toUpperCase()}`;
 }
 
-async function _POST(request: NextRequest) {
-  try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
-    // Auth: require admin or super_admin to issue certificates
-    const { createClient: createServerClient } = await import('@/lib/supabase/server');
-    const authClient = await createServerClient();
-    const {
-      data: { session },
-    } = await authClient.auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const adminDb = await requireAdminClient();
-    const authDb = adminDb || authClient;
-    const { data: profile } = await authDb
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .maybeSingle();
-    if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Forbidden — admin role required' }, { status: 403 });
-    }
+  const supabase = await createRouteHandlerClient({ cookies });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    const body = await parseBody<Record<string, any>>(request);
-    const {
-      studentId,
-      programId,
-      studentName,
-      programName,
-      programHours,
-      courseId,
-      skipCompletionCheck,
-    } = body;
+  if (!user) return new Response('Unauthorized', { status: 401 });
 
-    // Validate required fields
-    if (!studentId || !programId || !studentName || !programName) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+  // Check role permissions
+  const { data: prof } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
 
-    // Initialize Supabase client (adminDb already fetched above for auth check)
-    const supabase = adminDb;
-
-    // Check completion rules (admin can override with skipCompletionCheck)
-    if (!skipCompletionCheck && courseId) {
-      const { evaluateCompletion } = await import('@/lib/lms/completion-rules');
-      const completionStatus = await evaluateCompletion(studentId, programId, courseId);
-      if (!completionStatus.isComplete) {
-        const unmet = completionStatus.ruleResults
-          .filter((r) => !r.passed)
-          .map((r) => r.detail)
-          .join('; ');
-        return NextResponse.json(
-          { error: `Completion requirements not met: ${unmet}`, completionStatus },
-          { status: 422 },
-        );
-      }
-    }
-
-    // Prevent duplicate issuance for same student + program
-    const { data: existing } = await supabase
-      .from('certificates')
-      .select('id, certificate_number')
-      .eq('student_id', studentId)
-      .eq('program_id', programId)
-      .eq('status', 'active')
-      .maybeSingle();
-
-    if (existing) {
-      return NextResponse.json(
-        {
-          error: 'Certificate already issued for this student and program',
-          certificateNumber: existing.certificate_number,
-        },
-        { status: 409 },
-      );
-    }
-
-    // Generate certificate number and verification token
-    const certificateNumber = generateCertificateNumber();
-    const verificationToken = randomUUID();
-    const completionDate = new Date().toISOString().split('T')[0];
-
-    // Generate certificate PDF
-    const certificateData = {
-      studentName,
-      courseName: programName,
-      completionDate,
-      certificateNumber,
-      programHours,
-    };
-
-    const pdfBlob = await generateCertificatePDF(certificateData);
-
-    // Convert blob to buffer for storage
-    const arrayBuffer = await pdfBlob.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    // Upload to Supabase Storage
-    const filePath = `certificates/${certificateNumber}.pdf`;
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('certificates')
-      .upload(filePath, buffer, {
-        contentType: 'application/pdf',
-        upsert: true,
-      });
-
-    if (uploadError) {
-      return NextResponse.json({ error: 'Failed to upload certificate' }, { status: 500 });
-    }
-
-    // Get public URL
-    const { data: urlData } = supabase.storage.from('certificates').getPublicUrl(filePath);
-
-    // Save certificate record to database
-    const { data: certRecord, error: dbError } = await supabase
-      .from('certificates')
-      .insert({
-        student_id: studentId,
-        program_id: programId,
-        certificate_number: certificateNumber,
-        verification_token: verificationToken,
-        student_name: studentName,
-        program_name: programName,
-        completion_date: completionDate,
-        program_hours: programHours,
-        pdf_url: urlData.publicUrl,
-        issued_by: session.user.id,
-        issued_at: new Date().toISOString(),
-        status: 'active',
-      })
-      .select()
-      .maybeSingle();
-
-    if (dbError) {
-      return NextResponse.json({ error: 'Failed to save certificate record' }, { status: 500 });
-    }
-
-    return NextResponse.json({
-      success: true,
-      certificate: {
-        id: certRecord.id,
-        certificateNumber,
-        verificationToken,
-        verifyUrl: `/verify/${verificationToken}`,
-        pdfUrl: urlData.publicUrl,
-        issuedAt: certRecord.issued_at,
-      },
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (!['admin', 'partner', 'instructor'].includes(prof?.role)) {
+    return new Response('Forbidden', { status: 403 });
   }
+
+  // Use service role for certificate writes (RLS restricts inserts to admin)
+  const adminDb = await requireAdminClient();
+
+  if (!adminDb) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
+  if (!adminDb) {
+    return new Response('Server configuration error', { status: 500 });
+  }
+
+  const { user_id, course_id, expires_at } = await req.json();
+
+  if (!user_id || !course_id) {
+    return new Response('Missing user_id or course_id', { status: 400 });
+  }
+
+  // Fetch course details for expiry calculation
+  const { data: course } = await supabase
+    .from('training_courses')
+    .select('id, title, cert_valid_days')
+    .eq('id', course_id)
+    .maybeSingle();
+
+  if (!course) {
+    return new Response('Course not found', { status: 404 });
+  }
+
+  // Fetch user details using admin client
+  const { data: learnerAuth } = await adminDb.auth.admin.getUserById(user_id);
+  const learner = learnerAuth?.user;
+
+  // Mark enrollment as completed
+  await supabase.from('program_enrollments').upsert({
+    user_id,
+    course_id,
+    status: 'completed',
+    completed_at: new Date().toISOString(),
+  });
+
+  // Get enrollment for funding program
+  const { data: en } = await supabase
+    .from('program_enrollments')
+    .select('funding_program_id')
+    .eq('user_id', user_id)
+    .eq('course_id', course_id)
+    .maybeSingle();
+
+  // Log completion event for KPIs
+  await supabase.from('enrollment_events').insert({
+    user_id,
+    course_id,
+    funding_program_id: en?.funding_program_id || null,
+    kind: 'COMPLETED',
+  });
+
+  // Calculate expiry date
+  let expires_at_calc: string | null = null;
+  if (expires_at) {
+    expires_at_calc = new Date(expires_at).toISOString();
+  } else if (course.cert_valid_days && Number(course.cert_valid_days) > 0) {
+    const d = new Date();
+    d.setDate(d.getDate() + Number(course.cert_valid_days));
+    expires_at_calc = d.toISOString();
+  }
+
+  // Generate unique serial with retry logic
+  let serial = makeSerial();
+  let ok = false;
+  let tries = 0;
+
+  while (!ok && tries < 3) {
+    const { error } = await adminDb.from('certificates').insert({
+      user_id,
+      course_id,
+      serial,
+      student_name: learner?.email?.split('@')[0] || 'Learner',
+      course_name: course.course_name,
+      completion_date: new Date().toISOString().split('T')[0],
+      issued_at: new Date().toISOString(),
+      expires_at: expires_at_calc,
+    });
+
+    if (!error) {
+      ok = true;
+    } else {
+      serial = makeSerial();
+      tries++;
+    }
+  }
+
+  if (!ok) {
+    return new Response('Failed to generate unique serial', { status: 500 });
+  }
+
+  // Log certification event
+  await adminDb.from('enrollment_events').insert({
+    user_id,
+    course_id,
+    funding_program_id: en?.funding_program_id || null,
+    kind: 'CERTIFIED',
+  });
+
+  return Response.json({ ok: true, serial });
 }
-export const POST = withApiAudit('/api/certificates/issue', _POST);
+export const POST = withApiAudit('/api/cert/issue', _POST);

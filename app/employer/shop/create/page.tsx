@@ -5,29 +5,15 @@ export const metadata: Metadata = {
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { createShop } from './_actions/create-shop';
 
 export const dynamic = 'force-dynamic';
 
 export default async function CreateShopPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/shop/create');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (profile?.role !== 'employer') {
-    redirect('/unauthorized');
-  }
 
   // Check if user already has shop access
   const { data: existingAccess } = await supabase

@@ -608,7 +608,7 @@ export const footerNavigation = {
       { label: 'Nonprofit Products', href: '/nonprofit/healing-products' },
       { label: 'Revenue Calculator', href: '/calculator/revenue-share' },
       { label: 'Cert Verify', href: '/verify' },
-      { label: 'Case Management', href: '/cm' },
+      { label: 'Case Management', href: '/case-manager/dashboard' },
       { label: 'Create Course', href: '/create-course' },
       { label: 'Creator Analytics', href: '/creator/analytics' },
       { label: 'Creator Community', href: '/creator/community' },

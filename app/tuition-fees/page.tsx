@@ -378,7 +378,7 @@ export default async function TuitionFeesPage() {
             <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">
               Refund Policy
             </Link>
-            <Link href="/enrollment-agreement" className="text-brand-orange-600 hover:underline">
+            <Link href="/legal/enrollment-agreement" className="text-brand-orange-600 hover:underline">
               Enrollment Agreement
             </Link>
           </div>

@@ -177,7 +177,7 @@ async function createStudentAccount(
           type: 'magiclink',
           email: normalizedEmail,
           options: {
-            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}${onboardingPath}`,
+            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/auth/callback?next=${encodeURIComponent(onboardingPath)}`,
           },
         })
         .catch((err: any) => {

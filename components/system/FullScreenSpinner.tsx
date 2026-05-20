@@ -1,5 +1,5 @@
 // Full-screen centered blue spinner used as a loading boundary for top-level
-// route segments (funding, employer-portal, onboarding, instructor).
+// route segments (funding, employer, onboarding, instructor).
 // Distinct from LoadingFallback which uses a red spinner and min-h-[60vh].
 export default function FullScreenSpinner() {
   return (

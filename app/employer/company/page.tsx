@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import { Building2, Mail, Phone, MapPin, Globe, Users, Briefcase, GraduationCap } from 'lucide-react';
 
@@ -13,22 +13,14 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployerCompanyPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/company');
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, role, full_name, email, phone, company_name, city, state, verified')
     .eq('id', user.id)
     .maybeSingle();
-
-  if (!profile || !['employer', 'admin', 'super_admin'].includes(profile.role)) {
-    redirect('/unauthorized');
-  }
 
   const { data: employer } = await supabase.from('employers').select('*').eq('user_id', user.id).maybeSingle();
 

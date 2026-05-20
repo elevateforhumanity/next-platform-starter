@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { postJobAction } from './actions';
 
@@ -13,11 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PostJobPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/post-job');
+  await requireRole(['employer', 'admin', 'super_admin']);
 
   return (
     <div className="min-h-screen bg-white">

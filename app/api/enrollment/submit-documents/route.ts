@@ -28,12 +28,16 @@ async function _POST(req: Request) {
     let targetId: string | null = enrollmentId ?? null;
 
     if (!targetId) {
+      // Find the most recent enrollment that hasn't had documents submitted yet.
+      // 'orientation_complete' is the canonical pre-documents state.
+      // 'onboarding' and 'orientation' are earlier states that may also be valid
+      // if the student skipped the orientation step (legacy flows).
       const { data: pending } = await supabase
         .from('program_enrollments')
         .select('id')
         .eq('user_id', user.id)
         .is('documents_submitted_at', null)
-        .in('enrollment_state', ['orientation_complete', 'documents_complete', 'confirmed'])
+        .in('enrollment_state', ['orientation_complete', 'onboarding', 'orientation', 'enrolled'])
         .order('enrolled_at', { ascending: false })
         .limit(1)
         .maybeSingle();
@@ -47,13 +51,17 @@ async function _POST(req: Request) {
 
     const now = new Date().toISOString();
 
-    // Single scoped update — both fields in one write, scoped to verified enrollment id
+    // Single scoped update — all fields in one write, scoped to verified enrollment id.
+    // access_granted_at is set here so students can enter the LMS immediately after
+    // completing the enrollment flow without waiting for a manual admin action.
+    // Admins can still revoke access by clearing access_granted_at via the admin panel.
     const { error } = await supabase
       .from('program_enrollments')
       .update({
         documents_submitted_at: now,
         status: 'active',
         enrollment_state: 'active',
+        access_granted_at: now,
         updated_at: now,
       })
       .eq('id', targetId)
@@ -73,7 +81,6 @@ async function _POST(req: Request) {
     }
 
     // Mark onboarding complete on profile so dashboard doesn't loop back to orientation.
-    // Admin still controls actual LMS access via access_granted_at.
     await supabase
       .from('profiles')
       .update({ onboarding_completed: true, updated_at: now })

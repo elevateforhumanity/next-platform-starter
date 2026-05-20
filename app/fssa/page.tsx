@@ -102,7 +102,7 @@ export default function FssaPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/apply/fssa"
+              href="/apply"
               className="inline-flex items-center gap-2 rounded-lg bg-brand-red-600 px-7 py-3.5 font-semibold text-white hover:bg-brand-red-700 transition"
             >
               Apply Now <ArrowRight className="w-4 h-4" />
@@ -233,7 +233,7 @@ export default function FssaPage() {
             </p>
             <div className="flex flex-col gap-3">
               <Link
-                href="/apply/fssa"
+                href="/apply"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-red-600 px-5 py-3 font-semibold text-white hover:bg-brand-red-700 transition text-sm"
               >
                 <ClipboardList className="w-4 h-4" /> Start Application

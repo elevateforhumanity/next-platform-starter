@@ -303,7 +303,7 @@ export default function ApprenticeshipSponsorPage() {
         {/* Links */}
         <section className="flex flex-wrap gap-4">
           <Link
-            href="/governance"
+            href="/legal/governance"
             className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Full Governance Structure

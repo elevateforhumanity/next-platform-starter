@@ -1,7 +1,7 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -12,16 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployerVerificationPage() {
-  let user = null;
-
-  try {
-    const supabase = await createClient();
-
-    const { data: authData } = await supabase.auth.getUser();
-    user = authData.user;
-  } catch (error) {
-    /* Error handled silently */
-  }
+  await requireRole(['employer', 'admin', 'super_admin']);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -31,21 +22,6 @@ export default async function EmployerVerificationPage() {
         />
       </div>
       <h1 className="text-3xl font-bold mb-6">Employer Verification</h1>
-
-      {!user && (
-        <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
-          <p className="text-brand-blue-900">
-            <Link href="/login" className="font-semibold hover:underline">
-              Login
-            </Link>{' '}
-            or{' '}
-            <Link href="/signup" className="font-semibold hover:underline">
-              create an account
-            </Link>{' '}
-            to get verified as an employer.
-          </p>
-        </div>
-      )}
 
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <p className="text-black mb-4">

@@ -32,7 +32,6 @@ function getPriority(route: string): number {
   // State-specific SEO pages - high priority
   if (route.startsWith('/career-training-')) return 0.9;
   if (route.startsWith('/community-services-')) return 0.9;
-  if (route.startsWith('/courses')) return 0.8;
   if (route.startsWith('/store/guides')) return 0.8;
   if (route.startsWith('/blog') || route.startsWith('/resources')) return 0.7;
   if (route.startsWith('/policies') || route.startsWith('/legal/privacy') || route.startsWith('/legal'))

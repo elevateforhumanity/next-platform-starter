@@ -44,7 +44,10 @@ export async function provisionAccount(
   const lastName = nameParts.slice(1).join(' ') || '';
   const siteUrl = SITE_URL();
   const loginUrl = `${siteUrl}/login`;
-  const dashboardUrl = postLoginUrl || `${siteUrl}/apprentice`;
+  // Always route through /auth/callback so the session is established correctly
+  // and role-based routing runs. The destination is encoded as ?next=.
+  const destination = postLoginUrl || '/learner/dashboard';
+  const dashboardUrl = `${siteUrl}/auth/callback?next=${encodeURIComponent(destination)}`;
   const onboardingUrl = `${siteUrl}/programs/${programSlug}/orientation`;
 
   // ── 1. Check for existing profile ────────────────────────────────────────

@@ -92,14 +92,14 @@ export default function CareerTrainingTexasPage() {
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <Link
-              href="/governance"
+              href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg hover:bg-slate-100"
             >
               <Shield className="w-6 h-6 text-blue-600" />
               <span className="font-semibold text-slate-900">Governance</span>
             </Link>
             <Link
-              href="/governance/operational-controls"
+              href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg hover:bg-slate-100"
             >
               <Award className="w-6 h-6 text-green-600" />

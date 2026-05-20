@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { Metadata } from 'next';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
@@ -10,45 +11,14 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployerPostingsPage() {
-  let user = null;
-  let postings: any[] | null = null;
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
+  const supabase = await createClient();
 
-  try {
-    const supabase = await createClient();
-
-    if (!supabase) {
-      return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
-            <p className="text-slate-600">Please try again later.</p>
-          </div>
-        </div>
-      );
-    }
-
-    try {
-      const { data: authData, error: authError } = await supabase.auth.getUser();
-
-      if (!authError && authData.user) {
-        user = authData.user;
-
-        const { data, error: queryError } = await supabase
-          .from('job_postings')
-          .select('*')
-          .eq('employer_id', user.id)
-          .order('created_at', { ascending: false });
-
-        if (!queryError) {
-          postings = data;
-        }
-      }
-    } catch (error) {
-      /* Error handled silently */
-    }
-  } catch (error) {
-    /* Error handled silently */
-  }
+  const { data: postings } = await supabase
+    .from('job_postings')
+    .select('*')
+    .eq('employer_id', user.id)
+    .order('created_at', { ascending: false });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -59,17 +29,7 @@ export default async function EmployerPostingsPage() {
         <h1 className="text-3xl font-bold">Job Postings</h1>
       </div>
 
-      {!user ? (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <p className="text-blue-900 mb-4">Please log in to view and manage your job postings.</p>
-          <a
-            href="/login"
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Log In
-          </a>
-        </div>
-      ) : !postings || postings.length === 0 ? (
+      {!postings || postings.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
           <h2 className="text-2xl font-bold text-black mb-4">Create Your First Job Posting</h2>
           <p className="text-black mb-6">

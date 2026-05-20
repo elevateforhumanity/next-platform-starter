@@ -154,14 +154,14 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           </div>
           <div className="flex gap-2">
             <Link
-              href={`/cm/learners/${id}/message`}
+              href={`/case-manager/participants/${id}/message`}
               className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-white"
             >
               <MessageSquare className="w-4 h-4" />
               Message
             </Link>
             <Link
-              href={`/cm/learners/${id}/edit`}
+              href={`/case-manager/participants/${id}/edit`}
               className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
             >
               <Edit className="w-4 h-4" />
@@ -227,7 +227,7 @@ export default async function CMLearnerDetailPage({ params }: Props) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Goals & Milestones</h2>
               <Link
-                href={`/cm/learners/${id}/goals`}
+                href={`/case-manager/participants/${id}/goals`}
                 className="text-sm text-brand-blue-600 hover:underline"
               >
                 Manage Goals
@@ -286,7 +286,7 @@ export default async function CMLearnerDetailPage({ params }: Props) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Recent Case Notes</h2>
               <Link
-                href={`/cm/learners/${id}/notes`}
+                href={`/case-manager/participants/${id}/notes`}
                 className="text-sm text-brand-blue-600 hover:underline"
               >
                 View All
@@ -415,7 +415,7 @@ export default async function CMLearnerDetailPage({ params }: Props) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Documents</h2>
               <Link
-                href={`/cm/learners/${id}/documents`}
+                href={`/case-manager/participants/${id}/documents`}
                 className="text-sm text-brand-blue-600 hover:underline"
               >
                 View All
@@ -446,21 +446,21 @@ export default async function CMLearnerDetailPage({ params }: Props) {
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
             <div className="space-y-2">
               <Link
-                href={`/cm/learners/${id}/assessment`}
+                href={`/case-manager/participants/${id}/assessment`}
                 className="w-full flex items-center gap-3 p-3 hover:bg-white rounded-lg"
               >
                 <Target className="w-5 h-5 text-slate-500" />
                 <span>Run Assessment</span>
               </Link>
               <Link
-                href={`/cm/learners/${id}/enroll`}
+                href={`/case-manager/participants/${id}/enroll`}
                 className="w-full flex items-center gap-3 p-3 hover:bg-white rounded-lg"
               >
                 <BookOpen className="w-5 h-5 text-slate-500" />
                 <span>Enroll in Program</span>
               </Link>
               <Link
-                href={`/cm/learners/${id}/schedule`}
+                href={`/case-manager/participants/${id}/schedule`}
                 className="w-full flex items-center gap-3 p-3 hover:bg-white rounded-lg"
               >
                 <Calendar className="w-5 h-5 text-slate-500" />

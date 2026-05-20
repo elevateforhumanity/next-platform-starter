@@ -799,16 +799,19 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           .eq('stripe_subscription_id', subscriptionId)
           .maybeSingle();
 
-        // Generate magic link for dashboard access
-        let magicLink = `${process.env.NEXT_PUBLIC_SITE_URL}/apprentice`;
-        
+        // Generate magic link for dashboard access.
+        // Always route through /auth/callback so the session is established
+        // and role-based routing runs — never redirect directly to a page.
+        const siteUrlMagic = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        let magicLink = `${siteUrlMagic}/login`;
+
         if (customerEmail) {
           try {
             const { data: linkData } = await supabase.auth.admin.generateLink({
               type: 'magiclink',
               email: customerEmail,
               options: {
-                redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/apprentice`,
+                redirectTo: `${siteUrlMagic}/auth/callback?next=${encodeURIComponent('/learner/dashboard')}`,
               },
             });
             if (linkData?.properties?.action_link) {

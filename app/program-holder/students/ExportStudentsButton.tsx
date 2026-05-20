@@ -9,7 +9,7 @@ export function ExportStudentsButton() {
   async function handleExport() {
     setLoading(true);
     try {
-      const res = await fetch('/api/program-owner/my-students');
+      const res = await fetch('/api/program-holder/students');
       if (!res.ok) { alert('Export failed'); return; }
       const data = await res.json();
       const students: any[] = data.students ?? data ?? [];

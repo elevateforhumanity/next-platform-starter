@@ -16,7 +16,7 @@ export const APP_ROUTE_PREFIXES = [
   '/admin',
   '/instructor',
   '/employer',
-  '/employer-portal',
+
   '/partner',
   '/staff-portal',
   '/mentor',

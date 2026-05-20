@@ -125,14 +125,14 @@ export default function CareerTrainingOhioPage() {
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <Link
-              href="/governance"
+              href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-slate-50"
             >
               <Shield className="w-6 h-6 text-blue-600" />
               <span className="font-semibold text-slate-900">Platform Governance</span>
             </Link>
             <Link
-              href="/governance/operational-controls"
+              href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-slate-50"
             >
               <Award className="w-6 h-6 text-green-600" />

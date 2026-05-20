@@ -313,7 +313,7 @@ export async function requireCourseAccess(courseId: string) {
   const hasAccess = await canAccessCourse(courseId);
 
   if (!hasAccess) {
-    redirect('/courses');
+    redirect('/lms/courses');
   }
 
   return { hasAccess: true };

@@ -70,7 +70,7 @@ export default function ApprovalsPage() {
             </dl>
             <div className="mt-4">
               <Link
-                href="/governance"
+                href="/legal/governance"
                 className="text-brand-red-600 font-semibold text-sm hover:underline"
               >
                 View full Governance &amp; Program Structure →

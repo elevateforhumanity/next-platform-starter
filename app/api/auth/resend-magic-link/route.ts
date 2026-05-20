@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       type: 'magiclink',
       email,
       options: {
-        redirectTo: `${SITE_URL}/auth/callback?redirect=${encodeURIComponent(redirectPath)}`,
+        redirectTo: `${SITE_URL}/auth/callback?next=${encodeURIComponent(redirectPath)}`,
       },
     });
 

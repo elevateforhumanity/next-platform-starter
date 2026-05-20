@@ -53,7 +53,7 @@ export default async function SecuritySettingsPage() {
                   Change your password to keep your account secure.
                 </p>
                 <Link
-                  href="/update-password"
+                  href="/auth/reset-password"
                   className="mt-4 inline-block px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium text-sm"
                 >
                   Change Password

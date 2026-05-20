@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { HiringTrendsChart, RetentionByRoleChart } from './EmployerCharts';
 
@@ -13,21 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployerAnalyticsPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['employer', 'admin', 'super_admin'].includes(profile.role)) {
-    redirect('/login');
-  }
 
   // Fetch this employer's job postings
   const { data: jobPostings } = await supabase

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/server';
+import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
   Shield,
@@ -85,16 +85,7 @@ const quickChecklist = [
 ];
 
 export default async function EmployerCompliancePage() {
-  let user = null;
-  try {
-    const supabase = await createClient();
-    if (supabase) {
-      const { data: authData } = await supabase.auth.getUser();
-      user = authData.user;
-    }
-  } catch {
-    // Auth unavailable — continue as unauthenticated
-  }
+  await requireRole(['employer', 'admin', 'super_admin']);
 
   return (
     <div className="min-h-screen bg-white">

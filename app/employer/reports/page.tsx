@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { redirect } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
@@ -13,15 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployerReportsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/reports');
-
+  const { user, profile } = await requireRole(['employer', 'admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
-  const { data: profile } = await db.from('profiles').select('role, employer_id').eq('id', user.id).maybeSingle();
-  if (!profile || !['employer', 'admin', 'super_admin', 'staff'].includes(profile.role)) redirect('/login');
 
-  const employerId = profile.employer_id;
+  const employerId = (profile as any)?.employer_id;
 
   // Active job postings
   const { count: activePostings } = await db

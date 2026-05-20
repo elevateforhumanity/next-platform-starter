@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Users, Search, Mail, Phone, Award, MapPin, GraduationCap } from 'lucide-react';
 
@@ -12,23 +12,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function CandidatesPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  // Auth check
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, verified')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || profile.role !== 'employer') {
-    redirect('/');
-  }
 
   // Get completed/graduated candidates only — not all students
   const { data: enrollments } = await supabase

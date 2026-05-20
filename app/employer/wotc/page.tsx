@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import { TrendingUp, BadgeDollarSign, CheckCircle2, Briefcase } from 'lucide-react';
 
@@ -15,22 +15,8 @@ export const metadata: Metadata = {
 const MAX_WOTC_PER_HIRE = 2400;
 
 export default async function EmployerWotcPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/wotc');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['employer', 'admin', 'super_admin'].includes(profile.role)) {
-    redirect('/unauthorized');
-  }
 
   const { data: jobs } = await supabase
     .from('job_postings')

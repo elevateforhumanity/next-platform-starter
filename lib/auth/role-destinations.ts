@@ -78,9 +78,9 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
 
   // ── Family ────────────────────────────────────────────────────────
   // parent role handled via /parent-portal — no requireRole yet, falls through
-  delegate: '/my-dashboard', // delegate portal not yet built
+  delegate: '/learner/dashboard', // delegate portal not yet built — falls back to learner dashboard
 
-  vita_staff: '/tax',
+  vita_staff: 'https://www.supersonicfastermoney.com/tax', // external tax platform
 
   // ── Grant clients ─────────────────────────────────────────────────
   grant_client: '/lms/dashboard', // grant-funded learner — lands in LMS, not public grants page

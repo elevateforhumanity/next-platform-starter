@@ -345,9 +345,33 @@ if (auth.error) return auth.error;
 
 - `withAuth({ roles: ['admin', 'super_admin'] })` from `@/lib/with-auth` — 23 routes, correct but non-canonical
 - `getCurrentUser()` + inline role array check — 12 routes, correct but non-canonical
-- Inline `supabase.auth.getUser()` + `profiles` role check — 57 routes, correct but non-canonical
+- Inline `supabase.auth.getUser()` + `profiles` role check — **265 files** (audited 2026-06), correct but non-canonical
 
 All three legacy patterns check the same role set. Do not refactor them unless you are also adding tests. Silent regressions from mass-refactors are worse than style inconsistency.
+
+**Phase 2 migration target (do not start without test coverage):**
+
+The 265 files using inline `supabase.auth.getUser()` + `.from('profiles').select('role')` should migrate to `requireUser()` from `@/lib/auth/require-user.ts` (page files) or `apiAuthGuard` / `apiRequireAdmin` from `@/lib/admin/guards` (API routes). The canonical loaders already exist — the debt is adoption, not implementation.
+
+Migrate in bounded batches by portal (e.g. all `app/employer/*` pages first), verify each batch builds and passes smoke tests before moving to the next. Do not mass-migrate in a single PR.
+
+**AI service pattern:**
+
+All AI completions must go through `lib/ai/ai-service.ts` → `aiChat()`. Do not instantiate `new OpenAI()` or `new GoogleGenerativeAI()` directly in route handlers. The service handles provider fallback, error normalization, and logging.
+
+```ts
+import { aiChat } from '@/lib/ai/ai-service';
+
+const result = await aiChat({
+  model: 'gpt-4.1-mini',
+  messages: [{ role: 'system', content: systemPrompt }, ...history],
+  temperature: 0.7,
+  maxTokens: 500,
+});
+const reply = result.content ?? fallback;
+```
+
+Exception: `app/api/ai-chat/route.ts` (public prospective-student chatbot) uses direct `fetch` intentionally — it has an offline fallback response tree for when no API key is present. Do not refactor it to use `aiChat()`.
 
 **Middleware perimeter** (`proxy.ts` — the root Next.js middleware) handles multi-domain routing, auth perimeter, admin namespace gating, and role enforcement for protected routes. Do NOT create a separate `middleware.ts` — it will conflict with `proxy.ts` and break the build. All middleware logic goes in `proxy.ts`.
 

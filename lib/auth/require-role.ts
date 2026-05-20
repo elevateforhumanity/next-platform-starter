@@ -64,6 +64,19 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .eq('id', user.id)
     .maybeSingle();
 
+  // Profile row missing — authenticated but no profile record.
+  // This happens when the handle_new_user trigger fails silently (e.g. tenants
+  // table empty, constraint violation) or when a user is created via admin API
+  // without going through the normal signup flow.
+  // Do not send to /unauthorized — the user is legitimate, just incomplete.
+  // Admin users are exempt: they land on the admin app which has its own recovery.
+  if (!profile) {
+    if (process.env.SERVICE_ROLE === 'admin') {
+      redirect(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/unauthorized`);
+    }
+    redirect('/onboarding/learner?reason=profile_missing');
+  }
+
   // Load secondary roles from user_roles table (multi-role users)
   const { data: userRoleRows } = await supabase
     .from('user_roles')
@@ -73,13 +86,11 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .map((r: any) => r.roles?.name)
     .filter(Boolean) as string[];
 
-  const effectiveRoles = profile
-    ? Array.from(new Set([profile.role, ...secondaryRoles]))
-    : [];
+  const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
 
   const allowed = effectiveRoles.some((r) => allowedRoles.includes(r));
 
-  if (!profile || !allowed) {
+  if (!allowed) {
     const unauthorizedPath =
       process.env.SERVICE_ROLE === 'admin'
         ? `${process.env.NEXT_PUBLIC_SITE_URL || ''}/unauthorized`

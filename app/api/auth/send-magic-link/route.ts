@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError } from '@/lib/api/safe-error';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 // PUBLIC ROUTE: unauthenticated users need this to sign in
 export async function POST(req: Request) {
@@ -28,7 +29,10 @@ export async function POST(req: Request) {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  const finalRedirect = redirectTo || `${siteUrl}/learner/dashboard`;
+  // Always route through /auth/callback so the session is established correctly
+  // and role-based destination routing runs. Never redirect directly to a page.
+  const destination = redirectTo || getRoleDestination('student');
+  const finalRedirect = `${siteUrl}/auth/callback?next=${encodeURIComponent(destination)}`;
 
   const { data: link, error: linkErr } = await db.auth.admin.generateLink({
     type: 'magiclink',

@@ -412,7 +412,7 @@ export default function HandbookPage() {
 
         {/* Full handbook link */}
         <div className="mt-8 text-center">
-          <Link href="/student-handbook" className="text-brand-blue-600 text-sm hover:underline">
+          <Link href="/legal/student-handbook" className="text-brand-blue-600 text-sm hover:underline">
             View the complete Student Handbook →
           </Link>
         </div>

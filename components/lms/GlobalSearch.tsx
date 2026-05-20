@@ -72,7 +72,7 @@ function GlobalSearchContent() {
       return;
     }
     logSearch(q);
-    router.push(`/courses?q=${encodeURIComponent(q)}`);
+    router.push(`/lms/courses?q=${encodeURIComponent(q)}`);
   }
 
   useEffect(() => {

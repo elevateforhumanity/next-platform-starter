@@ -34,7 +34,7 @@ const avatarConfig: { pattern: RegExp; video: string; name: string }[] = [
     name: 'Staff Guide',
   },
   {
-    pattern: /^\/partner-portal/i,
+    pattern: /^\/partner/i,
     video: '/videos/avatars/orientation-guide.mp4',
     name: 'Partner Guide',
   },

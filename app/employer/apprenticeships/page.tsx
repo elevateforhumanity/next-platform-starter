@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Plus, Briefcase, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 
@@ -20,22 +20,8 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function EmployerApprenticeshipsPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin', 'staff']);
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login?redirect=/employer/apprenticeships');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, full_name')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['employer', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/unauthorized');
-  }
 
   // Fetch all apprenticeship programs for this employer
   const { data: apprenticeships } = await supabase

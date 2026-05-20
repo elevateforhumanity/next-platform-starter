@@ -106,7 +106,7 @@ export default async function TaxIntakePage() {
             <p className="text-slate-700">Manage tax preparation appointments</p>
           </div>
           <Link
-            href="/tax-self-prep"
+            href="https://www.supersonicfastermoney.com/tax-self-prep"
             className="px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
           >
             Schedule Appointment

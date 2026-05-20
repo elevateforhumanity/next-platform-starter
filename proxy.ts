@@ -53,7 +53,7 @@ const WEBHOOK_PATHS = [
   '/api/webhooks/',
   '/api/license/webhook',
   '/api/stripe/webhook',
-  '/api/donations/webhook',
+  '/api/donate/webhook',
   '/api/barber/webhook',
   '/api/micro-classes/webhook',
   '/api/sezzle/webhook',
@@ -64,7 +64,7 @@ const WEBHOOK_PATHS = [
 // Role-gated routes: key = path prefix, value = allowed roles.
 const PROTECTED_ROUTES: Record<string, string[]> = {
   '/case-manager/':            ['case_manager', 'admin', 'super_admin', 'staff'],
-  '/partner-portal/':          ['partner', 'admin', 'super_admin'],
+
   '/partner/dashboard':        ['partner', 'admin', 'super_admin'],
   '/partner/documents':        ['partner', 'admin', 'super_admin'],
   '/partner/reports':          ['partner', 'admin', 'super_admin'],
@@ -73,7 +73,7 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/partner/attendance':       ['partner', 'admin', 'super_admin'],
   '/partner/courses/':         ['partner', 'admin', 'super_admin'],
   '/partner/programs/':        ['partner', 'admin', 'super_admin'],
-  '/employer-portal/':         ['employer', 'admin', 'super_admin'],
+
   '/employer/dashboard':       ['employer', 'admin', 'super_admin'],
   '/employer/candidates':      ['employer', 'admin', 'super_admin'],
   '/employer/jobs':            ['employer', 'admin', 'super_admin'],
@@ -179,8 +179,8 @@ const PARTNER_ONBOARDING_ROUTES = [
 ];
 
 // Dashboard landing pages that are PUBLIC (exact match — marketing/preview).
-// NOTE: /employer-portal, /student-portal, /partner-portal removed — those paths now
-// permanentRedirect to canonical dashboards at the config layer; no bypass needed.
+// NOTE: /employer-portal and /partner-portal removed — those paths redirect to
+// canonical dashboards at the next.config.mjs layer; no middleware bypass needed.
 const PUBLIC_DASHBOARD_LANDINGS = [
   '/staff-portal',
   '/instructor',
@@ -197,10 +197,8 @@ const NOINDEX_PREFIXES = [
   '/instructor',
   '/program-holder',
   '/workforce-board',
-  '/employer-portal',
   '/employer',
   '/student-portal',
-  '/partner-portal',
   '/partner/',
   '/mentor/',
   '/hub/',
@@ -743,10 +741,33 @@ export async function middleware(request: NextRequest) {
 
   if (needsEnrollment && !isGitpodPreview && enrollmentResult.data) {
     const state = enrollmentResult.data.enrollment_state;
-    if (state !== 'active' && state !== 'documents_complete') {
+
+    // States that grant LMS access. 'enrolled' and 'active' are the two live
+    // states the submit-documents flow produces. Legacy rows may have 'active'
+    // only — both are treated as equivalent here.
+    const LMS_ACCESS_STATES = new Set(['active', 'enrolled']);
+
+    // States that are terminal (suspended, revoked, etc.) — do not loop into
+    // the enrollment flow, send to /unauthorized so the student sees a clear message.
+    const TERMINAL_STATES = new Set([
+      'suspended', 'revoked', 'withdrawn', 'completed',
+      'graduated', 'placed', 'follow_up_6mo', 'follow_up_12mo',
+    ]);
+
+    if (!LMS_ACCESS_STATES.has(state)) {
+      if (TERMINAL_STATES.has(state)) {
+        return NextResponse.redirect(new URL('/unauthorized', request.url), { status: 307 });
+      }
+      // In-progress enrollment states — route to the appropriate enrollment step.
+      // 'onboarding' and 'orientation' map to the orientation step.
+      // 'pending_funding_verification' and 'payment_required' map to confirmed (waiting).
+      // 'applied' and 'waitlisted' also map to confirmed (earliest state).
       let redirectPath = '/enrollment/confirmed';
-      if (state === 'confirmed') redirectPath = '/enrollment/orientation';
-      else if (state === 'orientation_complete') redirectPath = '/enrollment/documents';
+      if (state === 'orientation' || state === 'onboarding') {
+        redirectPath = '/enrollment/orientation';
+      } else if (state === 'pending_funding_verification' || state === 'payment_required') {
+        redirectPath = '/enrollment/confirmed';
+      }
       return NextResponse.redirect(new URL(redirectPath, request.url), { status: 307 });
     }
   }

@@ -1,5 +1,5 @@
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Clock, CheckCircle, XCircle, TrendingUp } from 'lucide-react';
@@ -14,23 +14,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function EmployerHoursPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin', 'sponsor']);
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login?redirect=/employer/hours');
-
-  // Verify employer role
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, employer_id')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role || '')) {
-    redirect('/employer');
-  }
 
   // Get stats from hour_entries
   const { count: pendingCount } = await supabase

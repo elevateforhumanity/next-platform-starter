@@ -28,8 +28,7 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/student-portal/',
           '/staff-portal/',
-          '/partner-portal/',
-          '/employer-portal/',
+          '/partner/',
 
           '/onboarding/',
           '/settings/',
@@ -64,7 +63,6 @@ export default function robots(): MetadataRoute.Robots {
           '/payment/',
 
           // Internal
-          '/programs/admin/',
           '/shop/checkout',
           '/shop/onboarding',
 

@@ -142,7 +142,18 @@ export async function listUnifiedEnrollments(
 export function hasLmsAccess(enrollment: ResolvedEnrollment | null): boolean {
   if (!enrollment) return false;
   if (enrollment.source === 'program_enrollments') {
-    return Boolean(enrollment.accessGrantedAt);
+    // access_granted_at is the canonical gate — set automatically when enrollment
+    // reaches 'active' state (submit-documents / documents/complete routes).
+    // 'enrolled' is also a valid active state in the DB constraint and should
+    // grant access when access_granted_at is present.
+    // Fallback: treat enrollment_state='active' or 'enrolled' as access-granted
+    // for rows created before the auto-grant fix (backfill may not have run yet).
+    const ACCESS_STATES = new Set(['active', 'enrolled']);
+    return (
+      Boolean(enrollment.accessGrantedAt) ||
+      ACCESS_STATES.has(enrollment.enrollmentState ?? '')
+    );
   }
+  // training_enrollments (legacy): access via approved_at or status='active'
   return Boolean(enrollment.accessGrantedAt) || enrollment.status === 'active';
 }

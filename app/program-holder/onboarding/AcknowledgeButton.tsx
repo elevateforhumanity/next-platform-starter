@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle, Loader2 } from 'lucide-react';
 
-/** Records a general program-holder acknowledgement via /api/program-holders/acknowledgement. */
+/** Records a general program-holder acknowledgement via /api/program-holder/acknowledge-agreement. */
 export function AcknowledgeButton({ documentType, label }: { documentType: string; label: string }) {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -12,7 +12,7 @@ export function AcknowledgeButton({ documentType, label }: { documentType: strin
   async function handleAck() {
     setLoading(true); setError(null);
     try {
-      const res = await fetch('/api/program-holders/acknowledgement', {
+      const res = await fetch('/api/program-holder/acknowledge-agreement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ document_type: documentType }),

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Briefcase, Plus, Eye, Edit, Clock, MapPin, DollarSign } from 'lucide-react';
 import { safeFormatDate } from '@/lib/format-utils';
@@ -13,23 +13,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function EmployerJobsPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  // Auth check
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, verified')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || profile.role !== 'employer') {
-    redirect('/');
-  }
 
   // Get job postings
   const { data: jobs } = await supabase

@@ -922,6 +922,94 @@ const nextConfig = {
       // my-dashboard → canonical learner dashboard (legacy portal consolidation)
       { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
       ...canonicalAliasRedirects,
+
+      // ── Stub page consolidation (2026-06) ────────────────────────────────────
+      // External tax platform
+      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
+      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
+
+      // programs/admin/* → program-holder/*
+      { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
+      { source: '/programs/admin/:path*', destination: '/program-holder/:path*', permanent: true },
+
+      // (partner)/partners/* → /partner/* (route group stubs removed)
+      { source: '/partners/dashboard', destination: '/partner/dashboard', permanent: true },
+      { source: '/partners/hours', destination: '/partner/hours', permanent: true },
+      { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
+      { source: '/partners/documents', destination: '/partner/documents', permanent: true },
+      { source: '/partners/students', destination: '/partner/students', permanent: true },
+      // /partners/login → /partner/login already covered above
+      // These were permanentRedirect() page files. Redirects moved here;
+      // page files deleted. Run `pnpm route:audit` to verify no stubs remain.
+
+      // Portals
+      { source: '/admin-portal', destination: '/admin-login', permanent: true },
+      { source: '/lms-portal', destination: '/lms/dashboard', permanent: true },
+
+      // Apply flow aliases
+      { source: '/apply/fssa', destination: '/apply', permanent: true },
+      { source: '/apply/fssa/success', destination: '/apply', permanent: true },
+      { source: '/apply/full', destination: '/apply/student', permanent: true },
+      { source: '/apply/impact', destination: '/apply', permanent: true },
+      { source: '/apply/quick', destination: '/apply', permanent: true },
+      { source: '/apply/start', destination: '/apply', permanent: true },
+      { source: '/intake', destination: '/apply', permanent: true },
+
+      // Program aliases
+      { source: '/barber-apprenticeship', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/courses', destination: '/programs', permanent: true },
+      { source: '/programs/drug-collector', destination: '/programs/drug-alcohol-specimen-collector', permanent: true },
+      { source: '/programs/building-services-technician/apply', destination: '/apply?program=building-services-technician', permanent: true },
+      { source: '/programs/cna/apply', destination: '/apply?program=cna', permanent: true },
+      { source: '/programs/qma/apply', destination: '/apply?program=qma', permanent: true },
+
+      // Checkout aliases
+      { source: '/checkout/barber-apprenticeship', destination: '/programs/barber-apprenticeship/payment-setup', permanent: true },
+
+      // Legal / policy consolidation
+      // /policies/:path* wildcard at pos 110 already catches all /policies/* → /legal/disclosures
+      { source: '/acceptable-use-policy', destination: '/legal/acceptable-use', permanent: true },
+      { source: '/enrollment-agreement', destination: '/legal/enrollment-agreement', permanent: true },
+      { source: '/governance', destination: '/legal/governance', permanent: true },
+      { source: '/student-handbook', destination: '/legal/student-handbook', permanent: true },
+
+      // Store licensing → store/licenses
+      // /store/licensing, /store/licensing/enterprise, /store/licensing/managed already covered above
+      { source: '/store/licensing/partnerships', destination: '/store/licenses', permanent: true },
+      { source: '/store/licensing/success', destination: '/store/licenses/success', permanent: true },
+
+      // Partner aliases
+      { source: '/partner-with-us', destination: '/for-providers', permanent: true },
+      { source: '/partners/join', destination: '/partners/apply', permanent: true },
+      { source: '/partners/training', destination: '/for-providers', permanent: true },
+      { source: '/partners/training-provider', destination: '/for-providers', permanent: true },
+      { source: '/partners/barbershop-apprenticeship/onboarding', destination: '/partners/barbershop-apprenticeship/forms', permanent: true },
+      // /partner/programs/barber covered by existing /partner/:path* wildcard
+      { source: '/pathways/partners', destination: '/for-providers', permanent: true },
+      { source: '/platform/partners', destination: '/for-providers', permanent: true },
+      { source: '/platform/program-holders', destination: '/for-providers', permanent: true },
+      { source: '/platform/providers', destination: '/for-providers', permanent: true },
+
+      // Help / support aliases
+      // /help/tutorials/* covered by existing /help/:path* wildcard → /help
+      { source: '/support/documentation', destination: '/help', permanent: true },
+
+      // Misc aliases
+      { source: '/ai-chat-standalone', destination: '/ai-chat', permanent: true },
+      { source: '/case-manager', destination: '/case-manager/dashboard', permanent: true },
+      // /client-portal/demo covered by existing /client-portal/:path* wildcard → /start
+      { source: '/ebook/barber-theory', destination: '/lms/courses', permanent: true },
+      { source: '/fssa-impact', destination: '/snap/snap-et', permanent: true },
+      { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
+      // /mentor → /mentor/dashboard already covered above
+      { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
+      { source: '/rise', destination: '/tax', permanent: true },
+      { source: '/snap', destination: '/snap/snap-et', permanent: true },
+      { source: '/training-providers', destination: '/for-providers', permanent: true },
+      { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
+      { source: '/pwa/barber/profile', destination: '/account/profile', permanent: true },
+      { source: '/pwa/barber/training', destination: '/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17', permanent: true },
+
       // /student-portal/settings → /lms/settings handled by middleware (Rule B)
 
       // Partner portal redirects
@@ -969,14 +1057,12 @@ const nextConfig = {
       { source: '/logout', destination: '/login', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
-      { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
       // Legacy stub pages — redirect at config level to avoid error boundary interference
       { source: '/sheets', destination: '/credentials/checksheets', permanent: true },
       { source: '/usermanagement', destination: '/admin/users', permanent: true },
       { source: '/curriculumupload', destination: '/admin/curriculum/upload', permanent: true },
       { source: '/community', destination: '/community-services', permanent: true },
-      { source: '/pwa/barber', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
       { source: '/hvac', destination: '/programs/hvac-technician', permanent: true },
       { source: '/industries/healthcare', destination: '/programs/healthcare', permanent: true },
@@ -984,12 +1070,25 @@ const nextConfig = {
       { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
 
       // ── AUTH DUPLICATES ────────────────────────────────────────────────────
-      // Canonical login: /login  Canonical signup: /signup  Canonical forgot-pw: /reset-password
+      // Canonical login: /login
+      // Canonical signup: /signup
+      // Canonical forgot-pw (request form): /reset-password
+      // Canonical set-new-password: /auth/reset-password
       { source: '/auth/signin', destination: '/login', permanent: true },
       { source: '/auth/signup', destination: '/signup', permanent: true },
       { source: '/register', destination: '/signup', permanent: true },
       { source: '/auth/forgot-password', destination: '/reset-password', permanent: true },
       { source: '/auth/verify-email', destination: '/verify-email', permanent: true },
+      // /update-password duplicates /auth/reset-password (set-new-password form)
+      // Internal link in account/settings/security updated to /auth/reset-password directly
+      { source: '/update-password', destination: '/auth/reset-password', permanent: true },
+
+      // ── CM → CASE-MANAGER ─────────────────────────────────────────────────
+      // /cm was the old case manager namespace. Canonical is /case-manager.
+      // Internal links in /cm/learners/[id] updated to /case-manager/participants/[id].
+      { source: '/cm', destination: '/case-manager/dashboard', permanent: true },
+      { source: '/cm/learners/:id', destination: '/case-manager/participants/:id', permanent: true },
+      { source: '/cm/:path*', destination: '/case-manager/:path*', permanent: true },
 
       // ── STUDENT PORTAL DUPLICATES ──────────────────────────────────────────
       // Canonical: /learner/dashboard  (all /student* aliases are consolidated above)

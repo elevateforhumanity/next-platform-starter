@@ -144,7 +144,7 @@ export default async function OrientationCompletePage() {
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href="/my-dashboard"
+            href="/learner/dashboard"
             className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-brand-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-blue-700 transition-colors"
           >
             <BookOpen className="w-4 h-4" />

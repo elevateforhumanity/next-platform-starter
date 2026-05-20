@@ -307,7 +307,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="mt-4">
-            <Link href="/governance" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
+            <Link href="/legal/governance" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
               View Governance &amp; Program Structure <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>

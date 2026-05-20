@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { DocumentUploadForm } from '@/components/documents/DocumentUploadForm';
 
 export const dynamic = 'force-dynamic';
@@ -14,21 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function UploadDocumentPage() {
+  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || profile.role !== 'employer') redirect('/');
 
   const { data: requirements } = await supabase
     .from('document_requirements')

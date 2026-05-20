@@ -61,18 +61,18 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     const onboardingDone = profile?.onboarding_completed;
     let accessGranted = !!enrollment?.access_granted_at;
 
-    // Fallback: HVAC and other legacy students enrolled via training_enrollments
-    // (pre-dates program_enrollments). approved_at or status='active' grants access.
+    // Fallback: legacy students where status='active' grants access.
+    // Note: program_enrollments has no approved_at column — use status only.
     if (!accessGranted) {
       const { data: legacyEnrollment } = await supabase
         .from('program_enrollments')
-        .select('approved_at, status')
+        .select('status, enrollment_state')
         .eq('user_id', user.id)
         .order('enrolled_at', { ascending: false })
         .limit(1)
         .maybeSingle();
 
-      if (legacyEnrollment?.approved_at || legacyEnrollment?.status === 'active') {
+      if (legacyEnrollment?.status === 'active' || legacyEnrollment?.enrollment_state === 'active') {
         accessGranted = true;
       }
     }
@@ -193,7 +193,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   // ETPL-listed funded programs — sourced from DB, not hardcoded
   const { data: etplRows } = await supabase
     .from('programs')
-    .select('id, title, slug, intrainingid, duration, estimated_weeks, total_cost, tuition, credentials_list, credentials, credential_name')
+    .select('id, title, slug, duration, estimated_weeks, total_cost, credential_name')
     .eq('etpl_listed', true)
     .eq('is_active', true)
     .order('display_order', { ascending: true });
@@ -205,7 +205,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     const { data: barberSub } = await supabase
       .from('barber_subscriptions')
       .select(
-        'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, next_payment_date, fully_paid, setup_fee_paid',
+        'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, current_period_end, fully_paid, setup_fee_paid',
       )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
@@ -220,7 +220,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
         remainingBalance: barberSub.remaining_balance,
         fullTuitionAmount: barberSub.full_tuition_amount,
         amountPaidAtCheckout: barberSub.amount_paid_at_checkout,
-        nextPaymentDate: barberSub.next_payment_date,
+        nextPaymentDate: barberSub.current_period_end,
         fullyPaid: barberSub.fully_paid ?? false,
         setupFeePaid: barberSub.setup_fee_paid ?? false,
       };
@@ -229,7 +229,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       const { data: cosmoSub } = await supabase
         .from('cosmetology_subscriptions')
         .select(
-          'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, next_payment_date, fully_paid, setup_fee_paid',
+          'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, current_period_end, fully_paid, setup_fee_paid',
         )
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
@@ -244,7 +244,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
           remainingBalance: cosmoSub.remaining_balance,
           fullTuitionAmount: cosmoSub.full_tuition_amount,
           amountPaidAtCheckout: cosmoSub.amount_paid_at_checkout,
-          nextPaymentDate: cosmoSub.next_payment_date,
+          nextPaymentDate: cosmoSub.current_period_end,
           fullyPaid: cosmoSub.fully_paid ?? false,
           setupFeePaid: cosmoSub.setup_fee_paid ?? false,
         };
