@@ -25,7 +25,7 @@ export const maxDuration = 60;
 
 // Prices from INTraining / ETPL official listing (2Exclusive LLC-S / Elevate for Humanity Training Center)
 const PROGRAM_DETAILS: Record<string, { name: string; totalPrice: number }> = {
-  cna: { name: 'Certified Nursing Assistant (CNA)', totalPrice: 4700 },
+  cna: { name: 'Certified Nursing Assistant (CNA)', totalPrice: 1850 },
   barber: { name: 'Barber Apprenticeship', totalPrice: 4890 },
   hvac: { name: 'HVAC Technician', totalPrice: 5000 },
   'medical-assistant': { name: 'Medical Assistant', totalPrice: 4325 },

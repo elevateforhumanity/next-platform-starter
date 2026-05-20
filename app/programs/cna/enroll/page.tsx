@@ -21,10 +21,12 @@ const PROGRAM_DETAILS = {
   name: 'Certified Nursing Assistant (CNA)',
   duration: '4-8 weeks',
   schedule: 'Day, evening, or weekend options',
-  price: 1200,
-  downPayment: 200,
-  weeklyPayment: 50,
+  regularPrice: 2500,
+  price: 1850,
+  downPayment: 500,
+  weeklyPayment: 68,
   paymentWeeks: 20,
+  bnplAvailable: true,
 };
 
 export default function CNAEnrollPage() {

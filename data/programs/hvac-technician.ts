@@ -27,8 +27,8 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   schedule: 'Mon–Fri, 30–40 hours per week',
   cohortSize: '8–12 participants per cohort',
   fundingStatement:
-    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, tools, and EPA 608 exam fees when approved. Eligibility is not guaranteed. Self-pay: $4,200.',
-  selfPayCost: '$4,200',
+    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, tools, and EPA 608 exam fees when approved. Eligibility is not guaranteed. Self-pay: $5,000. BNPL available.',
+  selfPayCost: '$5,000',
   badge: 'WRG Funded',
   badgeColor: 'green',
 

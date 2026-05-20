@@ -4,7 +4,7 @@ export const CNA: ProgramSchema = {
   slug: 'cna',
   title: 'Certified Nursing Assistant (CNA)',
   subtitle:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $1,800.',
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850).',
   sector: 'healthcare',
   category: 'Healthcare',
   programType: 'workforce',
@@ -27,8 +27,10 @@ export const CNA: ProgramSchema = {
   schedule: 'Mon–Fri, 30–40 hours per week',
   cohortSize: '8–12 participants per cohort',
   fundingStatement:
-    'FSSA IMPACT funding available for eligible participants (SNAP/TANF recipients). Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,800.',
-  selfPayCost: '$1,800',
+    'FSSA IMPACT funding available for eligible participants (SNAP/TANF recipients). Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $2,500 (Sale: $1,850). BNPL available.',
+  selfPayCost: '$1,850',
+  regularPrice: '$2,500',
+  salePrice: '$1,850',
   badge: 'FSSA Eligible',
   badgeColor: 'blue',
 
@@ -226,7 +228,7 @@ export const CNA: ProgramSchema = {
     {
       question: 'What funding is available?',
       answer:
-        'CNA is funded through the FSSA IMPACT program for eligible SNAP and TANF recipients. Many students pay $0. Eligibility is determined through FSSA intake. Self-pay tuition is $1,800.',
+        'CNA is funded through the FSSA IMPACT program for eligible SNAP and TANF recipients. Many students pay $0. Eligibility is determined through FSSA intake. Self-pay tuition is $2,500 (currently on sale for $1,850). BNPL financing available through Affirm and Sezzle.',
     },
     {
       question: 'Where are the clinical rotations?',
@@ -253,7 +255,7 @@ export const CNA: ProgramSchema = {
 
   metaTitle: 'CNA Program — Indiana State Certification in 6 Weeks | Elevate for Humanity',
   metaDescription:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $1,800. Indianapolis.',
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850). Indianapolis.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',
