@@ -56,10 +56,13 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    // 1. Load enrollment with lock
+    // 1. Load enrollment
+    // Note: partner_course_id, payment_mode, billing_lock do not exist on
+    // program_enrollments in the live schema. This route uses payment_status
+    // and course_id to identify the enrollment context.
     const { data: enrollment, error: enrollmentError } = await supabase
       .from('program_enrollments')
-      .select('id, partner_course_id, payment_status, payment_mode, billing_lock')
+      .select('id, course_id, payment_status')
       .eq('id', enrollmentId)
       .maybeSingle();
 
@@ -68,31 +71,23 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
-    // 2. Guard rails - must be self-pay partner course
-    if (!enrollment.partner_course_id) {
+    // 2. Guard rails
+    if (!enrollment.course_id) {
       return NextResponse.json(
-        { error: 'This enrollment is not a self-pay partner course' },
+        { error: 'This enrollment is not linked to a course' },
         { status: 400 },
       );
-    }
-
-    if (enrollment.payment_mode !== 'self_pay') {
-      return NextResponse.json({ error: 'This enrollment is not self-pay' }, { status: 400 });
     }
 
     if (enrollment.payment_status === 'paid') {
       return NextResponse.json({ error: 'This enrollment is already paid' }, { status: 400 });
     }
 
-    if (enrollment.billing_lock) {
-      return NextResponse.json({ error: 'Payment already in progress' }, { status: 400 });
-    }
-
-    // 3. Load partner course pricing
+    // 3. Load partner course pricing via course_id
     const { data: partnerCourse, error: courseError } = await supabase
       .from('partner_lms_courses')
       .select('id, course_name, retail_price_cents, stripe_price_id')
-      .eq('id', enrollment.partner_course_id)
+      .eq('id', enrollment.course_id)
       .maybeSingle();
 
     if (courseError || !partnerCourse) {
