@@ -31,6 +31,8 @@ export type PortalKey =
   | 'beauty'
   | 'trades'
   | 'social-services'
+  | 'hospitality'
+  | 'jri'
 
 /** Canonical URL path for each portal. */
 export const PORTAL_PATHS: Record<PortalKey, string> = {
@@ -41,6 +43,8 @@ export const PORTAL_PATHS: Record<PortalKey, string> = {
   'beauty':         '/portal/beauty',
   'trades':         '/portal/trades',
   'social-services':'/portal/social-services',
+  'hospitality':    '/portal/hospitality',
+  'jri':            '/portal/jri',
 }
 
 /** Fallback when no portal matches. */
@@ -78,7 +82,11 @@ const CATEGORY_TO_PORTAL: Record<string, PortalKey> = {
   // trades (non-apprenticeship)
   trades:            'trades',
 
-  // hospitality → no dedicated portal yet, falls through to learner dashboard
+  // hospitality
+  hospitality:       'hospitality',
+
+  // JRI / special workforce readiness
+  special:           'jri',
 }
 
 // ── Core resolver ─────────────────────────────────────────────────────────────

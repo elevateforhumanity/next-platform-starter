@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-const ADMIN_ROLES = ['super_admin'];
+const ADMIN_ROLES = ['super_admin', 'admin', 'staff'];
 
 function getSafeRedirect(raw: string | null): string {
   if (!raw) return '/admin/dashboard';
@@ -49,9 +49,16 @@ export default function AdminLoginForm({ redirectTo }: { redirectTo?: string }) 
         .eq('id', data.user.id)
         .maybeSingle();
 
-      if (profileError || !profile) {
+      if (profileError) {
         await supabase.auth.signOut();
-        setError('Unable to load your profile. Contact support.');
+        setError(`Profile load failed: ${profileError.message}. Contact support.`);
+        setLoading(false);
+        return;
+      }
+
+      if (!profile) {
+        await supabase.auth.signOut();
+        setError('No profile found for your account. Contact support.');
         setLoading(false);
         return;
       }

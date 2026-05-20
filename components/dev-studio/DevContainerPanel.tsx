@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Send } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Send, Upload } from 'lucide-react';
 
 interface DevContainerConfig {
   name?: string;
@@ -525,6 +525,33 @@ export default function DevContainerPanel() {
             {tab === 'visual' ? 'Visual' : tab === 'environments' ? 'Environments' : tab === 'raw' ? 'Raw JSON' : '✦ AI'}
           </button>
         ))}
+        <label className="ml-auto flex items-center gap-1.5 px-3 py-2 text-xs text-slate-500 hover:text-brand-blue-600 cursor-pointer transition-colors">
+          <Upload className="w-3.5 h-3.5" />
+          <span>Upload</span>
+          <input
+            type="file"
+            className="hidden"
+            accept=".json,.env,.yml,.yaml,.toml,.txt,.sh"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const formData = new FormData();
+              formData.append('file', file);
+              try {
+                const res = await fetch('/api/devstudio/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                  setStatus({ type: 'success', message: `Uploaded ${file.name}` });
+                } else {
+                  setStatus({ type: 'error', message: 'Upload failed' });
+                }
+              } catch {
+                setStatus({ type: 'error', message: 'Upload failed' });
+              }
+              e.target.value = '';
+              setTimeout(() => setStatus(null), 3000);
+            }}
+          />
+        </label>
       </div>
 
       {/* Content */}

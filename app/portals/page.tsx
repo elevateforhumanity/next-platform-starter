@@ -48,6 +48,15 @@ const portals = [
     features: ['Course Materials', 'Grade Tracking', 'Career Services', 'Schedule Management'],
   },
   {
+    icon: Clock,
+    title: 'Apprentice Portal',
+    description:
+      'Track your apprenticeship hours, log competencies, manage timeclock, access your handbook, and prepare for state board exams.',
+    href: '/login/apprentice',
+    color: 'orange',
+    features: ['Hour Tracking', 'Competency Logs', 'Timeclock', 'State Board Prep'],
+  },
+  {
     icon: Briefcase,
     title: 'Employer Portal',
     description:

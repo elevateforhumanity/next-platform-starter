@@ -92,11 +92,14 @@ function LoginForm() {
         return;
       }
 
-      // Students with a cached portal_type go to their field portal.
-      // portal_type is set at enrollment time by cachePortalTypeForEnrollment().
-      // If missing, fall through to the role-based default.
-      if (role === 'student' && profile.portal_type) {
-        router.push(`/portal/${profile.portal_type}`);
+      // Students: route to their industry portal if portal_type is cached.
+      // If not cached, go to /learner/dashboard (server will resolve on next visit).
+      if (role === 'student') {
+        if (profile.portal_type) {
+          router.push(`/portal/${profile.portal_type}`);
+        } else {
+          router.push('/learner/dashboard');
+        }
         return;
       }
 
@@ -152,6 +155,38 @@ function LoginForm() {
       <section className="py-12 relative z-10">
         <div className="max-w-md mx-auto px-4">
           <div className="bg-white rounded-lg shadow-lg p-8">
+            {/* Portal-specific header when redirecting to a known portal */}
+            {next?.startsWith('/portal/apprentice') && (
+              <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Apprentice Portal</p>
+                <p className="text-xs text-amber-600 mt-0.5">DOL Registered Apprenticeship</p>
+              </div>
+            )}
+            {next?.startsWith('/portal/healthcare') && (
+              <div className="mb-5 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-rose-700 uppercase tracking-widest">Healthcare Portal</p>
+              </div>
+            )}
+            {next?.startsWith('/portal/trades') && (
+              <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Skilled Trades Portal</p>
+              </div>
+            )}
+            {next?.startsWith('/portal/technology') && (
+              <div className="mb-5 bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest">Technology Portal</p>
+              </div>
+            )}
+            {next?.startsWith('/portal/beauty') && (
+              <div className="mb-5 bg-pink-50 border border-pink-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-pink-700 uppercase tracking-widest">Beauty & Barber Portal</p>
+              </div>
+            )}
+            {next?.startsWith('/portal/business') && (
+              <div className="mb-5 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3 text-center">
+                <p className="text-xs font-bold text-emerald-700 uppercase tracking-widest">Business Portal</p>
+              </div>
+            )}
             <h1 className="text-3xl font-bold text-center mb-2">Login</h1>
             <p className="text-center text-black mb-8">
               Sign in to manage your training, certifications, and career progress.

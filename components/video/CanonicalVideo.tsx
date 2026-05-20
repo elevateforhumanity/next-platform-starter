@@ -243,7 +243,7 @@ export default function CanonicalVideo({
           fetchPriority={autoPlayOnMount ? 'high' : 'auto'}
           loading={autoPlayOnMount ? 'eager' : 'lazy'}
           decoding="async"
-          className={`${className} ${
+          className={`${className} transition-opacity duration-700 ease-in-out ${
             playing && !ended
               ? 'opacity-0 pointer-events-none'
               : 'opacity-100'
@@ -266,7 +266,7 @@ export default function CanonicalVideo({
         <video
           ref={ref}
           src={src}
-          className={`${className} ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
+          className={`${className} transition-opacity duration-700 ease-in-out ${playing && !ended ? 'opacity-100' : 'opacity-0'}`}
           muted
           playsInline
           loop={loop}

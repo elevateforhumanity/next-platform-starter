@@ -60,21 +60,23 @@ export default function AuthRedirectHandler() {
       const user = session.user;
 
       // If an explicit destination was encoded in the link, use it directly.
-      // Otherwise fall back to role-based routing.
+      // Otherwise route by role, using cached portal_type for students.
       let destination: string;
       if (next && next.startsWith('/')) {
         destination = next;
       } else {
-        let role = user.user_metadata?.role as string | undefined;
-        if (!role) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .maybeSingle();
-          role = profile?.role ?? 'student';
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role, portal_type')
+          .eq('id', user.id)
+          .maybeSingle();
+        const role = profile?.role ?? user.user_metadata?.role ?? 'student';
+
+        if (role === 'student' && profile?.portal_type) {
+          destination = `/portal/${profile.portal_type}`;
+        } else {
+          destination = getRoleDestination(role);
         }
-        destination = getRoleDestination(role);
       }
 
       // Cross-origin destinations (e.g. admin subdomain) need a full navigation

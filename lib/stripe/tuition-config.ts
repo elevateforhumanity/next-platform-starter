@@ -51,10 +51,10 @@ export const PROGRAM_TUITION: ProgramTuition[] = [
   {
     programId: 'prog-cna',
     programName: 'CNA Training Program',
-    tuitionAmount: 2200,
+    tuitionAmount: 1850,
     registrationFee: 150,
     internalPlan: {
-      minDownPayment: 600,
+      minDownPayment: 500,
       downPaymentPercent: 27,
       maxTermMonths: 4,
       monthlyPayment: 400, // ($2200 - $600) / 4
@@ -63,7 +63,7 @@ export const PROGRAM_TUITION: ProgramTuition[] = [
   {
     programId: 'prog-hvac',
     programName: 'HVAC Technician',
-    tuitionAmount: 4800,
+    tuitionAmount: 5000,
     registrationFee: 150,
     internalPlan: {
       minDownPayment: 1000,
@@ -467,7 +467,7 @@ export const TUITION_PRODUCTS: TuitionProduct[] = [
   {
     programId: 'prog-cna',
     programName: 'CNA Training Program',
-    totalTuition: 2200,
+    totalTuition: 1850,
     registrationFee: 150,
     payInFull: {
       amount: 2200,
@@ -483,7 +483,7 @@ export const TUITION_PRODUCTS: TuitionProduct[] = [
   {
     programId: 'prog-hvac',
     programName: 'HVAC Technician',
-    totalTuition: 4800,
+    totalTuition: 5000,
     registrationFee: 150,
     payInFull: {
       amount: 4800,

@@ -969,29 +969,36 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
 
   if (result.success) {
     // Create program_holders row and set role immediately — no admin approval needed.
-    let adminDb: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
+    // Entire provisioning block is wrapped in try/catch so a failure here
+    // never blocks the user from reaching the confirmation page.
     try {
-      adminDb = await requireAdminClient();
-    } catch (err) {
-      logger.error('[Apply] getAdminClient failed in submitProgramHolderApplication', err);
-    }
-    if (adminDb) {
-      const provisioned = await ensureProgramHolderAccount(adminDb, data);
-      if (provisioned.userId) {
-        logger.info('[Apply] Program holder approved on submit', {
-          userId: provisioned.userId,
-          holderId: provisioned.holderId,
-          org: provisioned.organizationName,
-        });
-
-        // Send password setup link so they can access onboarding immediately.
-        await sendProgramHolderWelcomeEmail(adminDb, {
-          email: provisioned.email,
-          firstName: data.firstName,
-          organizationName: provisioned.organizationName,
-          referenceNumber: result.referenceNumber,
-        });
+      let adminDb: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
+      try {
+        adminDb = await requireAdminClient();
+      } catch (err) {
+        logger.error('[Apply] getAdminClient failed in submitProgramHolderApplication', err);
       }
+      if (adminDb) {
+        const provisioned = await ensureProgramHolderAccount(adminDb, data);
+        if (provisioned.userId) {
+          logger.info('[Apply] Program holder approved on submit', {
+            userId: provisioned.userId,
+            holderId: provisioned.holderId,
+            org: provisioned.organizationName,
+          });
+
+          // Send password setup link so they can access onboarding immediately.
+          await sendProgramHolderWelcomeEmail(adminDb, {
+            email: provisioned.email,
+            firstName: data.firstName,
+            organizationName: provisioned.organizationName,
+            referenceNumber: result.referenceNumber,
+          });
+        }
+      }
+    } catch (provisionErr) {
+      // Non-fatal: application was already saved. Admin can manually provision.
+      logger.error('[Apply] Program holder provisioning failed (non-fatal)', provisionErr);
     }
 
     return {

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeroVideo from '@/components/marketing/HeroVideo';
 import type { HeroBannerConfig } from '@/content/heroBanners';
 import {
   Award, Clock, ChevronRight, MapPin, BookOpen,
@@ -12,7 +11,7 @@ import {
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { BarberEnrollment } from './sections/BarberEnrollment';
-import { BarberCredentials } from './sections/BarberCredentials';
+// BarberCredentials removed — credentials section rendered inline above
 import { BarberDeliveryModel } from './sections/BarberDeliveryModel';
 import { BarberPartnership } from './sections/BarberPartnership';
 import { BNPL_PROVIDER_NAMES, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
@@ -53,17 +52,30 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
   return (
     <div className="min-h-screen bg-white">
       {/* ═══ HERO ═══ */}
-      {b && (
-        <HeroVideo
-          videoSrcDesktop={b.videoSrcDesktop}
-          posterImage={b.posterImage}
-          voiceoverSrc={b.voiceoverSrc}
-          microLabel={b.microLabel}
-          analyticsName={b.analyticsName}
+      <section className="relative w-full overflow-hidden" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
+        <Image
+          src="/images/pages/barber-fade-cut.webp"
+          alt="Barber performing a precision fade cut at a professional barbershop"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
         />
-      )}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 sm:p-10 max-w-6xl mx-auto">
+          <span className="inline-block bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
+            DOL Registered Apprenticeship
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+            Indiana Barber License
+          </h1>
+          <p className="text-white/80 text-base sm:text-lg mt-2 max-w-2xl">
+            Earn while you learn. 2,000 hours of hands-on training at a licensed barbershop. Graduate with your Indiana Barber License.
+          </p>
+        </div>
+      </section>
 
-      {/* ═══ PROGRAM IDENTITY CARD (below video) ═══ */}
+      {/* ═══ PROGRAM IDENTITY CARD ═══ */}
       <section className="border-b border-slate-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 py-8">
           <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4">
@@ -71,10 +83,6 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             <ChevronRight className="w-3 h-3" />
             <span className="text-slate-900 font-medium">Barber Apprenticeship</span>
           </nav>
-          <div className="flex items-start gap-3 mb-4">
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Barber Apprenticeship</h1>
-            <span className="flex-shrink-0 text-xs font-bold text-white px-3 py-1 rounded-full bg-brand-blue-600">DOL Registered</span>
-          </div>
           <p className="text-slate-600 text-lg mb-6">{p.subtitle}</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 rounded-lg p-4">
             <SpecItem icon={Clock} label="Duration" value="52 weeks" />
@@ -211,7 +219,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
       <BarberDeliveryModel />
 
       {/* ═══ CREDENTIAL PATHWAY + WHAT YOU’LL LEARN + WORKPLACE TRAINING ═══ */}
-      <BarberCredentials />
+      {/* Credentials already shown in inline section above */}
 
       {/* ═══ PARTNERSHIP / CAREER PATHWAYS / TRANSFER HOURS ═══ */}
       <BarberPartnership />

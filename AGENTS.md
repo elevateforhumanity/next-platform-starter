@@ -767,3 +767,61 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `storage_audit.md` — storage bucket audit and conventions
 - `dead_code_candidates.md` — dead/deprecated files with recommended actions
 - `legacy_program_paths.md` — HVAC legacy path documentation
+
+---
+
+## Cursor Cloud specific instructions
+
+### Environment setup
+
+- **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
+- **pnpm 10.28.2** is the package manager — `corepack enable` activates it.
+- **No local database** — the app connects to hosted Supabase. A `.env.local` with placeholder keys is enough to start the dev server; DB-dependent features fail gracefully at runtime.
+- Minimum `.env.local` for dev server startup:
+  ```
+  NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder
+  SUPABASE_SERVICE_ROLE_KEY=placeholder
+  NEXTAUTH_SECRET=dev-secret
+  NEXT_TELEMETRY_DISABLED=1
+  SKIP_ENV_VALIDATION=true
+  ```
+
+### Running services
+
+| Service | Command | Port |
+|---------|---------|------|
+| LMS dev server | `pnpm dev` (or `pnpm next dev --turbopack`) | 3000 |
+| Admin app | `pnpm dev:admin` (or `cd apps/admin && pnpm dev`) | 3001 |
+
+### Key commands
+
+- `pnpm lint` — ESLint (expect ~37 pre-existing `no-console` errors in non-app files)
+- `pnpm test` — Vitest unit tests (74 test files, 1634 tests)
+- `pnpm typecheck` — TypeScript type check (requires `--max-old-space-size=8192`)
+- `pnpm build` — Full production build (requires `--max-old-space-size=6144`, 2600+ pages)
+
+### Gotchas
+
+- The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
+- Dev server logs `Failed to load from app_secrets` and `Failed to load from platform_secrets` with placeholder Supabase keys — this is expected and does not block the server.
+- ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
+- `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
+- The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
+
+### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
+
+Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
+
+| Store | Table | UI surface | Purpose |
+|-------|-------|------------|---------|
+| **platform_secrets** | `platform_secrets` | Dev Studio → Secrets | Encrypted API keys; highest runtime priority |
+| **app_secrets** | `app_secrets` | Dev Studio → Container (env section) | Dev environment secrets |
+| **platform_settings** | `platform_settings` | Env Manager + Settings hub | Plaintext config, integration keys |
+| **process.env** | ECS task def / `.env.local` | Dev Studio → Container (ECS push) | Base layer |
+
+Precedence at runtime: `platform_secrets > app_secrets > process.env`
+
+**AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
+
+**Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.

@@ -33,6 +33,9 @@ export async function getApprovedHoursByType(
   userId: string,
   programSlug?: string,
 ): Promise<ApprovedHours> {
+  // hour_entries is the canonical source — includes both student-logged
+  // and admin-entered hours. apprenticeship_hours is a legacy/parallel
+  // table that may contain duplicates; do NOT sum both.
   let query = db
     .from('hour_entries')
     .select('hours_claimed, accepted_hours, source_type, category')
@@ -63,15 +66,12 @@ export async function getApprovedHoursByType(
       row.source_type === 'out_of_state_school' ||
       row.source_type === 'out_of_state_license'
     ) {
-      // Transfer hours: classify by category if set
       if (row.category === 'rti') {
         rti += hrs;
       } else {
-        // Default transfer hours to OJL (practical experience)
         ojl += hrs;
       }
     }
-    // Unknown source_types are excluded from both buckets
   }
 
   return { ojl, rti };
