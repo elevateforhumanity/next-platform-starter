@@ -126,11 +126,12 @@ export async function GET(request: Request) {
       // Any ?next= value takes priority over role-based routing.
       const hasExplicitNext = requestUrl.searchParams.has('next');
       if (!hasExplicitNext) {
-        // Students get routed to their industry-specific field portal
+        // Students: resolve their industry portal from enrollment data.
+        // resolvePortalForUser has internal try/catch — returns /learner/dashboard on failure.
         if (resolvedRole === 'student') {
-          const { data: { user: portalUser } } = await supabase.auth.getUser();
-          if (portalUser) {
-            const portalPath = await resolvePortalForUser(supabase, portalUser.id);
+          const { data: { user: currentUser } } = await supabase.auth.getUser();
+          if (currentUser) {
+            const portalPath = await resolvePortalForUser(supabase, currentUser.id);
             return NextResponse.redirect(new URL(portalPath, requestUrl.origin));
           }
         }

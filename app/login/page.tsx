@@ -92,28 +92,14 @@ function LoginForm() {
         return;
       }
 
-      // Students: resolve their industry-specific portal.
-      // If portal_type is cached, use it directly. Otherwise call the server
-      // to derive it from their active enrollment → program → category.
+      // Students: route to their industry portal if portal_type is cached.
+      // If not cached, go to /learner/dashboard (server will resolve on next visit).
       if (role === 'student') {
         if (profile.portal_type) {
           router.push(`/portal/${profile.portal_type}`);
-          return;
+        } else {
+          router.push('/learner/dashboard');
         }
-        // Resolve from enrollment (server-side) — caches portal_type on profile
-        try {
-          const res = await fetch('/api/auth/resolve-portal');
-          if (res.ok) {
-            const { path } = await res.json();
-            if (path && path !== '/learner/dashboard') {
-              router.push(path);
-              return;
-            }
-          }
-        } catch {
-          // Non-fatal — fall through to learner dashboard
-        }
-        router.push('/learner/dashboard');
         return;
       }
 

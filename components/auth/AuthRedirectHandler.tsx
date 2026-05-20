@@ -60,8 +60,8 @@ export default function AuthRedirectHandler() {
       const user = session.user;
 
       // If an explicit destination was encoded in the link, use it directly.
-      // Otherwise resolve the correct portal for students, or use role-based routing.
-      let destination: string | undefined;
+      // Otherwise route by role, using cached portal_type for students.
+      let destination: string;
       if (next && next.startsWith('/')) {
         destination = next;
       } else {
@@ -72,20 +72,9 @@ export default function AuthRedirectHandler() {
           .maybeSingle();
         const role = profile?.role ?? user.user_metadata?.role ?? 'student';
 
-        if (role === 'student') {
-          if (profile?.portal_type) {
-            destination = `/portal/${profile.portal_type}`;
-          } else {
-            try {
-              const res = await fetch('/api/auth/resolve-portal');
-              if (res.ok) {
-                const d = await res.json();
-                if (d.path) destination = d.path;
-              }
-            } catch { /* fall through to learner dashboard */ }
-          }
-        }
-        if (!destination) {
+        if (role === 'student' && profile?.portal_type) {
+          destination = `/portal/${profile.portal_type}`;
+        } else {
           destination = getRoleDestination(role);
         }
       }
