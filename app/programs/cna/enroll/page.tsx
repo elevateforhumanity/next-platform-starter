@@ -114,8 +114,49 @@ export default function CNAEnrollPage() {
         throw new Error('Enrollment could not be confirmed. Please call (317) 314-3757.');
       }
 
-      // Redirect to payment
-      if (formData.paymentOption === 'payment-plan') {
+      // Redirect to payment based on selected option
+      if (formData.paymentOption === 'affirm') {
+        const res = await fetch('/api/affirm/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: PROGRAM_DETAILS.price * 100,
+            programId: 'cna',
+            programSlug: 'cna',
+            programName: 'CNA Training Program',
+            enrollmentId: data.enrollmentId,
+            email: formData.email,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+          }),
+        });
+        const affirm = await res.json();
+        if (affirm.url) {
+          window.location.href = affirm.url;
+        } else {
+          window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM_DETAILS.price}&type=full-payment&enrollment=${data.enrollmentId}`;
+        }
+      } else if (formData.paymentOption === 'sezzle') {
+        const res = await fetch('/api/sezzle/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: PROGRAM_DETAILS.price * 100,
+            programId: 'cna',
+            programSlug: 'cna',
+            programName: 'CNA Training Program',
+            enrollmentId: data.enrollmentId,
+            email: formData.email,
+            name: `${formData.firstName} ${formData.lastName}`,
+          }),
+        });
+        const sezzle = await res.json();
+        if (sezzle.url || sezzle.checkout_url) {
+          window.location.href = sezzle.url || sezzle.checkout_url;
+        } else {
+          window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM_DETAILS.price}&type=full-payment&enrollment=${data.enrollmentId}`;
+        }
+      } else if (formData.paymentOption === 'payment-plan') {
         window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM_DETAILS.downPayment}&type=down-payment&enrollment=${data.enrollmentId}`;
       } else {
         window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM_DETAILS.price}&type=full-payment&enrollment=${data.enrollmentId}`;
@@ -421,7 +462,10 @@ export default function CNAEnrollPage() {
                             </span>{' '}
                             for {PROGRAM_DETAILS.paymentWeeks} weeks
                           </p>
-                          <p className="text-sm text-black mt-2">Total: ${PROGRAM_DETAILS.price}</p>
+                          <p className="text-sm text-black mt-2">
+                            Total: ${PROGRAM_DETAILS.price}{' '}
+                            <span className="line-through text-slate-400">${PROGRAM_DETAILS.regularPrice}</span>
+                          </p>
                         </div>
                       </div>
                     </label>
@@ -460,6 +504,107 @@ export default function CNAEnrollPage() {
                               ${PROGRAM_DETAILS.price}
                             </span>{' '}
                             one-time payment
+                          </p>
+                          <p className="text-sm text-slate-500 mt-1">
+                            <span className="line-through text-slate-400">${PROGRAM_DETAILS.regularPrice}</span>{' '}
+                            <span className="text-brand-red-600 font-semibold">Sale price — save ${PROGRAM_DETAILS.regularPrice - PROGRAM_DETAILS.price}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+
+                    {/* BNPL — Affirm */}
+                    <label
+                      className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
+                        formData.paymentOption === 'affirm'
+                          ? 'border-brand-blue-600 bg-brand-blue-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="paymentOption"
+                        value="affirm"
+                        checked={formData.paymentOption === 'affirm'}
+                        onChange={handleInputChange}
+                        className="sr-only"
+                      />
+                      <div className="flex items-start gap-4">
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
+                            formData.paymentOption === 'affirm'
+                              ? 'border-brand-blue-600'
+                              : 'border-slate-300'
+                          }`}
+                        >
+                          {formData.paymentOption === 'affirm' && (
+                            <div className="w-3 h-3 bg-white rounded-full" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-lg">Affirm</span>
+                            <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">
+                              BNPL
+                            </span>
+                          </div>
+                          <p className="text-black mt-1">
+                            As low as{' '}
+                            <span className="font-semibold">
+                              ${Math.round(PROGRAM_DETAILS.price / 12)}/mo
+                            </span>{' '}
+                            for 12 months
+                          </p>
+                          <p className="text-sm text-slate-500 mt-1">
+                            0% APR available · No hidden fees · Instant decision
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+
+                    {/* BNPL — Sezzle */}
+                    <label
+                      className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
+                        formData.paymentOption === 'sezzle'
+                          ? 'border-brand-blue-600 bg-brand-blue-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="paymentOption"
+                        value="sezzle"
+                        checked={formData.paymentOption === 'sezzle'}
+                        onChange={handleInputChange}
+                        className="sr-only"
+                      />
+                      <div className="flex items-start gap-4">
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
+                            formData.paymentOption === 'sezzle'
+                              ? 'border-brand-blue-600'
+                              : 'border-slate-300'
+                          }`}
+                        >
+                          {formData.paymentOption === 'sezzle' && (
+                            <div className="w-3 h-3 bg-white rounded-full" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-lg">Sezzle</span>
+                            <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-medium">
+                              BNPL
+                            </span>
+                          </div>
+                          <p className="text-black mt-1">
+                            4 interest-free payments of{' '}
+                            <span className="font-semibold">
+                              ${(PROGRAM_DETAILS.price / 4).toFixed(2)}
+                            </span>
+                          </p>
+                          <p className="text-sm text-slate-500 mt-1">
+                            Pay every 2 weeks · No interest · No credit impact
                           </p>
                         </div>
                       </div>
