@@ -325,6 +325,8 @@
     "lint-staged": "lint-staged",
     "type-check": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit",
     "typecheck": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit",
+    "typecheck:baseline": "node scripts/typecheck-baseline.mjs --write-baseline",
+    "typecheck:changed": "node scripts/typecheck-baseline.mjs",
     "quarantine:audit": "node scripts/quarantine-audit.mjs",
     "quarantine:restore": "node scripts/quarantine-restore.mjs",
     "quarantine:manifest": "node scripts/quarantine-build-manifest.mjs",

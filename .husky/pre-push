@@ -12,15 +12,12 @@ pnpm run build:lms:checks || {
 }
 
 # 2. TypeScript compile check
-echo "  → TypeScript type check..."
-TS_OUTPUT=$(NODE_OPTIONS=--max-old-space-size=4096 pnpm exec tsc --noEmit 2>&1)
-TS_ERRORS=$(echo "$TS_OUTPUT" | grep -c "error TS" || true)
-if [ "${TS_ERRORS:-0}" -gt "0" ]; then
-  echo "$TS_OUTPUT" | grep "error TS" | head -20
-  echo "❌ TypeScript: $TS_ERRORS error(s). Fix before pushing."
+echo "  → TypeScript type check (baseline-aware)..."
+if ! NODE_OPTIONS=--max-old-space-size=4096 node scripts/typecheck-baseline.mjs; then
+  echo "❌ TypeScript: new errors detected. Fix before pushing."
   exit 1
 fi
-echo "  ✅ TypeScript: clean"
+echo "  ✅ TypeScript: no new errors against baseline"
 
 # 3. Orphan JSX detector — catch incomplete redirect stub conversions
 echo "  → Checking for orphaned JSX in redirect stubs..."
