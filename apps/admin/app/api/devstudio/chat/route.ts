@@ -22,10 +22,26 @@ import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type Groq from 'groq-sdk';
 import { getRAGContext } from '@/lib/platform/rag';
+import {
+  ROUTE_DEPENDENCIES,
+  lookupRoute,
+  lookupTable,
+} from '@/lib/platform/knowledge-graph';
+import {
+  PROGRAM_REGISTRY,
+  getProgramBySlug,
+} from '@/lib/platform/system-registry';
+import {
+  buildAdminAiSystemPrompt,
+  isOperationalDiagnosticRequest,
+} from '@/lib/platform/admin-ai-assistant';
+import { existsSync, readFileSync } from 'fs';
+import { execFileSync, execSync } from 'child_process';
+import path from 'path';
 
 type ToolCallRecord = { tool: string; args: Record<string, unknown>; result: string };
 
-const TOOLS: Groq.Chat.Completions.Tool[] = [
+const TOOLS: any[] = [
   {
     type: 'function',
     function: {
@@ -73,6 +89,130 @@ const TOOLS: Groq.Chat.Completions.Tool[] = [
         properties: {
           limit: { type: 'number', description: 'Max rows (default 10)' },
           status: { type: 'string', description: 'pending | approved | rejected' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'inspect_platform_registry',
+      description:
+        'Search the internal system/program registry and knowledge graph for matching routes, tables, programs, and known platform debt.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Route, program slug, table, component, or problem terms to inspect' },
+        },
+        required: ['query'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'query_program_by_slug',
+      description:
+        'Inspect a program by slug using the static program registry and, when available, live Supabase program/course rows.',
+      parameters: {
+        type: 'object',
+        properties: {
+          slug: { type: 'string', description: 'Program slug, for example barber, cna, or hvac-technician' },
+          include_live: { type: 'boolean', description: 'Also query live Supabase program/course metadata' },
+        },
+        required: ['slug'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'inspect_route',
+      description:
+        'Inspect a Next.js route path for owning system, known dependencies, and matching source files.',
+      parameters: {
+        type: 'object',
+        properties: {
+          route_path: { type: 'string', description: 'Route path such as /programs/barber or /admin/dev-studio' },
+        },
+        required: ['route_path'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'get_component_source',
+      description:
+        'Read a bounded excerpt from an app/component/lib/content/data source file for code-level reasoning.',
+      parameters: {
+        type: 'object',
+        properties: {
+          file_path: { type: 'string', description: 'Repository-relative path to inspect' },
+          max_lines: { type: 'number', description: 'Max lines to return, capped at 220' },
+        },
+        required: ['file_path'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'search_schema',
+      description:
+        'Search migrations and generated database types for a table, column, or schema object name.',
+      parameters: {
+        type: 'object',
+        properties: {
+          term: { type: 'string', description: 'Table, column, view, policy, or function name' },
+        },
+        required: ['term'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'search_code',
+      description:
+        'Search repository source files for a technical term, route, component name, or configuration key.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Literal or regex search term' },
+          path_hint: { type: 'string', description: 'Optional safe path prefix such as app, apps/admin/app, components, lib, content, data' },
+          limit: { type: 'number', description: 'Maximum matching lines, capped at 80' },
+        },
+        required: ['query'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'audit_auth_flow',
+      description:
+        'Inspect a route source file for canonical auth, rate-limit, safe-error, and public-route markers.',
+      parameters: {
+        type: 'object',
+        properties: {
+          route_path: { type: 'string', description: 'API or page route path to audit' },
+        },
+        required: ['route_path'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'inspect_build_errors',
+      description:
+        'Read recent local build/lint log artifacts when present and return the exact command to run when no persisted log exists.',
+      parameters: {
+        type: 'object',
+        properties: {
+          kind: { type: 'string', description: 'build | lint | typecheck' },
         },
         required: [],
       },
@@ -136,6 +276,245 @@ const SAFE_COMMAND_ALLOWLIST = [
 
 function isSafeCommand(cmd: string): boolean {
   return SAFE_COMMAND_ALLOWLIST.some((rx) => rx.test(cmd.trim()));
+}
+
+const REPO_ROOT = process.cwd();
+const SAFE_SOURCE_PREFIXES = [
+  '.next/',
+  'app/',
+  'apps/admin/app/',
+  'components/',
+  'content/',
+  'data/',
+  'docs/',
+  'lib/',
+  'logs/',
+  'supabase/migrations/',
+  'tmp/',
+  'types/',
+];
+
+function toSafeRelativePath(filePath: string): string | null {
+  const normalized = filePath.replace(/\\/g, '/').replace(/^\/workspace\//, '').replace(/^\.\//, '');
+  if (normalized.includes('..') || normalized.startsWith('/')) return null;
+  if (!SAFE_SOURCE_PREFIXES.some((prefix) => normalized.startsWith(prefix))) return null;
+  return normalized;
+}
+
+function runRipgrep(args: string[]): string {
+  try {
+    return execFileSync('rg', args, {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      timeout: 10_000,
+      maxBuffer: 512_000,
+    }).slice(0, 12_000);
+  } catch (err) {
+    const maybe = err as { stdout?: string; message?: string };
+    if (maybe.stdout) return maybe.stdout.slice(0, 12_000);
+    return `No matches or search error: ${maybe.message ?? String(err)}`;
+  }
+}
+
+function sourceExcerpt(filePath: string, maxLines = 160): string {
+  const safePath = toSafeRelativePath(filePath);
+  if (!safePath) return `Refused to read unsafe path: ${filePath}`;
+
+  try {
+    const absolute = path.join(REPO_ROOT, safePath);
+    if (!existsSync(absolute)) return `File not found: ${safePath}`;
+    const contents = readFileSync(absolute, 'utf8')
+      .split('\n')
+      .slice(0, Math.min(Math.max(maxLines, 20), 220))
+      .join('\n');
+    return `FILE: ${safePath}\n${contents.slice(0, 16_000)}`;
+  } catch (err) {
+    return `Could not read ${safePath}: ${err instanceof Error ? err.message : String(err)}`;
+  }
+}
+
+function routeFromSourceFile(file: string): string | null {
+  const routeFile = file.replace(/\\/g, '/');
+  const appPrefix = routeFile.startsWith('apps/admin/app/')
+    ? 'apps/admin/app'
+    : routeFile.startsWith('app/')
+      ? 'app'
+      : null;
+  if (!appPrefix) return null;
+
+  const suffix = routeFile.slice(appPrefix.length).replace(/\/(page|route)\.tsx?$/, '');
+  if (suffix === '') return '/';
+  return suffix
+    .replace(/\/\([^)]*\)/g, '')
+    .replace(/\/page$/, '')
+    .replace(/\/route$/, '') || '/';
+}
+
+function routePatternMatches(patternRoute: string, requestedRoute: string): boolean {
+  const escaped = patternRoute
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/\\\[\\\[\\.\\.\\.([^/]+)\\\]\\\]/g, '(?:/.*)?')
+    .replace(/\\\[\\.\\.\\.([^/]+)\\\]/g, '.+')
+    .replace(/\\\[([^/]+)\\\]/g, '[^/]+');
+  return new RegExp(`^${escaped}$`).test(requestedRoute);
+}
+
+function findRouteFiles(routePath: string): string[] {
+  const normalized = routePath.startsWith('/') ? routePath : `/${routePath}`;
+  const files = runRipgrep(['--files', 'app', 'apps/admin/app', '-g', 'page.tsx', '-g', 'route.ts'])
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  return files.filter((file) => {
+    const route = routeFromSourceFile(file);
+    return route ? route === normalized || routePatternMatches(route, normalized) : false;
+  });
+}
+
+function inspectPlatformRegistry(query: string): string {
+  const terms = query.toLowerCase().split(/[^a-z0-9/_-]+/).filter(Boolean);
+  const matchesTerm = (value: string) => terms.some((term) => value.toLowerCase().includes(term));
+  const programMatches = PROGRAM_REGISTRY
+    .filter((program) => matchesTerm(`${program.slug} ${program.title} ${program.category} ${program.canonical_route}`))
+    .slice(0, 12);
+  const routeMatches = Object.entries(ROUTE_DEPENDENCIES)
+    .filter(([route, deps]) => matchesTerm(`${route} ${deps.tables.join(' ')} ${deps.apis.join(' ')} ${deps.components.join(' ')}`))
+    .slice(0, 12);
+  const tableMatches = Array.from(new Set(Object.values(ROUTE_DEPENDENCIES).flatMap((deps) => deps.tables)))
+    .filter((table) => matchesTerm(table))
+    .map((table) => ({ table, owners: lookupTable(table).map((system) => system.id) }))
+    .slice(0, 12);
+
+  return JSON.stringify(
+    {
+      query,
+      program_matches: programMatches,
+      route_dependency_matches: routeMatches.map(([route, deps]) => ({ route, ...deps, owner: lookupRoute(route)?.id ?? null })),
+      table_matches: tableMatches,
+    },
+    null,
+    2,
+  );
+}
+
+function inspectRoute(routePath: string): string {
+  const normalized = routePath.startsWith('/') ? routePath : `/${routePath}`;
+  const sourceFiles = findRouteFiles(normalized);
+  const dependencyEntry = Object.entries(ROUTE_DEPENDENCIES).find(([route]) =>
+    route === normalized || routePatternMatches(route, normalized)
+  );
+  const owningSystem = lookupRoute(normalized)?.id ?? (dependencyEntry ? lookupRoute(dependencyEntry[0])?.id ?? null : null);
+
+  return JSON.stringify(
+    {
+      route: normalized,
+      owning_system: owningSystem,
+      known_dependencies: dependencyEntry ? { route_pattern: dependencyEntry[0], ...dependencyEntry[1] } : null,
+      source_files: sourceFiles,
+      source_excerpts: sourceFiles.slice(0, 3).map((file) => sourceExcerpt(file, 90)),
+    },
+    null,
+    2,
+  );
+}
+
+function searchCode(query: string, pathHint?: string, limit = 40): string {
+  const safeHint = pathHint ? toSafeRelativePath(pathHint.endsWith('/') ? pathHint : `${pathHint}/`) : null;
+  const paths = safeHint ? [safeHint] : ['app', 'apps/admin/app', 'components', 'content', 'data', 'lib'];
+  return runRipgrep([
+    '-n',
+    '-F',
+    query.slice(0, 160),
+    ...paths,
+    '-g',
+    '*.{ts,tsx,js,jsx,json,md}',
+  ])
+    .split('\n')
+    .slice(0, Math.min(Math.max(limit, 5), 80))
+    .join('\n');
+}
+
+function inspectBuildErrors(kind: string): string {
+  const candidates = [
+    `.next/${kind}.log`,
+    `logs/${kind}.log`,
+    `tmp/${kind}.log`,
+    `${kind}.log`,
+  ];
+  const found = candidates.find((candidate) => existsSync(path.join(REPO_ROOT, candidate)));
+  if (!found) {
+    const command =
+      kind === 'lint'
+        ? 'pnpm lint'
+        : kind === 'typecheck'
+          ? 'NODE_OPTIONS=--max-old-space-size=8192 pnpm typecheck'
+          : 'NODE_OPTIONS=--max-old-space-size=6144 pnpm build';
+    return `No persisted ${kind || 'build'} log found. Run this command to collect fresh evidence: ${command}`;
+  }
+  return sourceExcerpt(found, 220);
+}
+
+async function collectAutomaticEvidence(query: string): Promise<ToolCallRecord[]> {
+  if (!isOperationalDiagnosticRequest(query)) return [];
+
+  const records: ToolCallRecord[] = [];
+  const registryResult = await execTool('inspect_platform_registry', { query });
+  records.push({ tool: 'inspect_platform_registry', args: { query }, result: registryResult });
+
+  const normalized = query.toLowerCase();
+  const mentionedProgram = PROGRAM_REGISTRY.find((program) =>
+    normalized.includes(program.slug) || normalized.includes(program.title.toLowerCase())
+  );
+  if (mentionedProgram) {
+    const result = await execTool('query_program_by_slug', {
+      slug: mentionedProgram.slug,
+      include_live: false,
+    });
+    records.push({
+      tool: 'query_program_by_slug',
+      args: { slug: mentionedProgram.slug, include_live: false },
+      result,
+    });
+  }
+
+  if (/\b(hero|banner|video|poster)\b/i.test(query)) {
+    const result = await execTool('search_code', {
+      query: 'HeroVideo',
+      path_hint: 'components',
+      limit: 20,
+    });
+    records.push({
+      tool: 'search_code',
+      args: { query: 'HeroVideo', path_hint: 'components', limit: 20 },
+      result,
+    });
+  }
+
+  return records;
+}
+
+function formatAutomaticEvidence(records: ToolCallRecord[]): string {
+  if (!records.length) return '';
+  return records
+    .map((record) => {
+      const args = Object.keys(record.args).length ? ` ${JSON.stringify(record.args)}` : '';
+      return `### ${record.tool}${args}\n${record.result.slice(0, 4000)}`;
+    })
+    .join('\n\n');
+}
+
+function enforceEvidenceBoundary(message: string, query: string, records: ToolCallRecord[]): string {
+  if (!isOperationalDiagnosticRequest(query)) return message;
+
+  const hasEvidenceStatus = /Evidence used:/i.test(message) || /No live tool was executed/i.test(message);
+  if (hasEvidenceStatus) return message;
+
+  const evidenceLine = records.length
+    ? `Evidence used: ${records.map((record) => record.tool).join(', ')}.`
+    : 'Evidence used: No live tool was executed for this answer.';
+
+  return `Problem:\n${query}\n\n${evidenceLine}\n\n${message}`;
 }
 
 function buildTemplate(args: Record<string, unknown>): string {
@@ -207,10 +586,9 @@ export default function ${pageTitle.replace(/[^a-zA-Z0-9]/g, '') || 'Template'}P
 }
 
 async function execTool(name: string, args: Record<string, unknown>): Promise<string> {
-  const db = await requireAdminClient();
-
   switch (name) {
     case 'list_programs': {
+      const db = await requireAdminClient();
       let q = db
         .from('programs')
         .select('id, title, slug, category, is_active, status')
@@ -222,6 +600,7 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
     }
 
     case 'list_enrollments': {
+      const db = await requireAdminClient();
       const limit = typeof args.limit === 'number' ? args.limit : 20;
       let q = db
         .from('program_enrollments')
@@ -235,6 +614,7 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
     }
 
     case 'get_dashboard_stats': {
+      const db = await requireAdminClient();
       const [enrollRes, appRes, certRes, progRes] = await Promise.all([
         db.from('program_enrollments').select('id', { count: 'exact', head: true }),
         db.from('intake_submissions')
@@ -261,6 +641,7 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
     }
 
     case 'get_recent_applications': {
+      const db = await requireAdminClient();
       const limit = typeof args.limit === 'number' ? args.limit : 10;
       let q = db
         .from('intake_submissions')
@@ -273,13 +654,114 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
       return JSON.stringify(data, null, 2);
     }
 
+    case 'inspect_platform_registry': {
+      return inspectPlatformRegistry(String(args.query || ''));
+    }
+
+    case 'query_program_by_slug': {
+      const slug = String(args.slug || '').trim().toLowerCase();
+      const registry = getProgramBySlug(slug) ?? null;
+      let live: Record<string, unknown> | null = null;
+
+      if (args.include_live !== false) {
+        try {
+          const db = await requireAdminClient();
+          const { data: program, error: programError } = await db
+            .from('programs')
+            .select('id, title, slug, category, is_active, published, status, short_description')
+            .eq('slug', slug)
+            .maybeSingle();
+          const { data: courses, error: courseError } = await db
+            .from('courses')
+            .select('id, title, slug, program_id, status')
+            .eq('program_id', program?.id ?? '00000000-0000-0000-0000-000000000000')
+            .limit(10);
+          live = {
+            program: programError ? { error: programError.message } : program,
+            courses: courseError ? { error: courseError.message } : courses,
+          };
+        } catch (err) {
+          live = { error: err instanceof Error ? err.message : String(err) };
+        }
+      }
+
+      return JSON.stringify(
+        {
+          slug,
+          registry,
+          live,
+          likely_files: [
+            `data/programs/${slug}.ts`,
+            `app/programs/${slug}/page.tsx`,
+            'app/programs/[program]/page.tsx',
+            'components/programs/ProgramDetailPage.tsx',
+          ],
+        },
+        null,
+        2,
+      );
+    }
+
+    case 'inspect_route': {
+      return inspectRoute(String(args.route_path || ''));
+    }
+
+    case 'get_component_source': {
+      return sourceExcerpt(String(args.file_path || ''), typeof args.max_lines === 'number' ? args.max_lines : 160);
+    }
+
+    case 'search_schema': {
+      const term = String(args.term || '').slice(0, 120);
+      const matches = runRipgrep([
+        '-n',
+        '-F',
+        term,
+        'supabase/migrations',
+        'types/database.generated.ts',
+        '-g',
+        '*.{sql,ts}',
+      ]);
+      return matches || `No schema matches for ${term}`;
+    }
+
+    case 'search_code': {
+      return searchCode(
+        String(args.query || ''),
+        typeof args.path_hint === 'string' ? args.path_hint : undefined,
+        typeof args.limit === 'number' ? args.limit : 40,
+      );
+    }
+
+    case 'audit_auth_flow': {
+      const route = String(args.route_path || '');
+      const files = findRouteFiles(route);
+      if (!files.length) return `No source file found for route: ${route}`;
+      const audits = files.map((file) => {
+        const safePath = toSafeRelativePath(file);
+        const contents = safePath ? readFileSync(path.join(REPO_ROOT, safePath), 'utf8') : '';
+        return {
+          file,
+          has_apiRequireAdmin: contents.includes('apiRequireAdmin'),
+          has_apiAuthGuard: contents.includes('apiAuthGuard'),
+          has_apiRequireInstructor: contents.includes('apiRequireInstructor'),
+          has_applyRateLimit: contents.includes('applyRateLimit'),
+          has_safe_error: /safe(Error|InternalError|DbError)/.test(contents),
+          has_public_route_comment: contents.includes('PUBLIC ROUTE:'),
+        };
+      });
+      return JSON.stringify(audits, null, 2);
+    }
+
+    case 'inspect_build_errors': {
+      return inspectBuildErrors(String(args.kind || 'build'));
+    }
+
     case 'list_blueprints': {
       try {
-        const { execSync } = await import('child_process');
-        const out = execSync(
-          'grep -h "id:" lib/curriculum/blueprints/*.ts 2>/dev/null | head -20',
-          { encoding: 'utf8' },
-        );
+        const out = runRipgrep(['-n', '-F', 'id:', 'lib/curriculum/blueprints', '-g', '*.ts'])
+          .split('\n')
+          .slice(0, 20)
+          .join('\n');
         return `Registered blueprint IDs:\n${out}`;
       } catch {
         return 'Blueprint list unavailable — check lib/curriculum/blueprints/index.ts';
@@ -328,38 +810,21 @@ async function _POST(req: NextRequest) {
     // Retrieve relevant platform knowledge via RAG before answering
     const lastUserMessage = messages.findLast((m: { role: string }) => m.role === 'user')?.content ?? '';
     const ragContext = await getRAGContext(lastUserMessage);
+    const toolCalls: ToolCallRecord[] = [];
+    const automaticEvidence = await collectAutomaticEvidence(lastUserMessage);
+    toolCalls.push(...automaticEvidence);
 
-    const systemPrompt = `You are an AI platform controller integrated into Dev Studio for Elevate LMS.
-You are architecture-aware, memory-aware, and observability-first.
-You have tools for live platform data and template generation.
-
-Platform stack: Next.js 16 App Router, Supabase, TypeScript, Tailwind, AWS ECS.
-
-## Canonical Rules
-- All programs: /programs/[program] dynamic route. Dedicated pages only for unique client components.
-- Supabase imports: @/lib/supabase/* only.
-- Middleware: proxy.ts only. Never create middleware.ts.
-- Auth: apiAuthGuard / apiRequireAdmin from @/lib/admin/guards.
-- Errors: safeError/safeInternalError from @/lib/api/safe-error.
-- Rate limiting: applyRateLimit() from @/lib/api/withRateLimit.
-
-When the user asks for page templates or page design:
-- call design_page_template first,
-- then return the generated code in a fenced code block with the filename.
-
-${ragContext ? ragContext : ''}
-
-Current file context:
-${fileContext || 'No file currently open'}
-
-Uploaded documents context:
-${documentsContext || 'No uploaded documents available'}
-
-Be direct and actionable. When you reference platform structure, use the retrieved knowledge above.`;
+    const systemPrompt = buildAdminAiSystemPrompt({
+      ragContext,
+      fileContext,
+      documentsContext,
+      lastUserMessage,
+      automaticEvidence: formatAutomaticEvidence(automaticEvidence),
+      toolInventory: TOOLS.map((tool) => tool.function.name),
+    });
 
     let assistantMessage: string | null = null;
     let provider = 'none';
-    const toolCalls: ToolCallRecord[] = [];
 
     if (isGroqConfigured()) {
       try {
@@ -456,7 +921,7 @@ Be direct and actionable. When you reference platform structure, use the retriev
     }
 
     if (!assistantMessage) {
-      logger.error('[devstudio/chat] no provider available', {
+      logger.error('[devstudio/chat] no provider available', undefined, {
         hasGroq: isGroqConfigured(),
         hasGemini: isGeminiConfigured(),
         hasOpenAI: isOpenAIConfigured(),
@@ -476,6 +941,8 @@ Be direct and actionable. When you reference platform structure, use the retriev
       );
     }
 
+    assistantMessage = enforceEvidenceBoundary(assistantMessage, lastUserMessage, toolCalls);
+
     try {
       const supabase = await createClient();
       const db = await requireAdminClient();
@@ -483,7 +950,7 @@ Be direct and actionable. When you reference platform structure, use the retriev
         data: { user },
       } = await supabase.auth.getUser();
       const userMessage = messages[messages.length - 1]?.content || '';
-      await db
+      const { error: logError } = await db
         .from('devstudio_chat_log')
         .insert({
           user_id: user?.id || null,
@@ -491,8 +958,10 @@ Be direct and actionable. When you reference platform structure, use the retriev
           assistant_response: assistantMessage,
           file_context: fileContext || null,
           provider,
-        })
-        .catch(() => {});
+        });
+      if (logError) {
+        logger.warn('[devstudio/chat] DB log insert failed', { reason: logError.message });
+      }
     } catch (err) {
       logger.warn('[devstudio/chat] DB log failed', err);
     }
