@@ -362,7 +362,7 @@ export default function GenerateSitePage() {
                 </a>
 
                 <a
-                  href={`/store/request-license?preview=${siteConfig.meta.previewId}`}
+                  href={`/contact?subject=license&preview=${siteConfig.meta.previewId}`}
                   className="p-6 bg-white/10 hover:bg-white/20 rounded-xl text-center transition-colors"
                 >
                   <p className="text-slate-900 font-bold text-lg">Enterprise</p>

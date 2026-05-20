@@ -58,7 +58,7 @@ export default function InstructorDemoPage() {
       </section>
       <section className="py-12 px-4 bg-white border-t text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to set up your platform?</h2>
-        <Link href="/store/licenses/managed" className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">
+        <Link href="/store/licenses/managed-platform" className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">
           Start License Setup <ArrowRight className="w-5 h-5" />
         </Link>
       </section>

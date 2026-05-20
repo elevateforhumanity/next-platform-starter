@@ -257,7 +257,7 @@ export default function StorePage() {
               <Link href="/store/trial" className="block text-center bg-brand-red-600 text-white font-bold py-3 rounded-lg hover:bg-brand-red-700 transition">
                 Start 14-Day Free Trial
               </Link>
-              <Link href="/store/licenses/managed" className="block text-center text-slate-600 text-sm font-medium mt-2 hover:underline">
+              <Link href="/store/licenses/managed-platform" className="block text-center text-slate-600 text-sm font-medium mt-2 hover:underline">
                 View plans & purchase directly →
               </Link>
               <p className="text-xs text-slate-400 mt-3 text-center">Stripe, {BNPL_CHECKOUT_LABEL} at checkout</p>

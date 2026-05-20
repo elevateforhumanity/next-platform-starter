@@ -219,7 +219,7 @@ export default function WhiteLabelPage() {
                   ))}
                 </ul>
                 <Link
-                  href={plan.name === 'Enterprise' ? '/store/request-license' : '/store/white-label/signup'}
+                  href={plan.name === 'Enterprise' ? '/contact?subject=license' : '/store/white-label/signup'}
                   className={`block text-center py-3 rounded-lg font-bold transition-colors ${
                     plan.highlighted
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -251,7 +251,7 @@ export default function WhiteLabelPage() {
               Start Free Trial
             </Link>
             <Link
-              href="/store/request-license"
+              href="/contact?subject=license"
               className="px-8 py-4 border-2 border-slate-900 hover:bg-slate-900 hover:text-white rounded-lg font-bold transition-colors"
             >
               Talk to Sales
