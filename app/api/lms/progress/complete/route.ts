@@ -129,9 +129,10 @@ async function _POST(req: NextRequest) {
     const examSession = await getLatestExamSession(db, user.id, courseId);
 
     // Get course details
+    // courses table has no metadata column — fetch slug and title only
     const { data: course } = await db
       .from('courses')
-      .select('slug, title, metadata')
+      .select('slug, title')
       .eq('id', courseId)
       .maybeSingle();
 
@@ -293,11 +294,28 @@ async function _POST(req: NextRequest) {
     let fundingDecision = null;
 
     try {
-      const { data: courseCredential } = await db
+      // courses has no credential_id column — resolve via courses.program_id
+      // then program_credentials(program_id, credential_id)
+      const { data: courseRow } = await db
         .from('courses')
-        .select('credential_id, program_id')
+        .select('program_id')
         .eq('id', courseId)
         .maybeSingle();
+
+      const { data: programCredential } = courseRow?.program_id
+        ? await db
+            .from('program_credentials')
+            .select('credential_id')
+            .eq('program_id', courseRow.program_id)
+            .eq('is_required', true)
+            .order('sort_order', { ascending: true })
+            .limit(1)
+            .maybeSingle()
+        : { data: null };
+
+      const courseCredential = programCredential
+        ? { credential_id: programCredential.credential_id, program_id: courseRow?.program_id ?? null }
+        : null;
 
       if (courseCredential?.credential_id) {
         const result = await startCredentialAttempt(

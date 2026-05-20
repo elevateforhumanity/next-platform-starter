@@ -377,16 +377,28 @@ export async function canAccessStudentData(studentId: string): Promise<boolean> 
   // Users can access their own data
   if (user.id === studentId) return true;
 
-  // Instructors can access data of their enrolled students
+  // Instructors can access data of their enrolled students.
+  // courses table has no instructor_id column — instructor_id lives on training_courses.
+  // Check via training_courses for legacy courses; for canonical courses, instructors
+  // are treated as admins and the role check above handles access.
   if (role === 'instructor') {
     const { data: enrollment } = await supabase
       .from('program_enrollments')
-      .select('course_id, courses!inner(instructor_id)')
+      .select('course_id')
       .eq('user_id', studentId)
-      .eq('courses.instructor_id', user.id)
       .maybeSingle();
 
-    return !!enrollment;
+    if (!enrollment?.course_id) return false;
+
+    // Check if instructor owns this course via training_courses
+    const { data: tc } = await supabase
+      .from('training_courses')
+      .select('id')
+      .eq('id', enrollment.course_id)
+      .eq('instructor_id', user.id)
+      .maybeSingle();
+
+    return !!tc;
   }
 
   return false;

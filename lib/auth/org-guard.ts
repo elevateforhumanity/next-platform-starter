@@ -87,14 +87,11 @@ export async function requireOrgAccess(
     throw NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
   }
 
-  // Platform admins bypass org membership — treated as org_owner everywhere
-  const { data: profile } = await db
-    .from('profiles')
-    .select('is_platform_admin')
-    .eq('id', user.id)
-    .maybeSingle();
+  // Platform admins bypass org membership — is_platform_admin() is a DB function,
+  // not a column on profiles. Call it via RPC.
+  const { data: isPlatformAdmin } = await db.rpc('is_platform_admin').maybeSingle();
 
-  if (profile?.is_platform_admin === true) {
+  if (isPlatformAdmin === true) {
     return { userId: user.id, orgId, role: 'org_owner', isPlatformAdmin: true };
   }
 
@@ -166,13 +163,10 @@ export async function assertOrgRole(
   const db = await requireAdminClient();
   if (!db) return false;
 
-  const { data: profile } = await db
-    .from('profiles')
-    .select('is_platform_admin')
-    .eq('id', userId)
-    .maybeSingle();
+  // is_platform_admin() is a DB function, not a column on profiles
+  const { data: isPlatformAdmin } = await db.rpc('is_platform_admin').maybeSingle();
 
-  if (profile?.is_platform_admin === true) return true;
+  if (isPlatformAdmin === true) return true;
 
   const { data: membership } = await db
     .from('organization_users')

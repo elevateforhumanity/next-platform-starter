@@ -77,9 +77,9 @@ export default async function TranscriptPage() {
   const { data: modules } = courseId
     ? await db
         .from('modules')
-        .select('id, title, module_order')
+        .select('id, title, order_index')
         .eq('course_id', courseId)
-        .order('module_order')
+        .order('order_index')
     : { data: [] };
 
   const domains = (modules ?? []).map((mod: any, idx: number) => {

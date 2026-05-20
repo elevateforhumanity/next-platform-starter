@@ -25,13 +25,24 @@ export default async function LaunchCourse({ params }: { params: Params }) {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
+  // courses table has no delivery_mode/partner_url/launch_mode/allow_iframe columns.
+  // Those fields live on training_courses. Fetch both and merge.
   const { data: course, error } = await supabase
     .from('courses')
-    .select('id, slug, title, delivery_mode, partner_url, launch_mode, allow_iframe')
+    .select('id, slug, title, legacy_course_id')
     .eq('id', courseId)
     .maybeSingle();
 
   if (error || !course) redirect('/lms/courses');
+
+  // Fetch partner-link fields from training_courses via legacy_course_id
+  const { data: tc } = course.legacy_course_id
+    ? await supabase
+        .from('training_courses')
+        .select('delivery_mode, partner_url')
+        .eq('id', course.legacy_course_id)
+        .maybeSingle()
+    : { data: null };
 
   // Track "started"
   await supabase.from('lms_progress').upsert(
@@ -47,11 +58,10 @@ export default async function LaunchCourse({ params }: { params: Params }) {
   );
 
   // If not a partner link course, redirect to normal course page
-  if (course.delivery_mode !== 'partner_link' || !course.partner_url) {
+  if (tc?.delivery_mode !== 'partner_link' || !tc?.partner_url) {
     redirect(`/lms/courses/${course.id}`);
   }
 
   // For partner link courses, redirect to partner platform
-  // Best practice: external redirect (iframe often blocked by partners)
-  redirect(course.partner_url);
+  redirect(tc.partner_url);
 }

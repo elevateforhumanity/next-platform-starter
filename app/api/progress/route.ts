@@ -63,7 +63,7 @@ async function _GET(request: Request) {
         userId: user.id,
         courseId,
         enrollment,
-        overallProgress: enrollment?.progress || 0,
+        overallProgress: enrollment?.progress_percent || 0,
         completedLessons: completedCount,
         totalLessons: lessons?.length || 0,
         timeSpentSeconds: totalTime,
@@ -79,7 +79,7 @@ async function _GET(request: Request) {
         id,
         course_id,
         status,
-        progress,
+        progress_percent,
         started_at,
         completed_at,
         courses (

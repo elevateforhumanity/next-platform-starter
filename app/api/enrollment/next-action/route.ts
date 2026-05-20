@@ -32,7 +32,8 @@ async function _GET(req: Request) {
     // Get the user's enrollment
     let query = supabase
       .from('program_enrollments')
-      .select('id, enrollment_state, program_id, training_programs(slug, name)')
+      // program_enrollments has no FK to training_programs — use program_slug directly
+      .select('id, enrollment_state, program_id, program_slug')
       .eq('user_id', user.id);
 
     if (programId) {
@@ -53,12 +54,13 @@ async function _GET(req: Request) {
 
     const state = enrollment.enrollment_state as EnrollmentState;
     const action = getNextRequiredAction(state);
-    const programSlug = (enrollment.training_programs as any)?.slug;
+    const programSlug = enrollment.program_slug ?? null;
 
     return NextResponse.json({
       enrollment_id: enrollment.id,
       program_id: enrollment.program_id,
-      program_name: (enrollment.training_programs as any)?.name,
+      program_name: null, // program name not available without FK — use program_id to look up if needed
+
       current_state: state,
       action,
       route: getActionRoute(action, programSlug),

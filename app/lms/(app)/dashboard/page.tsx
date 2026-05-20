@@ -59,7 +59,7 @@ export default async function StudentDashboard() {
       .order('enrolled_at', { ascending: false }),
     supabase
       .from('certificates')
-      .select('id, title, certificate_type, issued_at, issued_date')
+      .select('id, course_title, issued_at, verification_code')
       .eq('user_id', user.id),
     supabase
       .from('applications')
@@ -83,7 +83,7 @@ export default async function StudentDashboard() {
   const courseEnrollments = courseEnrollmentsRes.data ?? [];
   const certifications = (certificationsRes.data ?? []).map((c: any) => ({
     ...c,
-    issued_at: c.issued_at ?? c.issued_date ?? null,
+    issued_at: c.issued_at ?? null,
   }));
   const workoneApp = workoneAppRes.data;
   const isPendingWorkone = !!workoneApp;
@@ -459,7 +459,7 @@ export default async function StudentDashboard() {
                       <Award className="w-4 h-4 text-amber-600 flex-shrink-0" />
                       <div>
                         <p className="text-sm font-semibold text-slate-900">
-                          {cert.title ?? cert.certificate_type ?? 'Certificate'}
+                          {cert.course_title ?? 'Certificate'}
                         </p>
                         {cert.issued_at && (
                           <p className="text-xs text-slate-500">

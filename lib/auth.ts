@@ -313,9 +313,10 @@ export async function canAccessEnrollment(enrollmentId: string): Promise<boolean
   const supabase = await createServerSupabaseClient();
   if (!supabase) return false;
 
+  // program_enrollments has no student_id column — identity is user_id
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select('student_id, delegate_id, program_holder_id')
+    .select('user_id, delegate_id, program_holder_id')
     .eq('id', enrollmentId)
     .maybeSingle();
 
@@ -327,7 +328,7 @@ export async function canAccessEnrollment(enrollmentId: string): Promise<boolean
   if (role === 'admin') return true;
 
   // Students can access their own enrollments
-  if (role === 'student' && enrollment.student_id === user.id) return true;
+  if (role === 'student' && enrollment.user_id === user.id) return true;
 
   // Delegates can access their assigned enrollments
   if (role === 'delegate' && enrollment.delegate_id === user.id) return true;
