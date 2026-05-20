@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeDbError, safeError } from '@/lib/api/safe-error';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -43,7 +44,17 @@ export async function GET(request: NextRequest) {
     .order('created_at', { ascending: false })
     .limit(50);
 
-  if (error) return safeDbError(error, 'Failed to load SCORM packages');
+  if (error) {
+    logger.warn('[course-builder/scorm-link] SCORM package feed unavailable', {
+      code: error.code,
+      details: error.details,
+      message: error.message,
+    });
+    return NextResponse.json({
+      packages: [],
+      warning: 'SCORM package feed unavailable',
+    });
+  }
 
   return NextResponse.json({
     packages: ((data ?? []) as ScormPackageRow[]).map(normalizeScormPackage),
