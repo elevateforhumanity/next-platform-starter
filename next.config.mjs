@@ -559,9 +559,9 @@ const nextConfig = {
 
       // /student, /student/:path*, /learner, /learner/:path*, /lms/:path* →
       // handled by proxy.ts middleware — no redirect needed here.
-      // Exact match first: /portal → portal chooser. Wildcard below catches /portal/anything → /lms/anything.
+      // /portal → portal chooser page. Field portals (/portal/apprentice,
+      // /portal/healthcare, etc.) are real pages — do NOT wildcard redirect them.
       { source: '/portal', destination: '/portals', permanent: true },
-      { source: '/portal/:path*', destination: '/lms/:path*', permanent: true },
       // /students has dedicated public pages — do not wildcard redirect to LMS
       { source: '/learners/:path*', destination: '/lms/:path*', permanent: true },
       {

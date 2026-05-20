@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { resolvePortalForUser } from '@/lib/portal/router';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,6 +49,12 @@ export default async function DashboardRouterPage() {
 
   if (!bypassOnboarding && !profile?.onboarding_completed) {
     redirect('/onboarding/learner');
+  }
+
+  // Students route to their industry-specific field portal
+  if (role === 'student') {
+    const portalPath = await resolvePortalForUser(supabase, user.id);
+    redirect(portalPath);
   }
 
   redirect(getRoleDestination(role));

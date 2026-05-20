@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { reconcilePreAuthRows } from '@/lib/pre-auth-tables';
+import { resolvePortalForUser } from '@/lib/portal/router';
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -125,6 +126,14 @@ export async function GET(request: Request) {
       // Any ?next= value takes priority over role-based routing.
       const hasExplicitNext = requestUrl.searchParams.has('next');
       if (!hasExplicitNext) {
+        // Students get routed to their industry-specific field portal
+        if (resolvedRole === 'student') {
+          const { data: { user: portalUser } } = await supabase.auth.getUser();
+          if (portalUser) {
+            const portalPath = await resolvePortalForUser(supabase, portalUser.id);
+            return NextResponse.redirect(new URL(portalPath, requestUrl.origin));
+          }
+        }
         const destination = getRoleDestination(resolvedRole);
         return NextResponse.redirect(new URL(destination, requestUrl.origin));
       }
