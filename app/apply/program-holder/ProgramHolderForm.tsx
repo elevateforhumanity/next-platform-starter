@@ -31,7 +31,14 @@ export default function ProgramHolderForm() {
       role: 'program_holder' as const,
     };
 
-    const result = await submitProgramHolderApplication(data);
+    let result;
+    try {
+      result = await submitProgramHolderApplication(data);
+    } catch (err) {
+      setError('Something went wrong submitting your application. Please try again or call (317) 314-3757.');
+      setLoading(false);
+      return;
+    }
 
     if (result.success) {
       router.push(result.redirectTo!);
