@@ -53,7 +53,13 @@ const STARTER_PROMPTS = [
   'Build a bookkeeping and QuickBooks course for small business owners',
 ];
 
-export default function AICourseBuilderChat({ programs }: { programs: Program[] }) {
+export default function AICourseBuilderChat({
+  programs,
+  embedded = false,
+}: {
+  programs: Program[];
+  embedded?: boolean;
+}) {
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -288,7 +294,7 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
 
           <div className="flex gap-3">
             <Link
-              href={`/admin/courses/${savedCourseId}/content`}
+              href={`/admin/course-builder/${savedCourseId}`}
               className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 text-sm font-medium text-center"
             >
               Open Course Builder
@@ -498,33 +504,37 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
 
   // ── Chat state (default) ───────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className={`${embedded ? 'min-h-[720px] rounded-2xl border border-slate-200 overflow-hidden' : 'min-h-screen'} bg-slate-50 flex flex-col`}>
       {/* Header */}
       <div className="bg-white border-b px-6 py-4 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <Link href="/admin/courses" className="text-slate-400 hover:text-slate-700">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </Link>
+          {!embedded && (
+            <Link href="/admin/courses" className="text-slate-400 hover:text-slate-700">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </Link>
+          )}
           <div>
             <h1 className="text-lg font-bold text-slate-900">AI Course Builder</h1>
             <p className="text-xs text-slate-500">Describe your course — the AI will build it</p>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Link
-            href="/admin/course-builder"
-            className="text-xs text-slate-400 hover:text-slate-600 border px-3 py-1.5 rounded-lg"
-          >
-            Form builder →
-          </Link>
-        </div>
+        {!embedded && (
+          <div className="flex gap-2">
+            <Link
+              href="/admin/course-builder"
+              className="text-xs text-slate-400 hover:text-slate-600 border px-3 py-1.5 rounded-lg"
+            >
+              Form builder →
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Messages */}

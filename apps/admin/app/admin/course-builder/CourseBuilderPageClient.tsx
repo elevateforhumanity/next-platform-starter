@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import AICourseBuilderChat from '../courses/ai-builder/AICourseBuilderChat';
 import type {
   ProgramBuilderTemplate,
   BuilderModule,
@@ -109,6 +110,8 @@ const STEPS = [
   'Finalizing…',
 ];
 
+type BuilderMode = 'ai-prompt' | 'standard';
+
 export function CourseBuilderPageClient() {
   const [program, setProgram] = useState<ProgramBuilderTemplate>(initialState);
   const [selMod, setSelMod] = useState(0);
@@ -125,6 +128,7 @@ export function CourseBuilderPageClient() {
   const [generating, setGenerating] = useState(false);
   const [genStep, setGenStep] = useState('');
   const [genResult, setGenResult] = useState<GenerateResult | null>(null);
+  const [builderMode, setBuilderMode] = useState<BuilderMode>('ai-prompt');
 
   useEffect(() => {
     fetch('/api/admin/course-builder/profiles')
@@ -277,7 +281,36 @@ export function CourseBuilderPageClient() {
 
   return (
     <div className="p-6 space-y-4 text-sm">
-      {/* Generate Standard Credentialed Course */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-2">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setBuilderMode('ai-prompt')}
+            className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+              builderMode === 'ai-prompt'
+                ? 'bg-brand-blue-600 text-white'
+                : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            Prompt Builder
+          </button>
+          <button
+            type="button"
+            onClick={() => setBuilderMode('standard')}
+            className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+              builderMode === 'standard'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            Standard Credentialed Course
+          </button>
+        </div>
+      </div>
+
+      {builderMode === 'ai-prompt' ? (
+        <AICourseBuilderChat programs={programs} embedded />
+      ) : (
       <div className="border-2 border-indigo-200 rounded-2xl p-5 bg-indigo-50 space-y-4">
         <div className="flex items-start justify-between">
           <div>
@@ -410,6 +443,7 @@ export function CourseBuilderPageClient() {
           </div>
         )}
       </div>
+      )}
 
       {/* Manual Builder */}
       <div className="grid grid-cols-12 gap-4">

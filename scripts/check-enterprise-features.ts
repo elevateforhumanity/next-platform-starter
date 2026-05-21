@@ -43,7 +43,8 @@ const featureChecks: FeatureCheck[] = [
     name: 'AI Tutor & AI Course Builder',
     files: [
       'app/lms/chat/page.tsx',
-      'apps/admin/app/admin/courses/ai-builder/page.tsx',
+      'apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx',
+      'apps/admin/app/admin/courses/ai-builder/AICourseBuilderChat.tsx',
       'app/api/ai/course-builder/route.ts',
     ],
   },
