@@ -1124,6 +1124,7 @@ const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<strin
   { patterns: /signature|pending.*sign|sign.*pending|esign/i,              action: 'list_signatures',     args: {} },
   { patterns: /workflow|list.*workflow|show.*workflow/i,                    action: 'list_workflows',      args: {} },
   { patterns: /org.*profile|organization.*profile|ein|uei|sam.*reg/i,      action: 'get_org_profile',     args: {} },
+  { patterns: /barber.*(partner|partnership|shop).*application|barbershop.*application|partner.*barber.*application/i, action: 'list_barber_shop_applications', args: {} },
   { patterns: /build.*course|course.*build/i,                              action: 'build_courses',       args: {} },
   { patterns: /deploy.*lms/i,                                              action: 'deploy_autopilot',    args: { service: 'lms' } },
   { patterns: /deploy.*admin/i,                                            action: 'deploy_autopilot',    args: { service: 'admin' } },
@@ -1311,6 +1312,33 @@ async function executeAction(
         });
         if ((apps?.length ?? 0) > 10) write(`   ... and ${(apps?.length ?? 0) - 10} more`);
         write(`   Full list: /admin/applications`);
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
+      }
+      break;
+    }
+
+    case 'list_barber_shop_applications': {
+      const statusFilter = (args.status as string) || 'all';
+      const limit = Math.min((args.limit as number) || 20, 100);
+      write(`\x1b[33m⚙  Loading barber partner shop applications (${statusFilter})...\x1b[0m`);
+      try {
+        let q = sb.from('barbershop_partner_applications')
+          .select('id, created_at, shop_legal_name, shop_dba_name, owner_name, contact_name, contact_email, contact_phone, shop_city, shop_state, status')
+          .order('created_at', { ascending: false })
+          .limit(limit);
+        if (statusFilter !== 'all') q = q.eq('status', statusFilter);
+        const { data: apps, error: appsErr } = await q;
+        if (appsErr) { write(`\x1b[31m✗  ${appsErr.message}\x1b[0m`); break; }
+        write(`\x1b[32m✓  ${apps?.length ?? 0} barber partner shop application(s)\x1b[0m`);
+        (apps ?? []).slice(0, 15).forEach((a: any) => {
+          const shop = a.shop_dba_name || a.shop_legal_name || 'Unnamed shop';
+          const contact = a.contact_name || a.owner_name || 'No contact';
+          const place = [a.shop_city, a.shop_state].filter(Boolean).join(', ');
+          write(`   ${shop} — ${contact} — ${a.contact_email ?? ''} — ${a.status ?? 'pending'}${place ? ` — ${place}` : ''}`);
+        });
+        if ((apps?.length ?? 0) > 15) write(`   ... and ${(apps?.length ?? 0) - 15} more`);
+        write(`   Full list: /admin/barber-shop-applications`);
       } catch (err) {
         write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
       }

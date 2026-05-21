@@ -277,7 +277,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     {
       question: 'What funding is available?',
       answer:
-        'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Eligibility is determined by your local WorkOne office. Many students pay $0. Self-pay tuition is $4,200.',
+        'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Eligibility is determined by your local WorkOne office. Many students pay $0. Self-pay tuition is $5,000. BNPL financing available through Affirm and Sezzle.',
     },
     {
       question: 'What tools will I need?',

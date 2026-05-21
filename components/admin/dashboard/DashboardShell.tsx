@@ -8,6 +8,7 @@ import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle, CheckCircle2,
   Activity, TrendingUp, Inbox, Users, FileText,
+  BookOpen, Bot, DollarSign, Handshake, Megaphone, Settings, ShieldCheck,
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
 import { OperationalAlerts } from "./OperationalAlerts";
@@ -64,6 +65,168 @@ const SEVERITY_STYLES = {
   medium:   { dot: "bg-yellow-400",  label: "MEDIUM",   text: "text-yellow-700",bg: "bg-yellow-50"  },
   low:      { dot: "bg-slate-300",   label: "LOW",      text: "text-slate-500", bg: "bg-white"      },
 } as const;
+
+const ADMIN_CATEGORY_CARDS = [
+  {
+    title: 'Operations',
+    eyebrow: 'Command center',
+    description: 'Daily priorities, analytics, reports, and system status.',
+    href: '/admin/dashboard',
+    Icon: Activity,
+    links: [
+      { label: 'Analytics', href: '/admin/analytics' },
+      { label: 'Reports', href: '/admin/reports' },
+      { label: 'At-risk', href: '/admin/at-risk' },
+    ],
+  },
+  {
+    title: 'Students',
+    eyebrow: 'Learner lifecycle',
+    description: 'Applications, enrollments, documents, submissions, and certificates.',
+    href: '/admin/students',
+    Icon: Users,
+    links: [
+      { label: 'Applications', href: '/admin/applications' },
+      { label: 'Enrollments', href: '/admin/enrollments' },
+      { label: 'Documents', href: '/admin/documents/review' },
+    ],
+  },
+  {
+    title: 'Programs',
+    eyebrow: 'Catalog + curriculum',
+    description: 'Programs, courses, modules, credentials, quizzes, and instructors.',
+    href: '/admin/programs',
+    Icon: BookOpen,
+    links: [
+      { label: 'All programs', href: '/admin/programs' },
+      { label: 'Course builder', href: '/admin/course-builder' },
+      { label: 'Credentials', href: '/admin/credentials' },
+    ],
+  },
+  {
+    title: 'AI Studio',
+    eyebrow: 'Automation layer',
+    description: 'AI Console, Dev Studio, workflows, and operational automation.',
+    href: '/admin/ai-console',
+    Icon: Bot,
+    links: [
+      { label: 'AI Console', href: '/admin/ai-console' },
+      { label: 'Dev Studio', href: '/admin/dev-studio' },
+      { label: 'Workflows', href: '/admin/workflows' },
+    ],
+  },
+  {
+    title: 'Funding',
+    eyebrow: 'WIOA + grants',
+    description: 'WIOA, JRI, grant applications, dislocated worker funding, payouts.',
+    href: '/admin/funding',
+    Icon: DollarSign,
+    links: [
+      { label: 'WIOA', href: '/admin/wioa' },
+      { label: 'Grants', href: '/admin/grants' },
+      { label: 'Stripe', href: '/admin/integrations/stripe' },
+    ],
+  },
+  {
+    title: 'Partners',
+    eyebrow: 'Employers + providers',
+    description: 'Program holders, employers, shops, providers, and marketplace ops.',
+    href: '/admin/program-holders',
+    Icon: Handshake,
+    links: [
+      { label: 'Program holders', href: '/admin/program-holders' },
+      { label: 'Employers', href: '/admin/employers' },
+      { label: 'Shops', href: '/admin/shops' },
+    ],
+  },
+  {
+    title: 'Marketing',
+    eyebrow: 'Growth pipeline',
+    description: 'CRM, leads, campaigns, email marketing, promo codes, and store.',
+    href: '/admin/crm',
+    Icon: Megaphone,
+    links: [
+      { label: 'Leads', href: '/admin/crm/leads' },
+      { label: 'Email', href: '/admin/email-marketing' },
+      { label: 'Store', href: '/admin/store' },
+    ],
+  },
+  {
+    title: 'Compliance',
+    eyebrow: 'Audit controls',
+    description: 'Compliance, audit logs, FERPA, documents, signatures, and governance.',
+    href: '/admin/compliance',
+    Icon: ShieldCheck,
+    links: [
+      { label: 'Compliance', href: '/admin/compliance' },
+      { label: 'Audit logs', href: '/admin/audit-logs' },
+      { label: 'Signatures', href: '/admin/signatures' },
+    ],
+  },
+  {
+    title: 'System',
+    eyebrow: 'Platform settings',
+    description: 'Settings, staff, integrations, API keys, monitoring, and migrations.',
+    href: '/admin/settings',
+    Icon: Settings,
+    links: [
+      { label: 'Settings', href: '/admin/settings' },
+      { label: 'Staff', href: '/admin/staff' },
+      { label: 'Monitoring', href: '/admin/monitoring' },
+    ],
+  },
+] as const;
+
+function AdminCategoryLanding() {
+  return (
+    <section className="mb-8">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-brand-red-600">Admin OS</p>
+          <h2 className="mt-1 text-xl font-black text-slate-900">Operate by category</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Each card opens a dedicated admin area with its focused workflows.
+          </p>
+        </div>
+        <Link href="/admin/settings/nav" className="hidden text-xs font-semibold text-brand-blue-600 hover:underline sm:inline">
+          Configure navigation →
+        </Link>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {ADMIN_CATEGORY_CARDS.map(({ title, eyebrow, description, href, Icon, links }) => (
+          <div key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <Link href={href} className="group block">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-white">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">{eyebrow}</p>
+                    <h3 className="text-lg font-black text-slate-900 group-hover:text-brand-blue-700">{title}</h3>
+                  </div>
+                </div>
+                <ArrowRight className="mt-2 h-4 w-4 text-slate-300 group-hover:text-brand-blue-600" />
+              </div>
+              <p className="min-h-[40px] text-sm leading-5 text-slate-600">{description}</p>
+            </Link>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 hover:border-brand-blue-300 hover:bg-brand-blue-50 hover:text-brand-blue-700"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function TodaysPriorities({ data }: { data: AdminDashboardData }) {
   const items = data.priorities ?? [];
@@ -285,6 +448,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
+        <AdminCategoryLanding />
+
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
           <div className="mb-6">
@@ -344,7 +509,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
                   <Link key={p.id} href={`/admin/programs/${p.id}`}
                     className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
                     <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
-                    <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.enrollmentCount} enrolled</span>
+                    <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.learners} enrolled</span>
                   </Link>
                 ))}
               </div>

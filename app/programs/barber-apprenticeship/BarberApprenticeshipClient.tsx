@@ -10,10 +10,10 @@ import {
   Building2, FileText, ClipboardList,
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
-import { BarberEnrollment } from './sections/BarberEnrollment';
-// BarberCredentials removed — credentials section rendered inline above
-import { BarberDeliveryModel } from './sections/BarberDeliveryModel';
-import { BarberPartnership } from './sections/BarberPartnership';
+// Section imports removed — BarberDeliveryModel, BarberPartnership,
+// BarberEnrollment, BarberCredentials all duplicated content already
+// shown inline. Removing to eliminate invisible text, section stacking,
+// and redundant career/credential/payment sections.
 import { BNPL_PROVIDER_NAMES, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
@@ -216,13 +216,13 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
       </section>
 
       {/* ═══ TRAINING DELIVERY (RTI / OJT / Progress / Oversight) ═══ */}
-      <BarberDeliveryModel />
+      {/* Removed — training delivery info is in the stats strip + overview */}
 
       {/* ═══ CREDENTIAL PATHWAY + WHAT YOU’LL LEARN + WORKPLACE TRAINING ═══ */}
       {/* Credentials already shown in inline section above */}
 
       {/* ═══ PARTNERSHIP / CAREER PATHWAYS / TRANSFER HOURS ═══ */}
-      <BarberPartnership />
+      {/* Removed — career pathways + partnership shown in Career Outcomes section below */}
 
       {/* ═══ FUNDING & PAYMENT OPTIONS (WIOA · SNAP E&T · Self-Pay · Payment Plan · BNPL) ═══ */}
       <section id="funding" className="py-12 bg-slate-50 border-y border-slate-200">
@@ -295,7 +295,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         </div>
       </section>
 
-      <BarberEnrollment />
+      {/* Removed — enrollment/payment shown in Funding section above */}
 
       {/* ═══ CTA: MID-PAGE ═══ */}
       <section className="py-10 border-t bg-slate-50">

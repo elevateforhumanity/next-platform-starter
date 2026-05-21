@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { ArrowUpRight, ArrowDownRight, Activity, FileClock, DollarSign, Award } from 'lucide-react';
 import type { KPICard } from './types';
 
-function fmtDollars(n: number) {
-  return n >= 1000 ? '$' + (n / 1000).toFixed(1) + 'k' : '$' + n.toLocaleString('en-US');
+function fmtCents(cents: number) {
+  const dollars = cents / 100;
+  return dollars >= 1000
+    ? '$' + (dollars / 1000).toFixed(1) + 'k'
+    : '$' + dollars.toLocaleString('en-US');
 }
 function fmt(n: number) {
   return new Intl.NumberFormat('en-US').format(n);
@@ -80,7 +83,7 @@ function KpiCard({ card }: { card: KPICard }) {
               {card.label}
             </p>
             <p className="text-3xl font-bold tracking-tight text-slate-900 tabular-nums">
-              {isRevenue ? fmtDollars(animated) : fmt(animated)}
+              {isRevenue ? fmtCents(animated) : fmt(animated)}
             </p>
           </div>
           <div

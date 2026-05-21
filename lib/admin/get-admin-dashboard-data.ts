@@ -30,6 +30,35 @@ function clampPercent(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+function dollarsToCents(value: unknown): number {
+  return Math.round(toSafeNumber(value) * 100);
+}
+
+function isLikelyTestRecord(...values: Array<unknown>): boolean {
+  const text = values
+    .filter(Boolean)
+    .map(String)
+    .join(' ')
+    .toLowerCase();
+  return /\b(sample|test|demo|example|placeholder)\b/.test(text);
+}
+
+function sumCentsFromRows<T extends Record<string, unknown>>(
+  rows: T[],
+  value: (row: T) => number,
+  date: (row: T) => string | null | undefined,
+  startIso?: string,
+): number {
+  const startMs = startIso ? new Date(startIso).getTime() : null;
+  return rows.reduce((sum, row) => {
+    if (startMs !== null) {
+      const rawDate = date(row);
+      if (!rawDate || new Date(rawDate).getTime() < startMs) return sum;
+    }
+    return sum + value(row);
+  }, 0);
+}
+
 
 /**
  * Asserts a critical count query succeeded.
@@ -134,12 +163,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .in('status', ['submitted', 'pending', 'in_review']),
 
     db.from('program_enrollments')
-      .select('id', { count: 'exact', head: true })
+      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at')
       .eq('enrollment_state', 'active'),
 
     // Previous month active enrollments for delta
     db.from('program_enrollments')
-      .select('id', { count: 'exact', head: true })
+      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, created_at')
       .eq('enrollment_state', 'active')
       .lt('created_at', lastMonthEndS),
 
@@ -262,6 +291,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
       .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
+      .not('access_granted_at', 'is', null)
+      .is('revoked_at', null)
       .is('funding_source', null)
       .not('program_slug', 'like', '%apprenticeship%')
       .order('id', { ascending: true })
@@ -279,6 +310,36 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       unresolvedFlags: 0,
       alerts: [{ code: 'health_check_failed', severity: 'warning' as const, message: 'System health check failed to load.' }],
     })),
+  ]);
+
+  // Payment revenue is spread across multiple operational tables:
+  // - program_enrollments: canonical program payment records
+  // - stripe_sessions_staging: raw Stripe sessions synced from Stripe
+  // - barber/cosmetology subscription tables: apprenticeship setup/down payments
+  // - barber_payments: recurring apprenticeship invoice payments
+  // Keep this in code until the DB has a single canonical revenue view.
+  const [
+    enrollmentRevenueRowsRes,
+    stripeSessionRowsRes,
+    barberSubscriptionRowsRes,
+    cosmetologySubscriptionRowsRes,
+    barberPaymentRowsRes,
+  ] = await Promise.all([
+    db.from('program_enrollments')
+      .select('amount_paid_cents, your_revenue_cents, created_at, paid_at, payment_status, funding_source')
+      .or('amount_paid_cents.gt.0,your_revenue_cents.gt.0'),
+    db.from('stripe_sessions_staging')
+      .select('session_id, amount, created_at, payment_status')
+      .in('payment_status', ['paid', 'completed']),
+    db.from('barber_subscriptions')
+      .select('id, amount_paid_at_checkout, created_at, customer_name, customer_email')
+      .gt('amount_paid_at_checkout', 0),
+    db.from('cosmetology_subscriptions')
+      .select('id, amount_paid_at_checkout, created_at, customer_name, customer_email')
+      .gt('amount_paid_at_checkout', 0),
+    db.from('barber_payments')
+      .select('id, amount_paid, payment_date, created_at, status')
+      .gt('amount_paid', 0),
   ]);
 
   // ── Resolve auth + profile from parallel result ───────────────────────────
@@ -307,8 +368,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   if (revenueRes.error)     logger.error('[dashboard] admin_revenue_summary RPC failed', revenueRes.error);
 
   const totalPendingCount    = requireCount(allPendingAppsRes,       'applications count');
-  const activeEnrollCount    = requireCount(activeEnrollmentsRes,    'active enrollments');
-  const lastMonthEnrollCount = lastMonthEnrollmentsRes.error ? 0 : (lastMonthEnrollmentsRes.count ?? 0);
+  if (activeEnrollmentsRes.error) logger.error('[dashboard] active enrollments query failed', activeEnrollmentsRes.error);
+  const dashboardActiveEnrollments = (activeEnrollmentsRes.data ?? []).filter((e: any) =>
+    e.revoked_at == null && e.access_granted_at != null,
+  );
+  const lastMonthDashboardActiveEnrollments = (lastMonthEnrollmentsRes.data ?? []).filter((e: any) =>
+    e.revoked_at == null && e.access_granted_at != null,
+  );
+  const activeEnrollCount    = dashboardActiveEnrollments.length;
+  const lastMonthEnrollCount = lastMonthDashboardActiveEnrollments.length;
   const lastMonthAppsCount   = lastMonthAppsRes.error ? 0 : (lastMonthAppsRes.count ?? 0);
   // certsRes is a combined count from certificates + program_completion_certificates
   const certsCount           = certsRes.error ? 0 : (certsRes.count ?? 0);
@@ -325,14 +393,16 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const newEnrollmentsToday = newEnrollmentsTodayRes.error ? 0 : (newEnrollmentsTodayRes.count ?? 0);
 
   const now2 = Date.now();
-  const staleLeads = staleLeadsData.map((l: any) => ({
-    id: l.id,
-    name: [l.first_name, l.last_name].filter(Boolean).join(' ') || l.email || null,
-    status: l.status ?? null,
-    updated_at: l.updated_at ?? null,
-    days_stale: l.updated_at ? Math.floor((now2 - new Date(l.updated_at).getTime()) / 86400000) : 0,
-    href: `/admin/crm/leads/${l.id}`,
-  }));
+  const staleLeads = staleLeadsData
+    .filter((l: any) => !isLikelyTestRecord(l.first_name, l.last_name, l.email))
+    .map((l: any) => ({
+      id: l.id,
+      name: [l.first_name, l.last_name].filter(Boolean).join(' ') || l.email || null,
+      status: l.status ?? null,
+      updated_at: l.updated_at ?? null,
+      days_stale: l.updated_at ? Math.floor((now2 - new Date(l.updated_at).getTime()) / 86400000) : 0,
+      href: `/admin/crm/leads/${l.id}`,
+    }));
 
   // Track which non-critical sections failed — UI renders a partial-failure notice.
   // Declared here so optionalRows() can push into it during the second batch.
@@ -370,7 +440,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // enrollments_by_program: no join — FK points to wrong table (see above).
     // NOTE: program_enrollments uses enrollment_state not status.
     db.from('program_enrollments')
-      .select('program_id, enrollment_state')
+      .select('id, program_id, enrollment_state')
       .not('program_id', 'is', null)
       .limit(2000),
   ]);
@@ -399,7 +469,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
   // ── Applications with aging ───────────────────────────────────────────────
   const now = Date.now();
-  const pendingApps = (pendingAppsRes.data ?? []).map((app: any) => {
+  const pendingApps = (pendingAppsRes.data ?? [])
+    .filter((app: any) => !isLikelyTestRecord(app.full_name, app.first_name, app.last_name, app.email))
+    .map((app: any) => {
     const createdAt = app.submitted_at || app.created_at;
     const ageDays = Math.floor((now - new Date(createdAt).getTime()) / 86400000);
     const slug = app.program_slug ?? app.program_interest ?? null;
@@ -420,16 +492,79 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
         ? `/admin/applications/review/${app.id}`
         : `/admin/applications?search=${encodeURIComponent(app.email ?? app.id)}`,
     };
-  });
+    });
 
   const totalPending = totalPendingCount;
   const oldestApp = pendingApps[0] ?? null;
 
-  // ── Revenue — from admin_revenue_summary RPC (single row) ────────────────
+  // ── Revenue — real tracked cash payments, never synthetic ────────────────
   const revenueRow        = revenueRes.error ? null : ((revenueRes.data as any[])?.[0] ?? null);
-  const revenueAllTimeCents   = toSafeNumber(revenueRow?.all_time_cents   ?? 0);
-  const revenueThisMonthCents = toSafeNumber(revenueRow?.this_month_cents ?? 0);
-  const revenueLastMonthCents = toSafeNumber(revenueRow?.last_month_cents ?? 0);
+  const rpcRevenueAllTimeCents   = toSafeNumber(revenueRow?.all_time_cents   ?? 0);
+  const rpcRevenueThisMonthCents = toSafeNumber(revenueRow?.this_month_cents ?? 0);
+  const rpcRevenueLastMonthCents = toSafeNumber(revenueRow?.last_month_cents ?? 0);
+
+  const enrollmentRevenueRows = enrollmentRevenueRowsRes.error ? [] : (enrollmentRevenueRowsRes.data ?? []);
+  const stripeSessionRows = stripeSessionRowsRes.error ? [] : (stripeSessionRowsRes.data ?? []);
+  const barberSubscriptionRows = barberSubscriptionRowsRes.error ? [] : (barberSubscriptionRowsRes.data ?? []);
+  const cosmetologySubscriptionRows = cosmetologySubscriptionRowsRes.error ? [] : (cosmetologySubscriptionRowsRes.data ?? []);
+  const barberPaymentRows = barberPaymentRowsRes.error ? [] : (barberPaymentRowsRes.data ?? []);
+
+  const enrollmentRevenueAll = sumCentsFromRows(
+    enrollmentRevenueRows as Record<string, unknown>[],
+    (row) => Math.max(toSafeNumber(row.your_revenue_cents), toSafeNumber(row.amount_paid_cents)),
+    (row) => String(row.paid_at ?? row.created_at ?? ''),
+  );
+  const enrollmentRevenueThisMonth = sumCentsFromRows(
+    enrollmentRevenueRows as Record<string, unknown>[],
+    (row) => Math.max(toSafeNumber(row.your_revenue_cents), toSafeNumber(row.amount_paid_cents)),
+    (row) => String(row.paid_at ?? row.created_at ?? ''),
+    thisMonthStart,
+  );
+  const stripeRevenueAll = sumCentsFromRows(
+    stripeSessionRows as Record<string, unknown>[],
+    (row) => toSafeNumber(row.amount),
+    (row) => String(row.created_at ?? ''),
+  );
+  const stripeRevenueThisMonth = sumCentsFromRows(
+    stripeSessionRows as Record<string, unknown>[],
+    (row) => toSafeNumber(row.amount),
+    (row) => String(row.created_at ?? ''),
+    thisMonthStart,
+  );
+  const apprenticeshipCheckoutAll = sumCentsFromRows(
+    [...barberSubscriptionRows, ...cosmetologySubscriptionRows] as Record<string, unknown>[],
+    (row) => dollarsToCents(row.amount_paid_at_checkout),
+    (row) => String(row.created_at ?? ''),
+  );
+  const apprenticeshipCheckoutThisMonth = sumCentsFromRows(
+    [...barberSubscriptionRows, ...cosmetologySubscriptionRows] as Record<string, unknown>[],
+    (row) => dollarsToCents(row.amount_paid_at_checkout),
+    (row) => String(row.created_at ?? ''),
+    thisMonthStart,
+  );
+  const barberRecurringAll = sumCentsFromRows(
+    barberPaymentRows as Record<string, unknown>[],
+    (row) => dollarsToCents(row.amount_paid),
+    (row) => String(row.payment_date ?? row.created_at ?? ''),
+  );
+  const barberRecurringThisMonth = sumCentsFromRows(
+    barberPaymentRows as Record<string, unknown>[],
+    (row) => dollarsToCents(row.amount_paid),
+    (row) => String(row.payment_date ?? row.created_at ?? ''),
+    thisMonthStart,
+  );
+
+  const directTrackedAllTimeCents =
+    Math.max(rpcRevenueAllTimeCents, enrollmentRevenueAll, stripeRevenueAll) +
+    apprenticeshipCheckoutAll +
+    barberRecurringAll;
+  const directTrackedThisMonthCents =
+    Math.max(rpcRevenueThisMonthCents, enrollmentRevenueThisMonth, stripeRevenueThisMonth) +
+    apprenticeshipCheckoutThisMonth +
+    barberRecurringThisMonth;
+  const revenueAllTimeCents = directTrackedAllTimeCents;
+  const revenueThisMonthCents = directTrackedThisMonthCents;
+  const revenueLastMonthCents = rpcRevenueLastMonthCents;
 
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};
@@ -505,7 +640,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
         : 'No change vs last month',
       href: '/admin/students?payment_status=paid',
       urgent: false,
-      sub: `$${(revenueAllTimeCents / 100).toLocaleString('en-US')} collected all time`,
+      sub: `$${(revenueAllTimeCents / 100).toLocaleString('en-US')} tracked cash all time · WIOA/grants tracked separately`,
     },
     {
       label: 'Certificates Issued',
@@ -742,6 +877,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   for (const e of enrollmentsByProgramData) {
     const pid = (e as any).program_id as string | null;
     if (!pid) continue;
+    if (!dashboardActiveEnrollments.some((active: any) => active.id === (e as any).id)) continue;
     if (!programTotals[pid]) programTotals[pid] = { total: 0, completed: 0 };
     programTotals[pid].total += 1;
     if ((e as any).enrollment_state === 'completed') programTotals[pid].completed += 1;
@@ -807,6 +943,29 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
     .slice(0, 15);
 
+  const recentApplications = (recentAppsActivityRes.data ?? [])
+    .filter((app: any) => !isLikelyTestRecord(app.full_name, app.first_name, app.last_name))
+    .map((app: any) => {
+      const createdAt = app.created_at;
+      const ageDays = Math.floor((Date.now() - new Date(createdAt).getTime()) / 86400000);
+      const slug = app.program_slug ?? app.program_interest ?? null;
+      const resolvedProgram = slug ? (slugToTitle[slug] ?? slug) : null;
+      return {
+        id: app.id,
+        first_name: app.first_name ?? null,
+        last_name: app.last_name ?? null,
+        full_name: app.full_name ?? null,
+        email: null,
+        program_interest: resolvedProgram,
+        status: app.status ?? 'submitted',
+        created_at: createdAt,
+        submitted_at: null,
+        age_days: ageDays,
+        urgent: ageDays >= 3,
+        href: `/admin/applications?search=${encodeURIComponent(app.full_name || app.id)}`,
+      };
+    });
+
   const sitePreviewTargets = [
     {
       label: 'Public Site',
@@ -818,7 +977,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     },
     {
       label: 'LMS',
-      url: process.env.NEXT_PUBLIC_LMS_URL || 'https://admin.elevateforhumanity.org/lms',
+      url: process.env.NEXT_PUBLIC_LMS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/lms`,
     },
   ];
 
@@ -839,7 +998,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     topPrograms,
     recentActivity: recentActivityItems,
     recentStudents,
-    recentApplications: pendingApps,
+    recentApplications,
     blockedPrograms,
     inactiveLearners,
     pendingSubmissions,
