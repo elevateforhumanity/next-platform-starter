@@ -199,7 +199,7 @@ export default async function PortalsPage() {
       <section className="bg-brand-blue-700 text-white py-20">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Access Your Portal</h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
             Choose your portal below to access your personalized dashboard, resources, and tools.
             Each portal is designed to support your specific role in the Elevate community.
           </p>
@@ -297,7 +297,7 @@ export default async function PortalsPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Returning User?</h2>
-            <p className="text-slate-500">Sign in directly to your portal dashboard</p>
+            <p className="text-blue-100">Sign in directly to your portal dashboard</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
