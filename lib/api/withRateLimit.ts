@@ -55,15 +55,16 @@ export async function applyRateLimit(
 ): Promise<NextResponse | null> {
   const limiter = limiters[tier]?.get();
   const failClosed = tier === 'strict';
+  const isProduction = process.env.NODE_ENV === 'production';
 
   if (!limiter) {
-    if (failClosed) {
-      logger.error('[rate-limit] Redis unavailable — failing closed', { tier });
+    if (failClosed && isProduction) {
+      logger.error('[rate-limit] Redis unavailable — failing closed', undefined, { tier });
       return NextResponse.json({ error: 'Rate limiting temporarily unavailable' }, { status: 503 });
     }
 
-    // Redis not configured — fail open for non-strict tiers to keep public
-    // traffic functional during transient infra issues.
+    // Redis is optional in local/test environments so strict admin routes remain testable.
+    // Production strict routes still fail closed above.
     logger.warn('[rate-limit] Redis unavailable — failing open', { tier });
     return null;
   }
@@ -98,7 +99,7 @@ export async function applyRateLimit(
 
     if (failClosed) {
       // Only strict tier logs at error — it's actually blocking traffic.
-      logger.error(`[rate-limit] Redis error — failing closed`, { tier, error: msg });
+      logger.error(`[rate-limit] Redis error — failing closed`, undefined, { tier, error: msg });
       return NextResponse.json({ error: 'Rate limiting temporarily unavailable' }, { status: 503 });
     }
 
@@ -107,7 +108,7 @@ export async function applyRateLimit(
       // Failing open: traffic continues normally until quota resets.
       logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open until reset', { tier });
     } else if (isCredential) {
-      logger.error('[rate-limit] Redis credential error — failing open', {
+      logger.error('[rate-limit] Redis credential error — failing open', undefined, {
         tier,
         action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/',
       });

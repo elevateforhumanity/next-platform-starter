@@ -37,11 +37,19 @@ const PROVIDER_LABELS: Record<ProviderId, string> = {
   gemini: 'Gemini',
 };
 
-const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
+export const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
   list_programs:           { label: 'Programs',     color: 'text-brand-blue-700',  icon: Database },
   list_enrollments:        { label: 'Enrollments',  color: 'text-green-700',       icon: Database },
   get_dashboard_stats:     { label: 'Stats',        color: 'text-amber-700',       icon: Zap      },
   get_recent_applications: { label: 'Applications', color: 'text-orange-700',      icon: Database },
+  inspect_platform_registry: { label: 'Platform Registry', color: 'text-brand-blue-700', icon: Database },
+  query_program_by_slug:   { label: 'Program',      color: 'text-brand-blue-700',  icon: Database },
+  inspect_route:           { label: 'Route',        color: 'text-slate-700',       icon: Terminal },
+  get_component_source:    { label: 'Source',       color: 'text-slate-700',       icon: Terminal },
+  search_schema:           { label: 'Schema',       color: 'text-brand-blue-700',  icon: Database },
+  search_code:             { label: 'Code Search',  color: 'text-slate-700',       icon: Terminal },
+  audit_auth_flow:         { label: 'Auth Audit',   color: 'text-red-700',         icon: Database },
+  inspect_build_errors:    { label: 'Build Logs',   color: 'text-amber-700',       icon: Terminal },
   list_blueprints:         { label: 'Blueprints',   color: 'text-purple-700',      icon: Database },
   design_page_template:    { label: 'Page Template',color: 'text-indigo-700',      icon: Sparkles },
   run_safe_command:        { label: 'Shell',        color: 'text-slate-700',       icon: Terminal },
