@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const supabase = await requireAdminClient();
+    const supabase = await createAdminClient();
 
     // Check for duplicate pending application
     const { data: existing } = await supabase

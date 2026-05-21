@@ -13,10 +13,8 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
-import { hydrateProcessEnv } from '@/lib/secrets';
-import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
-import { isGeminiConfigured } from '@/lib/gemini-client';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { hydrateProcessEnv, refreshSecrets } from '@/lib/secrets';
+import { aiChat, resetProviders } from '@/lib/ai/ai-service';
 import { SLUG_ALIASES } from '@/lib/programs/resolve';
 
 export const runtime = 'nodejs';
@@ -694,44 +692,34 @@ export async function POST(req: NextRequest) {
     let reply = '';
     let modelUsed = 'none';
 
-    if (isGroqConfigured()) {
-      const groq = getGroqClient();
-      const res = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+    try {
+      const result = await aiChat({
+        model: 'gpt-4.1-mini',
         messages: [{ role: 'system', content: systemPrompt }, ...userMessages],
-        max_tokens: 1200,
         temperature: 0.3,
+        maxTokens: 1200,
       });
-      reply = res.choices?.[0]?.message?.content ?? '';
-      modelUsed = 'llama-3.3-70b-versatile';
-    } else if (isGeminiConfigured()) {
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction: systemPrompt });
-      const result = await model.generateContent(message);
-      reply = result.response.text();
-      modelUsed = 'gemini-1.5-flash';
-    } else if (process.env.OPENAI_API_KEY) {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
+      reply = result.content ?? '';
+      modelUsed = result.model ?? result.provider ?? 'ai-service';
+    } catch (initialError) {
+      // Admin may have rotated provider keys in dashboard moments ago.
+      await refreshSecrets();
+      resetProviders();
+      try {
+        const retry = await aiChat({
+          model: 'gpt-4.1-mini',
           messages: [{ role: 'system', content: systemPrompt }, ...userMessages],
-          max_tokens: 1200,
           temperature: 0.3,
-        }),
-      });
-      if (!res.ok) {
-        const errBody = await res.text();
-        logger.error('[ai-assistant] OpenAI error', { status: res.status, body: errBody });
-        reply = `AI service unavailable (HTTP ${res.status}). Here is the live data:\n\n${dataSnapshot}`;
-      } else {
-        const data = await res.json() as { choices?: Array<{ message?: { content?: string } }> };
-        reply = data.choices?.[0]?.message?.content ?? '';
-        modelUsed = 'gpt-4o-mini';
+          maxTokens: 1200,
+        });
+        reply = retry.content ?? '';
+        modelUsed = retry.model ?? retry.provider ?? 'ai-service';
+      } catch (retryError) {
+        logger.error('[ai-assistant] AI unavailable after secret refresh', retryError as Error, {
+          initialError: initialError instanceof Error ? initialError.message : String(initialError),
+        });
+        reply = `AI service unavailable. Here is the live data:\n\n${dataSnapshot}\n\nOpen /admin/api-keys and /admin/ai-console to verify provider keys are active.`;
       }
-    } else {
-      reply = `No AI provider configured. Live data:\n\n${dataSnapshot}\n\nSet GROQ_API_KEY or GEMINI_API_KEY in platform secrets to enable AI responses.`;
     }
 
     if (!reply) reply = 'No response generated. Try rephrasing your question.';

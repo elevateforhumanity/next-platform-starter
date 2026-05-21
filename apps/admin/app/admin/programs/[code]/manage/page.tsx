@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -62,9 +63,9 @@ export default async function ManageProgramPage({ params }: { params: Promise<{ 
       <div className="p-8">
         <h1 className="text-2xl font-bold text-slate-900">Program not found</h1>
         <p className="text-slate-500 mt-2">No program with code or slug &quot;{code}&quot;</p>
-        <a href="/admin/programs" className="text-brand-blue-600 hover:underline mt-4 inline-block">
+        <Link href="/admin/programs" className="text-brand-blue-600 hover:underline mt-4 inline-block">
           ← Back to programs
-        </a>
+        </Link>
       </div>
     );
   }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Building2, Save, Loader2 } from 'lucide-react';
 
@@ -120,12 +121,12 @@ export default function NewEmployerPage() {
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {saving ? 'Saving…' : 'Add Employer'}
           </button>
-          <a
+          <Link
             href="/admin/employers"
             className="px-5 py-2.5 text-sm text-slate-600 hover:text-slate-900 font-medium"
           >
             Cancel
-          </a>
+          </Link>
         </div>
       </form>
     </div>
