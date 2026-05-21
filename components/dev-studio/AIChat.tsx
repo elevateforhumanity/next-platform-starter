@@ -10,12 +10,32 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   toolCalls?: { tool: string; args: Record<string, unknown>; result: string }[];
+  provider?: string;
+  model?: string;
 }
 
 interface AIChatProps {
   fileContext?: string;
   onApplyCode?: (filename: string, code: string) => void;
 }
+
+type ProviderId = 'auto' | 'groq' | 'openai' | 'anthropic' | 'gemini';
+
+const MODEL_OPTIONS: Record<ProviderId, string[]> = {
+  auto: ['auto'],
+  groq: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'],
+  openai: ['gpt-4.1-mini', 'gpt-4.1', 'gpt-4o-mini'],
+  anthropic: ['claude-sonnet-4-5', 'claude-3-5-haiku-latest'],
+  gemini: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'],
+};
+
+const PROVIDER_LABELS: Record<ProviderId, string> = {
+  auto: 'Auto',
+  groq: 'Groq',
+  openai: 'ChatGPT / OpenAI',
+  anthropic: 'Claude / Anthropic',
+  gemini: 'Gemini',
+};
 
 const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
   list_programs:           { label: 'Programs',     color: 'text-brand-blue-700',  icon: Database },
@@ -64,6 +84,15 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
   const [documentsContext, setDocumentsContext] = useState('');
   const [aiStatus, setAiStatus] = useState<'checking' | 'ready' | 'unconfigured'>('checking');
   const [aiProvider, setAiProvider] = useState<string>('');
+  const [availableProviders, setAvailableProviders] = useState<Record<ProviderId, boolean>>({
+    auto: true,
+    groq: false,
+    openai: false,
+    anthropic: false,
+    gemini: false,
+  });
+  const [selectedProvider, setSelectedProvider] = useState<ProviderId>('auto');
+  const [selectedModel, setSelectedModel] = useState('auto');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -76,12 +105,23 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           body: JSON.stringify({ messages: [{ role: 'user', content: 'ping' }] }),
         });
         const data = await res.json();
-        if (res.status === 503 || data?.debug) { setAiStatus('unconfigured'); }
-        else { setAiStatus('ready'); if (data?.provider) setAiProvider(data.provider); }
+        if (res.status === 503 || data?.debug) {
+          setAiStatus('unconfigured');
+        } else {
+          setAiStatus('ready');
+          if (data?.provider) setAiProvider(data.provider);
+          if (data?.availableProviders) {
+            setAvailableProviders((prev) => ({ ...prev, ...data.availableProviders, auto: true }));
+          }
+        }
       } catch { setAiStatus('unconfigured'); }
     }
     checkAi();
   }, []);
+
+  useEffect(() => {
+    setSelectedModel(MODEL_OPTIONS[selectedProvider][0]);
+  }, [selectedProvider]);
 
   useEffect(() => {
     let cancelled = false;
@@ -121,14 +161,31 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
           fileContext,
           documentsContext,
+          provider: selectedProvider,
+          model: selectedModel,
         }),
       });
       const data = await res.json();
       if (data.error) {
         setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${data.error}` }]);
       } else {
-        setMessages((prev) => [...prev, { role: 'assistant', content: data.message, toolCalls: data.toolCalls ?? [] }]);
-        if (data.provider && aiStatus !== 'ready') { setAiStatus('ready'); setAiProvider(data.provider); }
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.message,
+            toolCalls: data.toolCalls ?? [],
+            provider: data.provider,
+            model: data.model,
+          },
+        ]);
+        if (data.provider) {
+          setAiStatus('ready');
+          setAiProvider(data.model ? `${data.provider} · ${data.model}` : data.provider);
+        }
+        if (data.availableProviders) {
+          setAvailableProviders((prev) => ({ ...prev, ...data.availableProviders, auto: true }));
+        }
       }
     } catch (err) {
       const reason = err instanceof Error ? err.message : 'Unknown error';
@@ -170,6 +227,32 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
       <div className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50">
         <Sparkles className="w-4 h-4 text-brand-blue-600" />
         <span className="text-sm font-semibold text-slate-800">AI Platform Controller</span>
+        <select
+          value={selectedProvider}
+          onChange={(e) => setSelectedProvider(e.target.value as ProviderId)}
+          className="ml-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 outline-none focus:border-brand-blue-500"
+          aria-label="AI provider"
+        >
+          {(Object.keys(PROVIDER_LABELS) as ProviderId[]).map((provider) => (
+            <option
+              key={provider}
+              value={provider}
+              disabled={provider !== 'auto' && !availableProviders[provider]}
+            >
+              {PROVIDER_LABELS[provider]}{provider !== 'auto' && !availableProviders[provider] ? ' (not configured)' : ''}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+          className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 outline-none focus:border-brand-blue-500"
+          aria-label="AI model"
+        >
+          {MODEL_OPTIONS[selectedProvider].map((model) => (
+            <option key={model} value={model}>{model}</option>
+          ))}
+        </select>
         <div className="ml-auto flex items-center gap-1.5">
           {aiStatus === 'checking' && <Loader2 className="w-3.5 h-3.5 text-slate-400 animate-spin" />}
           {aiStatus === 'ready' && (
@@ -227,6 +310,11 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                   </div>
                 )}
                 <div className={`max-w-[86%] rounded-2xl px-4 py-2.5 text-sm ${msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 border border-slate-200 text-slate-800'}`}>
+                  {msg.role === 'assistant' && msg.provider && (
+                    <p className="mb-1 text-[10px] font-mono uppercase tracking-wide text-slate-400">
+                      {msg.provider}{msg.model ? ` · ${msg.model}` : ''}
+                    </p>
+                  )}
                   {msg.role === 'assistant' ? (
                     <div className="space-y-2">
                       {extractCodeBlocks(msg.content).map((part, j) =>
@@ -329,7 +417,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           </div>
         </div>
         <p className="mt-1.5 text-[10px] text-slate-400">
-          Powered by Groq · Enter to send · Shift+Enter for newline · 📎 to upload files
+          Provider: {PROVIDER_LABELS[selectedProvider]} · Model: {selectedModel} · Enter to send · Shift+Enter for newline · 📎 to upload files
         </p>
       </div>
     </div>

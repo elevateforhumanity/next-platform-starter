@@ -75,7 +75,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Single auth check — user is passed to all downstream functions to avoid
   // redundant getUser() calls (was 3 separate calls per page load).
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
@@ -92,16 +94,22 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const adminRoles = ['super_admin', 'admin', 'staff'];
   if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
-  const effectiveDb = db ?? supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>;
+  const effectiveDb = db ?? (supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>);
 
   const [context, headerData, navSections] = await Promise.all([
-    withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(() => null),
+    withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(
+      () => null,
+    ),
     withTimeout(
       (async () => {
         try {
           const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] =
             await Promise.all([
-              effectiveDb.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
+              effectiveDb
+                .from('profiles')
+                .select('full_name, first_name')
+                .eq('id', user.id)
+                .maybeSingle(),
               effectiveDb
                 .from('applications')
                 .select('id', { count: 'exact', head: true })
@@ -126,7 +134,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             ]);
           // Header notification counts are non-critical — log failures but don't throw
           if (appsRes.error)
-            logger.warn('[AdminLayout] applications count failed', { message: appsRes.error.message });
+            logger.warn('[AdminLayout] applications count failed', {
+              message: appsRes.error.message,
+            });
           if (docsRes.error)
             logger.warn('[AdminLayout] documents count failed', { message: docsRes.error.message });
 
@@ -203,7 +213,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           try {
             const parsed = JSON.parse(data.value);
             if (isNavSections(parsed)) return parsed;
-          } catch { /* fall through */ }
+          } catch {
+            /* fall through */
+          }
         }
         return DEFAULT_NAV;
       })(),
@@ -232,14 +244,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   const content = (
     <div className="min-h-screen bg-white text-slate-900">
-      <AdminNav userName={headerData.userName} notifs={headerData.notifs} navSections={navSections} />
+      <AdminNav
+        userName={headerData.userName}
+        notifs={headerData.notifs}
+        navSections={navSections}
+      />
       <IdleTimeoutGuard />
       <PWAManager />
       <UpdatePrompt />
-      <main id="main-content" className="flex-1 overflow-x-hidden pt-16">
-        <div className="w-full max-w-none">
-          {children}
-        </div>
+      <main id="main-content" className="flex-1 overflow-x-hidden px-6 pb-6 pt-[5.5rem]">
+        <div className="w-full max-w-none">{children}</div>
       </main>
     </div>
   );

@@ -2,16 +2,7 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
-import {
-  Bell,
-  Shield,
-  CreditCard,
-  Globe,
-  Mail,
-  Webhook,
-  ArrowRight,
-  Share2,
-} from 'lucide-react';
+import { Bell, Shield, CreditCard, Globe, Mail, Webhook, ArrowRight, Share2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -87,10 +78,22 @@ export default async function AdminSettingsPage() {
       icon: Share2,
       href: '/admin/settings/social-media',
       fields: [
-        { label: 'Facebook', value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'Instagram', value: settings['social_instagram_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'YouTube', value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected' },
-        { label: 'Twitter / X', value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected' },
+        {
+          label: 'Facebook',
+          value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'Instagram',
+          value: settings['social_instagram_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'YouTube',
+          value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
+        {
+          label: 'Twitter / X',
+          value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected',
+        },
       ],
     },
     {
@@ -105,23 +108,21 @@ export default async function AdminSettingsPage() {
   ];
 
   return (
-    <div className="w-full space-y-6 px-6 py-6">
+    <div className="w-full space-y-6">
       <div>
         <p className="text-sm font-medium text-slate-500">Admin</p>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Settings</h1>
-        <p className="text-slate-500">
-          Configure platform behaviour, integrations, and security.
-        </p>
+        <p className="text-slate-500">Configure platform behavior, integrations, and security.</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((section) => {
           const Icon = section.icon;
           return (
             <Link
               key={section.title}
               href={section.href}
-              className="rounded-2xl border border-slate-200 shadow-sm p-6 hover:border-brand-blue-300 hover:shadow-md transition-all group"
+              className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:border-brand-blue-300 hover:shadow-md transition-all group"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -147,37 +148,39 @@ export default async function AdminSettingsPage() {
 
       {/* Raw settings table for super_admin */}
       {settingsRows && settingsRows.length > 0 && (
-        <div className="rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100">
             <h2 className="font-semibold text-slate-900 text-sm">All Platform Settings</h2>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-slate-100 bg-slate-50">
-                {['Key', 'Value', 'Last Updated'].map((h) => (
-                  <th
-                    key={h}
-                    className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {settingsRows.map((r: any) => (
-                <tr key={r.key} className="hover:bg-slate-50">
-                  <td className="py-3 px-5 font-mono text-xs text-slate-700">{r.key}</td>
-                  <td className="py-3 px-5 text-slate-600 text-xs max-w-xs truncate">
-                    {r.value ?? '—'}
-                  </td>
-                  <td className="py-3 px-5 text-slate-400 text-xs">
-                    {r.updated_at ? new Date(r.updated_at).toLocaleDateString() : '—'}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-100 bg-slate-50">
+                  {['Key', 'Value', 'Last Updated'].map((h) => (
+                    <th
+                      key={h}
+                      className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400"
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {settingsRows.map((r: any) => (
+                  <tr key={r.key} className="hover:bg-slate-50">
+                    <td className="py-3 px-5 font-mono text-xs text-slate-700">{r.key}</td>
+                    <td className="py-3 px-5 text-slate-600 text-xs max-w-xs truncate">
+                      {r.value ?? '—'}
+                    </td>
+                    <td className="py-3 px-5 text-slate-400 text-xs">
+                      {r.updated_at ? new Date(r.updated_at).toLocaleDateString() : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

@@ -3,9 +3,31 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeDbError, safeError } from '@/lib/api/safe-error';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+type ScormPackageRow = {
+  id: string;
+  title?: string | null;
+  course_id?: string | null;
+  status?: string | null;
+  active?: boolean | null;
+  created_at?: string | null;
+  launch_url?: string | null;
+};
+
+function normalizeScormPackage(row: ScormPackageRow) {
+  return {
+    id: row.id,
+    title: row.title ?? null,
+    course_id: row.course_id ?? null,
+    status: row.status ?? (row.active === false ? 'inactive' : 'active'),
+    created_at: row.created_at ?? null,
+    launch_url: row.launch_url ?? null,
+  };
+}
 
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -18,13 +40,25 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await db
     .from('scorm_packages')
-    .select('id, title, course_id, status, created_at, launch_url')
+    .select('*')
     .order('created_at', { ascending: false })
     .limit(50);
 
-  if (error) return safeDbError(error, 'Failed to load SCORM packages');
+  if (error) {
+    logger.warn('[course-builder/scorm-link] SCORM package feed unavailable', {
+      code: error.code,
+      details: error.details,
+      message: error.message,
+    });
+    return NextResponse.json({
+      packages: [],
+      warning: 'SCORM package feed unavailable',
+    });
+  }
 
-  return NextResponse.json({ packages: data ?? [] });
+  return NextResponse.json({
+    packages: ((data ?? []) as ScormPackageRow[]).map(normalizeScormPackage),
+  });
 }
 
 export async function POST(request: NextRequest) {
