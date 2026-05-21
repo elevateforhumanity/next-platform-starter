@@ -163,12 +163,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .in('status', ['submitted', 'pending', 'in_review']),
 
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at')
+      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
       .eq('enrollment_state', 'active'),
 
     // Previous month active enrollments for delta
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, created_at')
+      .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, created_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
       .eq('enrollment_state', 'active')
       .lt('created_at', lastMonthEndS),
 
@@ -369,11 +369,21 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
   const totalPendingCount    = requireCount(allPendingAppsRes,       'applications count');
   if (activeEnrollmentsRes.error) logger.error('[dashboard] active enrollments query failed', activeEnrollmentsRes.error);
-  const dashboardActiveEnrollments = (activeEnrollmentsRes.data ?? []).filter((e: any) =>
-    e.revoked_at == null && e.access_granted_at != null,
+  const hasVerifiedFundingOrPayment = (e: any) => {
+    const funding = String(e.funding_source ?? '').toLowerCase();
+    return (
+      e.funding_verified === true ||
+      (funding.length > 0 && !['pending', 'unknown', 'unverified'].includes(funding)) ||
+      toSafeNumber(e.amount_paid_cents) > 0 ||
+      toSafeNumber(e.your_revenue_cents) > 0 ||
+      Boolean(e.stripe_payment_intent_id || e.stripe_checkout_session_id)
+    );
+  };
+  const dashboardActiveEnrollments = (activeEnrollmentsRes.data ?? []).filter(
+    (e: any) => e.revoked_at == null && e.access_granted_at != null && hasVerifiedFundingOrPayment(e),
   );
-  const lastMonthDashboardActiveEnrollments = (lastMonthEnrollmentsRes.data ?? []).filter((e: any) =>
-    e.revoked_at == null && e.access_granted_at != null,
+  const lastMonthDashboardActiveEnrollments = (lastMonthEnrollmentsRes.data ?? []).filter(
+    (e: any) => e.revoked_at == null && e.access_granted_at != null && hasVerifiedFundingOrPayment(e),
   );
   const activeEnrollCount    = dashboardActiveEnrollments.length;
   const lastMonthEnrollCount = lastMonthDashboardActiveEnrollments.length;
