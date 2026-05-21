@@ -1114,6 +1114,7 @@ function encodeDone() {
 // buttons work even when no AI provider key is configured.
 
 const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<string, unknown> }> = [
+  { patterns: /platform.*state|get.*state|live.*state|state.*snapshot/i,    action: 'get_platform_state',  args: {} },
   { patterns: /run.*test|test.*suite|autopilot.*test/i,                    action: 'run_tests',           args: {} },
   { patterns: /health|system.*health|check.*health/i,                      action: 'check_system_health', args: {} },
   { patterns: /contract|list.*contract|show.*contract|mou/i,               action: 'list_contracts',      args: {} },

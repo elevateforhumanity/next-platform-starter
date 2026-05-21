@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default async function CompliancePage() {
   await requireRole(['admin', 'super_admin']);
   // Use service-role client for compliance_items — RLS may block user-session reads
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
   // Keep user-session client for WIOA/other tables that need RLS context
   const supabase = await createClient();
 
