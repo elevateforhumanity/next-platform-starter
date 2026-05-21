@@ -27,13 +27,13 @@ export const maxDuration = 60;
 
 const PATTERNS: Record<string, RegExp> = {
   person_name:    /(?:name|applicant|student|participant)[:\s]+([A-Z][a-z]+(?: [A-Z][a-z]+)+)/i,
-  email:          /\b([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})\b/,
-  phone:          /\b(\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4})\b/,
-  dob:            /(?:date of birth|dob|born)[:\s]+(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
+  email:          /\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\b/,
+  phone:          /\b(\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})\b/,
+  dob:            /(?:date of birth|dob|born)[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})/i,
   address:        /(?:address)[:\s]+([0-9]+[^,\n]+(?:,\s*[A-Z]{2}\s*\d{5})?)/i,
   ein:            /\b(\d{2}-\d{7})\b/,
   uei:            /\bUEI[:\s]+([A-Z0-9]{12})\b/i,
-  grant_number:   /(?:grant|opportunity|award)\s*(?:number|no\.?|#)[:\s]+([A-Z0-9\-]+)/i,
+  grant_number:   /(?:grant|opportunity|award)\s*(?:number|no\.?|#)[:\s]+([A-Z0-9-]+)/i,
   cfda_number:    /\bCFDA[:\s]+(\d{2}\.\d{3})\b/i,
   org_name:       /(?:organization|agency|entity|applicant organization)[:\s]+([A-Z][^\n,]{3,60})/i,
   program_name:   /(?:program|project)[:\s]+([A-Z][^\n,]{3,80})/i,
@@ -41,8 +41,8 @@ const PATTERNS: Record<string, RegExp> = {
   income:         /(?:income|salary|wage)[:\s]+\$?([\d,]+(?:\.\d{2})?)/i,
   education:      /(?:education|degree|diploma)[:\s]+([^\n,]{3,60})/i,
   budget_total:   /(?:total budget|budget total|award amount)[:\s]+\$?([\d,]+(?:\.\d{2})?)/i,
-  deadline:       /(?:deadline|due date|close date)[:\s]+(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
-  signature_date: /(?:signed|signature date)[:\s]+(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
+  deadline:       /(?:deadline|due date|close date)[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})/i,
+  signature_date: /(?:signed|signature date)[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})/i,
 };
 
 function extractFields(text: string): Record<string, string> {

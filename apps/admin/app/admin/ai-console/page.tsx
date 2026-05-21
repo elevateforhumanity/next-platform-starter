@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import Link from 'next/link';
 import AiConsoleClient from './AiConsoleClient';
 
 export const dynamic = 'force-dynamic';

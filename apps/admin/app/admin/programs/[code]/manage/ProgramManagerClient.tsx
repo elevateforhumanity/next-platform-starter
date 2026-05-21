@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Plus,
   Trash2,
@@ -581,9 +582,9 @@ export default function ProgramManagerClient({
 
         <p className="text-xs text-slate-400 mt-3">
           Need a new course?{' '}
-          <a href="/admin/course-builder" className="text-brand-blue-600 hover:underline">
+          <Link href="/admin/course-builder" className="text-brand-blue-600 hover:underline">
             Generate one with AI →
-          </a>
+          </Link>
         </p>
       </section>
 
