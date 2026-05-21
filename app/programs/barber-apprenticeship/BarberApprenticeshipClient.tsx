@@ -4,11 +4,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { HeroBannerConfig } from '@/content/heroBanners';
-import {
-  Award, Clock, ChevronRight, MapPin, BookOpen,
-  Briefcase, TrendingUp, DollarSign, AlertTriangle,
-  Building2, FileText, ClipboardList,
-} from 'lucide-react';
+import HeroPicture from '@/components/marketing/HeroPicture';
+import { AlertTriangle, ChevronRight } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 // Section imports removed — BarberDeliveryModel, BarberPartnership,
 // BarberEnrollment, BarberCredentials all duplicated content already
@@ -26,6 +23,14 @@ interface BeforeInstallPromptEvent extends Event {
 export default function BarberApprenticeshipClient({ program: p, heroBanner: b, enrollmentCount = 0 }: Props) {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installing, setInstalling] = useState(false);
+  const heroCtas = [
+    b?.primaryCta ?? { label: 'Apply Now', href: '/programs/barber-apprenticeship/apply' },
+    b?.secondaryCta ?? {
+      label: 'Request Information',
+      href: '/programs/barber-apprenticeship/inquiry',
+      variant: 'secondary' as const,
+    },
+  ];
 
   useEffect(() => {
     const onBeforeInstallPrompt = (event: Event) => {
@@ -52,28 +57,21 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
   return (
     <div className="min-h-screen bg-white">
       {/* ═══ HERO ═══ */}
-      <section className="relative w-full overflow-hidden" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-        <Image
-          src="/images/pages/barber-fade-cut.webp"
-          alt="Barber performing a precision fade cut at a professional barbershop"
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 sm:p-10 max-w-6xl mx-auto">
-          <span className="inline-block bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
-            DOL Registered Apprenticeship
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-            Indiana Barber License
-          </h1>
-          <p className="text-white/80 text-base sm:text-lg mt-2 max-w-2xl">
-            Earn while you learn. 2,000 hours of hands-on training at a licensed barbershop. Graduate with your Indiana Barber License.
-          </p>
-        </div>
-      </section>
+      <HeroPicture
+        src={b?.posterImage ?? '/images/pages/barber-hero-main.jpg'}
+        alt="Licensed barber cutting hair in a professional barbershop"
+        microLabel={b?.microLabel ?? 'DOL Apprenticeship'}
+        analyticsName={b?.analyticsName ?? 'barber-apprenticeship'}
+        belowHeroHeadline={b?.belowHeroHeadline ?? 'Earn your Indiana Barber License while getting paid.'}
+        belowHeroSubheadline={
+          b?.belowHeroSubheadline ??
+          'DOL Registered Apprenticeship. Train under a licensed barber, complete 2,000 hours, and graduate ready for the Indiana Barber License exam.'
+        }
+        ctas={heroCtas}
+        trustIndicators={b?.trustIndicators}
+        transcript={b?.transcript}
+        heightStyle="h-[45vh] min-h-[300px] max-h-[560px]"
+      />
 
       {/* ═══ PROGRAM IDENTITY CARD ═══ */}
       <section className="border-b border-slate-200 bg-white">
@@ -85,10 +83,17 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           </nav>
           <p className="text-slate-600 text-lg mb-6">{p.subtitle}</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 rounded-lg p-4">
-            <SpecItem icon={Clock} label="Duration" value="52 weeks" />
-            <SpecItem icon={BookOpen} label="Hours/Week" value="15–20 hrs" />
-            <SpecItem icon={MapPin} label="Delivery" value="Hybrid" />
-            <SpecItem icon={Award} label="Credentials" value={`${p.credentials.length} earned`} />
+            {[
+              { label: 'Duration', value: '52 weeks' },
+              { label: 'Hours/Week', value: '15–20 hrs' },
+              { label: 'Delivery', value: 'Hybrid' },
+              { label: 'Credentials', value: `${p.credentials.length} earned` },
+            ].map((item) => (
+              <div key={item.label} className="text-center">
+                <div className="text-xs text-slate-500 uppercase tracking-wide">{item.label}</div>
+                <div className="mt-1 font-semibold text-slate-900 text-sm">{item.value}</div>
+              </div>
+            ))}
           </div>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
             <span><strong>Schedule:</strong> {p.schedule}</span>
@@ -141,12 +146,8 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
       <section className="max-w-6xl mx-auto px-4 py-10">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-slate-700" />
-              </div>
-              <h2 className="text-xl font-bold text-slate-900">Career Pathway</h2>
-            </div>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Career Pathway</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Paid training to licensed barber work</h2>
             <p className="text-slate-700 leading-relaxed">
               Start as a <strong>Barber Apprentice</strong> earning $24,000–$30,000 while you train under a licensed barber at a host shop.
               After completing 2,000 hours and passing the Indiana state exam, you become a <strong>Licensed Barber</strong> ($30,000–$45,000).
@@ -155,7 +156,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             </p>
           </div>
           <div className="relative h-72 rounded-xl overflow-hidden shadow-lg">
-            <Image src="/images/pages/barber-fade-cut.webp" alt="Barber performing a precision fade cut" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src="/images/pages/barber-apprentice-learning.webp" alt="Barber apprentice learning clipper technique from an instructor" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
         </div>
       </section>
@@ -168,12 +169,8 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
               <Image src="/images/pages/barber-straight-razor.webp" alt="Barber performing a straight razor shave" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
             <div className="order-1 md:order-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                  <ClipboardList className="w-5 h-5 text-slate-700" />
-                </div>
-                <h2 className="text-xl font-bold text-slate-900">Measurable Outcomes</h2>
-              </div>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Measurable Outcomes</p>
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Skills verified in the chair</h2>
               <p className="text-slate-700 leading-relaxed">
                 By program completion, apprentices perform six standard haircut styles — fade, taper, buzz, scissor-over-comb,
                 flat top, and shape-up — to client satisfaction. You will execute straight razor shaves following Indiana
@@ -188,17 +185,13 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
 
       {/* ═══ CREDENTIALS EARNED (image blocks, no OSHA 10) ═══ */}
       <section className="max-w-6xl mx-auto px-4 py-10">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-            <Award className="w-5 h-5 text-slate-700" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900">Credentials Earned</h2>
-        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Credentials Earned</p>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">Licensing and shop-readiness outcomes</h2>
         <div className="grid sm:grid-cols-2 gap-6">
           {[
             { img: '/images/pages/barber-tools-closeup.webp', alt: 'Barber tools and clippers', cred: p.credentials[0] },
             { img: '/images/pages/barber-client-consult.webp', alt: 'Barber consulting with client', cred: p.credentials[1] },
-            { img: '/images/pages/barber-shop-wide.webp', alt: 'Professional barbershop interior', cred: p.credentials[2] },
+            { img: '/images/pages/barber-station-mirror.webp', alt: 'Professional barbershop stations and mirrors', cred: p.credentials[2] },
           ].filter(item => item.cred).map((item, i) => (
             <div key={i} className="border border-slate-200 rounded-xl overflow-hidden hover:border-brand-blue-300 transition-colors">
               <div className="relative h-44">
@@ -227,12 +220,8 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
       {/* ═══ FUNDING & PAYMENT OPTIONS (WIOA · SNAP E&T · Self-Pay · Payment Plan · BNPL) ═══ */}
       <section id="funding" className="py-12 bg-slate-50 border-y border-slate-200">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-slate-700" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900">Funding &amp; Payment Options</h2>
-          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Funding</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Funding &amp; Payment Options</h2>
           <p className="text-slate-600 mb-8 max-w-3xl">
             Total program tuition is <strong>$4,980</strong>. You don’t pay anything to apply. After review, we work with you on the option that fits.
           </p>
@@ -314,26 +303,19 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
       {/* ═══ CAREER OUTCOMES / LABOR MARKET ═══ */}
       <section className="py-10">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-slate-700" />
-            </div>
-            <h2 className="text-xl font-bold text-slate-900">Career Outcomes</h2>
-          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Career Outcomes</p>
+          <h2 className="text-xl font-bold text-slate-900 mb-6">Labor market outcomes</h2>
           <div className="grid sm:grid-cols-3 gap-4 mb-6">
             <div className="bg-brand-green-50 rounded-lg p-6 text-center border border-brand-green-100">
-              <DollarSign className="w-8 h-8 text-brand-green-600 mx-auto" />
-              <div className="text-3xl font-bold text-slate-900 mt-2">${p.laborMarket.medianSalary.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-slate-900">${p.laborMarket.medianSalary.toLocaleString()}</div>
               <div className="text-sm text-slate-600">Median Annual Salary</div>
             </div>
             <div className="bg-brand-blue-50 rounded-lg p-6 text-center border border-brand-blue-100">
-              <TrendingUp className="w-8 h-8 text-brand-blue-600 mx-auto" />
-              <div className="text-3xl font-bold text-slate-900 mt-2">{p.laborMarket.growthRate}</div>
+              <div className="text-3xl font-bold text-slate-900">{p.laborMarket.growthRate}</div>
               <div className="text-sm text-slate-600">Job Growth (10-year)</div>
             </div>
             <div className="bg-white rounded-lg p-6 text-center border border-slate-200">
-              <Building2 className="w-8 h-8 text-slate-600 mx-auto" />
-              <div className="text-lg font-bold text-slate-900 mt-2">{p.laborMarket.salaryRange}</div>
+              <div className="text-lg font-bold text-slate-900">{p.laborMarket.salaryRange}</div>
               <div className="text-sm text-slate-600">Salary Range ({p.laborMarket.region})</div>
             </div>
           </div>
@@ -351,12 +333,8 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
 
       {/* ═══ FAQ ═══ */}
       <section className="max-w-6xl mx-auto px-4 py-10">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-            <FileText className="w-5 h-5 text-slate-700" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900">Frequently Asked Questions</h2>
-        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">FAQ</p>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
         <div className="space-y-3">
           {p.faqs.map((faq, i) => (
             <details key={i} className="group bg-white border border-slate-200 rounded-lg overflow-hidden">
@@ -404,16 +382,6 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function SpecItem({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
-  return (
-    <div className="text-center">
-      <Icon className="w-5 h-5 text-brand-blue-600 mx-auto mb-1" />
-      <div className="text-xs text-slate-500 uppercase">{label}</div>
-      <div className="font-semibold text-slate-900 text-sm">{value}</div>
     </div>
   );
 }

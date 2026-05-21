@@ -7,7 +7,11 @@ import Image from 'next/image';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
 
-export default function PartnerPageClient() {
+interface PartnerPageClientProps {
+  isApproved?: boolean;
+}
+
+export default function PartnerPageClient({ isApproved = false }: PartnerPageClientProps) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -20,8 +24,8 @@ export default function PartnerPageClient() {
         style={{ height: 'clamp(280px, 45vw, 560px)' }}
       >
         <Image
-          src="/images/pages/barber-shop-wide.webp"
-          alt="Professional barbershop — Indiana Barbershop Apprenticeship Program"
+          src="/images/pages/barber-client-consult.webp"
+          alt="Licensed barber consulting with a client during a haircut"
           fill
           className="object-cover object-center"
           priority
@@ -43,6 +47,35 @@ export default function PartnerPageClient() {
           </p>
         </div>
       </div>
+
+      <section className="bg-white py-10">
+        <div className="mx-auto grid max-w-6xl gap-4 px-4 sm:grid-cols-3">
+          {[
+            {
+              src: '/images/pages/barber-station-mirror.webp',
+              alt: 'Clean barbershop stations prepared for apprentice training',
+              label: 'Licensed shop environment',
+            },
+            {
+              src: '/images/pages/barber-apprentice-learning.webp',
+              alt: 'Barber apprentice learning clipper control from an instructor',
+              label: 'Hands-on apprentice coaching',
+            },
+            {
+              src: '/images/pages/barber-tools-closeup.webp',
+              alt: 'Professional barber tools arranged for client service',
+              label: 'Tools, sanitation, and service skills',
+            },
+          ].map((photo) => (
+            <figure key={photo.src} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+              <div className="relative aspect-[4/3]">
+                <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+              </div>
+              <figcaption className="px-4 py-3 text-sm font-semibold text-slate-800">{photo.label}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
 
       {/* CTA Section below hero */}
       <section className="py-16 border-b border-slate-100">
@@ -231,7 +264,11 @@ export default function PartnerPageClient() {
           </p>
           <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">
             <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <p className="text-sm text-amber-800 font-medium">These steps require a partner account. You will be prompted to log in.</p>
+            <p className="text-sm text-amber-800 font-medium">
+              {isApproved
+                ? 'Your partner account is approved. Log in to complete onboarding and receive apprentice placements.'
+                : 'These steps require an approved partner account. You will be prompted to log in.'}
+            </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
