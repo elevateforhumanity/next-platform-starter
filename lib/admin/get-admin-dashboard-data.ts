@@ -86,7 +86,7 @@ function optionalRows<T>(
   degraded: DegradedSection[]
 ): T[] {
   if (result.error) {
-    logger.error(`[dashboard] ${section} query failed`, { message: result.error.message });
+    logger.error(`[dashboard] ${section} query failed: ${result.error.message}`);
     degraded.push(section);
     return [];
   }
@@ -383,7 +383,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const certsThisMonth       = certsThisMonthRes.error ? 0 : (certsThisMonthRes.count ?? 0);
   const pendingHoldersCount  = pendingHoldersRes.error ? 0 : (pendingHoldersRes.count ?? 0);
   const pendingHolderDocsCount = pendingHolderDocsRes.error ? 0 : (pendingHolderDocsRes.count ?? 0);
-  const pendingSubmissions = pendingSubmissionsRes.error ? [] : (pendingSubmissionsRes.data ?? []);
+  const pendingSubmissions = pendingSubmissionsRes.error
+    ? []
+    : (pendingSubmissionsRes.data ?? []).map((submission) => ({
+        ...submission,
+        submitted_at: submission.created_at ?? null,
+      }));
 
   // ── Operational dashboard signals ─────────────────────────────────────────
   const complianceAlerts = complianceAlertsRes.error ? [] : (complianceAlertsRes.data ?? []);
