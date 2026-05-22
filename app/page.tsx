@@ -63,10 +63,10 @@ export default function HomePage() {
       <section className="grid grid-cols-1 sm:grid-cols-3">
         {[
           { src: '/images/pages/comp-home-pathways-train.webp', alt: 'Learner in workforce training', label: 'Hands-On Training', sub: 'Real skills. Real equipment.', position: 'object-center' },
-          { src: '/images/pages/comp-home-highlight-health.webp', alt: 'Healthcare training', label: 'Healthcare Careers', sub: 'CNA, Phlebotomy, Medical Assistant & more.', position: 'object-top' },
+          { src: '/images/pages/comp-home-highlight-health.webp', alt: 'Healthcare training', label: 'Healthcare Careers', sub: 'CNA, Phlebotomy, Medical Assistant & more.', position: 'object-center' },
           { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
         ].map((p) => (
-          <div key={p.src} className="relative h-64 sm:h-80 lg:h-96 overflow-hidden group">
+          <div key={p.src} className="relative h-52 sm:h-60 lg:h-72 overflow-hidden group">
             <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">

@@ -20,7 +20,7 @@ export default function HomeHeroVideo({ banner }: HomeHeroVideoProps) {
         videoSrcDesktop={banner.videoSrcDesktop!}
         videoSrcMobile={banner.videoSrcMobile}
         posterImage={undefined}
-        voiceoverSrc={undefined}
+        voiceoverSrc={banner.voiceoverSrc}
         microLabel={banner.microLabel}
         belowHeroHeadline={banner.belowHeroHeadline}
         belowHeroSubheadline={banner.belowHeroSubheadline}
