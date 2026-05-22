@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   Brain, Code2, BookOpen, BarChart3, Database, Search, Send, Loader2,
   Terminal, Zap, Activity, Map, GitBranch, Users, ShieldAlert, BookMarked,
-  FileText, Briefcase,
+  FileText, Briefcase, Rocket,
 } from 'lucide-react';
 
 // Prompts that trigger the devstudio action executor (SSE streaming)
@@ -88,6 +88,10 @@ const QUICK_ACTIONS = [
   { icon: Zap,         label: 'Full QA scan',         prompt: 'Run full platform QA scan',                      mode: 'action' },
   { icon: Briefcase,   label: 'Grant applications',   prompt: 'List all grant applications and their status',   mode: 'action' },
   { icon: FileText,    label: 'Contract pipeline',    prompt: 'List all contract templates and pipeline status', mode: 'action' },
+  { icon: Rocket,      label: 'Deploy LMS',           prompt: 'Deploy LMS',                                     mode: 'action' },
+  { icon: Rocket,      label: 'Deploy Admin',         prompt: 'Deploy Admin',                                   mode: 'action' },
+  { icon: Rocket,      label: 'Deploy Studio',        prompt: 'Deploy Studio',                                  mode: 'action' },
+  { icon: Rocket,      label: 'Deploy all',           prompt: 'Deploy all services',                            mode: 'action' },
 ];
 
 export default function AiConsoleClient() {
