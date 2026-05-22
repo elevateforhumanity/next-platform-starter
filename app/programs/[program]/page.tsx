@@ -565,14 +565,23 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
 
     if (p) {
       return (
-        <ProgramPage
-          title={p.title}
-          summary={p.short_description || ''}
-          description={p.description || ''}
-          credential={p.credential}
-          durationWeeks={p.duration_weeks}
-          slug={p.slug}
-        />
+        <>
+          <ProgramPage
+            title={p.title}
+            summary={p.short_description || ''}
+            description={p.description || ''}
+            credential={p.credential}
+            durationWeeks={p.duration_weeks}
+            slug={p.slug}
+            banner={heroBanners[p.slug] ?? heroBanners[p.slug.replace(/-apprenticeship$/, '')] ?? null}
+            sections={
+              p.description && p.description !== p.short_description
+                ? [{ heading: 'About This Program', body: p.description }]
+                : undefined
+            }
+          />
+          <OnetLaborData slug={p.slug} />
+        </>
       );
     }
   }
