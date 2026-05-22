@@ -45,9 +45,12 @@ export default function ComplianceItemsPanel() {
 
   useEffect(() => {
     fetch('/api/compliance/items')
-      .then((r) => r.json())
-      .then((d) => setItems(d.items ?? []))
-      .catch(() => setError('Failed to load compliance items'))
+      .then(async (r) => {
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d?.error ?? 'Failed to load compliance items');
+        setItems(d.items ?? []);
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load compliance items'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -83,7 +86,13 @@ export default function ComplianceItemsPanel() {
 
   if (loading) return <div className="text-slate-400 text-sm py-4">Loading compliance items…</div>;
   if (error) return <div className="text-red-600 text-sm py-4">{error}</div>;
-  if (items.length === 0) return null;
+  if (items.length === 0) {
+    return (
+      <div className="text-slate-500 text-sm py-4">
+        No compliance checklist items found. Verify compliance seed data and admin DB access.
+      </div>
+    );
+  }
 
   return (
     <div>

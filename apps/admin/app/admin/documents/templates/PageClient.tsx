@@ -182,7 +182,7 @@ function MOUBuilder() {
           onRemove={(i) => removeFromList('participantOutcomes', i)}
         />
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-1">Term Start</label>
             <input
@@ -213,7 +213,7 @@ function MOUBuilder() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-1">
               Elevate Signer Name
@@ -278,7 +278,7 @@ function MOUBuilder() {
             </button>
           </div>
         </div>
-        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+        <pre className="text-xs text-slate-900 whitespace-pre-wrap break-words font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
           {markdown}
         </pre>
       </div>
@@ -388,7 +388,7 @@ function ReportBuilder() {
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-1">Period Start</label>
             <input
@@ -420,7 +420,7 @@ function ReportBuilder() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-1">Enrollments</label>
             <input
@@ -538,7 +538,7 @@ function ReportBuilder() {
             </button>
           </div>
         </div>
-        <pre className="text-xs text-slate-900 whitespace-pre-wrap font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
+        <pre className="text-xs text-slate-900 whitespace-pre-wrap break-words font-mono bg-slate-50 rounded-lg p-4 max-h-[600px] overflow-y-auto">
           {markdown}
         </pre>
       </div>
@@ -628,7 +628,7 @@ function EmailTemplateViewer() {
           </div>
         )}
 
-        <pre className="text-sm text-slate-900 whitespace-pre-wrap font-sans bg-slate-50 rounded-lg p-4 max-h-[500px] overflow-y-auto leading-relaxed">
+        <pre className="text-sm text-slate-900 whitespace-pre-wrap break-words font-sans bg-slate-50 rounded-lg p-4 max-h-[500px] overflow-y-auto leading-relaxed">
           {selected.body}
         </pre>
       </div>
@@ -725,14 +725,14 @@ export default function DocumentTemplatesPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex gap-3 mb-6 overflow-x-auto pb-1">
           {tabs.map((t) => {
             const Icon = t.icon;
             return (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition ${
+                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition ${
                   tab === t.id
                     ? 'bg-brand-blue-600 text-white shadow-md'
                     : 'bg-white text-slate-900 border border-slate-200 hover:border-slate-300'

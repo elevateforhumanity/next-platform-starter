@@ -40,6 +40,10 @@ interface ApplicationData {
   einFileData?: string; // base64 data URL
   einFileName?: string;
   einQaNotes?: string;
+  shopLicenseFileData?: string;
+  shopLicenseFileName?: string;
+  insuranceFileData?: string;
+  insuranceFileName?: string;
   // Employer acceptance agreement
   employerAcceptanceAcknowledged?: boolean;
   employerAcceptanceSignatureData?: string;
@@ -142,29 +146,10 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Please select a compensation model' }, { status: 400 });
     }
 
-    // Validate General Liability — mandatory for all partner shops
-    if (body.hasGeneralLiability !== 'yes') {
-      return NextResponse.json(
-        { error: 'General Liability insurance is required to host apprentices at your worksite.' },
-        { status: 400 },
-      );
-    }
-
     // Validate Workers' Comp status
     const wcStatus = body.workersCompStatus || 'none';
     if (!VALID_WC_STATUSES.includes(wcStatus)) {
       return NextResponse.json({ error: 'Invalid workers compensation status' }, { status: 400 });
-    }
-
-    // WC hard gate: shops with employees on payroll must have WC or valid exemption
-    if (wcStatus === 'none') {
-      return NextResponse.json(
-        {
-          error:
-            "Elevate cannot register apprentices in the federal RAPIDS system under a partner worksite that does not meet minimum insurance and compliance standards. Workers' Compensation insurance (or a valid state exemption) is required.",
-        },
-        { status: 400 },
-      );
     }
 
     // Validate acknowledgments
@@ -219,6 +204,46 @@ async function _POST(req: Request) {
         logger.error('EIN document upload error', uploadErr as Error);
       }
     }
+    let shopLicenseDocumentPath: string | null = null;
+    if (body.shopLicenseFileData && body.shopLicenseFileName) {
+      try {
+        const base64Data = body.shopLicenseFileData.split(',')[1];
+        const mimeType = body.shopLicenseFileData.split(';')[0].replace('data:', '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        const ext = body.shopLicenseFileName.split('.').pop() || 'pdf';
+        const storagePath = `shop-license-documents/${Date.now()}-${body.contactEmail.replace(/[^a-z0-9]/gi, '_')}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from('documents')
+          .upload(storagePath, buffer, { contentType: mimeType, upsert: false });
+        if (!uploadError) shopLicenseDocumentPath = storagePath;
+      } catch (uploadErr) {
+        logger.error('Shop license document upload error', uploadErr as Error);
+      }
+    }
+
+    let insuranceCoiFilePath: string | null = null;
+    if (body.insuranceFileData && body.insuranceFileName) {
+      try {
+        const base64Data = body.insuranceFileData.split(',')[1];
+        const mimeType = body.insuranceFileData.split(';')[0].replace('data:', '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        const ext = body.insuranceFileName.split('.').pop() || 'pdf';
+        const storagePath = `insurance-coi-documents/${Date.now()}-${body.contactEmail.replace(/[^a-z0-9]/gi, '_')}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from('documents')
+          .upload(storagePath, buffer, { contentType: mimeType, upsert: false });
+        if (!uploadError) insuranceCoiFilePath = storagePath;
+      } catch (uploadErr) {
+        logger.error('Insurance COI upload error', uploadErr as Error);
+      }
+    }
+
+    const approvalHoldReasons: string[] = [];
+    if (body.hasGeneralLiability !== 'yes') approvalHoldReasons.push('General liability not confirmed');
+    if (wcStatus === 'none') approvalHoldReasons.push("Workers' compensation missing");
+    if (!insuranceCoiFilePath) approvalHoldReasons.push('Insurance certificate not uploaded');
+    const insuranceStatus = approvalHoldReasons.length > 0 ? 'rejected' : 'pending';
+    const insuranceReasonCodes = approvalHoldReasons.map((r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`);
 
     const ipRaw =
       req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
@@ -252,13 +277,26 @@ async function _POST(req: Request) {
         number_of_employees: body.numberOfEmployees ? parseInt(body.numberOfEmployees) : null,
         has_general_liability: body.hasGeneralLiability === 'yes',
         workers_comp_status: body.workersCompStatus || 'none',
+        insurance_status: insuranceStatus,
+        insurance_coi_file_path: insuranceCoiFilePath,
+        insurance_reason_codes: insuranceReasonCodes,
+        insurance_review_method: insuranceCoiFilePath ? 'OCR' : 'NONE',
+        insurance_validation_json: approvalHoldReasons.length
+          ? { approvalHold: true, reasons: approvalHoldReasons }
+          : null,
         // Legacy fields preserved for backward compatibility
         employment_model: body.compensationModel,
         has_workers_comp: body.workersCompStatus === 'verified',
         can_supervise_and_verify: body.canSuperviseAndVerify === 'yes',
         mou_acknowledged: body.mouAcknowledged,
         consent_acknowledged: body.consentAcknowledged,
-        notes: body.notes?.trim() || null,
+        notes: [
+          body.notes?.trim() || null,
+          shopLicenseDocumentPath ? `shop_license_document_path=${shopLicenseDocumentPath}` : null,
+          approvalHoldReasons.length ? `approval_hold_reasons=${approvalHoldReasons.join('; ')}` : null,
+        ]
+          .filter(Boolean)
+          .join('\n') || null,
         signature_data: body.signatureData || null,
         // EIN
         ein: body.ein?.trim() || null,
@@ -431,6 +469,8 @@ async function _POST(req: Request) {
       success: true,
       message: 'Application submitted successfully',
       applicationId: data.id,
+      approvalHeld: approvalHoldReasons.length > 0,
+      approvalHoldReasons,
     });
   } catch (error) {
     logger.error('Barbershop partner application error', error as Error);

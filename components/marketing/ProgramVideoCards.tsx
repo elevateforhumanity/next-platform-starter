@@ -72,9 +72,10 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
 }
 
 export function ProgramVideoCards() {
+  const featuredPrograms = ALL_PROGRAMS.slice(0, 6);
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mb-10">
-      {ALL_PROGRAMS.map((prog, i) => (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 mb-10">
+      {featuredPrograms.map((prog, i) => (
         <ProgramCard key={prog.slug} prog={prog} priority={i < 4} />
       ))}
     </div>

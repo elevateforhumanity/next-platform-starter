@@ -49,7 +49,7 @@ export const CALENDLY_CONFIG = {
   schedulingUrl: 'https://calendly.com/elevate4humanityedu',
   testingUrl:
     process.env.NEXT_PUBLIC_CALENDLY_TESTING_URL ??
-    'https://calendly.com/elevate4humanityedu/60min',
+    'https://calendly.com/elevate4humanityedu',
 } as const;
 
 export const TESTING_EMAIL = {

@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     return safeError('typed_name is required for typed mode', 400);
   }
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
 
   // Verify run exists and belongs to this contract
   const { data: run } = await db

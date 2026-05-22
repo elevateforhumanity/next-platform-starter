@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     return safeError('run_id, field_key, and action are required', 400);
   }
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
 
   const { data: run } = await db
     .from('contract_prefill_runs')

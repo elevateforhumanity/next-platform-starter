@@ -55,6 +55,10 @@ export default function BarbershopPartnerApplyPage() {
   const [error, setError] = useState('');
   const [einFile, setEinFile] = useState<File | null>(null);
   const [einFileName, setEinFileName] = useState('');
+  const [shopLicenseFile, setShopLicenseFile] = useState<File | null>(null);
+  const [shopLicenseFileName, setShopLicenseFileName] = useState('');
+  const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
+  const [insuranceFileName, setInsuranceFileName] = useState('');
   const [formData, setFormData] = useState({
     shopLegalName: '',
     shopDbaName: '',
@@ -181,10 +185,30 @@ export default function BarbershopPartnerApplyPage() {
         }
       }
 
+      const encodeFile = async (file: File | null): Promise<string> => {
+        if (!file) return '';
+        return await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ''));
+          reader.readAsDataURL(file);
+        });
+      };
+
+      const shopLicenseFileData = await encodeFile(shopLicenseFile);
+      const insuranceFileData = await encodeFile(insuranceFile);
+
       const response = await fetch('/api/partners/barbershop-apprenticeship/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, signatureData, einDocumentUrl }),
+        body: JSON.stringify({
+          ...formData,
+          signatureData,
+          einDocumentUrl,
+          shopLicenseFileData,
+          shopLicenseFileName,
+          insuranceFileData,
+          insuranceFileName,
+        }),
       });
 
       const result = await response.json();
@@ -258,6 +282,50 @@ export default function BarbershopPartnerApplyPage() {
                 <div>
                   <label className="block text-sm font-medium text-slate-900 mb-1">Indiana Shop License # *</label>
                   <input type="text" required value={formData.indianaShopLicenseNumber} onChange={e => updateField('indianaShopLicenseNumber', e.target.value)} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">Shop Name (customer-facing name)</label>
+                  <input type="text" value={formData.shopDbaName} onChange={e => updateField('shopDbaName', e.target.value)} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Compliance Uploads</h2>
+              <p className="text-sm text-slate-600 mb-5">
+                Upload required compliance documents. Missing insurance documentation will place
+                your application on approval hold, but you can still submit.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">Barbershop License Upload *</label>
+                  <input
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    required
+                    onChange={(e) => {
+                      const f = e.target.files?.[0] || null;
+                      setShopLicenseFile(f);
+                      setShopLicenseFileName(f?.name || '');
+                    }}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg"
+                  />
+                  {shopLicenseFileName && <p className="text-xs text-slate-600 mt-1">{shopLicenseFileName}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">Insurance COI Upload (optional)</label>
+                  <input
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0] || null;
+                      setInsuranceFile(f);
+                      setInsuranceFileName(f?.name || '');
+                    }}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg"
+                  />
+                  {insuranceFileName && <p className="text-xs text-slate-600 mt-1">{insuranceFileName}</p>}
+                  <p className="text-xs text-amber-700 mt-1">No COI = application can submit but will not be approved until uploaded.</p>
                 </div>
               </div>
             </div>

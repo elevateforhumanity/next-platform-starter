@@ -811,7 +811,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
               type: 'magiclink',
               email: customerEmail,
               options: {
-                redirectTo: `${siteUrlMagic}/auth/callback?next=${encodeURIComponent('/learner/dashboard')}`,
+                redirectTo: `${siteUrlMagic}/auth/callback?redirect=${encodeURIComponent('/learner/dashboard')}`,
               },
             });
             if (linkData?.properties?.action_link) {

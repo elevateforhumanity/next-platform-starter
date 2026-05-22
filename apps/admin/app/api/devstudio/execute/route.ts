@@ -39,6 +39,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { safeError } from '@/lib/api/safe-error';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
@@ -1191,6 +1192,16 @@ async function executeAction(
     Cookie: authHeader,
   };
 
+  let sb: Awaited<ReturnType<typeof requireAdminClient>>;
+  try {
+    sb = await requireAdminClient();
+  } catch (err) {
+    write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Admin database unavailable'}\x1b[0m`);
+    return;
+  }
+
+  const adminDb = sb;
+
   switch (name) {
     case 'generate_course': {
       write('\x1b[33m⚙  Generating course...\x1b[0m');
@@ -1301,7 +1312,7 @@ async function executeAction(
       write(`\x1b[33m⚙  Loading applications (${statusFilter})...\x1b[0m`);
       try {
         // Direct DB query — avoids self-fetch auth issues and wrong response key
-        let q = sb.from('applications')
+        let q = adminDb.from('applications')
           .select('id, first_name, last_name, email, status, program_interest, submitted_at, created_at')
           .order('created_at', { ascending: false })
           .limit(limit);
@@ -1325,7 +1336,7 @@ async function executeAction(
       const limit = Math.min((args.limit as number) || 20, 100);
       write(`\x1b[33m⚙  Loading barber partner shop applications (${statusFilter})...\x1b[0m`);
       try {
-        let q = sb.from('barbershop_partner_applications')
+        let q = adminDb.from('barbershop_partner_applications')
           .select('id, created_at, shop_legal_name, shop_dba_name, owner_name, contact_name, contact_email, contact_phone, shop_city, shop_state, status')
           .order('created_at', { ascending: false })
           .limit(limit);
@@ -1352,7 +1363,7 @@ async function executeAction(
       const search = (args.search as string) || '';
       write('\x1b[33m⚙  Loading students...\x1b[0m');
       try {
-        let q = sb.from('profiles')
+        let q = adminDb.from('profiles')
           .select('id, full_name, email, role, created_at')
           .eq('role', 'student')
           .order('created_at', { ascending: false })
@@ -1376,7 +1387,7 @@ async function executeAction(
       const limit = Math.min((args.limit as number) || 20, 100);
       write('\x1b[33m⚙  Loading enrollments...\x1b[0m');
       try {
-        const { data: enrollments, error: enrErr } = await sb
+        const { data: enrollments, error: enrErr } = await adminDb
           .from('program_enrollments')
           .select('id, user_id, program_id, program_slug, status, progress_percent, enrolled_at')
           .order('enrolled_at', { ascending: false })
@@ -1951,7 +1962,7 @@ async function executeAction(
     case 'list_at_risk': {
       write('\x1b[33m⚙  Fetching at-risk learners…\x1b[0m');
       try {
-        const { data: items, error: arErr } = await sb
+        const { data: items, error: arErr } = await adminDb
           .from('at_risk_learners')
           .select('user_id, full_name, email, program_slug, days_inactive, risk_level, progress_percent')
           .order('days_inactive', { ascending: false })
@@ -1971,7 +1982,7 @@ async function executeAction(
       const limit = Math.min((args.limit as number) || 20, 100);
       write('\x1b[33m⚙  Fetching completions…\x1b[0m');
       try {
-        const { data: items, error: compErr } = await sb
+        const { data: items, error: compErr } = await adminDb
           .from('program_completion_certificates')
           .select('id, user_id, program_id, issued_at')
           .order('issued_at', { ascending: false })

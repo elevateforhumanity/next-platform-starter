@@ -179,7 +179,7 @@ export async function POST(request: NextRequest) {
   const { document_id } = body;
   if (!document_id) return safeError('document_id is required', 400);
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
 
   // Load document record
   const { data: doc, error: docErr } = await db

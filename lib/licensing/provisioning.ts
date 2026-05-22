@@ -271,7 +271,7 @@ export async function provisionLicense(ctx: ProvisioningContext): Promise<Provis
       const { data: magicLink } = await supabase.auth.admin.generateLink({
         type: 'magiclink',
         email,
-        options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${encodeURIComponent('/admin')}` },
+        options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?redirect=${encodeURIComponent('/admin')}` },
       });
 
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {

@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
   if (!body.contract_id) return safeError('contract_id is required', 400);
 
   const mode: ResponseStyleMode = body.response_style ?? 'state_contract_formal';
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
 
   // Load template + fields
   const { data: template } = await db

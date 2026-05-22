@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
   if (!body.contract_id) return safeError('contract_id is required', 400);
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
   const storage = createStorageClient(url, key, { auth: { persistSession: false } });
 
   const { data: template, error: tErr } = await db

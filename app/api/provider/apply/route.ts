@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: provider application form
 
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdminClient as createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
@@ -71,7 +71,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const supabase = await createAdminClient();
+    const supabase = await getAdminClient();
+    if (!supabase) {
+      return safeInternalError(new Error('Admin database unavailable'), 'Failed to submit application');
+    }
 
     // Check for duplicate pending application
     const { data: existing } = await supabase

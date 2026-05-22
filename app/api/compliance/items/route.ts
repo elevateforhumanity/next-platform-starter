@@ -17,7 +17,7 @@ async function _GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   // Use service-role client — compliance_items RLS may block user-session reads
-  const supabase = requireAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: items, error } = await supabase
     .from('compliance_items')
@@ -39,7 +39,7 @@ async function _PATCH(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const supabase = requireAdminClient();
+  const supabase = await requireAdminClient();
 
   const { id, status } = await request.json();
 
