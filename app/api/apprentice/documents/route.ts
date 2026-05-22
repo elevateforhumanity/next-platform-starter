@@ -41,13 +41,12 @@ async function _GET(request: NextRequest) {
       logger.error('[Documents API] Types error:', typesError);
     }
 
-    // Get student's uploaded documents
+    // Get student's uploaded documents — filter by program_slug stored in metadata
     const { data: uploadedDocuments, error: docsError } = await supabase
       .from('documents')
-      .select('*')
-      .eq('student_id', user.id)
-      .eq('program_slug', programSlug)
-      .order('uploaded_at', { ascending: false });
+      .select('id, document_type, file_name, file_url, status, created_at, metadata')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
 
     if (docsError) {
       logger.error('[Documents API] Docs error:', docsError);
@@ -142,26 +141,25 @@ async function _POST(request: NextRequest) {
 
     // Bucket is private — store file_path only, generate signed URLs on-demand
 
-    // Delete any existing document of this type (replace)
+    // Delete any existing document of this type for this user (replace)
     await supabase
       .from('documents')
       .delete()
-      .eq('student_id', user.id)
-      .eq('document_type_id', documentTypeId);
+      .eq('user_id', user.id)
+      .eq('document_type', docType.document_type);
 
-    // Create document record
+    // Create document record — columns match live documents schema
     const { data: docRecord, error: recordError } = await supabase
       .from('documents')
       .insert({
-        student_id: user.id,
-        document_type_id: documentTypeId,
-        program_slug: programSlug,
+        user_id: user.id,
+        document_type: docType.document_type,
         file_name: file.name,
         file_url: null,
         file_size_bytes: file.size,
         mime_type: file.type,
         status: 'pending',
-        uploaded_at: new Date().toISOString(),
+        metadata: programSlug ? { program_slug: programSlug } : null,
       })
       .select()
       .maybeSingle();

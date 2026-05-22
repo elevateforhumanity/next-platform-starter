@@ -910,7 +910,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
   const [programRowsRes, rProfilesRes] = await Promise.all([
     topProgramIds.length > 0
-      ? db.from('programs').select('id, name, title').in('id', topProgramIds)
+      ? db.from('programs').select('id, name, title, slug').in('id', topProgramIds)
       : Promise.resolve({ data: [] }),
     recentEnrollUserIds.length > 0
       ? db.from('profiles').select('id, full_name, email').in('id', recentEnrollUserIds)
@@ -918,14 +918,17 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   ]);
 
   const programNamesMap: Record<string, string> = {};
+  const programSlugsMap: Record<string, string> = {};
   for (const p of programRowsRes.data ?? []) {
     programNamesMap[(p as any).id] = (p as any).name || (p as any).title || (p as any).id.slice(0, 8);
+    programSlugsMap[(p as any).id] = (p as any).slug ?? '';
   }
 
   const topPrograms = topProgramIds.map(id => {
     const p = programTotals[id];
     return {
       id,
+      slug: programSlugsMap[id] ?? '',
       title: programNamesMap[id] ?? id.slice(0, 8),
       learners: toSafeNumber(p.total),
       completed: toSafeNumber(p.completed),

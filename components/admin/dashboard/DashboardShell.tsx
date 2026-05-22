@@ -506,7 +506,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
               </div>
               <div className="divide-y divide-slate-100">
                 {data.topPrograms.slice(0, 6).map((p) => (
-                  <Link key={p.id} href={`/admin/programs/${p.id}`}
+                  <Link key={p.id} href={p.slug ? `/admin/programs/${p.slug}/manage` : '/admin/programs'}
                     className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
                     <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
                     <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.learners} enrolled</span>
