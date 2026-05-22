@@ -74,7 +74,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 0,
     description: 'Pay directly from your Cash App balance or linked bank. Instant checkout.',
-    enabled: true,
+    enabled: false, // not available on this Stripe account's Default config
   },
   {
     id: 'amazon_pay',
@@ -85,7 +85,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 0,
     description: 'Use your Amazon account and saved payment methods to check out in seconds.',
-    enabled: true,
+    enabled: false, // not available on this Stripe account's Default config
   },
   {
     id: 'us_bank_account',
@@ -96,7 +96,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 0,
     description: 'Direct bank transfer via ACH. No card required — link your bank account at checkout.',
-    enabled: true,
+    enabled: false, // not available on this Stripe account's Default config
   },
   // --- Separate SDK flows (stripeMethodId = null — not routed through Stripe) ---
   {
@@ -108,7 +108,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 50,
     maxAmount: 30000,
     description: 'Monthly installment financing at 0–36% APR over 3–36 months. Subject to credit approval.',
-    enabled: true,
+    enabled: false, // enable once AFFIRM_PUBLIC_KEY + AFFIRM_PRIVATE_KEY are set
   },
   {
     id: 'sezzle',
@@ -119,7 +119,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 2500,
     description: '4 interest-free payments over 6 weeks. Quick approval, no hard credit check.',
-    enabled: true,
+    enabled: false, // enable once SEZZLE_PUBLIC_KEY + SEZZLE_PRIVATE_KEY are set
   },
 ];
 
