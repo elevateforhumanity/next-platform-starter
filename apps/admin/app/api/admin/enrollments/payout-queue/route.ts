@@ -29,14 +29,15 @@ export async function GET(request: NextRequest) {
       user_id,
       status,
       program_slug,
+      program_holder_id,
       student_start_date,
       voucher_issued_date,
       voucher_paid_date,
       payout_due_date,
       payout_status,
+      payout_amount,
       payout_paid_date,
-      payout_notes,
-      program_holders:partner_id ( name, contact_name, contact_email )
+      payout_notes
     `,
     )
     .neq('payout_status', 'not_triggered')
@@ -46,17 +47,28 @@ export async function GET(request: NextRequest) {
     query = query.eq('payout_status', status);
   }
 
-  // Mark overdue: payout_due_date < now and not paid
   const { data: rawData, error } = await query;
   if (error) return safeInternalError(error, 'Failed to fetch payout queue');
 
-  // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
+  // Hydrate profiles (user_id → profiles)
   const userIds = [...new Set((rawData ?? []).map((r: any) => r.user_id).filter(Boolean))];
   const { data: profileRows } = userIds.length
     ? await db.from('profiles').select('id, full_name, email').in('id', userIds)
     : { data: [] };
   const profileMap = Object.fromEntries((profileRows ?? []).map((p: any) => [p.id, p]));
-  const data = (rawData ?? []).map((r: any) => ({ ...r, profiles: profileMap[r.user_id] ?? null }));
+
+  // Hydrate program_holders (program_holder_id → program_holders)
+  const holderIds = [...new Set((rawData ?? []).map((r: any) => r.program_holder_id).filter(Boolean))];
+  const { data: holderRows } = holderIds.length
+    ? await db.from('program_holders').select('id, name, contact_name, contact_email').in('id', holderIds)
+    : { data: [] };
+  const holderMap = Object.fromEntries((holderRows ?? []).map((h: any) => [h.id, h]));
+
+  const data = (rawData ?? []).map((r: any) => ({
+    ...r,
+    profiles: profileMap[r.user_id] ?? null,
+    program_holders: holderMap[r.program_holder_id] ?? null,
+  }));
 
   const now = new Date();
   const enriched = data.map((row) => ({

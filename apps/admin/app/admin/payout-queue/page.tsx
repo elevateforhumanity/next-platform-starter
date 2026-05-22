@@ -85,11 +85,10 @@ export default async function PayoutQueuePage({
     .from('program_enrollments')
     .select(
       `
-      id, program_slug, student_start_date,
+      id, program_slug, program_holder_id, student_start_date,
       voucher_issued_date, voucher_paid_date,
-      payout_due_date, payout_status, payout_paid_date, payout_notes,
-      user_id,
-      program_holders:partner_id ( name, contact_name, contact_email )
+      payout_due_date, payout_status, payout_amount, payout_paid_date, payout_notes,
+      user_id
     `,
     )
     .neq('payout_status', 'not_triggered')
@@ -101,15 +100,24 @@ export default async function PayoutQueuePage({
 
   const { data: rawRows } = await query;
 
-  // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
+  // Hydrate profiles (user_id → profiles)
   const payoutUserIds = [...new Set((rawRows ?? []).map((r: any) => r.user_id).filter(Boolean))];
   const { data: payoutProfiles } = payoutUserIds.length
     ? await db.from('profiles').select('id, full_name, email').in('id', payoutUserIds)
     : { data: [] };
   const payoutProfileMap = Object.fromEntries((payoutProfiles ?? []).map((p: any) => [p.id, p]));
+
+  // Hydrate program_holders (program_holder_id → program_holders)
+  const holderIds = [...new Set((rawRows ?? []).map((r: any) => r.program_holder_id).filter(Boolean))];
+  const { data: holderRows } = holderIds.length
+    ? await db.from('program_holders').select('id, name, contact_name, contact_email').in('id', holderIds)
+    : { data: [] };
+  const holderMap = Object.fromEntries((holderRows ?? []).map((h: any) => [h.id, h]));
+
   const rows = (rawRows ?? []).map((r: any) => ({
     ...r,
     profiles: payoutProfileMap[r.user_id] ?? null,
+    program_holders: holderMap[r.program_holder_id] ?? null,
   }));
 
   const now = new Date();
