@@ -1191,6 +1191,12 @@ const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<strin
   { patterns: /audit.*system|system.*audit|full.*audit|run.*audit/i,       action: 'audit_system',        args: { scope: 'all' } },
   { patterns: /broken.*link|inspect.*link|link.*check|dead.*link/i,        action: 'inspect_links',       args: {} },
   { patterns: /run.*migration|apply.*migration|migration.*apply/i,         action: 'run_migration',       args: { confirm: false } },
+  { patterns: /list.*migration|pending.*migration|migration.*pending|show.*migration/i, action: 'list_pending_migrations', args: {} },
+  { patterns: /system.*health|health.*check|check.*health|check.*system/i, action: 'check_system_health', args: {} },
+  { patterns: /platform.*state|get.*platform|platform.*status/i,           action: 'get_platform_state',  args: {} },
+  { patterns: /list.*user|show.*user/i,                                     action: 'list_users',          args: {} },
+  { patterns: /list.*shop|show.*shop|barber.*shop/i,                        action: 'list_shops',          args: {} },
+  { patterns: /list.*completion|show.*completion/i,                         action: 'list_completions',    args: {} },
 ];
 
 function matchKeyword(command: string): { action: string; args: Record<string, unknown> } | null {
