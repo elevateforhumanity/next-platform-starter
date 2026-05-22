@@ -52,12 +52,22 @@ export async function GET(request: NextRequest) {
   const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
-  const { data, error } = await db
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get('status');
+  const limit = Math.min(parseInt(searchParams.get('limit') || '200'), 500);
+
+  let query = db
     .from('wioa_participants')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(200);
+    .limit(limit);
+
+  if (status && status !== 'all') {
+    query = query.eq('status', status);
+  }
+
+  const { data, error } = await query;
 
   if (error) return safeDbError(error, 'Failed to fetch WIOA participants');
-  return NextResponse.json({ participants: data });
+  return NextResponse.json({ cases: data, total: data?.length ?? 0 });
 }

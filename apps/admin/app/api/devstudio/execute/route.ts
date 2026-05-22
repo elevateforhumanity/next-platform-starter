@@ -1630,11 +1630,21 @@ async function executeAction(
         const res = await fetch(url.toString(), { headers });
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
-          const cases = Array.isArray(data) ? data : (data.cases ?? data.data ?? []);
-          write(`\x1b[32m✓  ${cases.length} WIOA case(s)\x1b[0m`);
-          cases.slice(0, 10).forEach((c: Record<string, unknown>) => {
-            write(`   ${c.full_name ?? c.user_id ?? ''} — ${c.status ?? ''} — ${c.program ?? ''}`);
-          });
+          const cases = Array.isArray(data) ? data : (data.cases ?? data.participants ?? data.data ?? []);
+          write(`\x1b[32m✓  ${cases.length} WIOA case(s)${status !== 'all' ? ` (${status})` : ''}\x1b[0m`);
+          if (cases.length === 0) {
+            write('   No WIOA participants on record yet.');
+            write('   To add one: POST /api/admin/wioa with participant_name, participant_email, program');
+          } else {
+            cases.slice(0, 10).forEach((c: Record<string, unknown>) => {
+              const name = (c.name ?? c.participant_name ?? c.full_name ?? c.user_id ?? '') as string;
+              const prog = (c.program ?? c.program_slug ?? '') as string;
+              const st = (c.status ?? '') as string;
+              const cm = c.case_manager ? ` — CM: ${c.case_manager}` : '';
+              write(`   ${name} — ${prog} — ${st}${cm}`);
+            });
+            if (cases.length > 10) write(`   ... and ${cases.length - 10} more`);
+          }
           write(`   Full list: /admin/wioa`);
         } else {
           write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
@@ -1666,25 +1676,47 @@ async function executeAction(
     }
 
     case 'list_programs': {
-      const status = (args.status as string) || 'all';
+      const filterStatus = (args.status as string) || 'all';
+      const publishedOnly = args.published === true || filterStatus === 'published';
       write('\x1b[33m⚙  Loading programs...\x1b[0m');
       try {
-        const url = new URL(`${baseUrl}/api/admin/programs`);
-        if (status !== 'all') url.searchParams.set('status', status);
-        const res = await fetch(url.toString(), { headers });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok) {
-          const programs = Array.isArray(data) ? data : (data.programs ?? data.data ?? []);
-          write(`\x1b[32m✓  ${programs.length} program(s)\x1b[0m`);
-          programs.slice(0, 15).forEach((p: Record<string, unknown>) => {
-            write(`   ${p.title ?? p.name ?? p.id} — ${p.status ?? ''}`);
-          });
-          write(`   Full list: /admin/programs`);
-        } else {
-          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
-        }
-      } catch {
-        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+        let q = adminDb
+          .from('programs')
+          .select('id, title, slug, status, published, is_active, category, created_at')
+          .order('title', { ascending: true });
+        if (publishedOnly) q = q.eq('published', true);
+        else if (filterStatus !== 'all') q = q.eq('status', filterStatus);
+
+        const { data: programs, error: pErr } = await q;
+        if (pErr) { write(`\x1b[31m✗  ${pErr.message}\x1b[0m`); break; }
+
+        // Hydrate enrollment counts per program
+        const slugs = (programs ?? []).map((p: any) => p.slug).filter(Boolean);
+        const { data: enrollCounts } = slugs.length
+          ? await adminDb
+              .from('program_enrollments')
+              .select('program_slug')
+              .in('program_slug', slugs)
+              .eq('status', 'active')
+          : { data: [] };
+        const countMap: Record<string, number> = {};
+        (enrollCounts ?? []).forEach((e: any) => {
+          countMap[e.program_slug] = (countMap[e.program_slug] ?? 0) + 1;
+        });
+
+        write(`\x1b[32m✓  ${programs?.length ?? 0} program(s)${publishedOnly ? ' (published)' : filterStatus !== 'all' ? ` (${filterStatus})` : ''}\x1b[0m`);
+        (programs ?? []).slice(0, 20).forEach((p: any) => {
+          const pub = p.published ? '\x1b[32m●\x1b[0m' : '\x1b[90m○\x1b[0m';
+          const enrollCount = countMap[p.slug] ?? 0;
+          const enroll = enrollCount > 0 ? ` \x1b[33m${enrollCount} enrolled\x1b[0m` : '';
+          const cat = p.category ? ` [${p.category}]` : '';
+          write(`   ${pub} ${p.title ?? p.id}${cat} — ${p.status ?? ''}${enroll}`);
+        });
+        if ((programs?.length ?? 0) > 20) write(`   ... and ${(programs?.length ?? 0) - 20} more`);
+        write('   \x1b[90m● published  ○ unpublished\x1b[0m');
+        write('   Full list: /admin/programs');
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
       }
       break;
     }
