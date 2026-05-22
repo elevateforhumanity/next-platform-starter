@@ -148,6 +148,23 @@ export async function createOrUpdateEnrollment(
     logger.info(
       `[enrollment-service] ${action}: ${enrollment.id} (program ${programId} for user ${userId})`,
     );
+
+    // Notify program holder when a new HVAC student enrolls
+    const HVAC_PROGRAM_ID = '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7';
+    if (action === 'created' && programId === HVAC_PROGRAM_ID) {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.elevateforhumanity.org';
+      fetch(`${baseUrl}/api/program-holder/new-student-notify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-internal-secret': 'elevate-internal-2026' },
+        body: JSON.stringify({
+          studentName: fullName ?? null,
+          studentEmail: email ?? null,
+          studentPhone: null,
+          programName: 'HVAC EPA 608 Certification',
+        }),
+      }).catch(() => {}); // fire-and-forget — don't block enrollment
+    }
+
     return { id: enrollment.id, action };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);

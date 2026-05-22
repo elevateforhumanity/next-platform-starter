@@ -88,7 +88,7 @@ export default async function ProgramHolderDashboardPage() {
   // ── students roster ────────────────────────────────────────────────────────
   const { data: phStudentsRaw } = holderId
     ? await db.from('program_holder_students')
-        .select('id,user_id,status,enrolled_at,completed_at,label,applicant_name,applicant_email,applicant_phone,application_status,call_notes,call_date,call_outcome,work_start_date,work_site,work_progress')
+        .select('id,user_id,status,enrolled_at,completed_at,label,applicant_name,applicant_email,applicant_phone,application_status,call_notes,call_date,call_outcome,work_start_date,work_site,work_progress,completion_date,hours_taught,hours_required,last_session_date')
         .eq('program_holder_id', holderId)
         .order('enrolled_at', { ascending: true })
     : { data: [] };
@@ -100,11 +100,15 @@ export default async function ProgramHolderDashboardPage() {
     ? await db.from('profiles').select('id,full_name,email').in('id', studentUserIds)
     : { data: [] };
   const spMap = Object.fromEntries((studentProfiles ?? []).map((p: any) => [p.id, p]));
-  const students = (phStudentsRaw ?? []).map((s: any, i: number) => ({
+  const students = (phStudentsRaw ?? []).filter((s: any) => s.label !== 'call_list').map((s: any, i: number) => ({
     id: s.id, userId: s.user_id, sequence: i + 1,
-    name: spMap[s.user_id]?.full_name ?? 'Student',
-    email: spMap[s.user_id]?.email ?? '',
+    name: spMap[s.user_id]?.full_name ?? s.applicant_name ?? 'Student',
+    email: spMap[s.user_id]?.email ?? s.applicant_email ?? '',
     status: s.status, enrolledAt: s.enrolled_at, completedAt: s.completed_at,
+    completionDate: s.completion_date,
+    hoursTaught: Number(s.hours_taught ?? 0),
+    hoursRequired: Number(s.hours_required ?? 40),
+    lastSessionDate: s.last_session_date,
   }));
 
   // ── attendance summary ─────────────────────────────────────────────────────
@@ -350,6 +354,92 @@ export default async function ProgramHolderDashboardPage() {
                 </div>
               )}
             </div>
+
+            {/* Completion Dates & Hours Taught */}
+            {students.length > 0 && (
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                  <h2 className="font-bold text-slate-900 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-slate-400" /> Completion &amp; Hours
+                  </h2>
+                  <span className="text-xs text-slate-400">HVAC EPA 608 — 40 hrs required</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-slate-50 border-b border-slate-100">
+                        <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Student</th>
+                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Enrolled</th>
+                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Hours Taught</th>
+                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Progress</th>
+                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Last Session</th>
+                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Completion Date</th>
+                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {students.map((s) => {
+                        const pct = s.hoursRequired > 0 ? Math.min(100, Math.round((s.hoursTaught / s.hoursRequired) * 100)) : 0;
+                        const isComplete = !!s.completionDate || s.status === 'completed';
+                        return (
+                          <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-brand-blue-100 flex items-center justify-center flex-shrink-0">
+                                  <span className="text-brand-blue-700 text-xs font-bold">{s.name.charAt(0)}</span>
+                                </div>
+                                <div>
+                                  <p className="font-semibold text-slate-900">{s.name}</p>
+                                  <p className="text-xs text-slate-400">{s.email}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-slate-600 whitespace-nowrap">{fmtDate(s.enrolledAt)}</td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="font-bold text-slate-900">{s.hoursTaught.toFixed(1)}</span>
+                              <span className="text-slate-400 text-xs"> / {s.hoursRequired}h</span>
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-2 min-w-[100px]">
+                                <div className="flex-1 bg-slate-100 rounded-full h-2">
+                                  <div
+                                    className={`h-2 rounded-full transition-all ${isComplete ? 'bg-emerald-500' : pct >= 75 ? 'bg-brand-blue-500' : pct >= 40 ? 'bg-amber-400' : 'bg-slate-300'}`}
+                                    style={{ width: `${pct}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs font-semibold text-slate-600 w-8 text-right">{pct}%</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-slate-600 whitespace-nowrap">{fmtDate(s.lastSessionDate)}</td>
+                            <td className="px-4 py-4 whitespace-nowrap">
+                              {s.completionDate ? (
+                                <span className="text-emerald-700 font-semibold">{fmtDate(s.completionDate)}</span>
+                              ) : (
+                                <span className="text-slate-300 text-xs">Not yet</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <StatusPill status={isComplete ? 'completed' : s.hoursTaught > 0 ? 'active' : 'pending'} />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                    <tfoot>
+                      <tr className="bg-slate-50 border-t border-slate-200">
+                        <td className="px-6 py-3 text-xs font-semibold text-slate-600" colSpan={2}>Totals</td>
+                        <td className="px-4 py-3 text-center font-bold text-slate-900">
+                          {students.reduce((sum, s) => sum + s.hoursTaught, 0).toFixed(1)}h
+                        </td>
+                        <td colSpan={4} className="px-4 py-3 text-xs text-slate-400">
+                          {students.filter(s => s.completionDate).length} of {students.length} completed
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            )}
 
             {/* Call List */}
             {callList.length > 0 && <CallListPanel applicants={callList as any} />}
