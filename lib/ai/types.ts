@@ -109,5 +109,5 @@ export interface AIImageProvider {
 
 // -- Provider Registry --
 
-export type AIProviderName = 'openai' | 'gemini' | 'azure' | 'local' | 'none';
+export type AIProviderName = 'openai' | 'gemini' | 'azure' | 'groq' | 'local' | 'none';
 export type AIImageProviderName = 'dalle' | 'stability' | 'local' | 'none';

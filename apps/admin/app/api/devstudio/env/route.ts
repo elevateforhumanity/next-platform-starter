@@ -32,24 +32,32 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const db = await requireAdminClient();
-  const { data, error } = await db
-    .from('app_secrets')
-    .select('key, value, scope, description, note, updated_at')
-    .order('key', { ascending: true });
+  try {
+    const db = await requireAdminClient();
+    const { data, error } = await db
+      .from('app_secrets')
+      .select('key, value, scope, description, note, updated_at')
+      .order('key', { ascending: true });
 
-  if (error) return safeDbError(error, 'Failed to load container environment');
+    // Table doesn't exist yet — return empty list rather than 500
+    if (error) {
+      if (error.code === '42P01') return NextResponse.json({ entries: [] });
+      return safeDbError(error, 'Failed to load container environment');
+    }
 
-  const entries = (data ?? []).map((row) => ({
-    key: row.key,
-    scope: normalizeScope(row.scope ?? 'runtime'),
-    description: row.description ?? row.note ?? '',
-    masked_value: maskValue(row.value ?? ''),
-    has_value: !!(row.value && row.value.length > 0),
-    updated_at: row.updated_at,
-  }));
+    const entries = (data ?? []).map((row) => ({
+      key: row.key,
+      scope: normalizeScope(row.scope ?? 'runtime'),
+      description: row.description ?? row.note ?? '',
+      masked_value: maskValue(row.value ?? ''),
+      has_value: !!(row.value && row.value.length > 0),
+      updated_at: row.updated_at,
+    }));
 
-  return NextResponse.json({ entries });
+    return NextResponse.json({ entries });
+  } catch (err) {
+    return safeInternalError(err, 'Failed to load container environment');
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -100,7 +108,8 @@ export async function POST(req: NextRequest) {
     const { error } = await db.from('app_secrets').upsert(rows, { onConflict: 'key' });
     if (error) return safeDbError(error, 'Failed to save container environment');
 
-    await refreshSecrets();
+    // Non-fatal — secrets cache refresh failure doesn't block the save response
+    await refreshSecrets().catch(() => {});
 
     return NextResponse.json({ saved: rows.length });
   } catch (err) {
@@ -128,7 +137,7 @@ export async function DELETE(req: NextRequest) {
   const { error } = await db.from('app_secrets').delete().eq('key', key);
   if (error) return safeDbError(error, 'Failed to delete container environment key');
 
-  await refreshSecrets();
+  await refreshSecrets().catch(() => {});
 
   return NextResponse.json({ deleted: key });
 }

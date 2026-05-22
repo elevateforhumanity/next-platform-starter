@@ -19,16 +19,7 @@ interface DocRecord {
   created_at: string;
 }
 
-const ALLOWED_EXTS = ['pdf', 'docx', 'doc', 'xlsx', 'csv', 'png', 'jpg', 'jpeg'];
-const ALLOWED_MIME = [
-  'application/pdf',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'text/csv',
-  'image/png',
-  'image/jpeg',
-];
+// No client-side type restrictions — server accepts any file type.
 
 function fmtBytes(n: number): string {
   if (n < 1024) return `${n} B`;
@@ -74,12 +65,6 @@ export default function DocumentsPanel() {
     setUploadErr(null);
     setUploadOk(null);
 
-    // Client-side validation
-    const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
-    if (!ALLOWED_EXTS.includes(ext) && !ALLOWED_MIME.includes(file.type)) {
-      setUploadErr(`File type not allowed. Use: ${ALLOWED_EXTS.join(', ')}`);
-      return;
-    }
     if (file.size > 50 * 1024 * 1024) {
       setUploadErr('File exceeds 50 MB limit');
       return;
@@ -137,8 +122,7 @@ export default function DocumentsPanel() {
           {uploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
           Upload
         </button>
-        <input ref={inputRef} type="file" className="hidden" onChange={onFileChange}
-          accept={ALLOWED_EXTS.map(e => `.${e}`).join(',')} />
+        <input ref={inputRef} type="file" className="hidden" onChange={onFileChange} />
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -163,7 +147,7 @@ export default function DocumentsPanel() {
             <div className="flex flex-col items-center gap-2 text-slate-400">
               <Upload className="w-6 h-6" />
               <p className="text-sm font-medium text-slate-600">Drop a file or click to upload</p>
-              <p className="text-xs">{ALLOWED_EXTS.join(' · ')} · max 50 MB</p>
+              <p className="text-xs">Any file type (PDF, DOCX, ZIP, CSV, images…) · max 50 MB</p>
             </div>
           )}
         </div>

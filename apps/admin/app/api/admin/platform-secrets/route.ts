@@ -149,8 +149,18 @@ async function _PATCH(request: Request) {
           headers: { Authorization: `Bearer ${value}` },
           signal: AbortSignal.timeout(6000),
         });
-        status = r.ok ? 'ok' : 'error';
-        message = r.ok ? `HTTP ${r.status}` : `HTTP ${r.status}`;
+        if (r.ok) {
+          status = 'ok';
+          message = `HTTP ${r.status}`;
+        } else if (r.status === 429) {
+          // Groq rate-limits the models endpoint aggressively; a 429 means
+          // the key is valid but the quota is temporarily exhausted.
+          status = 'ok';
+          message = 'Key valid (rate limited — quota temporarily exhausted)';
+        } else {
+          status = 'error';
+          message = `HTTP ${r.status}`;
+        }
       } else if (key === 'OPENAI_API_KEY') {
         const r = await fetch('https://api.openai.com/v1/models', {
           headers: { Authorization: `Bearer ${value}` },

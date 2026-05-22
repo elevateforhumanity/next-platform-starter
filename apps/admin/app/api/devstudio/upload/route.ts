@@ -26,16 +26,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-const ALLOWED_TYPES: Record<string, string> = {
-  'application/pdf':                                                          'pdf',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
-  'application/msword':                                                       'doc',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':       'xlsx',
-  'text/csv':                                                                 'csv',
-  'image/png':                                                                'png',
-  'image/jpeg':                                                               'jpg',
-  'image/jpg':                                                                'jpg',
-};
+// No MIME type whitelist — accept any file type. Extension is derived from filename.
 
 const MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 const LOCAL_UPLOAD_ROOT = '/tmp/devstudio-docs';
@@ -84,11 +75,7 @@ export async function POST(request: NextRequest) {
     if (file.size > MAX_BYTES) return safeError('File exceeds 50 MB limit', 413);
 
     const contentType = file.type || 'application/octet-stream';
-    if (!ALLOWED_TYPES[contentType]) {
-      return safeError(`File type not allowed: ${contentType}. Allowed: PDF, DOCX, XLSX, CSV, PNG, JPG`, 415);
-    }
-
-    const ext       = ALLOWED_TYPES[contentType];
+    const ext       = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'bin';
     const safeName  = file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120);
     const timestamp = Date.now();
     const key       = `devstudio-docs/${user.id}/${timestamp}-${safeName}`;

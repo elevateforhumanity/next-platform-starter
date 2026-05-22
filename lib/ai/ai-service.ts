@@ -13,7 +13,7 @@ import type {
   GradingOptions,
   GradingResult,
 } from './types';
-import { OpenAIProvider, GeminiProvider, AzureProvider, StabilityProvider } from './providers';
+import { OpenAIProvider, GeminiProvider, AzureProvider, StabilityProvider, GroqProvider } from './providers';
 
 // -- Provider Registry --
 
@@ -21,6 +21,7 @@ const chatProviders: Record<string, () => AIProvider> = {
   openai: () => new OpenAIProvider(),
   gemini: () => new GeminiProvider(),
   azure: () => new AzureProvider(),
+  groq: () => new GroqProvider(),
 };
 
 const imageProviders: Record<string, () => AIImageProvider> = {
@@ -51,8 +52,8 @@ function resolveChatProvider(): AIProvider {
     logger.warn(`AI provider "${preferred}" not available, trying fallbacks`);
   }
 
-  // Fallback chain: openai → gemini → azure
-  for (const name of ['openai', 'gemini', 'azure']) {
+  // Fallback chain: openai → gemini → groq → azure
+  for (const name of ['openai', 'gemini', 'groq', 'azure']) {
     if (name === preferred) continue;
     const provider = chatProviders[name]();
     if (provider.isAvailable()) {
@@ -63,7 +64,7 @@ function resolveChatProvider(): AIProvider {
   }
 
   throw new Error(
-    'No AI chat provider available. Set OPENAI_API_KEY, GEMINI_API_KEY, or AZURE_OPENAI_API_KEY.',
+    'No AI chat provider available. Set OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, or AZURE_OPENAI_API_KEY.',
   );
 }
 

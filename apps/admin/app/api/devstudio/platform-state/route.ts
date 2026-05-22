@@ -53,11 +53,26 @@ export async function GET(req: NextRequest) {
     const count = (res: PromiseSettledResult<{ count: number | null }>) =>
       res.status === 'fulfilled' ? (res.value.count ?? 0) : null;
 
-    // Deployment health
+    // Deployment health — check both process.env and platform_secrets table
+    let groqFromDb = false;
+    let geminiFromDb = false;
+    let openaiFromDb = false;
+    try {
+      const { data: secretRows } = await supabase
+        .from('platform_secrets')
+        .select('key, value_enc')
+        .in('key', ['GROQ_API_KEY', 'GEMINI_API_KEY', 'OPENAI_API_KEY']);
+      for (const row of secretRows ?? []) {
+        if (row.key === 'GROQ_API_KEY'   && row.value_enc?.length > 10) groqFromDb   = true;
+        if (row.key === 'GEMINI_API_KEY'  && row.value_enc?.length > 10) geminiFromDb = true;
+        if (row.key === 'OPENAI_API_KEY'  && row.value_enc?.length > 10) openaiFromDb = true;
+      }
+    } catch { /* non-fatal — fall back to process.env only */ }
+
     const aiProviders = {
-      groq: isGroqConfigured(),
-      gemini: isGeminiConfigured(),
-      openai: !!process.env.OPENAI_API_KEY,
+      groq:   isGroqConfigured()   || groqFromDb,
+      gemini: isGeminiConfigured() || geminiFromDb,
+      openai: !!process.env.OPENAI_API_KEY || openaiFromDb,
     };
     const activeAiProvider = aiProviders.groq ? 'groq' : aiProviders.gemini ? 'gemini' : aiProviders.openai ? 'openai' : 'none';
 

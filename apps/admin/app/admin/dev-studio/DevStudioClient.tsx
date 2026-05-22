@@ -764,25 +764,34 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
     s === 'completed' ? 'text-green-600' : s === 'failed' ? 'text-red-500' : 'text-amber-500';
 
   return (
-    <div className="flex h-full overflow-hidden bg-white">
+    <div className="flex h-full overflow-hidden" style={{ background: '#1e1e1e' }}>
 
       {/* ── History sidebar ── */}
       {showHistory && (
-        <div className="w-56 flex-shrink-0 border-r border-slate-200 flex flex-col bg-slate-50 overflow-hidden">
-          <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">History</span>
-            <button onClick={() => setShowHistory(false)} className="text-slate-400 hover:text-slate-700">
+        <div className="w-56 flex-shrink-0 flex flex-col overflow-hidden border-r" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
+          <div className="flex items-center justify-between px-3 py-2 border-b" style={{ borderColor: '#3c3c3c' }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#858585' }}>History</span>
+            <button onClick={() => setShowHistory(false)} style={{ color: '#858585' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto">
             {jobs.length === 0 && (
-              <p className="text-xs text-slate-400 p-3 italic">No previous jobs</p>
+              <p className="text-xs p-3 italic" style={{ color: '#555' }}>No previous jobs</p>
             )}
             {jobs.map(j => (
               <button key={j.id} onClick={() => loadJob(j)}
-                className={`w-full text-left px-3 py-2.5 border-b border-slate-100 hover:bg-white transition-colors ${activeJob?.id === j.id ? 'bg-white border-l-2 border-l-orange-400' : ''}`}>
-                <p className="text-[11px] font-medium text-slate-700 truncate">{j.command}</p>
+                className="w-full text-left px-3 py-2.5 border-b transition-colors"
+                style={{
+                  borderColor: '#3c3c3c',
+                  background: activeJob?.id === j.id ? '#094771' : 'transparent',
+                  borderLeft: activeJob?.id === j.id ? '2px solid #f97316' : '2px solid transparent',
+                }}
+                onMouseEnter={e => { if (activeJob?.id !== j.id) e.currentTarget.style.background = '#2a2d2e'; }}
+                onMouseLeave={e => { if (activeJob?.id !== j.id) e.currentTarget.style.background = 'transparent'; }}>
+                <p className="text-[11px] font-medium truncate" style={{ color: '#cccccc' }}>{j.command}</p>
                 <p className={`text-[10px] mt-0.5 ${statusColor(j.status)}`}>
                   {j.status} · {new Date(j.started_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                 </p>
@@ -795,22 +804,28 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
       {/* ── Main panel ── */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
-        {/* Quick action buttons — single scrollable row, no wrapping */}
-        <div className="flex-shrink-0 border-b border-slate-200 bg-slate-50">
+        {/* Quick action buttons */}
+        <div className="flex-shrink-0 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
           <div className="flex items-center gap-1.5 px-2.5 py-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
             {QUICK_ACTIONS.map(({ label, cmd }) => (
               <button key={label} onClick={() => run(cmd)} disabled={loading}
-                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded-md border border-slate-200 bg-white hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-700 disabled:opacity-40 transition-colors shadow-sm whitespace-nowrap">
+                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded border disabled:opacity-40 transition-colors whitespace-nowrap"
+                style={{ background: '#3c3c3c', borderColor: '#555', color: '#cccccc' }}
+                onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = '#4a4a4a'; e.currentTarget.style.borderColor = '#f97316'; e.currentTarget.style.color = '#fff'; } }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#3c3c3c'; e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#cccccc'; }}>
                 {label}
               </button>
             ))}
           </div>
-          {/* Autopilot — single scrollable row */}
-          <div className="flex items-center gap-1.5 px-2.5 pb-2 border-t border-slate-100 pt-1.5 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-            <span className="flex-shrink-0 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Autopilot</span>
+          {/* Autopilot row */}
+          <div className="flex items-center gap-1.5 px-2.5 pb-2 pt-1 overflow-x-auto border-t" style={{ borderColor: '#3c3c3c', scrollbarWidth: 'none' }}>
+            <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-widest" style={{ color: '#555' }}>Autopilot</span>
             {AUTOPILOT.map(({ label, cmd }) => (
               <button key={label} onClick={() => run(cmd)} disabled={loading}
-                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded-md border border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-400 text-blue-700 disabled:opacity-40 transition-colors shadow-sm whitespace-nowrap">
+                className="flex-shrink-0 px-2.5 py-1 text-[11px] rounded border disabled:opacity-40 transition-colors whitespace-nowrap"
+                style={{ background: '#1a2a3a', borderColor: '#0078d4', color: '#4ec9b0' }}
+                onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = '#0e3a5c'; e.currentTarget.style.color = '#fff'; } }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#1a2a3a'; e.currentTarget.style.color = '#4ec9b0'; }}>
                 {label}
               </button>
             ))}
@@ -818,21 +833,24 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
         </div>
 
         {/* Log output — live streaming */}
-        <div className="flex-1 overflow-y-auto p-3 font-mono text-xs bg-white space-y-0.5">
+        <div className="flex-1 overflow-y-auto p-3 font-mono text-xs space-y-0.5" style={{ background: '#1e1e1e' }}>
           {lines.length === 0 && !loading && (
-            <p className="text-slate-400 italic pt-2">// No output yet — run a command or click a shortcut above</p>
+            <p className="italic pt-2" style={{ color: '#555' }}>// No output yet — run a command or click a shortcut above</p>
           )}
           {lines.map((l, i) => (
-            <div key={i} className={
-              l.type === 'user'   ? 'text-orange-500 font-bold' :
-              l.type === 'error'  ? 'text-red-500 bg-red-50 rounded px-1' :
-              'text-slate-700'
-            }>
+            <div key={i} style={{
+              color: l.type === 'user' ? '#f97316' :
+                     l.type === 'error' ? '#f87171' : '#cccccc',
+              background: l.type === 'error' ? 'rgba(239,68,68,0.1)' : 'transparent',
+              borderRadius: l.type === 'error' ? 3 : 0,
+              padding: l.type === 'error' ? '0 4px' : 0,
+              fontWeight: l.type === 'user' ? 700 : 400,
+            }}>
               {l.type === 'user' ? `$ ${l.text}` : l.text}
             </div>
           ))}
           {loading && (
-            <div className="flex items-center gap-1.5 text-orange-400 animate-pulse pt-1">
+            <div className="flex items-center gap-1.5 animate-pulse pt-1" style={{ color: '#f97316' }}>
               <Loader2 className="w-3 h-3 animate-spin" />
               <span>Running…</span>
             </div>
@@ -841,40 +859,50 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
         </div>
 
         {/* Input area */}
-        <div className="flex-shrink-0 border-t border-slate-200 bg-slate-50 p-3">
+        <div className="flex-shrink-0 p-3 border-t" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
           {/* Toolbar row */}
           <div className="flex items-center gap-2 mb-2">
             <button onClick={() => setShowHistory(h => !h)}
-              className="text-[11px] text-slate-500 hover:text-slate-800 border border-slate-200 rounded px-2 py-0.5 bg-white hover:bg-slate-50 transition-colors">
+              className="text-[11px] rounded px-2 py-0.5 border transition-colors"
+              style={{ color: '#858585', borderColor: '#3c3c3c', background: 'transparent' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#cccccc'; e.currentTarget.style.background = '#3c3c3c'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#858585'; e.currentTarget.style.background = 'transparent'; }}>
               {showHistory ? 'Hide history' : `History (${jobs.length})`}
             </button>
             {loading && (
               <button onClick={() => { abortRef.current?.abort(); setLoading(false); }}
-                className="text-[11px] text-red-500 hover:text-red-700 border border-red-200 rounded px-2 py-0.5 bg-red-50 hover:bg-red-100 transition-colors">
+                className="text-[11px] rounded px-2 py-0.5 border transition-colors"
+                style={{ color: '#f87171', borderColor: '#7f1d1d', background: 'rgba(239,68,68,0.1)' }}>
                 Cancel
               </button>
             )}
             {jobId && !loading && (
-              <span className="text-[10px] text-slate-400 ml-auto font-mono">job {jobId.slice(0, 8)}</span>
+              <span className="text-[10px] ml-auto font-mono" style={{ color: '#555' }}>job {jobId.slice(0, 8)}</span>
             )}
           </div>
-          {/* Textarea + send */}
+          {/* Input + send */}
           <div className="flex gap-2 items-center">
-            <span className="text-orange-500 font-mono text-sm font-bold">$</span>
+            <span className="font-mono text-sm font-bold" style={{ color: '#f97316' }}>$</span>
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); run(input); } }}
-              placeholder="Tell it what to do… e.g. 'Run enrollment report', 'Generate a CNA course', 'List at-risk students'"
+              placeholder="Tell it what to do… e.g. 'Run enrollment report', 'List at-risk students'"
               disabled={loading}
-              className="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-slate-400 font-mono h-10 disabled:opacity-60"
+              className="flex-1 rounded-lg px-3 py-2 text-sm outline-none font-mono h-10 disabled:opacity-60"
+              style={{ background: '#3c3c3c', border: '1px solid #555', color: '#cccccc' }}
+              onFocus={e => (e.currentTarget.style.borderColor = '#0078d4')}
+              onBlur={e => (e.currentTarget.style.borderColor = '#555')}
             />
             <button onClick={() => run(input)} disabled={loading || !input.trim()}
-              className="p-2 rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-40 transition-colors h-10 w-10 inline-flex items-center justify-center">
+              className="rounded-md disabled:opacity-40 transition-colors h-10 w-10 inline-flex items-center justify-center"
+              style={{ background: '#f97316' }}
+              onMouseEnter={e => { if (!loading && input.trim()) e.currentTarget.style.background = '#ea6c00'; }}
+              onMouseLeave={e => (e.currentTarget.style.background = '#f97316')}>
               <Send className="w-3.5 h-3.5 text-white" />
             </button>
           </div>
-          <p className="text-[10px] text-slate-400 mt-1.5">Enter to run · Output persists across page reloads</p>
+          <p className="text-[10px] mt-1.5" style={{ color: '#555' }}>Enter to run · Output persists across page reloads</p>
         </div>
       </div>
     </div>
@@ -1127,9 +1155,10 @@ function FilesTab() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-full bg-white">
+    <div className="flex flex-col md:flex-row h-full" style={{ background: '#1e1e1e' }}>
       {/* Sidebar — FileTree component */}
-      <div className="w-full md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 overflow-y-auto bg-slate-50 max-h-48 md:max-h-none">
+      <div className="w-full md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r overflow-y-auto"
+        style={{ background: '#252526', borderColor: '#3c3c3c', minHeight: 0 }}>
         <FileTree
           files={files}
           onFileSelect={loadFile}
@@ -1137,15 +1166,18 @@ function FilesTab() {
         />
       </div>
       {/* Editor */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white">
+      <div className="flex-1 flex flex-col min-w-0" style={{ background: '#1e1e1e' }}>
         {selected ? (
           <>
-            <div className="flex-shrink-0 flex flex-col gap-1 px-4 py-1.5 bg-slate-50 border-b border-slate-200">
+            <div className="flex-shrink-0 flex flex-col gap-1 px-4 py-1.5 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
               <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-600 font-mono truncate max-w-xs">{selected}</span>
-                {saveMsg && <span className="text-[11px] text-slate-600">{saveMsg}</span>}
+                <span className="text-[11px] font-mono truncate max-w-xs" style={{ color: '#858585' }}>{selected}</span>
+                {saveMsg && <span className="text-[11px]" style={{ color: saveMsg.startsWith('✅') ? '#4ec9b0' : '#f87171' }}>{saveMsg}</span>}
                 <button onClick={saveFile} disabled={saving || !fileSha}
-                  className="flex items-center gap-1 px-2 py-0.5 text-[10px] rounded bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors">
+                  className="flex items-center gap-1 px-2 py-0.5 text-[10px] rounded disabled:opacity-50 transition-colors"
+                  style={{ background: '#f97316', color: '#fff' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#ea6c00')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#f97316')}>
                   <Save className="w-2.5 h-2.5" />{saving ? 'Committing…' : 'Commit'}
                 </button>
               </div>
@@ -1153,7 +1185,10 @@ function FilesTab() {
                 value={commitMsg}
                 onChange={(e) => setCommitMsg(e.target.value)}
                 placeholder="Commit message…"
-                className="text-[11px] font-mono bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none focus:border-orange-400"
+                className="text-[11px] font-mono rounded px-2 py-0.5 outline-none"
+                style={{ background: '#3c3c3c', border: '1px solid #555', color: '#cccccc' }}
+                onFocus={e => (e.currentTarget.style.borderColor = '#0078d4')}
+                onBlur={e => (e.currentTarget.style.borderColor = '#555')}
               />
             </div>
             <div className="flex-1 min-h-0">
@@ -1161,9 +1196,9 @@ function FilesTab() {
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-slate-300 gap-2">
-            <FolderOpen className="w-10 h-10" />
-            <p className="text-xs text-slate-400">Select a file to edit</p>
+          <div className="flex flex-col items-center justify-center h-full gap-2">
+            <FolderOpen className="w-10 h-10" style={{ color: '#3c3c3c' }} />
+            <p className="text-xs" style={{ color: '#555' }}>Select a file to edit</p>
           </div>
         )}
       </div>
