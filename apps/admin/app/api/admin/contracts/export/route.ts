@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   const export_type = body.export_type ?? 'pdf';
   if (!contract_id || !run_id) return safeError('contract_id and run_id are required', 400);
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
   const storage = createStorageClient(url, key, { auth: { persistSession: false } });
 
   // Load template

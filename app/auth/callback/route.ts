@@ -12,7 +12,10 @@ export async function GET(request: Request) {
   const error = requestUrl.searchParams.get('error');
   const errorDescription = requestUrl.searchParams.get('error_description');
   const type = requestUrl.searchParams.get('type');
-  const next = validateRedirect(requestUrl.searchParams.get('next'), '/learner/dashboard');
+  const redirectParam =
+    requestUrl.searchParams.get('redirect') ??
+    requestUrl.searchParams.get('next');
+  const redirectTarget = validateRedirect(redirectParam, '/learner/dashboard');
 
   // Password reset flow — exchange code then send to reset form
   if (code && type === 'recovery') {
@@ -122,10 +125,10 @@ export async function GET(request: Request) {
         logger.warn('Failed to resolve role in callback:', roleErr);
       }
 
-      // Route by role — unless an explicit ?next= was provided.
-      // Any ?next= value takes priority over role-based routing.
-      const hasExplicitNext = requestUrl.searchParams.has('next');
-      if (!hasExplicitNext) {
+      // Route by role — unless an explicit ?redirect= (or legacy ?next=) was provided.
+      const hasExplicitRedirect =
+        requestUrl.searchParams.has('redirect') || requestUrl.searchParams.has('next');
+      if (!hasExplicitRedirect) {
         // Students: resolve their industry portal from enrollment data.
         // resolvePortalForUser has internal try/catch — returns /learner/dashboard on failure.
         if (resolvedRole === 'student') {
@@ -139,7 +142,7 @@ export async function GET(request: Request) {
         return NextResponse.redirect(new URL(destination, requestUrl.origin));
       }
 
-      return NextResponse.redirect(new URL(next, requestUrl.origin));
+      return NextResponse.redirect(new URL(redirectTarget, requestUrl.origin));
     } catch (err) {
       logger.error('Auth callback exception:', err);
       return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin));

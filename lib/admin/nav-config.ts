@@ -137,8 +137,9 @@ export const DEFAULT_NAV: NavSection[] = [
   },
   {
     label: 'AI',
-    href: '/admin/ai-console',
+    href: '/admin/ai-studio',
     items: [
+      { label: 'AI Studio', href: '/admin/ai-studio' },
       { label: 'AI Console', href: '/admin/ai-console' },
       { label: 'Command Center', href: '/admin/command-center' },
       { label: 'Dev Studio', href: '/admin/dev-studio' },

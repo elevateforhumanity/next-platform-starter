@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Save, Loader2, AlertCircle, Shield } from 'lucide-react';
 
 interface CredentialFormProps {
@@ -413,9 +414,9 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {mode === 'create' ? 'Create Credential' : 'Save Changes'}
         </button>
-        <a href="/admin/credentials" className="text-sm text-slate-500 hover:text-slate-700">
+        <Link href="/admin/credentials" className="text-sm text-slate-500 hover:text-slate-700">
           Cancel
-        </a>
+        </Link>
       </div>
     </form>
   );

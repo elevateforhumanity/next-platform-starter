@@ -192,6 +192,12 @@ const EMPTY_VALUES: FormValues = Object.fromEntries(
   SAEF_FIELDS.map((f) => [f.fieldName, '']),
 ) as FormValues;
 
+// Google Form entry map status
+// Keep this map updated as DWD confirms entry IDs.
+const GOOGLE_FORM_ENTRY_MAP: Partial<Record<FieldName, string>> = {
+  org_type: '1384283019', // confirmed from DWD pre-fill URL
+};
+
 export default function ApplicationAssistantPage() {
   const [values, setValues] = useState<FormValues>(EMPTY_VALUES);
   const [suggestions, setSuggestions] = useState<Record<string, SuggestedAnswer>>({});
@@ -231,11 +237,7 @@ export default function ApplicationAssistantPage() {
   const buildPrefilledUrl = () => {
     const params = new URLSearchParams();
     params.set('usp', 'pp_url');
-    // Map known entry IDs — add more as they are confirmed
-    const entryMap: Partial<Record<FieldName, string>> = {
-      org_type: '1384283019', // confirmed from DWD pre-fill URL
-    };
-    Object.entries(entryMap).forEach(([field, entryId]) => {
+    Object.entries(GOOGLE_FORM_ENTRY_MAP).forEach(([field, entryId]) => {
       const val = values[field as FieldName];
       if (val) params.set(`entry.${entryId}`, val);
     });
@@ -252,6 +254,8 @@ export default function ApplicationAssistantPage() {
   const filledCount = Object.values(values).filter(Boolean).length;
   const totalFields = SAEF_FIELDS.length;
   const progress = Math.round((filledCount / totalFields) * 100);
+  const mappedFieldCount = Object.keys(GOOGLE_FORM_ENTRY_MAP).length;
+  const mappingCoveragePct = Math.round((mappedFieldCount / totalFields) * 100);
 
   return (
     <div className="min-h-screen bg-white">
@@ -282,6 +286,15 @@ export default function ApplicationAssistantPage() {
               className="h-full bg-brand-blue-500 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
+          </div>
+
+          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3">
+            <p className="text-xs font-semibold text-amber-800">
+              Google Form prefill mapping coverage: {mappedFieldCount}/{totalFields} fields ({mappingCoveragePct}%).
+            </p>
+            <p className="mt-1 text-xs text-amber-700">
+              Only mapped fields are prefilled in Google Forms until remaining entry IDs are confirmed.
+            </p>
           </div>
 
           {/* Auto-fill button */}

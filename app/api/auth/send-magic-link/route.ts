@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   // Always route through /auth/callback so the session is established correctly
   // and role-based destination routing runs. Never redirect directly to a page.
   const destination = redirectTo || getRoleDestination('student');
-  const finalRedirect = `${siteUrl}/auth/callback?next=${encodeURIComponent(destination)}`;
+  const finalRedirect = `${siteUrl}/auth/callback?redirect=${encodeURIComponent(destination)}`;
 
   const { data: link, error: linkErr } = await db.auth.admin.generateLink({
     type: 'magiclink',

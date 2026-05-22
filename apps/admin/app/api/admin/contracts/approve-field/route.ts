@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     return safeError('run_id, field_key, and action are required', 400);
   }
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
 
   const { data: run } = await db
     .from('contract_prefill_runs')
@@ -64,9 +64,9 @@ export async function POST(request: NextRequest) {
   const missing = (run.missing_values as Record<string, string>) ?? {};
   const metadata = (run.field_metadata as Record<string, { source: string; confidence: number; ai_drafted: boolean; label: string }>) ?? {};
 
-  let newApproved = { ...approved };
-  let newMissing = { ...missing };
-  let newMetadata = { ...metadata };
+  const newApproved = { ...approved };
+  const newMissing = { ...missing };
+  const newMetadata = { ...metadata };
   let humanizedValue: string | null = null;
 
   if (action === 'approve') {

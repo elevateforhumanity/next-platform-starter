@@ -129,6 +129,7 @@ export function CourseBuilderPageClient() {
   const [genStep, setGenStep] = useState('');
   const [genResult, setGenResult] = useState<GenerateResult | null>(null);
   const [builderMode, setBuilderMode] = useState<BuilderMode>('ai-prompt');
+  const [loadWarning, setLoadWarning] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/admin/course-builder/profiles')
@@ -144,14 +145,16 @@ export function CourseBuilderPageClient() {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.blueprints) setBlueprints(d.blueprints);
+        else setLoadWarning('Blueprints failed to load. Check admin API health and secrets.');
       })
-      .catch(() => {});
+      .catch(() => setLoadWarning('Blueprints failed to load. Check admin API health and secrets.'));
     fetch('/api/admin/programs?limit=100')
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.programs) setPrograms(d.programs);
+        else setLoadWarning('Programs failed to load. Check admin API health and role access.');
       })
-      .catch(() => {});
+      .catch(() => setLoadWarning('Programs failed to load. Check admin API health and role access.'));
   }, []);
 
   const mod = program.modules[selMod];
@@ -240,7 +243,15 @@ export function CourseBuilderPageClient() {
           videoMode: 'queue',
         }),
       });
-      setGenResult(await res.json());
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setGenResult({
+          ok: false,
+          error: payload?.error ?? 'Blueprint generation failed',
+        });
+      } else {
+        setGenResult(payload);
+      }
     } catch (err) {
       setGenResult({ ok: false, error: err instanceof Error ? err.message : 'Generation failed' });
     } finally {
@@ -322,7 +333,7 @@ export function CourseBuilderPageClient() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-semibold text-indigo-800 mb-1">Blueprint</label>
             <select
@@ -356,6 +367,11 @@ export function CourseBuilderPageClient() {
             </select>
           </div>
         </div>
+        {loadWarning && (
+          <div className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            {loadWarning}
+          </div>
+        )}
 
         <button
           onClick={generateFullCourse}
@@ -379,7 +395,7 @@ export function CourseBuilderPageClient() {
             {genResult.ok ? (
               <>
                 <div className="font-bold text-green-800">✅ {genResult.title}</div>
-                <div className="grid grid-cols-3 gap-2 text-xs text-green-700">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs text-green-700">
                   <div>
                     <b>{genResult.modules}</b> modules
                   </div>
@@ -399,10 +415,11 @@ export function CourseBuilderPageClient() {
                     <b>{genResult.generationFailures?.length ?? 0}</b> gen failures
                   </div>
                 </div>
-                <div className="flex gap-2 pt-1">
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
                   <a
                     href={genResult.courseUrl}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex-1 text-center bg-green-600 text-white py-2 rounded-lg text-xs font-semibold hover:bg-green-700"
                   >
                     View Course ↗
@@ -410,6 +427,7 @@ export function CourseBuilderPageClient() {
                   <a
                     href={genResult.videoStudioUrl}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex-1 text-center bg-indigo-600 text-white py-2 rounded-lg text-xs font-semibold hover:bg-indigo-700"
                   >
                     Video Studio ↗
@@ -417,6 +435,7 @@ export function CourseBuilderPageClient() {
                   <a
                     href="/admin/media-studio"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex-1 text-center border py-2 rounded-lg text-xs font-semibold hover:bg-slate-50"
                   >
                     Media Studio ↗

@@ -66,7 +66,20 @@ function severityIcon(s: string) {
 }
 
 function stripAnsi(str: string) {
-  return str.replace(/\x1b\[[0-9;]*m/g, '');
+  let out = '';
+  let i = 0;
+  while (i < str.length) {
+    const ch = str.charCodeAt(i);
+    if (ch === 27 && str[i + 1] === '[') {
+      i += 2;
+      while (i < str.length && str[i] !== 'm') i++;
+      if (i < str.length) i++;
+      continue;
+    }
+    out += str[i];
+    i++;
+  }
+  return out;
 }
 
 function qaLineColor(line: string) {

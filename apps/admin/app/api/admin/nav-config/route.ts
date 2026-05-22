@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = requireAdminClient();
+    const supabase = await requireAdminClient();
     const { data } = await supabase
       .from('platform_settings')
       .select('value')
@@ -70,7 +70,7 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    const supabase = requireAdminClient();
+    const supabase = await requireAdminClient();
     const { error } = await supabase
       .from('platform_settings')
       .upsert(

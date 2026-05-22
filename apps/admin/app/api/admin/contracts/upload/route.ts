@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   const agency_name = (formData.get('agency_name') as string)?.trim() || null;
   const source_type = (formData.get('source_type') as string)?.trim() || 'state_contract';
 
-  const db = requireAdminClient();
+  const db = await requireAdminClient();
   const storage = createStorageClient(url, key, { auth: { persistSession: false } });
 
   // Upload to private contracts bucket

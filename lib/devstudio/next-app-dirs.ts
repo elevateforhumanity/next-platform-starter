@@ -10,6 +10,18 @@ function unique(paths: string[]) {
   return [...new Set(paths.map((p) => path.resolve(p)))];
 }
 
+function candidateRoots(cwd: string) {
+  const roots = [path.resolve(cwd)];
+  let current = path.resolve(cwd);
+  for (let i = 0; i < 6; i += 1) {
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    roots.push(parent);
+    current = parent;
+  }
+  return unique(roots);
+}
+
 function isDirectory(dir: string) {
   try {
     return fs.statSync(dir).isDirectory();
@@ -19,16 +31,10 @@ function isDirectory(dir: string) {
 }
 
 export function getNextAppDirCandidates(cwd = process.cwd()) {
-  return unique([
-    path.join(cwd, 'app'),
-    path.join(cwd, 'src', 'app'),
-    path.join(cwd, 'apps', 'web', 'app'),
-    path.join(cwd, 'apps', 'admin', 'app'),
-    path.resolve(cwd, '..', '..', 'app'),
-    path.resolve(cwd, '..', '..', 'src', 'app'),
-    path.resolve(cwd, '..', '..', 'apps', 'web', 'app'),
-    path.resolve(cwd, '..', '..', 'apps', 'admin', 'app'),
-  ]);
+  const relCandidates = ['app', path.join('src', 'app'), path.join('apps', 'web', 'app'), path.join('apps', 'admin', 'app')];
+  return unique(
+    candidateRoots(cwd).flatMap((root) => relCandidates.map((rel) => path.join(root, rel)))
+  );
 }
 
 export function discoverNextAppDirs(cwd = process.cwd()): NextAppDir[] {
