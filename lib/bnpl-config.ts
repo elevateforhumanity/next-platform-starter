@@ -74,7 +74,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 0,
     description: 'Pay directly from your Cash App balance or linked bank. Instant checkout.',
-    enabled: false, // not available on this Stripe account's Default config
+    enabled: true,
   },
   {
     id: 'amazon_pay',
