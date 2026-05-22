@@ -154,6 +154,20 @@ export async function POST(request: NextRequest) {
 
     const applicationId = data?.id ?? '';
 
+    // If W9 was uploaded, create a w9_submissions audit row linked to this application
+    if (w9FileUrl) {
+      await supabase
+        .from('w9_submissions')
+        .insert({
+          provider_app_id: applicationId,
+          file_url: w9FileUrl,
+          ein: ein || null,
+          legal_name: orgName || null,
+          submitted_at: new Date().toISOString(),
+        })
+        .catch((err) => logger.warn('[provider/apply] w9_submissions insert failed', err));
+    }
+
     // Save document metadata to admin dashboard (ocr_extractions audit log)
     const docUploads = [
       { url: w9FileUrl, type: 'w9', label: 'W-9' },
