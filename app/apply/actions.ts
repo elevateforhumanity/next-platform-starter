@@ -361,6 +361,17 @@ async function insertApplication(payload: {
       err instanceof Error ? `admin client init failed: ${err.message}` : 'admin client init failed';
     logger.error('[Apply] getAdminClient failed in insertApplication', err);
   }
+
+  // Fallback: if admin client failed, try the public service-role client
+  if (!supabase) {
+    try {
+      const { createClient: createServerClient } = await import('@/lib/supabase/server');
+      supabase = await createServerClient() as any;
+      logger.warn('[Apply] Using server client fallback for insertApplication');
+    } catch (err) {
+      logger.error('[Apply] Server client fallback also failed', err);
+    }
+  }
   const referenceNumber = generateReferenceNumber();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   const programLabel = payload.programInterest.replace(/-/g, ' ');
@@ -609,7 +620,10 @@ async function insertApplication(payload: {
         reference_number: referenceNumber,
         status: 'submitted',
         source: payload.source,
-        type: 'student',
+        type: payload.source === 'program-holder-application' ? 'program_holder'
+            : payload.source === 'employer-application' ? 'employer'
+            : payload.source === 'staff-application' ? 'staff'
+            : 'student',
         funding_type: payload.fundingType || null,
       };
 
