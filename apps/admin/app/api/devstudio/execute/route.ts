@@ -1357,19 +1357,37 @@ async function executeAction(
       const limit = Math.min((args.limit as number) || 20, 100);
       write(`\x1b[33m⚙  Loading applications (${statusFilter})...\x1b[0m`);
       try {
-        // Direct DB query — avoids self-fetch auth issues and wrong response key
         let q = adminDb.from('applications')
-          .select('id, first_name, last_name, email, status, program_interest, submitted_at, created_at')
+          .select('id, first_name, last_name, full_name, email, status, intake_stage, program_interest, program_slug, funding_type, funding_status, next_step, submitted_at, created_at, reference_number')
           .order('created_at', { ascending: false })
           .limit(limit);
         if (statusFilter !== 'all') q = q.eq('status', statusFilter);
-        const { data: apps, error: appsErr, count } = await q;
+        const { data: apps, error: appsErr } = await q;
         if (appsErr) { write(`\x1b[31m✗  ${appsErr.message}\x1b[0m`); break; }
-        write(`\x1b[32m✓  ${apps?.length ?? 0} application(s)${statusFilter !== 'all' ? ' with status: ' + statusFilter : ''}\x1b[0m`);
-        (apps ?? []).slice(0, 10).forEach((a) => {
-          write(`   ${a.first_name ?? ''} ${a.last_name ?? ''} — ${a.status ?? ''} — ${a.program_interest ?? ''} — ${a.email ?? ''}`);
+
+        // Count by status for summary
+        const byStatus: Record<string, number> = {};
+        (apps ?? []).forEach((a: any) => {
+          const s = a.status ?? 'unknown';
+          byStatus[s] = (byStatus[s] ?? 0) + 1;
         });
-        if ((apps?.length ?? 0) > 10) write(`   ... and ${(apps?.length ?? 0) - 10} more`);
+        const statusSummary = Object.entries(byStatus).map(([s, n]) => `${n} ${s}`).join(', ');
+
+        write(`\x1b[32m✓  ${apps?.length ?? 0} application(s)${statusFilter !== 'all' ? ` (${statusFilter})` : ''}\x1b[0m`);
+        if (statusFilter === 'all' && statusSummary) write(`   \x1b[90m${statusSummary}\x1b[0m`);
+
+        (apps ?? []).slice(0, 15).forEach((a: any) => {
+          const name = a.full_name?.trim() || `${a.first_name ?? ''} ${a.last_name ?? ''}`.trim() || a.email;
+          const prog = a.program_slug ?? a.program_interest ?? '—';
+          const funding = a.funding_type ? ` [${a.funding_type}]` : '';
+          const ref = a.reference_number ? ` \x1b[90m${a.reference_number}\x1b[0m` : '';
+          const days = a.submitted_at
+            ? ` \x1b[90m${Math.floor((Date.now() - new Date(a.submitted_at).getTime()) / 86400000)}d ago\x1b[0m`
+            : '';
+          const nextStep = a.next_step ? ` → ${a.next_step}` : '';
+          write(`   ${name} — ${prog}${funding} — ${a.status ?? ''}${nextStep}${ref}${days}`);
+        });
+        if ((apps?.length ?? 0) > 15) write(`   ... and ${(apps?.length ?? 0) - 15} more`);
         write(`   Full list: /admin/applications`);
       } catch (err) {
         write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Query failed'}\x1b[0m`);
