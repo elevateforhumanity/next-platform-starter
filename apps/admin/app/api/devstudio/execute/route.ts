@@ -3121,15 +3121,19 @@ async function executeAction(
       try {
         const { data, error } = await adminDb
           .from('grants')
-          .select('id,title,status,funder_name,amount_requested,deadline')
-          .order('deadline', { ascending: true })
+          .select('id,agency,status,due_date,draft,ready,submitted')
+          .order('due_date', { ascending: true })
           .limit(20);
         if (error) { write(`\x1b[31m✗  DB error: ${error.message}\x1b[0m`); break; }
         if (!data?.length) { write('No grants found.'); break; }
         data.forEach((g: Record<string, unknown>, i: number) => {
-          const deadline = g.deadline ? new Date(g.deadline as string).toLocaleDateString() : 'No deadline';
-          const amount = g.amount_requested ? `$${Number(g.amount_requested).toLocaleString()}` : '--';
-          write(`${i + 1}. ${String(g.title ?? '--')} | ${String(g.funder_name ?? '--')} | ${amount} | Due: ${deadline} | ${String(g.status ?? '--')}`);
+          const due = g.due_date ? new Date(g.due_date as string).toLocaleDateString() : 'No due date';
+          const flags = [
+            g.draft     ? 'Draft'     : null,
+            g.ready     ? 'Ready'     : null,
+            g.submitted ? 'Submitted' : null,
+          ].filter(Boolean).join(', ') || 'In Progress';
+          write(`${i + 1}. ${String(g.agency ?? '--')} | Due: ${due} | Status: ${String(g.status ?? flags)}`);
         });
         write(`\nManage at: ${getAdminUrl()}/admin/grants`);
       } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
