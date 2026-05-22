@@ -22,13 +22,63 @@ interface Props {
   existingProfile: any;
 }
 
-type PayMethod = 'direct_deposit' | 'pay_card' | 'check';
+type PayMethod =
+  | 'direct_deposit'
+  | 'ach_debit'
+  | 'pay_card'
+  | 'check'
+  | 'quickbooks'
+  | 'quickbooks_virtual_card'
+  | 'zelle'
+  | 'wire';
+
+// Methods that require bank routing/account details
+const BANK_DETAIL_METHODS: PayMethod[] = ['direct_deposit', 'ach_debit', 'wire'];
+// Methods that only need an email/identifier
+const EMAIL_ONLY_METHODS: PayMethod[] = ['quickbooks', 'zelle'];
+// QB virtual card — just needs mailing address (already on file)
+const NO_BANKING_METHODS: PayMethod[] = ['pay_card', 'check', 'quickbooks_virtual_card'];
 
 const PAY_METHODS: { id: PayMethod; label: string; desc: string; icon: any; note?: string }[] = [
   {
     id: 'direct_deposit',
-    label: 'Direct Deposit',
-    desc: 'Funds deposited directly to your bank account each pay period.',
+    label: 'Direct Deposit (ACH)',
+    desc: 'Funds deposited directly to your checking or savings account.',
+    icon: Building2,
+    note: '1–2 business days',
+  },
+  {
+    id: 'ach_debit',
+    label: 'ACH Debit',
+    desc: 'Authorize QuickBooks to pull funds directly from your bank account.',
+    icon: Building2,
+    note: '2–3 business days',
+  },
+  {
+    id: 'quickbooks',
+    label: 'QuickBooks Payments',
+    desc: 'Paid via QuickBooks to your linked bank or debit card.',
+    icon: CreditCard,
+    note: '2–3 business days',
+  },
+  {
+    id: 'quickbooks_virtual_card',
+    label: 'QuickBooks Virtual Card',
+    desc: 'One-time-use Visa card emailed to you on pay day. Spend online or add to Apple/Google Pay.',
+    icon: CreditCard,
+    note: 'Same day',
+  },
+  {
+    id: 'zelle',
+    label: 'Zelle',
+    desc: 'Instant transfer to your bank using your registered email or phone number.',
+    icon: Building2,
+    note: 'Usually instant',
+  },
+  {
+    id: 'wire',
+    label: 'Wire Transfer',
+    desc: 'Domestic bank wire. Requires routing and account number.',
     icon: Building2,
     note: '1–2 business days',
   },
@@ -217,7 +267,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
               </div>
             )}
             <button
-              onClick={() => setStep(payMethod === 'direct_deposit' ? 'banking' : 'w9')}
+              onClick={() => setStep(NO_BANKING_METHODS.includes(payMethod) ? 'w9' : 'banking')}
               className="mt-6 w-full flex items-center justify-center gap-2 bg-brand-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-brand-blue-700"
             >
               Continue <ChevronRight className="w-4 h-4" />
@@ -225,72 +275,130 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
           </div>
         )}
 
-        {/* Step 2: Banking (direct deposit only) */}
+        {/* Step 2: Payment details */}
         {step === 'banking' && (
           <div>
-            <h2 className="text-lg font-bold text-slate-900 mb-1">Bank account details</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-1">
+              {payMethod === 'zelle' ? 'Zelle details' :
+               payMethod === 'quickbooks' ? 'QuickBooks payment details' :
+               payMethod === 'ach_debit' ? 'ACH debit authorization' :
+               payMethod === 'wire' ? 'Wire transfer details' :
+               'Bank account details'}
+            </h2>
             <p className="text-slate-500 text-sm mb-6">
               Your information is encrypted and used only for payroll deposits.
             </p>
-            <div className="bg-white rounded-xl border p-6 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Bank Name</label>
-                <input
-                  value={banking.bankName}
-                  onChange={(e) => setBanking((b) => ({ ...b, bankName: e.target.value }))}
-                  placeholder="e.g. Chase, Wells Fargo"
-                  className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Account Type
-                </label>
-                <div className="flex gap-3">
-                  {['checking', 'savings'].map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setBanking((b) => ({ ...b, accountType: t }))}
-                      className={`flex-1 py-2.5 rounded-lg border-2 text-sm font-medium capitalize transition ${
-                        banking.accountType === t
-                          ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
-                          : 'border-slate-200 text-slate-600'
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  ))}
+
+            {/* Zelle — email or phone only */}
+            {payMethod === 'zelle' && (
+              <div className="bg-white rounded-xl border p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Zelle Email or Phone Number
+                  </label>
+                  <input
+                    value={banking.bankName}
+                    onChange={(e) => setBanking((b) => ({ ...b, bankName: e.target.value }))}
+                    placeholder="email@example.com or (555) 555-5555"
+                    className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                  />
+                  <p className="text-xs text-slate-400 mt-1">
+                    Must be registered with Zelle at your bank.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <Shield className="w-4 h-4" />
+                  Encrypted with AES-256. Never shared with third parties.
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Routing Number
-                </label>
-                <input
-                  value={banking.routingNumber}
-                  onChange={(e) => setBanking((b) => ({ ...b, routingNumber: e.target.value }))}
-                  placeholder="9-digit routing number"
-                  maxLength={9}
-                  className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none font-mono"
-                />
+            )}
+
+            {/* QuickBooks Payments — email only */}
+            {payMethod === 'quickbooks' && (
+              <div className="bg-white rounded-xl border p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    QuickBooks / Intuit Email
+                  </label>
+                  <input
+                    value={banking.bankName}
+                    onChange={(e) => setBanking((b) => ({ ...b, bankName: e.target.value }))}
+                    placeholder="email linked to your QuickBooks account"
+                    className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                  />
+                  <p className="text-xs text-slate-400 mt-1">
+                    Payments sent via QuickBooks Payments. Funds arrive in 2–3 business days.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <Shield className="w-4 h-4" />
+                  Encrypted with AES-256. Never shared with third parties.
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Account Number
-                </label>
-                <input
-                  value={banking.accountNumber}
-                  onChange={(e) => setBanking((b) => ({ ...b, accountNumber: e.target.value }))}
-                  placeholder="Account number"
-                  className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none font-mono"
-                />
+            )}
+
+            {/* ACH Debit / Direct Deposit / Wire — full bank details */}
+            {BANK_DETAIL_METHODS.includes(payMethod) && (
+              <div className="bg-white rounded-xl border p-6 space-y-4">
+                {payMethod === 'ach_debit' && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-sm text-amber-800">
+                    By continuing you authorize Elevate to initiate ACH debit entries to the account below for payroll purposes.
+                  </div>
+                )}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Bank Name</label>
+                  <input
+                    value={banking.bankName}
+                    onChange={(e) => setBanking((b) => ({ ...b, bankName: e.target.value }))}
+                    placeholder="e.g. Chase, Wells Fargo"
+                    className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Account Type</label>
+                  <div className="flex gap-3">
+                    {['checking', 'savings'].map((t) => (
+                      <button
+                        key={t}
+                        type="button"
+                        onClick={() => setBanking((b) => ({ ...b, accountType: t }))}
+                        className={`flex-1 py-2.5 rounded-lg border-2 text-sm font-medium capitalize transition ${
+                          banking.accountType === t
+                            ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
+                            : 'border-slate-200 text-slate-600'
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Routing Number</label>
+                  <input
+                    value={banking.routingNumber}
+                    onChange={(e) => setBanking((b) => ({ ...b, routingNumber: e.target.value }))}
+                    placeholder="9-digit routing number"
+                    maxLength={9}
+                    className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Account Number</label>
+                  <input
+                    value={banking.accountNumber}
+                    onChange={(e) => setBanking((b) => ({ ...b, accountNumber: e.target.value }))}
+                    placeholder="Account number"
+                    className="w-full border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none font-mono"
+                  />
+                </div>
+                <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
+                  <Shield className="w-4 h-4" />
+                  Encrypted with AES-256. Never shared with third parties.
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
-                <Shield className="w-4 h-4" />
-                Encrypted with AES-256. Never shared with third parties.
-              </div>
-            </div>
+            )}
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setStep('method')}
@@ -300,7 +408,11 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
               </button>
               <button
                 onClick={() => setStep('w9')}
-                disabled={!banking.bankName || !banking.routingNumber || !banking.accountNumber}
+                disabled={
+                  BANK_DETAIL_METHODS.includes(payMethod)
+                    ? !banking.bankName || !banking.routingNumber || !banking.accountNumber
+                    : !banking.bankName
+                }
                 className="flex-1 flex items-center justify-center gap-2 bg-brand-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-brand-blue-700 disabled:opacity-50"
               >
                 Continue <ChevronRight className="w-4 h-4" />
@@ -382,7 +494,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
             </div>
             <div className="flex gap-3 mt-6">
               <button
-                onClick={() => setStep(payMethod === 'direct_deposit' ? 'banking' : 'method')}
+                onClick={() => setStep(NO_BANKING_METHODS.includes(payMethod) ? 'method' : 'banking')}
                 className="flex-1 py-3 border rounded-xl text-slate-700 font-medium hover:bg-white"
               >
                 Back
@@ -408,24 +520,28 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
             <div className="bg-white rounded-xl border divide-y">
               <div className="px-5 py-4 flex items-center justify-between">
                 <span className="text-sm text-slate-500">Pay Method</span>
-                <span className="text-sm font-semibold text-slate-900 capitalize">
-                  {payMethod.replace('_', ' ')}
+                <span className="text-sm font-semibold text-slate-900">
+                  {PAY_METHODS.find((m) => m.id === payMethod)?.label ?? payMethod}
                 </span>
               </div>
-              {payMethod === 'direct_deposit' && (
+              {!NO_BANKING_METHODS.includes(payMethod) && (
                 <>
                   <div className="px-5 py-4 flex items-center justify-between">
-                    <span className="text-sm text-slate-500">Bank</span>
+                    <span className="text-sm text-slate-500">
+                      {EMAIL_ONLY_METHODS.includes(payMethod) ? 'Email / ID' : 'Bank'}
+                    </span>
                     <span className="text-sm font-semibold text-slate-900">
                       {banking.bankName || '—'}
                     </span>
                   </div>
-                  <div className="px-5 py-4 flex items-center justify-between">
-                    <span className="text-sm text-slate-500">Account</span>
-                    <span className="text-sm font-semibold text-slate-900 capitalize">
-                      {banking.accountType} ···{banking.accountNumber.slice(-4)}
-                    </span>
-                  </div>
+                  {BANK_DETAIL_METHODS.includes(payMethod) && (
+                    <div className="px-5 py-4 flex items-center justify-between">
+                      <span className="text-sm text-slate-500">Account</span>
+                      <span className="text-sm font-semibold text-slate-900 capitalize">
+                        {banking.accountType} ···{banking.accountNumber.slice(-4) || '——'}
+                      </span>
+                    </div>
+                  )}
                 </>
               )}
               <div className="px-5 py-4 flex items-center justify-between">
