@@ -5,7 +5,7 @@ import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, CheckCircle2, L
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
 interface PartnerPageClientProps {
   isApproved?: boolean;

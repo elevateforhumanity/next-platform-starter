@@ -17,6 +17,7 @@ import {
 } from '@/lib/barber/pricing';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
+import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 import { logger } from '@/lib/logger';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);

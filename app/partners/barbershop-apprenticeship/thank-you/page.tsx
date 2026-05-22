@@ -1,6 +1,8 @@
 export const dynamic = 'force-static';
 export const revalidate = 3600;
 
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
+
 
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -89,7 +91,7 @@ export default function ThankYouPage() {
               your shop and answer any questions.
             </p>
             <a
-              href="https://calendly.com/elevate4humanityedu/30min"
+              href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-4 bg-orange-500 text-white rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors"

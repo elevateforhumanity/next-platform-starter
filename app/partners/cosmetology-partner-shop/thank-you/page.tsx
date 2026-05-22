@@ -1,5 +1,7 @@
 export const revalidate = 3600;
 
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
+
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -75,7 +77,7 @@ export default function CosmetologyThankYouPage() {
               through your salon and answer any questions.
             </p>
             <a
-              href="https://calendly.com/elevate4humanityedu/30min"
+              href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-lg hover:bg-purple-700 transition-colors"

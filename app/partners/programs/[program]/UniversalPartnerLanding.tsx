@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { ProgramConfig } from '@/lib/partners/program-config';
 
 const CALENDLY_URL =
-  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
 export default function UniversalPartnerLanding({ config }: { config: ProgramConfig }) {
   const Cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

@@ -51,20 +51,46 @@ async function _POST(request: Request) {
       ? `Barbershop walk-through / site visit for ${safeName} (${safeEmail}). Covers apprenticeship hosting requirements, OJT structure, and next steps.`
       : `Virtual orientation session for ${safeName} (${safeEmail}). Covers programs, funding, enrollment process, and Q&A.`;
 
-    const meeting = await createZoomMeeting({
-      topic,
-      startTime: `${date}T${time}:00`,
-      duration,
-      agenda,
-      settings: {
-        waiting_room: true,
-        join_before_host: false,
-        mute_upon_entry: true,
-        auto_recording: 'cloud',
-      },
-    });
+    // Zoom is optional — fall back to Calendly if credentials aren't configured
+    const CALENDLY_FALLBACK = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
+    let meetingJoinUrl = CALENDLY_FALLBACK;
+    let meetingId = '';
 
-    logger.info('[Orientation] Zoom meeting created', { meetingId: meeting.id, email: safeEmail });
+    const zoomConfigured = !!(
+      process.env.ZOOM_ACCOUNT_ID &&
+      process.env.ZOOM_CLIENT_ID &&
+      process.env.ZOOM_CLIENT_SECRET
+    );
+
+    if (zoomConfigured) {
+      try {
+        const meeting = await createZoomMeeting({
+          topic,
+          startTime: `${date}T${time}:00`,
+          duration,
+          agenda,
+          settings: {
+            waiting_room: true,
+            join_before_host: false,
+            mute_upon_entry: true,
+            auto_recording: 'cloud',
+          },
+        });
+        meetingJoinUrl = meeting.join_url;
+        meetingId = String(meeting.id);
+        logger.info('[Orientation] Zoom meeting created', { meetingId, email: safeEmail });
+      } catch (zoomErr) {
+        logger.warn('[Orientation] Zoom meeting creation failed, falling back to Calendly', zoomErr);
+        meetingJoinUrl = CALENDLY_FALLBACK;
+      }
+    } else {
+      logger.info('[Orientation] Zoom not configured — using Calendly link', { email: safeEmail });
+    }
+
+    // Alias for email templates below
+    const meeting = { join_url: meetingJoinUrl, id: meetingId };
+
+    logger.info('[Orientation] Meeting link resolved', { url: meetingJoinUrl, email: safeEmail });
 
     const dateFormatted = new Date(date + 'T12:00:00').toLocaleDateString('en-US', {
       weekday: 'long',
@@ -91,9 +117,9 @@ async function _POST(request: Request) {
 <tr><td style="padding:10px;border:1px solid #e5e7eb;font-weight:bold">Duration</td><td style="padding:10px;border:1px solid #e5e7eb">${duration} minutes</td></tr>
 </table>
 <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:16px;margin:16px 0">
-<strong style="color:#1e40af">Join via Zoom</strong><br/>
+<strong style="color:#1e40af">Join Your Session</strong><br/>
 <a href="${meeting.join_url}" style="color:#2563eb;font-size:14px">${meeting.join_url}</a><br/>
-<span style="color:#6b7280;font-size:12px">Meeting ID: ${meeting.id}</span>
+${meeting.id ? `<span style="color:#6b7280;font-size:12px">Meeting ID: ${meeting.id}</span>` : ''}
 </div>
 <p>Need to reschedule? Call or text <strong>(317) 314-3757</strong> or reply to this email.</p>
 <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0"/>

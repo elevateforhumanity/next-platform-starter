@@ -13,7 +13,7 @@ const REGULATED_SLUGS: Record<string, string> = {
 };
 
 const CALENDLY_URL =
-  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
 export default function UniversalPartnerApplyPage() {
   const params = useParams();

@@ -16,7 +16,7 @@ const baseStyles = `font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
 const buttonStyle = `display: inline-block; padding: 14px 28px; background: #ea580c; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;`;
 
 export function barberOnboardingEmail(data: BarberOnboardingData) {
-  const calendlyLink = data.calendlyLink || 'https://calendly.com/elevate4humanityedu/30min';
+  const calendlyLink = data.calendlyLink || 'https://calendly.com/elevate4humanityedu';
 
   return {
     subject: `Next Steps for Your ${data.programName} Application — Elevate for Humanity`,

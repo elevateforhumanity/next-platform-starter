@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle, Lock, BookOpen, ClipboardList, FileText, PenLine } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
 interface Props {
   isApproved?: boolean;

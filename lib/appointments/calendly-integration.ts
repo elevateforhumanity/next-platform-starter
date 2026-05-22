@@ -40,27 +40,31 @@ export interface CalendlyInvitee {
  * Calendly Configuration
  * Update these with your real Calendly links
  */
+// Canonical base — all event types route here until specific event URLs are created in Calendly
+const CALENDLY_BASE = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/elevate4humanityedu';
+const CALENDLY_30MIN = process.env.NEXT_PUBLIC_CALENDLY_30MIN || CALENDLY_BASE;
+
 export const CALENDLY_LINKS = {
   // General advising appointments
-  advising: 'https://calendly.com/elevateforhumanity/advising',
+  advising: CALENDLY_30MIN,
 
   // Program-specific appointments
-  barbering: 'https://calendly.com/elevateforhumanity/barbering-consultation',
-  hvac: 'https://calendly.com/elevateforhumanity/hvac-consultation',
-  cdl: 'https://calendly.com/elevateforhumanity/cdl-consultation',
-  medicalAssistant: 'https://calendly.com/elevateforhumanity/medical-assistant-consultation',
-  welding: 'https://calendly.com/elevateforhumanity/welding-consultation',
+  barbering: CALENDLY_30MIN,
+  hvac: CALENDLY_30MIN,
+  cdl: CALENDLY_30MIN,
+  medicalAssistant: CALENDLY_30MIN,
+  welding: CALENDLY_30MIN,
 
   // Tax services
-  taxVita: 'https://calendly.com/elevateforhumanity/free-tax-prep',
-  taxPaid: 'https://calendly.com/elevateforhumanity/paid-tax-services',
+  taxVita: CALENDLY_30MIN,
+  taxPaid: CALENDLY_30MIN,
 
   // Support services
-  caseManagement: 'https://calendly.com/elevateforhumanity/case-management',
-  financialAid: 'https://calendly.com/elevateforhumanity/financial-aid',
+  caseManagement: CALENDLY_30MIN,
+  financialAid: CALENDLY_30MIN,
 
   // Workforce board
-  workforceIntake: 'https://calendly.com/elevateforhumanity/workforce-intake',
+  workforceIntake: CALENDLY_30MIN,
 };
 
 /**

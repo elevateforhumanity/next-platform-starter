@@ -7,7 +7,7 @@ interface RequestMeetingProps {
   context?: string;
 }
 
-const CALENDLY_URL = 'https://calendly.com/elevate-for-humanity/advisor-call';
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
 export default function RequestMeeting({ context }: RequestMeetingProps) {
   return (

@@ -433,7 +433,7 @@ async function _POST(req: Request) {
           <div class="section" style="text-align:center;background:#fff7ed">
             <h3>Schedule Your Site Visit</h3>
             <p>Ready to move forward? Book your 15-minute Zoom site visit now. We will walk through your shop and answer any questions.</p>
-            <p><a href="https://calendly.com/elevate4humanityedu/30min" class="cta-btn" style="background:#f97316;color:white">Schedule Site Visit</a></p>
+            <p><a href="https://calendly.com/elevate4humanityedu" class="cta-btn" style="background:#f97316;color:white">Schedule Site Visit</a></p>
           </div>
 
           <p>We look forward to having <strong>${shopDisplayName}</strong> as part of the team. If you have any questions, just reply to this email or call us at <strong>(317) 314-3757</strong>.</p>

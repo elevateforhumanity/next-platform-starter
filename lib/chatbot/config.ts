@@ -50,7 +50,7 @@ Would you like to continue?`,
   },
 
   // Calendly link for scope calls
-  calendlyUrl: 'https://calendly.com/elevateforhumanity/scope-confirmation',
+  calendlyUrl: process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu',
 
   // Auto-open settings
   autoOpen: {
