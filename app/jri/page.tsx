@@ -72,7 +72,7 @@ export default function JRIPage() {
     {
       title: 'Ongoing Mentorship',
       description: 'Stay connected with mentors even after graduation.',
-      image: '/images/pages/mentorship-page-1.jpg',
+      image: '/images/pages/mentorship-page-1.webp',
       alt: 'Ongoing mentorship after graduation',
     },
   ];

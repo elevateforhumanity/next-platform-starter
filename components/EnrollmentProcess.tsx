@@ -11,7 +11,7 @@ const steps = [
       href: 'https://www.indianacareerconnect.com',
       external: true,
     },
-    image: '/images/pages/it-helpdesk-desk.jpg',
+    image: '/images/pages/it-helpdesk-desk.webp',
     alt: 'Indiana Career Connect registration process',
   },
   {
@@ -19,7 +19,7 @@ const steps = [
     title: 'Complete Your Profile',
     desc: 'Fill out your profile with your work history, education, and career goals. This helps match you with the right training program and funding.',
     note: 'What you\u2019ll need: Social Security Number, proof of residency, income documentation (if applicable), and high school diploma or GED.',
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     alt: 'Student completing enrollment profile',
   },
   {

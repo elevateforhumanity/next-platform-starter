@@ -16,7 +16,7 @@ interface Slide {
 }
 const slides: Slide[] = [
   {
-    image: '/images/hero/hero-main-welcome.jpg',
+    image: '/images/hero/hero-main-welcome.webp',
     title: 'Elevate for Humanity',
     text: 'State-approved, federally aligned workforce training that opens doors to high-wage careers.',
     cta: {
@@ -25,7 +25,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-barber.jpg',
+    image: '/images/hero/hero-barber.webp',
     title: 'DOL Registered Barber Apprenticeship',
     text: '2,000-hour barber apprenticeship. Earn while you learn. WIOA, WRG, and JRI fundable. Indiana state licensure.',
     cta: {
@@ -43,7 +43,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-skilled-trades.jpg',
+    image: '/images/hero/hero-skilled-trades.webp',
     title: 'Skilled Trades & Building Technician',
     text: 'HVAC, electrical, plumbing. Hands-on training for high-wage careers in construction and maintenance.',
     cta: {
@@ -52,7 +52,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-beauty-wellness.jpg',
+    image: '/images/hero/hero-beauty-wellness.webp',
     title: 'Beauty & Esthetics Programs',
     text: 'Nails, esthetics, and cosmetology training with experienced instructors.',
     cta: {
@@ -61,7 +61,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-career-services.jpg',
+    image: '/images/hero/hero-career-services.webp',
     title: 'Career Services & Support',
     text: 'Life coaching, mental health partnerships, and wraparound support to help you succeed.',
     cta: {
@@ -79,7 +79,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-tech-careers.jpg',
+    image: '/images/hero/hero-tech-careers.webp',
     title: 'Technology Career Pathways',
     text: 'IT training and technology skills for the digital economy.',
     cta: {
@@ -88,7 +88,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-business.jpg',
+    image: '/images/hero/hero-business.webp',
     title: 'Business & Professional Skills',
     text: 'Office administration, customer service, and professional development training.',
     cta: {
@@ -97,7 +97,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-early-childhood.jpg',
+    image: '/images/hero/hero-early-childhood.webp',
     title: 'Early Childhood Education',
     text: 'Childcare and early education training for rewarding careers working with children.',
     cta: {

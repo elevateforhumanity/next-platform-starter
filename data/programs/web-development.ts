@@ -7,7 +7,7 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
   sector: 'technology',
   category: 'Web Development',
   programType: 'workforce',
-  heroImage: '/images/pages/web-development.jpg',
+  heroImage: '/images/pages/web-development.webp',
   heroImageAlt: 'Web development student coding on a laptop',
   deliveryMode: 'hybrid',
   deliveredBy: 'Elevate',

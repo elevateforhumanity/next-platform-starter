@@ -30,19 +30,19 @@ const INCENTIVES = [
   {
     title: 'Registered Apprenticeship',
     desc: 'Sponsor apprentices through our DOL-registered program. We handle compliance and reporting.',
-    img: '/images/pages/apprenticeship-sponsor-page-1.jpg',
+    img: '/images/pages/apprenticeship-sponsor-page-1.webp',
     alt: 'Registered apprenticeship sponsorship',
   },
   {
     title: 'Pre-Screened Candidates',
     desc: 'Graduates arrive credentialed, drug-tested, and work-ready. No cold recruiting.',
-    img: '/images/pages/hire-graduates-page-1.jpg',
+    img: '/images/pages/hire-graduates-page-1.webp',
     alt: 'Pre-screened credentialed candidates',
   },
   {
     title: 'Credential Testing On-Site',
     desc: 'We proctor EPA 608, OSHA, WorkKeys, and more at our Indianapolis testing center.',
-    img: '/images/pages/certifications-page-1.jpg',
+    img: '/images/pages/certifications-page-1.webp',
     alt: 'On-site credential testing',
   },
   {
@@ -62,12 +62,12 @@ const SECTORS = [
   {
     label: 'CNA / Healthcare',
     credential: 'Indiana State Board',
-    img: '/images/pages/healthcare-sector.jpg',
+    img: '/images/pages/healthcare-sector.webp',
   },
   {
     label: 'CDL Drivers',
     credential: 'Indiana BMV Class A',
-    img: '/images/pages/cdl-training.jpg',
+    img: '/images/pages/cdl-training.webp',
   },
   { label: 'IT Support', credential: 'CompTIA A+', img: '/images/pages/it-help-desk.webp' },
   {

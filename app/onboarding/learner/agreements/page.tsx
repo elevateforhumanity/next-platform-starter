@@ -47,7 +47,7 @@ const AGREEMENT_POINTS = [
     body: '6–8 week training, 240 hours of instruction, hands-on labs at employer sites.',
   },
   {
-    image: '/images/pages/adult-learner.jpg',
+    image: '/images/pages/adult-learner.webp',
     title: 'Attendance Policy',
     body: 'Minimum 80% attendance required. Three unexcused absences triggers an intervention.',
   },

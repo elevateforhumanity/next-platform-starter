@@ -57,7 +57,7 @@ const STAGES = [
   {
     num: 3,
     title: 'Industry Credential',
-    image: '/images/pages/testing-page-1.jpg',
+    image: '/images/pages/testing-page-1.webp',
     href: '/verify-credentials',
     what: 'At the end of training, you sit for a certification exam issued by a recognized third-party organization — not by Elevate. You earn a credential that employers across the country recognize and require for hiring.',
     who: 'Students who have completed their training program and met all requirements.',
@@ -69,7 +69,7 @@ const STAGES = [
   {
     num: 4,
     title: 'Apprenticeship & Job Placement',
-    image: '/images/pages/career-services-hero.jpg',
+    image: '/images/pages/career-services-hero.webp',
     href: '/career-services/job-placement',
     what: 'Our career services team helps you build your resume, practice interviews, and connects you directly with employers who are hiring. For apprenticeship tracks (barber, building trades), you are placed with a host employer and earn wages while completing on-the-job training hours.',
     who: 'Graduates who have earned their credential. Apprentices who are completing on-the-job training hours.',
@@ -95,7 +95,7 @@ const STAGES = [
 const PROGRAMS = [
   {
     name: 'CNA Certification',
-    image: '/images/pages/cna-nursing.jpg',
+    image: '/images/pages/cna-nursing.webp',
     href: canonicalRoutes.programs.certifiedNursingAssistant,
     duration: '4–6 weeks',
     credential: 'Certified Nursing Assistant (CNA)',
@@ -107,7 +107,7 @@ const PROGRAMS = [
   },
   {
     name: 'CDL Commercial Driving',
-    image: '/images/pages/cdl-training.jpg',
+    image: '/images/pages/cdl-training.webp',
     href: '/programs/cdl-training',
     duration: '4–6 weeks (160+ hours)',
     credential: 'CDL Class A or Class B',
@@ -120,7 +120,7 @@ const PROGRAMS = [
   },
   {
     name: 'Barber Apprenticeship',
-    image: '/images/pages/barber-training.jpg',
+    image: '/images/pages/barber-training.webp',
     href: '/programs/barber-apprenticeship',
     duration: '~18 months (1,500 hours)',
     credential: 'Indiana Barber License',
@@ -144,7 +144,7 @@ const PROGRAMS = [
   },
   {
     name: 'Electrical',
-    image: '/images/pages/electrical.jpg',
+    image: '/images/pages/electrical.webp',
     href: '/programs/electrical',
     duration: '12–16 weeks',
     credential: 'OSHA 10 + NCCER Electrical Level 1',
@@ -180,7 +180,7 @@ const PROGRAMS = [
   },
   {
     name: 'Cybersecurity',
-    image: '/images/pages/cybersecurity.jpg',
+    image: '/images/pages/cybersecurity.webp',
     href: '/programs/cybersecurity-analyst',
     duration: '12–16 weeks',
     credential: 'IT Specialist — Cybersecurity',

@@ -100,7 +100,7 @@ export default function StoreDigitalPage() {
             <div className="bg-white rounded-2xl overflow-hidden">
               <StoreProductVideo
                 src="/videos/store/store-digital-resources.mp4"
-                poster="/images/pages/store-digital-detail2.jpg"
+                poster="/images/pages/store-digital-detail2.webp"
                 alt="Digital resources demo"
                 label="Digital Resources Overview"
               />

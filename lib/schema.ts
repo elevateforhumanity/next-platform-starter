@@ -122,7 +122,7 @@ export function generateArticleSchema(article: {
     },
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
-    image: article.image || `${baseUrl}/images/pages/social-media-1.jpg`,
+    image: article.image || `${baseUrl}/images/pages/social-media-1.webp`,
     url: article.url,
     mainEntityOfPage: {
       '@type': 'WebPage',

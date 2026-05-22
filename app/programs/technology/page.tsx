@@ -25,14 +25,14 @@ export const metadata: Metadata = {
 
 const programs = [
   { title: 'IT Help Desk', duration: '8 weeks', salary: '$55,510', href: '/programs/it-help-desk', image: '/images/pages/comp-universal-hero.webp' },
-  { title: 'Cybersecurity Analyst', duration: '12 weeks', salary: '$112,000', href: '/programs/cybersecurity-analyst', image: '/images/pages/admin-network-hero.jpg' },
-  { title: 'Web Development', duration: '10 weeks', salary: '$80,267', href: '/programs/technology/web-development', image: '/images/pages/admin-code-hero.jpg' },
+  { title: 'Cybersecurity Analyst', duration: '12 weeks', salary: '$112,000', href: '/programs/cybersecurity-analyst', image: '/images/pages/admin-network-hero.webp' },
+  { title: 'Web Development', duration: '10 weeks', salary: '$80,267', href: '/programs/technology/web-development', image: '/images/pages/admin-career-courses-create-hero.webp' },
   { title: 'Software Development', duration: '12 weeks', salary: '$104,000', href: '/programs/software-development', image: '/images/pages/admin-dev-hero.jpg' },
   { title: 'Network Administration', duration: '10 weeks', salary: '$80,600', href: '/programs/network-administration', image: '/images/pages/comp-layout-hero.webp' },
-  { title: 'CAD/Drafting', duration: '10 weeks', salary: '$63,419', href: '/programs/cad-drafting', image: '/images/pages/admin-design-hero.jpg' },
-  { title: 'Graphic Design', duration: '10 weeks', salary: '$58,910', href: '/programs/graphic-design', image: '/images/pages/admin-media-hero.jpg' },
-  { title: 'Project Management', duration: '8 weeks', salary: '$95,370', href: '/programs/project-management', image: '/images/pages/admin-projects-hero.jpg' },
-  { title: 'Office Administration', duration: '6 weeks', salary: '$42,000', href: '/programs/office-administration', image: '/images/pages/technology-sector.jpg' },
+  { title: 'CAD/Drafting', duration: '10 weeks', salary: '$63,419', href: '/programs/cad-drafting', image: '/images/pages/admin-media-studio-detail.webp' },
+  { title: 'Graphic Design', duration: '10 weeks', salary: '$58,910', href: '/programs/graphic-design', image: '/images/pages/admin-media-studio-detail.webp' },
+  { title: 'Project Management', duration: '8 weeks', salary: '$95,370', href: '/programs/project-management', image: '/images/pages/admin-automation-hero.webp' },
+  { title: 'Office Administration', duration: '6 weeks', salary: '$42,000', href: '/programs/office-administration', image: '/images/pages/technology-sector.webp' },
 ];
 
 const config: ProgramPageConfig = {
@@ -42,7 +42,7 @@ const config: ProgramPageConfig = {
   duration: '6–12 weeks', cost: 'WorkOne funding available', format: 'In-person, Indianapolis', credential: 'CompTIA + Certiport + Meta',
   overview: 'Our technology programs prepare you for careers in IT support, cybersecurity, web development, software engineering, networking, and design. Every program includes industry-recognized certifications through CompTIA, Certiport, Meta, or Adobe. Training is hands-on in our computer labs with real-world projects.',
   highlights: ['Industry certifications from CompTIA, Certiport, Meta, Adobe', 'Hands-on training in equipped computer labs', 'Real-world projects for your portfolio', 'Job placement with tech employer partners', 'WorkOne funding available for eligible participants', 'DWD 4-Star and 5-Star Top Job programs'],
-  overviewImage: '/images/pages/technology-sector.jpg', overviewImageAlt: 'Technology students working in a computer lab',
+  overviewImage: '/images/pages/technology-sector.webp', overviewImageAlt: 'Technology students working in a computer lab',
   salaryNumber: 78000, salaryLabel: 'Average salary across technology programs', salaryPrefix: '$',
   credentials: ['CompTIA A+', 'CompTIA Security+', 'CompTIA Network+', 'Meta Digital Marketing', 'Adobe Certified Professional', 'Certiport IT Specialist'],
   steps: [

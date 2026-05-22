@@ -440,7 +440,7 @@ export default async function ProgramHolderDashboardPage() {
                 label: 'Manage Students',
                 sub: 'View progress & enrollment',
                 href: '/program-holder/students',
-                img: '/images/pages/mentorship-page-1.jpg',
+                img: '/images/pages/mentorship-page-1.webp',
               },
               {
                 label: 'View Reports',

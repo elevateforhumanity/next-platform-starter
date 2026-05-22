@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Website Builder for Training Providers',
     description: 'Build professional training provider websites with LMS integration.',
-    images: ['/images/pages/technology-sector.jpg'],
+    images: ['/images/pages/technology-sector.webp'],
     type: 'website',
   },
   alternates: {
@@ -92,7 +92,7 @@ export default function WebsiteBuilderAppPage() {
                 <div className="aspect-video bg-white rounded-lg overflow-hidden relative">
                   <CanonicalVideo
                     src="/videos/training-providers-video-with-narration.mp4"
-                    poster="/images/pages/store-hero.jpg"
+                    poster="/images/pages/store-hero.webp"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
@@ -142,7 +142,7 @@ export default function WebsiteBuilderAppPage() {
           <div className="aspect-video bg-white rounded-2xl overflow-hidden relative">
             <CanonicalVideo
               src="/videos/training-providers-video-with-narration.mp4"
-              poster="/images/pages/store-hero.jpg"
+              poster="/images/pages/store-hero.webp"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>

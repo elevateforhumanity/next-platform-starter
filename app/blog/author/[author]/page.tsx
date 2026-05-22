@@ -26,7 +26,7 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
-          url: '/images/pages/social-media-1.jpg',
+          url: '/images/pages/social-media-1.webp',
           width: 1200,
           height: 630,
           alt: `Articles by ${author}`,
@@ -37,7 +37,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: `Articles by ${author} | Elevate For Humanity`,
       description: `Read articles written by ${author}`,
-      images: ['/images/pages/social-media-1.jpg'],
+      images: ['/images/pages/social-media-1.webp'],
     },
   };
 }

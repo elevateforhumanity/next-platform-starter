@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-// Image asset: /images/pages/philanthropy-hero.jpg
+// Image asset: /images/pages/philanthropy-hero.webp
 
 export const metadata: Metadata = {
   title: 'Sign Up - Create Your Account',

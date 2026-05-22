@@ -27,7 +27,7 @@ export default function ResumeBuildingPage() {
             'Most resume templates are designed for office jobs. Skilled trades, healthcare, and technical roles require a different format — one that leads with credentials, certifications, and hands-on experience.',
             'Our career staff builds and reviews resumes specifically for the employers who hire Elevate graduates. Free for all enrolled students and graduates.',
           ],
-          image: '/images/pages/career-services-page-3.jpg',
+          image: '/images/pages/career-services-page-3.webp',
         },
         features: {
           heading: 'What We Provide',

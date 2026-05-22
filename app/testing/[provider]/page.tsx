@@ -27,11 +27,11 @@ const LEVEL_COLORS: Record<string, string> = {
 // Hero images per provider key
 const PROVIDER_HERO: Record<string, string> = {
   esco: '/images/pages/hvac-technician.webp',
-  certiport: '/images/pages/programs-it-hero.jpg',
+  certiport: '/images/pages/programs-it-hero.webp',
   nha: '/images/pages/medical-assistant.webp',
   nrf: '/images/pages/apply-employer-hero.webp',
   workkeys: '/images/pages/career-services-page-4.webp',
-  careersafe: '/images/pages/apprenticeships-hero.jpg',
+  careersafe: '/images/pages/apprenticeships-hero.webp',
   midland: '/images/pages/hvac-technician.webp',
 };
 
@@ -100,7 +100,7 @@ export default async function ProviderPage({ params }: Props) {
     if (dbOverride.verify_url) (provider as any).verifyUrl = dbOverride.verify_url;
   }
 
-  const heroImg = PROVIDER_HERO[key] ?? '/images/pages/career-services-hero.jpg';
+  const heroImg = PROVIDER_HERO[key] ?? '/images/pages/career-services-hero.webp';
   const accent = PROVIDER_ACCENT[key] ?? 'from-slate-900';
   const capInfo = CAPABILITY_LABEL[provider.capability];
   const CapIcon = capInfo?.icon ?? MapPin;

@@ -30,7 +30,7 @@ export const STATIC_POSTS: BlogPost[] = [
     author_name: 'Elizabeth Greene',
     category: 'Funding',
     tags: ['WIOA', 'Funding', 'Free Training', 'Workforce Development'],
-    image: '/images/pages/funding-hero.jpg',
+    image: '/images/pages/funding-hero.webp',
     published: true,
     content: `## What Is WIOA?
 
@@ -92,7 +92,7 @@ If you do not qualify for WIOA, you may still be eligible for:
     author_name: 'Elizabeth Greene',
     category: 'Credentials',
     tags: ['Credentials', 'Certifications', 'Career', 'Workforce'],
-    image: '/images/pages/success-hero.jpg',
+    image: '/images/pages/success-hero.webp',
     published: true,
     content: `## Two Kinds of Paper
 

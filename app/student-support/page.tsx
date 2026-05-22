@@ -58,7 +58,7 @@ const services = [
     description:
       'WIOA funding, scholarships, grants, and flexible payment plans. Our team helps you find and apply for every dollar available.',
     link: '/student-support/financial-aid',
-    image: '/images/pages/financial-aid-page-1.jpg',
+    image: '/images/pages/financial-aid-page-1.webp',
   },
   {
     title: 'Career Services',
@@ -79,7 +79,7 @@ const services = [
     description:
       'Accommodations for students with disabilities, assistive technology, and individualized support plans. ADA-compliant facilities and programs.',
     link: '/student-support/accessibility',
-    image: '/images/pages/accessibility-hero.jpg',
+    image: '/images/pages/accessibility-hero.webp',
   },
   {
     title: 'Scheduling & Advising',
@@ -103,7 +103,7 @@ export default function StudentSupportPage() {
       {/* Video Hero */}
       <HeroVideo
         videoSrcDesktop="/videos/student-portal-hero.mp4"
-        posterImage="/images/pages/student-support-hero.jpg"
+        posterImage="/images/pages/student-support-hero.webp"
         voiceoverSrc="/audio/heroes/programs.mp3"
         microLabel="Student Support"
         analyticsName="student-support"

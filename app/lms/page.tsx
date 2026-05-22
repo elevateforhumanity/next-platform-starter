@@ -40,7 +40,7 @@ export default async function LmsRootPage() {
     desc: p.excerpt || p.description?.slice(0, 120) || '',
     duration: p.duration_weeks ? `${p.duration_weeks} weeks` : '—',
     credential: p.credential_name || p.credential || '—',
-    image: p.image_url || '/images/pages/hvac-unit.jpg',
+    image: p.image_url || '/images/pages/hvac-unit.webp',
     slug: p.slug,
   }));
 

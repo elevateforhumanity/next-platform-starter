@@ -304,7 +304,7 @@ export const COURSES: Course[] = [
     wholesaleCost: 85,
     duration: '1 day',
     hours: 2,
-    image: '/images/pages/cpr-mannequin.jpg',
+    image: '/images/pages/cpr-mannequin.webp',
     features: [
       'Training mannequin shipped to your door',
       'Live instructor-led online session',
@@ -371,7 +371,7 @@ export const COURSES: Course[] = [
     wholesaleCost: 100,
     duration: '1 day',
     hours: 4,
-    image: '/images/pages/cpr-aed.jpg',
+    image: '/images/pages/cpr-aed.webp',
     features: [
       'Healthcare-specific training',
       'Team CPR scenarios',
@@ -608,7 +608,7 @@ export const COURSES: Course[] = [
     wholesaleCost: 45,
     duration: '15 weeks',
     hours: 90,
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     features: [
       '6-week structured certification prep curriculum',
       'Study kit provided free to every student',

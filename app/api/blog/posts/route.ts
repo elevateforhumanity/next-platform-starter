@@ -106,7 +106,7 @@ async function _POST(request: NextRequest) {
         content,
         excerpt: excerpt || content.substring(0, 200) + '...',
         category: category || 'News',
-        image: image || '/images/pages/social-media-1.jpg',
+        image: image || '/images/pages/social-media-1.webp',
         tags: tags || [],
         status: status || 'draft',
         author_id: user.id,

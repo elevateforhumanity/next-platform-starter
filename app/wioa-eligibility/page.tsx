@@ -66,7 +66,7 @@ export default function WIOAEligibilityPage() {
                 step: '1',
                 title: 'Register Online',
                 desc: 'Create your account at Indiana Career Connect — the state workforce portal.',
-                image: '/images/pages/homepage-why-elevate.jpg',
+                image: '/images/pages/homepage-why-elevate.webp',
                 cta: 'Register Now',
                 href: 'https://www.indianacareerconnect.com',
                 external: true,
@@ -84,7 +84,7 @@ export default function WIOAEligibilityPage() {
                 step: '3',
                 title: 'Start Training',
                 desc: 'Once approved, pick your program. WorkOne issues a voucher covering your costs.',
-                image: '/images/pages/homepage-why-elevate.jpg',
+                image: '/images/pages/homepage-why-elevate.webp',
                 cta: 'View Programs',
                 href: '/programs',
                 external: false,
@@ -140,8 +140,8 @@ export default function WIOAEligibilityPage() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { title: 'Tuition', image: '/images/pages/homepage-why-elevate.jpg' },
-              { title: 'Books & Supplies', image: '/images/pages/homepage-why-elevate.jpg' },
+              { title: 'Tuition', image: '/images/pages/homepage-why-elevate.webp' },
+              { title: 'Books & Supplies', image: '/images/pages/homepage-why-elevate.webp' },
               { title: 'Certification Exams', image: '/images/pages/wioa-meeting.webp' },
               { title: 'Support Services', image: '/images/pages/comp-home-highlight-health.webp' },
             ].map((item) => (

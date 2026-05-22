@@ -208,7 +208,7 @@ export const hvacVisuals: PageVisualConfig = {
   heroes: [
     {
       id: 'hvac-hero-main',
-      imageSrc: '/images/pages/training-classroom.jpg',
+      imageSrc: '/images/pages/training-classroom.webp',
       imageAlt: 'HVAC learner working on an outdoor unit.',
       eyebrow: 'Skilled Trades',
       title: 'HVAC Technician Training',
@@ -262,7 +262,7 @@ export const cdlVisuals: PageVisualConfig = {
   heroes: [
     {
       id: 'cdl-hero-main',
-      imageSrc: '/images/pages/training-classroom.jpg',
+      imageSrc: '/images/pages/training-classroom.webp',
       imageAlt: 'CDL student standing in front of a commercial truck.',
       eyebrow: 'CDL & Transportation',
       title: 'Prepare for Transportation Careers with Safety and DOT Readiness.',
@@ -317,7 +317,7 @@ export const customerServiceVisuals: PageVisualConfig = {
   heroes: [
     {
       id: 'cs-hero-main',
-      imageSrc: '/images/pages/training-classroom.jpg',
+      imageSrc: '/images/pages/training-classroom.webp',
       imageAlt: 'Customer service representative speaking with a client over a headset.',
       eyebrow: 'Customer Service Pro',
       title: 'Turn Your People Skills Into Professional Office and Call Center Roles.',
@@ -626,7 +626,7 @@ export const nailsVisuals: PageVisualConfig = {
   heroes: [
     {
       id: 'nails-hero-main',
-      imageSrc: '/images/pages/barber-gallery-1.jpg',
+      imageSrc: '/images/pages/barber-gallery-1.webp',
       imageAlt: 'Nail technician apprentice doing a manicure.',
       eyebrow: 'Beauty & Wellness',
       title: 'Nail Technician Apprenticeship',

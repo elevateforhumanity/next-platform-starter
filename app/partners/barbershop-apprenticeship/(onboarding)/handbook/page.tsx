@@ -18,14 +18,14 @@ export const metadata: Metadata = {
 };
 
 const sectionPhotos: Record<string, { src: string; alt: string }> = {
-  role: { src: '/images/pages/barber-apprentice-learning.jpg', alt: 'Barber mentoring apprentice' },
-  compensation: { src: '/images/pages/barber-tools-closeup.jpg', alt: 'Barber tools and station' },
-  hours: { src: '/images/pages/barber-clippers-work.jpg', alt: 'Barber cutting hair' },
-  competencies: { src: '/images/pages/barber-fade-cut.jpg', alt: 'Barber performing fade cut' },
+  role: { src: '/images/pages/barber-apprentice-learning.webp', alt: 'Barber mentoring apprentice' },
+  compensation: { src: '/images/pages/barber-tools-closeup.webp', alt: 'Barber tools and station' },
+  hours: { src: '/images/pages/barber-clippers-work.webp', alt: 'Barber cutting hair' },
+  competencies: { src: '/images/pages/barber-fade-cut.webp', alt: 'Barber performing fade cut' },
   safety: { src: '/images/pages/barber-shop-wide.webp', alt: 'Clean barbershop interior' },
-  communication: { src: '/images/pages/barber-client-consult.jpg', alt: 'Barbershop team' },
-  prohibited: { src: '/images/pages/barber-station-mirror.jpg', alt: 'Professional barbershop' },
-  termination: { src: '/images/pages/barber-products-shelf.jpg', alt: 'Barbershop workspace' },
+  communication: { src: '/images/pages/barber-client-consult.webp', alt: 'Barbershop team' },
+  prohibited: { src: '/images/pages/barber-station-mirror.webp', alt: 'Professional barbershop' },
+  termination: { src: '/images/pages/barber-products-shelf.webp', alt: 'Barbershop workspace' },
 };
 
 const sections = [

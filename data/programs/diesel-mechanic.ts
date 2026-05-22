@@ -9,7 +9,7 @@ export const DIESEL_MECHANIC: ProgramSchema = {
   category: 'Diesel Technology',
   programType: 'workforce',
 
-  heroImage: '/images/pages/diesel-mechanic.jpg',
+  heroImage: '/images/pages/diesel-mechanic.webp',
   heroImageAlt: 'Diesel mechanic student working on an engine',
 
   deliveryMode: 'hybrid',

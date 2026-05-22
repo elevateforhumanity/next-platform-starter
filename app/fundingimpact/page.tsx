@@ -44,7 +44,7 @@ export default function FundingImpactPage() {
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <LazyVideo
             src="/videos/graduation-success.mp4"
-            poster="/images/pages/funding-hero.jpg"
+            poster="/images/pages/funding-hero.webp"
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           />
         </div>

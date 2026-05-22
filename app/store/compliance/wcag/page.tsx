@@ -20,13 +20,13 @@ const features = [
   {
     title: 'Screen Reader Support',
     description: 'Full compatibility with JAWS, NVDA, VoiceOver, and other assistive technologies.',
-    image: '/images/pages/accessibility-hero.jpg',
+    image: '/images/pages/accessibility-hero.webp',
     items: ['ARIA labels', 'Semantic HTML', 'Alt text automation', 'Focus management'],
   },
   {
     title: 'Keyboard Navigation',
     description: 'Complete keyboard accessibility for all interactive elements.',
-    image: '/images/pages/accessibility-hero.jpg',
+    image: '/images/pages/accessibility-hero.webp',
     items: ['Tab order optimization', 'Skip links', 'Focus indicators', 'Shortcut keys'],
   },
   {

@@ -12,7 +12,7 @@ export function generateProgramMetadata(config: ProgramPageConfig): Metadata {
   const url = `${SITE_URL}/programs/${config.slug}`;
   const imageUrl = config.heroImage
     ? `${SITE_URL}${config.heroImage}`
-    : `${SITE_URL}/images/og-default.webp`;
+    : `${SITE_URL}/images/og-default.jpg`;
 
   return {
     title: `${config.title} | ${SITE_NAME}`,
@@ -88,7 +88,7 @@ export function quickProgramMetadata(
   heroImage?: string,
 ): Metadata {
   const url = `${SITE_URL}/programs/${slug}`;
-  const imageUrl = heroImage ? `${SITE_URL}${heroImage}` : `${SITE_URL}/images/og-default.webp`;
+  const imageUrl = heroImage ? `${SITE_URL}${heroImage}` : `${SITE_URL}/images/og-default.jpg`;
 
   return {
     title: `${title} | ${SITE_NAME}`,

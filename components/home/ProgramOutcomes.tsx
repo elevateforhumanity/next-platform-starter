@@ -26,7 +26,7 @@ const PROGRAMS = [
   },
   {
     title: 'HVAC Technician',
-    image: '/images/pages/cdl-truck-highway.jpg',
+    image: '/images/pages/cdl-truck-highway.webp',
     duration: '12 weeks',
     salary: '$45K–$65K',
     placement: '85%',
@@ -35,7 +35,7 @@ const PROGRAMS = [
   },
   {
     title: 'Medical Assistant',
-    image: '/images/pages/it-helpdesk-desk.jpg',
+    image: '/images/pages/it-helpdesk-desk.webp',
     duration: '10 weeks',
     salary: '$32K–$40K',
     placement: '87%',

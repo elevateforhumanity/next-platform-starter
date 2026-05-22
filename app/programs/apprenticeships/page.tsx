@@ -26,9 +26,9 @@ export const metadata: Metadata = {
 };
 
 const programs = [
-  { title: 'Barber Apprenticeship', duration: '12–18 months', desc: '2,000 hours of OJT in licensed barbershops. Indiana Barber License pathway.', href: '/programs/barber-apprenticeship', image: '/images/pages/barber-gallery-1.jpg' },
-  { title: 'Cosmetology Apprenticeship', duration: '18 months', desc: 'Hands-on salon training. Indiana Cosmetology License pathway.', href: '/programs/cosmetology-apprenticeship', image: '/images/pages/barber-gallery-2.jpg' },
-  { title: 'Nail Technician', duration: '6–9 months', desc: 'Manicure, pedicure, gel, acrylic. Indiana Manicurist License pathway.', href: '/programs/nail-technician-apprenticeship', image: '/images/pages/barber-gallery-3.jpg' },
+  { title: 'Barber Apprenticeship', duration: '12–18 months', desc: '2,000 hours of OJT in licensed barbershops. Indiana Barber License pathway.', href: '/programs/barber-apprenticeship', image: '/images/pages/barber-gallery-1.webp' },
+  { title: 'Cosmetology Apprenticeship', duration: '18 months', desc: 'Hands-on salon training. Indiana Cosmetology License pathway.', href: '/programs/cosmetology-apprenticeship', image: '/images/pages/barber-gallery-2.webp' },
+  { title: 'Nail Technician', duration: '6–9 months', desc: 'Manicure, pedicure, gel, acrylic. Indiana Manicurist License pathway.', href: '/programs/nail-technician-apprenticeship', image: '/images/pages/barber-gallery-3.webp' },
   { title: 'Culinary Apprenticeship', duration: '12 months', desc: 'Professional kitchen training. ServSafe certification.', href: '/programs/culinary-apprenticeship', image: '/images/pages/admin-cafeteria-hero.webp' },
 ];
 

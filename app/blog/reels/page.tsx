@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/pages/social-media-1.jpg',
+        url: '/images/pages/social-media-1.webp',
         width: 1200,
         height: 630,
         alt: 'Elevate For Humanity reels',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Reels',
     description: 'Watch short-form videos about career training and success stories',
-    images: ['/images/pages/social-media-1.jpg'],
+    images: ['/images/pages/social-media-1.webp'],
   },
 };
 

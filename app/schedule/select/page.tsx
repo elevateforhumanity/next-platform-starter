@@ -28,7 +28,7 @@ const SCHEDULE_OPTIONS = [
   },
   {
     id: 'evening',
-    image: '/images/pages/admin-apprenticeships-classroom.jpg',
+    image: '/images/pages/admin-apprenticeships-classroom.webp',
     imageAlt: 'Evening HVAC training class',
     label: 'Evening Classes',
     hours: 'Monday – Thursday, 5:30 PM – 9:00 PM',
@@ -39,7 +39,7 @@ const SCHEDULE_OPTIONS = [
   },
   {
     id: 'self-paced',
-    image: '/images/pages/admin-analytics-learning-hero.jpg',
+    image: '/images/pages/admin-analytics-learning-hero.webp',
     imageAlt: 'Student learning online at their own pace',
     label: 'Self-Paced Online',
     hours: 'Anytime — complete lessons on your own schedule',

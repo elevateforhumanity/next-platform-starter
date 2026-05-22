@@ -30,7 +30,7 @@ export default async function HireGraduatesPage() {
         <Breadcrumbs items={[{ label: 'Hire Graduates' }]} />
       </div>
       <HeroVideo
-        posterImage="/images/pages/hire-graduates-page-1.jpg"
+        posterImage="/images/pages/hire-graduates-page-1.webp"
         videoSrcDesktop={heroBanners['hire-graduates'].videoSrcDesktop}
         voiceoverSrc={heroBanners['hire-graduates'].voiceoverSrc}
         microLabel={heroBanners['hire-graduates'].microLabel}
@@ -84,13 +84,13 @@ export default async function HireGraduatesPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                image: '/images/pages/hire-graduates-page-1.jpg',
+                image: '/images/pages/hire-graduates-page-1.webp',
                 alt: 'Students in workforce training programs',
                 title: 'Learn',
                 desc: 'Short-term, industry-aligned training programs with hands-on instruction.',
               },
               {
-                image: '/images/pages/credentials-page-1.jpg',
+                image: '/images/pages/credentials-page-1.webp',
                 alt: 'Industry certifications earned by graduates',
                 title: 'Certify',
                 desc: 'Graduates earn nationally recognized credentials before day one on the job.',

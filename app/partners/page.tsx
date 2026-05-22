@@ -35,7 +35,7 @@ const PARTNER_TYPES = [
     ],
     cta: { label: 'Learn More', href: '/partners/workforce' },
     apply: { label: 'Start a Referral Partnership', href: '/apply/intake' },
-    image: '/images/pages/workforce-partners-page-1.jpg',
+    image: '/images/pages/workforce-partners-page-1.webp',
   },
   {
     icon: Briefcase,
@@ -98,7 +98,7 @@ const PARTNER_TYPES = [
     ],
     cta: { label: 'Learn More', href: '/partners/reentry' },
     apply: { label: 'Refer a Participant', href: '/apply/intake' },
-    image: '/images/pages/community-page-4.jpg',
+    image: '/images/pages/community-page-4.webp',
   },
   {
     icon: Handshake,
@@ -113,7 +113,7 @@ const PARTNER_TYPES = [
     ],
     cta: { label: 'Learn More', href: '/partners/technology' },
     apply: { label: 'Request API Access', href: '/partners/sales' },
-    image: '/images/pages/technology-sector.jpg',
+    image: '/images/pages/technology-sector.webp',
   },
 ];
 

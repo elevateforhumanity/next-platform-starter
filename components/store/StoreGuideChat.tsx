@@ -20,7 +20,7 @@ interface StoreGuideChatProps {
 const choiceImages: Record<string, string> = {
   shop: '/images/pages/shop-hero.webp',
   courses: '/images/pages/shop-hero.webp',
-  workbooks: '/images/pages/training-classroom.jpg',
+  workbooks: '/images/pages/training-classroom.webp',
   licensing: '/images/pages/shop-hero.webp',
   'not-sure': '/images/pages/store-recommendations.webp',
 };

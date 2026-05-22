@@ -113,7 +113,7 @@ const recentPosts = [
     time: '2 hours ago',
     content:
       'Congratulations to our latest graduates! 🎓 Another cohort of skilled professionals ready to make their mark.',
-    image: '/images/pages/social-media-1.jpg',
+    image: '/images/pages/social-media-1.webp',
     likes: 45,
     comments: 12,
   },
@@ -132,7 +132,7 @@ const recentPosts = [
     time: '1 day ago',
     content:
       'Behind the scenes at our training facility! Our students are working hard to build their futures. 💪',
-    image: '/images/pages/social-media-1.jpg',
+    image: '/images/pages/social-media-1.webp',
     likes: 156,
     comments: 34,
   },

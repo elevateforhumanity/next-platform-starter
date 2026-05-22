@@ -43,7 +43,7 @@ export const programTrainingContent: LocalizedContent = {
     hero: {
       title: 'Program Overview',
       purpose: 'This page explains who this program is for, what you will learn, and how to apply.',
-      image: '/images/pages/training-classroom.jpg',
+      image: '/images/pages/training-classroom.webp',
       imageAlt: 'Students in training program',
     },
     sections: {
@@ -79,7 +79,7 @@ export const programTrainingContent: LocalizedContent = {
     hero: {
       title: 'Resumen del programa',
       purpose: 'Esta página explica para quién es el programa, qué aprenderás y cómo aplicar.',
-      image: '/images/pages/healthcare-classroom.jpg',
+      image: '/images/pages/healthcare-classroom.webp',
       imageAlt: 'Estudiantes en programa de capacitación',
     },
     sections: {
@@ -199,7 +199,7 @@ export const dashboardPortalContent: LocalizedContent = {
     hero: {
       title: 'Mi panel',
       purpose: 'Este panel muestra tu estado actual y los siguientes pasos.',
-      image: '/images/pages/cdl-truck-highway.jpg',
+      image: '/images/pages/cdl-truck-highway.webp',
       imageAlt: 'Panel del estudiante',
     },
     sections: {
@@ -308,7 +308,7 @@ export const policyComplianceContent: LocalizedContent = {
     hero: {
       title: 'Información de políticas',
       purpose: 'Esta página explica las políticas que aplican al uso de la plataforma.',
-      image: '/images/pages/business-sector.jpg',
+      image: '/images/pages/business-sector.webp',
       imageAlt: 'Documentación de políticas',
     },
     cta: {
@@ -423,7 +423,7 @@ export const reportingAdminContent: LocalizedContent = {
     hero: {
       title: 'Administrative Dashboard',
       purpose: 'This page provides tools for reporting, management, and operations.',
-      image: '/images/pages/technology-sector.jpg',
+      image: '/images/pages/technology-sector.webp',
       imageAlt: 'Administrative dashboard',
     },
     sections: {

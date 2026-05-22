@@ -8,7 +8,7 @@ export const COSMETOLOGY: ProgramSchema = {
   sector: 'personal-services',
   category: 'Cosmetology',
   programType: 'apprenticeship',
-  heroImage: '/images/pages/cosmetology.jpg',
+  heroImage: '/images/pages/cosmetology.webp',
   heroImageAlt: 'Cosmetology apprentice styling hair in a salon',
   videoSrc: '/videos/beauty-cosmetology.mp4',
   deliveryMode: 'in-person',

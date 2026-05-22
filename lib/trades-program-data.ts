@@ -29,7 +29,7 @@ export const HVAC_DATA: TradesProgramData = {
   tagline:
     'Heating, ventilation, and air conditioning — installation, maintenance, and repair. Year-round demand, strong pay.',
   heroImage: '/images/pages/hvac-technician.webp',
-  secondaryImage: '/images/pages/training-classroom.jpg',
+  secondaryImage: '/images/pages/training-classroom.webp',
   careerImage: '/images/pages/hvac-technician.webp',
   duration: '20 weeks',
   totalHours: '400+ hours',
@@ -78,7 +78,7 @@ export const HVAC_DATA: TradesProgramData = {
         'Gas and electric heating',
         'Combustion analysis',
       ],
-      image: '/images/pages/training-classroom.jpg',
+      image: '/images/pages/training-classroom.webp',
       project: 'Perform a complete furnace inspection and tune-up',
     },
     {
@@ -170,7 +170,7 @@ export const ELECTRICAL_DATA: TradesProgramData = {
   tagline:
     'Residential and commercial wiring, NEC code, troubleshooting. Path to licensed journeyman electrician.',
   heroImage: '/images/pages/hvac-technician.webp',
-  secondaryImage: '/images/pages/training-classroom.jpg',
+  secondaryImage: '/images/pages/training-classroom.webp',
   careerImage: '/images/pages/hvac-technician.webp',
   duration: '16–24 weeks',
   totalHours: '400+ hours',
@@ -300,7 +300,7 @@ export const PLUMBING_DATA: TradesProgramData = {
     'Water supply, drainage, fixtures, gas piping. Essential trade with steady demand and strong earnings.',
   heroImage: '/images/pages/hvac-technician.webp',
   secondaryImage: '/images/pages/hvac-technician.webp',
-  careerImage: '/images/pages/training-classroom.jpg',
+  careerImage: '/images/pages/training-classroom.webp',
   duration: '16 weeks',
   totalHours: '400+ hours',
   rtiHours: '240 hours (online / LMS)',
@@ -426,7 +426,7 @@ export const FORKLIFT_DATA: TradesProgramData = {
   tagline:
     'OSHA-compliant powered industrial truck certification. Classroom instruction, hands-on evaluation, and written test in one day.',
   heroImage: '/images/pages/hvac-technician.webp',
-  secondaryImage: '/images/pages/training-classroom.jpg',
+  secondaryImage: '/images/pages/training-classroom.webp',
   careerImage: '/images/pages/hvac-technician.webp',
   duration: '1 day (8 hours)',
   totalHours: '8 hours',
@@ -449,7 +449,7 @@ export const FORKLIFT_DATA: TradesProgramData = {
         'Accident prevention and reporting',
         'PPE requirements',
       ],
-      image: '/images/pages/training-classroom.jpg',
+      image: '/images/pages/training-classroom.webp',
     },
     {
       week: 'Morning',

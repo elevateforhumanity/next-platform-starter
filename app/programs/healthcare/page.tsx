@@ -104,21 +104,21 @@ const healthcarePrograms = [
     duration: '12–16 weeks',
     desc: 'Clinical and administrative medical assisting. CCMA certification included.',
     href: '/programs/medical-assistant',
-    image: '/images/pages/admin-health-hero.jpg',
+    image: '/images/pages/admin-health-hero.webp',
   },
   {
     title: 'Phlebotomy Technician',
     duration: '8–10 weeks',
     desc: 'Venipuncture, specimen handling, and lab safety. NHA CPT certification included. Self-pay — BNPL available. Not currently on WorkOne ETPL funded list.',
     href: '/programs/phlebotomy',
-    image: '/images/pages/certifications-page-1.jpg',
+    image: '/images/pages/certifications-page-1.webp',
   },
   {
     title: 'CPR & First Aid',
     duration: '1 day',
     desc: 'American Heart Association CPR, First Aid, and AED certification.',
     href: '/programs/cpr-first-aid',
-    image: '/images/pages/healthcare-sector.jpg',
+    image: '/images/pages/healthcare-sector.webp',
   },
 ];
 

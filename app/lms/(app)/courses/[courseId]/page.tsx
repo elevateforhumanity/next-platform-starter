@@ -116,7 +116,7 @@ export default async function CoursePage({ params }: { params: Params }) {
         .maybeSingle()
     : { data: null };
 
-  const heroImage = program?.hero_image_url || program?.image_url || '/images/pages/hvac-unit.jpg';
+  const heroImage = program?.hero_image_url || program?.image_url || '/images/pages/hvac-unit.webp';
   const credentialName = program?.credential_name || program?.credential || null;
 
   // Check if user is admin/staff — they bypass enrollment requirements entirely.

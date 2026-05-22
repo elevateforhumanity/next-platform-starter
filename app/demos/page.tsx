@@ -40,7 +40,7 @@ const demos = [
     description:
       'Learn how employers track sponsored employees, post jobs, and access workforce analytics.',
     duration: '10 min',
-    thumbnail: '/images/pages/features-hero.jpg',
+    thumbnail: '/images/pages/features-hero.webp',
     features: [
       'Candidate search and filtering',
       'Job posting workflow',
@@ -76,7 +76,7 @@ const demos = [
     description:
       'Watch how to create complete courses with AI-generated content, quizzes, and video lessons.',
     duration: '12 min',
-    thumbnail: '/images/pages/philanthropy-hero.jpg',
+    thumbnail: '/images/pages/philanthropy-hero.webp',
     features: [
       'AI course generation',
       'Drag-and-drop lesson builder',

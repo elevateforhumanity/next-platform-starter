@@ -28,7 +28,7 @@ export default function ConsumerEducationPage() {
             'Elevate for Humanity provides free consumer education resources to help Indiana residents make informed financial decisions, access benefits they qualify for, and protect themselves from predatory practices.',
             'Our VITA-certified volunteers prepare free federal and state tax returns for households earning under $67,000. We also offer workshops on budgeting, credit building, and navigating public benefits.',
           ],
-          image: '/images/pages/community-page-4.jpg',
+          image: '/images/pages/community-page-4.webp',
         },
         features: {
           heading: 'What We Offer',

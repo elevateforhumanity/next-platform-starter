@@ -124,10 +124,10 @@ const categoryLabels: Record<string, { label: string; icon: typeof FileText; col
 };
 
 const categoryPhotos: Record<string, { src: string; alt: string }> = {
-  legal: { src: '/images/pages/barber-gallery-1.jpg', alt: 'Barber tools and legal agreements' },
-  compliance: { src: '/images/pages/barber-gallery-1.jpg', alt: 'Licensed barber performing a cut' },
-  insurance: { src: '/images/pages/barber-gallery-1.jpg', alt: 'Barbershop interior' },
-  training: { src: '/images/pages/barber-gallery-1.jpg', alt: 'Barber training session' },
+  legal: { src: '/images/pages/barber-gallery-1.webp', alt: 'Barber tools and legal agreements' },
+  compliance: { src: '/images/pages/barber-gallery-1.webp', alt: 'Licensed barber performing a cut' },
+  insurance: { src: '/images/pages/barber-gallery-1.webp', alt: 'Barbershop interior' },
+  training: { src: '/images/pages/barber-gallery-1.webp', alt: 'Barber training session' },
 };
 
 const actionLabels: Record<string, string> = {

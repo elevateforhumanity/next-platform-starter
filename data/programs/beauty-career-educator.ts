@@ -8,7 +8,7 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   sector: 'personal-services',
   category: 'Beauty & Personal Services',
   programType: 'workforce',
-  heroImage: '/images/pages/cosmetology-hero.jpg',
+  heroImage: '/images/pages/cosmetology-hero.webp',
   heroImageAlt: 'Beauty educator training students in salon techniques',
   videoSrc: '/videos/beauty-cosmetology.mp4',
   deliveryMode: 'hybrid',

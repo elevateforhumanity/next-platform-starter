@@ -12,7 +12,7 @@ interface VideoBackgroundProps {
 
 export function VideoBackground({
   videoUrl,
-  poster = '/images/og-default.webp',
+  poster = '/images/og-default.jpg',
   className = '',
   children,
 }: VideoBackgroundProps) {

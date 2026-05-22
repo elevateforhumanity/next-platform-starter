@@ -8,19 +8,19 @@ import { PATHWAYS } from '@/lib/pathways/data';
 
 export const dynamic = 'force-dynamic';
 const SLUG_IMAGES: Record<string, string> = {
-  cna: '/images/pages/cna-nursing.jpg',
-  cdl: '/images/pages/cdl-training.jpg',
-  'barber-apprenticeship': '/images/pages/barber-training.jpg',
+  cna: '/images/pages/cna-nursing.webp',
+  cdl: '/images/pages/cdl-training.webp',
+  'barber-apprenticeship': '/images/pages/barber-training.webp',
   hvac: '/images/pages/hvac-technician.webp',
-  electrical: '/images/pages/electrical.jpg',
+  electrical: '/images/pages/electrical.webp',
   welding: '/images/pages/welding.webp',
   'it-help-desk': '/images/pages/it-help-desk.webp',
-  'cybersecurity-analyst': '/images/pages/cybersecurity.jpg',
+  'cybersecurity-analyst': '/images/pages/cybersecurity.webp',
   'medical-assistant': '/images/pages/medical-assistant.webp',
   phlebotomy: '/images/pages/phlebotomy.jpg',
   plumbing: '/images/pages/plumbing.jpg',
-  healthcare: '/images/pages/healthcare-sector.jpg',
-  technology: '/images/pages/technology-sector.jpg',
+  healthcare: '/images/pages/healthcare-sector.webp',
+  technology: '/images/pages/technology-sector.webp',
 };
 
 export const metadata: Metadata = {

@@ -16,7 +16,7 @@ export default function TechnologyPartnerPage() {
       config={{
         breadcrumbs: [{ label: 'Partners', href: '/partners' }, { label: 'Technology Partners' }],
         hero: {
-          image: '/images/pages/technology-sector.jpg',
+          image: '/images/pages/technology-sector.webp',
           tag: 'Technology Partners',
           tagColor: 'text-brand-blue-600',
           title: 'Technology Partnership',

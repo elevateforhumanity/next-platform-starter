@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     name: 'James Thompson',
     role: 'IT Support Specialist',
     program: 'Technology Training',
-    image: '/images/pages/it-helpdesk-desk.jpg',
+    image: '/images/pages/it-helpdesk-desk.webp',
     quote:
       'The hands-on training and certification prep gave me the skills employers were looking for. I had three job offers before graduation.',
     rating: 5,
@@ -62,7 +62,7 @@ const testimonials: Testimonial[] = [
     name: 'Michael Chen',
     role: 'Medical Assistant',
     program: 'Healthcare Training',
-    image: '/images/pages/medical-assistant-lab.jpg',
+    image: '/images/pages/medical-assistant-lab.webp',
     quote:
       'The instructors genuinely cared about my success. They helped me overcome barriers and achieve my goals.',
     rating: 5,
@@ -86,7 +86,7 @@ const testimonials: Testimonial[] = [
     name: 'David Martinez',
     role: 'CDL Driver',
     program: 'Transportation',
-    image: '/images/pages/cdl-truck-highway.jpg',
+    image: '/images/pages/cdl-truck-highway.webp',
     quote:
       "Free CDL training with job placement assistance? I couldn't believe it was real. Now I'm earning more than I ever have.",
     rating: 5,

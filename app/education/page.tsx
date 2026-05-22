@@ -35,21 +35,21 @@ const PROGRAMS = [
   {
     title: 'Technology',
     href: '/programs/technology',
-    image: '/images/pages/cybersecurity.jpg',
+    image: '/images/pages/cybersecurity.webp',
     desc: 'Cybersecurity, IT Support, Software Development, and Networking. Launch a career in tech.',
     tags: ['Cybersecurity', 'IT Help Desk', 'Software Dev'],
   },
   {
     title: 'CDL & Transportation',
     href: '/programs/cdl-training',
-    image: '/images/pages/cdl-truck-highway.jpg',
+    image: '/images/pages/cdl-truck-highway.webp',
     desc: 'Commercial Driving License training with job placement. Class A and Class B CDL programs.',
     tags: ['CDL Class A', 'CDL Class B', 'Diesel Mechanic'],
   },
   {
     title: 'Barber Apprenticeship',
     href: '/programs/barber-apprenticeship',
-    image: '/images/pages/barber-apprenticeship.jpg',
+    image: '/images/pages/barber-apprenticeship.webp',
     desc: 'Barber apprenticeships and cosmetology training. Learn from licensed professionals in real shop settings.',
     tags: ['Barber Apprenticeship', 'Cosmetology', 'Nail Tech'],
   },
@@ -66,8 +66,8 @@ const LOCATIONS = [
   { state: 'Indiana', href: '/career-training-indiana', cities: ['Indianapolis', 'Fort Wayne', 'Evansville'], image: '/images/pages/about-career-training.webp', desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.' },
   { state: 'Illinois', href: '/career-training-illinois', cities: ['Chicago', 'Aurora', 'Naperville'], image: '/images/pages/workforce-training.webp', desc: 'Workforce programs across the Chicago metro and statewide.' },
   { state: 'Ohio', href: '/career-training-ohio', cities: ['Columbus', 'Cleveland', 'Cincinnati'], image: '/images/pages/welding-sparks.webp', desc: 'Career training aligned with Ohio industry demand.' },
-  { state: 'Tennessee', href: '/career-training-tennessee', cities: ['Nashville', 'Memphis', 'Knoxville'], image: '/images/pages/electrical.jpg', desc: 'Expanding workforce development across Tennessee.' },
-  { state: 'Texas', href: '/career-training-texas', cities: ['Houston', 'Dallas', 'San Antonio'], image: '/images/pages/business-sector.jpg', desc: 'Trade, healthcare, and technology programs for Texas.' },
+  { state: 'Tennessee', href: '/career-training-tennessee', cities: ['Nashville', 'Memphis', 'Knoxville'], image: '/images/pages/electrical.webp', desc: 'Expanding workforce development across Tennessee.' },
+  { state: 'Texas', href: '/career-training-texas', cities: ['Houston', 'Dallas', 'San Antonio'], image: '/images/pages/business-sector.webp', desc: 'Trade, healthcare, and technology programs for Texas.' },
 ];
 
 const STATS = [

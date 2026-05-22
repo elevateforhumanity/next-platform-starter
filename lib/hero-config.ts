@@ -44,49 +44,49 @@ export const HERO_IMAGES = {
   // Healthcare family
   healthcare: {
     cna: '/images/pages/cna-clinical.jpg',
-    medicalAssistant: '/images/pages/medical-assistant-lab.jpg',
-    phlebotomy: '/images/pages/phlebotomy-draw.jpg',
+    medicalAssistant: '/images/pages/medical-assistant-lab.webp',
+    phlebotomy: '/images/pages/phlebotomy-draw.webp',
     cprFirstAid: '/images/pages/cna-patient-care.jpg',
-    drugCollector: '/images/pages/healthcare-classroom.jpg',
+    drugCollector: '/images/pages/healthcare-classroom.webp',
     dsp: '/images/pages/healthcare-grad.jpg',
   },
 
   // Trades family
   trades: {
     hvac: '/images/pages/hvac-technician.webp',
-    cdl: '/images/pages/cdl-truck-highway.jpg',
+    cdl: '/images/pages/cdl-truck-highway.webp',
     welding: '/images/pages/welding-sparks.webp',
-    electrical: '/images/pages/electrical.jpg',
+    electrical: '/images/pages/electrical.webp',
     plumbing: '/images/pages/plumbing.jpg',
-    diesel: '/images/pages/hvac-tools.jpg',
+    diesel: '/images/pages/hvac-tools.webp',
   },
 
   // Beauty/Apprenticeship family
   apprenticeship: {
     barber: '/images/pages/barber-hero-main.jpg',
     cosmetology: '/images/pages/barber-styling-hair.webp',
-    esthetician: '/images/pages/barber-apprentice-learning.jpg',
-    nailTech: '/images/pages/barber-apprenticeship.jpg',
+    esthetician: '/images/pages/barber-apprentice-learning.webp',
+    nailTech: '/images/pages/barber-apprenticeship.webp',
   },
 
   // Technology family
   technology: {
-    itSupport: '/images/pages/it-helpdesk-desk.jpg',
+    itSupport: '/images/pages/it-helpdesk-desk.webp',
     cybersecurity: '/images/pages/cybersecurity-screen.jpg',
-    webDev: '/images/pages/technology-sector.jpg',
+    webDev: '/images/pages/technology-sector.webp',
   },
 
   // Business family
   business: {
     taxPrep: '/images/pages/tax-preparation.webp',
-    entrepreneurship: '/images/pages/business-sector.jpg',
+    entrepreneurship: '/images/pages/business-sector.webp',
     businessAdmin: '/images/pages/admin-business-hero.webp',
   },
 
   // Enterprise/Licensing family
   enterprise: {
     licensing: '/images/pages/about-hero.webp',
-    whiteLabel: '/images/pages/features-hero.jpg',
+    whiteLabel: '/images/pages/features-hero.webp',
     partners: '/images/pages/for-employers-page-1.webp',
     government: '/images/pages/how-it-works-hero.webp',
   },
@@ -94,7 +94,7 @@ export const HERO_IMAGES = {
   // Marketing/General
   marketing: {
     homepage: '/images/pages/workforce-training.webp',
-    programs: '/images/pages/training-classroom.jpg',
+    programs: '/images/pages/training-classroom.webp',
     about: '/images/pages/about-hero.webp',
     careers: '/images/pages/career-counseling.jpg',
     contact: '/images/pages/contact-hero.jpg',
@@ -103,14 +103,14 @@ export const HERO_IMAGES = {
   // LMS/Portal
   lms: {
     studentPortal: '/images/pages/training-cohort.webp',
-    dashboard: '/images/pages/healthcare-classroom.jpg',
-    courses: '/images/pages/training-classroom.jpg',
+    dashboard: '/images/pages/healthcare-classroom.webp',
+    courses: '/images/pages/training-classroom.webp',
   },
 
   // Governance/Policy
   governance: {
     privacy: '/images/pages/about-hero.webp',
-    terms: '/images/pages/features-hero.jpg',
+    terms: '/images/pages/features-hero.webp',
     ferpa: '/images/pages/how-it-works-hero.webp',
     accessibility: '/images/pages/contact-hero.jpg',
   },
@@ -159,7 +159,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Career Training Programs',
     subtitle:
       'Industry-recognized certifications in high-demand fields. Free for eligible participants.',
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     variant: 'split',
     height: 'medium',
     ctaPrimary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
@@ -210,7 +210,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/programs/esthetician-apprenticeship': {
     title: 'Esthetician Apprenticeship',
     subtitle: 'Launch your skincare career through hands-on apprenticeship training.',
-    image: '/images/pages/barber-apprentice-learning.jpg',
+    image: '/images/pages/barber-apprentice-learning.webp',
     variant: 'split',
     height: 'medium',
     badge: 'State Approved',
@@ -227,7 +227,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/programs/cdl-training': {
     title: 'CDL Training Program',
     subtitle: "Get your Commercial Driver's License and start a career in transportation.",
-    image: '/images/pages/cdl-truck-highway.jpg',
+    image: '/images/pages/cdl-truck-highway.webp',
     variant: 'split',
     height: 'medium',
     badge: 'ELDT Certified',
@@ -244,7 +244,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
   '/programs/it-help-desk': {
     title: 'IT Support Training',
     subtitle: 'Certiport IT Specialist certification training. Launch your career in technology.',
-    image: '/images/pages/it-helpdesk-desk.jpg',
+    image: '/images/pages/it-helpdesk-desk.webp',
     variant: 'split',
     height: 'medium',
     badge: 'Certiport Authorized',
@@ -264,7 +264,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Start Your Application',
     subtitle:
       'Take the first step toward a new career. Our team will guide you through the process.',
-    image: '/images/pages/healthcare-classroom.jpg',
+    image: '/images/pages/healthcare-classroom.webp',
     variant: 'split',
     height: 'medium',
     badge: 'Free Training Available',
@@ -278,7 +278,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Enterprise Licensing',
     subtitle:
       'Deploy the Elevate LMS platform for your organization. Managed infrastructure, your brand.',
-    image: '/images/pages/features-hero.jpg',
+    image: '/images/pages/features-hero.webp',
     variant: 'illustration',
     height: 'medium',
     ctaPrimary: { label: 'View Plans', href: '/admin/licenses' },
@@ -440,7 +440,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Course Marketplace',
     subtitle: 'Professional development courses and certifications.',
     videoSrc: VIDEO_HEROES.storeCourses,
-    videoPoster: '/images/pages/training-classroom.jpg',
+    videoPoster: '/images/pages/training-classroom.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Browse Courses', href: '#courses' },
@@ -451,7 +451,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     title: 'Digital Products',
     subtitle: 'Workbooks, guides, and resources for career success.',
     videoSrc: VIDEO_HEROES.storeDigital,
-    videoPoster: '/images/pages/business-sector.jpg',
+    videoPoster: '/images/pages/business-sector.webp',
     variant: 'video',
     height: 'medium',
     ctaPrimary: { label: 'Browse Products', href: '#products' },

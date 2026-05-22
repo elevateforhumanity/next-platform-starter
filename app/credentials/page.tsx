@@ -26,12 +26,12 @@ const completionCerts = [
   {
     name: 'Entrepreneurship',
     desc: 'Business plan development, entity formation, marketing, and financial management.',
-    img: '/images/pages/business-sector.jpg',
+    img: '/images/pages/business-sector.webp',
   },
   {
     name: 'Bookkeeping & QuickBooks',
     desc: 'Double-entry bookkeeping, financial statements, and QuickBooks Online proficiency.',
-    img: '/images/pages/bookkeeping-ledger.jpg',
+    img: '/images/pages/bookkeeping-ledger.webp',
   },
   {
     name: 'Business Administration',
@@ -46,7 +46,7 @@ const completionCerts = [
   {
     name: 'Sanitation & Infection Control',
     desc: 'Disinfection procedures, bloodborne pathogen safety, and regulatory compliance.',
-    img: '/images/pages/sanitation.jpg',
+    img: '/images/pages/sanitation.webp',
   },
   {
     name: 'Micro Programs',
@@ -61,28 +61,28 @@ const industryCerts = [
     issuer: 'U.S. Department of Labor',
     field: 'Construction & Trades',
     desc: 'Workplace safety certification. DOL-issued card upon completion.',
-    img: '/images/pages/electrical.jpg',
+    img: '/images/pages/electrical.webp',
   },
   {
     name: 'CPR / AED / First Aid',
     issuer: 'AHA / Health & Safety Institute',
     field: 'Healthcare & General',
     desc: 'Same-day certification. Valid 2 years. Required for healthcare, childcare, and many trades.',
-    img: '/images/pages/cna-nursing.jpg',
+    img: '/images/pages/cna-nursing.webp',
   },
   {
     name: 'CNA (Certified Nursing Assistant)',
     issuer: 'Indiana State Dept. of Health',
     field: 'Healthcare',
     desc: 'State-certified credential for patient care. Requires state competency exam.',
-    img: '/images/pages/healthcare-sector.jpg',
+    img: '/images/pages/healthcare-sector.webp',
   },
   {
     name: 'CDL Class A License',
     issuer: 'Indiana BMV',
     field: 'Transportation',
     desc: 'Commercial driver license. Requires pre-trip, skills, and road test administered by the state.',
-    img: '/images/pages/cdl-loading-dock.jpg',
+    img: '/images/pages/cdl-loading-dock.webp',
   },
   {
     name: 'EPA Section 608',
@@ -96,7 +96,7 @@ const industryCerts = [
     issuer: 'Certiport / Intuit',
     field: 'Business',
     desc: 'Vendor certification exam administered through Certiport testing centers.',
-    img: '/images/pages/bookkeeping.jpg',
+    img: '/images/pages/bookkeeping.webp',
   },
   {
     name: 'IT Specialist',
@@ -117,21 +117,21 @@ const industryCerts = [
     issuer: 'CompTIA / Certiport',
     field: 'Cybersecurity',
     desc: 'Baseline cybersecurity certification. Elevate provides exam preparation training. Exam delivered through Certiport, an authorized CompTIA testing partner.',
-    img: '/images/pages/cybersecurity.jpg',
+    img: '/images/pages/cybersecurity.webp',
   },
   {
     name: 'ServSafe Food Handler',
     issuer: 'National Restaurant Association',
     field: 'Culinary / Food Service',
     desc: 'Food safety certification. Valid 5 years. NRA-administered exam.',
-    img: '/images/pages/culinary.jpg',
+    img: '/images/pages/culinary.webp',
   },
   {
     name: 'NCCER Core',
     issuer: 'NCCER',
     field: 'Construction',
     desc: 'Foundational construction skills credential. NCCER-administered assessment.',
-    img: '/images/pages/skilled-trades-sector.jpg',
+    img: '/images/pages/skilled-trades-sector.webp',
   },
   {
     name: 'Phlebotomy Technician (CPT)',
@@ -152,14 +152,14 @@ const industryCerts = [
     issuer: 'Indiana DMHA',
     field: 'Behavioral Health',
     desc: 'State credential for peer recovery specialists. Requires supervised practicum hours and state application.',
-    img: '/images/pages/peer-recovery.jpg',
+    img: '/images/pages/peer-recovery.webp',
   },
   {
     name: 'IRS PTIN',
     issuer: 'IRS',
     field: 'Tax Preparation',
     desc: 'Preparer Tax Identification Number. Required to prepare federal returns for compensation.',
-    img: '/images/pages/finance-accounting.jpg',
+    img: '/images/pages/finance-accounting.webp',
   },
 ];
 
@@ -185,7 +185,7 @@ export default function CredentialsPage() {
       {/* Hero */}
       <HeroVideo
         videoSrcDesktop="/videos/welding-trades.mp4"
-        posterImage="/images/pages/credentials-page-1.jpg"
+        posterImage="/images/pages/credentials-page-1.webp"
         microLabel="System of Record"
         analyticsName="credentials"
       >

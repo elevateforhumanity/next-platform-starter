@@ -12,13 +12,13 @@ export function HomepageProgramsTeaser() {
     {
       title: 'Barber Apprenticeship',
       description: 'DOL Registered Apprenticeships',
-      image: '/images/pages/adult-learner.jpg',
+      image: '/images/pages/adult-learner.webp',
       href: '/programs/barber-apprenticeship',
     },
     {
       title: 'Skilled Trades',
       description: 'HVAC, Building Maintenance, CDL',
-      image: '/images/pages/features-hero.jpg',
+      image: '/images/pages/features-hero.webp',
       href: '/programs/hvac-technician',
     },
   ];

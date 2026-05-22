@@ -97,7 +97,7 @@ export function HeroSection({
         {/* Video background - NO overlay, NO gradient */}
         <CanonicalVideo
           src={videoSrc ?? ''}
-          poster={videoPoster ?? '/images/og-default.webp'}
+          poster={videoPoster ?? '/images/og-default.jpg'}
           className="absolute inset-0 w-full h-full object-cover"
         />
 

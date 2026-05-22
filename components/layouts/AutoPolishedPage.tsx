@@ -417,11 +417,11 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
     const cat = normalizeSection(section);
     switch (cat) {
       case 'programs':
-        return '/images/pages/training-classroom.jpg';
+        return '/images/pages/training-classroom.webp';
       case 'funding':
         return '/images/pages/how-it-works-hero.webp';
       case 'students':
-        return '/images/pages/healthcare-classroom.jpg';
+        return '/images/pages/healthcare-classroom.webp';
       case 'lms':
         return '/images/pages/training-cohort.webp';
       case 'employers':
@@ -431,7 +431,7 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
       case 'admin-staff':
         return '/images/pages/about-hero.webp';
       default:
-        return '/images/pages/features-hero.jpg';
+        return '/images/pages/features-hero.webp';
     }
   };
 

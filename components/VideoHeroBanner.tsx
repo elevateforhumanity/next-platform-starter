@@ -10,7 +10,7 @@ interface VideoHeroBannerProps {
 
 export function VideoHeroBanner({
   videoSrc = '',
-  posterSrc = '/images/og-default.webp',
+  posterSrc = '/images/og-default.jpg',
   className = '',
 }: VideoHeroBannerProps) {
   if (!videoSrc) return null;

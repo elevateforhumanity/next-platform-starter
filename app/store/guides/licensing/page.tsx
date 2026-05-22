@@ -53,7 +53,7 @@ const STEPS = [
     num: '3',
     color: 'bg-brand-blue-600',
     title: 'Tenant Provisioning',
-    image: '/images/pages/admin-partners-hero.jpg',
+    image: '/images/pages/admin-partners-hero.webp',
     imageAlt: 'Admin dashboard showing tenant provisioning and organization setup',
     content: (
       <>
@@ -79,7 +79,7 @@ const STEPS = [
     num: '4',
     color: 'bg-brand-blue-600',
     title: 'Invite Team & Assign Roles',
-    image: '/images/pages/admin-employers-hero.jpg',
+    image: '/images/pages/admin-employers-hero.webp',
     imageAlt: 'Admin user management interface showing role assignment',
     content: (
       <>
@@ -103,7 +103,7 @@ const STEPS = [
     num: '5',
     color: 'bg-brand-blue-600',
     title: 'Add Programs & Content',
-    image: '/images/pages/admin-courses-partners-hero.jpg',
+    image: '/images/pages/admin-courses-partners-hero.webp',
     imageAlt: 'Course builder interface showing program and content setup',
     content: (
       <>
@@ -157,7 +157,7 @@ const STEPS = [
     num: '8',
     color: 'bg-brand-blue-600',
     title: 'Support & SLA',
-    image: '/images/pages/platform-page-9.jpg',
+    image: '/images/pages/platform-page-9.webp',
     imageAlt: 'Support portal and SLA documentation',
     content: (
       <>

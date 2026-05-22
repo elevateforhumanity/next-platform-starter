@@ -29,7 +29,7 @@ export default function CareerServicesPage() {
 
       <HeroVideo
         videoSrcDesktop="/videos/career-services-hero.mp4"
-        posterImage="/images/pages/career-services-hero.jpg"
+        posterImage="/images/pages/career-services-hero.webp"
         voiceoverSrc="/audio/heroes/career-services.mp3"
         microLabel="Career Services"
         analyticsName="career-services"
@@ -61,7 +61,7 @@ export default function CareerServicesPage() {
               {
                 title: 'Direct Employer Connections',
                 desc: 'We match you with employers in your field who are actively hiring. Many of our graduates receive job offers before they finish training.',
-                image: '/images/pages/career-services-hero.jpg',
+                image: '/images/pages/career-services-hero.webp',
               },
             ].map((item) => (
               <div

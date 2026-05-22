@@ -16,14 +16,14 @@ const certPrograms = [
     name: 'CNA — Certified Nursing Assistant',
     duration: '4-6 weeks',
     cost: 'Free with WIOA/WRG',
-    image: '/images/pages/cna-nursing.jpg',
+    image: '/images/pages/cna-nursing.webp',
     href: '/programs/healthcare',
   },
   {
     name: 'CDL — Commercial Driver License',
     duration: '4-8 weeks',
     cost: 'Free with WRG',
-    image: '/images/pages/cdl-training.jpg',
+    image: '/images/pages/cdl-training.webp',
     href: '/programs/cdl-training',
   },
   {
@@ -37,14 +37,14 @@ const certPrograms = [
     name: 'Barber Apprenticeship',
     duration: '18-24 months',
     cost: 'Paid apprenticeship',
-    image: '/images/pages/barber-training.jpg',
+    image: '/images/pages/barber-training.webp',
     href: '/programs/barber-apprenticeship',
   },
   {
     name: 'Phlebotomy Technician',
     duration: '6-8 weeks',
     cost: 'Self-pay · BNPL available',
-    image: '/images/pages/certifications-page-1.jpg',
+    image: '/images/pages/certifications-page-1.webp',
     href: '/programs/healthcare',
   },
   {

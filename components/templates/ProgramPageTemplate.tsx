@@ -100,7 +100,7 @@ export function ProgramPageTemplate({
         {heroVideo ? (
           <CanonicalVideo
             src={heroVideo}
-            poster={heroImage || '/images/og-default.webp'}
+            poster={heroImage || '/images/og-default.jpg'}
             className="w-full h-full object-cover"
           />
         ) : (

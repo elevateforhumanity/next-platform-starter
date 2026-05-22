@@ -35,7 +35,7 @@ const FEATURED = [
     weeks: '12',
     credentials: '6',
     href: '/apply/student?program=hvac-technician',
-    image: '/images/pages/card-hvac.jpg',
+    image: '/images/pages/card-hvac.webp',
     tag: 'Trades',
   },
   {
@@ -44,7 +44,7 @@ const FEATURED = [
     weeks: '6',
     credentials: '2',
     href: '/apply/student?program=cna',
-    image: '/images/pages/card-cna.jpg',
+    image: '/images/pages/card-cna.webp',
     tag: 'Healthcare',
   },
   {
@@ -53,7 +53,7 @@ const FEATURED = [
     weeks: '4',
     credentials: '3',
     href: '/apply/student?program=cdl',
-    image: '/images/pages/card-cdl.jpg',
+    image: '/images/pages/card-cdl.webp',
     tag: 'Transportation',
   },
   {
@@ -62,7 +62,7 @@ const FEATURED = [
     weeks: '52',
     credentials: '4',
     href: '/apply/student?program=barber-apprenticeship',
-    image: '/images/pages/barber-apprenticeship.jpg',
+    image: '/images/pages/barber-apprenticeship.webp',
     tag: 'Cosmetology',
   },
   {
@@ -71,7 +71,7 @@ const FEATURED = [
     weeks: '20',
     credentials: '4',
     href: '/apply/student?program=electrical',
-    image: '/images/pages/electrical.jpg',
+    image: '/images/pages/electrical.webp',
     tag: 'Trades',
   },
   {

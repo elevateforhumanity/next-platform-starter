@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const heroBlocks = [
   {
-    image: '/images/pages/barber-fade.jpg',
+    image: '/images/pages/barber-fade.webp',
     title: 'Beauty & Wellness Programs',
     description: 'Barber, Cosmetology, and Esthetics training with state licensure',
     cta: 'Explore Beauty Programs',

@@ -50,7 +50,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
 
       {/* Video Hero */}
       <section className="relative w-full bg-slate-900 overflow-hidden" style={{ minHeight: '60vh' }}>
-        <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.jpg"
+        <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.webp"
           className="absolute inset-0 w-full h-full object-cover opacity-50">
           <source src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4" type="video/mp4" />
         </video>

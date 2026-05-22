@@ -61,7 +61,7 @@ export function getDashboardContent(role: string): PageContent {
       title: 'Staff Operations Dashboard',
       description:
         'Process student applications, coordinate with training providers, track participant outcomes, and maintain program documentation.',
-      imageSrc: '/images/pages/cdl-truck-highway.jpg',
+      imageSrc: '/images/pages/cdl-truck-highway.webp',
       imageAlt: 'Staff member coordinating with training providers',
       actions: [
         {
@@ -99,7 +99,7 @@ export function getDashboardContent(role: string): PageContent {
       title: 'Training Provider Dashboard',
       description:
         'Manage program enrollments, submit progress reports, coordinate with employers, and maintain compliance with state requirements.',
-      imageSrc: '/images/pages/it-helpdesk-desk.jpg',
+      imageSrc: '/images/pages/it-helpdesk-desk.webp',
       imageAlt: 'Training provider managing program enrollments',
       actions: [
         {
@@ -149,7 +149,7 @@ export function getProgramContent(programSlug: string): PageContent {
     title: 'Registered Apprenticeship Program',
     description:
       'Earn while you learn through our DOL-registered apprenticeship program. Receive hands-on training, industry credentials, and job placement support.',
-    imageSrc: '/images/pages/training-classroom.jpg',
+    imageSrc: '/images/pages/training-classroom.webp',
     imageAlt: 'Apprentice receiving hands-on training from experienced instructor',
     actions: [
       {
@@ -191,7 +191,7 @@ export function getPolicyContent(policyType: string): PageContent {
       title: 'Terms of Service',
       description:
         'Terms and conditions governing your use of Elevate for Humanity services, programs, and digital platforms.',
-      imageSrc: '/images/pages/business-sector.jpg',
+      imageSrc: '/images/pages/business-sector.webp',
       imageAlt: 'Legal agreement and terms documentation',
       breadcrumbs: [
         { label: 'Home', href: '/' },

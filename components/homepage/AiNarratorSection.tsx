@@ -44,7 +44,7 @@ export function AiNarratorSection() {
               controls
               playsInline
               preload="metadata"
-              poster="/images/og-default.webp"
+              poster="/images/og-default.jpg"
             />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 px-4 text-center text-xs text-slate-300">

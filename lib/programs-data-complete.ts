@@ -44,7 +44,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG'],
     duration: '5 Weeks • 32 Hours',
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     etplApproved: true,
   },
   {
@@ -116,7 +116,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG'],
     duration: 'Rolling Enrollment',
-    image: '/images/pages/admin-counseling-hero.jpg',
+    image: '/images/pages/admin-counseling-hero.webp',
     etplApproved: true,
   },
   {
@@ -141,7 +141,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '5 Weeks • 60 Hours',
-    image: '/images/pages/barber-gallery-2.jpg',
+    image: '/images/pages/barber-gallery-2.webp',
     etplApproved: true,
   },
     {
@@ -189,7 +189,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '2,000 Hours • 12 Weeks + OJT',
-    image: '/images/pages/barber-gallery-1.jpg',
+    image: '/images/pages/barber-gallery-1.webp',
     etplApproved: true,
   },
   {
@@ -213,7 +213,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'JRI'],
     duration: '6-8 Weeks',
-    image: '/images/pages/admin-counseling-hero.jpg',
+    image: '/images/pages/admin-counseling-hero.webp',
     etplApproved: true,
   },
   {
@@ -285,7 +285,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG'],
     duration: '8-12 Weeks',
-    image: '/images/pages/admin-health-hero.jpg',
+    image: '/images/pages/admin-health-hero.webp',
     etplApproved: true,
   },
   {
@@ -382,7 +382,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG'],
     duration: '6-8 Weeks • 160 Hours',
-    image: '/images/pages/comp-highlights-electrical.jpg',
+    image: '/images/pages/comp-highlights-electrical.webp',
     etplApproved: true,
   },
   {
@@ -406,7 +406,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Carrier Sponsorship'],
     duration: '4-6 Weeks • 160+ Hours',
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     etplApproved: true,
   },
   {
@@ -547,7 +547,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 120 Hours',
-    image: '/images/pages/admin-network-hero.jpg',
+    image: '/images/pages/admin-network-hero.webp',
     etplApproved: true,
   },
   {
@@ -572,7 +572,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 120 Hours',
-    image: '/images/pages/training-classroom.jpg',
+    image: '/images/pages/training-classroom.webp',
     etplApproved: true,
   },
   {
@@ -597,7 +597,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-10 Weeks • 120 Hours',
-    image: '/images/pages/admin-health-hero.jpg',
+    image: '/images/pages/admin-health-hero.webp',
     etplApproved: true,
   },
   {
@@ -646,7 +646,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 150 Hours',
-    image: '/images/pages/admin-health-hero.jpg',
+    image: '/images/pages/admin-health-hero.webp',
     etplApproved: true,
   },
   {
@@ -721,7 +721,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     ],
     funding: ['WIOA', 'WRG', 'Small Business Grants'],
     duration: '8-12 Weeks • 100 Hours',
-    image: '/images/pages/admin-startup-hero.jpg',
+    image: '/images/pages/admin-startup-hero.webp',
     etplApproved: true,
   },
   {

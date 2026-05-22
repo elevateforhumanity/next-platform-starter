@@ -15,7 +15,7 @@ export default function JobPlacementPage() {
       config={{
         breadcrumbs: [{ label: 'Career Services', href: '/career-services' }, { label: 'Job Placement' }],
         hero: {
-          image: '/images/pages/career-services-page-3.jpg',
+          image: '/images/pages/career-services-page-3.webp',
           tag: 'Job Placement',
           tagColor: 'text-brand-blue-600',
           title: 'From Credential to Career',

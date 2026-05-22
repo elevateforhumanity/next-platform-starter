@@ -31,12 +31,12 @@ const defaultHighlights: Highlight[] = [
     title: 'Job Placement Support',
     description:
       'We connect you with employers hiring in your field. Resume and interview prep included.',
-    image: '/images/pages/it-helpdesk-desk.jpg',
+    image: '/images/pages/it-helpdesk-desk.webp',
   },
   {
     title: 'Hands-On Experience',
     description: 'Real-world training with actual equipment and industry-standard tools.',
-    image: '/images/pages/cdl-truck-highway.jpg',
+    image: '/images/pages/cdl-truck-highway.webp',
   },
   {
     title: 'Support Services',

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/pages/social-media-1.jpg',
+        url: '/images/pages/social-media-1.webp',
         width: 1200,
         height: 630,
         alt: 'Elevate For Humanity blog',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Blog',
     description:
       'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
-    images: ['/images/pages/social-media-1.jpg'],
+    images: ['/images/pages/social-media-1.webp'],
   },
 };
 

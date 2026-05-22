@@ -59,19 +59,19 @@ const steps: QuizStep[] = [
       {
         id: 'tech',
         label: 'Technology',
-        image: '/images/pages/training-classroom.jpg',
+        image: '/images/pages/training-classroom.webp',
         description: 'IT support, cybersecurity, web dev',
       },
       {
         id: 'barber',
         label: 'Barbering',
-        image: '/images/pages/barber-gallery-1.jpg',
+        image: '/images/pages/barber-gallery-1.webp',
         description: 'Earn while you learn a creative trade',
       },
       {
         id: 'safety',
         label: 'CPR & First Aid',
-        image: '/images/pages/training-classroom.jpg',
+        image: '/images/pages/training-classroom.webp',
         description: 'Same-day HSI certification',
       },
     ],

@@ -14,22 +14,22 @@ const LEVELS = [
   {
     level: 'Bronze',
     desc: 'Demonstrates foundational workplace skills. Recognized by many Indiana employers and workforce programs.',
-    img: '/images/pages/courses-page-7.jpg',
+    img: '/images/pages/courses-page-7.webp',
   },
   {
     level: 'Silver',
     desc: 'Mid-level career readiness. Required for many skilled trades and technical roles.',
-    img: '/images/pages/courses-page-8.jpg',
+    img: '/images/pages/courses-page-8.webp',
   },
   {
     level: 'Gold',
     desc: 'Advanced workplace skills. Preferred for supervisory, technical, and professional positions.',
-    img: '/images/pages/courses-page-9.jpg',
+    img: '/images/pages/courses-page-9.webp',
   },
   {
     level: 'Platinum',
     desc: 'Highest level. Demonstrates exceptional applied math, reading, and locating information skills.',
-    img: '/images/pages/courses-page-10.jpg',
+    img: '/images/pages/courses-page-10.webp',
   },
 ];
 
@@ -37,17 +37,17 @@ const SUBJECTS = [
   {
     name: 'Applied Math',
     desc: 'Workplace math problems — measurements, calculations, and data interpretation.',
-    img: '/images/pages/courses-page-11.jpg',
+    img: '/images/pages/courses-page-11.webp',
   },
   {
     name: 'Workplace Documents',
     desc: 'Reading and interpreting workplace materials — forms, charts, graphs, and instructions.',
-    img: '/images/pages/courses-page-12.jpg',
+    img: '/images/pages/courses-page-12.webp',
   },
   {
     name: 'Graphic Literacy',
     desc: 'Reading and interpreting workplace graphics — charts, graphs, diagrams, and tables.',
-    img: '/images/pages/courses-page-13.jpg',
+    img: '/images/pages/courses-page-13.webp',
   },
 ];
 

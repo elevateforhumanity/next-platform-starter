@@ -12,7 +12,7 @@ type Props = {
 export function EcdCourseCard({ course }: Props) {
   const coverSrc =
     (manifest as Record<string, string>)[course.coverImageKey] ??
-    '/images/pages/training-classroom.jpg';
+    '/images/pages/training-classroom.webp';
 
   return (
     <Link

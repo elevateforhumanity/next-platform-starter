@@ -212,7 +212,7 @@ export default function HvacCourseLicensePage() {
                 credential: 'CPR/AED',
                 issuer: 'American Heart Association or Red Cross',
                 desc: 'Hands-on CPR and AED certification. Required by many HVAC employers and apprenticeship programs.',
-                img: '/images/pages/cpr-mannequin.jpg',
+                img: '/images/pages/cpr-mannequin.webp',
               },
             ].map((c) => (
               <div key={c.credential} className="rounded-xl overflow-hidden border border-slate-200">

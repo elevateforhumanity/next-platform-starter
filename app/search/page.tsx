@@ -37,14 +37,14 @@ const programs = [
   {
     name: 'Skilled Trades',
     href: '/programs/skilled-trades',
-    image: '/images/pages/programs-hvac-hero.jpg',
+    image: '/images/pages/programs-hvac-hero.webp',
     certs: ['HVAC', 'Electrical', 'Welding', 'Plumbing'],
     funding: 'WIOA & Job Ready Indy eligible',
   },
   {
     name: 'CDL Training',
     href: '/programs/cdl-training',
-    image: '/images/pages/programs-cdl-hero.jpg',
+    image: '/images/pages/programs-cdl-hero.webp',
     certs: ['Class A CDL', 'Class B CDL'],
     funding: 'WRG eligible',
   },
@@ -58,14 +58,14 @@ const programs = [
   {
     name: 'Technology',
     href: '/programs/technology',
-    image: '/images/pages/programs-it-hero.jpg',
+    image: '/images/pages/programs-it-hero.webp',
     certs: ['IT Support', 'Cybersecurity'],
     funding: 'WIOA eligible',
   },
   {
     name: 'CPR & First Aid',
     href: '/programs/cpr-first-aid',
-    image: '/images/pages/programs-cpr-hero.jpg',
+    image: '/images/pages/programs-cpr-hero.webp',
     certs: ['HSI CPR/AED', 'First Aid'],
     funding: 'Same-day certification',
   },

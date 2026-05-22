@@ -175,7 +175,7 @@ export default function JriPage() {
             {[
               {
                 title: 'Barber Apprenticeship',
-                image: '/images/programs/barber-hero.jpg',
+                image: '/images/programs/barber-hero.webp',
                 duration: '18 months',
                 outcome: 'Indiana Barber License',
                 salary: '$35,000 - $60,000+/year',
@@ -183,7 +183,7 @@ export default function JriPage() {
               },
               {
                 title: 'CNA / Healthcare',
-                image: '/images/programs/cna-hero.jpg',
+                image: '/images/programs/cna-hero.webp',
                 duration: '4-8 weeks',
                 outcome: 'State CNA Certification',
                 salary: '$30,000 - $40,000/year',
@@ -191,7 +191,7 @@ export default function JriPage() {
               },
               {
                 title: 'CDL Truck Driving',
-                image: '/images/programs/cdl-hero.jpg',
+                image: '/images/programs/cdl-hero.webp',
                 duration: '3-4 weeks',
                 outcome: 'Commercial Driver License',
                 salary: '$45,000 - $70,000+/year',
@@ -207,7 +207,7 @@ export default function JriPage() {
               },
               {
                 title: 'Forklift & Warehouse',
-                image: '/images/hero/hero-skilled-trades.jpg',
+                image: '/images/hero/hero-skilled-trades.webp',
                 duration: '1-2 weeks',
                 outcome: 'OSHA Forklift Certification',
                 salary: '$30,000 - $45,000/year',
@@ -215,7 +215,7 @@ export default function JriPage() {
               },
               {
                 title: 'Construction Trades',
-                image: '/images/pages/construction-trades.jpg',
+                image: '/images/pages/construction-trades.webp',
                 duration: '8-16 weeks',
                 outcome: 'OSHA 10 + Trade Certs',
                 salary: '$35,000 - $55,000/year',

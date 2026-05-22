@@ -536,7 +536,7 @@ export default async function GovernmentPage() {
                 name: 'WIOA Title I',
                 desc: 'Covers tuition, books, and support services for eligible adults, dislocated workers, and youth ages 16–24.',
                 icon: FileText,
-                image: '/images/pages/card-wioa.jpg',
+                image: '/images/pages/card-wioa.webp',
               },
               {
                 name: 'Workforce Ready Grant',
@@ -572,7 +572,7 @@ export default async function GovernmentPage() {
                 name: 'Reentry Programs',
                 desc: 'Second chance training through Job Ready Indy and other reentry-focused funding for justice-involved individuals.',
                 icon: Users,
-                image: '/images/pages/community-page-1.jpg',
+                image: '/images/pages/community-page-1.webp',
               },
               {
                 name: 'Registered Apprenticeship',

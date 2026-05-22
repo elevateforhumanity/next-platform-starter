@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const slides = [
-  { image: '/images/pages/training-classroom.jpg' },
-  { image: '/images/pages/cna-nursing-real.jpg' },
-  { image: '/images/pages/cdl-truck-highway.jpg' },
+  { image: '/images/pages/training-classroom.webp' },
+  { image: '/images/pages/cna-nursing-real.webp' },
+  { image: '/images/pages/cdl-truck-highway.webp' },
   { image: '/images/pages/welding-sparks.webp' },
   { image: '/images/pages/hvac-technician.webp' },
   { image: '/images/pages/electrical-wiring.jpg' },

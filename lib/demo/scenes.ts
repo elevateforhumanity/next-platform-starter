@@ -53,7 +53,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Students apply online. Your staff reviews, approves, and routes funding — no paper.',
     videoSrc: '/videos/demo/demo-admin-applications.mp4',
-    poster: '/images/pages/admin-applications-hero.jpg',
+    poster: '/images/pages/admin-applications-hero.webp',
     choices: [
       {
         label: 'WIOA Compliance',
@@ -99,7 +99,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Track WIOA ITAs, Workforce Ready Grant, and JRI funding across all enrolled students.',
     videoSrc: '/videos/demo/demo-admin-enrollment.mp4',
-    poster: '/images/pages/admin-funding-hero.jpg',
+    poster: '/images/pages/admin-funding-hero.webp',
     choices: [
       {
         label: 'Analytics & Outcomes',
@@ -122,7 +122,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Real-time dashboards, cohort analysis, at-risk alerts, and automated compliance reports.',
     videoSrc: '/videos/demo/demo-admin-compliance.mp4',
-    poster: '/images/pages/admin-analytics-hero.jpg',
+    poster: '/images/pages/admin-analytics-hero.webp',
     choices: [
       {
         label: 'Employer Portal',
@@ -168,7 +168,7 @@ export const ADMIN_SCENES: DemoScene[] = [
     description:
       'Hiring partners browse verified candidates, track apprenticeship hours, and manage OJT contracts.',
     videoSrc: '/videos/demo/demo-employer-overview.mp4',
-    poster: '/images/pages/admin-employers-hero.jpg',
+    poster: '/images/pages/admin-employers-hero.webp',
     choices: [
       {
         label: 'Start Over',
@@ -265,7 +265,7 @@ export const EMPLOYER_SCENES: DemoScene[] = [
     description:
       'WOTC tax credit documentation generated automatically. OJT reimbursement tracked per employee.',
     videoSrc: '/videos/demo/demo-employer-overview.mp4',
-    poster: '/images/pages/admin-analytics-hero.jpg',
+    poster: '/images/pages/admin-analytics-hero.webp',
     choices: [
       {
         label: 'Start Over',

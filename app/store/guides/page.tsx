@@ -53,7 +53,7 @@ const GUIDES = [
     originalPrice: null,
     badge: 'Included with License',
     badgeColor: 'bg-brand-green-600',
-    image: '/images/pages/admin-analytics-hero.jpg',
+    image: '/images/pages/admin-analytics-hero.webp',
     imageAlt: 'Platform analytics dashboard showing license usage and feature access',
     features: [
       'License tier comparison',

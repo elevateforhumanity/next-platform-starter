@@ -51,16 +51,16 @@ export const PROGRAM_HEROES: Record<string, string> = {
 
   // Skilled Trades
   'hvac-technician': '/images/pages/hvac-technician.webp',
-  hvac: '/images/pages/hvac-unit.jpg',
-  electrical: '/images/pages/electrical.jpg',
+  hvac: '/images/pages/hvac-unit.webp',
+  electrical: '/images/pages/electrical.webp',
   plumbing: '/images/pages/plumbing.jpg',
   welding: '/images/pages/welding-sparks.webp',
-  'diesel-mechanic': '/images/pages/hvac-tools.jpg',
+  'diesel-mechanic': '/images/pages/hvac-tools.webp',
   'skilled-trades': '/hero-images/skilled-trades-hero.jpg',
 
   // Transportation
-  'cdl-training': '/images/pages/cdl-training.jpg',
-  cdl: '/images/pages/cdl-truck-highway.jpg',
+  'cdl-training': '/images/pages/cdl-training.webp',
+  cdl: '/images/pages/cdl-truck-highway.webp',
   'cdl-transportation': '/hero-images/cdl-cat-new.jpg',
 
   // Technology

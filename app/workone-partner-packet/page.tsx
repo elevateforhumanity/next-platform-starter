@@ -354,7 +354,7 @@ export default function WorkOnePartnerPacketPage() {
                 duration: '18 months',
                 credential: 'Indiana Barber License',
                 funding: 'WIOA, WRG, Apprenticeship',
-                image: '/images/pages/barber-gallery-1.jpg',
+                image: '/images/pages/barber-gallery-1.webp',
               },
               {
                 title: 'Healthcare Certifications',

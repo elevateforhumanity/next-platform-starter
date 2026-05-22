@@ -54,20 +54,20 @@ const TYPE_LABEL: Record<CourseLesson['type'], string> = {
  * 16 unique HVAC/trades images — all >200KB, no duplicates, contextually matched.
  */
 const MODULE_PHOTO: string[] = [
-  '/images/pages/admin-ferpa-training-hero.jpg', // 1  Orientation — students in class
+  '/images/pages/admin-ferpa-training-hero.webp', // 1  Orientation — students in class
   '/images/pages/hvac-hero.webp', // 2  Fundamentals — HVAC hero shot
-  '/images/pages/electrical.jpg', // 3  Electrical — wiring/panels
+  '/images/pages/electrical.webp', // 3  Electrical — wiring/panels
   '/images/pages/hvac-technician.webp', // 4  Heating — HVAC tech at work
   '/images/pages/hvac-technician.webp', // 5  Cooling — technician on unit
-  '/images/pages/hvac-unit.jpg', // 6  EPA Core — HVAC overview
+  '/images/pages/hvac-unit.webp', // 6  EPA Core — HVAC overview
   '/images/hvac/hvac-service-tech.jpg', // 7  EPA Type I — service tech
   '/images/hvac/hvac-commercial.jpg', // 8  EPA Type II — commercial system
-  '/images/pages/electrical.jpg', // 9  EPA Type III — electrical/controls
+  '/images/pages/electrical.webp', // 9  EPA Type III — electrical/controls
   '/images/hvac/hvac-tools-equipment.jpg', // 10 EPA Final — tools & testing
   '/images/pages/plumbing.jpg', // 11 Refrigerant — piping/lines
-  '/images/pages/construction-trades.jpg', // 12 Installation — construction site
+  '/images/pages/construction-trades.webp', // 12 Installation — construction site
   '/images/pages/electrical-wiring.jpg', // 13 Troubleshooting — diagnostics
-  '/images/pages/construction-trades.jpg', // 14 OSHA — safety/trades
+  '/images/pages/construction-trades.webp', // 14 OSHA — safety/trades
   '/images/healthcare/cpr-certification-group.jpg', // 15 CPR — group certification
   '/images/career-coaching-new.jpg', // 16 Career — coaching session
 ];

@@ -26,7 +26,7 @@ export default function WorkforceBoardPage() {
       href: '/workforce-board/reports',
     },
     {
-      image: '/images/pages/features-hero.jpg',
+      image: '/images/pages/features-hero.webp',
       title: 'Compliance Reporting',
       description: 'Automated WIOA, DOL, and state compliance reports with audit trails',
       href: '/workforce-board/reports',
@@ -50,7 +50,7 @@ export default function WorkforceBoardPage() {
       href: '/workforce-board/reports/performance',
     },
     {
-      image: '/images/pages/barber-gallery-1.jpg',
+      image: '/images/pages/barber-gallery-1.webp',
       title: 'Audit Readiness',
       description: 'Maintain audit-ready documentation and compliance records',
       href: '/workforce-board/reports',
