@@ -44,7 +44,7 @@ permissions:
 # Serialize all production deploys. If an admin deploy is in progress this job
 # will queue (not cancel) until it finishes, preventing concurrent CodeBuilds.
 concurrency:
-  group: deploy-production
+  group: deploy-lms
   cancel-in-progress: false
 
 jobs:

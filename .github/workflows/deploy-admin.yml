@@ -34,10 +34,10 @@ on:
 permissions:
   contents: read
 
-# Serialize all production deploys. If an LMS deploy is in progress this job
-# will queue (not cancel) until it finishes, preventing concurrent CodeBuilds.
+# Serialize admin deploys independently of LMS deploys.
+# Separate concurrency group prevents LMS pushes from cancelling queued admin runs.
 concurrency:
-  group: deploy-production
+  group: deploy-admin
   cancel-in-progress: false
 
 jobs:
