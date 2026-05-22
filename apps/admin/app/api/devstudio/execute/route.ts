@@ -1490,16 +1490,49 @@ async function executeAction(
         const data = await res.json().catch(() => ({}));
         logger.info('[devstudio/execute] check_system_health response', { status: res.status });
         if (res.ok) {
-          write('\x1b[32m✓  Health check complete\x1b[0m');
-          for (const [k, v] of Object.entries(data)) {
-            if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-              const icon =
-                v === true || v === 'ok' || v === 'healthy'
-                  ? '\x1b[32m✓\x1b[0m'
-                  : '\x1b[33m⚠\x1b[0m';
-              write(`   ${icon} ${k}: ${v}`);
+          const overall = data.healthy === true;
+          const overallIcon = overall ? '\x1b[32m✓\x1b[0m' : '\x1b[31m✗\x1b[0m';
+          write(`${overallIcon}  System ${overall ? 'healthy' : 'UNHEALTHY'} — checked ${new Date(data.checkedAt).toLocaleTimeString()}`);
+
+          // Webhook event summary
+          const s = data.summary ?? {};
+          if (s.total != null) {
+            write(`\n   \x1b[1mWebhook Events (last 24h)\x1b[0m`);
+            write(`   Total: ${s.total}  Processed: ${s.processed}  Failed: ${s.failed}  Errored: ${s.errored}  Skipped: ${s.skipped}`);
+          }
+
+          // Per-provider breakdown
+          if (Array.isArray(data.providers) && data.providers.length > 0) {
+            write(`\n   \x1b[1mProvider Health\x1b[0m`);
+            for (const p of data.providers as any[]) {
+              const icon = p.healthy ? '\x1b[32m✓\x1b[0m' : '\x1b[31m✗\x1b[0m';
+              const last = p.lastEventAt ? ` — last event ${new Date(p.lastEventAt).toLocaleDateString()}` : ' — no events';
+              const vol = p.baselineDailyAvg > 0
+                ? ` (${p.last24h} today vs ${p.baselineDailyAvg} avg/day)`
+                : p.last24h > 0 ? ` (${p.last24h} today)` : '';
+              write(`   ${icon} ${p.provider}${vol}${last}`);
             }
           }
+
+          // Payment integrity
+          const integrity = data.integrity ?? {};
+          write(`\n   \x1b[1mPayment Integrity\x1b[0m`);
+          const pne = integrity.paid_not_enrolled ?? 0;
+          const enp = integrity.enrolled_not_paid ?? 0;
+          const flags = integrity.open_flags ?? 0;
+          write(`   ${pne > 0 ? '\x1b[31m✗\x1b[0m' : '\x1b[32m✓\x1b[0m'} Paid not enrolled: ${pne}`);
+          write(`   ${enp > 0 ? '\x1b[31m✗\x1b[0m' : '\x1b[32m✓\x1b[0m'} Enrolled not paid: ${enp}`);
+          write(`   ${flags > 0 ? '\x1b[33m⚠\x1b[0m' : '\x1b[32m✓\x1b[0m'} Open integrity flags: ${flags}`);
+
+          // Alerts
+          if (Array.isArray(data.alerts) && data.alerts.length > 0) {
+            write(`\n   \x1b[1m\x1b[31mAlerts (${data.alerts.length})\x1b[0m`);
+            (data.alerts as string[]).forEach(a => write(`   \x1b[31m⚠  ${a}\x1b[0m`));
+          } else {
+            write(`\n   \x1b[32m✓  No alerts\x1b[0m`);
+          }
+
+          write(`\n   Full report: /admin/webhook-health`);
         } else {
           write(`\x1b[31m✗  Failed (HTTP ${res.status}): ${data.error || res.statusText}\x1b[0m`);
         }
