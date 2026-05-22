@@ -42,6 +42,68 @@ export default function HomePage() {
         ]}
       />
 
+      {/* PROGRAMS — lead with the product */}
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Training Programs</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-2">Pick a career. Start in weeks.</h2>
+          <p className="text-slate-500 text-sm text-center mb-10 max-w-xl mx-auto">
+            Healthcare, skilled trades, CDL, cosmetology, and more — each with a real credential at the end.
+          </p>
+          <ProgramVideoCards count={8} />
+          <div className="mt-10 text-center">
+            <Link href="/programs" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
+              View All Programs →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PHOTO STRIP — proof before process */}
+      <section className="grid grid-cols-1 sm:grid-cols-3">
+        {[
+          { src: '/images/pages/comp-home-pathways-train.webp', alt: 'Learner in workforce training', label: 'Hands-On Training', sub: 'Real skills. Real equipment.', position: 'object-center' },
+          { src: '/images/pages/comp-home-highlight-health.webp', alt: 'Healthcare training', label: 'Healthcare Careers', sub: 'CNA, Phlebotomy, Medical Assistant & more.', position: 'object-top' },
+          { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
+        ].map((p) => (
+          <div key={p.src} className="relative h-64 sm:h-80 lg:h-96 overflow-hidden group">
+            <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-white font-extrabold text-base leading-tight">{p.label}</p>
+              <p className="text-white/80 text-xs mt-0.5">{p.sub}</p>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="bg-slate-900 py-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-6">How It Works</p>
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            {[
+              { n: '1', label: 'Apply', href: '/apply' },
+              { n: '2', label: 'Get Approved for Funding', href: '/check-eligibility' },
+              { n: '3', label: 'Get Placed in a Program', href: '/programs' },
+              { n: '4', label: 'Complete Training', href: '/how-it-works' },
+              { n: '5', label: 'Test & Get Certified', href: '/how-it-works' },
+              { n: '6', label: 'Get Placed into Employment', href: '/employment-support' },
+            ].map((s) => (
+              <Link key={s.n} href={s.href} className="flex flex-col items-center text-center gap-2 group">
+                <span className="w-9 h-9 rounded-full bg-brand-red-600 group-hover:bg-brand-red-500 text-white text-sm font-extrabold flex items-center justify-center shrink-0 transition-colors">{s.n}</span>
+                <p className="text-slate-300 group-hover:text-white text-xs font-semibold leading-snug transition-colors">{s.label}</p>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center">
+            <Link href="/how-it-works" className="inline-block border border-white/30 text-white text-sm font-bold px-6 py-2.5 rounded-lg hover:bg-white/10 transition-colors">
+              View Full Process →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* WHO ARE YOU — entry routing */}
       <section className="bg-white border-b border-slate-100 py-14 px-6">
         <div className="max-w-5xl mx-auto">
@@ -121,94 +183,6 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="bg-slate-900 py-12 px-6">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-6">How It Works</p>
-          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            {[
-              { n: '1', label: 'Apply', href: '/apply' },
-              { n: '2', label: 'Get Approved for Funding', href: '/check-eligibility' },
-              { n: '3', label: 'Get Placed in a Program', href: '/programs' },
-              { n: '4', label: 'Complete Training', href: '/how-it-works' },
-              { n: '5', label: 'Test & Get Certified', href: '/how-it-works' },
-              { n: '6', label: 'Get Placed into Employment', href: '/employment-support' },
-            ].map((s) => (
-              <Link key={s.n} href={s.href} className="flex flex-col items-center text-center gap-2 group">
-                <span className="w-9 h-9 rounded-full bg-brand-red-600 group-hover:bg-brand-red-500 text-white text-sm font-extrabold flex items-center justify-center shrink-0 transition-colors">{s.n}</span>
-                <p className="text-slate-300 group-hover:text-white text-xs font-semibold leading-snug transition-colors">{s.label}</p>
-              </Link>
-            ))}
-          </div>
-          <div className="text-center">
-            <Link href="/how-it-works" className="inline-block border border-white/30 text-white text-sm font-bold px-6 py-2.5 rounded-lg hover:bg-white/10 transition-colors">
-              View Full Process →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* PROGRAMS */}
-      <section className="bg-white py-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Training Programs</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-2">Pick a career. Start in weeks.</h2>
-          <p className="text-slate-500 text-sm text-center mb-10 max-w-xl mx-auto">
-            Healthcare, skilled trades, CDL, cosmetology, and more — each with a real credential at the end.
-          </p>
-          <ProgramVideoCards />
-          <div className="mt-10 text-center">
-            <Link href="/programs" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
-              View All Programs →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* PHOTO STRIP */}
-      <section className="grid grid-cols-1 sm:grid-cols-3">
-        {[
-          {
-            src: '/images/pages/comp-home-pathways-train.webp',
-            alt: 'Learner in workforce training',
-            label: 'Hands-On Training',
-            sub: 'Real skills. Real equipment.',
-            position: 'object-center',
-          },
-          {
-            src: '/images/pages/comp-home-highlight-health.webp',
-            alt: 'Healthcare training',
-            label: 'Healthcare Careers',
-            sub: 'CNA, Phlebotomy, Medical Assistant & more.',
-            position: 'object-top',
-          },
-          {
-            src: '/images/pages/comp-home-highlight-success.webp',
-            alt: 'Graduate success',
-            label: 'Real Outcomes',
-            sub: '500+ graduates placed in jobs.',
-            position: 'object-center',
-          },
-        ].map((p) => (
-          <div key={p.src} className="relative h-64 sm:h-80 lg:h-96 overflow-hidden group">
-            <Image
-              src={p.src}
-              alt={p.alt}
-              fill
-              className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`}
-              sizes="(max-width: 640px) 100vw, 33vw"
-              loading="lazy"
-            />
-            {/* Gradient overlay + label */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <p className="text-white font-extrabold text-base leading-tight">{p.label}</p>
-              <p className="text-white/80 text-xs mt-0.5">{p.sub}</p>
-            </div>
-          </div>
-        ))}
       </section>
 
       {/* FUNDING */}

@@ -17,53 +17,59 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
   const badgeClass = BADGE_COLORS[prog.badgeColor ?? 'green'] ?? BADGE_COLORS.green;
   const salary = prog.laborMarket?.salaryRange ?? '';
   const duration = prog.durationWeeks
-    ? prog.durationWeeks === 1
-      ? '1 week'
-      : `${prog.durationWeeks} weeks`
+    ? prog.durationWeeks === 1 ? '1 week' : `${prog.durationWeeks} weeks`
     : '';
 
   return (
-    <div className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-slate-900">
-      <Image
-        src={prog.heroImage}
-        alt={prog.heroImageAlt || prog.title}
-        fill
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
-        priority={priority}
-        loading={priority ? undefined : 'lazy'}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
-
-      <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-2.5">
-        {prog.badge && (
-          <span className={`self-start text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${badgeClass}`}>
-            {prog.badge}
-          </span>
-        )}
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-0.5">
+    <div className="group flex flex-col rounded-2xl overflow-hidden bg-slate-900 shadow-md hover:shadow-xl transition-shadow">
+      {/* Image — fixed height so subjects aren't cropped */}
+      <div className="relative w-full h-48 sm:h-52 lg:h-56 overflow-hidden flex-shrink-0">
+        <Image
+          src={prog.heroImage}
+          alt={prog.heroImageAlt || prog.title}
+          fill
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          priority={priority}
+          loading={priority ? undefined : 'lazy'}
+        />
+        {/* Category badge top-left */}
+        <div className="absolute top-3 left-3">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-black/60 text-white backdrop-blur-sm">
             {prog.category}
-          </p>
-          <h3 className="font-extrabold text-white text-sm leading-snug">{prog.title}</h3>
-          <div className="mt-1 space-y-0.5">
-            {duration && <p className="text-xs text-slate-300">{duration}</p>}
+          </span>
+        </div>
+        {/* Credential badge top-right */}
+        {prog.badge && (
+          <div className="absolute top-3 right-3">
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${badgeClass}`}>
+              {prog.badge}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-4 gap-3">
+        <div className="flex-1">
+          <h3 className="font-extrabold text-white text-sm leading-snug mb-1">{prog.title}</h3>
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+            {duration && <p className="text-xs text-slate-400">{duration}</p>}
             {salary && <p className="text-xs font-bold text-green-400">{salary}</p>}
           </div>
         </div>
-
-        <div className="flex flex-col gap-1.5">
+        <div className="flex gap-2">
           <Link
             href={applyHref}
-            className="w-full text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
+            className="flex-1 text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
           >
             Apply Now
           </Link>
           <Link
             href={programHref}
-            className="w-full text-center py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
+            className="flex-1 text-center py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
           >
-            View Program →
+            Details →
           </Link>
         </div>
       </div>
@@ -71,10 +77,10 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
   );
 }
 
-export function ProgramVideoCards() {
-  const featuredPrograms = ALL_PROGRAMS.slice(0, 6);
+export function ProgramVideoCards({ count = 8 }: { count?: number }) {
+  const featuredPrograms = ALL_PROGRAMS.slice(0, count);
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 mb-10">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       {featuredPrograms.map((prog, i) => (
         <ProgramCard key={prog.slug} prog={prog} priority={i < 4} />
       ))}
