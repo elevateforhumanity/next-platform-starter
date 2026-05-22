@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { createClient } from '@/lib/supabase/server';
 import { DocumentUploadForm } from '@/components/documents/DocumentUploadForm';
 
 export const dynamic = 'force-dynamic';
@@ -13,14 +12,68 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function UploadDocumentPage() {
-  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
-  const supabase = await createClient();
+// Employer document types — document_requirements table is program-scoped (no role column).
+const EMPLOYER_REQUIREMENTS = [
+  {
+    id: 'coi_general_liability',
+    document_type: 'coi_general_liability',
+    description: 'Certificate of Insurance — General Liability',
+    instructions: 'Upload your current general liability insurance certificate.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'coi_workers_comp',
+    document_type: 'coi_workers_comp',
+    description: "Certificate of Insurance — Workers' Compensation",
+    instructions: "Upload your current workers' compensation insurance certificate.",
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'business_license',
+    document_type: 'business_license',
+    description: 'Business License',
+    instructions: 'Upload your current business license or registration.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'ein_verification',
+    document_type: 'ein_verification',
+    description: 'EIN Verification (IRS Letter 147C or SS-4)',
+    instructions: 'Upload your IRS EIN confirmation letter.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'employer_mou',
+    document_type: 'employer_mou',
+    description: 'Signed Memorandum of Understanding',
+    instructions: 'Upload the signed MOU between your company and Elevate for Humanity.',
+    accepted_formats: ['pdf'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'supervisor_designation',
+    document_type: 'supervisor_designation',
+    description: 'Journeyworker / Supervisor Designation',
+    instructions: 'Upload documentation designating your qualified journeyworker supervisor.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'worksite_verification',
+    document_type: 'worksite_verification',
+    description: 'Worksite Verification',
+    instructions: 'Upload documentation verifying your approved apprenticeship worksite.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+];
 
-  const { data: requirements } = await supabase
-    .from('document_requirements')
-    .select('*')
-    .eq('role', 'employer');
+export default async function UploadDocumentPage() {
+  await requireRole(['employer', 'admin', 'super_admin']);
 
   return (
     <div className="min-h-screen bg-white">
@@ -32,7 +85,7 @@ export default async function UploadDocumentPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <DocumentUploadForm requirements={requirements || []} />
+        <DocumentUploadForm requirements={EMPLOYER_REQUIREMENTS} />
       </div>
     </div>
   );

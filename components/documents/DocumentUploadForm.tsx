@@ -38,10 +38,10 @@ export function DocumentUploadForm({ requirements }: Props) {
       if (!user) return;
 
       const { data } = await supabase
-        .from('user_documents')
-        .select('id, document_type, file_name, status, uploaded_at')
+        .from('documents')
+        .select('id, document_type, file_name, status, created_at')
         .eq('user_id', user.id)
-        .order('uploaded_at', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (data) setUploadedDocs(data);
     }
@@ -108,7 +108,7 @@ export function DocumentUploadForm({ requirements }: Props) {
       const {
         data: { user: currentUser },
       } = await supabase.auth.getUser();
-      let dest = '/program-holder/onboarding';
+      let dest = '/learner/dashboard';
       if (currentUser) {
         const { data: prof } = await supabase
           .from('profiles')
@@ -119,15 +119,17 @@ export function DocumentUploadForm({ requirements }: Props) {
           dest = '/program-holder/documents';
           // Fire onboarding-complete check — sends welcome email if all steps done
           fetch('/api/program-holder/onboarding-complete', { method: 'POST' }).catch(() => {});
+        } else if (prof?.role === 'employer') {
+          dest = '/employer/documents';
         } else if (prof?.role === 'student' || prof?.role === 'learner') {
-          dest = '/program-holder/onboarding';
+          dest = '/onboarding/learner/documents';
         }
       }
       setTimeout(() => {
         router.push(dest);
       }, 2000);
     } catch (err: any) {
-      setError('Failed to upload document');
+      setError(err?.message || 'Failed to upload document');
     } finally {
       setLoading(false);
     }

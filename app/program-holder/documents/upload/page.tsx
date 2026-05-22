@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { DocumentUploadForm } from '@/components/documents/DocumentUploadForm';
 
 export const dynamic = 'force-dynamic';
@@ -15,28 +14,62 @@ export const metadata: Metadata = {
   },
 };
 
+// Program holder document types — document_requirements table is program-scoped (no role column).
+const PROGRAM_HOLDER_REQUIREMENTS = [
+  {
+    id: 'business_license',
+    document_type: 'business_license',
+    description: 'Business License',
+    instructions: 'Upload your current business license or registration.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'shop_license',
+    document_type: 'shop_license',
+    description: 'Shop / Facility License',
+    instructions: 'Upload your current shop or facility operating license.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'ein_verification',
+    document_type: 'ein_verification',
+    description: 'EIN Verification (IRS Letter 147C or SS-4)',
+    instructions: 'Upload your IRS EIN confirmation letter.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'employer_mou',
+    document_type: 'employer_mou',
+    description: 'Signed Memorandum of Understanding',
+    instructions: 'Upload the signed MOU between your program and Elevate for Humanity.',
+    accepted_formats: ['pdf'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'supervisor_designation',
+    document_type: 'supervisor_designation',
+    description: 'Journeyworker / Supervisor Designation',
+    instructions: 'Upload documentation designating your qualified journeyworker supervisor.',
+    accepted_formats: ['pdf', 'jpg', 'png'],
+    max_file_size: 10485760,
+  },
+  {
+    id: 'ipla_packet',
+    document_type: 'ipla_packet',
+    description: 'IPLA Licensing Packet',
+    instructions: 'Upload your Indiana Professional Licensing Agency packet.',
+    accepted_formats: ['pdf'],
+    max_file_size: 10485760,
+  },
+];
+
 export default async function UploadDocumentPage() {
-  const supabase = await createClient();
+  await requireProgramHolder();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
-    redirect('/login');
-
-  const { data: requirements } = await supabase
-    .from('document_requirements')
-    .select('*')
-    .eq('role', 'program_holder');
+  const requirements = PROGRAM_HOLDER_REQUIREMENTS;
 
   return (
     <div className="min-h-screen bg-white">
