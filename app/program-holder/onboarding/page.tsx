@@ -35,58 +35,115 @@ export default async function ProgramHolderOnboarding() {
   const supabase = await createClient();
   const db = await requireAdminClient();
 
-  // Resolve onboarding step completion for this user
-  const [profileRes, acksRes, docsRes] = await Promise.all([
-    db.from('profiles').select('program_holder_id').eq('id', user.id).maybeSingle(),
+  // Fetch all onboarding state in parallel
+  const [profileRes, acksRes, mouSigRes, payrollRes, w9Res] = await Promise.all([
+    db
+      .from('profiles')
+      .select('program_holder_id, full_name, phone, address, city, state, zip')
+      .eq('id', user.id)
+      .maybeSingle(),
     db.from('program_holder_acknowledgements').select('document_type').eq('user_id', user.id),
-    db.from('program_holder_documents').select('id').eq('user_id', user.id).limit(1),
+    db.from('mou_signatures').select('id, signed_at').eq('user_id', user.id).maybeSingle(),
+    db.from('payroll_profiles').select('id, status, bank_name, tax_id_uploaded').eq('user_id', user.id).maybeSingle(),
+    db.from('w9_submissions').select('id, verified').eq('user_id', user.id).maybeSingle(),
   ]);
 
   const holderId = profileRes.data?.program_holder_id ?? null;
-  let mouSigned = false;
+  const profile = profileRes.data;
+
+  let holder: any = null;
   if (holderId) {
-    const { data: holder } = await db
+    const { data } = await db
       .from('program_holders')
-      .select('mou_signed')
+      .select('mou_signed, mou_status, hvac_license_url, payout_status, organization_name')
       .eq('id', holderId)
       .maybeSingle();
-    mouSigned = holder?.mou_signed ?? false;
+    holder = data;
   }
 
   const acks = acksRes.data ?? [];
   const handbookDone = acks.some((a: any) => a.document_type === 'handbook');
   const rightsDone = acks.some((a: any) => a.document_type === 'rights');
-  const docsDone = (docsRes.data ?? []).length > 0;
+
+  // Digital MOU signature required (paper-only doesn't count)
+  const mouDigitallySigned = !!mouSigRes.data;
+
+  // Profile completeness
+  const addressComplete = !!(profile?.address && profile?.city && profile?.state && profile?.zip);
+
+  // HVAC license
+  const hvacLicenseDone = !!holder?.hvac_license_url;
+
+  // W-9
+  const w9Done = !!w9Res.data;
+
+  // Payroll — bank details entered
+  const payrollDone = !!(payrollRes.data?.bank_name || payrollRes.data?.status === 'ACTIVE');
 
   const steps = [
     {
-      label: 'Sign the Memorandum of Understanding',
-      detail: 'Legal agreement between you and Elevate for Humanity.',
+      id: 'mou',
+      label: 'Sign the MOU digitally',
+      detail: 'The Memorandum of Understanding must be signed online — a paper copy is not sufficient.',
       href: '/program-holder/mou',
-      done: mouSigned,
+      done: mouDigitallySigned,
+      required: true,
     },
     {
+      id: 'profile',
+      label: 'Complete your profile',
+      detail: 'Add your business address, city, state, and ZIP code.',
+      href: '/program-holder/profile',
+      done: addressComplete,
+      required: true,
+    },
+    {
+      id: 'hvac_license',
+      label: 'Upload HVAC instructor license',
+      detail: 'Required for HVAC co-delivery. Upload your Indiana trade license or EPA 608 certification.',
+      href: '/program-holder/documents?type=hvac_license',
+      done: hvacLicenseDone,
+      required: true,
+    },
+    {
+      id: 'w9',
+      label: 'Submit W-9 tax form',
+      detail: 'Required by the IRS before any payments can be issued. Download, complete, and upload.',
+      href: '/onboarding/payroll-setup',
+      done: w9Done,
+      required: true,
+    },
+    {
+      id: 'payroll',
+      label: 'Set up payroll & direct deposit',
+      detail: 'Enter your bank account details to receive your 50% revenue share payments.',
+      href: '/onboarding/payroll-setup',
+      done: payrollDone,
+      required: true,
+    },
+    {
+      id: 'handbook',
       label: 'Acknowledge the Program Holder Handbook',
       detail: 'Policies, rules, and platform requirements.',
       href: '/program-holder/handbook',
       done: handbookDone,
+      required: true,
     },
     {
+      id: 'rights',
       label: 'Acknowledge Rights & Responsibilities',
       detail: 'What you are entitled to and what is required of you.',
       href: '/program-holder/rights-responsibilities',
       done: rightsDone,
-    },
-    {
-      label: 'Upload Required Documents',
-      detail: 'Business license, insurance, and any program-specific docs.',
-      href: '/program-holder/documents?required=true',
-      done: docsDone,
+      required: false,
     },
   ];
 
-  const allDone = steps.every((s) => s.done);
+  const requiredSteps = steps.filter((s) => s.required);
+  const completedCount = requiredSteps.filter((s) => s.done).length;
+  const allDone = requiredSteps.every((s) => s.done);
   const nextStep = steps.find((s) => !s.done);
+  const pct = Math.round((completedCount / requiredSteps.length) * 100);
 
   return (
     <div className="min-h-screen bg-white">
@@ -116,7 +173,7 @@ export default async function ProgramHolderOnboarding() {
             Program Holder Onboarding
           </h1>
           <p className="text-base md:text-lg sm:text-xl text-slate-700 mb-6">
-            Complete the steps below to activate your portal. Once all steps are done you&apos;ll
+            Complete the steps below to activate your portal and receive payments. Once all required steps are done you&apos;ll
             receive a welcome email and full dashboard access.
           </p>
           <div className="flex flex-wrap gap-4">
@@ -143,20 +200,39 @@ export default async function ProgramHolderOnboarding() {
       {/* Onboarding Checklist */}
       <section className="py-10 border-b bg-slate-50">
         <div className="max-w-3xl mx-auto px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-600 mb-4">
-            Required Steps
-          </p>
-          {allDone && (
+          {/* Progress bar */}
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-600">
+              Required Steps
+            </p>
+            <span className="text-xs font-bold text-slate-600">{completedCount}/{requiredSteps.length} complete</span>
+          </div>
+          <div className="h-2 bg-slate-200 rounded-full overflow-hidden mb-6">
+            <div
+              className="h-full bg-brand-blue-600 rounded-full transition-all duration-500"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+
+          {allDone ? (
             <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-5 py-4">
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
               <p className="text-sm font-semibold text-green-800">
                 All steps complete — your portal is fully activated.
               </p>
             </div>
+          ) : (
+            <div className="mb-5 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4">
+              <Circle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-800">
+                <strong>Action required.</strong> Complete all required steps below before your first payment can be issued.
+              </p>
+            </div>
           )}
+
           <ol className="space-y-3">
             {steps.map((step, i) => (
-              <li key={step.href}>
+              <li key={step.id}>
                 <Link
                   href={step.done ? '#' : step.href}
                   className={`flex items-start gap-4 rounded-xl border p-5 transition-colors ${
@@ -173,23 +249,21 @@ export default async function ProgramHolderOnboarding() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p
-                      className={`text-sm font-semibold ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}
-                    >
-                      {i + 1}. {step.label}
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className={`text-sm font-semibold ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}>
+                        {i + 1}. {step.label}
+                      </p>
+                      {!step.done && step.required && (
+                        <span className="text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">Required</span>
+                      )}
+                      {step.done && (
+                        <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">Done</span>
+                      )}
+                    </div>
                     <p className="text-xs text-slate-500 mt-0.5">{step.detail}</p>
                   </div>
                   {!step.done && (
                     <ArrowRight className="w-4 h-4 text-slate-400 flex-shrink-0 mt-1" />
-                  )}
-                  {!step.done && (step.label.toLowerCase().includes('handbook') || step.label.toLowerCase().includes('rights')) && (
-                    <div onClick={(e) => e.preventDefault()} className="ml-2">
-                      <AcknowledgeButton
-                        documentType={step.label.toLowerCase().includes('handbook') ? 'handbook' : 'rights'}
-                        label="Quick Acknowledge"
-                      />
-                    </div>
                   )}
                 </Link>
               </li>

@@ -38,6 +38,16 @@ export default async function ProgramHolderMOUPage() {
 
   if (!holder) redirect('/program-holder/onboarding');
 
+  // Check for a digital signature row — paper-signed holders have mou_signed=true
+  // but no mou_signatures row. They must sign digitally.
+  const { data: sigRow } = await db
+    .from('mou_signatures')
+    .select('id, signed_at')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  const hasDigitalSignature = !!sigRow;
+
   const orgName = holder.organization_name || profile.full_name || 'Your Organization';
   const isCustomHvac = holder.mou_type === 'custom_hvac_codelivery';
   const isCustomCdl = holder.mou_type === 'custom_cdl_provider';
@@ -57,19 +67,19 @@ export default async function ProgramHolderMOUPage() {
           </ol>
         </nav>
 
-        {holder.mou_signed ? (
+        {holder.mou_signed && hasDigitalSignature ? (
           <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
             <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-            <h2 className="text-xl font-bold text-green-800 mb-1">MOU Already Signed</h2>
+            <h2 className="text-xl font-bold text-green-800 mb-1">MOU Signed</h2>
             <p className="text-green-700 text-sm mb-2">
-              Signed on{' '}
-              {holder.mou_signed_at ? new Date(holder.mou_signed_at).toLocaleDateString() : 'file'}
+              Digitally signed on{' '}
+              {sigRow?.signed_at ? new Date(sigRow.signed_at).toLocaleDateString() : 'file'}
             </p>
             <Link
-              href="/program-holder/dashboard"
+              href="/program-holder/onboarding"
               className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
             >
-              Go to Dashboard
+              Continue Onboarding
             </Link>
           </div>
         ) : (
