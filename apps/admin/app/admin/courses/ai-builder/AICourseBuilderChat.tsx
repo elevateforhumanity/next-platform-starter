@@ -10,6 +10,13 @@ interface Program {
   slug: string;
 }
 
+interface ExistingCourse {
+  id: string;
+  title: string;
+  slug: string;
+  status: string;
+}
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -44,6 +51,12 @@ interface GeneratedCourse {
 }
 
 type Stage = 'chat' | 'review' | 'saving' | 'saved';
+
+const EXISTING_COURSES: ExistingCourse[] = [
+  { id: '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17', title: 'Indiana Registered Barber License', slug: 'barber-apprenticeship', status: 'published' },
+  { id: 'b427be5e-c85b-4b41-91d6-4288aec8c975', title: 'Cosmetology Apprenticeship', slug: 'cosmetology-apprenticeship', status: 'published' },
+  { id: 'f0593164-55be-5867-98e7-8a86770a8dd0', title: 'HVAC EPA 608 Certification', slug: 'hvac-epa-608', status: 'published' },
+];
 
 const STARTER_PROMPTS = [
   'Build a cosmetology / esthetics course for Indiana state board exam prep',
@@ -599,6 +612,39 @@ export default function AICourseBuilderChat({
                 {prompt}
               </button>
             ))}
+
+            {/* Already-built courses */}
+            <div className="mt-6">
+              <p className="text-xs text-slate-400 font-medium uppercase tracking-wide mb-3">
+                Already built — manage or view
+              </p>
+              <div className="space-y-2">
+                {EXISTING_COURSES.map((course) => (
+                  <div key={course.id} className="flex items-center justify-between bg-white border rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <span className={`w-2 h-2 rounded-full flex-shrink-0 ${course.status === 'published' ? 'bg-green-500' : 'bg-amber-400'}`} />
+                      <span className="text-sm font-medium text-slate-800">{course.title}</span>
+                      <span className="text-xs text-slate-400 capitalize">{course.status}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/admin/courses/${course.id}`}
+                        className="text-xs px-3 py-1.5 border rounded-lg text-slate-600 hover:bg-slate-50 transition-colors"
+                      >
+                        Manage
+                      </Link>
+                      <Link
+                        href={`/lms/courses/${course.id}`}
+                        target="_blank"
+                        className="text-xs px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        View →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
