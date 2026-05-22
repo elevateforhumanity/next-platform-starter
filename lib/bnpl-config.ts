@@ -108,7 +108,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 50,
     maxAmount: 30000,
     description: 'Monthly installment financing at 0–36% APR over 3–36 months. Subject to credit approval.',
-    enabled: false, // enable once AFFIRM_PUBLIC_KEY + AFFIRM_PRIVATE_KEY are set
+    enabled: true,
   },
   {
     id: 'sezzle',
