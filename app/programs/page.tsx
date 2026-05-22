@@ -1,179 +1,247 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { programs as staticPrograms } from '@/content/cf-programs';
+import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Programs',
+  title: 'Programs | Elevate for Humanity',
   description:
     'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs' },
 };
 
-/**
- * Canonical slug per program family.
- * Near-duplicate slugs (legacy names, alternate titles) are suppressed from
- * the public listing. The canonical page still exists and is reachable via
- * direct URL or redirect — it just does not appear as a separate card here.
- */
-const CANONICAL_SLUGS = new Set([
-  // Healthcare
-  'cna', 'qma', 'medical-assistant', 'peer-recovery-specialist', 'direct-support-professional',
-  'drug-alcohol-specimen-collector', 'cpr-first-aid', 'pharmacy-technician', 'phlebotomy',
-  'home-health-aide', 'sanitation-infection-control', 'dental-assistant', 'chw-cert',
-  'nha-pharmacy-technician', 'nha-ehr', 'nha-patient-care-technician', 'nha-medical-admin-assistant',
-  'nha-medical-assistant', 'nha-billing-coding', 'nha-phlebotomy', 'nha-ekg-technician',
-  // Trades
-  'hvac-technician', 'electrical', 'plumbing', 'cdl-training', 'welding',
-  'building-services-technician', 'building-maintenance-wrg', 'solar-panel-installation',
-  'manufacturing-technician', 'diesel-mechanic', 'automotive-technician',
-  'construction-trades-certification', 'forklift',
-  // Apprenticeships
-  'barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician-apprenticeship',
-  'nail-technician-apprenticeship', 'culinary-apprenticeship', 'youth-culinary-apprenticeship',
-  'emt-apprenticeship',
-  // Business
-  'finance-bookkeeping-accounting', 'bookkeeping', 'tax-preparation', 'entrepreneurship',
-  'business-startup', 'business-administration', 'real-estate-agent', 'insurance-agent',
-  'administrative-assistant', 'customer-service-representative', 'office-administration',
-  'project-management',
-  // Technology
-  'it-help-desk', 'software-development', 'web-development', 'data-analytics',
-  'cybersecurity-analyst', 'network-administration', 'network-support-technician',
-  'cad-drafting', 'graphic-design',
-  // Special
-  'jri', 'reentry-specialist', 'life-coach-certification-wioa', 'nrf-riseup',
-  // Hospitality
-  'start-hospitality', 'guest-service-gold', 'servsuccess', 'servsafe-food-handler', 'servsafe-manager',
-  // Beauty
-  'esthetician',
-  // Category landing pages
-  'healthcare', 'skilled-trades', 'technology',
+const PROGRAM_IMAGES: Record<string, string> = {
+  cna:'/images/pages/cna-nursing-real.webp',qma:'/images/pages/programs-cna-hero.webp',
+  'medical-assistant':'/images/pages/medical-assistant-real.webp',
+  'nha-phlebotomy':'/images/healthcare/hero-program-phlebotomy.jpg',
+  phlebotomy:'/images/healthcare/hero-program-phlebotomy.jpg',
+  'nha-patient-care-technician':'/images/healthcare/hero-program-patient-care.webp',
+  'nha-billing-coding':'/images/pages/medical-assistant-desk.webp',
+  'nha-pharmacy-technician':'/images/pages/pharmacy-technician.webp',
+  'pharmacy-technician':'/images/pages/pharmacy-tech.webp',
+  'nha-ekg-technician':'/images/healthcare/healthcare-professional-portrait-2.webp',
+  'nha-ehr':'/images/pages/medical-assistant-lab.webp',
+  'nha-medical-admin-assistant':'/images/pages/medical-assistant-desk.webp',
+  'dental-assistant':'/images/healthcare/video-thumbnail-dental-assistant.webp',
+  'cpr-first-aid':'/images/healthcare/cpr-certification-group.webp',
+  'chw-cert':'/images/pages/peer-recovery.webp',
+  'home-health-aide':'/images/healthcare/program-cna-training.webp',
+  'direct-support-professional':'/images/pages/healthcare-classroom.webp',
+  'dsp-training':'/images/pages/healthcare-classroom.webp',
+  'peer-recovery-specialist':'/images/pages/peer-recovery.webp',
+  'peer-support':'/images/pages/peer-recovery.webp',
+  'drug-alcohol-specimen-collector':'/images/healthcare/healthcare-professional-portrait-1.jpg',
+  'sanitation-infection-control':'/images/pages/healthcare-hero.webp',
+  'hvac-technician':'/images/pages/hvac-technician.webp',
+  electrical:'/images/pages/electrical.webp',
+  plumbing:'/images/pages/plumbing-pipes.webp',
+  'cdl-training':'/images/pages/cdl-hero.webp',
+  welding:'/images/pages/welding-sparks.webp',
+  'building-services-technician':'/images/programs/efh-building-tech-card.jpg',
+  'building-maintenance-wrg':'/images/building-maintenance.webp',
+  'construction-trades-certification':'/images/pages/construction-trades.webp',
+  'automotive-technician':'/images/pages/skilled-trades-hero.webp',
+  'diesel-mechanic':'/images/pages/trades-classroom.webp',
+  'solar-panel-installation':'/images/pages/skilled-trades-sector.webp',
+  'manufacturing-technician':'/images/pages/trades-classroom.webp',
+  forklift:'/images/pages/trades-classroom.webp',
+  'barber-apprenticeship':'/images/beauty/hero-program-barber.webp',
+  'cosmetology-apprenticeship':'/images/pages/cosmetology-apprenticeship-hero.webp',
+  'esthetician-apprenticeship':'/images/beauty/esthetician.webp',
+  'nail-technician-apprenticeship':'/images/pages/nail-tech-hero.webp',
+  'beauty-career-educator':'/images/beauty/program-beauty-training.webp',
+  'culinary-apprenticeship':'/images/pages/healthcare-classroom.webp',
+  'youth-culinary-apprenticeship':'/images/pages/healthcare-classroom.webp',
+  'emt-apprenticeship':'/images/pages/healthcare-hero.webp',
+  'it-help-desk':'/images/pages/tech-classroom.webp',
+  'cybersecurity-analyst':'/images/pages/technology-sector.webp',
+  'data-analytics':'/images/pages/tech-classroom.webp',
+  'graphic-design':'/images/pages/tech-classroom.webp',
+  'cad-drafting':'/images/pages/tech-classroom.webp',
+  'web-development':'/images/pages/programs-tech-webdev-hero.webp',
+  'tax-preparation':'/images/pages/tax-preparation.webp',
+  bookkeeping:'/images/business/office-admin.webp',
+  'finance-bookkeeping-accounting':'/images/business/office-admin.webp',
+  'business-startup':'/images/programs/efh-business-startup-marketing-hero.jpg',
+  'business-administration':'/images/business/professional-2.jpg',
+  'administrative-assistant':'/images/business/office-admin.webp',
+  entrepreneurship:'/images/business/partnership-1.webp',
+  'real-estate-agent':'/images/business/collaboration-1.webp',
+  'insurance-agent':'/images/business/team-3.webp',
+  'customer-service-representative':'/images/business/team-4.webp',
+  'office-administration':'/images/business/office-admin.webp',
+  'project-management':'/images/business/collaboration-1.webp',
+  'servsafe-food-handler':'/images/pages/healthcare-classroom.webp',
+  'servsafe-manager':'/images/pages/healthcare-classroom.webp',
+  'guest-service-gold':'/images/pages/healthcare-classroom.webp',
+  servsuccess:'/images/pages/healthcare-classroom.webp',
+  'start-hospitality':'/images/pages/healthcare-classroom.webp',
+};
+
+const CATEGORY_META: Record<string,{label:string;color:string;order:number}> = {
+  healthcare:       {label:'Healthcare',          color:'bg-blue-600',    order:1},
+  trades:           {label:'Skilled Trades',       color:'bg-orange-600',  order:2},
+  beauty:           {label:'Beauty & Cosmetology', color:'bg-pink-600',    order:3},
+  technology:       {label:'Technology',           color:'bg-indigo-600',  order:4},
+  business:         {label:'Business',             color:'bg-emerald-600', order:5},
+  apprenticeship:   {label:'Apprenticeships',      color:'bg-purple-600',  order:6},
+  hospitality:      {label:'Hospitality',          color:'bg-yellow-600',  order:7},
+  'social services':{label:'Social Services',      color:'bg-teal-600',    order:8},
+  special:          {label:'Workforce Readiness',  color:'bg-slate-600',   order:9},
+};
+
+const SUPPRESSED = new Set([
+  'cna-training','hvac','hvac-technician-program','hvac-2024','medical-assistant-program',
+  'phlebotomy-technician','phlebotomy-technician-program','barber','barber-program',
+  'cosmetology','nail-technician','cpr-cert','health-safety','forklift-operator','tax-prep',
+  'it-support','it-support-specialist','cybersecurity','bookkeeping-fundamentals',
+  'entrepreneurship-small-business','peer-recovery-specialist-jri',
+  'ai-advanced-project-management-1774494313718','ai-forklift-safety-certification-1774495387731',
+  'jri-badge-1-mindsets','jri-badge-2-self-management','jri-badge-3-learning-strategies',
+  'jri-badge-4-social-skills','jri-badge-5-workplace-skills','jri-badge-6-launch-a-career',
+  'jri-introduction','jri','micro-programs','emergency-health-safety','nha-medical-assistant',
 ]);
 
-/** Slugs that are near-duplicates of a canonical — suppress from listing. */
-const SUPPRESSED_SLUGS = new Set([
-  // CNA duplicates → canonical: cna
-  'cna-certification',
-  'cna-cert',
-  'cna-training',
-  // HVAC duplicates → canonical: hvac-technician
-  'hvac',
-  'hvac-technician-program',
-  'hvac-2024',
-  // Medical assistant duplicates → canonical: medical-assistant
-  'medical-assistant-program',
-  'nha-medical-assistant',
-  // Phlebotomy duplicates → canonical: phlebotomy
-  'phlebotomy-technician',
-  'phlebotomy-technician-program',
-  'nha-phlebotomy',
-  // Pharmacy duplicates → canonical: pharmacy-technician
-  'nha-pharmacy-technician',
-  // Barber duplicates → canonical: barber-apprenticeship
-  'barber',
-  'barber-program',
-  // Cosmetology duplicates → canonical: cosmetology-apprenticeship
-  'cosmetology',
-  // Nail tech duplicates → canonical: nail-technician-apprenticeship
-  'nail-technician',
-  // CPR duplicates → canonical: cpr-first-aid
-  'cpr-cert',
-  // Emergency health duplicates → canonical: emergency-health-safety
-  'health-safety',
-  // Forklift duplicates → canonical: forklift
-  'forklift-operator',
-  // Tax prep duplicates → canonical: tax-preparation
-  'tax-prep',
-  // IT duplicates → canonical: it-help-desk
-  'it-support',
-  'it-support-specialist',
-  // Cybersecurity duplicates → canonical: cybersecurity-analyst
-  'cybersecurity',
-  // Bookkeeping duplicates → canonical: bookkeeping
-  'bookkeeping-fundamentals',
-  // Entrepreneurship duplicates → canonical: entrepreneurship
-  'entrepreneurship-small-business',
-  // Peer recovery duplicates → canonical: peer-recovery-specialist
-  'peer-recovery-specialist-jri',
-  // AI-generated slugs (seeder artifacts)
-  'ai-advanced-project-management-1774494313718',
-  'ai-forklift-safety-certification-1774495387731',
-  // JRI micro-badges — not standalone programs
-  'jri-badge-1-mindsets',
-  'jri-badge-2-self-management',
-  'jri-badge-3-learning-strategies',
-  'jri-badge-4-social-skills',
-  'jri-badge-5-workplace-skills',
-  'jri-badge-6-launch-a-career',
-  'jri-introduction',
-  // Category/partner pages, not programs
-  'jri',
-  'micro-programs',
-]);
+type Prog = {slug:string;title:string;description:string|null;category:string;duration:string|null;credential:string|null;funding_eligible:boolean};
 
 export default async function ProgramsPage() {
   const db = await getAdminClient();
-  let programs: { slug: string; title: string; description: string | null }[] = [];
+  let programs: Prog[] = [];
 
   if (db) {
-    const { data } = await db
-      .from('programs')
-      .select('slug, title, short_description, description')
-      .eq('is_active', true)
-      .neq('status', 'archived')
-      .order('title');
-
-    if (data && data.length > 0) {
-      programs = data
-        .filter((p) => !SUPPRESSED_SLUGS.has(p.slug))
-        .map((p) => {
-          let desc: string | null = p.short_description || p.description || null;
-          // Guard against DB values truncated mid-sentence: if the description
-          // doesn't end with terminal punctuation, trim to the last complete sentence.
-          if (desc && !/[.!?]$/.test(desc.trim())) {
-            const lastPeriod = Math.max(desc.lastIndexOf('.'), desc.lastIndexOf('!'), desc.lastIndexOf('?'));
-            desc = lastPeriod > 20 ? desc.slice(0, lastPeriod + 1) : null;
-          }
-          return { slug: p.slug, title: p.title, description: desc };
-        });
+    const {data} = await db.from('programs')
+      .select('slug,title,short_description,description,category,duration,credential_type,wioa_eligible')
+      .eq('is_active',true).eq('published',true).neq('status','archived').order('title');
+    if (data?.length) {
+      programs = data.filter(p=>!SUPPRESSED.has(p.slug)).map(p=>{
+        let desc:string|null = p.short_description||p.description||null;
+        if(desc&&!/[.!?]$/.test(desc.trim())){const l=Math.max(desc.lastIndexOf('.'),desc.lastIndexOf('!'),desc.lastIndexOf('?'));desc=l>20?desc.slice(0,l+1):null;}
+        return {slug:p.slug,title:p.title,description:desc,category:p.category||'other',duration:p.duration??null,credential:p.credential_type??null,funding_eligible:p.wioa_eligible??false};
+      });
     }
   }
 
-  // Static fallback — already canonical, no dedup needed
-  if (programs.length === 0) {
-    programs = staticPrograms.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      description: p.summary,
-    }));
-  }
+  const grouped:Record<string,Prog[]>={};
+  programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
+  const cats=Object.keys(grouped).sort((a,b)=>(CATEGORY_META[a]?.order??99)-(CATEGORY_META[b]?.order??99));
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-3xl font-bold text-slate-900">Programs</h1>
-      <p className="mt-4 text-slate-700">
-        Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business.
-        Most programs complete in 4–12 weeks. WIOA and Workforce Ready Grant funding available for
-        eligible Indiana residents.
-      </p>
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
-        {programs.map((program) => (
-          <article key={program.slug} className="rounded border p-6 hover:bg-slate-50">
-            <h2 className="text-xl font-semibold text-slate-900">{program.title}</h2>
-            {program.description && (
-              <p className="mt-2 text-sm text-slate-700">{program.description}</p>
-            )}
-            <Link
-              href={`/programs/${program.slug}`}
-              className="mt-4 inline-block text-sm font-medium text-brand-red-600 underline hover:text-brand-red-700"
-            >
-              View program
+    <main className="min-h-screen bg-white">
+
+      {/* Hero */}
+      <section className="relative h-64 sm:h-80 w-full overflow-hidden">
+        <Image src="/images/programs-hero-vibrant.webp" alt="Elevate for Humanity programs" fill className="object-cover object-center" priority />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 to-slate-900/30" />
+        <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">Elevate for Humanity</p>
+          <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight">Career Training Programs</h1>
+          <p className="mt-3 text-slate-200 text-sm sm:text-base max-w-xl">
+            {programs.length} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/orientation/schedule" className="inline-flex items-center gap-2 rounded-lg bg-brand-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-700 transition-colors">
+              Schedule Free Orientation
             </Link>
-          </article>
-        ))}
+            <Link href="/programs/catalog" className="inline-flex items-center gap-2 rounded-lg bg-white/10 border border-white/30 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors">
+              Search Full Catalog
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Category nav */}
+      <nav className="sticky top-0 z-20 bg-white border-b border-slate-200 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 overflow-x-auto">
+          <ul className="flex gap-1 py-2 whitespace-nowrap">
+            <li><a href="#top" className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">All ({programs.length})</a></li>
+            {cats.map(cat=>(
+              <li key={cat}><a href={`#cat-${cat}`} className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
+                {CATEGORY_META[cat]?.label??cat} ({grouped[cat].length})
+              </a></li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* Funding banner */}
+      <div className="bg-green-50 border-b border-green-100">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-green-800">
+          <span className="font-semibold">Funding available:</span>
+          <span>WIOA Individual Training Account</span>
+          <span className="hidden sm:inline text-green-300">·</span>
+          <span>Workforce Ready Grant</span>
+          <span className="hidden sm:inline text-green-300">·</span>
+          <span>JRI / Reentry</span>
+          <span className="hidden sm:inline text-green-300">·</span>
+          <span>Payment Plans</span>
+          <Link href="/funding/how-it-works" className="ml-auto font-semibold underline hover:text-green-900 whitespace-nowrap">Check eligibility →</Link>
+        </div>
       </div>
-    </section>
+
+      {/* Sections */}
+      <div id="top" className="max-w-6xl mx-auto px-4 py-12 space-y-16">
+        {cats.map(cat=>{
+          const meta=CATEGORY_META[cat];
+          const list=[...grouped[cat]].sort((a,b)=>a.title.localeCompare(b.title));
+          return (
+            <section key={cat} id={`cat-${cat}`} className="scroll-mt-16">
+              <div className="flex items-center gap-3 mb-6 pb-3 border-b border-slate-100">
+                <div className={`w-1 h-8 rounded-full ${meta?.color??'bg-slate-400'}`} />
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900">{meta?.label??cat}</h2>
+                <span className="text-sm text-slate-400">{list.length} program{list.length!==1?'s':''}</span>
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {list.map(p=>(
+                  <Link key={p.slug} href={`/programs/${p.slug}`}
+                    className="group flex flex-col rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-slate-300 transition-all duration-200 bg-white">
+                    <div className="relative h-44 w-full overflow-hidden bg-slate-100 flex-shrink-0">
+                      <Image src={PROGRAM_IMAGES[p.slug]??'/images/programs-hero-new.webp'} alt={p.title} fill
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" />
+                      {p.funding_eligible&&(
+                        <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">WIOA Eligible</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col flex-1 p-4">
+                      <h3 className="font-semibold text-slate-900 text-sm leading-snug group-hover:text-brand-red-600 transition-colors">{p.title}</h3>
+                      {p.description&&<p className="mt-1.5 text-xs text-slate-500 line-clamp-2 flex-1">{p.description}</p>}
+                      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+                        {p.duration&&<span className="flex items-center gap-1"><Clock className="w-3 h-3"/>{p.duration}</span>}
+                        {p.credential&&<span className="flex items-center gap-1"><Award className="w-3 h-3"/>{p.credential}</span>}
+                        {p.funding_eligible&&!p.duration&&!p.credential&&<span className="flex items-center gap-1 text-green-600"><DollarSign className="w-3 h-3"/>Funding available</span>}
+                      </div>
+                      <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-brand-red-600 group-hover:gap-2 transition-all">
+                        View program <ChevronRight className="w-3.5 h-3.5"/>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+
+      {/* CTA */}
+      <section className="bg-slate-900 text-white py-16">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold">Not sure where to start?</h2>
+          <p className="mt-3 text-slate-300 text-sm sm:text-base">
+            Schedule a free orientation. We&apos;ll match you to the right program, check your funding eligibility, and get you enrolled.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link href="/orientation/schedule" className="rounded-lg bg-brand-red-600 px-8 py-3 font-semibold text-white hover:bg-brand-red-700 transition-colors">
+              Schedule Free Orientation
+            </Link>
+            <Link href="/contact" className="rounded-lg border border-white/30 px-8 py-3 font-semibold text-white hover:bg-white/10 transition-colors">
+              Talk to an Advisor
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
