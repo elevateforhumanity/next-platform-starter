@@ -680,18 +680,20 @@ async function insertApplication(payload: {
         );
 
         // Audit log — non-blocking
-        supabase.from('audit_logs').insert({
-          event_type: 'application_submitted',
-          resource_type: 'application',
-          resource_id: data.id,
-          metadata: {
-            email: payload.email,
-            program: payload.programInterest,
-            source: payload.source,
-            funding_type: payload.fundingType || null,
-            reference_number: referenceNumber,
-          },
-        }).catch((err: unknown) => logger.warn('[Apply] Audit log failed (non-fatal)', err));
+        Promise.resolve(
+          supabase.from('audit_logs').insert({
+            event_type: 'application_submitted',
+            resource_type: 'application',
+            resource_id: data.id,
+            metadata: {
+              email: payload.email,
+              program: payload.programInterest,
+              source: payload.source,
+              funding_type: payload.fundingType || null,
+              reference_number: referenceNumber,
+            },
+          })
+        ).catch((err: unknown) => logger.warn('[Apply] Audit log failed (non-fatal)', err));
 
         // Application lands in admin queue as 'submitted' — admin reviews and approves.
         // Approval requires funding verification or a paid Stripe session before enrollment.
