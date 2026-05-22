@@ -1,5 +1,6 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
+import Link from 'next/link';
 import { Clock, CheckCircle2, AlertCircle, TrendingUp, User } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -125,12 +126,12 @@ export default async function StudentHoursPage() {
             On-the-job training progress toward DOL apprenticeship requirements
           </p>
         </div>
-        <a
+        <Link
           href="/admin/hours-export"
           className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
         >
           Export Hours
-        </a>
+        </Link>
       </div>
 
       {/* Summary cards */}

@@ -72,7 +72,7 @@ export default function AdminApprenticeships() {
 
     // Hydrate student names
     const studentIds = [...new Set((pendingRaw ?? []).map((r: any) => r.student_id).filter(Boolean))];
-    let nameMap: Record<string, string> = {};
+    const nameMap: Record<string, string> = {};
     if (studentIds.length) {
       const { data: profileRows } = await supabase.from('profiles').select('id, full_name, email').in('id', studentIds);
       (profileRows ?? []).forEach((p: any) => { nameMap[p.id] = p.full_name || p.email; });

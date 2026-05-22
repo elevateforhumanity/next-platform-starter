@@ -21,7 +21,7 @@ export default function RotatingBanner({ lines, variant = 'dark', intervalMs = 4
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused) return undefined;
     timerRef.current = setInterval(() => {
       setCurrent((c) => (c + 1) % lines.length);
     }, intervalMs);
