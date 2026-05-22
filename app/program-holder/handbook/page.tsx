@@ -40,7 +40,7 @@ export default async function ProgramHolderHandbookPage() {
     .eq('document_type', 'handbook')
     .maybeSingle();
 
-  if (acknowledgement) redirect('/program-holder/dashboard?handbook=acknowledged');
+  if (acknowledgement) redirect('/program-holder/onboarding?handbook=acknowledged');
 
   return (
     <div className="min-h-screen bg-white">

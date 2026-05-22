@@ -27,7 +27,7 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
         throw new Error(d.error || 'Failed to sign MOU');
       }
       setSigned(true);
-      setTimeout(() => router.push('/program-holder/handbook'), 2000);
+      setTimeout(() => router.push('/program-holder/onboarding'), 2000);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -40,7 +40,7 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
       <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
         <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
         <h3 className="text-lg font-bold text-green-800 mb-1">MOU Signed</h3>
-        <p className="text-green-700 text-sm">Redirecting to your dashboard...</p>
+        <p className="text-green-700 text-sm">Redirecting to your onboarding checklist…</p>
       </div>
     );
   }

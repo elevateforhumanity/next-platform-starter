@@ -36,7 +36,7 @@ export default async function ProgramHolderRightsPage() {
     .maybeSingle();
 
   if (acknowledgement) {
-    redirect('/program-holder/dashboard?rights=acknowledged');
+    redirect('/program-holder/onboarding?rights=acknowledged');
   }
 
   return (

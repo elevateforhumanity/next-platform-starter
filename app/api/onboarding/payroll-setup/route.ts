@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -14,114 +15,81 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await parseBody<Record<string, any>>(request);
-    const { role, paymentType, rate, payoutMethod, taxIdUploaded } = body;
+    const {
+      payoutMethod,
+      taxIdUploaded,
+      bankName,
+      accountType,
+      routingNumber,
+      accountNumber,
+      w9FileUrl,
+      role,
+      paymentType,
+      rate,
+    } = body;
 
-    if (!role || !paymentType || !rate || !payoutMethod) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!payoutMethod) {
+      return NextResponse.json({ error: 'payoutMethod is required' }, { status: 400 });
     }
 
-    if (!taxIdUploaded) {
-      return NextResponse.json({ error: 'W-9 tax form must be uploaded' }, { status: 400 });
-    }
+    const db = await requireAdminClient();
 
-    // Validate rate against config
-    const { data: rateConfig } = await supabase
-      .from('payout_rate_configs')
-      .select('min_rate, max_rate')
-      .eq('role', role)
-      .eq('payment_type', paymentType)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (rateConfig) {
-      const rateNum = parseFloat(rate);
-      if (rateNum < rateConfig.min_rate || rateNum > rateConfig.max_rate) {
-        return NextResponse.json(
-          {
-            error: `Rate must be between ${rateConfig.min_rate} and ${rateConfig.max_rate}`,
-          },
-          { status: 400 },
-        );
-      }
-    }
-
-    // Check if payroll profile already exists
-    const { data: existingProfile } = await supabase
+    const { data: existing } = await db
       .from('payroll_profiles')
-      .select('id, status')
+      .select('id')
       .eq('user_id', user.id)
-      .eq('role', role)
       .maybeSingle();
 
-    if (existingProfile) {
-      // Update existing profile
-      const { error: updateError } = await supabase
-        .from('payroll_profiles')
-        .update({
-          payment_type: paymentType,
-          rate: parseFloat(rate),
-          payout_method: payoutMethod,
-          tax_id_uploaded: taxIdUploaded,
-          status: 'PENDING',
-        })
-        .eq('id', existingProfile.id);
+    const profileData: Record<string, any> = {
+      user_id: user.id,
+      payout_method: payoutMethod,
+      tax_id_uploaded: taxIdUploaded ?? false,
+      status: 'PENDING',
+      direct_deposit_enabled: payoutMethod === 'DIRECT_DEPOSIT',
+    };
 
-      if (updateError) {
-        return NextResponse.json({ error: 'Failed to update payroll profile' }, { status: 500 });
-      }
+    if (bankName)       profileData.bank_name = bankName;
+    if (accountType)    profileData.account_type = accountType;
+    if (routingNumber)  profileData.routing_number = routingNumber;
+    if (accountNumber)  profileData.account_number_encrypted = accountNumber;
+    if (w9FileUrl)      { profileData.w9_file_url = w9FileUrl; profileData.w9_uploaded_at = new Date().toISOString(); }
+    if (paymentType)    profileData.payment_type = paymentType;
+    if (rate)           profileData.rate = parseFloat(rate);
+    if (role)           profileData.role = role;
+
+    if (existing?.id) {
+      await db.from('payroll_profiles').update(profileData).eq('id', existing.id);
     } else {
-      // Create new profile
-      const { error: insertError } = await supabase.from('payroll_profiles').insert({
-        user_id: user.id,
-        role: role,
-        payment_type: paymentType,
-        rate: parseFloat(rate),
-        payout_method: payoutMethod,
-        tax_id_uploaded: taxIdUploaded,
-        status: 'PENDING',
-      });
-
-      if (insertError) {
-        return NextResponse.json({ error: 'Failed to create payroll profile' }, { status: 500 });
-      }
+      await db.from('payroll_profiles').insert(profileData);
     }
 
-    // Complete onboarding step
-    await supabase.rpc('complete_onboarding_step', {
-      p_user_id: user.id,
-      p_role: role,
-    });
+    // Write w9_submissions row if a W-9 was uploaded
+    if (w9FileUrl) {
+      const { data: ph } = await db
+        .from('profiles').select('full_name').eq('id', user.id).maybeSingle();
+      await db.from('w9_submissions').upsert(
+        { user_id: user.id, file_url: w9FileUrl, legal_name: ph?.full_name ?? null,
+          submitted_at: new Date().toISOString(), verified: false },
+        { onConflict: 'user_id', ignoreDuplicates: false },
+      ).catch(() => null);
+    }
 
-    // Log audit trail
-    await supabase.from('audit_logs').insert({
-      actor_user_id: user.id,
-      action: 'payroll_profile_created',
-      entity: 'payroll_profiles',
-      changes: { role, paymentType, rate, payoutMethod },
+    await db.from('audit_logs').insert({
+      user_id: user.id,
+      action: 'payroll_setup_submitted',
+      entity_type: 'payroll_profiles',
+      metadata: { payoutMethod, taxIdUploaded, bankName, paymentType },
       ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
       user_agent: request.headers.get('user-agent'),
-    });
+    }).catch(() => null);
 
-    return NextResponse.json({
-      success: true,
-    });
+    return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json(
-      {
-        err: 'Internal server error',
-      },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/onboarding/payroll-setup', _POST);

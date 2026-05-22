@@ -61,6 +61,8 @@ async function _POST(req: Request) {
       'instructor_credentials',
       'facility_photos',
       'mou',
+      'hvac_license',
+      'w9',
       'other',
     ];
 
@@ -119,6 +121,26 @@ async function _POST(req: Request) {
       await supabase.storage.from('program_holder_documents').remove([uploadData.path]);
 
       return NextResponse.json({ error: 'Database operation failed' }, { status: 500 });
+    }
+
+    // If this is an HVAC license, write the URL to program_holders.hvac_license_url
+    if (documentType === 'hvac_license') {
+      try {
+        const { data: phLink } = await supabase
+          .from('profiles')
+          .select('program_holder_id')
+          .eq('id', user.id)
+          .maybeSingle();
+        const holderId = phLink?.program_holder_id;
+        if (holderId) {
+          await supabase
+            .from('program_holders')
+            .update({ hvac_license_url: publicUrl, hvac_license_uploaded_at: new Date().toISOString() })
+            .eq('id', holderId);
+        }
+      } catch {
+        // non-fatal
+      }
     }
 
     // Run OCR validation for image files — non-fatal, routes to manual review on failure

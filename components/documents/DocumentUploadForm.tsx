@@ -116,7 +116,7 @@ export function DocumentUploadForm({ requirements }: Props) {
           .eq('id', currentUser.id)
           .single();
         if (prof?.role === 'program_holder') {
-          dest = '/program-holder/documents';
+          dest = '/program-holder/onboarding';
           // Fire onboarding-complete check — sends welcome email if all steps done
           fetch('/api/program-holder/onboarding-complete', { method: 'POST' }).catch(() => {});
         } else if (prof?.role === 'employer') {

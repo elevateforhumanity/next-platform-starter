@@ -68,14 +68,14 @@ export function AcknowledgeRightsForm() {
               Rights &amp; Responsibilities acknowledged
             </p>
             <p className="text-green-800 text-sm mt-1 leading-relaxed">
-              Your acknowledgement has been recorded. One last step — upload your required documents
+              Your acknowledgement has been recorded. Returning to your onboarding checklist…
               below.
             </p>
           </div>
         </div>
         <button
           type="button"
-          onClick={() => router.push('/program-holder/documents?required=true')}
+          onClick={() => router.push('/program-holder/onboarding')}
           className="w-full flex items-center justify-center gap-2 min-h-[48px] px-6 py-3 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition-colors"
         >
           Next: Upload Required Documents

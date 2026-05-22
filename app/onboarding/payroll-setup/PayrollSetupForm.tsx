@@ -83,20 +83,23 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          role: profile.role,
-          paymentType: 'HOURLY',
-          rate: 0,
           payoutMethod: payMethod.toUpperCase(),
           taxIdUploaded: w9Uploaded || !!w9File,
-          bankName: banking.bankName,
-          accountType: banking.accountType,
-          routingNumber: banking.routingNumber,
-          accountNumber: banking.accountNumber,
+          bankName: banking.bankName || undefined,
+          accountType: banking.accountType || undefined,
+          routingNumber: banking.routingNumber || undefined,
+          accountNumber: banking.accountNumber || undefined,
+          paymentType: 'contractor',
+          role: profile.role,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Setup failed');
       setStep('done');
+      // Redirect program_holders back to their onboarding checklist
+      if (profile.role === 'program_holder') {
+        setTimeout(() => router.push('/program-holder/onboarding'), 2000);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -114,7 +117,11 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
             Your payment method and W-9 have been submitted. HR will confirm within 1 business day.
           </p>
           <button
-            onClick={() => router.push('/onboarding/staff')}
+            onClick={() => router.push(
+              profile.role === 'program_holder'
+                ? '/program-holder/onboarding'
+                : '/onboarding/staff'
+            )}
             className="w-full bg-brand-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-brand-blue-700"
           >
             Continue Onboarding
