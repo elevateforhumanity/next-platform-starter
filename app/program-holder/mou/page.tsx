@@ -213,38 +213,10 @@ export default async function ProgramHolderMOUPage() {
                     Upon confirmation of both conditions, Elevate shall invoice or process the
                     voucher for payment.
                   </p>
-                  <p className="mb-2 font-medium text-slate-800">Revenue Distribution Timing</p>
-                  <p className="mb-4">
-                    Payment to the Program Holder shall be rendered within{' '}
-                    <strong>ten (10) business days</strong> after Elevate receives funds from the
-                    voucher payment issued by WorkOne or the applicable funding source. It is
-                    acknowledged by both parties that voucher issuance typically occurs after the
-                    student has started the program and may be subject to processing timelines
-                    outside of Elevate&apos;s control.
-                  </p>
                   <p className="mb-2 font-medium text-slate-800">Revenue Split</p>
                   <p className="mb-3">
-                    Upon receipt of voucher funds, the $5,000.00 program fee shall be distributed as
-                    follows:
-                  </p>
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-slate-800">
-                        Elevate for Humanity Career &amp; Technical Institute
-                      </span>
-                      <span className="font-bold text-slate-900">$2,400.50 (50%)</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-slate-800">{orgName}</span>
-                      <span className="font-bold text-slate-900">$2,400.50 (50%)</span>
-                    </div>
-                  </div>
-                  <p className="mb-2 font-medium text-slate-800">
-                    Fee Breakdown &amp; Revenue Calculation
-                  </p>
-                  <p className="mb-3">
-                    The total program fee is <strong>$5,000.00</strong> per student. Elevate deducts
-                    certification and testing costs before the revenue split is applied:
+                    Upon receipt of voucher funds, the net distributable amount shall be split
+                    equally between the parties:
                   </p>
                   <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
@@ -252,9 +224,7 @@ export default async function ProgramHolderMOUPage() {
                       <span className="font-medium text-slate-900">$5,000.00</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
-                      <span className="text-slate-500 text-xs">
-                        EPA 608 Universal exam + proctoring
-                      </span>
+                      <span className="text-slate-500 text-xs">EPA 608 Universal exam + proctoring</span>
                       <span className="text-slate-500 text-xs">− $58.00</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
@@ -282,22 +252,85 @@ export default async function ProgramHolderMOUPage() {
                       <span className="font-bold text-emerald-700">$2,400.50</span>
                     </div>
                   </div>
-                  <p className="mb-4">
-                    Certification and testing costs are managed and paid by Elevate. The 50/50
-                    revenue split is applied to the net amount after these costs are deducted.
+
+                  <p className="mb-2 font-medium text-slate-800">Payment Schedule</p>
+                  <p className="mb-3">
+                    Payments to the Program Holder are structured as follows based on student
+                    sequence:
                   </p>
-                  <p className="mb-2 font-medium text-slate-800">Non-Standard Costs</p>
-                  <p className="mb-4">
-                    Any retesting fees, replacement certifications, no-show fees, or additional
-                    charges resulting from student failure or rescheduling shall not be included in
-                    the standard program fee and are not subject to the 50/50 revenue split unless
-                    otherwise agreed in writing.
-                  </p>
+
+                  {/* First 2 students — full upfront */}
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-3">
+                    <p className="text-sm font-bold text-emerald-800 mb-1">
+                      Students 1 &amp; 2 — Founding Cohort (Full Payment Upfront)
+                    </p>
+                    <p className="text-sm text-emerald-700 mb-2">
+                      As a one-time founding cohort incentive, the first two (2) students enrolled
+                      under this agreement shall receive the Program Holder&apos;s full 50% share
+                      ($2,400.50) in a single payment upon voucher approval and confirmation of
+                      program start.
+                    </p>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-emerald-700">Payment 1 (100% of share)</span>
+                      <span className="font-bold text-emerald-800">$2,400.50 — upon approval</span>
+                    </div>
+                    <p className="text-xs text-emerald-600 mt-1">
+                      Released 2 weeks after voucher approval · Deposited within 1–3 business days
+                    </p>
+                  </div>
+
+                  {/* Student 3+ — 2 increments */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <p className="text-sm font-bold text-blue-800 mb-1">
+                      Students 3 and Beyond — Two-Increment Payment Schedule
+                    </p>
+                    <p className="text-sm text-blue-700 mb-3">
+                      For all students enrolled after the founding cohort, the Program Holder&apos;s
+                      50% share ($2,400.50) shall be paid in two equal increments:
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-start text-sm border-b border-blue-200 pb-2">
+                        <div>
+                          <span className="font-semibold text-blue-800">Increment 1 — 50% on Approval</span>
+                          <p className="text-xs text-blue-600 mt-0.5">
+                            Triggered upon voucher approval and confirmed program start
+                          </p>
+                          <p className="text-xs text-blue-600">
+                            Released 2 weeks after approval · Deposited within 1–3 business days
+                          </p>
+                        </div>
+                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$1,200.25</span>
+                      </div>
+                      <div className="flex justify-between items-start text-sm pt-1">
+                        <div>
+                          <span className="font-semibold text-blue-800">Increment 2 — 50% on Completion</span>
+                          <p className="text-xs text-blue-600 mt-0.5">
+                            Triggered upon student program completion and all milestones verified
+                          </p>
+                          <p className="text-xs text-blue-600">
+                            Released 2 weeks after completion approval · Deposited within 1–3 business days
+                          </p>
+                        </div>
+                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$1,200.25</span>
+                      </div>
+                    </div>
+                  </div>
+
                   <p className="mb-2 font-medium text-slate-800">Delays and Contingencies</p>
                   <p className="mb-4">
                     Elevate shall not be held liable for delays in payment caused by WorkOne or
-                    other funding agencies. Payment to the Program Holder is strictly contingent
-                    upon receipt of funds from the funding source.
+                    other funding agencies. All payments to the Program Holder are strictly
+                    contingent upon receipt of funds from the applicable funding source. Elevate
+                    reserves the right to withhold or reclaim payments in the event of student
+                    withdrawal, funding reversal, or documented non-compliance by the Program Holder.
+                  </p>
+
+                  <p className="mb-2 font-medium text-slate-800">Non-Standard Costs</p>
+                  <p className="mb-4">
+                    Retesting fees, replacement certifications, no-show fees, or additional charges
+                    resulting from student failure or rescheduling are not included in the standard
+                    program fee and are not subject to the 50/50 revenue split unless otherwise
+                    agreed in writing.
                   </p>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">
@@ -671,38 +704,48 @@ export default async function ProgramHolderMOUPage() {
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIII. Refund Policy</h3>
                   <p className="mb-3">
-                    Payments are tied to verified student participation. The following schedule
-                    governs all refund and payment obligations:
+                    All refund determinations, funding adjustments, attendance compliance
+                    determinations, and participant eligibility decisions shall be administered
+                    solely by Elevate for Humanity in accordance with institutional policies and
+                    workforce development guidelines. Payments to the Program Holder are tied to
+                    verified student participation as follows:
                   </p>
                   <div className="bg-slate-50 border border-slate-200 rounded-lg overflow-hidden mb-4">
                     <div className="grid grid-cols-2 text-xs font-semibold text-slate-500 uppercase tracking-wide bg-slate-100 px-4 py-2">
-                      <div>Student Status</div>
-                      <div>Payment Obligation</div>
+                      <div>Student Status at Withdrawal</div>
+                      <div>Program Holder Payment Obligation</div>
                     </div>
                     <div className="divide-y divide-slate-200">
                       <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
                         <div className="font-medium text-slate-700">No-show / never started</div>
-                        <div className="text-slate-600">No payment issued to {orgName}</div>
+                        <div className="text-slate-600">No payment issued — full refund if already paid</div>
                       </div>
                       <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
-                        <div className="font-medium text-slate-700">0–25% program completion</div>
-                        <div className="text-slate-600">Prorated payment based on days attended</div>
+                        <div className="font-medium text-slate-700">0–25% completion</div>
+                        <div className="text-slate-600">Prorated based on verified attendance hours</div>
                       </div>
                       <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
-                        <div className="font-medium text-slate-700">25–75% program completion</div>
-                        <div className="text-slate-600">Prorated payment based on days attended</div>
+                        <div className="font-medium text-slate-700">25–75% completion</div>
+                        <div className="text-slate-600">Increment 1 retained; Increment 2 forfeited</div>
                       </div>
                       <div className="grid grid-cols-2 px-4 py-2.5 text-sm">
-                        <div className="font-medium text-slate-700">75%+ program completion</div>
-                        <div className="text-slate-600">Full payment issued if documented</div>
+                        <div className="font-medium text-slate-700">75%+ completion</div>
+                        <div className="text-slate-600">Full payment issued upon documentation</div>
                       </div>
                     </div>
                   </div>
+                  <p className="mb-3">
+                    Students are not responsible for direct payment to {orgName} under this
+                    agreement. All student payments are processed exclusively through Elevate for
+                    Humanity.
+                  </p>
                   <p className="mb-4">
-                    If Elevate has already paid {orgName} and a student subsequently withdraws or
-                    is dismissed, {orgName} must refund the overpaid amount to Elevate within{' '}
-                    <strong>10 business days</strong> of notification. Failure to refund within
-                    this window constitutes a material breach of this MOU.
+                    If Elevate has already paid {orgName} and a student subsequently withdraws,
+                    is dismissed, or a funding reversal occurs, {orgName} must return the
+                    overpaid amount to Elevate within <strong>10 business days</strong> of written
+                    notification. Failure to return funds within this window constitutes a material
+                    breach of this MOU and may result in immediate termination and legal action to
+                    recover funds.
                   </p>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIV. Compliance</h3>
