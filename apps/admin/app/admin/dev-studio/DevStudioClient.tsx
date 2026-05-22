@@ -1100,11 +1100,17 @@ function FilesTab() {
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [commitMsg, setCommitMsg] = useState('');
+  const [treeError, setTreeError] = useState<string | null>(null);
+  const [fileLoading, setFileLoading] = useState(false);
 
   useEffect(() => {
     fetch('/api/devstudio/files')
-      .then((r) => r.json())
-      .then((d) => {
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) {
+          setTreeError(d.error ?? `Error ${r.status} loading file tree`);
+          return;
+        }
         // Flatten tree to path list for FileTree component
         const flat: string[] = [];
         function walk(nodes: FileNode[]) {
@@ -1116,17 +1122,30 @@ function FilesTab() {
         walk(d.tree ?? []);
         setFiles(flat);
       })
-      .catch(() => {});
+      .catch((e) => setTreeError(e.message ?? 'Failed to load file tree'));
   }, []);
 
   async function loadFile(path: string) {
     setSelected(path);
     setSaveMsg('');
-    const r = await fetch(`/api/devstudio/files?path=${encodeURIComponent(path)}`);
-    const d = await r.json();
-    setContent(d.content ?? '');
-    setFileSha(d.sha ?? '');
-    setCommitMsg(`chore: update ${path} via Dev Studio`);
+    setFileLoading(true);
+    try {
+      const r = await fetch(`/api/devstudio/files?path=${encodeURIComponent(path)}`);
+      const d = await r.json();
+      if (!r.ok) {
+        setContent('');
+        setFileSha('');
+        setSaveMsg(`❌ ${d.error ?? `Error ${r.status}`}`);
+      } else {
+        setContent(d.content ?? '');
+        setFileSha(d.sha ?? '');
+        setCommitMsg(`chore: update ${path} via Dev Studio`);
+      }
+    } catch (e: unknown) {
+      setSaveMsg(`❌ ${e instanceof Error ? e.message : 'Failed to load file'}`);
+    } finally {
+      setFileLoading(false);
+    }
   }
 
   async function saveFile() {
@@ -1159,15 +1178,32 @@ function FilesTab() {
       {/* Sidebar — FileTree component */}
       <div className="w-full md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r overflow-y-auto"
         style={{ background: '#252526', borderColor: '#3c3c3c', minHeight: 0 }}>
-        <FileTree
-          files={files}
-          onFileSelect={loadFile}
-          selectedFile={selected ?? undefined}
-        />
+        {treeError ? (
+          <div className="p-3">
+            <p className="text-[11px] font-bold mb-1" style={{ color: '#f87171' }}>File tree unavailable</p>
+            <p className="text-[10px] leading-relaxed" style={{ color: '#858585' }}>{treeError}</p>
+            {treeError.toLowerCase().includes('github_token') && (
+              <p className="text-[10px] mt-2" style={{ color: '#4ec9b0' }}>
+                Add GITHUB_TOKEN in Admin → Dev Studio → Secrets tab.
+              </p>
+            )}
+          </div>
+        ) : (
+          <FileTree
+            files={files}
+            onFileSelect={loadFile}
+            selectedFile={selected ?? undefined}
+          />
+        )}
       </div>
       {/* Editor */}
       <div className="flex-1 flex flex-col min-w-0" style={{ background: '#1e1e1e' }}>
-        {selected ? (
+        {fileLoading ? (
+          <div className="flex items-center justify-center h-full gap-2" style={{ color: '#858585' }}>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="text-xs font-mono">Loading…</span>
+          </div>
+        ) : selected ? (
           <>
             <div className="flex-shrink-0 flex flex-col gap-1 px-4 py-1.5 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
               <div className="flex items-center justify-between">
@@ -1200,7 +1236,7 @@ function FilesTab() {
             <FolderOpen className="w-10 h-10" style={{ color: '#3c3c3c' }} />
             <p className="text-xs" style={{ color: '#555' }}>Select a file to edit</p>
           </div>
-        )}
+        )}{/* /fileLoading */}
       </div>
     </div>
   );

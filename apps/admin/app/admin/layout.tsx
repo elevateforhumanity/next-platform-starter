@@ -252,8 +252,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <IdleTimeoutGuard />
       <PWAManager />
       <UpdatePrompt />
-      <main id="main-content" className="flex-1 overflow-x-hidden px-6 pb-6 pt-[5.5rem]">
-        <div className="w-full max-w-none">{children}</div>
+      <main id="main-content" className="flex-1 overflow-x-hidden px-4 sm:px-6 pb-8 pt-16">
+        <div className="w-full max-w-screen-2xl mx-auto">{children}</div>
       </main>
     </div>
   );

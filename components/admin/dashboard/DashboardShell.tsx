@@ -411,7 +411,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-40 sm:h-56 overflow-hidden">
+      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
@@ -423,7 +423,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-        <div className="w-full max-w-screen-2xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+      <div className="pt-2">
 
         {/* Header */}
         <div className="mb-6">
@@ -431,7 +431,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
             <AdminGreeting name={firstName} /> · {today}
           </p>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900">Admin Dashboard</h1>
-            <p className="text-slate-500 text-sm mt-1">Monitor operations, learner progress, compliance, and revenue.</p>
+          <p className="text-slate-500 text-sm mt-1">Monitor operations, learner progress, compliance, and revenue.</p>
         </div>
         {/* Quick-action strip — mobile only. Desktop has the full nav bar. */}
         <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 scrollbar-none">

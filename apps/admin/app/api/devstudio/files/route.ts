@@ -21,6 +21,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -38,9 +39,36 @@ function isBlocked(filePath: string): boolean {
   return BLOCKED_PATTERNS.some((p) => p.test(filePath));
 }
 
-function ghHeaders(): HeadersInit {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error('GITHUB_TOKEN is not configured');
+// Cache the token in-process for 5 min to avoid a DB round-trip on every request.
+let _ghTokenCache: { token: string; expiresAt: number } | null = null;
+
+async function getGhToken(): Promise<string> {
+  // 1. process.env (ECS SSM-injected or local .env.local)
+  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+
+  // 2. In-process cache
+  if (_ghTokenCache && _ghTokenCache.expiresAt > Date.now()) return _ghTokenCache.token;
+
+  // 3. platform_secrets table (set via Admin → Dev Studio → Secrets)
+  try {
+    const db = await requireAdminClient();
+    const { data } = await db
+      .from('platform_secrets')
+      .select('value_enc')
+      .eq('key', 'GITHUB_TOKEN')
+      .single();
+    const token = data?.value_enc;
+    if (token && token.length > 10) {
+      _ghTokenCache = { token, expiresAt: Date.now() + 5 * 60 * 1000 };
+      return token;
+    }
+  } catch { /* fall through */ }
+
+  throw new Error('GITHUB_TOKEN is not configured. Add it in Dev Studio → Secrets tab.');
+}
+
+async function ghHeaders(): Promise<HeadersInit> {
+  const token = await getGhToken();
   return {
     Authorization: `Bearer ${token}`,
     Accept: 'application/vnd.github+json',
@@ -67,7 +95,7 @@ interface TreeNode {
 async function fetchTree(dirPath: string, depth: number): Promise<TreeNode[]> {
   const encodedPath = dirPath ? encodeURIComponent(dirPath).replace(/%2F/g, '/') : '';
   const url = `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`;
-  const res = await fetch(url, { headers: ghHeaders() });
+  const res = await fetch(url, { headers: await ghHeaders() });
   if (!res.ok) return [];
 
   const entries: GHEntry[] = await res.json();
@@ -114,7 +142,7 @@ export async function GET(request: NextRequest) {
 
     const encodedPath = encodeURIComponent(filePath).replace(/%2F/g, '/');
     const url = `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`;
-    const res = await fetch(url, { headers: ghHeaders() });
+    const res = await fetch(url, { headers: await ghHeaders() });
 
     if (!res.ok) {
       if (res.status === 404) return safeError('File not found', 404);
@@ -171,7 +199,7 @@ export async function PUT(request: NextRequest) {
   try {
     const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
       method: 'PUT',
-      headers: ghHeaders(),
+      headers: await ghHeaders(),
       body: JSON.stringify({ message, content: encoded, sha: body.sha, branch: BRANCH }),
     });
 
@@ -213,7 +241,7 @@ export async function POST(request: NextRequest) {
     // No sha = create; GitHub returns 422 if file already exists
     const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
       method: 'PUT',
-      headers: ghHeaders(),
+      headers: await ghHeaders(),
       body: JSON.stringify({ message, content: encoded, branch: BRANCH }),
     });
 
@@ -255,7 +283,7 @@ export async function DELETE(request: NextRequest) {
   try {
     const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
       method: 'DELETE',
-      headers: ghHeaders(),
+      headers: await ghHeaders(),
       body: JSON.stringify({ message, sha: body.sha, branch: BRANCH }),
     });
 
