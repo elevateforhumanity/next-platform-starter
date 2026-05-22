@@ -5,6 +5,7 @@ import { ProgramVideoCards } from '@/components/marketing/ProgramVideoCards';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { SITE_STATS, statLabel } from '@/lib/site-stats';
+import RotatingBanner from '@/components/blocks/RotatingBanner';
 
 export const dynamic = 'force-static';
 export const revalidate = 60;
@@ -26,6 +27,20 @@ export default function HomePage() {
   return (
     <main>
       <HomeHeroVideo banner={heroBanners.home} />
+
+      {/* ROTATING RED BANNER */}
+      <RotatingBanner
+        variant="red"
+        intervalMs={4000}
+        lines={[
+          '🎓 Over 500 graduates placed in jobs — and counting.',
+          '💰 Most students pay $0 — WIOA & state funding covers tuition, books, and exams.',
+          '📋 ETPL-approved · DOL-registered apprenticeship sponsor · Indiana WorkOne partner.',
+          '⚡ 14 credential programs — healthcare, trades, tech, beauty, and business.',
+          '🏆 Get trained, credentialed, and hired — in as little as 6 weeks.',
+          '📍 4 Indianapolis locations — evening and weekend classes available.',
+        ]}
+      />
 
       {/* WHO ARE YOU — entry routing */}
       <section className="bg-white border-b border-slate-100 py-14 px-6">
@@ -153,16 +168,47 @@ export default function HomePage() {
       </section>
 
       {/* PHOTO STRIP */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden">
-        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
-          <Image src="/images/pages/comp-home-pathways-train.webp" alt="Learner in workforce training" fill className="object-cover" sizes="33vw" loading="lazy" />
-        </div>
-        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
-          <Image src="/images/pages/comp-home-highlight-health.webp" alt="Healthcare training" fill className="object-cover" sizes="33vw" loading="lazy" />
-        </div>
-        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-80">
-          <Image src="/images/pages/comp-home-highlight-success.webp" alt="Graduate success" fill className="object-cover" sizes="33vw" loading="lazy" />
-        </div>
+      <section className="grid grid-cols-1 sm:grid-cols-3">
+        {[
+          {
+            src: '/images/pages/comp-home-pathways-train.webp',
+            alt: 'Learner in workforce training',
+            label: 'Hands-On Training',
+            sub: 'Real skills. Real equipment.',
+            position: 'object-center',
+          },
+          {
+            src: '/images/pages/comp-home-highlight-health.webp',
+            alt: 'Healthcare training',
+            label: 'Healthcare Careers',
+            sub: 'CNA, Phlebotomy, Medical Assistant & more.',
+            position: 'object-top',
+          },
+          {
+            src: '/images/pages/comp-home-highlight-success.webp',
+            alt: 'Graduate success',
+            label: 'Real Outcomes',
+            sub: '500+ graduates placed in jobs.',
+            position: 'object-center',
+          },
+        ].map((p) => (
+          <div key={p.src} className="relative h-64 sm:h-80 lg:h-96 overflow-hidden group">
+            <Image
+              src={p.src}
+              alt={p.alt}
+              fill
+              className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`}
+              sizes="(max-width: 640px) 100vw, 33vw"
+              loading="lazy"
+            />
+            {/* Gradient overlay + label */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-white font-extrabold text-base leading-tight">{p.label}</p>
+              <p className="text-white/80 text-xs mt-0.5">{p.sub}</p>
+            </div>
+          </div>
+        ))}
       </section>
 
       {/* FUNDING */}
