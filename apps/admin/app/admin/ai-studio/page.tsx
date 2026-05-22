@@ -1,50 +1,70 @@
-import Link from 'next/link';
 import { Metadata } from 'next';
-import { Bot, Wrench, Box, KeyRound, Upload, Download, Printer } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth';
+import AiConsoleClient from '../ai-console/AiConsoleClient';
+import Link from 'next/link';
+import {
+  Bot, Wrench, KeyRound, Upload, FileText, Printer,
+  BookOpen, Zap, GitBranch, Terminal,
+} from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'AI Studio | Admin | Elevate For Humanity',
+  robots: { index: false, follow: false },
 };
 
-const LINKS = [
-  { title: 'AI Builder', href: '/admin/course-builder', description: 'Blueprint/program course generation workspace.', icon: Bot },
-  { title: 'Dev Studio — Command', href: '/admin/dev-studio?tab=command', description: 'Operator command center and automation tools.', icon: Wrench },
-  { title: 'Dev Studio — Container', href: '/admin/dev-studio?tab=container', description: 'Container runtime and environment control panel.', icon: Box },
-  { title: 'Dev Studio — Secrets', href: '/admin/dev-studio?tab=secrets', description: 'AI/provider runtime key management.', icon: KeyRound },
-  { title: 'Documents Upload', href: '/admin/documents/upload', description: 'Upload files for OCR, extraction, and review queues.', icon: Upload },
-  { title: 'Documents Download', href: '/admin/document-center', description: 'Browse and download documents from the document center.', icon: Download },
-  { title: 'Documents Print', href: '/admin/documents/print', description: 'Print-center page for documents and print workflow.', icon: Printer },
+const TOOL_LINKS = [
+  { label: 'Course Builder',        href: '/admin/course-builder',        icon: Bot,      desc: 'AI-powered course generation' },
+  { label: 'Dev Studio',            href: '/admin/dev-studio',            icon: Wrench,   desc: 'Command center & automation' },
+  { label: 'Secrets',               href: '/admin/dev-studio?tab=secrets', icon: KeyRound, desc: 'AI provider key management' },
+  { label: 'Workflows',             href: '/admin/workflows',             icon: Zap,      desc: 'Automated workflow rules' },
+  { label: 'Command Center',        href: '/admin/command-center',        icon: Terminal, desc: 'Live platform observability' },
+  { label: 'Copilot',               href: '/admin/copilot',               icon: GitBranch,desc: 'AI copilot deployments' },
+  { label: 'Documents Upload',      href: '/admin/documents/upload',      icon: Upload,   desc: 'Upload for OCR & review' },
+  { label: 'Documents',             href: '/admin/documents',             icon: FileText, desc: 'Browse all documents' },
+  { label: 'Documents Print',       href: '/admin/documents/print',       icon: Printer,  desc: 'Print workflow' },
+  { label: 'All Courses',           href: '/admin/courses',               icon: BookOpen, desc: 'Course catalog' },
 ];
 
-export default async function AiStudioHubPage() {
+export default async function AiStudioPage() {
   await requireAdmin();
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-slate-900">AI Studio</h1>
-        <p className="mt-2 text-slate-600">Unified entry point for AI Builder + Dev Studio so mobile and desktop navigation stay consistent.</p>
+    <div className="flex flex-col lg:flex-row h-full min-h-0">
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {LINKS.map((item) => {
-            const Icon = item.icon;
+      {/* ── Left sidebar: tool links ── */}
+      <aside className="w-full lg:w-56 shrink-0 border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50 p-4 overflow-y-auto">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Tools</p>
+        <nav className="space-y-1">
+          {TOOL_LINKS.map((link) => {
+            const Icon = link.icon;
             return (
-              <Link key={item.href} href={item.href} className="rounded-xl border border-slate-200 bg-white p-5 hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-3">
-                  <span className="rounded-lg bg-brand-blue-50 p-2 text-brand-blue-700">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h2 className="text-base font-semibold text-slate-900">{item.title}</h2>
-                    <p className="mt-1 text-sm text-slate-600">{item.description}</p>
-                  </div>
+              <Link
+                key={link.href}
+                href={link.href}
+                className="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-white hover:shadow-sm transition-all group"
+              >
+                <Icon className="w-4 h-4 text-slate-400 group-hover:text-brand-blue-600 mt-0.5 shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-slate-700 group-hover:text-brand-blue-700 leading-tight">
+                    {link.label}
+                  </p>
+                  <p className="text-[10px] text-slate-400 leading-tight mt-0.5 truncate">
+                    {link.desc}
+                  </p>
                 </div>
               </Link>
             );
           })}
-        </div>
+        </nav>
+      </aside>
+
+      {/* ── Main: full AI Console with live platform state + quick actions ── */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <AiConsoleClient />
       </div>
+
     </div>
   );
 }
