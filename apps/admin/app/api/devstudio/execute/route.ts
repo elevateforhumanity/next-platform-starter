@@ -56,31 +56,68 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
 // ── AI provider — loads keys from platform_secrets then tries all providers ─
-async function callAI(systemPrompt: string, userPrompt: string, _tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
+async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
   // Force-refresh secrets from platform_secrets on every AI call so keys
   // saved via the Secrets panel are immediately visible without a redeploy.
   try { await refreshSecrets(); } catch { /* non-fatal */ }
 
-  // Try Groq directly (fast, free tier)
+  const messages = [
+    { role: 'system' as const, content: systemPrompt },
+    { role: 'user' as const, content: userPrompt },
+  ];
+
+  // Try Groq — supports function calling with tool_choice: 'required'
   if (isGroqConfigured()) {
     try {
       const groq = getGroqClient();
-      const res = await groq.chat.completions.create({
+      const req: Parameters<typeof groq.chat.completions.create>[0] = {
         model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
+        messages,
         temperature: 0.1,
         max_tokens: 1024,
-      });
-      return { content: res.choices[0].message.content };
+      };
+      if (tools?.length) {
+        (req as any).tools = tools;
+        (req as any).tool_choice = 'required';
+      }
+      const res = await groq.chat.completions.create(req);
+      const msg = res.choices[0].message;
+      if (msg.tool_calls?.length) {
+        return { content: null, toolCalls: msg.tool_calls };
+      }
+      return { content: msg.content };
     } catch (err) {
-      logger.warn('[devstudio/execute] Groq failed, trying Gemini', err);
+      logger.warn('[devstudio/execute] Groq failed, trying OpenAI', err);
     }
   }
 
-  // Fallback to Gemini
+  // Fallback — OpenAI via canonical ai-service (supports function calling)
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const OpenAI = (await import('openai')).default;
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const req: Parameters<typeof openai.chat.completions.create>[0] = {
+        model: 'gpt-4o-mini',
+        messages,
+        temperature: 0.1,
+        max_tokens: 1024,
+      };
+      if (tools?.length) {
+        (req as any).tools = tools;
+        (req as any).tool_choice = 'required';
+      }
+      const res = await openai.chat.completions.create(req);
+      const msg = res.choices[0].message;
+      if (msg.tool_calls?.length) {
+        return { content: null, toolCalls: msg.tool_calls };
+      }
+      return { content: msg.content };
+    } catch (err) {
+      logger.warn('[devstudio/execute] OpenAI failed, trying Gemini', err);
+    }
+  }
+
+  // Final fallback — Gemini (no function calling — plain text only)
   if (isGeminiConfigured()) {
     try {
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
@@ -91,26 +128,7 @@ async function callAI(systemPrompt: string, userPrompt: string, _tools?: unknown
       const result = await model.generateContent(userPrompt);
       return { content: result.response.text() };
     } catch (err) {
-      logger.warn('[devstudio/execute] Gemini failed, trying OpenAI', err);
-    }
-  }
-
-  // Final fallback — OpenAI via canonical ai-service
-  if (process.env.OPENAI_API_KEY) {
-    try {
-      const { aiChat } = await import('@/lib/ai/ai-service');
-      const result = await aiChat({
-        model: 'gpt-4.1-mini',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.1,
-        maxTokens: 1024,
-      });
-      return { content: result.content };
-    } catch (err) {
-      logger.warn('[devstudio/execute] OpenAI failed', err);
+      logger.warn('[devstudio/execute] Gemini failed', err);
     }
   }
 
@@ -1249,22 +1267,34 @@ async function executeAction(
     }
 
     case 'generate_video': {
-      // /api/video/generate does not exist — route was never created.
-      // Queue a job_queue entry instead so it can be processed async.
-      write('\x1b[33m⚙  Queuing video generation job...\x1b[0m');
+      write('\x1b[33m⚙  Generating lesson video...\x1b[0m');
       try {
-        const { error: jqErr } = await sb.from('job_queue').insert({
-          job_type: 'generate_video',
-          payload: { script: args.script, lesson_id: args.lesson_id },
-          status: 'pending',
-          run_after: new Date().toISOString(),
+        const res = await fetch(`${baseUrl}/api/video/generate`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            courseName: args.program || args.course_name,
+            lessonTitle: args.lesson_title || args.topic,
+            script: args.script,
+            lesson_id: args.lesson_id,
+            duration: args.duration,
+            format: args.format || '16:9',
+            resolution: args.resolution || '1080p',
+          }),
         });
-        if (jqErr) { write(`\x1b[31m✗  ${jqErr.message}\x1b[0m`); break; }
-        write('\x1b[32m✓  Video generation job queued\x1b[0m');
-        write('   Job will be processed by the background worker');
-        write('   View at: /admin/video-manager');
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Video generation started\x1b[0m');
+          if (data.jobId) write(`   Job ID: ${data.jobId}`);
+          if (data.videoId) write(`   Video ID: ${data.videoId}`);
+          if (data.status) write(`   Status: ${data.status}`);
+          write('   View at: /admin/video-manager');
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+          if (data.details) write(`   ${data.details}`);
+        }
       } catch (err) {
-        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`);
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Network error'}\x1b[0m`);
       }
       break;
     }
@@ -3190,6 +3220,7 @@ You are NOT a chatbot. You are a platform architect, senior DevOps engineer, LMS
 
 Always use a tool — never respond with plain text unless using ask_question.
 Be decisive. If the intent is clear, act immediately. If ambiguous, use ask_question.
+When using ask_question to request missing parameters, write a single concise plain-text question. Do NOT output markdown, code blocks, tool names, or fake interfaces. Just ask the question directly.
 
 ## Organization Context
 - Organization: Elevate for Humanity
