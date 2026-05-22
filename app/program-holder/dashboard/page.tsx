@@ -278,7 +278,7 @@ export default async function ProgramHolderDashboardPage() {
                           </div>
                           <div className="flex items-center gap-2 flex-shrink-0">
                             {s.sequence <= 2 && (
-                              <span className="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 rounded-full px-2 py-0.5">Founding</span>
+                              <span className="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 rounded-full px-2 py-0.5">First 2</span>
                             )}
                             <StatusPill status={s.status} />
                           </div>
@@ -312,7 +312,7 @@ export default async function ProgramHolderDashboardPage() {
                           <div className="mt-3 bg-slate-50 rounded-lg p-3 text-xs space-y-1.5">
                             <div className="flex justify-between items-center">
                               <span className="text-slate-600 font-medium">
-                                {s.sequence <= 2 ? 'Full payment (founding cohort)' : 'Increment 1 — 50% on approval'}
+                                {s.sequence <= 2 ? 'Full payment to FCTC — first 2 students' : 'Increment 1 — 50% on approval'}
                               </span>
                               <div className="flex items-center gap-2">
                                 <span className="font-bold text-slate-800">{fmt(payout.increment_1_cents)}</span>

@@ -213,43 +213,30 @@ export default async function ProgramHolderMOUPage() {
                     Upon confirmation of both conditions, Elevate shall invoice or process the
                     voucher for payment.
                   </p>
-                  <p className="mb-2 font-medium text-slate-800">Revenue Split</p>
+                  <p className="mb-2 font-medium text-slate-800">Revenue Distribution</p>
                   <p className="mb-3">
-                    Upon receipt of voucher funds, the net distributable amount shall be split
-                    equally between the parties:
+                    Upon receipt of voucher funds, the program fee shall be distributed as follows:
                   </p>
                   <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
-                      <span className="text-slate-700">Total program fee</span>
+                      <span className="text-slate-700">Total Program Tuition Value</span>
                       <span className="font-medium text-slate-900">$5,000.00</span>
                     </div>
-                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
-                      <span className="text-slate-500 text-xs">EPA 608 Universal exam + proctoring</span>
-                      <span className="text-slate-500 text-xs">− $58.00</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
-                      <span className="text-slate-500 text-xs">OSHA 10 certification</span>
-                      <span className="text-slate-500 text-xs">− $62.00</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
-                      <span className="text-slate-500 text-xs">CPR / AED certification</span>
-                      <span className="text-slate-500 text-xs">− $53.00</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200 pl-4">
-                      <span className="text-slate-500 text-xs">Practice testing materials</span>
-                      <span className="text-slate-500 text-xs">− $26.00</span>
+                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
+                      <span className="text-slate-700">Total Operational Deductions</span>
+                      <span className="text-slate-700">− $1,265.00</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
-                      <span className="font-medium text-slate-800">Net distributable amount</span>
-                      <span className="font-bold text-slate-900">$4,801.00</span>
+                      <span className="font-semibold text-slate-800">Net Revenue</span>
+                      <span className="font-bold text-slate-900">$3,735.00</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
-                      <span className="text-slate-700">Elevate share (50%)</span>
-                      <span className="font-medium text-slate-900">$2,400.50</span>
+                      <span className="text-slate-700">50% to Elevate for Humanity</span>
+                      <span className="font-medium text-slate-900">$1,867.50</span>
                     </div>
                     <div className="flex justify-between items-center pt-1.5">
-                      <span className="text-slate-700">Program Holder share (50%)</span>
-                      <span className="font-bold text-emerald-700">$2,400.50</span>
+                      <span className="text-slate-700">50% to First Class Training Center LLC</span>
+                      <span className="font-bold text-emerald-700">$1,867.50</span>
                     </div>
                   </div>
 
@@ -262,56 +249,56 @@ export default async function ProgramHolderMOUPage() {
                   {/* First 2 students — full upfront */}
                   <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-3">
                     <p className="text-sm font-bold text-emerald-800 mb-1">
-                      Students 1 &amp; 2 — Founding Cohort (Full Payment Upfront)
+                      First 2 Students — Full Payment to Program Holder Upfront
                     </p>
                     <p className="text-sm text-emerald-700 mb-2">
-                      As a one-time founding cohort incentive, the first two (2) students enrolled
-                      under this agreement shall receive the Program Holder&apos;s full 50% share
-                      ($2,400.50) in a single payment upon voucher approval and confirmation of
-                      program start.
+                      For the first two (2) students enrolled under this agreement, Elevate shall
+                      release {orgName}&apos;s full 50% share ($1,867.50 per student) in a single
+                      payment. Students do not receive this payment — it is paid directly to {orgName}.
                     </p>
                     <div className="flex justify-between text-sm">
-                      <span className="text-emerald-700">Payment 1 (100% of share)</span>
-                      <span className="font-bold text-emerald-800">$2,400.50 — upon approval</span>
+                      <span className="text-emerald-700">Full payment to FCTC</span>
+                      <span className="font-bold text-emerald-800">$1,867.50 per student</span>
                     </div>
                     <p className="text-xs text-emerald-600 mt-1">
-                      Released 2 weeks after voucher approval · Deposited within 1–3 business days
+                      Sent within 3–10 business days following confirmed voucher approval, funding release, and receipt of all required documentation
                     </p>
                   </div>
 
                   {/* Student 3+ — 2 increments */}
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                     <p className="text-sm font-bold text-blue-800 mb-1">
-                      Students 3 and Beyond — Two-Increment Payment Schedule
+                      Students 3 and Beyond — Two-Increment Payment to Program Holder
                     </p>
                     <p className="text-sm text-blue-700 mb-3">
-                      For all students enrolled after the founding cohort, the Program Holder&apos;s
-                      50% share ($2,400.50) shall be paid in two equal increments:
+                      For all students enrolled after the first two, Elevate shall pay {orgName}&apos;s
+                      50% share ($1,867.50 per student) in two equal increments. Students do not
+                      receive these payments — all funds are paid directly to {orgName}:
                     </p>
                     <div className="space-y-2">
                       <div className="flex justify-between items-start text-sm border-b border-blue-200 pb-2">
                         <div>
                           <span className="font-semibold text-blue-800">Increment 1 — 50% on Approval</span>
                           <p className="text-xs text-blue-600 mt-0.5">
-                            Triggered upon voucher approval and confirmed program start
+                            Upon voucher approval and confirmed program start
                           </p>
                           <p className="text-xs text-blue-600">
-                            Released 2 weeks after approval · Deposited within 1–3 business days
+                            Sent within 3–10 business days of approval
                           </p>
                         </div>
-                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$1,200.25</span>
+                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$933.75</span>
                       </div>
                       <div className="flex justify-between items-start text-sm pt-1">
                         <div>
                           <span className="font-semibold text-blue-800">Increment 2 — 50% on Completion</span>
                           <p className="text-xs text-blue-600 mt-0.5">
-                            Triggered upon student program completion and all milestones verified
+                            Upon student program completion and all milestones verified
                           </p>
                           <p className="text-xs text-blue-600">
-                            Released 2 weeks after completion approval · Deposited within 1–3 business days
+                            Sent within 3–10 business days of completion approval
                           </p>
                         </div>
-                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$1,200.25</span>
+                        <span className="font-bold text-blue-800 flex-shrink-0 ml-4">$933.75</span>
                       </div>
                     </div>
                   </div>
