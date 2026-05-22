@@ -27,46 +27,59 @@ export default async function CourseBuilderPage() {
     .order('title');
 
   return (
-    <div>
-      {/* Quick-access bar */}
-      <div className="bg-white border-b border-slate-200 px-6 py-4 flex flex-wrap items-center gap-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mr-2">
-          Quick Access
-        </span>
+    <div className="space-y-6">
 
-        <Link
-          href="/admin/course-builder/templates"
-          className="flex items-center gap-2 px-4 py-2 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold rounded-lg transition-colors"
-        >
-          <Layout className="w-3.5 h-3.5" /> Template Gallery
-        </Link>
-
-        <Link
-          href="/admin/courses"
-          className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors"
-        >
-          <BookOpen className="w-3.5 h-3.5" /> All Courses
-        </Link>
-
-        {/* Recent courses — Live Builder shortcuts */}
-        {(courses ?? []).slice(0, 5).map((c) => (
+      {/* Page header */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-slate-900">Course Builder</h1>
+          <p className="text-sm text-slate-500 mt-0.5">Create and manage courses for your programs</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <Link
-            key={c.id}
-            href={'/admin/course-builder/' + c.id}
-            className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 hover:border-brand-red-400 hover:bg-brand-red-50 text-slate-600 hover:text-brand-red-700 text-xs font-semibold rounded-lg transition-colors max-w-[180px] truncate"
-            title={`Live Builder: ${c.title}`}
+            href="/admin/course-builder/templates"
+            className="flex items-center gap-2 px-4 py-2 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold rounded-lg transition-colors"
           >
-            <Zap className="w-3 h-3 flex-shrink-0" />
-            <span className="truncate">{c.title}</span>
+            <Layout className="w-3.5 h-3.5" /> Templates
           </Link>
-        ))}
+          <Link
+            href="/admin/course-builder/media"
+            className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors"
+          >
+            Media Library
+          </Link>
+          <Link
+            href="/admin/course-builder/assessments"
+            className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors"
+          >
+            Assessments
+          </Link>
+          <Link
+            href="/admin/courses"
+            className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors"
+          >
+            <BookOpen className="w-3.5 h-3.5" /> All Courses
+          </Link>
+        </div>
+      </div>
+
+      {/* Architecture callout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-sm">
+        <div>
+          <p className="font-semibold text-slate-700 mb-0.5">Program — definition layer</p>
+          <p className="text-slate-500 text-xs">Title, description, outcomes, credentials, funding tracks, compliance profile, CTAs. Managed in Programs.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-slate-700 mb-0.5">Course — execution layer</p>
+          <p className="text-slate-500 text-xs">Modules, lessons, quizzes, competencies, hours, validation. What learners actually run. Linked to a program via <code className="bg-slate-200 px-1 rounded">program_course_map</code>.</p>
+        </div>
       </div>
 
       {/* Blueprint-driven AI course generator */}
       <CourseBuilderPageClient />
 
-      {/* Manual CRUD builder — create, edit, publish, clone, archive courses */}
-      <div className="mt-8 border-t border-slate-200 pt-8">
+      {/* Manual CRUD builder */}
+      <div className="border-t border-slate-200 pt-6">
         <CourseBuilderClient
           initialCourses={(courses ?? []) as any}
           programs={(programs ?? []) as any}
