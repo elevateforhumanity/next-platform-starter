@@ -37,7 +37,7 @@
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { hydrateProcessEnv } from '@/lib/secrets';
+import { hydrateProcessEnv, refreshSecrets } from '@/lib/secrets';
 import { safeError } from '@/lib/api/safe-error';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
@@ -55,13 +55,17 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
-// ── AI provider — Groq first (free), Gemini fallback (free) ────────────────
-async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
-  // Try Groq first
+// ── AI provider — loads keys from platform_secrets then tries all providers ─
+async function callAI(systemPrompt: string, userPrompt: string, _tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
+  // Force-refresh secrets from platform_secrets on every AI call so keys
+  // saved via the Secrets panel are immediately visible without a redeploy.
+  try { await refreshSecrets(); } catch { /* non-fatal */ }
+
+  // Try Groq directly (fast, free tier)
   if (isGroqConfigured()) {
     try {
       const groq = getGroqClient();
-      const params: Parameters<typeof groq.chat.completions.create>[0] = {
+      const res = await groq.chat.completions.create({
         model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: systemPrompt },
@@ -69,17 +73,8 @@ async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[
         ],
         temperature: 0.1,
         max_tokens: 1024,
-      };
-      if (tools && tools.length > 0) {
-        (params as any).tools = tools;
-        (params as any).tool_choice = 'auto';
-      }
-      const res = await groq.chat.completions.create(params);
-      const choice = res.choices[0];
-      return {
-        content: choice.message.content,
-        toolCalls: (choice.message as any).tool_calls,
-      };
+      });
+      return { content: res.choices[0].message.content };
     } catch (err) {
       logger.warn('[devstudio/execute] Groq failed, trying Gemini', err);
     }
@@ -96,11 +91,32 @@ async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[
       const result = await model.generateContent(userPrompt);
       return { content: result.response.text() };
     } catch (err) {
-      logger.warn('[devstudio/execute] Gemini failed', err);
+      logger.warn('[devstudio/execute] Gemini failed, trying OpenAI', err);
     }
   }
 
-  throw new Error('No AI provider available. Set GROQ_API_KEY or GEMINI_API_KEY.');
+  // Final fallback — OpenAI via canonical ai-service
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const { aiChat } = await import('@/lib/ai/ai-service');
+      const result = await aiChat({
+        model: 'gpt-4.1-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.1,
+        maxTokens: 1024,
+      });
+      return { content: result.content };
+    } catch (err) {
+      logger.warn('[devstudio/execute] OpenAI failed', err);
+    }
+  }
+
+  throw new Error(
+    'No AI provider available. Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in Dev Studio → Secrets tab.'
+  );
 }
 
 // ── Tool definitions ────────────────────────────────────────────────────────
@@ -3150,11 +3166,13 @@ export async function POST(req: NextRequest) {
           write('');
         } else {
           // ── Step 2: AI-assisted routing ──────────────────────────────────
-          const aiAvailable = isGroqConfigured() || isGeminiConfigured();
+          // Force-refresh so keys saved via Secrets panel are immediately visible
+          try { await refreshSecrets(); } catch { /* non-fatal */ }
+          const aiAvailable = isGroqConfigured() || isGeminiConfigured() || !!process.env.OPENAI_API_KEY;
           if (!aiAvailable) {
-            write('\x1b[33m⚠  No AI provider configured (GROQ_API_KEY / GEMINI_API_KEY missing).\x1b[0m');
-            write('   Use one of the quick-action buttons above, or set an AI key to enable');
-            write('   natural-language commands.');
+            write('\x1b[33m⚠  No AI provider configured.\x1b[0m');
+            write('   Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in');
+            write('   Dev Studio → Secrets tab, then retry.');
             write('');
             write('\x1b[90m─────────────────────────────────────\x1b[0m');
             return;
@@ -3272,7 +3290,7 @@ ENGINEERING
             const reason = aiErr instanceof Error ? aiErr.message : String(aiErr);
             logger.error('[devstudio/execute] AI call failed', { reason });
             write(`\x1b[31m✗  AI routing failed: ${reason}\x1b[0m`);
-            write('   Check that GROQ_API_KEY or GEMINI_API_KEY is set in Admin → Integrations → AI Providers.');
+            write('   Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in Dev Studio → Secrets tab.');
             write('\x1b[90m─────────────────────────────────────\x1b[0m');
             return;
           }
