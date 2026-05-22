@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
+import { CallListPanel } from '@/components/program-holder/CallListPanel';
 
 export const metadata: Metadata = {
   title: 'Program Holder Portal',
@@ -87,7 +88,7 @@ export default async function ProgramHolderDashboardPage() {
   // ── students roster ────────────────────────────────────────────────────────
   const { data: phStudentsRaw } = holderId
     ? await db.from('program_holder_students')
-        .select('id,user_id,status,enrolled_at,completed_at,label,applicant_name,applicant_email,applicant_phone,application_status')
+        .select('id,user_id,status,enrolled_at,completed_at,label,applicant_name,applicant_email,applicant_phone,application_status,call_notes,call_date,call_outcome,work_start_date,work_site,work_progress')
         .eq('program_holder_id', holderId)
         .order('enrolled_at', { ascending: true })
     : { data: [] };
@@ -351,47 +352,7 @@ export default async function ProgramHolderDashboardPage() {
             </div>
 
             {/* Call List */}
-            {callList.length > 0 && (
-              <div className="bg-white rounded-xl border border-amber-200 overflow-hidden">
-                <div className="px-6 py-4 border-b border-amber-100 flex items-center justify-between bg-amber-50">
-                  <h2 className="font-bold text-amber-900 flex items-center gap-2">
-                    <ClipboardList className="w-4 h-4 text-amber-500" />
-                    Call List
-                    <span className="text-xs font-semibold bg-amber-200 text-amber-800 rounded-full px-2 py-0.5 ml-1">{callList.length}</span>
-                  </h2>
-                  <p className="text-xs text-amber-600">HVAC applicants — call to enroll</p>
-                </div>
-                <div className="divide-y divide-slate-50">
-                  {callList.map((s: any) => (
-                    <div key={s.id} className="px-6 py-3 flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                          <span className="text-amber-700 text-sm font-bold">{(s.applicant_name ?? '?').charAt(0).toUpperCase()}</span>
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-semibold text-slate-900 truncate">{s.applicant_name ?? '—'}</p>
-                          <p className="text-xs text-slate-400 truncate">{s.applicant_email ?? '—'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 flex-shrink-0">
-                        {s.applicant_phone && (
-                          <a href={`tel:${s.applicant_phone}`} className="text-xs font-mono text-brand-blue-600 hover:underline">
-                            {s.applicant_phone}
-                          </a>
-                        )}
-                        <span className={`text-xs font-semibold rounded-full px-2 py-0.5 ${
-                          s.application_status === 'approved' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                          s.application_status === 'under_review' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                          'bg-slate-100 text-slate-500'
-                        }`}>
-                          {s.application_status ?? 'submitted'}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {callList.length > 0 && <CallListPanel applicants={callList as any} />}
 
             {/* Programs table */}
             <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
