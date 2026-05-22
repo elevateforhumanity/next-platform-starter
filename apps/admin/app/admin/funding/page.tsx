@@ -32,7 +32,7 @@ export default async function FundingPage() {
 
   const soon = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-  const [vouchersRes, approvedRes, pendingRes, expiringRes] = await Promise.all([
+  const [vouchersRes, approvedRes, pendingRes, expiringRes, enrollmentsRes] = await Promise.all([
     db.from('ita_vouchers')
       .select(
         'id, voucher_id, participant_name, wioa_type, fund_stream, service_name, ' +
@@ -46,6 +46,12 @@ export default async function FundingPage() {
     db.from('ita_vouchers').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     db.from('ita_vouchers').select('id', { count: 'exact', head: true })
       .eq('status', 'approved').lte('voucher_expire_date', soon),
+    // All enrolled students with payment data
+    db.from('program_enrollments')
+      .select('id, user_id, full_name, email, program_slug, payment_status, amount_paid_cents, funding_source, payout_status, payout_amount, payout_due_date, access_granted_at, enrolled_at')
+      .in('status', ['active', 'enrolled', 'in_progress'])
+      .order('enrolled_at', { ascending: false })
+      .limit(200),
   ]);
 
   if (vouchersRes.error) logger.error('[Funding] ita_vouchers query failed', vouchersRes.error);
@@ -59,6 +65,22 @@ export default async function FundingPage() {
   const totalAuthorized  = vouchers.reduce((s, v) => s + Number(v.total_voucher_amount ?? 0), 0);
   const totalPaid        = vouchers.reduce((s, v) => s + Number(v.payments_to_date ?? 0), 0);
   const totalOutstanding = totalAuthorized - totalPaid;
+
+  // Student payments — hydrate names from profiles where full_name missing on enrollment
+  const enrollments = enrollmentsRes.data ?? [];
+  const missingNameIds = enrollments.filter(e => !e.full_name).map(e => e.user_id).filter(Boolean);
+  const profileMap: Record<string, string> = {};
+  if (missingNameIds.length) {
+    const { data: profiles } = await db.from('profiles').select('id, full_name, email').in('id', missingNameIds);
+    (profiles ?? []).forEach((p: any) => { profileMap[p.id] = p.full_name || p.email; });
+  }
+  const studentPayments = enrollments.map((e: any) => ({
+    ...e,
+    display_name: e.full_name || profileMap[e.user_id] || e.email || 'Unknown',
+  }));
+
+  const selfPayStudents = studentPayments.filter((e: any) => e.funding_source !== 'wioa');
+  const totalSelfPay = selfPayStudents.reduce((s: number, e: any) => s + (e.amount_paid_cents ?? 0), 0);
 
   const QUICK_LINKS = [
     { label: 'WIOA Participants',    href: '/admin/wioa' },

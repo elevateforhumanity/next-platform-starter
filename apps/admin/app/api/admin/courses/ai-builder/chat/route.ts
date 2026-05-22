@@ -16,8 +16,10 @@
 
 import { NextRequest } from 'next/server';
 import OpenAI from 'openai';
+import Groq from 'groq-sdk';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { refreshSecrets } from '@/lib/secrets';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -88,8 +90,8 @@ RULES:
 - After outputting the JSON, add a brief friendly summary of what you built.`;
 
 export async function POST(request: NextRequest) {
-  // Lazy init — top-level instantiation is blocked by quality gates
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  try { await refreshSecrets(); } catch { /* non-fatal */ }
+
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -104,6 +106,17 @@ export async function POST(request: NextRequest) {
     return new Response(JSON.stringify({ error: 'messages required' }), { status: 400 });
   }
 
+  // Prefer Groq (fast, free tier) — fall back to OpenAI
+  const useGroq = !!process.env.GROQ_API_KEY;
+  const useOpenAI = !!process.env.OPENAI_API_KEY;
+
+  if (!useGroq && !useOpenAI) {
+    return new Response(
+      JSON.stringify({ error: 'No AI provider configured. Add GROQ_API_KEY or OPENAI_API_KEY in Dev Studio → Secrets.' }),
+      { status: 503 }
+    );
+  }
+
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
@@ -113,13 +126,29 @@ export async function POST(request: NextRequest) {
       };
 
       try {
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-4.1',
-          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
-          temperature: 0.4,
-          max_tokens: 8000,
-          stream: true,
-        });
+        const allMessages = [{ role: 'system' as const, content: SYSTEM_PROMPT }, ...messages];
+
+        let completion: AsyncIterable<any>;
+
+        if (useGroq) {
+          const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+          completion = await groq.chat.completions.create({
+            model: 'llama-3.3-70b-versatile',
+            messages: allMessages,
+            temperature: 0.4,
+            max_tokens: 8000,
+            stream: true,
+          });
+        } else {
+          const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+          completion = await openai.chat.completions.create({
+            model: 'gpt-4.1',
+            messages: allMessages,
+            temperature: 0.4,
+            max_tokens: 8000,
+            stream: true,
+          });
+        }
 
         let fullText = '';
 
