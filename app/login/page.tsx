@@ -73,13 +73,13 @@ function LoginForm() {
 
       if (!profile) {
         // Profile row missing — send to onboarding to create one
-        router.push('/onboarding/learner');
+        window.location.href = '/onboarding/learner';
         return;
       }
 
       // Explicit redirect param takes priority
       if (next) {
-        router.push(next);
+        window.location.href = next;
         return;
       }
 
@@ -88,7 +88,7 @@ function LoginForm() {
 
       // Employer: gate on onboarding before dashboard.
       if (role === 'employer' && !onboardingDone) {
-        router.push('/onboarding/employer');
+        window.location.href = '/onboarding/employer';
         return;
       }
 
@@ -96,15 +96,17 @@ function LoginForm() {
       // If not cached, go to /learner/dashboard (server will resolve on next visit).
       if (role === 'student') {
         if (profile.portal_type) {
-          router.push(`/portal/${profile.portal_type}`);
+          window.location.href = `/portal/${profile.portal_type}`;
         } else {
-          router.push('/learner/dashboard');
+          window.location.href = '/learner/dashboard';
         }
         return;
       }
 
       // All other roles: canonical destination from lib/auth/role-destinations.ts.
-      router.push(getRoleDestination(role));
+      // Hard navigation ensures the session cookie is committed before the
+      // middleware reads it — router.push() is a soft nav that races the cookie.
+      window.location.href = getRoleDestination(role);
     } catch (err: any) {
       // Supabase error objects have non-enumerable properties — extract explicitly
       const msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
