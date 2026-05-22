@@ -515,7 +515,7 @@ const TOOLS: unknown[] = [
       parameters: {
         type: 'object',
         properties: {
-          service: { type: 'string', enum: ['lms', 'admin', 'both'], description: 'Which service to deploy' },
+          service: { type: 'string', enum: ['lms', 'admin', 'studio', 'both'], description: 'Which service to deploy' },
         },
         required: ['service'],
       },
@@ -1128,6 +1128,8 @@ const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<strin
   { patterns: /build.*course|course.*build/i,                              action: 'build_courses',       args: {} },
   { patterns: /deploy.*lms/i,                                              action: 'deploy_autopilot',    args: { service: 'lms' } },
   { patterns: /deploy.*admin/i,                                            action: 'deploy_autopilot',    args: { service: 'admin' } },
+  { patterns: /deploy.*studio/i,                                           action: 'deploy_autopilot',    args: { service: 'studio' } },
+  { patterns: /deploy.*all|deploy.*everything/i,                           action: 'deploy_autopilot',    args: { service: 'both' } },
   { patterns: /deploy/i,                                                   action: 'deploy_autopilot',    args: { service: 'both' } },
   // Reports — keyword-matched so they work without an AI key
   { patterns: /enrollment.*report|report.*enrollment|run.*enrollment/i,    action: 'run_report',          args: { type: 'enrollment' } },
@@ -1835,9 +1837,10 @@ async function executeAction(
       // GitHub Actions workflow_dispatch directly. The old path called
       // getSiteUrl()/api/autopilots/deploy — that is the LMS app's stub and
       // does not trigger a real AWS CodeBuild.
-      const workflows: Array<'deploy-lms' | 'deploy-admin'> =
-        service === 'both' ? ['deploy-lms', 'deploy-admin'] :
-        service === 'admin' ? ['deploy-admin'] : ['deploy-lms'];
+      const workflows: Array<'deploy-lms' | 'deploy-admin' | 'deploy-studio'> =
+        service === 'both'   ? ['deploy-lms', 'deploy-admin', 'deploy-studio'] :
+        service === 'admin'  ? ['deploy-admin'] :
+        service === 'studio' ? ['deploy-studio'] : ['deploy-lms'];
 
       write(`🚀  Triggering ${service} deploy via GitHub Actions...`);
       logger.info('[devstudio/execute] deploy_autopilot', { service, workflows });
@@ -3236,7 +3239,8 @@ OPERATIONS
 ENGINEERING
 - Deploy LMS → deploy_autopilot (service: lms)
 - Deploy Admin → deploy_autopilot (service: admin)
-- Deploy both → deploy_autopilot (service: both)
+- Deploy Studio → deploy_autopilot (service: studio)
+- Deploy all → deploy_autopilot (service: both)
 - Build logs → check_monitoring
 - Repo commits → repo_commits
 - Scan routes → scan_routes
