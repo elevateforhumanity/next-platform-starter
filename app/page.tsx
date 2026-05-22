@@ -28,45 +28,80 @@ export default function HomePage() {
       <HomeHeroVideo banner={heroBanners.home} />
 
       {/* WHO ARE YOU — entry routing */}
-      <section className="bg-white border-b border-slate-100 py-10 px-6">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-center text-slate-500 text-sm font-semibold mb-6">Where do you want to start?</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
+      <section className="bg-white border-b border-slate-100 py-14 px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-2">Who Is This For?</p>
+          <h2 className="text-center text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Find your path in 10 seconds.</h2>
+          <p className="text-center text-slate-500 text-sm mb-10 max-w-xl mx-auto">Tell us where you are and we&apos;ll show you exactly what to do next.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               {
-                label: "I want to get trained",
-                sub: 'Browse programs, check eligibility, and enroll — often at no cost.',
+                icon: '🎓',
+                label: 'I want a new career',
+                sub: 'Get trained, credentialed, and placed in a job — often at $0 cost through WIOA or state funding.',
+                cta: 'See Programs →',
                 href: '/for-students',
-                color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white',
+                border: 'border-brand-red-200 hover:border-brand-red-500',
+                badge: 'bg-brand-red-50 text-brand-red-700',
+                badgeText: 'Most popular',
               },
               {
-                label: 'I need help paying for training',
-                sub: 'See WIOA, SNAP E&T, and other funding options available to you.',
-                href: '/funding',
-                color: 'bg-brand-blue-700 hover:bg-brand-blue-800 text-white',
+                icon: '💰',
+                label: 'I need funding',
+                sub: 'WIOA, SNAP E&T, Workforce Ready Grant, and Job Ready Indy can cover 100% of your training costs.',
+                cta: 'Check Eligibility →',
+                href: '/check-eligibility',
+                border: 'border-blue-200 hover:border-blue-500',
+                badge: 'bg-blue-50 text-blue-700',
+                badgeText: 'Free to check',
               },
               {
-                label: 'I work with job seekers',
-                sub: 'Refer clients, track progress, and access case manager tools.',
+                icon: '🤝',
+                label: 'I refer job seekers',
+                sub: 'Case managers and WorkOne staff — refer participants, track WIOA outcomes, and document compliance.',
+                cta: 'Agency Tools →',
                 href: '/for-agencies',
-                color: 'bg-slate-800 hover:bg-slate-900 text-white',
+                border: 'border-slate-200 hover:border-slate-500',
+                badge: null,
+                badgeText: null,
               },
               {
-                label: 'I want to hire trained workers',
-                sub: 'Post jobs, host apprentices, and connect with our graduates.',
+                icon: '🏢',
+                label: 'I want to hire',
+                sub: 'Post open roles, host registered apprentices, and access OJT wage reimbursement for new hires.',
+                cta: 'Employer Info →',
                 href: '/for-employers',
-                color: 'bg-green-700 hover:bg-green-800 text-white',
+                border: 'border-green-200 hover:border-green-500',
+                badge: 'bg-green-50 text-green-700',
+                badgeText: 'Hiring incentives',
               },
               {
-                label: 'I offer training or credentials',
-                sub: 'Partner with us to expand your reach and access funding pipelines.',
+                icon: '🏫',
+                label: 'I offer training',
+                sub: 'Training providers and credential issuers — partner with us to access funding pipelines and expand reach.',
+                cta: 'Partner With Us →',
                 href: '/for-providers',
-                color: 'bg-purple-700 hover:bg-purple-800 text-white',
+                border: 'border-purple-200 hover:border-purple-500',
+                badge: null,
+                badgeText: null,
               },
             ].map((r) => (
-              <Link key={r.href} href={r.href} className={`${r.color} rounded-xl px-4 py-5 flex flex-col gap-1.5 transition-colors`}>
-                <span className="font-bold text-sm leading-snug">{r.label}</span>
-                <span className="text-xs opacity-80 leading-relaxed">{r.sub}</span>
+              <Link
+                key={r.href}
+                href={r.href}
+                className={`group relative rounded-2xl border-2 ${r.border} bg-white p-5 flex flex-col gap-3 transition-all hover:shadow-lg hover:-translate-y-0.5`}
+              >
+                {r.badge && (
+                  <span className={`absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>
+                    {r.badgeText}
+                  </span>
+                )}
+                <span className="text-3xl">{r.icon}</span>
+                <div>
+                  <p className="font-extrabold text-slate-900 text-sm leading-snug mb-1">{r.label}</p>
+                  <p className="text-xs text-slate-500 leading-relaxed">{r.sub}</p>
+                </div>
+                <span className="text-xs font-bold text-brand-red-600 group-hover:text-brand-red-700 mt-auto">{r.cta}</span>
               </Link>
             ))}
           </div>
