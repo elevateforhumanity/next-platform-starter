@@ -25,6 +25,7 @@ import {
   Users,
   HelpCircle,
   BarChart2,
+  CreditCard,
 } from 'lucide-react';
 import { NotificationBell } from '@/components/lms/NotificationBell';
 import { GlobalSearch } from '@/components/lms/GlobalSearch';
@@ -43,6 +44,7 @@ export default async function StudentDashboard() {
     certificationsRes,
     workoneAppRes,
     quizAttemptsRes,
+    paymentLogsRes,
   ] = await Promise.all([
     supabase
       .from('program_enrollments')
@@ -76,6 +78,12 @@ export default async function StudentDashboard() {
       .not('completed_at', 'is', null)
       .order('completed_at', { ascending: false })
       .limit(5),
+    supabase
+      .from('payment_logs')
+      .select('id, amount, status, completed_at, created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(3),
   ]);
 
   // FKs now exist — joins resolve natively
@@ -88,6 +96,13 @@ export default async function StudentDashboard() {
   const workoneApp = workoneAppRes.data;
   const isPendingWorkone = !!workoneApp;
   const recentQuizAttempts = quizAttemptsRes.data ?? [];
+  const recentPayments = paymentLogsRes.data ?? [];
+  const totalPaidCents = recentPayments
+    .filter((p) => {
+      const s = p.status?.toLowerCase();
+      return s === 'completed' || s === 'succeeded' || s === 'paid';
+    })
+    .reduce((sum: number, p) => sum + (p.amount ?? 0), 0);
 
   // ── Active enrollment + resume point ────────────────────────────────────
   const activeEnrollment =
@@ -669,6 +684,67 @@ export default async function StudentDashboard() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Payments card */}
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-slate-400" /> Payments
+                </h3>
+                <Link
+                  href="/lms/payments"
+                  className="text-xs text-brand-blue-600 font-medium hover:underline"
+                >
+                  View all →
+                </Link>
+              </div>
+              {recentPayments.length === 0 ? (
+                <div className="px-5 py-4 text-xs text-slate-400">No payment records yet.</div>
+              ) : (
+                <div className="divide-y divide-slate-50">
+                  {recentPayments.map((p) => {
+                    const isPaid =
+                      p.status === 'completed' || p.status === 'succeeded' || p.status === 'paid';
+                    return (
+                      <div key={p.id} className="px-5 py-3 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div
+                            className={`w-2 h-2 rounded-full flex-shrink-0 ${isPaid ? 'bg-emerald-500' : 'bg-amber-400'}`}
+                          />
+                          <span className="text-xs text-slate-500 truncate">
+                            {p.completed_at
+                              ? new Date(p.completed_at).toLocaleDateString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                })
+                              : new Date(p.created_at).toLocaleDateString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
+                          </span>
+                        </div>
+                        <span className="text-xs font-bold text-slate-900 tabular-nums flex-shrink-0">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                          }).format((p.amount ?? 0) / 100)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {totalPaidCents > 0 && (
+                <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-500">Total paid</span>
+                  <span className="text-xs font-black text-slate-900 tabular-nums">
+                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                      totalPaidCents / 100,
+                    )}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Support card */}
