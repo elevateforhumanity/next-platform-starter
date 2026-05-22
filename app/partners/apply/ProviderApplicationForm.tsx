@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
+import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Upload, X, CheckCircle2, ExternalLink } from 'lucide-react';
 import { getActiveProgramsByCategory } from '@/lib/program-registry';
 
 const PROGRAM_TYPES = [
@@ -22,14 +22,15 @@ const CREDENTIAL_AUTHORITIES = [
   'Other',
 ];
 
-type Step = 'org' | 'contact' | 'programs' | 'compliance' | 'narrative' | 'review';
-const STEPS: Step[] = ['org', 'contact', 'programs', 'compliance', 'narrative', 'review'];
+type Step = 'org' | 'contact' | 'programs' | 'compliance' | 'narrative' | 'documents' | 'review';
+const STEPS: Step[] = ['org', 'contact', 'programs', 'compliance', 'narrative', 'documents', 'review'];
 const STEP_LABELS: Record<Step, string> = {
   org: 'Organization',
   contact: 'Contact',
   programs: 'Programs',
   compliance: 'Compliance',
   narrative: 'About You',
+  documents: 'Docs & Banking',
   review: 'Review & Submit',
 };
 
@@ -58,6 +59,18 @@ type FormData = {
   missionStatement: string;
   outcomesDescription: string;
   partnershipGoals: string;
+  // Documents & Banking
+  w9FileUrl: string;
+  einDocFileUrl: string;
+  certificationFileUrl: string;
+  resumeFileUrl: string;
+  bankName: string;
+  bankRoutingNumber: string;
+  bankAccountNumber: string;
+  bankAccountType: 'checking' | 'savings' | '';
+  payrollProvider: string;
+  quickbooksConnected: boolean;
+  quickbooksCompanyId: string;
   agreedToTerms: boolean;
 };
 
@@ -86,6 +99,17 @@ const INITIAL: FormData = {
   missionStatement: '',
   outcomesDescription: '',
   partnershipGoals: '',
+  w9FileUrl: '',
+  einDocFileUrl: '',
+  certificationFileUrl: '',
+  resumeFileUrl: '',
+  bankName: '',
+  bankRoutingNumber: '',
+  bankAccountNumber: '',
+  bankAccountType: '',
+  payrollProvider: '',
+  quickbooksConnected: false,
+  quickbooksCompanyId: '',
   agreedToTerms: false,
 };
 
@@ -131,6 +155,88 @@ function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   );
 }
 
+function FileUploadField({
+  label,
+  hint,
+  accept,
+  value,
+  onChange,
+  required,
+}: {
+  label: string;
+  hint?: string;
+  accept?: string;
+  value: string;
+  onChange: (url: string) => void;
+  required?: boolean;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+
+  async function handleFile(file: File) {
+    setUploading(true);
+    setUploadError('');
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('bucket', 'provider-documents');
+      const res = await fetch('/api/upload/document', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Upload failed');
+      onChange(data.url);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  return (
+    <div>
+      <Label required={required}>{label}</Label>
+      {hint && <p className="text-xs text-slate-500 mb-2">{hint}</p>}
+      {value ? (
+        <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-sm">
+          <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
+          <span className="text-green-800 flex-1 truncate">Uploaded</span>
+          <a href={value} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:text-green-900">
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+          <button type="button" onClick={() => onChange('')} className="text-green-600 hover:text-red-600">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ) : (
+        <div
+          onClick={() => inputRef.current?.click()}
+          className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-brand-blue-400 hover:bg-slate-50 transition-colors"
+        >
+          {uploading ? (
+            <Loader2 className="w-5 h-5 text-slate-400 animate-spin" />
+          ) : (
+            <Upload className="w-5 h-5 text-slate-400" />
+          )}
+          <span className="text-sm text-slate-500">
+            {uploading ? 'Uploading…' : 'Click to upload'}
+          </span>
+          <input
+            ref={inputRef}
+            type="file"
+            accept={accept ?? '.pdf,.jpg,.jpeg,.png'}
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleFile(f);
+            }}
+          />
+        </div>
+      )}
+      {uploadError && <p className="mt-1 text-sm text-red-600">{uploadError}</p>}
+    </div>
+  );
+}
+
 function CheckboxGroup({
   options,
   selected,
@@ -169,6 +275,8 @@ export default function ProviderApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [suggesting, setSuggesting] = useState(false);
+  const [qbChecking, setQbChecking] = useState(false);
+  const [qbStatus, setQbStatus] = useState<{ connected: boolean; company?: string } | null>(null);
 
   const handleAiSuggest = async () => {
     setSuggesting(true);
@@ -201,6 +309,25 @@ export default function ProviderApplicationForm() {
     setForm((f) => ({ ...f, [field]: value }));
     setErrors((e) => ({ ...e, [field]: undefined }));
   };
+
+  async function checkQbStatus() {
+    setQbChecking(true);
+    try {
+      const res = await fetch('/api/admin/integrations/quickbooks?action=status');
+      if (res.ok) {
+        const d = await res.json();
+        setQbStatus({ connected: d.connected, company: d.company_name });
+        if (d.connected) {
+          set('quickbooksConnected', true);
+          set('quickbooksCompanyId', d.realm_id ?? '');
+        }
+      }
+    } catch {
+      setQbStatus({ connected: false });
+    } finally {
+      setQbChecking(false);
+    }
+  }
 
   const stepIndex = STEPS.indexOf(step);
 
@@ -594,6 +721,160 @@ export default function ProviderApplicationForm() {
           </div>
         )}
 
+        {/* Step: Documents & Banking */}
+        {step === 'documents' && (
+          <div className="space-y-6">
+            <h2 className="text-lg font-bold text-slate-900">Documents &amp; Banking</h2>
+            <p className="text-sm text-slate-500">
+              Upload required documents and provide banking details for direct deposit. All files are stored securely and reviewed only by Elevate staff.
+            </p>
+
+            {/* Document uploads */}
+            <div className="space-y-5">
+              <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Required Documents</h3>
+              <FileUploadField
+                label="W-9 Form"
+                hint="IRS W-9 signed within the last 12 months. PDF or image."
+                value={form.w9FileUrl}
+                onChange={(url) => set('w9FileUrl', url)}
+                required
+              />
+              <FileUploadField
+                label="EIN Documentation"
+                hint="IRS EIN assignment letter or SS-4 confirmation."
+                value={form.einDocFileUrl}
+                onChange={(url) => set('einDocFileUrl', url)}
+              />
+              <FileUploadField
+                label="Certifications / Licenses"
+                hint="State license, accreditation letter, or credential authority approval."
+                value={form.certificationFileUrl}
+                onChange={(url) => set('certificationFileUrl', url)}
+              />
+              <FileUploadField
+                label="Resume / Organizational Profile"
+                hint="Lead instructor or executive director resume, or org capability statement."
+                value={form.resumeFileUrl}
+                onChange={(url) => set('resumeFileUrl', url)}
+              />
+            </div>
+
+            {/* Banking / Direct Deposit */}
+            <div className="space-y-4 pt-2 border-t border-slate-100">
+              <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Banking &amp; Direct Deposit</h3>
+              <p className="text-xs text-slate-500">Used for program revenue sharing and reimbursements. Leave blank if not applicable.</p>
+              <div>
+                <Label>Bank Name</Label>
+                <Input
+                  value={form.bankName}
+                  onChange={(e) => set('bankName', e.target.value)}
+                  placeholder="First National Bank"
+                />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <Label>Routing Number</Label>
+                  <Input
+                    value={form.bankRoutingNumber}
+                    onChange={(e) => set('bankRoutingNumber', e.target.value)}
+                    placeholder="021000021"
+                    maxLength={9}
+                    inputMode="numeric"
+                  />
+                </div>
+                <div>
+                  <Label>Account Number</Label>
+                  <Input
+                    value={form.bankAccountNumber}
+                    onChange={(e) => set('bankAccountNumber', e.target.value)}
+                    placeholder="••••••••••"
+                    type="password"
+                    autoComplete="off"
+                  />
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <Label>Account Type</Label>
+                  <Select
+                    value={form.bankAccountType}
+                    onChange={(e) => set('bankAccountType', e.target.value)}
+                  >
+                    <option value="">Select…</option>
+                    <option value="checking">Checking</option>
+                    <option value="savings">Savings</option>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Payroll Provider</Label>
+                  <Input
+                    value={form.payrollProvider}
+                    onChange={(e) => set('payrollProvider', e.target.value)}
+                    placeholder="ADP, Gusto, QuickBooks Payroll…"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* QuickBooks */}
+            <div className="space-y-3 pt-2 border-t border-slate-100">
+              <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">QuickBooks Online</h3>
+              <p className="text-xs text-slate-500">
+                Connecting QuickBooks allows Elevate to sync payments, invoices, and expense records automatically.
+              </p>
+              {form.quickbooksConnected ? (
+                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
+                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-800">QuickBooks Connected</p>
+                    {form.quickbooksCompanyId && (
+                      <p className="text-xs text-green-600 font-mono">Company ID: {form.quickbooksCompanyId}</p>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { set('quickbooksConnected', false); set('quickbooksCompanyId', ''); setQbStatus(null); }}
+                    className="ml-auto text-xs text-green-600 hover:text-red-600"
+                  >
+                    Disconnect
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {qbStatus?.connected === false && (
+                    <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      QuickBooks is not connected to the admin account. An admin can connect it at{' '}
+                      <a href="/admin/integrations/quickbooks" target="_blank" className="underline">Admin → Integrations → QuickBooks</a>.
+                    </p>
+                  )}
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={checkQbStatus}
+                      disabled={qbChecking}
+                      className="flex items-center gap-2 px-4 py-2 bg-[#2CA01C] hover:bg-[#248016] text-white text-sm font-semibold rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {qbChecking ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                      {qbChecking ? 'Checking…' : 'Check QuickBooks Status'}
+                    </button>
+                    <a
+                      href="/admin/integrations/quickbooks"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
+                    >
+                      Connect in Admin <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    QuickBooks connection is optional — you can complete your application without it.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Step: Review */}
         {step === 'review' && (
           <div className="space-y-6">
@@ -637,6 +918,17 @@ export default function ProviderApplicationForm() {
                 {form.accreditation && (
                   <ReviewRow label="Accreditation" value={form.accreditation} />
                 )}
+              </ReviewSection>
+
+              <ReviewSection label="Documents & Banking">
+                <ReviewRow label="W-9" value={form.w9FileUrl ? '✓ Uploaded' : 'Not uploaded'} />
+                <ReviewRow label="EIN Doc" value={form.einDocFileUrl ? '✓ Uploaded' : 'Not uploaded'} />
+                <ReviewRow label="Certifications" value={form.certificationFileUrl ? '✓ Uploaded' : 'Not uploaded'} />
+                <ReviewRow label="Resume" value={form.resumeFileUrl ? '✓ Uploaded' : 'Not uploaded'} />
+                {form.bankName && <ReviewRow label="Bank" value={form.bankName} />}
+                {form.bankAccountType && <ReviewRow label="Account Type" value={form.bankAccountType} />}
+                {form.payrollProvider && <ReviewRow label="Payroll" value={form.payrollProvider} />}
+                <ReviewRow label="QuickBooks" value={form.quickbooksConnected ? '✓ Connected' : 'Not connected'} />
               </ReviewSection>
             </div>
 

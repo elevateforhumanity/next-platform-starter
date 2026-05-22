@@ -14,6 +14,10 @@ import {
   MapPin,
   Globe,
   Loader2,
+  FileText,
+  ExternalLink,
+  CheckCircle2,
+  Banknote,
 } from 'lucide-react';
 
 type Application = {
@@ -42,6 +46,18 @@ type Application = {
   mission_statement: string | null;
   outcomes_description: string | null;
   partnership_goals: string | null;
+  // Documents & Banking
+  w9_file_url: string | null;
+  ein_doc_file_url: string | null;
+  certification_file_url: string | null;
+  resume_file_url: string | null;
+  bank_name: string | null;
+  bank_routing_number: string | null;
+  bank_account_number: string | null;
+  bank_account_type: string | null;
+  payroll_provider: string | null;
+  quickbooks_connected: boolean | null;
+  quickbooks_company_id: string | null;
   status: string;
   status_reason: string | null;
   review_notes: string | null;
@@ -73,6 +89,15 @@ const ORG_TYPE_LABELS: Record<string, string> = {
   community_org: 'Community Organization',
 };
 
+type DocRecord = {
+  id: string;
+  document_type: string;
+  label: string | null;
+  file_url: string;
+  uploaded_at: string;
+  ocr_text: string | null;
+};
+
 export default function ApplicationQueue({
   applications,
   statusCounts,
@@ -90,6 +115,30 @@ export default function ApplicationQueue({
   >({});
   const [actionMessages, setActionMessages] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
+  const [appDocs, setAppDocs] = useState<Record<string, DocRecord[]>>({});
+  const [docsLoading, setDocsLoading] = useState<Record<string, boolean>>({});
+
+  async function loadDocs(appId: string) {
+    if (appDocs[appId] !== undefined) return; // already loaded
+    setDocsLoading((s) => ({ ...s, [appId]: true }));
+    try {
+      const res = await fetch(`/api/admin/provider-applications/documents?applicationId=${appId}`);
+      if (res.ok) {
+        const d = await res.json();
+        setAppDocs((s) => ({ ...s, [appId]: d.documents ?? [] }));
+      }
+    } catch {
+      setAppDocs((s) => ({ ...s, [appId]: [] }));
+    } finally {
+      setDocsLoading((s) => ({ ...s, [appId]: false }));
+    }
+  }
+
+  function toggleExpand(appId: string) {
+    const next = expandedId === appId ? null : appId;
+    setExpandedId(next);
+    if (next) loadDocs(next);
+  }
 
   function setFilter(status: string) {
     const url =
@@ -190,7 +239,7 @@ export default function ApplicationQueue({
             >
               {/* Header row */}
               <button
-                onClick={() => setExpandedId(isExpanded ? null : app.id)}
+                onClick={() => toggleExpand(app.id)}
                 className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition"
               >
                 <div className="flex items-center gap-4 min-w-0">
@@ -339,6 +388,103 @@ export default function ApplicationQueue({
                           <p className="text-slate-600 leading-relaxed">{app.partnership_goals}</p>
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Documents — lazy loaded from provider_application_documents */}
+                  <div className="text-sm">
+                    <div className="font-semibold text-slate-700 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
+                      Uploaded Documents
+                      {docsLoading[app.id] && <Loader2 className="w-3 h-3 animate-spin text-slate-400" />}
+                    </div>
+                    {docsLoading[app.id] ? (
+                      <p className="text-xs text-slate-400">Loading…</p>
+                    ) : (appDocs[app.id] ?? []).length > 0 ? (
+                      <div className="grid sm:grid-cols-2 gap-2">
+                        {(appDocs[app.id] ?? []).map((doc) => (
+                          <a
+                            key={doc.id}
+                            href={doc.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition"
+                          >
+                            <FileText className="w-4 h-4 text-brand-blue-500 shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-slate-700 text-xs font-medium truncate">{doc.label ?? doc.document_type}</p>
+                              {doc.ocr_text && (
+                                <p className="text-slate-400 text-xs truncate mt-0.5">{doc.ocr_text.slice(0, 60)}…</p>
+                              )}
+                            </div>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      /* Fall back to inline URLs from the application row itself */
+                      (app.w9_file_url || app.ein_doc_file_url || app.certification_file_url || app.resume_file_url) ? (
+                        <div className="grid sm:grid-cols-2 gap-2">
+                          {[
+                            { label: 'W-9', url: app.w9_file_url },
+                            { label: 'EIN Documentation', url: app.ein_doc_file_url },
+                            { label: 'Certifications', url: app.certification_file_url },
+                            { label: 'Resume / Profile', url: app.resume_file_url },
+                          ].filter((d) => d.url).map(({ label, url }) => (
+                            <a
+                              key={label}
+                              href={url!}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition"
+                            >
+                              <FileText className="w-4 h-4 text-brand-blue-500 shrink-0" />
+                              <span className="text-slate-700 flex-1 text-xs font-medium">{label}</span>
+                              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                            </a>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-slate-400">No documents uploaded</p>
+                      )
+                    )}
+                  </div>
+
+                  {/* Banking & QuickBooks */}
+                  {(app.bank_name || app.quickbooks_connected) && (
+                    <div className="text-sm">
+                      <div className="font-semibold text-slate-700 text-xs uppercase tracking-wide mb-2">
+                        Banking &amp; Integrations
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        {app.bank_name && (
+                          <div className="flex items-start gap-2 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <Banknote className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" />
+                            <div>
+                              <p className="font-medium text-slate-800">{app.bank_name}</p>
+                              {app.bank_account_type && (
+                                <p className="text-xs text-slate-500 capitalize">{app.bank_account_type} account</p>
+                              )}
+                              {app.bank_routing_number && (
+                                <p className="text-xs text-slate-400 font-mono">Routing: {app.bank_routing_number}</p>
+                              )}
+                              {app.payroll_provider && (
+                                <p className="text-xs text-slate-500 mt-0.5">Payroll: {app.payroll_provider}</p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        {app.quickbooks_connected && (
+                          <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                            <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
+                            <div>
+                              <p className="font-medium text-green-800 text-xs">QuickBooks Connected</p>
+                              {app.quickbooks_company_id && (
+                                <p className="text-xs text-green-600 font-mono">{app.quickbooks_company_id}</p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 

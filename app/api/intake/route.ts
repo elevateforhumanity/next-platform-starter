@@ -68,6 +68,9 @@ async function _POST(req: Request) {
       ? [barriersRaw as string]
       : [];
 
+  // Non-fatal — apprenticeship_intake is a secondary log table. If it fails
+  // (e.g. table not yet applied in this environment) we continue to the canonical
+  // applications insert below so the application is never lost.
   const { error } = await supabase.from('apprenticeship_intake').insert([
     {
       full_name: (body.full_name as string).trim(),
@@ -95,8 +98,8 @@ async function _POST(req: Request) {
   ]);
 
   if (error) {
-    logger.error('[Intake API]', error.message);
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
+    // Log but do not abort — the canonical applications insert below is the source of truth.
+    logger.warn('[Intake API] apprenticeship_intake insert failed (non-fatal):', error.message);
   }
 
   // Mirror into applications table so the admin queue picks it up.

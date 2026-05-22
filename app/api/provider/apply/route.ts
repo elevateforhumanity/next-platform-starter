@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { trySendEmail } from '@/lib/email/sendgrid';
+import { logger } from '@/lib/logger';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -44,6 +46,18 @@ export async function POST(request: NextRequest) {
     missionStatement,
     outcomesDescription,
     partnershipGoals,
+    // Documents & Banking
+    w9FileUrl,
+    einDocFileUrl,
+    certificationFileUrl,
+    resumeFileUrl,
+    bankName,
+    bankRoutingNumber,
+    bankAccountNumber,
+    bankAccountType,
+    payrollProvider,
+    quickbooksConnected,
+    quickbooksCompanyId,
     agreedToTerms,
   } = body as Record<string, unknown>;
 
@@ -115,6 +129,18 @@ export async function POST(request: NextRequest) {
         mission_statement: missionStatement || null,
         outcomes_description: outcomesDescription || null,
         partnership_goals: partnershipGoals || null,
+        // Documents & Banking
+        w9_file_url: w9FileUrl || null,
+        ein_doc_file_url: einDocFileUrl || null,
+        certification_file_url: certificationFileUrl || null,
+        resume_file_url: resumeFileUrl || null,
+        bank_name: bankName || null,
+        bank_routing_number: bankRoutingNumber || null,
+        bank_account_number: bankAccountNumber || null,
+        bank_account_type: bankAccountType || null,
+        payroll_provider: payrollProvider || null,
+        quickbooks_connected: Boolean(quickbooksConnected),
+        quickbooks_company_id: quickbooksCompanyId || null,
         agreed_to_terms: true,
         agreed_at: new Date().toISOString(),
         status: 'pending',
@@ -126,7 +152,80 @@ export async function POST(request: NextRequest) {
       return safeInternalError(error, 'Failed to submit application');
     }
 
-    return NextResponse.json({ success: true, applicationId: data.id }, { status: 201 });
+    const applicationId = data?.id ?? '';
+
+    // Save document metadata to admin dashboard (ocr_extractions audit log)
+    const docUploads = [
+      { url: w9FileUrl, type: 'w9', label: 'W-9' },
+      { url: einDocFileUrl, type: 'ein_doc', label: 'EIN Documentation' },
+      { url: certificationFileUrl, type: 'certificate', label: 'Certifications' },
+      { url: resumeFileUrl, type: 'resume', label: 'Resume' },
+    ].filter((d) => d.url);
+
+    if (docUploads.length > 0) {
+      await supabase
+        .from('provider_application_documents')
+        .insert(
+          docUploads.map((d) => ({
+            application_id: applicationId,
+            document_type: d.type,
+            label: d.label,
+            file_url: d.url,
+            org_name: orgName,
+            contact_email: contactEmail,
+            uploaded_at: new Date().toISOString(),
+          })),
+        )
+        .catch((err) => logger.warn('[provider/apply] doc metadata save failed', err));
+    }
+
+    // Confirmation email to applicant
+    const applicantHtml = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
+        <div style="background:#b91c1c;padding:28px 32px;border-radius:8px 8px 0 0">
+          <h1 style="color:#fff;margin:0;font-size:22px">Application Received</h1>
+          <p style="color:#fecaca;margin:6px 0 0;font-size:14px">Elevate for Humanity — Training Provider Partnership</p>
+        </div>
+        <div style="background:#fff;padding:32px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px">
+          <p style="margin-top:0">Hi ${contactName},</p>
+          <p>Thank you for applying to partner with <strong>Elevate for Humanity</strong>. We've received your application for <strong>${orgName}</strong> and our team will review it within <strong>3–5 business days</strong>.</p>
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:20px;margin:20px 0">
+            <p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Application Summary</p>
+            <table style="width:100%;font-size:14px;border-collapse:collapse">
+              <tr><td style="padding:4px 0;color:#64748b;width:40%">Organization</td><td style="padding:4px 0;font-weight:600">${orgName}</td></tr>
+              <tr><td style="padding:4px 0;color:#64748b">Type</td><td style="padding:4px 0;font-weight:600">${String(orgType).replace(/_/g, ' ')}</td></tr>
+              <tr><td style="padding:4px 0;color:#64748b">Contact</td><td style="padding:4px 0;font-weight:600">${contactName}${contactTitle ? `, ${contactTitle}` : ''}</td></tr>
+              <tr><td style="padding:4px 0;color:#64748b">Reference ID</td><td style="padding:4px 0;font-family:monospace;font-size:12px">${applicationId}</td></tr>
+            </table>
+          </div>
+          <p>If you have questions in the meantime, reply to this email or contact us at <a href="mailto:partnerships@elevateforhumanity.org" style="color:#b91c1c">partnerships@elevateforhumanity.org</a>.</p>
+          <p style="margin-bottom:0">— The Elevate for Humanity Team</p>
+        </div>
+        <p style="text-align:center;font-size:11px;color:#94a3b8;margin-top:16px">© ${new Date().getFullYear()} Elevate for Humanity · <a href="https://www.elevateforhumanity.org" style="color:#94a3b8">elevateforhumanity.org</a></p>
+      </div>`;
+
+    const emailResult = await trySendEmail({
+      to: contactEmail as string,
+      subject: `Application received — ${orgName} | Elevate for Humanity`,
+      html: applicantHtml,
+      text: `Hi ${contactName},\n\nThank you for applying to partner with Elevate for Humanity. We've received your application for ${orgName} and will review it within 3–5 business days.\n\nReference ID: ${applicationId}\n\nQuestions? Email partnerships@elevateforhumanity.org\n\n— The Elevate for Humanity Team`,
+      replyTo: 'partnerships@elevateforhumanity.org',
+    });
+
+    if (!emailResult.ok) {
+      // Log but don't fail the request — application is saved regardless
+      logger.warn('[provider/apply] Confirmation email failed', { error: emailResult.error, applicationId });
+    }
+
+    // Internal notification to partnerships team
+    await trySendEmail({
+      to: 'partnerships@elevateforhumanity.org',
+      subject: `New provider application — ${orgName}`,
+      html: `<p>New provider application received.</p><p><strong>Org:</strong> ${orgName}<br><strong>Type:</strong> ${orgType}<br><strong>Contact:</strong> ${contactName} &lt;${contactEmail}&gt;<br><strong>Phone:</strong> ${contactPhone}<br><strong>ID:</strong> ${applicationId}</p><p><a href="https://admin.elevateforhumanity.org/admin/applications">Review in Admin →</a></p>`,
+      text: `New provider application: ${orgName} (${orgType})\nContact: ${contactName} <${contactEmail}>\nPhone: ${contactPhone}\nID: ${applicationId}\n\nReview: https://admin.elevateforhumanity.org/admin/applications`,
+    });
+
+    return NextResponse.json({ success: true, applicationId }, { status: 201 });
   } catch (err) {
     return safeInternalError(err, 'Failed to submit application');
   }

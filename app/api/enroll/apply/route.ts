@@ -93,30 +93,35 @@ async function _POST(req: Request) {
         return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
       }
 
-      // Store as partner inquiry for now (can be migrated to dedicated applications table)
-      const { data: inquiry, error: inquiryError } = await adminClient
-        .from('partner_inquiries')
+      // Write to canonical applications table (partner_inquiries table does not exist)
+      const { data: appRow, error: appError } = await adminClient
+        .from('applications')
         .insert({
-          name: `${body.firstName} ${body.lastName}`,
+          first_name: body.firstName,
+          last_name: body.lastName,
           email: body.email,
           phone: body.phone || null,
-          message: `Student Application - Program: ${body.preferredProgramId}`,
-          status: 'new',
+          program_interest: body.preferredProgramId,
+          program_slug: body.preferredProgramId,
+          funding_source: body.fundingSource || null,
+          referral_source: body.referralSource || null,
+          notes: body.notes || null,
+          status: 'submitted',
+          source: 'enroll_apply',
         })
-        .select()
+        .select('id')
         .maybeSingle();
 
-      if (inquiryError) {
-        logger.error('[Enroll Apply] Failed to create inquiry:', inquiryError);
-        throw inquiryError;
+      if (appError) {
+        logger.error('[Enroll Apply] Failed to create application:', appError);
+        throw appError;
       }
 
-      logger.info('[New Application - Lead Created]', {
-        inquiryId: inquiry.id,
+      logger.info('[New Application - Created]', {
+        applicationId: appRow?.id,
         firstName: body.firstName,
         lastName: body.lastName,
         email: body.email,
-        phone: body.phone,
         preferredProgramId: body.preferredProgramId,
         submittedAt: new Date().toISOString(),
       });
