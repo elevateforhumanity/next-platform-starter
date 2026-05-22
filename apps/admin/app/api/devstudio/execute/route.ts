@@ -1439,10 +1439,22 @@ async function executeAction(
           .order('enrolled_at', { ascending: false })
           .limit(limit);
         if (enrErr) { write(`\x1b[31m✗  ${enrErr.message}\x1b[0m`); break; }
+
+        // Hydrate student names
+        const uids = [...new Set((enrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
+        const { data: profiles } = uids.length
+          ? await adminDb.from('profiles').select('id, full_name, email').in('id', uids)
+          : { data: [] };
+        const profileMap = Object.fromEntries((profiles ?? []).map((p: any) => [p.id, p]));
+
         write(`\x1b[32m✓  ${enrollments?.length ?? 0} enrollment(s)\x1b[0m`);
         (enrollments ?? []).slice(0, 10).forEach((e: any) => {
+          const profile = profileMap[e.user_id];
+          const name = profile?.full_name?.trim() || profile?.email || e.user_id;
           const prog = e.program_slug ?? e.program_id ?? '';
-          write(`   ${e.user_id} — ${prog} — ${e.status ?? ''} — ${e.progress_percent ?? 0}%`);
+          const pct = e.progress_percent != null ? `${e.progress_percent}%` : '0%';
+          const date = e.enrolled_at ? new Date(e.enrolled_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+          write(`   ${name} — ${prog} — ${e.status ?? ''} — ${pct}${date ? ` — enrolled ${date}` : ''}`);
         });
         if ((enrollments?.length ?? 0) > 10) write(`   ... and ${(enrollments?.length ?? 0) - 10} more`);
         write(`   Full list: /admin/enrollments`);
