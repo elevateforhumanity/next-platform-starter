@@ -62,21 +62,29 @@ export default function AdminApprenticeships() {
     const { data: apprenticeshipData } = await query;
     setApprenticeships(apprenticeshipData || []);
 
-    // Load pending hour approvals
-    const { data: pendingData } = await supabase
-      .from('ojt_hours_log')
-      .select(
-        `
-        *,
-        student:profiles!ojt_hours_log_student_id_fkey(full_name),
-        apprenticeship:apprenticeship_enrollments(employer_name)
-      `,
-      )
-      .eq('approved', false)
-      .order('work_date', { ascending: false })
+    // Load pending hour approvals from apprenticeship_hours
+    const { data: pendingRaw } = await supabase
+      .from('apprenticeship_hours')
+      .select('id, student_id, date_worked, hours_worked, hours, notes, category, status, approved, created_at')
+      .or('approved.is.false,status.eq.submitted,status.eq.pending')
+      .order('date_worked', { ascending: false })
       .limit(20);
 
-    setPendingApprovals(pendingData || []);
+    // Hydrate student names
+    const studentIds = [...new Set((pendingRaw ?? []).map((r: any) => r.student_id).filter(Boolean))];
+    let nameMap: Record<string, string> = {};
+    if (studentIds.length) {
+      const { data: profileRows } = await supabase.from('profiles').select('id, full_name, email').in('id', studentIds);
+      (profileRows ?? []).forEach((p: any) => { nameMap[p.id] = p.full_name || p.email; });
+    }
+    const pendingData = (pendingRaw ?? []).map((r: any) => ({
+      ...r,
+      work_date: r.date_worked,
+      total_hours: r.hours_worked ?? r.hours ?? 0,
+      student: { full_name: nameMap[r.student_id] || 'Unknown' },
+    }));
+
+    setPendingApprovals(pendingData);
     setLoading(false);
   }
 

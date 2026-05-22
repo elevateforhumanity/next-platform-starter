@@ -110,6 +110,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Instructors — Performance', href: '/admin/instructors/performance' },
       { label: 'Cohorts', href: '/admin/cohorts' },
       { label: 'Apprenticeships', href: '/admin/apprenticeships' },
+      { label: 'Student OJT Hours', href: '/admin/student-hours' },
       { label: 'Apprenticeships — Link', href: '/admin/apprenticeships/link-accounts' },
       { label: 'Career Courses', href: '/admin/career-courses' },
 
