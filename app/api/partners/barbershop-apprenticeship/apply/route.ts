@@ -439,8 +439,8 @@ async function _POST(req: Request) {
           <p>We look forward to having <strong>${shopDisplayName}</strong> as part of the team. If you have any questions, just reply to this email or call us at <strong>(317) 314-3757</strong>.</p>
 
           <p>Welcome aboard,<br>
-          <strong>Demetrius Ganaway</strong><br>
-          Founder, Elevate for Humanity<br>
+          <strong>Elizabeth Greene</strong><br>
+          Founder &amp; CEO, Elevate for Humanity<br>
           Career &amp; Technical Institute<br>
           8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
         </div>

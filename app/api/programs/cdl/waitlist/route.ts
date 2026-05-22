@@ -168,8 +168,8 @@ function buildWaitlistConfirmationEmail(firstName: string): string {
     <p>If you have any questions, reply to this email or call us at <strong>(317) 314-3757</strong>.</p>
 
     <p>We look forward to seeing you in October!<br>
-    <strong>Demetrius Ganaway</strong><br>
-    Founder, Elevate for Humanity<br>
+    <strong>Elizabeth Greene</strong><br>
+    Founder &amp; CEO, Elevate for Humanity<br>
     Career &amp; Technical Institute<br>
     8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
   </div>
