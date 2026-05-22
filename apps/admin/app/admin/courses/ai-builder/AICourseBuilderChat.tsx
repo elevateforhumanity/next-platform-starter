@@ -56,22 +56,28 @@ const STARTER_PROMPTS = [
 export default function AICourseBuilderChat({
   programs,
   embedded = false,
+  initialProgramId = '',
 }: {
   programs: Program[];
   embedded?: boolean;
+  initialProgramId?: string;
 }) {
   const router = useRouter();
+
+  // Resolve program title for the greeting when arriving from a specific program
+  const initialProgram = programs.find((p) => p.id === initialProgramId);
+  const initialGreeting = initialProgram
+    ? `Hi! I'm your AI course designer. I see you want to build a course for **${initialProgram.title}**.\n\nTell me more about what this course should cover — who it's for, what credential or outcome it leads to, and roughly how many hours it should be. I'll build the full structure with lessons, quizzes, and content.`
+    : `Hi! I'm your AI course designer. Tell me what course you want to build — the topic, who it's for, and any credential or regulatory requirements — and I'll create the full course structure with lessons, quizzes, and content.\n\nOr pick a starter below to get going fast.`;
+
   const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: `Hi! I'm your AI course designer. Tell me what course you want to build — the topic, who it's for, and any credential or regulatory requirements — and I'll create the full course structure with lessons, quizzes, and content.\n\nOr pick a starter below to get going fast.`,
-    },
+    { role: 'assistant', content: initialGreeting },
   ]);
   const [input, setInput] = useState('');
   const [stage, setStage] = useState<Stage>('chat');
   const [streaming, setStreaming] = useState(false);
   const [course, setCourse] = useState<GeneratedCourse | null>(null);
-  const [selectedProgramId, setSelectedProgramId] = useState('');
+  const [selectedProgramId, setSelectedProgramId] = useState(initialProgramId);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [savedCourseId, setSavedCourseId] = useState<string | null>(null);
   const [generatingVideos, setGeneratingVideos] = useState(false);

@@ -8,8 +8,14 @@ import { Layout, BookOpen, ChevronDown } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CourseBuilderPage() {
+export default async function CourseBuilderPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ program?: string }>;
+}) {
   await requireRole(['admin', 'super_admin', 'staff']);
+
+  const { program: programIdParam } = await searchParams;
 
   const db = await requireAdminClient();
 
@@ -19,7 +25,7 @@ export default async function CourseBuilderPage() {
       .order('updated_at', { ascending: false })
       .limit(50),
     db.from('programs')
-      .select('id, title')
+      .select('id, title, slug')
       .eq('is_active', true)
       .order('title'),
   ]);
@@ -70,7 +76,10 @@ export default async function CourseBuilderPage() {
             </p>
           </div>
         </div>
-        <AICourseBuilderChat programs={(programs ?? []) as any} />
+        <AICourseBuilderChat
+          programs={(programs ?? []) as any}
+          initialProgramId={programIdParam ?? ''}
+        />
       </div>
 
       {/* ── Manual tools — collapsed by default ── */}

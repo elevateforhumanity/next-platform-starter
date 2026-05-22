@@ -143,9 +143,9 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                     <div className="flex items-center justify-end gap-2">
                       <Link
                         href={`/admin/course-builder?program=${program.id}`}
-                        className="inline-flex items-center gap-1 rounded-lg bg-brand-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-blue-700 transition-colors"
+                        className="inline-flex items-center gap-1 rounded-lg bg-brand-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-red-700 transition-colors"
                       >
-                        Build
+                        ✦ Build Course
                       </Link>
                       <Link
                         href={`/admin/programs/${program.slug}/manage`}

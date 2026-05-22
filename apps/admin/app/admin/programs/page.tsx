@@ -85,6 +85,29 @@ export default async function ProgramsPage() {
           </div>
         </div>
 
+        {/* AI Course Builder CTA */}
+        <Link
+          href="/admin/course-builder"
+          className="flex items-center justify-between gap-4 rounded-2xl border border-brand-red-200 bg-gradient-to-r from-brand-red-50 to-white px-6 py-5 mb-6 hover:shadow-md transition-shadow group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-xl bg-brand-red-600 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.347a3.75 3.75 0 01-5.303 0l-.347-.347z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-slate-900 text-sm">AI Course Builder</p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Describe what you need — the AI builds the full course with lessons, quizzes, and content. Or click <strong>✦ Build Course</strong> next to any program below.
+              </p>
+            </div>
+          </div>
+          <span className="text-brand-red-600 font-bold text-sm whitespace-nowrap group-hover:underline">
+            Open Builder →
+          </span>
+        </Link>
+
         {/* Programs Table */}
         <ProgramsTable programs={programs || []} />
 
