@@ -202,8 +202,11 @@ export default function ApplicationsTableClient({
                   {app.phone && <div className="text-xs text-slate-700">{app.phone}</div>}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-900">
-                  {app.program_interest || <span className="text-slate-700">Not specified</span>}
-                  {!app.program_id && !['rejected', 'waitlisted'].includes(status) && (
+                  {app.program_interest || app.program_slug?.replace(/-/g, ' ') || <span className="text-slate-700">Not specified</span>}
+                  {app.program_slug && (
+                    <div className="text-[10px] text-slate-400 font-mono mt-0.5">{app.program_slug}</div>
+                  )}
+                  {!app.program_id && !app.program_slug && !['rejected', 'waitlisted'].includes(status) && (
                     <div className="text-[10px] text-amber-600 font-medium mt-0.5">
                       ⚠ No program linked
                     </div>
