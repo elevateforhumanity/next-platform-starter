@@ -26,7 +26,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
 
 type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
+type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
   quickCommands?: string[];
   workflowButtons?: { key: WorkflowKey; label: string; description: string }[];
@@ -890,8 +890,9 @@ interface RunStatus {
 }
 
 const WORKFLOW_BUTTONS: { key: WorkflowKey; label: string; description: string }[] = [
-  { key: 'deploy-lms',   label: 'Deploy LMS',   description: 'Build + push LMS to ECS' },
-  { key: 'deploy-admin', label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
+  { key: 'deploy-lms',    label: 'Deploy LMS',    description: 'Build + push LMS to ECS' },
+  { key: 'deploy-admin',  label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
+  { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build + push Studio shell to ECS' },
   { key: 'ci',           label: 'Run CI',        description: 'Full CI pipeline' },
   { key: 'lint',         label: 'Lint',          description: 'Run pnpm lint' },
 ];
