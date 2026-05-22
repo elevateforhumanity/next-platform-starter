@@ -33,15 +33,40 @@ export default function HomePage() {
           <p className="text-center text-slate-500 text-sm font-semibold mb-6">Where do you want to start?</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
             {[
-              { label: "I'm looking for training", sub: 'Student Flow', href: '/for-students', color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white' },
-              { label: 'I need funding options', sub: 'Funding Flow', href: '/funding', color: 'bg-brand-blue-700 hover:bg-brand-blue-800 text-white' },
-              { label: "I'm a workforce case manager", sub: 'Agency Flow', href: '/for-agencies', color: 'bg-slate-800 hover:bg-slate-900 text-white' },
-              { label: 'I want to hire or host apprentices', sub: 'Employer Flow', href: '/for-employers', color: 'bg-green-700 hover:bg-green-800 text-white' },
-              { label: "I'm a training provider", sub: 'Partner Flow', href: '/for-providers', color: 'bg-purple-700 hover:bg-purple-800 text-white' },
+              {
+                label: "I want to get trained",
+                sub: 'Browse programs, check eligibility, and enroll — often at no cost.',
+                href: '/for-students',
+                color: 'bg-brand-red-600 hover:bg-brand-red-700 text-white',
+              },
+              {
+                label: 'I need help paying for training',
+                sub: 'See WIOA, SNAP E&T, and other funding options available to you.',
+                href: '/funding',
+                color: 'bg-brand-blue-700 hover:bg-brand-blue-800 text-white',
+              },
+              {
+                label: 'I work with job seekers',
+                sub: 'Refer clients, track progress, and access case manager tools.',
+                href: '/for-agencies',
+                color: 'bg-slate-800 hover:bg-slate-900 text-white',
+              },
+              {
+                label: 'I want to hire trained workers',
+                sub: 'Post jobs, host apprentices, and connect with our graduates.',
+                href: '/for-employers',
+                color: 'bg-green-700 hover:bg-green-800 text-white',
+              },
+              {
+                label: 'I offer training or credentials',
+                sub: 'Partner with us to expand your reach and access funding pipelines.',
+                href: '/for-providers',
+                color: 'bg-purple-700 hover:bg-purple-800 text-white',
+              },
             ].map((r) => (
-              <Link key={r.href} href={r.href} className={`${r.color} rounded-xl px-4 py-4 flex flex-col gap-1 transition-colors text-center`}>
+              <Link key={r.href} href={r.href} className={`${r.color} rounded-xl px-4 py-5 flex flex-col gap-1.5 transition-colors`}>
                 <span className="font-bold text-sm leading-snug">{r.label}</span>
-                <span className="text-xs opacity-75">{r.sub}</span>
+                <span className="text-xs opacity-80 leading-relaxed">{r.sub}</span>
               </Link>
             ))}
           </div>
