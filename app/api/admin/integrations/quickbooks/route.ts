@@ -14,8 +14,11 @@ export const dynamic = 'force-dynamic';
 const QB_BASE_URL = 'https://quickbooks.api.intuit.com/v3/company';
 const QB_AUTH_URL = 'https://appcenter.intuit.com/connect/oauth2';
 
-function getQbConfig() {
-  return {
+let _qbCache: Record<string, string> | null = null;
+let _qbCacheAt = 0;
+
+async function getQbConfig() {
+  const base = {
     clientId: process.env.QB_CLIENT_ID ?? '',
     clientSecret: process.env.QB_CLIENT_SECRET ?? '',
     redirectUri:
@@ -26,6 +29,35 @@ function getQbConfig() {
     realmId: process.env.QB_REALM_ID ?? '',
     tokenExpires: process.env.QB_TOKEN_EXPIRES ?? '',
   };
+
+  // If env vars are empty, try Supabase app_settings (set by OAuth callback)
+  if (!base.accessToken || !base.realmId) {
+    try {
+      // Cache for 60s to avoid hammering DB
+      if (!_qbCache || Date.now() - _qbCacheAt > 60_000) {
+        const { getAdminClient } = await import('@/lib/supabase/admin');
+        const supabase = await getAdminClient();
+        if (supabase) {
+          const { data } = await supabase
+            .from('app_settings')
+            .select('key, value')
+            .in('key', ['QB_ACCESS_TOKEN', 'QB_REFRESH_TOKEN', 'QB_REALM_ID', 'QB_TOKEN_EXPIRES']);
+          if (data) {
+            _qbCache = Object.fromEntries(data.map((r: { key: string; value: string }) => [r.key, r.value]));
+            _qbCacheAt = Date.now();
+          }
+        }
+      }
+      if (_qbCache) {
+        base.accessToken  = _qbCache['QB_ACCESS_TOKEN']  ?? base.accessToken;
+        base.refreshToken = _qbCache['QB_REFRESH_TOKEN'] ?? base.refreshToken;
+        base.realmId      = _qbCache['QB_REALM_ID']      ?? base.realmId;
+        base.tokenExpires = _qbCache['QB_TOKEN_EXPIRES'] ?? base.tokenExpires;
+      }
+    } catch { /* non-fatal */ }
+  }
+
+  return base;
 }
 
 function isTokenValid(expires: string): boolean {
@@ -42,7 +74,7 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const action = request.nextUrl.searchParams.get('action') ?? 'status';
-  const cfg = getQbConfig();
+  const cfg = await getQbConfig();
 
   if (action === 'auth_url') {
     if (!cfg.clientId) return safeError('QB_CLIENT_ID not configured', 503);
@@ -107,7 +139,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { action } = body;
-  const cfg = getQbConfig();
+  const cfg = await getQbConfig();
 
   if (action === 'disconnect') {
     // Revoke token with Intuit

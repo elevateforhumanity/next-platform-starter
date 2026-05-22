@@ -62,20 +62,50 @@ export async function GET(request: NextRequest) {
 
     if (!access_token) return redirect('error=no_token');
 
-    // Persist tokens + realm to SSM
+    const expiresAt = new Date(Date.now() + (expires_in ?? 3600) * 1000).toISOString();
+    const realm = realmId ?? process.env.QB_REALM_ID ?? '';
+
+    // 1. Persist to SSM (for ECS containers)
     await persistToSSM({
       QB_ACCESS_TOKEN:  access_token,
       QB_REFRESH_TOKEN: refresh_token,
-      QB_REALM_ID:      realmId ?? process.env.QB_REALM_ID ?? '',
-      QB_TOKEN_EXPIRES: new Date(Date.now() + (expires_in ?? 3600) * 1000).toISOString(),
+      QB_REALM_ID:      realm,
+      QB_TOKEN_EXPIRES: expiresAt,
+    });
+
+    // 2. Persist to Supabase app_settings table (fallback for non-SSM envs)
+    await persistToSupabase({
+      QB_ACCESS_TOKEN:  access_token,
+      QB_REFRESH_TOKEN: refresh_token,
+      QB_REALM_ID:      realm,
+      QB_TOKEN_EXPIRES: expiresAt,
     });
 
     return NextResponse.redirect(
-      `${adminBase}/admin/integrations/quickbooks?success=connected&company=${realmId ?? ''}`,
+      `${adminBase}/admin/integrations/quickbooks?success=connected&company=${realm}`,
     );
   } catch (err) {
     console.error('[QB callback] unexpected error:', err);
     return redirect('error=unexpected');
+  }
+}
+
+async function persistToSupabase(params: Record<string, string>) {
+  try {
+    const { getAdminClient } = await import('@/lib/supabase/admin');
+    const supabase = await getAdminClient();
+    if (!supabase) return;
+
+    // Upsert each key into app_settings (key/value store)
+    await Promise.allSettled(
+      Object.entries(params).map(([key, value]) =>
+        supabase
+          .from('app_settings')
+          .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' }),
+      ),
+    );
+  } catch (err) {
+    console.error('[QB callback] Supabase persist failed:', err);
   }
 }
 

@@ -18,6 +18,7 @@ import {
   Award,
 } from 'lucide-react';
 import Image from 'next/image';
+import PayRateEditor from './PayRateEditor';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,6 +72,21 @@ export default async function EmployeeDetailPage({ params }: Props) {
     .eq('employee_id', id)
     .order('review_date', { ascending: false })
     .limit(3);
+
+  // Fetch payroll profile + pay rate history
+  const { data: payrollProfile } = await supabase
+    .from('payroll_profiles')
+    .select('rate, payment_type, payout_method, payroll_provider, tax_id_uploaded')
+    .eq('user_id', employee.user_id ?? '')
+    .maybeSingle();
+
+  const { data: payRateHistory } = await supabase
+    .from('pay_rate_history')
+    .select('rate, payment_type, effective_date, notes, created_at')
+    .eq('employee_id', id)
+    .order('created_at', { ascending: false })
+    .limit(10)
+    .catch(() => ({ data: [] })) as { data: unknown[] };
 
   const profile = employee.profiles as any;
   const department = employee.departments as any;
@@ -314,6 +330,17 @@ export default async function EmployeeDetailPage({ params }: Props) {
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Compensation</h2>
             <div className="space-y-4">
+              {/* Pay Rate Editor */}
+              <PayRateEditor
+                employeeId={id}
+                currentRate={payrollProfile?.rate ?? employee.hourly_rate ?? employee.salary ?? null}
+                paymentType={payrollProfile?.payment_type ?? employee.employment_type ?? null}
+                payoutMethod={payrollProfile?.payout_method ?? null}
+                payrollProvider={payrollProfile?.payroll_provider ?? null}
+                w9OnFile={payrollProfile?.tax_id_uploaded ?? false}
+                history={(payRateHistory as any[]) ?? []}
+              />
+
               {employee.salary && (
                 <div className="flex items-center gap-3">
                   <DollarSign className="w-5 h-5 text-brand-green-600" />
