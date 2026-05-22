@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function RotatingBanner({ lines, variant = 'dark', intervalMs = 4000 }: Props) {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(() => Math.floor(Math.random() * lines.length));
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
