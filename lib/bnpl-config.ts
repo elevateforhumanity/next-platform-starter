@@ -119,7 +119,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 2500,
     description: '4 interest-free payments over 6 weeks. Quick approval, no hard credit check.',
-    enabled: false, // enable once SEZZLE_PUBLIC_KEY + SEZZLE_PRIVATE_KEY are set
+    enabled: true,
   },
 ];
 
