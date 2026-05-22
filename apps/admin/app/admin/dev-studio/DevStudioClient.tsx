@@ -618,6 +618,7 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   const [jobs, setJobs]         = useState<Job[]>([]);
   const [activeJob, setActiveJob] = useState<Job | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [pendingConfirm, setPendingConfirm] = useState<string | null>(null); // command awaiting confirmation
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef  = useRef<AbortController | null>(null);
 
@@ -651,6 +652,7 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
     setInput('');
     setActiveJob(null);
     setShowHistory(false);
+    setPendingConfirm(null);
 
     const startLine: LogLine = { type: 'user', text: cmd };
     setLines([startLine]);
@@ -718,6 +720,10 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
           if (!clean.trim()) continue;
           streamLines.push(clean);
           setLines(prev => [...prev, { type: 'stream', text: clean }]);
+          // Detect confirmation gate — store the original command so we can re-run with confirmed=true
+          if (clean.includes('CONFIRMATION_REQUIRED')) {
+            setPendingConfirm(cmd);
+          }
         }
       }
 
@@ -860,6 +866,31 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
 
         {/* Input area */}
         <div className="flex-shrink-0 p-3 border-t" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
+          {/* Confirmation banner */}
+          {pendingConfirm && !loading && (
+            <div className="flex items-center gap-3 mb-3 px-3 py-2 rounded-lg border" style={{ background: 'rgba(251,191,36,0.1)', borderColor: '#f59e0b' }}>
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: '#f59e0b' }} />
+              <span className="text-xs flex-1" style={{ color: '#fcd34d' }}>
+                This action affects production. Confirm to proceed.
+              </span>
+              <button
+                onClick={() => { run(`${pendingConfirm} confirmed=true`); }}
+                className="text-xs font-bold px-3 py-1 rounded transition-colors"
+                style={{ background: '#f59e0b', color: '#1c1c1c' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#d97706')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#f59e0b')}
+              >
+                ✓ Confirm &amp; Deploy
+              </button>
+              <button
+                onClick={() => setPendingConfirm(null)}
+                className="text-xs px-2 py-1 rounded"
+                style={{ color: '#858585' }}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
           {/* Toolbar row */}
           <div className="flex items-center gap-2 mb-2">
             <button onClick={() => setShowHistory(h => !h)}
