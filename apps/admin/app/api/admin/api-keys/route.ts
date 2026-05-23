@@ -3,12 +3,15 @@ import { createHash, randomBytes } from 'crypto';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // POST /api/admin/api-keys — generate a new API key
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 

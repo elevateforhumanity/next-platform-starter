@@ -11,15 +11,18 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { createClient } from '@/lib/supabase/server';
 import { runAutomations } from '@/lib/admin/run-automations';
 import { safeInternalError } from '@/lib/api/safe-error';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
-  // Allow internal callers (cron, job_queue) via shared secret
+  // Allow internal callers (cron, job_queue) via shared secret — skip rate limit for them
   const internalKey = request.headers.get('x-internal-key');
   const isInternalCaller = internalKey && internalKey === process.env.INTERNAL_API_KEY;
 
   if (!isInternalCaller) {
+    const rateLimited = await applyRateLimit(request, 'strict');
+    if (rateLimited) return rateLimited;
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
   }

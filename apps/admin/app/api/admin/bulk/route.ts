@@ -13,10 +13,14 @@ import {
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const maxDuration = 60;
 
 const _POST = withAuth(
   async (request: NextRequest, { user }) => {
+    const rateLimited = await applyRateLimit(request, 'strict');
+    if (rateLimited) return rateLimited;
+
     if (!user?.role || !['admin', 'super_admin', 'staff'].includes(user.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }

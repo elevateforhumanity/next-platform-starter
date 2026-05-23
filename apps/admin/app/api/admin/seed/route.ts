@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
+
   // Dev-only bypass: allow seeding without auth in local development.
   // In all other environments, require admin role.
   const isDev = process.env.NODE_ENV === 'development';

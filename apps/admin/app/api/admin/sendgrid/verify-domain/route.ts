@@ -1,11 +1,15 @@
 // Admin-only: check SendGrid domain authentication status
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/require-role';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { safeInternalError } from '@/lib/api/safe-error';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
   try {
     await requireRole(['admin', 'super_admin']);
   } catch {
@@ -58,7 +62,7 @@ export async function POST() {
       message: `Domain not yet verified. Missing DNS records: ${missing.join(', ') || 'unknown'}. Add them in your registrar and try again.`,
       domain: match,
     });
-  } catch (err: any) {
-    return NextResponse.json({ ok: false, error: err.message ?? 'Unknown error' }, { status: 500 });
+  } catch (err) {
+    return safeInternalError(err, 'SendGrid domain check failed');
   }
 }

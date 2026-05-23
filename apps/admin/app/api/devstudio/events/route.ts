@@ -42,8 +42,8 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await q;
     if (error) {
-      // Table may not exist yet — return empty gracefully
-      return NextResponse.json({ events: [], error: error.message });
+      // Table may not exist yet — return empty gracefully, no internal details exposed
+      return NextResponse.json({ events: [], error: 'Failed to load events' });
     }
 
     return NextResponse.json({ events: data ?? [] });

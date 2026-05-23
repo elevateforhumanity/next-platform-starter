@@ -8,6 +8,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createTalk, pollTalkResult } from '@/lib/d-id/generate-talk';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 /**
  * POST /api/admin/generate-avatar-video
@@ -39,6 +40,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
  */
 
 async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
+
   if (process.env.AVATAR_GEN_ENABLED !== 'true') {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }

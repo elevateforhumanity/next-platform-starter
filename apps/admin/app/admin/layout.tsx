@@ -114,19 +114,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 .from('applications')
                 .select('id', { count: 'exact', head: true })
                 .in('status', ['submitted', 'in_review']),
-              db
+              effectiveDb
                 .from('documents')
                 .select('id', { count: 'exact', head: true })
                 .eq('status', 'pending'),
-              db
+              effectiveDb
                 .from('compliance_alerts')
                 .select('id', { count: 'exact', head: true })
                 .not('status', 'eq', 'resolved'),
-              db
+              effectiveDb
                 .from('wioa_documents')
                 .select('id', { count: 'exact', head: true })
                 .eq('status', 'pending'),
-              db
+              effectiveDb
                 .from('leads')
                 .select('id', { count: 'exact', head: true })
                 .lt('updated_at', new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString())
