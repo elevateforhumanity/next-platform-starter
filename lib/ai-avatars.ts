@@ -70,16 +70,6 @@ export const AVATARS: Record<string, AvatarConfig> = {
     role: 'Financial Aid Advisor',
   },
 
-  vita: {
-    id: 'vita',
-    name: 'Patricia',
-    avatarId: 'Adriana_Business_Front_2_public',
-    voiceId: FEMALE_VOICES.aria,
-    gender: 'female',
-    role: 'VITA Tax Guide',
-  },
-
-
   // === HEALTHCARE COURSES ===
   healthcare: {
     id: 'healthcare',

@@ -117,23 +117,8 @@ export const NAV: NavItem[] = [
     showInHeader: true,
     description: 'Free and paid tax preparation',
   },
-  {
-    group: 'Tax',
-    label: 'VITA Community Program (Free)',
-    href: '/vita',
-    showInHeader: true,
-    description: 'Free tax help for eligible individuals',
-  },
-  {
-    group: 'Tax',
-    label: 'Professional Tax Services (Paid)',
-    href: '/tax',
-    showInHeader: true,
-    description: 'Professional tax preparation',
-  },
-  { group: 'Tax', label: 'VITA Volunteer', href: '/vita/volunteer', showInHeader: false },
-  { group: 'Tax', label: 'VITA Training', href: '/vita/training', showInHeader: false },
-  { group: 'Tax', label: 'Find VITA Site', href: '/vita/locations', showInHeader: false },
+
+
 
   // Ecosystem (for funders/partners - not primary nav)
   {

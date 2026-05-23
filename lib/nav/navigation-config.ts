@@ -70,22 +70,27 @@ export const mainNavigation: NavItem[] = [
   },
   {
     label: 'Tax Services',
-    href: '/tax',
+    href: 'https://www.supersonicfastermoney.com',
     description: 'Free and paid tax preparation',
+    external: true,
     subItems: [
       {
         label: 'Free Tax Prep (VITA)',
-        href: '/tax/vita',
+        href: 'https://www.supersonicfastermoney.com/vita',
         description: 'IRS-certified free tax preparation',
+        external: true,
       },
       {
         label: 'Paid Tax Services',
+        href: 'https://www.supersonicfastermoney.com/tax',
         description: 'Professional tax services',
+        external: true,
       },
       {
         label: 'Volunteer',
-        href: '/volunteer',
+        href: 'https://www.supersonicfastermoney.com/vita/volunteer',
         description: 'Become a VITA volunteer',
+        external: true,
       },
     ],
   },
@@ -130,7 +135,7 @@ export const footerNavigation = {
   services: {
     title: 'Services',
     links: [
-      { label: 'Free Tax Prep', href: '/tax/vita' },
+      { label: 'Free Tax Prep', href: 'https://www.supersonicfastermoney.com/vita' },
       { label: 'Case Management', href: '/resources#students' },
       { label: 'Career Counseling', href: '/resources#students' },
     ],
@@ -218,7 +223,7 @@ export const quickActions = {
   visitor: [
     { label: 'Browse Programs', href: '/programs', icon: 'book' },
     { label: 'Apply Now', href: '/apply', icon: 'file-text' },
-    { label: 'Free Tax Prep', href: '/tax/vita', icon: 'calculator' },
+    { label: 'Free Tax Prep', href: 'https://www.supersonicfastermoney.com/vita', icon: 'calculator' },
     { label: 'Contact Us', href: '/contact', icon: 'phone' },
   ],
 };
