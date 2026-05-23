@@ -277,8 +277,9 @@ class HealthCheckService {
           : status.status === 'degraded'
             ? '⚠️'
             : '❌';
-        `${emoji} ${status.service}: ${status.status} (${status.responseTime}ms)`
-      );
+        console.log(
+          `${emoji} ${status.service}: ${status.status} (${status.responseTime}ms)`
+        );
     });
 
     // Send alerts for unhealthy services

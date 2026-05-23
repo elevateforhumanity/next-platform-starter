@@ -107,6 +107,7 @@ serve(async (req) => {
           issued_at: new Date().toISOString(),
         });
 
+        console.log(
           `Certificate issued for user ${userId}, course ${courseId}`
         );
       }

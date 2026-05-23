@@ -19,6 +19,7 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !serviceKey) {
+  console.error(
     '❌ Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.'
   );
   process.exit(1);
@@ -88,6 +89,7 @@ async function ensurePrograms() {
     );
 
     if (error && error.code !== '42P01') {
+      console.warn(
         `   ⚠️ Could not upsert program "${program.code}":`,
         error.message
       );
@@ -107,10 +109,12 @@ async function flagDemoCourses() {
 
     if (error && error.code !== '42703') {
       // 42703 = column does not exist
+      console.warn(
         `   ⚠️ Could not update demo flag for keyword "${keyword}":`,
         error.message
       );
     } else if (!error && data && data.length > 0) {
+      console.log(
         `   ✅ Marked ${data.length} course(s) as demo for keyword "${keyword}".`
       );
     }
@@ -123,6 +127,7 @@ async function main() {
   await ensurePrograms();
   await flagDemoCourses();
 
+  console.log(
     '✅ LMS setup complete. You can now run pnpm dev or pnpm lms:build.'
   );
 }

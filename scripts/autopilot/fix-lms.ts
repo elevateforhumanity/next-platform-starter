@@ -479,6 +479,7 @@ function auditAndFixTemplates() {
 
     const current = fs.readFileSync(full, 'utf8');
     if (isSkeleton(current)) {
+      console.log(
         `🧹 OVERWRITING SKELETON: ${tpl.filePath} (${tpl.description})`
       );
       writeFileAggressive(tpl.filePath, tpl.content);
@@ -545,6 +546,7 @@ function main() {
   auditAndFixTemplates();
   scanForSkeletons();
   scanForAuthUsersQueries();
+  console.log(
     '\n✨ Autopilot complete! Core LMS pages are production-ready.\n'
   );
 }

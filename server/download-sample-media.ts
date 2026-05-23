@@ -29,6 +29,7 @@ async function downloadFile(url: string, outputPath: string): Promise<boolean> {
 
     return true;
   } catch (error) {
+    console.error(
       `  ❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
     );
     return false;
@@ -250,16 +251,20 @@ async function downloadSampleMedia() {
     await updateMediaPaths();
 
     // Summary
+    console.log(
       `📸 Images: ${imageResults.downloaded}/${stockImages.length} downloaded`
     );
+    console.log(
       `🎥 Videos: ${videoResults.downloaded}/${stockVideos.length} downloaded`
     );
 
     if (imageResults.failed > 0 || videoResults.failed > 0) {
+      console.warn(
         '⚠️  Some downloads failed. You can re-run this script to retry.'
       );
     }
 
+    console.log(
       '  import { localStockImages, localStockVideos } from "./stock-media-local"'
     );
   } catch (error) {

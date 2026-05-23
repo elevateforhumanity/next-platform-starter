@@ -71,8 +71,10 @@ function fetchMetrics(path: string): Promise<{ ttfb: number; bytes: number }> {
 
       results.push({ page: key, ttfb, bytes, passed });
 
+      console.log(
         `   TTFB: ${ttfb}ms ${ttfbPassed ? "✅" : "❌"} (budget: ${budget.ttfb_ms}ms)`
       );
+      console.log(
         `   Size: ${kb.toFixed(1)}kb ${sizePassed ? "✅" : "❌"} (budget: ${budget.total_bytes_kb}kb)`
       );
 

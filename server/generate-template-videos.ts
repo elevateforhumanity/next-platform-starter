@@ -21,6 +21,7 @@ async function generateTemplateVideos() {
 
   for (let i = 0; i < videoTemplates.length; i++) {
     const template = videoTemplates[i];
+    console.log(
       `Processing ${i + 1}/${videoTemplates.length}: ${template.name}`
     );
 

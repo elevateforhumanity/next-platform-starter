@@ -45,6 +45,7 @@ export async function reportTenantUsage() {
         timestamp: Math.floor(Date.now() / 1000),
       });
 
+      console.log(
         `Tenant ${t.name}: Reported ${activeCount} active learners`
       );
     } catch (error) {

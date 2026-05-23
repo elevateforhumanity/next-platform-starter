@@ -54,6 +54,7 @@ async function testVideoGeneration() {
   if (!timelineValidation.valid) {
     return;
   }
+  console.log(
     `✅ Timeline valid (${timelineValidation.totalDuration}s total)\n`
   );
 
@@ -93,9 +94,9 @@ async function testVideoGeneration() {
       // Test 7: Get Video Metadata
       const metadata = await defaultStorage.getVideoMetadata(result.jobId);
       if (metadata) {
+        console.log(
           `   File Size: ${(metadata.fileSize / 1024 / 1024).toFixed(2)} MB\n`
         );
-      } else {
       }
 
       // Test 8: List Videos

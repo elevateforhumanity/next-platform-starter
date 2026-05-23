@@ -830,6 +830,7 @@ async function main() {
 
     const template = templates[templateCode];
     if (!template) {
+      console.warn(
         `⚠️ No template found for code "${templateCode}" — skipping program "${program.title}".`
       );
       continue;
@@ -867,6 +868,7 @@ async function main() {
         .single();
 
       if (insertModuleError || !insertedModule) {
+        console.error(
           `❌ Error inserting module "${mod.title}" for ${program.title}:`,
           insertModuleError?.message
         );
@@ -887,10 +889,10 @@ async function main() {
         });
 
         if (insertLessonError) {
+          console.error(
             `      ❌ Error inserting lesson "${lesson.title}" for ${program.title}:`,
             insertLessonError.message
           );
-        } else {
         }
       }
     }

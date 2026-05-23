@@ -248,6 +248,7 @@ Return as JSON array with this structure:
 async function generateAllLessons() {
 
   for (const [courseId, topics] of Object.entries(COURSE_TOPICS)) {
+    console.log(
       `\n=== Generating lessons for ${courseId} (${topics.length} lessons) ===\n`
     );
 

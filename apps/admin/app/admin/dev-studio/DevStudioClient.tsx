@@ -8,6 +8,7 @@ import {
   Send, Loader2, RefreshCw, ExternalLink, Save,
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key,
+  Server, GitBranch,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -19,12 +20,15 @@ const EcsStatusPanel    = dynamic(() => import('@/components/dev-studio/EcsStatu
 const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree'),          { ssr: false });
 // PreviewPanel removed — preview is now the unified right pane (IframePreview)
 const SecretsPanel      = dynamic(() => import('@/components/dev-studio/SecretsPanel'),      { ssr: false });
+const ServicesPanel     = dynamic(() => import('@/components/dev-studio/ServicesPanel'),     { ssr: false });
+const GitPanel          = dynamic(() => import('@/components/dev-studio/GitPanel'),          { ssr: false });
+const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
 const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets' | 'services' | 'git';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -47,6 +51,8 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
   { id: 'chat',      Icon: MessageSquare, label: 'AI Chat'   },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
+  { id: 'git',       Icon: GitBranch,     label: 'Git'       },
+  { id: 'services',  Icon: Server,        label: 'Services'  },
   { id: 'files',     Icon: FolderOpen,    label: 'Explorer'  },
   { id: 'container', Icon: Box,           label: 'Container' },
   { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
@@ -448,7 +454,9 @@ export default function DevStudioClient() {
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
           {tab === 'chat'      && <AIChat />}
-          {tab === 'terminal'  && <TerminalTab workflowButtons={studioConfig?.workflowButtons} />}
+          {tab === 'terminal'  && <XTerminal />}
+          {tab === 'git'       && <GitPanel />}
+          {tab === 'services'  && <ServicesPanel />}
           {tab === 'files'     && <FilesTab />}
           {tab === 'container' && <ContainerTab />}
           {tab === 'documents' && <DocumentsPanel />}

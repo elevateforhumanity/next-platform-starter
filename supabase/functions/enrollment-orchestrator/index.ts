@@ -330,6 +330,7 @@ async function processAssignAIPolicy(job: EnrollmentJob, supabase: any) {
     assigned_at: new Date().toISOString(),
   });
 
+  console.log(
     `AI policy ${policy.id} assigned to learner ${enrollment.student_id}`
   );
 }
@@ -369,6 +370,7 @@ async function processInitializeMilestones(job: EnrollmentJob, supabase: any) {
 
   await supabase.from('learner_milestones').insert(learnerMilestones);
 
+  console.log(
     `Initialized ${learnerMilestones.length} milestones for enrollment ${enrollment.id}`
   );
 }

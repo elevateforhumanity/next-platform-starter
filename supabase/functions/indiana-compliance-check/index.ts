@@ -43,6 +43,7 @@ serve(async (req) => {
       throw new Error(`Failed to fetch program holders: ${fetchError.message}`);
     }
 
+    console.log(
       `[Indiana Compliance] Found ${programHolders?.length || 0} program holders to check`
     );
 
@@ -94,6 +95,7 @@ serve(async (req) => {
           results.enforcementActions++;
         }
       } catch (error) {
+        console.error(
           `[Indiana Compliance] Error processing holder ${holder.id}:`,
           error
         );
@@ -261,6 +263,7 @@ async function sendAlert(supabase: any, alert: any) {
     sent_at: new Date().toISOString(),
   });
 
+  console.log(
     `[Alert] Sent ${alert.level} alert to ${alert.programHolderId}: ${alert.subject}`
   );
 }
@@ -275,6 +278,7 @@ async function executeEnforcementAction(supabase: any, action: any) {
     notification_sent: false,
   });
 
+  console.log(
     `[Enforcement] Executed ${action.action} for ${action.programHolderId}: ${action.reason}`
   );
 }
