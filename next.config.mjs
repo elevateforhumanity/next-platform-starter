@@ -368,8 +368,6 @@ const nextConfig = {
       // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
-      // /admin-login — redirects to admin.elevateforhumanity.org/login (shadow removed 2026-07-02)
-
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
@@ -943,8 +941,7 @@ const nextConfig = {
       // page files deleted. Run `pnpm route:audit` to verify no stubs remain.
 
       // Portals
-      { source: '/admin-portal', destination: 'https://admin.elevateforhumanity.org/login', permanent: true },
-      { source: '/admin-login', destination: 'https://admin.elevateforhumanity.org/login', permanent: true },
+      { source: '/admin-portal', destination: '/admin-login', permanent: true },
       { source: '/lms-portal', destination: '/lms/dashboard', permanent: true },
 
       // Apply flow aliases
