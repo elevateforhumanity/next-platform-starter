@@ -1,9 +1,7 @@
 import { MetadataRoute } from 'next';
+import { createPublicClient } from '@/lib/supabase/public';
 
-// force-dynamic: the sitemap is generated at request time from a hardcoded
-// route list. The previous force-static + fs.readdirSync approach crashed on
-// ECS/Fargate because the container does not include the app/ source tree at
-// runtime, causing fs.readdirSync to throw and return a 500.
+// force-dynamic: generated at request time — pulls live program slugs from DB.
 export const dynamic = 'force-dynamic';
 
 const ELEVATE_URL = 'https://www.elevateforhumanity.org';
@@ -54,52 +52,36 @@ function getChangeFreq(
   return 'monthly';
 }
 
-// Canonical public routes — maintained manually.
-// The previous fs.readdirSync approach crashed on ECS because the container
-// does not include the app/ source tree at runtime. This list covers all
-// public-facing pages. Add new public pages here when they go live.
-const PUBLIC_ROUTES = [
+// Static routes — only pages that actually exist as page.tsx files.
+const STATIC_ROUTES = [
   '/',
   '/about',
   '/about/mission',
   '/about/team',
-  '/team',
-  '/credentials',
-  '/press',
-  '/transparency',
-  '/services',
-  '/training',
-  '/tuition',
-  '/scholarships',
-  '/site-map',
-  '/approvals',
-  '/schools/mesmerized-by-beauty',
-  '/academic-calendar',
-  '/academic-integrity',
-  '/certification-testing',
-  '/eligibility',
-  '/career-counseling',
-  '/career-assessment',
-  '/workkeys',
-  '/call-now',
   '/about/leadership',
   '/about/accreditation',
   '/about/compliance',
   '/about/partners',
   '/apply',
   '/apply/quick',
-  '/apply/impact',
   '/apply/pending-workone',
   '/apprenticeships',
+  '/apprenticeship-sponsor',
   '/blog',
   '/booking',
+  '/call-now',
+  '/career-assessment',
+  '/career-counseling',
+  '/career-training-indiana',
   '/careers',
+  '/certification-testing',
   '/check-eligibility',
   '/contact',
+  '/credentials',
   '/dmca',
   '/donate',
+  '/eligibility',
   '/employer',
-  '/employer/dashboard',
   '/faq',
   '/federal-funded',
   '/for-employers',
@@ -117,104 +99,45 @@ const PUBLIC_ROUTES = [
   '/policies/privacy',
   '/policies/terms',
   '/legal/privacy',
+  '/press',
   '/programs',
   '/programs/apprenticeships',
+  '/programs/catalog',
   '/programs/federal-funded',
   '/programs/healthcare',
   '/programs/micro-programs',
   '/programs/skilled-trades',
-  // Healthcare
+  '/programs/technology',
+  '/programs/barber-apprenticeship',
+  '/programs/cosmetology-apprenticeship',
+  '/programs/esthetician-apprenticeship',
   '/programs/cna',
-  '/programs/qma',
   '/programs/medical-assistant',
   '/programs/peer-recovery-specialist',
   '/programs/direct-support-professional',
   '/programs/drug-alcohol-specimen-collector',
   '/programs/cpr-first-aid',
-  '/programs/pharmacy-technician',
-  '/programs/phlebotomy',
-  '/programs/home-health-aide',
-  '/programs/sanitation-infection-control',
-  '/programs/dental-assistant',
-  '/programs/chw-cert',
-  '/programs/nha-pharmacy-technician',
-  '/programs/nha-ehr',
-  '/programs/nha-patient-care-technician',
-  '/programs/nha-medical-admin-assistant',
-  '/programs/nha-medical-assistant',
-  '/programs/nha-billing-coding',
-  '/programs/nha-phlebotomy',
-  '/programs/nha-ekg-technician',
-  // Trades
   '/programs/hvac-technician',
   '/programs/electrical',
   '/programs/plumbing',
   '/programs/cdl-training',
   '/programs/welding',
   '/programs/building-services-technician',
-  '/programs/building-maintenance-wrg',
-  '/programs/solar-panel-installation',
-  '/programs/manufacturing-technician',
-  '/programs/diesel-mechanic',
-  '/programs/automotive-technician',
-  '/programs/construction-trades-certification',
-  '/programs/forklift',
-  // Apprenticeships
-  '/programs/barber-apprenticeship',
-  '/programs/cosmetology-apprenticeship',
-  '/programs/esthetician-apprenticeship',
-  '/programs/nail-technician-apprenticeship',
-  '/programs/culinary-apprenticeship',
-  '/programs/youth-culinary-apprenticeship',
-  '/programs/emt-apprenticeship',
-  // Business & Finance
   '/programs/finance-bookkeeping-accounting',
-  '/programs/bookkeeping',
-
-  '/programs/entrepreneurship',
-  '/programs/business-startup',
-  '/programs/business-administration',
-  '/programs/real-estate-agent',
-  '/programs/insurance-agent',
-  '/programs/administrative-assistant',
-  '/programs/customer-service-representative',
-  '/programs/office-administration',
-  '/programs/project-management',
-  // Technology
-  '/programs/it-help-desk',
-  '/programs/software-development',
-  '/programs/web-development',
-  '/programs/data-analytics',
-  '/programs/cybersecurity-analyst',
-  '/programs/network-administration',
-  '/programs/network-support-technician',
-  '/programs/cad-drafting',
-  '/programs/graphic-design',
-  // Special
   '/programs/jri',
-  '/programs/jri-introduction',
-  '/programs/jri-badge-1-mindsets',
-  '/programs/jri-badge-2-self-management',
-  '/programs/jri-badge-3-learning-strategies',
-  '/programs/jri-badge-4-social-skills',
-  '/programs/jri-badge-5-workplace-skills',
-  '/programs/jri-badge-6-launch-a-career',
-  '/programs/reentry-specialist',
-  '/programs/life-coach-certification-wioa',
-  '/programs/nrf-riseup',
-  // Hospitality
-  '/programs/start-hospitality',
-  '/programs/guest-service-gold',
-  '/programs/servsuccess',
-  '/programs/servsafe-food-handler',
-  '/programs/servsafe-manager',
-  // Beauty
-  '/programs/esthetician',
+  '/programs/qma',
   '/resources',
-  '/sitemap',
-  '/legal',
+  '/scholarships',
+  '/schools/mesmerized-by-beauty',
+  '/services',
+  '/site-map',
+  '/training',
+  '/transparency',
+  '/tuition',
   '/verify',
   '/workforce',
+  '/workkeys',
+  // SEO authority hubs
   '/workforce-training-indianapolis',
   '/wioa-funded-training-indiana',
   '/healthcare-training-indianapolis',
@@ -224,10 +147,35 @@ const PUBLIC_ROUTES = [
   '/agency-referral-workforce-training-indiana',
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString();
 
-  return PUBLIC_ROUTES.map((route) => ({
+  // Fetch live program slugs from DB — only published/active, non-archived
+  let programSlugs: string[] = [];
+  try {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from('programs')
+      .select('slug')
+      .or('published.eq.true,is_active.eq.true')
+      .neq('status', 'archived')
+      .order('slug');
+    programSlugs = (data ?? []).map((r: { slug: string }) => r.slug).filter(Boolean);
+  } catch {
+    // DB unavailable — sitemap still returns static routes
+  }
+
+  // Deduplicate: DB slugs that already have a static route entry
+  const staticProgramRoutes = new Set(
+    STATIC_ROUTES.filter((r) => r.startsWith('/programs/')).map((r) => r.replace('/programs/', ''))
+  );
+  const dynamicProgramRoutes = programSlugs
+    .filter((slug) => !staticProgramRoutes.has(slug))
+    .map((slug) => `/programs/${slug}`);
+
+  const allRoutes = [...STATIC_ROUTES, ...dynamicProgramRoutes];
+
+  return allRoutes.map((route) => ({
     url: `${ELEVATE_URL}${route === '/' ? '' : route}`,
     lastModified: now,
     changeFrequency: getChangeFreq(route),

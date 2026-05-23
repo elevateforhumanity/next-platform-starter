@@ -82,8 +82,7 @@ export default function robots(): MetadataRoute.Robots {
           // Filter/search pages — thin, not canonical landing pages
           '/search',
 
-          // Infrastructure and platform pages — not marketing content
-          '/platform',
+          // Internal docs/help — not marketing content
           '/docs',
           '/help',
 
