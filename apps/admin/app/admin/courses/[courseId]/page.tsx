@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   startCourseGeneration,
@@ -79,7 +79,7 @@ export default async function CourseBuilderPage({
 }: {
   params: Promise<{ courseId: string }>;
 }) {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const { courseId } = await params;
   const detail = await getCourseWithLessons(courseId);
   if (!detail) notFound();

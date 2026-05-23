@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect, notFound } from 'next/navigation';
 import Image from 'next/image';
 import {
@@ -36,7 +36,9 @@ export const dynamic = 'force-dynamic';
 type Params = Promise<{ courseId: string }>;
 
 async function resolveCourse(courseId: string) {
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
+  if (!db) return null;
+
   const { data: course } = await db
     .from('courses')
     .select('id, title, description, short_description, status, is_active, program_id, slug')
@@ -84,7 +86,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function CoursePage({ params }: { params: Params }) {
   const { courseId } = await params;
   const supabase = await createClient();
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
 
   const {
     data: { user },
@@ -92,7 +94,6 @@ export default async function CoursePage({ params }: { params: Params }) {
   if (!user) redirect('/login?redirect=/lms/courses/' + courseId);
 
   if (!db) {
-    // Admin client unavailable — service role key not configured.
     return (
       <div className="min-h-screen flex items-center justify-center text-slate-500">
         Course data unavailable. Please contact support.

@@ -239,8 +239,9 @@ export async function requireStudent() {
 
 export async function requireAdmin() {
   // Admin app has its own /login page — redirect there, not the main site login.
+  // Allows admin, super_admin, and staff — all three can access the admin portal.
   const adminUrl = getAdminUrl();
-  return requireRole(['super_admin'], '/admin/dashboard', adminUrl);
+  return requireRole(['admin', 'super_admin', 'staff'], '/admin/dashboard', adminUrl);
 }
 
 export async function requireProgramHolder() {

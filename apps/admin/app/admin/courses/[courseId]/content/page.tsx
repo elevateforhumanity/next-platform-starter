@@ -17,7 +17,7 @@ export default async function CourseContentPage({
 }: {
   params: Promise<{ courseId: string }>;
 }) {
-  await requireRole(['admin', 'super_admin']);
+  await requireRole(['admin', 'super_admin', 'staff']);
   const { courseId } = await params;
   const supabase = await createClient();
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { GenerateCourseClient } from './GenerateCourseClient';
 
 export const metadata: Metadata = {
@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default async function GenerateCoursePage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   return <GenerateCourseClient />;
 }

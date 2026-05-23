@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import Link from 'next/link';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { getAdminCoursesOverview } from '@/lib/admin/course-admin-overview';
 import { AdminCoursesTable } from './AdminCoursesTable';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminCoursesPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
 
   const courses = await getAdminCoursesOverview();
 

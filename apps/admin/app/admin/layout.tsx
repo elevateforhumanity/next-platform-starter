@@ -92,7 +92,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     roleCheck = data;
   }
   const adminRoles = ['super_admin', 'admin', 'staff'];
-  if (!roleCheck || !adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
+
+  // Profile row missing — trigger failed or user created via API.
+  // Redirect to a dedicated recovery page instead of the generic /unauthorized.
+  if (!roleCheck) redirect('/login?error=profile_missing');
+
+  if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
   const effectiveDb = db ?? (supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>);
 

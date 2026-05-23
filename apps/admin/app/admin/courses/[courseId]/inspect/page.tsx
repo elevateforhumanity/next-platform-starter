@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
@@ -40,7 +40,7 @@ export default async function InspectCoursePage({
 }: {
   params: Promise<{ courseId: string }>;
 }) {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const { courseId } = await params;
   const detail = await getCourseDetail(courseId);
 

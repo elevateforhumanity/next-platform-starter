@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-const ADMIN_ROLES = ['super_admin', 'admin', 'staff'];
-
 function getSafeRedirect(raw: string | null): string {
   if (!raw) return '/admin/dashboard';
   // Allow same-origin paths only
@@ -14,11 +12,11 @@ function getSafeRedirect(raw: string | null): string {
   return raw;
 }
 
-export default function AdminLoginForm({ redirectTo }: { redirectTo?: string }) {
+export default function AdminLoginForm({ redirectTo, initialError }: { redirectTo?: string; initialError?: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(initialError ?? '');
   const [mode, setMode] = useState<'login' | 'forgot'>('login');
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSent, setForgotSent] = useState(false);
@@ -33,39 +31,18 @@ export default function AdminLoginForm({ redirectTo }: { redirectTo?: string }) 
     setError('');
 
     try {
-      const supabase = createClient();
-
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: password.trim(),
+      // Server-side endpoint: signs in + verifies role using service role key.
+      // Avoids RLS blocking the profile read when using the anon client.
+      const res = await fetch('/api/auth/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), password: password.trim() }),
       });
 
-      if (authError) throw authError;
-      if (!data?.user) throw new Error('Login succeeded but no user returned');
+      const body = await res.json();
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        await supabase.auth.signOut();
-        setError(`Profile load failed: ${profileError.message}. Contact support.`);
-        setLoading(false);
-        return;
-      }
-
-      if (!profile) {
-        await supabase.auth.signOut();
-        setError('No profile found for your account. Contact support.');
-        setLoading(false);
-        return;
-      }
-
-      if (!ADMIN_ROLES.includes(profile.role)) {
-        await supabase.auth.signOut();
-        setError('You do not have permission to access the admin portal.');
+      if (!res.ok) {
+        setError(body.error || 'Invalid email or password.');
         setLoading(false);
         return;
       }
