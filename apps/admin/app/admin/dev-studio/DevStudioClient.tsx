@@ -621,6 +621,7 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   const [pendingConfirm, setPendingConfirm] = useState<string | null>(null); // command awaiting confirmation
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef  = useRef<AbortController | null>(null);
+  const runIdRef  = useRef<number>(0); // incremented on each run; stale stream writes are discarded
 
   // Auto-scroll on new lines
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [lines]);
@@ -645,9 +646,10 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   async function run(cmd: string) {
     if (!cmd.trim() || loading) return;
 
-    // Cancel any in-flight stream
+    // Cancel any in-flight stream and stamp a new run ID so stale writes are ignored
     abortRef.current?.abort();
     abortRef.current = new AbortController();
+    const thisRunId = ++runIdRef.current;
 
     setInput('');
     setActiveJob(null);
@@ -719,10 +721,12 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
           const clean = stripAnsi(text);
           if (!clean.trim()) continue;
           streamLines.push(clean);
-          setLines(prev => [...prev, { type: 'stream', text: clean }]);
-          // Detect confirmation gate — store the original command so we can re-run with confirmed=true
-          if (clean.includes('CONFIRMATION_REQUIRED')) {
-            setPendingConfirm(cmd);
+          // Discard writes from a previous run that wasn't fully cancelled yet
+          if (runIdRef.current === thisRunId) {
+            setLines(prev => [...prev, { type: 'stream', text: clean }]);
+            if (clean.includes('CONFIRMATION_REQUIRED')) {
+              setPendingConfirm(cmd);
+            }
           }
         }
       }

@@ -518,11 +518,14 @@ const TOOLS: unknown[] = [
     function: {
       name: 'ask_question',
       description:
-        'Answer a general question about the platform, data, or operations without running an action',
+        'Use this when the user asks a general question, wants an explanation, or needs guidance — and no other tool applies. Write a direct, helpful answer. Do NOT echo the question back. Do NOT say "I will help you" — just answer.',
       parameters: {
         type: 'object',
         properties: {
-          answer: { type: 'string', description: 'The answer to the question' },
+          answer: {
+            type: 'string',
+            description: 'Your complete answer to the user\'s question. Be specific, actionable, and concise. Use plain text — no markdown headers or code fences.',
+          },
         },
         required: ['answer'],
       },
@@ -1926,7 +1929,9 @@ async function executeAction(
     }
 
     case 'ask_question': {
-      write('\x1b[32m✓  \x1b[0m' + String(args.answer));
+      const answer = String(args.answer ?? '').trim();
+      // Render each line so multi-paragraph answers display correctly
+      answer.split('\n').forEach(line => write(line ? `   ${line}` : ''));
       break;
     }
 
@@ -2946,18 +2951,64 @@ async function executeAction(
     }
 
     case 'list_pending_migrations': {
-      write(`\x1b[33m⚙  Listing migration files…\x1b[0m`);
+      write(`\x1b[33m⚙  Checking migrations…\x1b[0m`);
       try {
-        const { readdirSync } = await import('fs');
-        const { join } = await import('path');
-        const dir = join(process.cwd(), 'supabase', 'migrations');
-        const files = readdirSync(dir).filter(f => f.endsWith('.sql')).sort();
-        write(`\x1b[32m✓  ${files.length} migration files\x1b[0m`);
-        files.slice(-20).forEach(f => write(`   ${f}`));
-        if (files.length > 20) write(`   (showing last 20 of ${files.length})`);
-        write(`\n   Apply in Supabase Dashboard → SQL Editor`);
-        write(`   Or use: run_migration with filename + confirm=true`);
-      } catch (err) { write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`); }
+        // 1. Get applied migrations from DB
+        const { data: applied, error: dbErr } = await adminDb
+          .from('efh_migrations')
+          .select('filename, executed_at')
+          .order('filename', { ascending: true });
+        if (dbErr) throw new Error(dbErr.message);
+        const appliedSet = new Set((applied ?? []).map((r: { filename: string }) => r.filename));
+
+        // 2. Get migration files from GitHub repo
+        const ghToken = process.env.GITHUB_TOKEN;
+        const repoFiles: string[] = [];
+        if (ghToken) {
+          const ghRes = await fetch(
+            'https://api.github.com/repos/elevate-for-humanity/Elevate-lms/contents/supabase/migrations',
+            { headers: { Authorization: `Bearer ${ghToken}`, Accept: 'application/vnd.github.v3+json' } },
+          );
+          if (ghRes.ok) {
+            const items: { name: string; type: string }[] = await ghRes.json();
+            items.filter(i => i.type === 'file' && i.name.endsWith('.sql')).forEach(i => repoFiles.push(i.name));
+            repoFiles.sort();
+          }
+        }
+
+        if (repoFiles.length === 0) {
+          // Fallback: just show what's applied in DB
+          write(`\x1b[32m✓  ${appliedSet.size} migrations applied in DB\x1b[0m`);
+          [...appliedSet].slice(-20).forEach(f => write(`   \x1b[32m✓\x1b[0m ${f}`));
+          write(`\n   \x1b[33m⚠  Could not read repo files (GITHUB_TOKEN not set or API error)\x1b[0m`);
+          write(`   Add GITHUB_TOKEN in Dev Studio → Secrets tab for full diff.`);
+          break;
+        }
+
+        const pending = repoFiles.filter(f => !appliedSet.has(f));
+        const applied20 = repoFiles.filter(f => appliedSet.has(f)).slice(-5);
+
+        write(`\x1b[32m✓  ${repoFiles.length} files in repo · ${appliedSet.size} applied in DB\x1b[0m`);
+        write('');
+
+        if (applied20.length) {
+          write(`\x1b[90m   Recently applied:\x1b[0m`);
+          applied20.forEach(f => write(`   \x1b[32m✓\x1b[0m ${f}`));
+          write('');
+        }
+
+        if (pending.length === 0) {
+          write(`\x1b[32m✓  All migrations are applied — DB is up to date.\x1b[0m`);
+        } else {
+          write(`\x1b[33m⚠  ${pending.length} migration(s) not yet applied:\x1b[0m`);
+          pending.forEach(f => write(`   \x1b[33m○\x1b[0m ${f}`));
+          write('');
+          write(`   Apply in Supabase Dashboard → SQL Editor`);
+          write(`   https://supabase.com/dashboard/project/cuxzzpsyufcewtmicszk/sql`);
+        }
+      } catch (err) {
+        write(`\x1b[31m✗  ${err instanceof Error ? err.message : 'Failed'}\x1b[0m`);
+      }
       break;
     }
 
@@ -3445,7 +3496,8 @@ ENGINEERING
               write('');
             }
           } else if (msg.content) {
-            write(msg.content);
+            // Plain-text response (Gemini fallback or ask_question via content)
+            String(msg.content).trim().split('\n').forEach(line => write(line ? `   ${line}` : ''));
           } else {
             write('\x1b[33m⚠  AI returned no action. Try rephrasing your command.\x1b[0m');
           }
