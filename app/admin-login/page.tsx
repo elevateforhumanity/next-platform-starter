@@ -5,7 +5,6 @@
 // (service-role key, bypasses RLS). On success, redirects to the admin subdomain.
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Shield, Eye, EyeOff, AlertCircle, ArrowRight, Lock } from 'lucide-react';
 
@@ -56,29 +55,17 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-950">
-      {/* Hero banner */}
-      <section className="relative h-[180px] w-full overflow-hidden">
-        <Image
-          src="/images/pages/admin-portal-hero.webp"
-          alt="Elevate Admin Portal"
-          fill
-          className="object-cover opacity-60"
-          priority
-          quality={85}
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 to-slate-950" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-brand-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <p className="text-slate-400 text-xs uppercase tracking-widest font-medium">
-                Elevate for Humanity
-              </p>
-              <h1 className="text-white text-2xl font-bold leading-tight">Admin Portal</h1>
-            </div>
+      {/* Header */}
+      <section className="h-[180px] w-full bg-gradient-to-b from-slate-900 to-slate-950 flex items-center justify-center border-b border-slate-800">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-brand-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Shield className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-medium">
+              Elevate for Humanity
+            </p>
+            <h1 className="text-white text-2xl font-bold leading-tight">Admin Portal</h1>
           </div>
         </div>
       </section>
