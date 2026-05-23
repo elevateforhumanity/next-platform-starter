@@ -180,9 +180,9 @@ The admin platform now includes an operations-first automation center for curric
 
 | Metric | Count |
 |---|---|
-| `page.tsx` files | 1,067 |
-| `route.ts` API files | 807 |
-| Supabase migrations | 664 |
+| `page.tsx` files | 1,293 |
+| `route.ts` API files | 1,186 |
+| Supabase migrations | 687 |
 | Canonical programs | 37 |
 | Nav hrefs | 111 |
 
@@ -198,6 +198,10 @@ pnpm lint                        # Run ESLint
 bash scripts/audit-schema-refs.sh   # DB table gap report
 bash scripts/audit-auth-gaps.sh     # Auth gap report
 bash scripts/audit-env-vars.sh      # Env var gap report
+
+# Migration tooling
+pnpm tsx --env-file=.env.local scripts/check-pending-migrations.ts   # Check which recent migrations are pending
+pnpm tsx --env-file=.env.local scripts/verify-migrations.ts          # Verify key DB objects exist
 ```
 
 ---
@@ -337,10 +341,42 @@ Requires `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to be set in the Secret
 
 Files go in `supabase/migrations/`. Naming: `YYYYMMDD000NNN_description.sql`.
 
-**Migrations are NOT auto-applied.** After writing a migration file:
+**Migrations are NOT auto-applied by default.** After writing a migration file, apply it one of two ways:
+
+**Option A — Supabase Dashboard (manual):**
 1. Open Supabase Dashboard → SQL Editor
-2. Paste and run the migration manually
+2. Paste and run the migration
 3. Verify the schema change before marking work complete
+
+**Option B — Management API (scripted, requires PAT):**
+```bash
+PAT="sbp_..."   # Supabase personal access token
+PROJECT="cuxzzpsyufcewtmicszk"
+SQL=$(cat supabase/migrations/YYYYMMDD_name.sql)
+curl -s -X POST \
+  "https://api.supabase.com/v1/projects/${PROJECT}/database/query" \
+  -H "Authorization: Bearer ${PAT}" \
+  -H "Content-Type: application/json" \
+  -d "{\"query\": $(echo "$SQL" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')}"
+```
+
+**Check pending migrations:**
+```bash
+pnpm tsx --env-file=.env.local scripts/check-pending-migrations.ts
+```
+
+### Migration Status (as of 2026-07-01)
+
+All 687 migrations are applied to production. Last applied:
+
+| Migration | Description | Status |
+|---|---|---|
+| `20260701000006_curriculum_uploads.sql` | `curriculum_uploads` table + storage bucket | ✅ Applied |
+| `20260701000007_document_intel_and_grant_applications.sql` | Document intelligence + grant applications | ✅ Applied |
+| `20260701000008_contract_automation.sql` | Contract templates + automation | ✅ Applied |
+| `20260701000009_fix_program_holders_user_id_constraint.sql` | Drop duplicate unique constraint on `program_holders.user_id` | ✅ Applied |
+| `20260701000010_platform_secrets.sql` | `platform_secrets` + `platform_settings` tables | ✅ Applied |
+| `20260701000011_bootstrap_missing_profiles.sql` | Upsert missing profile rows, promote admin emails | ✅ Applied |
 
 ---
 
@@ -363,6 +399,28 @@ All API error responses use `lib/api/safe-error.ts`:
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 return safeError('Not found', 404);
 ```
+
+### Admin Portal Access
+
+The admin portal at `admin.elevateforhumanity.org` requires a `profiles` row with `role` in `['admin', 'super_admin', 'staff']`.
+
+**If you see "No profile found for your account":**
+
+1. Confirm your user exists in Supabase Auth → Users
+2. Run this in Supabase Dashboard → SQL Editor:
+```sql
+-- Replace with your email
+UPDATE public.profiles SET role = 'super_admin' WHERE email = 'your@email.com';
+
+-- If no row exists yet:
+INSERT INTO public.profiles (id, email, role, tenant_id, created_at, updated_at)
+SELECT id, email, 'super_admin', '00000000-0000-0000-0000-000000000001', NOW(), NOW()
+FROM auth.users WHERE email = 'your@email.com'
+ON CONFLICT (id) DO UPDATE SET role = 'super_admin';
+```
+3. Sign in again at `admin.elevateforhumanity.org/login`
+
+**RLS note:** The `profiles` table has `relforcerowsecurity = true`. Authenticated users can read their own row via the `profiles_own_read` policy (`id = auth.uid()`). The admin login endpoint (`/api/auth/admin-login`) uses the service role key to bypass RLS for the role check, so login works even if RLS policies change.
 
 ---
 
