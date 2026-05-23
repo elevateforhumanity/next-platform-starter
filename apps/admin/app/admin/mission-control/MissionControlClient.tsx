@@ -105,12 +105,25 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
   const [lastRefresh, setLastRefresh] = useState(new Date());
 
   const fetchLiveStatus = useCallback(async () => {
-    const [aiRes, sysRes] = await Promise.allSettled([
-      fetch('/api/admin/ai-provider-status').then(r => r.json()),
-      fetch('/api/admin/monitoring/status').then(r => r.json()),
-    ]);
-    if (aiRes.status === 'fulfilled') setAiStatus(aiRes.value);
-    if (sysRes.status === 'fulfilled') setSysStatus(sysRes.value);
+    // Single call to the platform health aggregator
+    const res = await fetch('/api/admin/platform-health').catch(() => null);
+    if (res?.ok) {
+      const health = await res.json();
+      // Map to existing state shapes
+      setAiStatus({
+        activeProvider: health.ai?.activeProvider ?? null,
+        providers: health.ai?.providers ?? [],
+      });
+      setSysStatus({
+        overall: health.overall,
+        checks: {
+          database: { status: health.services?.database?.status, connected: health.services?.database?.status === 'healthy' },
+          redis:    { status: health.services?.redis?.status,    connected: health.services?.redis?.status === 'healthy' },
+          stripe:   { status: health.services?.stripe?.status,   configured: health.services?.stripe?.configured },
+          email:    { status: health.services?.email?.status,    configured: health.services?.email?.configured },
+        },
+      });
+    }
     setLastRefresh(new Date());
   }, []);
 

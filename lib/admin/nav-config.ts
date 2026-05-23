@@ -226,6 +226,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'CRM — Leads', href: '/admin/crm/leads' },
       { label: 'Email Marketing', href: '/admin/email-marketing' },
       { label: 'Blog', href: '/admin/blog' },
+      { label: 'Content Management', href: '/admin/content' },
       { label: 'Promo Codes', href: '/admin/promo-codes' },
       { label: 'Store', href: '/admin/store' },
       { label: 'Store — Catalog', href: '/admin/store/catalog' },
