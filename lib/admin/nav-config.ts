@@ -126,6 +126,7 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/course-builder',
     items: [
       { label: 'Blueprint Builder', href: '/admin/course-builder' },
+      { label: 'Course Pipeline', href: '/admin/courses/pipeline' },
       { label: 'Assessment Bank', href: '/admin/course-builder/assessments' },
       { label: 'Media Library', href: '/admin/course-builder/media' },
       { label: 'Course Templates', href: '/admin/course-builder/templates' },
