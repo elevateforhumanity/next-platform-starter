@@ -71,7 +71,10 @@
       "label": "Home screen showing hours progress"
     }
   ],
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "lang": "en-US",
   "dir": "ltr",
   "shortcuts": [
@@ -80,21 +83,37 @@
       "short_name": "Log",
       "description": "Log your training hours",
       "url": "/pwa/barber/log-hours",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "My Progress",
       "short_name": "Progress",
       "description": "View your progress",
       "url": "/pwa/barber/progress",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Training",
       "short_name": "Learn",
       "description": "Access training materials",
       "url": "/pwa/barber/training",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
-  ]
+  ],
+  "id": "org.elevateforhumanity.barber"
 }

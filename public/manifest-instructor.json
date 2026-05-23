@@ -8,7 +8,10 @@
   "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#7c3aed",
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/icons/instructor-192.png",
@@ -43,6 +46,23 @@
     {
       "name": "Students",
       "url": "/instructor/students"
+    }
+  ],
+  "id": "org.elevateforhumanity.instructor",
+  "screenshots": [
+    {
+      "src": "/screenshots/home-narrow.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Home screen"
+    },
+    {
+      "src": "/screenshots/home-wide.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Dashboard view"
     }
   ]
 }

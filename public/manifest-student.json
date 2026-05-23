@@ -8,7 +8,9 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
-  "categories": ["education"],
+  "categories": [
+    "education"
+  ],
   "icons": [
     {
       "src": "/icons/student-72.png",
@@ -64,13 +66,40 @@
       "name": "My Courses",
       "short_name": "Courses",
       "url": "/lms/courses",
-      "icons": [{ "src": "/icons/courses-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/courses-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Certificates",
       "short_name": "Certs",
       "url": "/lms/certificates",
-      "icons": [{ "src": "/icons/certificate-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/certificate-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "id": "org.elevateforhumanity.student",
+  "screenshots": [
+    {
+      "src": "/screenshots/home-narrow.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Home screen"
+    },
+    {
+      "src": "/screenshots/home-wide.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Dashboard view"
     }
   ]
 }

@@ -71,7 +71,10 @@
       "label": "Dashboard showing apprentice overview"
     }
   ],
-  "categories": ["business", "productivity"],
+  "categories": [
+    "business",
+    "productivity"
+  ],
   "lang": "en-US",
   "dir": "ltr",
   "shortcuts": [
@@ -80,21 +83,37 @@
       "short_name": "Log Hours",
       "description": "Log hours for your apprentices",
       "url": "/pwa/shop-owner/log-hours",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "My Apprentices",
       "short_name": "Apprentices",
       "description": "View your apprentices",
       "url": "/pwa/shop-owner/apprentices",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Reports",
       "short_name": "Reports",
       "description": "View hours and compliance reports",
       "url": "/pwa/shop-owner/reports",
-      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
-  ]
+  ],
+  "id": "org.elevateforhumanity.shopowner"
 }
