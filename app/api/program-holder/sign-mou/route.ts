@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -16,7 +15,7 @@ async function _POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   try {
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

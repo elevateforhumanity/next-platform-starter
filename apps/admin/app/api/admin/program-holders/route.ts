@@ -1,5 +1,4 @@
-import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/with-auth';
 import { toErrorMessage } from '@/lib/safe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -12,7 +11,7 @@ export const dynamic = 'force-dynamic';
 const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
 
     const { data: holders, error } = await supabase
       .from('program_holders')

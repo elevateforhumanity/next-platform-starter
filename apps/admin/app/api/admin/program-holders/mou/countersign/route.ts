@@ -5,8 +5,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
-import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { createClient } from '@supabase/supabase-js';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
@@ -24,7 +23,7 @@ const _POST = withAuth(
     const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
     const { user } = context;
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const body = await req.json();
     const { programHolderId, name, signatureDataUrl } = body || {};
 

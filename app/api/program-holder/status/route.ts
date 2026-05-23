@@ -1,6 +1,5 @@
-import { cookies } from 'next/headers';
 
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -11,7 +10,7 @@ export const dynamic = 'force-dynamic';
 async function _GET(request: Request) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const supabase = await createRouteHandlerClient({ cookies });
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

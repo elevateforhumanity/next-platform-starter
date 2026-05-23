@@ -1,8 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
-import { cookies } from 'next/headers';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -14,7 +13,7 @@ export const dynamic = 'force-dynamic';
 const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const { searchParams } = new URL(req.url);
     const filename = searchParams.get('filename');
 

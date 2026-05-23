@@ -2,8 +2,7 @@ import { requireAdmin } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
-import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { generateMOUText } from '@/lib/mou-template';
 import { withAuth } from '@/lib/with-auth';
 
@@ -17,7 +16,7 @@ export const dynamic = 'force-dynamic';
 const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const url = new URL(req.url);
     const id = url.searchParams.get('id');
 

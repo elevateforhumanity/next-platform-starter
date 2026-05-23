@@ -1,8 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/with-auth';
 import { toErrorMessage } from '@/lib/safe';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
@@ -23,7 +22,7 @@ export const POST = withAuth(
       actor_type: 'user' as const,
       actor_id: user?.id ?? null,
     };
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const { id, status, mou_status } = await req.json();
 
     if (!id) {

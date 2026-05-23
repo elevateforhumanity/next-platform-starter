@@ -1,8 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { NextRequest } from 'next/server';
-import { cookies } from 'next/headers';
 
-import { createRouteHandlerClient } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -17,7 +16,7 @@ const _GET = withAuth(
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
     const { user } = context;
-    const supabase = await createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
     const { searchParams } = new URL(req.url);
     const path = searchParams.get('path');
 
