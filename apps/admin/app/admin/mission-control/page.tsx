@@ -1,86 +1,122 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { requireAdminClient } from '@/lib/supabase/admin';
-import { createClient } from '@/lib/supabase/server';
-import MissionControlClient from './MissionControlClient';
+import Link from 'next/link';
+import {
+  Activity,
+  ShieldCheck,
+  Bot,
+  Terminal,
+  BarChart3,
+  DatabaseBackup,
+  FileSearch,
+  Key,
+  UserCog,
+  Sparkles,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Mission Control | Admin | Elevate for Humanity',
-  description: 'Centralized operational dashboard — system health, deployments, AI status, enrollments, and alerts.',
+  description: 'Centralized platform operations and AI orchestration.',
   robots: { index: false, follow: false },
 };
 
-async function getMissionData() {
-  const adminClient = await requireAdminClient();
-  const fallback = await createClient();
-  const db = adminClient ?? fallback;
-
-  const now = new Date();
-  const oneDayAgo = new Date(now.getTime() - 86400000).toISOString();
-  const oneWeekAgo = new Date(now.getTime() - 7 * 86400000).toISOString();
-
-  const [
-    profilesRes,
-    enrollmentsRes,
-    pendingAppsRes,
-    recentEnrollmentsRes,
-    auditLogsRes,
-    snapshotsRes,
-    deliveryLogsRes,
-    failedDeliveryRes,
-    certificatesRes,
-  ] = await Promise.all([
-    db.from('profiles').select('id', { count: 'exact', head: true }),
-    db.from('program_enrollments').select('id', { count: 'exact', head: true }),
-    db.from('applications').select('id', { count: 'exact', head: true }).eq('status', 'submitted'),
-    db.from('program_enrollments')
-      .select('id, created_at, user_id')
-      .gte('created_at', oneDayAgo)
-      .order('created_at', { ascending: false })
-      .limit(5),
-    db.from('audit_logs')
-      .select('id, action, created_at, user_id')
-      .order('created_at', { ascending: false })
-      .limit(8),
-    db.from('platform_snapshots')
-      .select('id, snapshot_type, label, rolled_back, created_at')
-      .order('created_at', { ascending: false })
-      .limit(5),
-    db.from('delivery_logs')
-      .select('id', { count: 'exact', head: true })
-      .gte('created_at', oneDayAgo)
-      .eq('status', 'sent'),
-    db.from('delivery_logs')
-      .select('id', { count: 'exact', head: true })
-      .gte('created_at', oneDayAgo)
-      .eq('status', 'failed'),
-    db.from('program_completion_certificates')
-      .select('id', { count: 'exact', head: true })
-      .gte('created_at', oneWeekAgo),
-  ]);
-
-  return {
-    // Health
-    dbConnected: !profilesRes.error,
-    totalUsers: profilesRes.count ?? 0,
-    totalEnrollments: enrollmentsRes.count ?? 0,
-    pendingApplications: pendingAppsRes.count ?? 0,
-    // Activity
-    enrollmentsToday: recentEnrollmentsRes.data?.length ?? 0,
-    emailsSentToday: deliveryLogsRes.count ?? 0,
-    emailsFailedToday: failedDeliveryRes.count ?? 0,
-    certificatesThisWeek: certificatesRes.count ?? 0,
-    // Recent data
-    recentAuditLogs: auditLogsRes.data ?? [],
-    recentSnapshots: snapshotsRes.data ?? [],
-  };
-}
+const modules = [
+  {
+    title: 'Command Center',
+    href: '/admin/command-center',
+    icon: Activity,
+    description: 'Platform observability and QA',
+  },
+  {
+    title: 'Dev Studio',
+    href: '/admin/dev-studio',
+    icon: Terminal,
+    description: 'AI execution + git operations',
+  },
+  {
+    title: 'System Health',
+    href: '/admin/system-health',
+    icon: ShieldCheck,
+    description: 'Infrastructure + DB health',
+  },
+  {
+    title: 'Monitoring',
+    href: '/admin/monitoring',
+    icon: BarChart3,
+    description: 'Metrics + operational tracking',
+  },
+  {
+    title: 'Automation',
+    href: '/admin/automation',
+    icon: Bot,
+    description: 'Workflow + cron visibility',
+  },
+  {
+    title: 'Snapshots',
+    href: '/admin/snapshots',
+    icon: DatabaseBackup,
+    description: 'Rollback + restore management',
+  },
+  {
+    title: 'Audit Logs',
+    href: '/admin/audit-logs',
+    icon: FileSearch,
+    description: 'Full audit visibility',
+  },
+  {
+    title: 'API Keys',
+    href: '/admin/api-keys',
+    icon: Key,
+    description: 'Credential management',
+  },
+  {
+    title: 'Impersonation',
+    href: '/admin/impersonate',
+    icon: UserCog,
+    description: 'Secure role simulation',
+  },
+  {
+    title: 'Copilot',
+    href: '/admin/copilot',
+    icon: Sparkles,
+    description: 'AI operational assistant',
+  },
+];
 
 export default async function MissionControlPage() {
   await requireAdmin();
-  const data = await getMissionData();
-  return <MissionControlClient data={data} />;
+
+  return (
+    <div className="p-8 space-y-8">
+      <div>
+        <h1 className="text-4xl font-bold">Mission Control</h1>
+        <p className="text-muted-foreground mt-2">
+          Centralized platform operations and AI orchestration
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        {modules.map((module) => {
+          const Icon = module.icon;
+          return (
+            <Link
+              key={module.href}
+              href={module.href}
+              className="rounded-2xl border p-5 bg-background hover:bg-muted/50 transition-all shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="rounded-xl p-2 bg-muted">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="font-semibold">{module.title}</div>
+              </div>
+              <p className="text-sm text-muted-foreground">{module.description}</p>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
