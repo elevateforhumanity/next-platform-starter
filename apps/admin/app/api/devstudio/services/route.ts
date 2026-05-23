@@ -34,7 +34,6 @@ const SERVICES_CONFIG = [
     ecsService: 'elevate-lms-service',
     url: 'https://www.elevateforhumanity.org',
     healthPath: '/api/health',
-    deployWorkflow: 'deploy-aws.yml',
     color: 'blue',
   },
   {
@@ -43,7 +42,6 @@ const SERVICES_CONFIG = [
     ecsService: 'elevate-admin-service',
     url: 'https://admin.elevateforhumanity.org',
     healthPath: '/api/health',
-    deployWorkflow: 'deploy-admin.yml',
     color: 'purple',
   },
   {
@@ -52,7 +50,6 @@ const SERVICES_CONFIG = [
     ecsService: 'elevate-studio',
     url: null,
     healthPath: null,
-    deployWorkflow: null,
     color: 'green',
   },
 ] as const;
@@ -228,28 +225,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'deploy') {
-      if (!cfg.deployWorkflow) return safeError(`No deploy workflow for ${serviceKey}`, 400);
-      const ghToken = process.env.GITHUB_TOKEN;
-      if (!ghToken) return safeError('GITHUB_TOKEN not configured', 503);
-
-      const res = await fetch(
-        `https://api.github.com/repos/elevate-for-humanity/Elevate-lms/actions/workflows/${cfg.deployWorkflow}/dispatches`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${ghToken}`,
-            Accept: 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ref: 'main' }),
-        },
+      // Deploy goes through the Command tab (deploy_autopilot) which has
+      // confirmation gating, fallback via Contents API, and run URL streaming.
+      // Direct deploy from Services panel is intentionally not supported.
+      return safeError(
+        'Use the Command tab — type "deploy lms" or "deploy admin". It has confirmation gating, a fallback trigger, and streams the GitHub Actions run URL.',
+        400,
       );
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`GitHub API ${res.status}: ${text.slice(0, 200)}`);
-      }
-      logger.info('[devstudio/services] deploy triggered', { workflow: cfg.deployWorkflow });
-      return NextResponse.json({ ok: true, action: 'deploy', workflow: cfg.deployWorkflow });
     }
 
     return safeError(`Unknown action: ${action}`, 400);

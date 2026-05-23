@@ -13,7 +13,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
   RefreshCw, CheckCircle, AlertCircle, Circle, Play, Square,
-  RotateCcw, Rocket, ExternalLink, Loader2, Clock,
+  RotateCcw, ExternalLink, Loader2, Clock, Terminal,
 } from 'lucide-react';
 
 interface ServiceHealth {
@@ -274,16 +274,15 @@ export default function ServicesPanel() {
                 Restart
               </button>
 
-              {/* Deploy */}
+              {/* Deploy — use Command tab for full deploy with confirmation + run URL */}
               {svc.key !== 'studio' && (
-                <button
-                  onClick={() => doAction(svc.key, 'deploy')}
-                  disabled={isLoading(svc.key, 'deploy')}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 disabled:opacity-40 transition-colors ml-auto"
+                <span
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-500 ml-auto"
+                  title={`Type "deploy ${svc.key}" in the Command tab`}
                 >
-                  {isLoading(svc.key, 'deploy') ? <Loader2 className="w-3 h-3 animate-spin" /> : <Rocket className="w-3 h-3" />}
-                  Deploy
-                </button>
+                  <Terminal className="w-3 h-3" />
+                  deploy {svc.key} in Command tab
+                </span>
               )}
             </div>
 
