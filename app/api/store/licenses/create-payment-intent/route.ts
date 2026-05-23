@@ -46,33 +46,13 @@ async function _POST(request: NextRequest) {
 
     const { productId, customerInfo } = parsed.data;
 
-    // Get product details from DB (with hardcoded fallback during migration)
+    // Get product details from DB
     const { getCatalogProduct } = await import('@/lib/store/db');
     let product: Awaited<ReturnType<typeof getCatalogProduct>> = null;
     try {
       product = await getCatalogProduct(productId);
     } catch {
-      /* DB unavailable */
-    }
-    if (!product) {
-      const { ALL_PRODUCTS } = await import('@/lib/data/store-products');
-      const legacy = ALL_PRODUCTS.find((p) => p.id === productId || p.slug === productId);
-      if (legacy) {
-        product = {
-          id: legacy.id,
-          slug: legacy.slug,
-          name: legacy.name,
-          description: legacy.description,
-          price: legacy.price,
-          billingType: (legacy.billingType as any) || 'one_time',
-          licenseType: legacy.licenseType as any,
-          features: legacy.features || [],
-          appsIncluded: legacy.appsIncluded,
-          stripePriceId: legacy.stripePriceId,
-          stripeProductId: undefined,
-          isActive: true,
-        };
-      }
+      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
     }
 
     if (!product) {

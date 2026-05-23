@@ -77,32 +77,12 @@ async function handler(req: Request) {
       return NextResponse.redirect(new URL(`${storeUrl}?error=invalid-product`, req.url), 303);
     }
 
-    // DB-backed product lookup with hardcoded fallback
+    // DB-backed product lookup
     let product: Awaited<ReturnType<typeof getCatalogProduct>> = null;
     try {
       product = await getCatalogProduct(productId);
     } catch {
-      /* DB unavailable */
-    }
-    if (!product) {
-      const { getProductBySlug } = await import('@/lib/data/store-products');
-      const legacy = getProductBySlug(productId);
-      if (legacy) {
-        product = {
-          id: legacy.id,
-          slug: legacy.slug,
-          name: legacy.name,
-          description: legacy.description,
-          price: legacy.price,
-          billingType: (legacy.billingType as any) || 'one_time',
-          licenseType: legacy.licenseType as any,
-          features: legacy.features || [],
-          appsIncluded: legacy.appsIncluded,
-          stripePriceId: legacy.stripePriceId,
-          stripeProductId: undefined,
-          isActive: true,
-        };
-      }
+      return NextResponse.redirect(new URL(`${storeUrl}?error=payment-unavailable`, req.url), 303);
     }
     if (!product) {
       return NextResponse.redirect(new URL(`${storeUrl}?error=invalid-product`, req.url), 303);

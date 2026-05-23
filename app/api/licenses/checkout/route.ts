@@ -41,32 +41,12 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'plan_id is required' }, { status: 400 });
     }
 
-    // Find the license product from DB (with hardcoded fallback)
+    // Find the license product from DB
     let license: Awaited<ReturnType<typeof getCatalogProduct>> = null;
     try {
       license = await getCatalogProduct(plan_id);
     } catch {
-      /* DB unavailable */
-    }
-    if (!license) {
-      const { ALL_PRODUCTS } = await import('@/lib/data/store-products');
-      const legacy = ALL_PRODUCTS.find((l) => l.slug === plan_id || l.id === plan_id);
-      if (legacy) {
-        license = {
-          id: legacy.id,
-          slug: legacy.slug,
-          name: legacy.name,
-          description: legacy.description,
-          price: legacy.price,
-          billingType: (legacy.billingType as any) || 'one_time',
-          licenseType: legacy.licenseType as any,
-          features: legacy.features || [],
-          appsIncluded: legacy.appsIncluded,
-          stripePriceId: legacy.stripePriceId,
-          stripeProductId: undefined,
-          isActive: true,
-        };
-      }
+      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
     }
     if (!license) {
       return NextResponse.json({ error: 'Invalid plan_id' }, { status: 400 });
