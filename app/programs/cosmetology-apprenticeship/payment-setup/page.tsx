@@ -62,7 +62,7 @@ function PaymentSetupForm({
       // Non-fatal — subscription activation will be retried
     }
 
-    router.push('/programs/cosmetology-apprenticeship/orientation');
+    router.push('/programs/cosmetology-apprenticeship/enrollment-success');
   }
 
   return (

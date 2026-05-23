@@ -368,7 +368,7 @@ const nextConfig = {
       // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
-      // /admin-login — real 113-line admin auth form, no redirect
+      // /admin-login — redirects to admin.elevateforhumanity.org/login (shadow removed 2026-07-02)
 
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
@@ -771,7 +771,7 @@ const nextConfig = {
       // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases
-      // /store/demo has a real 376-line page — no redirect needed
+      { source: '/store/demo', destination: '/store/demos', permanent: true },
       { source: '/store/orders', destination: '/store', permanent: true },
       { source: '/platform/licensing', destination: '/licensing', permanent: true },
       // /chat (220 lines) — real page, no redirect
@@ -943,7 +943,8 @@ const nextConfig = {
       // page files deleted. Run `pnpm route:audit` to verify no stubs remain.
 
       // Portals
-      { source: '/admin-portal', destination: '/admin-login', permanent: true },
+      { source: '/admin-portal', destination: 'https://admin.elevateforhumanity.org/login', permanent: true },
+      { source: '/admin-login', destination: 'https://admin.elevateforhumanity.org/login', permanent: true },
       { source: '/lms-portal', destination: '/lms/dashboard', permanent: true },
 
       // Apply flow aliases

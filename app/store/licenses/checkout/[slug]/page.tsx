@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { logger } from '@/lib/logger';
 import React from 'react';
+import { BNPL_CHECKOUT_LABEL } from '@/lib/bnpl-config';
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -108,10 +109,11 @@ function CheckoutForm({
         )}
       </button>
 
-      <p className="text-xs text-center text-slate-700">
-        Secure payment powered by Stripe. Your payment information is encrypted
-        and secure.
-      </p>
+      <div className="space-y-2 mt-2">
+        <p className="text-xs text-center text-slate-700">
+          Secure payment powered by Stripe. Card and {BNPL_CHECKOUT_LABEL}.
+        </p>
+      </div>
     </form>
   );
 }

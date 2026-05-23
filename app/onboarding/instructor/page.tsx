@@ -148,7 +148,7 @@ export default async function InstructorOnboardingPage() {
           </div>
           {allDone && (
             <Link
-              href="/instructor/dashboard"
+              href="https://admin.elevateforhumanity.org/instructor"
               className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700"
             >
               Go to Dashboard <ArrowRight className="w-4 h-4" />

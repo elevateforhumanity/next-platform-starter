@@ -900,12 +900,14 @@ async function _POST(request: NextRequest) {
               programId,
             );
 
-            // Revoke LMS access if product grants course access
+            // Revoke LMS access if product grants course access.
+            // productId here is a Stripe product ID (prod_xxx) — look up by
+            // stripe_product_id, not the UUID primary key.
             if (productId) {
               const { data: product } = await supabase
                 .from('store_products')
                 .select('grants_course_access, course_id')
-                .eq('id', productId)
+                .eq('stripe_product_id', productId)
                 .maybeSingle();
 
               if (product?.grants_course_access && product.course_id) {

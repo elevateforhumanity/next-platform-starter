@@ -104,7 +104,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
   education: [
     { label: 'My Courses', href: '/lms/courses' },
     { label: 'Learner Dashboard', href: '/learner/dashboard' },
-    { label: 'Instructor Portal', href: '/instructor/dashboard' },
+    { label: 'Instructor Portal', href: 'https://admin.elevateforhumanity.org/instructor' },
     { label: 'Mentor Portal', href: '/mentor/dashboard' },
     { label: 'Creator Studio', href: '/store' },
     { label: 'Schedule', href: '/schedule/select' },
@@ -284,7 +284,7 @@ function EducationPanel({ data, role }: { data: any; role: string }) {
 
       {data.taughtCourses.length > 0 && (
         <div>
-          <SectionHeader title="Courses I Teach" href="/instructor/dashboard" />
+          <SectionHeader title="Courses I Teach" href="https://admin.elevateforhumanity.org/instructor" />
           <div className="space-y-2">
             {data.taughtCourses.map((c: any) => (
               <div
@@ -666,7 +666,7 @@ export default function MyDashboard({
                 },
                 {
                   label: 'Instructor Portal',
-                  href: '/instructor/dashboard',
+                  href: 'https://admin.elevateforhumanity.org/instructor',
                   roles: ['instructor', 'admin', 'super_admin'],
                 },
                 {

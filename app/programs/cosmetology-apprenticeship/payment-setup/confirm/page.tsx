@@ -30,7 +30,7 @@ function ConfirmInner() {
           setErrorMsg(data.error);
         } else {
           setStatus('success');
-          setTimeout(() => router.push('/programs/cosmetology-apprenticeship/orientation'), 2000);
+          setTimeout(() => router.push('/programs/cosmetology-apprenticeship/enrollment-success'), 2000);
         }
       })
       .catch(() => {
@@ -56,7 +56,7 @@ function ConfirmInner() {
         <div className="text-center">
           <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
           <h1 className="text-white font-bold text-xl mb-2">Payment Set Up</h1>
-          <p className="text-slate-400 text-sm">Taking you to orientation…</p>
+          <p className="text-slate-400 text-sm">Taking you to your enrollment……</p>
         </div>
       </div>
     );

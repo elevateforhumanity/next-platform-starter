@@ -90,7 +90,7 @@ export default async function LicensesPage() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link
-                href="/store/demo"
+                href="/store/demos"
                 className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg hover:bg-white/20 transition-colors"
               >
                 Try Demo

@@ -114,7 +114,7 @@ export default function ManagedPlatformPage() {
                 View Plans & Pricing
               </Link>
               <Link
-                href="/store/demo"
+                href="/store/demos"
                 className="border border-slate-300 hover:bg-slate-50 text-slate-900 font-bold px-8 py-4 rounded-lg transition border border-white/20"
               >
                 See Platform Demo
