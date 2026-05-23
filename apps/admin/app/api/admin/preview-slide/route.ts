@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
@@ -10,6 +11,8 @@ export const maxDuration = 30;
  * Requires admin role.
  */
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const auth = await apiRequireAdmin(req);
     if (auth.error) return auth.error;

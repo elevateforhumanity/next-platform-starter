@@ -3,7 +3,6 @@ import { existsSync } from 'fs';
 import { mkdir, writeFile, readFile } from 'fs/promises';
 import path from 'path';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiAuthGuard } from '@/lib/admin/guards';
 type CourseLesson = any;
 type CourseModule = any;
@@ -290,8 +289,6 @@ type Params = Promise<{ lessonId: string }>;
 async function _GET(request: NextRequest, { params }: { params: Params }) {
   const { lessonId } = await params;
 
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
 
   const auth = await apiAuthGuard(request);
 

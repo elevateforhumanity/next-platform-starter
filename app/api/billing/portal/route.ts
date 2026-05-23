@@ -1,9 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-async function _POST() {
+async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'payment');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
     const {

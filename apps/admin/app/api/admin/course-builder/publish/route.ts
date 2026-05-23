@@ -6,10 +6,13 @@ import type { ProgramBuilderTemplate } from '@/lib/course-builder/schema';
 import { runCoursePublishPipeline } from '@/lib/course-builder/pipeline';
 import { adaptProgramTemplateForPublish } from '@/lib/course-builder/publish-adapter';
 import { getServiceDb } from '@/lib/course-builder/db';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 

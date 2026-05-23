@@ -14,6 +14,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { loadAllBlueprints } from '@/lib/curriculum/load-blueprint';
 import { generateCourseFromBlueprint } from '@/lib/curriculum/generate-course-from-blueprint';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -22,6 +23,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     await apiRequireAdmin(request);
   } catch (e) {

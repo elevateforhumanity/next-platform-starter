@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -21,6 +22,8 @@ interface ValidationResult {
  * and OCR-based field extraction for IDs and SSN cards when Tesseract is available.
  */
 async function _POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
     const admin = await requireAdminClient();

@@ -1,8 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Next.js environment variables (no Vite)
-const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supaAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'Content-key';
+const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supaAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+if (!supaUrl || !supaAnon) {
+  throw new Error('NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set');
+}
 
 export const supa = createClient(supaUrl, supaAnon, {
   auth: { persistSession: true, autoRefreshToken: true },

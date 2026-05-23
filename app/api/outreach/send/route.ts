@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 
@@ -195,6 +196,8 @@ async function sendViaSendGrid(to: string[], subject: string, html: string, text
 }
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
   await hydrateProcessEnv();
   // Auth check — only admin can trigger outreach
   const supabase = await createClient();

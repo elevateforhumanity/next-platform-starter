@@ -13,6 +13,7 @@ import { createClient } from '@/lib/supabase/server';
 import { publishCourse } from '@/lib/lms/course-service';
 import { safeInternalError } from '@/lib/api/safe-error';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -84,6 +85,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
 

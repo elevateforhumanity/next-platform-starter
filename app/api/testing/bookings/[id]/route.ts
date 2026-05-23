@@ -1,4 +1,5 @@
 import { safeInternalError } from '@/lib/api/safe-error';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -24,6 +25,8 @@ function fmtDate(d: string) {
 }
 
 async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const db = await requireAdminClient();
   if (!db)

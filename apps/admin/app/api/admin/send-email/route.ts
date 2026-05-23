@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -14,6 +15,8 @@ export const dynamic = 'force-dynamic';
  * General-purpose email send for admin tooling (Dev Studio, etc.).
  */
 async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 

@@ -1,8 +1,7 @@
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { getRAPIDSMetadata, isRAPIDSProgram } from '@/lib/compliance/rapids-config';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -11,8 +10,6 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _POST(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
   const auth = await requireAuth(request);
   if (auth.error) return auth.error;
 

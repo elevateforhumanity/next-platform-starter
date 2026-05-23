@@ -5,7 +5,6 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { strictRateLimit } from '@/lib/rate-limit';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -105,8 +104,6 @@ async function sendTrialWelcomeEmail(
  */
 async function _POST(request: NextRequest) {
   await hydrateProcessEnv();
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
 
   // Correlation ID for tracing failures across client ↔ server
   const correlationId = `trial_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;

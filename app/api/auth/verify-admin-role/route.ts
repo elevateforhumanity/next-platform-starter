@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,7 +12,9 @@ const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
  * Verifies the session cookie belongs to an admin-role user server-side.
  * Returns 200 if allowed, 403 if not. The caller signs out on 403.
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'auth');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
     const {

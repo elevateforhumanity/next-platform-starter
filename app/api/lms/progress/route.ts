@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getLearnerProgress } from '@/lib/lms/engine';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +22,8 @@ export const dynamic = 'force-dynamic';
 // (legacy callers that only need a flat completed list).
 
 async function _GET(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const {
     data: { user },

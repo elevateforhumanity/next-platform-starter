@@ -9,6 +9,7 @@ import { parseBody, getErrorMessage } from '@/lib/api-helpers';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
 import { toError, toErrorMessage } from '@/lib/safe';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 const AFFIRM_API_URL = 'https://api.affirm.com';
 const AFFIRM_PUBLIC_KEY = process.env.AFFIRM_PUBLIC_KEY || 'aGax1GLWFexjLyW7PCf23rfznLl6YGyI';
@@ -21,6 +22,8 @@ function getAuthHeader() {
 
 // Authorize (capture) a transaction
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'payment');
+  if (rateLimited) return rateLimited;
   try {
     const authResult = await apiAuthGuard();
     const user = authResult.user || { id: 'guest', email: '' };

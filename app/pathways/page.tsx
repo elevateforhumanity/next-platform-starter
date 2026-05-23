@@ -138,7 +138,7 @@ const PROGRAMS = [
     credential: 'EPA 608 + OSHA 30',
     issuer: 'EPA + OSHA',
     salary: '$48K average starting ($60K–$80K+ experienced)',
-    jobs: 'HVAC contractors, property management, commercial maintenance — 50+ employer partners',
+    jobs: 'HVAC contractors, property management, commercial maintenance — active employer network across Indiana',
     funding: 'No cost for eligible WIOA participants (includes tools, materials, certifications)',
     desc: 'You learn heating, ventilation, air conditioning, and refrigeration. Hands-on lab work with real equipment. Flexible morning, afternoon, and evening classes. All tools and safety gear provided. Graduates receive a starter tool kit.',
   },

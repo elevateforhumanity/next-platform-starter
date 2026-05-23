@@ -4,7 +4,6 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -18,8 +17,6 @@ async function _POST(req: Request) {
   if (auth.error) return auth.error;
 
   try {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
 
     const body = await req.json();
     const { employer_id, customerId, amount, description } = body;
@@ -95,8 +92,6 @@ async function _GET(request: Request) {
   if (auth.error) return auth.error;
 
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
     const supabase = await requireAdminClient();
 

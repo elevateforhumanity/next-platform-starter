@@ -1,20 +1,21 @@
 import OpenAI from 'openai';
 
+// Canonical placeholder sentinels — must match lib/ai/providers/openai.ts and app/api/grants/draft/route.ts
+const PLACEHOLDER_KEYS = ['placeholder-build-key', 'sk-placeholder-build-key'];
+
 let client: OpenAI | null = null;
 
 export function getOpenAIClient(): OpenAI {
   const apiKey = process.env.OPENAI_API_KEY;
 
-  if (!apiKey || apiKey === 'sk-Content-key' || apiKey === 'placeholder-build-key') {
+  if (!apiKey || PLACEHOLDER_KEYS.includes(apiKey)) {
     throw new Error(
       'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.',
     );
   }
 
   if (!client) {
-    client = new OpenAI({
-      apiKey: apiKey,
-    });
+    client = new OpenAI({ apiKey });
   }
 
   return client;
@@ -22,7 +23,7 @@ export function getOpenAIClient(): OpenAI {
 
 export function isOpenAIConfigured(): boolean {
   const apiKey = process.env.OPENAI_API_KEY;
-  return !!(apiKey && apiKey !== 'sk-Content-key' && apiKey !== 'placeholder-build-key');
+  return !!(apiKey && !PLACEHOLDER_KEYS.includes(apiKey));
 }
 
 // Safe client that won't throw during build

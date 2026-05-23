@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { toError, toErrorMessage } from '@/lib/safe';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 

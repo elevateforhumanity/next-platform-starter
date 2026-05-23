@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { injectFailureRedirect } from '@/lib/api/failure-injection';
 
@@ -13,8 +12,6 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     // Use the public-facing host for redirects so they work behind proxies/Gitpod tunnels
     const host = req.headers.get('x-forwarded-host') || req.headers.get('host') || 'localhost:3000';

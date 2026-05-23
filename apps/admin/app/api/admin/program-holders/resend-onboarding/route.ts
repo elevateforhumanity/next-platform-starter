@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 
@@ -17,6 +18,8 @@ export const dynamic = 'force-dynamic';
  * invalidates the previous one.
  */
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   await hydrateProcessEnv();
   const supabase = await createClient();
   const adminDb = await requireAdminClient();

@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 // GET /api/simulations/[simKey]/attempts
 // Returns the authenticated learner's attempt history for this sim.
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ simKey: string }> }) {
+  const rateLimited = await applyRateLimit(_req, 'api');
+  if (rateLimited) return rateLimited;
   const { simKey } = await params;
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

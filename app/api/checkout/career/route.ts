@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { PRICES } from '@/lib/stripe/prices';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -14,8 +13,6 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-  const rateLimited = await applyRateLimit(request, 'contact');
-  if (rateLimited) return rateLimited;
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });

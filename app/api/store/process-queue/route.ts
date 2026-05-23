@@ -1,6 +1,5 @@
 import { processFulfillmentQueue, getQueueStats } from '@/lib/store/fulfillment-queue';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -18,8 +17,6 @@ export const dynamic = 'force-dynamic';
  */
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     // Verify authorization (cron secret or admin)
     const authHeader = req.headers.get('authorization');
@@ -69,8 +66,6 @@ async function _POST(req: Request) {
  */
 async function _GET(request: Request) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
     const stats = await getQueueStats();
     return Response.json({ stats });

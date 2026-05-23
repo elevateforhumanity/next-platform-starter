@@ -3,10 +3,13 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { generateCertificateNumber } from '@/lib/partner-workflows/certificates';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const db = await requireAdminClient();
   if (!db)

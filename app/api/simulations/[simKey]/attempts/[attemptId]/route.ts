@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 type Params = { params: Promise<{ simKey: string; attemptId: string }> };
 
@@ -55,6 +56,8 @@ async function loadAttempt(db: any, attemptId: string, learnerId: string) {
 // GET /api/simulations/[simKey]/attempts/[attemptId]
 // Returns current attempt state (used to resume an in-progress attempt).
 export async function GET(_req: NextRequest, { params }: Params) {
+  const rateLimited = await applyRateLimit(_req, 'api');
+  if (rateLimited) return rateLimited;
   const { attemptId } = await params;
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -7,6 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { mapCredentialRow, type RawCredentialRow } from '@/lib/domain';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ credentialId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const { credentialId } = await params;
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

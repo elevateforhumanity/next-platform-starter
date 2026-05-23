@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { appendSessionEvent } from '@/lib/proctor/session-events';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'instructor'];
 
@@ -31,6 +32,8 @@ async function getProctor() {
 
 // GET /api/proctor/sessions/[id]
 async function _GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(_req, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const ctx = await getProctor();
     if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

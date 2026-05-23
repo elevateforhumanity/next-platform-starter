@@ -5,6 +5,7 @@
  * enrollment, quiz pass, and minimum seat time requirements.
  */
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string; lessonId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const { lessonId } = await params;
 
   // Forward to the gated endpoint with all original headers (auth cookies)

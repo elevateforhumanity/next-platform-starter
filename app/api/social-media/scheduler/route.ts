@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -23,8 +22,6 @@ async function _GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
 
@@ -362,8 +359,6 @@ async function postToInstagram(content: string, campaign: Record<string, any>) {
  * Manual trigger for testing
  */
 async function _POST(req: Request) {
-  const rateLimited = await applyRateLimit(req, 'api');
-  if (rateLimited) return rateLimited;
 
   return GET(req);
 }

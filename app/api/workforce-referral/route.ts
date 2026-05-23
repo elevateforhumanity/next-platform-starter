@@ -14,7 +14,6 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { WorkforceAgencyType, WorkforceReferralStatus } from '@/types/enrollment';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -24,8 +23,6 @@ export const dynamic = 'force-dynamic';
 
 // GET: List referrals or get specific referral
 async function _GET(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
   const supabase = await createClient();
 
   const {
@@ -82,8 +79,6 @@ async function _GET(request: NextRequest) {
 
 // POST: Create new referral
 async function _POST(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
 
@@ -164,8 +159,6 @@ async function _POST(request: NextRequest) {
 
 // PATCH: Update referral status
 async function _PATCH(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
   const supabase = await createClient();
 
   const {
@@ -295,8 +288,6 @@ async function _PATCH(request: NextRequest) {
 
 // Automated status update endpoint (for cron jobs)
 async function _PUT(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
   const supabase = await createClient();
 
   // This endpoint is for automated status updates

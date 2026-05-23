@@ -11,7 +11,7 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(_req: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
+  const rateLimited = await applyRateLimit(_req, 'api');
   if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const user = await getCurrentUser();

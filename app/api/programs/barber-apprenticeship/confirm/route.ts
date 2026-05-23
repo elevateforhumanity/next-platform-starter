@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { barberConfirmationAdminEmail } from '@/lib/email/templates/barber-full-onboarding';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -18,6 +19,8 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
  * onboarding email. Updates the application status and notifies admin.
  */
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const { token, response } = await request.json();
 

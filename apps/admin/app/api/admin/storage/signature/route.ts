@@ -1,17 +1,21 @@
 import { requireAdmin } from '@/lib/auth';
+import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 
 import { createRouteHandlerClient } from '@/lib/auth';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
 const _GET = withAuth(
-  async (req, context) => {
+  async (req: NextRequest, context) => {
+    const rateLimited = await applyRateLimit(req, 'api');
+    if (rateLimited) return rateLimited;
     const { user } = context;
     const supabase = await createRouteHandlerClient({ cookies });
     const { searchParams } = new URL(req.url);

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import * as Sentry from '@sentry/nextjs';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,6 +12,8 @@ export const dynamic = 'force-dynamic';
 // Use with cron/uptime monitoring to alert on audit system degradation.
 
 async function _GET(request: Request) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const admin = await requireAdminClient();
   const db = admin || supabase;

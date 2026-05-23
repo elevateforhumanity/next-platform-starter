@@ -17,7 +17,7 @@ type Params = { params: Promise<{ forumId: string }> };
 // GET: list threads for a forum
 async function _GET(_req: NextRequest, { params }: Params) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
+    const rateLimited = await applyRateLimit(_req, 'api');
     if (rateLimited) return rateLimited;
 
     const { forumId } = await params;

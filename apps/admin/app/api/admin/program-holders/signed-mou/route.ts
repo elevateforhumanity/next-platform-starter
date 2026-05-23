@@ -1,5 +1,6 @@
 import { requireAdmin } from '@/lib/auth';
 import { cookies } from 'next/headers';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { createRouteHandlerClient } from '@/lib/auth';
 import { withAuth } from '@/lib/with-auth';

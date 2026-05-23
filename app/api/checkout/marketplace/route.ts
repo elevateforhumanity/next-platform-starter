@@ -1,36 +1,25 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { getStripe } from '@/lib/stripe/client';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { toErrorMessage } from '@/lib/safe';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-async function _POST(req: Request) {
-  const rateLimited = await applyRateLimit(req, 'contact');
+async function _POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'payment');
   if (rateLimited) return rateLimited;
+
   const auth = await requireAuth(req);
   if (auth.error) return auth.error;
 
-  // Rate limiting: 10 checkouts per minute per IP
-  const identifier = getClientIdentifier(req.headers);
-  const rateLimitResult = rateLimit(identifier, RateLimitPresets.STRICT);
-
-  if (!rateLimitResult.success) {
-    return NextResponse.json(
-      { error: 'Too many requests. Please try again later.' },
-      {
-        status: 429,
-        headers: createRateLimitHeaders(rateLimitResult),
-      },
-    );
-  }
-
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const stripe = getStripe();
+  if (!stripe) {
     return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
@@ -88,8 +77,7 @@ async function _POST(req: Request) {
     });
 
     return NextResponse.json({ sessionId: session.id });
-  } catch (err: any) {
-    const error = toError(err);
+  } catch (err: unknown) {
     return NextResponse.json({ error: toErrorMessage(err) }, { status: 500 });
   }
 }

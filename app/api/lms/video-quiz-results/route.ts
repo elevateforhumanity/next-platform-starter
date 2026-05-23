@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,8 @@ export const dynamic = 'force-dynamic';
  * Upserts into interactive_video_quiz_answers — one row per user+lesson+question.
  */
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiAuthGuard(request);
   const { user } = auth;
 

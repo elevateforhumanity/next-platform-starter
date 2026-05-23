@@ -11,6 +11,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,8 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const { programId, itemId } = await params;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;

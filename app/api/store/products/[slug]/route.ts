@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCatalogProduct } from '@/lib/store/db';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,8 @@ export const dynamic = 'force-dynamic';
  * Falls back to hardcoded catalog if DB returns null (migration not yet run).
  */
 async function _GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const rateLimited = await applyRateLimit(_req, 'api');
+  if (rateLimited) return rateLimited;
   const { slug } = await params;
 
   if (!slug || slug.length > 100) {

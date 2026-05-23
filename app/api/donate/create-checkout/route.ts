@@ -2,7 +2,7 @@
 // AUTH: Intentionally public — no authentication required
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const maxDuration = 60;

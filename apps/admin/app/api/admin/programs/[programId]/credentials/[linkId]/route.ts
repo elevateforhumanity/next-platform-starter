@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 const PatchSchema = z.object({
   is_required: z.boolean().optional(),
@@ -15,6 +16,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ programId: string; linkId: string }> },
 ) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;

@@ -12,7 +12,7 @@ export const maxDuration = 60;
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(request, 'strict');
+    const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
 
     const body = await req.json();

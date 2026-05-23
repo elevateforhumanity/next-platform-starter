@@ -7,8 +7,11 @@ import { parseBody, getErrorMessage } from '@/lib/api-helpers';
 import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'payment');
+  if (rateLimited) return rateLimited;
   const stripe = getStripe();
   if (!stripe)
     return NextResponse.json({ error: 'Payment system not configured.' }, { status: 503 });

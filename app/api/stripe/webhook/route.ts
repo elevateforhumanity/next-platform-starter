@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 import { NextResponse } from 'next/server';
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
 
 function tierFromPrice(priceId?: string | null): 'free' | 'student' | 'career' {

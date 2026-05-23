@@ -116,8 +116,8 @@ export default async function CareersPage() {
                 <div className="text-black">Training Programs</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-brand-blue-600 mb-2">50+</div>
-                <div className="text-black">Employer Partners</div>
+                <div className="text-4xl font-bold text-brand-blue-600 mb-2">Indiana</div>
+                <div className="text-black">Based &amp; Mission-Driven</div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-bold text-brand-blue-600 mb-2">100%</div>

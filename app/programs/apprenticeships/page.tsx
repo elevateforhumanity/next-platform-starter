@@ -28,8 +28,8 @@ export const metadata: Metadata = {
 const programs = [
   { title: 'Barber Apprenticeship', duration: '12–18 months', desc: '2,000 hours of OJT in licensed barbershops. Indiana Barber License pathway.', href: '/programs/barber-apprenticeship', image: '/images/pages/barber-gallery-1.webp' },
   { title: 'Cosmetology Apprenticeship', duration: '18 months', desc: 'Hands-on salon training. Indiana Cosmetology License pathway.', href: '/programs/cosmetology-apprenticeship', image: '/images/pages/barber-gallery-2.webp' },
-  { title: 'Nail Technician', duration: '6–9 months', desc: 'Manicure, pedicure, gel, acrylic. Indiana Manicurist License pathway.', href: '/programs/nail-technician-apprenticeship', image: '/images/pages/barber-gallery-3.webp' },
-  { title: 'Culinary Apprenticeship', duration: '12 months', desc: 'Professional kitchen training. ServSafe certification.', href: '/programs/culinary-apprenticeship', image: '/images/pages/admin-cafeteria-hero.webp' },
+  { title: 'Esthetician Apprenticeship', duration: '6–12 months', desc: 'Skincare, facials, and advanced treatments. Indiana Esthetician License pathway.', href: '/programs/esthetician-apprenticeship', image: '/images/pages/barber-gallery-3.webp' },
+  { title: 'Skilled Trades', duration: 'Varies', desc: 'Electrical, plumbing, welding, and HVAC. Earn industry credentials while working.', href: '/programs/skilled-trades', image: '/images/pages/admin-cafeteria-hero.webp' },
 ];
 
 const config: ProgramPageConfig = {
@@ -52,7 +52,7 @@ const config: ProgramPageConfig = {
     { question: 'What if I have a criminal record?', answer: 'We specialize in serving justice-involved individuals. Many apprenticeship participants are funded through JRI. Having a record does not automatically disqualify you.' },
     { question: 'How is an apprenticeship different from school?', answer: 'Traditional schools are mostly classroom-based. Apprenticeships put you in a real work environment from day one. You learn by doing, not just watching.' },
   ],
-  applyHref: '/apply?program=apprenticeship',
+  applyHref: '/apply/student',
   breadcrumbs: [{ label: 'Programs', href: '/programs' }, { label: 'Apprenticeships' }],
 };
 

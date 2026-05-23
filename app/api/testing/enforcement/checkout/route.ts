@@ -17,7 +17,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { ENV } from '@/lib/api/env-groups';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';

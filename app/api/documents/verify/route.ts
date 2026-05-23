@@ -5,11 +5,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { verifyDocument, rejectDocument } from '@/lib/documents';
 import { notifyDocumentRejected, notifyDocumentVerified } from '@/lib/notifications';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
 
   // Check authentication

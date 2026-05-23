@@ -1,6 +1,5 @@
 import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -10,8 +9,6 @@ export const maxDuration = 60;
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
 
     const auth = await requireAuth(req);
     if (auth.error) return auth.error;

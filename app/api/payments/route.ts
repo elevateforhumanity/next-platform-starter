@@ -22,7 +22,6 @@ import {
   verifyWebhookSignature,
   handleStripeWebhook,
 } from '@/lib/payments';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -94,8 +93,6 @@ async function getUserStripeCustomerId(userId: string): Promise<string | null> {
 
 async function _GET(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
     const authResult = await apiAuthGuard({ requireAuth: true });
     if (!authResult.authorized) {
@@ -138,8 +135,6 @@ async function _GET(request: NextRequest) {
 
 async function _POST(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
     // Read raw body once — needed for Stripe signature verification
     const rawBody = await request.text();

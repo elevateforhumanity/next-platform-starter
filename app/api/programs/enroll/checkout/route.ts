@@ -1,4 +1,5 @@
 import { getStripeServer } from '@/lib/stripe/get-stripe-server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 /**
  * CANONICAL PROGRAM ENROLLMENT CHECKOUT
  *
@@ -31,6 +32,8 @@ interface CheckoutRequest {
 }
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'payment');
+  if (rateLimited) return rateLimited;
   try {
     const stripe = await getStripeServer();
     if (!stripe) {

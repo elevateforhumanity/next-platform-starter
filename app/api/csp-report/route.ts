@@ -4,10 +4,13 @@
 // unnecessary load and drowning real audit events in noise.
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const body = await request.json();
     // Sample at 10% — CSP reports are noisy and most are benign extension conflicts.

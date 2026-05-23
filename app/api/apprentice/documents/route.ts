@@ -250,7 +250,7 @@ async function _DELETE(request: NextRequest) {
       .from('documents')
       .select('*')
       .eq('id', docId)
-      .eq('student_id', user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     if (!doc) {
@@ -262,10 +262,14 @@ async function _DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Cannot delete approved documents' }, { status: 400 });
     }
 
-    // Delete from storage (extract path from URL)
-    const urlParts = doc.file_url.split('/documents/');
-    if (urlParts.length > 1) {
-      await supabase.storage.from('documents').remove([urlParts[1]]);
+    // Delete from storage — path stored in metadata.storage_path (file_url is null for private bucket)
+    const storagePath: string | undefined = doc.metadata?.storage_path ?? doc.file_url ?? undefined;
+    if (storagePath) {
+      // Strip bucket prefix if present (e.g. "documents/user-id/...")
+      const pathInBucket = storagePath.startsWith('documents/')
+        ? storagePath.slice('documents/'.length)
+        : storagePath;
+      await supabase.storage.from('documents').remove([pathInBucket]);
     }
 
     // Delete record

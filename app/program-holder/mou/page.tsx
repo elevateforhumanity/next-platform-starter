@@ -235,7 +235,7 @@ export default async function ProgramHolderMOUPage() {
                       <span className="font-medium text-slate-900">$1,867.50</span>
                     </div>
                     <div className="flex justify-between items-center pt-1.5">
-                      <span className="text-slate-700">50% to First Class Training Center LLC</span>
+                      <span className="text-slate-700">50% to {orgName}</span>
                       <span className="font-bold text-emerald-700">$1,867.50</span>
                     </div>
                   </div>

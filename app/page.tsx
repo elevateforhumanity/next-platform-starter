@@ -113,52 +113,52 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               {
-                icon: '🎓',
+                img: '/images/pages/for-students-hero.webp',
+                alt: 'Student in workforce training program',
                 label: 'I want a new career',
                 sub: 'Get trained, credentialed, and placed in a job — often at $0 cost through WIOA or state funding.',
                 cta: 'See Programs →',
                 href: '/for-students',
-                border: 'border-brand-red-200 hover:border-brand-red-500',
                 badge: 'bg-brand-red-50 text-brand-red-700',
                 badgeText: 'Most popular',
               },
               {
-                icon: '💰',
+                img: '/images/pages/funding-impact-1.webp',
+                alt: 'Funding advisor helping a student',
                 label: 'I need funding',
                 sub: 'WIOA, SNAP E&T, Workforce Ready Grant, and Job Ready Indy can cover 100% of your training costs.',
                 cta: 'Check Eligibility →',
                 href: '/check-eligibility',
-                border: 'border-blue-200 hover:border-blue-500',
                 badge: 'bg-blue-50 text-blue-700',
                 badgeText: 'Free to check',
               },
               {
-                icon: '🤝',
+                img: '/images/pages/workforce-board-page-1.webp',
+                alt: 'Workforce agency case manager',
                 label: 'I refer job seekers',
                 sub: 'Case managers and WorkOne staff — refer participants, track WIOA outcomes, and document compliance.',
                 cta: 'Agency Tools →',
                 href: '/for-agencies',
-                border: 'border-slate-200 hover:border-slate-500',
                 badge: null,
                 badgeText: null,
               },
               {
-                icon: '🏢',
+                img: '/images/pages/employer-handshake.webp',
+                alt: 'Employer hiring program graduates',
                 label: 'I want to hire',
                 sub: 'Post open roles, host registered apprentices, and access OJT wage reimbursement for new hires.',
                 cta: 'Employer Info →',
                 href: '/for-employers',
-                border: 'border-green-200 hover:border-green-500',
                 badge: 'bg-green-50 text-green-700',
                 badgeText: 'Hiring incentives',
               },
               {
-                icon: '🏫',
+                img: '/images/pages/training-providers-hero.webp',
+                alt: 'Training provider partner',
                 label: 'I offer training',
                 sub: 'Training providers and credential issuers — partner with us to access funding pipelines and expand reach.',
                 cta: 'Partner With Us →',
                 href: '/for-providers',
-                border: 'border-purple-200 hover:border-purple-500',
                 badge: null,
                 badgeText: null,
               },
@@ -166,19 +166,30 @@ export default function HomePage() {
               <Link
                 key={r.href}
                 href={r.href}
-                className={`group relative rounded-2xl border-2 ${r.border} bg-white p-5 flex flex-col gap-3 transition-all hover:shadow-lg hover:-translate-y-0.5`}
+                className="group relative rounded-2xl border border-slate-200 hover:border-brand-red-400 bg-white overflow-hidden flex flex-col transition-all hover:shadow-lg hover:-translate-y-0.5"
               >
-                {r.badge && (
-                  <span className={`absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>
-                    {r.badgeText}
-                  </span>
-                )}
-                <span className="text-3xl">{r.icon}</span>
-                <div>
-                  <p className="font-extrabold text-slate-900 text-sm leading-snug mb-1">{r.label}</p>
-                  <p className="text-xs text-slate-500 leading-relaxed">{r.sub}</p>
+                {/* Photo */}
+                <div className="relative w-full h-36 overflow-hidden">
+                  <Image
+                    src={r.img}
+                    alt={r.alt}
+                    fill
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    loading="lazy"
+                  />
+                  {r.badge && (
+                    <span className={`absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>
+                      {r.badgeText}
+                    </span>
+                  )}
                 </div>
-                <span className="text-xs font-bold text-brand-red-600 group-hover:text-brand-red-700 mt-auto">{r.cta}</span>
+                {/* Text */}
+                <div className="p-4 flex flex-col flex-1 gap-2">
+                  <p className="font-extrabold text-slate-900 text-sm leading-snug">{r.label}</p>
+                  <p className="text-xs text-slate-500 leading-relaxed flex-1">{r.sub}</p>
+                  <span className="text-xs font-bold text-brand-red-600 group-hover:text-brand-red-700 mt-1">{r.cta}</span>
+                </div>
               </Link>
             ))}
           </div>

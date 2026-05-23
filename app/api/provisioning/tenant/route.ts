@@ -4,7 +4,6 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -84,8 +83,6 @@ async function sendWelcomeEmail(
 async function _POST(request: NextRequest) {
   try {
     await hydrateProcessEnv();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
     // Verify admin or webhook secret
     const webhookSecret = request.headers.get('x-webhook-secret');
@@ -250,8 +247,6 @@ async function _POST(request: NextRequest) {
  * Check if subdomain is available
  */
 async function _GET(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
   const subdomain = request.nextUrl.searchParams.get('subdomain');
 
   if (!subdomain) {

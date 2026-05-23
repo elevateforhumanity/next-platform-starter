@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { workoneOnboardingEmail } from '@/lib/email/templates/workone-onboarding';
 import { barberOnboardingEmail } from '@/lib/email/templates/barber-onboarding';
@@ -77,7 +78,9 @@ function formatProgramName(slug: string): string {
  * - Logs each send to onboarding_email_log for follow-up tracking
  * - Skips applicants who already received an onboarding email
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
   await hydrateProcessEnv();
   const authHeader = request.headers.get('authorization');
   const adminSecret = process.env.ADMIN_API_SECRET || process.env.CRON_SECRET;

@@ -3,7 +3,6 @@ import { createClient } from '@/lib/supabase/server';
 import { getInstructorByProgramId, getInstructorById } from '@/lms-data/instructors';
 import { allPrograms } from '@/lms-data/programs';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -19,8 +18,6 @@ interface HistoryMessage {
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     const body = await req.json().catch(() => ({}));
     const {

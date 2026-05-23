@@ -6,8 +6,11 @@ import { logger } from '@/lib/logger';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 async function _POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
     const db = await requireAdminClient();
@@ -59,6 +62,8 @@ async function _POST(request: NextRequest) {
 }
 
 async function _GET(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const supabase = await createClient();
     const db = await requireAdminClient();

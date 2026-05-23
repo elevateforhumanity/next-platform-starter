@@ -1,7 +1,6 @@
 // PUBLIC ROUTE: cosmetology apprenticeship application
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
@@ -9,8 +8,6 @@ import { logger } from '@/lib/logger';
 
 async function _POST(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
 
     const body = await request.json();
     const {

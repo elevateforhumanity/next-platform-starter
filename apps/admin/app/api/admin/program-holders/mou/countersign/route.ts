@@ -1,5 +1,7 @@
+import { NextRequest } from 'next/server';
 import { internalFetch } from '@/lib/api/internal-fetch';
 import { requireAdmin } from '@/lib/auth';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
@@ -18,7 +20,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 const _POST = withAuth(
-  async (req, context) => {
+  async (req: NextRequest, context) => {
+    const rateLimited = await applyRateLimit(req, 'strict');
+    if (rateLimited) return rateLimited;
     const { user } = context;
     const supabase = await createRouteHandlerClient({ cookies });
     const body = await req.json();

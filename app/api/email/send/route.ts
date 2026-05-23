@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logEmailDelivery } from '@/lib/email/monitor';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -26,8 +25,6 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const rateLimited = await applyRateLimit(req, 'strict');
-  if (rateLimited) return rateLimited;
 
   let emailTo = '';
   let emailSubject = '';

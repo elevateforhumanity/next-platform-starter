@@ -3,7 +3,6 @@ import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -28,8 +27,6 @@ export const dynamic = 'force-dynamic';
 async function _POST(request: NextRequest) {
   try {
     await hydrateProcessEnv();
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
 
     // Must be called server-side after a verified Stripe payment — require CRON_SECRET or admin session
     const cronSecret = process.env.CRON_SECRET;

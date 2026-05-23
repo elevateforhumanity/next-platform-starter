@@ -4,6 +4,7 @@ import { requireRole, handleRBACError } from '@/lib/rbac';
 import { withAuth } from '@/lib/with-auth';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -11,7 +12,9 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/admin/sso - List SSO connections
 const _GET = withAuth(
-  async (req, context) => {
+  async (req: NextRequest, context) => {
+    const rateLimited = await applyRateLimit(req, 'api');
+    if (rateLimited) return rateLimited;
     const user = context.user;
     try {
       await requireRole(['admin']);
@@ -36,6 +39,8 @@ const _GET = withAuth(
 // POST /api/admin/sso - Create SSO connection
 const _POST = withAuth(
   async (req: NextRequest, user) => {
+    const rateLimited = await applyRateLimit(req, 'strict');
+    if (rateLimited) return rateLimited;
     try {
       await requireRole(['admin']);
       const supabase = await createClient();

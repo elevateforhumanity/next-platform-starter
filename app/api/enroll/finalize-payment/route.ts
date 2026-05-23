@@ -12,10 +12,9 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -31,8 +30,6 @@ interface FinalizePaymentRequest {
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
 
     // Check if Stripe is configured
     if (!process.env.STRIPE_SECRET_KEY) {

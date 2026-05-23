@@ -1,6 +1,7 @@
 // lib/getCurrentProfile.ts
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+// NOTE: getCurrentProfile has no active callers in app/ as of 2026-Q2.
+// Kept for potential future use. Uses canonical @/lib/supabase/server client.
+import { createClient } from '@/lib/supabase/server';
 
 export type UserRole =
   | 'student'
@@ -18,21 +19,7 @@ export type CurrentProfile = {
 } | null;
 
 export async function getCurrentProfile(): Promise<CurrentProfile> {
-  const cookieStore = cookies();
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'Content-key',
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set() {},
-        remove() {},
-      },
-    },
-  );
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -46,10 +33,7 @@ export async function getCurrentProfile(): Promise<CurrentProfile> {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (error || !profile) {
-    // Error: $1
-    return null;
-  }
+  if (error || !profile) return null;
 
   return profile as CurrentProfile;
 }

@@ -3,7 +3,6 @@ import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { PLANS, PlanId, TRIAL_DAYS } from '@/lib/license/types';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -19,8 +18,6 @@ import { withRuntime } from '@/lib/api/withRuntime';
  */
 async function _POST(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
 

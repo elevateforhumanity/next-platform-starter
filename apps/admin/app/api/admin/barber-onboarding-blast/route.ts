@@ -2,6 +2,7 @@ import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { barberFullOnboardingEmail } from '@/lib/email/templates/barber-full-onboarding';
 import { logger } from '@/lib/logger';
@@ -23,6 +24,8 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
  *   dryRun=true → returns the list without sending
  */
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
   try {
     await apiRequireAdmin(request);
   } catch (e) {

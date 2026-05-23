@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: partner course checkout
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';

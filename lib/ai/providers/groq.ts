@@ -17,10 +17,13 @@ export class GroqProvider implements AIProvider {
   readonly name = 'groq' as const;
   private client: Groq | null = null;
 
+  // Canonical placeholder sentinels — must match lib/openai-client.ts and lib/ai/providers/openai.ts
+  private static readonly PLACEHOLDER_KEYS = ['placeholder-build-key', 'sk-placeholder-build-key'];
+
   private getClient(): Groq {
     if (this.client) return this.client;
     const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey || apiKey === 'placeholder-build-key') {
+    if (!apiKey || GroqProvider.PLACEHOLDER_KEYS.includes(apiKey)) {
       throw new Error('GROQ_API_KEY not configured');
     }
     this.client = new Groq({ apiKey });
@@ -29,7 +32,7 @@ export class GroqProvider implements AIProvider {
 
   isAvailable(): boolean {
     const key = process.env.GROQ_API_KEY;
-    return !!(key && key !== 'placeholder-build-key' && key.length > 10);
+    return !!(key && !GroqProvider.PLACEHOLDER_KEYS.includes(key) && key.length > 10);
   }
 
   async chat(options: ChatCompletionOptions): Promise<ChatCompletionResult> {

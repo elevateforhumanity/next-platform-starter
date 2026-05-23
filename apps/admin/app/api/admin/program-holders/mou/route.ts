@@ -1,4 +1,5 @@
 import { requireAdmin } from '@/lib/auth';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { cookies } from 'next/headers';

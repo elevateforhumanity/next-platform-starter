@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getStripe } from '@/lib/stripe/client';
 
 export const dynamic = 'force-dynamic';
@@ -58,7 +59,9 @@ const APPRENTICE_CUSTOMERS: Record<
   },
 };
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 

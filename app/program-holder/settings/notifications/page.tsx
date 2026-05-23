@@ -42,29 +42,12 @@ export default async function ProgramHolderNotificationSettingsPage() {
 
   if (!programHolder) redirect('/program-holder/onboarding');
 
-  // Get or create notification preferences — table uses user_id, not program_holder_id
-  let { data: preferences } = await supabase
+  // Fetch notification preference columns from the user's profile row (PK = id)
+  const { data: preferences } = await supabase
     .from('profiles')
-    .select('*')
-    .eq('user_id', user.id)
+    .select('email_enabled, sms_enabled, phone_e164, sms_consent, sms_opt_out')
+    .eq('id', user.id)
     .maybeSingle();
-
-  // Create default preferences if they don't exist
-  if (!preferences) {
-    const { data: newPreferences } = await supabase
-      .from('profiles')
-      .insert({
-        user_id: user.id,
-        email_enabled: true,
-        sms_enabled: true,
-        sms_consent: false,
-        sms_opt_out: false,
-      })
-      .select()
-      .maybeSingle();
-
-    preferences = newPreferences;
-  }
 
   return (
     <div className="min-h-screen bg-white py-8">

@@ -1,5 +1,6 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 import { requireAdmin } from '@/lib/auth';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 // app/api/admin/external-progress/update/route.ts
 import { NextRequest, NextResponse } from 'next/server';

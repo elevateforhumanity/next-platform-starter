@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -12,8 +11,6 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 async function _POST(req: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     const body = await req.json().catch(() => null);
     const apiKey = process.env.OPENAI_API_KEY;

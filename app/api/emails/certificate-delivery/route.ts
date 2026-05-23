@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 // Using Node.js runtime for email compatibility
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -18,8 +17,6 @@ async function _POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
 
     const { email, name, programTitle, certificateNumber, certificateUrl, verificationUrl } =
       await req.json();

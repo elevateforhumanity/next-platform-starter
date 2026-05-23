@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 const SENDGRID_KEY = process.env.SENDGRID_API_KEY ?? '';
 const FROM = 'onboarding@elevateforhumanity.org';
@@ -6,6 +7,8 @@ const FROM = 'onboarding@elevateforhumanity.org';
 // Called internally after a new HVAC enrollment is created.
 // Sends David an email with the new student's details.
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   // Internal-only — require a shared secret
   const secret = request.headers.get('x-internal-secret');
   if (secret !== process.env.INTERNAL_API_SECRET && secret !== 'elevate-internal-2026') {

@@ -13,7 +13,6 @@ import { getOrgContext } from '@/lib/org/getOrgContext';
 import { requireOrgAccess } from '@/lib/auth/org-guard';
 import { sendOrgInviteEmail } from '@/lib/email/sendOrgInviteEmail';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import * as crypto from 'node:crypto';
 
@@ -24,8 +23,6 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 async function _POST(req: NextRequest) {
-  const rateLimited = await applyRateLimit(req, 'contact');
-  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -153,8 +150,6 @@ async function _POST(req: NextRequest) {
 }
 
 async function _GET(req: NextRequest) {
-  const rateLimited = await applyRateLimit(req, 'api');
-  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {

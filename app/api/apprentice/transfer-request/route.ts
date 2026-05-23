@@ -21,6 +21,8 @@ const SOURCE_TYPE_MAP: Record<string, TransferSourceType> = {
 };
 
 export const POST = withErrorHandling(async (request: NextRequest) => {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
 
   // Check authentication

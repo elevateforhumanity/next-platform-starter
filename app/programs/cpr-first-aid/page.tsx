@@ -29,7 +29,7 @@ export default function CprFirstAidPage() {
             {CPR_FIRST_AID.title}
           </h1>
           <p className="text-white/90 text-base sm:text-lg leading-relaxed">
-            Live instructor. Training mannequin shipped to your door. Same-day certification. $130.
+            Live instructor. Training mannequin shipped to your door. Same-day HSI certification. $130.
           </p>
         </div>
       </section>
@@ -64,7 +64,7 @@ export default function CprFirstAidPage() {
             Get CPR and First Aid certified from the comfort of your own home. After you enroll, a training mannequin is shipped directly to your door. You join a live instructor-led session online and complete hands-on skills practice at home.
           </p>
           <p className="text-slate-700 text-base leading-relaxed">
-            This course meets the CPR standard required by hospitals, clinics, nursing facilities, construction sites, and most healthcare employers. You receive your digital AHA certification card the same day you complete the course. Included free with any Elevate program enrollment.
+            This course meets the CPR standard required by hospitals, clinics, nursing facilities, construction sites, and most healthcare employers. Delivered through Health &amp; Safety Institute (HSI) — a nationally recognized certification body accepted by employers across healthcare, construction, and childcare. You receive your digital certification card the same day you complete the course. Included free with any Elevate program enrollment.
           </p>
         </div>
       </section>
@@ -78,8 +78,8 @@ export default function CprFirstAidPage() {
               { step: 1, title: 'Apply', desc: 'Enroll online. $130 standalone or free with any Elevate program.' },
               { step: 2, title: 'Enroll', desc: 'A training mannequin ships directly to your home address.' },
               { step: 3, title: 'Train', desc: 'Join the live instructor-led session online. Practice CPR, AED, and first aid on the mannequin at home.' },
-              { step: 4, title: 'Credential', desc: 'Pass the AHA written and skills evaluation. Receive your digital certification card same day.' },
-              { step: 5, title: 'Employment', desc: 'Add your AHA BLS/Heartsaver certification to your resume immediately.' },
+              { step: 4, title: 'Credential', desc: 'Pass the HSI written and skills evaluation. Receive your digital certification card same day.' },
+              { step: 5, title: 'Employment', desc: 'Add your HSI CPR/AED/First Aid certification to your resume immediately.' },
             ].map((item) => (
               <li key={item.step} className="flex gap-4">
                 <span className="flex-shrink-0 w-8 h-8 bg-brand-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { createClient } from '@/lib/supabase/server';
 import { scanApproveStrict } from '@/lib/insurance/scan-approve-strict';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 
@@ -22,6 +23,8 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024;
  * Returns the strict APPROVED/REJECTED decision with full validation details.
  */
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   const gate = await apiRequireAdmin(req);
   if (gate.error) return gate.error;
 

@@ -15,10 +15,12 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
   readonly name = 'openai' as const;
   private client: OpenAI | null = null;
 
+  private static readonly PLACEHOLDER_KEYS = ['placeholder-build-key', 'sk-placeholder-build-key'];
+
   private getClient(): OpenAI {
     if (this.client) return this.client;
     const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey || apiKey === 'placeholder-build-key') {
+    if (!apiKey || OpenAIProvider.PLACEHOLDER_KEYS.includes(apiKey)) {
       throw new Error('OPENAI_API_KEY not configured');
     }
     this.client = new OpenAI({ apiKey });
@@ -27,7 +29,7 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
 
   isAvailable(): boolean {
     const key = process.env.OPENAI_API_KEY;
-    return !!(key && key !== 'placeholder-build-key' && key !== 'sk-Content-key');
+    return !!(key && !OpenAIProvider.PLACEHOLDER_KEYS.includes(key));
   }
 
   async chat(options: ChatCompletionOptions): Promise<ChatCompletionResult> {

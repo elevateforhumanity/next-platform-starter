@@ -3,7 +3,7 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const CPR_FIRST_AID: ProgramSchema = {
   slug: 'cpr-first-aid',
   title: 'CPR & First Aid Certification',
-  subtitle: '$130 · Live instructor · Mannequin shipped to your door · Train from home',
+  subtitle: '$130 · Live instructor · Mannequin shipped to your door · HSI certification · Train from home',
   sector: 'healthcare',
   category: 'Emergency Response',
   programType: 'certification',
@@ -24,22 +24,22 @@ export const CPR_FIRST_AID: ProgramSchema = {
   badgeColor: 'red',
   credentials: [
     {
-      name: 'BLS for Healthcare Providers',
-      issuer: 'American Heart Association',
-      description: 'Basic Life Support certification for healthcare and workplace settings.',
+      name: 'CPR/AED Certification',
+      issuer: 'Health & Safety Institute (HSI)',
+      description: 'CPR and AED certification for healthcare and workplace settings. Nationally recognized, meets employer requirements.',
       validity: '2 years',
     },
     {
-      name: 'Heartsaver First Aid',
-      issuer: 'American Heart Association',
+      name: 'First Aid Certification',
+      issuer: 'Health & Safety Institute (HSI)',
       description: 'First aid skills for workplace and community emergencies.',
       validity: '2 years',
     },
     {
-      name: 'AED Certification',
-      issuer: 'American Heart Association',
-      description: 'Automated External Defibrillator operation certification.',
-      validity: '2 years',
+      name: 'Bloodborne Pathogens',
+      issuer: 'Health & Safety Institute (HSI)',
+      description: 'OSHA-compliant bloodborne pathogens awareness and exposure control.',
+      validity: '1 year',
     },
   ],
   outcomes: [
@@ -126,8 +126,8 @@ export const CPR_FIRST_AID: ProgramSchema = {
   ],
   complianceAlignment: [
     {
-      standard: 'AHA Guidelines 2020',
-      description: 'Training follows current American Heart Association CPR and ECC guidelines.',
+      standard: 'ILCOR / ECC Guidelines',
+      description: 'Training follows current International Liaison Committee on Resuscitation CPR and ECC guidelines as implemented by HSI.',
     },
     {
       standard: 'OSHA Workplace First Aid',
@@ -137,8 +137,8 @@ export const CPR_FIRST_AID: ProgramSchema = {
   credentialPipeline: [
     {
       training: 'CPR/AED/First Aid (1 day)',
-      certification: 'AHA BLS/Heartsaver',
-      certBody: 'American Heart Association',
+      certification: 'HSI CPR/AED & First Aid',
+      certBody: 'Health & Safety Institute (HSI)',
       jobRole: 'Healthcare, Construction, Childcare, Fitness',
     },
   ],
@@ -146,7 +146,7 @@ export const CPR_FIRST_AID: ProgramSchema = {
     medianSalary: 0,
     salaryRange: 'Prerequisite credential',
     growthRate: 'Required for most healthcare and safety positions',
-    source: 'American Heart Association',
+    source: 'Bureau of Labor Statistics',
     sourceYear: 2024,
     region: 'National',
   },
@@ -223,12 +223,12 @@ export const CPR_FIRST_AID: ProgramSchema = {
     {
       question: 'Do I get a card the same day?',
       answer:
-        'Yes. You receive your digital certification card on the same day you complete the course.',
+        'Yes. You receive your digital HSI certification card on the same day you complete the course.',
     },
     {
       question: 'Is this the healthcare-level CPR?',
       answer:
-        'Yes. This course meets the CPR standard required by hospitals, clinics, nursing facilities, and most healthcare employers.',
+        'Yes. This course is delivered through Health & Safety Institute (HSI) and meets the CPR standard required by hospitals, clinics, nursing facilities, and most healthcare employers. HSI certifications are nationally recognized and accepted by employers across healthcare, construction, and childcare.',
     },
     {
       question: 'What if I already have a mannequin?',
@@ -241,9 +241,9 @@ export const CPR_FIRST_AID: ProgramSchema = {
     { label: 'Programs', href: '/programs' },
     { label: 'CPR & First Aid' },
   ],
-  metaTitle: 'CPR & First Aid Certification | Train From Home | $130 | Elevate',
+  metaTitle: 'CPR & First Aid Certification | HSI | Train From Home | $130 | Elevate',
   metaDescription:
-    'Get CPR & First Aid certified from home. Live instructor. Training mannequin shipped to your door. $130. Nationally recognized 2-year certification. Enroll today.',
+    'Get CPR & First Aid certified from home. Live instructor. Training mannequin shipped to your door. $130. HSI certification — accepted by healthcare, construction, and childcare employers. Enroll today.',
 
 
   funding: {

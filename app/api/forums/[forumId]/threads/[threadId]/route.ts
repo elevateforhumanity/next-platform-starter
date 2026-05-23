@@ -17,7 +17,7 @@ type Params = { params: Promise<{ forumId: string; threadId: string }> };
 // GET: full thread details + posts
 async function _GET(_req: NextRequest, { params }: Params) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
+    const rateLimited = await applyRateLimit(_req, 'api');
     if (rateLimited) return rateLimited;
 
     const { threadId } = await params;

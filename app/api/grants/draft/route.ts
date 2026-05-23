@@ -13,13 +13,20 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiAuthGuard } from '@/lib/admin/guards';
 
+const PLACEHOLDER_KEYS = ['placeholder-build-key', 'sk-placeholder-build-key'];
+
 // Lazy-load OpenAI client to prevent build-time errors
 function getOpenAI() {
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey || apiKey === 'Content-key') {
+  if (!apiKey || PLACEHOLDER_KEYS.includes(apiKey)) {
     throw new Error('OPENAI_API_KEY not configured');
   }
   return new OpenAI({ apiKey });
+}
+
+function isOpenAIConfigured(): boolean {
+  const apiKey = process.env.OPENAI_API_KEY;
+  return !!(apiKey && !PLACEHOLDER_KEYS.includes(apiKey));
 }
 
 async function _POST(req: NextRequest) {
@@ -29,7 +36,7 @@ async function _POST(req: NextRequest) {
   const auth = await apiAuthGuard(req);
   if (auth.error) return auth.error;
 
-  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'Content-key') {
+  if (!isOpenAIConfigured()) {
     return NextResponse.json({ error: 'AI features not configured' }, { status: 503 });
   }
   try {

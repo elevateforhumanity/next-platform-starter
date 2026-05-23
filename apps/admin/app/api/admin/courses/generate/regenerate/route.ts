@@ -11,6 +11,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import OpenAI from 'openai';
 import type { GeneratedLesson } from '../route';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -21,6 +22,8 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   await hydrateProcessEnv();
   try {
     const user = await getCurrentUser();

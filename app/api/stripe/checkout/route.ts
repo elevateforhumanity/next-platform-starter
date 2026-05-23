@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { getStripe } from '@/lib/stripe/client';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { getCatalogProduct } from '@/lib/store/db';
 import { STRIPE_PRICE_IDS, isPriceConfigured } from '@/lib/stripe/price-map';
 import { createClient } from '@/lib/supabase/server';
 import { paymentRateLimit } from '@/lib/rate-limit';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { injectFailureRedirect } from '@/lib/api/failure-injection';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -17,8 +16,6 @@ export const dynamic = 'force-dynamic';
 
 async function handler(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
 
     const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
     const storeUrl = `${siteUrl}/store`;

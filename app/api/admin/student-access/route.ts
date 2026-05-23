@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { validateStudentPortalAccess } from '@/lib/auth/student-access';
 import { repairStudentPortalAccess } from '@/lib/auth/repair-student-access';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -8,6 +9,8 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 // body: { email: string; repair?: boolean }
 // Validates student portal access. Pass repair: true to auto-fix broken state.
 export async function POST(req: NextRequest) {
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 

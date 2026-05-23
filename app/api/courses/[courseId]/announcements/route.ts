@@ -10,7 +10,7 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(_req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
-  const rateLimited = await applyRateLimit(request, 'api');
+  const rateLimited = await applyRateLimit(_req, 'api');
   if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const { courseId } = await params;

@@ -1,5 +1,6 @@
 // PUBLIC ROUTE: deprecated tombstone — always returns 410, no data access
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,8 @@ export const dynamic = 'force-dynamic';
  * Redirect any callers to the canonical flow.
  */
 export async function POST(_request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'payment');
+  if (rateLimited) return rateLimited;
   return NextResponse.json(
     {
       error:
