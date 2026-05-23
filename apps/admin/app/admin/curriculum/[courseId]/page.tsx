@@ -34,17 +34,23 @@ export default async function CurriculumCourseEditorPage({
     redirect('/unauthorized');
   }
 
-  // Resolve course name — try training_courses first, then programs table
-  const { data: trainingCourse } = await supabase
+  // Resolve course name — try courses, training_courses, then programs table
+  const { data: courseRow } = await supabase
     .from('courses')
     .select('id, title')
     .eq('id', courseId)
     .maybeSingle();
 
-  const { data: program } = !trainingCourse
+  const { data: trainingCourseRow } = !courseRow
+    ? await supabase.from('training_courses').select('id, title').eq('id', courseId).maybeSingle()
+    : { data: null };
+
+  const { data: program } = !courseRow && !trainingCourseRow
     ? await supabase.from('programs').select('id, title').eq('id', courseId).maybeSingle()
     : { data: null };
 
+  // Keep variable name for downstream usage
+  const trainingCourse = courseRow ?? trainingCourseRow ?? null;
   const courseName = trainingCourse?.title ?? (program as any)?.title ?? (program as any)?.name ?? null;
 
   // Count curriculum_lessons rows for this courseId

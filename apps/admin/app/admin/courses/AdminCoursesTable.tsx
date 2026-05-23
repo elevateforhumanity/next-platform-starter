@@ -166,7 +166,9 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
                       Live Builder
                     </Link>
                     <Link
-                      href={`/lms/courses/${course.id}`}
+                      href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${course.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="rounded border px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
                     >
                       LMS

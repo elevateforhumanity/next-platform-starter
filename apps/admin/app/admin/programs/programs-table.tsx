@@ -154,8 +154,9 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                         Edit
                       </Link>
                       <Link
-                        href={`/programs/${program.slug}`}
+                        href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/programs/${program.slug}`}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-black hover:text-black"
                       >
                         View

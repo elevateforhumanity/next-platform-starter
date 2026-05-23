@@ -15,6 +15,8 @@ interface ExistingCourse {
   title: string;
   slug: string;
   status: string;
+  manageUrl: string;
+  viewUrl: string;
 }
 
 interface Message {
@@ -52,10 +54,34 @@ interface GeneratedCourse {
 
 type Stage = 'chat' | 'review' | 'saving' | 'saved';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+
 const EXISTING_COURSES: ExistingCourse[] = [
-  { id: '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17', title: 'Indiana Registered Barber License', slug: 'barber-apprenticeship', status: 'published' },
-  { id: 'b427be5e-c85b-4b41-91d6-4288aec8c975', title: 'Cosmetology Apprenticeship', slug: 'cosmetology-apprenticeship', status: 'published' },
-  { id: 'f0593164-55be-5867-98e7-8a86770a8dd0', title: 'HVAC EPA 608 Certification', slug: 'hvac-epa-608', status: 'published' },
+  {
+    id: '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
+    title: 'Indiana Registered Barber License',
+    slug: 'barber-apprenticeship',
+    status: 'published',
+    manageUrl: '/admin/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
+    viewUrl: `${SITE_URL}/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17`,
+  },
+  {
+    id: 'b427be5e-c85b-4b41-91d6-4288aec8c975',
+    title: 'Cosmetology Apprenticeship',
+    slug: 'cosmetology-apprenticeship',
+    status: 'published',
+    manageUrl: '/admin/courses/b427be5e-c85b-4b41-91d6-4288aec8c975',
+    viewUrl: `${SITE_URL}/lms/courses/b427be5e-c85b-4b41-91d6-4288aec8c975`,
+  },
+  {
+    // HVAC lives in training_courses — manage via curriculum editor
+    id: 'f0593164-55be-5867-98e7-8a86770a8dd0',
+    title: 'HVAC EPA 608 Certification',
+    slug: 'hvac-epa-608',
+    status: 'published',
+    manageUrl: '/admin/curriculum/f0593164-55be-5867-98e7-8a86770a8dd0',
+    viewUrl: `${SITE_URL}/lms/courses/f0593164-55be-5867-98e7-8a86770a8dd0`,
+  },
 ];
 
 const STARTER_PROMPTS = [
@@ -628,14 +654,15 @@ export default function AICourseBuilderChat({
                     </div>
                     <div className="flex items-center gap-2">
                       <Link
-                        href={`/admin/courses/${course.id}`}
+                        href={course.manageUrl}
                         className="text-xs px-3 py-1.5 border rounded-lg text-slate-600 hover:bg-slate-50 transition-colors"
                       >
                         Manage
                       </Link>
                       <Link
-                        href={`/lms/courses/${course.id}`}
+                        href={course.viewUrl}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-xs px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                       >
                         View →

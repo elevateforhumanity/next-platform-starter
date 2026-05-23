@@ -144,9 +144,10 @@ export default async function BarberShopApplicationsPage() {
             </p>
           </div>
           <Link
-            href="/apply/student?program=barber-apprenticeship&type=partner_shop"
+            href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apply/student?program=barber-apprenticeship&type=partner_shop`}
             className="text-sm text-brand-blue-600 hover:underline"
             target="_blank"
+            rel="noopener noreferrer"
           >
             View application form →
           </Link>

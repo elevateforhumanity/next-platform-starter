@@ -157,13 +157,17 @@ export default function InstructorPortalLanding() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/login?redirect=/instructor/dashboard"
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/login?redirect=/instructor/dashboard`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition"
             >
               Sign In
             </Link>
             <Link
-              href="/apply?role=instructor"
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apply?role=instructor`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 bg-slate-100 text-slate-900 font-bold rounded-lg hover:bg-slate-200 transition"
             >
               Become an Instructor

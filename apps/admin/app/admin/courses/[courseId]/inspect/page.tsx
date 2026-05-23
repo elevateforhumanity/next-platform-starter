@@ -75,7 +75,9 @@ export default async function InspectCoursePage({
               Edit Content
             </Link>
             <Link
-              href={`/lms/courses/${courseId}`}
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${courseId}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-lg bg-white text-brand-blue-700 hover:bg-brand-blue-50 px-3 py-1.5 text-sm font-medium"
             >
               Open LMS
