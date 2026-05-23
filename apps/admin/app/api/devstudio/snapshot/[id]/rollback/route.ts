@@ -12,6 +12,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { emitEvent } from '@/lib/platform/events';
+import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -24,6 +25,18 @@ export async function POST(
   if (auth.error) return auth.error;
 
   const { id } = await params;
+
+  // Typed confirmation required — body must contain { confirmation: 'CONFIRM ROLLBACK' }
+  let body: { confirmation?: string } = {};
+  try { body = await req.json(); } catch { /* no body is fine — will fail confirmation check */ }
+
+  const confirmed = requireTypedConfirmation(body.confirmation, 'rollback');
+  if (!confirmed.ok) {
+    return NextResponse.json(
+      { error: `Type "${confirmed.required}" to confirm rollback`, required: confirmed.required },
+      { status: 422 },
+    );
+  }
 
   try {
     const supabase = createAdminClient();

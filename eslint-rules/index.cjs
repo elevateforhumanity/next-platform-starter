@@ -6,5 +6,6 @@ module.exports = {
   rules: {
     'no-unguarded-search-params': require('./no-unguarded-search-params.cjs'),
     'no-toplevel-api-clients': require('./no-toplevel-api-clients.cjs'),
+    'no-direct-ai-providers': require('./no-direct-ai-providers.cjs'),
   },
 };

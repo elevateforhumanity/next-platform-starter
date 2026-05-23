@@ -36,9 +36,9 @@ export async function POST(req: NextRequest) {
 
   const auth = await apiAuthGuard(req);
 
-  // Require admin or super_admin
-  if (!auth.role || !['admin', 'super_admin'].includes(auth.role)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  // Impersonation is super_admin only — admin and staff cannot impersonate users.
+  if (auth.role !== 'super_admin') {
+    return NextResponse.json({ error: 'Forbidden — super_admin required' }, { status: 403 });
   }
 
   const body = await req.json().catch(() => null);
@@ -116,8 +116,8 @@ export async function DELETE(req: NextRequest) {
 
   const auth = await apiAuthGuard(req);
 
-  if (!auth.role || !['admin', 'super_admin'].includes(auth.role)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  if (auth.role !== 'super_admin') {
+    return NextResponse.json({ error: 'Forbidden — super_admin required' }, { status: 403 });
   }
 
   const cookieStore = await cookies();

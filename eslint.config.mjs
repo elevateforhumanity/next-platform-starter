@@ -30,8 +30,17 @@ export default tseslint.config(
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
       '@next/next': nextPlugin,
+      'elevate-lms': { rules: elevateLmsRules.rules },
     },
     rules: {
+      // ── Elevate LMS custom rules ──────────────────────────────────────────
+      // Prevent top-level API client instantiation (OpenAI, Stripe, etc.)
+      'elevate-lms/no-toplevel-api-clients': 'error',
+      // Prevent unguarded useSearchParams() without Suspense boundary
+      'elevate-lms/no-unguarded-search-params': 'error',
+      // Prevent direct AI provider SDK imports outside lib/ai/
+      // All AI calls must go through aiChat() / runAITask() from lib/ai/
+      'elevate-lms/no-direct-ai-providers': 'error',
       // next plugin rules with pre-existing violations — keep at warn until violations are cleaned up
       '@next/next/no-html-link-for-pages': 'warn',
       '@next/next/no-assign-module-variable': 'warn',

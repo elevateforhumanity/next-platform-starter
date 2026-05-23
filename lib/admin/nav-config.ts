@@ -227,6 +227,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Email Marketing', href: '/admin/email-marketing' },
       { label: 'Blog', href: '/admin/blog' },
       { label: 'Content Management', href: '/admin/content' },
+      { label: 'Page Builder', href: '/admin/page-builder' },
       { label: 'Promo Codes', href: '/admin/promo-codes' },
       { label: 'Store', href: '/admin/store' },
       { label: 'Store — Catalog', href: '/admin/store/catalog' },
@@ -316,6 +317,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Internal Docs', href: '/admin/internal-docs' },
       { label: 'Advanced Tools', href: '/admin/advanced-tools' },
       { label: 'Navigation Settings', href: '/admin/settings/nav' },
+      { label: 'Site Stats', href: '/admin/settings/site-stats' },
     ],
   },
 ];
