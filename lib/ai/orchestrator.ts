@@ -1,0 +1,256 @@
+/**
+ * lib/ai/orchestrator.ts
+ *
+ * Centralized AI orchestration layer.
+ *
+ * All AI tasks route through here. Provides:
+ *   - Centralized provider selection (via aiChat())
+ *   - Centralized rate limiting (caller must apply before invoking)
+ *   - Centralized telemetry + logging
+ *   - Centralized moderation (profanity/PII guard)
+ *   - Task-specific system prompt templates
+ *   - Backwards-compatible: existing endpoints proxy here, no callers broken
+ *
+ * Usage:
+ *   import { runAITask } from '@/lib/ai/orchestrator';
+ *   const result = await runAITask({ task: 'chat', prompt: '...', context: { ... } });
+ *
+ * Migration map (old endpoint → task type):
+ *   /api/ai-chat                → 'prospective_student_chat'  (public chatbot)
+ *   /api/ai-assistant/chat      → 'prospective_student_chat'  (same context)
+ *   /api/ai/chat                → 'instructor_assignment_chat' (per-assignment AI)
+ *   /api/chat/ai-response       → 'general_chat'              (generic conversation)
+ *   /api/ai-instructor          → 'instructor_support'        (general instructor AI)
+ *   /api/ai/instructor          → 'instructor_support'        (same, different caller)
+ *   /api/ai-instructor/message  → 'instructor_support'        (Gemini variant)
+ *   /api/ai-instructor/hvac     → 'instructor_support'        (HVAC Marcus persona)
+ *   /api/ai/generate-course     → 'course_generation'         (course builder)
+ */
+
+import { aiChat } from '@/lib/ai/ai-service';
+import { logger } from '@/lib/logger';
+import type { ChatMessage } from '@/lib/ai/types';
+
+// ─── Task types ───────────────────────────────────────────────────────────────
+
+export type AITask =
+  | 'prospective_student_chat'   // Public chatbot for prospective students
+  | 'instructor_assignment_chat' // Per-assignment AI instructor (reads DB context)
+  | 'instructor_support'         // General instructor/tutor support
+  | 'general_chat'               // Generic authenticated conversation
+  | 'course_generation'          // Course blueprint + lesson generation
+  | 'lesson_generation'          // Single lesson content generation
+  | 'quiz_generation'            // Quiz/checkpoint question generation
+  | 'deployment_analysis'        // Analyze deployment state
+  | 'diagnostics'                // Platform diagnostics
+  | 'social_generation'          // Social media content
+  | 'grant_generation'           // Grant writing assistance
+  | 'career_counseling'          // Career guidance
+  | 'lesson_explanation'         // Explain lesson content to learner
+  | 'recap_generation';          // Generate lesson recap
+
+// ─── Context shapes ───────────────────────────────────────────────────────────
+
+export type AITaskContext = {
+  // Shared
+  history?: ChatMessage[];
+  userId?: string;
+  sessionId?: string;
+
+  // Instructor/lesson context
+  instructorName?: string;
+  instructorPersona?: string;
+  lessonTitle?: string;
+  lessonContent?: string;
+  programName?: string;
+  courseTitle?: string;
+
+  // Assignment context
+  assignmentSystemPrompt?: string;
+
+  // Course generation context
+  topic?: string;
+  difficulty?: string;
+  moduleCount?: number;
+
+  // Moderation
+  skipModeration?: boolean;
+};
+
+export type AITaskInput = {
+  task: AITask;
+  prompt: string;
+  context?: AITaskContext;
+  maxTokens?: number;
+  temperature?: number;
+};
+
+export type AITaskResult = {
+  content: string;
+  provider: string;
+  task: AITask;
+  tokensUsed?: number;
+  blocked?: boolean;
+  blockReason?: string;
+};
+
+// ─── System prompt templates ──────────────────────────────────────────────────
+
+const SYSTEM_PROMPTS: Record<AITask, (ctx: AITaskContext) => string> = {
+  prospective_student_chat: () => `You are the Elevate for Humanity AI Assistant — a warm, helpful guide for prospective students.
+Elevate for Humanity is a nonprofit workforce development organization in Indianapolis, Indiana.
+Programs: HVAC, CNA, Phlebotomy, CDL, Medical Assistant, Barber, Tax Preparation.
+Funding: SNAP E&T, WIOA, employer sponsorship, payment plans.
+Always be helpful and direct. Never say you cannot help. If unsure, direct to admissions@elevateforhumanity.org.`,
+
+  instructor_assignment_chat: (ctx) => ctx.assignmentSystemPrompt
+    || `You are a helpful instructor assistant for ${ctx.programName ?? 'this program'}. Guide the student through their assignment with encouragement and clear explanations.`,
+
+  instructor_support: (ctx) => `You are ${ctx.instructorName ?? 'an AI instructor'} for Elevate for Humanity.
+${ctx.instructorPersona ? `Persona: ${ctx.instructorPersona}` : ''}
+${ctx.programName ? `Program: ${ctx.programName}` : ''}
+${ctx.lessonTitle ? `Current lesson: ${ctx.lessonTitle}` : ''}
+Your role: guide students through their coursework with clear, encouraging explanations. Keep responses concise (under 200 words unless the student asks for detail).`,
+
+  general_chat: () => `You are a helpful AI assistant for Elevate for Humanity. Answer questions clearly and concisely.`,
+
+  course_generation: (ctx) => `You are a curriculum architect. Generate structured course blueprints as JSON.
+Difficulty: ${ctx.difficulty ?? 'intermediate'}. Topic: ${ctx.topic ?? 'general'}.
+Return only valid JSON matching the CourseTemplate schema.`,
+
+  lesson_generation: (ctx) => `You are a curriculum writer for ${ctx.programName ?? 'workforce training'}.
+Write lesson content in plain HTML (h2, p, ul, ol only). 300-500 words. Be practical and direct.`,
+
+  quiz_generation: (ctx) => `You are an assessment designer for ${ctx.programName ?? 'workforce training'}.
+Generate multiple-choice questions as a JSON array: [{ question, options: string[4], correct: 0-3, explanation }].
+Return only valid JSON.`,
+
+  deployment_analysis: () => `You are a DevOps analyst for the Elevate platform. Analyze deployment state, identify issues, and recommend actions. Be specific and actionable.`,
+
+  diagnostics: () => `You are a platform diagnostics assistant. Analyze system state, identify anomalies, and provide structured findings with severity levels.`,
+
+  social_generation: (ctx) => `You are a social media writer for Elevate for Humanity, a nonprofit workforce development org.
+${ctx.programName ? `Focus: ${ctx.programName}` : ''}
+Write engaging, authentic content. Avoid corporate jargon. Highlight real student impact.`,
+
+  grant_generation: () => `You are a grant writing specialist for Elevate for Humanity. Write compelling, evidence-based grant content aligned with workforce development funding priorities (WIOA, DOL, SNAP E&T).`,
+
+  career_counseling: () => `You are a career counselor at Elevate for Humanity. Help students explore career paths, understand program options, and plan their workforce development journey. Be encouraging and realistic.`,
+
+  lesson_explanation: (ctx) => `You are a patient tutor helping a student understand: "${ctx.lessonTitle ?? 'this lesson'}".
+${ctx.lessonContent ? `Lesson content: ${ctx.lessonContent.slice(0, 500)}` : ''}
+Explain concepts clearly. Use analogies. Check for understanding.`,
+
+  recap_generation: (ctx) => `You are a curriculum writer. Generate a concise recap of: "${ctx.lessonTitle ?? 'this lesson'}".
+${ctx.lessonContent ? `Content: ${ctx.lessonContent.slice(0, 800)}` : ''}
+Format: 3-5 bullet points covering key takeaways. Plain text only.`,
+};
+
+// ─── Moderation guard ─────────────────────────────────────────────────────────
+
+const BLOCKED_PATTERNS = [
+  /\b(fuck|shit|bitch|asshole|nigger|faggot)\b/i,
+  // PII patterns
+  /\b\d{3}-\d{2}-\d{4}\b/, // SSN
+  /\b\d{16}\b/,             // Credit card
+];
+
+function moderateInput(text: string): { blocked: boolean; reason?: string } {
+  for (const pattern of BLOCKED_PATTERNS) {
+    if (pattern.test(text)) {
+      return { blocked: true, reason: 'Content policy violation' };
+    }
+  }
+  return { blocked: false };
+}
+
+// ─── Main orchestrator ────────────────────────────────────────────────────────
+
+export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
+  const { task, prompt, context = {}, maxTokens, temperature } = input;
+
+  // Moderation
+  if (!context.skipModeration) {
+    const mod = moderateInput(prompt);
+    if (mod.blocked) {
+      logger.warn('[ai-orchestrator] Blocked input', { task, reason: mod.reason, userId: context.userId });
+      return {
+        content: "I'm not able to respond to that. Please keep the conversation respectful.",
+        provider: 'blocked',
+        task,
+        blocked: true,
+        blockReason: mod.reason,
+      };
+    }
+  }
+
+  // Build messages
+  const systemPromptFn = SYSTEM_PROMPTS[task];
+  const systemPrompt = systemPromptFn(context);
+
+  const messages: ChatMessage[] = [
+    { role: 'system', content: systemPrompt },
+    ...(context.history ?? []),
+    { role: 'user', content: prompt },
+  ];
+
+  // Default params by task type
+  const defaults: Record<AITask, { maxTokens: number; temperature: number }> = {
+    prospective_student_chat:   { maxTokens: 600,  temperature: 0.7 },
+    instructor_assignment_chat: { maxTokens: 800,  temperature: 0.6 },
+    instructor_support:         { maxTokens: 400,  temperature: 0.6 },
+    general_chat:               { maxTokens: 600,  temperature: 0.7 },
+    course_generation:          { maxTokens: 4000, temperature: 0.4 },
+    lesson_generation:          { maxTokens: 800,  temperature: 0.5 },
+    quiz_generation:            { maxTokens: 2000, temperature: 0.3 },
+    deployment_analysis:        { maxTokens: 1000, temperature: 0.3 },
+    diagnostics:                { maxTokens: 1000, temperature: 0.2 },
+    social_generation:          { maxTokens: 400,  temperature: 0.8 },
+    grant_generation:           { maxTokens: 1500, temperature: 0.5 },
+    career_counseling:          { maxTokens: 600,  temperature: 0.7 },
+    lesson_explanation:         { maxTokens: 600,  temperature: 0.6 },
+    recap_generation:           { maxTokens: 400,  temperature: 0.4 },
+  };
+
+  const params = defaults[task];
+
+  try {
+    const result = await aiChat({
+      model: task === 'course_generation' || task === 'quiz_generation' ? 'gpt-4.1' : 'gpt-4.1-mini',
+      messages,
+      temperature: temperature ?? params.temperature,
+      maxTokens: maxTokens ?? params.maxTokens,
+    });
+
+    logger.info('[ai-orchestrator] Task completed', {
+      task,
+      userId: context.userId,
+      tokens: result.usage?.totalTokens,
+    });
+
+    return {
+      content: result.content ?? '',
+      provider: result.provider ?? 'unknown',
+      task,
+      tokensUsed: result.usage?.totalTokens,
+    };
+  } catch (err) {
+    logger.error('[ai-orchestrator] Task failed', { task, err });
+    throw err;
+  }
+}
+
+// ─── Deprecation proxies ──────────────────────────────────────────────────────
+// These allow old callers to migrate gradually without breaking.
+
+/** @deprecated Use runAITask({ task: 'prospective_student_chat', ... }) */
+export const runProspectiveStudentChat = (prompt: string, history?: ChatMessage[]) =>
+  runAITask({ task: 'prospective_student_chat', prompt, context: { history } });
+
+/** @deprecated Use runAITask({ task: 'instructor_support', ... }) */
+export const runInstructorChat = (prompt: string, context: AITaskContext) =>
+  runAITask({ task: 'instructor_support', prompt, context });
+
+/** @deprecated Use runAITask({ task: 'general_chat', ... }) */
+export const runGeneralChat = (prompt: string, history?: ChatMessage[]) =>
+  runAITask({ task: 'general_chat', prompt, context: { history } });

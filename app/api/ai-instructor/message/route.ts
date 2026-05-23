@@ -1,3 +1,8 @@
+/**
+ * @deprecated Route to lib/ai/orchestrator.ts for new callers.
+ * This endpoint is preserved for backwards compatibility.
+ * Migration: runAITask({ task: 'general_chat' | 'instructor_support', ... })
+ */
 import { NextRequest, NextResponse } from 'next/server';
 
 import { logger } from '@/lib/logger';

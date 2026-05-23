@@ -1,3 +1,8 @@
+/**
+ * @deprecated Route to lib/ai/orchestrator.ts for new callers.
+ * This endpoint is preserved for backwards compatibility.
+ * Migration: runAITask({ task: 'general_chat' | 'instructor_support', ... })
+ */
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getInstructorByProgramId, getInstructorById } from '@/lms-data/instructors';

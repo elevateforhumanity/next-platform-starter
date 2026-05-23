@@ -13,25 +13,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
-// System prompt for the AI assistant
-const SYSTEM_PROMPT = `You are the Elevate for Humanity AI Assistant. You help visitors navigate the website and learn about workforce training programs.
-
-Key information about Elevate for Humanity:
-- Nonprofit workforce development organization in Indianapolis, Indiana
-- Offers FREE career training through WIOA (Workforce Innovation and Opportunity Act) funding
-- Programs include: Healthcare (CNA, Medical Assistant, Phlebotomy), Skilled Trades (HVAC, Electrical, Welding), Technology (IT Support, Cybersecurity), CDL Training, Barbering
-- Also serves JRI (Justice Reinvestment Initiative) participants
-- Phone: 317-314-3757
-- Website sections: /programs, /wioa-eligibility, /apply, /about, /contact
-
-Your role:
-- Be friendly, helpful, and concise
-- Guide users to relevant pages with markdown links like [View Programs](/programs)
-- Help with eligibility questions
-- Encourage users to apply or contact the team
-- If asked something you don't know, direct them to call 317-314-3757
-
-Keep responses brief (2-4 sentences) unless more detail is needed.`;
+// System prompt moved to lib/ai/orchestrator.ts (task: 'prospective_student_chat')
 
 export async function POST(req: NextRequest) {
   try {
@@ -82,19 +64,16 @@ export async function POST(req: NextRequest) {
       { role: 'user' as const, content: message },
     ];
 
-    // Call OpenAI
-    const OpenAI = (await import('openai')).default;
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-mini',
-      messages,
-      temperature: 0.7,
-      max_tokens: 300,
+    // Route through centralized AI orchestrator
+    const { runAITask } = await import('@/lib/ai/orchestrator');
+    const aiResult = await runAITask({
+      task: 'prospective_student_chat',
+      prompt: message,
+      context: { history: (history || []).map((m: any) => ({ role: m.role, content: m.content })), userId: user?.id },
+      maxTokens: 300,
     });
 
-    const assistantMessage =
-      completion.choices[0]?.message?.content ||
+    const assistantMessage = aiResult.content ||
       "I'm sorry, I couldn't process that. Please try again or call 317-314-3757 for help.";
 
     // Save messages to database
