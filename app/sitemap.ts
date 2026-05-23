@@ -151,7 +151,7 @@ const PUBLIC_ROUTES = [
   // Business & Finance
   '/programs/finance-bookkeeping-accounting',
   '/programs/bookkeeping',
-  '/programs/tax-preparation',
+
   '/programs/entrepreneurship',
   '/programs/business-startup',
   '/programs/business-administration',

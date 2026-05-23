@@ -179,11 +179,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Cash Advances — Settings', href: '/admin/cash-advances/settings' },
       { label: 'Payout Queue', href: '/admin/payout-queue' },
       { label: 'Payroll Cards', href: '/admin/payroll-cards' },
-      { label: 'Tax Filing', href: '/admin/tax-filing' },
-      { label: 'Tax Filing — Applications', href: '/admin/tax-filing/applications' },
-      { label: 'Tax Filing — Reports', href: '/admin/tax-filing/reports' },
-      { label: 'Tax Filing — Preparers', href: '/admin/tax-filing/preparers' },
-      { label: 'Tax Filing — Training', href: '/admin/tax-filing/training' },
+
       { label: 'WOTC', href: '/admin/wotc' },
       { label: 'RAPIDS', href: '/admin/rapids' },
       { label: 'RAPIDS — Apprentices', href: '/admin/rapids/apprentices' },
