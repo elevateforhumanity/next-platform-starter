@@ -365,18 +365,19 @@ curl -s -X POST \
 pnpm tsx --env-file=.env.local scripts/check-pending-migrations.ts
 ```
 
-### Migration Status (as of 2026-07-01)
+### Migration Status (as of 2026-07-02)
 
-All 687 migrations are applied to production. Last applied:
+All 690 migrations are applied to production. Last applied:
 
 | Migration | Description | Status |
 |---|---|---|
 | `20260701000006_curriculum_uploads.sql` | `curriculum_uploads` table + storage bucket | ✅ Applied |
-| `20260701000007_document_intel_and_grant_applications.sql` | Document intelligence + grant applications | ✅ Applied |
-| `20260701000008_contract_automation.sql` | Contract templates + automation | ✅ Applied |
 | `20260701000009_fix_program_holders_user_id_constraint.sql` | Drop duplicate unique constraint on `program_holders.user_id` | ✅ Applied |
 | `20260701000010_platform_secrets.sql` | `platform_secrets` + `platform_settings` tables | ✅ Applied |
 | `20260701000011_bootstrap_missing_profiles.sql` | Upsert missing profile rows, promote admin emails | ✅ Applied |
+| `20260702000001_rls_and_security_hardening.sql` | Enable RLS on 4 tables, fix 9 storage policies using `{public}` role, clean up duplicate profile policies, add bucket mime/size limits | ✅ Applied |
+| `20260702000002_store_products_product_id.sql` | Add `product_id` FK to `store_products` — required for cart LMS access grant lookup | ✅ Applied |
+| `20260702000003_store_products_stripe_id.sql` | Add `stripe_product_id` to `store_products` — required for Stripe webhook refund → LMS revocation | ✅ Applied |
 
 ---
 
@@ -399,6 +400,26 @@ All API error responses use `lib/api/safe-error.ts`:
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 return safeError('Not found', 404);
 ```
+
+### Security Audit — 2026-07-02
+
+**RLS gaps found and fixed:**
+- `ai_plan_executions`, `platform_events`, `platform_snapshots`, `program_holder_call_log` — had RLS disabled. Now enabled with admin-only policies.
+- 9 storage policies were using `{public}` role (unauthenticated) on private buckets — changed to `{authenticated}`.
+- `demo-audio` bucket had no file size limit or mime-type restriction — now capped at 50 MB, audio only.
+- `curriculum` bucket now restricted to PDF, video, image, and document mime types.
+
+**All tables now have RLS enabled.** Run this to verify:
+```sql
+SELECT relname FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public' AND c.relkind = 'r' AND c.relrowsecurity = false;
+-- Should return 0 rows
+```
+
+**Storage policies:** All private bucket policies now require `authenticated` role. Public buckets (`avatars`, `public-assets`) remain intentionally public.
+
+---
 
 ### Admin Portal Access
 
