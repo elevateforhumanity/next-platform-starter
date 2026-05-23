@@ -37,9 +37,9 @@
 
 | Metric                    | Count                                                 |
 | ------------------------- | ----------------------------------------------------- |
-| `page.tsx` files          | 1,486                                                 |
-| `route.ts` files (API)    | 1,079                                                 |
-| Supabase migrations       | 278                                                   |
+| `page.tsx` files          | 1,293                                                 |
+| `route.ts` files (API)    | 1,186                                                 |
+| Supabase migrations       | 685                                                   |
 | `console.log` occurrences | ~1,521 across 118 files — use `lib/logger.ts` instead |
 
 ---
