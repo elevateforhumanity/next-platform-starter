@@ -12,9 +12,9 @@ import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
+import { BARBER_COURSE_ID } from '@/lib/barber/constants';
 
 const BARBER_PROGRAM_SLUG = 'barber-apprenticeship';
-const BARBER_COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 
 export interface BarberPostPaymentInput {
   db: SupabaseClient;

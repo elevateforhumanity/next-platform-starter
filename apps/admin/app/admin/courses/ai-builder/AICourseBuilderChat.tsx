@@ -56,34 +56,6 @@ type Stage = 'chat' | 'review' | 'saving' | 'saved';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
 
-const EXISTING_COURSES: ExistingCourse[] = [
-  {
-    id: '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
-    title: 'Indiana Registered Barber License',
-    slug: 'barber-apprenticeship',
-    status: 'published',
-    manageUrl: '/admin/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
-    viewUrl: `${SITE_URL}/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17`,
-  },
-  {
-    id: 'b427be5e-c85b-4b41-91d6-4288aec8c975',
-    title: 'Cosmetology Apprenticeship',
-    slug: 'cosmetology-apprenticeship',
-    status: 'published',
-    manageUrl: '/admin/courses/b427be5e-c85b-4b41-91d6-4288aec8c975',
-    viewUrl: `${SITE_URL}/lms/courses/b427be5e-c85b-4b41-91d6-4288aec8c975`,
-  },
-  {
-    // HVAC lives in training_courses — manage via curriculum editor
-    id: 'f0593164-55be-5867-98e7-8a86770a8dd0',
-    title: 'HVAC EPA 608 Certification',
-    slug: 'hvac-epa-608',
-    status: 'published',
-    manageUrl: '/admin/curriculum/f0593164-55be-5867-98e7-8a86770a8dd0',
-    viewUrl: `${SITE_URL}/lms/courses/f0593164-55be-5867-98e7-8a86770a8dd0`,
-  },
-];
-
 const STARTER_PROMPTS = [
   'Build a cosmetology / esthetics course for Indiana state board exam prep',
   'Create a peer recovery specialist certification course — 40 hours, CARES Act aligned',
@@ -118,6 +90,25 @@ export default function AICourseBuilderChat({
   const [course, setCourse] = useState<GeneratedCourse | null>(null);
   const [selectedProgramId, setSelectedProgramId] = useState(initialProgramId);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [existingCourses, setExistingCourses] = useState<ExistingCourse[]>([]);
+
+  // Load existing courses from DB on mount
+  useEffect(() => {
+    fetch('/api/admin/lms/courses')
+      .then((r) => r.json())
+      .then((data: { courses?: { id: string; title: string; slug: string; status: string }[] }) => {
+        const courses = (data.courses ?? []).map((c) => ({
+          id: c.id,
+          title: c.title,
+          slug: c.slug,
+          status: c.status,
+          manageUrl: `/admin/courses/${c.id}`,
+          viewUrl: `${SITE_URL}/lms/courses/${c.id}`,
+        }));
+        setExistingCourses(courses);
+      })
+      .catch(() => {/* non-critical — sidebar just stays empty */});
+  }, []);
   const [savedCourseId, setSavedCourseId] = useState<string | null>(null);
   const [generatingVideos, setGeneratingVideos] = useState(false);
   const [videoResult, setVideoResult] = useState<string | null>(null);
@@ -645,7 +636,7 @@ export default function AICourseBuilderChat({
                 Already built — manage or view
               </p>
               <div className="space-y-2">
-                {EXISTING_COURSES.map((course) => (
+                {existingCourses.map((course) => (
                   <div key={course.id} className="flex items-center justify-between bg-white border rounded-xl px-4 py-3">
                     <div className="flex items-center gap-3">
                       <span className={`w-2 h-2 rounded-full flex-shrink-0 ${course.status === 'published' ? 'bg-green-500' : 'bg-amber-400'}`} />
