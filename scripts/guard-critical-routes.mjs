@@ -13,7 +13,6 @@ const PERSISTENCE_REQUIRED_ROUTES = [
   'app/api/advising-request/route.ts',
   'app/api/enrollment/submit-documents/route.ts',
   'app/api/enroll/cna/route.ts',
-  // tax/book-appointment is a 308 redirect stub to supersonicfastermoney.com — no DB writes
   'app/api/booking/schedule/route.ts',
 ];
 

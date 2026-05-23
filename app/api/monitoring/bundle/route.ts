@@ -4,7 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
-// Tax software moved to supersonicfastermoney.com
+
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -169,7 +169,6 @@ async function _GET(req: Request) {
       Object.entries(queryErrors).filter(([, v]) => v !== null),
     );
 
-    // MeF tax stack moved to supersonicfastermoney.com
     const mefReadiness = null;
 
     const bundle = {
