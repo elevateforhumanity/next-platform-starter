@@ -35,13 +35,15 @@ const CLUSTER = 'elevate-cluster';
 const SSM_PATH = '/elevate/';
 
 const SERVICE_MAP: Record<string, string> = {
-  lms:   'elevate-lms-service',
-  admin: 'elevate-admin-service',
+  lms:    'elevate-lms-service',
+  admin:  'elevate-admin-service',
+  studio: 'elevate-studio',
 };
 
 const TASK_DEF_MAP: Record<string, string> = {
-  lms:   'elevate-lms',
-  admin: 'elevate-admin',
+  lms:    'elevate-lms',
+  admin:  'elevate-admin',
+  studio: 'elevate-studio',
 };
 
 async function resolveSecret(db: Awaited<ReturnType<typeof requireAdminClient>>, key: string): Promise<string | null> {

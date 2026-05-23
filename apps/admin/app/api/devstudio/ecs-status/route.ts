@@ -37,7 +37,7 @@ export const runtime = 'nodejs';
 
 const REGION  = process.env.AWS_REGION ?? 'us-east-1';
 const CLUSTER = 'elevate-cluster';
-const SERVICES = ['elevate-lms-service', 'elevate-admin-service'];
+const SERVICES = ['elevate-lms-service', 'elevate-admin-service', 'elevate-studio'];
 
 // ── SigV4 helpers ─────────────────────────────────────────────────────────────
 
