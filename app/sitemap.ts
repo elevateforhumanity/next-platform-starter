@@ -73,6 +73,7 @@ const PUBLIC_ROUTES = [
   '/scholarships',
   '/site-map',
   '/approvals',
+  '/schools/mesmerized-by-beauty',
   '/academic-calendar',
   '/academic-integrity',
   '/certification-testing',

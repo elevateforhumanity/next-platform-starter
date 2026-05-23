@@ -126,12 +126,26 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
     return <>{children}</>;
   }
 
+  // Resolve holder name for conditional nav items
+  let holderOrgName: string | null = null;
+  if (profile?.program_holder_id) {
+    const { data: holderRow } = await db
+      .from('program_holders')
+      .select('organization_name')
+      .eq('id', profile.program_holder_id)
+      .maybeSingle();
+    holderOrgName = holderRow?.organization_name ?? null;
+  }
+
+  const isMesmerized = isAdmin || holderOrgName === 'Mesmerized by Beauty Cosmetology Academy';
+
   const navItems = [
     { href: '/program-holder/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/program-holder/verification', label: 'Verification', icon: Shield },
     { href: '/program-holder/students', label: 'Students', icon: Users },
     { href: '/program-holder/students/pending', label: 'Pending Students', icon: Clock },
     { href: '/program-holder/students/at-risk', label: 'At-Risk Students', icon: AlertTriangle },
+    ...(isMesmerized ? [{ href: '/program-holder/school-applications', label: 'School Applications', icon: FileText }] : []),
     { href: '/program-holder/grades', label: 'Grades', icon: GraduationCap },
     { href: '/program-holder/courses/create', label: 'Create Course', icon: BookOpen },
     { href: '/program-holder/campaigns', label: 'Campaigns', icon: Megaphone },
