@@ -1,7 +1,10 @@
 /**
  * Public document upload for provider applications.
  * Accepts PDF/image files, stores in Supabase `provider-documents` bucket,
- * returns a public URL. No auth required — rate-limited by IP.
+ * returns a public URL.
+ *
+ * AUTH_EXEMPT: Intentionally public — unauthenticated applicants upload docs before account creation.
+ * Security: rate-limited by IP, file type + size validated, stored in private bucket.
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';

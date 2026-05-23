@@ -10,6 +10,9 @@ const QB_TOKEN_URL = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer'
  * QuickBooks OAuth 2.0 callback.
  * Exchanges the authorization code for access + refresh tokens,
  * then persists them to AWS SSM so ECS containers pick them up.
+ *
+ * AUTH_EXEMPT: OAuth callback — Intuit redirects here before any session exists.
+ * Security: state param validated, rate-limited by IP, tokens never returned to client.
  */
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'auth');

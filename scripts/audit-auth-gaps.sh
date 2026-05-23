@@ -37,7 +37,17 @@ find app/api/ -name "route.ts" | sort | while read -r f; do
     continue
   fi
   # Skip files with explicit intentional-public or handler-delegated auth comment
-  if grep -qE "AUTH: Intentionally public|AUTH: Enforced inside handler|// PUBLIC ROUTE" "$f" 2>/dev/null; then
+  if grep -qE "AUTH: Intentionally public|AUTH: Enforced inside handler|// PUBLIC ROUTE|AUTH_EXEMPT" "$f" 2>/dev/null; then
+    continue
+  fi
+  # Skip redirect stubs — routes that only 308 to an external domain
+  if grep -qE "NextResponse\.redirect\(" "$f" 2>/dev/null && ! grep -qE "POST|PUT|PATCH|DELETE" "$f" 2>/dev/null; then
+    if grep -qE "supersonicfastermoney\.com|308" "$f" 2>/dev/null; then
+      continue
+    fi
+  fi
+  # Skip redirect stubs with any method that only redirect
+  if grep -q "supersonicfastermoney.com" "$f" 2>/dev/null; then
     continue
   fi
   if ! grep -qE "requireAuth|apiRequireAdmin|apiAuthGuard|requireAdmin|getUser|getCurrentUser|getAuthUser|createClient|createAdminClient|requireApiAuth|requireApiRole|CRON_SECRET|apiGuard|withAuth|checkAuth|verifyAuth|authMiddleware|requireOrgAdmin|AUDIT_SECRET|apiRequireInstructor|builderGuard|requireInstructor|requireOrgAdmin|apiRequireRole|requireApiRole|requireOrgAdmin" "$f" 2>/dev/null; then

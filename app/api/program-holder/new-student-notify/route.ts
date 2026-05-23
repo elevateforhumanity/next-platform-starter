@@ -4,6 +4,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 const SENDGRID_KEY = process.env.SENDGRID_API_KEY ?? '';
 const FROM = 'onboarding@elevateforhumanity.org';
 
+// AUTH_EXEMPT: Internal server-to-server route. Secured via INTERNAL_API_SECRET shared secret.
 // Called internally after a new HVAC enrollment is created.
 // Sends David an email with the new student's details.
 export async function POST(request: NextRequest) {
