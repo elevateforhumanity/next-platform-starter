@@ -64,9 +64,40 @@ export default function MonitoringDashboard() {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch('/api/admin/monitoring/status');
-      const data = await response.json();
-      setStatus(data);
+      // Use the platform-health aggregator — single source of truth for all service checks
+      const response = await fetch('/api/admin/platform-health');
+      const health = await response.json();
+      // Map PlatformHealthSnapshot → SystemStatus shape expected by this component
+      setStatus({
+        overall: health.overall,
+        timestamp: health.timestamp,
+        checks: {
+          database: {
+            status: health.services?.database?.status ?? 'unknown',
+            connected: health.services?.database?.status === 'healthy',
+            latency: health.services?.database?.latencyMs,
+          },
+          redis: {
+            status: health.services?.redis?.status ?? 'unknown',
+            connected: health.services?.redis?.status === 'healthy',
+            latency: health.services?.redis?.latencyMs,
+          },
+          stripe: {
+            status: health.services?.stripe?.status ?? 'unknown',
+            configured: health.services?.stripe?.configured ?? false,
+          },
+          email: {
+            status: health.services?.email?.status ?? 'unknown',
+            configured: health.services?.email?.configured ?? false,
+          },
+        },
+        metrics: {
+          uptime: health.responseTimeMs ?? 0,
+          memory: { used: 0, total: 0 },
+          requests: { total: 0, errors: 0, rate: 0 },
+          rateLimits: { blocked: 0, allowed: 0 },
+        },
+      });
       setLoading(false);
     } catch (error) {
       if (process.env.NODE_ENV !== "production") console.error('Failed to fetch status:', error);
@@ -88,7 +119,7 @@ export default function MonitoringDashboard() {
     setBundleLoading(true);
     setBundleError(null);
     try {
-      const res = await fetch('/api/admin/monitoring/status');
+      const res = await fetch('/api/admin/platform-health');
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setBundleError(data.error || `Error ${res.status}`);
