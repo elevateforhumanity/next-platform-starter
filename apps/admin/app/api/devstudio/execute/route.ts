@@ -47,6 +47,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getAdminUrl, getSiteUrl } from '@/lib/utils/siteUrl';
 import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform/knowledge-graph';
 import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
+import { requireTypedConfirmation, getConfirmationPhrase } from '@/lib/security/require-confirmation';
 import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
 import { describeCheckedAppDirs, discoverNextAppDirs } from '@/lib/devstudio/next-app-dirs';
 import { getDevIntPromptContext } from '@/lib/devstudio/devint-container';
@@ -1235,15 +1236,20 @@ async function executeAction(
   authHeader: string,
   write: (line: string) => void,
 ) {
-  // Enforce confirmation gate for all operator/deployer tools.
-  // The client must re-submit with args.confirmed = true after the user
-  // explicitly approves. This prevents the AI from autonomously executing
-  // production-mutating actions without a human in the loop.
-  if (requiresConfirmation(name) && args.confirmed !== true) {
-    write(`\x1b[33m⚠  CONFIRMATION_REQUIRED\x1b[0m`);
-    write(`   Action "${name}" affects production data and requires explicit confirmation.`);
-    write(`   Re-run with confirmed=true to proceed.`);
-    return;
+  // Enforce typed confirmation gate for all operator/deployer tools.
+  // args.confirmationText must be typed by a human in the UI — the AI
+  // cannot set this value. This prevents autonomous execution of
+  // production-mutating actions (deploys, migrations, bulk emails).
+  if (requiresConfirmation(name)) {
+    const check = requireTypedConfirmation(args.confirmationText, name);
+    if (!check.ok) {
+      const phrase = getConfirmationPhrase(name);
+      write(`\x1b[33m⚠  CONFIRMATION_REQUIRED\x1b[0m`);
+      write(`   Action "${name}" affects production and requires human confirmation.`);
+      write(`   Type exactly: \x1b[1m${phrase}\x1b[0m`);
+      write(`\x1b[2m   CONFIRMATION_PHRASE:${phrase}\x1b[0m`);
+      return;
+    }
   }
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',

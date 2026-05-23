@@ -142,8 +142,6 @@ export const DEFAULT_NAV: NavSection[] = [
     items: [
       { label: 'AI Studio', href: '/admin/ai-studio' },
       { label: 'AI Console', href: '/admin/ai-console' },
-      { label: 'Command Center', href: '/admin/command-center' },
-      { label: 'Dev Studio', href: '/admin/dev-studio' },
       { label: 'Copilot', href: '/admin/copilot' },
       { label: 'Copilot — Deploy', href: '/admin/copilot/deploy' },
       { label: 'Automation', href: '/admin/automation' },
@@ -276,6 +274,20 @@ export const DEFAULT_NAV: NavSection[] = [
     ],
   },
   {
+    label: 'Control Plane',
+    href: '/admin/mission-control',
+    items: [
+      { label: 'Mission Control', href: '/admin/mission-control' },
+      { label: 'Command Center', href: '/admin/command-center' },
+      { label: 'Dev Studio', href: '/admin/dev-studio' },
+      { label: 'System Health', href: '/admin/system-health' },
+      { label: 'Monitoring', href: '/admin/monitoring' },
+      { label: 'Audit Logs', href: '/admin/audit-logs' },
+      { label: 'Snapshots', href: '/admin/snapshots' },
+      { label: 'Impersonate', href: '/admin/impersonate' },
+    ],
+  },
+  {
     label: 'System',
     href: '/admin/settings',
     items: [
@@ -294,12 +306,9 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Import', href: '/admin/import' },
       { label: 'Data Import', href: '/admin/data-import' },
       { label: 'System', href: '/admin/system' },
-      { label: 'System Health', href: '/admin/system-health' },
       { label: 'System Jobs', href: '/admin/system/jobs' },
       { label: 'System Webhooks', href: '/admin/system/webhooks' },
-      { label: 'Monitoring', href: '/admin/monitoring' },
       { label: 'Monitoring Setup', href: '/admin/monitoring/setup' },
-      { label: 'Impersonate', href: '/admin/impersonate' },
       { label: 'Files', href: '/admin/files' },
       { label: 'Docs', href: '/admin/docs' },
       { label: 'Internal Docs', href: '/admin/internal-docs' },
