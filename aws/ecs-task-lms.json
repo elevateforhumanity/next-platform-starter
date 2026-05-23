@@ -631,6 +631,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET_SUPERSONIC"
         },
         {
+          "name": "SUPABASE_MANAGEMENT_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_MANAGEMENT_API_KEY"
+        },
+        {
+          "name": "SUPABASE_PROJECT_REF",
+          "value": "cuxzzpsyufcewtmicszk"
+        },
+        {
           "name": "SUPABASE_SERVICE_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
         },
