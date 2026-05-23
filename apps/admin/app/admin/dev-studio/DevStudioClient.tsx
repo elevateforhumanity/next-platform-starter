@@ -627,6 +627,8 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   const [activeJob, setActiveJob] = useState<Job | null>(null);
   const [showHistory, setShowHistory] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState<string | null>(null); // command awaiting confirmation
+  const [confirmPhrase, setConfirmPhrase]   = useState<string>('');          // required phrase to type
+  const [confirmInput, setConfirmInput]     = useState('');                  // what user has typed
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef  = useRef<AbortController | null>(null);
   const runIdRef  = useRef<number>(0); // incremented on each run; stale stream writes are discarded
@@ -734,6 +736,10 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
             setLines(prev => [...prev, { type: 'stream', text: clean }]);
             if (clean.includes('CONFIRMATION_REQUIRED')) {
               setPendingConfirm(cmd);
+              setConfirmInput('');
+              // Parse required phrase from stream: CONFIRMATION_PHRASE:CONFIRM DEPLOY
+              const phraseMatch = clean.match(/CONFIRMATION_PHRASE:(.+)/);
+              setConfirmPhrase(phraseMatch ? phraseMatch[1].trim() : 'CONFIRM');
             }
           }
         }
@@ -880,27 +886,57 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
         <div className="flex-shrink-0 p-3 border-t" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
           {/* Confirmation banner */}
           {pendingConfirm && !loading && (
-            <div className="flex items-center gap-3 mb-3 px-3 py-2 rounded-lg border" style={{ background: 'rgba(251,191,36,0.1)', borderColor: '#f59e0b' }}>
-              <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: '#f59e0b' }} />
-              <span className="text-xs flex-1" style={{ color: '#fcd34d' }}>
-                This action affects production. Confirm to proceed.
-              </span>
-              <button
-                onClick={() => { run(`${pendingConfirm} confirmed=true`); }}
-                className="text-xs font-bold px-3 py-1 rounded transition-colors"
-                style={{ background: '#f59e0b', color: '#1c1c1c' }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#d97706')}
-                onMouseLeave={e => (e.currentTarget.style.background = '#f59e0b')}
-              >
-                ✓ Confirm &amp; Deploy
-              </button>
-              <button
-                onClick={() => setPendingConfirm(null)}
-                className="text-xs px-2 py-1 rounded"
-                style={{ color: '#858585' }}
-              >
-                Cancel
-              </button>
+            <div className="mb-3 px-3 py-3 rounded-lg border" style={{ background: 'rgba(251,191,36,0.08)', borderColor: '#f59e0b' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: '#f59e0b' }} />
+                <span className="text-xs font-semibold" style={{ color: '#fcd34d' }}>
+                  Production action requires confirmation
+                </span>
+              </div>
+              <p className="text-xs mb-2" style={{ color: '#9ca3af' }}>
+                Type <span className="font-mono font-bold" style={{ color: '#fbbf24' }}>{confirmPhrase}</span> exactly to proceed:
+              </p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={confirmInput}
+                  onChange={e => setConfirmInput(e.target.value)}
+                  placeholder={confirmPhrase}
+                  autoFocus
+                  className="flex-1 px-2 py-1.5 rounded text-xs font-mono"
+                  style={{ background: '#1e1e1e', border: '1px solid #f59e0b', color: '#fff', outline: 'none' }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && confirmInput === confirmPhrase) {
+                      run(`${pendingConfirm} confirmationText="${confirmPhrase}"`);
+                      setPendingConfirm(null);
+                      setConfirmInput('');
+                    }
+                  }}
+                />
+                <button
+                  disabled={confirmInput !== confirmPhrase}
+                  onClick={() => {
+                    run(`${pendingConfirm} confirmationText="${confirmPhrase}"`);
+                    setPendingConfirm(null);
+                    setConfirmInput('');
+                  }}
+                  className="text-xs font-bold px-3 py-1.5 rounded transition-opacity"
+                  style={{
+                    background: confirmInput === confirmPhrase ? '#f59e0b' : '#4b3a00',
+                    color: confirmInput === confirmPhrase ? '#1c1c1c' : '#6b5a00',
+                    cursor: confirmInput === confirmPhrase ? 'pointer' : 'not-allowed',
+                  }}
+                >
+                  Execute
+                </button>
+                <button
+                  onClick={() => { setPendingConfirm(null); setConfirmInput(''); }}
+                  className="text-xs px-2 py-1.5 rounded"
+                  style={{ color: '#858585' }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           )}
           {/* Toolbar row */}

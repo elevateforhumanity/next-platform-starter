@@ -148,8 +148,18 @@ export async function POST(request: NextRequest) {
 
     if (action === 'push') {
       const branch = git('rev-parse --abbrev-ref HEAD');
+
+      // Block direct push to main/master — production deploys go through
+      // GitHub Actions on PR merge, not browser-triggered git push.
+      if (branch === 'main' || branch === 'master') {
+        return NextResponse.json({
+          ok: false,
+          error: `Direct push to "${branch}" is blocked. Create a feature branch, then open a PR to merge.`,
+          blocked: true,
+        }, { status: 403 });
+      }
+
       const ghToken = process.env.GITHUB_TOKEN ?? '';
-      // Inject token into remote URL for push
       if (ghToken) {
         try {
           git(`remote set-url origin https://${ghToken}@github.com/elevate-for-humanity/Elevate-lms.git`);
