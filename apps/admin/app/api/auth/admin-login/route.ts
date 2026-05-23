@@ -1,3 +1,5 @@
+// RLS-safe admin login — uses service role key to read profiles table.
+// Deployed: 2026-05-23
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
