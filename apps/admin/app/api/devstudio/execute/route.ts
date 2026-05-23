@@ -1207,7 +1207,7 @@ const KEYWORD_MAP: Array<{ patterns: RegExp; action: string; args?: Record<strin
   { patterns: /no.*auth.*route|missing.*auth|auth.*gap/i,                  action: 'scan_routes',         args: { filter: 'no-auth' } },
   { patterns: /audit.*system|system.*audit|full.*audit|run.*audit/i,       action: 'audit_system',        args: { scope: 'all' } },
   { patterns: /broken.*link|inspect.*link|link.*check|dead.*link/i,        action: 'inspect_links',       args: {} },
-  { patterns: /apply\s+all.*migration|run\s+all.*migration|migration.*all/i, action: 'apply_all_pending_migrations', args: { confirm: true } },
+  { patterns: /apply\s+all.*migration|run\s+all.*migration|migration.*all/i, action: 'apply_all_pending_migrations', args: { confirmed: true } },
   { patterns: /run.*migration|apply.*migration|migration.*apply/i,         action: 'run_migration',       args: { confirm: false } },
   { patterns: /list.*migration|pending.*migration|migration.*pending|show.*migration/i, action: 'list_pending_migrations', args: {} },
   { patterns: /system.*health|health.*check|check.*health|check.*system/i, action: 'check_system_health', args: {} },

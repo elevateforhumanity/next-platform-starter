@@ -1228,7 +1228,8 @@ export const AI_TOOL_PERMISSIONS: AiToolPermission[] = [
   { tool: 'update_user_role',        tier: 'operator', requires_confirmation: true,  affects_production: true,  description: 'Update user role' },
   { tool: 'issue_certificate',       tier: 'operator', requires_confirmation: true,  affects_production: true,  description: 'Issue certificate' },
   // Deployer tier — affects production systems
-  { tool: 'run_migration',           tier: 'deployer', requires_confirmation: true,  affects_production: true,  description: 'Apply DB migration' },
+  { tool: 'run_migration',                tier: 'deployer', requires_confirmation: true,  affects_production: true,  description: 'Apply a single DB migration' },
+  { tool: 'apply_all_pending_migrations', tier: 'deployer', requires_confirmation: true,  affects_production: true,  description: 'Apply all pending DB migrations' },
   { tool: 'deploy_autopilot',        tier: 'deployer', requires_confirmation: true,  affects_production: true,  description: 'Trigger deployment' },
   { tool: 'build_courses',           tier: 'deployer', requires_confirmation: true,  affects_production: true,  description: 'Build course content' },
   { tool: 'run_tests',               tier: 'deployer', requires_confirmation: false, affects_production: false, description: 'Run test suite' },
