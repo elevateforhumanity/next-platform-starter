@@ -11,6 +11,10 @@ on:
         description: 'GROQ_API_KEY (gsk_...)'
         required: true
         type: string
+      openai_api_key:
+        description: 'OPENAI_API_KEY (sk-proj-...)'
+        required: false
+        type: string
       stripe_webhook_secret_barber:
         description: 'STRIPE_WEBHOOK_SECRET_BARBER (whsec_... from Stripe Dashboard → Webhooks → barber endpoint). Leave blank to skip.'
         required: false
@@ -45,6 +49,17 @@ jobs:
             --overwrite \
             --region us-east-1
           echo "GROQ_API_KEY pushed."
+
+      - name: Push OPENAI_API_KEY
+        if: ${{ github.event.inputs.openai_api_key != '' }}
+        run: |
+          aws ssm put-parameter \
+            --name /elevate/OPENAI_API_KEY \
+            --value "${{ github.event.inputs.openai_api_key }}" \
+            --type SecureString \
+            --overwrite \
+            --region us-east-1
+          echo "OPENAI_API_KEY pushed."
 
       - name: Push STRIPE_SECRET_KEY
         if: ${{ github.event.inputs.stripe_secret_key != '' }}
