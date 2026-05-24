@@ -102,13 +102,19 @@ export async function enable2FA(userId: string, token: string): Promise<boolean>
 
 // Disable 2FA for user
 export async function disable2FA(userId: string, password: string): Promise<boolean> {
-  // Verify password first
   const supabase = await createClient();
 
-  // In production, verify password against user's actual password
-  // For now, just disable
-  await supabase.from('two_factor_auth').update({ enabled: true }).eq('user_id', userId);
+  // Re-authenticate with password before disabling 2FA
+  const { data: { user }, error: userErr } = await supabase.auth.getUser();
+  if (userErr || !user?.email) return false;
 
+  const { error: authErr } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password, // never trim — spaces are valid in passwords
+  });
+  if (authErr) return false;
+
+  await supabase.from('two_factor_auth').update({ enabled: false }).eq('user_id', userId);
   return true;
 }
 

@@ -96,15 +96,40 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/program-holder/analytics': ['program_holder', 'admin', 'super_admin'],
   '/program-holder/onboarding':['program_holder', 'admin', 'super_admin'],
   '/program-holder/verification':['program_holder', 'admin', 'super_admin'],
-  '/staff-portal/':            ['staff', 'admin', 'super_admin', 'advisor'],
+  // staff-portal/ requires staff role — was missing role gate (any auth user could reach it)
+  '/staff-portal/':            ['staff', 'admin', 'super_admin'],
+
+  // ── Program holders ───────────────────────────────────────────────────────
+  '/program-holder/':          ['program_holder', 'admin', 'super_admin'],
+
+  // ── Grant clients ─────────────────────────────────────────────────────────
+  '/lms/':                     ['student', 'grant_client', 'admin', 'super_admin', 'staff', 'instructor'],
+
+  // ── Sponsor (DOL apprenticeship) ──────────────────────────────────────────
+  // sponsor shares /employer/dashboard — employer route already covers it
+  // delegate falls back to /learner/dashboard — student route covers it
+
   '/mentor/dashboard':         ['mentor', 'admin', 'super_admin'],
   '/mentor/sessions':          ['mentor', 'admin', 'super_admin'],
   '/mentor/mentees':           ['mentor', 'admin', 'super_admin'],
   '/mentor/settings':          ['mentor', 'admin', 'super_admin'],
+  '/mentor/':                  ['mentor', 'admin', 'super_admin'],
 
-  // ── Field portals ─────────────────────────────────────────────────────────
-  // All portal/* routes allow students + admin roles.
-  // Each portal's own layout.tsx enforces finer-grained rules if needed.
+  // ── Workforce / case management ───────────────────────────────────────────
+  '/workforce-board/':         ['workforce_board', 'admin', 'super_admin', 'staff'],
+  '/case-manager/':            ['case_manager', 'admin', 'super_admin', 'staff'],
+
+  // ── Provider / creator ────────────────────────────────────────────────────
+  '/provider/':                ['provider_admin', 'admin', 'super_admin'],
+  '/creator/':                 ['creator', 'admin', 'super_admin'],
+
+  // ── Tax / VITA ────────────────────────────────────────────────────────────
+  '/dashboard/tax-intake':     ['vita_staff', 'admin', 'super_admin', 'staff'],
+
+  // ── Learner portals ───────────────────────────────────────────────────────
+  '/learner/':                 ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+
+  // ── Field portals — all require student role (or admin/staff oversight) ───
   '/portal/apprentice':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/healthcare':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/technology':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
@@ -144,8 +169,13 @@ const AUTH_REQUIRED_ROUTES = [
   '/achievements',
   '/employer/',
   '/partner/',
+  '/mentor/',
+  '/workforce-board/',
+  '/provider/',
+  '/creator/',
+  '/staff-portal/',
+  '/dashboard/tax-intake',
   // Routes that were manually guarding with redirect('/login') in page components
-  // Adding here so middleware catches them before the page renders (avoids double redirect)
   '/tax',
   '/documents',
   '/license/onboarding',
@@ -332,23 +362,14 @@ export async function middleware(request: NextRequest) {
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.
   // allowDevAdminBypass is false in all production builds: NODE_ENV is set to
-  // 'production' by Next.js at build time on ECS, making this unreachable
+  // 'production' by Next.js at build time, making this unreachable
   // regardless of any env var that may be set in the deployment environment.
   const isDevelopment = process.env.NODE_ENV === 'development';
   const allowDevAdminBypass = isDevelopment && process.env.SKIP_ADMIN_AUTH === 'true';
 
-  // Gitpod preview domains — treat as development for routing purposes
-  const isGitpodPreview = host.includes('.gitpod.dev') || host.includes('gitpod.io');
-
-  // On Gitpod preview, redirect root to /admin/dashboard for convenience.
-  // The admin namespace gate handles auth from there.
-  if (isGitpodPreview && (pathname === '/' || pathname === '')) {
-    return NextResponse.redirect(new URL('/admin/dashboard', request.url), { status: 307 });
-  }
-
   // Production misconfiguration guard — bypass remains disabled, but the
   // presence of SKIP_ADMIN_AUTH in a production environment is logged as an
-  // error so a bad deployment is caught immediately in CloudWatch logs.
+  // error so a bad deployment is caught immediately.
   if (!isDevelopment && process.env.SKIP_ADMIN_AUTH) {
     console.error(
       '[SECURITY] SKIP_ADMIN_AUTH is set in a non-development environment. ' +

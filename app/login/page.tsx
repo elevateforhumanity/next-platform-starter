@@ -23,6 +23,14 @@ function LoginForm() {
   const [linkSent, setLinkSent] = useState(false);
   const [linkError, setLinkError] = useState('');
   const [showLinkForm, setShowLinkForm] = useState(false);
+  // 2FA challenge state
+  const [show2FA, setShow2FA] = useState(false);
+  const [twoFACode, setTwoFACode] = useState('');
+  const [twoFALoading, setTwoFALoading] = useState(false);
+  const [twoFAError, setTwoFAError] = useState('');
+  const [useBackupCode, setUseBackupCode] = useState(false);
+  // Destination stored while 2FA challenge is shown
+  const pendingDestRef = React.useRef<string>('');
   const router = useRouter();
   const searchParams = useSafeSearchParams();
   // Support both 'next' and 'redirect' params for backward compatibility
@@ -93,26 +101,70 @@ function LoginForm() {
       }
 
       // Students: route to their industry portal if portal_type is cached.
-      // If not cached, go to /learner/dashboard (server will resolve on next visit).
       if (role === 'student') {
-        if (profile.portal_type) {
-          window.location.href = `/portal/${profile.portal_type}`;
-        } else {
-          window.location.href = '/learner/dashboard';
+        const studentDest = profile.portal_type
+          ? `/portal/${profile.portal_type}`
+          : '/learner/dashboard';
+        const twoFARes2 = await fetch('/api/auth/2fa/status');
+        if (twoFARes2.ok) {
+          const { enabled } = await twoFARes2.json();
+          if (enabled) {
+            pendingDestRef.current = studentDest;
+            setShow2FA(true);
+            setLoading(false);
+            return;
+          }
         }
+        window.location.href = studentDest;
         return;
       }
 
       // All other roles: canonical destination from lib/auth/role-destinations.ts.
+      const dest = getRoleDestination(role);
+
+      // Check 2FA before navigating — if enabled, show challenge screen
+      const twoFARes = await fetch('/api/auth/2fa/status');
+      if (twoFARes.ok) {
+        const { enabled } = await twoFARes.json();
+        if (enabled) {
+          pendingDestRef.current = dest;
+          setShow2FA(true);
+          setLoading(false);
+          return;
+        }
+      }
+
       // Hard navigation ensures the session cookie is committed before the
       // middleware reads it — router.push() is a soft nav that races the cookie.
-      window.location.href = getRoleDestination(role);
+      window.location.href = dest;
     } catch (err: any) {
       // Supabase error objects have non-enumerable properties — extract explicitly
       const msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
       setError(msg);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handle2FASubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTwoFALoading(true);
+    setTwoFAError('');
+    try {
+      const res = await fetch('/api/auth/2fa/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: twoFACode.trim(), isBackupCode: useBackupCode }),
+      });
+      if (!res.ok) {
+        setTwoFAError(useBackupCode ? 'Invalid backup code.' : 'Invalid or expired code. Try again.');
+        return;
+      }
+      window.location.href = pendingDestRef.current || '/learner/dashboard';
+    } catch {
+      setTwoFAError('Verification failed. Please try again.');
+    } finally {
+      setTwoFALoading(false);
     }
   };
 
@@ -137,6 +189,65 @@ function LoginForm() {
       setLinkSending(false);
     }
   };
+
+  // ── 2FA challenge screen ──────────────────────────────────────────────────
+  if (show2FA) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm">
+          <div className="text-center mb-6">
+            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900">Two-Factor Authentication</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {useBackupCode ? 'Enter one of your backup codes' : 'Enter the 6-digit code from your authenticator app'}
+            </p>
+          </div>
+          <form onSubmit={handle2FASubmit} className="space-y-4">
+            <input
+              type="text"
+              inputMode={useBackupCode ? 'text' : 'numeric'}
+              pattern={useBackupCode ? undefined : '[0-9]{6}'}
+              maxLength={useBackupCode ? 20 : 6}
+              value={twoFACode}
+              onChange={e => setTwoFACode(e.target.value)}
+              placeholder={useBackupCode ? 'Backup code' : '000000'}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-center text-2xl tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              autoFocus
+              autoComplete="one-time-code"
+            />
+            {twoFAError && (
+              <p className="text-sm text-red-600 text-center">{twoFAError}</p>
+            )}
+            <button
+              type="submit"
+              disabled={twoFALoading || twoFACode.trim().length < 6}
+              className="w-full py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+            >
+              {twoFALoading ? 'Verifying…' : 'Verify'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setUseBackupCode(v => !v)}
+              className="w-full text-sm text-indigo-600 hover:underline text-center"
+            >
+              {useBackupCode ? 'Use authenticator app instead' : 'Use a backup code instead'}
+            </button>
+            <button
+              type="button"
+              onClick={() => { setShow2FA(false); setTwoFACode(''); setTwoFAError(''); }}
+              className="w-full text-sm text-gray-400 hover:text-gray-600 text-center"
+            >
+              ← Back to login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

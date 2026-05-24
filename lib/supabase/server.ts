@@ -10,7 +10,7 @@ export function isSupabaseConfigured(): boolean {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
-// Supabase fetch with a hard timeout to prevent cold-start hangs.
+// Supabase fetch with a hard timeout to prevent cold-start hangs on slow container starts.
 // Mock client that returns empty data - prevents crashes when Supabase isn't configured
 const mockQueryBuilder = {
   select: () => mockQueryBuilder,
@@ -59,20 +59,17 @@ const mockClient = {
   rpc: () => Promise.resolve({ data: null, error: null }),
 } as unknown as SupabaseClient<any>;
 
-// Returns mock client if Supabase is not configured - NEVER throws, NEVER returns null
+// Returns a real Supabase client. Throws if env vars are missing — misconfiguration
+// must be caught immediately, not silently swallowed by a mock.
 export async function createClient(): Promise<SupabaseClient<any>> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    // Log warning in development, but don't crash
-    if (process.env.NODE_ENV === 'development') {
-      logger.warn(
-        '[Supabase Server] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
-          'Database features disabled. Set these in .env.local to enable.',
-      );
-    }
-    return mockClient;
+    throw new Error(
+      '[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
+        'Run: bash .devcontainer/setup-env.sh',
+    );
   }
 
   try {

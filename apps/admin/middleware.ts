@@ -5,9 +5,16 @@ const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 // Paths that never require auth
 const PUBLIC_PATHS = ['/login', '/unauthorized', '/api/health'];
 
-// Supabase sets sb-<project-ref>-auth-token
-// Project ref: cuxzzpsyufcewtmicszk
-const SESSION_COOKIE = 'sb-cuxzzpsyufcewtmicszk-auth-token';
+// Derive cookie name from the Supabase URL env var so it survives project migration.
+// Format: sb-<project-ref>-auth-token  e.g. sb-cuxzzpsyufcewtmicszk-auth-token
+function getSessionCookieName(): string {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+  const match = url.match(/https?:\/\/([^.]+)\./);
+  if (match?.[1]) return `sb-${match[1]}-auth-token`;
+  // Fallback: hardcoded ref — update if project is migrated
+  return 'sb-cuxzzpsyufcewtmicszk-auth-token';
+}
+const SESSION_COOKIE = getSessionCookieName();
 
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;

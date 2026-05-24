@@ -17,30 +17,30 @@ export async function POST(req: Request) {
 
   const db = await getAdminClient();
 
-  // Only generate a link for existing users — never create new accounts here
-  const { data: existing } = await db.auth.admin.listUsers();
-  const userExists = existing?.users?.some(
-    (u) => u.email?.toLowerCase() === email.trim().toLowerCase(),
-  );
-
-  if (!userExists) {
-    // Return success anyway — don't reveal whether the email exists
-    return NextResponse.json({ ok: true });
-  }
-
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   // Always route through /auth/callback so the session is established correctly
   // and role-based destination routing runs. Never redirect directly to a page.
   const destination = redirectTo || getRoleDestination('student');
   const finalRedirect = `${siteUrl}/auth/callback?redirect=${encodeURIComponent(destination)}`;
 
+  // generateLink fails with "User not found" for unknown emails — use that as
+  // the existence check instead of O(n) listUsers() scan.
   const { data: link, error: linkErr } = await db.auth.admin.generateLink({
     type: 'magiclink',
     email: email.trim(),
     options: { redirectTo: finalRedirect },
   });
 
-  if (linkErr || !link?.properties?.action_link) {
+  if (linkErr) {
+    // Don't reveal whether the email exists — return success either way
+    if (linkErr.message?.toLowerCase().includes('not found') ||
+        linkErr.message?.toLowerCase().includes('no user')) {
+      return NextResponse.json({ ok: true });
+    }
+    return safeError('Could not generate sign-in link', 500);
+  }
+
+  if (!link?.properties?.action_link) {
     return safeError('Could not generate sign-in link', 500);
   }
 
