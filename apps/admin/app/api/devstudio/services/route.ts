@@ -225,13 +225,16 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'deploy') {
-      // Deploy goes through the Command tab (deploy_autopilot) which has
-      // confirmation gating, fallback via Contents API, and run URL streaming.
-      // Direct deploy from Services panel is intentionally not supported.
-      return safeError(
-        'Use the Command tab — type "deploy lms" or "deploy admin". It has confirmation gating, a fallback trigger, and streams the GitHub Actions run URL.',
-        400,
-      );
+      // Force-new-deployment picks up the latest image already in ECR
+      // (built by the last GitHub Actions push). No rebuild needed.
+      if (!hasAws) return safeError('AWS credentials not configured', 503);
+      await ecsPost('AmazonEC2ContainerServiceV20141113.UpdateService', {
+        cluster: CLUSTER,
+        service: cfg.ecsService,
+        forceNewDeployment: true,
+      });
+      logger.info('[devstudio/services] deploy (force-new-deployment)', { service: cfg.ecsService, userId: auth.id });
+      return NextResponse.json({ ok: true, action: 'deploy', service: cfg.ecsService });
     }
 
     return safeError(`Unknown action: ${action}`, 400);

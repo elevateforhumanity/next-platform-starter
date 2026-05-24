@@ -274,16 +274,15 @@ export default function ServicesPanel() {
                 Restart
               </button>
 
-              {/* Deploy — use Command tab for full deploy with confirmation + run URL */}
-              {svc.key !== 'studio' && (
-                <span
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-500 ml-auto"
-                  title={`Type "deploy ${svc.key}" in the Command tab`}
-                >
-                  <Terminal className="w-3 h-3" />
-                  deploy {svc.key} in Command tab
-                </span>
-              )}
+              {/* Deploy — force-new-deployment with latest ECR image */}
+              <button
+                onClick={() => doAction(svc.key, 'deploy')}
+                disabled={isLoading(svc.key, 'deploy')}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 disabled:opacity-40 transition-colors"
+              >
+                {isLoading(svc.key, 'deploy') ? <Loader2 className="w-3 h-3 animate-spin" /> : <RotateCcw className="w-3 h-3" />}
+                Deploy
+              </button>
             </div>
 
             {!svc.hasAws && (
