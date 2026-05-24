@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { BookOpen, MapPin, Clock, Award, DollarSign } from 'lucide-react';
+import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
 import CatalogFilters from './CatalogFilters';
+import { PayNowButton } from '@/components/programs/PayNowButton';
 
 export const metadata: Metadata = {
   title: 'Program Catalog',
@@ -62,6 +64,27 @@ export default async function ProgramCatalogPage({
   if (providerSlug) query = query.eq('provider_slug', providerSlug);
 
   const { data: programs, count } = await query;
+
+  // Fetch partner_courses stripe data for any slugs in the result set
+  // so catalog cards can show a "Pay & Enroll" button when a price is configured.
+  const slugs = (programs ?? []).map(p => p.slug).filter(Boolean) as string[];
+  let stripeBySlug: Record<string, { stripe_price_id: string | null; payment_link: string | null; retail_price_cents: number | null }> = {};
+  if (slugs.length > 0) {
+    const admin = getAdminClient();
+    if (admin) {
+      const { data: partnerRows } = await admin
+        .from('partner_courses')
+        .select('course_key, stripe_price_id, payment_link, retail_price_cents')
+        .in('course_key', slugs);
+      for (const row of partnerRows ?? []) {
+        stripeBySlug[row.course_key] = {
+          stripe_price_id: row.stripe_price_id,
+          payment_link: row.payment_link,
+          retail_price_cents: row.retail_price_cents,
+        };
+      }
+    }
+  }
 
   const totalPages = Math.ceil((count ?? 0) / perPage);
 
@@ -122,7 +145,11 @@ export default async function ProgramCatalogPage({
               <>
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
                   {(programs ?? []).map(prog => (
-                    <ProgramCard key={prog.program_id} prog={prog} />
+                    <ProgramCard
+                      key={prog.program_id}
+                      prog={prog}
+                      stripeData={stripeBySlug[prog.slug ?? ''] ?? null}
+                    />
                   ))}
                 </div>
 
@@ -179,10 +206,22 @@ type ProgramRow = {
   placement_rate: number | null;
 };
 
-function ProgramCard({ prog }: { prog: ProgramRow }) {
+type StripeData = {
+  stripe_price_id: string | null;
+  payment_link: string | null;
+  retail_price_cents: number | null;
+} | null;
+
+function ProgramCard({ prog, stripeData }: { prog: ProgramRow; stripeData: StripeData }) {
   const slug = prog.slug ?? prog.program_id;
   const detailHref = `/programs/${slug}`;
   const applyHref = `/apply?program=${slug}`;
+
+  // Resolve checkout href: prefer direct payment link, then API session
+  const checkoutHref = stripeData?.payment_link ?? (stripeData?.stripe_price_id ? `/api/checkout/program` : null);
+  const retailPrice = stripeData?.retail_price_cents
+    ? `$${(stripeData.retail_price_cents / 100).toLocaleString()}`
+    : null;
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 flex flex-col hover:shadow-md transition">
@@ -242,12 +281,24 @@ function ProgramCard({ prog }: { prog: ProgramRow }) {
         </div>
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 flex flex-col gap-2">
+        {/* Self-pay checkout — shown when a Stripe price is configured */}
+        {checkoutHref && retailPrice && (
+          <PayNowButton
+            slug={slug}
+            cost={retailPrice}
+            stripeCheckoutHref={stripeData?.payment_link ?? undefined}
+            label={`Pay & Enroll — ${retailPrice}`}
+            className="py-2 text-xs rounded-lg"
+          />
+        )}
+
+        {/* View details / apply */}
         <Link
-          href={enrollHref}
-          className="block w-full text-center text-sm font-semibold bg-brand-blue-600 text-white py-2 rounded-lg hover:bg-brand-blue-700 transition"
+          href={checkoutHref ? detailHref : applyHref}
+          className="block w-full text-center text-sm font-semibold border border-brand-blue-300 text-brand-blue-700 py-2 rounded-lg hover:bg-brand-blue-50 transition"
         >
-          Enroll
+          {checkoutHref ? 'View Details' : 'Apply Now'}
         </Link>
       </div>
     </div>

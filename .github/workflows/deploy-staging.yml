@@ -47,6 +47,7 @@ jobs:
   # ── LMS staging deploy ─────────────────────────────────────────────────────
   deploy-lms-staging:
     name: Deploy LMS → staging
+    # Job name must match branch protection required status check: "Deploy LMS → staging"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'
@@ -121,6 +122,7 @@ jobs:
   # ── Admin staging deploy ───────────────────────────────────────────────────
   deploy-admin-staging:
     name: Deploy Admin → staging
+    # Job name must match branch protection required status check: "Deploy Admin → staging"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'

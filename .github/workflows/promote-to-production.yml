@@ -1,0 +1,172 @@
+name: Promote Staging → Production
+
+# Triggered manually from the Actions tab after staging has been verified.
+# Creates a PR from staging → main, or merges directly if auto-merge is enabled.
+#
+# Flow:
+#   1. Verify staging health endpoints are green
+#   2. Open a PR: staging → main (or merge if --auto flag is set)
+#   3. Production deploy runs automatically via deploy-lms.yml / deploy-admin.yml on merge
+#
+# Required secrets: GITHUB_TOKEN (automatic), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+# Required vars:    STAGING_URL, STAGING_ADMIN_URL
+
+on:
+  workflow_dispatch:
+    inputs:
+      auto_merge:
+        description: 'Merge immediately without PR review (use only for hotfixes)'
+        required: false
+        type: boolean
+        default: false
+      reason:
+        description: 'Reason for promotion (shown in PR body)'
+        required: false
+        type: string
+        default: 'Staging verified — promoting to production'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  verify-staging:
+    name: Verify staging health
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check LMS staging health
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL }}
+        run: |
+          if [ -z "$STAGING_URL" ]; then
+            echo "⚠️  STAGING_URL not set — skipping LMS health check"
+            exit 0
+          fi
+          echo "Checking $STAGING_URL/api/health ..."
+          for i in 1 2 3; do
+            STATUS=$(curl -sf -o /dev/null -w "%{http_code}" --max-time 15 \
+              "${STAGING_URL}/api/health" 2>/dev/null || echo "000")
+            echo "  Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ LMS staging healthy."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "❌ LMS staging health check failed — aborting promotion."
+          exit 1
+
+      - name: Check Admin staging health
+        env:
+          STAGING_ADMIN_URL: ${{ secrets.STAGING_ADMIN_URL }}
+        run: |
+          if [ -z "$STAGING_ADMIN_URL" ]; then
+            echo "⚠️  STAGING_ADMIN_URL not set — skipping Admin health check"
+            exit 0
+          fi
+          echo "Checking $STAGING_ADMIN_URL/api/health ..."
+          for i in 1 2 3; do
+            STATUS=$(curl -sf -o /dev/null -w "%{http_code}" --max-time 15 \
+              "${STAGING_ADMIN_URL}/api/health" 2>/dev/null || echo "000")
+            echo "  Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Admin staging healthy."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "❌ Admin staging health check failed — aborting promotion."
+          exit 1
+
+  open-pr:
+    name: Open staging → main PR
+    runs-on: ubuntu-latest
+    needs: verify-staging
+    if: ${{ github.event.inputs.auto_merge != 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get staging → main diff summary
+        id: diff
+        run: |
+          git fetch origin main staging
+          COUNT=$(git log origin/main..origin/staging --oneline | wc -l | tr -d ' ')
+          COMMITS=$(git log origin/main..origin/staging --oneline | head -20)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+          echo "commits<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMITS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create PR staging → main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REASON="${{ github.event.inputs.reason }}"
+          COUNT="${{ steps.diff.outputs.count }}"
+          COMMITS="${{ steps.diff.outputs.commits }}"
+
+          PR_BODY="## Staging → Production Promotion
+
+**Triggered by:** @${{ github.actor }}
+**Reason:** ${REASON}
+**Commits ahead of main:** ${COUNT}
+
+### Commits included
+\`\`\`
+${COMMITS}
+\`\`\`
+
+### Pre-merge checklist
+- [ ] Staging health checks passed (verified by this workflow)
+- [ ] No open incidents on staging
+- [ ] Database migrations applied to production Supabase (if any)
+- [ ] Environment variables synced (if any new ones added)
+
+### Rollback
+If production degrades after merge, the deploy workflows include automatic ECS rollback on health check failure. Manual rollback: re-run the previous successful deploy workflow run."
+
+          # Check if PR already exists
+          EXISTING=$(gh pr list --base main --head staging --json number --jq '.[0].number' 2>/dev/null || echo "")
+          if [ -n "$EXISTING" ]; then
+            echo "PR #$EXISTING already exists — updating body."
+            gh pr edit "$EXISTING" --body "$PR_BODY"
+          else
+            gh pr create \
+              --base main \
+              --head staging \
+              --title "chore: promote staging → production ($(date -u +%Y-%m-%d))" \
+              --body "$PR_BODY"
+          fi
+
+  auto-merge:
+    name: Auto-merge staging → main
+    runs-on: ubuntu-latest
+    needs: verify-staging
+    if: ${{ github.event.inputs.auto_merge == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge staging into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main staging
+          git checkout main
+          git merge --no-ff origin/staging \
+            -m "chore: promote staging → production ($(date -u +%Y-%m-%d))
+
+Auto-merged by promote-to-production workflow.
+Triggered by: ${{ github.actor }}
+Reason: ${{ github.event.inputs.reason }}"
+          git push origin main
+          echo "✅ Merged staging → main. Production deploy will start automatically."

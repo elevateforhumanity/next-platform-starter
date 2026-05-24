@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
 import ProgramApplyForm from '@/components/programs/ProgramApplyForm';
-// PaymentPlanCalculator: not yet implemented — import removed to unblock build
+import { PayNowButton } from '@/components/programs/PayNowButton';
 import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
   BookOpen,
@@ -647,7 +647,27 @@ export default function ProgramDetailPage({
                 <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
                   {enrollmentTracks.selfPay.description}
                 </p>
-                {/* PaymentPlanCalculator: placeholder — component not yet built */}
+
+                {/* Pay & Enroll button — shown when self-pay is available and a checkout href is configured */}
+                {enrollmentTracks.selfPay.available && p.cta.stripeCheckoutHref && (
+                  <div className="mt-2 mb-4">
+                    <PayNowButton
+                      slug={p.slug}
+                      cost={enrollmentTracks.selfPay.cost}
+                      stripeCheckoutHref={p.cta.stripeCheckoutHref}
+                    />
+                  </div>
+                )}
+
+                {/* Apply Now fallback — shown when self-pay is available but no Stripe checkout configured */}
+                {enrollmentTracks.selfPay.available && !p.cta.stripeCheckoutHref && (
+                  <Link
+                    href={enrollmentTracks.selfPay.applyHref}
+                    className="block w-full text-center bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm mt-2 mb-4"
+                  >
+                    Apply Now — Self-Pay
+                  </Link>
+                )}
 
               {!enrollmentTracks.selfPay.available && (
                 <div className="mt-4">

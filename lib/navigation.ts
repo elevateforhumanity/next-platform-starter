@@ -50,11 +50,33 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Skilled Trades —', href: '/programs/skilled-trades', isHeader: true },
       { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
       { name: 'Building Services Technician', href: canonicalRoutes.programs.buildingServicesTechnician },
+      { name: 'Electrical', href: '/programs/electrical' },
+      { name: 'Plumbing', href: '/programs/plumbing' },
+      { name: 'CDL Training', href: '/programs/cdl-training' },
       { name: 'All Trades →', href: '/programs/skilled-trades', isSectionLink: true },
+
+      // Beauty & Cosmetology
+      { name: '— Beauty & Cosmetology —', href: '/programs/beauty', isHeader: true },
+      { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
+      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'All Beauty →', href: '/apprenticeships', isSectionLink: true },
+
+      // Technology
+      { name: '— Technology —', href: '/programs/technology', isHeader: true },
+      { name: 'IT Help Desk', href: '/programs/it-help-desk' },
+      { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
+      { name: 'All Technology →', href: '/programs/technology', isSectionLink: true },
 
       // Business & Finance
       { name: '— Business & Finance —', href: '/programs/finance-bookkeeping-accounting', isHeader: true },
       { name: 'Finance, Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
+
+      // Short Courses (partner)
+      { name: '— Short Courses —', href: '/courses', isHeader: true },
+      { name: 'CPR / First Aid (HSI)', href: '/partners/hsi' },
+      { name: 'Food Handler (NRF)', href: '/partners/nrf' },
+      { name: 'All Short Courses →', href: '/courses', isSectionLink: true },
 
       // Special Programs
       { name: '— Special Programs —', href: '/programs', isHeader: true },
@@ -68,19 +90,21 @@ export const NAV_ITEMS: NavItem[] = [
   {
     id: 'apprenticeships',
     name: 'Apprenticeships',
-    href: '/programs/apprenticeships',
+    href: '/apprenticeships',
     subItems: [
       // DOL Registered programs
-      { name: '— DOL Registered —', href: '/programs/apprenticeships', isHeader: true },
-      { name: 'All Apprenticeships', href: '/programs/apprenticeships' },
+      { name: '— DOL Registered —', href: '/apprenticeships', isHeader: true },
+      { name: 'All Apprenticeships', href: '/apprenticeships' },
       { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
       { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Skilled Trades Apprenticeships', href: '/programs/skilled-trades' },
       // Host a site
       { name: '— Host a Site —', href: '/partners/barbershop-apprenticeship', isHeader: true },
       { name: 'Host a Barbershop Apprenticeship', href: '/partners/barbershop-apprenticeship' },
       { name: 'Host a Cosmetology Apprenticeship', href: '/partners/cosmetology-apprenticeship' },
-      { name: 'How It Works →', href: '/programs/apprenticeships', isSectionLink: true },
+      { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
+      { name: 'How It Works →', href: '/apprenticeships', isSectionLink: true },
     ],
   },
 

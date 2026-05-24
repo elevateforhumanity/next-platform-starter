@@ -172,6 +172,13 @@ export interface CTALinks {
   careerConnectHref?: string;
   advisorHref?: string;
   courseHref?: string;
+  /**
+   * Stripe Checkout URL for self-pay enrollment.
+   * Set to a Stripe payment link (https://buy.stripe.com/...) or to
+   * /api/checkout/program?slug=[slug] to create a session server-side.
+   * When set, the self-pay track shows a "Pay & Enroll" button instead of "Apply Now".
+   */
+  stripeCheckoutHref?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════
