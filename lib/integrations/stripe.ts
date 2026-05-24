@@ -7,7 +7,9 @@ export async function createCheckoutSession(params: {
   cancelUrl: string;
   metadata?: Record<string, string>;
 }) {
-  return await getStripe().checkout.sessions.create({
+  const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
+  return await stripe.checkout.sessions.create({
     mode: 'payment',
     customer_email: params.customerEmail,
     line_items: [
@@ -29,5 +31,7 @@ export async function createCheckoutSession(params: {
 }
 
 export async function constructWebhookEvent(body: string, signature: string, secret: string) {
-  return getStripe().webhooks.constructEvent(body, signature, secret);
+  const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
+  return stripe.webhooks.constructEvent(body, signature, secret);
 }

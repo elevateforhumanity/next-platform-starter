@@ -4,6 +4,7 @@ import { gh, parseRepo } from '../github';
 
 export async function createProduct(title: string, price: number) {
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const product = await stripe.products.create({ name: title });
 
   const priceObj = await stripe.prices.create({
@@ -22,6 +23,7 @@ export async function createStoreProduct(
   description?: string,
 ) {
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const product = await stripe.products.create({
     name: title,
     description,

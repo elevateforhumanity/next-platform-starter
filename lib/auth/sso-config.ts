@@ -44,15 +44,17 @@ export const azureADConfig = {
   scope: ['profile', 'email', 'openid'],
 };
 
-// LDAP Configuration
-export const ldapConfig = {
-  url: process.env.LDAP_URL || 'ldap://localhost:389',
-  bindDN: process.env.LDAP_BIND_DN || '',
-  bindCredentials: process.env.LDAP_BIND_PASSWORD || '',
-  searchBase: process.env.LDAP_SEARCH_BASE || 'dc=example,dc=com',
-  searchFilter: process.env.LDAP_SEARCH_FILTER || '(uid={{username}})',
-  searchAttributes: ['uid', 'mail', 'givenName', 'sn', 'cn'],
-};
+// LDAP Configuration — only active when LDAP_ENABLED=true and LDAP_URL is set in SSM
+export const ldapConfig = process.env.LDAP_ENABLED === 'true' && process.env.LDAP_URL
+  ? {
+      url: process.env.LDAP_URL,
+      bindDN: process.env.LDAP_BIND_DN || '',
+      bindCredentials: process.env.LDAP_BIND_PASSWORD || '',
+      searchBase: process.env.LDAP_SEARCH_BASE || 'dc=example,dc=com',
+      searchFilter: process.env.LDAP_SEARCH_FILTER || '(uid={{username}})',
+      searchAttributes: ['uid', 'mail', 'givenName', 'sn', 'cn'],
+    }
+  : null;
 
 // Get SSO providers for tenant
 export async function getTenantSSOProviders(tenantId: string): Promise<SSOConfig[]> {

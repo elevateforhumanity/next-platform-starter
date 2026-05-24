@@ -33,6 +33,7 @@ async function _POST(request: NextRequest) {
 
     const origin = request.nextUrl.origin;
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     // Create portal session
     const session = await stripe.billingPortal.sessions.create({

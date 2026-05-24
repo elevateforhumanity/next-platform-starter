@@ -22,7 +22,7 @@ export class CollaborationProvider {
     this.doc = new Y.Doc();
 
     const wsUrl =
-      config.websocketUrl || process.env.NEXT_PUBLIC_COLLABORATION_WS_URL || 'ws://localhost:1234';
+      config.websocketUrl || process.env.NEXT_PUBLIC_COLLABORATION_WS_URL;
 
     this.provider = new WebsocketProvider(wsUrl, config.documentId, this.doc);
 

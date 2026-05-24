@@ -189,8 +189,7 @@ Migrated from React SPA to Next.js for better performance:
 - API proxy avoids CORS issues
 - Better SEO and Core Web Vitals
 - Ready for Netlify deployment
-
-Co-authored-by: Ona <no-reply@ona.com>" || log "⚠️  Commit failed (may already be committed)"
+" || log "⚠️  Commit failed (may already be committed)"
 
 log "✅ Changes committed"
 

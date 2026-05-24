@@ -4,7 +4,11 @@
  * Runs daily. Sends an internal alert to info@elevateforhumanity.org when
  * a partner payout deadline is within 2 days or already overdue.
  *
+<<<<<<< Updated upstream
  * Schedule: "0 9 * * *" — 9am UTC daily (AWS EventBridge)
+=======
+ * Schedule (AWS EventBridge): "0 9 * * *" — 9am UTC daily
+>>>>>>> Stashed changes
  * Auth: CRON_SECRET bearer token
  */
 import { NextRequest, NextResponse } from 'next/server';

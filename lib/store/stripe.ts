@@ -21,6 +21,7 @@ export async function createCheckoutSession({
   cancelUrl: string;
 }) {
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
@@ -57,5 +58,6 @@ export function verifyWebhookSignature(
   secret: string,
 ): Stripe.Event {
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   return stripe.webhooks.constructEvent(payload, signature, secret);
 }

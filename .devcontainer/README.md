@@ -1,45 +1,82 @@
 # Dev Container — Elevate LMS
 
-This repository ships a single canonical Dev Container configuration at
-`.devcontainer/devcontainer.json`.  It works with **GitHub Codespaces** and
-any **VS Code Dev Containers** host (Docker Desktop, Rancher Desktop, etc.).
+Standalone dev container. No dependency on Gitpod, Ona, Codespaces, or any CI platform.
 
 ---
 
 ## Quick start
 
-### GitHub Codespaces
+### Prerequisites
 
-1. Open the repo on GitHub → **Code** → **Codespaces** → **New codespace**
-2. The container builds automatically (`onCreateCommand` → `postCreateCommand`)
-3. Add secrets in **Settings → Secrets and variables → Codespaces** (see table below)
-4. Open a terminal and run the dev server:
+- Docker Desktop (or any OCI-compatible runtime)
+- VS Code with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- AWS credentials with read access to SSM Parameter Store (`/elevate/*`)
+
+### Steps
+
+1. Set your AWS credentials in your shell:
 
 ```bash
-pnpm dev                    # LMS app   → http://localhost:3000
-cd apps/admin && pnpm dev   # Admin app → http://localhost:3001
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export AWS_DEFAULT_REGION=us-east-1   # default if omitted
 ```
 
-### VS Code Dev Containers (local Docker)
+2. Open the repo in VS Code → **F1** → **Dev Containers: Reopen in Container**
 
-1. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-2. Open the repo folder in VS Code
-3. Press **F1** → **Dev Containers: Reopen in Container**
-4. Copy `.env.example` → `.env.local` and fill in your Supabase keys
-5. Run `pnpm dev`
+The container will:
+- Install system packages (ffmpeg, chromium, python3)
+- Install pnpm dependencies
+- Pull all secrets from AWS SSM into `.env.local`
+
+3. Start the dev server:
+
+```bash
+pnpm dev          # LMS   -> http://localhost:3000
+pnpm dev:admin    # Admin -> http://localhost:3001
+```
+
+Or use Make:
+
+```bash
+make dev
+make dev-admin
+```
 
 ---
 
-## What the container provides
+## Secrets
 
-| Feature | Detail |
-|---------|--------|
-| Base image | `mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm` (Node 20 LTS) |
-| Package manager | pnpm 10.28.2 (activated via corepack) |
-| System packages | ffmpeg, chromium, python3, libxml2-utils |
-| Forwarded ports | `3000` (LMS), `3001` (admin app) |
-| Build cache | `.next/cache` persisted in a named Docker volume |
-| VS Code extensions | ESLint, Prettier, Tailwind CSS IntelliSense, TypeScript, GitLens, GitHub Copilot, YAML, SQL Tools, Docker |
+All secrets live in AWS SSM Parameter Store under `/elevate/*`. The ECS task
+definitions (`aws/ecs-task-lms.json`, `aws/ecs-task-admin.json`) are the
+canonical list of what parameters exist.
+
+`setup-env.sh` fetches every parameter under `/elevate/` and writes them to
+`.env.local`. It runs automatically on container create and on every start so
+rotated keys stay current without a rebuild.
+
+To refresh secrets manually at any time:
+
+```bash
+bash .devcontainer/setup-env.sh
+# or
+make env
+```
+
+### Required IAM permissions
+
+```json
+{
+  "Effect": "Allow",
+  "Action": ["ssm:GetParametersByPath", "ssm:GetParameter"],
+  "Resource": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/*"
+}
+```
+
+### No AWS credentials?
+
+`setup-env.sh` falls back to copying `.env.example` to `.env.local`. Fill in
+values manually, or obtain AWS credentials and re-run `make env`.
 
 ---
 
@@ -47,59 +84,30 @@ cd apps/admin && pnpm dev   # Admin app → http://localhost:3001
 
 | Hook | What it does |
 |------|-------------|
-| `onCreateCommand` | Installs system packages (runs once on first build) |
-| `postCreateCommand` | Activates pnpm, runs `pnpm install`, bootstraps `.env.local` (runs once after workspace creation) |
-| `postStartCommand` | Re-assembles `.env.local` from Codespaces secret chunks if present (runs on every start — lightweight) |
+| `onCreateCommand` | Installs system packages, pnpm deps, pulls secrets from SSM |
+| `postStartCommand` | Re-pulls secrets from SSM on every start |
 
-The dev server is **not started automatically**.  Run `pnpm dev` in the
-terminal after the container starts.
+Dev servers are **not started automatically** — run `make dev` after the container starts.
 
 ---
 
-## Required Codespaces secrets
+## Make targets
 
-Set these as repository-level Codespaces secrets
-(**Settings → Secrets and variables → Codespaces**):
-
-| Secret | Description |
+| Target | Description |
 |--------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only) |
-| `NEXTAUTH_SECRET` | Random 32-byte hex (`openssl rand -hex 32`) |
-| `STRIPE_SECRET_KEY` | Stripe secret key (use test key for dev) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
-| `OPENAI_API_KEY` | Optional — AI/TTS features |
-| `SENDGRID_API_KEY` | Optional — email features |
-
-### Optional: secret chunks
-
-If you store `.env.local` split across three Codespaces secrets
-(`ENV_LOCAL_1`, `ENV_LOCAL_2`, `ENV_LOCAL_3`), the container writes the
-files as `.env_local_1.txt`, `.env_local_2.txt`, `.env_local_3.txt` and the
-`setup-env.sh` script reassembles them into `.env.local` automatically on
-every start.
-
-All other variables are documented in `.env.example`.
+| `make env` | Pull secrets from AWS SSM into `.env.local` |
+| `make install` | Install pnpm dependencies |
+| `make dev` | Start LMS dev server (port 3000) |
+| `make dev-admin` | Start Admin dev server (port 3001) |
+| `make build` | Production build |
+| `make lint` | Run ESLint |
+| `make setup` | Full first-time setup (env + install) |
 
 ---
 
-## Manual setup (no container)
-
-```bash
-node -v           # requires Node ≥ 20.11.1
-corepack enable
-corepack prepare pnpm@10.28.2 --activate
-pnpm install
-cp .env.example .env.local   # fill in Supabase keys
-pnpm dev                     # starts on port 3000
-```
-
----
-
-## Files in this directory
+## Files
 
 | File | Purpose |
 |------|---------|
-| `devcontainer.json` | Single canonical Dev Container configuration |
-| `setup-env.sh` | Lightweight env bootstrap (called by lifecycle hooks) |
+| `devcontainer.json` | Container definition — image, features, lifecycle hooks |
+| `setup-env.sh` | Pulls secrets from AWS SSM, writes `.env.local` |

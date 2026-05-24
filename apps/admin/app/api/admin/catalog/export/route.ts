@@ -112,6 +112,7 @@ async function _GET(request: Request) {
       });
     }
 
+<<<<<<< Updated upstream
     // PDF Export - call internal PDF generation route
     if (format === 'pdf') {
       // Transform data for PDF export
@@ -156,6 +157,14 @@ async function _GET(request: Request) {
           'Content-Disposition': 'attachment; filename="catalog-export.pdf"',
         },
       });
+=======
+    // PDF export is not yet implemented on AWS — use CSV or XLSX format instead.
+    if (format === 'pdf') {
+      return NextResponse.json(
+        { error: 'PDF export is not available. Use CSV or XLSX format.' },
+        { status: 501 },
+      );
+>>>>>>> Stashed changes
     }
 
     // Default: JSON

@@ -13,6 +13,7 @@ async function _POST(req: Request) {
   if (auth.error) return auth.error;
 
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const body = await req.json();
 
   const session = await stripe.checkout.sessions.create({

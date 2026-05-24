@@ -113,14 +113,12 @@ export async function GET(req: NextRequest) {
     // Admin pages require session cookies which iframes don't forward, so
     // they always redirect to /login inside the preview pane.
     defaultPreviewUrl:
-      process.env.NODE_ENV === 'development'
-        ? (process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3000')
-        : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'),
+      process.env.DEVSTUDIO_PREVIEW_URL || process.env.NEXT_PUBLIC_SITE_URL,
     previewTargets: [
-      ...(process.env.NODE_ENV === 'development'
+      ...(process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_SITE_URL
         ? [
-            { label: 'Local LMS :3000', url: 'http://localhost:3000' },
-            { label: 'Local Admin :3001', url: process.env.DEVSTUDIO_PREVIEW_URL || 'http://localhost:3001/admin' },
+            { label: 'Local LMS', url: process.env.NEXT_PUBLIC_SITE_URL },
+            { label: 'Local Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || process.env.DEVSTUDIO_PREVIEW_URL },
           ]
         : []),
       { label: 'Public Homepage', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },

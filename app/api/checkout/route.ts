@@ -21,6 +21,7 @@ const checkoutSchema = z.object({
 });
 
 const stripe = getStripe();
+if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
 async function _POST(req: NextRequest) {
   try {

@@ -62,6 +62,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     if (profile?.stripe_customer_id) {
       customerId = profile.stripe_customer_id;

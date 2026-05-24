@@ -203,6 +203,7 @@ async function _POST(request: NextRequest) {
   // Resolve per-request AFTER hydration — secrets are now in process.env.
   const supabase = await getSupabase();
   const stripeClient = getStripe();
+  if (!stripeClient) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
   // Read secret at request time — module-level init would freeze a missing value permanently.
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;

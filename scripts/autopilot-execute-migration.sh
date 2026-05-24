@@ -257,8 +257,7 @@ Autonomous deployment by autopilot:
 - Ready for Netlify deployment
 
 Deployed: $(date -Is)
-
-Co-authored-by: Ona <no-reply@ona.com>" || log "⚠️  Commit failed (may already be committed)"
+" || log "⚠️  Commit failed (may already be committed)"
 
 log "✅ Changes committed"
 

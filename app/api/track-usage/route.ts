@@ -71,9 +71,8 @@ const getOfficialDomains = () => {
     // AWS infrastructure — our own ECS/ALB endpoints (not a copy)
     '.elb.amazonaws.com',
     '.amazonaws.com',
-    // Dev environments
-    '.gitpod.dev',
-    'localhost',
+    // Dev environments — excluded in production
+    ...(process.env.NODE_ENV !== 'production' ? ['localhost'] : []),
   ];
 };
 

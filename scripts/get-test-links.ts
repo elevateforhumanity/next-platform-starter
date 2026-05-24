@@ -6,7 +6,8 @@ const db = createClient(
   { auth: { persistSession: false } },
 );
 
-const BASE = 'https://3000--019d1a33-e842-7c1a-aa41-65e720f24b45.us-east-1-01.gitpod.dev';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL;
+if (!BASE) throw new Error('NEXT_PUBLIC_SITE_URL is not set. Run: bash .devcontainer/setup-env.sh');
 
 async function main() {
   const { data: courses } = await db

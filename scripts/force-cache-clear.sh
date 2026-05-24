@@ -16,8 +16,7 @@ echo "✅ Updated cache bust in app/layout.tsx"
 # Commit and push
 git add app/layout.tsx
 git commit -m "chore: force cache clear - $TIMESTAMP
-
-Co-authored-by: Ona <no-reply@ona.com>"
+"
 git push origin main
 
 echo ""

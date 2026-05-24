@@ -3,7 +3,7 @@
  */
 import { chromium } from 'playwright';
 
-const BASE = 'https://3000--019d8ed1-d172-7d34-b6f7-79996bb5b30c.us-east-1-01.gitpod.dev';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || '';
 const EMAIL = 'testadmin@elevateforhumanity.org';
 const PASSWORD = 'TestAdmin2026!';
 

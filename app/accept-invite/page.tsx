@@ -22,7 +22,7 @@ export default async function AcceptInvitePage({ searchParams }: Props) {
 
   // Fetch invite details server-side so the page renders with context.
   // GET /api/org/accept-invite queries org_invites directly — no RPC dependency.
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
   let inviteDetails: {
     email: string;
     role: string;

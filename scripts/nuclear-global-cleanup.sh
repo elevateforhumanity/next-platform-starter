@@ -451,8 +451,7 @@ This is a COMPLETE GLOBAL RESET.
 Zero old domains, zero old URLs, zero old references.
 
 [nuclear-global] [sitemap-cleanup] [meta-cleanup] [dns-cleanup]
-
-Co-authored-by: Ona <no-reply@ona.com>"
+"
 
 echo "✅ Committed"
 echo ""

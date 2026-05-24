@@ -1,37 +1,41 @@
 /**
- * Returns the canonical public site URL.
+ * Canonical URL helpers.
  *
- * Priority:
- *   1. NEXT_PUBLIC_SITE_URL env var (trimmed, must be non-empty)
- *   2. Production fallback: https://www.elevateforhumanity.org
+ * All URLs come from environment variables set in AWS SSM (/elevate/*).
+ * No localhost fallbacks — missing vars in production are caught at call time.
  *
- * Never returns localhost — localhost fallbacks in payment/email URLs
- * cause broken links in production when the env var is missing or empty.
+ * Required SSM parameters:
+ *   /elevate/NEXT_PUBLIC_SITE_URL               https://www.elevateforhumanity.org
+ *   /elevate/NEXT_PUBLIC_ADMIN_URL              https://admin.elevateforhumanity.org
+ *   /elevate/NEXT_PUBLIC_COLLABORATION_WS_URL   wss://collab.elevateforhumanity.org
  */
-export function getSiteUrl(): string {
-  const env = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
-  return env || 'https://www.elevateforhumanity.org';
+
+function requireUrl(name: string): string {
+  const val = (process.env[name] || '').trim();
+  if (!val) throw new Error(`Missing required environment variable: ${name}`);
+  return val.replace(/\/$/, '');
 }
 
-/**
- * Returns the canonical admin URL.
- */
+/** LMS app base URL — https://www.elevateforhumanity.org */
+export function getSiteUrl(): string {
+  return requireUrl('NEXT_PUBLIC_SITE_URL');
+}
+
+/** Admin app base URL — https://admin.elevateforhumanity.org */
 export function getAdminUrl(): string {
-  const fallback = 'https://admin.elevateforhumanity.org';
-  const env = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
-  if (!env) return fallback;
-
+  const url = requireUrl('NEXT_PUBLIC_ADMIN_URL');
   try {
-    const url = new URL(env);
-    const host = url.hostname.toLowerCase();
-
-    // Guard against exposing raw AWS ALB hostnames in user-facing links.
-    if (host.endsWith('.elb.amazonaws.com')) {
-      return fallback;
+    const parsed = new URL(url);
+    if (parsed.hostname.toLowerCase().endsWith('.elb.amazonaws.com')) {
+      throw new Error('NEXT_PUBLIC_ADMIN_URL must not be a raw ALB hostname');
     }
-
-    return `${url.protocol}//${url.host}`;
-  } catch {
-    return fallback;
+    return `${parsed.protocol}//${parsed.host}`;
+  } catch (e) {
+    throw new Error(`Invalid NEXT_PUBLIC_ADMIN_URL: ${e instanceof Error ? e.message : e}`);
   }
+}
+
+/** WebSocket URL for Yjs collaboration */
+export function getCollaborationWsUrl(): string {
+  return requireUrl('NEXT_PUBLIC_COLLABORATION_WS_URL');
 }

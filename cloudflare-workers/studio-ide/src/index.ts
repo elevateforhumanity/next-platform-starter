@@ -110,24 +110,17 @@ interface Env {
   MAX_WORKSPACE_SIZE: string;
 }
 
-// Allowed origins - strict list, no wildcards in production
+// Allowed origins — production domains only
 const ALLOWED_ORIGINS = [
   'https://elevateforhumanity.org',
   'https://www.elevateforhumanity.org',
   'https://admin.elevateforhumanity.org',
   'https://studio.elevateforhumanity.org',
-  // Dev origins - remove in production
-  'http://localhost:3000',
-  'http://localhost:3001',
 ];
-
-// Also allow Gitpod preview URLs during development
-const ALLOWED_ORIGIN_PATTERNS = [/^https:\/\/\d+--[a-z0-9-]+\..*\.gitpod\.dev$/];
 
 function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return false;
-  if (ALLOWED_ORIGINS.includes(origin)) return true;
-  return ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin));
+  return ALLOWED_ORIGINS.includes(origin);
 }
 
 function getCorsHeaders(request: Request): Record<string, string> {

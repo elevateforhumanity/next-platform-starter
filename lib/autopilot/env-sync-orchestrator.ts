@@ -25,7 +25,7 @@ export interface AutopilotResult {
 export async function instructEnvSync(): Promise<AutopilotResult> {
   try {
     const autopilotSecret = process.env.AUTOPILOT_SECRET;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
     if (!autopilotSecret) {
       return {
@@ -83,7 +83,7 @@ export async function instructEnvSync(): Promise<AutopilotResult> {
  */
 export async function verifyEnvSync(): Promise<AutopilotResult> {
   try {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
     const response = await fetch(`${siteUrl}/api/autopilot/sync-env`, {
       method: 'GET',
@@ -122,7 +122,7 @@ export async function verifyEnvSync(): Promise<AutopilotResult> {
  */
 export async function downloadEnvFile(autopilotSecret: string): Promise<string | null> {
   try {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
     const response = await fetch(`${siteUrl}/api/autopilot/sync-env`, {
       method: 'POST',

@@ -286,7 +286,7 @@ export default function AICourseBuilderChat({
             <p className="text-sm font-semibold text-purple-900 mb-1">Generate lesson videos?</p>
             <p className="text-xs text-purple-700 mb-3">
               The video pipeline will create a branded MP4 for every lesson — narration, b-roll,
-              intro/outro, captions. Requires ffmpeg (run locally or on Railway).
+              intro/outro, captions. Requires ffmpeg (available on ECS or locally).
             </p>
             {videoResult ? (
               <p className="text-sm font-medium">{videoResult}</p>

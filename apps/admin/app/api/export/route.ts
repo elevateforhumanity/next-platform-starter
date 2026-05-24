@@ -120,6 +120,7 @@ export async function GET(request: NextRequest) {
         },
       });
     } else if (format === 'pdf') {
+<<<<<<< Updated upstream
       // Generate PDF inline — no external function needed on ECS (no Lambda size limit)
       const template = EXPORT_TEMPLATES[type as keyof typeof EXPORT_TEMPLATES];
       const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? '';
@@ -157,6 +158,13 @@ export async function GET(request: NextRequest) {
           'Content-Disposition': `attachment; filename="${filename}.pdf"`,
         },
       });
+=======
+      // PDF export is not yet implemented on AWS — use CSV export instead.
+      return NextResponse.json(
+        { error: 'PDF export is not available. Use CSV format.' },
+        { status: 501 },
+      );
+>>>>>>> Stashed changes
     } else {
       return NextResponse.json({ error: 'Invalid format. Use csv or pdf' }, { status: 400 });
     }

@@ -53,6 +53,7 @@ async function _POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     // Get or create Stripe customer
     let stripeCustomerId: string;
@@ -177,6 +178,7 @@ async function _GET(request: NextRequest) {
 
   try {
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     return NextResponse.json({

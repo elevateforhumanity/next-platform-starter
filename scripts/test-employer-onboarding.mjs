@@ -4,7 +4,7 @@
  */
 import { chromium } from 'playwright';
 
-const BASE = 'https://3000--019d6bd8-a016-7003-a79d-6992ce1b13a3.us-east-1-01.gitpod.dev';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || '';
 const EMAIL = 'emp-fresh-1775828277@elevate-demo.test';
 const PASSWORD = 'ElevateDemo2026!';
 

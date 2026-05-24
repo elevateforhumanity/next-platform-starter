@@ -43,8 +43,7 @@ git add .
 # Generate commit message with timestamp
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 COMMIT_MSG="Auto-deploy: ${TIMESTAMP}
-
-Co-authored-by: Ona <no-reply@ona.com>"
+"
 
 # Commit changes
 echo -e "${YELLOW}💾 Committing changes...${NC}"

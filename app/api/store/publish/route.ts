@@ -78,6 +78,7 @@ async function _POST(req: NextRequest) {
 async function createStripeProduct(product: ProductInput) {
   // Create Stripe product with pricing tiers
   const stripe = getStripe();
+  if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
   const stripeProduct = await stripe.products.create({
     name: product.title,

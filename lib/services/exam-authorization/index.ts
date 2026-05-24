@@ -181,6 +181,7 @@ export async function initiateCertification(
 
   if (needsStripe) {
     const stripe = getStripe();
+    if (!stripe) throw new Error('Stripe not configured');
     if (stripe) {
       try {
         const intent = await stripe.paymentIntents.create({

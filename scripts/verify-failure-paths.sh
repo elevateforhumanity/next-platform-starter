@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-BASE="https://3000--019d31d8-2720-70ee-bf46-42d34d4e4d8b.us-east-1-01.gitpod.dev"
+BASE="${NEXT_PUBLIC_SITE_URL}"
 PASS=0; FAIL=0
 pass() { echo "  ✅ PASS  $1"; ((PASS++)); }
 fail() { echo "  ❌ FAIL  $1"; ((FAIL++)); }

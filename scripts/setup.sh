@@ -35,21 +35,10 @@ fi
 if [ ! -f .env ]; then
   echo "🌱 Creating .env file..."
   
-  # Check if running in Gitpod with GitHub integration
-  if [ -n "${GITPOD_WORKSPACE_CONTEXT}" ]; then
-    echo "🔐 Attempting to load secrets from GitHub..."
-    
-    # Try to get secrets from GitHub (requires Gitpod GitHub integration)
-    SUPABASE_URL="${VITE_SUPABASE_URL:-}"
-    SUPABASE_KEY="${VITE_SUPABASE_ANON_KEY:-}"
-    
-    if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_KEY" ]; then
-      echo "⚠️  GitHub Secrets not available in Gitpod"
-      echo "   To enable: https://gitpod.io/integrations"
-      echo "   Or manually set environment variables in Gitpod dashboard"
-    else
-      echo "✅ Loaded secrets from GitHub"
-    fi
+  # Pull secrets from AWS SSM
+  if command -v aws &>/dev/null && [ -n "${AWS_ACCESS_KEY_ID:-}" ]; then
+    echo "Pulling secrets from AWS SSM..."
+    bash .devcontainer/setup-env.sh
   fi
   
   cat > .env <<ENV
@@ -73,15 +62,8 @@ ENV
 
   if [ "${VITE_SUPABASE_URL:-your_supabase_url_here}" = "your_supabase_url_here" ]; then
     echo ""
-    echo "⚠️  Supabase credentials not configured"
-    echo ""
-    echo "📝 To configure in Gitpod:"
-    echo "   1. Go to: https://gitpod.io/user/variables"
-    echo "   2. Add these variables for your repo:"
-    echo "      VITE_SUPABASE_URL=your_actual_url"
-    echo "      VITE_SUPABASE_ANON_KEY=your_actual_key"
-    echo ""
-    echo "💡 Or set them in GitHub Secrets and enable Gitpod GitHub integration"
+    echo "Supabase credentials not configured."
+    echo "Run: AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... bash .devcontainer/setup-env.sh"
   fi
 else
   echo "✅ .env file exists"

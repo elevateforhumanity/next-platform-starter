@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
   if (!db) return safeError('Service unavailable', 503);
 
   const stripe = getStripe();
+  if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
   try {
     // Get the user's barber subscription

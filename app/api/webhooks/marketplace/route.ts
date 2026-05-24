@@ -30,6 +30,7 @@ export async function POST(req: Request) {
 
   try {
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err: any) {
     // Error logged

@@ -20,6 +20,7 @@ async function _POST(req: Request) {
     }
 
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     const supabase = await requireAdminClient();
 
     if (!supabase) {

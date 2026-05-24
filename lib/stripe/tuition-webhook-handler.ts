@@ -416,6 +416,7 @@ async function getSupabaseAdmin() {
 
 export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'tuition_webhook', requestId: event.id });
   switch (event.type) {

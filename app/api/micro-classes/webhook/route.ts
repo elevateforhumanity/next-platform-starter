@@ -29,6 +29,7 @@ const FROM_EMAIL = 'noreply@elevateforhumanity.org';
 
 export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_MICRO_CLASS_WEBHOOK_SECRET;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
 
   if (!stripeKey || !webhookSecret) {
     logger.error(

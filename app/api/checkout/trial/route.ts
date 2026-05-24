@@ -55,6 +55,7 @@ async function _GET(request: NextRequest) {
 
   try {
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     // Create Stripe checkout session for codebase license purchase
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',

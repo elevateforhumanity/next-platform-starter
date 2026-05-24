@@ -22,7 +22,7 @@ export const AI_STUDIO_DEVINT_CONTAINER = {
     environments: {
       production: 'https://www.elevateforhumanity.org',
       admin: 'https://admin.elevateforhumanity.org',
-      local: 'http://localhost:3000',
+      local: process.env.NEXT_PUBLIC_SITE_URL || '',
     },
   },
   architecture: {

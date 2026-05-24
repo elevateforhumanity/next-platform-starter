@@ -26,10 +26,10 @@ export async function POST(req: NextRequest) {
 
   await hydrateProcessEnv();
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  if (!stripeKey || !webhookSecret) {
+  const stripe = await getStripeServer();
+  if (!stripe || !webhookSecret) {
     return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
   }
-  const stripe = await getStripeServer();
 
   const body = await req.text();
   const sig = req.headers.get('stripe-signature');

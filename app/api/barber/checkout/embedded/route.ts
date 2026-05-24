@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
     const { transferred_hours_verified = 0 } = body;
 
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     // ── Pricing authority ─────────────────────────────────────────────────────
     // Tuition is TUITION_CENTS (498000 = $4,980). Fixed. No exceptions.

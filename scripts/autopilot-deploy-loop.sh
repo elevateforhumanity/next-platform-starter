@@ -23,8 +23,7 @@ while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
   # Trigger deployment
   echo "🚀 Triggering deployment..."
   git commit --allow-empty -m "🤖 Autopilot attempt $ATTEMPT: auto-fix and deploy
-
-Co-authored-by: Ona <no-reply@ona.com>"
+"
   git push origin main
   
   # Wait for deployment to start

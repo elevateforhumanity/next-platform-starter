@@ -3,7 +3,11 @@
 # Full Site Audit Script
 # Tests every page for: HTTP status, content length, required elements
 
-BASE_URL="${BASE_URL:-https://3000--019bb4fc-97ae-7ad0-888f-a371b50ee0ff.us-east-1-01.gitpod.dev}"
+BASE_URL="${BASE_URL:-${NEXT_PUBLIC_SITE_URL}}"
+if [ -z "$BASE_URL" ]; then
+  echo "ERROR: BASE_URL or NEXT_PUBLIC_SITE_URL must be set"
+  exit 1
+fi
 
 echo "=========================================="
 echo "FULL SITE AUDIT - $(date)"

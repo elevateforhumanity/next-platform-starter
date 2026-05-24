@@ -15,7 +15,11 @@
  *   force    — regenerate even if video_url already set
  *
  * Requires: ffmpeg, OPENAI_API_KEY, PEXELS_API_KEY
+<<<<<<< Updated upstream
  * NOTE: ffmpeg is not available in ECS by default. Run in the studio container.
+=======
+ * NOTE: ffmpeg must be available in the runtime environment (ECS task or local dev).
+>>>>>>> Stashed changes
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -50,7 +54,7 @@ export async function POST(
   try {
     execSync('which ffmpeg', { stdio: 'pipe' });
   } catch {
-    return safeError('ffmpeg not available in this environment. Run on Railway or locally.', 503);
+    return safeError('ffmpeg not available in this environment. Run on ECS or locally.', 503);
   }
 
   if (!process.env.OPENAI_API_KEY) return safeError('OPENAI_API_KEY not set', 503);

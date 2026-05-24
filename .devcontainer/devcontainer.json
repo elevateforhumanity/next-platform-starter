@@ -1,37 +1,26 @@
 {
   "name": "Elevate LMS",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
-  // Persist .next/cache across container restarts so webpack / tsc incremental
-  // builds reuse prior compilation artifacts.  The volume is named per-project
-  // so multiple clones don't share a cache.
+
   "mounts": [
     "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
   ],
+
   "forwardPorts": [3000, 3001],
   "portsAttributes": {
-    "3000": {
-      "label": "Next.js LMS (port 3000)",
-      "onAutoForward": "notify"
-    },
-    "3001": {
-      "label": "Admin app (port 3001)",
-      "onAutoForward": "notify"
-    }
+    "3000": { "label": "LMS (port 3000)", "onAutoForward": "notify" },
+    "3001": { "label": "Admin (port 3001)", "onAutoForward": "notify" }
   },
+
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
-    }
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
   },
-  // System deps installed once at image build time.
-  // pnpm install and .env.local setup are handled by .ona/automations.yaml.
-  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/*",
-  // Assemble .env.local and export vars to shell profile on every container start.
-  // This ensures Next.js dev server and scripts always have the correct env vars
-  // regardless of whether Gitpod automations have fired yet.
-  "postCreateCommand": "bash .devcontainer/setup-env.sh",
+
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/* && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && bash .devcontainer/setup-env.sh",
+
   "postStartCommand": "bash .devcontainer/setup-env.sh",
+
   "remoteEnv": {
     "LANG": "en_US.UTF-8",
     "LC_ALL": "en_US.UTF-8",
@@ -39,10 +28,8 @@
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
     "CHROMIUM_PATH": "/usr/bin/chromium",
     "NEXT_TELEMETRY_DISABLED": "1"
-    // AI keys and Supabase credentials are loaded from .env.local by setup-env.sh.
-    // Do NOT add ${localEnv:VAR} entries here — empty localEnv values inject empty
-    // strings that shadow .env.local and break runtime config.
   },
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -69,20 +56,8 @@
         },
         "typescript.tsdk": "node_modules/typescript/lib",
         "typescript.enablePromptUseWorkspaceTsdk": true,
-        "terminal.integrated.defaultProfile.linux": "bash",
-        // GitHub Copilot — enabled in all editor contexts
-        "github.copilot.enable": {
-          "*": true,
-          "plaintext": true,
-          "markdown": true,
-          "yaml": true
-        },
-        "github.copilot.chat.localeOverride": "en",
-        "github.copilot.advanced": {}
+        "terminal.integrated.defaultProfile.linux": "bash"
       }
-    },
-    "codespaces": {
-      "openFiles": ["README.md"]
     }
   }
 }

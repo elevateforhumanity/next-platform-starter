@@ -145,7 +145,7 @@ const nextConfig = {
   },
 
   // Allow cross-origin requests from preview/deploy URLs
-  allowedDevOrigins: ['localhost', '**.gitpod.dev'],
+  allowedDevOrigins: ['localhost'],
 
   // Experimental features for better performance
   experimental: {
@@ -153,10 +153,9 @@ const nextConfig = {
     cpus: 4,
     serverActions: {
       allowedOrigins: [
-        'localhost:3000',
-        '**.gitpod.dev',
         'www.elevateforhumanity.org',
         'elevateforhumanity.org',
+        'admin.elevateforhumanity.org',
       ],
     },
     optimizeCss: false,

@@ -12,17 +12,14 @@ echo ""
 echo "Enrollment ID: $ENROLLMENT_ID"
 echo ""
 
-# Check if we're in Gitpod or local
-if [ -n "$GITPOD_WORKSPACE_URL" ]; then
-  # Extract the workspace URL without https://
-  WORKSPACE_URL="${GITPOD_WORKSPACE_URL#https://}"
-  API_URL="https://3000-${WORKSPACE_URL}/api/enroll/approve"
-  echo "Environment: Gitpod"
-  echo "API URL: $API_URL"
-else
-  API_URL="http://localhost:3000/api/enroll/approve"
-  echo "Environment: Local"
-  echo "API URL: $API_URL"
+BASE_URL="${NEXT_PUBLIC_SITE_URL:-}"
+if [ -z "$BASE_URL" ]; then
+  echo "ERROR: NEXT_PUBLIC_SITE_URL is not set. Run: bash .devcontainer/setup-env.sh"
+  exit 1
+fi
+API_URL="${BASE_URL}/api/enroll/approve"
+echo "API URL: $API_URL"
+if true; then
 fi
 
 echo ""

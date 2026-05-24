@@ -53,6 +53,7 @@ async function _POST(request: NextRequest) {
   let event: Stripe.Event;
   try {
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     const webhookSecrets = getLicenseWebhookSecrets();
     event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
   } catch (err) {

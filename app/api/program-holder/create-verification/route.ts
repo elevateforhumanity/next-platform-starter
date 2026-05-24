@@ -8,6 +8,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 const stripe = getStripe();
+if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
 export const dynamic = 'force-dynamic';
 

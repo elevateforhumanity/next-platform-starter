@@ -93,6 +93,7 @@ async function _POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     // Create or retrieve Stripe customer
     const customers = await stripe.customers.list({

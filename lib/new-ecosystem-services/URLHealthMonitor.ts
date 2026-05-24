@@ -108,17 +108,22 @@ export class URLHealthMonitor {
       expectedStatus: [200],
     });
 
-    // Preview/development server
-    this.addEndpoint({
-      id: 'dev-server',
-      name: 'Development Server',
-      url: 'https://3000--0199d539-243f-773a-8115-cecbe99de420.us-east-1-01.gitpod.dev',
-      type: 'service',
-      critical: true,
-      checkInterval: 30000, // 30 seconds
-      timeout: 5000,
-      expectedStatus: [200],
-    });
+    // Dev server — only registered when NEXT_PUBLIC_SITE_URL points to a non-production host
+    if (
+      process.env.NEXT_PUBLIC_SITE_URL &&
+      !process.env.NEXT_PUBLIC_SITE_URL.includes('elevateforhumanity.org')
+    ) {
+      this.addEndpoint({
+        id: 'dev-server',
+        name: 'Development Server',
+        url: process.env.NEXT_PUBLIC_SITE_URL,
+        type: 'service',
+        critical: false,
+        checkInterval: 30000,
+        timeout: 5000,
+        expectedStatus: [200],
+      });
+    }
 
     // Sister sites
     this.addEndpoint({

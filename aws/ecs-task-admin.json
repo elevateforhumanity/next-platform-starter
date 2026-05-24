@@ -311,6 +311,10 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/LDAP_ENABLED"
         },
         {
+          "name": "LDAP_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/LDAP_URL"
+        },
+        {
           "name": "LICENSING_MODE",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/LICENSING_MODE"
         },

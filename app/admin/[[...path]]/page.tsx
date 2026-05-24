@@ -16,11 +16,7 @@ export default async function AdminCatchAll({
   const useDevAdminUrl =
     process.env.NODE_ENV === 'development' &&
     /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i.test(devAdminUrl);
-  const adminBase = useDevAdminUrl
-    ? devAdminUrl
-    : process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3001'
-      : getAdminUrl();
+  const adminBase = useDevAdminUrl ? devAdminUrl : getAdminUrl();
   const subPath = path?.length ? `/${path.join('/')}` : '/dashboard';
   redirect(`${adminBase}/admin${subPath}`);
 }

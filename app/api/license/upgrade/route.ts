@@ -117,6 +117,7 @@ async function _POST(request: NextRequest) {
 
     // Get or create Stripe customer
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     let customerId = license.stripe_customer_id;
 
     if (!customerId) {

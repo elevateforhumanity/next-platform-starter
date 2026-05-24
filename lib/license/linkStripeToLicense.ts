@@ -167,6 +167,7 @@ export async function handleCheckoutCompleted(
   if (subscriptionId) {
     try {
       const stripe = getStripe();
+      if (!stripe) throw new Error('Stripe not configured');
       const subscription = await stripe.subscriptions.retrieve(subscriptionId);
       currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
     } catch (e) {
@@ -195,6 +196,7 @@ export async function handleInvoicePaid(
   let metadata: LinkingMetadata = {};
   try {
     const stripe = getStripe();
+    if (!stripe) throw new Error('Stripe not configured');
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     metadata = {
       license_id: subscription.metadata?.license_id,

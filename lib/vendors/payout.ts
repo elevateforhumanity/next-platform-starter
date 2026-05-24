@@ -55,6 +55,7 @@ export async function processVendorPayout(
   }
 
   const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
   const marginCents = request.retailPriceCents - request.wholesaleCostCents;
 
   try {

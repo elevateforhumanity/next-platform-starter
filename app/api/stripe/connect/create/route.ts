@@ -41,6 +41,7 @@ async function _POST(req: Request) {
     // Dynamic import to avoid build errors if Stripe not installed
     const Stripe = (await import('stripe')).default;
     const stripe = getStripe();
+    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
     const account = await stripe.accounts.create({
       type: 'express',
