@@ -59,12 +59,27 @@ if [ -n "$DIRTY_FILES" ]; then
 fi
 echo "  ✅ Orphan JSX: clean"
 
-# 4. ESLint — catches no-direct-ai-providers violations and other rule errors
-echo "  → ESLint..."
-if ! pnpm lint --max-warnings=0 2>&1; then
-  echo "❌ ESLint: violations found. Fix before pushing."
-  exit 1
+# 4. ESLint — run only on files changed since the last pushed commit.
+# Full repo lint runs in CI (CodeBuild). Local pre-push scopes to changed files
+# to avoid OOM on the 1,300+ page codebase.
+echo "  → ESLint (changed files only)..."
+
+# Get files changed vs remote HEAD (or all staged if no remote ref yet)
+REMOTE_REF=$(git rev-parse --verify origin/main 2>/dev/null || echo "")
+if [ -n "$REMOTE_REF" ]; then
+  CHANGED=$(git diff --name-only "$REMOTE_REF"..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
+else
+  CHANGED=$(git diff --name-only HEAD~1..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
 fi
-echo "  ✅ ESLint: clean"
+
+if [ -z "$CHANGED" ]; then
+  echo "  ✅ ESLint: no TS/TSX files changed, skipping."
+else
+  if ! NODE_OPTIONS='--max-old-space-size=4096' npx eslint $CHANGED --max-warnings=0 2>&1; then
+    echo "❌ ESLint: violations found in changed files. Fix before pushing."
+    exit 1
+  fi
+  echo "  ✅ ESLint: clean"
+fi
 
 echo "✅ Pre-push checks passed. Pushing..."
