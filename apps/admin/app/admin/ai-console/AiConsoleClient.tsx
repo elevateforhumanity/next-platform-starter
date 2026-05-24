@@ -67,12 +67,23 @@ function MessageBubble({ msg }: { msg: Message }) {
   );
 }
 
+type ProviderId = 'auto' | 'openai' | 'groq' | 'anthropic' | 'gemini';
+
+const PROVIDER_LABELS: Record<ProviderId, string> = {
+  auto:      'Auto',
+  openai:    'OpenAI',
+  groq:      'Groq',
+  anthropic: 'Anthropic',
+  gemini:    'Gemini',
+};
+
 export default function AiConsoleClient() {
   const [messages, setMessages]     = useState<Message[]>([]);
   const [input, setInput]           = useState('');
   const [loading, setLoading]       = useState(false);
   const [error, setError]           = useState<string | null>(null);
   const [sessionId]                 = useState(() => `session-${Date.now()}`);
+  const [selectedProvider, setSelectedProvider] = useState<ProviderId>('auto');
   const [providerStatus, setProviderStatus] = useState<{
     activeProvider: string | null;
     keys: Record<string, { set: boolean }>;
@@ -109,7 +120,11 @@ export default function AiConsoleClient() {
       const res = await fetch('/api/admin/ai-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, sessionId }),
+        body: JSON.stringify({
+          message: text,
+          sessionId,
+          provider: selectedProvider !== 'auto' ? selectedProvider : undefined,
+        }),
       });
 
       if (!res.ok) {
@@ -135,7 +150,7 @@ export default function AiConsoleClient() {
       setLoading(false);
       inputRef.current?.focus();
     }
-  }, [input, loading, sessionId]);
+  }, [input, loading, sessionId, selectedProvider]);
 
   const clearHistory = async () => {
     await fetch('/api/admin/ai-assistant', {
@@ -164,18 +179,35 @@ export default function AiConsoleClient() {
         <div className="flex items-center gap-2">
           <Bot className="w-5 h-5 text-brand-blue-600" />
           <span className="font-semibold text-slate-800 text-sm">Ellie — AI Operations Assistant</span>
-          {!statusLoading && providerStatus && (
+          {!statusLoading && providerStatus && selectedProvider === 'auto' && (
             <ProviderBadge provider={providerStatus.activeProvider} />
           )}
         </div>
-        <button
-          onClick={clearHistory}
-          className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-red-600 transition-colors px-2 py-1 rounded hover:bg-red-50"
-          title="Clear conversation history"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-          Clear
-        </button>
+        <div className="flex items-center gap-2">
+          <select
+            value={selectedProvider}
+            onChange={e => setSelectedProvider(e.target.value as ProviderId)}
+            className="text-xs border border-slate-200 rounded-lg px-2 py-1 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-blue-400"
+            title="AI provider"
+          >
+            {(Object.keys(PROVIDER_LABELS) as ProviderId[]).map(p => {
+              const configured = p === 'auto' || !!(providerStatus?.keys?.[p]?.set);
+              return (
+                <option key={p} value={p} disabled={p !== 'auto' && !configured}>
+                  {PROVIDER_LABELS[p]}{p !== 'auto' && !configured ? ' (not set)' : ''}
+                </option>
+              );
+            })}
+          </select>
+          <button
+            onClick={clearHistory}
+            className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-red-600 transition-colors px-2 py-1 rounded hover:bg-red-50"
+            title="Clear conversation history"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Clear
+          </button>
+        </div>
       </div>
 
       {/* ── Provider warning ── */}
@@ -277,7 +309,7 @@ export default function AiConsoleClient() {
         </div>
         <p className="text-[10px] text-slate-400 mt-1.5">
           Enter to send · Shift+Enter for newline · Powered by{' '}
-          {providerStatus?.activeProvider ?? 'AI'}
+          {selectedProvider !== 'auto' ? PROVIDER_LABELS[selectedProvider] : (providerStatus?.activeProvider ?? 'AI')}
         </p>
       </div>
 
