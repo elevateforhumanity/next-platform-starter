@@ -8,7 +8,7 @@ import { setAuditContext } from '@/lib/audit-context';
 import { notifyGrantSubmitted } from './notification-system';
 import { logAuditEvent } from '@/lib/audit';
 
-function getDb() {
+async function getDb() {
   return requireAdminClient();
 }
 
@@ -53,7 +53,7 @@ export interface SubmissionTimelineEvent {
 export async function recordSubmission(
   submission: Omit<SubmissionRecord, 'id' | 'timeline'>,
 ): Promise<SubmissionRecord> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
   const timeline: SubmissionTimelineEvent[] = [
     {
@@ -132,7 +132,7 @@ export async function addTimelineEvent(
   submissionId: string,
   event: Omit<SubmissionTimelineEvent, 'timestamp'>,
 ): Promise<void> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
   const { data: submission } = await db
     .from('grant_submissions')
@@ -162,7 +162,7 @@ export async function updateSubmissionStatus(
   notes?: string,
   performedBy?: string,
 ): Promise<void> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
   await db.from('grant_submissions').update({ status, notes }).eq('id', submissionId);
 

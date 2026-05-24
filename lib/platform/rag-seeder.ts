@@ -8,8 +8,8 @@
  */
 
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
-import { join, relative } from 'path';
-import { createClient } from '@supabase/supabase-js';
+import { join, relative, extname } from 'path';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   SYSTEMS,
   PLATFORM_DEBT,
@@ -29,7 +29,7 @@ interface Chunk {
 }
 
 interface EmbedOptions {
-  source?: 'all' | 'graph' | 'routes' | 'migrations' | 'docs';
+  source?: 'all' | 'graph' | 'routes' | 'migrations' | 'docs' | 'lib';
   dryRun?: boolean;
 }
 
@@ -158,6 +158,136 @@ function buildMigrationChunks(): Chunk[] {
   return chunks;
 }
 
+/**
+ * Seed API route files from app/ and apps/admin/app/api/.
+ * Extracts the first JSDoc comment block + export signatures so the AI
+ * understands what each endpoint does without embedding full implementations.
+ */
+function buildRouteChunks(): Chunk[] {
+  const chunks: Chunk[] = [];
+  const routeDirs = [
+    join(ROOT, 'app', 'api'),
+    join(ROOT, 'apps', 'admin', 'app', 'api'),
+  ];
+
+  function walkRoutes(dir: string) {
+    if (!existsSync(dir)) return;
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      const stat = statSync(full);
+      if (stat.isDirectory()) { walkRoutes(full); continue; }
+      if (entry !== 'route.ts' && entry !== 'route.tsx') continue;
+
+      const rel = relative(ROOT, full);
+      const content = readFileSync(full, 'utf8');
+
+      // Extract leading JSDoc block (/** ... */)
+      const jsdocMatch = content.match(/^\/\*\*([\s\S]*?)\*\//);
+      const jsdoc = jsdocMatch ? jsdocMatch[1].replace(/^\s*\*\s?/gm, '').trim() : '';
+
+      // Extract HTTP method exports (export async function GET/POST/PUT/DELETE/PATCH)
+      const methods = [...content.matchAll(/^export\s+(?:async\s+)?function\s+(GET|POST|PUT|DELETE|PATCH)/gm)]
+        .map((m) => m[1]);
+
+      // Extract runtime/maxDuration declarations
+      const runtimeMatch = content.match(/export const runtime\s*=\s*['"](\w+)['"]/);
+      const durationMatch = content.match(/export const maxDuration\s*=\s*(\d+)/);
+
+      const summary = [
+        `Route: ${rel}`,
+        methods.length ? `Methods: ${methods.join(', ')}` : '',
+        runtimeMatch ? `Runtime: ${runtimeMatch[1]}` : '',
+        durationMatch ? `Max duration: ${durationMatch[1]}s` : '',
+        jsdoc ? `\nDescription:\n${jsdoc.slice(0, 600)}` : '',
+      ].filter(Boolean).join('\n');
+
+      if (summary.length < 30) continue; // skip empty stubs
+
+      chunks.push({
+        source_type: 'route',
+        source_path: rel,
+        title: `API Route: ${rel}`,
+        content: summary,
+        metadata: { methods, runtime: runtimeMatch?.[1] ?? 'edge' },
+      });
+    }
+  }
+
+  for (const dir of routeDirs) walkRoutes(dir);
+  return chunks;
+}
+
+/**
+ * Seed key lib/ modules so the AI understands canonical patterns,
+ * utility functions, and architectural decisions embedded in code.
+ * Only seeds files with a leading JSDoc block — skips implementation-only files.
+ */
+function buildLibChunks(): Chunk[] {
+  const chunks: Chunk[] = [];
+
+  // High-value lib directories to seed
+  const seedDirs = [
+    'lib/ai',
+    'lib/platform',
+    'lib/resilience',
+    'lib/supabase',
+    'lib/admin',
+    'lib/governance',
+    'lib/compliance',
+    'lib/enrollment',
+    'lib/lms',
+    'lib/auth',
+  ];
+
+  const SKIP_PATTERNS = [
+    /\.test\./,
+    /\.spec\./,
+    /node_modules/,
+    /\.next/,
+    /providers\//,  // individual AI provider impls — too verbose
+  ];
+
+  for (const seedDir of seedDirs) {
+    const dir = join(ROOT, seedDir);
+    if (!existsSync(dir)) continue;
+
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      if (statSync(full).isDirectory()) continue;
+      if (extname(entry) !== '.ts' && extname(entry) !== '.tsx') continue;
+      if (SKIP_PATTERNS.some((p) => p.test(full))) continue;
+
+      const rel = relative(ROOT, full);
+      const content = readFileSync(full, 'utf8');
+
+      // Only seed files that have a leading JSDoc block — signals intentional documentation
+      const jsdocMatch = content.match(/^\/\*\*([\s\S]*?)\*\//);
+      if (!jsdocMatch) continue;
+      const jsdoc = jsdocMatch[1].replace(/^\s*\*\s?/gm, '').trim();
+      if (jsdoc.length < 20) continue;
+
+      // Extract exported function/class/const names
+      const exports = [...content.matchAll(/^export\s+(?:async\s+)?(?:function|class|const|type|interface)\s+(\w+)/gm)]
+        .map((m) => m[1])
+        .slice(0, 20);
+
+      chunks.push({
+        source_type: 'lib',
+        source_path: rel,
+        title: `Library: ${rel}`,
+        content: [
+          `Module: ${rel}`,
+          exports.length ? `Exports: ${exports.join(', ')}` : '',
+          `\nDocumentation:\n${jsdoc.slice(0, 800)}`,
+        ].filter(Boolean).join('\n'),
+        metadata: { module: rel, exports },
+      });
+    }
+  }
+
+  return chunks;
+}
+
 function buildDocChunks(): Chunk[] {
   const chunks: Chunk[] = [];
   const docsDir = join(ROOT, 'docs');
@@ -204,16 +334,14 @@ export async function embedPlatformKnowledge(options: EmbedOptions = {}): Promis
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey && !dryRun) throw new Error('OPENAI_API_KEY is required');
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !supabaseKey) throw new Error('Supabase env vars missing');
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = await requireAdminClient();
 
   const allChunks: Chunk[] = [];
-  if (source === 'all' || source === 'graph') allChunks.push(...buildKnowledgeGraphChunks());
+  if (source === 'all' || source === 'graph')      allChunks.push(...buildKnowledgeGraphChunks());
+  if (source === 'all' || source === 'routes')     allChunks.push(...buildRouteChunks());
+  if (source === 'all' || source === 'lib')        allChunks.push(...buildLibChunks());
   if (source === 'all' || source === 'migrations') allChunks.push(...buildMigrationChunks());
-  if (source === 'all' || source === 'docs') allChunks.push(...buildDocChunks());
+  if (source === 'all' || source === 'docs')       allChunks.push(...buildDocChunks());
 
   if (dryRun) {
     return { written: 0, errors: 0, total: allChunks.length, dryRun: true };

@@ -11,7 +11,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAuditEvent } from '@/lib/audit';
 import { setAuditContext } from '@/lib/audit-context';
 
-function getSupabaseAdmin() {
+async function getSupabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {

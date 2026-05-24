@@ -6,7 +6,6 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { createClient } from '@/lib/supabase/server';
-import { createClient } from '@supabase/supabase-js';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';

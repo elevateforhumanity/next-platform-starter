@@ -7,7 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { getEntityByUEI } from '@/lib/integrations/sam-gov';
 
-function getDb() {
+async function getDb() {
   return requireAdminClient();
 }
 
@@ -443,7 +443,7 @@ export async function generateAllFederalForms(applicationId: string): Promise<{
   sf424a: SF424AData;
   sflll: SFLLLData;
 }> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_federal_forms' }).catch(() => {});
   const { data: app, error } = await db
     .from('grant_applications')

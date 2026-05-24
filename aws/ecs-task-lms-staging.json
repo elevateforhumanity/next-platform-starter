@@ -1,0 +1,853 @@
+{
+  "family": "elevate-lms-staging",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "2048",
+  "memory": "8192",
+  "executionRoleArn": "arn:aws:iam::954718262498:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::954718262498:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "elevate-lms-staging",
+      "image": "954718262498.dkr.ecr.us-east-1.amazonaws.com/elevate-lms-staging:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "HOSTNAME",
+          "value": "0.0.0.0"
+        },
+        {
+          "name": "PORT",
+          "value": "3000"
+        },
+        {
+          "name": "SERVICE_ROLE",
+          "value": "lms"
+        },
+        {
+          "name": "NEXT_TELEMETRY_DISABLED",
+          "value": "1"
+        },
+        {
+          "name": "PUPPETEER_EXECUTABLE_PATH",
+          "value": "/usr/bin/chromium"
+        },
+        {
+          "name": "CHROMIUM_PATH",
+          "value": "/usr/bin/chromium"
+        },
+        {
+          "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+          "value": ""
+        },
+        {
+          "name": "OTEL_EXPORTER_OTLP_HEADERS",
+          "value": ""
+        },
+        {
+          "name": "OTEL_SERVICE_NAME",
+          "value": "elevate-lms-staging"
+        },
+        {
+          "name": "SUPABASE_PROJECT_REF",
+          "value": "cuxzzpsyufcewtmicszk"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "ADMIN_ALERT_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ADMIN_ALERT_EMAIL"
+        },
+        {
+          "name": "ADMIN_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ADMIN_EMAIL"
+        },
+        {
+          "name": "AFFIRM_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_ENVIRONMENT"
+        },
+        {
+          "name": "AFFIRM_PRIVATE_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_PRIVATE_API_KEY"
+        },
+        {
+          "name": "AFFIRM_PUBLIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_PUBLIC_API_KEY"
+        },
+        {
+          "name": "ALERT_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ALERT_EMAIL"
+        },
+        {
+          "name": "ALERT_EMAIL_TO",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ALERT_EMAIL_TO"
+        },
+        {
+          "name": "AUDIT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AUDIT_SECRET"
+        },
+        {
+          "name": "AUTOMATION_ENABLE_TRIGGERS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AUTOMATION_ENABLE_TRIGGERS"
+        },
+        {
+          "name": "AVATAR_GENERATION_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AVATAR_GENERATION_ENABLED"
+        },
+        {
+          "name": "AVATAR_GEN_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AVATAR_GEN_ENABLED"
+        },
+        {
+          "name": "AWS_REGION",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AWS_REGION"
+        },
+        {
+          "name": "AWS_S3_BUCKET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AWS_S3_BUCKET"
+        },
+        {
+          "name": "AZURE_AD_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AZURE_AD_ENABLED"
+        },
+        {
+          "name": "BARBER_PROGRAM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/BARBER_PROGRAM_ID"
+        },
+        {
+          "name": "CALENDLY_API_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CALENDLY_API_TOKEN"
+        },
+        {
+          "name": "CALENDLY_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CALENDLY_WEBHOOK_SECRET"
+        },
+        {
+          "name": "CAREERSAFE_API_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CAREERSAFE_API_BASE_URL"
+        },
+        {
+          "name": "CERTIPORT_API_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CERTIPORT_API_BASE_URL"
+        },
+        {
+          "name": "CLOUDFLARE_ACCOUNT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CLOUDFLARE_ACCOUNT_ID"
+        },
+        {
+          "name": "CLOUDFLARE_R2_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CLOUDFLARE_R2_ACCESS_KEY_ID"
+        },
+        {
+          "name": "CLOUDFLARE_R2_ENDPOINT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CLOUDFLARE_R2_ENDPOINT"
+        },
+        {
+          "name": "CLOUDFLARE_R2_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CLOUDFLARE_R2_SECRET_ACCESS_KEY"
+        },
+        {
+          "name": "CRON_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/CRON_SECRET"
+        },
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DATABASE_URL"
+        },
+        {
+          "name": "DEMO_ALLOW_IN_PROD",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DEMO_ALLOW_IN_PROD"
+        },
+        {
+          "name": "DEMO_MODE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DEMO_MODE"
+        },
+        {
+          "name": "DEPLOY_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DEPLOY_URL"
+        },
+        {
+          "name": "DID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DID_API_KEY"
+        },
+        {
+          "name": "ELEVENLABS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ELEVENLABS_API_KEY"
+        },
+        {
+          "name": "DOCUMENT_RETENTION_DAYS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DOCUMENT_RETENTION_DAYS"
+        },
+        {
+          "name": "DURABLE_BLOG_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/DURABLE_BLOG_URL"
+        },
+        {
+          "name": "EMAIL_FROM",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/EMAIL_FROM"
+        },
+        {
+          "name": "EMAIL_PROVIDER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/EMAIL_PROVIDER"
+        },
+        {
+          "name": "ENABLE_ADMIN_DEVTOOLS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ENABLE_ADMIN_DEVTOOLS"
+        },
+        {
+          "name": "ENABLE_AUDIT_LOGGING",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ENABLE_AUDIT_LOGGING"
+        },
+        {
+          "name": "ENABLE_TEST_LOGGING",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ENABLE_TEST_LOGGING"
+        },
+        {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GEMINI_API_KEY"
+        },
+        {
+          "name": "GITHUB_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_CLIENT_ID"
+        },
+        {
+          "name": "GITHUB_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_CLIENT_SECRET"
+        },
+        {
+          "name": "GITHUB_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_TOKEN"
+        },
+        {
+          "name": "GOOGLE_CLOUD_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GOOGLE_CLOUD_API_KEY"
+        },
+        {
+          "name": "GOOGLE_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GOOGLE_CLIENT_ID"
+        },
+        {
+          "name": "GOOGLE_REDIRECT_URI",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GOOGLE_REDIRECT_URI"
+        },
+        {
+          "name": "GOOGLE_OAUTH_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GOOGLE_OAUTH_ENABLED"
+        },
+        {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GROQ_API_KEY"
+        },
+        {
+          "name": "HEYGEN_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/HEYGEN_API_KEY"
+        },
+        {
+          "name": "HSI_API_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/HSI_API_BASE_URL"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/INTERNAL_API_KEY"
+        },
+        {
+          "name": "IRS_EFIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/IRS_EFIN"
+        },
+        {
+          "name": "IRS_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/IRS_ENVIRONMENT"
+        },
+        {
+          "name": "LDAP_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/LDAP_ENABLED"
+        },
+        {
+          "name": "LICENSING_MODE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/LICENSING_MODE"
+        },
+        {
+          "name": "LINKEDIN_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/LINKEDIN_CLIENT_ID"
+        },
+        {
+          "name": "LINKEDIN_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/LINKEDIN_CLIENT_SECRET"
+        },
+        {
+          "name": "MOU_ARCHIVE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/MOU_ARCHIVE_EMAIL"
+        },
+        {
+          "name": "NEXTAUTH_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXTAUTH_SECRET"
+        },
+        {
+          "name": "NEXTAUTH_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXTAUTH_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_ADMIN_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_ADMIN_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_30MIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_CALENDLY_30MIN"
+        },
+        {
+          "name": "NEXT_PUBLIC_CALENDLY_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_CALENDLY_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_GA_MEASUREMENT_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_GITHUB_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_GITHUB_ENABLED"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER"
+        },
+        {
+          "name": "NEXT_PUBLIC_RAPIDS_SPONSOR_NAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_RAPIDS_SPONSOR_NAME"
+        },
+        {
+          "name": "NEXT_PUBLIC_RTI_PROVIDER_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_RTI_PROVIDER_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_SCORM_CDN_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SCORM_CDN_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SENTRY_DSN"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SEZZLE_ENVIRONMENT"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_MERCHANT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SEZZLE_MERCHANT_ID"
+        },
+        {
+          "name": "NEXT_PUBLIC_SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SITE_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_SUPABASE_URL"
+        },
+        {
+          "name": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_VAPID_PUBLIC_KEY"
+        },
+        {
+          "name": "NHA_PORTAL_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NHA_PORTAL_URL"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/OPENAI_API_KEY"
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ANTHROPIC_API_KEY"
+        },
+        {
+          "name": "PARTNER_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/PARTNER_WEBHOOK_SECRET"
+        },
+        {
+          "name": "PEXELS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/PEXELS_API_KEY"
+        },
+        {
+          "name": "R2_BUCKET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/R2_BUCKET"
+        },
+        {
+          "name": "R2_ENDPOINT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/R2_ENDPOINT"
+        },
+        {
+          "name": "REPLY_TO_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/REPLY_TO_EMAIL"
+        },
+        {
+          "name": "RESEND_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/RESEND_API_KEY"
+        },
+        {
+          "name": "ROBOTS_NOINDEX",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ROBOTS_NOINDEX"
+        },
+        {
+          "name": "SALESFORCE_LOGIN_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SALESFORCE_LOGIN_URL"
+        },
+        {
+          "name": "SAMGOV_ACTIVATION_md_token",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAMGOV_ACTIVATION_md_token"
+        },
+        {
+          "name": "SAML_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAML_ENABLED"
+        },
+        {
+          "name": "SAM_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAM_API_KEY"
+        },
+        {
+          "name": "SENDGRID_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENDGRID_API_KEY"
+        },
+        {
+          "name": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_TURNSTILE_SITE_KEY"
+        },
+        {
+          "name": "TURNSTILE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TURNSTILE_SECRET_KEY"
+        },
+        {
+          "name": "SENDGRID_FROM",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENDGRID_FROM"
+        },
+        {
+          "name": "SENTRY_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENTRY_AUTH_TOKEN"
+        },
+        {
+          "name": "SENTRY_DSN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENTRY_DSN"
+        },
+        {
+          "name": "SENTRY_ORG",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENTRY_ORG"
+        },
+        {
+          "name": "SENTRY_PROJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SENTRY_PROJECT"
+        },
+        {
+          "name": "SESSION_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SESSION_SECRET"
+        },
+        {
+          "name": "SEZZLE_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SEZZLE_ENVIRONMENT"
+        },
+        {
+          "name": "SEZZLE_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SEZZLE_PRIVATE_KEY"
+        },
+        {
+          "name": "SEZZLE_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SEZZLE_PUBLIC_KEY"
+        },
+        {
+          "name": "SEZZLE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SEZZLE_WEBHOOK_SECRET"
+        },
+        {
+          "name": "SLACK_ALERT_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SLACK_ALERT_WEBHOOK"
+        },
+        {
+          "name": "SLACK_SECURITY_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SLACK_SECURITY_WEBHOOK"
+        },
+        {
+          "name": "SLACK_WEBHOOK_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SLACK_WEBHOOK_URL"
+        },
+        {
+          "name": "SMTP_FROM",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SMTP_FROM"
+        },
+        {
+          "name": "SMTP_HOST",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SMTP_HOST"
+        },
+        {
+          "name": "SMTP_PORT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SMTP_PORT"
+        },
+        {
+          "name": "SMTP_USER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SMTP_USER"
+        },
+        {
+          "name": "SMTP_PASS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SMTP_PASS"
+        },
+        {
+          "name": "SOCIAL_MEDIA_AUTO_POST_BLOG",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_AUTO_POST_BLOG"
+        },
+        {
+          "name": "SOCIAL_MEDIA_DEV_MODE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_DEV_MODE"
+        },
+        {
+          "name": "SOCIAL_MEDIA_FACEBOOK_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_FACEBOOK_ENABLED"
+        },
+        {
+          "name": "SOCIAL_MEDIA_INSTAGRAM_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_INSTAGRAM_ENABLED"
+        },
+        {
+          "name": "SOCIAL_MEDIA_LINKEDIN_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_LINKEDIN_ENABLED"
+        },
+        {
+          "name": "SOCIAL_MEDIA_POST_TIMES",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_POST_TIMES"
+        },
+        {
+          "name": "SOCIAL_MEDIA_TIMEZONE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_TIMEZONE"
+        },
+        {
+          "name": "SOCIAL_MEDIA_YOUTUBE_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SOCIAL_MEDIA_YOUTUBE_ENABLED"
+        },
+        {
+          "name": "YOUTUBE_CHANNEL_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/YOUTUBE_CHANNEL_ID"
+        },
+        {
+          "name": "YOUTUBE_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/YOUTUBE_API_KEY"
+        },
+        {
+          "name": "SPONSOR_FINANCE_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SPONSOR_FINANCE_EMAIL"
+        },
+        {
+          "name": "SSN_SALT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SSN_SALT"
+        },
+        {
+          "name": "SSN_ENCRYPTION_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SSN_ENCRYPTION_KEY"
+        },
+        {
+          "name": "STRIPE_PRICES_JSON",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICES_JSON"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BARBER"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_SETUP_FEE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BARBER_SETUP_FEE"
+        },
+        {
+          "name": "STRIPE_PRICE_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_DEPOSIT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BOOTH_BARBER_DEPOSIT"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_BARBER_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BOOTH_BARBER_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_COSMO_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BOOTH_COSMO_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_BOOTH_NAIL_WEEKLY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_BOOTH_NAIL_WEEKLY"
+        },
+        {
+          "name": "STRIPE_PRICE_CR_ENTERPRISE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_CR_ENTERPRISE"
+        },
+        {
+          "name": "STRIPE_PRICE_CR_GUIDE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICE_CR_GUIDE"
+        },
+        {
+          "name": "STRIPE_PUBLISHABLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PUBLISHABLE_KEY"
+        },
+        {
+          "name": "STRIPE_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_SECRET_KEY"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET_BARBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET_BARBER"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET_DONATIONS",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET_DONATIONS"
+        },
+        {
+          "name": "STRIPE_IDENTITY_WEBHOOK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_IDENTITY_WEBHOOK_SECRET"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET_LICENSE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET_LICENSE"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET_STORE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET_STORE"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET_SUPERSONIC",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_WEBHOOK_SECRET_SUPERSONIC"
+        },
+        {
+          "name": "SUPABASE_MANAGEMENT_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SUPABASE_MANAGEMENT_API_KEY"
+        },
+        {
+          "name": "SUPABASE_SERVICE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SUPABASE_SERVICE_KEY"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SUPABASE_SERVICE_ROLE_KEY"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SUPABASE_URL"
+        },
+        {
+          "name": "Sam_API_Key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/Sam_API_Key"
+        },
+        {
+          "name": "TWILIO_ACCOUNT_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_ACCOUNT_SID"
+        },
+        {
+          "name": "TWILIO_API_KEY_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_API_KEY_SECRET"
+        },
+        {
+          "name": "TWILIO_API_KEY_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_API_KEY_SID"
+        },
+        {
+          "name": "TWILIO_AUTH_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_AUTH_TOKEN"
+        },
+        {
+          "name": "TWILIO_PHONE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_PHONE"
+        },
+        {
+          "name": "TWILIO_PHONE_NUMBER",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_PHONE_NUMBER"
+        },
+        {
+          "name": "TWILIO_SID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/TWILIO_SID"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/UPSTASH_REDIS_REST_TOKEN"
+        },
+        {
+          "name": "UPSTASH_REDIS_REST_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/UPSTASH_REDIS_REST_URL"
+        },
+        {
+          "name": "VAPID_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/VAPID_PRIVATE_KEY"
+        },
+        {
+          "name": "VAPID_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/VAPID_PUBLIC_KEY"
+        },
+        {
+          "name": "VAPID_SUBJECT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/VAPID_SUBJECT"
+        },
+        {
+          "name": "affirm_private_api_key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/affirm_private_api_key"
+        },
+        {
+          "name": "affirm_public_api_key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/affirm_public_api_key"
+        },
+        {
+          "name": "AFFIRM_API_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_API_URL"
+        },
+        {
+          "name": "AFFIRM_BASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_BASE_URL"
+        },
+        {
+          "name": "AFFIRM_PRIVATE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_PRIVATE_KEY"
+        },
+        {
+          "name": "AFFIRM_PUBLIC_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AFFIRM_PUBLIC_KEY"
+        },
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AWS_ACCESS_KEY_ID"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_OAUTH_CLIENT_ID"
+        },
+        {
+          "name": "GITHUB_OAUTH_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_OAUTH_CLIENT_SECRET"
+        },
+        {
+          "name": "GITHUB_OAUTH_ENABLED",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_OAUTH_ENABLED"
+        },
+        {
+          "name": "GITHUB_REPO",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GITHUB_REPO"
+        },
+        {
+          "name": "GRANTS_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/GRANTS_GOV_API_KEY"
+        },
+        {
+          "name": "MAIL_TO_ADMIN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/MAIL_TO_ADMIN"
+        },
+        {
+          "name": "NEXT_PUBLIC_APP_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NEXT_PUBLIC_APP_URL"
+        },
+        {
+          "name": "NODE_ENV",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/NODE_ENV"
+        },
+        {
+          "name": "POSTGRES_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/POSTGRES_URL"
+        },
+        {
+          "name": "QB_CLIENT_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/QB_CLIENT_ID"
+        },
+        {
+          "name": "QB_CLIENT_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/QB_CLIENT_SECRET"
+        },
+        {
+          "name": "QB_ENVIRONMENT",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/QB_ENVIRONMENT"
+        },
+        {
+          "name": "QB_REALM_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/QB_REALM_ID"
+        },
+        {
+          "name": "QB_REDIRECT_URI",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/QB_REDIRECT_URI"
+        },
+        {
+          "name": "REDIS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/REDIS_URL"
+        },
+        {
+          "name": "SAMGOV_ACTIVATION_md_api_key",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAMGOV_ACTIVATION_md_api_key"
+        },
+        {
+          "name": "SAM_GOV_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAM_GOV_API_KEY"
+        },
+        {
+          "name": "STUDIO_SHELL_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_SECRET"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL"
+        },
+        {
+          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL_PUBLIC"
+        },
+        {
+          "name": "YOUTUBE_API_KEY_2",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/YOUTUBE_API_KEY_2"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/elevate-lms-staging",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:3000/api/health || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 65536,
+          "hardLimit": 65536
+        }
+      ]
+    }
+  ]
+}

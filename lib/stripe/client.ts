@@ -2,6 +2,7 @@ import 'server-only';
 // Never initialize at module load — STRIPE_SECRET_KEY lives in app_secrets
 // and is only available after hydrateProcessEnv() runs at request time.
 // Callers must use getStripe() after hydrating secrets.
+import { withResilience, breakers } from '@/lib/resilience';
 
 type StripeInstance = import('stripe').default;
 
@@ -42,3 +43,25 @@ export function getStripe(): StripeInstance | null {
 // Resolves at import time using whatever key is in process.env at that moment.
 // Always null-check before use — key may be absent at build time.
 export const stripe: Stripe | null = getStripe();
+
+/**
+ * Execute a Stripe API call with retry + circuit breaker protection.
+ * Use this instead of calling stripe methods directly in route handlers.
+ *
+ * @example
+ *   const session = await stripeCall(() => stripe!.checkout.sessions.create(...));
+ */
+export async function stripeCall<T>(fn: () => Promise<T>): Promise<T> {
+  return withResilience(fn, {
+    circuitBreaker: breakers.stripe,
+    attempts: 3,
+    baseDelayMs: 500,
+    label: 'stripe',
+    // Stripe 4xx errors are permanent — don't retry them
+    shouldRetry: (err) => {
+      const msg = err instanceof Error ? err.message : String(err);
+      // Retry on network errors and 5xx; skip on 4xx (card declined, invalid params, etc.)
+      return !msg.match(/\b4\d{2}\b/);
+    },
+  });
+}

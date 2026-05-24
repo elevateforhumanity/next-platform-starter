@@ -9,7 +9,7 @@
  *   if (!gate.allowed) return 403 with gate.missingKeys
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 interface CompetencyCheck {

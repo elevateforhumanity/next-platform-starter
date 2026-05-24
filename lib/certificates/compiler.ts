@@ -20,7 +20,7 @@
  *   verification_summary (full CertificateEvidence)
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { CertificateEvidence, CertificateRequirements } from '@/lib/course-builder/schema';
 import {
   getLearnerCompetencyStatus,

@@ -12,7 +12,7 @@
 
 import { randomBytes } from 'crypto';
 import { logger } from '@/lib/logger';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { attachPartnerRouting } from '@/lib/enrollment/partner-routing';
 import { resolveCourseId } from '@/lib/course-builder/schema';
 import { cachePortalTypeForEnrollment } from '@/lib/portal/router';

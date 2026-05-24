@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
  */
 
 import { createClient } from '@/lib/supabase/server';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export interface Course {
   id: string;

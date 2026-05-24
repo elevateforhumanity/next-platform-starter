@@ -18,7 +18,6 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { hydrateProcessEnv } from '@/lib/secrets';
-import { createClient as createStorageClient } from '@supabase/supabase-js';
 import { generateSignedPDF } from '@/lib/documents/generate-signed-pdf';
 
 export const runtime = 'nodejs';
@@ -34,10 +33,6 @@ export async function POST(request: NextRequest) {
 
   await hydrateProcessEnv();
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return safeError('Storage credentials not configured', 500);
-
   let body: { contract_id?: string; run_id?: string; export_type?: 'pdf' | 'docx' };
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
 
@@ -46,7 +41,7 @@ export async function POST(request: NextRequest) {
   if (!contract_id || !run_id) return safeError('contract_id and run_id are required', 400);
 
   const db = await requireAdminClient();
-  const storage = createStorageClient(url, key, { auth: { persistSession: false } });
+  const storage = db;
 
   // Load template
   const { data: template } = await db

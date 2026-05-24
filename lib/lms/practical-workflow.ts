@@ -24,7 +24,7 @@
  *   5. Sends in-app notification to learner
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { checkCompetencyGate } from './competency-gate';
 import { markCompetencyAchieved } from '@/lib/course-builder/competency-mapper';
 import { logger } from '@/lib/logger';

@@ -1,51 +1,30 @@
-import OpenAI from 'openai';
 import { logger } from '@/lib/logger';
+import { aiChat } from './ai-service';
 
-// Lazy-load OpenAI client to prevent build-time errors
-function getClient() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return null;
-  }
-  return new OpenAI({ apiKey });
-}
+const SYSTEM_PROMPT = 'Summarize content at 8th-grade reading level. Be concise and clear.';
 
-export async function summarizeText(text: string, maxLength = 200) {
-  const client = getClient();
-  if (!client) {
-    logger.warn('OpenAI API key not configured');
-    return text.slice(0, maxLength) + '...';
-  }
-
+export async function summarizeText(text: string, maxLength = 200): Promise<string> {
   try {
-    const res = await client.chat.completions.create({
-      model: 'gpt-4.1',
+    const result = await aiChat({
+      model: 'gpt-4.1-mini',
       messages: [
-        {
-          role: 'system',
-          content: 'Summarize content at 8th-grade reading level. Be concise and clear.',
-        },
+        { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: text },
       ],
       temperature: 0.5,
-      max_tokens: 150,
+      maxTokens: 150,
     });
-
-    return res.choices[0].message.content || text.slice(0, maxLength) + '...';
+    return result.content ?? text.slice(0, maxLength) + '...';
   } catch (error) {
-    /* Error handled silently */
-    logger.error('Summarization error', error as Error, {
-      textLength: text.length,
-      maxLength,
-    });
+    logger.error('Summarization error', error as Error, { textLength: text.length, maxLength });
     return text.slice(0, maxLength) + '...';
   }
 }
 
-export async function summarizeLessonContent(lessonContent: string) {
+export async function summarizeLessonContent(lessonContent: string): Promise<string> {
   return summarizeText(lessonContent, 300);
 }
 
-export async function summarizeModuleContent(moduleContent: string) {
+export async function summarizeModuleContent(moduleContent: string): Promise<string> {
   return summarizeText(moduleContent, 500);
 }

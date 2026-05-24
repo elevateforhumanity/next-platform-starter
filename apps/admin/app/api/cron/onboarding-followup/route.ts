@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { workoneOnboardingEmail } from '@/lib/email/templates/workone-onboarding';
 import { barberOnboardingEmail } from '@/lib/email/templates/barber-onboarding';
@@ -21,13 +21,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Missing Supabase config' }, { status: 500 });
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = await requireAdminClient();
 
   // Find emails sent > 24 hours ago that haven't been followed up and haven't responded
   const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();

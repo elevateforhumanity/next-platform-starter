@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
  * All agreement signing flows must use this function.
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export type AgreementType =
   | 'enrollment'

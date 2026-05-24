@@ -1,12 +1,17 @@
 /**
- * timedFetch — fetch with hard timeout for all Supabase clients.
+ * timedFetch — fetch with hard timeout + circuit breaker for all Supabase clients.
  *
- * Without this, a stalled TCP connection to Supabase waits ~22s before
- * the OS gives up. On Netlify this shows as 21-23s Lambda durations.
+ * Without the timeout, a stalled TCP connection to Supabase waits ~22s before
+ * the OS gives up. On ECS/Lambda this shows as 21-23s request durations.
+ *
+ * The circuit breaker opens after 5 consecutive failures and prevents
+ * cascading DB timeouts from stalling the entire request pipeline.
  *
  * Keep-alive header reuses TCP connections across invocations within the
- * same warm Lambda instance, reducing cold-start connection overhead.
+ * same warm container, reducing cold-start connection overhead.
  */
+import { breakers } from '@/lib/resilience';
+
 const SUPABASE_FETCH_TIMEOUT_MS = 8_000;
 
 export function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
@@ -26,12 +31,16 @@ export function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promis
       )
     : {};
 
-  return fetch(input, {
-    ...init,
-    signal: controller.signal,
-    headers: {
-      'Connection': 'keep-alive',
-      ...existingHeaders,
-    },
-  }).finally(() => clearTimeout(timer));
+  return breakers.supabase
+    .call(() =>
+      fetch(input, {
+        ...init,
+        signal: controller.signal,
+        headers: {
+          Connection: 'keep-alive',
+          ...existingHeaders,
+        },
+      }),
+    )
+    .finally(() => clearTimeout(timer));
 }

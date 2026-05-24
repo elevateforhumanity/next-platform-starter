@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 /**
  * OJL and RTI are separate compliance buckets for Registered Apprenticeship.

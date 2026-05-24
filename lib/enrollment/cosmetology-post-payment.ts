@@ -9,7 +9,7 @@
  */
 
 import { logger } from '@/lib/logger';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 
 const COSMETOLOGY_PROGRAM_SLUG = 'cosmetology-apprenticeship';

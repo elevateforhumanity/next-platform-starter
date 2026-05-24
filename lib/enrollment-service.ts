@@ -16,7 +16,7 @@ import { logger } from '@/lib/logger';
  *   program_slug   (text — secondary lookup field)
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export type EnrollmentInput = {
   userId: string;

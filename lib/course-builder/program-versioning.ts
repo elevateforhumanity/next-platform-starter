@@ -11,7 +11,7 @@
  * listProgramVersions() / listCourseVersions() — version history
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 // ── Types ─────────────────────────────────────────────────────────────────────

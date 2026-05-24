@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import { withResilience, breakers } from '@/lib/resilience';
 import type {
   AIProvider,
   AIImageProvider,
@@ -103,7 +104,17 @@ function resolveImageProvider(): AIImageProvider {
  */
 export async function aiChat(options: ChatCompletionOptions): Promise<ChatCompletionResult> {
   const provider = resolveChatProvider();
-  return provider.chat(options);
+  return withResilience(() => provider.chat(options), {
+    circuitBreaker: breakers.openai,
+    attempts: 2,
+    baseDelayMs: 1000,
+    label: 'aiChat',
+    shouldRetry: (err) => {
+      // Don't retry on auth errors or content policy violations
+      const msg = err instanceof Error ? err.message : String(err);
+      return !msg.includes('401') && !msg.includes('400') && !msg.includes('content_policy');
+    },
+  });
 }
 
 /**
@@ -112,7 +123,12 @@ export async function aiChat(options: ChatCompletionOptions): Promise<ChatComple
  */
 export async function aiGenerateImage(options: ImageGenerationOptions): Promise<GeneratedImage[]> {
   const provider = resolveImageProvider();
-  return provider.generateImage(options);
+  return withResilience(() => provider.generateImage(options), {
+    circuitBreaker: breakers.openai,
+    attempts: 2,
+    baseDelayMs: 2000,
+    label: 'aiGenerateImage',
+  });
 }
 
 /**

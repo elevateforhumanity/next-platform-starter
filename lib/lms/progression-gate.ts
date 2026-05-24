@@ -17,7 +17,7 @@
  *   if (!gate.unlocked) return 403 with gate.reason
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { UnlockRule } from '@/lib/course-builder/schema';
 import { logger } from '@/lib/logger';
 

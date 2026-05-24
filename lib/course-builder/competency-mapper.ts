@@ -12,7 +12,7 @@
  *     and at least one assessment or practical
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { CourseTemplate, CourseLesson } from './schema';
 import {
   COMPETENCY_REGISTRY,

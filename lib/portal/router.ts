@@ -19,7 +19,7 @@
  *   5. Add the route prefix to proxy.ts PROTECTED_ROUTES
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient } from '@/lib/supabase'
 
 // ── Portal registry ───────────────────────────────────────────────────────────
 

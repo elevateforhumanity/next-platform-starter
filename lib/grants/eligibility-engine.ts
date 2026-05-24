@@ -7,7 +7,7 @@ import { getEntityByUEI, checkExclusions } from '@/lib/integrations/sam-gov';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
-function getDb() {
+async function getDb() {
   return requireAdminClient();
 }
 
@@ -49,7 +49,7 @@ export interface GrantEligibilityResult {
  * Run comprehensive eligibility check for an entity
  */
 export async function checkEntityEligibility(entityId: string): Promise<EligibilityCheck> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
   const { data: entity, error } = await db
     .from('entities')
@@ -213,7 +213,7 @@ export async function checkGrantEligibility(
   grantId: string,
   entityId: string,
 ): Promise<GrantEligibilityResult> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
   const { data: grant, error: grantError } = await db
     .from('grant_opportunities')
@@ -324,7 +324,7 @@ export async function batchCheckEligibility(): Promise<{
   eligible: number;
   ineligible: number;
 }> {
-  const { data: entities } = await getDb().from('entities').select('id');
+  const { data: entities } = await (await getDb()).from('entities').select('id');
 
   const { data: grants } = await getDb()
     .from('grant_opportunities')

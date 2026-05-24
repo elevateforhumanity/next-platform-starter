@@ -8,7 +8,7 @@ import { setAuditContext } from '@/lib/audit-context';
 import { EmailService } from '@/lib/notifications/email';
 import { SMSService } from '@/lib/notifications/sms';
 
-function getDb() {
+async function getDb() {
   return requireAdminClient();
 }
 
@@ -52,7 +52,7 @@ export interface NotificationRecipient {
 export async function createNotification(
   notification: Omit<GrantNotification, 'id' | 'createdAt' | 'read'>,
 ): Promise<GrantNotification> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_notification_system' }).catch(() => {});
   const { data, error }: any = await db
     .from('grant_notifications')
@@ -211,7 +211,7 @@ export async function sendGrantNotification(
     recipients?: NotificationRecipient[];
   } = {},
 ): Promise<void> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_notification_system' }).catch(() => {});
   const { sendEmail: emailEnabled = true, sendSMS: smsEnabled = false } = options;
 

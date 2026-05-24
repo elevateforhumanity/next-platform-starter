@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export interface DashboardPipeline {
   applications: { draft: number; submitted: number; approved: number; rejected: number };

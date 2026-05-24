@@ -9,7 +9,7 @@
  */
 
 import { logger } from '@/lib/logger';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
 import { BARBER_COURSE_ID } from '@/lib/barber/constants';

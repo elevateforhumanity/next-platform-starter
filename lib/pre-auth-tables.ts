@@ -35,7 +35,7 @@
  *   barber_subscriptions <- app/api/barber/webhook/route.ts, app/api/sezzle/webhook/route.ts
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 // ── Types ─────────────────────────────────────────────────────────────────────

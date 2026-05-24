@@ -5,6 +5,6 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 
-export function getServiceDb() {
+export async function getServiceDb() {
   return await requireAdminClient();
 }

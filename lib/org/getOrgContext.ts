@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export interface OrgContext {
   organization_id: string;

@@ -10,7 +10,7 @@
  * Callers should treat a non-empty result as a deployment blocker.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export type IntegrityFailure =
   | 'NULL_PROGRAM_ID_DETECTED'

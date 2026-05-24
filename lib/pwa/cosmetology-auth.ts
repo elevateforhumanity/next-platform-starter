@@ -5,7 +5,7 @@
  * Returns null if the user is authenticated but not enrolled in this program.
  * Callers must return 403 on null — not empty data.
  */
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export async function requireCosmetologyEnrollment(
   supabase: SupabaseClient,

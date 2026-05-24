@@ -23,6 +23,8 @@ import { logger } from '@/lib/logger';
  *   // now process.env.STRIPE_SECRET_KEY works as before
  */
 
+// Direct SDK import intentional: this module IS the hydration bootstrap.
+// All other files must use @/lib/supabase/* instead.
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 let cache: Record<string, string> | null = null;

@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { generateLicenseKey, hashLicenseKey } from '@/lib/store/license';
 import { logProvisioningStep } from '@/lib/store/audit';

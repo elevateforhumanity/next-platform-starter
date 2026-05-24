@@ -12,7 +12,7 @@
  * Returns the enrollment ID on success, or an error string on failure.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 

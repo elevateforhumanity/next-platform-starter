@@ -1,7 +1,8 @@
 import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import webpush from 'web-push';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -41,11 +42,8 @@ async function _GET(request: NextRequest) {
   }
 
   try {
-    // Create admin Supabase client
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    );
+    await hydrateProcessEnv();
+    const supabase = await requireAdminClient();
 
     // Get all apprentices who haven't logged hours this week
     const weekStart = new Date();

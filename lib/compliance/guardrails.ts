@@ -34,7 +34,7 @@ export interface GuardrailPolicy {
   // Automatic detection criteria
   detectionRule: {
     metric: string;
-    operator: '<' | '>' | '=' | '!=';
+    operator: '<' | '>' | '=' | '!=' | '>=' | '<=';
     threshold: number;
     evaluationPeriod: 'daily' | 'weekly' | 'monthly' | 'quarterly';
   };

@@ -25,7 +25,7 @@
  *   });
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { runCoursePublishPipeline } from './pipeline';
 import type { CourseTemplate } from './schema';
 import { logger } from '@/lib/logger';

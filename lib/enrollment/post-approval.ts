@@ -6,7 +6,7 @@
  */
 
 import { logger } from '@/lib/logger';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { sendTeamsMessage } from '@/lib/notifications/teams';
 
 export interface PostApprovalInput {

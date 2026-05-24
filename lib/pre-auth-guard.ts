@@ -25,7 +25,7 @@
  * paths is misleading and adds unnecessary overhead.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { ALL_REGISTERED_TABLES, PRE_AUTH_TABLES } from '@/lib/pre-auth-tables';
 import { logger } from '@/lib/logger';
 

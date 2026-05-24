@@ -10,12 +10,12 @@
  */
 
 import { requireAdminClient } from '@/lib/supabase/admin';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { RAPIDS_CONFIG } from './rapids-config';
 import { setAuditContext } from '@/lib/audit-context';
 
 // Lazy initialization to avoid build-time errors
-function getSupabaseAdmin(): SupabaseClient {
+async function getSupabaseAdmin(): SupabaseClient {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 

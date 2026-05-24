@@ -7,7 +7,7 @@
 //   - All outcomes written to automation_execution_log
 //   - Never throws — returns a structured result so callers can log/alert
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 export interface AutomationRunResult {

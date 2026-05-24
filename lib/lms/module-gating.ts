@@ -11,7 +11,7 @@
  *   - trg_lesson_complete_unlock (trigger — auto-unlocks next module on lesson completion)
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export type ModuleStatus = 'locked' | 'unlocked' | 'in_progress' | 'completed';
 

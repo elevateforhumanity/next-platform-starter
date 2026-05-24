@@ -21,7 +21,7 @@
  * with the existing quiz player.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { QuizQuestion } from './schema';
 import { logger } from '@/lib/logger';
 

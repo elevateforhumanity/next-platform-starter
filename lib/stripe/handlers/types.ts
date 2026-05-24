@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export type StripeHandlerContext = {
   stripe: Stripe;

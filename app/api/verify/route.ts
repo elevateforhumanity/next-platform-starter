@@ -1,5 +1,5 @@
 // PUBLIC ROUTE: public verification endpoint
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 import crypto from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';

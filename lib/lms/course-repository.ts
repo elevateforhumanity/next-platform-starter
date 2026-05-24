@@ -7,7 +7,7 @@
  * If data is missing, throw — do not fall back silently.
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export interface CourseLesson {
   id: string;

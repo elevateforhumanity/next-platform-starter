@@ -13,7 +13,7 @@ import { logger } from '@/lib/logger';
 
 import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -23,14 +23,7 @@ import { withRuntime } from '@/lib/api/withRuntime';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    return NextResponse.json({ error: 'Supabase configuration missing' }, { status: 500 });
-  }
-  return createClient(url, key);
-}
+
 
 async function _GET(request: Request) {
   await hydrateProcessEnv();
@@ -42,7 +35,7 @@ async function _GET(request: Request) {
 
   try {
     const stripe = getStripe();
-    const supabase = getSupabaseAdmin();
+    const supabase = await requireAdminClient();
 
     const results = {
       upcomingReminders: 0,

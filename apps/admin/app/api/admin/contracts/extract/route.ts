@@ -14,7 +14,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { hydrateProcessEnv } from '@/lib/secrets';
-import { createClient as createStorageClient } from '@supabase/supabase-js';
+
 import { detectFieldsFromText } from '@/lib/contracts/response-style';
 
 export const runtime = 'nodejs';
@@ -90,16 +90,12 @@ export async function POST(request: NextRequest) {
 
   await hydrateProcessEnv();
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return safeError('Storage credentials not configured', 500);
-
   let body: { contract_id?: string };
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
   if (!body.contract_id) return safeError('contract_id is required', 400);
 
   const db = await requireAdminClient();
-  const storage = createStorageClient(url, key, { auth: { persistSession: false } });
+  const storage = db;
 
   const { data: template, error: tErr } = await db
     .from('contract_templates')

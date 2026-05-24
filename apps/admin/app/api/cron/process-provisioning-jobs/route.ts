@@ -4,17 +4,12 @@ import { logger } from '@/lib/logger';
 import { processLicenseProvision } from '@/lib/jobs/handlers/license-provision';
 import { processLicenseSuspend } from '@/lib/jobs/handlers/license-suspend';
 import { processEmailSend } from '@/lib/jobs/handlers/email-send';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
 
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
-  return createClient(url, key);
-}
+
 
 async function processTenantSetup(job: ProvisioningJob): Promise<void> {
   const { organizationId, subdomain, planId, contactEmail } = job.payload as {
@@ -26,7 +21,7 @@ async function processTenantSetup(job: ProvisioningJob): Promise<void> {
 
   logger.info('Processing tenant setup', { organizationId, subdomain });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = await requireAdminClient();
 
   // Create default settings for the tenant
   await supabase.from('organization_settings').upsert({

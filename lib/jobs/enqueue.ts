@@ -8,7 +8,7 @@
  * ignores duplicate enqueues for the same certificate. Safe to call on retry.
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 // ── Job type registry ─────────────────────────────────────────────────────

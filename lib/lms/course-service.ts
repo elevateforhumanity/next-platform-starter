@@ -6,7 +6,7 @@
  * Publish is enforced via DB function publish_course() — not UI logic.
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { initializeModuleProgress } from './module-gating';
 import { logger } from '@/lib/logger';
 

@@ -1,5 +1,6 @@
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { withResilience, breakers } from '@/lib/resilience';
 
 export interface EmailOptions {
   to: string | string[];
@@ -65,23 +66,36 @@ async function sendViaSendGrid(
       personalization.bcc = opts.bcc.map((email) => ({ email }));
     }
 
-    const resp = await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        personalizations: [personalization],
-        from: parseSendGridFrom(opts.from),
-        reply_to: parseSendGridFrom(opts.replyTo),
-        subject: opts.subject,
-        content: [
-          ...(opts.text ? [{ type: 'text/plain', value: opts.text }] : []),
-          { type: 'text/html', value: opts.html },
-        ],
-      }),
+    const body = JSON.stringify({
+      personalizations: [personalization],
+      from: parseSendGridFrom(opts.from),
+      reply_to: parseSendGridFrom(opts.replyTo),
+      subject: opts.subject,
+      content: [
+        ...(opts.text ? [{ type: 'text/plain', value: opts.text }] : []),
+        { type: 'text/html', value: opts.html },
+      ],
     });
+
+    const resp = await withResilience(
+      () =>
+        fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body,
+        }),
+      {
+        circuitBreaker: breakers.sendgrid,
+        attempts: 3,
+        baseDelayMs: 1000,
+        label: 'sendgrid',
+        // Don't retry 4xx — those are permanent failures (bad key, invalid address, etc.)
+        shouldRetry: (err) => {
+          const msg = err instanceof Error ? err.message : String(err);
+          return !msg.includes('4');
+        },
+      },
+    );
 
     if (!resp.ok) {
       const data = await resp.json().catch(() => ({}));

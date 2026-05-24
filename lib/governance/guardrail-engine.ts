@@ -12,10 +12,12 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { sendEmail } from '@/lib/email/sendgrid';
 import {
   CRITICAL_GUARDRAILS,
   MAJOR_GUARDRAILS,
   MINOR_GUARDRAILS,
+  getEmailTemplate,
   type GuardrailPolicy,
   type EnforcementAction,
 } from '@/lib/compliance/guardrails';
@@ -173,6 +175,8 @@ function evaluateRule(
     case '>':  return value > threshold;
     case '=':  return value === threshold;
     case '!=': return value !== threshold;
+    case '>=': return value >= threshold;
+    case '<=': return value <= threshold;
   }
 }
 
@@ -183,6 +187,8 @@ async function applyEnforcement(
   action: EnforcementAction,
   policy: GuardrailPolicy,
   dryRun: boolean,
+  holderName: string,
+  holderEmail: string | null,
 ): Promise<void> {
   if (dryRun) {
     logger.info('[guardrail-engine] DRY RUN — would apply', { action, programHolderId, policyId: policy.id });
@@ -237,7 +243,6 @@ async function applyEnforcement(
         suspension_reason: policy.description,
         suspended_at: new Date().toISOString(),
       }).eq('id', programHolderId);
-      // Revoke active sessions
       await db.from('profiles').update({ suspended: true })
         .eq('program_holder_id', programHolderId);
       break;
@@ -254,7 +259,56 @@ async function applyEnforcement(
       break;
   }
 
+  // Send notifications
+  await sendGuardrailNotifications(policy, holderName, holderEmail);
+
   logger.info('[guardrail-engine] enforcement applied', { action, programHolderId, policyId: policy.id });
+}
+
+async function sendGuardrailNotifications(
+  policy: GuardrailPolicy,
+  holderName: string,
+  holderEmail: string | null,
+): Promise<void> {
+  const template = getEmailTemplate(policy.emailTemplate);
+  const body = template.body
+    .replace(/\{\{program_holder_name\}\}/g, holderName)
+    .replace(/\{\{detection_date\}\}/g, new Date().toLocaleDateString())
+    .replace(/\{\{violation_details\}\}/g, policy.description);
+
+  const notifications: Promise<unknown>[] = [];
+
+  if (policy.notifyProgramHolder && holderEmail) {
+    notifications.push(
+      sendEmail({
+        to: holderEmail,
+        subject: template.subject,
+        html: `<pre style="font-family:sans-serif;white-space:pre-wrap">${body}</pre>`,
+        text: body,
+      }).catch((err) =>
+        logger.error('[guardrail-engine] failed to notify program holder', err as Error, {
+          policyId: policy.id,
+          holderEmail,
+        }),
+      ),
+    );
+  }
+
+  if (policy.notifyAdmin) {
+    const adminEmail = process.env.ADMIN_ALERT_EMAIL || process.env.ADMIN_EMAIL || 'compliance@elevateforhumanity.org';
+    notifications.push(
+      sendEmail({
+        to: adminEmail,
+        subject: `[ADMIN ALERT] ${template.subject} — ${holderName}`,
+        html: `<pre style="font-family:sans-serif;white-space:pre-wrap">${body}</pre>`,
+        text: body,
+      }).catch((err) =>
+        logger.error('[guardrail-engine] failed to notify admin', err as Error, { policyId: policy.id }),
+      ),
+    );
+  }
+
+  await Promise.all(notifications);
 }
 
 // ── Main evaluator ────────────────────────────────────────────────────────────
@@ -266,10 +320,10 @@ export async function runGuardrailEvaluation(
   const db = await requireAdminClient();
   const result: GuardrailRunResult = { evaluated: 0, violations: [], errors: [], dryRun };
 
-  // Get all active program holders
+  // Get all active program holders (include contact_email for notifications)
   const { data: holders, error } = await db
     .from('program_holders')
-    .select('id, name, status')
+    .select('id, name, status, contact_email')
     .not('status', 'in', '("terminated","suspended")');
 
   if (error || !holders?.length) {
@@ -320,7 +374,14 @@ export async function runGuardrailEvaluation(
           continue;
         }
 
-        await applyEnforcement(holder.id, policy.enforcementAction, policy, dryRun);
+        await applyEnforcement(
+          holder.id,
+          policy.enforcementAction,
+          policy,
+          dryRun,
+          holder.name,
+          (holder as any).contact_email ?? null,
+        );
 
         result.violations.push({
           programHolderId: holder.id,

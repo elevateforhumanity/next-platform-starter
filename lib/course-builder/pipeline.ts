@@ -18,7 +18,7 @@
  *   const result = await runCoursePublishPipeline({ template, db, dryRun: true });
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { CourseTemplate, CourseLesson, CourseModule } from './schema';
 import type { CredentialBlueprint } from '@/lib/curriculum/blueprints/types';
 import { validateCourseTemplate, assertPublishable, type CourseValidationResult } from './validate';

@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 // In-memory cache: once an org is checked (whether reconciled or already set),
 // skip further Supabase queries for this server process. Keyed by org ID.

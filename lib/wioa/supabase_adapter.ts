@@ -9,7 +9,7 @@
  */
 
 import { requireAdminClient } from '@/lib/supabase/admin';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { PirlDataAdapter, ParticipantPirlRow, Quarter } from './pirl_exporter';
 
 function mustEnv(name: string): string {

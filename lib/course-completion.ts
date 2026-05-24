@@ -4,13 +4,8 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error('Supabase configuration missing');
-  }
-  return await requireAdminClient();
+async function getSupabaseAdmin() {
+  return requireAdminClient();
 }
 
 export interface CourseCompletionStatus {

@@ -1,0 +1,193 @@
+name: Deploy Staging
+
+# Deploys both LMS and Admin to the staging ECS cluster on every push to the
+# `staging` branch. Staging uses separate ECS services, task definitions, SSM
+# parameter paths (/elevate-staging/*), and a dedicated CloudWatch log group.
+#
+# Required GitHub secrets (in addition to the production set):
+#   STAGING_URL          — base URL of the staging LMS (e.g. https://staging.elevateforhumanity.org)
+#   STAGING_ADMIN_URL    — base URL of the staging Admin app
+#   STAGING_CRON_SECRET  — separate cron secret for staging cron endpoints
+#
+# AWS resources that must exist before this workflow runs:
+#   ECS cluster:  elevate-cluster-staging
+#   ECS services: elevate-lms-staging-service, elevate-admin-staging-service
+#   ECR repos:    elevate-lms-staging, elevate-admin-staging
+#   CodeBuild:    elevate-lms-staging-build, elevate-admin-staging-build
+#   SSM params:   /elevate-staging/* (mirror of /elevate/* with staging values)
+#   Log groups:   /ecs/elevate-lms-staging, /ecs/elevate-admin-staging
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Deploy a specific service (leave blank for both)'
+        required: false
+        type: choice
+        options:
+          - both
+          - lms
+          - admin
+
+permissions:
+  contents: read
+
+# Only one staging deploy at a time — queue, don't cancel
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  # ── LMS staging deploy ─────────────────────────────────────────────────────
+  deploy-lms-staging:
+    name: Deploy LMS → staging
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push'
+      || github.event_name == 'workflow_dispatch' && (
+           github.event.inputs.service == 'both'
+        || github.event.inputs.service == 'lms'
+        || github.event.inputs.service == ''
+      )
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Start LMS staging CodeBuild
+        run: |
+          echo "Starting LMS staging build..."
+          BUILD_ID=$(aws codebuild start-build \
+            --project-name elevate-lms-staging-build \
+            --buildspec-override aws/buildspec-lms.yml \
+            --environment-variables-override \
+              name=DEPLOY_ENV,value=staging,type=PLAINTEXT \
+              name=ECS_SERVICE,value=elevate-lms-staging-service,type=PLAINTEXT \
+              name=ECS_CLUSTER,value=elevate-cluster-staging,type=PLAINTEXT \
+              name=TASK_DEFINITION,value=elevate-lms-staging,type=PLAINTEXT \
+              name=ECR_REPO,value=elevate-lms-staging,type=PLAINTEXT \
+            --region ${{ env.AWS_REGION }} \
+            --query 'build.id' --output text)
+          echo "Build ID: $BUILD_ID"
+
+          echo "Waiting for build..."
+          while true; do
+            STATUS=$(aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region ${{ env.AWS_REGION }} \
+              --query 'builds[0].buildStatus' --output text)
+            echo "  Status: $STATUS"
+            case "$STATUS" in
+              SUCCEEDED) echo "✅ LMS staging build succeeded."; break ;;
+              FAILED|FAULT|TIMED_OUT|STOPPED)
+                echo "❌ LMS staging build failed: $STATUS"; exit 1 ;;
+            esac
+            sleep 30
+          done
+
+      - name: Smoke test — LMS staging health
+        if: ${{ vars.STAGING_URL != '' || secrets.STAGING_URL != '' }}
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL }}
+        run: |
+          echo "Waiting 60s for ECS service to stabilize..."
+          sleep 60
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              --max-time 15 "${STAGING_URL}/api/health" || echo "000")
+            echo "  Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ LMS staging health check passed."
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "⚠️ LMS staging health check did not return 200 — deploy may need investigation."
+          exit 1
+
+  # ── Admin staging deploy ───────────────────────────────────────────────────
+  deploy-admin-staging:
+    name: Deploy Admin → staging
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push'
+      || github.event_name == 'workflow_dispatch' && (
+           github.event.inputs.service == 'both'
+        || github.event.inputs.service == 'admin'
+        || github.event.inputs.service == ''
+      )
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Start Admin staging CodeBuild
+        run: |
+          echo "Starting Admin staging build..."
+          BUILD_ID=$(aws codebuild start-build \
+            --project-name elevate-admin-staging-build \
+            --buildspec-override aws/buildspec-admin.yml \
+            --environment-variables-override \
+              name=DEPLOY_ENV,value=staging,type=PLAINTEXT \
+              name=ECS_SERVICE,value=elevate-admin-staging-service,type=PLAINTEXT \
+              name=ECS_CLUSTER,value=elevate-cluster-staging,type=PLAINTEXT \
+              name=TASK_DEFINITION,value=elevate-admin-staging,type=PLAINTEXT \
+              name=ECR_REPO,value=elevate-admin-staging,type=PLAINTEXT \
+            --region ${{ env.AWS_REGION }} \
+            --query 'build.id' --output text)
+          echo "Build ID: $BUILD_ID"
+
+          echo "Waiting for build..."
+          while true; do
+            STATUS=$(aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region ${{ env.AWS_REGION }} \
+              --query 'builds[0].buildStatus' --output text)
+            echo "  Status: $STATUS"
+            case "$STATUS" in
+              SUCCEEDED) echo "✅ Admin staging build succeeded."; break ;;
+              FAILED|FAULT|TIMED_OUT|STOPPED)
+                echo "❌ Admin staging build failed: $STATUS"; exit 1 ;;
+            esac
+            sleep 30
+          done
+
+      - name: Smoke test — Admin staging health
+        if: ${{ secrets.STAGING_ADMIN_URL != '' }}
+        env:
+          STAGING_ADMIN_URL: ${{ secrets.STAGING_ADMIN_URL }}
+        run: |
+          echo "Waiting 60s for ECS service to stabilize..."
+          sleep 60
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              --max-time 15 "${STAGING_ADMIN_URL}/api/health" || echo "000")
+            echo "  Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Admin staging health check passed."
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "⚠️ Admin staging health check did not return 200."
+          exit 1

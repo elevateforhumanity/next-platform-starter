@@ -55,6 +55,22 @@
         {
           "name": "NEXT_PUBLIC_ADMIN_URL",
           "value": "https://admin.elevateforhumanity.org"
+        },
+        {
+          "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+          "value": ""
+        },
+        {
+          "name": "OTEL_EXPORTER_OTLP_HEADERS",
+          "value": ""
+        },
+        {
+          "name": "OTEL_SERVICE_NAME",
+          "value": "elevate-admin"
+        },
+        {
+          "name": "SUPABASE_PROJECT_REF",
+          "value": "cuxzzpsyufcewtmicszk"
         }
       ],
       "secrets": [
@@ -575,10 +591,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_MANAGEMENT_API_KEY"
         },
         {
-          "name": "SUPABASE_PROJECT_REF",
-          "value": "cuxzzpsyufcewtmicszk"
-        },
-        {
           "name": "SUPABASE_SERVICE_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_KEY"
         },
@@ -667,10 +679,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/MOU_ARCHIVE_EMAIL"
         },
         {
-          "name": "NEXT_PUBLIC_ADMIN_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_ADMIN_URL"
-        },
-        {
           "name": "NEXT_PUBLIC_AFFIRM_PUBLIC_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_AFFIRM_PUBLIC_KEY"
         },
@@ -705,14 +713,6 @@
         {
           "name": "NEXT_PUBLIC_SEZZLE_PUBLIC_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SEZZLE_PUBLIC_KEY"
-        },
-        {
-          "name": "NEXT_PUBLIC_SITE_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SITE_URL"
-        },
-        {
-          "name": "NODE_ENV",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NODE_ENV"
         },
         {
           "name": "PEXELS_API_KEY",
@@ -817,6 +817,10 @@
         {
           "name": "STUDIO_SHELL_WS_URL_PUBLIC",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL_PUBLIC"
+        },
+        {
+          "name": "YOUTUBE_API_KEY_2",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/YOUTUBE_API_KEY_2"
         }
       ],
       "logConfiguration": {

@@ -44,6 +44,8 @@ on:
           - trial-lifecycle
           - career-course-emails
           - barber-billing
+          - guardrail-evaluation
+          - memory-cleanup
 
   # ── Daily jobs — 8 AM UTC ──────────────────────────────────────────────────
   schedule:
@@ -51,6 +53,7 @@ on:
     - cron: '0 20 * * *'   # daily-8pm (end-of-day)
     - cron: '*/5 * * * *'  # every-5-min (queue processors)
     - cron: '0 9 * * 1'    # weekly-monday-9am
+    - cron: '0 2 * * *'    # daily-2am (maintenance: guardrails + memory cleanup)
 
 env:
   ADMIN_URL: ${{ secrets.ADMIN_URL }}
@@ -270,6 +273,29 @@ jobs:
           curl -sf -X GET "$ADMIN_URL/api/cron/end-of-day-summary" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::end-of-day-summary failed"
+
+  # ── Daily 2 AM: maintenance (guardrails + memory cleanup) ─────────────────
+  daily-maintenance:
+    name: Daily maintenance (2 AM UTC)
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'schedule' && github.event.schedule == '0 2 * * *'
+      || (github.event_name == 'workflow_dispatch' && (
+            github.event.inputs.job == 'guardrail-evaluation'
+         || github.event.inputs.job == 'memory-cleanup'
+      ))
+    steps:
+      - name: Guardrail evaluation
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/cron/guardrail-evaluation" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 120 \
+            || echo "::warning::guardrail-evaluation failed"
+
+      - name: AI memory cleanup (expired TTL rows)
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/cron/memory-cleanup" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 30 \
+            || echo "::warning::memory-cleanup failed"
 
   # ── Weekly Monday 9 AM: weekly reports ────────────────────────────────────
   weekly:

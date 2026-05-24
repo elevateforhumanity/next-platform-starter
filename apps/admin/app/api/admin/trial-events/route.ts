@@ -2,19 +2,12 @@ import { requireAdmin } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/with-auth';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
 
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-}
+
 
 /**
  * GET /api/admin/trial-events
@@ -36,10 +29,7 @@ const _GET = withAuth(
       const type = searchParams.get('type') || 'all';
       const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10) || 50, 200);
 
-      const supabase = getSupabaseAdmin();
-      if (!supabase) {
-        return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
-      }
+      const supabase = await requireAdminClient();
 
       const since = new Date();
       since.setDate(since.getDate() - days);
@@ -57,7 +47,7 @@ const _GET = withAuth(
 
       const eventTypes = eventTypeFilters[type] || eventTypeFilters.all;
 
-      const query = db
+      const query = supabase
         .from('license_events')
         .select('id, license_id, organization_id, event_type, event_data, created_at')
         .in('event_type', eventTypes)

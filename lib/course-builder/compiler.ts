@@ -24,7 +24,7 @@
  *   const result = await compileBlueprintToCourse({ template, db });
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import type { CourseTemplate, CourseModule, CourseLesson, FinalExamConfig } from './schema';
 import { ASSESSED_LESSON_TYPES } from './schema';
 import { getCompetenciesForProgram } from './competencies';

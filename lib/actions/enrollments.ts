@@ -14,7 +14,7 @@ import { revalidatePath } from 'next/cache';
 import { logAuditEvent } from '@/lib/audit';
 import { logger } from '@/lib/logger';
 
-function getDb() {
+async function getDb() {
   return requireAdminClient();
 }
 
@@ -170,7 +170,7 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
     }
     // 8. If this is an apprenticeship program, create apprenticeship_enrollments record
     if (program.is_apprenticeship) {
-      const { error: apprenticeError } = await getDb().from('apprenticeship_enrollments').insert({
+      const { error: apprenticeError } = await (await getDb()).from('apprenticeship_enrollments').insert({
         student_id: input.student_id,
         program_id: input.program_id,
         enrollment_id: enrollment.id,

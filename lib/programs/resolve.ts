@@ -17,7 +17,7 @@
  * approval must use this function. Do not write ad-hoc ilike queries.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 // Maps legacy / misspelled program_interest values to canonical slugs.
 // Add entries here when a new alias is discovered — never in route code.

@@ -1,6 +1,6 @@
 import { requireAdmin } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { workoneOnboardingEmail } from '@/lib/email/templates/workone-onboarding';
@@ -88,13 +88,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Missing Supabase config' }, { status: 500 });
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = await requireAdminClient();
 
   // Get all pending applications (exclude test emails, already-onboarded Maya, employer partners)
   const { data: applications, error: appError } = await supabase

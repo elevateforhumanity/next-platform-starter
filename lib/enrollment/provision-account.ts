@@ -12,7 +12,7 @@
  */
 
 import { logger } from '@/lib/logger';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 
 export interface ProvisionAccountInput {
   db: SupabaseClient;

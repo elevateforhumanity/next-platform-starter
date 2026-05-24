@@ -85,78 +85,99 @@ async function fetchFacebookPosts(): Promise<SocialPost[]> {
 
 // Fetch YouTube videos
 async function fetchYouTubeVideos(): Promise<YouTubeVideo[]> {
+  // Use primary key, fall back to secondary if primary hits quota (403)
   const apiKey = process.env.YOUTUBE_API_KEY;
-  const channelId = process.env.YOUTUBE_CHANNEL_ID || 'UC_elevateforhumanity';
+  const apiKeyFallback = process.env.YOUTUBE_API_KEY_2;
+  const channelId = process.env.YOUTUBE_CHANNEL_ID || 'UC0fpKbPpWmPvPkUTJFciX5g';
 
-  if (!apiKey) {
+  if (!apiKey && !apiKeyFallback) {
     return [];
   }
 
-  try {
-    // Get channel uploads playlist
-    const channelResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`,
-      { next: { revalidate: 300 } },
-    );
+  async function tryFetch(key: string): Promise<YouTubeVideo[] | null> {
+    try {
+      // Get channel uploads playlist
+      const channelResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${key}`,
+        { next: { revalidate: 300 } },
+      );
 
-    if (!channelResponse.ok) return [];
+      // 403 = quota exceeded — signal caller to try fallback key
+      if (channelResponse.status === 403) return null;
+      if (!channelResponse.ok) return [];
 
-    const channelData = await channelResponse.json();
-    const uploadsPlaylistId = channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
+      const channelData = await channelResponse.json();
+      const uploadsPlaylistId = channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
 
-    if (!uploadsPlaylistId) return [];
+      if (!uploadsPlaylistId) return [];
 
-    // Get videos from uploads playlist
-    const videosResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${uploadsPlaylistId}&maxResults=6&key=${apiKey}`,
-      { next: { revalidate: 300 } },
-    );
+      // Get videos from uploads playlist
+      const videosResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${uploadsPlaylistId}&maxResults=6&key=${key}`,
+        { next: { revalidate: 300 } },
+      );
 
-    if (!videosResponse.ok) return [];
+      if (!videosResponse.ok) return [];
 
-    const videosData = await videosResponse.json();
+      const videosData = await videosResponse.json();
 
-    // Get video statistics
-    const videoIds = videosData.items?.map((item: any) => item.contentDetails.videoId).join(',');
+      // Get video statistics
+      const videoIds = videosData.items?.map((item: any) => item.contentDetails.videoId).join(',');
 
-    const statsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${apiKey}`,
-      { next: { revalidate: 300 } },
-    );
+      const statsResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${key}`,
+        { next: { revalidate: 300 } },
+      );
 
-    const statsData = await statsResponse.json();
-    const statsMap = new Map(statsData.items?.map((item: any) => [item.id, item]) || []);
+      const statsData = await statsResponse.json();
+      const statsMap = new Map(statsData.items?.map((item: any) => [item.id, item]) || []);
 
-    return (videosData.items || []).map((item: any) => {
-      const videoId = item.contentDetails.videoId;
-      const stats = statsMap.get(videoId) as any;
-      const duration = stats?.contentDetails?.duration || 'PT0M0S';
+      return (videosData.items || []).map((item: any) => {
+        const videoId = item.contentDetails.videoId;
+        const stats = statsMap.get(videoId) as any;
+        const duration = stats?.contentDetails?.duration || 'PT0M0S';
 
-      // Parse ISO 8601 duration
-      const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      const hours = parseInt(match?.[1] || '0');
-      const minutes = parseInt(match?.[2] || '0');
-      const seconds = parseInt(match?.[3] || '0');
-      const formattedDuration =
-        hours > 0
-          ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-          : `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        // Parse ISO 8601 duration
+        const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+        const hours = parseInt(match?.[1] || '0');
+        const minutes = parseInt(match?.[2] || '0');
+        const seconds = parseInt(match?.[3] || '0');
+        const formattedDuration =
+          hours > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+            : `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-      return {
-        id: videoId,
-        title: item.snippet.title,
-        description: item.snippet.description?.substring(0, 200) || '',
-        thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
-        duration: formattedDuration,
-        views: parseInt(stats?.statistics?.viewCount || '0'),
-        publishedAt: item.snippet.publishedAt,
-        url: `https://www.youtube.com/watch?v=${videoId}`,
-      };
-    });
-  } catch (error) {
-    logger.error('YouTube API error:', error);
-    return [];
+        return {
+          id: videoId,
+          title: item.snippet.title,
+          description: item.snippet.description?.substring(0, 200) || '',
+          thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
+          duration: formattedDuration,
+          views: parseInt(stats?.statistics?.viewCount || '0'),
+          publishedAt: item.snippet.publishedAt,
+          url: `https://www.youtube.com/watch?v=${videoId}`,
+        };
+      });
+    } catch (error) {
+      logger.error('YouTube API error:', error);
+      return [];
+    }
   }
+
+  // Try primary key, fall back to secondary on quota exhaustion (null return)
+  if (apiKey) {
+    const result = await tryFetch(apiKey);
+    if (result !== null) return result;
+    logger.warn('[YouTube] Primary key quota exceeded, trying fallback key');
+  }
+
+  if (apiKeyFallback) {
+    const result = await tryFetch(apiKeyFallback);
+    if (result !== null) return result;
+    logger.warn('[YouTube] Fallback key also quota exceeded');
+  }
+
+  return [];
 }
 
 // Fetch LinkedIn posts

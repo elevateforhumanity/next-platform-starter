@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -15,17 +16,8 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     await apiRequireAdmin(request);
-
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!supabaseUrl || !serviceKey) {
-      return NextResponse.json({ error: 'Missing configuration' }, { status: 500 });
-    }
-
-    // Create admin client
-    const supabase = createClient(supabaseUrl, serviceKey, {
-      auth: { persistSession: false },
-    });
+    await hydrateProcessEnv();
+    const supabase = await requireAdminClient();
 
     const results: { migration: string; status: string; error?: string }[] = [];
 

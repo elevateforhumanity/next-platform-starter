@@ -16,7 +16,7 @@
  *   await registerProgramCourse(db, 'peer-recovery-specialist', courseId);
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 // ── Legacy fallback (removed once migration is confirmed live) ────────────────

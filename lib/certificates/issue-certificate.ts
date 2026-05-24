@@ -10,7 +10,7 @@
  * - Updates enrollment status
  */
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
 export interface CompetencyEvidence {
