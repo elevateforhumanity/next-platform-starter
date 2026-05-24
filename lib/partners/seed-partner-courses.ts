@@ -12,7 +12,8 @@
  * applied first (adds course_type column and provider PK).
  */
 
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import {
   HSI_COURSES,

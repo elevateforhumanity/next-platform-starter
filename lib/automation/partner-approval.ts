@@ -4,7 +4,7 @@ import { logger } from '@/lib/logger';
  * Automatically approves partners when all required documents pass validation
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 // Document processing moved to Netlify function
 import {
   REQUIRED_DOCUMENTS,
@@ -30,12 +30,7 @@ export interface PartnerApprovalResult {
 /**
  * Get Supabase admin client
  */
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error('Missing Supabase credentials');
-  return createClient(url, key);
-}
+
 
 /**
  * Check and potentially auto-approve a partner

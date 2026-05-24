@@ -4,7 +4,7 @@ import { logger } from '@/lib/logger';
  * Tests complete student enrollment including AI instructor assignment
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 interface TestResult {
@@ -51,7 +51,7 @@ export async function testEnrollmentFlow(config: EnrollmentTestConfig): Promise<
     };
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'autopilot_test' });
 
   // STEP 1: Create or get test student

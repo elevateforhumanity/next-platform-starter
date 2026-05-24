@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createPublicClient } from '@/lib/supabase/public';
 
 const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supaAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;

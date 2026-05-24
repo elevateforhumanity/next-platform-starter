@@ -5,16 +5,11 @@
  * LICENSING_MODE=open - Public checkout allowed (development only)
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export type LicensingMode = 'controlled' | 'open';
 
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key);
-}
+
 
 export function getLicensingMode(): LicensingMode {
   const mode = process.env.LICENSING_MODE;

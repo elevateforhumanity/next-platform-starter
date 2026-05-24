@@ -18,7 +18,7 @@
  *   // result.published === true when input.publish === true and guard passed
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type { ProgramCreateInput, ProgramCreateResult } from './types';
 
 // ── Validation ────────────────────────────────────────────────────────────────
@@ -76,7 +76,7 @@ export async function createAndPublishProgram(
     );
   }
 
-  const db = createClient(url, key, { auth: { persistSession: false } });
+  const db = await requireAdminClient();
 
   // ── Pre-flight: verify required tables exist before any writes ──────────────
   // Catches the most common schema drift failure (missing table) without

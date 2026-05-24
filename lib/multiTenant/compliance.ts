@@ -1,5 +1,5 @@
 // lib/multiTenant/compliance.ts
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 function getSupabaseAdmin() {
@@ -8,7 +8,7 @@ function getSupabaseAdmin() {
   if (!url || !key) {
     throw new Error('Supabase configuration missing');
   }
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 export type TenantCompliance = {

@@ -10,7 +10,7 @@
  * Enforces license-based feature access across the platform.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export type LicensePlan = 'trial' | 'basic' | 'professional' | 'enterprise';
@@ -62,10 +62,7 @@ export async function getLicense(tenantId: string): Promise<License | null> {
     return null;
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('licenses')
@@ -153,10 +150,7 @@ export async function checkUsageLimits(tenantId: string): Promise<{
     };
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = await requireAdminClient();
 
   // Count users
   const { count: userCount } = await supabase

@@ -1,7 +1,7 @@
 // lib/course-completion.ts
 // Course completion logic including external partner modules
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 function getSupabaseAdmin() {
@@ -10,7 +10,7 @@ function getSupabaseAdmin() {
   if (!url || !key) {
     throw new Error('Supabase configuration missing');
   }
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 export interface CourseCompletionStatus {

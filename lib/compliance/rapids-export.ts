@@ -9,7 +9,8 @@
  * - Cancellations
  */
 
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { RAPIDS_CONFIG } from './rapids-config';
 import { setAuditContext } from '@/lib/audit-context';
 
@@ -22,7 +23,7 @@ function getSupabaseAdmin(): SupabaseClient {
     throw new Error('Missing Supabase configuration for RAPIDS export');
   }
 
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 /**

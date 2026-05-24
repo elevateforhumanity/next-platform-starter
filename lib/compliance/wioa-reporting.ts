@@ -5,7 +5,7 @@
  * and WIOA Title I performance measures.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 export interface StudentOutcomeData {
@@ -119,10 +119,7 @@ export async function generateQuarterlyReport(
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'wioa_reporting' });
 
   // Get all students who enrolled or completed during quarter
@@ -254,10 +251,7 @@ export async function calculateWIOAPerformance(
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'wioa_reporting' });
 
   // Get all completers in the period
@@ -324,10 +318,7 @@ export async function scheduleWageFollowUp(enrollmentId: string) {
     return;
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = await requireAdminClient();
 
   const { data: enrollment } = await supabase
     .from('program_enrollments')

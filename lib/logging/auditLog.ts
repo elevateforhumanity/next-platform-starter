@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface AuditLogEntry {
   actorId?: string;
@@ -40,7 +40,7 @@ export async function auditLog(entry: AuditLogEntry): Promise<void> {
       return;
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const supabase = await requireAdminClient();
 
     const { error } = await supabase.from('audit_logs').insert({
       actor_id: entry.actorId,

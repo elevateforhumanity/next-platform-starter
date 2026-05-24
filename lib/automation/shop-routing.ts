@@ -4,7 +4,7 @@ import { logger } from '@/lib/logger';
  * Matches apprentices to shops based on location, capacity, specialties, and preferences
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 // Types
@@ -62,12 +62,7 @@ export interface RoutingResult {
 /**
  * Get Supabase admin client
  */
-function getSupabaseAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error('Missing Supabase credentials');
-  return createClient(url, key);
-}
+
 
 /**
  * Calculate distance between two points using Haversine formula

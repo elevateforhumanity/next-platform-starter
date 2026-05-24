@@ -14,7 +14,7 @@ import { assertNoAutoSubmit } from '@/lib/compliance/data-governance';
  * See lib/compliance/data-governance.ts for the authorization procedure.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 export interface UI3WageRecord {
@@ -87,10 +87,7 @@ export async function processUI3Results(results: UI3WageRecord[]): Promise<UI3Ma
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   await setAuditContext(supabase, { systemActor: 'ui3_wage_matching' });
 
@@ -175,10 +172,7 @@ export async function scheduleUI3Matching() {
     return;
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   // Get all students who completed 6 months ago (for 2nd quarter check)
   const sixMonthsAgo = new Date();
@@ -235,10 +229,7 @@ export async function generateUI3Report() {
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   const { data: tracking } = await supabase.from('employment_tracking').select('*');
 

@@ -12,7 +12,7 @@ import { logger } from '@/lib/logger';
 
 import { getStripe } from '@/lib/stripe/client';
 import type Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { setAuditContext } from '@/lib/audit-context';
 import {
@@ -34,10 +34,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     return;
   }
 
-  const supabaseClient = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabaseClient = await requireAdminClient();
 
   // Get student info
   const { data: student } = await supabaseClient
@@ -376,10 +373,7 @@ async function sendPaymentFailedEmail(studentId: string, programId: string): Pro
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) return;
 
-  const supabaseClient = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabaseClient = await requireAdminClient();
 
   // Get student info
   const { data: student } = await supabaseClient
@@ -417,7 +411,7 @@ function getSupabaseAdmin() {
   if (!url || !key) {
     throw new Error('Supabase configuration missing');
   }
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {

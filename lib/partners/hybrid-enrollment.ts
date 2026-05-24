@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 // lib/partners/hybrid-enrollment.ts
 // Unified enrollment handler that supports both API and link-based modes
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getPartnerClient, PartnerType } from './index';
 import { setAuditContext } from '@/lib/audit-context';
 
@@ -12,7 +12,7 @@ function getSupabaseAdmin() {
   if (!url || !key) {
     throw new Error('Supabase configuration missing');
   }
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 export interface HybridEnrollmentRequest {

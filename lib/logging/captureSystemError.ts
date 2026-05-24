@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export async function captureSystemError(
   errorType: string,
@@ -18,7 +18,7 @@ export async function captureSystemError(
       return;
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const supabase = await requireAdminClient();
 
     await supabase.from('system_errors').insert({
       error_type: errorType,

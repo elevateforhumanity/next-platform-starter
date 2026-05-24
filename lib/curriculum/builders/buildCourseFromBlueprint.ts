@@ -12,7 +12,8 @@
 
 import type { CredentialBlueprint } from '../blueprints/types';
 import { validateBlueprint } from '../blueprints/validateBlueprint';
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

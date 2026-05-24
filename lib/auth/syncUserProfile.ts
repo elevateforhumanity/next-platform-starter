@@ -6,7 +6,7 @@
 // enforce it here to prevent accidental field creep.
 // Do NOT add tenant_id to the update payload.
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { logAuditEvent } from '@/lib/audit';
 import { setAuditContext } from '@/lib/audit-context';
@@ -17,7 +17,7 @@ function getSupabaseAdmin() {
   if (!url || !key) {
     throw new Error('Supabase configuration missing');
   }
-  return createClient(url, key);
+  return await requireAdminClient();
 }
 
 type SyncUserInput = {

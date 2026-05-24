@@ -8,7 +8,8 @@
  * Returns participant rows mapped to PIRL element numbers.
  */
 
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { PirlDataAdapter, ParticipantPirlRow, Quarter } from './pirl_exporter';
 
 function mustEnv(name: string): string {
@@ -83,11 +84,7 @@ function boolTo01(v: boolean | null | undefined): number {
 // ── Adapter ────────────────────────────────────────────────────────────────
 
 export function createSupabaseAdapter(): PirlDataAdapter {
-  const supabase: SupabaseClient = createClient(
-    mustEnv('NEXT_PUBLIC_SUPABASE_URL'),
-    mustEnv('SUPABASE_SERVICE_ROLE_KEY'),
-    { auth: { persistSession: false } },
-  );
+  const supabase: SupabaseClient = await requireAdminClient();
 
   return {
     async fetchParticipantsForQuarter(quarter: Quarter): Promise<ParticipantPirlRow[]> {

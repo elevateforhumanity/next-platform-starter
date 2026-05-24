@@ -4,13 +4,13 @@ import { logger } from '@/lib/logger';
  * Check user access to store features based on subscription status
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 // Server-side client with service role
-const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
+const supabaseAdmin = await requireAdminClient();
 
 /**
  * Check if user has a specific entitlement

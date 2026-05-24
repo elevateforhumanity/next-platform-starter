@@ -5,7 +5,7 @@ import { logger } from '@/lib/logger';
  * Verifies credentials against state databases and national registries.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface CredentialVerificationRequest {
   student_id: string;
@@ -106,10 +106,7 @@ export async function verifyCredential(request: CredentialVerificationRequest): 
     };
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   // Create verification record
   await supabase.from('credential_verification').insert({
@@ -205,10 +202,7 @@ export async function getPendingVerifications() {
     return [];
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   const { data }: any = await supabase
     .from('credential_verification')
@@ -231,10 +225,7 @@ export async function markCredentialVerified(
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   await supabase
     .from('credential_verification')
@@ -257,10 +248,7 @@ export async function generateCredentialReport() {
     throw new Error('Supabase not configured');
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  );
+  const supabase = await requireAdminClient();
 
   const { data: all } = await supabase.from('credential_verification').select('*');
 
