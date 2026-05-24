@@ -61,7 +61,7 @@ export default function GrantContractSuitePage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-violet-500 hover:bg-violet-400 text-white font-semibold rounded-xl transition-colors">
               Open in Admin <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/demo/admin"
+            <Link href="/store/demo/admin"
               className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
               Try Demo
             </Link>

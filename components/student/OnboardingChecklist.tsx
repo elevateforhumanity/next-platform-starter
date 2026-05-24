@@ -106,7 +106,7 @@ export function OnboardingChecklist({ onboarding }: OnboardingChecklistProps) {
               done={onboarding.ai_instructor_met}
               label="Meet with AI Instructor"
               action="Chat"
-              href="/student/chat"
+              href="/support/chat"
             />
             <OnboardingItem done={onboarding.shop_placed} label="Get Shop Placement" />
           </div>

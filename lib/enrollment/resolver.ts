@@ -139,13 +139,16 @@ export async function listUnifiedEnrollments(
   return normalized.sort((a, b) => toMillis(b.createdAt) - toMillis(a.createdAt));
 }
 
+// Enrollment states that grant LMS access — mirrors LMS_ACCESS_STATES in proxy.ts.
+// 'active' covers legacy backfill rows; 'enrolled' covers new program_enrollments.
+export const ACCESS_STATES = new Set(['active', 'enrolled']);
+
 export function hasLmsAccess(enrollment: ResolvedEnrollment | null): boolean {
   if (!enrollment) return false;
-  if (enrollment.source === 'program_enrollments') {
-    // access_granted_at is the canonical gate — set by admin via /api/admin/enrollments/[id]/grant-access.
-    // enrollment_state alone does NOT grant access; students must be explicitly approved.
-    return Boolean(enrollment.accessGrantedAt);
-  }
-  // training_enrollments (legacy HVAC): access via approved_at or status='active'
-  return Boolean(enrollment.accessGrantedAt) || enrollment.status === 'active';
+  // Primary gate: access_granted_at set by admin or submit-documents route.
+  if (enrollment.accessGrantedAt) return true;
+  // Fallback: enrollment_state in ACCESS_STATES covers pre-fix rows and
+  // training_enrollments where access_granted_at was never backfilled.
+  return ACCESS_STATES.has(enrollment.enrollmentState ?? '') ||
+    ACCESS_STATES.has(enrollment.status ?? '');
 }

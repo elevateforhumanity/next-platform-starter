@@ -143,12 +143,12 @@ export default function StatusPage() {
           </p>
           <p className="text-sm text-slate-500">
             View our{' '}
-            <Link href="/policies/sla" className="text-brand-blue-600 hover:underline">
+            <Link href="/legal" className="text-brand-blue-600 hover:underline">
               Service Level Agreement
             </Link>{' '}
             and{' '}
             <Link
-              href="/policies/incident-response"
+              href="/legal"
               className="text-brand-blue-600 hover:underline"
             >
               Incident Response Policy

@@ -99,7 +99,7 @@ export function PortalShell({
                 {userName && <p className="text-xs font-medium text-slate-900 truncate">{userName}</p>}
                 {userEmail && <p className="text-xs text-slate-500 truncate">{userEmail}</p>}
               </div>
-              <Link href="/logout" className="p-1 text-slate-400 hover:text-slate-600 rounded">
+              <Link href="/api/auth/signout" className="p-1 text-slate-400 hover:text-slate-600 rounded">
                 <LogOut className="w-4 h-4" />
               </Link>
             </div>

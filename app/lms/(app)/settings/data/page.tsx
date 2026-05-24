@@ -230,7 +230,7 @@ export default function DataSettingsPage() {
           </div>
           <div className="divide-y divide-slate-200">
             <Link
-              href="/policies/privacy-notice"
+              href="/legal/privacy"
               className="px-6 py-4 flex items-center justify-between hover:bg-white"
             >
               <div className="flex items-center gap-3">
@@ -240,7 +240,7 @@ export default function DataSettingsPage() {
               <ChevronRight className="w-4 h-4 text-slate-700" />
             </Link>
             <Link
-              href="/policies/ferpa"
+              href="/legal/ferpa-consent"
               className="px-6 py-4 flex items-center justify-between hover:bg-white"
             >
               <div className="flex items-center gap-3">
@@ -250,7 +250,7 @@ export default function DataSettingsPage() {
               <ChevronRight className="w-4 h-4 text-slate-700" />
             </Link>
             <Link
-              href="/policies/data-retention"
+              href="/legal/privacy"
               className="px-6 py-4 flex items-center justify-between hover:bg-white"
             >
               <div className="flex items-center gap-3">

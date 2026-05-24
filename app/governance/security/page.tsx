@@ -96,7 +96,7 @@ export default function GovernanceSecurityPage() {
             implementations may differ by workflow, role, and regulatory obligations.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/policies/incident-response" className="px-5 py-2.5 rounded-lg bg-brand-blue-600 text-white hover:bg-brand-blue-700 font-semibold">
+            <Link href="/legal" className="px-5 py-2.5 rounded-lg bg-brand-blue-600 text-white hover:bg-brand-blue-700 font-semibold">
               Incident Response Policy
             </Link>
             <Link href="/contact" className="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-800 hover:bg-white font-semibold">

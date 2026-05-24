@@ -59,7 +59,7 @@ const STEP_DEFINITIONS: {
     title: 'Acknowledge Handbook',
     description: 'Read and acknowledge the apprenticeship handbook',
     icon: 'book',
-    actionUrl: '/pwa/barber/training',
+    actionUrl: '/pwa/barber',
     actionLabel: 'View Handbook',
   },
   {
@@ -348,7 +348,7 @@ export default function OnboardingPage() {
             <span className="text-xs">Log</span>
           </Link>
           <Link
-            href="/pwa/barber/training"
+            href="/pwa/barber"
             className="flex flex-col items-center gap-1 text-slate-400"
           >
             <BookOpen className="w-6 h-6" />

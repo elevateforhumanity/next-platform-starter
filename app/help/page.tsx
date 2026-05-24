@@ -230,7 +230,7 @@ export default async function HelpPage() {
 
               <div className="space-y-4">
                 <Link
-                  href="/help/tutorials/how-to-apply"
+                  href="/help/tutorials"
                   className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition">
@@ -244,7 +244,7 @@ export default async function HelpPage() {
                 </Link>
 
                 <Link
-                  href="/help/tutorials/accessing-courses"
+                  href="/help/tutorials"
                   className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600 transition">
@@ -258,7 +258,7 @@ export default async function HelpPage() {
                 </Link>
 
                 <Link
-                  href="/help/tutorials/submitting-assignments"
+                  href="/help/tutorials"
                   className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition">
@@ -272,7 +272,7 @@ export default async function HelpPage() {
                 </Link>
 
                 <Link
-                  href="/help/tutorials/troubleshooting"
+                  href="/help/tutorials"
                   className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-orange-600 transition">
