@@ -68,7 +68,7 @@ export default async function ProgramCatalogPage({
   // Fetch partner_courses stripe data for any slugs in the result set
   // so catalog cards can show a "Pay & Enroll" button when a price is configured.
   const slugs = (programs ?? []).map(p => p.slug).filter(Boolean) as string[];
-  let stripeBySlug: Record<string, { stripe_price_id: string | null; payment_link: string | null; retail_price_cents: number | null }> = {};
+  const stripeBySlug: Record<string, { stripe_price_id: string | null; payment_link: string | null; retail_price_cents: number | null }> = {};
   if (slugs.length > 0) {
     const admin = getAdminClient();
     if (admin) {
