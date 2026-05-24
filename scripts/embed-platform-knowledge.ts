@@ -37,8 +37,11 @@ import {
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
+// Strip flags before resolving source filter so --dry-run doesn't pollute it
+const nonFlagArgs = args.filter(a => !a.startsWith('--'));
 const SOURCE_FILTER = args.find(a => a.startsWith('--source='))?.split('=')[1]
-  ?? args[args.indexOf('--source') + 1]
+  ?? (args.includes('--source') ? args[args.indexOf('--source') + 1] : undefined)
+  ?? nonFlagArgs[0]
   ?? 'all';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;

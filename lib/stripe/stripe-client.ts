@@ -1,5 +1,6 @@
 // Stripe Integration for Course Payments and Subscriptions
 import { getStripe } from '@/lib/stripe/client';
+import { resilientStripe } from '@/lib/resilience/with-resilience';
 export interface CheckoutSessionParams {
   courseId: string;
   courseName: string;
@@ -19,7 +20,7 @@ export async function createCheckoutSession(params: CheckoutSessionParams) {
     throw new Error('Stripe is not configured');
   }
   const { courseId, courseName, price, userId, userEmail } = params;
-  const session = await stripe.checkout.sessions.create({
+  const session = await resilientStripe(() => stripe!.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
     line_items: [
@@ -46,7 +47,7 @@ export async function createCheckoutSession(params: CheckoutSessionParams) {
       courseId,
       userId,
     },
-  });
+  }));
   return session;
 }
 // Create a subscription for recurring access
@@ -58,24 +59,21 @@ export async function createSubscription(params: SubscriptionParams) {
   // Create or retrieve customer
   let customer = customerId;
   if (!customer) {
-    const newCustomer = await stripe.customers.create({
+    const newCustomer = await resilientStripe(() => stripe!.customers.create({
       email: userEmail,
       metadata: { userId },
-    });
+    }));
     customer = newCustomer.id;
   }
   // Create subscription
-  const subscription = await stripe.subscriptions.create({
-    customer,
+  const subscription = await resilientStripe(() => stripe!.subscriptions.create({
+    customer: customer!,
     items: [{ price: priceId }],
     payment_behavior: 'default_incomplete',
     payment_settings: { save_default_payment_method: 'on_subscription' },
     expand: ['latest_invoice.payment_intent'],
-  });
-  return {
-    subscription,
-    customerId: customer,
-  };
+  }));
+  return { subscription, customerId: customer };
 }
 // Cancel a subscription
 export async function cancelSubscription(subscriptionId: string, immediately: boolean = false) {
@@ -83,55 +81,38 @@ export async function cancelSubscription(subscriptionId: string, immediately: bo
     throw new Error('Stripe is not configured');
   }
   if (immediately) {
-    return await stripe.subscriptions.cancel(subscriptionId);
+    return resilientStripe(() => stripe!.subscriptions.cancel(subscriptionId));
   } else {
-    return await stripe.subscriptions.update(subscriptionId, {
-      cancel_at_period_end: true,
-    });
+    return resilientStripe(() => stripe!.subscriptions.update(subscriptionId, { cancel_at_period_end: true }));
   }
 }
 // Reactivate a cancelled subscription
 export async function reactivateSubscription(subscriptionId: string) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-  return await stripe.subscriptions.update(subscriptionId, {
-    cancel_at_period_end: false,
-  });
+  if (!stripe) throw new Error('Stripe is not configured');
+  return resilientStripe(() => stripe!.subscriptions.update(subscriptionId, { cancel_at_period_end: false }));
 }
 // Create a refund
 export async function createRefund(paymentIntentId: string, amount?: number) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-  return await stripe.refunds.create({
+  if (!stripe) throw new Error('Stripe is not configured');
+  return resilientStripe(() => stripe!.refunds.create({
     payment_intent: paymentIntentId,
     amount: amount ? Math.round(amount * 100) : undefined,
-  });
+  }));
 }
 // Get customer by ID
 export async function getCustomer(customerId: string) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-  return await stripe.customers.retrieve(customerId);
+  if (!stripe) throw new Error('Stripe is not configured');
+  return resilientStripe(() => stripe!.customers.retrieve(customerId));
 }
 // Get subscription by ID
 export async function getSubscription(subscriptionId: string) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-  return await stripe.subscriptions.retrieve(subscriptionId);
+  if (!stripe) throw new Error('Stripe is not configured');
+  return resilientStripe(() => stripe!.subscriptions.retrieve(subscriptionId));
 }
 // List customer subscriptions
 export async function listCustomerSubscriptions(customerId: string) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-  return await stripe.subscriptions.list({
-    customer: customerId,
-    status: 'all',
-  });
+  if (!stripe) throw new Error('Stripe is not configured');
+  return resilientStripe(() => stripe!.subscriptions.list({ customer: customerId, status: 'all' }));
 }
 // Create a coupon
 export async function createCoupon(params: {
@@ -145,51 +126,37 @@ export async function createCoupon(params: {
   if (!stripe) {
     throw new Error('Stripe is not configured');
   }
-  return await stripe.coupons.create(params);
+  return resilientStripe(() => stripe!.coupons.create(params));
 }
 // Apply coupon to checkout session
 export async function createCheckoutSessionWithCoupon(
   params: CheckoutSessionParams,
   couponId: string,
 ) {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
+  if (!stripe) throw new Error('Stripe is not configured');
   const { courseId, courseName, price, userId, userEmail } = params;
-  const session = await stripe.checkout.sessions.create({
+  return resilientStripe(() => stripe!.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: courseName,
-            description: `Access to ${courseName} course`,
-            metadata: {
-              courseId,
-            },
-          },
-          unit_amount: Math.round(price * 100),
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: courseName,
+          description: `Access to ${courseName} course`,
+          metadata: { courseId },
         },
-        quantity: 1,
+        unit_amount: Math.round(price * 100),
       },
-    ],
-    discounts: [
-      {
-        coupon: couponId,
-      },
-    ],
+      quantity: 1,
+    }],
+    discounts: [{ coupon: couponId }],
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/courses/${courseId}/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/courses/${courseId}`,
     customer_email: userEmail,
     client_reference_id: userId,
-    metadata: {
-      courseId,
-      userId,
-    },
-  });
-  return session;
+    metadata: { courseId, userId },
+  }));
 }
 // Verify webhook signature
 export function verifyWebhookSignature(

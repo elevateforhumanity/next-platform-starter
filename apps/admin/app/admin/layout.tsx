@@ -9,6 +9,7 @@ import { getLicenseAccessMode } from '@/lib/licensing/billing-authority';
 import { reconcileTrialOnboarding } from '@/lib/trial/reconcile-onboarding';
 import { withTimeout } from '@/lib/utils/withTimeout';
 import AdminNav from '@/components/admin/AdminNav';
+import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
@@ -257,9 +258,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <IdleTimeoutGuard />
       <PWAManager />
       <UpdatePrompt />
-      <main id="main-content" className="flex-1 overflow-x-hidden px-4 sm:px-6 pb-8 pt-16">
-        <div className="w-full max-w-screen-2xl mx-auto">{children}</div>
-      </main>
+      {/* Global operational telemetry bar — visible only when systems need attention */}
+      <div className="pt-16">
+        <RealtimeSystemStatus />
+        <main id="main-content" className="flex-1 overflow-x-hidden px-4 sm:px-6 pb-8">
+          <div className="w-full max-w-screen-2xl mx-auto">{children}</div>
+        </main>
+      </div>
     </div>
   );
 

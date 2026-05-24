@@ -1,9 +1,5 @@
-import { requireRole } from '@/lib/auth/require-role';
-import { DataImportPageClient } from './DataImportPageClient';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default async function DataImportPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
-  return <DataImportPageClient />;
+export default function Page() {
+  redirect('/admin/import');
 }

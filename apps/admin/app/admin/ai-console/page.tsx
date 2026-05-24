@@ -1,14 +1,6 @@
-import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
-import AiConsoleClient from './AiConsoleClient';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export const metadata: Metadata = {
-  title: 'AI Console | Elevate For Humanity',
-};
-
-export default async function AiConsolePage() {
-  await requireAdmin();
-  return <AiConsoleClient />;
+// Consolidated into AI Studio
+export default function Page() {
+  redirect('/admin/ai-studio');
 }

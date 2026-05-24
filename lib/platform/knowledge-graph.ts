@@ -486,6 +486,41 @@ export const CANONICAL_DECISIONS = [
     decision: 'Course engine routes by step_type column on curriculum_lessons. No per-program hardcoded logic.',
     rationale: 'DB-driven rendering is program-agnostic and scalable.',
   },
+  {
+    id: 'resilience-wrapper',
+    decision: 'All external service calls (OpenAI, Groq, Gemini, Stripe, SendGrid) use withResilience() from @/lib/resilience/with-resilience. Convenience wrappers: resilientOpenAI, resilientStripe, resilientSendGrid, etc.',
+    rationale: 'Circuit breaker + retry in one call. Shared breaker singletons prevent cascade failures.',
+  },
+  {
+    id: 'ai-orchestration',
+    decision: 'All AI task execution routes through executeAiTask() from @/lib/ai/execute-ai-task (alias for runAITask from orchestrator). No direct provider instantiation in route handlers.',
+    rationale: 'Single governance point for provider selection, fallback, and logging.',
+  },
+  {
+    id: 'event-bus',
+    decision: 'All significant platform events (enrollments, payments, cron failures, deploys) emit via emitEvent() from @/lib/events/emit. Events stored in platform_events table and broadcast via Supabase Realtime.',
+    rationale: 'Institutional memory. Powers Mission Control realtime feed and audit trail.',
+  },
+  {
+    id: 'canonical-admin-routes',
+    decision: 'All admin nav items, redirects, and action hrefs reference ADMIN constants from @/lib/routes/canonical-routes. Never hardcode /admin/* paths.',
+    rationale: 'Single source of truth eliminates navigation entropy and orphan flows.',
+  },
+  {
+    id: 'realtime-telemetry',
+    decision: 'Global operational status bar (RealtimeSystemStatus) is mounted once in the admin layout. Powered by useRealtimeMetrics hook — polls /api/admin/platform-health every 30s + Supabase realtime subscriptions.',
+    rationale: 'Platform feels alive. Admins see failures immediately without refreshing.',
+  },
+  {
+    id: 'ecs-health-gate',
+    decision: 'All ECS deploys (LMS + Admin) run post-deploy health checks via curl. Failure triggers automatic rollback via aws ecs update-service --force-new-deployment.',
+    rationale: 'No blind deployments. Broken deploys are caught and reverted automatically.',
+  },
+  {
+    id: 'mission-control-canonical',
+    decision: 'Mission Control (/admin/mission-control) is the single operational dashboard. command-center, monitoring, and ai-console redirect to their canonical destinations (mission-control and ai-studio).',
+    rationale: 'One operational surface eliminates context switching and duplicate maintenance.',
+  },
 ];
 
 /**

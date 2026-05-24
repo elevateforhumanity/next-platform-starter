@@ -9,3 +9,74 @@ export const legacyAliasLookup = new Map(
   legacyRouteAliases.map((alias) => [alias.source, alias.destination]),
 );
 
+// ── Admin canonical routes ────────────────────────────────────────────────────
+// Single source of truth for all admin navigation, redirects, and workflows.
+// ALL nav items, redirects, and action hrefs must reference these constants.
+// Never hardcode /admin/* paths — import from here.
+
+export const ADMIN = {
+  // ── Operational ──────────────────────────────────────────────────────────
+  MISSION_CONTROL:    '/admin/mission-control',
+  OPERATIONS:         '/admin/operations',
+  COMMAND_CENTER:     '/admin/mission-control',   // alias → mission-control
+
+  // ── People ───────────────────────────────────────────────────────────────
+  STUDENTS:           '/admin/students',
+  APPLICATIONS:       '/admin/applications',
+  ENROLLMENTS:        '/admin/enrollments',
+  AT_RISK:            '/admin/students?filter=at-risk',
+  IMPERSONATE:        '/admin/impersonate',
+
+  // ── Programs & Courses ───────────────────────────────────────────────────
+  PROGRAMS:           '/admin/programs',
+  COURSES:            '/admin/courses',
+  COURSE_PIPELINE:    '/admin/courses/pipeline',
+  COURSE_BUILDER:     '/admin/course-builder',
+  CURRICULUM:         '/admin/curriculum',
+
+  // ── AI ───────────────────────────────────────────────────────────────────
+  AI_STUDIO:          '/admin/ai-studio',
+  AI_CONSOLE:         '/admin/ai-studio',         // alias → ai-studio
+  DEV_STUDIO:         '/admin/dev-studio',
+
+  // ── Finance ──────────────────────────────────────────────────────────────
+  FUNDING:            '/admin/funding',
+  PAYMENTS:           '/admin/payments',
+  CERTIFICATES:       '/admin/certificates',
+  WIOA:               '/admin/wioa',
+
+  // ── Compliance ───────────────────────────────────────────────────────────
+  COMPLIANCE:         '/admin/compliance',
+  AUDIT_LOGS:         '/admin/audit-logs',
+  DOCUMENTS:          '/admin/documents',
+  DOCUMENT_CENTER:    '/admin/document-center',
+  GOVERNANCE:         '/admin/governance',
+
+  // ── Analytics ────────────────────────────────────────────────────────────
+  ANALYTICS:          '/admin/analytics',
+  REPORTS:            '/admin/reports',
+
+  // ── System ───────────────────────────────────────────────────────────────
+  SETTINGS:           '/admin/settings',
+  SYSTEM_HEALTH:      '/admin/system-health',
+  SNAPSHOTS:          '/admin/snapshots',
+  AUTOMATION:         '/admin/automation',
+  MONITORING:         '/admin/monitoring',
+
+  // ── Partners ─────────────────────────────────────────────────────────────
+  PARTNERS:           '/admin/partners',
+  EMPLOYERS:          '/admin/employers',
+  CRM:                '/admin/crm',
+} as const;
+
+export type AdminRoute = typeof ADMIN[keyof typeof ADMIN];
+
+/** Resolve a potentially-aliased admin path to its canonical destination. */
+export function resolveAdminRoute(path: string): string {
+  // Check legacy alias map first
+  const legacy = legacyAliasLookup.get(path);
+  if (legacy) return legacy;
+  // Return as-is if already canonical
+  return path;
+}
+

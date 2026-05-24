@@ -7,6 +7,7 @@ export const maxDuration = 60;
 import { NextResponse } from 'next/server';
 import { getStripe, stripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
+import { emitEvent } from '@/lib/events/emit';
 
 function tierFromPrice(priceId?: string | null): 'free' | 'student' | 'career' {
   if (!priceId) return 'free';
@@ -102,6 +103,14 @@ export async function POST(req: Request) {
           logger.error('Failed to mark tax intake as paid', error);
         } else {
           logger.info(`✅ Marked tax intake ${intakeId} as paid (session: ${session.id})`);
+          void emitEvent('payment.completed', 'payment', {
+            actor_id: userId ?? undefined,
+            actor_type: 'user',
+            subject_id: session.id,
+            subject_type: 'stripe_session',
+            payload: { intakeId, amount: session.amount_total, currency: session.currency },
+            message: `Tax intake payment completed (session: ${session.id})`,
+          });
         }
       }
 
@@ -125,6 +134,22 @@ export async function POST(req: Request) {
           logger.error('Failed to create course enrollment', enrollError);
         } else {
           logger.info(`✅ Created course enrollment for user ${userId} in course ${courseId}`);
+          void emitEvent('student.enrolled', 'enrollment', {
+            actor_id: userId,
+            actor_type: 'user',
+            subject_id: courseId,
+            subject_type: 'course',
+            payload: { courseId, userId, sessionId: session.id, amount: session.amount_total },
+            message: `Course enrollment created via Stripe checkout`,
+          });
+          void emitEvent('payment.completed', 'payment', {
+            actor_id: userId,
+            actor_type: 'user',
+            subject_id: session.id,
+            subject_type: 'stripe_session',
+            payload: { courseId, amount: session.amount_total, currency: session.currency },
+            message: `Course payment completed (session: ${session.id})`,
+          });
         }
       }
     }

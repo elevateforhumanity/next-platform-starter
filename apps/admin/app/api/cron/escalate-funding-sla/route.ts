@@ -9,6 +9,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { emitEvent } from '@/lib/events/emit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -45,14 +46,33 @@ async function _GET(request: Request) {
 
     logger.info('Funding SLA escalation complete', { escalatedCount, queueSize });
 
+    const escalated = escalatedCount ?? 0;
+    if (escalated > 0) {
+      void emitEvent('funding.sla_escalated', 'compliance', {
+        severity: 'warning',
+        actor_type: 'cron',
+        subject_type: 'payment_integrity_flags',
+        payload: { escalated, queueSize: queueSize ?? 0 },
+        message: `Funding SLA: ${escalated} flag(s) escalated, ${queueSize ?? 0} in queue`,
+      });
+    }
+
     return NextResponse.json({
       success: true,
-      escalated: escalatedCount ?? 0,
+      escalated,
       queueSize: queueSize ?? 0,
       runAt: new Date().toISOString(),
     });
   } catch (err) {
     logger.error('escalate-funding-sla cron error:', err);
+    void emitEvent('cron.failed', 'system', {
+      severity: 'error',
+      actor_type: 'cron',
+      subject_id: 'escalate-funding-sla',
+      subject_type: 'cron_job',
+      payload: { error: err instanceof Error ? err.message : String(err) },
+      message: 'Cron job escalate-funding-sla failed',
+    });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

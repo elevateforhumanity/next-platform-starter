@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
+import { emitEvent } from '@/lib/events/emit';
 import {
   validateEnrollmentEligibility,
   createBridgePaymentPlan,
@@ -192,6 +193,16 @@ async function _POST(request: NextRequest) {
       userId: user.id,
       programId,
       fundingPathway: intake.funding_pathway,
+    });
+
+    // Fire-and-forget — never blocks the response
+    void emitEvent('student.enrolled', 'enrollment', {
+      actor_id: user.id,
+      actor_type: 'user',
+      subject_id: enrollment.id,
+      subject_type: 'enrollment',
+      payload: { programId, fundingPathway: intake.funding_pathway },
+      message: `Student enrolled in program ${programId} via ${intake.funding_pathway}`,
     });
 
     return NextResponse.json({

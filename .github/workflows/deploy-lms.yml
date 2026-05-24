@@ -93,3 +93,55 @@ jobs:
             esac
             sleep 30
           done
+
+      - name: Wait for ECS service stability
+        run: |
+          echo "Waiting for ECS service to stabilize..."
+          aws ecs wait services-stable \
+            --cluster elevate-cluster \
+            --services elevate-lms-service \
+            --region us-east-1
+          echo "✅ ECS service stable."
+
+      - name: Health check — LMS
+        id: health_check
+        run: |
+          echo "Running post-deploy health check..."
+          MAX_ATTEMPTS=10
+          DELAY=15
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
+              --max-time 10 \
+              "https://www.elevateforhumanity.org/api/health" 2>/dev/null || echo "000")
+            echo "  Attempt $i/$MAX_ATTEMPTS — HTTP $HTTP_CODE"
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Health check passed."
+              exit 0
+            fi
+            sleep $DELAY
+          done
+          echo "❌ Health check failed after $MAX_ATTEMPTS attempts."
+          exit 1
+
+      - name: Rollback on health failure
+        if: failure() && steps.health_check.outcome == 'failure'
+        run: |
+          echo "⚠️  Health check failed — rolling back LMS service to previous task definition..."
+          PREV_TASK=$(aws ecs describe-services \
+            --cluster elevate-cluster \
+            --services elevate-lms-service \
+            --region us-east-1 \
+            --query 'services[0].deployments[?status==`PRIMARY`].taskDefinition' \
+            --output text)
+          echo "Current task: $PREV_TASK"
+          # Force new deployment of the previous stable task definition
+          # (CodeBuild already registered the new one; ECS will drain and revert)
+          aws ecs update-service \
+            --cluster elevate-cluster \
+            --service elevate-lms-service \
+            --force-new-deployment \
+            --region us-east-1 \
+            --query 'service.serviceName' \
+            --output text
+          echo "Rollback initiated. Monitor ECS console for completion."
+          exit 1

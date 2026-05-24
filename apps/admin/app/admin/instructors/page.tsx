@@ -1,9 +1,5 @@
-import { requireRole } from '@/lib/auth/require-role';
-import PageClient from './PageClient';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default async function InstructorsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
-  return <PageClient />;
+export default function Page() {
+  redirect('/admin/staff');
 }
