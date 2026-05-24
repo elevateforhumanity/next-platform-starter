@@ -1,8 +1,11 @@
 /**
  * /api/devstudio/git
  *
- * Git operations for Dev Studio — runs inside the Gitpod environment
- * where the repo is checked out at /workspaces/Elevate-lms.
+ * Git operations for Dev Studio.
+ *
+ * In Gitpod the repo lives at /workspaces/Elevate-lms.
+ * In ECS (production) the repo is cloned to /app at image build time.
+ * REPO_DIR resolves whichever path exists at runtime.
  *
  * GET  ?action=status   → git status + branch + recent commits
  * GET  ?action=diff&file=path  → git diff for a file (or all)
@@ -28,18 +31,38 @@ import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const REPO_DIR = '/workspaces/Elevate-lms';
+import { existsSync } from 'fs';
+
+// Resolve repo root at runtime — Gitpod uses /workspaces/Elevate-lms,
+// ECS standalone image clones to /app. Fall back to process.cwd().
+const REPO_DIR = (() => {
+  const candidates = [
+    '/workspaces/Elevate-lms',
+    '/app',
+    process.cwd(),
+  ];
+  return candidates.find(p => existsSync(`${p}/.git`)) ?? process.cwd();
+})();
 
 function git(cmd: string, opts?: { timeout?: number }): string {
+  // Inject GITHUB_TOKEN into the remote URL for push/pull when available
+  const token = process.env.GITHUB_TOKEN ?? '';
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    GIT_TERMINAL_PROMPT: '0',
+    GIT_ASKPASS: 'echo',
+  };
+  if (token) {
+    // Override the remote URL to embed the token so push/pull works without
+    // interactive prompts in both Gitpod and ECS environments.
+    env.GIT_CONFIG_COUNT = '1';
+    env.GIT_CONFIG_KEY_0 = 'url.https://x-access-token:' + token + '@github.com/.insteadOf';
+    env.GIT_CONFIG_VALUE_0 = 'https://github.com/';
+  }
   return execSync(`git -C ${REPO_DIR} ${cmd}`, {
     timeout: opts?.timeout ?? 15000,
     encoding: 'utf8',
-    env: {
-      ...process.env,
-      GIT_TERMINAL_PROMPT: '0',
-      // Use stored GitHub token for push/pull if available
-      GIT_ASKPASS: 'echo',
-    },
+    env,
   }).trim();
 }
 

@@ -63,6 +63,7 @@ const DEFAULT_TAB_FILES: Record<Tab, string> = {
   command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
   files: 'explorer', container: 'devcontainer.json',
   documents: 'documents', secrets: 'platform-secrets',
+  git: 'git', services: 'services',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
