@@ -27,7 +27,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env'), override: false });
 
 import { HVAC_LESSON_UUID } from '../lib/courses/hvac-legacy-maps';
 import { HVAC_LESSON_CONTENT } from '../lib/courses/hvac-lesson-content';
-import { isOpenAIConfigured, getOpenAIClient } from '../lib/openai-client';
+import { isOpenAIConfigured, getOpenAIClient } from '../lib/ai/openai-client';
 
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'hvac', 'audio');
 const CONCURRENCY = 5;

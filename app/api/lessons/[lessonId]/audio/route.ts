@@ -249,7 +249,7 @@ async function convertToAudio(script: string): Promise<Buffer | null> {
 
   // Option 2: OpenAI TTS (if available)
   if (process.env.OPENAI_API_KEY) {
-    const { getOpenAIClient } = await import('@/lib/openai-client');
+    const { getOpenAIClient } = await import('@/lib/ai/openai-client');
     const openai = getOpenAIClient();
     const audioBuffers: Buffer[] = [];
 
