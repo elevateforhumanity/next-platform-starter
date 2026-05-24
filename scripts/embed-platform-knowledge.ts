@@ -301,6 +301,16 @@ async function main() {
     allChunks.push(...chunks);
   }
 
+  // Deduplicate across all sources — last source wins on source_path collision
+  const deduped = new Map<string, typeof allChunks[0]>();
+  for (const chunk of allChunks) deduped.set(chunk.source_path, chunk);
+  const uniqueChunks = Array.from(deduped.values());
+  if (uniqueChunks.length < allChunks.length) {
+    console.log(`   Deduped: ${allChunks.length} → ${uniqueChunks.length} chunks`);
+  }
+  allChunks.length = 0;
+  allChunks.push(...uniqueChunks);
+
   console.log(`\n   Total chunks: ${allChunks.length}`);
 
   if (DRY_RUN) {
@@ -335,7 +345,12 @@ async function main() {
       })
     );
 
-    const valid = rows.filter(Boolean);
+    // Deduplicate by source_path within the batch — last write wins
+    const seen = new Map<string, typeof rows[0]>();
+    for (const row of rows.filter(Boolean)) {
+      seen.set((row as any).source_path, row);
+    }
+    const valid = Array.from(seen.values());
     if (valid.length > 0) {
       const { error } = await supabase
         .from('platform_knowledge_chunks')
