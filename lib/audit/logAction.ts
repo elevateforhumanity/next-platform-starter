@@ -10,7 +10,8 @@ export type AuditAction = {
 
 /**
  * Simple audit log wrapper for admin safeguard actions.
- * For more comprehensive logging, use logAuditEvent from audit-logger.ts
+ * For admin-specific mutations, use logAdminAudit from @/lib/admin/audit-log.
+ * For API-layer audit wrapping, use withApiAudit from @/lib/audit/withApiAudit.
  */
 export async function logAction(actor_id: string, actor_role: string, payload: AuditAction) {
   const supabase = await createClient();

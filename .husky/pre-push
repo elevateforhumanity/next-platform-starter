@@ -59,4 +59,12 @@ if [ -n "$DIRTY_FILES" ]; then
 fi
 echo "  ✅ Orphan JSX: clean"
 
+# 4. ESLint — catches no-direct-ai-providers violations and other rule errors
+echo "  → ESLint..."
+if ! pnpm lint --max-warnings=0 2>&1; then
+  echo "❌ ESLint: violations found. Fix before pushing."
+  exit 1
+fi
+echo "  ✅ ESLint: clean"
+
 echo "✅ Pre-push checks passed. Pushing..."

@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   BookOpen, CheckCircle, ChevronRight, Loader2,
-  Play, RotateCcw, Sparkles, XCircle, Zap,
+  Play, RotateCcw, Sparkles, XCircle, Zap, Save,
 } from 'lucide-react';
+
+const DRAFT_KEY = 'course_pipeline_draft';
 
 type Program = { id: string; title: string; slug: string };
 
@@ -51,6 +53,36 @@ const STAGE_ICONS: Record<PipelineStage, React.ElementType> = {
   error:     XCircle,
 };
 
+type DraftConfig = {
+  title: string;
+  topic: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  programId: string;
+  moduleCount: number;
+  lessonsPerModule: number;
+  includeVideos: boolean;
+  dryRun: boolean;
+};
+
+function loadDraft(): DraftConfig | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveDraft(cfg: DraftConfig) {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(cfg));
+  } catch { /* storage full — non-fatal */ }
+}
+
+function clearDraft() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch { /* ignore */ }
+}
+
 export default function CoursePipelineClient({ programs }: { programs: Program[] }) {
   const [title, setTitle] = useState('');
   const [topic, setTopic] = useState('');
@@ -66,8 +98,46 @@ export default function CoursePipelineClient({ programs }: { programs: Program[]
   const [currentStage, setCurrentStage] = useState<PipelineStage | null>(null);
   const [result, setResult] = useState<ProgressEvent['result'] | null>(null);
   const [error, setError] = useState('');
+  const [draftRestored, setDraftRestored] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   const logRef = useRef<HTMLDivElement>(null);
+
+  // Restore draft on mount
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft) {
+      setTitle(draft.title);
+      setTopic(draft.topic);
+      setDifficulty(draft.difficulty);
+      setProgramId(draft.programId);
+      setModuleCount(draft.moduleCount);
+      setLessonsPerModule(draft.lessonsPerModule);
+      setIncludeVideos(draft.includeVideos);
+      setDryRun(draft.dryRun);
+      setDraftRestored(true);
+    }
+  }, []);
+
+  // Autosave draft whenever config changes (debounced 1s)
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const triggerAutosave = useCallback((cfg: DraftConfig) => {
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(() => {
+      saveDraft(cfg);
+      setLastSaved(new Date());
+    }, 1000);
+  }, []);
+
+  const currentConfig = useCallback((): DraftConfig => ({
+    title, topic, difficulty, programId, moduleCount, lessonsPerModule, includeVideos, dryRun,
+  }), [title, topic, difficulty, programId, moduleCount, lessonsPerModule, includeVideos, dryRun]);
+
+  useEffect(() => {
+    // Don't autosave empty forms
+    if (!title && !topic) return;
+    triggerAutosave(currentConfig());
+  }, [title, topic, difficulty, programId, moduleCount, lessonsPerModule, includeVideos, dryRun, triggerAutosave, currentConfig]);
 
   const addEvent = (evt: ProgressEvent) => {
     setEvents(prev => [...prev, evt]);
@@ -88,6 +158,7 @@ export default function CoursePipelineClient({ programs }: { programs: Program[]
     setResult(null);
     setError('');
     setCurrentStage('blueprint');
+    setDraftRestored(false);
 
     try {
       const res = await fetch('/api/admin/courses/pipeline', {
@@ -118,7 +189,10 @@ export default function CoursePipelineClient({ programs }: { programs: Program[]
           try {
             const evt: ProgressEvent = JSON.parse(line.slice(6));
             addEvent(evt);
-            if (evt.stage === 'complete' && evt.result) setResult(evt.result);
+            if (evt.stage === 'complete' && evt.result) {
+              setResult(evt.result);
+              if (evt.result.success && !evt.result.dryRun) clearDraft();
+            }
             if (evt.stage === 'error') setError(evt.message);
           } catch { /* skip malformed */ }
         }
@@ -135,6 +209,21 @@ export default function CoursePipelineClient({ programs }: { programs: Program[]
     setResult(null);
     setError('');
     setCurrentStage(null);
+    setDraftRestored(false);
+  };
+
+  const discardDraft = () => {
+    clearDraft();
+    setTitle('');
+    setTopic('');
+    setDifficulty('intermediate');
+    setProgramId('');
+    setModuleCount(6);
+    setLessonsPerModule(5);
+    setIncludeVideos(false);
+    setDryRun(false);
+    setDraftRestored(false);
+    setLastSaved(null);
   };
 
   const stageStatus = (stage: PipelineStage): 'pending' | 'active' | 'done' | 'error' => {
@@ -170,7 +259,27 @@ export default function CoursePipelineClient({ programs }: { programs: Program[]
         {/* Config panel */}
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
-            <h2 className="text-sm font-semibold text-slate-300">Course Configuration</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-slate-300">Course Configuration</h2>
+              {lastSaved && (
+                <span className="flex items-center gap-1 text-xs text-slate-500">
+                  <Save className="w-3 h-3" />
+                  Saved {lastSaved.toLocaleTimeString()}
+                </span>
+              )}
+            </div>
+
+            {draftRestored && (
+              <div className="bg-brand-blue-950/40 border border-brand-blue-800 rounded-lg px-3 py-2 flex items-center justify-between gap-2">
+                <p className="text-brand-blue-300 text-xs">Draft restored from your last session.</p>
+                <button
+                  onClick={discardDraft}
+                  className="text-xs text-brand-blue-400 hover:text-brand-blue-200 underline flex-shrink-0"
+                >
+                  Discard
+                </button>
+              </div>
+            )}
 
             {error && (
               <div className="bg-red-950/50 border border-red-800 text-red-300 text-xs px-3 py-2 rounded-lg">

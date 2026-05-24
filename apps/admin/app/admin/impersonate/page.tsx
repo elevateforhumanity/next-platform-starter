@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ImpersonateForm from './ImpersonateForm';
+import { hasPermission } from '@/lib/rbac/role-matrix';
+import type { UserRole } from '@/lib/rbac/role-matrix';
 
 export const metadata: Metadata = {
   title: 'User Impersonation | Admin | Elevate',
@@ -25,7 +27,8 @@ export default async function ImpersonatePage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!['admin', 'super_admin'].includes(profile?.role ?? '')) {
+  // Impersonation is restricted to super_admin — admin role can view audit log only.
+  if (!hasPermission(profile?.role as UserRole, 'impersonate_users')) {
     redirect('/unauthorized');
   }
 

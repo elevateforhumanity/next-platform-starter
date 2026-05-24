@@ -23,6 +23,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { execSync } from 'child_process';
+import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  let body: { action: string; message?: string; files?: string[]; branch?: string };
+  let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string };
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
 
   const { action } = body;
@@ -157,6 +158,16 @@ export async function POST(request: NextRequest) {
           error: `Direct push to "${branch}" is blocked. Create a feature branch, then open a PR to merge.`,
           blocked: true,
         }, { status: 403 });
+      }
+
+      // Require typed confirmation for all pushes — prevents accidental or
+      // AI-triggered pushes without explicit human intent.
+      const confirm = requireTypedConfirmation(body.confirmation, 'git_push');
+      if (!confirm.ok) {
+        return NextResponse.json(
+          { ok: false, error: `Type "${confirm.required}" to confirm push to ${branch}`, requiresConfirmation: true, required: confirm.required },
+          { status: 422 },
+        );
       }
 
       const ghToken = process.env.GITHUB_TOKEN ?? '';

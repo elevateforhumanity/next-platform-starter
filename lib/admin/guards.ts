@@ -131,20 +131,10 @@ export const SENSITIVE_ROUTES = [
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
+import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES } from '@/lib/rbac/role-matrix';
 
-export type UserRole =
-  | 'student'
-  | 'instructor'
-  | 'admin'
-  | 'super_admin'
-  | 'staff'
-  | 'org_admin'
-  | 'program_holder'
-  | 'provider_admin'
-  | 'case_manager'
-  | 'employer'
-  | 'partner'
-  | 'delegate';
+// Re-export UserRole from the canonical role matrix so all guards share one type.
+export type { UserRole } from '@/lib/rbac/role-matrix';
 
 export type GuardedUser = {
   id: string;
@@ -199,8 +189,9 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
   }
 }
 
-const ADMIN_ROLES: UserRole[] = ['super_admin'];
-const INSTRUCTOR_ROLES: UserRole[] = ['instructor', 'admin', 'super_admin', 'staff'];
+// Role sets sourced from the canonical RBAC matrix (lib/rbac/role-matrix.ts).
+const ADMIN_ROLES = API_ADMIN_ROLES;
+const INSTRUCTOR_ROLES = _INSTRUCTOR_ROLES;
 
 /**
  * Verify the request is from an admin, super_admin, or staff user.

@@ -30,6 +30,10 @@
 import { aiChat } from '@/lib/ai/ai-service';
 import { logger } from '@/lib/logger';
 import type { ChatMessage } from '@/lib/ai/types';
+import { getRAGContext } from '@/lib/platform/rag';
+import { getKnowledgeGraphContext } from '@/lib/platform/knowledge-graph';
+import { decomposePlan } from '@/lib/platform/planner';
+export type { Plan, PlanStep } from '@/lib/platform/planner';
 
 // ─── Task types ───────────────────────────────────────────────────────────────
 
@@ -41,13 +45,16 @@ export type AITask =
   | 'course_generation'          // Course blueprint + lesson generation
   | 'lesson_generation'          // Single lesson content generation
   | 'quiz_generation'            // Quiz/checkpoint question generation
-  | 'deployment_analysis'        // Analyze deployment state
-  | 'diagnostics'                // Platform diagnostics
+  | 'deployment_analysis'        // Analyze deployment state (+ knowledge graph)
+  | 'diagnostics'                // Platform diagnostics (+ knowledge graph)
   | 'social_generation'          // Social media content
   | 'grant_generation'           // Grant writing assistance
   | 'career_counseling'          // Career guidance
   | 'lesson_explanation'         // Explain lesson content to learner
-  | 'recap_generation';          // Generate lesson recap
+  | 'recap_generation'           // Generate lesson recap
+  | 'rag_query'                  // RAG-augmented Q&A over platform knowledge chunks
+  | 'knowledge_graph_query'      // Structured lookup against the platform knowledge graph
+  | 'plan_decompose';            // Decompose a goal into an ordered plan (planner)
 
 // ─── Context shapes ───────────────────────────────────────────────────────────
 
@@ -72,6 +79,11 @@ export type AITaskContext = {
   topic?: string;
   difficulty?: string;
   moduleCount?: number;
+
+  // RAG / knowledge graph
+  ragQuery?: string;           // Override query for RAG retrieval (defaults to prompt)
+  skipRAG?: boolean;           // Disable RAG augmentation for this call
+  planParams?: Record<string, string>; // Params for plan decomposition
 
   // Moderation
   skipModeration?: boolean;
@@ -144,6 +156,18 @@ Explain concepts clearly. Use analogies. Check for understanding.`,
   recap_generation: (ctx) => `You are a curriculum writer. Generate a concise recap of: "${ctx.lessonTitle ?? 'this lesson'}".
 ${ctx.lessonContent ? `Content: ${ctx.lessonContent.slice(0, 800)}` : ''}
 Format: 3-5 bullet points covering key takeaways. Plain text only.`,
+
+  rag_query: () => `You are a platform knowledge assistant for Elevate for Humanity.
+Answer questions using the retrieved knowledge chunks provided in the context.
+Be specific and cite the source when relevant. If the retrieved context does not contain the answer, say so clearly.`,
+
+  knowledge_graph_query: () => `You are a platform architecture assistant for Elevate for Humanity.
+You have access to the full platform knowledge graph: systems, routes, DB tables, canonical decisions, and known debt.
+Answer questions about platform structure, ownership, and architecture precisely.`,
+
+  plan_decompose: () => `You are a platform operations planner for Elevate for Humanity.
+Given a high-level goal, you decompose it into ordered, executable steps.
+Each step maps to a devstudio command. Return a structured plan as JSON.`,
 };
 
 // ─── Moderation guard ─────────────────────────────────────────────────────────
@@ -184,9 +208,35 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
     }
   }
 
-  // Build messages
+  // ── plan_decompose: handled entirely by the planner, no LLM call needed ──
+  if (task === 'plan_decompose') {
+    const plan = decomposePlan(prompt, context.planParams ?? {});
+    logger.info('[ai-orchestrator] Plan decomposed', { task, goal: prompt, steps: plan.steps.length });
+    return {
+      content: JSON.stringify(plan, null, 2),
+      provider: 'planner',
+      task,
+    };
+  }
+
+  // ── Build system prompt ───────────────────────────────────────────────────
   const systemPromptFn = SYSTEM_PROMPTS[task];
-  const systemPrompt = systemPromptFn(context);
+  let systemPrompt = systemPromptFn(context);
+
+  // Augment with knowledge graph for architecture-aware tasks
+  const KG_TASKS: AITask[] = ['diagnostics', 'deployment_analysis', 'knowledge_graph_query'];
+  if (KG_TASKS.includes(task)) {
+    systemPrompt += '\n\n' + getKnowledgeGraphContext();
+  }
+
+  // Augment with RAG context for knowledge-intensive tasks
+  const RAG_TASKS: AITask[] = ['rag_query', 'diagnostics', 'general_chat', 'career_counseling', 'prospective_student_chat'];
+  if (RAG_TASKS.includes(task) && !context.skipRAG) {
+    const ragContext = await getRAGContext(context.ragQuery ?? prompt);
+    if (ragContext) {
+      systemPrompt += '\n\n' + ragContext;
+    }
+  }
 
   const messages: ChatMessage[] = [
     { role: 'system', content: systemPrompt },
@@ -210,13 +260,17 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
     career_counseling:          { maxTokens: 600,  temperature: 0.7 },
     lesson_explanation:         { maxTokens: 600,  temperature: 0.6 },
     recap_generation:           { maxTokens: 400,  temperature: 0.4 },
+    rag_query:                  { maxTokens: 800,  temperature: 0.3 },
+    knowledge_graph_query:      { maxTokens: 1000, temperature: 0.2 },
+    plan_decompose:             { maxTokens: 2000, temperature: 0.3 },
   };
 
   const params = defaults[task];
 
   try {
+    const FULL_MODEL_TASKS: AITask[] = ['course_generation', 'quiz_generation', 'diagnostics', 'deployment_analysis', 'knowledge_graph_query', 'rag_query', 'plan_decompose'];
     const result = await aiChat({
-      model: task === 'course_generation' || task === 'quiz_generation' ? 'gpt-4.1' : 'gpt-4.1-mini',
+      model: FULL_MODEL_TASKS.includes(task) ? 'gpt-4.1' : 'gpt-4.1-mini',
       messages,
       temperature: temperature ?? params.temperature,
       maxTokens: maxTokens ?? params.maxTokens,
