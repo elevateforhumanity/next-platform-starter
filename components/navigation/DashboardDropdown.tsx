@@ -23,6 +23,7 @@ interface Dashboard {
   id: string;
   name: string;
   href: string;
+  hrefByRole?: Record<string, string>; // role-specific destination override
   icon: string;
   description: string;
   color: string;
@@ -143,35 +144,21 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   },
   {
     id: '7',
-    name: 'Partner Portal',
+    name: 'Partners & Providers',
+    // Route to the correct portal based on the user's role.
+    // provider_admin → /provider/dashboard, partner → /partner/dashboard
     href: '/partner/dashboard',
+    hrefByRole: {
+      provider_admin: '/provider/dashboard',
+      partner: '/partner/dashboard',
+      program_holder: '/program-holder/dashboard',
+      sponsor: '/program-holder/dashboard',
+    },
     icon: 'Building2',
-    description: 'Attendance and hours',
+    description: 'Programs, attendance, and compliance',
     color: 'text-purple-600',
-    roles: ['partner', 'admin', 'super_admin'],
+    roles: ['partner', 'provider_admin', 'program_holder', 'sponsor', 'admin', 'super_admin'],
     order_index: 7,
-  },
-
-  // ── Program administration ────────────────────────────────────────────────
-  {
-    id: '8',
-    name: 'Program Holder',
-    href: '/program-holder/dashboard',
-    icon: 'Building2',
-    description: 'Programs, compliance, certs',
-    color: 'text-purple-600',
-    roles: ['program_holder', 'sponsor', 'admin', 'super_admin'],
-    order_index: 8,
-  },
-  {
-    id: '9',
-    name: 'Training Provider',
-    href: '/provider/dashboard',
-    icon: 'Building2',
-    description: 'Tenant programs and staff',
-    color: 'text-amber-600',
-    roles: ['provider_admin', 'admin', 'super_admin'],
-    order_index: 9,
   },
 
   // ── Workforce & case management ───────────────────────────────────────────
@@ -368,13 +355,23 @@ export function DashboardDropdown({ className }: Props) {
               <div className="space-y-1 max-h-96 overflow-y-auto">
                 {sortedDashboards.map((dashboard) => {
                   const Icon = ICON_MAP[dashboard.icon] || LayoutDashboard;
-                  const isRecent = recentDashboards.includes(dashboard.href);
+                  // Use role-specific href if defined — e.g. Partners & Providers
+                  // routes provider_admin to /provider/dashboard, partner to /partner/dashboard
+                  const resolvedHref =
+                    dashboard.hrefByRole
+                      ? userRoles.reduce<string>((found, role) => {
+                          return found !== dashboard.href
+                            ? found
+                            : dashboard.hrefByRole?.[role] ?? found;
+                        }, dashboard.href)
+                      : dashboard.href;
+                  const isRecent = recentDashboards.includes(resolvedHref);
 
                   return (
                     <Link
                       key={dashboard.id}
-                      href={dashboard.href}
-                      onClick={() => trackVisit(dashboard)}
+                      href={resolvedHref}
+                      onClick={() => trackVisit({ ...dashboard, href: resolvedHref })}
                       className={`flex items-start gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition group ${
                         isRecent ? 'bg-brand-blue-50/50' : ''
                       }`}

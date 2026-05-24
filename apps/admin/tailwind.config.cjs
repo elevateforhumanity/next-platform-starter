@@ -1,19 +1,21 @@
 // CJS version of the admin Tailwind config.
 // postcss.config.cjs requires CJS — this file is loaded by PostCSS at build time.
-// The root tailwind.config.js is ESM (package.json "type":"module") so we
-// cannot require() it directly. We duplicate only the tokens we need and
-// extend with the same content paths.
+//
+// Content globs use absolute paths (via __dirname) so they resolve correctly
+// regardless of the CWD Next.js uses when invoking PostCSS (repo root vs apps/admin).
+// Relative globs like '../../lib/**' resolve from CWD, not the config file, and
+// can hit protected system paths (e.g. /lib/ssl/private) on some environments.
 
-const { fontFamily } = require('tailwindcss/defaultTheme');
+const path = require('path');
+const ROOT = path.resolve(__dirname, '../..');
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../components/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../lib/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../app/**/*.{js,ts,jsx,tsx,mdx}',
+    path.join(__dirname, 'app/**/*.{js,ts,jsx,tsx,mdx}'),
+    path.join(ROOT, 'components/**/*.{js,ts,jsx,tsx,mdx}'),
+    path.join(ROOT, 'lib/**/*.{js,ts,jsx,tsx,mdx}'),
+    path.join(ROOT, 'app/**/*.{js,ts,jsx,tsx,mdx}'),
   ],
   theme: {
     extend: {

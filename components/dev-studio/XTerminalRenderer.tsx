@@ -16,7 +16,17 @@ import React, { useEffect, useRef } from 'react';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { WebLinksAddon } from '@xterm/addon-web-links';
-import '@xterm/xterm/css/xterm.css';
+// xterm.css is served from /public/xterm.css (copied from node_modules at build time)
+// to avoid running through the PostCSS/Tailwind pipeline — Tailwind's blocklist
+// check crashes on third-party CSS it doesn't own.
+// This component is always loaded via dynamic({ ssr: false }) so document is safe.
+if (typeof document !== 'undefined' && !document.getElementById('xterm-css')) {
+  const link = document.createElement('link');
+  link.id = 'xterm-css';
+  link.rel = 'stylesheet';
+  link.href = '/xterm.css';
+  document.head.appendChild(link);
+}
 
 interface Props {
   ws: WebSocket | null;

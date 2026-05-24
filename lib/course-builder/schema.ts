@@ -38,7 +38,9 @@ export type ActivityType =
   | 'quiz'
   | 'observation'
   | 'discussion'
-  | 'lab';
+  | 'lab'
+  | 'checkpoint'  // gated checkpoint quiz tab on lesson page
+  | 'practice';   // ungraded practice quiz tab
 export type RequiredArtifact =
   | 'text'
   | 'video'
@@ -56,6 +58,8 @@ export type HourCategory =
   | 'supervision'
   | 'self_study'
   | 'exam';
+export type AssessmentMethod = 'quiz' | 'lab' | 'exam' | 'observation' | 'assignment';
+
 export type EvidenceType =
   | 'quiz'
   | 'upload'
@@ -91,7 +95,7 @@ export interface CompetencyCheck {
   requiresInstructorSignoff: boolean;
   isCritical: boolean;
   domainKey?: string;
-  assessmentMethod?: 'quiz' | 'lab' | 'exam' | 'observation' | 'assignment';
+  assessmentMethod?: AssessmentMethod;
   evidenceType?: EvidenceType;
 }
 
@@ -253,11 +257,42 @@ export interface ProgramBuilderTemplate {
   regulatory: RegulatoryMetadata;
 }
 
-// Legacy alias keeps pipeline.ts / compiler.ts / validate.ts working
-export type CourseTemplate = ProgramBuilderTemplate & {
+// Legacy aliases — pipeline.ts / compiler.ts / validate.ts import these names.
+// BuilderLesson / BuilderModule are the canonical interfaces; CourseLesson /
+// CourseModule are the names used throughout the pipeline layer.
+//
+// content is overridden from Record<string,unknown> to string because the
+// pipeline stores rendered HTML in course_lessons.content (text column).
+export type CourseLesson = Omit<BuilderLesson, 'content' | 'quizQuestions' | 'orderIndex' | 'lessonType'> & {
+  // Pipeline-layer fields (camelCase, written to course_lessons)
+  type: LessonType;
+  order: number;
+  // BuilderLesson fields made optional at the pipeline layer — set by normalizer
+  orderIndex?: number;
+  lessonType?: LessonType;
+  description?: string;
+  // content overridden from Record<string,unknown> to string (rendered HTML)
+  content?: string;
+  partnerExamCode?: string;
+  quizQuestions?: Array<{
+    id?: string;
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation?: string;
+  }>;
+};
+
+export type CourseModule = Omit<BuilderModule, 'lessons'> & {
+  order: number;
+  lessons: CourseLesson[];
+};
+
+export type CourseTemplate = Omit<ProgramBuilderTemplate, 'modules'> & {
   programSlug: string;
   courseSlug: string;
   description?: string;
+  modules: CourseModule[];
 };
 
 export const ASSESSED_LESSON_TYPES: LessonType[] = ['quiz', 'checkpoint', 'exam'];

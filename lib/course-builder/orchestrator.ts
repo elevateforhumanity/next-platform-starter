@@ -30,6 +30,8 @@ import { runCoursePublishPipeline } from './pipeline';
 import type { CourseTemplate } from './schema';
 import { logger } from '@/lib/logger';
 import { aiChat } from '@/lib/ai/ai-service';
+import { getOnetSnapshot, searchOnetOccupations } from '@/lib/onet/client';
+import { generateCourseCode } from './pipeline';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -49,10 +51,14 @@ export type PipelineInput = {
   topic: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   programId: string;
+  /** Program slug — used by the pipeline resolver to map program → course.
+   *  If omitted, the orchestrator will look it up from the programs table. */
+  programSlug?: string;
   moduleCount?: number;
   lessonsPerModule?: number;
   includeVideos?: boolean;
   dryRun?: boolean;
+  socCode?: string; // O*NET SOC code — if provided, skips keyword search
   db: SupabaseClient;
   onProgress?: (stage: PipelineStage, message: string) => void;
 };
@@ -60,6 +66,7 @@ export type PipelineInput = {
 export type PipelineOutput = {
   success: boolean;
   courseId: string | null;
+  courseCode: string | null;
   title: string;
   modulesGenerated: number;
   lessonsGenerated: number;
@@ -69,11 +76,54 @@ export type PipelineOutput = {
   dryRun: boolean;
 };
 
+// ─── Stage: Fetch O*NET labor market context ─────────────────────────────────
+
+async function fetchCareerContext(topic: string, socCode?: string): Promise<string> {
+  try {
+    // If a SOC code is provided use it directly, otherwise search by topic keyword
+    let soc = socCode;
+    if (!soc) {
+      const results = await searchOnetOccupations(topic, 1);
+      soc = results[0]?.code;
+    }
+    if (!soc) return '';
+
+    const snapshot = await getOnetSnapshot(soc);
+    if (!snapshot) return '';
+
+    return `
+LABOR MARKET CONTEXT (O*NET SOC ${snapshot.soc} — ${snapshot.title}):
+Description: ${snapshot.description}
+Job Zone: ${snapshot.jobZoneTitle} — ${snapshot.jobZoneEducation}
+Bright Outlook: ${snapshot.brightOutlook ? 'Yes — ' + snapshot.brightOutlookReasons.join(', ') : 'No'}
+Top Skills: ${snapshot.topSkills.join(', ')}
+Core Knowledge Areas: ${snapshot.topKnowledge.join(', ')}
+Core Job Tasks:
+${snapshot.coreTasks.map((t) => `  - ${t}`).join('\n')}
+Common Job Titles: ${snapshot.sampleTitles.join(', ')}
+Has Registered Apprenticeships: ${snapshot.hasApprenticeships ? 'Yes' : 'No'}
+${snapshot.attribution}`.trim();
+  } catch (err) {
+    logger.warn('[orchestrator] O*NET fetch failed — continuing without career context', { err });
+    return '';
+  }
+}
+
 // ─── Stage: Generate blueprint via AI ────────────────────────────────────────
 
-async function generateBlueprint(input: PipelineInput): Promise<CourseTemplate | null> {
+async function generateBlueprint(
+  input: PipelineInput,
+  onProgress?: PipelineInput['onProgress'],
+): Promise<CourseTemplate | null> {
   const moduleCount = input.moduleCount ?? 6;
   const lessonsPerModule = input.lessonsPerModule ?? 5;
+
+  // Fetch O*NET career context to ground the AI in real labor market data
+  onProgress?.('blueprint', 'Fetching O*NET career context...');
+  const careerContext = await fetchCareerContext(input.topic, input.socCode);
+  if (careerContext) {
+    logger.info('[orchestrator] O*NET context loaded', { topic: input.topic });
+  }
 
   const systemPrompt = `You are a curriculum architect. Generate a structured course blueprint as JSON.
 The blueprint must follow this exact schema:
@@ -102,13 +152,15 @@ Rules:
 - Each module must end with one checkpoint lesson (slug ends in -checkpoint)
 - Last module must end with an exam lesson (slug ends in -exam)
 - All slugs must be globally unique within the course
+- Align module topics to the core job tasks and knowledge areas when career context is provided
 - Return ONLY valid JSON, no markdown, no explanation`;
 
   const userPrompt = `Create a ${input.difficulty} course on: "${input.topic}"
 Title: "${input.title}"
 Modules: ${moduleCount}
 Lessons per module: ${lessonsPerModule} (including the checkpoint)
-Program ID: ${input.programId}`;
+Program ID: ${input.programId}
+${careerContext ? `\n${careerContext}` : ''}`;
 
   const result = await aiChat({
     model: 'gpt-4.1-mini',
@@ -127,22 +179,52 @@ Program ID: ${input.programId}`;
     const cleaned = result.content.replace(/^```json\n?|\n?```$/g, '').trim();
     const blueprint = JSON.parse(cleaned);
 
-    // Map to CourseTemplate shape
+    // Map to CourseTemplate shape — all required ProgramBuilderTemplate fields must be set
     const template: CourseTemplate = {
       title: blueprint.title,
       slug: blueprint.slug,
+      // courseSlug and programSlug are required by the pipeline layer.
+      // programSlug is resolved from the programs table if not supplied by the caller.
+      courseSlug: blueprint.slug,
+      programSlug: input.programSlug ?? blueprint.slug, // caller should pass programSlug; fallback to course slug
       description: blueprint.description,
       programId: input.programId,
-      modules: blueprint.modules.map((mod: any) => ({
-        title: mod.title,
+      // Required ProgramBuilderTemplate fields with sensible defaults for AI-generated courses
+      credentialTarget: 'INTERNAL',
+      minimumHours: 0, // hours engine will compute from lesson durations
+      requiresFinalExam: false,
+      finalExam: { required: false },
+      certificateRequirements: {
+        includeHours: true,
+        includeCompetencies: false,
+        includeInstructorVerification: false,
+        includeCompletionDate: true,
+        includeVerificationUrl: true,
+      },
+      regulatory: {
+        complianceProfileKey: 'default',
+        credentialTarget: 'INTERNAL',
+      },
+      modules: blueprint.modules.map((mod: any, mi: number) => ({
         slug: mod.slug,
-        order: mod.order,
-        lessons: mod.lessons.map((lesson: any) => ({
-          title: lesson.title,
+        title: mod.title,
+        order: mod.order ?? mi + 1,
+        orderIndex: mod.order ?? mi + 1,
+        domainKey: 'general',
+        targetHours: 0,
+        quizRequired: true,
+        practicalRequired: false,
+        lessons: mod.lessons.map((lesson: any, li: number) => ({
           slug: lesson.slug,
+          title: lesson.title,
           type: lesson.type ?? 'lesson',
-          order: lesson.order,
+          order: lesson.order ?? li + 1,
+          orderIndex: lesson.order ?? li + 1,
+          lessonType: lesson.type ?? 'lesson',
           description: lesson.description ?? '',
+          durationMinutes: 30,
+          learningObjectives: [`Understand ${lesson.title}`],
+          content: {},
         })),
       })),
     };
@@ -185,7 +267,8 @@ async function generateLessonContent(
               maxTokens: 800,
             });
 
-            return { ...lesson, content: result.content ?? '' };
+            // content is stored as a string (HTML) in course_lessons
+            return { ...lesson, content: result.content ?? '', renderedHtml: result.content ?? '' };
           } catch {
             return lesson;
           }
@@ -237,7 +320,8 @@ async function generateQuizQuestions(
               const cleaned = result.content.replace(/^```json\n?|\n?```$/g, '').trim();
               const questions = JSON.parse(cleaned);
               quizCount++;
-              return { ...lesson, quiz_questions: questions, passing_score: lesson.type === 'exam' ? 75 : 70 };
+              // camelCase — matches CourseLesson type and pipeline's persistCourse mapping
+              return { ...lesson, quizQuestions: questions, passingScore: lesson.type === 'exam' ? 75 : 70 };
             }
           } catch {
             // Return lesson without questions — pipeline will still publish
@@ -262,9 +346,9 @@ export async function runCoursePipeline(input: PipelineInput): Promise<PipelineO
   try {
     // Stage 1: Generate blueprint
     onProgress?.('blueprint', `Generating course blueprint for "${input.title}"…`);
-    const template = await generateBlueprint(input);
+    const template = await generateBlueprint(input, onProgress);
     if (!template) {
-      return { success: false, courseId: null, title: input.title, modulesGenerated: 0, lessonsGenerated: 0, lessonsWithQuizzes: 0, videosQueued: 0, errors: ['Blueprint generation failed'], dryRun };
+      return { success: false, courseId: null, courseCode: null, title: input.title, modulesGenerated: 0, lessonsGenerated: 0, lessonsWithQuizzes: 0, videosQueued: 0, errors: ['Blueprint generation failed'], dryRun };
     }
     onProgress?.('blueprint', `Blueprint ready: ${template.modules.length} modules, ${template.modules.reduce((n, m) => n + m.lessons.length, 0)} lessons`);
 
@@ -313,11 +397,13 @@ export async function runCoursePipeline(input: PipelineInput): Promise<PipelineO
       }
     }
 
-    onProgress?.('complete', result.success ? `Course published: ${result.courseId}` : 'Pipeline completed with errors');
+    const courseCode = result.courseId ? generateCourseCode(withQuizzes.courseSlug ?? withQuizzes.slug ?? input.title) : null;
+    onProgress?.('complete', result.success ? `Course published: ${result.courseId} (${courseCode})` : 'Pipeline completed with errors');
 
     return {
       success: result.success,
       courseId: result.courseId,
+      courseCode,
       title: withQuizzes.title,
       modulesGenerated: withQuizzes.modules.length,
       lessonsGenerated: result.lessonsWritten,
@@ -332,6 +418,7 @@ export async function runCoursePipeline(input: PipelineInput): Promise<PipelineO
     return {
       success: false,
       courseId: null,
+      courseCode: null,
       title: input.title,
       modulesGenerated: 0,
       lessonsGenerated: 0,

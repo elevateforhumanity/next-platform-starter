@@ -12,7 +12,7 @@
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { runCoursePipeline } from '@/lib/course-builder/orchestrator';
 import { logger } from '@/lib/logger';
 
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
     topic: string;
     difficulty?: 'beginner' | 'intermediate' | 'advanced';
     programId: string;
+    programSlug?: string;
     moduleCount?: number;
     lessonsPerModule?: number;
     includeVideos?: boolean;
@@ -57,13 +58,25 @@ export async function POST(req: NextRequest) {
       };
 
       try {
-        const db = createAdminClient();
+        const db = await requireAdminClient();
+
+        // Resolve programSlug from the programs table if not supplied by the caller
+        let programSlug = body.programSlug;
+        if (!programSlug) {
+          const { data: prog } = await db
+            .from('programs')
+            .select('slug')
+            .eq('id', body.programId)
+            .maybeSingle();
+          programSlug = prog?.slug ?? undefined;
+        }
 
         const result = await runCoursePipeline({
           title: body.title,
           topic: body.topic,
           difficulty: body.difficulty ?? 'intermediate',
           programId: body.programId,
+          programSlug,
           moduleCount: body.moduleCount,
           lessonsPerModule: body.lessonsPerModule,
           includeVideos: body.includeVideos ?? false,

@@ -105,8 +105,32 @@ export default function HeroVideo({
 
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(ttsText);
-    utterance.rate = 0.98;
+    utterance.rate = 0.95;
     utterance.pitch = 1;
+
+    // Select a consistent, professional-sounding voice.
+    // Priority: Google US English → Microsoft US English → any en-US → default.
+    // Without this, the browser picks whatever OS voice is first — often a
+    // robotic system voice that doesn't match the brand tone.
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = [
+      'Google US English',
+      'Microsoft Aria Online (Natural) - English (United States)',
+      'Microsoft Guy Online (Natural) - English (United States)',
+      'Microsoft Zira - English (United States)',
+      'Samantha', // macOS
+    ];
+    const voice =
+      preferred.reduce<SpeechSynthesisVoice | null>((found, name) => {
+        return found ?? voices.find((v) => v.name === name) ?? null;
+      }, null) ??
+      voices.find((v) => v.lang === 'en-US' && !v.localService) ?? // prefer cloud voices
+      voices.find((v) => v.lang === 'en-US') ??
+      voices.find((v) => v.lang.startsWith('en')) ??
+      null;
+
+    if (voice) utterance.voice = voice;
+    utterance.lang = 'en-US';
     utterance.onend = () => setMuted(true);
     utterance.onerror = () => setMuted(true);
     window.speechSynthesis.speak(utterance);
@@ -117,14 +141,21 @@ export default function HeroVideo({
   // src is resolved synchronously in useState initializer above — no swap needed.
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if ('speechSynthesis' in window) {
-      setTtsSupported(true);
-    }
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    // Voices may not be loaded yet on first render (Chrome async loads them).
+    // Mark supported immediately so the sound button appears, then voices
+    // will be available by the time the user clicks.
+    setTtsSupported(true);
+
+    // Pre-load voices so they're ready on first interaction
+    const loadVoices = () => window.speechSynthesis.getVoices();
+    loadVoices();
+    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+
     return () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+      window.speechSynthesis.cancel();
     };
   }, []);
 

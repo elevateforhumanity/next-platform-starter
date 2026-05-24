@@ -20,12 +20,17 @@ import type { CourseModule, CourseTemplate } from './schema';
 export const DURATION_RANGES: Record<LessonType, [number, number, number]> = {
   lesson: [20, 30, 45],
   video: [10, 20, 30],
+  reading: [15, 20, 30],
   checkpoint: [10, 15, 20],
   quiz: [15, 20, 30],
   lab: [30, 60, 90],
   assignment: [30, 60, 120],
   exam: [60, 90, 120],
   certification: [5, 10, 15],
+  practical: [30, 60, 90],
+  live_session: [60, 90, 120],
+  fieldwork: [60, 120, 240],
+  observation: [30, 60, 90],
 };
 
 /**

@@ -26,6 +26,39 @@ import { resolveCourseId } from './schema';
 import { getCompetencyDefinition } from './competencies';
 import { logger } from '@/lib/logger';
 
+/**
+ * Generate a short, human-readable enrollment code from a course slug.
+ * Format: up to 4 uppercase alpha chars + 3-digit numeric suffix.
+ * Examples:
+ *   "hvac-epa-608-v1"        → "HVAC608"
+ *   "tax-prep-enrolled-agent" → "TAXP001"
+ *   "cosmetology-fundamentals" → "COSM001"
+ *
+ * The numeric suffix is derived from the slug so the same slug always
+ * produces the same code (deterministic, no DB round-trip needed).
+ */
+export function generateCourseCode(slug: string): string {
+  const parts = slug.replace(/[^a-z0-9]+/gi, '-').split('-').filter(Boolean);
+
+  // Extract alpha prefix from first meaningful word
+  const prefix = parts
+    .find((p) => /^[a-z]/i.test(p))
+    ?.replace(/[^a-z]/gi, '')
+    .toUpperCase()
+    .slice(0, 4) ?? 'CRS';
+
+  // Extract first number found in slug (e.g. "608" from "epa-608")
+  const numMatch = slug.match(/\d+/);
+  const suffix = numMatch
+    ? numMatch[0].slice(-3).padStart(3, '0')
+    : String(
+        // Deterministic 3-digit hash from slug
+        slug.split('').reduce((acc, c) => (acc * 31 + c.charCodeAt(0)) & 0xffff, 0) % 900 + 100,
+      );
+
+  return `${prefix}${suffix}`;
+}
+
 // ─── Pipeline options ─────────────────────────────────────────────────────────
 
 export type PipelineMode = 'missing-only' | 'replace';
@@ -115,6 +148,18 @@ async function persistCourse(
   let skipped = 0;
   const errors: string[] = [];
 
+  // Generate a deterministic course code from the slug if not already set.
+  // Format: uppercase prefix (up to 4 chars) + 3-digit number from slug hash.
+  // e.g. "hvac-epa-608-v1" → "HVAC608"
+  const existingCode = await db
+    .from('courses')
+    .select('course_code')
+    .eq('id', courseId)
+    .maybeSingle()
+    .then((r) => r.data?.course_code ?? null);
+
+  const courseCode = existingCode ?? generateCourseCode(template.courseSlug);
+
   // Upsert the courses row
   const { error: courseErr } = await db.from('courses').upsert(
     {
@@ -122,6 +167,7 @@ async function persistCourse(
       slug: template.courseSlug,
       title: template.title,
       description: template.description ?? null,
+      course_code: courseCode,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'id' },
@@ -175,16 +221,23 @@ async function persistCourse(
         continue;
       }
 
+      // content column is JSONB — wrap string HTML in { html } envelope.
+      // module_id is the FK column name (not course_module_id).
+      const contentValue = lesson.content
+        ? { html: lesson.content }
+        : null;
+
       const { error: lessonErr } = await db.from('course_lessons').upsert(
         {
           course_id: courseId,
-          course_module_id: moduleRow.id,
+          module_id: moduleRow.id,           // FK column is module_id, not course_module_id
           slug: lesson.slug,
           title: lesson.title,
           lesson_type: lesson.type,
           order_index: lesson.order,
-          learning_objectives: lesson.learningObjectives,
-          content: lesson.content ?? null,
+          learning_objectives: lesson.learningObjectives ?? null,
+          content: contentValue,             // JSONB — { html: string }
+          rendered_html: lesson.content ?? null, // TEXT — raw HTML for fast render
           video_url: lesson.videoUrl ?? null,
           quiz_questions: lesson.quizQuestions ?? null,
           passing_score: lesson.passingScore ?? null,
