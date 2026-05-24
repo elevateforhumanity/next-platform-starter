@@ -6,7 +6,11 @@ import { CheckCircle, Loader2, Clock, RefreshCw } from 'lucide-react';
 interface HoursEntry {
   id: string;
   status: string;
+  week_ending: string | null;
+  hours_worked: number | null;
+  tasks_completed: string | null;
   created_at: string;
+  // join key is apprentice_id → aliased as profiles
   profiles?: { full_name: string | null; email: string | null };
   apprenticeship_programs?: { name: string | null };
 }
@@ -65,7 +69,7 @@ export default function ApprenticeshipHoursClient() {
       <table className="w-full text-sm">
         <thead className="bg-amber-100/50">
           <tr>
-            {['Apprentice', 'Program', 'Submitted', ''].map(h => (
+            {['Apprentice', 'Program', 'Week Ending', 'Hours', ''].map(h => (
               <th key={h} className="text-left text-xs font-semibold text-amber-700 uppercase tracking-wide px-4 py-3">{h}</th>
             ))}
           </tr>
@@ -78,7 +82,12 @@ export default function ApprenticeshipHoursClient() {
                 <p className="text-xs text-slate-400">{e.profiles?.email ?? '—'}</p>
               </td>
               <td className="px-4 py-3 text-xs text-slate-600">{e.apprenticeship_programs?.name ?? '—'}</td>
-              <td className="px-4 py-3 text-xs text-slate-500">{new Date(e.created_at).toLocaleDateString()}</td>
+              <td className="px-4 py-3 text-xs text-slate-500">
+                {e.week_ending ? new Date(e.week_ending).toLocaleDateString() : '—'}
+              </td>
+              <td className="px-4 py-3 text-xs font-semibold text-slate-700">
+                {e.hours_worked != null ? `${e.hours_worked}h` : '—'}
+              </td>
               <td className="px-4 py-3">
                 <button onClick={() => approve(e.id)} disabled={approvingId === e.id}
                   className="flex items-center gap-1.5 text-xs font-medium text-green-700 hover:text-green-900 bg-green-100 hover:bg-green-200 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50">

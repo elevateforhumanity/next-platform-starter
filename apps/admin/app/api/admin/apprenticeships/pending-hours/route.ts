@@ -18,15 +18,18 @@ export async function GET(req: NextRequest) {
 
   const db = await requireAdminClient();
 
+  // progress_entries schema: apprentice_id, status IN ('draft','submitted','verified','disputed'),
+  // verified_by nullable — unverified submitted entries need admin approval.
   const { data: entries, error } = await db
     .from('progress_entries')
     .select(`
-      id, status, created_at,
-      profiles:student_id(full_name, email),
+      id, status, week_ending, hours_worked, tasks_completed, created_at,
+      profiles:apprentice_id(full_name, email),
       apprenticeship_programs:program_id(name)
     `)
-    .eq('status', 'pending')
-    .order('created_at', { ascending: true })
+    .eq('status', 'submitted')
+    .is('verified_by', null)
+    .order('week_ending', { ascending: true })
     .limit(100);
 
   if (error) return NextResponse.json({ entries: [] });

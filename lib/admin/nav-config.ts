@@ -94,7 +94,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Career Courses', href: '/admin/career-courses' },
       { label: 'Credentials', href: '/admin/credentials' },
       { label: 'Quizzes', href: '/admin/quizzes' },
-      { label: 'Instructors — Performance', href: '/admin/staff' },
+      { label: 'Instructors — Performance', href: '/admin/instructors/performance' },
       { label: 'Curriculum', href: '/admin/curriculum' },
       { label: 'Modules', href: '/admin/modules' },
       { label: 'Learning Paths', href: '/admin/learning-paths' },
