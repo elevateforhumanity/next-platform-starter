@@ -836,7 +836,19 @@ async function _POST(req: NextRequest) {
 
     await hydrateProcessEnv();
 
-    const { messages, fileContext, documentsContext, provider: rawProvider, model: rawModel } = await req.json();
+    const body = await req.json();
+    const { fileContext, documentsContext, provider: rawProvider, model: rawModel } = body;
+
+    // Accept both { messages: [...] } and legacy { message: "..." } shapes
+    let messages: { role: string; content: string }[] = [];
+    if (Array.isArray(body.messages)) {
+      messages = body.messages;
+    } else if (typeof body.message === 'string') {
+      messages = [{ role: 'user', content: body.message }];
+    } else {
+      return NextResponse.json({ error: 'messages array is required' }, { status: 400 });
+    }
+
     const providerPreference = normalizeProvider(rawProvider);
 
     // Retrieve relevant platform knowledge via RAG before answering
@@ -927,13 +939,40 @@ async function _POST(req: NextRequest) {
         try {
           const selectedModel = modelFor('openai', rawModel);
           const openai = getOpenAIClient();
-          const completion = await openai.chat.completions.create({
+          const initial = await openai.chat.completions.create({
             model: selectedModel,
             messages: [{ role: 'system', content: systemPrompt }, ...toChatMessages(messages)],
+            tools: TOOLS,
+            tool_choice: 'auto',
             temperature: 0.4,
             max_tokens: 4096,
           });
-          assistantMessage = completion.choices[0]?.message?.content ?? null;
+          const choice = initial.choices[0];
+          const toolCallRequests = choice?.message?.tool_calls ?? [];
+          if (toolCallRequests.length > 0) {
+            const execResults = await Promise.all(
+              toolCallRequests.map(async (tc) => {
+                const args = JSON.parse(tc.function.arguments || '{}') as Record<string, unknown>;
+                const result = await execTool(tc.function.name, args);
+                toolCalls.push({ tool: tc.function.name, args, result });
+                return { role: 'tool' as const, tool_call_id: tc.id, content: result };
+              }),
+            );
+            const second = await openai.chat.completions.create({
+              model: selectedModel,
+              messages: [
+                { role: 'system', content: systemPrompt },
+                ...toChatMessages(messages),
+                { role: 'assistant', content: choice.message.content ?? '', tool_calls: toolCallRequests },
+                ...execResults,
+              ],
+              temperature: 0.4,
+              max_tokens: 4096,
+            });
+            assistantMessage = second.choices[0]?.message?.content ?? null;
+          } else {
+            assistantMessage = choice?.message?.content ?? null;
+          }
           provider = 'openai';
           model = selectedModel;
         } catch (err) {
@@ -945,14 +984,46 @@ async function _POST(req: NextRequest) {
         try {
           const selectedModel = modelFor('anthropic', rawModel);
           const anthropic = getAnthropicClient();
-          const response = await anthropic.messages.create({
+          // Convert OpenAI-style tools to Anthropic format
+          const anthropicTools = TOOLS.map((t) => ({
+            name: t.function.name,
+            description: t.function.description,
+            input_schema: t.function.parameters,
+          }));
+          const initial = await anthropic.messages.create({
             model: selectedModel,
             max_tokens: 4096,
             system: systemPrompt,
             messages: toChatMessages(messages),
+            tools: anthropicTools,
           });
-          assistantMessage =
-            response.content.find((block) => block.type === 'text')?.text ?? null;
+          // Handle tool use blocks
+          const toolUseBlocks = initial.content.filter((b) => b.type === 'tool_use');
+          if (toolUseBlocks.length > 0) {
+            const toolResults = await Promise.all(
+              toolUseBlocks.map(async (b) => {
+                if (b.type !== 'tool_use') return null;
+                const result = await execTool(b.name, b.input as Record<string, unknown>);
+                toolCalls.push({ tool: b.name, args: b.input as Record<string, unknown>, result });
+                return { type: 'tool_result' as const, tool_use_id: b.id, content: result };
+              }),
+            );
+            const second = await anthropic.messages.create({
+              model: selectedModel,
+              max_tokens: 4096,
+              system: systemPrompt,
+              messages: [
+                ...toChatMessages(messages),
+                { role: 'assistant', content: initial.content },
+                { role: 'user', content: toolResults.filter(Boolean) as never[] },
+              ],
+            });
+            assistantMessage =
+              second.content.find((block) => block.type === 'text')?.text ?? null;
+          } else {
+            assistantMessage =
+              initial.content.find((block) => block.type === 'text')?.text ?? null;
+          }
           provider = 'anthropic';
           model = selectedModel;
         } catch (err) {
@@ -986,6 +1057,24 @@ async function _POST(req: NextRequest) {
       }
     }
 
+    // Final fallback — use canonical aiChat() (no tool calling, text only)
+    if (!assistantMessage) {
+      try {
+        const { aiChat } = await import('@/lib/ai/ai-service');
+        const fallbackResult = await aiChat({
+          model: 'gpt-4.1-mini',
+          messages: [{ role: 'system', content: systemPrompt }, ...messages],
+          temperature: 0.4,
+          maxTokens: 2048,
+        });
+        assistantMessage = fallbackResult.content ?? null;
+        provider = 'aiChat-fallback';
+        model = 'gpt-4.1-mini';
+      } catch (err) {
+        logger.warn('[devstudio/chat] aiChat fallback failed', err);
+      }
+    }
+
     if (!assistantMessage) {
       logger.error('[devstudio/chat] no provider available', undefined, {
         hasGroq: isGroqConfigured(),
@@ -996,14 +1085,13 @@ async function _POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            'AI Assistant is not configured. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to the admin service environment.',
+            'AI Assistant is not configured. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY in Admin → Integrations.',
           debug: {
             hasGroq: isGroqConfigured(),
             hasOpenAI: isOpenAIConfigured(),
             hasAnthropic: isAnthropicConfigured(),
             hasGemini: isGeminiConfigured(),
             requestedProvider: providerPreference,
-            service: 'admin',
           },
         },
         { status: 503 },

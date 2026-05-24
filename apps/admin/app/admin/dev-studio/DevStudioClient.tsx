@@ -180,7 +180,7 @@ export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets'];
+  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets','git','services'];
   const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
@@ -322,6 +322,8 @@ export default function DevStudioClient() {
           { label: 'Command',   id: 'command'   },
           { label: 'Chat',      id: 'chat'      },
           { label: 'Terminal',  id: 'terminal'  },
+          { label: 'Git',       id: 'git'       },
+          { label: 'Services',  id: 'services'  },
           { label: 'Files',     id: 'files'     },
           { label: 'Container', id: 'container' },
           { label: 'Docs',      id: 'documents' },

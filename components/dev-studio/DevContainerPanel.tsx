@@ -921,7 +921,12 @@ export default function DevContainerPanel() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                      message: `You are a devcontainer.json expert. The current devcontainer.json is:\n\n${raw}\n\nUser request: ${aiPrompt}\n\nRespond with ONLY the complete updated devcontainer.json as valid JSON. No explanation, no markdown fences.`,
+                      messages: [
+                        {
+                          role: 'user',
+                          content: `You are a devcontainer.json expert. The current devcontainer.json is:\n\n${raw}\n\nUser request: ${aiPrompt}\n\nRespond with ONLY the complete updated devcontainer.json as valid JSON. No explanation, no markdown fences.`,
+                        },
+                      ],
                       context: 'devcontainer',
                     }),
                   });

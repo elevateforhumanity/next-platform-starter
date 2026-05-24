@@ -2,12 +2,15 @@
  * POST /api/devstudio/upload
  *
  * Accepts a multipart file upload from the Dev Studio Documents tab.
- * Stores the file in S3/R2 under devstudio-docs/{userId}/{timestamp}-{filename}
- * and records metadata in the devstudio_documents table.
+ * Stores the file in Supabase Storage (documents bucket) under
+ * devstudio/{userId}/{timestamp}-{filename}.
+ *
+ * Falls back to S3/R2 only when R2_ENDPOINT or R2_BUCKET is explicitly set.
+ * Never writes to /tmp — files there are lost on container restart.
  *
  * Returns: { id, key, url, name, size, type, created_at }
  *
- * Admin-only. Max 50 MB. Allowed types: PDF, DOCX, PNG, JPG, JPEG, XLSX, CSV.
+ * Admin-only. Max 50 MB.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -16,43 +19,34 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { mkdir, readFile, writeFile } from 'fs/promises';
-import path from 'path';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-// No MIME type whitelist — accept any file type. Extension is derived from filename.
-
 const MAX_BYTES = 50 * 1024 * 1024; // 50 MB
-const LOCAL_UPLOAD_ROOT = '/tmp/devstudio-docs';
+const SUPABASE_BUCKET = 'documents'; // always-available Supabase Storage bucket
 
-function hasObjectStorageConfig(): boolean {
-  return Boolean(
-    process.env.R2_ENDPOINT ||
-      process.env.R2_ACCESS_KEY ||
-      process.env.AWS_ACCESS_KEY_ID ||
-      process.env.AWS_SECRET_ACCESS_KEY,
-  );
+function hasR2Config(): boolean {
+  // Only use R2/S3 when explicitly configured with R2-specific vars
+  return Boolean(process.env.R2_ENDPOINT && process.env.R2_ACCESS_KEY && process.env.R2_BUCKET);
 }
 
 function getS3(): S3Client {
   return new S3Client({
-    endpoint: process.env.R2_ENDPOINT || undefined,
-    region:   process.env.AWS_REGION  || 'us-east-1',
+    endpoint: process.env.R2_ENDPOINT!,
+    region:   process.env.AWS_REGION || 'auto',
     credentials: {
-      accessKeyId:     process.env.R2_ACCESS_KEY     || process.env.AWS_ACCESS_KEY_ID     || '',
-      secretAccessKey: process.env.R2_SECRET_KEY     || process.env.AWS_SECRET_ACCESS_KEY || '',
+      accessKeyId:     process.env.R2_ACCESS_KEY!,
+      secretAccessKey: process.env.R2_SECRET_KEY!,
     },
-    forcePathStyle: !!process.env.R2_ENDPOINT,
+    forcePathStyle: true,
   });
 }
 
-const BUCKET = process.env.R2_BUCKET || process.env.AWS_S3_BUCKET || 'elevate-media';
+const R2_BUCKET = process.env.R2_BUCKET || '';
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -82,39 +76,48 @@ export async function POST(request: NextRequest) {
 
     const bytes = new Uint8Array(await file.arrayBuffer());
     let signedUrl = '';
-    let bucket = BUCKET;
+    let storageBucket = SUPABASE_BUCKET;
 
-    // Prefer object storage when configured; fallback to local filesystem in dev containers.
-    if (hasObjectStorageConfig()) {
+    if (hasR2Config()) {
+      // R2/S3 explicitly configured — use it
       const s3 = getS3();
       await s3.send(new PutObjectCommand({
-        Bucket:      BUCKET,
+        Bucket:      R2_BUCKET,
         Key:         key,
         Body:        bytes,
         ContentType: contentType,
-        Metadata: {
-          'uploaded-by': user.id,
-          'original-name': file.name,
-          'label': label,
-        },
+        Metadata:    { 'uploaded-by': user.id, 'original-name': file.name, label },
       }));
-
       signedUrl = await getSignedUrl(
         s3,
-        new GetObjectCommand({
-          Bucket: BUCKET,
-          Key: key,
-          ResponseContentDisposition: `attachment; filename="${safeName}"`,
-        }),
+        new GetObjectCommand({ Bucket: R2_BUCKET, Key: key }),
         { expiresIn: 7 * 24 * 3600 },
       );
+      storageBucket = R2_BUCKET;
     } else {
-      const localPath = path.resolve(LOCAL_UPLOAD_ROOT, key);
-      const localDir = path.dirname(localPath);
-      await mkdir(localDir, { recursive: true });
-      await writeFile(localPath, Buffer.from(bytes));
-      bucket = 'local-devstudio';
-      signedUrl = `/api/devstudio/upload?download=${encodeURIComponent(key)}`;
+      // Default: Supabase Storage — always available, survives container restarts
+      const db = await requireAdminClient();
+      const storagePath = `devstudio/${user.id}/${timestamp}-${safeName}`;
+      const { error: uploadErr } = await db.storage
+        .from(SUPABASE_BUCKET)
+        .upload(storagePath, bytes, { contentType, upsert: false });
+
+      if (uploadErr) {
+        return safeError(`Storage upload failed: ${uploadErr.message}`, 500);
+      }
+
+      const { data: urlData } = db.storage
+        .from(SUPABASE_BUCKET)
+        .getPublicUrl(storagePath);
+
+      // Use signed URL for private bucket
+      const { data: signed, error: signErr } = await db.storage
+        .from(SUPABASE_BUCKET)
+        .createSignedUrl(storagePath, 7 * 24 * 3600);
+
+      signedUrl = signed?.signedUrl ?? urlData?.publicUrl ?? '';
+      // Update key to match actual storage path
+      key.replace(key, storagePath);
     }
 
     // Record in DB
@@ -126,7 +129,7 @@ export async function POST(request: NextRequest) {
         name:         label || file.name,
         original_name: file.name,
         s3_key:       key,
-        bucket,
+        bucket:       storageBucket,
         size_bytes:   file.size,
         content_type: contentType,
         ext,
@@ -137,14 +140,18 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (dbErr) {
-      // Table may not exist yet — return success without DB record
+      // Table may not exist yet — still return success with the storage URL
       if (dbErr.code === '42P01') {
-        return NextResponse.json({ id: `temp-${timestamp}`, key, url: signedUrl, name: label || file.name, size: file.size, type: contentType, created_at: new Date().toISOString(), storage: bucket });
+        return NextResponse.json({
+          id: `temp-${timestamp}`, key, url: signedUrl,
+          name: label || file.name, size: file.size, type: contentType,
+          created_at: new Date().toISOString(), storage: storageBucket,
+        });
       }
       return safeError('File uploaded but failed to record metadata', 500);
     }
 
-    return NextResponse.json({ ...doc, url: signedUrl, storage: bucket });
+    return NextResponse.json({ ...doc, url: signedUrl, storage: storageBucket });
   } catch (err) {
     return safeInternalError(err, 'Upload failed');
   }
@@ -162,32 +169,6 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
-
-  const downloadKey = new URL(request.url).searchParams.get('download');
-  if (downloadKey) {
-    // Only allow per-user namespaced keys for local fallback files.
-    if (!downloadKey.startsWith(`devstudio-docs/${user.id}/`)) {
-      return safeError('Forbidden', 403);
-    }
-
-    const absolute = path.resolve(LOCAL_UPLOAD_ROOT, downloadKey);
-    const root = path.resolve(LOCAL_UPLOAD_ROOT);
-    if (!absolute.startsWith(root)) return safeError('Invalid download path', 400);
-
-    try {
-      const data = await readFile(absolute);
-      const filename = path.basename(downloadKey);
-      return new NextResponse(data, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-          'Content-Disposition': `attachment; filename="${filename}"`,
-          'Cache-Control': 'private, max-age=300',
-        },
-      });
-    } catch {
-      return safeError('File not found', 404);
-    }
-  }
 
   try {
     const db = await requireAdminClient();
