@@ -192,7 +192,7 @@ export default async function AdvancedToolsPage() {
           <div className="flex flex-wrap gap-3">
             {[
               { label: 'Settings', href: '/admin/settings' },
-              { label: 'Users', href: '/admin/users' },
+              { label: 'Users', href: '/admin/students' },
               { label: 'Licenses', href: '/admin/licenses' },
               { label: 'Tenants', href: '/admin/tenants' },
               { label: 'Monitoring', href: '/admin/monitoring' },

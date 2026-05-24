@@ -121,7 +121,7 @@ export default async function UsersReportPage() {
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Recent Users</h2>
-              <Link href="/admin/users" className="text-sm text-brand-blue-600 hover:text-brand-blue-700">
+              <Link href="/admin/students" className="text-sm text-brand-blue-600 hover:text-brand-blue-700">
                 View All
               </Link>
             </div>

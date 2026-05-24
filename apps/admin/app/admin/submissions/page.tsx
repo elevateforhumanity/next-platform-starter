@@ -104,7 +104,7 @@ const SCREENS = [
   {
     title: 'Audit Log',
     description: 'Permanent record of every submission run, inserted value, and approval.',
-    href: '/admin/submissions/audit',
+    href: '/admin/audit-logs',
     icon: ScrollText,
     color: 'bg-slate-100 text-slate-600',
   },
@@ -253,7 +253,7 @@ export default async function SubmissionsOSPage() {
             {[
               { label: 'Overview', href: '/admin/grants' },
               { label: 'Opportunity Inbox', href: '/admin/grants/intake' },
-              { label: 'New Opportunity', href: '/admin/grants/new' },
+              { label: 'New Opportunity', href: '/admin/grants' },
               { label: 'Workflow', href: '/admin/grants/workflow' },
               { label: 'Submissions Log', href: '/admin/grants/submissions' },
               { label: 'Revenue Tracking', href: '/admin/grants/revenue' },

@@ -100,7 +100,7 @@ export default async function AnalyticsPage() {
       label: 'Completion Rate',
       value: `${completionRate}%`,
       icon: Target,
-      href: '/admin/reports/completions',
+      href: '/admin/reports',
       color: 'text-purple-600',
       bg: 'bg-purple-50',
     },

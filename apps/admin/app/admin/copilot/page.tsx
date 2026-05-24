@@ -37,21 +37,21 @@ export default async function CopilotPage() {
       description: 'Personalized learning assistance',
       status: deploymentMap.get('ai_tutor') || 'not_deployed',
       usage: deploymentMap.has('ai_tutor') ? 'Deployed' : 'Not deployed',
-      href: '/admin/copilot/tutor',
+      href: '/admin/copilot',
     },
     {
       name: 'Content Generator',
       description: 'Generate course content and quizzes',
       status: deploymentMap.get('admin_assistant') || 'not_deployed',
       usage: deploymentMap.has('admin_assistant') ? 'Deployed' : 'Not deployed',
-      href: '/admin/copilot/content',
+      href: '/admin/copilot',
     },
     {
       name: 'Analytics Assistant',
       description: 'AI-powered insights and reports',
       status: deploymentMap.get('support_bot') || 'not_deployed',
       usage: deploymentMap.has('support_bot') ? 'Deployed' : 'Not deployed',
-      href: '/admin/copilot/analytics',
+      href: '/admin/analytics',
     },
   ];
 

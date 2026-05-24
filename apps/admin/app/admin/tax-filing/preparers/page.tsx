@@ -81,7 +81,7 @@ export default async function TaxPreparersPage() {
                       </div>
                     </div>
                     <Link
-                      href={`/admin/users/${item.id}`}
+                      href={`/admin/students/${item.id}`}
                       className="text-brand-blue-600 hover:text-brand-blue-800 text-sm"
                     >
                       View Profile →

@@ -86,7 +86,7 @@ export default async function FundingPage() {
     { label: 'WIOA Participants',    href: '/admin/wioa' },
     { label: 'Grants',               href: '/admin/grants' },
     { label: 'Funding Verification', href: '/admin/funding-verification' },
-    { label: 'Payroll',              href: '/admin/payroll' },
+    { label: 'Payroll',              href: '/admin/hr/payroll' },
   ];
 
   return (

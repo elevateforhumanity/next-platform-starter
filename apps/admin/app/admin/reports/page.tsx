@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 const REPORTS = [
   { title: 'Student Roster',       desc: 'All enrolled students with contact info and program',    href: '/admin/reports/users',        icon: Users,          format: 'CSV / PDF' },
   { title: 'Enrollment Summary',   desc: 'Enrollment counts by program, status, and date range',  href: '/admin/reports/enrollment',   icon: TrendingUp,     format: 'CSV / PDF' },
-  { title: 'Completion Report',    desc: 'Graduates, certificates issued, pass rates',             href: '/admin/completions',          icon: GraduationCap,  format: 'CSV / PDF' },
+  { title: 'Completion Report',    desc: 'Graduates, certificates issued, pass rates',             href: '/admin/external-course-completions',          icon: GraduationCap,  format: 'CSV / PDF' },
   { title: 'WIOA Performance',     desc: 'DOL-required outcomes: employment, earnings, retention', href: '/admin/reports/wioa',         icon: HeartHandshake, format: 'PDF' },
   { title: 'Revenue & Payments',   desc: 'Payments received, refunds, funding by source',         href: '/admin/reports/financial',    icon: DollarSign,     format: 'CSV / PDF' },
   { title: 'Attendance Report',    desc: 'Daily attendance records by program and instructor',    href: '/admin/reports/caseload',     icon: FileText,       format: 'CSV / PDF' },

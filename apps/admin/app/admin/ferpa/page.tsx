@@ -86,7 +86,7 @@ export default async function AdminFerpaPage() {
     { label: 'Manage Consent Forms', href: '/admin/documents?type=consent', icon: FileText },
     { label: 'Review Access Requests', href: '/admin/documents?status=pending', icon: Eye },
     { label: 'Directory Information', href: '/admin/students', icon: Users },
-    { label: 'Generate FERPA Report', href: '/admin/reports/ferpa', icon: Download },
+    { label: 'Generate FERPA Report', href: '/admin/ferpa/audit-log', icon: Download },
   ];
 
   return (

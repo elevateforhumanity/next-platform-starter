@@ -115,7 +115,7 @@ export default async function PayrollCardsPage() {
                 View Cards
               </Link>
               <Link
-                href="/admin/payroll"
+                href="/admin/hr/payroll"
                 className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-600 border-2 border-white text-lg"
               >
                 View Payroll
