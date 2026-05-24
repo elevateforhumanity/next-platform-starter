@@ -90,7 +90,17 @@ if (!baseline) {
 
 const baselineSet = new Set(baseline);
 const currentSet = new Set(currentErrors);
-const newErrors = currentErrors.filter((line) => !baselineSet.has(line));
+
+// Extract a stable key from an error line: "file(line,col): error TSxxxx"
+// This strips the human-readable message so minor tsc output differences
+// (e.g. type name formatting) don't cause false positives across environments.
+function errorKey(line) {
+  const m = line.match(/^(.+?\(\d+,\d+\): error TS\d+)/);
+  return m ? m[1] : line;
+}
+
+const baselineKeys = new Set(baseline.map(errorKey));
+const newErrors = currentErrors.filter((line) => !baselineSet.has(line) && !baselineKeys.has(errorKey(line)));
 const resolvedErrors = baseline.filter((line) => !currentSet.has(line));
 
 console.log(`TypeScript baseline errors: ${baseline.length}`);
