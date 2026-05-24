@@ -1,13 +1,14 @@
 'use client';
 import React, { MutableRefObject } from 'react';
 import dynamic from 'next/dynamic';
-import { Terminal, MessageSquare, Sparkles, X, PanelBottomClose, Play } from 'lucide-react';
+import { Terminal, MessageSquare, Sparkles, Bot, PanelBottomClose, Play } from 'lucide-react';
 import { useState } from 'react';
 
-const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
-const AIChat    = dynamic(() => import('@/components/dev-studio/AIChat'),    { ssr: false });
+const XTerminal      = dynamic(() => import('@/components/dev-studio/XTerminal'),                                    { ssr: false });
+const AIChat         = dynamic(() => import('@/components/dev-studio/AIChat'),                                       { ssr: false });
+const AiConsoleClient = dynamic(() => import('../../ai-console/AiConsoleClient'),                                    { ssr: false });
 
-export type BottomTab = 'terminal' | 'chat' | 'command';
+export type BottomTab = 'terminal' | 'chat' | 'ellie' | 'command';
 
 const QUICK_CMDS = [
   { label: 'pnpm install',  cmd: 'pnpm install' },
@@ -64,9 +65,10 @@ export default function BottomPane({
   onDetectedUrl?: (url: string) => void;
 }) {
   const TABS: { id: BottomTab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
-    { id: 'terminal', Icon: Terminal,      label: 'Terminal' },
-    { id: 'chat',     Icon: MessageSquare, label: 'AI Chat'  },
-    { id: 'command',  Icon: Sparkles,      label: 'Commands' },
+    { id: 'terminal', Icon: Terminal,      label: 'Terminal'  },
+    { id: 'ellie',    Icon: Bot,           label: 'Ellie'     },
+    { id: 'chat',     Icon: MessageSquare, label: 'Code AI'   },
+    { id: 'command',  Icon: Sparkles,      label: 'Commands'  },
   ];
 
   return (
@@ -109,7 +111,12 @@ export default function BottomPane({
           />
         </div>
 
-        {/* AI Chat */}
+        {/* Ellie — AI Operations Assistant (platform data, compliance, enrollments) */}
+        <div className="flex-1 min-w-0 overflow-hidden" style={{ display: activeTab === 'ellie' ? 'flex' : 'none', flexDirection: 'column' }}>
+          <AiConsoleClient />
+        </div>
+
+        {/* Code AI — code-context chat (file content, terminal output) */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ display: activeTab === 'chat' ? 'flex' : 'none', flexDirection: 'column' }}>
           <AIChat
             fileContext={openFile ? `File: ${openFile}\n\`\`\`\n${fileContent.slice(0, 4000)}\n\`\`\`` : undefined}

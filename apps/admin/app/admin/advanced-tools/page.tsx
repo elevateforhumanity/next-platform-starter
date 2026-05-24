@@ -103,10 +103,10 @@ const TOOL_SECTIONS = [
     iconBg: 'bg-emerald-700',
     description: 'Developer utilities, debugging, and studio tools.',
     tools: [
-      { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Autopilot commands — build courses, deploy, run tests' },
+      { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Terminal, editor, live preview, Ellie AI, and deploy controls' },
       { label: 'Automation', href: '/admin/automation', desc: 'Workflow automation rules' },
       { label: 'Workflows', href: '/admin/workflows', desc: 'Automated workflow definitions' },
-      { label: 'AI Console', href: '/admin/ai-console', desc: 'AI model configuration and testing' },
+      { label: 'Ellie — AI Assistant', href: '/admin/dev-studio?tab=ellie', desc: 'AI Operations Assistant — platform data, compliance, enrollments' },
       { label: 'Copilot', href: '/admin/copilot', desc: 'AI copilot management' },
       { label: 'HVAC AI Instructor', href: '/admin/integrations/gemini', desc: 'Marcus Johnson — Gemini-powered HVAC lesson instructor' },
       { label: 'Sentry Test', href: '/api/sentry-test', desc: 'Dev only — trigger a test error to verify Sentry capture' },

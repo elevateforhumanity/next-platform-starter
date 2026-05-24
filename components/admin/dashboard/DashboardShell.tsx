@@ -104,15 +104,16 @@ const ADMIN_CATEGORY_CARDS = [
     ],
   },
   {
-    title: 'AI Studio',
+    title: 'Dev Studio',
     eyebrow: 'Automation layer',
-    description: 'AI Console, Dev Studio, workflows, and operational automation.',
-    href: '/admin/ai-console',
+    description: 'Terminal, editor, live preview, Ellie AI assistant, and deploy controls.',
+    href: '/admin/dev-studio',
     Icon: Bot,
     links: [
-      { label: 'AI Console', href: '/admin/ai-console' },
-      { label: 'Dev Studio', href: '/admin/dev-studio' },
-      { label: 'Workflows', href: '/admin/workflows' },
+      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
+      { label: 'Terminal',       href: '/admin/dev-studio?tab=terminal' },
+      { label: 'Code AI',        href: '/admin/dev-studio?tab=chat' },
+      { label: 'Workflows',      href: '/admin/workflows' },
     ],
   },
   {

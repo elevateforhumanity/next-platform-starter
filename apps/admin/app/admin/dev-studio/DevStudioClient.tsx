@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import {
   Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
-  Send, Loader2, RefreshCw, ExternalLink, Save,
+  Send, Loader2, RefreshCw, ExternalLink, Save, Bot,
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key,
   Server, GitBranch,
@@ -13,6 +13,7 @@ import {
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
+const AiConsoleClient   = dynamic(() => import('../ai-console/AiConsoleClient'),             { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
@@ -28,7 +29,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets' | 'services' | 'git';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -49,7 +50,8 @@ interface DevStudioHealth {
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
-  { id: 'chat',      Icon: MessageSquare, label: 'AI Chat'   },
+  { id: 'ellie',     Icon: Bot,           label: 'Ellie'     },
+  { id: 'chat',      Icon: MessageSquare, label: 'Code AI'   },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
   { id: 'git',       Icon: GitBranch,     label: 'Git'       },
   { id: 'services',  Icon: Server,        label: 'Services'  },
@@ -180,7 +182,7 @@ export default function DevStudioClient() {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets','git','services'];
+  const valid: Tab[] = ['command','terminal','files','container','chat','ellie','documents','secrets','git','services'];
   const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
@@ -456,6 +458,7 @@ export default function DevStudioClient() {
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
+          {tab === 'ellie'     && <AiConsoleClient />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <XTerminal />}
           {tab === 'git'       && <GitPanel />}
