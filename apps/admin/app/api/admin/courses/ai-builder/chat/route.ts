@@ -16,7 +16,7 @@
 
 import { NextRequest } from 'next/server';
 import { getOpenAIClient } from '@/lib/ai/openai-client';
-import Groq from 'groq-sdk';
+import { getGroqClient } from '@/lib/ai/groq-client';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { refreshSecrets } from '@/lib/secrets';
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
         let completion: AsyncIterable<any>;
 
         if (useGroq) {
-          const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+          const groq = getGroqClient();
           completion = await groq.chat.completions.create({
             model: 'llama-3.3-70b-versatile',
             messages: allMessages,
