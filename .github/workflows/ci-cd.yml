@@ -198,29 +198,53 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Wait for Netlify deployment
+      - name: Wait for deployment to propagate
         run: sleep 90
 
       - name: Check health endpoint
+        id: health
         run: |
           HEALTH_URL="https://www.elevateforhumanity.org/api/health"
-          echo "Checking health endpoint: $HEALTH_URL"
-          response=$(curl -s -w "\n%{http_code}" "$HEALTH_URL")
-          status_code=$(echo "$response" | tail -n1)
-          body=$(echo "$response" | head -n-1)
-          echo "Status: $status_code"
+          echo "Checking: $HEALTH_URL"
+          # Retry up to 3 times with 30s backoff
+          for attempt in 1 2 3; do
+            response=$(curl -s -w "\n%{http_code}" --max-time 15 "$HEALTH_URL")
+            status_code=$(echo "$response" | tail -n1)
+            body=$(echo "$response" | head -n-1)
+            echo "Attempt $attempt — Status: $status_code"
+            if [ "$status_code" = "200" ]; then
+              echo "Health check passed"
+              echo "healthy=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            echo "Not healthy yet (got $status_code), waiting 30s..."
+            sleep 30
+          done
+          echo "Health check failed after 3 attempts (last status: $status_code)"
           echo "Response: $body"
-          if [ "$status_code" = "200" ] || [ "$status_code" = "503" ]; then
-            echo "Health check passed"
-            exit 0
-          else
-            echo "Health check failed"
-            exit 1
-          fi
+          echo "healthy=false" >> $GITHUB_OUTPUT
+          exit 1
 
       - name: Run production smoke tests
         run: bash scripts/smoke-test-portal.sh https://www.elevateforhumanity.org
+
+      - name: Auto-rollback on health failure
+        if: failure() && steps.health.outputs.healthy == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Health check failed — initiating rollback to previous commit"
+          PREV_SHA=$(git rev-parse HEAD~1)
+          echo "Rolling back to: $PREV_SHA"
+          # Create a revert commit and push
+          git config user.email "ci@elevateforhumanity.org"
+          git config user.name "Elevate CI"
+          git revert --no-edit HEAD
+          git push origin main
+          echo "Rollback pushed. Previous commit: $PREV_SHA"
 
       - name: Notify deployment failure
         if: failure()

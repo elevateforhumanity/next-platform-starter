@@ -1,8 +1,10 @@
-// types/auth.ts - Proper TypeScript types for auth
-
+// types/auth.ts
+// UserRole canonical source is lib/rbac/role-matrix.ts (12 roles).
+// Re-exported here so existing imports continue to work without changes.
 import { NextRequest } from 'next/server';
+import type { UserRole } from '@/lib/rbac/role-matrix';
 
-export type UserRole = 'student' | 'admin' | 'super_admin' | 'program_holder' | 'staff' | 'partner';
+export type { UserRole } from '@/lib/rbac/role-matrix';
 
 export interface AuthedUser {
   id: string;

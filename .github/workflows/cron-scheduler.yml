@@ -294,3 +294,9 @@ jobs:
           curl -sf -X GET "$ADMIN_URL/api/cron/weekly-verdicts" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::weekly-verdicts failed"
+
+      - name: Re-embed platform knowledge (RAG refresh)
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/cron/embed-knowledge" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 300 \
+            || echo "::warning::embed-knowledge failed (non-fatal)"

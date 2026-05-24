@@ -10,6 +10,45 @@ export async function register() {
     if (process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN) {
       await import('./sentry.server.config');
     }
+
+    // OpenTelemetry — only initializes when OTEL_EXPORTER_OTLP_ENDPOINT is set.
+    // Emits traces to any OTLP-compatible backend (Grafana, Honeycomb, Jaeger, etc.).
+    // Set OTEL_EXPORTER_OTLP_ENDPOINT in env to enable. Safe no-op when absent.
+    if (process.env.OTEL_EXPORTER_OTLP_ENDPOINT) {
+      try {
+        const { NodeSDK } = await import('@opentelemetry/sdk-node');
+        const { OTLPTraceExporter } = await import('@opentelemetry/exporter-trace-otlp-http');
+        const { getNodeAutoInstrumentations } = await import('@opentelemetry/auto-instrumentations-node');
+        const { Resource } = await import('@opentelemetry/resources');
+        const { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } = await import('@opentelemetry/semantic-conventions');
+
+        const sdk = new NodeSDK({
+          resource: new Resource({
+            [SEMRESATTRS_SERVICE_NAME]: process.env.OTEL_SERVICE_NAME ?? 'elevate-lms',
+            [SEMRESATTRS_SERVICE_VERSION]: process.env.npm_package_version ?? '0.0.0',
+          }),
+          traceExporter: new OTLPTraceExporter({
+            url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
+            headers: process.env.OTEL_EXPORTER_OTLP_HEADERS
+              ? Object.fromEntries(
+                  process.env.OTEL_EXPORTER_OTLP_HEADERS.split(',').map(h => h.split('='))
+                )
+              : {},
+          }),
+          instrumentations: [
+            getNodeAutoInstrumentations({
+              '@opentelemetry/instrumentation-fs': { enabled: false }, // too noisy
+            }),
+          ],
+        });
+
+        sdk.start();
+        process.on('SIGTERM', () => sdk.shutdown());
+      } catch (err) {
+        // OTel init failure must never crash the server
+        console.warn('[instrumentation] OpenTelemetry init failed:', err);
+      }
+    }
   }
 
   if (process.env.NEXT_RUNTIME === 'edge') {

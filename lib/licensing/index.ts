@@ -307,3 +307,45 @@ export async function validateApiKey(
 
   return { valid: true, tenantId: tenant.id };
 }
+
+// Legacy plan names used by the tenant creation flow
+type LegacyPlan = 'starter' | 'pro' | 'enterprise';
+
+const LEGACY_PLAN_LIMITS: Record<LegacyPlan, { max_employers: number; max_apprentices: number }> = {
+  starter:    { max_employers: 5,   max_apprentices: 25  },
+  pro:        { max_employers: 25,  max_apprentices: 200 },
+  enterprise: { max_employers: 999, max_apprentices: 9999 },
+};
+
+/**
+ * Upsert a tenant_licenses row.
+ * Migrated from lib/licenseGuard.ts (deprecated).
+ */
+export async function updateTenantLicense(
+  tenantId: string,
+  plan: LegacyPlan,
+  expiresAt?: string,
+): Promise<{ tenant_id: string; plan: string; active: boolean } | null> {
+  const supabase = await requireAdminClient();
+  const limits = LEGACY_PLAN_LIMITS[plan];
+
+  const { data, error } = await supabase
+    .from('tenant_licenses')
+    .upsert({
+      tenant_id: tenantId,
+      plan,
+      max_employers: limits.max_employers,
+      max_apprentices: limits.max_apprentices,
+      active: true,
+      expires_at: expiresAt ?? null,
+    })
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    logger.error('Failed to update tenant license', error, { tenantId, plan });
+    return null;
+  }
+
+  return data;
+}

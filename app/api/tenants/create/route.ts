@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { auditLog } from '@/lib/auditLog';
-import { updateTenantLicense } from '@/lib/licenseGuard';
+import { updateTenantLicense } from '@/lib/licensing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
