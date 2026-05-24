@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@/lib/supabase';
+import type { SupabaseClient } from '@supabase/supabase-js';
 /**
  * POST /api/system/reconcile-payment
  *

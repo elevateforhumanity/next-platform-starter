@@ -33,7 +33,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import type { SupabaseClient } from '@/lib/supabase';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { createEnrollmentCase, submitCaseForSignatures } from '@/lib/workflow/case-management';

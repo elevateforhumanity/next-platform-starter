@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@/lib/supabase';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 /**
  * POST /api/admin/courses/generate/publish
