@@ -77,24 +77,55 @@ export async function POST(request: NextRequest) {
 
   const { data: urlData } = db.storage.from(BUCKET).getPublicUrl(path);
 
+  // Optional fields from form data
+  const application_id = (formData.get('application_id') as string | null) ?? null;
+  const user_id        = (formData.get('user_id')        as string | null) ?? null;
+
   // Record in documents table
-  const { error: insertError } = await db.from('documents').insert({
-    file_name: file.name,
-    file_path: path,
-    file_url: urlData.publicUrl,
-    mime_type: file.type,
-    file_size_bytes: file.size,
-    document_type: category,
-    status: 'active',
-    uploaded_by: auth.user.id,
-  });
+  const { data: docRow, error: insertError } = await db
+    .from('documents')
+    .insert({
+      file_name: file.name,
+      file_path: path,
+      file_url: urlData.publicUrl,
+      mime_type: file.type,
+      file_size_bytes: file.size,
+      document_type: category,
+      status: 'active',
+      uploaded_by: auth.user.id,
+      ...(application_id ? { application_id } : {}),
+      ...(user_id        ? { user_id }        : {}),
+    })
+    .select('id')
+    .single();
 
   if (insertError) {
     // Storage upload succeeded — log but don't fail the request
     console.error('[upload] documents insert failed:', insertError.message);
   }
 
-  return NextResponse.json({ url: urlData.publicUrl, path });
+  // Trigger OCR extraction asynchronously — fire-and-forget
+  // The extract route saves results back to the documents row and auto-applies
+  // fields to the linked application if application_id is set.
+  if (docRow?.id) {
+    const baseUrl = request.nextUrl.origin;
+    fetch(`${baseUrl}/api/admin/documents/extract`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Forward auth cookie so the extract route can verify admin session
+        cookie: request.headers.get('cookie') ?? '',
+      },
+      body: JSON.stringify({ document_id: docRow.id }),
+    }).catch(() => { /* non-fatal — extraction can be retried manually */ });
+  }
+
+  return NextResponse.json({
+    url: urlData.publicUrl,
+    path,
+    document_id: docRow?.id ?? null,
+    ocr_triggered: !!docRow?.id,
+  });
 }
 
 export async function DELETE(request: NextRequest) {

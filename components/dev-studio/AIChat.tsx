@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Send, Bot, User, Loader2, Copy, Check, Sparkles, Paperclip,
   AlertTriangle, CheckCircle2, Database, Terminal, Zap, ChevronDown, ChevronRight,
+  BookOpen, Video, FileText, PenLine, ExternalLink, Play, RefreshCw,
 } from 'lucide-react';
 
 interface Message {
@@ -38,22 +39,195 @@ const PROVIDER_LABELS: Record<ProviderId, string> = {
 };
 
 export const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
-  list_programs:           { label: 'Programs',     color: 'text-brand-blue-700',  icon: Database },
-  list_enrollments:        { label: 'Enrollments',  color: 'text-green-700',       icon: Database },
-  get_dashboard_stats:     { label: 'Stats',        color: 'text-amber-700',       icon: Zap      },
-  get_recent_applications: { label: 'Applications', color: 'text-orange-700',      icon: Database },
-  inspect_platform_registry: { label: 'Platform Registry', color: 'text-brand-blue-700', icon: Database },
-  query_program_by_slug:   { label: 'Program',      color: 'text-brand-blue-700',  icon: Database },
-  inspect_route:           { label: 'Route',        color: 'text-slate-700',       icon: Terminal },
-  get_component_source:    { label: 'Source',       color: 'text-slate-700',       icon: Terminal },
-  search_schema:           { label: 'Schema',       color: 'text-brand-blue-700',  icon: Database },
-  search_code:             { label: 'Code Search',  color: 'text-slate-700',       icon: Terminal },
-  audit_auth_flow:         { label: 'Auth Audit',   color: 'text-red-700',         icon: Database },
-  inspect_build_errors:    { label: 'Build Logs',   color: 'text-amber-700',       icon: Terminal },
-  list_blueprints:         { label: 'Blueprints',   color: 'text-purple-700',      icon: Database },
-  design_page_template:    { label: 'Page Template',color: 'text-indigo-700',      icon: Sparkles },
-  run_safe_command:        { label: 'Shell',        color: 'text-slate-700',       icon: Terminal },
+  list_programs:                    { label: 'Programs',         color: 'text-brand-blue-700', icon: Database  },
+  list_enrollments:                 { label: 'Enrollments',      color: 'text-green-700',      icon: Database  },
+  get_dashboard_stats:              { label: 'Stats',            color: 'text-amber-700',      icon: Zap       },
+  get_recent_applications:          { label: 'Applications',     color: 'text-orange-700',     icon: Database  },
+  inspect_platform_registry:        { label: 'Platform Registry',color: 'text-brand-blue-700', icon: Database  },
+  query_program_by_slug:            { label: 'Program',          color: 'text-brand-blue-700', icon: Database  },
+  inspect_route:                    { label: 'Route',            color: 'text-slate-700',      icon: Terminal  },
+  get_component_source:             { label: 'Source',           color: 'text-slate-700',      icon: Terminal  },
+  search_schema:                    { label: 'Schema',           color: 'text-brand-blue-700', icon: Database  },
+  search_code:                      { label: 'Code Search',      color: 'text-slate-700',      icon: Terminal  },
+  audit_auth_flow:                  { label: 'Auth Audit',       color: 'text-red-700',        icon: Database  },
+  inspect_build_errors:             { label: 'Build Logs',       color: 'text-amber-700',      icon: Terminal  },
+  list_blueprints:                  { label: 'Blueprints',       color: 'text-purple-700',     icon: Database  },
+  design_page_template:             { label: 'Page Template',    color: 'text-indigo-700',     icon: Sparkles  },
+  run_safe_command:                 { label: 'Shell',            color: 'text-slate-700',      icon: Terminal  },
+  build_course:                     { label: 'Build Course',     color: 'text-purple-700',     icon: BookOpen  },
+  save_course:                      { label: 'Save Course',      color: 'text-green-700',      icon: BookOpen  },
+  generate_videos:                  { label: 'Generate Videos',  color: 'text-rose-700',       icon: Video     },
+  analyze_document:                 { label: 'Analyze Document', color: 'text-amber-700',      icon: FileText  },
+  apply_document_to_application:    { label: 'Apply to App',     color: 'text-green-700',      icon: PenLine   },
 };
+
+// ── Rich tool result renderers ────────────────────────────────────────────────
+
+interface CourseModule { title: string; lessons?: string[]; lesson_count?: number }
+interface CourseDraft {
+  title?: string; description?: string; modules?: CourseModule[];
+  course_id?: string; total_lessons?: number; status?: string;
+}
+
+function CourseCard({ result }: { result: string }) {
+  let data: CourseDraft = {};
+  try { data = JSON.parse(result); } catch { return null; }
+  if (!data.title && !data.course_id) return null;
+
+  return (
+    <div className="mt-2 rounded-xl border border-purple-200 bg-purple-50 overflow-hidden">
+      <div className="flex items-center gap-2 px-3 py-2 bg-purple-100 border-b border-purple-200">
+        <BookOpen className="w-4 h-4 text-purple-700" />
+        <span className="text-sm font-semibold text-purple-900">{data.title ?? 'Course Draft'}</span>
+        {data.status && (
+          <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-purple-200 text-purple-700 font-medium uppercase tracking-wide">
+            {data.status}
+          </span>
+        )}
+      </div>
+      {data.description && (
+        <p className="px-3 py-2 text-xs text-slate-600 border-b border-purple-100">{data.description}</p>
+      )}
+      {data.modules && data.modules.length > 0 && (
+        <div className="px-3 py-2 space-y-1">
+          {data.modules.slice(0, 6).map((mod, i) => (
+            <div key={i} className="flex items-start gap-2 text-xs text-slate-700">
+              <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-200 text-purple-800 flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
+              <span className="font-medium">{mod.title}</span>
+              {(mod.lessons?.length ?? mod.lesson_count) && (
+                <span className="ml-auto text-slate-400 flex-shrink-0">
+                  {mod.lessons?.length ?? mod.lesson_count} lessons
+                </span>
+              )}
+            </div>
+          ))}
+          {data.modules.length > 6 && (
+            <p className="text-[11px] text-slate-400 pl-7">+{data.modules.length - 6} more modules</p>
+          )}
+        </div>
+      )}
+      {(data.total_lessons || data.course_id) && (
+        <div className="flex items-center gap-3 px-3 py-2 bg-purple-100 border-t border-purple-200 text-[11px] text-purple-700">
+          {data.total_lessons && <span>{data.total_lessons} total lessons</span>}
+          {data.course_id && (
+            <a href={`/admin/courses/${data.course_id}`} target="_blank" rel="noreferrer"
+              className="ml-auto flex items-center gap-1 hover:underline">
+              Open course <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface VideoJob { lesson_id?: string; title?: string; status?: string; video_url?: string; duration_s?: number }
+interface VideoGenResult { jobs?: VideoJob[]; total?: number; queued?: number; completed?: number; failed?: number }
+
+function VideoProgressCard({ result }: { result: string }) {
+  let data: VideoGenResult = {};
+  try { data = JSON.parse(result); } catch { return null; }
+  if (!data.jobs && !data.total) return null;
+
+  const jobs = data.jobs ?? [];
+  const done = data.completed ?? jobs.filter(j => j.status === 'completed').length;
+  const total = data.total ?? jobs.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  return (
+    <div className="mt-2 rounded-xl border border-rose-200 bg-rose-50 overflow-hidden">
+      <div className="flex items-center gap-2 px-3 py-2 bg-rose-100 border-b border-rose-200">
+        <Video className="w-4 h-4 text-rose-700" />
+        <span className="text-sm font-semibold text-rose-900">Video Generation</span>
+        <span className="ml-auto text-xs text-rose-700">{done}/{total} complete</span>
+      </div>
+      <div className="px-3 py-2">
+        <div className="w-full bg-rose-200 rounded-full h-1.5 mb-2">
+          <div className="bg-rose-600 h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+        </div>
+        <div className="space-y-1 max-h-40 overflow-y-auto">
+          {jobs.slice(0, 8).map((job, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs">
+              {job.status === 'completed'
+                ? <CheckCircle2 className="w-3.5 h-3.5 text-green-600 flex-shrink-0" />
+                : job.status === 'failed'
+                ? <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                : <Loader2 className="w-3.5 h-3.5 text-rose-500 animate-spin flex-shrink-0" />}
+              <span className="text-slate-700 truncate flex-1">{job.title ?? job.lesson_id ?? `Job ${i + 1}`}</span>
+              {job.video_url && (
+                <a href={job.video_url} target="_blank" rel="noreferrer"
+                  className="flex items-center gap-0.5 text-rose-600 hover:underline flex-shrink-0">
+                  <Play className="w-3 h-3" /> Play
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface DocField { field: string; value: string; confidence?: number }
+interface DocAnalysisResult {
+  document_id?: string; file_name?: string; fields?: DocField[];
+  extracted_data?: { fields?: Record<string, string> };
+  auto_applied?: boolean; fields_applied?: string[];
+  anomalies?: string[]; field_count?: number;
+}
+
+function DocumentAnalysisCard({ result }: { result: string }) {
+  let data: DocAnalysisResult = {};
+  try { data = JSON.parse(result); } catch { return null; }
+  const fields = data.fields ?? Object.entries(data.extracted_data?.fields ?? {}).map(([field, value]) => ({ field, value }));
+  if (!fields.length && !data.anomalies?.length) return null;
+
+  return (
+    <div className="mt-2 rounded-xl border border-amber-200 bg-amber-50 overflow-hidden">
+      <div className="flex items-center gap-2 px-3 py-2 bg-amber-100 border-b border-amber-200">
+        <FileText className="w-4 h-4 text-amber-700" />
+        <span className="text-sm font-semibold text-amber-900">{data.file_name ?? 'Document Analysis'}</span>
+        {data.auto_applied && (
+          <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+            ✓ Auto-applied
+          </span>
+        )}
+      </div>
+      {fields.length > 0 && (
+        <div className="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-1">
+          {fields.slice(0, 10).map((f, i) => (
+            <div key={i} className="text-xs">
+              <span className="text-slate-400 capitalize">{String(f.field).replace(/_/g, ' ')}: </span>
+              <span className="text-slate-800 font-medium">{String(f.value)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {data.anomalies && data.anomalies.length > 0 && (
+        <div className="px-3 py-2 border-t border-amber-200">
+          {data.anomalies.map((a, i) => (
+            <p key={i} className="text-xs text-amber-800 flex items-start gap-1">
+              <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-0.5" /> {a}
+            </p>
+          ))}
+        </div>
+      )}
+      {data.fields_applied && data.fields_applied.length > 0 && (
+        <div className="px-3 py-1.5 bg-green-50 border-t border-green-200 text-[11px] text-green-700">
+          Applied to application: {data.fields_applied.join(', ')}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Picks the right rich card for a tool result, falls back to null (use default collapsible)
+function RichToolResult({ tool, result }: { tool: string; result: string }) {
+  if (tool === 'build_course' || tool === 'save_course') return <CourseCard result={result} />;
+  if (tool === 'generate_videos') return <VideoProgressCard result={result} />;
+  if (tool === 'analyze_document' || tool === 'apply_document_to_application') return <DocumentAnalysisCard result={result} />;
+  return null;
+}
 
 function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknown>; result: string } }) {
   const [open, setOpen] = useState(false);
@@ -61,6 +235,8 @@ function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknow
   const Icon = meta.icon;
   let formatted = tc.result;
   try { formatted = JSON.stringify(JSON.parse(tc.result), null, 2); } catch { /* not JSON */ }
+
+  const richCard = <RichToolResult tool={tc.tool} result={tc.result} />;
 
   return (
     <div className="rounded-lg border border-slate-200 bg-slate-50 text-xs overflow-hidden mb-2">
@@ -75,8 +251,17 @@ function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknow
           {Object.keys(tc.args).length > 0 ? JSON.stringify(tc.args).slice(0, 60) : ''}
         </span>
       </button>
-      {open && (
+      {/* Rich inline card — shown without needing to expand */}
+      {richCard && <div className="px-3 pb-3">{richCard}</div>}
+      {/* Raw JSON fallback — only shown when expanded and no rich card */}
+      {open && !richCard && (
         <pre className="px-3 pb-3 overflow-x-auto max-h-64 text-[11px] text-slate-700 bg-white border-t border-slate-200 leading-relaxed">
+          {formatted}
+        </pre>
+      )}
+      {/* Raw JSON toggle when rich card is present */}
+      {richCard && open && (
+        <pre className="px-3 pb-3 overflow-x-auto max-h-48 text-[11px] text-slate-500 bg-white border-t border-slate-200 leading-relaxed">
           {formatted}
         </pre>
       )}
@@ -226,7 +411,16 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
     return parts.length ? parts : [{ type: 'text' as const, content }];
   };
 
-  const QUICK = ['Show platform stats', 'List all programs', 'Show pending applications', 'List recent enrollments', 'List course blueprints', 'Run git status'];
+  const QUICK = [
+    'Show platform stats',
+    'List all programs',
+    'Show pending applications',
+    'Build a course on HVAC fundamentals',
+    'Generate videos for course ID …',
+    'Analyze uploaded document',
+    'List course blueprints',
+    'Run git status',
+  ];
 
   return (
     <div className="h-full min-h-0 flex flex-col bg-white">
@@ -403,15 +597,72 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                 onChange={async (e) => {
                   const file = e.target.files?.[0];
                   if (!file) return;
+                  e.target.value = '';
+
+                  // Upload to admin documents bucket (triggers auto-OCR server-side)
                   const formData = new FormData();
                   formData.append('file', file);
+                  formData.append('category', 'dev-studio');
+
+                  setMessages((prev) => [
+                    ...prev,
+                    { role: 'user', content: `[Uploading: ${file.name}…]` },
+                  ]);
+
                   try {
-                    const res = await fetch('/api/devstudio/upload', { method: 'POST', body: formData });
-                    if (res.ok) {
-                      setInput((prev) => prev + (prev ? '\n' : '') + `[Uploaded: ${file.name}]`);
+                    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error ?? 'Upload failed');
+
+                    // Replace the uploading placeholder with a real message + auto-analyze
+                    setMessages((prev) => {
+                      const updated = [...prev];
+                      updated[updated.length - 1] = {
+                        role: 'user',
+                        content: `[Uploaded: ${file.name}]${data.document_id ? `\n\nPlease analyze this document (ID: ${data.document_id}) and summarize what you find.` : ''}`,
+                      };
+                      return updated;
+                    });
+
+                    // If we got a document_id, auto-send the analyze request
+                    if (data.document_id) {
+                      setIsLoading(true);
+                      try {
+                        const chatRes = await fetch('/api/devstudio/chat', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            messages: [
+                              ...messages.map((m) => ({ role: m.role, content: m.content })),
+                              { role: 'user', content: `Analyze document ID: ${data.document_id} (file: ${file.name})` },
+                            ],
+                            provider: selectedProvider,
+                            model: selectedModel,
+                          }),
+                        });
+                        const chatData = await chatRes.json();
+                        if (!chatData.error) {
+                          setMessages((prev) => [
+                            ...prev,
+                            {
+                              role: 'assistant',
+                              content: chatData.message,
+                              toolCalls: chatData.toolCalls ?? [],
+                              provider: chatData.provider,
+                              model: chatData.model,
+                            },
+                          ]);
+                        }
+                      } finally { setIsLoading(false); }
                     }
-                  } catch { /* non-fatal */ }
-                  e.target.value = '';
+                  } catch (err) {
+                    const reason = err instanceof Error ? err.message : 'Upload failed';
+                    setMessages((prev) => {
+                      const updated = [...prev];
+                      updated[updated.length - 1] = { role: 'user', content: `[Upload failed: ${reason}]` };
+                      return updated;
+                    });
+                  }
                 }}
               />
             </label>

@@ -4,11 +4,10 @@
  * Extracts structured fields from a document already stored in Supabase Storage.
  * Reuses the parse-file text extraction engine (pdf-parse, mammoth, tesseract.js).
  * Saves results to documents.extracted_data, ocr_text, extraction_status.
+ * Auto-applies extracted fields to the linked application record if application_id is set.
  *
  * Body: { document_id: string }
- * Returns: { extracted_data, ocr_text, extraction_method }
- *
- * Safety: never auto-applies fields. Human approval required via /admin/documents/[id]/map.
+ * Returns: { extracted_data, ocr_text, extraction_method, auto_applied, fields_applied }
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -181,10 +180,10 @@ export async function POST(request: NextRequest) {
 
   const db = await requireAdminClient();
 
-  // Load document record
+  // Load document record — include application_id and user_id for auto-apply
   const { data: doc, error: docErr } = await db
     .from('documents')
-    .select('id, file_path, file_url, url, mime_type, document_type, file_name')
+    .select('id, file_path, file_url, url, mime_type, document_type, file_name, application_id, user_id')
     .eq('id', document_id)
     .maybeSingle();
 
@@ -246,6 +245,61 @@ export async function POST(request: NextRequest) {
       return safeInternalError(updateErr, 'Failed to save extraction results');
     }
 
+    // ── Auto-apply extracted fields to linked application ─────────────────────
+    // If the document is linked to an application, map known fields directly
+    // onto the applications row. Only overwrites null/empty columns.
+    let auto_applied = false;
+    let fields_applied: string[] = [];
+
+    if (doc.application_id && Object.keys(fields).length > 0) {
+      try {
+        // Fetch current application to avoid overwriting existing data
+        const { data: app } = await db
+          .from('applications')
+          .select('*')
+          .eq('id', doc.application_id)
+          .maybeSingle();
+
+        if (app) {
+          // Map OCR fields → application columns (only fill blanks)
+          const patch: Record<string, string> = {};
+
+          const maybeSet = (col: string, val: string | undefined) => {
+            if (val && (app[col] === null || app[col] === undefined || app[col] === '')) {
+              patch[col] = val;
+              fields_applied.push(col);
+            }
+          };
+
+          maybeSet('applicant_name',  fields.person_name);
+          maybeSet('email',           fields.email);
+          maybeSet('phone',           fields.phone);
+          maybeSet('date_of_birth',   fields.dob);
+          maybeSet('address',         fields.address);
+          maybeSet('employer_name',   fields.employer);
+          maybeSet('income',          fields.income);
+          maybeSet('education_level', fields.education);
+          maybeSet('org_name',        fields.org_name);
+          maybeSet('program_name',    fields.program_name);
+
+          if (Object.keys(patch).length > 0) {
+            patch.updated_at = new Date().toISOString();
+            await db
+              .from('applications')
+              .update(patch)
+              .eq('id', doc.application_id);
+            auto_applied = true;
+          }
+
+          // Mark document as applied
+          await db
+            .from('documents')
+            .update({ applied_to_application: true, applied_at: new Date().toISOString() })
+            .eq('id', document_id);
+        }
+      } catch { /* non-fatal — extraction result is still valid */ }
+    }
+
     // Audit log
     try {
       await db.from('audit_logs').insert({
@@ -253,7 +307,13 @@ export async function POST(request: NextRequest) {
         resource_type: 'document',
         resource_id: document_id,
         actor_id: auth.user?.id ?? null,
-        metadata: { method, field_count: Object.keys(fields).length },
+        metadata: {
+          method,
+          field_count: Object.keys(fields).length,
+          auto_applied,
+          fields_applied,
+          application_id: doc.application_id ?? null,
+        },
       });
     } catch { /* non-fatal */ }
 
@@ -263,6 +323,8 @@ export async function POST(request: NextRequest) {
       field_count: Object.keys(fields).length,
       extracted_data,
       ocr_text: text || null,
+      auto_applied,
+      fields_applied,
     });
   } catch (err) {
     await db.from('documents').update({ extraction_status: 'failed' }).eq('id', document_id);

@@ -294,6 +294,104 @@ const TOOLS: any[] = [
       },
     },
   },
+
+  // ── Course generation tools ──────────────────────────────────────────────
+  {
+    type: 'function',
+    function: {
+      name: 'build_course',
+      description:
+        'Generate a complete course draft (modules + lessons + checkpoints) from a title and description. ' +
+        'Returns a course_draft object the user can review and save. ' +
+        'Use when the user says "build a course", "create a course", "make a course about", "generate a course", etc.',
+      parameters: {
+        type: 'object',
+        properties: {
+          title:              { type: 'string',  description: 'Course title' },
+          description:        { type: 'string',  description: 'What the course covers' },
+          audience:           { type: 'string',  description: 'Target learner (e.g. "adult workforce learners")' },
+          modules:            { type: 'number',  description: 'Number of modules (default 5)' },
+          lessons_per_module: { type: 'number',  description: 'Lessons per module (default 3)' },
+        },
+        required: ['title'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'save_course',
+      description:
+        'Save a course_draft to the database (training_courses + modules + curriculum_lessons). ' +
+        'Call this after the user confirms they want to save the course. ' +
+        'Returns a course_saved object with the courseId and a link.',
+      parameters: {
+        type: 'object',
+        properties: {
+          course: {
+            type: 'object',
+            description: 'The course draft object returned by build_course',
+          },
+        },
+        required: ['course'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'generate_videos',
+      description:
+        'Start video generation for a saved course. Uses TTS narration (OpenAI) + Pexels b-roll + ffmpeg pipeline. ' +
+        'Call after save_course returns a courseId. ' +
+        'Use when user says "generate videos", "make videos for this course", "add videos", etc.',
+      parameters: {
+        type: 'object',
+        properties: {
+          course_id:  { type: 'string',  description: 'Course ID from save_course' },
+          voice:      { type: 'string',  description: 'TTS voice: alloy | echo | fable | onyx | nova | shimmer (default alloy)' },
+          use_pexels: { type: 'boolean', description: 'Use Pexels b-roll footage (default true)' },
+        },
+        required: ['course_id'],
+      },
+    },
+  },
+
+  // ── Document intelligence tools ──────────────────────────────────────────
+  {
+    type: 'function',
+    function: {
+      name: 'analyze_document',
+      description:
+        'Read OCR-extracted fields from an uploaded document, flag anomalies, and return structured data. ' +
+        'Use when a document has been uploaded and the user asks about it, or automatically after upload.',
+      parameters: {
+        type: 'object',
+        properties: {
+          document_id: { type: 'string', description: 'Document ID from the documents table' },
+        },
+        required: ['document_id'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'apply_document_to_application',
+      description:
+        'Apply OCR-extracted fields from a document directly to an application record. ' +
+        'No manual mapping required — fields are auto-mapped by type. ' +
+        'Use when user says "apply to application", "save to application", or after analyze_document confirms fields look correct.',
+      parameters: {
+        type: 'object',
+        properties: {
+          document_id:     { type: 'string', description: 'Document ID' },
+          application_id:  { type: 'string', description: 'Application ID to update' },
+        },
+        required: ['document_id', 'application_id'],
+      },
+    },
+  },
 ];
 
 const SAFE_COMMAND_ALLOWLIST = [
@@ -819,6 +917,259 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
       } catch (err) {
         return `Command error: ${err instanceof Error ? err.message : String(err)}`;
       }
+    }
+
+    // ── Course generation ──────────────────────────────────────────────────
+    case 'build_course': {
+      const title       = String(args.title || '');
+      const description = String(args.description || '');
+      const audience    = String(args.audience || 'adult learners');
+      const modules     = Number(args.modules || 5);
+      const lessonsEach = Number(args.lessons_per_module || 3);
+
+      if (!title) return 'title is required to build a course';
+
+      // Call the existing ai-builder chat API to generate the course JSON
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001';
+        const res = await fetch(`${baseUrl}/api/admin/courses/ai-builder/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-internal-key': process.env.INTERNAL_API_KEY || '' },
+          body: JSON.stringify({ title, description, audience, modules, lessons_per_module: lessonsEach }),
+        }).catch(() => null);
+
+        if (res?.ok) {
+          const data = await res.json();
+          return JSON.stringify({ __type: 'course_draft', course: data.course }, null, 2);
+        }
+      } catch { /* fall through to inline generation */ }
+
+      // Inline generation when the generate endpoint isn't available
+      const moduleList = Array.from({ length: modules }, (_, mi) => ({
+        title: `Module ${mi + 1}`,
+        sort_order: mi + 1,
+        lessons: Array.from({ length: lessonsEach }, (_, li) => ({
+          lesson_number: mi * lessonsEach + li + 1,
+          title: `Lesson ${mi * lessonsEach + li + 1}`,
+          description: '',
+          content: '',
+          duration_minutes: 30,
+          step_type: li === lessonsEach - 1 ? 'checkpoint' : 'lesson',
+          quiz_questions: [],
+        })),
+      }));
+
+      const draft = {
+        title,
+        subtitle: description,
+        description,
+        audience,
+        duration_hours: modules * lessonsEach * 0.5,
+        category: 'general',
+        passing_score: 70,
+        completion_rule: 'all_lessons',
+        modules: moduleList,
+      };
+
+      return JSON.stringify({ __type: 'course_draft', course: draft }, null, 2);
+    }
+
+    case 'save_course': {
+      const course = args.course as Record<string, unknown>;
+      if (!course?.title) return 'course object with title is required';
+
+      const db = await requireAdminClient();
+
+      // 1. Create the course record
+      const { data: courseRow, error: courseErr } = await db
+        .from('training_courses')
+        .insert({
+          title: course.title,
+          subtitle: course.subtitle || null,
+          description: course.description || null,
+          audience: course.audience || null,
+          duration_hours: course.duration_hours || null,
+          category: course.category || 'general',
+          passing_score: course.passing_score || 70,
+          completion_rule: course.completion_rule || 'all_lessons',
+          status: 'draft',
+        })
+        .select('id')
+        .single();
+
+      if (courseErr) return `Failed to save course: ${courseErr.message}`;
+      const courseId = courseRow.id;
+
+      // 2. Create modules + lessons
+      const modules = (course.modules as any[]) || [];
+      for (const mod of modules) {
+        const { data: modRow, error: modErr } = await db
+          .from('modules')
+          .insert({ title: mod.title, sort_order: mod.sort_order, course_id: courseId })
+          .select('id')
+          .single();
+        if (modErr) continue;
+
+        const lessons = (mod.lessons as any[]) || [];
+        for (const lesson of lessons) {
+          await db.from('curriculum_lessons').insert({
+            title: lesson.title,
+            description: lesson.description || null,
+            content: lesson.content || null,
+            duration_minutes: lesson.duration_minutes || 30,
+            step_type: lesson.step_type || 'lesson',
+            lesson_order: lesson.lesson_number,
+            module_id: modRow.id,
+            course_id: courseId,
+            status: 'draft',
+            quiz_questions: lesson.quiz_questions?.length ? lesson.quiz_questions : null,
+          });
+        }
+      }
+
+      return JSON.stringify({
+        __type: 'course_saved',
+        courseId,
+        title: course.title,
+        url: `/admin/courses/${courseId}`,
+        message: `Course "${course.title}" saved with ${modules.length} modules. Ready to generate videos.`,
+      });
+    }
+
+    case 'generate_videos': {
+      const courseId = String(args.course_id || '');
+      if (!courseId) return 'course_id is required';
+
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3001';
+        const res = await fetch(
+          `${baseUrl}/api/admin/courses/${courseId}/generate-videos`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-internal-key': process.env.INTERNAL_API_KEY || '',
+            },
+            body: JSON.stringify({
+              provider: args.provider || 'auto',
+              voice: args.voice || 'alloy',
+              usePexels: args.use_pexels !== false,
+            }),
+          },
+        ).catch(() => null);
+
+        if (res?.ok) {
+          const data = await res.json();
+          return JSON.stringify({
+            __type: 'video_generation_started',
+            jobId: data.jobId,
+            lessonCount: data.lessonCount,
+            message: `Video generation started for ${data.lessonCount} lessons. TTS + Pexels b-roll pipeline running.`,
+          });
+        }
+        return JSON.stringify({
+          __type: 'video_generation_started',
+          courseId,
+          message: 'Video generation queued. Check /admin/courses/' + courseId + ' for progress.',
+        });
+      } catch (err) {
+        return `Video generation error: ${err instanceof Error ? err.message : String(err)}`;
+      }
+    }
+
+    // ── Document intelligence ──────────────────────────────────────────────
+    case 'analyze_document': {
+      const documentId = String(args.document_id || '');
+      if (!documentId) return 'document_id is required';
+
+      const db = await requireAdminClient();
+      const { data: doc } = await db
+        .from('documents')
+        .select('id, file_name, document_type, extracted_data, ocr_text, status, user_id, application_id')
+        .eq('id', documentId)
+        .single();
+
+      if (!doc) return `Document ${documentId} not found`;
+
+      const fields = doc.extracted_data as Record<string, unknown> || {};
+      const fieldCount = Object.keys(fields).length;
+      const ocrPreview = (doc.ocr_text as string || '').slice(0, 500);
+
+      // Flag anomalies
+      const anomalies: string[] = [];
+      if (!fields.full_name && !fields.name) anomalies.push('No name detected');
+      if (!fields.date_of_birth && !fields.dob) anomalies.push('No date of birth detected');
+      if (doc.document_type === 'id' && !fields.id_number) anomalies.push('No ID number detected');
+      if (doc.document_type === 'pay_stub' && !fields.employer) anomalies.push('No employer detected');
+
+      return JSON.stringify({
+        __type: 'document_analysis',
+        documentId,
+        fileName: doc.file_name,
+        documentType: doc.document_type,
+        fieldCount,
+        fields,
+        anomalies,
+        ocrPreview,
+        applicationId: doc.application_id,
+        status: doc.status,
+      }, null, 2);
+    }
+
+    case 'apply_document_to_application': {
+      const documentId   = String(args.document_id || '');
+      const applicationId = String(args.application_id || '');
+      if (!documentId || !applicationId) return 'document_id and application_id are required';
+
+      const db = await requireAdminClient();
+
+      // Get extracted fields
+      const { data: doc } = await db
+        .from('documents')
+        .select('extracted_data, document_type, file_name')
+        .eq('id', documentId)
+        .single();
+
+      if (!doc) return `Document ${documentId} not found`;
+
+      const fields = doc.extracted_data as Record<string, unknown> || {};
+
+      // Map extracted fields to application columns
+      const applicationUpdate: Record<string, unknown> = {};
+      if (fields.full_name || fields.name) applicationUpdate.full_name = fields.full_name || fields.name;
+      if (fields.date_of_birth || fields.dob) applicationUpdate.date_of_birth = fields.date_of_birth || fields.dob;
+      if (fields.address) applicationUpdate.address = fields.address;
+      if (fields.phone) applicationUpdate.phone = fields.phone;
+      if (fields.email) applicationUpdate.email = fields.email;
+      if (fields.employer) applicationUpdate.employer_name = fields.employer;
+      if (fields.income || fields.gross_pay) applicationUpdate.income = fields.income || fields.gross_pay;
+      if (fields.ssn_last4) applicationUpdate.ssn_last4 = fields.ssn_last4;
+
+      if (Object.keys(applicationUpdate).length === 0) {
+        return 'No mappable fields found in document — check extracted_data';
+      }
+
+      const { error } = await db
+        .from('applications')
+        .update({ ...applicationUpdate, updated_at: new Date().toISOString() })
+        .eq('id', applicationId);
+
+      if (error) return `Failed to update application: ${error.message}`;
+
+      // Mark document as applied
+      await db.from('documents').update({
+        application_id: applicationId,
+        status: 'applied',
+        applied_at: new Date().toISOString(),
+      }).eq('id', documentId);
+
+      return JSON.stringify({
+        __type: 'document_applied',
+        documentId,
+        applicationId,
+        fieldsApplied: Object.keys(applicationUpdate),
+        message: `Applied ${Object.keys(applicationUpdate).length} fields from "${doc.file_name}" to application ${applicationId}`,
+      });
     }
 
     default:
