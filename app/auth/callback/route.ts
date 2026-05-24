@@ -86,15 +86,26 @@ export async function GET(request: Request) {
           data: { user },
         } = await supabase.auth.getUser();
         if (user) {
+          // Must match every role in lib/auth/role-destinations.ts
           const allowedRoles = [
             'student',
-            'staff',
-            'partner',
-            'employer',
-            'program_holder',
             'instructor',
             'admin',
             'super_admin',
+            'org_admin',
+            'staff',
+            'program_holder',
+            'delegate',
+            'partner',
+            'sponsor',
+            'employer',
+            'mentor',
+            'creator',
+            'workforce_board',
+            'case_manager',
+            'provider_admin',
+            'grant_client',
+            'vita_staff',
           ];
           const metaRole = user.user_metadata?.role;
 

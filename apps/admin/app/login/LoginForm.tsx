@@ -36,7 +36,7 @@ export default function AdminLoginForm({ redirectTo, initialError }: { redirectT
       const res = await fetch('/api/auth/admin-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password: password.trim() }),
+        body: JSON.stringify({ email: email.trim(), password }), // never trim passwords
       });
 
       const body = await res.json();

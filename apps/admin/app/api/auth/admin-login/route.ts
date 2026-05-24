@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
   const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
     email: email.trim(),
-    password: password.trim(),
+    password, // never trim passwords — leading/trailing spaces are valid
   });
 
   if (authError || !authData?.user) {
