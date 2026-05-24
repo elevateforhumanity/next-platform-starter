@@ -112,7 +112,7 @@ async function _GET(request: Request) {
       });
     }
 
-    // PDF Export - redirect to Netlify function
+    // PDF Export - call internal PDF generation route
     if (format === 'pdf') {
       // Transform data for PDF export
       const pdfData = programList.map((p) => ({
@@ -123,7 +123,8 @@ async function _GET(request: Request) {
         tuition: `$${p.tuition?.toLocaleString() || 'N/A'}`,
       }));
 
-      const pdfResponse = await fetch(`${process.env.URL || ''}/.netlify/functions/export-pdf`, {
+      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? '';
+      const pdfResponse = await fetch(`${adminUrl}/api/admin/pdf/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

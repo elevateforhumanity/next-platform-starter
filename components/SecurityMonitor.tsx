@@ -219,7 +219,7 @@ function logSecurityEvent(eventType: string, data: any) {
     data,
   };
 
-  // Fire-and-forget via server action (bypasses Netlify edge bot protection)
+  // Fire-and-forget via server action (bypasses edge bot protection)
   logSecurityEventAction(event).catch(() => {
     /* silent fail */
   });

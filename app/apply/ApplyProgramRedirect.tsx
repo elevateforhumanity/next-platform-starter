@@ -3,7 +3,7 @@
 /**
  * Handles ?program= query param routing on the /apply page.
  *
- * Runs client-side so the page renders statically on Netlify.
+ * Runs client-side so the page renders statically.
  * Resolves the program slug and pushes to the correct intake form.
  */
 

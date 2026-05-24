@@ -171,14 +171,13 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
-    label: 'Netlify',
+    label: 'AWS CodeBuild',
     keys: [
-      'NETLIFY_AUTH_TOKEN',
-      'NETLIFY_SITE_ID',
-      'NETLIFY_TOKEN',
-      'NETLIFY_BUILD_HOOK',
-      'NETLIFY_BUILD_HOOK_URL',
-      'NETLIFY_URL',
+      'CODEBUILD_LMS_PROJECT',
+      'CODEBUILD_ADMIN_PROJECT',
+      'AWS_REGION',
+      'AWS_ACCESS_KEY_ID',
+      'AWS_SECRET_ACCESS_KEY',
     ],
   },
   {

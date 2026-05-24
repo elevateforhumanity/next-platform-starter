@@ -5,7 +5,7 @@ import { logger } from '@/lib/logger';
  */
 
 import { requireAdminClient } from '@/lib/supabase/admin';
-// Document processing moved to Netlify function
+// Document processing handled inline
 import {
   REQUIRED_DOCUMENTS,
   areAllDocumentsAccepted,
@@ -253,7 +253,7 @@ export async function processPartnerDocument(
   programId: string = 'barber_apprenticeship',
   state: string = 'IN',
 ): Promise<PartnerApprovalResult> {
-  // Document processing moved to Netlify function
+  // Document processing handled inline
   // For now, skip automatic processing and require manual review
   return {
     success: true,

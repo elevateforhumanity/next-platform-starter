@@ -186,7 +186,7 @@ export async function sendInvoice(invoiceId: string): Promise<void> {
 }
 
 // =====================================================
-// PDF GENERATION - Moved to Netlify functions
+// PDF GENERATION
 // =====================================================
 // PDF generation: POST /api/internal/cert-pdf
 
@@ -244,7 +244,7 @@ export async function processDueInvoices(): Promise<void> {
 }
 
 // =====================================================
-// PAYMENT RECEIPTS - Moved to Netlify functions
+// PAYMENT RECEIPTS
 // =====================================================
 // Receipt PDF: POST /api/internal/cert-pdf
 

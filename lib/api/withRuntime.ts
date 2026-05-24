@@ -3,7 +3,7 @@
  *
  * Solves three problems:
  *   1. Discipline-based hydration: every route must remember hydrateProcessEnv().
- *      One missed call → silent secret failure on Netlify cold starts.
+ *      One missed call → silent secret failure on ECS cold starts.
  *   2. Silent degradation: routes check `if (!secret) return safeError(...)` but
  *      never tell you *which* secret is missing or *when* it went missing.
  *   3. Auth boilerplate: every protected route repeats the same guard + check pattern.
@@ -55,7 +55,7 @@ export interface RuntimeOptions {
   /**
    * Cron route — validates cron secret header against CRON_SECRET env var.
    * Automatically adds 'CRON_SECRET' to required secrets.
-   *   'x-header'  — checks x-cron-secret header (Netlify scheduled functions)
+   *   'x-header'  — checks x-cron-secret header (AWS EventBridge cron)
    *   'bearer'    — checks Authorization: Bearer <secret> header (Vercel/manual cron)
    */
   cron?: 'x-header' | 'bearer';
@@ -92,7 +92,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
   }
   const options = optionsOrHandler;
   return async function wrappedHandler(req: NextRequest): Promise<NextResponse> {
-    // 1. Hydrate process.env from Supabase app_secrets (Netlify cold-start safe)
+    // 1. Hydrate process.env from Supabase app_secrets (ECS cold-start safe)
     await hydrateProcessEnv();
 
     // 2. Validate required secrets — fail hard, not silent

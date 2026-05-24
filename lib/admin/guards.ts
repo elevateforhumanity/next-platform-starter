@@ -1,8 +1,8 @@
 /**
- * Admin Route Guards - Netlify Context Aware
+ * Admin Route Guards - ECS/AWS Context
  * Controls access to dev/test tools and sensitive admin features
  *
- * Required Netlify env vars:
+ * Required env vars (injected from SSM via ECS task definition):
  * - Production: ENABLE_ADMIN_DEVTOOLS=false
  * - Deploy Previews: ENABLE_ADMIN_DEVTOOLS=true (optional)
  */

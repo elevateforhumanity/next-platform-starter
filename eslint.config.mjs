@@ -99,8 +99,6 @@ export default tseslint.config(
       'public/**/*.js',
       'lib/autopilot/*.js',
       'server/**',
-      'netlify/functions/**',
-      'netlify/plugins/**',
       'tools/**',
       'eslint-rules/**',
       'legal/**',

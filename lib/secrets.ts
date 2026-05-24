@@ -1,26 +1,29 @@
 import { logger } from '@/lib/logger';
 /**
- * Runtime secrets fetched from Supabase `app_secrets` table and merged
- * into process.env so existing code continues to work unchanged.
+ * Runtime secrets fetched from Supabase and merged into process.env.
  *
- * Why: Netlify injects all site env vars into every Lambda function.
- * With 160+ vars the serialized payload exceeds AWS Lambda's 4 KB limit,
- * causing deploys to fail (HTTP 400). This module keeps only 3 bootstrap
- * vars in Netlify env and loads the rest from Supabase at runtime.
+ * Architecture (AWS ECS / Fargate):
+ *   - Primary source: AWS SSM Parameter Store — injected into the ECS task
+ *     environment at container start via the task definition `secrets` array.
+ *     All 190+ vars are available as process.env.* at boot with no size limit.
+ *   - Secondary source: `platform_secrets` table — keys saved via Admin → Dev
+ *     Studio → Secrets tab. These override SSM values so admins can rotate
+ *     API keys without a redeploy.
+ *   - Tertiary source: `app_secrets` table — legacy runtime scope, kept for
+ *     backward compatibility.
  *
- * Bootstrap vars (stay in Netlify):
- *   NEXT_PUBLIC_SUPABASE_URL
- *   NEXT_PUBLIC_SUPABASE_ANON_KEY
- *   SUPABASE_SERVICE_ROLE_KEY
+ * Precedence (highest → lowest):
+ *   1. platform_secrets (admin UI rotation — takes effect immediately)
+ *   2. app_secrets (legacy runtime scope)
+ *   3. process.env (ECS task definition / SSM injection)
  *
  * Usage — explicit fetch:
- *   import { getSecret, getSecrets } from '@/lib/secrets';
+ *   import { getSecret } from '@/lib/secrets';
  *   const key = await getSecret('STRIPE_SECRET_KEY');
  *
- * Usage — hydrate process.env (call once at startup):
+ * Usage — hydrate process.env (call once per request in API routes):
  *   import { hydrateProcessEnv } from '@/lib/secrets';
  *   await hydrateProcessEnv();
- *   // now process.env.STRIPE_SECRET_KEY works as before
  */
 
 // Direct SDK import intentional: this module IS the hydration bootstrap.
@@ -30,11 +33,10 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 let cache: Record<string, string> | null = null;
 let cacheTimestamp = 0;
 let hydrated = false;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — survives warm Lambda reuse
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — in-process cache for ECS long-running container
 
 // Abort app_secrets fetch if Supabase doesn't respond within this window.
-// Without a timeout, a cold Lambda with no service role key hangs for 60s+
-// on every request, cascading into audit timeouts and slow cold starts.
+// Without a timeout, a container with no service role key can hang on startup.
 const SECRETS_FETCH_TIMEOUT_MS = 3000;
 
 function getBootstrapClient(): SupabaseClient | null {
@@ -63,9 +65,8 @@ async function loadSecrets(): Promise<Record<string, string>> {
 
   const client = getBootstrapClient();
   if (!client) {
-    // SUPABASE_SERVICE_ROLE_KEY absent — local dev or Lambda before secret injection.
-    // Fall through to process.env; requireAdminClient() will return null and callers
-    // must handle that gracefully.
+    // SUPABASE_SERVICE_ROLE_KEY absent — local dev without .env.local.
+    // Fall through to process.env (SSM vars already injected by ECS task definition).
     return {};
   }
 

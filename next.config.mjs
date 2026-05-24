@@ -208,7 +208,7 @@ const nextConfig = {
     '/api/devstudio/files': ['**/*'],
     '/api/devstudio/shell': ['**/*'],
     '/api/accreditation/report': ['**/*'],
-    // Exclude heavy/dev files from ALL routes to reduce Netlify handler size
+    // Exclude heavy/dev files from ALL routes to reduce bundle size
     '*': [
       // Generated media — served by CDN, not the server function
       'public/generated/**',
@@ -240,7 +240,7 @@ const nextConfig = {
       '**/node_modules/pdf-lib/**',
       '**/node_modules/.pnpm/pdf-lib*/**',
       // @apm-js-collab is a hard runtime require() of @sentry/node-core — must NOT be excluded
-      // Remotion + TTS + FFmpeg — Railway-only, never needed on Netlify SSR
+      // Remotion + TTS + FFmpeg — studio-only, not needed in main SSR
       '**/node_modules/@remotion/**',
       '**/node_modules/.pnpm/@remotion*/**',
       '**/node_modules/remotion/**',
@@ -553,7 +553,7 @@ const nextConfig = {
         destination: '/sitemap.xml',
         permanent: true,
       },
-      // /home → / handled by Netlify (public SEO route, Rule A)
+      // /home → / (public SEO route)
 
       // /student, /student/:path*, /learner, /learner/:path*, /lms/:path* →
       // handled by proxy.ts middleware — no redirect needed here.
@@ -615,10 +615,10 @@ const nextConfig = {
       { source: '/compare-programs/:path*', destination: '/programs/:path*', permanent: true },
 
       // Program alias redirects removed — canonical program URLs only.
-      // Career consolidation — /career-center handled by Netlify (Rule A)
+      // Career consolidation
       { source: '/career-fair/:path*', destination: '/career-services/:path*', permanent: true },
 
-      // Partner consolidation — /partner-with-us handled by Netlify (Rule A)
+      // Partner consolidation
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
 
       // apply/barber — dedicated partner application flow (was a redirect-only page.tsx, moved here)
@@ -766,7 +766,7 @@ const nextConfig = {
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
       // Tax services routes belong in a separate repository.
-      // Those routes are not compiled in this Netlify marketing deploy.
+      // Those routes are not compiled in this deploy.
 
       // Store / platform aliases
       { source: '/store/demo', destination: '/store/demos', permanent: true },
@@ -795,13 +795,13 @@ const nextConfig = {
       { source: '/forums/:path*', destination: '/blog', permanent: true },
       // /alumni/page.tsx exists (182 lines) — do not redirect away from it
       // { source: '/alumni/:path*', destination: '/about', permanent: true },
-      // /board → /admin and /delegate → /admin are Railway-internal; removed from Netlify.
+      // /board → /admin and /delegate → /admin are internal routes.
       { source: '/receptionist/:path*', destination: '/staff-portal/:path*', permanent: true },
       { source: '/forum/:path*', destination: '/blog', permanent: true },
       // /news/page.tsx exists (137 lines) — do not redirect away from it
       // { source: '/news/:path*', destination: '/blog/:path*', permanent: true },
 
-      // Old 404 URLs from Google/Netlify logs - redirect to relevant pages
+      // Old 404 URLs from Google logs - redirect to relevant pages
       { source: '/about/founder', destination: '/about/team', permanent: true },
       { source: '/etpl-programs', destination: '/pathways', permanent: true },
       // /intake (85 lines) — real page, no redirect
@@ -862,7 +862,7 @@ const nextConfig = {
       { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
       { source: '/program-holder/:path*', destination: '/login?redirect=/program-holder/:path*', permanent: false },
 
-      // /scholarships → /funding handled by Netlify (public SEO route, Rule A)
+      // /scholarships → /funding (public SEO route)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
 
       // ── Archived duplicate program slugs → canonical ─────────────────────
@@ -1145,7 +1145,7 @@ const nextConfig = {
   },
   async headers() {
     const isProduction = process.env.NODE_ENV === 'production';
-    // Netlify sets CONTEXT (not NODE_ENV) to 'deploy-preview' or 'branch-deploy'
+    // AWS CodeBuild sets CODEBUILD_BUILD_ID; use NODE_ENV for environment detection
     const isPreview =
       process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
     const host = process.env.URL || '';
@@ -1324,7 +1324,7 @@ const nextConfig = {
   },
 };
 
-// On Netlify, skip withSentryConfig entirely — it wraps webpack even when
+// Skip withSentryConfig when
 // both plugins are disabled, adding loaders and instrumentation overhead
 // that pushes the build over the 8GB heap limit.
 // Sentry still initialises at runtime via instrumentation.ts + instrumentation-client.ts.
@@ -1347,7 +1347,7 @@ const sentryWebpackPluginOptions = {
   widenClientFileUpload: false,
 };
 
-// Skip Sentry webpack wrapping on Netlify (serverless, no persistent process)
+// Skip Sentry webpack wrapping in ECS (reduces build time)
 // and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
 // Skip Sentry webpack worker on AWS EC2 builds — it doubles peak heap and OOMs
 // the 16GB runner. Sentry still initialises at runtime via instrumentation.ts.

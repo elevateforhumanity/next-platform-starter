@@ -10,7 +10,7 @@ export function isSupabaseConfigured(): boolean {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
-// Supabase fetch with a hard timeout to prevent cold-start hangs on Netlify/Railway.
+// Supabase fetch with a hard timeout to prevent cold-start hangs.
 // Mock client that returns empty data - prevents crashes when Supabase isn't configured
 const mockQueryBuilder = {
   select: () => mockQueryBuilder,
@@ -105,7 +105,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
   } catch (error) {
     // cookies() throws during static prerender — this is expected and handled.
     // Only log in development; at build time this fires for every static page
-    // and produces hundreds of noisy error lines in the Netlify build log.
+    // and produces hundreds of noisy error lines in the build log.
     if (process.env.NODE_ENV === 'development') {
       logger.error('[Supabase Server] Failed to create client:', error);
     }

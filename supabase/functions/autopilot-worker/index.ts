@@ -4,7 +4,11 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const AUTOPILOT_SECRET = Deno.env.get('AUTOPILOT_SECRET')!;
-const NETLIFY_BUILD_HOOK = Deno.env.get('NETLIFY_BUILD_HOOK') || '';
+const CODEBUILD_LMS_PROJECT   = Deno.env.get('CODEBUILD_LMS_PROJECT')   || 'elevate-lms-build';
+const CODEBUILD_ADMIN_PROJECT = Deno.env.get('CODEBUILD_ADMIN_PROJECT') || 'elevate-admin-build';
+const AWS_REGION              = Deno.env.get('AWS_REGION')              || 'us-east-1';
+const AWS_ACCESS_KEY_ID       = Deno.env.get('AWS_ACCESS_KEY_ID')       || '';
+const AWS_SECRET_ACCESS_KEY   = Deno.env.get('AWS_SECRET_ACCESS_KEY')   || '';
 const SLACK_WEBHOOK_URL = Deno.env.get('SLACK_WEBHOOK_URL') || '';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
@@ -153,10 +157,52 @@ async function runTask(task: any) {
       }
 
       case 'redeploy': {
-        if (!NETLIFY_BUILD_HOOK) throw new Error('NETLIFY_BUILD_HOOK not set');
-        const response = await fetch(NETLIFY_BUILD_HOOK, { method: 'POST' });
-        await log('worker', 'deploy', 'ok', 'Netlify rebuild triggered', response.status, task.id);
-        await notifySlack(`✅ Task #${task.id}: Netlify rebuild triggered`);
+        if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) throw new Error('AWS credentials not set — cannot trigger CodeBuild');
+        // Trigger CodeBuild via AWS REST API (SigV4 signed)
+        const triggerBuild = async (projectName: string) => {
+          const url = `https://codebuild.${AWS_REGION}.amazonaws.com/`;
+          const body = JSON.stringify({ projectName });
+          const date = new Date().toISOString().replace(/[:-]|\.\d{3}/g, '').slice(0, 15) + 'Z';
+          const dateShort = date.slice(0, 8);
+          // Simple HMAC-SHA256 signing (Deno crypto)
+          const encoder = new TextEncoder();
+          const sign = async (key: ArrayBuffer, msg: string) => {
+            const k = await crypto.subtle.importKey('raw', key, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+            return crypto.subtle.sign('HMAC', k, encoder.encode(msg));
+          };
+          const hex = (buf: ArrayBuffer) => Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          const hash = async (s: string) => hex(await crypto.subtle.digest('SHA-256', encoder.encode(s)));
+          const bodyHash = await hash(body);
+          const canonicalHeaders = `content-type:application/x-amz-json-1.1\nhost:codebuild.${AWS_REGION}.amazonaws.com\nx-amz-date:${date}\nx-amz-target:CodeBuild_20161006.StartBuild\n`;
+          const signedHeaders = 'content-type;host;x-amz-date;x-amz-target';
+          const canonicalRequest = `POST\n/\n\n${canonicalHeaders}\n${signedHeaders}\n${bodyHash}`;
+          const credentialScope = `${dateShort}/us-east-1/codebuild/aws4_request`;
+          const stringToSign = `AWS4-HMAC-SHA256\n${date}\n${credentialScope}\n${await hash(canonicalRequest)}`;
+          let sigKey = encoder.encode(`AWS4${AWS_SECRET_ACCESS_KEY}`);
+          for (const part of [dateShort, AWS_REGION, 'codebuild', 'aws4_request']) {
+            sigKey = new Uint8Array(await sign(sigKey, part));
+          }
+          const signature = hex(await sign(sigKey, stringToSign));
+          const authHeader = `AWS4-HMAC-SHA256 Credential=${AWS_ACCESS_KEY_ID}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+          return fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-amz-json-1.1',
+              'X-Amz-Date': date,
+              'X-Amz-Target': 'CodeBuild_20161006.StartBuild',
+              'Authorization': authHeader,
+            },
+            body,
+          });
+        };
+        const [lmsRes, adminRes] = await Promise.allSettled([
+          triggerBuild(CODEBUILD_LMS_PROJECT),
+          triggerBuild(CODEBUILD_ADMIN_PROJECT),
+        ]);
+        const lmsOk   = lmsRes.status   === 'fulfilled' && lmsRes.value.ok;
+        const adminOk = adminRes.status === 'fulfilled' && adminRes.value.ok;
+        await log('worker', 'deploy', 'ok', `CodeBuild triggered — LMS:${lmsOk} Admin:${adminOk}`, undefined, task.id);
+        await notifySlack(`✅ Task #${task.id}: CodeBuild deploy triggered (LMS:${lmsOk} Admin:${adminOk})`);
         break;
       }
 

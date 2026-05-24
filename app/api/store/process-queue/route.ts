@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 /**
  * Process fulfillment queue
  * Can be called by:
- * - Cron job (Netlify scheduled functions)
+ * - Cron job (AWS EventBridge scheduled rules)
  * - Manual trigger from admin
  * - Upstash QStash webhook
  */

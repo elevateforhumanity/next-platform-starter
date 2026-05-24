@@ -7,7 +7,7 @@
  * Returns counts per table. Any linkable_rows > 0 is an actionable alert:
  * a real user exists but cannot see their own data.
  *
- * Secured by CRON_SECRET header. Called daily by Netlify scheduled function.
+ * Secured by CRON_SECRET header. Called daily by AWS EventBridge scheduled rule.
  * Can also be run manually from the Supabase SQL editor using:
  *   scripts/detect-orphaned-rows.sql
  *

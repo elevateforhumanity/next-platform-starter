@@ -1,15 +1,17 @@
 /**
  * POST /api/admin/env-vars/deploy
  *
- * Manually triggers a Netlify redeploy via the build hook.
+ * Triggers a production redeploy via AWS CodeBuild.
  * Required when NEXT_PUBLIC_ keys are changed — those are inlined at build time.
+ * Triggers both LMS and Admin builds in parallel.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { safeError } from '@/lib/api/safe-error';
+import { safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
 
 export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'strict');
@@ -18,24 +20,24 @@ export async function POST(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const hookUrl = process.env.NETLIFY_BUILD_HOOK || process.env.NETLIFY_BUILD_HOOK_URL;
-  if (!hookUrl) {
-    return NextResponse.json({ triggered: false, reason: 'NETLIFY_BUILD_HOOK not set' });
-  }
+  const region       = process.env.AWS_REGION              ?? 'us-east-1';
+  const lmsProject   = process.env.CODEBUILD_LMS_PROJECT   ?? 'elevate-lms-build';
+  const adminProject = process.env.CODEBUILD_ADMIN_PROJECT ?? 'elevate-admin-build';
+  const client       = new CodeBuildClient({ region });
 
   try {
-    const res = await fetch(hookUrl, { method: 'POST' });
-    if (!res.ok) {
-      logger.warn('[env-vars/deploy] Netlify hook returned non-OK', { status: res.status });
-      return safeError('Netlify deploy hook returned an error', 502);
-    }
+    const [lmsResult, adminResult] = await Promise.allSettled([
+      client.send(new StartBuildCommand({ projectName: lmsProject })),
+      client.send(new StartBuildCommand({ projectName: adminProject })),
+    ]);
 
-    logger.info('[env-vars/deploy] Redeploy triggered', { userId: auth.id });
-    return NextResponse.json({ triggered: true });
+    const lms   = lmsResult.status   === 'fulfilled' ? { buildId: lmsResult.value.build?.id,   status: lmsResult.value.build?.buildStatus }   : { error: String((lmsResult as PromiseRejectedResult).reason) };
+    const admin = adminResult.status === 'fulfilled' ? { buildId: adminResult.value.build?.id, status: adminResult.value.build?.buildStatus } : { error: String((adminResult as PromiseRejectedResult).reason) };
+
+    const triggered = lmsResult.status === 'fulfilled' || adminResult.status === 'fulfilled';
+    logger.info('[env-vars/deploy] CodeBuild triggered', { userId: auth.id, lms, admin });
+    return NextResponse.json({ triggered, lms, admin });
   } catch (err) {
-    logger.error('[env-vars/deploy] Hook request failed', {
-      error: err instanceof Error ? err.message : String(err),
-    });
-    return safeError('Deploy hook request failed', 502);
+    return safeInternalError(err, 'Deploy trigger failed');
   }
 }

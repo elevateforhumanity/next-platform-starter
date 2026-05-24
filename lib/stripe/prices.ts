@@ -3,7 +3,7 @@
  *
  * Reads a single STRIPE_PRICES_JSON env var (compact JSON object mapping
  * short keys to Stripe price IDs) instead of 35+ individual STRIPE_PRICE_*
- * env vars. This keeps the Netlify env payload well under the AWS Lambda
+ * env vars. This keeps the env payload lean
  * 4KB limit.
  *
  * Fallback chain: STRIPE_PRICES_JSON → individual STRIPE_PRICE_* env var → hardcoded default.

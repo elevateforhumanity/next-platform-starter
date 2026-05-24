@@ -120,10 +120,10 @@ export async function GET(request: NextRequest) {
         },
       });
     } else if (format === 'pdf') {
-      // Redirect to Netlify function for PDF generation
-      // This keeps heavy PDF libraries out of the main Next.js server handler
+      // Generate PDF inline — no external function needed on ECS (no Lambda size limit)
       const template = EXPORT_TEMPLATES[type as keyof typeof EXPORT_TEMPLATES];
-      const pdfResponse = await fetch(`${process.env.URL || ''}/.netlify/functions/export-pdf`, {
+      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? '';
+      const pdfResponse = await fetch(`${adminUrl}/api/admin/pdf/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
 
       if (!pdfResponse.ok) {
         const detail = await pdfResponse.text();
-        logger.error('export PDF Netlify function error', {
+        logger.error('export PDF generation error', {
           type,
           status: pdfResponse.status,
           detail,

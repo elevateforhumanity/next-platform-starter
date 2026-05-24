@@ -15,11 +15,11 @@ export function isDemoEnabled(): boolean {
   const demoMode = process.env.DEMO_MODE === 'true';
   const allowInProd = process.env.DEMO_ALLOW_IN_PROD !== 'false';
   const isProduction = process.env.NODE_ENV === 'production';
-  const isNetlifyPreview = process.env.NEXT_PUBLIC_CONTEXT === 'deploy-preview';
+  
 
   if (demoMode) return true;
   if (!isProduction) return true;
-  if (isNetlifyPreview && allowInProd) return true;
+  
 
   return allowInProd;
 }

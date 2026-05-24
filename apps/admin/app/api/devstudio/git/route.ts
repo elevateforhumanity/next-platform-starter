@@ -3,20 +3,22 @@
  *
  * Git operations for Dev Studio.
  *
- * In Gitpod the repo lives at /workspaces/Elevate-lms.
- * In ECS (production) the repo is cloned to /app at image build time.
- * REPO_DIR resolves whichever path exists at runtime.
+ * Runtime detection:
+ *   LOCAL (.git present) — runs git commands via execSync
+ *   ECS   (no .git)      — falls back to GitHub REST API for reads;
+ *                          single-file commits via GitHub Contents API;
+ *                          push/pull/checkout require the studio-shell container
  *
- * GET  ?action=status   → git status + branch + recent commits
- * GET  ?action=diff&file=path  → git diff for a file (or all)
- * GET  ?action=log      → recent commits
- * GET  ?action=branches → local + remote branches
- * POST { action: 'commit', message, files? }  → stage files + commit
- * POST { action: 'push' }                     → git push origin main
- * POST { action: 'checkout', branch }         → checkout or create branch
- * POST { action: 'pull' }                     → git pull
+ * GET  ?action=status   → branch, changed files, recent commits
+ * GET  ?action=diff&file=path
+ * GET  ?action=log
+ * GET  ?action=branches
+ * POST { action: 'commit', message, files?, path?, content? }
+ * POST { action: 'push' }
+ * POST { action: 'checkout', branch }
+ * POST { action: 'pull' }
  *
- * Admin-only. Runs git commands via execSync in the workspace.
+ * Admin-only.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -26,44 +28,51 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { execSync } from 'child_process';
+import { existsSync } from 'fs';
 import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-import { existsSync } from 'fs';
+const REPO = process.env.GITHUB_REPO ?? 'elevate-for-humanity/Elevate-lms';
+const GH_API = 'https://api.github.com';
 
-// Resolve repo root at runtime — Gitpod uses /workspaces/Elevate-lms,
-// ECS standalone image clones to /app. Fall back to process.cwd().
+// LOCAL: .git present (Gitpod / dev). ECS: no .git — use GitHub API.
 const REPO_DIR = (() => {
-  const candidates = [
-    '/workspaces/Elevate-lms',
-    '/app',
-    process.cwd(),
-  ];
-  return candidates.find(p => existsSync(`${p}/.git`)) ?? process.cwd();
+  const candidates = ['/workspaces/Elevate-lms', '/app', process.cwd()];
+  return candidates.find(p => existsSync(`${p}/.git`)) ?? null;
 })();
+const HAS_GIT = REPO_DIR !== null;
+
+// ── Local git helper ──────────────────────────────────────────────────────────
 
 function git(cmd: string, opts?: { timeout?: number }): string {
-  // Inject GITHUB_TOKEN into the remote URL for push/pull when available
+  if (!HAS_GIT) throw new Error('No local .git — ECS mode uses GitHub API');
   const token = process.env.GITHUB_TOKEN ?? '';
-  const env: NodeJS.ProcessEnv = {
-    ...process.env,
-    GIT_TERMINAL_PROMPT: '0',
-    GIT_ASKPASS: 'echo',
-  };
+  const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0', GIT_ASKPASS: 'echo' };
   if (token) {
-    // Override the remote URL to embed the token so push/pull works without
-    // interactive prompts in both Gitpod and ECS environments.
     env.GIT_CONFIG_COUNT = '1';
-    env.GIT_CONFIG_KEY_0 = 'url.https://x-access-token:' + token + '@github.com/.insteadOf';
+    env.GIT_CONFIG_KEY_0 = `url.https://x-access-token:${token}@github.com/.insteadOf`;
     env.GIT_CONFIG_VALUE_0 = 'https://github.com/';
   }
-  return execSync(`git -C ${REPO_DIR} ${cmd}`, {
-    timeout: opts?.timeout ?? 15000,
-    encoding: 'utf8',
-    env,
-  }).trim();
+  return execSync(`git -C ${REPO_DIR} ${cmd}`, { timeout: opts?.timeout ?? 15000, encoding: 'utf8', env }).trim();
+}
+
+// ── GitHub API helper (ECS fallback) ─────────────────────────────────────────
+
+async function ghFetch(path: string, opts?: RequestInit) {
+  const token = process.env.GITHUB_TOKEN ?? '';
+  const res = await fetch(`${GH_API}${path}`, {
+    ...opts,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(opts?.headers as Record<string, string> ?? {}),
+    },
+  });
+  if (!res.ok) throw new Error(`GitHub API ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  return res.json();
 }
 
 // ── GET ───────────────────────────────────────────────────────────────────────
@@ -80,48 +89,66 @@ export async function GET(request: NextRequest) {
 
   try {
     if (action === 'status') {
-      const branch  = git('rev-parse --abbrev-ref HEAD');
-      const status  = git('status --porcelain');
-      const ahead   = (() => { try { return git('rev-list --count @{u}..HEAD'); } catch { return '0'; } })();
-      const behind  = (() => { try { return git('rev-list --count HEAD..@{u}'); } catch { return '0'; } })();
-      const log     = git('log --oneline -10 --pretty=format:"%h|%s|%an|%ar"');
-
-      const changed = status.split('\n').filter(Boolean).map(line => ({
-        status: line.slice(0, 2).trim(),
-        file: line.slice(3),
+      if (HAS_GIT) {
+        const branch  = git('rev-parse --abbrev-ref HEAD');
+        const status  = git('status --porcelain');
+        const ahead   = (() => { try { return git('rev-list --count @{u}..HEAD'); } catch { return '0'; } })();
+        const behind  = (() => { try { return git('rev-list --count HEAD..@{u}'); } catch { return '0'; } })();
+        const log     = git('log --oneline -10 --pretty=format:"%h|%s|%an|%ar"');
+        const changed = status.split('\n').filter(Boolean).map(line => ({ status: line.slice(0, 2).trim(), file: line.slice(3) }));
+        const commits = log.split('\n').filter(Boolean).map(line => {
+          const [hash, subject, author, when] = line.split('|');
+          return { hash, subject, author, when };
+        });
+        return NextResponse.json({ branch, changed, commits, ahead: +ahead, behind: +behind, mode: 'local' });
+      }
+      // ECS: GitHub API
+      const [branchData, commitsData] = await Promise.all([
+        ghFetch(`/repos/${REPO}/branches/main`),
+        ghFetch(`/repos/${REPO}/commits?per_page=10`),
+      ]) as [{ commit: { sha: string } }, Array<{ sha: string; commit: { message: string; author: { name: string; date: string } } }>];
+      const commits = commitsData.map(c => ({
+        hash: c.sha.slice(0, 7), subject: c.commit.message.split('\n')[0],
+        author: c.commit.author.name, when: new Date(c.commit.author.date).toLocaleString(),
       }));
-
-      const commits = log.split('\n').filter(Boolean).map(line => {
-        const [hash, subject, author, when] = line.split('|');
-        return { hash, subject, author, when };
-      });
-
-      return NextResponse.json({ branch, changed, commits, ahead: +ahead, behind: +behind });
+      return NextResponse.json({ branch: 'main', changed: [], commits, ahead: 0, behind: 0, mode: 'github-api', latestCommit: branchData.commit.sha.slice(0, 7) });
     }
 
     if (action === 'diff') {
-      const target = file ? `-- ${file}` : '';
-      const diff = git(`diff HEAD ${target}`, { timeout: 10000 });
-      return NextResponse.json({ diff });
+      if (HAS_GIT) {
+        const diff = git(`diff HEAD ${file ? `-- ${file}` : ''}`, { timeout: 10000 });
+        return NextResponse.json({ diff, mode: 'local' });
+      }
+      if (!file) return NextResponse.json({ diff: '', note: 'Specify ?file= for diff in ECS mode', mode: 'github-api' });
+      const data = await ghFetch(`/repos/${REPO}/contents/${encodeURIComponent(file)}?ref=main`) as { content?: string };
+      const content = data.content ? Buffer.from(data.content, 'base64').toString('utf8') : '';
+      return NextResponse.json({ diff: content, mode: 'github-api', note: 'Showing file content (no local diff in ECS)' });
     }
 
     if (action === 'log') {
-      const log = git('log --oneline -30 --pretty=format:"%h|%s|%an|%ar|%D"');
-      const commits = log.split('\n').filter(Boolean).map(line => {
-        const [hash, subject, author, when, refs] = line.split('|');
-        return { hash, subject, author, when, refs };
-      });
-      return NextResponse.json({ commits });
+      if (HAS_GIT) {
+        const log = git('log --oneline -30 --pretty=format:"%h|%s|%an|%ar|%D"');
+        const commits = log.split('\n').filter(Boolean).map(line => {
+          const [hash, subject, author, when, refs] = line.split('|');
+          return { hash, subject, author, when, refs };
+        });
+        return NextResponse.json({ commits, mode: 'local' });
+      }
+      const data = await ghFetch(`/repos/${REPO}/commits?per_page=30`) as Array<{ sha: string; commit: { message: string; author: { name: string; date: string } } }>;
+      const commits = data.map(c => ({ hash: c.sha.slice(0, 7), subject: c.commit.message.split('\n')[0], author: c.commit.author.name, when: new Date(c.commit.author.date).toLocaleString(), refs: '' }));
+      return NextResponse.json({ commits, mode: 'github-api' });
     }
 
     if (action === 'branches') {
-      const local  = git('branch --format="%(refname:short)"').split('\n').filter(Boolean);
-      const remote = (() => {
-        try { return git('branch -r --format="%(refname:short)"').split('\n').filter(Boolean); }
-        catch { return []; }
-      })();
-      const current = git('rev-parse --abbrev-ref HEAD');
-      return NextResponse.json({ local, remote, current });
+      if (HAS_GIT) {
+        const local   = git('branch --format="%(refname:short)"').split('\n').filter(Boolean);
+        const remote  = (() => { try { return git('branch -r --format="%(refname:short)"').split('\n').filter(Boolean); } catch { return []; } })();
+        const current = git('rev-parse --abbrev-ref HEAD');
+        return NextResponse.json({ local, remote, current, mode: 'local' });
+      }
+      const data = await ghFetch(`/repos/${REPO}/branches?per_page=50`) as Array<{ name: string }>;
+      const branches = data.map(b => b.name);
+      return NextResponse.json({ local: branches, remote: branches.map(b => `origin/${b}`), current: 'main', mode: 'github-api' });
     }
 
     return safeError(`Unknown action: ${action}`, 400);
@@ -140,10 +167,33 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string };
+  let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string; path?: string; content?: string };
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
 
   const { action } = body;
+
+  // ECS: no local git — single-file commits via GitHub API; everything else needs shell
+  if (!HAS_GIT) {
+    if (action === 'commit') {
+      const { path: filePath, content, message } = body;
+      if (!filePath || !content || !message) return safeError('path, content, and message required in ECS mode', 400);
+      const current = await ghFetch(`/repos/${REPO}/contents/${encodeURIComponent(filePath)}?ref=main`) as { sha: string };
+      const token = process.env.GITHUB_TOKEN ?? '';
+      const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodeURIComponent(filePath)}`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
+        body: JSON.stringify({ message, content: Buffer.from(content).toString('base64'), sha: current.sha, branch: 'main' }),
+      });
+      if (!res.ok) return safeError(`GitHub commit failed: ${res.status}`, 502);
+      const data = await res.json() as { commit: { sha: string } };
+      return NextResponse.json({ ok: true, hash: data.commit.sha.slice(0, 7), mode: 'github-api' });
+    }
+    return NextResponse.json({
+      ok: false,
+      error: `"${action}" requires local git. Use the Terminal tab (studio-shell) to run git commands in ECS.`,
+      mode: 'github-api',
+    }, { status: 422 });
+  }
 
   try {
     if (action === 'commit') {

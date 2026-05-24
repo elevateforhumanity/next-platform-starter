@@ -1,5 +1,5 @@
 // Force all routes to render on-demand (SSR) — prevents Next from attempting
-// static generation of ~2,000 pages at build time, which causes OOM on Netlify.
+// static generation of ~2,000 pages at build time, which causes OOM in constrained build environments.
 // Individual pages can override with their own `export const revalidate = N`.
 export const dynamic = 'force-dynamic';
 

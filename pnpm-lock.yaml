@@ -471,12 +471,6 @@ importers:
       '@eslint/js':
         specifier: ^9.38.0
         version: 9.39.2
-      '@netlify/functions':
-        specifier: ^5.1.2
-        version: 5.1.2
-      '@netlify/plugin-nextjs':
-        specifier: ^5.15.10
-        version: 5.15.10
       '@next/bundle-analyzer':
         specifier: 16.1.1
         version: 16.1.1
@@ -591,9 +585,6 @@ importers:
       lint-staged:
         specifier: 16.2.7
         version: 16.2.7
-      netlify-plugin-cache:
-        specifier: ^1.0.3
-        version: 1.0.3
       pdf-lib:
         specifier: 1.17.1
         version: 1.17.1
@@ -2084,18 +2075,6 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
-
-  '@netlify/functions@5.1.2':
-    resolution: {integrity: sha512-tpPiLSkQatuexH8AdAZ8RlALvT7ixOE9VhvpkzQGNvihcms8hzmvUDuSxQa7UneTj/sHsdirnXmnJ+nmf+Nx/w==}
-    engines: {node: '>=18.0.0'}
-
-  '@netlify/plugin-nextjs@5.15.10':
-    resolution: {integrity: sha512-Mf64nZvoDRwRCMdCjNpxCptWzpF0Vb5pcgZEoZhofI1Yi1UhnXSnxqpMHsKovl9LfCm375AjUbEgH3R3gGEBUw==}
-    engines: {node: '>=18.0.0'}
-
-  '@netlify/types@2.3.0':
-    resolution: {integrity: sha512-5gxMWh/S7wr0uHKSTbMv4bjWmWSpwpeLYvErWeVNAPll5/QNFo9aWimMAUuh8ReLY3/fg92XAroVVu7+z27Snw==}
-    engines: {node: ^18.14.0 || >=20}
 
   '@next/bundle-analyzer@16.1.1':
     resolution: {integrity: sha512-aNJy301GGH8k36rDgrYdnyYEdjRQg6csMi1njzqHo+3qyZvOOWMHSv+p7SztNTzP5RU2KRwX0pPwYBtDcE+vVA==}
@@ -7856,9 +7835,6 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  netlify-plugin-cache@1.0.3:
-    resolution: {integrity: sha512-CTOwNWrTOP59T6y6unxQNnp1WX702v2R/faR5peSH94ebrYfyY4zT5IsRcIiHKq57jXeyCrhy0GLuTN8ktzuQg==}
-
   netmask@2.0.2:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
@@ -11931,14 +11907,6 @@ snapshots:
       '@emnapi/runtime': 1.10.0
       '@tybys/wasm-util': 0.10.1
     optional: true
-
-  '@netlify/functions@5.1.2':
-    dependencies:
-      '@netlify/types': 2.3.0
-
-  '@netlify/plugin-nextjs@5.15.10': {}
-
-  '@netlify/types@2.3.0': {}
 
   '@next/bundle-analyzer@16.1.1':
     dependencies:
@@ -18612,8 +18580,6 @@ snapshots:
   negotiator@1.0.0: {}
 
   neo-async@2.6.2: {}
-
-  netlify-plugin-cache@1.0.3: {}
 
   netmask@2.0.2: {}
 

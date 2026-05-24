@@ -216,8 +216,8 @@ async function _POST(request: NextRequest) {
       // Don't fail provisioning if email fails
     }
 
-    // DNS setup for custom domain is handled by Netlify/infrastructure
-    // Custom domains are configured in the Netlify dashboard or via API
+    // DNS setup for custom domain is handled by Route53/infrastructure
+    // Custom domains are configured in Route53 or via the admin API
 
     return NextResponse.json({
       success: true,

@@ -1,4 +1,4 @@
-// PUBLIC ROUTE: browser telemetry — no PII, no auth required, rate-limited by Netlify edge
+// PUBLIC ROUTE: browser telemetry — no PII, no auth required, rate-limited by CloudFront
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;

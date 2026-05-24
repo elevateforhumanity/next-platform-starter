@@ -227,7 +227,7 @@ function FallbackChatWidget() {
  * LiveChatWidget - Uses Tidio if configured, otherwise falls back to built-in widget
  *
  * To enable Tidio:
- * 1. Set NEXT_PUBLIC_TIDIO_KEY environment variable in Netlify
+ * 1. Set NEXT_PUBLIC_TIDIO_KEY in AWS SSM Parameter Store
  * 2. Configure the AI assistant in Tidio dashboard using lib/chatbot/config.ts
  */
 export function LiveChatWidget() {

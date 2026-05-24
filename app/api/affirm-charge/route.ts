@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
  * DEPRECATED — superseded by /api/affirm/checkout + /api/affirm/capture.
  *
  * This route used process.env.AFFIRM_PRIVATE_API_KEY directly (empty on
- * Netlify — key is in app_secrets), called the non-existent /api/v2/charges
+ * key is in app_secrets), called the non-existent /api/v2/charges
  * endpoint (correct path is /api/v1/transactions), and wrote to the
  * non-existent `enrollments` table.
  *

@@ -187,8 +187,8 @@ async function flagCertRows(
 
 async function _POST(request: NextRequest) {
   // Hydrate process.env from app_secrets table before reading any secret.
-  // In production, STRIPE_WEBHOOK_SECRET lives in app_secrets (not Netlify env vars)
-  // because Netlify's Lambda 4KB env var limit prevents injecting all secrets.
+  // In production, STRIPE_WEBHOOK_SECRET is injected from SSM via ECS task definition
+  // SSM injection handles all secrets via ECS task definition.
   // This must run before any process.env.STRIPE_* access.
   // Wrapped in try/catch — a hydration failure must never produce a 500 to Stripe.
   try {
@@ -221,7 +221,7 @@ async function _POST(request: NextRequest) {
     // STRIPE_WEBHOOK_SECRET missing — alert loudly but return 200 so Stripe
     // does not keep retrying. This is a misconfiguration, not a bad request.
     logger.error(
-      '[webhook] STRIPE_WEBHOOK_SECRET is not set — event dropped. Set this env var in Netlify immediately.',
+      '[webhook] STRIPE_WEBHOOK_SECRET is not set — event dropped. Set STRIPE_WEBHOOK_SECRET in AWS SSM Parameter Store (/elevate/STRIPE_WEBHOOK_SECRET).',
     );
     Sentry.captureException(
       new Error('STRIPE_WEBHOOK_SECRET not set — webhook events are being dropped'),

@@ -1,6 +1,6 @@
 // components/TenantCustomStyles.tsx
 // NOTE: This component runs in root layout which may be edge context.
-// DO NOT import @supabase/supabase-js here - it breaks Netlify edge functions.
+// DO NOT import @supabase/supabase-js here - it breaks edge middleware.
 import { sanitizeHtml } from '@/lib/sanitize';
 import { getTenantFromHost } from '@/lib/multiTenant/tenantFromHost';
 import { headers } from 'next/headers';

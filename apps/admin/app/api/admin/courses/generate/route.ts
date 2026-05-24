@@ -137,7 +137,7 @@ async function _POST(req: NextRequest) {
 
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
-        { error: 'OPENAI_API_KEY is not configured. Add it to Netlify environment variables.' },
+        { error: 'OPENAI_API_KEY is not configured. Add OPENAI_API_KEY to AWS SSM Parameter Store (/elevate/OPENAI_API_KEY).' },
         { status: 503 },
       );
     }

@@ -11,7 +11,7 @@
  *   "ocr_partial" — OCR ran on first MAX_OCR_PAGES pages only
  *   "ocr_failed"  — OCR attempted but produced no usable text
  *
- * OCR limits (Netlify 60s budget):
+ * OCR limits (60s budget):
  *   MAX_OCR_PAGES = 8  — OCR only first N pages of scanned PDFs
  *   OCR is skipped for files >8 MB (too slow for request budget)
  *   tesseract.js + sharp are already in netlify external_node_modules
@@ -61,7 +61,7 @@ function isScannedPdf(text: string, pageCount: number): boolean {
  * OCR a PDF buffer using tesseract.js on embedded images.
  *
  * PDF-to-image rendering requires pdfjs-dist (not installed) or system tools
- * (pdftoppm/ghostscript, not available on Netlify). Instead, we attempt to
+ * (pdftoppm/ghostscript, not available in ECS). Instead, we attempt to
  * extract any embedded raster images directly from the PDF binary using a
  * simple JPEG/PNG stream scan, then run tesseract on those images.
  *

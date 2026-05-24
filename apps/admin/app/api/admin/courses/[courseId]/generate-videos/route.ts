@@ -15,7 +15,7 @@
  *   force    — regenerate even if video_url already set
  *
  * Requires: ffmpeg, OPENAI_API_KEY, PEXELS_API_KEY
- * NOTE: ffmpeg is not available on Netlify. Run on Railway or locally.
+ * NOTE: ffmpeg is not available in ECS by default. Run in the studio container.
  */
 
 import { NextRequest, NextResponse } from 'next/server';

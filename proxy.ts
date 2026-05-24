@@ -332,7 +332,7 @@ export async function middleware(request: NextRequest) {
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.
   // allowDevAdminBypass is false in all production builds: NODE_ENV is set to
-  // 'production' by Next.js at build time on Netlify, making this unreachable
+  // 'production' by Next.js at build time on ECS, making this unreachable
   // regardless of any env var that may be set in the deployment environment.
   const isDevelopment = process.env.NODE_ENV === 'development';
   const allowDevAdminBypass = isDevelopment && process.env.SKIP_ADMIN_AUTH === 'true';
@@ -348,7 +348,7 @@ export async function middleware(request: NextRequest) {
 
   // Production misconfiguration guard — bypass remains disabled, but the
   // presence of SKIP_ADMIN_AUTH in a production environment is logged as an
-  // error so a bad deployment is caught immediately in Netlify function logs.
+  // error so a bad deployment is caught immediately in CloudWatch logs.
   if (!isDevelopment && process.env.SKIP_ADMIN_AUTH) {
     console.error(
       '[SECURITY] SKIP_ADMIN_AUTH is set in a non-development environment. ' +

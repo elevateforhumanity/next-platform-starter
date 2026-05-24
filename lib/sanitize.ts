@@ -5,7 +5,7 @@
  * Client: uses dompurify (browser-native DOM, no jsdom needed).
  *
  * isomorphic-dompurify was removed because it hard-depends on jsdom,
- * which is a devDependency and crashes Netlify Lambda at runtime.
+ * which is a devDependency and should not be imported in production routes.
  */
 
 const ALLOWED_TAGS = [

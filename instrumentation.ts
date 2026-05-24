@@ -1,7 +1,7 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // Load runtime secrets from Supabase into process.env.
-    // Keeps only 3 bootstrap vars in Netlify env (under Lambda 4 KB limit).
+    // Vars are injected from SSM via ECS task definition at container start.
     const { hydrateProcessEnv } = await import('./lib/secrets');
     await hydrateProcessEnv();
 

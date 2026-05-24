@@ -4,7 +4,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
  * POST /api/jobs/process
  *
  * Background job processor for the LMS job_queue table.
- * Intended to be called by a cron job (Netlify scheduled function or external cron).
+ * Intended to be called by a cron job (AWS EventBridge or external cron).
  *
  * Security: requires Authorization: Bearer <CRON_SECRET> header.
  *

@@ -5,7 +5,7 @@
  * Controlled by ADMIN_IP_ALLOWLIST env var — comma-separated CIDRs or IPs.
  * If the env var is not set, the guard is a no-op (allows all IPs).
  *
- * Recommended: set in Netlify production env only. Leave unset in preview/dev.
+ * Recommended: set in SSM /elevate/ADMIN_IP_ALLOWLIST. Leave unset in dev.
  *
  * Usage in an API route:
  *   import { checkAdminIP } from '@/lib/api/admin-ip-guard';
