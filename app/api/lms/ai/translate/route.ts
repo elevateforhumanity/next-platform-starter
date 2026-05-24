@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
-
 import { hydrateProcessEnv } from '@/lib/secrets';
 
-let _client: OpenAI | null = null;
-function getClient() {
-  if (!_client) _client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  return _client;
-}
-
-const SUPPORTED_LANGUAGES: Record<string, string> = {
-  es: 'Spanish',
-  en: 'English',
-};
+const SUPPORTED_LANGUAGES: Record<string, string> = { es: 'Spanish', en: 'English' };
 
 const cache = new Map<string, { result: string; ts: number }>();
 const CACHE_TTL = 60 * 60 * 1000;
@@ -32,21 +22,14 @@ export async function POST(req: NextRequest) {
   const auth = await apiAuthGuard(req);
 
   let body: { content: string; targetLang: string };
-  try {
-    body = await req.json();
-  } catch {
+  try { body = await req.json(); } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
   const { content, targetLang } = body;
-  if (!content?.trim()) {
-    return NextResponse.json({ error: 'content is required' }, { status: 400 });
-  }
+  if (!content?.trim()) return NextResponse.json({ error: 'content is required' }, { status: 400 });
   if (!targetLang || !SUPPORTED_LANGUAGES[targetLang]) {
-    return NextResponse.json(
-      { error: `Unsupported language. Supported: ${Object.keys(SUPPORTED_LANGUAGES).join(', ')}` },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: `Unsupported language. Supported: ${Object.keys(SUPPORTED_LANGUAGES).join(', ')}` }, { status: 400 });
   }
 
   const trimmed = content.slice(0, 4000);
@@ -56,16 +39,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ translated: cached.result, lang: targetLang, cached: true });
   }
 
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json({ error: 'AI service not configured' }, { status: 503 });
-  }
-
   const langName = SUPPORTED_LANGUAGES[targetLang];
 
   try {
-    const response = await getClient().chat.completions.create({
+    const response = await aiChat({
       model: 'gpt-4.1-mini',
-      max_tokens: 1200,
+      maxTokens: 1200,
       messages: [
         {
           role: 'system',
@@ -76,16 +55,12 @@ export async function POST(req: NextRequest) {
             `Keep the same structure and paragraph breaks. ` +
             `Do not add commentary. Return the translation only.`,
         },
-        {
-          role: 'user',
-          content: `Translate to ${langName}:\n\n${trimmed}`,
-        },
+        { role: 'user', content: `Translate to ${langName}:\n\n${trimmed}` },
       ],
     });
 
-    const translated = response.choices[0]?.message?.content?.trim() ?? '';
+    const translated = response.content?.trim() ?? '';
     cache.set(key, { result: translated, ts: Date.now() });
-
     return NextResponse.json({ translated, lang: targetLang });
   } catch (err) {
     logger.error('[ai/translate]', err);

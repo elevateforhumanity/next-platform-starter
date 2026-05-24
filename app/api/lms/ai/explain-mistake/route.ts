@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
-
 import { hydrateProcessEnv } from '@/lib/secrets';
-
-let _client: OpenAI | null = null;
-function getClient() {
-  if (!_client) _client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  return _client;
-}
 
 export async function POST(req: NextRequest) {
   await hydrateProcessEnv();
@@ -19,36 +12,22 @@ export async function POST(req: NextRequest) {
 
   const auth = await apiAuthGuard(req);
 
-  let body: {
-    question: string;
-    userAnswer: string;
-    correctAnswer: string;
-    explanation?: string; // optional hint from the quiz data
-  };
-  try {
-    body = await req.json();
-  } catch {
+  let body: { question: string; userAnswer: string; correctAnswer: string; explanation?: string };
+  try { body = await req.json(); } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
   const { question, userAnswer, correctAnswer, explanation } = body;
   if (!question || !userAnswer || !correctAnswer) {
-    return NextResponse.json(
-      { error: 'question, userAnswer, and correctAnswer are required' },
-      { status: 400 },
-    );
-  }
-
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json({ error: 'AI service not configured' }, { status: 503 });
+    return NextResponse.json({ error: 'question, userAnswer, and correctAnswer are required' }, { status: 400 });
   }
 
   const context = explanation ? `\nHint from course material: ${explanation}` : '';
 
   try {
-    const response = await getClient().chat.completions.create({
+    const response = await aiChat({
       model: 'gpt-4.1-mini',
-      max_tokens: 400,
+      maxTokens: 400,
       messages: [
         {
           role: 'system',
@@ -70,7 +49,7 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    const feedback = response.choices[0]?.message?.content?.trim() ?? '';
+    const feedback = response.content?.trim() ?? '';
     return NextResponse.json({ feedback });
   } catch (err) {
     logger.error('[ai/explain-mistake]', err);

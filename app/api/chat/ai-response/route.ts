@@ -17,15 +17,9 @@ export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import OpenAI from 'openai';
+import { aiChat, isAIAvailable } from '@/lib/ai/ai-service';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-
-const openai = process.env.OPENAI_API_KEY
-  ? new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
-  : null;
 
 async function _POST(request: NextRequest) {
   try {
@@ -45,7 +39,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    if (!openai) {
+    if (!isAIAvailable()) {
       // Fallback response when OpenAI is not configured
       return NextResponse.json({
         response: `Thanks for your message! I'm here to help you learn about our programs.
@@ -119,8 +113,7 @@ What would you like to know more about?`,
 
 Keep responses concise but helpful. Use bullet points for clarity when listing information.`;
 
-    // Call OpenAI
-    const completion = await openai.chat.completions.create({
+    const completion = await aiChat({
       model: 'gpt-4.1-mini',
       messages: [
         { role: 'system', content: systemPrompt },
@@ -128,11 +121,11 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
         { role: 'user', content: message },
       ],
       temperature: 0.7,
-      max_tokens: 500,
+      maxTokens: 500,
     });
 
     const aiResponse =
-      completion.choices[0]?.message?.content ||
+      completion.content ||
       'I apologize, but I encountered an error. Please call us at (317) 314-3757 for assistance.';
 
     // Check if human handoff is needed
@@ -155,7 +148,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
             last_prompt: message,
             last_response: aiResponse,
           },
-          tokens_used: completion.usage?.total_tokens || 0,
+          tokens_used: 0,
           model: 'gpt-4.1-mini',
         });
       } catch (err) {
@@ -166,7 +159,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
     return NextResponse.json({
       response: aiResponse,
       needs_human: needsHuman,
-      tokens_used: completion.usage?.total_tokens || 0,
+      tokens_used: 0,
     });
   } catch (err: any) {
     logger.error('AI Chat error:', err);

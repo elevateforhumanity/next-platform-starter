@@ -18,7 +18,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -28,19 +28,13 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
-// ── OpenAI helpers ────────────────────────────────────────────────────────────
-
-function getOpenAI(): OpenAI {
-  if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY not configured');
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-}
+// ── AI helpers ────────────────────────────────────────────────────────────────
 
 async function generateOutline(
-  openai: OpenAI,
   courseTitle: string,
   prompt: string,
 ): Promise<Array<{ title: string; sort_order: number; description: string }>> {
-  const completion = await openai.chat.completions.create({
+  const completion = await aiChat({
     model: 'gpt-4.1',
     messages: [
       {
@@ -54,30 +48,25 @@ Return ONLY valid JSON — no markdown:
 }
 Rules: 6-12 lessons total. Titles are specific and action-oriented.`,
       },
-      {
-        role: 'user',
-        content: `Course: "${courseTitle}"\n\nDescription/Prompt: ${prompt}`,
-      },
+      { role: 'user', content: `Course: "${courseTitle}"\n\nDescription/Prompt: ${prompt}` },
     ],
     temperature: 0.3,
-    max_tokens: 1500,
-    response_format: { type: 'json_object' },
+    maxTokens: 1500,
   });
 
-  const raw = completion.choices[0]?.message?.content;
-  if (!raw) throw new Error('Empty outline response from OpenAI');
+  const raw = completion.content;
+  if (!raw) throw new Error('Empty outline response from AI service');
   const parsed = JSON.parse(raw);
   if (!Array.isArray(parsed.lessons)) throw new Error('Invalid outline shape');
   return parsed.lessons;
 }
 
 async function generateLessonContent(
-  openai: OpenAI,
   courseTitle: string,
   lessonTitle: string,
   lessonDescription: string,
 ): Promise<string> {
-  const completion = await openai.chat.completions.create({
+  const completion = await aiChat({
     model: 'gpt-4.1',
     messages: [
       {
@@ -92,10 +81,10 @@ Use clear headings, short paragraphs, and practical examples.`,
       },
     ],
     temperature: 0.4,
-    max_tokens: 1200,
+    maxTokens: 1200,
   });
 
-  return completion.choices[0]?.message?.content?.trim() ?? '';
+  return completion.content?.trim() ?? '';
 }
 
 // ── Route handler ─────────────────────────────────────────────────────────────
@@ -146,10 +135,8 @@ export async function POST(
       })
       .eq('id', courseId);
 
-    const openai = getOpenAI();
-
     // ── Phase 2: generate outline, insert lesson shells ───────────────────
-    const outline = await generateOutline(openai, course.title, prompt);
+    const outline = await generateOutline(course.title, prompt);
 
     // Only insert shells for lessons that don't already exist (safe re-run)
     const { data: existing } = await db
@@ -216,7 +203,6 @@ export async function POST(
         .eq('id', lesson.id);
 
       const content = await generateLessonContent(
-        openai,
         course.title,
         lesson.title,
         lesson.generator_prompt ?? lesson.title,

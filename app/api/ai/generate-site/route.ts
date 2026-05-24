@@ -1,19 +1,10 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 import { getRecommendedTemplate } from '@/lib/templates/designs';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiAuthGuard } from '@/lib/admin/guards';
-
-// Lazy-load OpenAI client to prevent build-time errors
-function getOpenAI() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error('OPENAI_API_KEY not configured');
-  }
-  return new OpenAI({ apiKey });
-}
 
 /**
  * POST /api/ai/generate-site
@@ -76,21 +67,17 @@ Generate a JSON configuration with COMPELLING, SPECIFIC content:
 Be specific to ${industry || 'their'} industry. Use real-sounding program names.
 Return ONLY valid JSON, no markdown.`;
 
-    const openai = getOpenAI();
-    const completion = await openai.chat.completions.create({
+    const completion = await aiChat({
       model: 'gpt-4.1',
       messages: [
-        {
-          role: 'system',
-          content: 'You are a site configuration generator. Return only valid JSON.',
-        },
+        { role: 'system', content: 'You are a site configuration generator. Return only valid JSON.' },
         { role: 'user', content: prompt },
       ],
       temperature: 0.7,
-      max_tokens: 2000,
+      maxTokens: 2000,
     });
 
-    const responseText = completion.choices[0]?.message?.content || '';
+    const responseText = completion.content || '';
 
     // Parse JSON from response
     let siteConfig;

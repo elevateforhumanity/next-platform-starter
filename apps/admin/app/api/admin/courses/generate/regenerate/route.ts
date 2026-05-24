@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 import type { GeneratedLesson } from '../route';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -58,8 +58,6 @@ export async function POST(req: NextRequest) {
       instruction?: string;
     } = body;
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
     const prompt = `Regenerate lesson ${lesson_number} "${lesson_title}" from module "${module_title}" in course "${course_title}".
 ${instruction ? `Additional instruction: ${instruction}` : ''}
 
@@ -79,16 +77,15 @@ Return ONLY a JSON object for a single lesson:
 }
 Minimum 2 quiz questions. Real instructional content only.`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await aiChat({
       model: 'gpt-4.1',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.4,
-      max_tokens: 2000,
-      response_format: { type: 'json_object' },
+      maxTokens: 2000,
     });
 
-    const raw = completion.choices[0]?.message?.content;
-    if (!raw) return NextResponse.json({ error: 'Empty response' }, { status: 500 });
+    const raw = completion.content;
+    if (!raw) return NextResponse.json({ error: 'Empty response from AI service' }, { status: 500 });
 
     const lesson: GeneratedLesson = JSON.parse(raw);
     lesson.lesson_number = lesson_number; // enforce original number

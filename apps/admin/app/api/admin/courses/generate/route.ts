@@ -12,7 +12,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import OpenAI from 'openai';
+import { aiChat } from '@/lib/ai/ai-service';
 
 import { withRuntime } from '@/lib/api/withRuntime';
 
@@ -148,26 +148,24 @@ async function _POST(req: NextRequest) {
       return NextResponse.json({ error: 'raw_text is required' }, { status: 400 });
     }
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    const completion = await openai.chat.completions.create({
+    const completion = await aiChat({
       model: 'gpt-4.1',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `Input type: ${input_type || 'syllabus'}\n\n${raw_text.trim()}` },
       ],
       temperature: 0.3,
-      max_tokens: 8000,
-      response_format: { type: 'json_object' },
+      maxTokens: 8000,
     });
 
-    const raw = completion.choices[0]?.message?.content;
-    if (!raw) return NextResponse.json({ error: 'Empty response from OpenAI' }, { status: 500 });
+    const raw = completion.content;
+    if (!raw) return NextResponse.json({ error: 'Empty response from AI service' }, { status: 500 });
 
     let course: GeneratedCourse;
     try {
       course = JSON.parse(raw);
     } catch {
-      return NextResponse.json({ error: 'OpenAI returned invalid JSON' }, { status: 500 });
+      return NextResponse.json({ error: 'AI service returned invalid JSON' }, { status: 500 });
     }
 
     if (!course.title || !course.modules?.length) {
