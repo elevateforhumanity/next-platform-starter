@@ -16,7 +16,7 @@ import { LearnerActionButtons } from "./LearnerActionButtons";
 import { LeadActionButtons } from "./LeadActionButtons";
 import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
 import { SystemHealthPanel } from "./SystemHealthPanel";
-import { KpiGrid } from "./KpiGrid";
+import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
 
@@ -453,7 +453,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
           <div className="mb-6">
-            <KpiGrid kpis={data.kpis} />
+            <RealtimeKpiGrid kpis={data.kpis} />
           </div>
         )}
 

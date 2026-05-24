@@ -2,25 +2,25 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { createClient } from '@supabase/supabase-js';
 import {
-  Activity, AlertTriangle, Bot, CheckCircle, Clock, Database,
+  Activity, AlertTriangle, Bot, CheckCircle, Database,
   DatabaseBackup, FileSearch, RefreshCw, Server, Shield,
   Terminal, TrendingUp, Users, Zap, XCircle, Mail,
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MissionData = {
-  dbConnected: boolean;
-  totalUsers: number;
-  totalEnrollments: number;
+/** Shape passed from the server component (page.tsx) */
+type Snapshot = {
+  students: number;
+  activeEnrollments: number;
   pendingApplications: number;
-  enrollmentsToday: number;
-  emailsSentToday: number;
-  emailsFailedToday: number;
-  certificatesThisWeek: number;
-  recentAuditLogs: { id: string; action: string; created_at: string; user_id: string }[];
-  recentSnapshots: { id: string; snapshot_type: string; label: string; rolled_back: boolean; created_at: string }[];
+  openAtRisk: number;
+  publishedPrograms: number;
+  activeCourses: number;
+  pendingDocuments: number;
+  fetchedAt: string;
 };
 
 type AIStatus = {
@@ -98,18 +98,27 @@ const SNAPSHOT_COLORS: Record<string, string> = {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export default function MissionControlClient({ data }: { data: MissionData }) {
+type AuditLog = { id: string; action: string; created_at: string; user_id: string };
+type SnapshotRow = { id: string; snapshot_type: string; label: string; rolled_back: boolean; created_at: string };
+
+export default function MissionControlClient({ snapshot }: { snapshot: Snapshot }) {
+  const [counts, setCounts] = useState<Snapshot>(snapshot);
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [snapshots, setSnapshots] = useState<SnapshotRow[]>([]);
   const [aiStatus, setAiStatus] = useState<AIStatus | null>(null);
   const [sysStatus, setSysStatus] = useState<SystemStatus | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
+  const [lastRefresh, setLastRefresh] = useState(new Date(snapshot.fetchedAt));
 
+  // ── Platform health + recent activity polling (30s) ───────────────────────
   const fetchLiveStatus = useCallback(async () => {
-    // Single call to the platform health aggregator
-    const res = await fetch('/api/admin/platform-health').catch(() => null);
-    if (res?.ok) {
-      const health = await res.json();
-      // Map to existing state shapes
+    const [healthRes, activityRes] = await Promise.all([
+      fetch('/api/admin/platform-health').catch(() => null),
+      fetch('/api/admin/mission-control/activity').catch(() => null),
+    ]);
+
+    if (healthRes?.ok) {
+      const health = await healthRes.json();
       setAiStatus({
         activeProvider: health.ai?.activeProvider ?? null,
         providers: health.ai?.providers ?? [],
@@ -124,6 +133,13 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
         },
       });
     }
+
+    if (activityRes?.ok) {
+      const activity = await activityRes.json();
+      setAuditLogs(activity.auditLogs ?? []);
+      setSnapshots(activity.snapshots ?? []);
+    }
+
     setLastRefresh(new Date());
   }, []);
 
@@ -133,13 +149,64 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
     return () => clearInterval(interval);
   }, [fetchLiveStatus]);
 
+  // ── Supabase realtime — live count updates ─────────────────────────────────
+  useEffect(() => {
+    const url  = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return;
+
+    const sb = createClient(url, key);
+
+    const channel = sb.channel('mission-control-counts')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, () => {
+        setCounts(c => ({ ...c, students: c.students + 1 }));
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'program_enrollments' }, () => {
+        setCounts(c => ({ ...c, activeEnrollments: c.activeEnrollments + 1 }));
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
+        // If status changed away from active, decrement
+        if (payload.old?.status === 'active' && payload.new?.status !== 'active') {
+          setCounts(c => ({ ...c, activeEnrollments: Math.max(0, c.activeEnrollments - 1) }));
+        } else if (payload.old?.status !== 'active' && payload.new?.status === 'active') {
+          setCounts(c => ({ ...c, activeEnrollments: c.activeEnrollments + 1 }));
+        }
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'applications' }, (payload) => {
+        if (payload.new?.status === 'pending') {
+          setCounts(c => ({ ...c, pendingApplications: c.pendingApplications + 1 }));
+        }
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'applications' }, (payload) => {
+        if (payload.old?.status === 'pending' && payload.new?.status !== 'pending') {
+          setCounts(c => ({ ...c, pendingApplications: Math.max(0, c.pendingApplications - 1) }));
+        } else if (payload.old?.status !== 'pending' && payload.new?.status === 'pending') {
+          setCounts(c => ({ ...c, pendingApplications: c.pendingApplications + 1 }));
+        }
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'documents' }, (payload) => {
+        if (payload.new?.status === 'pending_review') {
+          setCounts(c => ({ ...c, pendingDocuments: c.pendingDocuments + 1 }));
+        }
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'documents' }, (payload) => {
+        if (payload.old?.status === 'pending_review' && payload.new?.status !== 'pending_review') {
+          setCounts(c => ({ ...c, pendingDocuments: Math.max(0, c.pendingDocuments - 1) }));
+        }
+      })
+      .subscribe();
+
+    return () => { sb.removeChannel(channel); };
+  }, []);
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await fetchLiveStatus();
     setRefreshing(false);
   };
 
-  const overallHealth = !data.dbConnected ? 'down'
+  const dbConnected = sysStatus ? sysStatus.checks.database.connected : true;
+  const overallHealth = !dbConnected ? 'down'
     : sysStatus?.overall === 'degraded' ? 'degraded'
     : 'healthy';
 
@@ -181,17 +248,17 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard label="Total Users" value={data.totalUsers} icon={Users} color="bg-blue-900/50 text-blue-400" href="/admin/students" />
-          <StatCard label="Enrollments" value={data.totalEnrollments} icon={TrendingUp} color="bg-green-900/50 text-green-400" href="/admin/enrollments" />
-          <StatCard label="Pending Applications" value={data.pendingApplications} icon={AlertTriangle} color={data.pendingApplications > 0 ? "bg-amber-900/50 text-amber-400" : "bg-slate-800 text-slate-400"} href="/admin/applications" />
-          <StatCard label="Certs This Week" value={data.certificatesThisWeek} icon={Shield} color="bg-purple-900/50 text-purple-400" href="/admin/certificates" />
+          <StatCard label="Students" value={counts.students} icon={Users} color="bg-blue-900/50 text-blue-400" href="/admin/students" />
+          <StatCard label="Active Enrollments" value={counts.activeEnrollments} icon={TrendingUp} color="bg-green-900/50 text-green-400" href="/admin/enrollments" />
+          <StatCard label="Pending Applications" value={counts.pendingApplications} icon={AlertTriangle} color={counts.pendingApplications > 0 ? "bg-amber-900/50 text-amber-400" : "bg-slate-800 text-slate-400"} href="/admin/applications" />
+          <StatCard label="At-Risk Students" value={counts.openAtRisk} icon={Shield} color={counts.openAtRisk > 0 ? "bg-red-900/50 text-red-400" : "bg-slate-800 text-slate-400"} href="/admin/students?filter=at-risk" />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard label="Enrollments Today" value={data.enrollmentsToday} icon={Activity} color="bg-green-900/50 text-green-400" />
-          <StatCard label="Emails Sent Today" value={data.emailsSentToday} icon={Mail} color="bg-blue-900/50 text-blue-400" />
-          <StatCard label="Email Failures Today" value={data.emailsFailedToday} icon={XCircle} color={data.emailsFailedToday > 0 ? "bg-red-900/50 text-red-400" : "bg-slate-800 text-slate-400"} href="/admin/automation" />
-          <StatCard label="DB Status" value={data.dbConnected ? 'Connected' : 'Error'} icon={Database} color={data.dbConnected ? "bg-green-900/50 text-green-400" : "bg-red-900/50 text-red-400"} />
+          <StatCard label="Published Programs" value={counts.publishedPrograms} icon={Activity} color="bg-green-900/50 text-green-400" href="/admin/programs" />
+          <StatCard label="Active Courses" value={counts.activeCourses} icon={Mail} color="bg-blue-900/50 text-blue-400" href="/admin/courses" />
+          <StatCard label="Pending Documents" value={counts.pendingDocuments} icon={XCircle} color={counts.pendingDocuments > 0 ? "bg-amber-900/50 text-amber-400" : "bg-slate-800 text-slate-400"} href="/admin/documents" />
+          <StatCard label="DB Status" value={dbConnected ? 'Connected' : 'Error'} icon={Database} color={dbConnected ? "bg-green-900/50 text-green-400" : "bg-red-900/50 text-red-400"} />
         </div>
 
         {/* Main grid */}
@@ -285,9 +352,9 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
           {/* Middle col: Recent audit logs */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
             <SectionHeader title="Recent Audit Events" href="/admin/audit-logs" icon={FileSearch} />
-            {data.recentAuditLogs.length > 0 ? (
+            {auditLogs.length > 0 ? (
               <div className="space-y-1">
-                {data.recentAuditLogs.map((log) => (
+                {auditLogs.map((log) => (
                   <div key={log.id} className="py-2 border-b border-slate-800 last:border-0">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-slate-300 text-xs font-medium truncate flex-1">{log.action}</p>
@@ -310,9 +377,9 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
             {/* Recent snapshots */}
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
               <SectionHeader title="Recent Snapshots" href="/admin/snapshots" icon={DatabaseBackup} />
-              {data.recentSnapshots.length > 0 ? (
+              {snapshots.length > 0 ? (
                 <div className="space-y-2">
-                  {data.recentSnapshots.map((snap) => (
+                  {snapshots.map((snap) => (
                     <div key={snap.id} className="flex items-start justify-between gap-2 py-1.5 border-b border-slate-800 last:border-0">
                       <div className="flex-1 min-w-0">
                         <p className={`text-xs font-medium ${SNAPSHOT_COLORS[snap.snapshot_type] ?? 'text-slate-400'}`}>
@@ -358,14 +425,14 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
             </div>
 
             {/* Pending actions */}
-            {data.pendingApplications > 0 && (
+            {counts.pendingApplications > 0 && (
               <div className="bg-amber-950/30 border border-amber-800 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" />
                   <h2 className="text-sm font-semibold text-amber-300">Action Required</h2>
                 </div>
                 <p className="text-amber-200 text-sm">
-                  {data.pendingApplications} application{data.pendingApplications !== 1 ? 's' : ''} pending review
+                  {counts.pendingApplications} application{counts.pendingApplications !== 1 ? 's' : ''} pending review
                 </p>
                 <Link
                   href="/admin/applications"
@@ -376,25 +443,25 @@ export default function MissionControlClient({ data }: { data: MissionData }) {
               </div>
             )}
 
-            {data.emailsFailedToday > 0 && (
-              <div className="bg-red-950/30 border border-red-800 rounded-xl p-4">
+            {counts.pendingDocuments > 0 && (
+              <div className="bg-amber-950/30 border border-amber-800 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <XCircle className="w-4 h-4 text-red-400" />
-                  <h2 className="text-sm font-semibold text-red-300">Email Failures</h2>
+                  <XCircle className="w-4 h-4 text-amber-400" />
+                  <h2 className="text-sm font-semibold text-amber-300">Documents Pending</h2>
                 </div>
-                <p className="text-red-200 text-sm">
-                  {data.emailsFailedToday} email{data.emailsFailedToday !== 1 ? 's' : ''} failed today
+                <p className="text-amber-200 text-sm">
+                  {counts.pendingDocuments} document{counts.pendingDocuments !== 1 ? 's' : ''} awaiting review
                 </p>
                 <Link
-                  href="/admin/automation"
-                  className="mt-2 inline-block text-xs text-red-400 hover:text-red-300 transition-colors"
+                  href="/admin/documents"
+                  className="mt-2 inline-block text-xs text-amber-400 hover:text-amber-300 transition-colors"
                 >
-                  View delivery log →
+                  Review documents →
                 </Link>
               </div>
             )}
 
-            {data.pendingApplications === 0 && data.emailsFailedToday === 0 && (
+            {counts.pendingApplications === 0 && counts.pendingDocuments === 0 && (
               <div className="bg-green-950/30 border border-green-800 rounded-xl p-4 flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
                 <p className="text-green-300 text-sm">No pending actions</p>

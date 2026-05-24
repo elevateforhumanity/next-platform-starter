@@ -159,11 +159,15 @@ export function AdaptiveLearningPath() {
       }
     };
     loadPaths();
-  }, [defaultPaths]);
+  }, []);
 
   const calculateMatchScore = (path: any, skills: any[]) => {
-    // Simple match calculation based on skills
-    return 85 + Math.floor(Math.random() * 15);
+    if (!skills?.length) return 0;
+    const pathSkills: string[] = path.skills ?? path.required_skills ?? [];
+    if (!pathSkills.length) return 0;
+    const userSkillIds = new Set(skills.map((s: any) => s.skill_id ?? s.id ?? s));
+    const matched = pathSkills.filter((s) => userSkillIds.has(s)).length;
+    return Math.round((matched / pathSkills.length) * 100);
   };
 
   const enrollInPath = async (pathId: string) => {

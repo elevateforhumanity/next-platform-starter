@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 
 // Consolidated into /admin/courses/pipeline
-export default function GenerateCoursePage() {
+export default function Page() {
   redirect('/admin/courses/pipeline');
 }
-

@@ -1,10 +1,7 @@
-import { requireRole } from '@/lib/auth/require-role';
-import CourseGeneratorClient from './CourseGeneratorClient';
+import { redirect } from 'next/navigation';
 
-export { metadata } from './layout';
-export const dynamic = 'force-dynamic';
-
-export default async function Page() {
-  await requireRole(['admin', 'super_admin', 'staff']);
-  return <CourseGeneratorClient />;
+// Consolidated into /admin/courses/pipeline
+export default function Page() {
+  redirect('/admin/courses/pipeline');
 }
+

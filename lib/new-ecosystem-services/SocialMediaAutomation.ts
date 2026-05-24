@@ -361,17 +361,13 @@ export class SocialMediaAutomation {
     return report;
   }
   /**
-   * Fetch engagement metrics for a post
+   * Fetch engagement metrics for a post.
+   * Returns undefined until a real social API integration is wired.
+   * Callers use optional chaining — zero counts are shown when undefined.
+   * TODO: integrate platform APIs (Meta Graph, LinkedIn, X) to return real counts.
    */
-  private async fetchEngagement(post: SocialMediaPost): Promise<any> {
-    // Simulate fetching engagement data
-    // In production, call actual social media APIs
-    return {
-      likes: Math.floor(Math.random() * 100),
-      shares: Math.floor(Math.random() * 50),
-      comments: Math.floor(Math.random() * 30),
-      views: Math.floor(Math.random() * 1000),
-    };
+  private async fetchEngagement(_post: SocialMediaPost): Promise<undefined> {
+    return undefined;
   }
   /**
    * Schedule 3x daily reports

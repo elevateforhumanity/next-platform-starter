@@ -197,10 +197,10 @@ Include Assignments: ${formData.includeAssignments}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Link
-              href="/admin/course-builder/generate"
+              href="/admin/courses/pipeline"
               className="text-xs px-3 py-1.5 rounded border border-brand-blue-300 bg-brand-blue-50 text-brand-blue-700 hover:bg-brand-blue-100 transition-colors"
             >
-              Open Central Processing Generator
+              Open Course Pipeline
             </Link>
             <Link
               href="/admin/dev-studio?tab=command&command=Generate%20a%20new%20course"

@@ -48,8 +48,8 @@ export default async function GeminiIntegrationPage() {
       description: 'Generates TTS audio for lesson content',
     },
     {
-      surface: 'Course Generator',
-      route: '/admin/course-generator',
+      surface: 'Course Pipeline',
+      route: '/admin/courses/pipeline',
       description: 'AI-assisted course outline and lesson generation',
     },
     {

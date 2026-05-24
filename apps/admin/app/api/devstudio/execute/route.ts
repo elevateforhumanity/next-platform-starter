@@ -44,6 +44,8 @@ import { logger } from '@/lib/logger';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { withRetry } from '@/lib/resilience';
+import { aiChat } from '@/lib/ai/ai-service';
 import { getAdminUrl, getSiteUrl } from '@/lib/utils/siteUrl';
 import { getKnowledgeGraphContext, PLATFORM_DEBT, SYSTEMS } from '@/lib/platform/knowledge-graph';
 import { getSystemRegistryContext, requiresConfirmation } from '@/lib/platform/system-registry';
@@ -57,6 +59,9 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
 // ── AI provider — loads keys from platform_secrets then tries all providers ─
+// Tool-calling providers (Groq, OpenAI) are wrapped with withRetry for
+// transient failures. aiChat() from lib/ai/ai-service is used as the final
+// text-only fallback when all tool-calling providers are unavailable.
 async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[]): Promise<{ content: string | null; toolCalls?: unknown[] }> {
   // Force-refresh secrets from platform_secrets on every AI call so keys
   // saved via the Secrets panel are immediately visible without a redeploy.
@@ -70,67 +75,87 @@ async function callAI(systemPrompt: string, userPrompt: string, tools?: unknown[
   // Try Groq — supports function calling with tool_choice: 'required'
   if (isGroqConfigured()) {
     try {
-      const groq = getGroqClient();
-      const req: Parameters<typeof groq.chat.completions.create>[0] = {
-        model: 'llama-3.3-70b-versatile',
-        messages,
-        temperature: 0.1,
-        max_tokens: 1024,
-      };
-      if (tools?.length) {
-        (req as any).tools = tools;
-        (req as any).tool_choice = 'required';
-      }
-      const res = await groq.chat.completions.create(req);
-      const msg = res.choices[0].message;
-      if (msg.tool_calls?.length) {
-        return { content: null, toolCalls: msg.tool_calls };
-      }
+      const result = await withRetry(async () => {
+        const groq = getGroqClient();
+        const req: Parameters<typeof groq.chat.completions.create>[0] = {
+          model: 'llama-3.3-70b-versatile',
+          messages,
+          temperature: 0.1,
+          max_tokens: 1024,
+        };
+        if (tools?.length) {
+          (req as any).tools = tools;
+          (req as any).tool_choice = 'required';
+        }
+        return groq.chat.completions.create(req);
+      }, { attempts: 2, baseDelayMs: 300, label: 'devstudio/groq' });
+
+      const msg = result.choices[0].message;
+      if (msg.tool_calls?.length) return { content: null, toolCalls: msg.tool_calls };
       return { content: msg.content };
     } catch (err) {
       logger.warn('[devstudio/execute] Groq failed, trying OpenAI', err);
     }
   }
 
-  // Fallback — OpenAI via canonical ai-service (supports function calling)
+  // Fallback — OpenAI (supports function calling)
   if (process.env.OPENAI_API_KEY) {
     try {
-      const OpenAI = (await import('openai')).default;
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const req: Parameters<typeof openai.chat.completions.create>[0] = {
-        model: 'gpt-4o-mini',
-        messages,
-        temperature: 0.1,
-        max_tokens: 1024,
-      };
-      if (tools?.length) {
-        (req as any).tools = tools;
-        (req as any).tool_choice = 'required';
-      }
-      const res = await openai.chat.completions.create(req);
-      const msg = res.choices[0].message;
-      if (msg.tool_calls?.length) {
-        return { content: null, toolCalls: msg.tool_calls };
-      }
+      const result = await withRetry(async () => {
+        const OpenAI = (await import('openai')).default;
+        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        const req: Parameters<typeof openai.chat.completions.create>[0] = {
+          model: 'gpt-4o-mini',
+          messages,
+          temperature: 0.1,
+          max_tokens: 1024,
+        };
+        if (tools?.length) {
+          (req as any).tools = tools;
+          (req as any).tool_choice = 'required';
+        }
+        return openai.chat.completions.create(req);
+      }, { attempts: 2, baseDelayMs: 500, label: 'devstudio/openai' });
+
+      const msg = result.choices[0].message;
+      if (msg.tool_calls?.length) return { content: null, toolCalls: msg.tool_calls };
       return { content: msg.content };
     } catch (err) {
       logger.warn('[devstudio/execute] OpenAI failed, trying Gemini', err);
     }
   }
 
-  // Final fallback — Gemini (no function calling — plain text only)
+  // Gemini — no function calling, plain text only
   if (isGeminiConfigured()) {
     try {
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        systemInstruction: systemPrompt,
-      });
-      const result = await model.generateContent(userPrompt);
+      const result = await withRetry(async () => {
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+        const model = genAI.getGenerativeModel({
+          model: 'gemini-1.5-flash',
+          systemInstruction: systemPrompt,
+        });
+        return model.generateContent(userPrompt);
+      }, { attempts: 2, baseDelayMs: 500, label: 'devstudio/gemini' });
+
       return { content: result.response.text() };
     } catch (err) {
-      logger.warn('[devstudio/execute] Gemini failed', err);
+      logger.warn('[devstudio/execute] Gemini failed, trying aiChat fallback', err);
     }
+  }
+
+  // Final fallback — aiChat() resilience layer (text-only, no tool dispatch)
+  try {
+    const result = await aiChat({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.1,
+      maxTokens: 1024,
+    });
+    return { content: result.content };
+  } catch (err) {
+    logger.warn('[devstudio/execute] aiChat fallback failed', err);
   }
 
   throw new Error(
