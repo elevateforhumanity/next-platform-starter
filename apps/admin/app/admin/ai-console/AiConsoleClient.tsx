@@ -103,7 +103,7 @@ export default function AiConsoleClient() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950">
+    <div className="flex flex-col h-[calc(100vh-64px)] lg:h-full bg-slate-950">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900">
         <div className="flex items-center gap-3">

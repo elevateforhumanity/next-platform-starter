@@ -318,13 +318,22 @@ async function loadMemory(db: SupabaseClient, userId: string, sessionId: string)
     .select('role, content')
     .eq('user_id', userId)
     .eq('session_id', sessionId)
+    .gt('expires_at', new Date().toISOString())
     .order('created_at', { ascending: true })
     .limit(30);
   return (data ?? []) as { role: string; content: string }[];
 }
 
 async function saveMemory(db: SupabaseClient, userId: string, sessionId: string, role: 'user' | 'assistant', content: string) {
-  await db.from('ai_conversation_memory').insert({ user_id: userId, session_id: sessionId, role, content });
+  // Non-fatal — if the table doesn't exist yet the conversation still works,
+  // it just won't have cross-message memory until the migration is applied.
+  await db.from('ai_conversation_memory').insert({
+    user_id: userId,
+    session_id: sessionId,
+    role,
+    content,
+    expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+  }).then(() => {}, () => {});
 }
 
 export async function POST(request: NextRequest) {

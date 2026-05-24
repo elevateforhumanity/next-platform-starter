@@ -101,7 +101,8 @@ export default function XTerminalRenderer({ ws, connecting }: Props) {
       termRef.current = null;
       fitRef.current  = null;
     };
-  }, []); // mount once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // mount once — ws is read via closure, intentionally not a dep
 
   // Wire incoming WebSocket messages to the terminal
   useEffect(() => {

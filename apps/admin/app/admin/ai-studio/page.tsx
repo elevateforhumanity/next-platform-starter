@@ -4,7 +4,8 @@ import AiConsoleClient from '../ai-console/AiConsoleClient';
 import Link from 'next/link';
 import {
   Bot, Wrench, KeyRound, Upload, FileText, Printer,
-  BookOpen, Zap, GitBranch, Terminal,
+  BookOpen, Zap, Terminal, GitMerge,
+  Activity, FlaskConical,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -15,16 +16,22 @@ export const metadata: Metadata = {
 };
 
 const TOOL_LINKS = [
-  { label: 'Course Builder',        href: '/admin/course-builder',        icon: Bot,      desc: 'AI-powered course generation' },
-  { label: 'Dev Studio',            href: '/admin/dev-studio',            icon: Wrench,   desc: 'Command center & automation' },
-  { label: 'Secrets',               href: '/admin/dev-studio?tab=secrets', icon: KeyRound, desc: 'AI provider key management' },
-  { label: 'Workflows',             href: '/admin/workflows',             icon: Zap,      desc: 'Automated workflow rules' },
-  { label: 'Command Center',        href: '/admin/command-center',        icon: Terminal, desc: 'Live platform observability' },
-  { label: 'Copilot',               href: '/admin/copilot',               icon: GitBranch,desc: 'AI copilot deployments' },
-  { label: 'Documents Upload',      href: '/admin/documents/upload',      icon: Upload,   desc: 'Upload for OCR & review' },
-  { label: 'Documents',             href: '/admin/documents',             icon: FileText, desc: 'Browse all documents' },
-  { label: 'Documents Print',       href: '/admin/documents/print',       icon: Printer,  desc: 'Print workflow' },
-  { label: 'All Courses',           href: '/admin/courses',               icon: BookOpen, desc: 'Course catalog' },
+  // ── Course AI ──────────────────────────────────────────────────────────────
+  { label: 'Course Pipeline',       href: '/admin/courses/pipeline',      icon: FlaskConical, desc: 'Generate full courses with AI' },
+  { label: 'Course Builder',        href: '/admin/course-builder',        icon: Bot,          desc: 'Blueprint & lesson editor' },
+  { label: 'All Courses',           href: '/admin/courses',               icon: BookOpen,     desc: 'Course catalog' },
+  // ── Platform AI ───────────────────────────────────────────────────────────
+  { label: 'Copilot',               href: '/admin/copilot',               icon: GitMerge,     desc: 'AI copilot deployments' },
+  { label: 'Workflows',             href: '/admin/workflows',             icon: Zap,          desc: 'Automated workflow rules' },
+  { label: 'Command Center',        href: '/admin/command-center',        icon: Activity,     desc: 'Live platform observability' },
+  // ── Dev tools ─────────────────────────────────────────────────────────────
+  { label: 'Dev Studio',            href: '/admin/dev-studio',            icon: Wrench,       desc: 'Command center & automation' },
+  { label: 'Secrets',               href: '/admin/dev-studio?tab=secrets', icon: KeyRound,    desc: 'AI provider key management' },
+  { label: 'API Keys',              href: '/admin/api-keys',              icon: Terminal,     desc: 'Manage API credentials' },
+  // ── Documents ─────────────────────────────────────────────────────────────
+  { label: 'Documents Upload',      href: '/admin/documents/upload',      icon: Upload,       desc: 'Upload for OCR & review' },
+  { label: 'Documents',             href: '/admin/documents',             icon: FileText,     desc: 'Browse all documents' },
+  { label: 'Documents Print',       href: '/admin/documents/print',       icon: Printer,      desc: 'Print workflow' },
 ];
 
 export default async function AiStudioPage() {
