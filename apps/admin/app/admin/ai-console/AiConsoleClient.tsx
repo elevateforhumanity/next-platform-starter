@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import {
   Send, Bot, User, Loader2, Trash2, Copy, Check,
   AlertTriangle, CheckCircle2, RefreshCw,
@@ -216,7 +217,7 @@ export default function AiConsoleClient() {
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-amber-500" />
           <span>
             No AI provider keys configured. Go to{' '}
-            <a href="/admin/dev-studio?tab=secrets" className="underline font-medium">Dev Studio → Secrets</a>
+            <Link href="/admin/dev-studio?tab=secrets" className="underline font-medium">Dev Studio → Secrets</Link>
             {' '}to add OPENAI_API_KEY, GROQ_API_KEY, or GEMINI_API_KEY.
           </span>
         </div>
