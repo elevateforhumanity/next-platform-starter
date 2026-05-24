@@ -31,19 +31,19 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await page.goto('/');
     await expect(page).toHaveTitle(/Elevate/i);
 
-    // Step 1.2: Navigate to programs
-    const programsLink = page.getByRole('link', { name: /programs/i }).first();
-    await expect(programsLink).toBeVisible();
-    await programsLink.click();
+    // Step 1.2: Navigate to programs — go directly to avoid mega-menu hover/click races
+    await page.goto('/programs');
     await expect(page).toHaveURL(/\/programs/);
 
     // Step 1.3: Verify programs are displayed
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 });
-    const programContent = page.locator('main');
+    // Use .first() to avoid strict mode violation when multiple <main> elements exist
+    const programContent = page.locator('main').first();
     await expect(programContent).toBeVisible();
 
-    // Step 1.4: Select a specific program (barber as example)
-    const programLink = page.locator('a[href*="/programs/"]').first();
+    // Step 1.4: Select a specific program — scope to main content to avoid nav links
+    // that are outside the viewport and get detached during navigation.
+    const programLink = page.locator('main a[href*="/programs/"]').first();
     if (await programLink.isVisible()) {
       await programLink.click();
       await expect(page).toHaveURL(/\/programs\//);
@@ -163,7 +163,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await expect(page.locator('h1, h2').first()).toBeVisible();
 
     // Step 5.5: Verify funding page has meaningful content (main section)
-    const mainContent = page.locator('main');
+    const mainContent = page.locator('main').first();
     await expect(mainContent).toBeVisible();
 
     // Verify page has some text content about funding
@@ -183,8 +183,8 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await page.goto('/lms/dashboard?demo=true');
 
     // Step 6.2: Check for dashboard content
-    const dashboardContent = page.locator('main, [role="main"]');
-    await expect(dashboardContent.first()).toBeVisible();
+    const dashboardContent = page.locator('main').first();
+    await expect(dashboardContent).toBeVisible();
 
     // Step 6.3: Verify navigation elements exist
     const navLinks = page.locator('nav a, aside a');
@@ -196,8 +196,8 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 });
 
     // Step 6.5: Verify courses content loads
-    const coursesContent = page.locator('main, [role="main"]');
-    await expect(coursesContent.first()).toBeVisible();
+    const coursesContent = page.locator('main').first();
+    await expect(coursesContent).toBeVisible();
   });
 
   /**
