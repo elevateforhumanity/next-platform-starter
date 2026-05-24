@@ -12,27 +12,11 @@ DO $$ BEGIN
   ALTER TABLE public.courses ADD CONSTRAINT courses_course_code_key UNIQUE (course_code);
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
--- Backfill existing rows using the same deterministic algorithm as generateCourseCode()
--- in lib/course-builder/pipeline.ts:
---   prefix = first 4 alpha chars of slug (uppercase)
---   suffix = first numeric run in slug (last 3 digits), or 3-digit hash
+-- Backfill existing rows: first 4 alpha chars of slug (uppercase) + first 6 hex chars of id.
+-- Using id suffix guarantees uniqueness across all rows regardless of slug collisions.
 UPDATE public.courses
 SET course_code = (
   UPPER(SUBSTRING(REGEXP_REPLACE(slug, '[^a-z]', '', 'gi'), 1, 4))
-  ||
-  LPAD(
-    COALESCE(
-      SUBSTRING(slug FROM '[0-9]+'),
-      CAST(
-        (
-          (
-            SELECT SUM(ASCII(c) * POW(31, pos))::BIGINT
-            FROM UNNEST(STRING_TO_ARRAY(slug, NULL)) WITH ORDINALITY AS t(c, pos)
-          ) % 900 + 100
-        ) AS TEXT
-      )
-    ),
-    3, '0'
-  )
+  || UPPER(SUBSTRING(REPLACE(id::text, '-', ''), 1, 6))
 )
 WHERE course_code IS NULL;
