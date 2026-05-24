@@ -28,15 +28,24 @@ const TerminalRenderer = dynamic(() => import('./XTerminalRenderer'), { ssr: fal
 export interface XTerminalProps {
   onConnect?: () => void;
   onDisconnect?: () => void;
+  /** Called with each chunk of text output from the shell — use to detect URLs */
+  onOutput?: (text: string) => void;
+  /**
+   * Called once on mount with a `send` function the parent can store.
+   * Calling send(cmd) types the command into the shell followed by Enter.
+   * The function becomes a no-op when the WebSocket is not open.
+   */
+  onReady?: (send: (cmd: string) => void) => void;
 }
 
 type Status = 'connecting' | 'connected' | 'disconnected' | 'error' | 'unconfigured';
 
-export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
+export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }: XTerminalProps) {
   const [status, setStatus] = useState<Status>('connecting');
   const [errorMsg, setErrorMsg] = useState('');
   const wsRef = useRef<WebSocket | null>(null);
   const pingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const onReadyFiredRef = useRef(false);
 
   const connect = useCallback(async () => {
     setStatus('connecting');
@@ -79,6 +88,16 @@ export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
       ws.send(JSON.stringify({ type: 'auth', token }));
       setStatus('connected');
       onConnect?.();
+
+      // Expose send function to parent — fired once per component lifetime
+      if (onReady && !onReadyFiredRef.current) {
+        onReadyFiredRef.current = true;
+        onReady((cmd: string) => {
+          if (wsRef.current?.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify({ type: 'input', data: cmd + '\r' }));
+          }
+        });
+      }
 
       // Keepalive ping every 30s
       pingRef.current = setInterval(() => {
@@ -155,6 +174,7 @@ export default function XTerminal({ onConnect, onDisconnect }: XTerminalProps) {
       <TerminalRenderer
         ws={wsRef.current}
         connecting={status === 'connecting'}
+        onOutput={onOutput}
       />
     </div>
   );

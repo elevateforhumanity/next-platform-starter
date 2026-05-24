@@ -31,9 +31,10 @@ if (typeof document !== 'undefined' && !document.getElementById('xterm-css')) {
 interface Props {
   ws: WebSocket | null;
   connecting: boolean;
+  onOutput?: (text: string) => void;
 }
 
-export default function XTerminalRenderer({ ws, connecting }: Props) {
+export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const termRef      = useRef<Terminal | null>(null);
   const fitRef       = useRef<FitAddon | null>(null);
@@ -116,6 +117,7 @@ export default function XTerminalRenderer({ ws, connecting }: Props) {
         switch (msg.type) {
           case 'output':
             term.write(msg.data as string);
+            onOutput?.(msg.data as string);
             break;
           case 'exit':
             term.write(`\r\n\x1b[33m[process exited with code ${msg.code}]\x1b[0m\r\n`);
