@@ -15,7 +15,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import OpenAI from 'openai';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import Groq from 'groq-sdk';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
             stream: true,
           });
         } else {
-          const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+          const openai = getOpenAIClient();
           completion = await openai.chat.completions.create({
             model: 'gpt-4.1',
             messages: allMessages,

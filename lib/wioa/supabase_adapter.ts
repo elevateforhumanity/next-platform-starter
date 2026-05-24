@@ -83,7 +83,7 @@ function boolTo01(v: boolean | null | undefined): number {
 
 // ── Adapter ────────────────────────────────────────────────────────────────
 
-export function createSupabaseAdapter(): PirlDataAdapter {
+export async function createSupabaseAdapter(): Promise<PirlDataAdapter> {
   const supabase: SupabaseClient = await requireAdminClient();
 
   return {

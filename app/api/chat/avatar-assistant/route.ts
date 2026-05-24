@@ -1,6 +1,6 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
+import { getOpenAIClient, isOpenAIConfigured } from '@/lib/ai/openai-client';
 import { createClient } from '@/lib/supabase/server';
 import { MASTER_AVATAR_PROMPT, getPageScript, getStatusScript } from '@/lib/avatar-scripts';
 import { applyRateLimit } from '@/lib/api/withRateLimit';

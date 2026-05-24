@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 
 function slugify(text: string): string {
   return text
@@ -11,7 +11,7 @@ function getOpenAIClient() {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error('OPENAI_API_KEY is not set');
   }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return getOpenAIClient();
 }
 
 export async function buildCourse({ title, objectives }: { title: string; objectives: string[] }) {

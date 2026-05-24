@@ -10,7 +10,7 @@
  *   Attempt 3: temperature 0.4
  */
 
-import { getOpenAIClient } from '@/lib/openai-client';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { validateCourseOutline, type CourseOutlinePayload } from '@/lib/ai/course-outline-schema';
 import { normalizeCourseOutline, type NormalizationLog } from '@/lib/ai/course-outline-normalizer';
 import { buildIndianaCompliancePromptFragment } from '@/lib/ai/indiana-compliance-map';

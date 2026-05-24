@@ -14,7 +14,7 @@
  *   Quiz data is stored in training_courses.metadata JSONB to avoid the integer/UUID mismatch.
  */
 
-import { getOpenAIClient } from '@/lib/openai-client';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { compileAllLessons } from '@/lib/ai/lesson-compiler';
 import type { CompiledLesson } from '@/lib/ai/lesson-compiler';
 

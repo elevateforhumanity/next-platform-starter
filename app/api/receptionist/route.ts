@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getOpenAIClient } from '@/lib/openai-client';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';

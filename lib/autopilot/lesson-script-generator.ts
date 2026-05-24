@@ -20,7 +20,7 @@
  *   5. Wrap-up (20s, ~50 words) — summary + preview next lesson
  */
 
-import OpenAI from 'openai';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { logger } from '@/lib/logger';
 
 export interface LessonSlide {
@@ -85,7 +85,7 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
   // If content is thin, use GPT to generate everything
   const needsEnrichment = plainContent.length < MIN_CONTENT_LENGTH;
 
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const openai = getOpenAIClient();
 
   const prompt = needsEnrichment
     ? buildFullGenerationPrompt(input)

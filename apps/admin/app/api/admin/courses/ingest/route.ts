@@ -5,7 +5,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { ingestCourse } from '@/lib/ai/course-ingestion';
 import { saveCourseBlueprint } from '@/lib/db/courses';
-import { isOpenAIConfigured, getOpenAIClient } from '@/lib/openai-client';
+import { isOpenAIConfigured, getOpenAIClient } from '@/lib/ai/openai-client';
 import { loadIndustryStandards } from '@/lib/industry/standards-loader';
 import { buildBlueprintSystemPrompt } from '@/lib/ai/prompts/course-blueprint';
 import { logger } from '@/lib/logger';

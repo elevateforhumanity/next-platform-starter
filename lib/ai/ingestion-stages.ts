@@ -20,7 +20,7 @@
  *   MAX_PAGES_OCR: 8 pages — OCR only first N pages of scanned PDFs
  */
 
-import { getOpenAIClient } from '@/lib/openai-client';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const SAFE_CHARS = 50_000;

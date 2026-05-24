@@ -17,7 +17,7 @@
  */
 
 import { z } from 'zod';
-import { getOpenAIClient } from '@/lib/openai-client';
+import { getOpenAIClient } from '@/lib/ai/openai-client';
 import {
   LESSON_COMPILER_SYSTEM,
   buildLessonCompilerPrompt,

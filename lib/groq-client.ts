@@ -10,7 +10,7 @@
 
 import Groq from 'groq-sdk';
 import { geminiJSON, isGeminiConfigured } from '@/lib/gemini-client';
-import { anthropicJSON, isAnthropicConfigured } from '@/lib/anthropic-client';
+import { anthropicJSON, isAnthropicConfigured } from '@/lib/ai/anthropic-client';
 import { logger } from '@/lib/logger';
 
 let _client: Groq | null = null;

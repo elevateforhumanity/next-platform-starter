@@ -9,7 +9,7 @@
  *   5. OpenAI tts-1-hd — standard high-quality TTS fallback
  */
 
-import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
+import { getOpenAIClient, isOpenAIConfigured } from '@/lib/ai/openai-client';
 import { getInstructorForCourse, generateLessonScript } from '@/lib/ai-instructors';
 import { logger } from '@/lib/logger';
 import fs from 'fs/promises';

@@ -18,7 +18,6 @@ export async function register() {
       try {
         const { NodeSDK } = await import('@opentelemetry/sdk-node');
         const { OTLPTraceExporter } = await import('@opentelemetry/exporter-trace-otlp-http');
-        const { getNodeAutoInstrumentations } = await import('@opentelemetry/auto-instrumentations-node');
         const { Resource } = await import('@opentelemetry/resources');
         const { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } = await import('@opentelemetry/semantic-conventions');
 
@@ -35,11 +34,10 @@ export async function register() {
                 )
               : {},
           }),
-          instrumentations: [
-            getNodeAutoInstrumentations({
-              '@opentelemetry/instrumentation-fs': { enabled: false }, // too noisy
-            }),
-          ],
+          // No auto-instrumentations package installed — sdk-node provides
+          // built-in HTTP/fetch tracing. Add @opentelemetry/auto-instrumentations-node
+          // to package.json to enable full instrumentation (pg, redis, etc.)
+          instrumentations: [],
         });
 
         sdk.start();
