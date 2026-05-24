@@ -67,9 +67,9 @@ echo "  → ESLint (changed files only)..."
 # Get files changed vs remote HEAD (or all staged if no remote ref yet)
 REMOTE_REF=$(git rev-parse --verify origin/main 2>/dev/null || echo "")
 if [ -n "$REMOTE_REF" ]; then
-  CHANGED=$(git diff --name-only "$REMOTE_REF"..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
+  CHANGED=$(git diff --name-only --diff-filter=d "$REMOTE_REF"..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
 else
-  CHANGED=$(git diff --name-only HEAD~1..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
+  CHANGED=$(git diff --name-only --diff-filter=d HEAD~1..HEAD -- '*.ts' '*.tsx' | grep -v node_modules | grep -v '\.next' | tr '\n' ' ')
 fi
 
 if [ -z "$CHANGED" ]; then
