@@ -114,7 +114,9 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
         calendlySchedulingUrl = await createSchedulingLink({ eventTypeUri: testingEvent.uri });
       }
     } catch (err) {
-      logger.warn('[testing/webhook] Could not generate Calendly link — using public URL', { err });
+      // Falls back to the testing-specific event type URL (not the general page).
+      // booking-status will attempt to generate a single-use link on first poll.
+      logger.warn('[testing/webhook] Could not generate Calendly link — using testing event URL', { err });
     }
 
     // Resolve slot_id — verify the slot still exists and is not cancelled before

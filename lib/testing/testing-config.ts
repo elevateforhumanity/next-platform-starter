@@ -47,9 +47,13 @@ export const TESTING_CENTER = {
 export const CALENDLY_CONFIG = {
   userUri: 'https://api.calendly.com/users/8c7a5621-62c0-4193-ad08-0952e24485f9',
   schedulingUrl: 'https://calendly.com/elevate4humanityedu',
+  // Dedicated testing event type — slug "testing", 60-min in-person appointment.
+  // Override via NEXT_PUBLIC_CALENDLY_TESTING_URL if the slug changes.
+  // Falls back to the /testing slug (not the general page) so users always land
+  // on the correct event type even when single-use link generation fails.
   testingUrl:
     process.env.NEXT_PUBLIC_CALENDLY_TESTING_URL ??
-    'https://calendly.com/elevate4humanityedu',
+    'https://calendly.com/elevate4humanityedu/testing',
 } as const;
 
 export const TESTING_EMAIL = {
