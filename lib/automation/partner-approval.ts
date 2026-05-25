@@ -83,14 +83,15 @@ export async function checkPartnerApproval(
     const partnerDocs: PartnerDocument[] = (documents || []).map((d: any) => ({
       id: d.id,
       partner_id: d.partner_id,
+      program_id: d.program_id ?? programId,
+      state: d.state ?? state,
       document_type: d.document_type,
       file_url: d.file_url,
+      file_name: d.file_name ?? '',
       status: d.status,
       uploaded_at: d.uploaded_at,
       reviewed_at: d.reviewed_at,
       reviewed_by: d.reviewed_by,
-      expiration_date: d.expiration_date,
-      notes: d.notes,
     }));
 
     // 3. Get required documents for this program/state
@@ -139,7 +140,7 @@ export async function checkPartnerApproval(
       allDocsAccepted && mouOk && licenseValid && missing.length === 0 && failed.length === 0;
 
     // 9. Calculate status
-    const status = calculatePartnerStatus(partnerDocs);
+    const status = calculatePartnerStatus(partner, partnerDocs);
 
     // 10. Create decision record
     const reasonCodes: string[] = [];

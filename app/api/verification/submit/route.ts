@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
     // Upload ID front
     const idFrontExt = idFront.name.split('.').pop();
     const idFrontPath = `${user.id}/id-front-${Date.now()}.${idFrontExt}`;
-    const { error: frontError } = await db.storage.from('documents').upload(idFrontPath, idFront, {
+    const { error: frontError } = await supabase.storage.from('documents').upload(idFrontPath, idFront, {
       contentType: idFront.type,
       upsert: false,
     });
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     if (idBack) {
       const idBackExt = idBack.name.split('.').pop();
       idBackPath = `${user.id}/id-back-${Date.now()}.${idBackExt}`;
-      const { error: backError } = await db.storage.from('documents').upload(idBackPath, idBack, {
+      const { error: backError } = await supabase.storage.from('documents').upload(idBackPath, idBack, {
         contentType: idBack.type,
         upsert: false,
       });
@@ -117,16 +117,16 @@ export async function POST(request: NextRequest) {
     // Upload selfie
     const selfieExt = selfie.name.split('.').pop();
     const selfiePath = `${user.id}/selfie-${Date.now()}.${selfieExt}`;
-    const { error: selfieError } = await db.storage.from('documents').upload(selfiePath, selfie, {
+    const { error: selfieError } = await supabase.storage.from('documents').upload(selfiePath, selfie, {
       contentType: selfie.type,
       upsert: false,
     });
 
     if (selfieError) {
       // Clean up ID front
-      await db.storage.from('documents').remove([idFrontPath]);
+      await supabase.storage.from('documents').remove([idFrontPath]);
       if (idBackPath) {
-        await db.storage.from('documents').remove([idBackPath]);
+        await supabase.storage.from('documents').remove([idBackPath]);
       }
       return NextResponse.json({ error: 'Failed to upload selfie' }, { status: 500 });
     }
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
       }
       docRows.push({
         user_id: user.id,
-        document_type: 'other' as const,
+        document_type: 'photo_id' as const,
         file_name: 'selfie.jpg',
         file_url: null,
         file_path: selfiePath,
@@ -186,9 +186,9 @@ export async function POST(request: NextRequest) {
 
     if (dbError) {
       // Clean up uploaded files
-      await db.storage.from('documents').remove([idFrontPath, selfiePath]);
+      await supabase.storage.from('documents').remove([idFrontPath, selfiePath]);
       if (idBackPath) {
-        await db.storage.from('documents').remove([idBackPath]);
+        await supabase.storage.from('documents').remove([idBackPath]);
       }
       return NextResponse.json({ error: 'Failed to save verification' }, { status: 500 });
     }

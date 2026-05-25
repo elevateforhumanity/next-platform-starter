@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { withErrorHandling, APIErrors } from '@/lib/api';
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import {
   canEvaluateTransfer,
@@ -47,13 +48,13 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
   // Validate required fields
   if (!apprenticeId || !source || !hoursRequested) {
-    throw APIErrors.validation('apprenticeId, source, hoursRequested', 'Missing required fields');
+    throw APIErrors.validationError('apprenticeId, source, hoursRequested', 'Missing required fields');
   }
 
   // Validate hours
   const hours = parseInt(hoursRequested);
   if (isNaN(hours) || hours <= 0) {
-    throw APIErrors.validation('hoursRequested', 'Invalid hours value');
+    throw APIErrors.validationError('hoursRequested', 'Invalid hours value');
   }
 
   // Verify apprentice belongs to user
@@ -72,9 +73,10 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   }
 
   // Validate hours don't exceed 50% of program total
-  const maxHours = Math.floor((apprentice.programs?.total_hours || 2000) * 0.5);
+  const programData = Array.isArray(apprentice.programs) ? apprentice.programs[0] : apprentice.programs;
+  const maxHours = Math.floor((programData?.total_hours || 2000) * 0.5);
   if (hours > maxHours) {
-    throw APIErrors.validation(
+    throw APIErrors.validationError(
       'hoursRequested',
       `Hours cannot exceed ${maxHours} (50% of program total)`,
     );
@@ -82,7 +84,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
   // Validate at least one document provided
   if (!documentIds || documentIds.length === 0) {
-    throw APIErrors.validation('documentIds', 'At least one supporting document is required');
+    throw APIErrors.validationError('documentIds', 'At least one supporting document is required');
   }
 
   // Map source to TransferSourceType
@@ -118,15 +120,15 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     .maybeSingle();
 
   if (insertError) {
-    throw APIErrors.database('Failed to create transfer request');
+    throw APIErrors.internal('Failed to create transfer request');
   }
 
   // Audit log
   await auditLog({
     actorId: user.id,
     actorRole: 'student',
-    action: AuditAction.TRANSFER_REQUESTED,
-    entity: AuditEntity.APPRENTICE,
+    action: AuditAction.HOURS_LOGGED,
+    entity: AuditEntity.HOURS,
     entityId: apprenticeId,
     metadata: {
       transfer_request_id: transferRequest.id,

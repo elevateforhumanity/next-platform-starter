@@ -131,7 +131,7 @@ export const COPY = {
  * Program-specific copy overrides
  * Use: const copy = getProgramCopy('barber-apprenticeship')
  */
-export const PROGRAM_COPY: Record<string, Partial<typeof COPY.programPage>> = {
+export const PROGRAM_COPY: Record<string, Partial<Record<keyof typeof COPY.programPage, string>>> = {
   'barber-apprenticeship': {
     heroHeadline: 'Barber Apprenticeship Program',
     heroSubtext:

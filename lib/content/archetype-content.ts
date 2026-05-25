@@ -205,10 +205,12 @@ export const dashboardPortalContent: LocalizedContent = {
     sections: {
       myTasks: {
         title: 'Mis tareas',
+        content: '',
         emptyState: 'No hay tareas porque no se requiere acción en este momento.',
       },
       messages: {
         title: 'Mensajes',
+        content: '',
         emptyState:
           'No tienes mensajes nuevos. El personal te contactará aquí si necesita información.',
       },
@@ -261,6 +263,7 @@ export const directoryListingContent: LocalizedContent = {
     sections: {
       results: {
         title: 'Resultados',
+        content: '',
         emptyState:
           'Ningún programa coincide con tus filtros actuales. Intenta ajustar tus criterios de búsqueda.',
       },
@@ -311,6 +314,7 @@ export const policyComplianceContent: LocalizedContent = {
       image: '/images/pages/business-sector.webp',
       imageAlt: 'Documentación de políticas',
     },
+    sections: {},
     cta: {
       primary: 'Volver a la página principal',
       primaryHref: '/',
@@ -358,6 +362,7 @@ export const partnerEmployerContent: LocalizedContent = {
       image: '/images/partners/hero.webp',
       imageAlt: 'Oportunidades de asociación',
     },
+    sections: {},
     cta: {
       primary: 'Enviar consulta de asociación',
       secondary: 'Ver requisitos de asociación',
@@ -406,6 +411,7 @@ export const authAccountContent: LocalizedContent = {
       image: '/images/pages/career-counseling.jpg',
       imageAlt: 'Inicio de sesión',
     },
+    sections: {},
     cta: {
       primary: 'Iniciar sesión',
       secondary: 'Crear cuenta',
@@ -454,6 +460,7 @@ export const reportingAdminContent: LocalizedContent = {
       image: '/images/pages/cybersecurity-screen.jpg',
       imageAlt: 'Panel administrativo',
     },
+    sections: {},
     cta: {
       primary: 'Generar informe',
       secondary: 'Ver registros de auditoría',
@@ -502,6 +509,7 @@ export const marketingInformationalContent: LocalizedContent = {
       image: '/images/pages/comp-home-hero-programs.jpg',
       imageAlt: 'Resumen de la plataforma',
     },
+    sections: {},
     cta: {
       primary: 'Explorar programas',
       secondary: 'Contáctanos',
@@ -546,6 +554,7 @@ export const systemUtilityContent: LocalizedContent = {
       image: '/images/pages/workforce-training.webp',
       imageAlt: 'Página no encontrada',
     },
+    sections: {},
     cta: {
       primary: 'Ir a la página principal',
       secondary: 'Ver programas',

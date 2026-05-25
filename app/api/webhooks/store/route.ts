@@ -97,7 +97,7 @@ async function grantLmsAccess(
   );
 
   if (error) {
-    logger.error('grantLmsAccess: enrollment upsert failed', { error, userId, courseSlugOrId });
+    logger.error('grantLmsAccess: enrollment upsert failed', undefined, { error, userId, courseSlugOrId });
     return false;
   }
 
@@ -130,7 +130,7 @@ async function unlockDownload(userId: string, productId: string, stripePaymentId
   );
 
   if (error) {
-    logger.error('Failed to grant download entitlement', { error, userId, productId });
+    logger.error('Failed to grant download entitlement', undefined, { error, userId, productId });
     return false;
   }
 
@@ -161,7 +161,7 @@ async function recordPurchase(
   });
 
   if (error) {
-    logger.error('Failed to record purchase', { error, userId, sessionId });
+    logger.error('Failed to record purchase', undefined, { error, userId, sessionId });
   }
 }
 
@@ -192,7 +192,7 @@ async function _POST(req: NextRequest) {
     event = constructStripeEventWithAnySecret(stripe, payload, sig, webhookSecrets);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
-    logger.error('Webhook signature verification failed', {
+    logger.error('Webhook signature verification failed', undefined, {
       error: msg,
       secretsConfigured: webhookSecrets.length,
       sigHeader: sig?.slice(0, 20),
@@ -363,7 +363,7 @@ async function _POST(req: NextRequest) {
         .eq('stripe_payment_id', paymentIntentId);
 
       if (entitlementError) {
-        logger.error('Error revoking entitlements on refund', { error: entitlementError });
+        logger.error('Error revoking entitlements on refund', undefined, { error: entitlementError });
       }
 
       // Update purchase record
@@ -376,7 +376,7 @@ async function _POST(req: NextRequest) {
         .eq('stripe_payment_id', paymentIntentId);
 
       if (purchaseError) {
-        logger.error('Error updating purchase on refund', { error: purchaseError });
+        logger.error('Error updating purchase on refund', undefined, { error: purchaseError });
       }
 
       // POLICY: Refund reverses funding, not training.
@@ -391,7 +391,7 @@ async function _POST(req: NextRequest) {
         .eq('payment_id', paymentIntentId);
 
       if (enrollmentError) {
-        logger.error('Error updating enrollment funding_status on refund', {
+        logger.error('Error updating enrollment funding_status on refund', undefined, {
           error: enrollmentError,
         });
       }

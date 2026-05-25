@@ -44,16 +44,13 @@ export function canEnrollStudent(
   }
 
   // Check student limit
-  if (typeof plan.limits.students === 'number') {
-    if (currentStudentCount >= plan.limits.students) {
+  if (typeof plan.limits.learners === 'number') {
+    if (currentStudentCount >= plan.limits.learners) {
       return {
         allowed: false,
-        reason: `You've reached the ${plan.limits.students} student limit on your ${plan.name} plan. Contact sales to continue.`,
+        reason: `You've reached the ${plan.limits.learners} student limit on your ${plan.name} plan. Contact sales to continue.`,
         upgradeRequired: true,
-        redirectTo:
-          plan.category === 'self_serve'
-            ? '/account/billing'
-            : '/store/request-license?tier=implementation_plus_annual',
+        redirectTo: '/store/request-license?tier=implementation_plus_annual',
       };
     }
   }
@@ -94,10 +91,7 @@ export function canAddAdmin(
         allowed: false,
         reason: `You've reached the ${plan.limits.admins} admin limit on your ${plan.name} plan.`,
         upgradeRequired: true,
-        redirectTo:
-          plan.category === 'self_serve'
-            ? '/account/billing'
-            : '/store/request-license?tier=implementation_plus_annual',
+        redirectTo: '/store/request-license?tier=implementation_plus_annual',
       };
     }
   }
@@ -163,10 +157,13 @@ export function canAccessFeature(
     };
   }
 
-  // Check if feature requires enterprise
+  // Check if feature requires enterprise tier
   if (requiresEnterprise(feature)) {
-    const plan = PLANS[planId];
-    if (plan?.category !== 'enterprise') {
+    // All current plans are 'infrastructure' category — enterprise features
+    // are gated by plan ID rather than category. Treat any non-top-tier plan
+    // as requiring an upgrade.
+    const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+    if (!enterprisePlanIds.includes(planId)) {
       return {
         allowed: false,
         reason: `${feature.replace(/_/g, ' ')} requires an Enterprise license.`,
@@ -183,9 +180,8 @@ export function canAccessFeature(
  * Check if multi-site deployment is allowed
  */
 export function canDeployMultiSite(planId: PlanId): EnforcementResult {
-  const plan = PLANS[planId];
-
-  if (plan?.category !== 'enterprise') {
+  const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+  if (!enterprisePlanIds.includes(planId)) {
     return {
       allowed: false,
       reason: 'Multi-site deployment requires an Enterprise license.',
@@ -201,9 +197,8 @@ export function canDeployMultiSite(planId: PlanId): EnforcementResult {
  * Check if compliance/audit features can be accessed
  */
 export function canAccessComplianceFeatures(planId: PlanId): EnforcementResult {
-  const plan = PLANS[planId];
-
-  if (plan?.category !== 'enterprise') {
+  const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+  if (!enterprisePlanIds.includes(planId)) {
     return {
       allowed: false,
       reason: 'Compliance and audit support requires an Enterprise license.',

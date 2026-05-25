@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
  * Social Media Scheduler - Posts to social platforms 3x daily
  * Run via cron at 9 AM, 1 PM, and 5 PM EST
  */
-async function _GET(req: Request) {
+async function _GET(req: NextRequest) {
   try {
     const cronSecret = process.env.CRON_SECRET;
     const authHeader = (req as Request & { headers: Headers }).headers.get('authorization');
@@ -42,6 +42,8 @@ async function _GET(req: Request) {
       .eq('status', 'active');
 
     if (error) throw error;
+
+    const results: Array<{ type: string; id: string; platform: string; success: boolean; error?: string }> = [];
 
     // ── Auto-post new blog posts ──────────────────────────────────────────
     const { data: unpublishedBlogPosts } = await supabase
@@ -122,8 +124,6 @@ async function _GET(req: Request) {
         results,
       });
     }
-
-    const results = [];
 
     for (const campaign of campaigns) {
       try {
@@ -242,7 +242,7 @@ async function _GET(req: Request) {
  * Post to social media platform
  */
 async function postToSocialMedia(platform: string, content: string, campaign: Record<string, any>) {
-  logger.info(`Posting to ${platform}:`, content);
+  logger.info(`Posting to ${platform}: ${content}`);
 
   switch (platform.toLowerCase()) {
     case 'facebook':
@@ -358,8 +358,7 @@ async function postToInstagram(content: string, campaign: Record<string, any>) {
 /**
  * Manual trigger for testing
  */
-async function _POST(req: Request) {
-
+async function _POST(req: NextRequest) {
   return GET(req);
 }
 export const GET = withRuntime(withApiAudit('/api/social-media/scheduler', _GET));

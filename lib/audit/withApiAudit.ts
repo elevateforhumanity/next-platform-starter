@@ -27,6 +27,9 @@ interface WithApiAuditOptions {
   // RAPIDS mutations, payment state changes.
   // Note: response is already sent before audit fires, so this cannot block the user.
   critical?: boolean;
+  // When true, request body is not read or stored in the audit record.
+  // Use for webhook routes where the body is already consumed by signature verification.
+  skip_body?: boolean;
 }
 
 // Params are no longer extracted or stored in audit events.

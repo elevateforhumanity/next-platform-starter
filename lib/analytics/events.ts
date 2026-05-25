@@ -35,6 +35,7 @@ type EventCategory =
   | 'download'
   | 'error'
   | 'tax_funnel'
+  | 'demo_trial_funnel'
   | 'store'
   | 'lms'
   | 'enrollment';

@@ -50,6 +50,11 @@ export async function GET(request: NextRequest) {
   let hasActionRequired = false;
 
   for (const config of PRE_AUTH_TABLES) {
+    // Skip anonymous tables — they have no user_id or email column to reconcile
+    if (config.mode !== 'reconcile') {
+      results.push({ table: config.table, orphaned_rows: 0, linkable_rows: 0, status: 'SKIP' });
+      continue;
+    }
     try {
       // Count rows with no user_id
       const { count: orphanedCount, error: e1 } = await db
@@ -58,7 +63,7 @@ export async function GET(request: NextRequest) {
         .is(config.userIdColumn, null);
 
       if (e1) {
-        logger.error(`[orphan-check] count failed for ${config.table}`, e1.message);
+        logger.error(`[orphan-check] count failed for ${config.table}`, new Error(e1.message));
         results.push({
           table: config.table,
           orphaned_rows: -1,
@@ -121,7 +126,7 @@ export async function GET(request: NextRequest) {
         status,
       });
     } catch (err: unknown) {
-      logger.error(`[orphan-check] unexpected error for ${config.table}`, {
+      logger.error(`[orphan-check] unexpected error for ${config.table}`, undefined, {
         error: err instanceof Error ? err.message : String(err),
       });
       results.push({ table: config.table, orphaned_rows: -1, linkable_rows: -1, status: 'REVIEW' });
@@ -129,7 +134,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (hasActionRequired) {
-    logger.error('[orphan-check] ACTION REQUIRED — linkable orphaned rows detected', { results });
+    logger.error('[orphan-check] ACTION REQUIRED — linkable orphaned rows detected', undefined, { results });
   } else {
     logger.info('[orphan-check] all pre-auth tables clean', { results });
   }

@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
               .is('user_id', null);
 
             if (fetchError) {
-              logger.error('[auth/confirm] enrollment lookup failed', {
+              logger.error('[auth/confirm] enrollment lookup failed', undefined, {
                 userId: user.id,
                 error: fetchError.message,
               });
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
                   .eq('id', row.id);
 
                 if (linkError) {
-                  logger.error('[auth/confirm] enrollment link failed', {
+                  logger.error('[auth/confirm] enrollment link failed', undefined, {
                     enrollmentId: row.id,
                     userId: user.id,
                     error: linkError.message,
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
                     .eq('id', row.barber_sub_id);
 
                   if (subError) {
-                    logger.error('[auth/confirm] barber_subscriptions link failed', {
+                    logger.error('[auth/confirm] barber_subscriptions link failed', undefined, {
                       barberSubId: row.barber_sub_id,
                       userId: user.id,
                       error: subError.message,
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
             if (db && user?.email) {
               const { reconcilePreAuthRows } = await import('@/lib/pre-auth-tables');
               await reconcilePreAuthRows(db, user.email).catch((err: unknown) => {
-                logger.error('[auth/confirm] pre-auth reconciliation failed', {
+                logger.error('[auth/confirm] pre-auth reconciliation failed', undefined, {
                   error: err instanceof Error ? err.message : String(err),
                 });
               });
@@ -136,7 +136,7 @@ export async function GET(request: NextRequest) {
           }
         } catch (err: any) {
           // Non-fatal — enrollment-success page has its own email-linking fallback
-          logger.error('[auth/confirm] enrollment linking threw', { error: err?.message });
+          logger.error('[auth/confirm] enrollment linking threw', undefined, { error: err?.message });
         }
 
         // Role-based redirect override — program holders land on onboarding, not learner dashboard.
@@ -181,13 +181,13 @@ export async function GET(request: NextRequest) {
           if (user?.email && db) {
             const { reconcilePreAuthRows } = await import('@/lib/pre-auth-tables');
             await reconcilePreAuthRows(db, user.email).catch((err: unknown) => {
-              logger.error('[auth/confirm] invite pre-auth reconciliation failed', {
+              logger.error('[auth/confirm] invite pre-auth reconciliation failed', undefined, {
                 error: err instanceof Error ? err.message : String(err),
               });
             });
           }
         } catch (err: any) {
-          logger.error('[auth/confirm] invite reconciliation threw', { error: err?.message });
+          logger.error('[auth/confirm] invite reconciliation threw', undefined, { error: err?.message });
         }
       }
 

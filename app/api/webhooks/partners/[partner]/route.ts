@@ -5,7 +5,13 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { getPartnerClient, PartnerType, WebhookPayload } from '@/lib/partners';
+import { getPartnerClient, PartnerType } from '@/lib/partners';
+
+interface WebhookPayload {
+  event: string;
+  timestamp?: string;
+  data?: Record<string, unknown>;
+}
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -43,10 +49,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ partn
     // Parse webhook payload
     const payload: WebhookPayload = JSON.parse(rawBody);
 
-    logger.info({
-      event: payload.event,
-      timestamp: payload.timestamp,
-    });
+    logger.info(`[Webhook] ${partner} event: ${payload.event}`);
 
     // Process webhook based on event type
     switch (payload.event) {
@@ -70,10 +73,6 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ partn
         logger.warn(`[Webhook] Unknown event type: ${payload.event}`);
     }
 
-    // Process webhook through partner-specific handler
-    const client = getPartnerClient(partner);
-    await client.processWebhook(payload);
-
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error(
@@ -91,7 +90,7 @@ async function handleEnrollmentCreated(
   partner: PartnerType,
   data: Record<string, any>,
 ): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await requireAdminClient();
 
   // Update enrollment status in database
   const { error } = await supabase
@@ -114,7 +113,7 @@ async function handleProgressUpdated(
   partner: PartnerType,
   data: Record<string, any>,
 ): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await requireAdminClient();
 
   // Update progress in database
   const { error } = await supabase
@@ -138,7 +137,7 @@ async function handleCourseCompleted(
   partner: PartnerType,
   data: Record<string, any>,
 ): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await requireAdminClient();
 
   // Get the enrollment step
   const { data: step, error: stepError } = await supabase
@@ -237,7 +236,7 @@ async function handleCertificateIssued(
   partner: PartnerType,
   data: Record<string, any>,
 ): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await requireAdminClient();
 
   // Update enrollment with certificate data
   const { error } = await supabase

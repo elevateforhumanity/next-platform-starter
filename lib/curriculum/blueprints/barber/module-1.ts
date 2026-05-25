@@ -250,46 +250,18 @@ export const barberModule1: BlueprintModule = {
           durationMinutes: 35,
           // Locked to the semantically-mapped infection control video (alloy 0.88x, 20 segments)
           videoFile: '/videos/barber-lessons/barber-infection-control.mp4',
-          learningObjectives: [
-            'Define sanitation, disinfection, and sterilization and state the difference between all three',
-            'Identify EPA-registered disinfectants and explain proper usage and contact time',
-            'Demonstrate correct Barbicide immersion protocol — full submersion, 10-minute minimum',
-            'Distinguish between single-use and multi-use tools and explain why the distinction matters',
-            'Explain proper razor blade disposal procedure and sharps container compliance',
-            'Apply client protection procedures — neck strip placement, cape handling, daily laundering',
-            'Recognize cross-contamination risks and describe prevention methods for each',
-          ],
           competencyChecks: [
-            {
-              key: 'barbicide_immersion',
-              label: 'Barbicide Immersion Protocol',
-              description:
-                'Student submerges tools completely in Barbicide solution and waits the full 10-minute contact time before removing.',
-              isCritical: true,
-              requiresInstructorSignoff: true,
-            },
-            {
-              key: 'razor_blade_change',
-              label: 'Razor Blade Replacement',
-              description:
-                'Student removes a used blade safely, disposes of it in a sharps container, and inserts a fresh blade correctly.',
-              isCritical: true,
-              requiresInstructorSignoff: true,
-            },
-            {
-              key: 'neck_strip_application',
-              label: 'Neck Strip & Cape Application',
-              description:
-                "Student applies a clean neck strip before placing the cape so the cape does not contact the client's skin.",
-              isCritical: false,
-              requiresInstructorSignoff: true,
-            },
+            'barbicide_immersion',
+            'razor_blade_change',
+            'neck_strip_application',
           ],
-          instructorNotes: `Verify all three competency checks in person before marking this lesson complete.
-Barbicide check: watch the student submerge tools — partial submersion is a fail.
-Razor check: confirm the used blade goes directly into the sharps container — not the trash.
-Neck strip check: cape must not touch skin before the strip is placed.
-Indiana State Board inspectors check disinfection logs — remind students to document every session.`,
+          instructorNotes: [
+          'Verify all three competency checks in person before marking this lesson complete.',
+          'Barbicide check: watch the student submerge tools — partial submersion is a fail.',
+          'Razor check: confirm the used blade goes directly into the sharps container — not the trash.',
+          'Neck strip check: cape must not touch skin before the strip is placed.',
+          'Indiana State Board inspectors check disinfection logs — remind students to document every session.',
+        ],
           content: `<h2>Overview</h2><p>Infection control and safety form the foundation of professional barbering. This lesson distinguishes cleaning (physical removal of debris), disinfection (killing pathogens on surfaces), and sterilization (eliminating all microorganisms). Understanding bacteria, viruses, and fungi transmission routes—contact, airborne, and bloodborne—enables you to implement OSHA standards, execute proper exposure protocols, and maintain state board-compliant workstations that protect both you and your clients.</p><h2>Tools Required</h2><ul><li>EPA-registered disinfectant (quaternary ammonium or phenolic-based)</li><li>Autoclave or dry heat sterilizer for metal implements</li><li>Barbicide jar or disinfectant immersion container</li><li>Personal protective equipment (nitrile gloves, face mask, eye protection)</li><li>Sharps container for contaminated needles or lancets</li><li>Clean white towels and disposable cape liners</li><li>Bloodborne pathogen kit including gauze, antiseptic, and incident log</li></ul><h2>Procedure</h2><ol><li>Put on nitriles, mask, and eye protection; inspect workstation for visible debris, hair, or contamination before each client.</li><li>Clean all surfaces with soap and water, removing organic matter; use friction for 30 seconds on chairs, mirrors, and tools.</li><li>Spray EPA-registered disinfectant (contact time 10 minutes per product label) on all non-porous surfaces and allow to air dry completely.</li><li>Place single-use items (capes, neck strips, towels) in designated hamper; never reuse without laundering at 160°F minimum.</li><li>Immerse all metal cutting tools in Barbicide or approved disinfectant for minimum contact time specified by manufacturer (typically 15 minutes).</li><li>Remove implements with sanitized tongs, rinse under running water, and pat dry with clean towel before placing in sterile container.</li><li>If blood exposure occurs, immediately stop service, don fresh gloves, apply direct pressure with gauze, and clean wound with antiseptic soap.</li><li>Document incident with date, time, client, exposure type, and action taken; notify supervisor and follow OSHA recordkeeping requirements within 24 hours.</li></ol><h2>Safety</h2><p><strong>DO NOT reuse single-use items or skip disinfection steps.</strong> Consequence: cross-contamination spreads bloodborne pathogens (HIV, Hepatitis B/C), violates Indiana State Board rules, triggers OSHA penalties, and causes serious client illness or legal liability.</p><p><strong>Failure Mode & Recovery:</strong> You immerse tools but forget to air-dry the disinfectant, causing chemical residue on client skin. Recovery: (1) Stop immediately when chemical contact noticed; (2) rinse client area with cool water for 15 seconds; (3) dry thoroughly; (4) document on client intake form; (5) revise drying protocol by using lint-free towels and allowing 5-minute air-dry post-rinse; (6) discard contaminated tools and restart sterilization cycle properly.</p><p><strong>IF/THEN Decision Block—Client Variations:</strong> IF client has open cuts or lesions on scalp or neck, THEN defer service and require physician clearance; do not proceed. IF client reports recent hepatitis exposure, THEN use fresh gloves, avoid contact with any bleeding areas, and increase disinfection frequency on all touched surfaces. IF client has active ringworm or fungal infection, THEN refuse service per state law until treated and documented clear.</p><h2>Visual Cues</h2><p>Proper workstation appearance: mirror spotless and streak-free, chair upholstered surface free of hair or stains, all metal tools gleaming without water spots or dried disinfectant residue. Correct implement positioning: handles point outward in sterile container; no tools touching non-sterile surfaces. Your personal appearance shows rolled sleeves exposing clean forearms, clean-fitting shirt or uniform without visible debris, and properly fitted gloves creating seal at wrist without wrinkles or tears. Disinfectant contact is complete when surfaces appear wet for full duration specified on product label before air-drying to a clean, dry finish with no visible contamination.</p>`,
           quizQuestions: [
                     {
@@ -364,32 +336,13 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Apply OSHA workplace safety standards and identify hazards specific to barbershop environments.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-sanitation.mp4',
-          learningObjectives: [
-            'Identify OSHA workplace safety standards applicable to barbershops',
-            'Recognize chemical, electrical, and ergonomic hazards in a barbershop environment',
-            'Demonstrate proper chemical storage and labeling procedures',
-            'Explain the purpose of a Safety Data Sheet (SDS) and locate one for a common barbershop chemical',
-            'Apply correct fire safety and emergency exit procedures',
-          ],
           competencyChecks: [
-            {
-              key: 'chemical_storage',
-              label: 'Chemical Storage & SDS',
-              description:
-                'Student correctly stores chemicals, labels containers, and locates the SDS for at least one product.',
-              isCritical: true,
-              requiresInstructorSignoff: true,
-            },
-            {
-              key: 'hazard_identification',
-              label: 'Hazard Identification Walk-Through',
-              description:
-                'Student identifies at least 3 potential hazards in the shop and states the correct prevention for each.',
-              isCritical: false,
-              requiresInstructorSignoff: true,
-            },
+            'chemical_storage',
+            'hazard_identification',
           ],
-          instructorNotes: `Chemical storage check: confirm all products are in original or labeled containers, stored away from heat sources. SDS check: student must locate and read the SDS for at least one product without assistance. Hazard walk-through: conduct in the actual shop, not from memory.`,
+          instructorNotes: [
+          'Chemical storage check: confirm all products are in original or labeled containers, stored away from heat sources. SDS check: student must locate and read the SDS for at least one product without assistance. Hazard walk-through: conduct in the actual shop, not from memory.',
+        ],
           content: `<h2>Overview</h2><p>Workplace safety in barbershops requires strict adherence to OSHA standards and identification of environmental hazards. This lesson covers essential safety protocols, hazard recognition, and proper response procedures to protect barbers, apprentices, and clients. Understanding bloodborne pathogens, chemical exposure, ergonomic risks, and emergency procedures ensures a safe, compliant barbershop environment.</p><h2>Tools Required</h2><ul><li>OSHA Bloodborne Pathogens Standard documentation</li><li>Safety Data Sheets (SDS) for all chemical products</li><li>First aid kit with biohazard sharps container</li><li>Personal protective equipment: gloves, masks, eye protection</li><li>Disinfectant solutions (EPA-registered hospital-grade or barbicide)</li><li>Fire extinguisher (Class B and C rated)</li><li>Spill kits and absorbent materials</li><li>Ergonomic footrest and anti-fatigue mat</li></ul><h2>Client Variation Decision Tree</h2><ul><li><strong>IF</strong> client has open cuts, sores, or bleeding skin condition, <strong>THEN</strong> refuse service, document reason, and refer to healthcare provider. Never proceed with service on compromised skin.</li><li><strong>IF</strong> client reports recent tattoo or piercing (less than 4 weeks), <strong>THEN</strong> avoid that area completely and use extra precautions; contact may introduce infection to healing tissue.</li><li><strong>IF</strong> client presents with visible fungal infection, rash, or unusual scalp lesions, <strong>THEN</strong> decline service, document observations, and recommend dermatological evaluation before returning.</li></ul><h2>Sanitation Protocol</h2><p>All non-porous tools must be immersed in EPA-registered hospital-grade disinfectant (such as Barbicide) for minimum 10 minutes at proper concentration per manufacturer instructions. Verify disinfectant solution is changed daily and chemical strength is tested with color-change strips. Reusable towels must be washed in hot water with high-heat drying cycle; single-use neck strips are preferred. Workspace surfaces, including chairs and mirrors, require spray disinfection between each client with hospital-grade surface cleaner.</p><h2>Critical Contraindication</h2><p><strong>DO NOT proceed with any service if you observe or suspect bloodborne pathogen exposure risk without proper PPE and engineering controls in place. Failure to implement infection control increases liability, violates OSHA regulations, and risks serious illness or legal consequences for yourself, your employer, and the establishment.</strong></p><h2>Failure Mode: Chemical Spill Response</h2><p><strong>Cause:</strong> Disinfectant bottle knocked over during cleaning, creating slip hazard and chemical exposure risk. <strong>Recovery Steps:</strong> (1) Alert nearby personnel and cordon off area with caution sign; (2) Don nitrile gloves and eye protection immediately; (3) Allow spill to evaporate or carefully absorb with absorbent material into biohazard waste container; (4) Spray affected area with appropriate neutralizing solution or disinfectant per SDS; (5) Wipe thoroughly with clean cloth and allow to air dry completely; (6) Document incident, notify supervisor, and verify no residual hazard exists before resuming operations.</p><h2>Visual Execution Cues</h2><p>When observing proper ergonomic positioning, barber's feet should be shoulder-width apart with weight distributed evenly; knees remain slightly bent, never locked. Shoulders stay relaxed and level, avoiding forward slouch toward client. Elbows maintain 90-degree angle with workstation. Client chair height adjusts so work area sits at barber's elbow level, eliminating excessive reaching or bending. All sharp tools are stored point-down in proper containers; scissors never left on work surface. Gloves show no tears, and fresh pair is donned before each new client. Clean workspace is organized, clutter-free, with all chemical bottles labeled and closed.</p><h2>Procedure</h2><ol><li>Review OSHA Bloodborne Pathogens Standard and barbershop-specific hazard assessment documentation before beginning any shift or new apprentice orientation.</li><li>Inspect all tools, equipment, and workstation for damage, contamination, or hazards; report unsafe conditions to supervisor immediately and do not use compromised items.</li><li>Don appropriate PPE including nitrile gloves, mask, and eye protection; verify fit and integrity before client interaction or tool handling.</li><li>Verify disinfectant solution concentration using color-change test strips; discard and replace solution if concentration is inadequate or solution is visibly contaminated.</li><li>Screen each client for contraindications: open wounds, recent piercings, skin infections, or communicable diseases; document refusals and provide referrals when appropriate.</li><li>Immerse all non-porous tools in hospital-grade disinfectant for full 10-minute contact time; remove with clean forceps and air-dry on clean towel before use.</li><li>Perform service using proper ergonomic positioning with shoulders relaxed, elbows at 90 degrees, and client chair adjusted to workstation height.</li><li>Handle all sharps with extreme care; place used blades immediately in designated sharps container; never recap, bend, or hand-pass sharp instruments to others.</li><li>Disinfect workspace, chair, and mirrors between clients using EPA-registered hospital-grade surface spray; allow adequate contact time per product instructions.</li><li>Document any incidents, exposures, or safety concerns in establishment incident log and report to supervisor or safety officer within 24 hours.</li></ol><h2>Safety Standards and Hazard Recognition</h2><p>OSHA requires barbershops to maintain bloodborne pathogen compliance, including exposure control plans, training documentation, and vaccination records. Chemical hazards include disinfectant inhalation, skin irritation, and eye exposure; all SDS must be accessible and reviewed. Sharps injuries are leading cause of occupational injury in barbershops; proper handling and disposal eliminates 95% of incidents. Ergonomic hazards develop over time; proper positioning prevents chronic back, neck, and shoulder injuries. Fire safety requires accessible extinguishers rated for electrical and chemical fires. Maintain incident log for all exposures or injuries; report to OSHA within 24 hours if serious injury occurs. Apprentices must receive documented training on all hazards before independent work and annually thereafter.</p><h2>Visual Cues</h2><p>Proper hand positioning shows wrists straight and fingers relaxed, avoiding excessive force or tension during tool manipulation. Safe tool storage displays all sharp instruments point-down in dedicated containers, never scattered on surfaces or handles-first in jars. Clean workspace organization keeps disinfectants away from client areas, chemical bottles capped and labeled clearly, and reusable items in covered containers. Correct PPE appearance includes intact gloves with no visible tears, mask fitting snugly across nose and mouth, and eye protection sitting securely. Client chair positioning appears comfortable and at optimal height where barber's elbows align naturally with work surface, eliminating visible reaching, bending, or slouching.</p>`,
           quizQuestions: [
                     {
@@ -463,24 +416,12 @@ Indiana State Board inspectors check disinfection logs — remind students to do
             'Conduct a complete client consultation that identifies needs, contraindications, and service goals before beginning any service.',
           durationMinutes: 20,
           videoFile: '/videos/course-barber-consultation-narrated.mp4',
-          learningObjectives: [
-            'Conduct a complete client consultation using open-ended questions',
-            'Identify contraindications that require service refusal or modification',
-            'Document client service goals and preferences accurately',
-            'Recognize scalp and skin conditions that affect service decisions',
-            'Explain the consultation process to a client professionally',
-          ],
           competencyChecks: [
-            {
-              key: 'consultation_live',
-              label: 'Live Client Consultation',
-              description:
-                'Student conducts a full consultation on a real or practice client — covers goals, contraindications, and service plan.',
-              isCritical: true,
-              requiresInstructorSignoff: true,
-            },
+            'consultation_live',
           ],
-          instructorNotes: `Observe the full consultation — student must ask about scalp conditions, allergies, and service history. Refusal criteria must be stated correctly if a contraindication is present.`,
+          instructorNotes: [
+          'Observe the full consultation — student must ask about scalp conditions, allergies, and service history. Refusal criteria must be stated correctly if a contraindication is present.',
+        ],
           content: `<h2>Overview</h2><p>Client consultation is the foundation of every barbering service. Before cutting, shaving, or treating hair and skin, you must conduct a thorough consultation to identify the client's needs, assess for contraindications, and establish realistic service goals. This prevents service failures, protects client health, and builds trust and professional credibility. A complete consultation takes 5–10 minutes and involves questioning, visual assessment, and documentation.</p><h2>Tools Required</h2><ul><li>Consultation form or intake sheet (printed or digital)</li><li>Pen or stylus for recording notes</li><li>Hand mirror and overhead mirror for client viewing</li><li>Magnifying lamp or loupe to inspect scalp and skin condition</li><li>Color wheel or shade guide (if color services discussed)</li><li>Hair texture/type reference chart</li><li>Disinfectant wipes and clean towel for mirror and lamp surfaces</li></ul><h2>Procedure</h2><ol><li>Greet the client warmly, offer a seat in the consultation area, and confirm whether this is a first visit or returning client.</li><li>Ask open-ended questions: desired style, hair concerns, daily grooming routine, and any recent scalp or skin treatments or reactions.</li><li>Inspect the client's hair type, texture, density, and growth pattern; note curl pattern, damage, or thinning areas using the magnifying lamp.</li><li>Examine the scalp for signs of infection, irritation, lesions, dandruff, or contraindicated conditions; document all findings.</li><li>Assess skin condition on face and neck; ask about sensitivity, allergies, or recent shaving reactions before any service.</li><li>Review contraindications and determine if the service is safe to perform; if unsafe, explain professionally and suggest alternatives or referral.</li><li>Discuss service timeline, maintenance requirements, and aftercare instructions; clarify pricing and confirm the client's agreement.</li><li>Document all consultation findings, signed consent, and any service restrictions in the client file for future reference.</li></ol><h2>Decision Tree: Hair Type & Skin Variations</h2><p><strong>IF</strong> client has coarse, curly hair: THEN ask about curl definition goals, discuss fade or taper techniques that enhance texture, and recommend curl-defining products. <strong>IF</strong> client has fine or thinning hair: THEN assess for androgenetic alopecia, avoid aggressive techniques, and recommend gentle clipper work or scissor-over-comb methods. <strong>IF</strong> client has sensitive skin or reports razor burn history: THEN use single-use or freshly sterilized straight razors, apply pre-shave oil, and plan shorter contact time with the blade.</p><h2>Sanitation & Disinfection</h2><p>Before and after consultation, disinfect all contact surfaces with EPA-registered hospital-grade disinfectant (such as Barbicide or 10% bleach solution) using clean paper towels. Wipe mirrors, lamp handles, and armrests. Allow 10 seconds contact time. Use clean, lint-free towels to dry. If using a magnifying lamp with a client, place a disposable cover over the lens or disinfect the exterior lens with an alcohol wipe before client use. Never share consultation forms between clients; use individual, dated records.</p><h2>Contraindications & Do-NOT Statement</h2><p><strong>DO NOT perform any shaving or clipper service on a client with active bacterial, viral, or fungal scalp infection (such as impetigo, ringworm, or severe folliculitis), as doing so will spread the infection to other clients and contaminate your tools, resulting in license suspension, legal liability, and harm to public health. Always refer such clients to a dermatologist and document the referral.</strong></p><h2>Failure Mode & Recovery</h2><p><strong>Failure:</strong> You begin a service and the client suddenly reports a metal allergy or mentions a recent scalp treatment you missed during consultation. <strong>Recovery Step 1:</strong> Stop the service immediately and do not proceed. <strong>Step 2:</strong> Apologize and review the intake form to identify the missed information. <strong>Step 3:</strong> Ask clarifying questions about the allergy or treatment type and timing. <strong>Step 4:</strong> Assess whether the service remains safe; if unsafe, reschedule and refer as needed. <strong>Step 5:</strong> Update the client file with the new information and implement a checklist to prevent recurrence.</p><h2>Visual Execution Cues</h2><p>During consultation, position yourself at a 45-degree angle to the client so both of you can see the mirror clearly. Tilt the client's head slightly forward to inspect the crown and nape; tilt sideways to assess temple density and ear area hair growth. Use the magnifying lamp with the beam directed at the scalp at a 90-degree angle to reveal texture, shedding, and inflammation. Observe the client's posture and facial expression for signs of discomfort or hesitation, which may indicate unreported contraindications or anxiety about the service.</p><h2>Safety</h2><p>Client consultation prevents infection transmission, allergic reactions, and service failure. Always sanitize mirrors and lamps before each use. Never assume a returning client has no new health concerns—ask every time. If you observe signs of contagious scalp or skin disease, do not proceed; politely explain that a dermatologist clearance is required. Document all findings, contraindications, and client agreement in writing. Keep consultation records confidential and retain per Indiana State Board of Health regulations (minimum 1 year). If a client refuses to disclose health information or denies visible contraindicated conditions, you may decline the service to protect public health.</p>`,
           quizQuestions: [
                     {
