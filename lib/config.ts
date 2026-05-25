@@ -61,13 +61,13 @@ async function loadFromDB(): Promise<Map<string, string>> {
       .eq('is_active', true);
 
     if (error) {
-      logger.warn('[config] platform_settings read failed', undefined, { error: error.message });
+      logger.warn('[config] platform_settings read failed', { error: error.message });
       return new Map();
     }
 
     return new Map((data ?? []).map((r: { key: string; value: string }) => [r.key, r.value]));
   } catch (err) {
-    logger.warn('[config] platform_settings unavailable', undefined, {
+    logger.warn('[config] platform_settings unavailable', {
       error: err instanceof Error ? err.message : String(err),
     });
     return new Map();

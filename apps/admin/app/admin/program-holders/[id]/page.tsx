@@ -184,7 +184,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     }
 
     if (data && !data.success) {
-      logger.warn('[PH Approve RPC] Validation failed', undefined, { id, result: data });
+      logger.warn('[PH Approve RPC] Validation failed', { id, result: data });
       redirect(
         `/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Approval validation failed')}`,
       );

@@ -122,7 +122,7 @@ export function withApiProtection(handler: ApiHandler, options: ApiProtectionOpt
     // 3. System routes — validate secret token, no user session needed
     if (auth === 'system') {
       if (!validateSystemToken(request)) {
-        logger.warn('[withApiProtection] System route called without valid token', undefined, {
+        logger.warn('[withApiProtection] System route called without valid token', {
           path: request.nextUrl.pathname,
         });
         return safeError('Unauthorized', 401) as NextResponse;
@@ -169,7 +169,7 @@ export function withApiProtection(handler: ApiHandler, options: ApiProtectionOpt
     }
 
     if (!authorized) {
-      logger.warn('[withApiProtection] Insufficient role', undefined, {
+      logger.warn('[withApiProtection] Insufficient role', {
         path: request.nextUrl.pathname,
         userId,
         role,

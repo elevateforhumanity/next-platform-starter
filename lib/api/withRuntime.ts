@@ -129,7 +129,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
           ? req.headers.get('authorization')?.replace(/^Bearer\s+/, '')
           : req.headers.get('x-cron-secret');
       if (provided !== cronSecret) {
-        logger.warn('[withRuntime] Cron secret mismatch', undefined, {
+        logger.warn('[withRuntime] Cron secret mismatch', {
           route: req.nextUrl.pathname,
           mode: options.cron,
           ip: req.headers.get('x-forwarded-for') ?? 'unknown',

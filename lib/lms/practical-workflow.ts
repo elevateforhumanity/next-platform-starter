@@ -237,7 +237,7 @@ export async function reviewPractical(
     })
     .then(({ error }) => {
       if (error)
-        logger.warn('[practical-workflow] audit log insert failed (non-fatal)', undefined, {
+        logger.warn('[practical-workflow] audit log insert failed (non-fatal)', {
           error: error.message,
         });
     });
@@ -259,7 +259,7 @@ export async function reviewPractical(
       });
       competencyAchieved = compResult.success;
       if (!compResult.success) {
-        logger.warn('[practical-workflow] markCompetencyAchieved failed (non-fatal)', undefined, {
+        logger.warn('[practical-workflow] markCompetencyAchieved failed (non-fatal)', {
           competencyKey: submission.competency_key,
           error: compResult.error,
         });
@@ -319,7 +319,7 @@ export async function reviewPractical(
       })
       .then(({ error }) => {
         if (error)
-          logger.warn('[practical-workflow] notification insert failed (non-fatal)', undefined, {
+          logger.warn('[practical-workflow] notification insert failed (non-fatal)', {
             error: error.message,
           });
       });
@@ -343,7 +343,7 @@ export async function reviewPractical(
       })
       .then(({ error }) => {
         if (error)
-          logger.warn('[practical-workflow] notification insert failed (non-fatal)', undefined, {
+          logger.warn('[practical-workflow] notification insert failed (non-fatal)', {
             error: error.message,
           });
       });

@@ -34,7 +34,7 @@ export async function withTenant(
     const role = user.user_metadata?.role || 'user';
 
     if (!tenantId) {
-      logger.warn('Request without tenant context', undefined, { userId: user.id });
+      logger.warn('Request without tenant context', { userId: user.id });
       return NextResponse.json({ error: 'Tenant context required' }, { status: 403 });
     }
 

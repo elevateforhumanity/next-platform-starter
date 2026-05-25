@@ -582,7 +582,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
       .limit(1)
       .maybeSingle();
     if (stripeSession) {
-      logger.warn('[dashboard-loader] Paid session found but no active enrollment', undefined, {
+      logger.warn('[dashboard-loader] Paid session found but no active enrollment', {
         userId: user.id,
         appId: paidApp.id,
       });
@@ -605,7 +605,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
       : 0;
 
   if (warnings.length > 0) {
-    logger.warn('[dashboard-loader] Non-fatal query warnings', undefined, { warnings, userId: user.id });
+    logger.warn('[dashboard-loader] Non-fatal query warnings', { warnings, userId: user.id });
   }
 
   return {

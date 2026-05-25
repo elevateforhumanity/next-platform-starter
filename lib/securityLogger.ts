@@ -8,7 +8,7 @@ export const securityLogger = {
     details?: Record<string, unknown>;
   }) {
     const { userId, resource, details = {} } = data;
-    logger.warn('Unauthorized access attempt', undefined, {
+    logger.warn('Unauthorized access attempt', {
       userId,
       resource,
       timestamp: new Date().toISOString(),
@@ -17,7 +17,7 @@ export const securityLogger = {
   },
 
   logRateLimitExceeded(ip: string, endpoint: string) {
-    logger.warn('Rate limit exceeded', undefined, {
+    logger.warn('Rate limit exceeded', {
       ip,
       endpoint,
       timestamp: new Date().toISOString(),
@@ -26,7 +26,7 @@ export const securityLogger = {
 
   logSuspiciousActivity(data: { type?: string; details?: Record<string, unknown> }) {
     const { type, details = {} } = data;
-    logger.warn('Suspicious activity detected', undefined, {
+    logger.warn('Suspicious activity detected', {
       type,
       timestamp: new Date().toISOString(),
       ...details,
@@ -34,7 +34,7 @@ export const securityLogger = {
   },
 
   logAuthFailure(email: string, reason: string) {
-    logger.warn('Authentication failure', undefined, {
+    logger.warn('Authentication failure', {
       email,
       reason,
       timestamp: new Date().toISOString(),

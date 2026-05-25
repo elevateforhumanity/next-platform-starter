@@ -106,7 +106,7 @@ async function _GET(request: NextRequest) {
         },
       })
       .then(null, (err: Error) => {
-        logger.warn('[SignedURL] Audit log insert failed', undefined, { error: err.message });
+        logger.warn('[SignedURL] Audit log insert failed', { error: err.message });
       });
 
     return NextResponse.json({ url: data.signedUrl });

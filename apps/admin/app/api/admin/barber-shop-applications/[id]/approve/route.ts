@@ -117,7 +117,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       .maybeSingle();
 
     if (shopErr) {
-      logger.warn('[barber-approve] shops upsert failed (non-fatal)', undefined, {
+      logger.warn('[barber-approve] shops upsert failed (non-fatal)', {
         id,
         detail: shopErr.message,
       });
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       );
 
       if (supervisorErr) {
-        logger.warn('[barber-approve] shop_supervisors upsert failed (non-fatal)', undefined, {
+        logger.warn('[barber-approve] shop_supervisors upsert failed (non-fatal)', {
           id,
           detail: supervisorErr.message,
         });
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }
   } catch (provisionErr) {
     // Non-fatal — approval is recorded. Admin can manually provision if needed.
-    logger.warn('[barber-approve] Provisioning failed (non-fatal)', undefined, {
+    logger.warn('[barber-approve] Provisioning failed (non-fatal)', {
       id,
       error: String(provisionErr),
     });
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
   } catch (emailErr) {
     // Non-fatal — approval is recorded, email can be sent manually
-    logger.warn('Approval notification email failed (non-fatal)', undefined, { id, error: String(emailErr) });
+    logger.warn('Approval notification email failed (non-fatal)', { id, error: String(emailErr) });
   }
 
   logger.info('Barbershop application approved', { id, approvedBy: user.id });

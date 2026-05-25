@@ -59,7 +59,7 @@ export function normalizeLessonContent(raw: unknown): LessonContent {
       if (result.success) return result.data;
 
       // Partial parse — fill defaults for invalid fields
-      logger.warn('[normalize-lesson-content] Partial validation failure, applying defaults', undefined, {
+      logger.warn('[normalize-lesson-content] Partial validation failure, applying defaults', {
         errors: result.error.issues.map((i) => i.message),
       });
       return LessonContentSchema.parse({ version: 1, ...obj });

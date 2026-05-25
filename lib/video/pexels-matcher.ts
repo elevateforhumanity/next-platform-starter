@@ -187,7 +187,7 @@ async function fetchPexelsVideos(
   });
 
   if (!res.ok) {
-    logger.warn('[pexels-matcher] API error', undefined, { status: res.status, query });
+    logger.warn('[pexels-matcher] API error', { status: res.status, query });
     return [];
   }
 
@@ -329,12 +329,12 @@ export async function matchLessonToVideo(
         .eq('id', lesson.id);
 
       if (error) {
-        logger.warn('[pexels-matcher] DB update failed', undefined, { id: lesson.id, error });
+        logger.warn('[pexels-matcher] DB update failed', { id: lesson.id, error });
       } else {
         appliedToDb = true;
       }
     } catch (err) {
-      logger.warn('[pexels-matcher] DB update threw', undefined, { id: lesson.id, err });
+      logger.warn('[pexels-matcher] DB update threw', { id: lesson.id, err });
     }
   }
 

@@ -83,7 +83,7 @@ export default async function ReviewApplicationPage({
   // Accept canonical UUID IDs and legacy intake-* IDs.
   // Reject everything else with a clear, deterministic message.
   if (!isUuid && !isLegacyIntakeId) {
-    logger.warn('[review/application] invalid id format', undefined, { id });
+    logger.warn('[review/application] invalid id format', { id });
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <p className="text-4xl mb-4">⚠️</p>

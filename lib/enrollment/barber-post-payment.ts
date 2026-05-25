@@ -100,7 +100,7 @@ export async function runBarberPostPayment(
     }
 
     if (!profileId) {
-      logger.warn('[barber-post-payment] No profile — enrollment deferred', undefined, { studentEmail });
+      logger.warn('[barber-post-payment] No profile — enrollment deferred', { studentEmail });
       steps['create_enrollment'] = 'skipped';
     } else {
       // Find the barber program

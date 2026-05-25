@@ -149,7 +149,7 @@ async function fetchMetric(
       return (data as any)?.days_overdue ?? 0;
     }
     default:
-      logger.warn('[guardrail-engine] unknown metric', undefined, { metric });
+      logger.warn('[guardrail-engine] unknown metric', { metric });
       return 0;
   }
 }
@@ -327,7 +327,7 @@ export async function runGuardrailEvaluation(
     .not('status', 'in', '("terminated","suspended")');
 
   if (error || !holders?.length) {
-    logger.warn('[guardrail-engine] no active program holders found', undefined, { error });
+    logger.warn('[guardrail-engine] no active program holders found', { error });
     return result;
   }
 

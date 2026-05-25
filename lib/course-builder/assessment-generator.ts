@@ -308,7 +308,7 @@ export async function persistAssessmentQuestions(
     .eq('id', lessonId);
 
   if (updateErr) {
-    logger.warn('[assessment-generator] Failed to sync quiz_questions jsonb', undefined, {
+    logger.warn('[assessment-generator] Failed to sync quiz_questions jsonb', {
       lessonId,
       error: updateErr.message,
     });

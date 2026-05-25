@@ -44,7 +44,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
-      logger.warn('[Creator Rejection] Unauthorized attempt', undefined, {
+      logger.warn('[Creator Rejection] Unauthorized attempt', {
         userId: user.id,
         role: profile?.role,
       });
@@ -86,7 +86,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (fetchError || !creator) {
-      logger.warn('[Creator Rejection] Creator not found', undefined, { creatorId });
+      logger.warn('[Creator Rejection] Creator not found', { creatorId });
       return NextResponse.json(
         { error: 'Creator not found', code: 'CREATOR_NOT_FOUND' },
         { status: 404 },

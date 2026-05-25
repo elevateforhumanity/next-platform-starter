@@ -191,6 +191,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
         error: error instanceof Error ? error.message : 'Heartbeat failed',
       }));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- stopHeartbeat is defined after this callback (forward ref)
   }, [status.entryId, getCurrentPosition]);
 
   // Start heartbeat loop

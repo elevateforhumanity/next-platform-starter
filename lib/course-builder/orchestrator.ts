@@ -104,7 +104,7 @@ Common Job Titles: ${snapshot.sampleTitles.join(', ')}
 Has Registered Apprenticeships: ${snapshot.hasApprenticeships ? 'Yes' : 'No'}
 ${snapshot.attribution}`.trim();
   } catch (err) {
-    logger.warn('[orchestrator] O*NET fetch failed — continuing without career context', undefined, { err });
+    logger.warn('[orchestrator] O*NET fetch failed — continuing without career context', { err });
     return '';
   }
 }

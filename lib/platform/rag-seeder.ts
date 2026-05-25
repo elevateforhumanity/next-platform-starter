@@ -361,7 +361,7 @@ export async function embedPlatformKnowledge(options: EmbedOptions = {}): Promis
           return { ...chunk, embedding };
         } catch (err) {
           errors++;
-          logger.warn('[rag-seeder] embed failed', undefined, { title: chunk.title, error: String(err) });
+          logger.warn('[rag-seeder] embed failed', { title: chunk.title, error: String(err) });
           return null;
         }
       }),

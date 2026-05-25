@@ -37,7 +37,7 @@ export async function claimWebhookEvent(
     const supabase = await requireAdminClient();
     if (!supabase) {
       // DB unavailable — caller must decide based on confident=false
-      logger.warn('Webhook event tracker: DB unavailable', undefined, { provider, eventId });
+      logger.warn('Webhook event tracker: DB unavailable', { provider, eventId });
       return { shouldProcess: true, isDuplicate: false, confident: false };
     }
 

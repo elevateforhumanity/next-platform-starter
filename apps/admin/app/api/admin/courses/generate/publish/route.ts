@@ -420,7 +420,7 @@ async function publishCompiledDraft(
         .select('id')
         .single();
       if (modErr || !moduleRow) {
-        logger.warn('course_modules insert failed (non-fatal)', undefined, { error: modErr?.message });
+        logger.warn('course_modules insert failed (non-fatal)', { error: modErr?.message });
         clLessonNumber += mod.lessons.length;
         continue;
       }
@@ -465,7 +465,7 @@ async function publishCompiledDraft(
 
       const { error: clErr } = await db.from('course_lessons').insert(courseRows);
       if (clErr) {
-        logger.warn('course_lessons insert failed (non-fatal)', undefined, {
+        logger.warn('course_lessons insert failed (non-fatal)', {
           courseId,
           module: mod.module_title,
           error: clErr.message,
@@ -489,7 +489,7 @@ async function publishCompiledDraft(
     is_active: true,
   });
   if (ruleErr)
-    logger.warn('completion_rules insert failed (non-fatal)', undefined, { courseId, error: ruleErr.message });
+    logger.warn('completion_rules insert failed (non-fatal)', { courseId, error: ruleErr.message });
 
   // 4. program_courses — order_index column (not sort_order)
   if (draft.program_id) {
@@ -500,7 +500,7 @@ async function publishCompiledDraft(
         { onConflict: 'program_id,course_id', ignoreDuplicates: true },
       );
     if (pcErr)
-      logger.warn('program_courses upsert failed (non-fatal)', undefined, { courseId, error: pcErr.message });
+      logger.warn('program_courses upsert failed (non-fatal)', { courseId, error: pcErr.message });
   }
 
   return { courseId, slug: courseRow.slug, lessonCount: lessonRows.length };
@@ -642,7 +642,7 @@ async function _POST(req: NextRequest) {
         .select('id')
         .single();
       if (modErr || !moduleRow) {
-        logger.warn('course_modules insert failed (non-fatal)', undefined, { error: modErr?.message });
+        logger.warn('course_modules insert failed (non-fatal)', { error: modErr?.message });
         continue;
       }
 
@@ -691,7 +691,7 @@ async function _POST(req: NextRequest) {
 
       const { error: clErr } = await db.from('course_lessons').insert(courseRows);
       if (clErr) {
-        logger.warn('course_lessons insert failed (non-fatal)', undefined, {
+        logger.warn('course_lessons insert failed (non-fatal)', {
           courseId,
           module: mod.title,
           error: clErr.message,

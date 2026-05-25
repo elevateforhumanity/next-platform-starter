@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (alerts.length > 0) {
-      logger.warn('Webhook health alerts detected', undefined, { alerts });
+      logger.warn('Webhook health alerts detected', { alerts });
 
       // Throttle: only send alert if no webhook_health_alert was sent in the last hour
       const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000).toISOString();

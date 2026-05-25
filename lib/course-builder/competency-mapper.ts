@@ -205,7 +205,7 @@ export async function markCompetencyAchieved(
     const quizOnlyMethods: AchievedVia[] = ['quiz', 'exam'];
     if (quizOnlyMethods.includes(opts.achievedVia)) {
       const msg = `Competency '${opts.competencyKey}' requires instructor signoff — cannot be achieved via '${opts.achievedVia}'`;
-      logger.warn('[competency-mapper] Signoff-only violation blocked', undefined, {
+      logger.warn('[competency-mapper] Signoff-only violation blocked', {
         competencyKey: opts.competencyKey,
         achievedVia: opts.achievedVia,
         userId: opts.userId,

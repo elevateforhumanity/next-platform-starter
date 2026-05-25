@@ -340,7 +340,7 @@ export async function compileBlueprintToCourse(opts: CompilerOptions): Promise<C
   }
 
   if (warnings.length) {
-    logger.warn('[compiler] Plan warnings', undefined, { courseSlug: template.courseSlug, warnings });
+    logger.warn('[compiler] Plan warnings', { courseSlug: template.courseSlug, warnings });
   }
 
   // Step 9: Persist

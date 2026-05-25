@@ -45,7 +45,7 @@ export async function getTenantContext(): Promise<TenantContext> {
   const role = user.user_metadata?.role || 'user';
 
   if (!tenantId) {
-    logger.warn('Tenant context missing', undefined, { userId: user.id });
+    logger.warn('Tenant context missing', { userId: user.id });
     throw new TenantContextError(
       'Tenant context required. User not associated with a tenant.',
       403,

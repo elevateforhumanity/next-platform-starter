@@ -255,7 +255,7 @@ export async function evaluateUnlockRule(
       case 'achieve_competency':
         return evalAchieveCompetency(db, userId, lessonId, rule);
       default:
-        logger.warn('[progression-gate] Unknown rule type', undefined, { rule, lessonId });
+        logger.warn('[progression-gate] Unknown rule type', { rule, lessonId });
         return { unlocked: true };
     }
   } catch (err) {

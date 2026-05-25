@@ -74,7 +74,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Log and alert
-    logger.warn('[Stuck Approvals] Found partners stuck in approved_pending_user', undefined, {
+    logger.warn('[Stuck Approvals] Found partners stuck in approved_pending_user', {
       count: stuckPartners.length,
       partners: stuckPartners.map((p) => ({
         id: p.id,

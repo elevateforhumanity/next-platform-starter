@@ -60,7 +60,7 @@ export async function getAdminDocumentUrl(params: {
       },
     })
     .catch((err: Error) => {
-      logger.warn('[DocumentAccess] Audit log failed', undefined, { error: err.message });
+      logger.warn('[DocumentAccess] Audit log failed', { error: err.message });
     });
 
   return data.signedUrl;

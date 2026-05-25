@@ -106,7 +106,7 @@ async function _GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
 
   if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
-    logger.warn('Unauthorized cron attempt', undefined, {
+    logger.warn('Unauthorized cron attempt', {
       path: '/api/cron/process-provisioning-jobs',
     });
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

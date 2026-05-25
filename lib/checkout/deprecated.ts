@@ -30,7 +30,7 @@ export function createDeprecatedCheckoutHandler(
     const canonicalPath =
       forwardTo === 'learner' ? CANONICAL_LEARNER_CHECKOUT : CANONICAL_LICENSE_CHECKOUT;
 
-    logger.warn('Deprecated checkout endpoint called', undefined, {
+    logger.warn('Deprecated checkout endpoint called', {
       deprecatedPath,
       canonicalPath,
     });

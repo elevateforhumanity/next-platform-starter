@@ -59,7 +59,7 @@ export async function resolveCourseIdFromDb(
 
   if (error) {
     if (error.code === '42P01') {
-      logger.warn('[program-resolver] program_course_map table not found — using legacy fallback', undefined, {
+      logger.warn('[program-resolver] program_course_map table not found — using legacy fallback', {
         programSlug,
       });
       return LEGACY_FALLBACK[programSlug] ?? null;
@@ -75,7 +75,7 @@ export async function resolveCourseIdFromDb(
 
   const legacy = LEGACY_FALLBACK[programSlug] ?? null;
   if (legacy) {
-    logger.warn('[program-resolver] slug not in DB, using legacy fallback', undefined, { programSlug });
+    logger.warn('[program-resolver] slug not in DB, using legacy fallback', { programSlug });
   }
   return legacy;
 }

@@ -61,11 +61,11 @@ export async function emitEvent(
       message: options.message ?? null,
     });
     if (error) {
-      logger.warn('[platform/events] emit failed', undefined, { event_type, error: error.message });
+      logger.warn('[platform/events] emit failed', { event_type, error: error.message });
     }
   } catch (err) {
     // Never let event emission crash the caller
-    logger.warn('[platform/events] emit threw', undefined, { event_type, err });
+    logger.warn('[platform/events] emit threw', { event_type, err });
   }
 }
 
@@ -155,7 +155,7 @@ export async function getRecentEvents(options: {
 
     const { data, error } = await q;
     if (error) {
-      logger.warn('[platform/events] getRecentEvents failed', undefined, { error: error.message });
+      logger.warn('[platform/events] getRecentEvents failed', { error: error.message });
       return [];
     }
     return (data ?? []) as Array<{

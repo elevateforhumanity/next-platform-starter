@@ -65,7 +65,7 @@ async function resolveIndustryContext(args: {
 
     return { socCode, credentialCode };
   } catch (err) {
-    logger.warn('[courses/ingest] Failed to resolve industry context from program', undefined, {
+    logger.warn('[courses/ingest] Failed to resolve industry context from program', {
       programId: args.programId,
       error: err instanceof Error ? err.message : String(err),
     });
@@ -136,7 +136,7 @@ async function _POST(request: Request) {
             onlyMissing: true,
           });
         } catch (err) {
-          logger.warn('[courses/ingest] Failed to queue videos after blueprint save', undefined, {
+          logger.warn('[courses/ingest] Failed to queue videos after blueprint save', {
             courseId: result.courseId,
             error: err instanceof Error ? err.message : String(err),
           });
@@ -222,7 +222,7 @@ async function _POST(request: Request) {
           );
         }
       } catch (err) {
-        logger.warn('[courses/ingest] Industry standards load failed', undefined, {
+        logger.warn('[courses/ingest] Industry standards load failed', {
           socCode: industryContext.socCode,
           error: err instanceof Error ? err.message : String(err),
         });
@@ -286,7 +286,7 @@ async function _POST(request: Request) {
           onlyMissing: true,
         });
       } catch (err) {
-        logger.warn('[courses/ingest] Failed to queue videos after ingest save', undefined, {
+        logger.warn('[courses/ingest] Failed to queue videos after ingest save', {
           courseId: result.courseId,
           error: err instanceof Error ? err.message : String(err),
         });
@@ -413,7 +413,7 @@ async function _GET(request: Request) {
           );
         }
       } catch (err) {
-        logger.warn('[courses/ingest] Resume standards load failed', undefined, {
+        logger.warn('[courses/ingest] Resume standards load failed', {
           socCode: industryContext.socCode,
           error: err instanceof Error ? err.message : String(err),
         });

@@ -329,7 +329,7 @@ export async function approveApplication(
         atomicErr.message.includes('Could not find the function') ||
         atomicErr.message.includes('schema cache')
       ) {
-        logger.warn('[approve] atomic RPC not found — falling back to application-layer path', undefined, {
+        logger.warn('[approve] atomic RPC not found — falling back to application-layer path', {
           applicationId,
           slug: app.program_slug,
           hint: 'Apply migration 20260503000011_approval_hardening.sql in Supabase Dashboard',

@@ -105,7 +105,7 @@ export async function processPendingJobs(
   for (const job of jobs as QueueJob[]) {
     const handler = handlers[job.type];
     if (!handler) {
-      logger.warn('No handler for job type', undefined, { type: job.type });
+      logger.warn('No handler for job type', { type: job.type });
       continue;
     }
 

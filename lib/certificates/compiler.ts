@@ -308,7 +308,7 @@ export async function issueProgramCertificate(
   const gate = await checkCertificateGate(db, params);
 
   if (!gate.eligible) {
-    logger.warn('[cert-compiler] Certificate gate failed', undefined, {
+    logger.warn('[cert-compiler] Certificate gate failed', {
       userId,
       courseId,
       blockers: gate.blockers,
@@ -374,7 +374,7 @@ export async function issueProgramCertificate(
         verifyUrl,
       );
     } catch (e) {
-      logger.warn('[cert-compiler] Email failed (non-fatal)', undefined, { error: (e as Error).message });
+      logger.warn('[cert-compiler] Email failed (non-fatal)', { error: (e as Error).message });
     }
   }
 

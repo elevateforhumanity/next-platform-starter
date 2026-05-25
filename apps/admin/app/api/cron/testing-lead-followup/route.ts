@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
         await db.from('exam_booking_leads').update({ follow_up_1_sent: true }).eq('id', lead.id);
         sent1++;
       } catch (err) {
-        logger.warn('[testing-lead-followup] 24hr email failed', undefined, { id: lead.id, err });
+        logger.warn('[testing-lead-followup] 24hr email failed', { id: lead.id, err });
         errors++;
       }
     }
@@ -118,7 +118,7 @@ export async function GET(req: NextRequest) {
         await db.from('exam_booking_leads').update({ follow_up_2_sent: true }).eq('id', lead.id);
         sent2++;
       } catch (err) {
-        logger.warn('[testing-lead-followup] 48hr email failed', undefined, { id: lead.id, err });
+        logger.warn('[testing-lead-followup] 48hr email failed', { id: lead.id, err });
         errors++;
       }
     }

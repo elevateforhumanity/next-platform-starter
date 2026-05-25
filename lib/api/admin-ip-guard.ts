@@ -63,7 +63,7 @@ export function checkAdminIP(request: NextRequest): NextResponse | null {
   const ip = forwarded?.split(',')[0]?.trim() ?? request.headers.get('x-real-ip') ?? '';
 
   if (!isAllowed(ip, allowlist)) {
-    logger.warn('Admin IP guard: blocked request', undefined, { ip, path: request.nextUrl.pathname });
+    logger.warn('Admin IP guard: blocked request', { ip, path: request.nextUrl.pathname });
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

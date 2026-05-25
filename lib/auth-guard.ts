@@ -136,7 +136,7 @@ export async function requirePartnerIdentity() {
     .maybeSingle();
 
   if (!partnerUser || !partnerUser.partner_id) {
-    logger.warn('Partner user has no partner_users mapping', undefined, {
+    logger.warn('Partner user has no partner_users mapping', {
       userId: user.id,
       email: user.email,
     });
@@ -145,7 +145,7 @@ export async function requirePartnerIdentity() {
 
   const org = (partnerUser as any).partners;
   if (!org) {
-    logger.warn('Partner org not found for partner_users row', undefined, {
+    logger.warn('Partner org not found for partner_users row', {
       userId: user.id,
       partnerId: partnerUser.partner_id,
     });

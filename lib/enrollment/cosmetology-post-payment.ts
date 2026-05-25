@@ -99,7 +99,7 @@ export async function runCosmetologyPostPayment(
     }
 
     if (!profileId) {
-      logger.warn('[cosmetology-post-payment] No profile — enrollment deferred', undefined, { studentEmail });
+      logger.warn('[cosmetology-post-payment] No profile — enrollment deferred', { studentEmail });
       steps['create_enrollment'] = 'skipped';
     } else {
       const { data: program } = await db

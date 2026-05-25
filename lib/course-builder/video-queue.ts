@@ -70,7 +70,7 @@ export async function queueCourseLessonVideos(
       queued += 1;
     } catch (err) {
       failed += 1;
-      logger.warn('[video-queue] Failed to enqueue lesson video job', undefined, {
+      logger.warn('[video-queue] Failed to enqueue lesson video job', {
         courseId: input.courseId,
         lessonId: lesson.id,
         error: err instanceof Error ? err.message : String(err),
