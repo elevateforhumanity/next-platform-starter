@@ -5,9 +5,13 @@
  * Direct online applications are not accepted. Students with FSSA/TANF
  * benefits should contact their case manager or join the waitlist.
  */
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
 export default function FssaApplyPage() {
-  // Redirect to the FSSA waitlist — case managers will follow up directly.
   redirect('/apply/fssa/waitlist');
 }
