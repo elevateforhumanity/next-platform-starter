@@ -249,7 +249,7 @@ export async function POST(request: NextRequest) {
     // If the document is linked to an application, map known fields directly
     // onto the applications row. Only overwrites null/empty columns.
     let auto_applied = false;
-    let fields_applied: string[] = [];
+    const fields_applied: string[] = [];
 
     if (doc.application_id && Object.keys(fields).length > 0) {
       try {
