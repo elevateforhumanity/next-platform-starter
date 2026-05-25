@@ -45,7 +45,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (error) {
-      logger.error('[revoke] RPC error', { applicationId, requestId, error: error.message });
+      logger.error('[revoke] RPC error', undefined, { applicationId, requestId, error: error.message });
       if (error.message.includes('ACTOR_NOT_AUTHORIZED')) return safeError('Forbidden', 403);
       if (error.message.includes('APPLICATION_NOT_FOUND'))
         return safeError('Requested application is unavailable', 404);

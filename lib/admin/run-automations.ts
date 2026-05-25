@@ -47,7 +47,7 @@ async function dispatchEmail(config: {
     return { ok: false, detail: `email failed ${res.status}: ${body}` };
   } catch (err: any) {
     // Email not configured — log the intent instead of crashing
-    logger.warn('[run-automations] email dispatch unavailable, logging intent', { config });
+    logger.warn('[run-automations] email dispatch unavailable, logging intent', undefined, { config });
     return { ok: true, detail: `email logged (dispatch unavailable): ${config.template}` };
   }
 }
@@ -117,13 +117,13 @@ export async function runAutomations(db: SupabaseClient): Promise<AutomationRunR
   try {
     const { error: refreshErr } = await db.rpc('refresh_admin_priority_queue');
     if (refreshErr)
-      logger.warn('[run-automations] priority queue refresh failed', { error: refreshErr.message });
+      logger.warn('[run-automations] priority queue refresh failed', undefined, { error: refreshErr.message });
 
     const { data: enqueueData, error: enqueueErr } = await db.rpc('enqueue_automation_actions');
-    if (enqueueErr) logger.warn('[run-automations] enqueue failed', { error: enqueueErr.message });
+    if (enqueueErr) logger.warn('[run-automations] enqueue failed', undefined, { error: enqueueErr.message });
     else result.enqueued = enqueueData ?? 0;
   } catch (err: any) {
-    logger.warn('[run-automations] RPC unavailable (migration not applied?)', {
+    logger.warn('[run-automations] RPC unavailable (migration not applied?)', undefined, {
       error: err.message,
     });
   }

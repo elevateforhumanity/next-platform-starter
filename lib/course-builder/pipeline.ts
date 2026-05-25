@@ -274,7 +274,7 @@ export async function runCoursePublishPipeline(opts: PipelineOptions): Promise<P
   const validation = validateCourseTemplate(template);
 
   if (!validation.valid) {
-    logger.error('[course-builder] Validation failed — pipeline aborted', {
+    logger.error('[course-builder] Validation failed — pipeline aborted', undefined, {
       courseSlug: template.courseSlug,
       errorCount: validation.errorCount,
     });
@@ -344,7 +344,7 @@ export async function runCoursePublishPipeline(opts: PipelineOptions): Promise<P
 
   const success = persistErrors.length === 0;
   if (!success) {
-    logger.error('[course-builder] Persistence errors', {
+    logger.error('[course-builder] Persistence errors', undefined, {
       courseSlug: template.courseSlug,
       errors: persistErrors,
     });

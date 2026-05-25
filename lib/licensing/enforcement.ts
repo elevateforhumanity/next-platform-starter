@@ -169,7 +169,7 @@ export async function handleRefund(paymentIntentId: string): Promise<void> {
     .maybeSingle();
 
   if (!purchase?.tenant_id) {
-    logger.warn('Refund received for unknown payment', { paymentIntentId });
+    logger.warn('Refund received for unknown payment', undefined, { paymentIntentId });
     return;
   }
 
@@ -213,7 +213,7 @@ export async function handleDispute(paymentIntentId: string): Promise<void> {
     .maybeSingle();
 
   if (!purchase?.tenant_id) {
-    logger.warn('Dispute received for unknown payment', { paymentIntentId });
+    logger.warn('Dispute received for unknown payment', undefined, { paymentIntentId });
     return;
   }
 

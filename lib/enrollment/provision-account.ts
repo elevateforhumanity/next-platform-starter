@@ -97,7 +97,7 @@ export async function provisionAccount(
   });
 
   if (authErr || !authData?.user) {
-    logger.error('[provision-account] Auth user creation failed', {
+    logger.error('[provision-account] Auth user creation failed', undefined, {
       email: normalizedEmail,
       error: authErr?.message,
     });
@@ -120,7 +120,7 @@ export async function provisionAccount(
 
   if (profileErr) {
     // Non-fatal — auth user exists, enrollment can still proceed
-    logger.warn('[provision-account] Profile insert failed (non-fatal)', {
+    logger.warn('[provision-account] Profile insert failed (non-fatal)', undefined, {
       userId,
       error: profileErr.message,
     });
@@ -139,7 +139,7 @@ export async function provisionAccount(
     if (!linkErr && linkData?.properties?.action_link) {
       passwordSetUrl = linkData.properties.action_link as string;
     } else {
-      logger.warn('[provision-account] generateLink failed', { error: linkErr?.message });
+      logger.warn('[provision-account] generateLink failed', undefined, { error: linkErr?.message });
     }
   } catch (err) {
     logger.warn('[provision-account] generateLink threw (non-fatal)', err);

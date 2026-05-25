@@ -109,7 +109,7 @@ export async function publishLesson(
     .single();
 
   if (snapErr) {
-    logger.error('[versioning] snapshot insert failed', { lessonId, error: snapErr.message });
+    logger.error('[versioning] snapshot insert failed', undefined, { lessonId, error: snapErr.message });
     return { ok: false, error: snapErr.message };
   }
 
@@ -128,7 +128,7 @@ export async function publishLesson(
     .eq('id', lessonId);
 
   if (updateErr) {
-    logger.error('[versioning] lesson update failed after snapshot', {
+    logger.error('[versioning] lesson update failed after snapshot', undefined, {
       lessonId,
       error: updateErr.message,
     });
@@ -176,7 +176,7 @@ export async function rollbackLesson(
   const { error: updateErr } = await db.from('course_lessons').update(restore).eq('id', lessonId);
 
   if (updateErr) {
-    logger.error('[versioning] rollback failed', {
+    logger.error('[versioning] rollback failed', undefined, {
       lessonId,
       targetVersion,
       error: updateErr.message,
@@ -207,7 +207,7 @@ export async function getVersionHistory(
     .order('version', { ascending: false });
 
   if (error) {
-    logger.error('[versioning] failed to load version history', { lessonId, error: error.message });
+    logger.error('[versioning] failed to load version history', undefined, { lessonId, error: error.message });
     return [];
   }
 

@@ -44,7 +44,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
-      logger.warn('[Creator Rejection] Unauthorized attempt', {
+      logger.warn('[Creator Rejection] Unauthorized attempt', undefined, {
         userId: user.id,
         role: profile?.role,
       });
@@ -86,7 +86,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (fetchError || !creator) {
-      logger.warn('[Creator Rejection] Creator not found', { creatorId });
+      logger.warn('[Creator Rejection] Creator not found', undefined, { creatorId });
       return NextResponse.json(
         { error: 'Creator not found', code: 'CREATOR_NOT_FOUND' },
         { status: 404 },
@@ -133,7 +133,7 @@ async function _POST(req: Request) {
         emailSent = result.success;
 
         if (!result.success) {
-          logger.error('[Creator Rejection] Email failed', {
+          logger.error('[Creator Rejection] Email failed', undefined, {
             creatorId,
             email: creatorProfile.email,
             error: result.error,

@@ -37,7 +37,7 @@ export async function logSecurityEventAction(event: SecurityEvent): Promise<void
     });
 
     if (CRITICAL_EVENTS.has(event.type)) {
-      logger.warn('[CRITICAL SECURITY EVENT]', { type: event.type, url: event.url, ip });
+      logger.warn('[CRITICAL SECURITY EVENT]', undefined, { type: event.type, url: event.url, ip });
     }
   } catch (err) {
     // Silent fail — security logging must never break the app

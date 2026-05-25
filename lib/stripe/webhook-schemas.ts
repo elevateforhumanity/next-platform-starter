@@ -11,7 +11,7 @@
  * Usage:
  *   const meta = BarberEnrollmentMeta.safeParse(session.metadata ?? {});
  *   if (!meta.success) {
- *     logger.warn('[webhook] Metadata contract violation', {
+ *     logger.warn('[webhook] Metadata contract violation', undefined, {
  *       event: event.id, errors: meta.error.flatten()
  *     });
  *     return NextResponse.json({ received: true }); // ack to Stripe, skip processing

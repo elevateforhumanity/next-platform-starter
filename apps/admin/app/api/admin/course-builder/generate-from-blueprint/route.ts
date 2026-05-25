@@ -228,7 +228,7 @@ export async function POST(req: NextRequest) {
         standardsBlock = buildIndustryStandardsBlock(standards);
       }
     } catch (err) {
-      logger.warn('[generate-from-blueprint] standards load failed', {
+      logger.warn('[generate-from-blueprint] standards load failed', undefined, {
         blueprintId: blueprint.id,
         socCode: blueprint.socCode,
         error: err instanceof Error ? err.message : String(err),

@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (error) {
-      logger.error('[approve-and-grant] RPC error', {
+      logger.error('[approve-and-grant] RPC error', undefined, {
         applicationId,
         requestId,
         error: error.message,

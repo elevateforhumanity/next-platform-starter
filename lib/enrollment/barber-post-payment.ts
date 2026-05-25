@@ -53,7 +53,7 @@ export async function runBarberPostPayment(
     .maybeSingle();
 
   if (appErr || !app) {
-    logger.error('[barber-post-payment] Step 1 failed: application update', {
+    logger.error('[barber-post-payment] Step 1 failed: application update', undefined, {
       applicationId,
       error: appErr?.message,
     });
@@ -91,7 +91,7 @@ export async function runBarberPostPayment(
         postLoginUrl: `${siteUrl}/apprentice`,
       });
       if (provision.error || !provision.userId) {
-        logger.error('[barber-post-payment] Account provisioning failed', { error: provision.error });
+        logger.error('[barber-post-payment] Account provisioning failed', undefined, { error: provision.error });
         steps['provision_account'] = 'failed';
       } else {
         profileId = provision.userId;
@@ -100,7 +100,7 @@ export async function runBarberPostPayment(
     }
 
     if (!profileId) {
-      logger.warn('[barber-post-payment] No profile — enrollment deferred', { studentEmail });
+      logger.warn('[barber-post-payment] No profile — enrollment deferred', undefined, { studentEmail });
       steps['create_enrollment'] = 'skipped';
     } else {
       // Find the barber program
@@ -152,7 +152,7 @@ export async function runBarberPostPayment(
             .maybeSingle();
 
           if (enrollErr || !newEnrollment) {
-            logger.error('[barber-post-payment] Enrollment creation failed', {
+            logger.error('[barber-post-payment] Enrollment creation failed', undefined, {
               error: enrollErr?.message,
             });
             steps['create_enrollment'] = 'failed';

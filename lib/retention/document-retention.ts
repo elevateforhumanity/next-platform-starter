@@ -120,7 +120,7 @@ export async function enforceDocumentRetention(
         const { error: storageError } = await db.storage.from('documents').remove([doc.file_path]);
 
         if (storageError) {
-          logger.warn('[Retention] Storage delete failed', {
+          logger.warn('[Retention] Storage delete failed', undefined, {
             docId: doc.id,
           });
           errors++;

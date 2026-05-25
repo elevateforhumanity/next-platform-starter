@@ -1593,7 +1593,7 @@ async function executeAction(
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] check_system_health fetch error', { reason });
+        logger.error('[devstudio/execute] check_system_health fetch error', undefined, { reason });
         write(`\x1b[31m✗  Could not reach /api/admin/webhook-health: ${reason}\x1b[0m`);
         write(`   baseUrl: ${baseUrl}`);
       }
@@ -2022,7 +2022,7 @@ async function executeAction(
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] build_courses dispatch error', { reason });
+        logger.error('[devstudio/execute] build_courses dispatch error', undefined, { reason });
         write(`\x1b[31m✗  Could not reach /api/devstudio/shell: ${reason}\x1b[0m`);
       }
       break;
@@ -2078,7 +2078,7 @@ async function executeAction(
           }
         } catch (fetchErr) {
           const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-          logger.error('[devstudio/execute] deploy_autopilot dispatch error', { workflow, reason });
+          logger.error('[devstudio/execute] deploy_autopilot dispatch error', undefined, { workflow, reason });
           write(`\x1b[31m✗  Could not reach /api/devstudio/shell for ${workflow}: ${reason}\x1b[0m`);
         }
       }
@@ -2115,7 +2115,7 @@ async function executeAction(
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] run_tests dispatch error', { reason });
+        logger.error('[devstudio/execute] run_tests dispatch error', undefined, { reason });
         write(`\x1b[31m✗  Could not reach /api/devstudio/shell: ${reason}\x1b[0m`);
       }
       break;
@@ -2149,7 +2149,7 @@ async function executeAction(
         }
       } catch (fetchErr) {
         const reason = fetchErr instanceof Error ? fetchErr.message : String(fetchErr);
-        logger.error('[devstudio/execute] manage_app_trial fetch error', { reason });
+        logger.error('[devstudio/execute] manage_app_trial fetch error', undefined, { reason });
         write(`\x1b[31m✗  Could not reach ${endpoint}: ${reason}\x1b[0m`);
         write(`   baseUrl: ${baseUrl}`);
       }
@@ -3633,7 +3633,7 @@ ENGINEERING
             aiResponse = await callAI(systemPrompt, userPrompt, TOOLS);
           } catch (aiErr) {
             const reason = aiErr instanceof Error ? aiErr.message : String(aiErr);
-            logger.error('[devstudio/execute] AI call failed', { reason });
+            logger.error('[devstudio/execute] AI call failed', undefined, { reason });
             write(`\x1b[31m✗  AI routing failed: ${reason}\x1b[0m`);
             write('   Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in Dev Studio → Secrets tab.');
             write('\x1b[90m─────────────────────────────────────\x1b[0m');
@@ -3679,7 +3679,7 @@ ENGINEERING
 
       } catch (err) {
         const reason = err instanceof Error ? err.message : String(err);
-        logger.error('[devstudio/execute] unexpected error', { reason });
+        logger.error('[devstudio/execute] unexpected error', undefined, { reason });
         write(`\x1b[31m✗  Unexpected error: ${reason}\x1b[0m`);
       } finally {
         try {

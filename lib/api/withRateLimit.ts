@@ -65,7 +65,7 @@ export async function applyRateLimit(
 
     // Redis is optional in local/test environments so strict admin routes remain testable.
     // Production strict routes still fail closed above.
-    logger.warn('[rate-limit] Redis unavailable — failing open', { tier });
+    logger.warn('[rate-limit] Redis unavailable — failing open', undefined, { tier });
     return null;
   }
 
@@ -106,14 +106,14 @@ export async function applyRateLimit(
     if (isQuotaExhausted) {
       // Monthly quota exhausted — log once at warn, not error, to avoid Sentry spam.
       // Failing open: traffic continues normally until quota resets.
-      logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open until reset', { tier });
+      logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open until reset', undefined, { tier });
     } else if (isCredential) {
       logger.error('[rate-limit] Redis credential error — failing open', undefined, {
         tier,
         action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/',
       });
     } else {
-      logger.warn('[rate-limit] Redis unavailable — failing open', { tier, error: msg });
+      logger.warn('[rate-limit] Redis unavailable — failing open', undefined, { tier, error: msg });
     }
 
     return null;

@@ -157,7 +157,7 @@ export async function autoGenerateCourseForProgram(args: {
     (expectedLessonCount > 0 && completionRatio < 1);
 
   if (hasContentFailures) {
-    logger.error('[course-builder] Incomplete course build detected', {
+    logger.error('[course-builder] Incomplete course build detected', undefined, {
       programId: program.id,
       blueprintId: blueprint.id,
       expectedLessonCount,

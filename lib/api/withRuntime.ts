@@ -111,7 +111,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     }
 
     if (missing.length > 0) {
-      logger.error('[withRuntime] Missing required secrets', {
+      logger.error('[withRuntime] Missing required secrets', undefined, {
         route: req.nextUrl.pathname,
         missing,
       });
@@ -129,7 +129,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
           ? req.headers.get('authorization')?.replace(/^Bearer\s+/, '')
           : req.headers.get('x-cron-secret');
       if (provided !== cronSecret) {
-        logger.warn('[withRuntime] Cron secret mismatch', {
+        logger.warn('[withRuntime] Cron secret mismatch', undefined, {
           route: req.nextUrl.pathname,
           mode: options.cron,
           ip: req.headers.get('x-forwarded-for') ?? 'unknown',
@@ -162,7 +162,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
       return await handler!(req, ctx);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      logger.error('[withRuntime] Unhandled handler error', {
+      logger.error('[withRuntime] Unhandled handler error', undefined, {
         route: req.nextUrl.pathname,
         method: req.method,
         error: message,

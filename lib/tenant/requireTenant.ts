@@ -19,7 +19,7 @@ export function rejectClientTenantId(
   const hasTenantInQuery = query?.has('tenant_id');
 
   if (hasTenantInBody || hasTenantInQuery) {
-    logger.warn('Client attempted to pass tenant_id', {
+    logger.warn('Client attempted to pass tenant_id', undefined, {
       inBody: hasTenantInBody,
       inQuery: hasTenantInQuery,
     });
@@ -48,7 +48,7 @@ export function requireTenant(request: NextRequest): TenantHeaders {
   const userRole = request.headers.get('x-user-role');
 
   if (!tenantId) {
-    logger.warn('Tenant header missing in request', {
+    logger.warn('Tenant header missing in request', undefined, {
       path: request.nextUrl.pathname,
     });
     throw new TenantRequiredError('Tenant context required');

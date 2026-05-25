@@ -35,7 +35,7 @@ async function onetFetch<T>(path: string): Promise<T | null> {
     }
     return res.json() as Promise<T>;
   } catch (err) {
-    logger.error('[onet] fetch error', { path, err });
+    logger.error('[onet] fetch error', undefined, { path, err });
     return null;
   }
 }

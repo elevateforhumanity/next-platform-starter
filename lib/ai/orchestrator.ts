@@ -206,7 +206,7 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
   if (!context.skipModeration) {
     const mod = moderateInput(prompt);
     if (mod.blocked) {
-      logger.warn('[ai-orchestrator] Blocked input', { task, reason: mod.reason, userId: context.userId });
+      logger.warn('[ai-orchestrator] Blocked input', undefined, { task, reason: mod.reason, userId: context.userId });
       return {
         content: "I'm not able to respond to that. Please keep the conversation respectful.",
         provider: 'blocked',
@@ -363,7 +363,7 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
       tokensUsed: result.usage?.totalTokens,
     };
   } catch (err) {
-    logger.error('[ai-orchestrator] Task failed', { task, err });
+    logger.error('[ai-orchestrator] Task failed', undefined, { task, err });
     throw err;
   }
 }

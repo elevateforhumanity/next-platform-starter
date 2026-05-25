@@ -110,7 +110,7 @@ export async function runAlignmentAudit(
 
   const { data: programs, error: progErr } = await programQuery;
   if (progErr || !programs) {
-    logger.error('credential-alignment-audit: failed to load programs', { progErr });
+    logger.error('credential-alignment-audit: failed to load programs', undefined, { progErr });
     return {
       auditedAt,
       totalPrograms: 0,

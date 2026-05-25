@@ -59,12 +59,12 @@ export async function resolveCourseIdFromDb(
 
   if (error) {
     if (error.code === '42P01') {
-      logger.warn('[program-resolver] program_course_map table not found — using legacy fallback', {
+      logger.warn('[program-resolver] program_course_map table not found — using legacy fallback', undefined, {
         programSlug,
       });
       return LEGACY_FALLBACK[programSlug] ?? null;
     }
-    logger.error('[program-resolver] DB error resolving program slug', {
+    logger.error('[program-resolver] DB error resolving program slug', undefined, {
       programSlug,
       error: error.message,
     });
@@ -75,7 +75,7 @@ export async function resolveCourseIdFromDb(
 
   const legacy = LEGACY_FALLBACK[programSlug] ?? null;
   if (legacy) {
-    logger.warn('[program-resolver] slug not in DB, using legacy fallback', { programSlug });
+    logger.warn('[program-resolver] slug not in DB, using legacy fallback', undefined, { programSlug });
   }
   return legacy;
 }
@@ -93,7 +93,7 @@ export async function listProgramCourseMappings(
     .order('program_slug');
 
   if (error) {
-    logger.error('[program-resolver] failed to list mappings', { error: error.message });
+    logger.error('[program-resolver] failed to list mappings', undefined, { error: error.message });
     // Return legacy entries as fallback so the UI is never empty.
     return Object.entries(LEGACY_FALLBACK).map(([program_slug, course_id]) => ({
       program_slug,
@@ -122,7 +122,7 @@ export async function registerProgramCourse(
     .upsert({ program_slug: programSlug, course_id: courseId }, { onConflict: 'program_slug' });
 
   if (error) {
-    logger.error('[program-resolver] failed to register mapping', {
+    logger.error('[program-resolver] failed to register mapping', undefined, {
       programSlug,
       courseId,
       error: error.message,
@@ -145,7 +145,7 @@ export async function unregisterProgramCourse(
   const { error } = await db.from('program_course_map').delete().eq('program_slug', programSlug);
 
   if (error) {
-    logger.error('[program-resolver] failed to unregister mapping', {
+    logger.error('[program-resolver] failed to unregister mapping', undefined, {
       programSlug,
       error: error.message,
     });

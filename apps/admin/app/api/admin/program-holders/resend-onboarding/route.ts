@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     holder.user_id,
   );
   if (authUserError || !authUser?.user?.email) {
-    logger.error('[Admin] Could not resolve auth account for program holder', {
+    logger.error('[Admin] Could not resolve auth account for program holder', undefined, {
       holderId,
       userId: holder.user_id,
     });

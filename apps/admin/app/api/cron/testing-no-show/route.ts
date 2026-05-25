@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     .lte('preferred_date', yesterdayStr);
 
   if (error) {
-    logger.error('[cron/no-show] Query failed', { error });
+    logger.error('[cron/no-show] Query failed', undefined, { error });
     return NextResponse.json({ error: 'Query failed' }, { status: 500 });
   }
 
@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
   <p><a href="${SITE_URL}/testing/book" style="background:#dc2626;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block">Pay Fee &amp; Rebook →</a></p>
   <p style="color:#64748b;font-size:13px">If you believe this is an error, call <strong>(317) 314-3757</strong> within 48 hours.</p>
 </body></html>`,
-    }).catch((err) => logger.warn('[cron/no-show] Email failed', { email: booking.email, err }));
+    }).catch((err) => logger.warn('[cron/no-show] Email failed', undefined, { email: booking.email, err }));
 
     processed++;
   }

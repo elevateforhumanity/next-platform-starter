@@ -110,7 +110,7 @@ export async function publishProgram(programId: string, publishedBy: string) {
     .maybeSingle();
 
   if (updateError) {
-    logger.error('Failed to publish program', { error: updateError, programId });
+    logger.error('Failed to publish program', undefined, { error: updateError, programId });
     throw new Error('Failed to publish program');
   }
 
@@ -148,7 +148,7 @@ export async function archiveProgram(programId: string, archivedBy: string) {
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to archive program', { error, programId });
+    logger.error('Failed to archive program', undefined, { error, programId });
     throw new Error('Failed to archive program');
   }
 
@@ -180,7 +180,7 @@ export async function getActivePrograms() {
     .order('title');
 
   if (error) {
-    logger.error('Failed to fetch active programs', { error });
+    logger.error('Failed to fetch active programs', undefined, { error });
     throw new Error('Failed to fetch programs');
   }
 
@@ -208,7 +208,7 @@ export async function linkCredentialToProgram(params: {
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to link credential to program', { error, params });
+    logger.error('Failed to link credential to program', undefined, { error, params });
     throw new Error('Failed to link credential');
   }
 

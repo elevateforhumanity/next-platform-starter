@@ -87,7 +87,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
                 dashboardUrl: `${SITE_URL}/learner/dashboard`,
               }),
             }).catch((err) =>
-              logger.error('[barber-reinstate cron] reinstate email failed', { id: sub.id, err }),
+              logger.error('[barber-reinstate cron] reinstate email failed', undefined, { id: sub.id, err }),
             );
           }
 
@@ -98,7 +98,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
         }
       } catch (err) {
         results.errors.push(`sub ${sub.id}: reinstate check failed`);
-        logger.error('[barber-reinstate cron] check failed', { id: sub.id, err });
+        logger.error('[barber-reinstate cron] check failed', undefined, { id: sub.id, err });
       }
     }
 

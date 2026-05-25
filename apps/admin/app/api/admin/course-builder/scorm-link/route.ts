@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     .limit(50);
 
   if (error) {
-    logger.warn('[course-builder/scorm-link] SCORM package feed unavailable', {
+    logger.warn('[course-builder/scorm-link] SCORM package feed unavailable', undefined, {
       code: error.code,
       details: error.details,
       message: error.message,

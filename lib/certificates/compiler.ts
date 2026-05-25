@@ -308,7 +308,7 @@ export async function issueProgramCertificate(
   const gate = await checkCertificateGate(db, params);
 
   if (!gate.eligible) {
-    logger.warn('[cert-compiler] Certificate gate failed', {
+    logger.warn('[cert-compiler] Certificate gate failed', undefined, {
       userId,
       courseId,
       blockers: gate.blockers,
@@ -343,7 +343,7 @@ export async function issueProgramCertificate(
     .maybeSingle();
 
   if (certErr) {
-    logger.error('[cert-compiler] Insert failed', { userId, courseId, error: certErr.message });
+    logger.error('[cert-compiler] Insert failed', undefined, { userId, courseId, error: certErr.message });
     return { success: false, alreadyIssued: false, error: certErr.message };
   }
 
@@ -374,7 +374,7 @@ export async function issueProgramCertificate(
         verifyUrl,
       );
     } catch (e) {
-      logger.warn('[cert-compiler] Email failed (non-fatal)', { error: (e as Error).message });
+      logger.warn('[cert-compiler] Email failed (non-fatal)', undefined, { error: (e as Error).message });
     }
   }
 

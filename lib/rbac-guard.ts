@@ -24,7 +24,7 @@ export function requireRole(session: Session, allowedRoles: UserRole[]) {
   const userRole = session.user.user_metadata?.role as UserRole;
 
   if (!userRole || !allowedRoles.includes(userRole)) {
-    logger.warn('Forbidden access attempt', {
+    logger.warn('Forbidden access attempt', undefined, {
       userId: session.user.id,
       userRole,
       requiredRoles: allowedRoles,
@@ -51,7 +51,7 @@ export function requireRoleAPI(session: Session, allowedRoles: UserRole[]) {
   const userRole = session.user.user_metadata?.role as UserRole;
 
   if (!userRole || !allowedRoles.includes(userRole)) {
-    logger.warn('Forbidden API access attempt', {
+    logger.warn('Forbidden API access attempt', undefined, {
       userId: session.user.id,
       userRole,
       requiredRoles: allowedRoles,

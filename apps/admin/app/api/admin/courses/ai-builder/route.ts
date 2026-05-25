@@ -162,7 +162,7 @@ async function _POST(request: NextRequest) {
         .maybeSingle();
 
       if (lessonErr || !lesson) {
-        logger.error('[AI Course Builder] Lesson insert failed', {
+        logger.error('[AI Course Builder] Lesson insert failed', undefined, {
           lessonNumber,
           error: lessonErr,
         });
@@ -215,7 +215,7 @@ async function _POST(request: NextRequest) {
 
         if (blockErr) {
           // Non-fatal — lesson is saved, blocks are supplementary
-          logger.warn('[AI Course Builder] Content blocks insert failed', {
+          logger.warn('[AI Course Builder] Content blocks insert failed', undefined, {
             lessonId: lesson.id,
             error: blockErr,
           });

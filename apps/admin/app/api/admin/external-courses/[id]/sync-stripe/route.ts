@@ -101,7 +101,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       }
     }
   } catch (err) {
-    logger.error('Stripe sync error', { id, err });
+    logger.error('Stripe sync error', undefined, { id, err });
     return safeInternalError(err, 'Stripe sync failed');
   }
 

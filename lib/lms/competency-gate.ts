@@ -48,7 +48,7 @@ export async function checkCompetencyGate(
 
   if (lessonErr) {
     // Surface real DB errors — do not swallow them
-    logger.error('[competency-gate] Failed to load lesson metadata', {
+    logger.error('[competency-gate] Failed to load lesson metadata', undefined, {
       lessonId,
       error: lessonErr.message,
     });
@@ -81,7 +81,7 @@ export async function checkCompetencyGate(
     .in('competency_key', requiredKeys);
 
   if (subErr) {
-    logger.error('[competency-gate] Failed to query step_submissions', {
+    logger.error('[competency-gate] Failed to query step_submissions', undefined, {
       lessonId,
       userId,
       error: subErr.message,

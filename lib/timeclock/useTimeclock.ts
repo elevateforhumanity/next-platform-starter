@@ -145,7 +145,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
         }
       },
       (error) => {
-        logger.warn('[Timeclock] GPS watch error', { message: error.message });
+        logger.warn('[Timeclock] GPS watch error', undefined, { message: error.message });
       },
       {
         enableHighAccuracy: true,

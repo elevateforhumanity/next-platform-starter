@@ -153,7 +153,7 @@ export async function GET(request: NextRequest) {
 
     return safeError(`Unknown action: ${action}`, 400);
   } catch (err) {
-    logger.error('[devstudio/git] GET failed', { action, err });
+    logger.error('[devstudio/git] GET failed', undefined, { action, err });
     return safeInternalError(err, 'Git operation failed');
   }
 }
@@ -282,7 +282,7 @@ export async function POST(request: NextRequest) {
 
     return safeError(`Unknown action: ${action}`, 400);
   } catch (err) {
-    logger.error('[devstudio/git] POST failed', { action, err });
+    logger.error('[devstudio/git] POST failed', undefined, { action, err });
     return safeInternalError(err, 'Git operation failed');
   }
 }

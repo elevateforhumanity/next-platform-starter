@@ -65,7 +65,7 @@ export async function getPexelsImage(
     });
 
     if (!res.ok) {
-      logger.warn('[pexels] API error', { status: res.status });
+      logger.warn('[pexels] API error', undefined, { status: res.status });
       return getPollinationsImage(domainKey);
     }
 
@@ -76,7 +76,7 @@ export async function getPexelsImage(
     const photo = data.photos[Math.floor(Math.random() * data.photos.length)];
     return photo.src.large2x ?? photo.src.landscape;
   } catch (err) {
-    logger.warn('[pexels] fetch error', { err });
+    logger.warn('[pexels] fetch error', undefined, { err });
     return getPollinationsImage(domainKey);
   }
 }
@@ -144,7 +144,7 @@ export async function getPexelsVideoClip(
     });
 
     if (!res.ok) {
-      logger.warn('[pexels] Video API error', { status: res.status });
+      logger.warn('[pexels] Video API error', undefined, { status: res.status });
       return null;
     }
 
@@ -166,7 +166,7 @@ export async function getPexelsVideoClip(
 
     return hdFile?.link ?? null;
   } catch (err) {
-    logger.warn('[pexels] video fetch error', { err });
+    logger.warn('[pexels] video fetch error', undefined, { err });
     return null;
   }
 }

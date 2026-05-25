@@ -127,11 +127,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             ]);
           // Header notification counts are non-critical — log failures but don't throw
           if (appsRes.error)
-            logger.warn('[AdminLayout] applications count failed', {
+            logger.warn('[AdminLayout] applications count failed', undefined, {
               message: appsRes.error.message,
             });
           if (docsRes.error)
-            logger.warn('[AdminLayout] documents count failed', { message: docsRes.error.message });
+            logger.warn('[AdminLayout] documents count failed', undefined, { message: docsRes.error.message });
 
           const name =
             profileRes.data?.first_name || profileRes.data?.full_name?.split(' ')[0] || 'Admin';

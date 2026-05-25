@@ -127,7 +127,7 @@ export async function handleProviderDataExport(payload: Record<string, any>): Pr
   });
 
   if (uploadErr) {
-    logger.error('Provider export upload failed', { error: uploadErr.message, filename });
+    logger.error('Provider export upload failed', undefined, { error: uploadErr.message, filename });
     throw new Error('Export upload failed');
   }
 

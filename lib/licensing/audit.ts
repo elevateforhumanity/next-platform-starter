@@ -65,7 +65,7 @@ export async function auditLicenseEvent(entry: LicenseAuditEntry): Promise<void>
     });
   } catch (error) {
     // Don't fail the operation if audit logging fails
-    logger.warn('Failed to persist license audit log', { event, error });
+    logger.warn('Failed to persist license audit log', undefined, { event, error });
   }
 }
 

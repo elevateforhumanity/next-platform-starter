@@ -231,7 +231,7 @@ export async function evaluateUnlockRule(
     .maybeSingle();
 
   if (error) {
-    logger.error('[progression-gate] Failed to load lesson unlock_rule', {
+    logger.error('[progression-gate] Failed to load lesson unlock_rule', undefined, {
       lessonId,
       error: error.message,
     });
@@ -255,11 +255,11 @@ export async function evaluateUnlockRule(
       case 'achieve_competency':
         return evalAchieveCompetency(db, userId, lessonId, rule);
       default:
-        logger.warn('[progression-gate] Unknown rule type', { rule, lessonId });
+        logger.warn('[progression-gate] Unknown rule type', undefined, { rule, lessonId });
         return { unlocked: true };
     }
   } catch (err) {
-    logger.error('[progression-gate] Rule evaluation error', { lessonId, userId, err });
+    logger.error('[progression-gate] Rule evaluation error', undefined, { lessonId, userId, err });
     throw err;
   }
 }

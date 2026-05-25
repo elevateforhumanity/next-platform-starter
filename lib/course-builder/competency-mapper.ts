@@ -167,7 +167,7 @@ export async function initializeCompetencyResults(
     .upsert(rows, { onConflict: 'user_id,course_id,competency_key', ignoreDuplicates: true });
 
   if (error) {
-    logger.error('[competency-mapper] Failed to initialize competency_results', {
+    logger.error('[competency-mapper] Failed to initialize competency_results', undefined, {
       userId: opts.userId,
       courseId: opts.courseId,
       error: error.message,
@@ -205,7 +205,7 @@ export async function markCompetencyAchieved(
     const quizOnlyMethods: AchievedVia[] = ['quiz', 'exam'];
     if (quizOnlyMethods.includes(opts.achievedVia)) {
       const msg = `Competency '${opts.competencyKey}' requires instructor signoff — cannot be achieved via '${opts.achievedVia}'`;
-      logger.warn('[competency-mapper] Signoff-only violation blocked', {
+      logger.warn('[competency-mapper] Signoff-only violation blocked', undefined, {
         competencyKey: opts.competencyKey,
         achievedVia: opts.achievedVia,
         userId: opts.userId,
@@ -237,7 +237,7 @@ export async function markCompetencyAchieved(
   );
 
   if (error) {
-    logger.error('[competency-mapper] Failed to mark competency achieved', {
+    logger.error('[competency-mapper] Failed to mark competency achieved', undefined, {
       competencyKey: opts.competencyKey,
       userId: opts.userId,
       error: error.message,

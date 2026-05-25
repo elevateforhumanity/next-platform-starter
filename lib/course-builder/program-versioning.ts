@@ -70,7 +70,7 @@ export async function publishProgram(
   });
 
   if (snapErr) {
-    logger.error('[program-versioning] snapshot failed', { programId, error: snapErr.message });
+    logger.error('[program-versioning] snapshot failed', undefined, { programId, error: snapErr.message });
     return { ok: false, error: snapErr.message };
   }
 
@@ -89,7 +89,7 @@ export async function publishProgram(
     .eq('id', programId);
 
   if (updateErr) {
-    logger.error('[program-versioning] publish update failed', {
+    logger.error('[program-versioning] publish update failed', undefined, {
       programId,
       error: updateErr.message,
     });
@@ -133,7 +133,7 @@ export async function publishCourse(
   });
 
   if (snapErr) {
-    logger.error('[program-versioning] course snapshot failed', {
+    logger.error('[program-versioning] course snapshot failed', undefined, {
       courseId,
       error: snapErr.message,
     });

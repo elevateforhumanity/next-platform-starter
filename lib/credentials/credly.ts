@@ -70,7 +70,7 @@ export async function issueCredlyBadge(
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      logger.error('Credly badge issuance failed', { status: res.status, body: text });
+      logger.error('Credly badge issuance failed', undefined, { status: res.status, body: text });
       return { success: false, error: `Credly API error: ${res.status}` };
     }
 
@@ -83,7 +83,7 @@ export async function issueCredlyBadge(
       credly_id: issued?.id,
     };
   } catch (err: any) {
-    logger.error('Credly badge issuance threw', { error: err?.message });
+    logger.error('Credly badge issuance threw', undefined, { error: err?.message });
     return { success: false, error: 'Network error contacting Credly' };
   }
 }
@@ -118,13 +118,13 @@ export async function revokeCredlyBadge(
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      logger.error('Credly badge revocation failed', { status: res.status, body: text });
+      logger.error('Credly badge revocation failed', undefined, { status: res.status, body: text });
       return { success: false, error: `Credly API error: ${res.status}` };
     }
 
     return { success: true };
   } catch (err: any) {
-    logger.error('Credly badge revocation threw', { error: err?.message });
+    logger.error('Credly badge revocation threw', undefined, { error: err?.message });
     return { success: false, error: 'Network error contacting Credly' };
   }
 }

@@ -1469,7 +1469,7 @@ async function _POST(req: NextRequest) {
           model,
         });
       if (logError) {
-        logger.warn('[devstudio/chat] DB log insert failed', { reason: logError.message });
+        logger.warn('[devstudio/chat] DB log insert failed', undefined, { reason: logError.message });
       }
     } catch (err) {
       logger.warn('[devstudio/chat] DB log failed', err);

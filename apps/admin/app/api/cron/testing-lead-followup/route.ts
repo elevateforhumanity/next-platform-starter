@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
     .limit(50);
 
   if (err1) {
-    logger.error('[testing-lead-followup] Failed to fetch 24hr leads', { err1 });
+    logger.error('[testing-lead-followup] Failed to fetch 24hr leads', undefined, { err1 });
   } else if (leads1) {
     for (const lead of leads1) {
       try {
@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
         await db.from('exam_booking_leads').update({ follow_up_1_sent: true }).eq('id', lead.id);
         sent1++;
       } catch (err) {
-        logger.warn('[testing-lead-followup] 24hr email failed', { id: lead.id, err });
+        logger.warn('[testing-lead-followup] 24hr email failed', undefined, { id: lead.id, err });
         errors++;
       }
     }
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
     .limit(50);
 
   if (err2) {
-    logger.error('[testing-lead-followup] Failed to fetch 48hr leads', { err2 });
+    logger.error('[testing-lead-followup] Failed to fetch 48hr leads', undefined, { err2 });
   } else if (leads2) {
     for (const lead of leads2) {
       try {
@@ -118,7 +118,7 @@ export async function GET(req: NextRequest) {
         await db.from('exam_booking_leads').update({ follow_up_2_sent: true }).eq('id', lead.id);
         sent2++;
       } catch (err) {
-        logger.warn('[testing-lead-followup] 48hr email failed', { id: lead.id, err });
+        logger.warn('[testing-lead-followup] 48hr email failed', undefined, { id: lead.id, err });
         errors++;
       }
     }

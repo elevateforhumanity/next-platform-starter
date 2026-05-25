@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
       const err = await response.text();
-      logger.error('[generate-course] OpenAI error', { status: response.status, err });
+      logger.error('[generate-course] OpenAI error', undefined, { status: response.status, err });
       return safeError('AI generation failed', 502);
     }
 
@@ -259,7 +259,7 @@ export async function POST(request: NextRequest) {
     try {
       blueprint = JSON.parse(raw);
     } catch {
-      logger.error('[generate-course] Failed to parse AI JSON', { raw: raw.slice(0, 500) });
+      logger.error('[generate-course] Failed to parse AI JSON', undefined, { raw: raw.slice(0, 500) });
       return safeError('AI returned invalid JSON', 502);
     }
 

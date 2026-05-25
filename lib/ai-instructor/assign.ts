@@ -24,7 +24,7 @@ export async function assignAIInstructor({
       .maybeSingle();
 
     if (instructorError || !instructor) {
-      logger.warn('No AI instructor found for program', { programSlug });
+      logger.warn('No AI instructor found for program', undefined, { programSlug });
       return { success: false, error: 'No instructor found' };
     }
 

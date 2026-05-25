@@ -243,7 +243,7 @@ export async function POST(
       .eq('id', courseId)
       .catch(() => {});
 
-    logger.error('Incremental generation failed', { courseId, err });
+    logger.error('Incremental generation failed', undefined, { courseId, err });
     return safeInternalError(err, 'Generation failed');
   }
 }

@@ -44,7 +44,7 @@ export async function markEventProcessed(
   if (error) {
     // If duplicate key error, event was already processed (race condition)
     if (error.code === '23505') {
-      logger.warn('Event already processed (race condition)', { stripeEventId });
+      logger.warn('Event already processed (race condition)', undefined, { stripeEventId });
       return;
     }
     logger.error('Failed to mark event as processed', error);

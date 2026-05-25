@@ -166,7 +166,7 @@ export async function approveApplication(
       });
 
       if (createError || !newUser?.user) {
-        logger.error('[approve] Failed to create user', { email, error: createError });
+        logger.error('[approve] Failed to create user', undefined, { email, error: createError });
         return { success: false, error: 'Failed to create user account' };
       }
       userId = newUser.user.id;
@@ -252,7 +252,7 @@ export async function approveApplication(
       .maybeSingle();
 
     if (peErr) {
-      logger.error('[approve] program_enrollments upsert failed', {
+      logger.error('[approve] program_enrollments upsert failed', undefined, {
         error: peErr.message,
         userId,
         resolvedProgramId,
@@ -329,7 +329,7 @@ export async function approveApplication(
         atomicErr.message.includes('Could not find the function') ||
         atomicErr.message.includes('schema cache')
       ) {
-        logger.warn('[approve] atomic RPC not found — falling back to application-layer path', {
+        logger.warn('[approve] atomic RPC not found — falling back to application-layer path', undefined, {
           applicationId,
           slug: app.program_slug,
           hint: 'Apply migration 20260503000011_approval_hardening.sql in Supabase Dashboard',

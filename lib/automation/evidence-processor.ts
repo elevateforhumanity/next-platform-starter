@@ -363,7 +363,7 @@ export async function processDocument(
       startTime,
     );
   } catch (error) {
-    logger.error('[EvidenceProcessor] Processing failed', { documentId, error });
+    logger.error('[EvidenceProcessor] Processing failed', undefined, { documentId, error });
 
     // On error, route to review with error message
     return {

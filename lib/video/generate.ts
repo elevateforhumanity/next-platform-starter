@@ -298,7 +298,7 @@ export async function generateCourseVideo(
           method: 'synthesia',
         };
       } catch (error) {
-        logger.warn('[VideoGen] Synthesia failed, trying D-ID', { error });
+        logger.warn('[VideoGen] Synthesia failed, trying D-ID', undefined, { error });
       }
     }
 
@@ -318,7 +318,7 @@ export async function generateCourseVideo(
           method: 'd-id',
         };
       } catch (error) {
-        logger.warn('[VideoGen] D-ID failed, trying Sora', { error });
+        logger.warn('[VideoGen] D-ID failed, trying Sora', undefined, { error });
       }
     }
 
@@ -329,7 +329,7 @@ export async function generateCourseVideo(
         const result = await generateSoraVideo(soraPrompt, '8', '1280x720');
         return { success: true, videoUrl: result.videoUrl, transcript: script, method: 'sora' };
       } catch (error) {
-        logger.warn('[VideoGen] Sora failed, falling back to TTS', { error });
+        logger.warn('[VideoGen] Sora failed, falling back to TTS', undefined, { error });
       }
     }
 
@@ -350,7 +350,7 @@ export async function generateCourseVideo(
           method: 'gpt4o-mini-tts',
         };
       } catch (error) {
-        logger.warn('[VideoGen] gpt-4o-mini-tts failed, trying tts-1-hd', { error });
+        logger.warn('[VideoGen] gpt-4o-mini-tts failed, trying tts-1-hd', undefined, { error });
       }
     }
 

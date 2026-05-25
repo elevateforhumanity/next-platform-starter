@@ -78,7 +78,7 @@ async function _POST(req: NextRequest) {
       results.sent++;
       results.emails.push(app.email);
     } catch (err) {
-      logger.error('[bulk-send-onboarding] Failed for', { email: app.email, err });
+      logger.error('[bulk-send-onboarding] Failed for', undefined, { email: app.email, err });
       results.failed++;
     }
   }

@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       results.push({ service, status: 'triggered' });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      logger.error('[env-vars/deploy] ECS update-service failed', { service, error: msg });
+      logger.error('[env-vars/deploy] ECS update-service failed', undefined, { service, error: msg });
       results.push({ service, status: `failed: ${msg.slice(0, 120)}` });
     }
   }

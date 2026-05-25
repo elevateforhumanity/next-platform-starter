@@ -13,7 +13,7 @@ export async function sendTenantTemplatedEmail(params: {
   const tmpl = await getEmailTemplate(params.key, params.tenantId);
 
   if (!tmpl) {
-    logger.warn('Missing email template for key', { key: params.key, tenantId: params.tenantId });
+    logger.warn('Missing email template for key', undefined, { key: params.key, tenantId: params.tenantId });
     return;
   }
 

@@ -106,7 +106,7 @@ export async function autoEnroll(input: AutoEnrollInput): Promise<AutoEnrollResu
     .maybeSingle();
 
   if (enrollErr || !enrollment?.id) {
-    logger.error('[auto-enroll] program_enrollments upsert failed', {
+    logger.error('[auto-enroll] program_enrollments upsert failed', undefined, {
       userId,
       programId,
       error: enrollErr?.message,
@@ -128,7 +128,7 @@ export async function autoEnroll(input: AutoEnrollInput): Promise<AutoEnrollResu
       .update({ enrollment_id: enrollmentId, updated_at: new Date().toISOString() })
       .eq('id', partnerId)
       .then(({ error }) => {
-        if (error) logger.warn('[auto-enroll] partner back-link failed', { partnerId, error: error.message });
+        if (error) logger.warn('[auto-enroll] partner back-link failed', undefined, { partnerId, error: error.message });
       });
   }
 
@@ -138,7 +138,7 @@ export async function autoEnroll(input: AutoEnrollInput): Promise<AutoEnrollResu
       .update({ enrollment_id: enrollmentId, status: 'approved', updated_at: new Date().toISOString() })
       .eq('id', applicationId)
       .then(({ error }) => {
-        if (error) logger.warn('[auto-enroll] application back-link failed', { applicationId, error: error.message });
+        if (error) logger.warn('[auto-enroll] application back-link failed', undefined, { applicationId, error: error.message });
       });
   }
 

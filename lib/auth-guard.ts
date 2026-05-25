@@ -77,7 +77,7 @@ export async function getCurrentUser() {
     .maybeSingle();
 
   if (error || !profile) {
-    logger.error('Failed to load user profile', { userId: session.user.id, error });
+    logger.error('Failed to load user profile', undefined, { userId: session.user.id, error });
     throw new Error('Profile not found');
   }
 
@@ -120,7 +120,7 @@ export async function requirePartnerIdentity() {
       .insert({ id: user.id, role: 'partner', full_name: fullName, email: user.email });
 
     if (insertErr) {
-      logger.error('Failed to auto-heal missing profile', {
+      logger.error('Failed to auto-heal missing profile', undefined, {
         userId: user.id,
         error: insertErr.message,
       });
@@ -136,7 +136,7 @@ export async function requirePartnerIdentity() {
     .maybeSingle();
 
   if (!partnerUser || !partnerUser.partner_id) {
-    logger.warn('Partner user has no partner_users mapping', {
+    logger.warn('Partner user has no partner_users mapping', undefined, {
       userId: user.id,
       email: user.email,
     });
@@ -145,7 +145,7 @@ export async function requirePartnerIdentity() {
 
   const org = (partnerUser as any).partners;
   if (!org) {
-    logger.warn('Partner org not found for partner_users row', {
+    logger.warn('Partner org not found for partner_users row', undefined, {
       userId: user.id,
       partnerId: partnerUser.partner_id,
     });

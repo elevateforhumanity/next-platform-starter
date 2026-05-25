@@ -183,7 +183,7 @@ export async function requireFeature(
 ): Promise<void> {
   const enabled = await isFeatureEnabled(tenantId, feature);
   if (!enabled) {
-    logger.warn('Feature access denied', { tenantId, feature });
+    logger.warn('Feature access denied', undefined, { tenantId, feature });
     throw new Error(`Feature '${feature}' is not enabled for this tenant`);
   }
 }
@@ -191,7 +191,7 @@ export async function requireFeature(
 export async function requireValidLicense(tenantId: string): Promise<void> {
   const valid = await isLicenseValid(tenantId);
   if (!valid) {
-    logger.warn('License validation failed', { tenantId });
+    logger.warn('License validation failed', undefined, { tenantId });
     throw new Error('License is not valid or has expired');
   }
 }

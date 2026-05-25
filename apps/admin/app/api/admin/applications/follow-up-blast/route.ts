@@ -175,7 +175,7 @@ export async function POST(request: Request) {
       sent++;
     } catch (err: any) {
       // Log full error server-side, return only a safe count to the caller
-      logger.warn('[follow-up-blast] email failed', { appId: app.id, err: err?.message });
+      logger.warn('[follow-up-blast] email failed', undefined, { appId: app.id, err: err?.message });
       errors.push(`Failed to send to recipient ${skipped + 1}`);
       skipped++;
     }
