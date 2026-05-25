@@ -56,6 +56,10 @@ interface ExternalCourseEntry {
   opens_in_new_tab: boolean;
   sort_order: number;
   program_slugs: string[];
+  elevate_fee_cents?: number;
+  fee_label?: string;
+  support_included?: string[];
+  payer_rule?: string;
 }
 
 // ── Load seed data ────────────────────────────────────────────────────────────
@@ -130,6 +134,12 @@ async function main() {
         opens_in_new_tab: entry.opens_in_new_tab,
         sort_order: entry.sort_order,
         is_active: true,
+        // Elevate support fee fields
+        elevate_fee_cents: entry.elevate_fee_cents ?? 0,
+        fee_label: entry.fee_label ?? 'Elevate Program Support Fee',
+        support_included: entry.support_included ?? [],
+        payer_rule: entry.payer_rule ?? 'always_student',
+        cost_cents: entry.elevate_fee_cents ?? 0,
         updated_at: new Date().toISOString(),
       };
 
