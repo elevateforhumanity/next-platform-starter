@@ -1,5 +1,5 @@
-// @ts-nocheck
-// TODO: remove @ts-nocheck once Stripe SDK apiVersion type is updated to match 2025-10-29.clover
+// apiVersion '2025-10-29.clover' is not yet in the Stripe SDK type definitions.
+// Casts to `any` are used where the SDK types lag behind the API version.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;

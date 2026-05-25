@@ -430,6 +430,7 @@ const nextConfig = {
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
+      { source: '/lms/programs', destination: '/lms/courses', permanent: false },
 
       // Mentor / Mentorship
       { source: '/mentor', destination: '/mentor/dashboard', permanent: false },

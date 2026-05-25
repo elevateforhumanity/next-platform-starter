@@ -82,7 +82,7 @@ export default async function EnrollPage({ searchParams }: Props) {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Enroll' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Enroll' }]} />
       </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
@@ -274,7 +274,7 @@ export default async function EnrollPage({ searchParams }: Props) {
               href="/lms/courses"
               className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
             >
-              View My Courses
+              View My Programs
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

@@ -78,7 +78,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
     { href: '/lms/dashboard', label: 'Dashboard', desc: 'Your home base', icon: LayoutDashboard },
     {
       href: '/lms/courses',
-      label: 'My Courses',
+      label: 'My Programs',
       desc: 'Lessons & modules',
       icon: BookOpen,
       badge: courseCount > 0 ? courseCount : undefined,

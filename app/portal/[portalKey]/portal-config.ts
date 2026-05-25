@@ -28,7 +28,7 @@ export interface PortalConfig {
 }
 
 const SHARED_LINKS = [
-  { name: 'My Courses', href: '/lms/courses', icon: BookOpen, description: 'Continue your coursework' },
+  { name: 'My Programs', href: '/lms/courses', icon: BookOpen, description: 'Continue your coursework' },
   { name: 'Certificates', href: '/lms/certificates', icon: Award, description: 'View earned credentials' },
   { name: 'Schedule', href: '/lms/calendar', icon: Clock, description: 'Upcoming classes & labs' },
   { name: 'Documents', href: '/learner/dashboard', icon: FileText, description: 'Upload required documents' },
@@ -170,7 +170,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     metaTitle: 'JRI Portal — Elevate for Humanity',
     metaDescription: 'Your Justice Reinvestment Initiative portal. Complete workforce readiness badges via SCORM modules and prepare for career placement.',
     quickLinks: [
-      { name: 'My Courses', href: '/lms/courses', icon: BookOpen, description: 'Continue SCORM modules' },
+      { name: 'My Programs', href: '/lms/courses', icon: BookOpen, description: 'Continue SCORM modules' },
       { name: 'Badges', href: '/lms/certificates', icon: Award, description: 'View earned badges' },
       { name: 'Schedule', href: '/lms/calendar', icon: Clock, description: 'Class schedule' },
       { name: 'Documents', href: '/learner/dashboard', icon: FileText, description: 'Upload required documents' },

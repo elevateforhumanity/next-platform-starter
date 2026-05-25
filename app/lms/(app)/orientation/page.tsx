@@ -24,7 +24,7 @@ export default async function OrientationPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Orientation' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Orientation' }]} />
       </div>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}

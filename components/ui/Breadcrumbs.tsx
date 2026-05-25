@@ -113,7 +113,7 @@ export const PROGRAM_LABELS: Record<string, string> = {
 export const LMS_LABELS: Record<string, string> = {
   lms: 'Learning Portal',
   dashboard: 'Dashboard',
-  courses: 'My Courses',
+  courses: 'My Programs',
   assignments: 'Assignments',
   grades: 'Grades',
   certificates: 'Certificates',

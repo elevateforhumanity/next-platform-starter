@@ -8,7 +8,7 @@ import { Clock, Users, BookOpen } from 'lucide-react';
 import { LMS_HEROES } from '@/lib/lms/image-map';
 
 export const metadata: Metadata = {
-  title: 'My Courses | LMS',
+  title: 'My Programs | LMS',
   description: 'Your enrolled courses and available training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/lms/courses',
@@ -67,7 +67,7 @@ export default async function MyCoursesPage() {
           <span className="inline-block text-xs font-bold uppercase tracking-wider text-brand-blue-300 mb-2">
             Student Portal
           </span>
-          <h1 className="text-4xl font-black text-white mb-2">My Courses</h1>
+          <h1 className="text-4xl font-black text-white mb-2">My Programs</h1>
           <p className="text-slate-300 text-base">
             Your enrolled training programs and available courses.
           </p>

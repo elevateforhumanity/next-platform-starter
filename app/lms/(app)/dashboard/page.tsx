@@ -709,7 +709,7 @@ export default async function StudentDashboard() {
                 {[
                   {
                     href: '/lms/courses',
-                    label: 'My Courses',
+                    label: 'My Programs',
                     icon: BookOpen,
                     color: 'text-blue-600',
                     bg: 'bg-blue-50',

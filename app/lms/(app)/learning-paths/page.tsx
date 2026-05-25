@@ -113,7 +113,7 @@ export default async function LearningPathsPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
-          items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Learning Paths' }]}
+          items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Learning Paths' }]}
         />
       </div>
       {/* Hero Section */}

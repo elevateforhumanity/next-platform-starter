@@ -233,10 +233,6 @@ The lesson page runs both paths in parallel for backward compatibility. New prog
 
 **lms_lessons view:** `curriculum_lessons` rows take priority (UNION ALL with NOT EXISTS guard). HVAC learners are served from `curriculum_lessons`. The view now exposes `cl.quiz_questions` and `cl.passing_score` directly (fixed in migration `20260401000005`).
 
-**Pending migration (apply in Supabase Dashboard):**
-
-- `20260401000005_curriculum_lessons_quiz_questions.sql` — adds `quiz_questions` column, backfills HVAC data, updates `lms_lessons` view
-
 **Do not delete `training_lessons` for HVAC** — it is the archive source for `quiz_questions` backfill and a rollback reference.
 
 ---
@@ -245,41 +241,37 @@ The lesson page runs both paths in parallel for backward compatibility. New prog
 
 ### Migrations Pending (apply in Supabase Dashboard)
 
-None currently pending. All migrations are live as of 2026-04.
+The following migrations exist in `supabase/migrations/` but require manual application in the Supabase Dashboard SQL Editor:
 
-**Verify after applying `20260402000003`:**
+- `20260702000009_normalize_two_factor_auth.sql` — merges `is_enabled`→`enabled`, adds FK/unique/index
+- `20260702000010_onboarding_progress_unique.sql` — adds UNIQUE(user_id, step) to `onboarding_progress`
+- `20260702000011_ensure_storage_buckets.sql` — idempotent bucket creation for all referenced buckets
+- `20260702000012_external_courses_support_fee.sql` — adds `elevate_fee_cents`, `fee_label`, `support_included` to `program_external_courses`
 
-```sql
--- Confirm columns exist
-SELECT column_name FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'programs'
-  AND column_name IN ('short_description', 'display_order');
+All are idempotent — safe to re-run.
 
--- Confirm live programs are published
-SELECT id, slug, title, published, is_active, status
-FROM public.programs
-WHERE published = true AND is_active = true AND status != 'archived'
-ORDER BY title LIMIT 10;
-```
+### Programs vs Courses — RESOLVED (2026-05)
 
-### Programs vs Courses — Tracked UX Debt
+**Canonical term:** "Program" — a student enrolls in a Program, not a Course.
 
-**Status:** Explicit debt. Not forgotten. Do not resolve casually.
+**Resolution applied:**
+- `/lms/programs` redirects to `/lms/courses` (permanent redirect in `next.config.mjs`)
+- Nav labels updated: "My Courses" → "My Programs" in `LMSNavigation.tsx`, `LmsAppShell.tsx`, breadcrumbs, sidebar, portal config, learner layout
+- `/lms/courses` remains the canonical authenticated route (106 inbound links preserved)
+- Use "Program" in all public-facing UI; "Course" only when referring to the internal `training_courses` DB table
 
-The public LMS uses "Programs" (`/lms/programs`) while the authenticated app uses "Courses" (`/lms/courses`) for the same top-level student offering. This creates a terminology split that confuses users navigating between public and authenticated views.
+### Lab / Assignment Instructor Sign-Off UI — COMPLETE (2026-Q2)
 
-**Root cause:** `/lms/courses` was established before the public LMS layer existed and has 20+ inbound links across the codebase. Renaming it requires:
+Full stack is built and wired:
 
-1. Adding redirect rules: `/lms/courses` → `/lms/programs` (or vice versa)
-2. Updating all 20+ inbound `href` references
-3. Deciding canonical term: **Program** is correct (a student enrolls in a Program, not a Course)
-4. Updating nav labels in `LmsAppShell.tsx` and `LMSNavigation.tsx`
-
-**Do not rename without a migration plan.** Until resolved, use "Program" in all new public-facing UI and "Course" only where it refers to the internal `training_courses` table object.
-
-### Lab / Assignment Instructor Sign-Off UI
-
-`step_submissions` table exists (applied via earlier migration). The lesson page renders lab/assignment UI shells but instructor sign-off UI is not yet built.
+| Layer | File |
+|---|---|
+| Learner submission | `components/lms/StepSubmissionForm.tsx` |
+| Submission API | `app/api/lms/submissions/route.ts` |
+| Review API | `app/api/lms/submissions/review/route.ts` |
+| Instructor list | `apps/admin/app/instructor/submissions/page.tsx` |
+| Instructor detail | `apps/admin/app/instructor/submissions/[submissionId]/page.tsx` |
+| Lesson page | `app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx` — renders `StepSubmissionForm` for `lab` and `assignment` step types |
 
 ### Admin Curriculum Builder Page
 

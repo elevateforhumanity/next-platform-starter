@@ -618,7 +618,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   {
                     href: '/lms/courses',
                     icon: <BookOpen className="w-7 h-7 text-brand-blue-600" />,
-                    label: 'My Courses',
+                    label: 'My Programs',
                   },
                   {
                     href: '/lms/certificates',

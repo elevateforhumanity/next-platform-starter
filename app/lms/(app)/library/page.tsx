@@ -129,7 +129,7 @@ export default async function LibraryPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Library' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Library' }]} />
       </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
@@ -346,7 +346,7 @@ export default async function LibraryPage() {
               className="flex items-center gap-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition"
             >
               <BookOpen className="w-5 h-5" />
-              <span>My Courses</span>
+              <span>My Programs</span>
             </Link>
             <Link
               href="/lms/assignments"

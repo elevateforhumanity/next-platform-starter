@@ -102,7 +102,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: 'Curriculum Builder', href: '/admin/curriculum' },
   ],
   education: [
-    { label: 'My Courses', href: '/lms/courses' },
+    { label: 'My Programs', href: '/lms/courses' },
     { label: 'Learner Dashboard', href: '/learner/dashboard' },
     { label: 'Instructor Portal', href: 'https://admin.elevateforhumanity.org/instructor' },
     { label: 'Mentor Portal', href: '/mentor/dashboard' },

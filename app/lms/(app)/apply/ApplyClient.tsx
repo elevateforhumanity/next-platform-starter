@@ -203,7 +203,7 @@ export default function StudentApplicationPage({ programs = [] }: { programs?: P
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-3xl mx-auto px-4 py-6">
-          <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Apply' }]} />
+          <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Apply' }]} />
         </div>
         <div className="max-w-3xl mx-auto px-4" aria-live="polite" role="status">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">

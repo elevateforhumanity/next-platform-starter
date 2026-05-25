@@ -46,7 +46,7 @@ interface LMSSidebarProps {
 // MY LEARNING — core learner workflow
 const learningItems = [
   { href: '/lms/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/lms/courses', label: 'My Courses', icon: BookOpen },
+  { href: '/lms/courses', label: 'My Programs', icon: BookOpen },
   { href: '/lms/progress', label: 'Progress', icon: TrendingUp },
   { href: '/lms/certificates', label: 'Certificates', icon: Award },
   { href: '/lms/grades', label: 'Grades', icon: ClipboardCheck },

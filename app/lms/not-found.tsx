@@ -11,7 +11,7 @@ export default function LmsNotFound() {
           href="/learner/dashboard"
           className="inline-flex items-center justify-center px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium text-sm"
         >
-          Back to My Courses
+          Back to My Programs
         </Link>
       </div>
     </div>

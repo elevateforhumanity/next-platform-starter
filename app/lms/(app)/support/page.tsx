@@ -35,7 +35,7 @@ const FAQ_ITEMS = [
   {
     question: 'How do I access my course materials?',
     answer:
-      'Go to "My Courses" in the dashboard, select your course, and click on the lesson you want to access.',
+      'Go to "My Programs" in the dashboard, select your course, and click on the lesson you want to access.',
   },
   {
     question: 'How do I submit an assignment?',
@@ -112,7 +112,7 @@ export default async function SupportPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Support' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Support' }]} />
       </div>
       <div className="max-w-5xl mx-auto px-4">
         {/* Header */}

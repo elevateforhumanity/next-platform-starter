@@ -28,6 +28,8 @@ export interface ProvisionAccountInput {
 export interface ProvisionAccountResult {
   userId: string | null;
   isNewUser: boolean;
+  /** Password-set / recovery link for new users. Null for existing accounts. */
+  passwordSetupLink?: string | null;
   error?: string;
 }
 
@@ -79,7 +81,7 @@ export async function provisionAccount(
     } catch (err) {
       logger.warn('[provision-account] Enrollment confirmation email failed (non-fatal)', err);
     }
-    return { userId: existing.id, isNewUser: false };
+    return { userId: existing.id, isNewUser: false, passwordSetupLink: null };
   }
 
   // ── 2. Create auth user ───────────────────────────────────────────────────
@@ -101,7 +103,7 @@ export async function provisionAccount(
       email: normalizedEmail,
       error: authErr?.message,
     });
-    return { userId: null, isNewUser: false, error: `Auth creation failed: ${authErr?.message}` };
+    return { userId: null, isNewUser: false, passwordSetupLink: null, error: `Auth creation failed: ${authErr?.message}` };
   }
 
   const userId = authData.user.id as string;
@@ -168,7 +170,7 @@ export async function provisionAccount(
   }
 
   logger.info('[provision-account] Account provisioned', { userId, email: normalizedEmail });
-  return { userId, isNewUser: true };
+  return { userId, isNewUser: true, passwordSetupLink: passwordSetUrl };
 }
 
 // ── Email template ────────────────────────────────────────────────────────────

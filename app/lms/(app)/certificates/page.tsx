@@ -52,7 +52,7 @@ export default async function CertificatesPage() {
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Certificates' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Certificates' }]} />
       </div>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
@@ -112,7 +112,7 @@ export default async function CertificatesPage() {
               href="/lms/courses"
               className="inline-block bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition"
             >
-              View My Courses
+              View My Programs
             </Link>
           </div>
         )}

@@ -122,7 +122,7 @@ export default async function NotificationsPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Notifications' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Notifications' }]} />
       </div>
       <div className="max-w-3xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">

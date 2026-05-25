@@ -170,7 +170,7 @@ export default async function ProgressPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Progress' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Progress' }]} />
       </div>
       <div className="max-w-7xl mx-auto px-4">
         <LmsHeroBanner

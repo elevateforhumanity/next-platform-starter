@@ -90,7 +90,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   },
   {
     id: '2',
-    name: 'My Courses',
+    name: 'My Programs',
     href: '/lms/dashboard',
     icon: 'BookOpen',
     description: 'LMS course content',

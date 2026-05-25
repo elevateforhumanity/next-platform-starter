@@ -160,7 +160,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ students: results });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message ?? 'Stripe error' }, { status: 500 });
+    return NextResponse.json({ error: 'Payment processing error' }, { status: 500 });
   }
 }
 

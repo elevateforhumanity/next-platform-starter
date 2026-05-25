@@ -166,7 +166,7 @@ export default async function PaymentsPage() {
             href="/lms/courses"
             className="inline-block mt-6 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-blue-700 transition-colors"
           >
-            View My Courses
+            View My Programs
           </Link>
         </div>
       ) : (

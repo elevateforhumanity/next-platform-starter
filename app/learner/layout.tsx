@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const navItems = [
   { href: '/learner/dashboard',          label: 'Dashboard' },
-  { href: '/lms/courses',                label: 'My Courses' },
+  { href: '/lms/courses',                label: 'My Programs' },
   { href: '/lms/programs',               label: 'Programs' },
   { href: '/lms/certificates',           label: 'Certificates' },
   { href: '/lms/assignments',            label: 'Assignments' },

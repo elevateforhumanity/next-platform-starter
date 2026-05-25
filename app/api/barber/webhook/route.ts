@@ -88,70 +88,7 @@ async function notifyPaymentSucceeded(
   }
 }
 
-/**
- * Schedule weekly invoices for a customer
- * Creates invoice items for each Friday until program completion
- *
- * TODO: replace createWeeklySubscription call-site with this function once
- * tested in staging. Currently defined but not yet invoked.
- */
-async function scheduleWeeklyInvoices(
-  stripe: Stripe,
-  params: {
-    customerId: string;
-    customerEmail: string;
-    weeksRemaining: number;
-    weeklyPaymentCents: number;
-    hoursPerWeek: number;
-    transferredHours: number;
-    applicationId?: string;
-  }
-) {
-  const { customerId, weeksRemaining, weeklyPaymentCents } = params;
 
-  // Get next Friday
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const daysUntilFriday = dayOfWeek === 5 ? 7 : (5 - dayOfWeek + 7) % 7 || 7;
-  
-  // Schedule invoices for each week
-  for (let week = 0; week < weeksRemaining; week++) {
-    const invoiceDate = new Date(now);
-    invoiceDate.setDate(now.getDate() + daysUntilFriday + (week * 7));
-    invoiceDate.setHours(10, 0, 0, 0); // 10 AM
-
-    // Create invoice item scheduled for that date
-    await stripe.invoiceItems.create({
-      customer: customerId,
-      amount: weeklyPaymentCents,
-      currency: 'usd',
-      description: `Barber Apprenticeship - Week ${week + 1} of ${weeksRemaining}`,
-      metadata: {
-        program: 'barber-apprenticeship',
-        week_number: (week + 1).toString(),
-        total_weeks: weeksRemaining.toString(),
-      },
-    });
-
-    // Create and finalize the invoice to be sent on that date
-    const invoice = await stripe.invoices.create({
-      customer: customerId,
-      collection_method: 'send_invoice',
-      days_until_due: 3, // 3 days to pay
-      auto_advance: true,
-      metadata: {
-        program: 'barber-apprenticeship',
-        week_number: (week + 1).toString(),
-      },
-    });
-
-    // Schedule the invoice to be sent on the Friday
-    // Note: Stripe will auto-send when finalized if collection_method is send_invoice
-    await stripe.invoices.finalizeInvoice(invoice.id);
-  }
-
-  logger.info(`Scheduled ${weeksRemaining} weekly invoices for customer ${customerId}`);
-}
 function getWebhookSecrets(): string[] {
   return [
     process.env.STRIPE_WEBHOOK_SECRET_BARBER,

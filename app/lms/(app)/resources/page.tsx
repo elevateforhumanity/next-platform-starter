@@ -164,7 +164,7 @@ const resourceCategories = [
 ];
 
 const quickLinks = [
-  { title: 'My Courses', href: '/lms/courses', icon: BookOpen },
+  { title: 'My Programs', href: '/lms/courses', icon: BookOpen },
   { title: 'My Progress', href: '/lms/progress', icon: CheckCircle },
   { title: 'Certificates', href: '/lms/certificates', icon: GraduationCap },
   { title: 'Messages', href: '/lms/messages', icon: Users },
@@ -204,7 +204,7 @@ export default async function ResourcesPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Resources' }]} />
+        <Breadcrumbs items={[{ label: 'My Programs', href: '/lms/courses' }, { label: 'Resources' }]} />
       </div>
       {/* Header */}
       <div className="bg-white border-b">

@@ -46,7 +46,7 @@ async function _POST(req: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message ?? 'Failed to create billing session' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create billing session' }, { status: 500 });
   }
 }
 
