@@ -74,7 +74,6 @@ export function HeroVideoBg({ src, poster, audioSrc }: HeroVideoBgProps) {
   // Reduced-motion: show poster image only, no video
   if (reducedMotion) {
     return poster ? (
-      // IMAGE-CONTRACT: allow raw img because legacy markup
       <img
         src={poster}
         alt=""

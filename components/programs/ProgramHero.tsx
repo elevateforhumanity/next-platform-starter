@@ -43,7 +43,6 @@ export function ProgramHero({ program }: { program: Program }) {
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src={program.heroImage}
               alt={program.heroImageAlt}

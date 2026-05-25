@@ -181,7 +181,6 @@ export default function InteractiveDemoPlayer({
         {videoError && (
           <div className="absolute inset-0 bg-slate-900">
             {scene.poster && (
-              // IMAGE-CONTRACT: allow raw img because legacy markup
               <img
                 src={scene.poster}
                 alt={scene.title}

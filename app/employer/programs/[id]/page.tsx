@@ -54,7 +54,6 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
         </div>
 
         {program.image_url && (
-          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img
             src={program.image_url}
             alt={program.title}

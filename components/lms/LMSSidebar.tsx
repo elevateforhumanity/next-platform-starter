@@ -154,7 +154,6 @@ export function LMSSidebar({
       >
         <div className="flex items-center gap-3">
           {profile?.avatar_url ? (
-            // IMAGE-CONTRACT: allow raw img because legacy markup
             <img
               src={profile.avatar_url}
               alt={userName}

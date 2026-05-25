@@ -140,7 +140,6 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
                   aria-label={`Watch ${tutorial.title}`}
                 >
                   {tutorial.thumbnail_url ? (
-                    // IMAGE-CONTRACT: allow raw img because legacy markup
                     <img
                       src={tutorial.thumbnail_url}
                       alt={tutorial.title}

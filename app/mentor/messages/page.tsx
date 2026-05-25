@@ -97,7 +97,6 @@ function MessageRow({ msg, unread }: { msg: any; unread: boolean }) {
     >
       <div className="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
         {sender?.avatar_url ? (
-          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img src={sender.avatar_url} alt={name} className="w-9 h-9 rounded-full object-cover" />
         ) : (
           <User className="w-4 h-4 text-slate-400" />
