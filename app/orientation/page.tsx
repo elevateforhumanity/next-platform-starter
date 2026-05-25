@@ -22,7 +22,7 @@ export default async function OrientationPage() {
       </div>
       {/* Hero — image only, no text overlay */}
       <section className="relative h-[280px] md:h-[350px] lg:h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/orientation-page-1.webp"
           alt="Orientation session"

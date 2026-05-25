@@ -44,7 +44,7 @@ export default async function TrainingPage() {
     <div className="min-h-screen bg-white">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/workforce-board-page-7.webp"
           alt="Workforce board"

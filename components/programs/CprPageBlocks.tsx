@@ -49,7 +49,7 @@ function FactsStrip() {
 function FullBleedImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative w-full h-[420px] sm:h-[520px] overflow-hidden border-y border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image
         src={src}
         alt={alt}

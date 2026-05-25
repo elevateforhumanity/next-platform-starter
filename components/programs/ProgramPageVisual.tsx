@@ -49,7 +49,7 @@ export function ProgramPageVisual({ program }: Props) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src={program.heroImage}
             alt={program.title}

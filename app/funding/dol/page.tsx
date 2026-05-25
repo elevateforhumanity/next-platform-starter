@@ -40,7 +40,7 @@ export default async function DOLFundingPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apprenticeship-hero.webp"
           alt="DOL Registered Apprenticeship"

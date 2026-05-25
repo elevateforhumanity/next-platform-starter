@@ -203,7 +203,7 @@ export default function PathwaysPage() {
       </div>
       {/* ── Visual Hero (no text overlay) ── */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/pathways-page-2.webp"
           alt="Workforce training students in a classroom and lab setting"

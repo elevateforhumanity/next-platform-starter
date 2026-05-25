@@ -133,7 +133,7 @@ export default async function ProgramsPage() {
 
       {/* Hero */}
       <section className="relative h-64 sm:h-80 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="Elevate for Humanity programs" fill className="object-cover object-center" priority placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 to-brand-blue-900/30" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">

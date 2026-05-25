@@ -285,7 +285,7 @@ export default function CheckEligibilityPage() {
         className="relative overflow-hidden"
         style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/funding-page-2.webp"
           alt="Check your eligibility for funded career training"

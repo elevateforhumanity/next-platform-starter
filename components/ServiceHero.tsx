@@ -23,7 +23,7 @@ export default function ServiceHero({
   return (
     <section className="relative w-full h-[500px] overflow-hidden">
       <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image src={imageUrl} alt={title} fill className="object-cover" priority sizes="100vw" placeholder="empty" />
       </div>
 

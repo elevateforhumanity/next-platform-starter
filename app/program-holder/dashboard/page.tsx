@@ -167,7 +167,7 @@ export default async function ProgramHolderDashboardPage() {
 
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image src="/images/pages/program-holder-page-1.webp" alt="Program Holder Portal" fill className="object-cover object-center" priority sizes="100vw" placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-950/90 via-brand-blue-900/50 to-transparent" />
         <div className="absolute inset-0 flex items-end">

@@ -85,7 +85,7 @@ export default function HeroPicture({
         style={frameStyle}
         aria-label={analyticsName ? `${analyticsName} hero` : 'Hero image'}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={src}
           alt={alt}

@@ -113,7 +113,7 @@ export default async function ProviderPage({ params }: Props) {
         className="relative flex items-end overflow-hidden"
         style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src={heroImg}
           alt={provider.name}

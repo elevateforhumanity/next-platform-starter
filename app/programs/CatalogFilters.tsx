@@ -79,7 +79,7 @@ function CatalogProgramCard({ p }: { p: CatalogProgram }) {
     >
       {/* Cover image — no overlay, no text on image */}
       <div className="relative aspect-[16/10] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={p.heroImage}
           alt={p.heroImageAlt}

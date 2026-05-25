@@ -23,7 +23,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
       {/* Hero */}
       <section className="relative bg-brand-blue-700 text-white py-20 overflow-hidden">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src={config.heroImage}
             alt={`${config.shortName} training`}

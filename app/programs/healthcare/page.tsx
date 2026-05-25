@@ -152,7 +152,7 @@ export default function Page() {
                       href={prog.href}
                       className="flex flex-col bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all group overflow-hidden"
                     >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                       <Image
                         src={prog.image}
                         alt={prog.title}

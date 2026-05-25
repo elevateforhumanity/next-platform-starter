@@ -150,7 +150,7 @@ function CredentialCard({ credential }: { credential: VerifiableCredential }) {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src={credential.image}
               alt={credential.name}

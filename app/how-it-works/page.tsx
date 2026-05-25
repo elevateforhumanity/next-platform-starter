@@ -117,7 +117,7 @@ export default function HowItWorksPage() {
                 className="flex flex-col sm:flex-row gap-0 sm:gap-5 rounded-xl overflow-hidden border border-slate-200 bg-white"
               >
                 <div className="relative w-full h-[180px] sm:w-64 sm:h-auto sm:min-h-[200px] flex-shrink-0 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={item.image}
                     alt={item.title}

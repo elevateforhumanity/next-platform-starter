@@ -176,7 +176,7 @@ export default function ProgramCategoryPage({
                 className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100"
               >
                 <div className="relative h-52 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={program.image}
                     alt={program.title}

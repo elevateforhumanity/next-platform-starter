@@ -74,7 +74,7 @@ export default async function DirectoryPage() {
                 <div className="flex items-start gap-5">
                   <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
                     {p.logo ? (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                       <Image
                         src={p.logo}
                         alt={p.name}

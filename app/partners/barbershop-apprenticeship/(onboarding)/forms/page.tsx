@@ -198,7 +198,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
               <Image src="/images/pages/barber-tools.webp" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" placeholder="empty" />
             </div>
             <div className="p-4">

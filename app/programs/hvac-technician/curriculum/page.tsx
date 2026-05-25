@@ -35,7 +35,7 @@ export default function HVACCurriculumPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/hvac-hero.webp"
           alt="HVAC Technician Training"

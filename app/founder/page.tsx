@@ -22,7 +22,7 @@ export default function FounderPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/admin-audit-logs-hero.webp"
           alt="Elevate for Humanity founder"

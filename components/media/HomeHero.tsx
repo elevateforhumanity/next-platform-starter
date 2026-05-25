@@ -31,7 +31,7 @@ export function HomeHero({ images }: HomeHeroProps) {
         <div className="md:hidden">
           <div className="relative mx-auto w-full max-w-md aspect-[4/3]">
             <div className="relative w-full overflow-hidden rounded-2xl border border-slate-800 bg-white aspect-[4/3]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
               <Image
                 src={current.src}
                 alt={current.alt}

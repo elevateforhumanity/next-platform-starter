@@ -98,7 +98,7 @@ export default function WritingCenterPage() {
 
       {/* Hero Image */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/writing-center-page-1.jpg"
           alt="Student receiving writing assistance at the Elevate Writing Center"

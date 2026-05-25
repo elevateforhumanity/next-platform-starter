@@ -64,7 +64,7 @@ export default function AcademicCalendarPage() {
 
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/academic-calendar-hero.webp"
           alt="Academic calendar and important dates"

@@ -25,7 +25,7 @@ export default function GrantsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-48 md:h-64 flex items-center overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/grants-page-1.webp"
           alt="Students celebrating graduation"

@@ -37,7 +37,7 @@ export default async function HelpPage() {
       <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/artlist/hero-training-1.webp"
             alt="Student receiving personalized help and support"

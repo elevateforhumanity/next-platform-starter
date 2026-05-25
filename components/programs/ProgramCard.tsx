@@ -12,7 +12,7 @@ export default function ProgramCard({ program }: { program: Program }) {
     <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
       {/* Flush top image — 16:9 */}
       <div className="relative aspect-[16/9] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={program.cardImage || program.heroImage || '/images/pages/training-cohort.webp'}
           alt={program.title}

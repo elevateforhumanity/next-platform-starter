@@ -22,7 +22,7 @@ export default function EmploymentSupportPage() {
 
       {/* Hero — image only, no text overlay */}
       <section className="relative h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/employment-support-page-1.webp"
           alt="Employment support services at Elevate for Humanity"

@@ -56,7 +56,7 @@ export default function VideoHeroSection() {
   return (
     <section className="relative w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-end bg-slate-900 overflow-hidden">
       {/* Fallback Image - always present for mobile */}
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image sizes="100vw"
         src="/images/programs/efh-cna-hero.jpg"
         alt="Career Training"

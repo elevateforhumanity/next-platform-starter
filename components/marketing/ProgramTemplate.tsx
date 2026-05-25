@@ -73,7 +73,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
 
       {/* Hero Section */}
       <section className="relative h-[700px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={program.heroImage}
           alt={`${program.name} in training`}

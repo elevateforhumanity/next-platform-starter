@@ -76,7 +76,7 @@ export default async function SponsorLicensingPage() {
             <div className="bg-white rounded-3xl shadow-lg border-2 border-slate-200 p-8 hover:shadow-2xl transition">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src="/images/icons/shield.png"
                     alt="Starter"

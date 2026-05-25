@@ -99,7 +99,7 @@ export default function SearchPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[320px] sm:h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/programs-hero-vibrant.webp"
           alt="Workforce training programs"

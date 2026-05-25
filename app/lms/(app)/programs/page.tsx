@@ -51,7 +51,7 @@ export default async function LmsProgramsPage() {
         <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <Link href="/lms">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
               <Image sizes="100vw"
                 src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
                 alt="Elevate for Humanity"

@@ -28,7 +28,7 @@ export default function WIOAEligibilityPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[220px] sm:h-[320px] md:h-[400px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/wioa-meeting.webp"
           alt="WIOA funded career training"

@@ -22,7 +22,7 @@ export default function SchoolLicensePage() {
 
       {/* Hero - Clean */}
       <section className="relative h-[50vh] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src="/images/pages/about-hero.webp"
           alt="School License Platform"

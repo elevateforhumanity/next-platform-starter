@@ -124,7 +124,7 @@ export default function ManagedPlatformPage() {
             {/* Platform screenshot */}
             <div className="mt-12 max-w-4xl mx-auto">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
                   src="/images/demos/admin-dashboard-thumb.jpg"
                   alt="Elevate managed platform dashboard"

@@ -154,7 +154,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : config.heroImage ? (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src={config.heroImage}
             alt={config.title}

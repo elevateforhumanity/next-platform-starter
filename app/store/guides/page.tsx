@@ -88,7 +88,7 @@ export default function GuidesPage() {
 
       {/* Hero */}
       <section className="relative h-56 md:h-72 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/store-guides-hero.webp"
           alt="Workforce development guides and resources"

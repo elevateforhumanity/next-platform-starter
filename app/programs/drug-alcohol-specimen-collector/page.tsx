@@ -29,7 +29,7 @@ export default function DrugAlcoholSpecimenCollectorPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/healthcare/healthcare-professional-portrait-1.jpg"
           alt="Healthcare professional in specimen collection lab"

@@ -66,7 +66,7 @@ export default function MissionPage() {
       {/* Hero */}
       <section className="relative bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/mission-hero.webp"
             alt="Elevate for Humanity mission"

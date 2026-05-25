@@ -143,7 +143,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 flex items-end overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={post.image || '/images/pages/social-media-1.webp'}
           alt={post.title}

@@ -71,7 +71,7 @@ export default function TrialPage() {
 
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image src="/images/pages/store-trial-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="empty" />
       </section>
         <div className="bg-white border-b">

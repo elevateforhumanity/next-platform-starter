@@ -50,7 +50,7 @@ export function HomepageProgramsTeaser() {
               className="flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition-shadow hover:shadow-lg"
             >
               <div className="relative h-48 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
                   src={program.image}
                   alt={program.title}

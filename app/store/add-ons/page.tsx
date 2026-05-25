@@ -85,7 +85,7 @@ export default function AddOnsPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image src="/images/pages/store-addons-hero.jpg" alt="Platform Add-Ons" fill className="object-cover" priority sizes="100vw" placeholder="empty" />
         </div>
         <div className="bg-slate-900 py-10">

@@ -159,7 +159,7 @@ export default function WorkOnePartnerPacketPage() {
             </div>
             <div className="space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
                   src="/images/pages/workone-partner-packet-page-1.webp"
                   alt="Workforce partnership"

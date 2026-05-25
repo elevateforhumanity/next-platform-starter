@@ -56,7 +56,7 @@ export default function WorkKeysPage() {
     <>
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[420px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/about-team-hero.webp"
           alt="ACT WorkKeys career readiness assessment"

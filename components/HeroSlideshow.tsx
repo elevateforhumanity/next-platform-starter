@@ -161,7 +161,7 @@ export default function HeroSlideshow() {
           }`}
         >
           {slide.image ? (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image sizes="100vw"
               src={slide.image}
               alt={slide.title}

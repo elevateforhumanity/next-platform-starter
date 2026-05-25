@@ -153,7 +153,7 @@ export default function PartnersIndexPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] min-h-[300px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/workforce-partnership-hero.webp"
             alt="Workforce partnership meeting"

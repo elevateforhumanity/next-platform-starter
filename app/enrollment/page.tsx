@@ -249,7 +249,7 @@ export default async function EnrollmentPage() {
               >
                 {/* Image — no text overlay */}
                 <div className="relative h-48 overflow-hidden flex-shrink-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={p.image}
                     alt={p.name}

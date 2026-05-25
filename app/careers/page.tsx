@@ -140,7 +140,7 @@ export default async function CareersPage() {
                   className="bg-white text-center p-8 rounded-lg border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-lg transition"
                 >
                   <div className="relative w-full h-40 mb-4 overflow-hidden rounded-lg">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                     <Image
                       src={benefit.image}
                       alt={benefit.title}

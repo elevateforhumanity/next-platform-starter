@@ -94,7 +94,7 @@ export default function TrainingPage() {
 
       {/* Hero — clean image, no text overlay */}
       <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/training-page-3.webp"
           alt="Career training programs at Elevate for Humanity"

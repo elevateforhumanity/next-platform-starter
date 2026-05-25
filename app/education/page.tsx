@@ -156,7 +156,7 @@ export default function EducationLandingPage() {
             {PROGRAMS.map((p) => (
               <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty" />
                 </div>
                 <div className="p-5">

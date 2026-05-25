@@ -64,7 +64,7 @@ export default async function JRIProgramsPage() {
 
       {/* Hero image — no overlay, no text on image per design standard */}
       <div className="relative w-full overflow-hidden" style={{ height: 'clamp(280px, 45vw, 560px)' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/jri-hero.webp"
           alt="Second chance career training — JRI programs at Elevate for Humanity"

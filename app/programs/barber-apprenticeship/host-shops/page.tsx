@@ -26,7 +26,7 @@ export default function HostShopsPage() {
       />
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[450px] max-h-[600px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/barber-gallery-1.webp"
           alt="Professional barbershop interior"

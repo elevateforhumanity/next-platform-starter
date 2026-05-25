@@ -62,7 +62,7 @@ export default function ProgramPageTemplate({
       {/* Hero Banner */}
       <section className="relative min-h-[600px] flex items-center">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src={heroImage}
             alt={heroTitle}

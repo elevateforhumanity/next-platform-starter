@@ -79,7 +79,7 @@ export default function FssaPage() {
       {/* Hero */}
       <section className="relative bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/funding-impact-1.webp"
             alt="Career training participants"

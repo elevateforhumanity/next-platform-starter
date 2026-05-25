@@ -66,7 +66,7 @@ export default function Page() {
               {programs.map((p, i) => (
                 <ScrollReveal key={p.title} delay={i * 80} direction="up">
                   <Link href={p.href} className="group block bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                     <Image sizes="100vw" src={p.image} alt={p.title} width={600} height={400} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty" />
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-1">

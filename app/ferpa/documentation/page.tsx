@@ -99,7 +99,7 @@ export default async function FerpaDocumentationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/ferpa-page-3.jpg"
           alt="FERPA compliance"

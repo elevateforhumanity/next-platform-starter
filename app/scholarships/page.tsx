@@ -183,7 +183,7 @@ export default async function ScholarshipsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[400px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src="/images/pages/success-stories-hero.webp"
           alt="Scholarships and Financial Aid"

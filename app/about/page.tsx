@@ -65,7 +65,7 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-8">
           {/* Contained headshot */}
           <div className="relative w-40 h-40 sm:w-52 sm:h-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src="/images/team/elizabeth-greene.webp"
               alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"

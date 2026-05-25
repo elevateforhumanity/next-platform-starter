@@ -69,7 +69,7 @@ export default function CareerServicesPage() {
                 className="flex gap-4 sm:flex-col rounded-xl overflow-hidden border border-slate-200 bg-white"
               >
                 <div className="relative w-28 h-28 sm:w-full sm:h-[180px] flex-shrink-0 sm:flex-shrink overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={item.image}
                     alt={item.title}

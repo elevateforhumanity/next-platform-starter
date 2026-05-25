@@ -69,7 +69,7 @@ export default async function VideosPage() {
                       className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition"
                     >
                       <div className="relative aspect-video bg-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                         <Image
                           src={video.thumbnail_url}
                           alt={video.title}

@@ -85,7 +85,7 @@ export default function ModernLandingHero({
     <div className="relative h-[300px] md:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden shadow-2xl">
       <picture>
         <source srcSet={webpSrc} type="image/webp" />
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={imageSrc}
           alt={imageAlt}

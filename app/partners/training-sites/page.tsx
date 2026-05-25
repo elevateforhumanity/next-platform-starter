@@ -193,7 +193,7 @@ export default async function TrainingSitesPage() {
         className="relative overflow-hidden"
         style={{ minHeight: 'clamp(420px, 50vw, 580px)' }}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apprenticeship-hero.webp"
           alt="Elevate for Humanity training sites and employer partners"

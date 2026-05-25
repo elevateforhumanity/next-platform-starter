@@ -64,7 +64,7 @@ export default function IPLAExamSignup() {
     <div className="min-h-screen bg-slate-50">
       {/* Hero */}
       <section className="relative h-[40vh] min-h-[280px] max-h-[400px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apprenticeships-page-1.webp"
           alt="Barber apprentice preparing for licensing exam"

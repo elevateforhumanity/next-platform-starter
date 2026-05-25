@@ -53,7 +53,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
         style={{ height: 'clamp(320px, 45vw, 560px)' }}
         aria-label={`${config.hero.title} hero image`}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={config.hero.image}
           alt={config.hero.title}

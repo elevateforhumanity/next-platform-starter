@@ -28,7 +28,7 @@ export default async function NewsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/success-stories-hero.webp"
           alt="Elevate for Humanity news and updates"

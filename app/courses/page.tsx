@@ -234,7 +234,7 @@ export default async function CoursesPage() {
                       {/* Image */}
                       {course.image_url && (
                         <div className="relative h-40 w-full overflow-hidden rounded-t-xl bg-slate-100 flex-shrink-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                           <Image
                             src={course.image_url}
                             alt={course.title}

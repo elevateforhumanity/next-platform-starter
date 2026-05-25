@@ -23,7 +23,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
         className="relative w-full overflow-hidden"
         style={{ height: 'clamp(280px, 45vw, 560px)' }}
       >
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/barber-client-consult.webp"
           alt="Licensed barber consulting with a client during a haircut"

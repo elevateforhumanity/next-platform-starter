@@ -67,7 +67,7 @@ export default function HomePage() {
           { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
         ].map((p) => (
           <div key={p.src} className="relative h-52 sm:h-60 lg:h-72 overflow-hidden group">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" placeholder="empty" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">

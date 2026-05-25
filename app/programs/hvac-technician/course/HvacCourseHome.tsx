@@ -168,7 +168,7 @@ function LessonDrawer({
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-md bg-white shadow-2xl overflow-y-auto">
         <div className="relative h-44">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image sizes="100vw"
             src={MODULE_PHOTO[index] || MODULE_PHOTO[0]}
             alt={module.title}

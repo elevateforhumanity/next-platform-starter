@@ -386,7 +386,7 @@ export default function CredentialsPage() {
                 className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col"
               >
                 <div className="relative h-40 overflow-hidden flex-shrink-0">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={cred.img}
                     alt={cred.name}

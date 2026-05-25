@@ -43,7 +43,7 @@ export default function SourceUseLicensePage() {
             {/* Platform screenshot */}
             <div className="max-w-3xl mx-auto">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
                   src="/images/demos/lms-overview-thumb.webp"
                   alt="Elevate platform overview"

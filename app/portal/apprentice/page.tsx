@@ -203,7 +203,7 @@ export default async function ApprenticePortalPage() {
       {/* ── Hero Banner ── */}
       <div className="relative h-[180px] sm:h-[220px] overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/95 via-brand-blue-800/70 to-transparent z-10" />
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={config.heroImage}
           alt={config.label}

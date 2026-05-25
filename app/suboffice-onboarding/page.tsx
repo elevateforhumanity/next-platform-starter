@@ -31,7 +31,7 @@ export default function SubofficeOnboardingPage() {
       </div>
       {/* Hero */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/suboffice-onboarding-page-1.webp"
           alt="Suboffice Onboarding"

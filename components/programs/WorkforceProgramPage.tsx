@@ -183,7 +183,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
 
       {/* Hero */}
       <section className="relative h-[55vh] min-h-[400px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={program.heroImage}
           alt={`${program.title} training program`}

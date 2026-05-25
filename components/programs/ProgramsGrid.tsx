@@ -36,7 +36,7 @@ export async function ProgramsGrid() {
           >
             <div className="relative h-40 w-full bg-slate-100">
               {program.hero_image_url || program.image_url ? (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
                   src={
                     program.hero_image_url ||

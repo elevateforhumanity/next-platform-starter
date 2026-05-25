@@ -70,7 +70,7 @@ export default function ProgramPageLayout({
     <div className="min-h-screen bg-white">
       {/* Hero Banner — image only */}
       <section className="relative h-[350px] sm:h-[400px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={heroImage}
           alt={heroImageAlt}

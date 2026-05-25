@@ -20,7 +20,7 @@ export function DashboardHero({
   return (
     <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
       <div className="relative h-[200px] sm:h-[280px] md:h-[340px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={LMS_HEROES.dashboard}
           alt="Students celebrating training completion"

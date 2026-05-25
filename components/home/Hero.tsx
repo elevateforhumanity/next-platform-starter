@@ -7,7 +7,7 @@ export function Hero() {
     <>
       {/* FULL-WIDTH HERO BANNER AT TOP */}
       <div className="relative w-full h-[250px] sm:h-[350px] lg:h-[450px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/comp-home-hero.webp"
           alt="Elevate For Humanity - Career Training and Partnerships"

@@ -139,7 +139,7 @@ export default async function StudentApplicationPage({
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[45vh] min-h-[280px] max-h-[520px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apply-page-4.jpg"
           alt="Apply for career training — Elevate for Humanity"

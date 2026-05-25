@@ -28,7 +28,7 @@ export default function BuildingServicesTechnicianPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/programs/efh-building-tech-hero.jpg"
           alt="Building Services Technician working on facility maintenance"

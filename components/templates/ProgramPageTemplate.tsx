@@ -104,7 +104,7 @@ export function ProgramPageTemplate({
             className="w-full h-full object-cover"
           />
         ) : (
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image src={heroImage} alt={title} fill className="object-cover" priority sizes="100vw" placeholder="empty" />
         )}
       </section>

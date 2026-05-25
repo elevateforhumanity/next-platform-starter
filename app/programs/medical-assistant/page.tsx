@@ -15,7 +15,7 @@ export default function MedicalAssistantPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={MEDICAL_ASSISTANT.heroImage}
           alt={MEDICAL_ASSISTANT.heroImageAlt}

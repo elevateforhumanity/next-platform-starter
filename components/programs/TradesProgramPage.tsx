@@ -72,7 +72,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
 
       {/* Hero — clean image, no text overlay */}
       <section className="relative h-[320px] sm:h-[420px]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={data.heroImage}
           alt={data.name}

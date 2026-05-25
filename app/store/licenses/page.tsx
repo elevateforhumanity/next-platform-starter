@@ -49,7 +49,7 @@ export default async function LicensesPage() {
           <source src="/videos/training-providers-video-with-narration.mp4" type="video/mp4" />
         </video>
         {/* Fallback Image */}
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src="/images/pexels/store-hero.webp"
           alt="Workforce training platform"

@@ -371,7 +371,7 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
     >
       {/* Cover image */}
       <div className="relative h-44 w-full bg-white">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={cover}
           alt={label}

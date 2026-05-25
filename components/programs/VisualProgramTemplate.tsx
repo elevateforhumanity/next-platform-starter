@@ -193,7 +193,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                 className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
               >
                 <div className="relative aspect-[4/3]">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={card.img}
                     alt={card.label}

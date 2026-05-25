@@ -63,7 +63,7 @@ export default function TransparencyPage() {
 
       {/* Hero image */}
       <section className="relative h-64 sm:h-80 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/transparency-page-1.webp"
           alt="Elevate for Humanity transparency"

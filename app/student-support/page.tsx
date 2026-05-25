@@ -150,7 +150,7 @@ export default function StudentSupportPage() {
                 className="group bg-white rounded-xl overflow-hidden border hover:shadow-lg transition"
               >
                 <div className="relative h-44 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={service.image}
                     alt={service.title}

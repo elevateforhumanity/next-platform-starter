@@ -87,7 +87,7 @@ export function ProgramPageShell({
             {heroImage && (
               <Card className="p-0 overflow-hidden">
                 <div className="relative aspect-[4/3] w-full">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     src={heroImage}
                     alt={title}

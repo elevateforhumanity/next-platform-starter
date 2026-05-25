@@ -209,7 +209,7 @@ export default async function FederalFundedProgramsPage() {
                 className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-48 w-full overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
                     priority
                     src={program.heroImage}

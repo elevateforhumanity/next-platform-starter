@@ -84,7 +84,7 @@ export default async function PressPage() {
                 >
                   {post.featured_image && (
                     <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                       <Image
                         src={post.featured_image}
                         alt={post.title}
