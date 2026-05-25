@@ -1,4 +1,5 @@
 // Stripe Integration for Course Payments and Subscriptions
+import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { resilientStripe } from '@/lib/resilience/with-resilience';
 

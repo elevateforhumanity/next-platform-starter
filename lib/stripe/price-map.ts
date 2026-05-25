@@ -129,9 +129,6 @@ export const STRIPE_PRICE_IDS: Record<string, string> = {
   'nail-technician-apprenticeship-program': 'price_1TL78mH4a2yrVOt5V1FmZlrB', // $5,000
   'beauty-career-educator-program': 'price_1TM737H4a2yrVOt5isaWBbHM', // $4,575
 
-  // Transportation Programs
-  'cdl-training-program': 'price_1TM737H4a2yrVOt54Vd6Peog', // $4,999
-
   // Technology Programs
   'it-support-specialist-program': 'price_1TM737H4a2yrVOt5LeCDx7pS', // $4,499
   'cybersecurity-program': 'price_1TM737H4a2yrVOt5ZrrVSqaR', // $4,499

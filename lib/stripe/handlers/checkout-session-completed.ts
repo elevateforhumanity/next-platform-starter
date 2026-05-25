@@ -54,7 +54,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const customerEmail = session.customer_email ?? session.customer_details?.email ?? undefined;
 
       if (!userId || !programId) {
-        logger.error('[webhook/checkout] program_enrollment missing required metadata', {
+        logger.error('[webhook/checkout] program_enrollment missing required metadata', undefined, {
           userId,
           programId,
           programSlug,
@@ -74,7 +74,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       });
 
       if (result.error) {
-        logger.error('[webhook/checkout] createOrUpdateEnrollment failed', result.error);
+        logger.error('[webhook/checkout] createOrUpdateEnrollment failed', undefined, { error: result.error });
         return;
       }
 
@@ -82,7 +82,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         action: AuditAction.ENROLLMENT_CREATED,
         entity: AuditEntity.ENROLLMENT,
         entityId: result.id,
-        userId,
+        actorId: userId,
         metadata: {
           program_id: programId,
           program_slug: programSlug,
@@ -172,10 +172,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const programSlug = session.metadata?.program_slug;
 
       if (!studentId || !externalCourseId || !programId) {
-        logger.error(
-          '[webhook/checkout] external_course_purchase missing metadata',
-          session.metadata,
-        );
+        logger.error('[webhook/checkout] external_course_purchase missing metadata', undefined, { metadata: session.metadata });
         return;
       }
 
@@ -247,7 +244,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         typeof session.payment_intent === 'string' ? session.payment_intent : null;
 
       if (!applicationId) {
-        logger.error('[webhook/checkout] apprenticeship_enrollment missing application_id', {
+        logger.error('[webhook/checkout] apprenticeship_enrollment missing application_id', undefined, {
           sessionId: session.id,
           metadata: session.metadata,
         });
@@ -263,7 +260,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       });
 
       if (!result.success) {
-        logger.error('[webhook/checkout] runBarberPostPayment failed', {
+        logger.error('[webhook/checkout] runBarberPostPayment failed', undefined, {
           applicationId,
           error: result.error,
           steps: result.steps,

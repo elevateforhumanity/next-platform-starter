@@ -101,15 +101,15 @@ export async function autoGenerateCourseForProgram(args: {
   };
 
   const expectedLessonCount = blueprint.modules.reduce(
-    (acc, module) => acc + (module.lessons?.length ?? 0),
+    (acc, module) => acc + (blueprintMod.lessons?.length ?? 0),
     0,
   );
   const generationFailures: Array<{ slug: string; reason: string }> = [];
 
-  for (const module of enrichedBlueprint.modules) {
-    const enrichedLessons: typeof module.lessons = [];
+  for (const blueprintMod of enrichedBlueprint.modules) {
+    const enrichedLessons: typeof blueprintMod.lessons = [];
 
-    for (const lesson of module.lessons ?? []) {
+    for (const lesson of blueprintMod.lessons ?? []) {
       try {
         const generated = await generateLessonContent(
           lesson,
@@ -140,7 +140,7 @@ export async function autoGenerateCourseForProgram(args: {
       }
     }
 
-    module.lessons = enrichedLessons;
+    blueprintMod.lessons = enrichedLessons;
   }
 
   const build = await buildCanonicalCourseFromBlueprint({
@@ -218,7 +218,7 @@ export async function autoGenerateCourseForProgram(args: {
           lessonSlug: lesson.slug,
           moduleTitle:
             enrichedBlueprint.modules.find((module) =>
-              module.lessons?.some((entry) => entry.slug === lesson.slug),
+              blueprintMod.lessons?.some((entry) => entry.slug === lesson.slug),
             )?.title ?? blueprint.credentialTitle,
           questionCount: 8,
           passingScore: 70,

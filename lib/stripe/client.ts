@@ -42,7 +42,7 @@ export function getStripe(): StripeInstance | null {
 // Module-level export for callers that import `stripe` directly.
 // Resolves at import time using whatever key is in process.env at that moment.
 // Always null-check before use — key may be absent at build time.
-export const stripe: Stripe | null = getStripe();
+export const stripe: StripeInstance | null = getStripe();
 
 /**
  * Execute a Stripe API call with retry + circuit breaker protection.
