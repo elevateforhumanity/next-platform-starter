@@ -231,7 +231,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
           status: 'sent',
           sent_at: new Date().toISOString(),
         },
-      ).then(null, () => {}); // Ignore if table does not exist
+      ]).then(null, () => {}); // Ignore if table does not exist
 
     // ============================================
     // ADMIN NOTIFICATION - New Enrollment
