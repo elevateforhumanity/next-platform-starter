@@ -152,14 +152,9 @@ export default function Page() {
                       href={prog.href}
                       className="flex flex-col bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all group overflow-hidden"
                     >
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                      <Image
-                        src={prog.image}
-                        alt={prog.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty" />
+                      <div className="relative aspect-[3/2] w-full overflow-hidden">
+                        <Image fill src={prog.image} alt={prog.title} className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder="empty" />
+                      </div>
                       <div className="p-5 flex flex-col flex-1">
                         <div className="flex items-center justify-between mb-2">
                           <span className="font-bold text-lg text-slate-900">{prog.title}</span>

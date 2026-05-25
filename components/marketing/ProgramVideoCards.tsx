@@ -22,8 +22,8 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
 
   return (
     <div className="group flex flex-col rounded-2xl overflow-hidden bg-slate-900 shadow-md hover:shadow-xl transition-shadow">
-      {/* Image — fixed height so subjects aren't cropped */}
-      <div className="relative w-full h-48 sm:h-52 lg:h-56 overflow-hidden flex-shrink-0">
+      {/* Image — aspect ratio keeps subjects visible at all viewport widths */}
+      <div className="relative w-full aspect-[16/9] overflow-hidden flex-shrink-0">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={prog.heroImage}

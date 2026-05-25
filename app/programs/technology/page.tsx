@@ -69,8 +69,9 @@ export default function Page() {
               {programs.map((p, i) => (
                 <ScrollReveal key={p.title} delay={i * 60} direction="up">
                   <Link href={p.href} className="group block bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all overflow-hidden">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                    <Image sizes="100vw" src={p.image} alt={p.title} width={600} height={400} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty" />
+                    <div className="relative aspect-[3/2] w-full overflow-hidden">
+                      <Image fill src={p.image} alt={p.title} className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder="empty" />
+                    </div>
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-bold text-slate-900">{p.title}</span>

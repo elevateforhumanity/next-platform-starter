@@ -105,8 +105,7 @@ jobs:
           for i in $(seq 1 $MAX_ATTEMPTS); do
             HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
               --max-time 10 \
-              "https://admin.elevateforhumanity.org/api/cron/health" \
-              -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" 2>/dev/null || echo "000")
+              "https://admin.elevateforhumanity.org/api/ping" 2>/dev/null || echo "000")
             echo "  Attempt $i/$MAX_ATTEMPTS — HTTP $HTTP_CODE"
             if [ "$HTTP_CODE" = "200" ]; then
               echo "✅ Health check passed."

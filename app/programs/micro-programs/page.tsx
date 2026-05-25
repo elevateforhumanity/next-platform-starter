@@ -156,7 +156,7 @@ export default async function MicroProgramsPage() {
                 href={`/programs/${program.slug}`}
                 className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
-                <div className="relative h-48 w-full overflow-hidden bg-white">
+                <div className="relative aspect-[3/2] w-full overflow-hidden bg-white">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Zap className="w-16 h-16 text-blue-600" />
                   </div>

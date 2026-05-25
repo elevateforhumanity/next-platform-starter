@@ -66,8 +66,7 @@ export default function HomePage() {
           { src: '/images/pages/comp-home-highlight-health.webp', alt: 'Healthcare training', label: 'Healthcare Careers', sub: 'CNA, Phlebotomy, Medical Assistant & more.', position: 'object-center' },
           { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
         ].map((p) => (
-          <div key={p.src} className="relative h-52 sm:h-60 lg:h-72 overflow-hidden group">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
+          <div key={p.src} className="relative aspect-[4/3] sm:aspect-[3/2] lg:aspect-[16/9] overflow-hidden group">
             <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" placeholder="empty" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -170,7 +169,7 @@ export default function HomePage() {
                 className="group relative rounded-2xl border border-slate-200 hover:border-brand-red-400 bg-white overflow-hidden flex flex-col transition-all hover:shadow-lg hover:-translate-y-0.5"
               >
                 {/* Photo */}
-                <div className="relative w-full h-36 overflow-hidden">
+                <div className="relative w-full aspect-[16/9] overflow-hidden">
                   <Image
                     src={r.img}
                     alt={r.alt}
