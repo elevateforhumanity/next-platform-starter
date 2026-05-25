@@ -41,21 +41,25 @@ interface ZoomMeeting {
   start_url: string;
 }
 
+// In-process token cache — avoids a Zoom OAuth round-trip on every API call.
+// Tokens are valid for 1 hour; we expire after 55 min to avoid edge races.
+let _cachedToken: string | null = null;
+let _tokenExpiresAt = 0;
+
 /**
- * Get Zoom access token using Server-to-Server OAuth
+ * Get Zoom access token using Server-to-Server OAuth.
+ * Cached in-process for 55 minutes — one token fetch per container lifetime.
  */
 async function getZoomAccessToken(): Promise<string> {
   // Ensure secrets are loaded from platform_secrets / SSM
   const { hydrateProcessEnv } = await import('@/lib/secrets');
   await hydrateProcessEnv();
 
-  // Check if we have a cached token
-  const cachedToken = process.env.ZOOM_ACCESS_TOKEN;
-  if (cachedToken) {
-    return cachedToken;
+  // Return cached token if still valid
+  if (_cachedToken && Date.now() < _tokenExpiresAt) {
+    return _cachedToken;
   }
 
-  // Get new token using Server-to-Server OAuth
   const accountId = process.env.ZOOM_ACCOUNT_ID;
   const clientId = process.env.ZOOM_CLIENT_ID;
   const clientSecret = process.env.ZOOM_CLIENT_SECRET;
@@ -85,7 +89,10 @@ async function getZoomAccessToken(): Promise<string> {
   }
 
   const data = await response.json();
-  return data.access_token;
+  _cachedToken = data.access_token;
+  // Zoom tokens are valid for 3600s; cache for 55 min to avoid expiry races
+  _tokenExpiresAt = Date.now() + 55 * 60 * 1000;
+  return _cachedToken!;
 }
 
 /**

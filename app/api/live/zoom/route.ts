@@ -45,11 +45,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create Zoom meeting
-    const meeting = await createZoomMeeting(instructorZoomId, {
+    // Create Zoom meeting — createZoomMeeting takes a single params object.
+    // instructorZoomId is stored for audit but the meeting is created under
+    // the configured ZOOM_USER_ID service account.
+    const meeting = await createZoomMeeting({
       topic,
       startTime,
-      durationMinutes,
+      duration: durationMinutes,
+      agenda: `Live session hosted by instructor ${instructorZoomId}`,
     });
 
     // Save to database

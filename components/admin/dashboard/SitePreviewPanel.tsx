@@ -71,10 +71,10 @@ export function SitePreviewPanel({ sites }: Props) {
     setChecking(false);
   };
 
-  useEffect(() => {
-    runChecks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Checks are lazy — only run when the admin clicks "Check status".
+  // Auto-running on mount fired 3 outbound HEAD requests (6s timeout each)
+  // on every dashboard load, making the panel feel slow even though it's
+  // client-side. The panel renders immediately with "—" status indicators.
 
   const checkedAt = Object.values(statuses).find((s) => s.checkedAt)?.checkedAt;
 

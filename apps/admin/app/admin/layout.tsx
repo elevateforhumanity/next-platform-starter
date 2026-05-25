@@ -15,6 +15,7 @@ import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
+import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -82,27 +83,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
-
-  // Verify admin role — if db is unavailable, fall back to supabase client
-  let roleCheck: { role: string } | null = null;
-  if (db) {
-    const { data } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-    roleCheck = data;
-  } else {
-    const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-    roleCheck = data;
-  }
-  const adminRoles = ['super_admin', 'admin', 'staff'];
-
-  // Profile row missing — trigger failed or user created via API.
-  // Redirect to a dedicated recovery page instead of the generic /unauthorized.
-  if (!roleCheck) redirect('/login?error=profile_missing');
-
-  if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
-
   const effectiveDb = db ?? (supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>);
 
-  const [context, headerData, navSections] = await Promise.all([
+  // Role check runs in parallel with license context, header data, and nav config.
+  // Previously it was a sequential round-trip before the Promise.all — one extra
+  // DB call on every admin page load.
+  const [roleCheckRes, context, headerData, navSections] = await Promise.all([
+    effectiveDb.from('profiles').select('role').eq('id', user.id).maybeSingle(),
     withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(
       () => null,
     ),
@@ -230,6 +217,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     ).catch(() => DEFAULT_NAV),
   ]);
 
+  // Role enforcement — runs on the result fetched in parallel above
+  const adminRoles = ['super_admin', 'admin', 'staff'];
+  const roleCheck = roleCheckRes.data;
+  if (!roleCheck) redirect('/login?error=profile_missing');
+  if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
+
   // Reconcile trial onboarding — fire and forget
   if (context?.tenantId) {
     reconcileTrialOnboarding(supabase, context.tenantId).catch(() => {});
@@ -258,6 +251,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <IdleTimeoutGuard />
       <PWAManager />
       <UpdatePrompt />
+      <AdminInstallPrompt />
       {/* Global operational telemetry bar — visible only when systems need attention */}
       <div className="pt-16">
         <RealtimeSystemStatus />
