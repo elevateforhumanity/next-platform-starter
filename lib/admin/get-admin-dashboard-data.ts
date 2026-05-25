@@ -122,9 +122,13 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const lastMonthStartS = lastMonthStart();
   const lastMonthEndS   = lastMonthEnd();
 
-  // ── All queries run in parallel — auth, profile, health, and data ─────────
+  // ── Auth first (fast — local JWT decode, no DB round-trip) ──────────────
+  const authRes = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = authRes;
+  if (authError) throw new Error(`Auth user fetch failed in getAdminDashboardData: ${authError.message}`);
+
+  // ── All DB queries in a single Promise.all — one round-trip to Supabase ──
   const [
-    authRes,
     pendingAppsRes,
     allPendingAppsRes,
     activeEnrollmentsRes,
@@ -149,9 +153,20 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     noOutcomeEnrollmentsRes,
     missingFundingEnrollmentsRes,
     systemHealthRes,
+    // Revenue batch (was second sequential Promise.all)
+    enrollmentRevenueRowsRes,
+    stripeSessionRowsRes,
+    barberSubscriptionRowsRes,
+    cosmetologySubscriptionRowsRes,
+    barberPaymentRowsRes,
+    // Supplemental batch (was third sequential Promise.all)
+    inactiveLearnersRes,
+    unpublishedProgramsRes,
+    recentStudentsRes,
+    enrollmentsByProgramRes,
+    // Profile (was sequential after auth)
+    adminProfileRes,
   ] = await Promise.all([
-    // Auth — critical, but resolved here so it runs in parallel with DB queries
-    supabase.auth.getUser(),
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
       .in('status', ['submitted', 'pending', 'in_review'])
@@ -310,21 +325,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       unresolvedFlags: 0,
       alerts: [{ code: 'health_check_failed', severity: 'warning' as const, message: 'System health check failed to load.' }],
     })),
-  ]);
-
-  // Payment revenue is spread across multiple operational tables:
-  // - program_enrollments: canonical program payment records
-  // - stripe_sessions_staging: raw Stripe sessions synced from Stripe
-  // - barber/cosmetology subscription tables: apprenticeship setup/down payments
-  // - barber_payments: recurring apprenticeship invoice payments
-  // Keep this in code until the DB has a single canonical revenue view.
-  const [
-    enrollmentRevenueRowsRes,
-    stripeSessionRowsRes,
-    barberSubscriptionRowsRes,
-    cosmetologySubscriptionRowsRes,
-    barberPaymentRowsRes,
-  ] = await Promise.all([
+    // Revenue batch — merged into single Promise.all
     db.from('program_enrollments')
       .select('amount_paid_cents, your_revenue_cents, created_at, paid_at, payment_status, funding_source')
       .or('amount_paid_cents.gt.0,your_revenue_cents.gt.0'),
@@ -340,23 +341,33 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('barber_payments')
       .select('id, amount_paid, payment_date, created_at, status')
       .gt('amount_paid', 0),
+    // Supplemental batch — merged into single Promise.all
+    db.rpc('admin_inactive_learners', { inactive_days: 3, limit_n: 20 }),
+    db.from('programs')
+      .select('id, title, slug, status, updated_at')
+      .eq('published', false)
+      .neq('status', 'archived')
+      .order('updated_at', { ascending: false })
+      .limit(10),
+    db.from('profiles')
+      .select('id, full_name, email, created_at')
+      .eq('role', 'student')
+      .order('created_at', { ascending: false })
+      .limit(10),
+    db.from('program_enrollments')
+      .select('id, program_id, enrollment_state')
+      .not('program_id', 'is', null)
+      .limit(500),
+    // Profile — merged in so it runs in parallel with everything else
+    user
+      ? db.from('profiles').select('full_name, role').eq('id', user.id).maybeSingle()
+      : Promise.resolve({ data: null, error: null }),
   ]);
 
-  // ── Resolve auth + profile from parallel result ───────────────────────────
+  // ── Resolve profile ───────────────────────────────────────────────────────
   let adminProfile: { full_name: string | null; role: string } | null = null;
-  const { data: { user }, error: authError } = authRes;
-  if (authError) throw new Error(`Auth user fetch failed in getAdminDashboardData: ${authError.message}`);
-  if (user) {
-    const { data: profileData, error: profileError } = await db
-      .from('profiles')
-      .select('full_name, role')
-      .eq('id', user.id)
-      .maybeSingle();
-    if (profileError) {
-      logger.error('[getAdminDashboardData] profile fetch failed:', profileError);
-    } else {
-      adminProfile = profileData ?? null;
-    }
+  if (adminProfileRes && !('error' in adminProfileRes && adminProfileRes.error)) {
+    adminProfile = (adminProfileRes as any).data ?? null;
   }
 
   // ── System health from parallel result ────────────────────────────────────
@@ -420,45 +431,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     }));
 
   // Track which non-critical sections failed — UI renders a partial-failure notice.
-  // Declared here so optionalRows() can push into it during the second batch.
   const degradedSections: DegradedSection[] = [];
-
-  // ── Non-critical queries — degrade gracefully on failure ──────────────────
-  // Sidebar panels and supplemental lists. A failure here should not crash
-  // the whole dashboard — it should just render an empty section.
-  const [
-    inactiveLearnersRes,
-    unpublishedProgramsRes,
-    recentStudentsRes,
-    enrollmentsByProgramRes,
-  ] = await Promise.all([
-    // inactive_learners: single RPC replaces 4-query chain
-    // (enrollments → lesson_progress filter → profiles → program names).
-    db.rpc('admin_inactive_learners', { inactive_days: 3, limit_n: 20 }),
-
-    db.from('programs')
-      .select('id, title, slug, status, updated_at')
-      .eq('published', false)
-      .neq('status', 'archived')
-      .order('updated_at', { ascending: false })
-      .limit(10),
-
-    // recent_students: select from profiles without the broken nested join.
-    // program_enrollments.program_id FK → apprenticeship_programs, not programs,
-    // so the nested join programs(name,title) fails. Resolve program names separately.
-    db.from('profiles')
-      .select('id, full_name, email, created_at')
-      .eq('role', 'student')
-      .order('created_at', { ascending: false })
-      .limit(10),
-
-    // enrollments_by_program: no join — FK points to wrong table (see above).
-    // NOTE: program_enrollments uses enrollment_state not status.
-    db.from('program_enrollments')
-      .select('id, program_id, enrollment_state')
-      .not('program_id', 'is', null)
-      .limit(2000),
-  ]);
 
   // ── Non-critical supplemental sections ───────────────────────────────────
   const inactiveLearnersData    = optionalRows(inactiveLearnersRes,    'inactive_learners',      degradedSections);
