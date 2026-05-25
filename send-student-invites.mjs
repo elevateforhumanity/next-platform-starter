@@ -78,7 +78,7 @@ for (const s of students) {
   });
 
   if (res.status === 202) {
-    console.log(`✓ Sent to ${email} (${name})`);
+    console.info(`✓ Sent to ${email} (${name})`);
   } else {
     const result = await res.json().catch(() => ({}));
     console.error(`✗ Failed for ${email}: ${JSON.stringify(result)}`);

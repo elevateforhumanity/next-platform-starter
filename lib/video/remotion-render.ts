@@ -275,6 +275,8 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
     await registerUsageEvent({
       event: 'cloud-render',
       licenseKey: null,
+      host: null,
+      succeeded: true,
       isProduction: process.env.NODE_ENV === 'production',
     }).catch(() => {
       // Non-fatal — usage tracking failure must not block video generation
