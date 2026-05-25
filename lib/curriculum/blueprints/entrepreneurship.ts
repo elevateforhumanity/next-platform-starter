@@ -17,6 +17,14 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
   credentialCode: 'ESB',
   // ESB is a Certiport exam delivered at our CATC location.
   certiportExamCodes: ['ESB'],
+  externalCourses: [
+    {
+      title: 'Certiport ESB: Entrepreneurship & Small Business Exam Prep',
+      provider: 'Certiport / Pearson VUE',
+      url: 'https://certiport.pearsonvue.com/Certifications/ESB/Certification/Certify',
+      required: true,
+    },
+  ],
   socCode: '11-1021.00',
   state: 'federal',
   programSlug: 'entrepreneurship',

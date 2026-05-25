@@ -48,6 +48,26 @@ export const HVAC_EPA608_BLUEPRINT: CredentialBlueprint = {
   credentialCode: 'EPA-608',
   trackVariants: ['type_i', 'type_ii', 'type_iii', 'universal'],
   status: 'active',
+  externalCourses: [
+    {
+      title: 'ESCO Institute: EPA 608 Certification Prep',
+      provider: 'ESCO Institute',
+      url: 'https://www.escogroup.org/esco/certifications/608.aspx',
+      required: true,
+    },
+    {
+      title: 'ESCO Institute: HVAC Excellence Certification Prep',
+      provider: 'ESCO Institute',
+      url: 'https://www.escogroup.org/esco/certifications/',
+      required: false,
+    },
+    {
+      title: 'OSHA 10-Hour General Industry (CareerSafe)',
+      provider: 'CareerSafe / OSHA',
+      url: 'https://www.careersafeonline.com/courses/osha-10-hour-general-industry',
+      required: true,
+    },
+  ],
 
   // 10 modules, 95 lessons — slugs match live curriculum_lessons rows exactly.
   expectedModuleCount: 10,

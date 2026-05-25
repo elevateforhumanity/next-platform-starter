@@ -96,6 +96,17 @@ export async function getBlueprintByProgramSlug(
   return registry.find((bp) => bp.programSlug === programSlug) ?? null;
 }
 
+/**
+ * Returns the external courses declared on a blueprint for a given program slug.
+ * Returns an empty array if the program has no blueprint or no external courses.
+ */
+export async function getExternalCoursesForProgram(
+  programSlug: string,
+): Promise<NonNullable<CredentialBlueprint['externalCourses']>> {
+  const bp = await getBlueprintByProgramSlug(programSlug);
+  return bp?.externalCourses ?? [];
+}
+
 /** @deprecated Use getBlueprintById('hvac-epa608-v1') instead */
 export async function getHvacBlueprint(): Promise<CredentialBlueprint | null> {
   return getBlueprintById('hvac-epa608-v1');

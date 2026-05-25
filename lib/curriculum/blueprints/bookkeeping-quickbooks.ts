@@ -26,6 +26,32 @@ export const bookkeepingQuickbooksBlueprint: CredentialBlueprint = {
   // Certiport delivers both QuickBooks exams at our CATC location.
   // QB-ONLINE is the primary track; QB-DESKTOP is offered as an elective.
   certiportExamCodes: ['QB-ONLINE', 'QB-DESKTOP'],
+  externalCourses: [
+    {
+      title: 'Intuit QuickBooks Online Certified User Exam Prep',
+      provider: 'Intuit / Certiport',
+      url: 'https://certiport.pearsonvue.com/Certifications/Intuit/Certifications/Certify',
+      required: true,
+    },
+    {
+      title: 'IBM Data Analyst Professional Certificate',
+      provider: 'IBM SkillsBuild / Coursera',
+      url: 'https://www.coursera.org/professional-certificates/ibm-data-analyst',
+      required: false,
+    },
+    {
+      title: 'Google Data Analytics Certificate',
+      provider: 'Google / Coursera',
+      url: 'https://grow.google/certificates/data-analytics/',
+      required: false,
+    },
+    {
+      title: 'ACT WorkKeys: Applied Math',
+      provider: 'ACT / WorkKeys',
+      url: 'https://www.act.org/content/act/en/products-and-services/workkeys-for-job-seekers.html',
+      required: false,
+    },
+  ],
   trackVariants: ['qbocu', 'icbp', 'dual'],
   status: 'active',
 

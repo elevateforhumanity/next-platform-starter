@@ -17,6 +17,7 @@ import {
   Clock,
   BookOpen,
   CheckCircle,
+  CheckCircle2,
   AlertCircle,
   ChevronRight,
   Flame,
@@ -27,6 +28,7 @@ import {
   BarChart2,
   CreditCard,
   ExternalLink,
+  DollarSign,
   Upload,
   BadgeCheck,
 } from 'lucide-react';
@@ -89,18 +91,19 @@ export default async function StudentDashboard() {
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(3),
-    // External career pathways — courses linked to any program the learner is enrolled in
+    // External industry partner courses for enrolled programs
     supabase
       .from('program_external_courses')
       .select(
-        'id, title, partner_name, external_url, credential_type, credential_name, duration_display, is_required, program_id',
+        'id, title, partner_name, external_url, credential_type, is_required, elevate_fee_cents, fee_label, support_included, program_id, programs(slug, title)',
       )
       .eq('is_active', true)
-      .order('sort_order', { ascending: true }),
-    // Learner's completions for external courses
+      .order('sort_order', { ascending: true })
+      .limit(20),
+    // Learner's completions/payments for external courses
     supabase
       .from('external_course_completions')
-      .select('id, external_course_id, approved_at, certificate_url, created_at')
+      .select('id, external_course_id, completed_at, certificate_url, approved_at, elevate_sponsored, stripe_session_id')
       .eq('user_id', user.id),
   ]);
 
@@ -116,18 +119,16 @@ export default async function StudentDashboard() {
   const recentQuizAttempts = quizAttemptsRes.data ?? [];
   const recentPayments = paymentLogsRes.data ?? [];
 
-  // External career pathways — filter to programs the learner is enrolled in
+  // External courses — filter to programs the learner is enrolled in
   const enrolledProgramIds = new Set(
     programEnrollments.map((e: any) => e.program_id).filter(Boolean),
   );
-  const allExternalCourses = externalCoursesRes.data ?? [];
-  const externalCourses = allExternalCourses.filter(
-    (c: any) => enrolledProgramIds.has(c.program_id),
+  const allExternalCourses = (externalCoursesRes.data ?? []) as any[];
+  const externalCourses = allExternalCourses.filter((c: any) =>
+    enrolledProgramIds.has(c.program_id),
   );
-  const externalCompletions = externalCompletionsRes.data ?? [];
-  const completionByExternalCourseId = new Map(
-    externalCompletions.map((c: any) => [c.external_course_id, c]),
-  );
+  const externalCompletions = (externalCompletionsRes.data ?? []) as any[];
+  const extCompletionMap = new Map(externalCompletions.map((c: any) => [c.external_course_id, c]));
 
   const totalPaidCents = recentPayments
     .filter((p) => {
@@ -479,6 +480,122 @@ export default async function StudentDashboard() {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+            )}
+
+            {/* Industry Partner Courses */}
+            {externalCourses.length > 0 && (
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                  <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <ExternalLink className="w-4 h-4 text-brand-blue-500" />
+                    Industry Partner Courses
+                  </h2>
+                  <span className="text-xs text-slate-400">{externalCourses.length} course{externalCourses.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div className="divide-y divide-slate-50">
+                  {externalCourses.map((course: any) => {
+                    const completion = extCompletionMap.get(course.id);
+                    const isPaid = !!completion?.stripe_session_id || !!completion?.elevate_sponsored;
+                    const hasUploaded = !!completion?.certificate_url;
+                    const isApproved = !!completion?.approved_at;
+                    const feeDollars = ((course.elevate_fee_cents ?? 0) / 100).toFixed(2);
+                    const supports: string[] = Array.isArray(course.support_included)
+                      ? course.support_included
+                      : [];
+
+                    // Status label
+                    let statusLabel = 'Not started';
+                    let statusColor = 'bg-slate-100 text-slate-500';
+                    if (isApproved) { statusLabel = 'Approved'; statusColor = 'bg-brand-green-100 text-brand-green-700'; }
+                    else if (hasUploaded) { statusLabel = 'Under review'; statusColor = 'bg-amber-100 text-amber-700'; }
+                    else if (isPaid) { statusLabel = 'In progress'; statusColor = 'bg-brand-blue-100 text-brand-blue-700'; }
+
+                    return (
+                      <div key={course.id} className="px-5 py-4">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusColor}`}>
+                                {statusLabel}
+                              </span>
+                              {course.is_required && (
+                                <span className="text-xs text-slate-400">Required</span>
+                              )}
+                            </div>
+                            <p className="text-sm font-semibold text-slate-900 leading-snug">{course.title}</p>
+                            <p className="text-xs text-slate-500 mt-0.5">{course.partner_name} · {course.credential_type}</p>
+                          </div>
+                          {isApproved ? (
+                            <CheckCircle2 className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
+                          ) : null}
+                        </div>
+
+                        {/* Support included */}
+                        {supports.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-3">
+                            {supports.slice(0, 3).map((s: string) => (
+                              <span key={s} className="text-xs bg-slate-50 border border-slate-200 text-slate-600 px-2 py-0.5 rounded">
+                                {s}
+                              </span>
+                            ))}
+                            {supports.length > 3 && (
+                              <span className="text-xs text-slate-400">+{supports.length - 3} more</span>
+                            )}
+                          </div>
+                        )}
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          {/* Start Course — always visible */}
+                          <a
+                            href={course.external_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-brand-blue-700 transition"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            Start Course
+                          </a>
+
+                          {/* Pay support fee — only if not yet paid */}
+                          {!isPaid && course.elevate_fee_cents > 0 && (
+                            <a
+                              href={`/api/programs/${(course.programs as any)?.slug ?? ''}/external-courses/${course.id}/checkout`}
+                              className="inline-flex items-center gap-1.5 text-xs font-medium border border-brand-green-600 text-brand-green-700 px-3 py-1.5 rounded-lg hover:bg-brand-green-50 transition"
+                            >
+                              <DollarSign className="w-3 h-3" />
+                              Pay Support Fee · ${feeDollars}
+                            </a>
+                          )}
+
+                          {/* Upload certificate — once paid */}
+                          {isPaid && !hasUploaded && (
+                            <Link
+                              href={`/lms/programs/${(course.programs as any)?.slug ?? ''}/external-courses/${course.id}/upload`}
+                              className="inline-flex items-center gap-1.5 text-xs font-medium border border-slate-300 text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition"
+                            >
+                              <Upload className="w-3 h-3" />
+                              Upload Certificate
+                            </Link>
+                          )}
+
+                          {/* Uploaded, awaiting review */}
+                          {hasUploaded && !isApproved && (
+                            <span className="inline-flex items-center gap-1.5 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg">
+                              <Clock className="w-3 h-3" />
+                              Certificate under review
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="px-5 py-3 bg-slate-50 border-t border-slate-100">
+                  <p className="text-xs text-slate-500">
+                    Elevate support fees cover coaching, progress tracking, and job readiness — not the external course cost.
+                  </p>
                 </div>
               </div>
             )}

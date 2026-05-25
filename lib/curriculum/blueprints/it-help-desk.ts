@@ -16,6 +16,26 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
   // These ITS stackable credentials are Certiport-delivered and align with
   // the networking and security modules in this program.
   certiportExamCodes: ['ITS-NETWORKING', 'ITS-CYBERSECURITY'],
+  externalCourses: [
+    {
+      title: 'Google IT Support Certificate',
+      provider: 'Google / Coursera',
+      url: 'https://grow.google/certificates/it-support/',
+      required: true,
+    },
+    {
+      title: 'Microsoft Azure Fundamentals (AZ-900)',
+      provider: 'Microsoft Learn',
+      url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/',
+      required: false,
+    },
+    {
+      title: 'Cisco Networking Academy: Networking Basics',
+      provider: 'Cisco Networking Academy',
+      url: 'https://www.netacad.com/courses/networking/networking-basics',
+      required: false,
+    },
+  ],
   state: 'federal',
   programSlug: 'it-help-desk',
   trackVariants: ['standard'],

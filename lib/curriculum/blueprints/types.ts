@@ -304,6 +304,24 @@ export type CredentialBlueprint = {
    */
   certiportExamCodes?: string[];
 
+  /**
+   * External industry courses included in this program's pathway.
+   * These are seeded into program_external_courses by seed-fast-external-courses.ts.
+   * The learner dashboard shows them as "Industry Partner Courses" with
+   * Elevate support fee checkout and manual certificate upload.
+   *
+   * title    — must match the title in fast-launch.json exactly (used for dedup)
+   * provider — display name of the external provider
+   * url      — direct link to the external course
+   * required — whether completion is required for program completion
+   */
+  externalCourses?: Array<{
+    title: string;
+    provider: string;
+    url: string;
+    required: boolean;
+  }>;
+
   /** O*NET Standard Occupational Classification code — used for industry standards injection */
   socCode?: string;
 

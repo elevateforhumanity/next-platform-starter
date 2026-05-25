@@ -17,6 +17,20 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
   trackVariants: ['standard'],
   status: 'active',
   skipLqs: true,
+  externalCourses: [
+    {
+      title: 'NHA Certified Clinical Medical Assistant (CCMA) Exam Prep',
+      provider: 'National Healthcareer Association',
+      url: 'https://www.nhanow.com/certifications/clinical-medical-assistant',
+      required: true,
+    },
+    {
+      title: 'NHA Certified EKG Technician (CET) Exam Prep',
+      provider: 'National Healthcareer Association',
+      url: 'https://www.nhanow.com/certifications/ekg-technician',
+      required: false,
+    },
+  ],
 
   generationRules: {
     allowRemediation: true,

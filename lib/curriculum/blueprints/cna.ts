@@ -17,6 +17,14 @@ export const cnaBlueprint: CredentialBlueprint = {
   trackVariants: ['standard'],
   status: 'active',
   skipLqs: true,
+  externalCourses: [
+    {
+      title: 'OSHA 10-Hour General Industry (CareerSafe)',
+      provider: 'CareerSafe / OSHA',
+      url: 'https://www.careersafeonline.com/courses/osha-10-hour-general-industry',
+      required: true,
+    },
+  ],
 
   generationRules: {
     allowRemediation: true,
