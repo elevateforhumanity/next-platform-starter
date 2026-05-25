@@ -72,7 +72,7 @@ export default async function LibraryPage() {
   const courseIds = enrollments?.map((e) => e.course_id) || [];
   const { data: courseMaterials } = await supabase
     .from('course_materials')
-    .select('id, title, description, file_url, url, course_id, created_at')
+    .select('id, title, description, file_url, url, course_id, created_at, type')
     .in('course_id', courseIds.length > 0 ? courseIds : ['00000000-0000-0000-0000-000000000000'])
     .order('created_at', { ascending: false });
 

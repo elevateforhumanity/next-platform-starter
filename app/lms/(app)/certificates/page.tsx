@@ -77,10 +77,10 @@ export default async function CertificatesPage() {
                     cert.course_title || cert.program_name || cert.metadata?.course_name || 'Course'
                   }
                   completionDate={cert.issued_at}
-                  certificateId={cert.id}
+                  certificateNumber={cert.id}
                 />
                 <div className="p-4 border-t border-slate-100 flex justify-end gap-3">
-                  <GenerateCertificateButton certificateId={cert.id} />
+                  <GenerateCertificateButton courseId={cert.course_id} />
                   <CertificateDownload certificateId={cert.id} />
                 </div>
               </div>

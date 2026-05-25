@@ -212,7 +212,6 @@ export default async function AchievementsPage() {
     blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600' },
     orange: { bg: 'bg-brand-orange-100', text: 'text-brand-orange-600' },
     yellow: { bg: 'bg-yellow-100', text: 'text-yellow-600' },
-    blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600' },
     green: { bg: 'bg-brand-green-100', text: 'text-brand-green-600' },
     amber: { bg: 'bg-amber-100', text: 'text-amber-600' },
     indigo: { bg: 'bg-indigo-100', text: 'text-indigo-600' },

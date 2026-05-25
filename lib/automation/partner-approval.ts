@@ -40,7 +40,7 @@ export async function checkPartnerApproval(
   programId: string = 'barber_apprenticeship',
   state: string = 'IN',
 ): Promise<PartnerApprovalResult> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await requireAdminClient();
 
   try {
     // 1. Get partner info
@@ -126,10 +126,10 @@ export async function checkPartnerApproval(
     };
 
     // 7. Validate license expiration
-    const licenseDoc = accepted.find((d) => d.document_type === 'shop_license');
+    const licenseDoc = accepted.find((d) => (d as any).document_type === 'shop_license');
     let licenseValid = true;
-    if (rules.license_must_be_valid && licenseDoc?.expiration_date) {
-      licenseValid = new Date(licenseDoc.expiration_date) > new Date();
+    if (rules.license_must_be_valid && (licenseDoc as any)?.expiration_date) {
+      licenseValid = new Date((licenseDoc as any).expiration_date) > new Date();
     }
 
     // 8. Determine if can auto-approve
@@ -267,7 +267,7 @@ export async function processPartnerDocument(
 
   /* Original code - requires evidence-processor which uses Tesseract
   const docResult = await processDocument(documentId);
-  
+
   if (!docResult.success) {
     return {
       success: false,
@@ -279,10 +279,9 @@ export async function processPartnerDocument(
       error: docResult.error,
     };
   }
-  */
 
   // 2. If document passed, update partner_documents status
-  const supabase = getSupabaseAdmin();
+  const supabase = await requireAdminClient();
 
   if (docResult.decision?.decision === 'approved') {
     await supabase
@@ -305,4 +304,5 @@ export async function processPartnerDocument(
 
   // 3. Check if partner can now be auto-approved
   return checkPartnerApproval(partnerId, programId, state);
+  */
 }

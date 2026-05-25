@@ -27,7 +27,7 @@ export interface GaugeReadingExercise {
 
 export interface PTChartDrill {
   id: string;
-  refrigerant: 'R-410A' | 'R-22' | 'R-134a';
+  refrigerant: 'R-410A' | 'R-22' | 'R-134a' | 'R-454B' | 'R-32';
   givenPressure: number;
   correctSatTemp: number;
   unit: 'psig';
@@ -107,33 +107,33 @@ export const PT_CHART: Record<string, { pressure: number; satTemp: number }[]> =
 // ─── PT CHART DRILLS ────────────────────────────────────
 
 export const PT_CHART_DRILLS: PTChartDrill[] = [
-  { id: 'pt-01', refrigerant: 'R-410A', givenPressure: 118, correctSatTemp: 40 },
-  { id: 'pt-02', refrigerant: 'R-410A', givenPressure: 418, correctSatTemp: 115 },
-  { id: 'pt-03', refrigerant: 'R-410A', givenPressure: 145, correctSatTemp: 50 },
-  { id: 'pt-04', refrigerant: 'R-410A', givenPressure: 335, correctSatTemp: 100 },
-  { id: 'pt-05', refrigerant: 'R-410A', givenPressure: 210, correctSatTemp: 70 },
-  { id: 'pt-06', refrigerant: 'R-22', givenPressure: 69, correctSatTemp: 48 },
-  { id: 'pt-07', refrigerant: 'R-22', givenPressure: 226, correctSatTemp: 95 },
-  { id: 'pt-08', refrigerant: 'R-22', givenPressure: 57, correctSatTemp: 40 },
-  { id: 'pt-09', refrigerant: 'R-22', givenPressure: 121, correctSatTemp: 70 },
-  { id: 'pt-10', refrigerant: 'R-22', givenPressure: 260, correctSatTemp: 100 },
-  { id: 'pt-11', refrigerant: 'R-410A', givenPressure: 72, correctSatTemp: 25 },
-  { id: 'pt-12', refrigerant: 'R-410A', givenPressure: 247, correctSatTemp: 80 },
-  { id: 'pt-13', refrigerant: 'R-22', givenPressure: 37, correctSatTemp: 25 },
-  { id: 'pt-14', refrigerant: 'R-22', givenPressure: 158, correctSatTemp: 80 },
-  { id: 'pt-15', refrigerant: 'R-410A', givenPressure: 490, correctSatTemp: 130 },
+  { id: 'pt-01', refrigerant: 'R-410A', givenPressure: 118, correctSatTemp: 40, unit: 'psig' },
+  { id: 'pt-02', refrigerant: 'R-410A', givenPressure: 418, correctSatTemp: 115, unit: 'psig' },
+  { id: 'pt-03', refrigerant: 'R-410A', givenPressure: 145, correctSatTemp: 50, unit: 'psig' },
+  { id: 'pt-04', refrigerant: 'R-410A', givenPressure: 335, correctSatTemp: 100, unit: 'psig' },
+  { id: 'pt-05', refrigerant: 'R-410A', givenPressure: 210, correctSatTemp: 70, unit: 'psig' },
+  { id: 'pt-06', refrigerant: 'R-22', givenPressure: 69, correctSatTemp: 48, unit: 'psig' },
+  { id: 'pt-07', refrigerant: 'R-22', givenPressure: 226, correctSatTemp: 95, unit: 'psig' },
+  { id: 'pt-08', refrigerant: 'R-22', givenPressure: 57, correctSatTemp: 40, unit: 'psig' },
+  { id: 'pt-09', refrigerant: 'R-22', givenPressure: 121, correctSatTemp: 70, unit: 'psig' },
+  { id: 'pt-10', refrigerant: 'R-22', givenPressure: 260, correctSatTemp: 100, unit: 'psig' },
+  { id: 'pt-11', refrigerant: 'R-410A', givenPressure: 72, correctSatTemp: 25, unit: 'psig' },
+  { id: 'pt-12', refrigerant: 'R-410A', givenPressure: 247, correctSatTemp: 80, unit: 'psig' },
+  { id: 'pt-13', refrigerant: 'R-22', givenPressure: 37, correctSatTemp: 25, unit: 'psig' },
+  { id: 'pt-14', refrigerant: 'R-22', givenPressure: 158, correctSatTemp: 80, unit: 'psig' },
+  { id: 'pt-15', refrigerant: 'R-410A', givenPressure: 490, correctSatTemp: 130, unit: 'psig' },
   // R-454B (Opteon XL41) — A2L replacement for R-410A, required on 2025+ equipment
-  { id: 'pt-16', refrigerant: 'R-454B', givenPressure: 101, correctSatTemp: 40 },
-  { id: 'pt-17', refrigerant: 'R-454B', givenPressure: 180, correctSatTemp: 70 },
-  { id: 'pt-18', refrigerant: 'R-454B', givenPressure: 291, correctSatTemp: 100 },
-  { id: 'pt-19', refrigerant: 'R-454B', givenPressure: 62, correctSatTemp: 25 },
-  { id: 'pt-20', refrigerant: 'R-454B', givenPressure: 425, correctSatTemp: 130 },
+  { id: 'pt-16', refrigerant: 'R-454B', givenPressure: 101, correctSatTemp: 40, unit: 'psig' },
+  { id: 'pt-17', refrigerant: 'R-454B', givenPressure: 180, correctSatTemp: 70, unit: 'psig' },
+  { id: 'pt-18', refrigerant: 'R-454B', givenPressure: 291, correctSatTemp: 100, unit: 'psig' },
+  { id: 'pt-19', refrigerant: 'R-454B', givenPressure: 62, correctSatTemp: 25, unit: 'psig' },
+  { id: 'pt-20', refrigerant: 'R-454B', givenPressure: 425, correctSatTemp: 130, unit: 'psig' },
   // R-32 — used in mini-splits worldwide, A2L, GWP 675
-  { id: 'pt-21', refrigerant: 'R-32', givenPressure: 124, correctSatTemp: 40 },
-  { id: 'pt-22', refrigerant: 'R-32', givenPressure: 220, correctSatTemp: 70 },
-  { id: 'pt-23', refrigerant: 'R-32', givenPressure: 354, correctSatTemp: 100 },
-  { id: 'pt-24', refrigerant: 'R-32', givenPressure: 76, correctSatTemp: 25 },
-  { id: 'pt-25', refrigerant: 'R-32', givenPressure: 515, correctSatTemp: 130 },
+  { id: 'pt-21', refrigerant: 'R-32', givenPressure: 124, correctSatTemp: 40, unit: 'psig' },
+  { id: 'pt-22', refrigerant: 'R-32', givenPressure: 220, correctSatTemp: 70, unit: 'psig' },
+  { id: 'pt-23', refrigerant: 'R-32', givenPressure: 354, correctSatTemp: 100, unit: 'psig' },
+  { id: 'pt-24', refrigerant: 'R-32', givenPressure: 76, correctSatTemp: 25, unit: 'psig' },
+  { id: 'pt-25', refrigerant: 'R-32', givenPressure: 515, correctSatTemp: 130, unit: 'psig' },
 ];
 
 // ─── GAUGE READING EXERCISES ────────────────────────────

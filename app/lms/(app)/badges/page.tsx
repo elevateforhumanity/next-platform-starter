@@ -130,7 +130,6 @@ const colorMap: Record<string, { bg: string; text: string; border: string }> = {
     text: 'text-brand-orange-600',
     border: 'border-brand-orange-200',
   },
-  blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600', border: 'border-brand-blue-200' },
   pink: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-200' },
   cyan: { bg: 'bg-cyan-100', text: 'text-cyan-600', border: 'border-cyan-200' },
   amber: { bg: 'bg-amber-100', text: 'text-amber-600', border: 'border-amber-200' },

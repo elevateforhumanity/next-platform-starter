@@ -4,10 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { submitProgramHolderApplication } from '../actions';
 
+const BUSINESS_OWNER_TYPES = new Set(['business-owner', 'independent-contractor', 'sole-proprietor']);
+
 export default function ProgramHolderForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [orgType, setOrgType] = useState('');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,6 +31,8 @@ export default function ProgramHolderForm() {
       numberOfStudents: formData.get('numberOfStudents') as string,
       programsOffered: formData.get('programsOffered') as string,
       partnershipGoals: formData.get('partnershipGoals') as string,
+      businessLicense: formData.get('businessLicense') as string | null,
+      ein: formData.get('ein') as string | null,
       role: 'program_holder' as const,
     };
 
@@ -48,6 +53,8 @@ export default function ProgramHolderForm() {
     }
   }
 
+  const isBusinessOwner = BUSINESS_OWNER_TYPES.has(orgType);
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6" aria-busy={loading}>
       {error && (
@@ -58,6 +65,44 @@ export default function ProgramHolderForm() {
           {error}
         </div>
       )}
+
+      {/* What is a Program Holder — instructions */}
+      <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
+        <h2 className="text-base font-bold text-slate-900 mb-3">Who should apply here?</h2>
+        <p className="text-sm text-slate-700 mb-4">
+          A <strong>Program Holder</strong> is any business, organization, or individual that hosts
+          apprentices or trainees through Elevate for Humanity. This includes:
+        </p>
+        <ul className="space-y-2 mb-4">
+          {[
+            'Barbershops, salons, and cosmetology studios hosting apprentices',
+            'Independent contractors and sole proprietors offering on-the-job training',
+            'Small businesses sponsoring employees through a credential program',
+            'Schools, nonprofits, and workforce agencies offering training programs',
+            'Employers partnering with us to upskill their workforce',
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
+              <span className="mt-0.5 text-brand-blue-600 font-bold">✓</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+        <div className="bg-white border border-brand-blue-200 rounded-lg p-4">
+          <p className="text-sm font-semibold text-brand-blue-800 mb-1">What happens after you apply</p>
+          <ol className="space-y-1">
+            {[
+              'Our team reviews your application within 1–2 business days',
+              'You receive an email with your portal login credentials',
+              'Sign your MOU and upload required documents in the portal',
+              'Your account is activated and you can begin hosting apprentices',
+            ].map((step, i) => (
+              <li key={i} className="text-sm text-slate-700">
+                <span className="font-semibold text-brand-blue-700">{i + 1}.</span> {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
 
       {/* Contact Information */}
       <div className="bg-white border border-slate-200 rounded-lg p-6">
@@ -124,36 +169,86 @@ export default function ProgramHolderForm() {
 
         <div className="space-y-4">
           <div>
+            <label htmlFor="organizationType" className="block text-sm font-medium text-black mb-2">
+              Organization Type *
+            </label>
+            <select
+              id="organizationType"
+              name="organizationType"
+              required
+              value={orgType}
+              onChange={(e) => setOrgType(e.target.value)}
+              className="w-full min-h-[44px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            >
+              <option value="">Select type</option>
+              <optgroup label="Business / Self-Employed">
+                <option value="business-owner">Business Owner / Employer</option>
+                <option value="independent-contractor">Independent Contractor / 1099</option>
+                <option value="sole-proprietor">Sole Proprietor</option>
+              </optgroup>
+              <optgroup label="Organization">
+                <option value="school">School / Educational Institution</option>
+                <option value="nonprofit">Nonprofit Organization</option>
+                <option value="workforce-board">Workforce Development Board</option>
+                <option value="community-org">Community Organization</option>
+                <option value="government">Government Agency</option>
+                <option value="other">Other</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div>
             <label htmlFor="organizationName" className="block text-sm font-medium text-black mb-2">
-              Organization Name *
+              {isBusinessOwner ? 'Business Name *' : 'Organization Name *'}
             </label>
             <input
               type="text"
               id="organizationName"
               name="organizationName"
               required
+              placeholder={isBusinessOwner ? 'e.g. Kountry Kutz Barbershop' : ''}
               className="w-full min-h-[44px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
 
-          <div>
-            <label htmlFor="organizationType" className="block text-sm font-medium text-black mb-2">
-              Organization Type
-            </label>
-            <select
-              id="organizationType"
-              name="organizationType"
-              className="w-full min-h-[44px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-            >
-              <option value="">Select type</option>
-              <option value="school">School / Educational Institution</option>
-              <option value="nonprofit">Nonprofit Organization</option>
-              <option value="workforce-board">Workforce Development Board</option>
-              <option value="community-org">Community Organization</option>
-              <option value="government">Government Agency</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+          {/* Business owner / independent contractor extra fields */}
+          {isBusinessOwner && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 space-y-4">
+              <p className="text-sm font-semibold text-amber-800">
+                Business verification (optional — speeds up approval)
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="businessLicense" className="block text-sm font-medium text-black mb-2">
+                    Business License Number
+                  </label>
+                  <input
+                    type="text"
+                    id="businessLicense"
+                    name="businessLicense"
+                    placeholder="State or local license #"
+                    className="w-full min-h-[44px] px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ein" className="block text-sm font-medium text-black mb-2">
+                    EIN / Tax ID
+                  </label>
+                  <input
+                    type="text"
+                    id="ein"
+                    name="ein"
+                    placeholder="XX-XXXXXXX"
+                    className="w-full min-h-[44px] px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-amber-700">
+                If you operate as a sole proprietor without an EIN, leave these blank. Your SSN is
+                never required here.
+              </p>
+            </div>
+          )}
 
           <div>
             <label htmlFor="website" className="block text-sm font-medium text-black mb-2">
@@ -170,7 +265,7 @@ export default function ProgramHolderForm() {
 
           <div>
             <label htmlFor="numberOfStudents" className="block text-sm font-medium text-black mb-2">
-              Estimated Number of Students
+              {isBusinessOwner ? 'How many apprentices do you plan to host?' : 'Estimated Number of Students'}
             </label>
             <select
               id="numberOfStudents"
@@ -178,36 +273,47 @@ export default function ProgramHolderForm() {
               className="w-full min-h-[44px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             >
               <option value="">Select range</option>
-              <option value="1-50">1-50 students</option>
-              <option value="51-100">51-100 students</option>
-              <option value="101-500">101-500 students</option>
-              <option value="500+">500+ students</option>
+              <option value="1-5">{isBusinessOwner ? '1–5 apprentices' : '1–50 students'}</option>
+              {!isBusinessOwner && <option value="1-50">1–50 students</option>}
+              <option value="6-10">{isBusinessOwner ? '6–10 apprentices' : '51–100 students'}</option>
+              {!isBusinessOwner && <option value="51-100">51–100 students</option>}
+              {!isBusinessOwner && <option value="101-500">101–500 students</option>}
+              {!isBusinessOwner && <option value="500+">500+ students</option>}
+              {isBusinessOwner && <option value="11+">11 or more</option>}
             </select>
           </div>
 
           <div>
             <label htmlFor="programsOffered" className="block text-sm font-medium text-black mb-2">
-              Programs Currently Offered
+              {isBusinessOwner ? 'What trade or skill will apprentices learn at your business?' : 'Programs Currently Offered'}
             </label>
             <textarea
               id="programsOffered"
               name="programsOffered"
               rows={3}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-              placeholder="List the training programs you currently offer..."
+              placeholder={
+                isBusinessOwner
+                  ? 'e.g. Barbering, cosmetology, HVAC installation, electrical work...'
+                  : 'List the training programs you currently offer...'
+              }
             />
           </div>
 
           <div>
             <label htmlFor="partnershipGoals" className="block text-sm font-medium text-black mb-2">
-              Partnership Goals
+              {isBusinessOwner ? 'Why do you want to host apprentices?' : 'Partnership Goals'}
             </label>
             <textarea
               id="partnershipGoals"
               name="partnershipGoals"
               rows={4}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-              placeholder="What do you hope to achieve through this partnership?"
+              placeholder={
+                isBusinessOwner
+                  ? 'e.g. Grow my team, give back to the community, access trained talent...'
+                  : 'What do you hope to achieve through this partnership?'
+              }
             />
           </div>
         </div>
@@ -220,7 +326,7 @@ export default function ProgramHolderForm() {
           disabled={loading}
           className="flex-1 min-h-[48px] px-6 py-3 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
         >
-          {loading ? 'Submitting...' : 'Submit Partnership Application'}
+          {loading ? 'Submitting...' : 'Submit Application'}
         </button>
         <button
           type="button"

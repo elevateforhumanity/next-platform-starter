@@ -41,28 +41,28 @@ async function _GET(request: NextRequest) {
         });
 
       case 'my-codes':
-        const authResult = await apiAuthGuard({ requireAuth: true });
-        if (!authResult.authorized) {
+        const authResult = await apiAuthGuard(request);
+        if (authResult.error) {
           return NextResponse.json({ error: authResult.error }, { status: 401 });
         }
-        const codes = await getUserReferralCodes(authResult.userId);
+        const codes = await getUserReferralCodes(authResult.id);
         return NextResponse.json({ codes });
 
       case 'my-referrals':
-        const authResult2 = await apiAuthGuard({ requireAuth: true });
-        if (!authResult2.authorized) {
+        const authResult2 = await apiAuthGuard(request);
+        if (authResult2.error) {
           return NextResponse.json({ error: authResult2.error }, { status: 401 });
         }
         const status = searchParams.get('status') as any;
-        const referrals = await getUserReferrals(authResult2.userId, status);
+        const referrals = await getUserReferrals(authResult2.id, status);
         return NextResponse.json({ referrals });
 
       case 'stats':
-        const authResult3 = await apiAuthGuard({ requireAuth: true });
-        if (!authResult3.authorized) {
+        const authResult3 = await apiAuthGuard(request);
+        if (authResult3.error) {
           return NextResponse.json({ error: authResult3.error }, { status: 401 });
         }
-        const stats = await getAffiliateStats(authResult3.userId);
+        const stats = await getAffiliateStats(authResult3.id);
         return NextResponse.json({ stats });
 
       case 'leaderboard':
@@ -84,8 +84,8 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const authResult = await apiAuthGuard({ requireAuth: true });
-    if (!authResult.authorized) {
+    const authResult = await apiAuthGuard(request);
+    if (authResult.error) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 

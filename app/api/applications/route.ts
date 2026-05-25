@@ -8,6 +8,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getRedisClient } from '@/lib/rate-limit';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { provisionAccount } from '@/lib/enrollment/provision-account';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -484,12 +485,54 @@ async function _POST(req: Request) {
       );
     }
 
-    // All applications require admin review before enrollment.
-    // Admin clicks Enroll on the review page → approveApplication() runs →
-    // student receives onboarding email with password setup link.
-    // No auto-approval for any funding type.
-    const userId: string | null = null;
-    const passwordSetupLink: string | null = null;
+    // Provision auth account immediately so the applicant can access the portal
+    // and complete onboarding while their application is under review.
+    // Admin still approves before enrollment is activated.
+    let userId: string | null = null;
+    let passwordSetupLink: string | null = null;
+
+    if (supabase) {
+      const programSlug = body.program_slug || body.preferredProgramId || '';
+      const { data: programRow } = await supabase
+        .from('programs')
+        .select('title')
+        .eq('slug', programSlug)
+        .maybeSingle();
+      const programName =
+        programRow?.title ||
+        programSlug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) ||
+        'your program';
+
+      const provision = await provisionAccount({
+        db: supabase,
+        email: body.email,
+        fullName: `${body.first_name || ''} ${body.last_name || ''}`.trim() || body.email,
+        phone: body.phone || null,
+        programName,
+        programSlug,
+        postLoginUrl: '/onboarding/learner',
+      });
+
+      if (provision.error) {
+        logger.warn('[Applications] provisionAccount non-fatal', { error: provision.error, email: body.email });
+      } else {
+        userId = provision.userId ?? null;
+        passwordSetupLink = provision.passwordSetupLink ?? null;
+        logger.info('[Applications] Account provisioned', { userId, isNewUser: provision.isNewUser });
+      }
+
+      // Link provisioned userId back to the application row
+      if (userId && data?.id) {
+        await supabase
+          .from('applications')
+          .update({ user_id: userId })
+          .eq('id', data.id)
+          .then(undefined, (err) =>
+            logger.warn('[Applications] Failed to link user_id', { err: String(err) }),
+          );
+      }
+    }
+
     logger.info('[Applications] Saved — pending admin review', {
       applicationId: data.id,
       fundingType,

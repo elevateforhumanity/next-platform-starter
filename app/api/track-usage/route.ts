@@ -101,9 +101,9 @@ export async function POST(request: NextRequest) {
     );
 
     if (isUnauthorized) {
-      logger.error('[DMCA] Unauthorized site copy detected:', domain, url);
+      logger.error('[DMCA] Unauthorized site copy detected:', undefined, { domain, url });
 
-      const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
 
       // Run all three in parallel: alert owner, log evidence, send DMCA takedown
       await Promise.allSettled([
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Authorized access - just log it
-    logger.info('[Tracking] Authorized access:', domain);
+    logger.info('[Tracking] Authorized access:', { domain });
 
     return NextResponse.json({
       status: 'ok',
@@ -180,9 +180,9 @@ async function sendAlertEmail(data: {
   });
 
   if (result.success) {
-    logger.info('[DMCA] Alert email sent for domain:', data.domain);
+    logger.info('[DMCA] Alert email sent for domain:', { domain: data.domain });
   } else {
-    logger.error('[DMCA] Alert email failed:', result.error);
+    logger.error('[DMCA] Alert email failed:', new Error(String(result.error)));
   }
 }
 
@@ -218,7 +218,7 @@ async function logUnauthorizedAccess(data: {
     });
 
     if (error) {
-      logger.error('[DMCA] Failed to log to database:', error.message);
+      logger.error('[DMCA] Failed to log to database:', new Error(error.message));
     } else {
       logger.info('[DMCA] Evidence logged to unauthorized_access_log');
     }
@@ -247,7 +247,7 @@ async function sendDMCATakedown(data: { domain: string; url: string; timestamp: 
       .limit(1);
 
     if (existing && existing.length > 0) {
-      logger.info('[DMCA] Takedown already sent for', data.domain, 'in last 24h — skipping');
+      logger.info('[DMCA] Takedown already sent for domain (last 24h — skipping)', { domain: data.domain });
       return;
     }
   } catch {
@@ -298,7 +298,7 @@ async function sendDMCATakedown(data: { domain: string; url: string; timestamp: 
     const tldParts = data.domain.split('.');
     const registrarDomain = tldParts.slice(-2).join('.');
     abuseEmail = `abuse@${registrarDomain}`;
-    logger.info('[DMCA] Unknown provider — attempting RFC 2142 abuse contact:', abuseEmail);
+    logger.info('[DMCA] Unknown provider — attempting RFC 2142 abuse contact:', { abuseEmail });
   }
 
   // Formal DMCA takedown notice (17 U.S.C. § 512(c))
@@ -364,9 +364,9 @@ Elevate for Humanity Career & Technical Institute
   });
 
   if (providerResult.success) {
-    logger.info('[DMCA] Takedown notice sent to:', abuseEmail);
+    logger.info('[DMCA] Takedown notice sent to:', { abuseEmail });
   } else {
-    logger.error('[DMCA] Failed to send takedown to:', abuseEmail, providerResult.error);
+    logger.error('[DMCA] Failed to send takedown to:', new Error(String(providerResult.error)), { abuseEmail });
   }
 
   // Always send owner alert with full details

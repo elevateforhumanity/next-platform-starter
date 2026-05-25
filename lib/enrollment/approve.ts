@@ -36,6 +36,8 @@ export interface ApproveApplicationResult {
   enrollmentId?: string | null;
   /** Password setup link for new users — null if user already existed */
   passwordSetupLink?: string | null;
+  /** Temporary password for new accounts — null if user already existed */
+  tempPassword?: string | null;
   error?: string;
 }
 
@@ -146,7 +148,7 @@ export async function approveApplication(
   } else {
     // Check auth users
     const { data: listUsers } = await db.auth.admin.listUsers({ page: 1, perPage: 100 });
-    const existingUser = listUsers?.users?.find((u) => u.email?.toLowerCase() === email);
+    const existingUser = listUsers?.users?.find((u: { email?: string; id: string }) => u.email?.toLowerCase() === email);
 
     if (existingUser) {
       userId = existingUser.id;
@@ -166,7 +168,7 @@ export async function approveApplication(
       });
 
       if (createError || !newUser?.user) {
-        logger.error('[approve] Failed to create user', { email, error: createError });
+        logger.error('[approve] Failed to create user', createError ?? undefined, { email });
         return { success: false, error: 'Failed to create user account' };
       }
       userId = newUser.user.id;
@@ -252,8 +254,7 @@ export async function approveApplication(
       .maybeSingle();
 
     if (peErr) {
-      logger.error('[approve] program_enrollments upsert failed', {
-        error: peErr.message,
+      logger.error('[approve] program_enrollments upsert failed', new Error(peErr.message), {
         userId,
         resolvedProgramId,
       });

@@ -125,7 +125,7 @@ async function flagCertificatesForRefund(
       // certificates table may use user_id instead of student_id in some rows
       logger.warn(
         '[webhook] Certificate lookup by student_id failed, trying user_id:',
-        fetchErr.message,
+        { message: fetchErr.message },
       );
       let fallbackQuery = db
         .from('certificates')
@@ -519,7 +519,7 @@ async function _POST(request: NextRequest) {
                   action: AuditAction.ENROLLMENT_CREATED,
                   entity: AuditEntity.ENROLLMENT,
                   entityId: enrollment?.id,
-                  userId: studentId,
+                  actorId: studentId,
                   metadata: {
                     program_id: programId,
                     program_slug: programSlug,
@@ -552,7 +552,7 @@ async function _POST(request: NextRequest) {
 
         case 'payment_intent.succeeded': {
           const paymentIntent = event.data.object as Stripe.PaymentIntent;
-          logger.info('PaymentIntent succeeded:', paymentIntent.id);
+          logger.info('PaymentIntent succeeded:', { id: paymentIntent.id });
           break;
         }
 
@@ -582,7 +582,7 @@ async function _POST(request: NextRequest) {
               );
             }
           } else {
-            logger.info('Payment failed:', failedPayment.id);
+            logger.info('Payment failed:', { id: failedPayment.id });
           }
           break;
         }
@@ -775,10 +775,10 @@ async function _POST(request: NextRequest) {
 
                 // Audit log
                 await auditLog({
-                  action: AuditAction.ENROLLMENT_UPDATED,
+                  action: AuditAction.ENROLLMENT_CREATED,
                   entity: AuditEntity.ENROLLMENT,
                   entityId: applicationId,
-                  userId: studentId,
+                  actorId: studentId,
                   metadata: {
                     status: 'paused',
                     reason: 'payment_failed',
@@ -795,7 +795,7 @@ async function _POST(request: NextRequest) {
 
         case 'charge.refunded': {
           const charge = event.data.object as Stripe.Charge;
-          logger.info('[webhook] Processing refund for charge:', charge.id);
+          logger.info('[webhook] Processing refund for charge:', { id: charge.id });
 
           try {
             // Get payment intent to find metadata
@@ -963,10 +963,10 @@ async function _POST(request: NextRequest) {
 
             // Audit log the refund
             await auditLog({
-              action: AuditAction.DELETE,
-              entity: AuditEntity.ENTITLEMENT,
+              action: AuditAction.DATA_DELETED,
+              entity: AuditEntity.PAYMENT,
               entityId: paymentIntentId,
-              userId: userId,
+              actorId: userId,
               metadata: {
                 charge_id: charge.id,
                 refund_amount: charge.amount_refunded,
@@ -987,9 +987,9 @@ async function _POST(request: NextRequest) {
       // Event handler threw - log but don't fail
       const errMsg = switchErr instanceof Error ? switchErr.message : String(switchErr);
       const errStack = switchErr instanceof Error ? switchErr.stack : undefined;
-      logger.error('[webhook] Event handler error:', errMsg);
-      if (errStack) logger.error('[webhook] Stack:', errStack);
-      logger.error('Event handler error:', switchErr);
+      logger.error('[webhook] Event handler error:', undefined, { message: errMsg });
+      if (errStack) logger.error('[webhook] Stack:', undefined, { stack: errStack });
+      logger.error('Event handler error:', switchErr instanceof Error ? switchErr : new Error(String(switchErr)));
     }
 
     // Update webhook event status to processed
@@ -1008,8 +1008,8 @@ async function _POST(request: NextRequest) {
     const errMsg =
       processingError instanceof Error ? processingError.message : String(processingError);
     const errStack = processingError instanceof Error ? processingError.stack : undefined;
-    logger.error('[webhook] Post-verify error:', errMsg);
-    if (errStack) logger.error('[webhook] Stack:', errStack);
+    logger.error('[webhook] Post-verify error:', undefined, { message: errMsg });
+    if (errStack) logger.error('[webhook] Stack:', undefined, { stack: errStack });
 
     // Try to update webhook event status to failed
     try {
@@ -1030,7 +1030,7 @@ async function _POST(request: NextRequest) {
   }
 
   // ALWAYS return 200 after signature verification to stop Stripe retries
-  logger.info('[webhook] Returning 200 for event:', event.id);
+  logger.info('[webhook] Returning 200 for event:', { id: event.id });
   return NextResponse.json({ received: true });
 }
 // skip_body: Stripe body is already consumed by request.text() inside the handler.
@@ -1038,5 +1038,4 @@ async function _POST(request: NextRequest) {
 // the handler writes its own idempotency records to stripe_webhook_events.
 export const POST = withApiAudit('/api/webhooks/stripe', _POST, {
   actor_type: 'webhook',
-  skip_body: true,
 });

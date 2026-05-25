@@ -10,6 +10,7 @@ import { sendApplicationConfirmation, sendAdminApplicationNotification } from '@
 import { checkRateLimit, verifyTurnstileToken } from '@/lib/turnstile';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { provisionAccount } from '@/lib/enrollment/provision-account';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -125,6 +126,46 @@ async function _POST(req: Request) {
         preferredProgramId: body.preferredProgramId,
         submittedAt: new Date().toISOString(),
       });
+
+      // Provision auth account + send onboarding email with portal access link
+      const programSlug = body.preferredProgramId;
+      const { data: programRow } = await adminClient
+        .from('programs')
+        .select('title')
+        .eq('slug', programSlug)
+        .maybeSingle();
+      const programName = programRow?.title || programSlug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+      const provision = await provisionAccount({
+        db: adminClient,
+        email: body.email,
+        fullName: `${body.firstName} ${body.lastName}`,
+        phone: body.phone || null,
+        programName,
+        programSlug,
+        postLoginUrl: '/onboarding/learner',
+      });
+
+      if (provision.error) {
+        logger.warn('[Enroll Apply] provisionAccount non-fatal error', { error: provision.error, email: body.email });
+      } else {
+        logger.info('[Enroll Apply] Account provisioned', { userId: provision.userId, isNewUser: provision.isNewUser });
+      }
+
+      // Update application row with provisioned userId
+      if (provision.userId && appRow?.id) {
+        await adminClient
+          .from('applications')
+          .update({ user_id: provision.userId })
+          .eq('id', appRow.id)
+          .then(undefined, (err) => logger.warn('[Enroll Apply] Failed to link user_id to application', { err: String(err) }));
+      }
+
+      // Skip generic confirmation email — provisionAccount already sent the welcome/onboarding email
+      return NextResponse.json(
+        { message: 'Application received. Check your email for next steps to access your portal.' },
+        { status: 200 },
+      );
     } else {
       // Authenticated user - check enrollment approval status
       const { data: profile } = await supabase
@@ -189,20 +230,19 @@ async function _POST(req: Request) {
       });
     }
 
-    // Send confirmation email to applicant (non-blocking)
+    // Authenticated path: send confirmation + admin notification
     sendApplicationConfirmation(
       body.email,
       `${body.firstName} ${body.lastName}`,
       body.preferredProgramId,
-    ).catch((err) => logger.error('[Email] Application confirmation failed:', err));
+    ).catch((err) => logger.error('[Email] Application confirmation failed:', err instanceof Error ? err : new Error(String(err))));
 
-    // Send notification to admin team (non-blocking)
     sendAdminApplicationNotification(
       `${body.firstName} ${body.lastName}`,
       body.email,
       body.preferredProgramId,
       studentId || 'pending',
-    ).catch((err) => logger.error('[Email] Admin notification failed:', err));
+    ).catch((err) => logger.error('[Email] Admin notification failed:', err instanceof Error ? err : new Error(String(err))));
 
     return NextResponse.json(
       {

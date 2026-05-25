@@ -49,7 +49,7 @@ export default async function AssignmentDetailPage({ params }: Props) {
   const { data: assignment, error } = await supabase
     .from('assignments')
     .select(
-      'id, title, description, due_date, course_id, max_points, submission_type, instructions',
+      'id, title, description, due_date, course_id, max_points, submission_type, instructions, type, attempts_allowed, attachments',
     )
     .eq('id', id)
     .maybeSingle();
@@ -64,8 +64,6 @@ export default async function AssignmentDetailPage({ params }: Props) {
         .eq('id', assignment.course_id)
         .maybeSingle()
     : { data: null };
-  const assignmentWithCourse = { ...assignment, courses: assignmentCourse };
-
   // Fetch user's submission
   const { data: submission } = await supabase
     .from('assignment_submissions')
@@ -74,7 +72,7 @@ export default async function AssignmentDetailPage({ params }: Props) {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  const course = assignment.courses as { id: string; title: string } | null;
+  const course = assignmentCourse as { id: string; title: string } | null;
   const isOverdue = assignment.due_date && new Date(assignment.due_date) < new Date();
   const isSubmitted = !!submission;
   const isGraded = submission?.grade !== null && submission?.grade !== undefined;
@@ -104,7 +102,7 @@ export default async function AssignmentDetailPage({ params }: Props) {
                       href={`/lms/courses/${course.id}`}
                       className="text-brand-blue-600 hover:underline text-sm"
                     >
-                      {course.course_name}
+                      {course.title}
                     </Link>
                   )}
                 </div>
@@ -250,7 +248,7 @@ export default async function AssignmentDetailPage({ params }: Props) {
                   )}
                 </div>
               ) : (
-                <AssignmentSubmitForm assignmentId={id} />
+                <AssignmentSubmitForm assignmentId={id} assignmentTitle={assignment.title} />
               )}
             </div>
           </div>

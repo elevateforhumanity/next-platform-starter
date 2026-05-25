@@ -28,7 +28,7 @@ export function convertToCSV(data: any[], columns?: ExportColumn[]): string {
   if (data.length === 0) return '';
 
   // Determine columns
-  const cols = columns || Object.keys(data[0]).map((key: any) => ({ key, label: key }));
+  const cols: ExportColumn[] = columns || Object.keys(data[0]).map((key: any) => ({ key, label: key }));
 
   // Create header row
   const headers = cols.map((col) => escapeCSVValue(col.label)).join(',');
@@ -164,9 +164,9 @@ export async function exportCourses(options: ExportOptions = {}): Promise<any[]>
   return (data || []).map((course) => ({
     ...course,
     instructor_name: course.instructor
-      ? `${course.instructor?.first_name} ${course.instructor?.last_name}`
+      ? `${(course.instructor as any)?.[0]?.first_name} ${(course.instructor as any)?.[0]?.last_name}`
       : 'N/A',
-    instructor_email: (course.instructor as string)?.email || 'N/A',
+    instructor_email: (course.instructor as any)?.[0]?.email ?? 'N/A',
   }));
 }
 
@@ -213,7 +213,7 @@ export async function exportEnrollments(options: ExportOptions = {}): Promise<an
     student_name: enrollment.student
       ? `${enrollment.student?.[0]?.first_name} ${enrollment.student?.[0]?.last_name}`
       : 'N/A',
-    student_email: enrollment.student?.email || 'N/A',
+    student_email: enrollment.student?.[0]?.email || 'N/A',
     course_title: enrollment.course?.[0]?.title || 'N/A',
     course_category: enrollment.course?.[0]?.category || 'N/A',
   }));
@@ -304,8 +304,8 @@ export async function exportGrades(options: ExportOptions = {}): Promise<any[]> 
       : 'N/A',
     student_email: submission.student?.[0]?.email || 'N/A',
     assignment_title: submission.assignment?.[0]?.title || 'N/A',
-    assignment_points: submission.assignment?.points || 0,
-    course_title: submission.assignment?.course?.[0]?.title || 'N/A',
+    assignment_points: submission.assignment?.[0]?.points || 0,
+    course_title: submission.assignment?.[0]?.course?.[0]?.title || 'N/A',
   }));
 }
 

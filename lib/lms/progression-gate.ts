@@ -35,7 +35,7 @@ async function evalPassAssessment(
   db: SupabaseClient,
   userId: string,
   lessonId: string,
-  rule: Extract<UnlockRule, { type: 'pass_assessment' }>,
+  rule: UnlockRule,
 ): Promise<GateResult> {
   const { data, error } = await db
     .from('checkpoint_scores')
@@ -180,7 +180,7 @@ async function evalAchieveCompetency(
   db: SupabaseClient,
   userId: string,
   lessonId: string,
-  rule: Extract<UnlockRule, { type: 'achieve_competency' }>,
+  rule: UnlockRule,
 ): Promise<GateResult> {
   // Get course_id from the lesson
   const { data: lesson, error: lessonErr } = await db
@@ -231,10 +231,7 @@ export async function evaluateUnlockRule(
     .maybeSingle();
 
   if (error) {
-    logger.error('[progression-gate] Failed to load lesson unlock_rule', {
-      lessonId,
-      error: error.message,
-    });
+    logger.error('[progression-gate] Failed to load lesson unlock_rule', new Error(error.message), { lessonId });
     throw new Error(`Failed to load lesson for progression gate: ${error.message}`);
   }
 
@@ -259,7 +256,7 @@ export async function evaluateUnlockRule(
         return { unlocked: true };
     }
   } catch (err) {
-    logger.error('[progression-gate] Rule evaluation error', { lessonId, userId, err });
+    logger.error('[progression-gate] Rule evaluation error', err instanceof Error ? err : new Error(String(err)), { lessonId, userId });
     throw err;
   }
 }

@@ -31,6 +31,7 @@ import {
   DollarSign,
   Upload,
   BadgeCheck,
+  MessageSquare,
 } from 'lucide-react';
 import { NotificationBell } from '@/components/lms/NotificationBell';
 import { GlobalSearch } from '@/components/lms/GlobalSearch';
@@ -129,6 +130,7 @@ export default async function StudentDashboard() {
   );
   const externalCompletions = (externalCompletionsRes.data ?? []) as any[];
   const extCompletionMap = new Map(externalCompletions.map((c: any) => [c.external_course_id, c]));
+  const completionByExternalCourseId = extCompletionMap;
 
   const totalPaidCents = recentPayments
     .filter((p) => {

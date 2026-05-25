@@ -1,3 +1,4 @@
+import type Stripe from 'stripe';
 import { getStripeServer } from '@/lib/stripe/get-stripe-server';
 /**
  * POST /api/testing/webhook
@@ -87,7 +88,7 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
     const fullSession = await stripe!.checkout.sessions.retrieve(session.id, {
       expand: ['customer_details'],
     });
-    const customerEmail = fullSession.customer_details?.email ?? meta.email ?? '';
+    const customerEmail = fullSession.customer_details?.email ?? (meta as any).email ?? '';
     const customerName = fullSession.customer_details?.name ?? '';
     const [firstName, ...rest] = customerName.trim().split(' ');
     const lastName = rest.join(' ') || '';
@@ -160,14 +161,14 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
     });
 
     if (insertErr) {
-      logger.error('[testing/webhook] Failed to create booking after payment', { insertErr });
+      logger.error('[testing/webhook] Failed to create booking after payment', new Error(insertErr.message), { code: insertErr.code });
       return NextResponse.json({ received: true }); // don't 500 — Stripe will retry
     }
 
     // Increment slot capacity counter atomically now that the booking row exists
     if (slotId) {
-      await db.rpc('increment_slot_booked_count', { slot_id: slotId }).catch((err) => {
-        logger.warn('[testing/webhook] Failed to increment slot booked_count', { slotId, err });
+      await db.rpc('increment_slot_booked_count', { slot_id: slotId }).then(undefined, (err) => {
+        logger.warn('[testing/webhook] Failed to increment slot booked_count', { slotId, err: String(err) });
       });
     }
 
@@ -255,8 +256,8 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
       logger,
     );
     if (!enforcementMeta) return NextResponse.json({ received: true });
-    const enforcementId = enforcementMeta.enforcement_id;
-    const email = enforcementMeta.email;
+    const enforcementId = (enforcementMeta as any).enforcement_id;
+    const email = (enforcementMeta as any).email;
 
     if (!enforcementId) {
       logger.warn('[testing/webhook] enforcement_id missing in metadata');
@@ -274,21 +275,21 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
       .eq('id', enforcementId);
 
     if (error) {
-      logger.error('[testing/webhook] Failed to clear enforcement hold', { enforcementId, error });
+      logger.error('[testing/webhook] Failed to clear enforcement hold', new Error(error.message), { enforcementId });
       return NextResponse.json({ received: true });
     }
 
     logger.info('[testing/webhook] Enforcement fee cleared', {
       enforcementId,
-      type: enforcementMeta.enforcement_type,
+      type: (enforcementMeta as any).enforcement_type,
     });
 
     // Notify candidate that they can now rebook
     if (email) {
       const label =
-        enforcementMeta.enforcement_type === 'no_show'
+        (enforcementMeta as any).enforcement_type === 'no_show'
           ? 'no-show rescheduling fee'
-          : enforcementMeta.enforcement_type === 'retake'
+          : (enforcementMeta as any).enforcement_type === 'retake'
             ? 'retake fee'
             : 'reschedule fee';
 

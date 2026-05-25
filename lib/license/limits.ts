@@ -68,16 +68,16 @@ export function checkLimits(planId: PlanId, usage: UsageMetrics): LimitCheck {
   const limits = plan.limits;
 
   // Check students
-  if (typeof limits.students === 'number') {
-    if (usage.activeStudents >= limits.students) {
+  if (typeof limits.learners === 'number') {
+    if (usage.activeStudents >= limits.learners) {
       return {
         withinLimits: false,
         limitReached: 'students',
         currentUsage: usage.activeStudents,
-        limit: limits.students,
+        limit: limits.learners,
         percentUsed: 100,
         upgradeRequired: true,
-        message: `You've reached the ${limits.students} student limit on your ${plan.name} plan.`,
+        message: `You've reached the ${limits.learners} student limit on your ${plan.name} plan.`,
       };
     }
   }
@@ -127,8 +127,8 @@ export function checkLimits(planId: PlanId, usage: UsageMetrics): LimitCheck {
 
   // Calculate highest usage percentage for warnings
   let highestPercent = 0;
-  if (typeof limits.students === 'number') {
-    highestPercent = Math.max(highestPercent, (usage.activeStudents / limits.students) * 100);
+  if (typeof limits.learners === 'number') {
+    highestPercent = Math.max(highestPercent, (usage.activeStudents / limits.learners) * 100);
   }
   if (typeof limits.admins === 'number') {
     highestPercent = Math.max(highestPercent, (usage.adminUsers / limits.admins) * 100);
@@ -168,14 +168,14 @@ export function isApproachingLimit(
   const limits = plan.limits;
 
   // Check students
-  if (typeof limits.students === 'number') {
-    const percent = (usage.activeStudents / limits.students) * 100;
+  if (typeof limits.learners === 'number') {
+    const percent = (usage.activeStudents / limits.learners) * 100;
     if (percent >= ENTERPRISE_TRIGGERS.WARNING_THRESHOLD) {
       return {
         approaching: true,
         metric: 'students',
         percentUsed: Math.round(percent),
-        message: `You're using ${usage.activeStudents} of ${limits.students} students (${Math.round(percent)}%).`,
+        message: `You're using ${usage.activeStudents} of ${limits.learners} students (${Math.round(percent)}%).`,
       };
     }
   }
@@ -219,16 +219,14 @@ export function getUpgradePath(currentPlanId: PlanId): {
   ctaHref: string;
 } {
   switch (currentPlanId) {
-    case 'starter_monthly':
-    case 'starter_annual':
+    case 'core':
       return {
-        nextPlan: 'professional_annual',
-        message: 'Upgrade to Professional for more students, admins, and unlimited programs.',
-        ctaText: 'Upgrade to Professional',
+        nextPlan: 'institutional',
+        message: 'Upgrade to Institutional for more learners, admins, and unlimited programs.',
+        ctaText: 'Upgrade to Institutional',
         ctaHref: '/account/billing',
       };
-    case 'professional_monthly':
-    case 'professional_annual':
+    case 'institutional':
       return {
         nextPlan: 'enterprise',
         message: 'Contact sales to discuss Enterprise licensing for unlimited scale.',

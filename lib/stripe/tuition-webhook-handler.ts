@@ -533,7 +533,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         metadata.program_name || '',
       ).then(()=>{}, ()=>{});
     } else {
-      logger.error('Failed to create subscription:', result.error);
+      logger.error('Failed to create subscription:', new Error(String(result.error)));
       // Deposit paid but subscription setup failed — pending_review for admin.
       await updateEnrollmentStatus(studentId, programId, 'pending_review', 'subscription_failed');
       await sendAdminEnrollmentNotification(
@@ -557,9 +557,9 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
   const supabase = await getSupabaseAdmin();
   const stripe = getStripe();
   if (!stripe) return;
-  if (!invoice.subscription) return;
+  if (!(invoice as any).subscription) return;
 
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = (invoice as any).subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Only handle tuition installments
@@ -682,6 +682,7 @@ async function sendPaymentConfirmationEmail(
 ): Promise<void> {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) return;
+  const supabase = await getSupabaseAdmin();
 
   const { data: student } = await supabase
     .from('profiles')
@@ -715,6 +716,7 @@ async function sendPaymentConfirmationEmail(
 async function sendPaymentCompletionEmail(studentId: string, programId: string): Promise<void> {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) return;
+  const supabase = await getSupabaseAdmin();
 
   const { data: student } = await supabase
     .from('profiles')
@@ -756,9 +758,9 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
   const supabase = await getSupabaseAdmin();
   const stripe = getStripe();
   if (!stripe) return;
-  if (!invoice.subscription) return;
+  if (!(invoice as any).subscription) return;
 
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = (invoice as any).subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Only handle tuition installments
@@ -854,6 +856,7 @@ async function grantCourseAccess(
   programId: string,
   accessLevel: 'full' | 'active',
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({
@@ -872,6 +875,7 @@ async function suspendCourseAccess(
   programId: string,
   reason: string,
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({
@@ -892,6 +896,7 @@ async function updateEnrollmentStatus(
   status: string,
   paymentStatus: string,
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({

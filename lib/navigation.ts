@@ -250,7 +250,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Employer Onboarding →', href: '/onboarding/employer', isSectionLink: true },
 
       // Training Providers & Program Holders
-      { name: '— Training Providers —', href: '/apply/program-holder', isHeader: true },
+      { name: '— Program Holders & Providers —', href: '/apply/program-holder', isHeader: true },
       { name: 'Program Holder Application', href: '/apply/program-holder' },
       { name: 'Barbershop Apprenticeship Host', href: '/partners/barbershop-apprenticeship/apply' },
       { name: 'Cosmetology Partner Shop', href: '/partners/cosmetology-partner-shop/apply' },

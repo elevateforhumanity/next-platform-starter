@@ -50,6 +50,15 @@ export interface PartnerAPIConfig {
   apiSecret?: string;
   orgId?: string;
 }
+/** Minimal typed interface for the HTTP client used by partner subclasses. */
+export interface PartnerHttpClient {
+  get<T = unknown>(path: string, params?: Record<string, any>): Promise<{ data: T }>;
+  post<T = unknown>(path: string, body?: Record<string, any>): Promise<{ data: T }>;
+  put<T = unknown>(path: string, body?: Record<string, any>): Promise<{ data: T }>;
+  patch<T = unknown>(path: string, body?: Record<string, any>): Promise<{ data: T }>;
+  delete<T = unknown>(path: string): Promise<{ data: T }>;
+}
+
 /**
  * Abstract class – each real partner (HSI, Certiport, etc.)
  * will implement these methods using THEIR official API docs.
@@ -57,16 +66,16 @@ export interface PartnerAPIConfig {
 export class BasePartnerAPI {
   protected config: PartnerAPIConfig;
   protected partner: PartnerType;
-  protected httpClient: any; // HTTP client for API calls
+  protected httpClient: PartnerHttpClient;
   constructor(partner: PartnerType, config: PartnerAPIConfig = {}) {
     this.partner = partner;
     this.config = config;
-    this.httpClient = null; // Initialize as needed in subclasses
+    this.httpClient = null as unknown as PartnerHttpClient; // set by subclass before use
   }
   /**
    * Logging helper
    */
-  protected log(data: any): void {}
+  protected log(levelOrData: any, message?: string, data?: any): void {}
   /**
    * Get default headers for API requests
    */

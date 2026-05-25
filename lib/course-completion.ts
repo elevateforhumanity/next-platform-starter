@@ -93,12 +93,19 @@ async function checkInternalLessons(
   userId: string,
   courseId: string,
 ): Promise<{ complete: boolean; total: number; completed: number }> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   // Count total lessons in course
   const { count: totalLessons } = await supabase
     .from('training_lessons')
     .select('*', { count: 'exact', head: true })
     .eq('course_id', courseId);
+
+  // Fetch lesson IDs for this course first (Supabase v2 .in() requires a plain array)
+  const { data: lessonRows } = await supabase
+    .from('training_lessons')
+    .select('id')
+    .eq('course_id', courseId);
+  const lessonIds = (lessonRows ?? []).map((r: { id: string }) => r.id);
 
   // Count completed lessons
   const { count: completedLessons } = await supabase
@@ -106,7 +113,7 @@ async function checkInternalLessons(
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
     .eq('completed', true)
-    .in('lesson_id', supabase.from('training_lessons').select('id').eq('course_id', courseId));
+    .in('lesson_id', lessonIds.length ? lessonIds : ['__none__']);
 
   return {
     complete: (completedLessons || 0) >= (totalLessons || 0),
@@ -124,7 +131,7 @@ async function checkExternalModules(
   completed: number;
   missingModules: any[];
 }> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   // Get all required external modules for this course
   const { data: requiredModules } = await supabase
     .from('external_partner_modules')
@@ -173,7 +180,7 @@ async function checkQuizzesPassed(
   passed: number;
   failedTitles: string[];
 }> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
 
   // Get all quiz-type lessons for this course
   const { data: quizLessons } = await supabase
@@ -232,7 +239,7 @@ export async function completeCourse(
     };
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { actorUserId: userId, systemActor: 'course_completion' });
 
   // Update enrollment status
@@ -259,7 +266,7 @@ export async function completeCourse(
 }
 
 async function generateCourseCertificate(userId: string, courseId: string): Promise<void> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   // Get course details
   const { data: course } = await supabase
     .from('training_courses')

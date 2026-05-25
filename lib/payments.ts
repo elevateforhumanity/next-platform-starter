@@ -429,9 +429,9 @@ export async function createSubscription(
     stripe_customer_id: customerId,
     status: subscription.status,
     current_period_start: new Date(
-      (subscription as string).current_period_start * 1000,
+      (subscription as any).current_period_start * 1000,
     ).toISOString(),
-    current_period_end: new Date((subscription as string).current_period_end * 1000).toISOString(),
+    current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
   });
   return subscription;
 }
@@ -524,10 +524,10 @@ export async function handleStripeWebhook(event: Stripe.Event): Promise<void> {
         .update({
           status: subscription.status,
           current_period_start: new Date(
-            (subscription as string).current_period_start * 1000,
+            (subscription as any).current_period_start * 1000,
           ).toISOString(),
           current_period_end: new Date(
-            (subscription as string).current_period_end * 1000,
+            (subscription as any).current_period_end * 1000,
           ).toISOString(),
         })
         .eq('stripe_subscription_id', subscription.id);

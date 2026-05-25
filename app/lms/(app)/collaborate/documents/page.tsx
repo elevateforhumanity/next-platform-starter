@@ -58,7 +58,7 @@ export default function SharedDocumentsPage() {
     setActiveDoc(docId);
 
     // Sync content from Yjs shared type
-    const sharedText = provider.getSharedType('content');
+    const sharedText = provider.getText('content');
     setContent(sharedText.toString());
     sharedText.observe(() => setContent(sharedText.toString()));
 
@@ -131,7 +131,7 @@ export default function SharedDocumentsPage() {
                   value={content}
                   onChange={(e) => {
                     setContent(e.target.value);
-                    const sharedText = providerRef.current?.getSharedType('content');
+                    const sharedText = providerRef.current?.getText('content');
                     if (sharedText) {
                       sharedText.delete(0, sharedText.length);
                       sharedText.insert(0, e.target.value);

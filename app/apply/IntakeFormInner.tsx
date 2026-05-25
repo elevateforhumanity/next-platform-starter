@@ -377,8 +377,10 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
                   >
                     <option value="">Select...</option>
                     <option value="unemployed">Unemployed</option>
-                    <option value="part-time">Part-Time</option>
-                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time Employed</option>
+                    <option value="full-time">Full-Time Employed</option>
+                    <option value="self-employed">Self-Employed / Business Owner</option>
+                    <option value="independent-contractor">Independent Contractor / 1099</option>
                     <option value="student">Student</option>
                   </select>
                 </div>

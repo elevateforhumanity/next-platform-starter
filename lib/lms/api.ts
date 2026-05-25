@@ -44,11 +44,11 @@ export async function getPrograms(): Promise<Program[]> {
     .order('title', { ascending: true });
 
   if (error) {
-    logger.error('getPrograms error:', error.message);
+    logger.error('getPrograms error:', new Error(error.message));
     return [];
   }
 
-  return (data ?? []).map(mapProgram);
+  return ((data ?? []) as any[]).map(mapProgram);
 }
 
 /**
@@ -72,11 +72,11 @@ export async function getProgramsByFundingTag(tag: string): Promise<Program[]> {
     .order('title', { ascending: true });
 
   if (error) {
-    logger.error('getProgramsByFundingTag error:', error.message);
+    logger.error('getProgramsByFundingTag error:', new Error(error.message));
     return [];
   }
 
-  return (data ?? []).map(mapProgram);
+  return ((data ?? []) as any[]).map(mapProgram);
 }
 
 /**
@@ -99,11 +99,11 @@ export async function getProgramsByCategory(category: string): Promise<Program[]
     .order('title', { ascending: true });
 
   if (error) {
-    logger.error('getProgramsByCategory error:', error.message);
+    logger.error('getProgramsByCategory error:', new Error(error.message));
     return [];
   }
 
-  return (data ?? []).map(mapProgram);
+  return ((data ?? []) as any[]).map(mapProgram);
 }
 
 export async function getProgramBySlug(slug: string): Promise<Program | null> {
@@ -122,17 +122,18 @@ export async function getProgramBySlug(slug: string): Promise<Program | null> {
     .maybeSingle();
 
   if (error) {
-    logger.error('getProgramBySlug error:', error.message);
+    logger.error('getProgramBySlug error:', new Error(error.message));
     return null;
   }
   if (!data) return null;
+  const row = data as any;
 
   return {
-    ...mapProgram(data),
-    overview: data.full_description ?? undefined,
-    outcomes: data.career_outcomes ?? data.what_you_learn ?? undefined,
-    format: data.delivery_method ?? undefined,
-    modules: (data.modules ?? []).map(
+    ...mapProgram(row),
+    overview: row.full_description ?? undefined,
+    outcomes: row.career_outcomes ?? row.what_you_learn ?? undefined,
+    format: row.delivery_method ?? undefined,
+    modules: (row.modules ?? []).map(
       (m: { id: string; title: string; description?: string; order?: number }) => ({
         id: m.id,
         title: m.title,
@@ -155,7 +156,7 @@ export async function getUserCourses(userId: string): Promise<CourseProgress[]> 
     .in('status', ['active', 'enrolled', 'in_progress']);
 
   if (error) {
-    logger.error('getUserCourses error:', error.message);
+    logger.error('getUserCourses error:', new Error(error.message));
     return [];
   }
 

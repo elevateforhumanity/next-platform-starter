@@ -171,7 +171,7 @@ export default function LessonPage() {
   const [certificate, setCertificate] = useState<any>(null);
   const [enrollmentBlocked, setEnrollmentBlocked] = useState(false);
   const [enrollmentBlockReason, setEnrollmentBlockReason] = useState<
-    'pending_approval' | 'pending_funding_verification' | 'not_enrolled'
+    'pending_approval' | 'pending_funding_verification' | 'not_enrolled' | 'module_not_released'
   >('not_enrolled');
   const [completionError, setCompletionError] = useState<string | null>(null);
   const [checkpointBlocked, setCheckpointBlocked] = useState(false);
@@ -499,7 +499,7 @@ export default function LessonPage() {
   // Barber theory session tracking — start on lesson load, heartbeat every 60s, end on unmount.
   // Records active viewing time against barber_training_sessions for theory hour credit.
   useEffect(() => {
-    if (!isBarberLesson || !lesson) return;
+    if (!isBarberLesson || !lesson) return undefined;
 
     const moduleNumber = lesson.module_order ?? 1;
     let sessionId: string | null = null;
@@ -671,7 +671,7 @@ export default function LessonPage() {
   useEffect(() => {
     if (lesson) {
       setLoadTimeout(false);
-      return;
+      return undefined;
     }
     const timer = setTimeout(() => {
       setLoadTimeout(true);
@@ -1527,7 +1527,7 @@ export default function LessonPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
               <h1 className="text-2xl md:text-3xl font-bold">{lesson.title}</h1>
               <button
-                onClick={checkpointBlocked ? undefined : markComplete}
+                onClick={checkpointBlocked ? undefined : () => markComplete()}
                 disabled={checkpointBlocked}
                 className={`px-6 py-3 rounded-lg font-semibold transition ${
                   checkpointBlocked

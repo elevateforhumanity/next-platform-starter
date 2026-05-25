@@ -301,10 +301,6 @@ export default async function AssignmentsPage() {
           )}
         </div>
 
-        {/* Assignment Submission Widget */}
-        <div className="mt-8">
-          <AssignmentSubmission />
-        </div>
       </div>
     </div>
   );

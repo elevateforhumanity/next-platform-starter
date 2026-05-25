@@ -202,14 +202,11 @@ export default function ApplicationStatusPage() {
             currentStep={
               application.status === 'approved'
                 ? 'enrolled'
-                : application.status === 'pending'
-                  ? 'applied'
-                  : 'applied'
+                : 'applied'
             }
-            enrollmentId={application.id}
           />
           <div className="mt-4">
-            <FundingPathwayBadge pathway="wioa" status={application.status as any} />
+            <FundingPathwayBadge pathway="workforce_funded" />
           </div>
         </div>
       )}

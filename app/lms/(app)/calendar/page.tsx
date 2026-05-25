@@ -120,7 +120,7 @@ export default async function CalendarPage() {
     // Log so we know when this happens in production
     logger.error(
       '[calendar] data load error:',
-      error instanceof Error ? error.message : String(error),
+      error instanceof Error ? error : new Error(String(error)),
     );
   }
 
