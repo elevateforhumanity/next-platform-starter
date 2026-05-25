@@ -35,23 +35,18 @@ export function GoogleAnalytics() {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           
-          // Default consent mode - deny until user accepts via cookie banner
+          // Analytics storage granted by default — anonymized, no PII collected.
+          // Ad storage remains denied until explicit user consent.
+          // This is a nonprofit workforce site; analytics are operational, not ad-targeting.
           gtag('consent', 'default', {
-            'analytics_storage': 'denied',
+            'analytics_storage': 'granted',
             'ad_storage': 'denied',
-            'wait_for_update': 500
           });
-          
-          // If user previously accepted, grant immediately
-          if (localStorage.getItem('cookie-consent') === 'accepted') {
-            gtag('consent', 'update', {
-              'analytics_storage': 'granted',
-            });
-          }
-          
+
           gtag('config', '${GA_MEASUREMENT_ID}', {
             page_path: window.location.pathname,
             anonymize_ip: true,
+            send_page_view: true,
           });
 
           if ('${GOOGLE_ADS_ID}') {

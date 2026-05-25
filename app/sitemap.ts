@@ -30,7 +30,12 @@ function getPriority(route: string): number {
   // State-specific SEO pages - high priority
   if (route.startsWith('/career-training-')) return 0.9;
   if (route.startsWith('/community-services-')) return 0.9;
+  if (route === '/testing' || route === '/testing/book') return 0.9;
+  if (route.startsWith('/testing/')) return 0.8;
+  if (route === '/store') return 0.9;
   if (route.startsWith('/store/guides')) return 0.8;
+  if (route.startsWith('/apps')) return 0.8;
+  if (route === '/mobile-app' || route === '/install-app') return 0.7;
   if (route.startsWith('/blog') || route.startsWith('/resources')) return 0.7;
   if (route.startsWith('/policies') || route.startsWith('/legal/privacy') || route.startsWith('/legal'))
     return 0.4;
@@ -43,6 +48,9 @@ function getChangeFreq(
 ): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
   if (route === '/' || route === '/apply') return 'daily';
   if (route.startsWith('/programs') || route.startsWith('/blog')) return 'weekly';
+  if (route === '/store' || route.startsWith('/store/')) return 'weekly';
+  if (route === '/testing' || route.startsWith('/testing/')) return 'monthly';
+  if (route.startsWith('/apps')) return 'monthly';
   // SEO authority hubs — reviewed and updated monthly
   if (SEO_HUB_PREFIXES.some(p => route.startsWith(p))) return 'monthly';
   // State-specific pages update monthly
@@ -137,6 +145,29 @@ const STATIC_ROUTES = [
   '/verify',
   '/workforce',
   '/workkeys',
+  // Testing center
+  '/testing',
+  '/testing/book',
+  '/testing/accommodations',
+  '/testing/nha',
+  '/testing/esco',
+  '/testing/certiport',
+  '/testing/workkeys',
+  '/testing/nrf',
+  '/testing/careersafe',
+  // Store & digital products
+  '/store',
+  '/store/guides',
+  '/store/guides/capital-readiness',
+  '/store/guides/licensing',
+  // Apps
+  '/apps',
+  '/apps/grants',
+  '/apps/sam-gov',
+  '/apps/website-builder',
+  // Mobile app
+  '/mobile-app',
+  '/install-app',
   // SEO authority hubs
   '/workforce-training-indianapolis',
   '/wioa-funded-training-indiana',
