@@ -331,7 +331,7 @@ export async function reconcilePreAuthRows(
         .select('id');
 
       if (error) {
-        logger.error(`[pre-auth] reconcile failed for ${config.table}`, {
+        logger.error(`[pre-auth] reconcile failed for ${config.table}`, undefined, {
           email: normalizedEmail,
           error: error.message,
         });
@@ -349,7 +349,7 @@ export async function reconcilePreAuthRows(
         });
       }
     } catch (err: unknown) {
-      logger.error(`[pre-auth] unexpected error reconciling ${config.table}`, {
+      logger.error(`[pre-auth] unexpected error reconciling ${config.table}`, undefined, {
         error: err instanceof Error ? err.message : String(err),
       });
       summary[config.table] = 0;

@@ -286,15 +286,15 @@ export class StripeService {
 
         case 'invoice.payment_failed':
           const failedInvoice = event.data.object as Stripe.Invoice;
-          logger.info('Invoice payment failed:', failedInvoice.id);
+          logger.info(`Invoice payment failed: `);
           // Handle failed invoice payment (e.g., notify user, retry payment)
           break;
 
         default:
-          logger.info('Unhandled event type:', event.type);
+          logger.info(`Unhandled event type: `);
       }
     } catch (error) {
-      logger.error('Webhook error:', error);
+      logger.error('Webhook error:', error instanceof Error ? error : undefined);
       throw error;
     }
   }
