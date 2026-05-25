@@ -2,8 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  Users, BookOpen, TrendingUp, Award, Settings, AlertCircle,
-  CheckCircle2, Clock, ClipboardList, CalendarDays, CreditCard,
+  Users, BookOpen, TrendingUp, Award, Settings, AlertCircle, Clock, ClipboardList, CalendarDays, CreditCard,
   ChevronRight, DollarSign, FileText,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';

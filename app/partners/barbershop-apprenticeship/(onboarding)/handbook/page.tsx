@@ -8,8 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import {
-  Shield, Clock, Users, AlertTriangle, Phone,
-  CheckCircle2, FileText, Scale, Heart, ArrowRight,
+  Shield, Clock, Users, AlertTriangle, Phone, FileText, Scale, Heart, ArrowRight,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -78,8 +77,7 @@ const sections = [
   },
   {
     id: 'competencies',
-    icon: CheckCircle2,
-    title: 'Competency Development',
+    icon: title: 'Competency Development',
     content: [
       'Apprentices must demonstrate proficiency in specific barbering competencies. You are responsible for providing opportunities to practice and for verifying skill development.',
     ],

@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { Star, Quote, TrendingUp, Users, Award, CheckCircle2, CheckCircle } from 'lucide-react';
+import { Star, Quote, TrendingUp, Users, Award, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
 interface Testimonial {

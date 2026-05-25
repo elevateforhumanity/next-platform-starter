@@ -9,7 +9,6 @@ import {
   Users,
   AlertTriangle,
   Phone,
-  CheckCircle2,
   FileText,
   Scale,
   ArrowRight,
@@ -71,8 +70,7 @@ const sections = [
   },
   {
     id: 'competencies',
-    icon: CheckCircle2,
-    title: 'Competency Development',
+    icon: title: 'Competency Development',
     content: [
       'Apprentices must demonstrate proficiency across all cosmetology service categories. You are responsible for providing opportunities to practice and for verifying skill development.',
     ],

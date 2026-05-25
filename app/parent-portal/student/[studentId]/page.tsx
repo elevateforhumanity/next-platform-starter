@@ -143,7 +143,7 @@ export default async function ParentStudentDetailPage({
         <div className="grid grid-cols-3 gap-4 mb-10">
           {[
             { label: 'Active Programs', value: activeEnrollments.length, icon: BookOpen },
-            { label: 'Completed Programs', value: completedEnrollments.length, icon:  },
+            { label: 'Completed Programs', value: completedEnrollments.length, icon: Award },
             { label: 'Certificates', value: (certificates ?? []).length, icon: Award },
           ].map(({ label, value, icon: Icon }) => (
             <div
