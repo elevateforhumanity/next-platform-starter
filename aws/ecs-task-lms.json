@@ -833,6 +833,10 @@
         {
           "name": "CAREERONESTOP_TOKEN",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CAREERONESTOP_TOKEN"
+        },
+        {
+          "name": "CAREERONESTOP_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CAREERONESTOP_API_KEY"
         }
       ],
       "logConfiguration": {

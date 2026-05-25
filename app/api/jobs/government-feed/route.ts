@@ -78,11 +78,14 @@ async function fetchUSAJobs(keywords: string, location = 'Indiana'): Promise<any
 // ── CareerOneStop ─────────────────────────────────────────────────────────────
 // API docs: https://www.careeronestop.org/Developers/WebAPI/Jobs/list-jobs.aspx
 // URL pattern: /v1/jobsearch/{userId}/{keyword}/{location}/{radius}/{startRecord}/{sortColumns}/{sortOrder}/{days}/{limit}
+// Auth: Authorization: Bearer <CAREERONESTOP_TOKEN>
+// Fallback: Authorization: Bearer <CAREERONESTOP_API_KEY> (short key from welcome email)
 async function fetchCareerOneStop(keyword: string, location = 'Indianapolis, IN'): Promise<any[]> {
-  const token = process.env.CAREERONESTOP_TOKEN;
   const userId = process.env.CAREERONESTOP_USER_ID;
+  // Try long token first, fall back to short API key
+  const token = process.env.CAREERONESTOP_TOKEN ?? process.env.CAREERONESTOP_API_KEY;
   if (!token || !userId) {
-    logger.warn('[government-feed] CAREERONESTOP_TOKEN or CAREERONESTOP_USER_ID not set — skipping');
+    logger.warn('[government-feed] CAREERONESTOP_USER_ID or token not set — skipping');
     return [];
   }
 

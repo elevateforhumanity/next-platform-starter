@@ -84,7 +84,7 @@ SELECT
   jp.created_at,
   jp.expires_at,
   -- Employer info
-  COALESCE(e.business_name, e.company_name, jp.company_name) AS employer_name,
+  COALESCE(e.business_name, e.company_name) AS employer_name,
   e.industry,
   e.logo_url,
   e.city AS employer_city,
