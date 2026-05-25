@@ -5,6 +5,7 @@ import { toErrorMessage } from '@/lib/safe';
 import { validateCheckoutAuthorization } from '@/lib/store/licensing-mode';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { DIGITAL_PRODUCTS } from '@/lib/store/digital-products';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -30,22 +31,48 @@ async function _POST(req: Request) {
 
     const supabase = await createClient();
 
-    // Get product details
+    // productId may be a UUID or a slug — try both.
+    // BuyButton components send slugs (e.g. "capital-readiness-guide");
+    // cart checkout sends UUIDs from the DB.
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(productId);
     const { data: product, error } = await supabase
       .from('products')
       .select('*')
-      .eq('id', productId)
+      .eq(isUuid ? 'id' : 'slug', productId)
+      .eq('is_active', true)
       .maybeSingle();
 
+    // If not in DB, fall back to static DIGITAL_PRODUCTS (e.g. capital-readiness-guide)
+    let resolvedId: string;
+    let resolvedTitle: string;
+    let resolvedPrice: number;
+    let resolvedStripePriceId: string | undefined;
+
     if (error || !product) {
-      return Response.json({ error: 'Product not found' }, { status: 404 });
+      const digital = DIGITAL_PRODUCTS.find(
+        (p) => p.id === productId || p.slug === productId,
+      );
+      if (!digital) {
+        return Response.json({ error: 'Product not found' }, { status: 404 });
+      }
+      resolvedId = digital.id;
+      resolvedTitle = digital.name;
+      resolvedPrice = digital.price; // already in cents
+      resolvedStripePriceId = digital.stripePriceId;
+    } else {
+      resolvedId = product.id;
+      resolvedTitle = product.title ?? product.name;
+      // DB stores price in dollars; createCheckoutSession expects cents
+      resolvedPrice = Math.round((product.price ?? 0) * 100);
+      resolvedStripePriceId = product.stripe_price_id ?? undefined;
     }
 
     // Create Stripe checkout session
     const session = await createCheckoutSession({
-      productId: product.id,
-      productTitle: product.title,
-      price: product.price,
+      productId: resolvedId,
+      productTitle: resolvedTitle,
+      price: resolvedPrice,
+      stripePriceId: resolvedStripePriceId,
       email,
       successUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/store/success?session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/store/cancel`,

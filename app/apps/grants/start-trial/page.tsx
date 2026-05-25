@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { DollarSign, Check, Clock } from 'lucide-react';
+import { startAppTrial } from '@/lib/trial/start-app-trial';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,53 +14,26 @@ export const metadata: Metadata = {
 
 async function startTrial() {
   'use server';
-  
-  const supabase = await createClient();
-  const db = await getAdminClient();
-  if (!supabase) redirect('/error?message=service-unavailable');
 
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/apps/grants/start-trial');
 
-  const { data: existing } = await db
-    .from('user_app_subscriptions')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('app_slug', 'grants')
-    .maybeSingle();
-
-  if (existing) redirect('/apps/grants');
-
-  const trialEndsAt = new Date();
-  trialEndsAt.setDate(trialEndsAt.getDate() + 14);
-
-  const { error } = await db
-    .from('user_app_subscriptions')
-    .insert({
-      user_id: user.id,
-      app_slug: 'grants',
-      plan: 'starter',
-      status: 'trial',
-      trial_ends_at: trialEndsAt.toISOString(),
-      current_period_start: new Date().toISOString(),
-      current_period_end: trialEndsAt.toISOString(),
-    });
-
-  if (error) redirect('/apps/grants/start-trial?error=failed');
+  const result = await startAppTrial(user.id, 'grants');
+  if (result.status === 'exists') redirect('/apps/grants');
+  if (result.status === 'error') redirect('/apps/grants/start-trial?error=failed');
   redirect('/apps/grants?welcome=true');
 }
 
 export default async function StartTrialPage() {
   const supabase = await createClient();
-  const db = await getAdminClient();
-  if (!supabase) redirect('/error?message=service-unavailable');
-
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/apps/grants/start-trial');
 
-  const { data: existing } = await db
+  // Redirect if already subscribed — check via API to avoid duplicating DB logic
+  const { data: existing } = await supabase
     .from('user_app_subscriptions')
-    .select('*')
+    .select('id')
     .eq('user_id', user.id)
     .eq('app_slug', 'grants')
     .maybeSingle();
