@@ -11,11 +11,7 @@
  *   "ocr_partial" — OCR ran on first MAX_OCR_PAGES pages only
  *   "ocr_failed"  — OCR attempted but produced no usable text
  *
-<<<<<<< Updated upstream
- * OCR limits (60s budget):
-=======
  * OCR limits (60s request budget):
->>>>>>> Stashed changes
  *   MAX_OCR_PAGES = 8  — OCR only first N pages of scanned PDFs
  *   OCR is skipped for files >8 MB (too slow for request budget)
  */

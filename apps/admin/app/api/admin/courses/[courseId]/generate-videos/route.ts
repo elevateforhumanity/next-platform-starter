@@ -15,11 +15,7 @@
  *   force    — regenerate even if video_url already set
  *
  * Requires: ffmpeg, OPENAI_API_KEY, PEXELS_API_KEY
-<<<<<<< Updated upstream
- * NOTE: ffmpeg is not available in ECS by default. Run in the studio container.
-=======
  * NOTE: ffmpeg must be available in the runtime environment (ECS task or local dev).
->>>>>>> Stashed changes
  */
 
 import { NextRequest, NextResponse } from 'next/server';

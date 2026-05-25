@@ -120,51 +120,11 @@ export async function GET(request: NextRequest) {
         },
       });
     } else if (format === 'pdf') {
-<<<<<<< Updated upstream
-      // Generate PDF inline — no external function needed on ECS (no Lambda size limit)
-      const template = EXPORT_TEMPLATES[type as keyof typeof EXPORT_TEMPLATES];
-      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? '';
-      const pdfResponse = await fetch(`${adminUrl}/api/admin/pdf/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          data,
-          options: {
-            title: `${type.charAt(0).toUpperCase() + type.slice(1)} Export`,
-            subtitle: `Generated on ${new Date().toLocaleDateString()}`,
-            columns: template?.columns,
-            orientation:
-              data.length > 0 && Object.keys(data[0]).length > 6 ? 'landscape' : 'portrait',
-          },
-          filename: `${filename}.pdf`,
-        }),
-      });
-
-      if (!pdfResponse.ok) {
-        const detail = await pdfResponse.text();
-        logger.error('export PDF generation error', {
-          type,
-          status: pdfResponse.status,
-          detail,
-        });
-        return NextResponse.json({ error: 'PDF generation failed' }, { status: 500 });
-      }
-
-      const pdfBuffer = await pdfResponse.arrayBuffer();
-
-      return new NextResponse(pdfBuffer, {
-        headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="${filename}.pdf"`,
-        },
-      });
-=======
       // PDF export is not yet implemented on AWS — use CSV export instead.
       return NextResponse.json(
         { error: 'PDF export is not available. Use CSV format.' },
         { status: 501 },
       );
->>>>>>> Stashed changes
     } else {
       return NextResponse.json({ error: 'Invalid format. Use csv or pdf' }, { status: 400 });
     }

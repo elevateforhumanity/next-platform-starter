@@ -171,23 +171,16 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
-<<<<<<< Updated upstream
-    label: 'AWS CodeBuild',
+    label: 'AWS',
     keys: [
       'CODEBUILD_LMS_PROJECT',
       'CODEBUILD_ADMIN_PROJECT',
       'AWS_REGION',
       'AWS_ACCESS_KEY_ID',
       'AWS_SECRET_ACCESS_KEY',
-=======
-    label: 'AWS',
-    keys: [
-      'AWS_ACCESS_KEY_ID',
-      'AWS_SECRET_ACCESS_KEY',
       'AWS_DEFAULT_REGION',
       'ECS_CLUSTER',
       'ECS_SERVICES',
->>>>>>> Stashed changes
     ],
   },
   {

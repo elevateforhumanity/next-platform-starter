@@ -112,59 +112,12 @@ async function _GET(request: Request) {
       });
     }
 
-<<<<<<< Updated upstream
-    // PDF Export - call internal PDF generation route
-    if (format === 'pdf') {
-      // Transform data for PDF export
-      const pdfData = programList.map((p) => ({
-        title: p.title || 'Untitled',
-        category: p.category || 'N/A',
-        duration: `${p.duration_weeks || 'N/A'} weeks`,
-        hours: `${p.total_hours || 'N/A'} hours`,
-        tuition: `$${p.tuition?.toLocaleString() || 'N/A'}`,
-      }));
-
-      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? '';
-      const pdfResponse = await fetch(`${adminUrl}/api/admin/pdf/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          data: pdfData,
-          options: {
-            title: 'Program Catalog',
-            subtitle: `Generated: ${new Date().toLocaleDateString()}`,
-            columns: [
-              { key: 'title', label: 'Program' },
-              { key: 'category', label: 'Category' },
-              { key: 'duration', label: 'Duration' },
-              { key: 'hours', label: 'Hours' },
-              { key: 'tuition', label: 'Tuition' },
-            ],
-          },
-          filename: 'catalog-export.pdf',
-        }),
-      });
-
-      if (!pdfResponse.ok) {
-        return NextResponse.json({ error: 'PDF generation failed' }, { status: 500 });
-      }
-
-      const pdfBuffer = await pdfResponse.arrayBuffer();
-
-      return new NextResponse(pdfBuffer, {
-        headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="catalog-export.pdf"',
-        },
-      });
-=======
     // PDF export is not yet implemented on AWS — use CSV or XLSX format instead.
     if (format === 'pdf') {
       return NextResponse.json(
         { error: 'PDF export is not available. Use CSV or XLSX format.' },
         { status: 501 },
       );
->>>>>>> Stashed changes
     }
 
     // Default: JSON
