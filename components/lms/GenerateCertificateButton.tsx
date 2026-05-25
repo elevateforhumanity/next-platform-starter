@@ -79,7 +79,7 @@ export function GenerateCertificateButton({
             : '    text-white shadow-lg hover:brightness-110 hover:shadow-xl',
         ].join(' ')}
       >
-        <Award className="h-5 w-5" />
+        <Award aria-label="award" className="h-5 w-5" />
         {loading ? 'Generating…' : 'Generate Certificate'}
       </button>
       {!isCompleted && (

@@ -80,7 +80,7 @@ export default async function LiveQAPage() {
             <p className="text-sm text-slate-500 mt-0.5">Total Sessions</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <Calendar className="w-5 h-5 text-green-500 mb-3" />
+            <Calendar className="w-5 h-5 text-brand-green-500 mb-3" />
             <p className="text-2xl font-extrabold text-slate-900">{upcoming?.length ?? 0}</p>
             <p className="text-sm text-slate-500 mt-0.5">Upcoming</p>
           </div>
@@ -95,7 +95,7 @@ export default async function LiveQAPage() {
           <div className="bg-white rounded-xl border border-slate-200">
             <div className="px-6 py-4 border-b border-slate-100">
               <h2 className="font-bold text-slate-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-green-500" /> Upcoming Sessions
+                <Calendar className="w-4 h-4 text-brand-green-500" /> Upcoming Sessions
               </h2>
             </div>
             {!upcoming?.length ? (

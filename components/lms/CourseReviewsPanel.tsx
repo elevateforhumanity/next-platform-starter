@@ -163,7 +163,7 @@ export function CourseReviewsPanel({ courseId, courseName }: CourseReviewsPanelP
       )}
 
       {submitted && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 text-sm text-green-700 font-medium">
+        <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4 mb-6 text-sm text-brand-green-700 font-medium">
           ✅ Review submitted — thank you!
         </div>
       )}

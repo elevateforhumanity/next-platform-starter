@@ -122,7 +122,7 @@ export default function EnterpriseTrialPage() {
               <ul className="space-y-2">
                 {LICENSE.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-slate-300">
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-brand-green-400" />
                     {feature}
                   </li>
                 ))}

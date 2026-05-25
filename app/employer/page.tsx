@@ -137,6 +137,7 @@ export default function EmployerPage() {
                 className="bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col"
               >
                 <div className="relative h-40 flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image src={img} alt={alt} fill sizes="400px" className="object-cover" />
                 </div>
                 <div className="p-4 flex-1">

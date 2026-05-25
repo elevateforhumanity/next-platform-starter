@@ -66,6 +66,7 @@ export default function MissionPage() {
       {/* Hero */}
       <section className="relative bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/mission-hero.webp"
             alt="Elevate for Humanity mission"
@@ -184,9 +185,9 @@ export default function MissionPage() {
             {CREDENTIALS.map((c) => (
               <span
                 key={c}
-                className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-sm font-medium text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-sm font-medium text-slate-900"
               >
-                <CheckCircle className="w-3.5 h-3.5 text-green-400 shrink-0" /> {c}
+                <CheckCircle className="w-3.5 h-3.5 text-brand-green-400 shrink-0" /> {c}
               </span>
             ))}
           </div>

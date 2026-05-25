@@ -96,6 +96,7 @@ export default function AnalyticsProPage() {
 
       {/* Hero Section */}
       <section className="relative h-[50vh] min-h-48 md:h-64 flex items-center overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/store-addons-analytics-hero.webp"
           alt="Analytics Pro"
@@ -229,7 +230,7 @@ export default function AnalyticsProPage() {
             </Link>
             <Link
               href="/contact?product=analytics-pro"
-              className="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
+              className="inline-flex items-center gap-2 border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
             >
               Talk to Sales
             </Link>

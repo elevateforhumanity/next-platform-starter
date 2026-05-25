@@ -65,6 +65,7 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-8">
           {/* Contained headshot */}
           <div className="relative w-40 h-40 sm:w-52 sm:h-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src="/images/team/elizabeth-greene.webp"
               alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"
@@ -543,7 +544,7 @@ export default async function AboutPage() {
                 href={`/about/team#member-${member.id}`}
                 className="group text-center"
               >
-                <div className="relative w-full aspect-[3/4] max-w-[240px] mx-auto rounded-xl overflow-hidden mb-4 shadow-md group-hover:shadow-xl transition-shadow">
+                <div className="relative w-full aspect-[3/4] max-w-7xl mx-auto rounded-xl overflow-hidden mb-4 shadow-md group-hover:shadow-xl transition-shadow">
                   <Image
                     src={member.headshotSrc || '/images/pages/about-hero.webp'}
                     alt={member.name}
@@ -652,7 +653,7 @@ export default async function AboutPage() {
             <Link href="/start" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition inline-flex items-center">
               Check Eligibility &amp; Apply <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/contact" className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg font-bold text-lg transition border-2 border-white/30">
+            <Link href="/contact" className="bg-white/10 hover:bg-white/20 text-slate-900 px-8 py-4 rounded-lg font-bold text-lg transition border-2 border-white/30">
               Contact Us
             </Link>
           </div>

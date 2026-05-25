@@ -209,7 +209,7 @@ export default function ModulePage({
             </p>
             <HVACLab onAllIdentified={() => setLabComplete(true)} />
             {labComplete && (
-              <div className="mt-4 rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800 font-medium text-center">
+              <div className="mt-4 rounded-lg bg-brand-green-50 border border-brand-green-200 px-4 py-3 text-sm text-brand-green-800 font-medium text-center">
                 All components identified.
               </div>
             )}
@@ -257,7 +257,7 @@ export default function ModulePage({
                   className={`rounded-xl border shadow-sm overflow-hidden ${
                     showResult
                       ? isCorrect
-                        ? 'border-green-300 bg-green-50'
+                        ? 'border-brand-green-300 bg-brand-green-50'
                         : 'border-red-300 bg-red-50'
                       : 'bg-white'
                   }`}
@@ -276,7 +276,7 @@ export default function ModulePage({
                         let optClass = 'border-slate-200 bg-white hover:bg-slate-50';
                         if (isSelected && !showResult)
                           optClass = 'border-brand-blue-500 bg-brand-blue-50';
-                        if (showResult && isAnswer) optClass = 'border-green-500 bg-green-50';
+                        if (showResult && isAnswer) optClass = 'border-brand-green-500 bg-brand-green-50';
                         if (showResult && isSelected && !isAnswer)
                           optClass = 'border-red-400 bg-red-50';
                         return (
@@ -294,7 +294,7 @@ export default function ModulePage({
                             </span>
                             <span className="text-slate-800">{opt}</span>
                             {showResult && isAnswer && (
-                              <span className="ml-2 text-green-600 font-semibold">
+                              <span className="ml-2 text-brand-green-600 font-semibold">
                                 &#10003; Correct
                               </span>
                             )}
@@ -328,15 +328,15 @@ export default function ModulePage({
 
           {quizSubmitted && (
             <div
-              className={`mt-6 rounded-xl border-2 p-5 text-center ${quizPassed ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}
+              className={`mt-6 rounded-xl border-2 p-5 text-center ${quizPassed ? 'border-brand-green-300 bg-brand-green-50' : 'border-red-300 bg-red-50'}`}
             >
               <div className="text-3xl mb-2">{quizPassed ? '\u2713' : '\u2717'}</div>
               <div
-                className={`font-bold text-lg ${quizPassed ? 'text-green-800' : 'text-red-800'}`}
+                className={`font-bold text-lg ${quizPassed ? 'text-brand-green-800' : 'text-red-800'}`}
               >
                 {quizPassed ? 'Quiz Passed!' : 'Quiz Not Passed'}
               </div>
-              <p className={`text-sm mt-1 ${quizPassed ? 'text-green-700' : 'text-red-700'}`}>
+              <p className={`text-sm mt-1 ${quizPassed ? 'text-brand-green-700' : 'text-red-700'}`}>
                 You scored {quizScore} out of {quiz.length}.
                 {quizPassed
                   ? ''
@@ -362,10 +362,10 @@ export default function ModulePage({
         {/* Module complete */}
         {moduleComplete && (
           <section id="complete" className="scroll-mt-32">
-            <div className="rounded-2xl border-2 border-green-400 bg-green-50 p-8 text-center">
+            <div className="rounded-2xl border-2 border-brand-green-400 bg-brand-green-50 p-8 text-center">
               <div className="text-4xl mb-3">&#10003;</div>
-              <h2 className="text-2xl font-bold text-green-800">Module {module.number} Complete</h2>
-              <p className="text-green-700 mt-2">
+              <h2 className="text-2xl font-bold text-brand-green-800">Module {module.number} Complete</h2>
+              <p className="text-brand-green-700 mt-2">
                 You scored {quizScore}/{quiz.length}.
                 {module.number < totalModules
                   ? ` Continue to Module ${module.number + 1}.`

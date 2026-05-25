@@ -201,7 +201,7 @@ export default async function TrainingSitesPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-brand-blue-900/60" />
         <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-4 pb-12 pt-20">
           <span className="inline-block bg-brand-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
             Employer Partners · OJT Sites · Clinical Affiliates
@@ -278,8 +278,8 @@ export default async function TrainingSitesPage() {
                 </p>
               </div>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-green-200 flex gap-4">
-              <Shield className="w-8 h-8 text-green-600 flex-shrink-0 mt-0.5" />
+            <div className="bg-white rounded-xl p-6 border border-brand-green-200 flex gap-4">
+              <Shield className="w-8 h-8 text-brand-green-600 flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-bold text-slate-900 mb-1">Competency Sign-Off</h3>
                 <p className="text-sm text-slate-700 leading-relaxed">

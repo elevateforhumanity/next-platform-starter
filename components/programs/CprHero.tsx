@@ -119,9 +119,7 @@ export default function CprHero() {
             <Link
               href="/programs/cpr-first-aid#details"
               className="border border-slate-300 text-slate-700 font-semibold px-8 py-3.5 rounded-lg hover:bg-slate-50 transition-colors"
-            >
-              Learn More
-            </Link>
+            >See Details</Link>
           </div>
         </div>
       </div>

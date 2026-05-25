@@ -134,7 +134,7 @@ export default function AIInstructorPage() {
                   ? <Bot className="w-4 h-4 text-blue-600" />
                   : <User className="w-4 h-4 text-slate-500" />}
               </div>
-              <div className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
+              <div className={`max-w-4/5 rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
                 msg.role === 'assistant'
                   ? 'bg-slate-50 border border-slate-100 text-slate-700'
                   : 'bg-blue-600 text-white'

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Disclosures | Elevate for Humanity',
@@ -262,7 +262,7 @@ export default async function DisclosuresPage() {
       <section className="bg-slate-50 border-t border-slate-200 py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-start gap-3 mb-6">
-            <CheckCircle2 className="w-6 h-6 text-brand-blue-600 shrink-0 mt-0.5" />
+            <span className="w-6 h-6 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 shrink-0 mt-0.5" aria-hidden="true" />
             <h2 className="text-xl font-bold text-slate-900">Acknowledgment</h2>
           </div>
           <p className="text-slate-600 text-sm mb-5">By using the Elevate for Humanity platform, you acknowledge that:</p>

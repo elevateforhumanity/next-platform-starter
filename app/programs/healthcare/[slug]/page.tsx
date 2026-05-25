@@ -202,7 +202,7 @@ export default function NhaProgramPage() {
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden sticky top-6">
             <div className="bg-emerald-700 px-6 py-4">
               <div className="flex items-center gap-2 text-white">
-                <Award className="w-5 h-5" />
+                <Award aria-label="award" className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Enroll Now</h3>
               </div>
             </div>

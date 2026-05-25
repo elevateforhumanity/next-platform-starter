@@ -12,7 +12,6 @@ import {
   Shield,
   ArrowRight,
   Phone,
-  CheckCircle2,
   GraduationCap,
   Clock,
 } from 'lucide-react';
@@ -106,6 +105,7 @@ export default async function ParentPortalPage() {
       {/* Hero — image only, title below */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/about-career-training.webp"
             alt="Parent and guardian portal"
@@ -155,7 +155,7 @@ export default async function ParentPortalPage() {
                   className="bg-white rounded-2xl border border-slate-200 p-5 flex items-start gap-4"
                 >
                   <div className="w-10 h-10 rounded-full bg-brand-blue-100 flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="w-5 h-5 text-brand-blue-600" />
+                    <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-brand-blue-600" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-black truncate">{s.full_name}</p>
@@ -235,7 +235,7 @@ export default async function ParentPortalPage() {
                   'Access is free — no fees or subscriptions',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-black text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-brand-blue-600 flex-shrink-0 mt-0.5" />
+                    <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                     {item}
                   </li>
                 ))}

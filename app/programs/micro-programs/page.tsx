@@ -167,7 +167,7 @@ export default async function MicroProgramsPage() {
                     <span className="px-3 py-2 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
                       {program.duration}
                     </span>
-                    <span className="px-3 py-2 bg-brand-green-100 text-green-700 text-xs font-semibold rounded-full">
+                    <span className="px-3 py-2 bg-brand-green-100 text-brand-green-700 text-xs font-semibold rounded-full">
                       Quick Start
                     </span>
                   </div>

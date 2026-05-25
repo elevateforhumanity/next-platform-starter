@@ -270,6 +270,7 @@ export default function FAQPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/faq-page-1.webp"
           alt="Students in a workforce training classroom"

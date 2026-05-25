@@ -32,7 +32,7 @@ export function DashboardHero({
       </div>
       <div className="bg-slate-900 py-8 px-8 md:px-12">
         <div className="flex items-center gap-3 mb-3">
-          <GraduationCap className="w-10 h-10 text-white" />
+          <GraduationCap className="w-10 h-10 text-white"  aria-label="graduationcap"/>
           <h1 className="text-3xl md:text-4xl font-black text-white">Welcome Back, {firstName}</h1>
         </div>
         <p className="text-base md:text-lg text-white/90 mb-4">

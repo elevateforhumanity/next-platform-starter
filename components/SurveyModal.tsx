@@ -312,9 +312,7 @@ export default function SurveyModal({ survey, userId, onComplete, onClose }: Sur
               </>
             ) : isLastQuestion ? (
               <>
-                <Check className="w-4 h-4" />
-                Submit
-              </>
+                <Check className="w-4 h-4" />Save</>
             ) : (
               <>
                 Next

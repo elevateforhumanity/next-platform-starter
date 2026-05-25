@@ -11,7 +11,6 @@ import {
   Calendar,
   ArrowRight,
   Lock,
-  CheckCircle2,
 } from 'lucide-react';
 import { IPLA_EXAM_INFO, IPLA_EXAM_FEES } from '@/lib/payment-config';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -106,7 +105,7 @@ export default async function StateBoardExamPage() {
 
         <div>
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-            <Award className="w-7 h-7 text-purple-600" />
+            <Award aria-label="award" className="w-7 h-7 text-purple-600" />
             Indiana State Board Exam
           </h1>
           <p className="text-slate-500 mt-1 text-sm">
@@ -118,7 +117,7 @@ export default async function StateBoardExamPage() {
         {isReady ? (
           <div className="bg-emerald-600 rounded-2xl p-6 text-white flex items-center gap-5">
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <CheckCircle2 className="w-8 h-8" />
+              <span className="w-8 h-8 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
             </div>
             <div>
               <h2 className="text-xl font-bold">You&apos;re eligible to test</h2>
@@ -152,7 +151,7 @@ export default async function StateBoardExamPage() {
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-3">
                 {hoursComplete ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                  <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 ) : (
                   <Clock className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
                 )}
@@ -189,7 +188,7 @@ export default async function StateBoardExamPage() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 {lmsComplete ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                  <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                 ) : (
                   <Clock className="w-5 h-5 text-amber-500 flex-shrink-0" />
                 )}
@@ -218,7 +217,7 @@ export default async function StateBoardExamPage() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 {skillsVerified ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                  <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                 ) : (
                   <Clock className="w-5 h-5 text-slate-300 flex-shrink-0" />
                 )}
@@ -240,7 +239,7 @@ export default async function StateBoardExamPage() {
           <div className="px-5 py-4 bg-emerald-50">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                 <div>
                   <p className="font-medium text-slate-900">State board exam fee — ${examFee}</p>
                   <p className="text-sm text-slate-500">Included in your program tuition</p>

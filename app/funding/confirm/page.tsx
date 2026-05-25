@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { DollarSign, CheckCircle2, ArrowLeft, FileText, ExternalLink } from 'lucide-react';
+import { DollarSign, ArrowLeft, FileText, ExternalLink } from 'lucide-react';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -143,7 +143,7 @@ export default async function ConfirmFundingPage({
               type="submit"
               className="flex items-center gap-2 px-5 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700"
             >
-              <CheckCircle2 className="w-4 h-4" /> Confirm Funding
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Confirm Funding
             </button>
           </div>
         </form>

@@ -192,7 +192,7 @@ export default function CosmetologyPartnerPageClient({
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Cosmetology Apprenticeship program and start developing talent for your salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white rounded-xl font-extrabold text-base hover:bg-purple-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
-            <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
+            <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
           </div>
         </div>
       </section>
@@ -202,7 +202,7 @@ export default function CosmetologyPartnerPageClient({
         <section className="py-16 px-6 bg-slate-50 border-t border-slate-200">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-2">
-              <CheckCircle className="w-6 h-6 text-green-600 shrink-0" />
+              <CheckCircle className="w-6 h-6 text-brand-green-600 shrink-0" />
               <h2 className="text-xl font-bold text-slate-900">After Your Application Is Approved</h2>
             </div>
             <p className="text-sm text-slate-600 mb-5">Complete these five steps to receive your first apprentice placement.</p>

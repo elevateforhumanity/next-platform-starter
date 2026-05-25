@@ -94,7 +94,7 @@ function ServiceCallCard({ scenario }: { scenario: any }) {
             <span
               className={`text-xs font-bold uppercase px-2 py-0.5 rounded ${
                 scenario.difficulty === 'beginner'
-                  ? 'bg-green-100 text-green-700'
+                  ? 'bg-brand-green-100 text-brand-green-700'
                   : scenario.difficulty === 'intermediate'
                     ? 'bg-yellow-100 text-yellow-700'
                     : 'bg-red-100 text-red-700'
@@ -156,8 +156,8 @@ function ServiceCallCard({ scenario }: { scenario: any }) {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p className="text-xs font-bold text-green-700 uppercase mb-1">Root Cause</p>
+              <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4">
+                <p className="text-xs font-bold text-brand-green-700 uppercase mb-1">Root Cause</p>
                 <p className="text-sm text-slate-800">{scenario.rootCause}</p>
               </div>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -276,7 +276,7 @@ export default function HVACClassroomPreview({
       <div className="flex h-screen bg-white">
         {/* Banner */}
         <div className="fixed top-0 left-0 right-0 z-[60] bg-brand-blue-700 text-white text-center py-3 text-sm font-medium shadow-lg">
-          <GraduationCap className="w-4 h-4 inline mr-2" />
+          <GraduationCap aria-label="graduationcap" className="w-4 h-4 inline mr-2" />
           <span className="font-bold">HVAC Technician</span>
           <span className="hidden sm:inline text-slate-500 mx-2">|</span>
           <span className="hidden sm:inline text-slate-600">
@@ -413,7 +413,7 @@ export default function HVACClassroomPreview({
                         : 'bg-white text-slate-600'
                     }`}
                   >
-                    <GraduationCap className="w-4 h-4" />
+                    <GraduationCap aria-label="graduationcap" className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p

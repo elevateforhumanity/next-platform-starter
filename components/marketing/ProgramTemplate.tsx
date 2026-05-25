@@ -73,6 +73,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
 
       {/* Hero Section */}
       <section className="relative h-[700px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={program.heroImage}
           alt={`${program.name} in training`}
@@ -87,7 +88,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
           <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue-700 px-4 py-2 text-sm font-bold text-white mb-6">
-                <Award size={16} />
+                <Award aria-label="award" size={16} />
                 <span>No-Cost Training for Eligible Students</span>
               </div>
 
@@ -269,7 +270,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
 
               <div className="mt-8 p-4 bg-brand-red-50 rounded-xl border border-brand-red-200">
                 <div className="flex items-center gap-3 mb-2">
-                  <Award size={20} className="text-brand-orange-600" />
+                  <Award aria-label="award" size={20} className="text-brand-orange-600" />
                   <span className="font-bold text-black">Certification Included</span>
                 </div>
                 <p className="text-sm text-black">{program.certification}</p>
@@ -305,7 +306,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
 
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200">
               <div className="w-12 h-12 rounded-xl bg-brand-blue-100 flex items-center justify-center mb-4">
-                <GraduationCap size={24} className="text-brand-blue-600" />
+                <GraduationCap aria-label="graduationcap" size={24} className="text-brand-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-2">Requirements</h3>
               <p className="text-black mb-4">Minimal prerequisites:</p>

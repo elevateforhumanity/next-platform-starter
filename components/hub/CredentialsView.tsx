@@ -79,7 +79,7 @@ export default function CredentialsView({ userId }: { userId?: string }) {
   if (credentials.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
-        <Award className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+        <Award aria-label="award" className="w-12 h-12 text-slate-300 mx-auto mb-3" />
         <h3 className="font-bold text-slate-900 mb-2">No Credentials Yet</h3>
         <p className="text-slate-600 mb-4">Complete your program to earn credentials</p>
         <Link href="/programs" className="text-brand-blue-600 font-medium hover:underline">
@@ -104,7 +104,7 @@ export default function CredentialsView({ userId }: { userId?: string }) {
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
       <div className="p-4 border-b border-slate-200 flex items-center justify-between">
         <h3 className="font-bold text-slate-900 flex items-center gap-2">
-          <Award className="w-5 h-5 text-amber-500" />
+          <Award aria-label="award" className="w-5 h-5 text-amber-500" />
           Your Credentials
         </h3>
         <span className="text-sm text-slate-500">{credentials.length} total</span>

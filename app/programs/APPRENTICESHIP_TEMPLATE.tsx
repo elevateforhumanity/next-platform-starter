@@ -76,7 +76,7 @@ export default function ApprenticeshipPage() {
               <div className="text-black">Hands-On Experience</div>
             </div>
             <div className="flex flex-col items-center">
-              <Award className="w-12 h-12 text-brand-orange-500 mb-3" />
+              <Award aria-label="award" className="w-12 h-12 text-brand-orange-500 mb-3" />
               <div className="text-2xl font-bold mb-1">State Licensed</div>
               <div className="text-black">Indiana Barber License</div>
             </div>
@@ -143,7 +143,7 @@ export default function ApprenticeshipPage() {
               <div className="bg-gradient-to-br from-brand-green-500 to-brand-green-600 rounded-3xl p-8 text-white h-full">
                 <div className="text-6xl font-black mb-4 opacity-20">04</div>
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
-                  <Award className="w-7 h-7" />
+                  <Award aria-label="award" className="w-7 h-7" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Get Licensed</h3>
                 <p className="text-white leading-relaxed">
@@ -275,7 +275,7 @@ export default function ApprenticeshipPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-slate-900 font-bold text-lg">
                   ✓
                 </span>
               </div>
@@ -302,7 +302,7 @@ export default function ApprenticeshipPage() {
 
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-slate-900 font-bold text-lg">
                   ✓
                 </span>
               </div>
@@ -329,7 +329,7 @@ export default function ApprenticeshipPage() {
 
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-slate-900 font-bold text-lg">
                   ✓
                 </span>
               </div>
@@ -425,10 +425,8 @@ export default function ApprenticeshipPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm text-white px-12 py-6 rounded-xl text-xl font-bold hover:bg-white/20 transition border-2 border-white/30"
-            >
-              Learn More
-            </Link>
+              className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm text-slate-900 px-12 py-6 rounded-xl text-xl font-bold hover:bg-white/20 transition border-2 border-white/30"
+            >See Details</Link>
           </div>
           <p className="text-white mt-8 text-lg">
             Next cohort starts soon • Limited spots available

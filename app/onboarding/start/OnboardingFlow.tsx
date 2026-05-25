@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
-import { CheckCircle2, Circle, Lock, FileText, DollarSign } from 'lucide-react';
+import { Circle, Lock, FileText, DollarSign } from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 
 interface OnboardingFlowProps {
@@ -97,7 +97,7 @@ export default function OnboardingFlow({
                       }`}
                     >
                       {isComplete ? (
-                        <CheckCircle2 className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                        <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                       ) : isCurrent ? (
                         <Circle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
                       ) : (
@@ -133,7 +133,7 @@ export default function OnboardingFlow({
                   }`}
                 >
                   {payrollComplete ? (
-                    <CheckCircle2 className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                   ) : currentStep === documents.length ? (
                     <Circle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
                   ) : (
@@ -244,7 +244,7 @@ function DocumentStep({ document, isComplete, signedAt, userId, userRole, userNa
     return (
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
         <div className="text-center">
-          <CheckCircle2 className="w-12 h-12 text-brand-green-600 mx-auto mb-4" />
+          <span className="w-12 h-12 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h2 className="text-2xl font-bold text-black mb-2">{document.title}</h2>
           <p className="text-black mb-6">
             You completed this step on{' '}

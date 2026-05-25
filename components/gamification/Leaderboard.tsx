@@ -96,7 +96,7 @@ export function Leaderboard() {
             {/* Points */}
             <div className="text-right">
               <div className="flex items-center gap-1 text-brand-orange-600 font-bold">
-                <Award className="h-4 w-4" />
+                <Award aria-label="award" className="h-4 w-4" />
                 {(user.points || 0).toLocaleString('en-US')}
               </div>
               <p className="text-xs text-slate-700">points</p>

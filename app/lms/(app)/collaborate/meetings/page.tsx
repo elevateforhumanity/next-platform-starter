@@ -86,7 +86,7 @@ export default async function MeetingsPage() {
               <Plus className="w-5 h-5" />
               Schedule Meeting
             </button>
-            <button className="flex items-center gap-2 px-6 py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 font-medium">
+            <button className="flex items-center gap-2 px-6 py-3 bg-white/20 text-slate-900 rounded-lg hover:bg-white/30 font-medium">
               <Video className="w-5 h-5" />
               Start Instant Meeting
             </button>

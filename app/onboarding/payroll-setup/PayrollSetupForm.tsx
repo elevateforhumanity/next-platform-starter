@@ -8,7 +8,6 @@ import {
   Building2,
   FileText,
   Upload,
-  CheckCircle2,
   AlertCircle,
   ChevronRight,
   Banknote,
@@ -161,7 +160,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-10 text-center">
-          <CheckCircle2 className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
+          <span className="w-16 h-16 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Payroll Setup Complete</h2>
           <p className="text-slate-600 mb-6">
             Your payment method and W-9 have been submitted. HR will confirm within 1 business day.
@@ -254,7 +253,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
                     <p className="text-sm text-slate-500 mt-0.5">{desc}</p>
                   </div>
                   {payMethod === id && (
-                    <CheckCircle2 className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
+                    <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
                   )}
                 </button>
               ))}
@@ -451,7 +450,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
 
               {w9Uploaded ? (
                 <div className="flex items-center gap-3 bg-brand-green-50 border border-brand-green-200 rounded-xl px-4 py-3">
-                  <CheckCircle2 className="w-5 h-5 text-brand-green-600" />
+                  <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
                   <span className="text-sm font-medium text-brand-green-800">
                     W-9 uploaded successfully
                   </span>
@@ -547,7 +546,7 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
               <div className="px-5 py-4 flex items-center justify-between">
                 <span className="text-sm text-slate-500">W-9</span>
                 <span className="flex items-center gap-1.5 text-sm font-semibold text-brand-green-700">
-                  <CheckCircle2 className="w-4 h-4" /> Uploaded
+                  <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Uploaded
                 </span>
               </div>
             </div>

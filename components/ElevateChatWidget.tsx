@@ -130,7 +130,7 @@ export function ElevateChatWidget() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
+                className="text-slate-900 hover:bg-white/20 rounded-full p-2 transition-colors"
                 aria-label="Close chat"
               >
                 <X size={20} />

@@ -54,7 +54,7 @@ export default async function StudentsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 mb-6">
-              <GraduationCap className="w-5 h-5" />
+              <GraduationCap aria-label="graduationcap" className="w-5 h-5" />
               <span className="text-sm font-semibold">For Students</span>
             </div>
 
@@ -76,7 +76,7 @@ export default async function StudentsPage() {
               </Link>
               <Link
                 href="/programs"
-                className="bg-white/10 backdrop-blur-sm border-2 border-white hover:bg-white hover:text-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all inline-flex items-center justify-center gap-2"
+                className="bg-white/10 backdrop-blur-sm border-2 border-white hover:bg-white hover:text-blue-600 text-slate-900 px-8 py-4 rounded-xl text-lg font-bold transition-all inline-flex items-center justify-center gap-2"
               >
                 View Programs
               </Link>
@@ -94,8 +94,8 @@ export default async function StudentsPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-slate-100">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                <DollarSign className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mb-6">
+                <DollarSign className="w-8 h-8 text-brand-green-600" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Funding Available</h3>
               <p className="text-black mb-4">
@@ -104,15 +104,15 @@ export default async function StudentsPage() {
               </p>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span className="text-sm text-black">Free training</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span className="text-sm text-black">Free materials</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span className="text-sm text-black">Free certification</span>
                 </li>
               </ul>
@@ -225,11 +225,10 @@ export default async function StudentsPage() {
               href={canonicalRoutes.programs.certifiedNursingAssistant}
               className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
-              <Award className="w-12 h-12 text-blue-600 mb-4" />
+              <Award aria-label="award" className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CNA Training</h3>
               <p className="text-black mb-4">6-8 weeks • $16-20/hr starting</p>
-              <div className="flex items-center text-blue-600 font-semibold">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
+              <div className="flex items-center text-blue-600 font-semibold">See Details<ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
 
@@ -237,13 +236,12 @@ export default async function StudentsPage() {
               href="/programs/barber-apprenticeship"
               className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
-              <Award className="w-12 h-12 text-blue-600 mb-4" />
+              <Award aria-label="award" className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">
                 Barber Apprenticeship
               </h3>
               <p className="text-black mb-4">12 months • Earn while you learn</p>
-              <div className="flex items-center text-blue-600 font-semibold">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
+              <div className="flex items-center text-blue-600 font-semibold">See Details<ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
 
@@ -251,11 +249,10 @@ export default async function StudentsPage() {
               href="/programs/cdl-training"
               className="bg-white rounded-xl p-6 shadow-sm border-2 border-slate-100 hover:border-blue-500 transition group"
             >
-              <Award className="w-12 h-12 text-blue-600 mb-4" />
+              <Award aria-label="award" className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CDL Training</h3>
               <p className="text-black mb-4">4-6 weeks • $50k+ annually</p>
-              <div className="flex items-center text-blue-600 font-semibold">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
+              <div className="flex items-center text-blue-600 font-semibold">See Details<ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
           </div>

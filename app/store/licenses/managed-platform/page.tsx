@@ -124,6 +124,7 @@ export default function ManagedPlatformPage() {
             {/* Platform screenshot */}
             <div className="mt-12 max-w-4xl mx-auto">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/demos/admin-dashboard-thumb.jpg"
                   alt="Elevate managed platform dashboard"
@@ -182,7 +183,7 @@ export default function ManagedPlatformPage() {
             
             <div className="grid md:grid-cols-2 gap-8 mb-6">
               <div>
-                <h4 className="text-green-400 font-semibold mb-3 flex items-center gap-2">
+                <h4 className="text-brand-green-400 font-semibold mb-3 flex items-center gap-2">
                   <Check className="w-5 h-5" />
                   What You Get
                 </h4>
@@ -261,7 +262,7 @@ export default function ManagedPlatformPage() {
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-slate-700 text-sm">
-                      <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                       {feature}
                     </li>
                   ))}

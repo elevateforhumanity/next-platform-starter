@@ -71,7 +71,7 @@ function modeBg(mode: string) {
 
 // ── Card ──────────────────────────────────────────────────────────────────────
 
-function ProgramCard({ p }: { p: CatalogProgram }) {
+function CatalogProgramCard({ p }: { p: CatalogProgram }) {
   return (
     <Link
       href={`/programs/${p.slug}`}
@@ -79,6 +79,7 @@ function ProgramCard({ p }: { p: CatalogProgram }) {
     >
       {/* Cover image — no overlay, no text on image */}
       <div className="relative aspect-[16/10] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={p.heroImage}
           alt={p.heroImageAlt}
@@ -275,7 +276,7 @@ export default function CatalogFilters({ programs, sectors }: Props) {
         /* Flat grid when filtering */
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((p) => (
-            <ProgramCard key={p.slug} p={p} />
+            <CatalogProgramCard key={p.slug} p={p} />
           ))}
         </div>
       ) : (
@@ -298,7 +299,7 @@ export default function CatalogFilters({ programs, sectors }: Props) {
               ) : (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {items.map((p) => (
-                    <ProgramCard key={p.slug} p={p} />
+                    <CatalogProgramCard key={p.slug} p={p} />
                   ))}
                 </div>
               )}

@@ -69,7 +69,7 @@ export default async function CaseManagerParticipantsPage() {
   }
 
   const statusBadge = (status: string) => {
-    if (status === 'approved') return 'bg-green-100 text-green-800';
+    if (status === 'approved') return 'bg-brand-green-100 text-brand-green-800';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
     if (status === 'rejected') return 'bg-red-100 text-red-800';
     return 'bg-slate-100 text-slate-900';

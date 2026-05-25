@@ -181,6 +181,7 @@ export default function InstructorCredentialsPage() {
 
       {/* Hero */}
       <section className="relative h-[260px] sm:h-[340px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/instructor-credentials-page-1.webp"
           alt="Professional instructor working with students"
@@ -215,7 +216,7 @@ export default function InstructorCredentialsPage() {
 
           <div className="grid sm:grid-cols-3 gap-4 mb-10">
             <div className="bg-white rounded-lg p-4 text-center">
-              <GraduationCap className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
+              <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
               <p className="text-sm font-semibold text-slate-900">Credential Partners</p>
               <p className="text-xs text-slate-600 mt-1">
                 State-approved or licensed instructional authorities
@@ -229,7 +230,7 @@ export default function InstructorCredentialsPage() {
               </p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
-              <Award className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
               <p className="text-sm font-semibold text-slate-900">Subject Matter Experts</p>
               <p className="text-xs text-slate-600 mt-1">Supplemental instruction and mentoring</p>
             </div>
@@ -304,7 +305,7 @@ export default function InstructorCredentialsPage() {
                   {/* Credential Partner */}
                   <div>
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <GraduationCap className="w-3.5 h-3.5" /> Credential Partner (Tier 1)
+                      <GraduationCap aria-label="graduationcap" className="w-3.5 h-3.5" /> Credential Partner (Tier 1)
                     </p>
                     <p className="text-sm text-slate-900 font-medium">{prog.credentialPartner}</p>
                     <p className="text-xs text-slate-500 mt-1">
@@ -338,7 +339,7 @@ export default function InstructorCredentialsPage() {
                   {/* SME Scope */}
                   <div>
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <Award className="w-3.5 h-3.5" /> SME Scope (Tier 3)
+                      <Award aria-label="award" className="w-3.5 h-3.5" /> SME Scope (Tier 3)
                     </p>
                     <p className="text-sm text-slate-700">{prog.smeScope}</p>
                   </div>

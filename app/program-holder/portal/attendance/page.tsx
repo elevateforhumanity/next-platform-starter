@@ -88,13 +88,13 @@ export default async function AttendancePage() {
               label: 'Attendance Rate',
               value: `${attendanceRate}%`,
               icon: CheckCircle,
-              color: 'text-green-500',
+              color: 'text-brand-green-500',
             },
             {
               label: 'Present',
               value: presentCount ?? 0,
               icon: CheckCircle,
-              color: 'text-green-500',
+              color: 'text-brand-green-500',
             },
             { label: 'Absent', value: absentCount ?? 0, icon: XCircle, color: 'text-red-500' },
             { label: 'Late', value: lateCount ?? 0, icon: Clock, color: 'text-amber-500' },
@@ -167,7 +167,7 @@ export default async function AttendancePage() {
                     <span
                       className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                         a.status === 'present'
-                          ? 'bg-green-50 text-green-700'
+                          ? 'bg-brand-green-50 text-brand-green-700'
                           : a.status === 'absent'
                             ? 'bg-red-50 text-red-700'
                             : a.status === 'late'

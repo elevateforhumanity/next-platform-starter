@@ -365,7 +365,7 @@ export default function CapitalReadinessGuidePage() {
       {/* Enterprise */}
       <section className="py-16 lg:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Award className="w-12 h-12 text-brand-blue-600 mx-auto mb-6" />
+          <Award aria-label="award" className="w-12 h-12 text-brand-blue-600 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Enterprise & Licensing</h2>
           <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
             Need this for your workforce program, employer training, or organizational onboarding? 

@@ -59,6 +59,7 @@ export function ProgramPageLocked({
     <main className="bg-white">
       {/* Hero - Name Only */}
       <section className="relative h-[400px] flex items-center justify-center text-white overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image src={heroImage} alt={name} fill className="object-cover" priority sizes="100vw" />
 
         <div className="relative">

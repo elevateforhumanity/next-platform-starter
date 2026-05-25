@@ -408,7 +408,7 @@ export default function ComprehensiveEnrollmentWizard({
                         <StepIcon className="w-6 h-6" />
                       )}
                     </div>
-                    <div className="text-xs mt-2 text-center max-w-[80px]">
+                    <div className="text-xs mt-2 text-center max-w-7xl">
                       <div className="font-semibold">{step.name}</div>
                     </div>
                   </div>

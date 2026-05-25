@@ -179,7 +179,7 @@ export default async function WorkforceBoardDashboard() {
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <GraduationCap className="w-8 h-8 text-brand-green-600" />
+              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-green-600" />
             </div>
             <p className="text-2xl md:text-3xl font-bold text-slate-900">{completedEnrollments}</p>
             <p className="text-sm text-black">Completions</p>
@@ -193,7 +193,7 @@ export default async function WorkforceBoardDashboard() {
           </div>
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <Award className="w-8 h-8 text-brand-orange-600" />
+              <Award aria-label="award" className="w-8 h-8 text-brand-orange-600" />
             </div>
             <p className="text-2xl md:text-3xl font-bold text-slate-900">{credentialAttainment}%</p>
             <p className="text-sm text-black">Credential Attainment</p>

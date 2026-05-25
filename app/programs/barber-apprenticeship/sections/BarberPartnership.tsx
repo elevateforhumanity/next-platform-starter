@@ -7,6 +7,7 @@ export function BarberPartnership() {
     <>
       {/* Career Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[360px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image src="/images/pages/barber-shop-interior.webp" alt="Professional barbershop interior" fill sizes="100vw" className="object-cover" />
       </section>
 
@@ -33,7 +34,7 @@ export function BarberPartnership() {
               <h3 className="text-xl font-bold text-slate-900 mb-4">Industry Sectors</h3>
               <div className="grid grid-cols-2 gap-3">
                 {['Licensed Barbershops', 'Salon & Spa', 'Hotel & Resort', 'Entertainment & Media', 'Sports Teams', 'Private Clients', 'Shop Ownership', 'Franchise Operations'].map((emp, i) => (
-                  <div key={i} className="bg-white/20 rounded-lg px-4 py-3 text-white font-medium text-sm">
+                  <div key={i} className="bg-white/20 rounded-lg px-4 py-3 text-slate-900 font-medium text-sm">
                     {emp}
                   </div>
                 ))}

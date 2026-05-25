@@ -112,7 +112,7 @@ export default async function StaffTrainingPage() {
 
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <Award className="h-11 w-11 text-yellow-600" />
+              <Award aria-label="award" className="h-11 w-11 text-yellow-600" />
               <span className="text-3xl font-bold text-black">{certifiedModules}</span>
             </div>
             <p className="text-black text-sm">Certifications</p>
@@ -205,7 +205,7 @@ export default async function StaffTrainingPage() {
                       </div>
                       {module.isCertified && (
                         <div className="mt-2 flex items-center gap-2 text-yellow-700">
-                          <Award className="h-4 w-4" />
+                          <Award aria-label="award" className="h-4 w-4" />
                           <span className="text-sm font-medium">Certified</span>
                         </div>
                       )}

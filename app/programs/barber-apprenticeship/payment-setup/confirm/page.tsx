@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
-import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Loader2, XCircle } from 'lucide-react';
 
 // Stripe redirects here after 3DS authentication with ?setup_intent=... and ?redirect_status=...
 function ConfirmInner() {
@@ -55,7 +55,7 @@ function ConfirmInner() {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+          <span className="w-12 h-12 rounded-full bg-emerald-400 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-white font-bold text-xl mb-2">Payment Set Up</h1>
           <p className="text-slate-400 text-sm">Taking you to orientation…</p>
         </div>

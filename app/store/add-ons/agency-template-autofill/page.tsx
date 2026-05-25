@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, ArrowRight } from 'lucide-react';
 
 export const dynamic = 'force-static';
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export default function AgencyAutofillPage() {
             <Link href="/admin/contracts" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-xl transition-colors">
               Open Contracts <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/admin/settings/organization-profile" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+            <Link href="/admin/settings/organization-profile" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold rounded-xl transition-colors">
               Set Up Org Profile
             </Link>
           </div>
@@ -52,7 +52,7 @@ export default function AgencyAutofillPage() {
           <div className="grid sm:grid-cols-2 gap-3">
             {FEATURES.map(f => (
               <div key={f} className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                <span className="w-4 h-4 rounded-full bg-blue-600 inline-block flex-shrink-0 mt-0.5 shrink-0" aria-hidden="true" />
                 <span className="text-sm text-slate-700">{f}</span>
               </div>
             ))}

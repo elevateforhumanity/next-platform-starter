@@ -8,7 +8,6 @@ import {
   Search,
   Filter,
   Clock,
-  CheckCircle2,
   XCircle,
   AlertTriangle,
   Users,
@@ -72,7 +71,7 @@ export default function ProctorDashboard() {
           color="bg-yellow-50 text-yellow-700"
         />
         <StatCard
-          icon={<CheckCircle2 className="w-5 h-5" />}
+          icon={<span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />}
           label="Completed Today"
           value={completedToday.length}
           color="bg-brand-green-50 text-brand-green-700"
@@ -245,7 +244,7 @@ function SessionRow({ session }: { session: ExamSession }) {
         <div className="flex items-center gap-3 text-sm text-slate-500">
           {session.id_verified && (
             <span className="inline-flex items-center gap-1 text-brand-green-600">
-              <CheckCircle2 className="w-3.5 h-3.5" /> ID
+              <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> ID
             </span>
           )}
           <span>Proctor: {session.proctor_name}</span>

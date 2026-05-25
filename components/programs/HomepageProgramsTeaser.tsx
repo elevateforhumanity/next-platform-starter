@@ -50,6 +50,7 @@ export function HomepageProgramsTeaser() {
               className="flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition-shadow hover:shadow-lg"
             >
               <div className="relative h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={program.image}
                   alt={program.title}
@@ -65,9 +66,7 @@ export function HomepageProgramsTeaser() {
                   <Link
                     href={program.href}
                     className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-xs hover:bg-brand-blue-700 transition-colors"
-                  >
-                    Learn More
-                  </Link>
+                  >See Details</Link>
                 </div>
               </div>
             </div>

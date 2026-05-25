@@ -110,12 +110,12 @@ export default async function PartnerStudentsPage() {
             <p className="text-slate-600 text-sm">Total Students</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
-            <Clock className="w-8 h-8 text-green-500 mb-2" />
+            <Clock className="w-8 h-8 text-brand-green-500 mb-2" />
             <p className="text-2xl font-bold">{activeCount}</p>
             <p className="text-slate-600 text-sm">Active</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
-            <GraduationCap className="w-8 h-8 text-blue-500 mb-2" />
+            <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-blue-500 mb-2" />
             <p className="text-2xl font-bold">{completedCount}</p>
             <p className="text-slate-600 text-sm">Completed</p>
           </div>
@@ -183,7 +183,7 @@ export default async function PartnerStudentsPage() {
                       <span
                         className={`px-2 py-1 rounded text-xs ${
                           enrollment.status === 'active'
-                            ? 'bg-green-100 text-green-700'
+                            ? 'bg-brand-green-100 text-brand-green-700'
                             : enrollment.status === 'completed'
                               ? 'bg-blue-100 text-blue-700'
                               : enrollment.status === 'pending'

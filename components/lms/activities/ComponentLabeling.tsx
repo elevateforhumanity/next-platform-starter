@@ -119,13 +119,13 @@ export function ComponentLabeling({
                 <div
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-bold shadow-md whitespace-nowrap ${
                     isCorrect
-                      ? 'bg-green-100 border-green-500 text-green-800'
+                      ? 'bg-brand-green-100 border-brand-green-500 text-brand-green-800'
                       : isWrong
                         ? 'bg-red-100 border-red-400 text-red-700'
                         : 'bg-white border-brand-blue-400 text-slate-900 hover:bg-brand-blue-50'
                   }`}
                 >
-                  {isCorrect && <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />}
+                  {isCorrect && <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0" />}
                   {isWrong && <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />}
                   {placed}
                 </div>
@@ -186,14 +186,14 @@ export function ComponentLabeling({
         </div>
       ) : (
         <div
-          className={`p-4 rounded-xl ${score >= 70 ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}
+          className={`p-4 rounded-xl ${score >= 70 ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-red-50 border border-red-200'}`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-lg font-bold ${score >= 70 ? 'text-green-800' : 'text-red-800'}`}>
+              <p className={`text-lg font-bold ${score >= 70 ? 'text-brand-green-800' : 'text-red-800'}`}>
                 {score === 100 ? 'Perfect!' : score >= 70 ? 'Nice work!' : 'Review and try again'}
               </p>
-              <p className={`text-sm ${score >= 70 ? 'text-green-600' : 'text-red-600'}`}>
+              <p className={`text-sm ${score >= 70 ? 'text-brand-green-600' : 'text-red-600'}`}>
                 {correctCount}/{zones.length} correct ({score}%)
               </p>
             </div>

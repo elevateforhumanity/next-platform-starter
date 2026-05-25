@@ -155,6 +155,7 @@ export default async function ProgramHolderOnboarding() {
       />
       {/* Hero Section */}
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/programs-hero-new-2.webp"
           alt="Program holder training"
@@ -215,9 +216,9 @@ export default async function ProgramHolderOnboarding() {
           </div>
 
           {allDone ? (
-            <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-5 py-4">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-              <p className="text-sm font-semibold text-green-800">
+            <div className="mb-6 flex items-center gap-3 bg-brand-green-50 border border-brand-green-200 rounded-xl px-5 py-4">
+              <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0" />
+              <p className="text-sm font-semibold text-brand-green-800">
                 All steps complete — your portal is fully activated.
               </p>
             </div>
@@ -237,13 +238,13 @@ export default async function ProgramHolderOnboarding() {
                   href={step.done ? '#' : step.href}
                   className={`flex items-start gap-4 rounded-xl border p-5 transition-colors ${
                     step.done
-                      ? 'bg-white border-green-200 cursor-default'
+                      ? 'bg-white border-brand-green-200 cursor-default'
                       : 'bg-white border-slate-200 hover:border-brand-blue-400 hover:shadow-sm'
                   }`}
                 >
                   <div className="flex-shrink-0 mt-0.5">
                     {step.done ? (
-                      <CheckCircle className="w-5 h-5 text-green-500" />
+                      <CheckCircle className="w-5 h-5 text-brand-green-500" />
                     ) : (
                       <Circle className="w-5 h-5 text-slate-300" />
                     )}
@@ -257,7 +258,7 @@ export default async function ProgramHolderOnboarding() {
                         <span className="text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">Required</span>
                       )}
                       {step.done && (
-                        <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">Done</span>
+                        <span className="text-xs font-bold text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-full px-2 py-0.5">Done</span>
                       )}
                     </div>
                     <p className="text-xs text-slate-500 mt-0.5">{step.detail}</p>

@@ -8,7 +8,6 @@ import {
   Play,
   Square,
   AlertTriangle,
-  CheckCircle2,
   XCircle,
   Clock,
   User,
@@ -217,7 +216,7 @@ export default function SessionPage() {
               <dd className="flex items-center gap-1.5">
                 {session.id_verified ? (
                   <>
-                    <CheckCircle2 className="w-4 h-4 text-brand-green-600" />{' '}
+                    <span className="w-4 h-4 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />{' '}
                     <span className="text-brand-green-700 font-medium">
                       Yes — {session.id_type?.replace('_', ' ')}
                     </span>
@@ -256,7 +255,7 @@ export default function SessionPage() {
         {isTerminal && (
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-slate-400" /> Result
+              <span className="w-4 h-4 rounded-full bg-slate-400 inline-block flex-shrink-0" aria-hidden="true" /> Result
             </h3>
             <dl className="space-y-3 text-sm">
               <Row label="Status" value={statusCfg.label} />

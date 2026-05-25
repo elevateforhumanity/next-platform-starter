@@ -85,7 +85,7 @@ export default async function CAREERSAFEPage() {
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
-                <Award className="w-4 h-4" />
+                <Award aria-label="award" className="w-4 h-4" />
                 <span>OSHA 10 Card</span>
               </div>
             </div>
@@ -101,7 +101,7 @@ export default async function CAREERSAFEPage() {
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
-                <Award className="w-4 h-4" />
+                <Award aria-label="award" className="w-4 h-4" />
                 <span>OSHA 30 Card</span>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default async function CAREERSAFEPage() {
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
-                <Award className="w-4 h-4" />
+                <Award aria-label="award" className="w-4 h-4" />
                 <span>OSHA 10 Card</span>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default async function CAREERSAFEPage() {
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
-                <Award className="w-4 h-4" />
+                <Award aria-label="award" className="w-4 h-4" />
                 <span>OSHA 30 Card</span>
               </div>
             </div>
@@ -214,7 +214,7 @@ export default async function CAREERSAFEPage() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-10 py-5 bg-white/20 backdrop-blur-sm text-white text-xl font-bold rounded-full hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/50 shadow-2xl"
+              className="inline-flex items-center justify-center px-10 py-5 bg-white/20 backdrop-blur-sm text-slate-900 text-xl font-bold rounded-full hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/50 shadow-2xl"
             >
               Apply to Elevate
             </Link>

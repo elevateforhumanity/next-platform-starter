@@ -154,6 +154,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : config.heroImage ? (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={config.heroImage}
             alt={config.title}
@@ -297,7 +298,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5" />
+                <Award aria-label="award" className="w-5 h-5" />
                 Skills
               </h3>
               <ul className="space-y-2">
@@ -354,7 +355,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
           <h2 className="text-3xl font-bold text-slate-900 mb-8">What You Receive</h2>
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <Award className="w-12 h-12 text-purple-600 flex-shrink-0" />
+              <Award aria-label="award" className="w-12 h-12 text-purple-600 flex-shrink-0" />
               <div>
                 <h3 className="text-2xl font-bold text-slate-900">{config.credential.name}</h3>
                 <p className="mt-2 text-slate-600">{config.credential.description}</p>

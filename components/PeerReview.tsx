@@ -154,7 +154,7 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
               <div className="text-sm text-black">{reviews.length} peer reviews</div>
             </div>
             <div className="text-center">
-              <Award className="text-brand-orange-600 mx-auto mb-2" size={48} />
+              <Award aria-label="award" className="text-brand-orange-600 mx-auto mb-2" size={48} />
               <div className="text-sm font-semibold">Peer Review Badge</div>
             </div>
           </div>

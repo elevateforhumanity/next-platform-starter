@@ -250,7 +250,7 @@ export default function PeerRecoveryApplyPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm font-semibold text-slate-900">{opt.label}</span>
                       {opt.badge && (
-                        <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
+                        <span className="text-xs font-bold text-brand-green-700 bg-brand-green-100 px-2 py-0.5 rounded-full">
                           {opt.badge}
                         </span>
                       )}
@@ -285,7 +285,7 @@ export default function PeerRecoveryApplyPage() {
                   <p className="text-xs text-slate-600 mt-0.5">
                     $1,750 today, then 6 monthly payments of $542. Total: $5,000.
                   </p>
-                  <p className="text-xs text-green-700 font-medium mt-1">
+                  <p className="text-xs text-brand-green-700 font-medium mt-1">
                     BNPL eligible — {BNPL_PROVIDER_SUMMARY} available on deposit
                   </p>
                 </div>
@@ -322,11 +322,11 @@ export default function PeerRecoveryApplyPage() {
             />
           )}
           {fundingType === 'employer' && (
-            <div className="rounded-xl border border-green-200 bg-green-50 p-4 flex gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            <div className="rounded-xl border border-brand-green-200 bg-brand-green-50 p-4 flex gap-3">
+              <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-green-900">No payment required today</p>
-                <p className="text-xs text-green-800 mt-0.5">
+                <p className="text-sm font-semibold text-brand-green-900">No payment required today</p>
+                <p className="text-xs text-brand-green-800 mt-0.5">
                   Submit your application and our team will verify your funding eligibility within
                   1–2 business days.
                 </p>

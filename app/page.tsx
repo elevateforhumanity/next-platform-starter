@@ -68,7 +68,7 @@ export default function HomePage() {
         ].map((p) => (
           <div key={p.src} className="relative h-52 sm:h-60 lg:h-72 overflow-hidden group">
             <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <p className="text-white font-extrabold text-base leading-tight">{p.label}</p>
               <p className="text-white/80 text-xs mt-0.5">{p.sub}</p>
@@ -97,7 +97,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="text-center">
-            <Link href="/how-it-works" className="inline-block border border-white/30 text-white text-sm font-bold px-6 py-2.5 rounded-lg hover:bg-white/10 transition-colors">
+            <Link href="/how-it-works" className="inline-block border border-white/30 text-slate-900 text-sm font-bold px-6 py-2.5 rounded-lg hover:bg-white/10 transition-colors">
               View Full Process →
             </Link>
           </div>
@@ -149,7 +149,7 @@ export default function HomePage() {
                 sub: 'Post open roles, host registered apprentices, and access OJT wage reimbursement for new hires.',
                 cta: 'Employer Info →',
                 href: '/for-employers',
-                badge: 'bg-green-50 text-green-700',
+                badge: 'bg-brand-green-50 text-brand-green-700',
                 badgeText: 'Hiring incentives',
               },
               {
@@ -309,7 +309,7 @@ export default function HomePage() {
             <Link href="/apply" className="bg-white text-brand-red-700 font-bold px-8 py-3.5 rounded-lg hover:bg-red-50 transition-colors text-sm text-center">
               Apply Now
             </Link>
-            <Link href="/check-eligibility" className="border-2 border-white/60 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm text-center">
+            <Link href="/check-eligibility" className="border-2 border-white/60 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm text-center">
               Check Eligibility
             </Link>
           </div>

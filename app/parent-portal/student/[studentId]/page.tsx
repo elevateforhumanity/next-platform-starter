@@ -7,7 +7,6 @@ import {
   GraduationCap,
   BookOpen,
   Award,
-  CheckCircle2,
   ArrowLeft,
   Clock,
   BarChart3,
@@ -130,7 +129,7 @@ export default async function ParentStudentDetailPage({
         {/* Student header */}
         <div className="flex items-center gap-5 mb-10">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-            <GraduationCap className="w-8 h-8 text-blue-600" />
+            <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-blue-600" />
           </div>
           <div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900">{student.full_name}</h1>
@@ -144,7 +143,7 @@ export default async function ParentStudentDetailPage({
         <div className="grid grid-cols-3 gap-4 mb-10">
           {[
             { label: 'Active Programs', value: activeEnrollments.length, icon: BookOpen },
-            { label: 'Completed Programs', value: completedEnrollments.length, icon: CheckCircle2 },
+            { label: 'Completed Programs', value: completedEnrollments.length, icon:  },
             { label: 'Certificates', value: (certificates ?? []).length, icon: Award },
           ].map(({ label, value, icon: Icon }) => (
             <div
@@ -213,12 +212,12 @@ export default async function ParentStudentDetailPage({
         {completedEnrollments.length > 0 && (
           <section className="mb-10">
             <h2 className="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Completed Programs
+              <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" /> Completed Programs
             </h2>
             <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white overflow-hidden">
               {completedEnrollments.map((enr: any) => (
                 <div key={enr.id} className="flex items-center gap-4 px-6 py-4">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                  <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-slate-900 truncate">
                       {enr.programs?.title ?? 'Program'}
@@ -240,12 +239,12 @@ export default async function ParentStudentDetailPage({
         {(certificates ?? []).length > 0 && (
           <section className="mb-10">
             <h2 className="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-              <Award className="w-5 h-5 text-amber-500" /> Certificates Earned
+              <Award aria-label="award" className="w-5 h-5 text-amber-500" /> Certificates Earned
             </h2>
             <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white overflow-hidden">
               {(certificates ?? []).map((cert: any) => (
                 <div key={cert.id} className="flex items-center gap-4 px-6 py-4">
-                  <Award className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                  <Award aria-label="award" className="w-5 h-5 text-amber-500 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-slate-900 truncate">
                       {(cert.programs as any)?.title ?? 'Certificate'}

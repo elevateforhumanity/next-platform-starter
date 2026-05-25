@@ -183,6 +183,7 @@ export default async function ScholarshipsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[400px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image sizes="100vw"
           src="/images/pages/success-stories-hero.webp"
           alt="Scholarships and Financial Aid"
@@ -190,11 +191,11 @@ export default async function ScholarshipsPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
           <div className="max-w-5xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
-              <GraduationCap className="w-4 h-4" /> Funding Available
+            <div className="inline-flex items-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <GraduationCap aria-label="graduationcap" className="w-4 h-4" /> Funding Available
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
               Scholarships & Financial Aid
@@ -206,13 +207,13 @@ export default async function ScholarshipsPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/wioa-eligibility"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
               >
                 Check Eligibility <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/apply"
-                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40"
+                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-slate-900 px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40"
               >
                 Apply Now
               </Link>
@@ -226,7 +227,7 @@ export default async function ScholarshipsPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="text-3xl font-bold text-green-400">
+              <div className="text-3xl font-bold text-brand-green-400">
                 {fundedPct !== null ? `${fundedPct}%` : 'Most'}
               </div>
               <div className="text-slate-400 text-sm">Students Funded</div>
@@ -265,12 +266,12 @@ export default async function ScholarshipsPage() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                      <option.icon className="w-6 h-6 text-green-600" />
+                    <div className="w-12 h-12 bg-brand-green-100 rounded-xl flex items-center justify-center">
+                      <option.icon className="w-6 h-6 text-brand-green-600" />
                     </div>
                     <div>
                       <h3 className="font-bold text-xl text-slate-900">{option.title}</h3>
-                      <p className="text-green-600 font-semibold">{option.amount} covered</p>
+                      <p className="text-brand-green-600 font-semibold">{option.amount} covered</p>
                     </div>
                   </div>
                 </div>
@@ -280,7 +281,7 @@ export default async function ScholarshipsPage() {
                   <ul className="space-y-1">
                     {option.eligibility.map((item, j) => (
                       <li key={j} className="flex items-center gap-2 text-sm text-slate-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <CheckCircle className="w-4 h-4 text-brand-green-500" />
                         {item}
                       </li>
                     ))}
@@ -289,8 +290,7 @@ export default async function ScholarshipsPage() {
                 <Link
                   href={option.link}
                   className="mt-4 inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700"
-                >
-                  Learn More <ArrowRight className="w-4 h-4" />
+                >See Details<ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             ))}
@@ -299,7 +299,7 @@ export default async function ScholarshipsPage() {
       </section>
 
       {/* WIOA Section */}
-      <section className="py-16 bg-green-50">
+      <section className="py-16 bg-brand-green-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -312,7 +312,7 @@ export default async function ScholarshipsPage() {
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-6 h-6 text-brand-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">Covers Everything</h3>
                     <p className="text-slate-600">
@@ -321,7 +321,7 @@ export default async function ScholarshipsPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-6 h-6 text-brand-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">Support Services</h3>
                     <p className="text-slate-600">
@@ -330,7 +330,7 @@ export default async function ScholarshipsPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+                  <CheckCircle className="w-6 h-6 text-brand-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">No Repayment</h3>
                     <p className="text-slate-600">
@@ -341,7 +341,7 @@ export default async function ScholarshipsPage() {
               </div>
               <Link
                 href="/wioa-eligibility"
-                className="mt-8 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
+                className="mt-8 inline-flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
               >
                 Check WIOA Eligibility <ArrowRight className="w-5 h-5" />
               </Link>
@@ -363,8 +363,8 @@ export default async function ScholarshipsPage() {
                   'Lack of high school diploma',
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700">
-                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    <div className="w-6 h-6 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="w-4 h-4 text-brand-green-600" />
                     </div>
                     {item}
                   </li>
@@ -389,9 +389,9 @@ export default async function ScholarshipsPage() {
                 key={i}
                 className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 text-center"
               >
-                <Award className="w-10 h-10 text-yellow-500 mx-auto mb-4" />
+                <Award aria-label="award" className="w-10 h-10 text-yellow-500 mx-auto mb-4" />
                 <h3 className="font-bold text-lg text-slate-900 mb-2">{scholarship.name}</h3>
-                <div className="text-2xl font-bold text-green-600 mb-2">{scholarship.amount}</div>
+                <div className="text-2xl font-bold text-brand-green-600 mb-2">{scholarship.amount}</div>
                 <div className="text-sm text-slate-500 mb-4">Deadline: {scholarship.deadline}</div>
                 <p className="text-sm text-slate-600">{scholarship.criteria}</p>
               </div>
@@ -408,7 +408,7 @@ export default async function ScholarshipsPage() {
           <div className="grid md:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <div key={i} className="text-center">
-                <div className="w-14 h-14 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                <div className="w-14 h-14 bg-brand-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                   {step.num}
                 </div>
                 <h3 className="font-bold text-slate-900 mb-2">{step.title}</h3>
@@ -464,13 +464,13 @@ export default async function ScholarshipsPage() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/wioa-eligibility"
-              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105"
             >
               Check Eligibility <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/apply"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-900 px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30"
             >
               Apply Now
             </Link>

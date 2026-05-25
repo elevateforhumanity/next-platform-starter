@@ -100,6 +100,7 @@ export default async function PartnerAttendancePage() {
     <div>
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/partner-page-2.webp"
           alt="Partner attendance"
@@ -227,7 +228,7 @@ export default async function PartnerAttendancePage() {
                       {s.status || 'recorded'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-slate-700 text-sm truncate max-w-[200px]">
+                  <td className="px-6 py-4 text-slate-700 text-sm truncate max-w-7xl">
                     {s.notes || '—'}
                   </td>
                 </tr>

@@ -98,6 +98,7 @@ export default function WritingCenterPage() {
 
       {/* Hero Image */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/writing-center-page-1.jpg"
           alt="Student receiving writing assistance at the Elevate Writing Center"
@@ -268,7 +269,7 @@ export default function WritingCenterPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl hover:bg-white/10 transition text-lg border-2 border-white"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-slate-900 font-bold rounded-xl hover:bg-white/10 transition text-lg border-2 border-white"
             >
               <Phone className="w-5 h-5" /> Contact Support
             </Link>

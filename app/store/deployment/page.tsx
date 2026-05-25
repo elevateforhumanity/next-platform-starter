@@ -55,24 +55,24 @@ export default async function DeploymentPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Vercel (Recommended)</h3>
               <div className="flex items-center gap-2 mb-4">
-                <Clock className="w-5 h-5 text-green-600" />
-                <span className="font-semibold text-green-600">5 minutes</span>
+                <Clock className="w-5 h-5 text-brand-green-600" />
+                <span className="font-semibold text-brand-green-600">5 minutes</span>
               </div>
               <ul className="space-y-2 mb-6 text-slate-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>One-click deployment</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Automatic SSL certificates</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Global CDN included</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Auto-scaling</span>
                 </li>
               </ul>
@@ -116,8 +116,8 @@ export default async function DeploymentPage() {
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                <Shield className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-brand-green-100 rounded-xl flex items-center justify-center mb-4">
+                <Shield className="w-8 h-8 text-brand-green-600" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Self-Hosted</h3>
               <div className="flex items-center gap-2 mb-4">
@@ -126,23 +126,23 @@ export default async function DeploymentPage() {
               </div>
               <ul className="space-y-2 mb-6 text-slate-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Complete data ownership</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>On-premise deployment</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Air-gapped environments</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Custom security policies</span>
                 </li>
               </ul>
-              <div className="bg-green-50 rounded-lg p-4 text-sm">
+              <div className="bg-brand-green-50 rounded-lg p-4 text-sm">
                 <div className="font-bold mb-1">Cost Estimate</div>
                 <div className="text-slate-700">Hardware costs + maintenance</div>
               </div>
@@ -160,23 +160,23 @@ export default async function DeploymentPage() {
               <h3 className="text-xl font-bold mb-4">Complete Source Code</h3>
               <ul className="space-y-3 text-slate-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Full Next.js 16 application</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>TypeScript codebase</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Tailwind CSS styling</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>API routes and webhooks</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Database migrations</span>
                 </li>
               </ul>
@@ -187,23 +187,23 @@ export default async function DeploymentPage() {
               <h3 className="text-xl font-bold mb-4">Infrastructure Setup</h3>
               <ul className="space-y-3 text-slate-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Supabase database configuration</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Stripe payment integration</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Email service setup (Resend)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>File storage (S3/Cloudflare R2)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Environment configuration</span>
                 </li>
               </ul>

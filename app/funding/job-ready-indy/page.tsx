@@ -31,6 +31,7 @@ export default function JobReadyIndyPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.webp"
           alt="Job Ready Indy workforce training"
@@ -178,7 +179,7 @@ export default function JobReadyIndyPage() {
             </Link>
             <Link
               href="/contact"
-              className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition"
+              className="border-2 border-white text-slate-900 px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition"
             >
               Contact Us
             </Link>

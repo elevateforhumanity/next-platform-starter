@@ -72,8 +72,8 @@ export default function PartnerMeetingForm() {
   if (submitted) {
     return (
       <div className="text-center py-8">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-9 h-9 text-green-600" />
+        <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="w-9 h-9 text-brand-green-600" />
         </div>
         <h3 className="text-xl font-extrabold text-slate-900 mb-3">Request received</h3>
         <p className="text-slate-600 mb-2">

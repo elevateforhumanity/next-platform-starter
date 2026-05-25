@@ -213,9 +213,7 @@ function RecommendationCard({
             <Link
               href={recommendation.product.href}
               className="inline-flex items-center gap-1 text-brand-orange-600 font-semibold text-sm hover:text-brand-orange-700"
-            >
-              Learn More
-              <ArrowRight className="w-4 h-4" />
+            >See Details<ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

@@ -144,7 +144,7 @@ export default function IndustryPortalPage({
         {activePrograms.length === 0 && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 text-center">
             <div className={`w-14 h-14 ${accentBg} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-              <GraduationCap className="w-7 h-7 text-white" />
+              <GraduationCap aria-label="graduationcap" className="w-7 h-7 text-white" />
             </div>
             <h2 className="text-xl font-bold text-slate-900 mb-2">
               Welcome to {industryLabel}
@@ -170,17 +170,17 @@ export default function IndustryPortalPage({
             </h3>
             <div className="space-y-3">
               {completedPrograms.map((program) => (
-                <div key={program.slug} className="flex items-center justify-between p-3 rounded-lg bg-green-50 border border-green-100">
+                <div key={program.slug} className="flex items-center justify-between p-3 rounded-lg bg-brand-green-50 border border-brand-green-100">
                   <div className="flex items-center gap-3">
-                    <Award className="w-5 h-5 text-green-600" />
+                    <Award aria-label="award" className="w-5 h-5 text-brand-green-600" />
                     <div>
                       <p className="font-medium text-slate-900 text-sm">{program.title}</p>
-                      <p className="text-xs text-green-700">{program.credential}</p>
+                      <p className="text-xs text-brand-green-700">{program.credential}</p>
                     </div>
                   </div>
                   <Link
                     href={`/lms/certificates`}
-                    className="text-xs font-medium text-green-700 hover:underline"
+                    className="text-xs font-medium text-brand-green-700 hover:underline"
                   >
                     View Certificate →
                   </Link>

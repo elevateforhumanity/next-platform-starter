@@ -49,6 +49,7 @@ export function ProgramPageVisual({ program }: Props) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={program.heroImage}
             alt={program.title}
@@ -104,7 +105,7 @@ export function ProgramPageVisual({ program }: Props) {
             </Link>
             <Link
               href="/wioa-eligibility"
-              className="inline-flex items-center border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition"
+              className="inline-flex items-center border-2 border-white text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition"
             >
               Check Eligibility
             </Link>
@@ -258,7 +259,7 @@ export function ProgramPageVisual({ program }: Props) {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition"
+              className="inline-flex items-center border-2 border-white text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition"
             >
               Talk to Advisor
             </Link>

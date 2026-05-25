@@ -47,7 +47,7 @@ export default async function HelpPage() {
             sizes="100vw"
           />
           {/* Gradient Overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/80 to-purple-900/90" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-blue-900/90 via-brand-blue-800/80 to-brand-blue-700/90" />
         </div>
 
         {/* Hero Content */}
@@ -96,7 +96,7 @@ export default async function HelpPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition border-2 border-white"
+              className="inline-flex items-center justify-center gap-2 bg-transparent text-slate-900 px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition border-2 border-white"
             >
               <MessageCircle className="w-5 h-5" />
               Contact Support
@@ -139,16 +139,16 @@ export default async function HelpPage() {
             {/* Technical Support */}
             <Link
               href="/help/technical"
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-green-600 group"
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition border-2 border-slate-200 hover:border-brand-green-600 group"
             >
-              <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-600 transition">
-                <Headphones className="w-8 h-8 text-green-600 group-hover:text-white transition" />
+              <div className="w-16 h-16 bg-brand-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-green-600 transition">
+                <Headphones className="w-8 h-8 text-brand-green-600 group-hover:text-white transition" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Technical Support</h3>
               <p className="text-slate-600 mb-4">
                 Get help with login issues, platform navigation, and technical problems
               </p>
-              <div className="flex items-center text-green-600 font-semibold group-hover:gap-2 transition-all">
+              <div className="flex items-center text-brand-green-600 font-semibold group-hover:gap-2 transition-all">
                 <span>Get support</span>
                 <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
               </div>
@@ -207,10 +207,10 @@ export default async function HelpPage() {
                 quality={90}
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white">
                 <div className="flex items-center gap-2 mb-3">
-                  <Award className="w-6 h-6" />
+                  <Award className="w-6 h-6"  aria-label="award"/>
                   <span className="font-bold">98% Student Satisfaction</span>
                 </div>
                 <p className="text-sm text-white/90">
@@ -247,14 +247,14 @@ export default async function HelpPage() {
                   href="/help/tutorials"
                   className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-blue-50 hover:border-blue-600 border-2 border-slate-200 transition group"
                 >
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600 transition">
-                    <BookOpen className="w-6 h-6 text-green-600 group-hover:text-white transition" />
+                  <div className="w-12 h-12 bg-brand-green-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-brand-green-600 transition">
+                    <BookOpen className="w-6 h-6 text-brand-green-600 group-hover:text-white transition" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-black mb-1">Accessing Your Courses</h3>
                     <p className="text-sm text-slate-600">Complete guide • 3 min read</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-green-600 transition" />
+                  <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-brand-green-600 transition" />
                 </Link>
 
                 <Link
@@ -333,14 +333,14 @@ export default async function HelpPage() {
 
             {/* Email Support */}
             <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Mail className="w-8 h-8 text-brand-green-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Email Us</h3>
               <p className="text-slate-600 mb-6">Get a detailed response within 24 hours</p>
               <a
                 href="mailto:elevate4humanityedu@gmail.com"
-                className="text-lg font-bold text-green-600 hover:text-green-700 mb-4 block break-all"
+                className="text-lg font-bold text-brand-green-600 hover:text-brand-green-700 mb-4 block break-all"
               >
                 elevate4humanityedu@gmail.com
               </a>
@@ -380,7 +380,7 @@ export default async function HelpPage() {
               <div className="text-slate-600">Support Available</div>
             </div>
             <div>
-              <div className="text-4xl font-black text-green-600 mb-2">&lt;2hrs</div>
+              <div className="text-4xl font-black text-brand-green-600 mb-2">&lt;2hrs</div>
               <div className="text-slate-600">Average Response Time</div>
             </div>
             <div>

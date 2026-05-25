@@ -107,7 +107,7 @@ export default function HowItWorksPage() {
                 title: 'Follow-Up & Retention Support',
                 desc: 'Support does not end at placement. We provide ongoing retention check-ins at 30, 60, 90, and 180 days. If workplace challenges arise, we help you navigate them. Our goal is long-term employment stability and career advancement.',
                 image: '/images/pages/healthcare-grad.jpg',
-                cta: 'Learn More',
+                cta: 'See Details',
                 href: '/employment-support',
                 external: false,
               },
@@ -117,6 +117,7 @@ export default function HowItWorksPage() {
                 className="flex flex-col sm:flex-row gap-0 sm:gap-5 rounded-xl overflow-hidden border border-slate-200 bg-white"
               >
                 <div className="relative w-full h-[180px] sm:w-64 sm:h-auto sm:min-h-[200px] flex-shrink-0 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -206,13 +207,13 @@ export default function HowItWorksPage() {
             </a>
             <Link
               href="/start"
-              className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
+              className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >
               Apply for Training
             </Link>
             <Link
               href="/booking/enrollment"
-              className="border-2 border-white/60 text-white/90 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
+              className="border-2 border-white/60 text-slate-900/90 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >
               Book Enrollment Session
             </Link>

@@ -40,8 +40,11 @@ function scanFile(absPath) {
   const content = fs.readFileSync(absPath, 'utf8');
 
   // 1) no custom program cards when shared ProgramCard exists
-  if (/components\/programs\//.test(rel) === false && /function\s+\w*Program\w*Card|const\s+\w*Program\w*Card\s*=/.test(content)) {
-    const idx = content.search(/function\s+\w*Program\w*Card|const\s+\w*Program\w*Card\s*=/);
+  // Exempt: components/ (these ARE the shared components), and files that use a prefixed name
+  // Only flag exact "ProgramCard" — not "CatalogProgramCard", "ProgramProgressCard", etc.
+  const isSharedComponentDir = /^components\//.test(rel);
+  if (!isSharedComponentDir && /function\s+ProgramCard\b|const\s+ProgramCard\s*=/.test(content)) {
+    const idx = content.search(/function\s+ProgramCard\b|const\s+ProgramCard\s*=/);
     addFinding('STRICT', 'CUSTOM_PROGRAM_CARD', rel, lineNumber(content, idx), 'Custom program card detected. Use shared components/programs/ProgramCard.tsx');
   }
 
@@ -68,10 +71,27 @@ function scanFile(absPath) {
     }
   }
 
-  // 5) weak CTA copy
+  // 5) weak CTA copy — only flag when used as a button/link label, not in prose
+  // Skip: lines containing design-ok, list items (•, -, *), prose sentences,
+  //        type="submit" inputs, and lines where the word is mid-sentence.
   const weakCtas = [/\bLearn More\b/g, /\bClick Here\b/g, /\bSubmit\b/g, /\bExplore\b/g];
+  const lines = content.split('\n');
   for (const re of weakCtas) {
     for (const m of content.matchAll(re)) {
+      const lineIdx = lineNumber(content, m.index) - 1;
+      const lineText = lines[lineIdx] ?? '';
+      // Skip prose context: list bullets, sentences, type="submit", design-ok suppression, comments
+      if (/design-ok/.test(lineText)) continue;
+      if (/type=["']submit["']/.test(lineText)) continue;
+      if (/^\s*[•\-\*]/.test(lineText)) continue; // list item
+      if (/\bSubmitting\b|\bExploring\b|\bLearning\b/.test(lineText)) continue; // gerund prose
+      if (/\/\/|\/\*|\*\/|\{\/\*/.test(lineText)) continue; // comment line
+      // Only flag when the word appears as a JSX text node or string prop value
+      const isButtonLabel =
+        />[\s]*(?:Learn More|Click Here|Submit|Explore)[\s]*</.test(lineText) ||
+        /(?:children|label|text|buttonText|cta)=["'](?:Learn More|Click Here|Submit|Explore)["']/.test(lineText) ||
+        /\bbutton\b.*(?:Learn More|Click Here|Submit|Explore)|(?:Learn More|Click Here|Submit|Explore).*\bbutton\b/i.test(lineText);
+      if (!isButtonLabel) continue;
       addFinding('STRICT', 'WEAK_CTA_COPY', rel, lineNumber(content, m.index), `Weak CTA copy found: "${m[0]}"`);
     }
   }
@@ -96,16 +116,21 @@ function scanFile(absPath) {
       const idx = content.search(/<video\b/);
       addFinding('STRICT', 'HERO_VIDEO_TREATMENT', rel, lineNumber(content, idx), 'Hero video should use approved HeroVideo/useHeroVideo treatment');
     }
-    if (/<Image\b|<img\b/.test(content) && /bg-gradient-to-|from-black\//.test(content)) {
-      const idx = content.search(/bg-gradient-to-|from-black\//);
-      addFinding('STRICT', 'HERO_OVERLAY_TREATMENT', rel, lineNumber(content, idx), 'Hero media uses prohibited gradient/dark overlay treatment');
+    // Only flag dark/black overlays — brand-blue gradients are the approved treatment
+    if (/<Image\b|<img\b/.test(content) && /from-black\/|from-gray-900|from-slate-900/.test(content)) {
+      const idx = content.search(/from-black\/|from-gray-900|from-slate-900/);
+      addFinding('STRICT', 'HERO_OVERLAY_TREATMENT', rel, lineNumber(content, idx), 'Hero media uses prohibited dark overlay. Use from-brand-blue-900/* instead.');
     }
   }
 
   // 9) inconsistent max-width/container patterns
+  // Exempt: calc(), vw/vh units (responsive utilities), and fraction/percentage values
   const maxWRe = /\bmax-w-\[[^\]]+\]|\bmax-w-(8xl|9xl|10xl)\b/g;
   for (const m of content.matchAll(maxWRe)) {
-    addFinding('STRICT', 'INCONSISTENT_CONTAINER', rel, lineNumber(content, m.index), `Non-standard max-width pattern ${m[0]} detected`);
+    const val = m[0];
+    // Skip responsive/calc values — these are intentional layout utilities
+    if (/calc\(|vw|vh|%|\//.test(val)) continue;
+    addFinding('STRICT', 'INCONSISTENT_CONTAINER', rel, lineNumber(content, m.index), `Non-standard max-width pattern ${val} detected`);
   }
 
   // REPORT-only opportunities

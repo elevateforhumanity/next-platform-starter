@@ -169,14 +169,14 @@ export default async function CoursesPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/programs"
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-slate-900 font-semibold px-5 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm"
             >
               <BookOpen className="w-4 h-4" />
               View Full Programs
             </Link>
             <Link
               href="/apprenticeships"
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-slate-900 font-semibold px-5 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm"
             >
               Apprenticeships
               <ChevronRight className="w-4 h-4" />
@@ -234,6 +234,7 @@ export default async function CoursesPage() {
                       {/* Image */}
                       {course.image_url && (
                         <div className="relative h-40 w-full overflow-hidden rounded-t-xl bg-slate-100 flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                           <Image
                             src={course.image_url}
                             alt={course.title}
@@ -272,7 +273,7 @@ export default async function CoursesPage() {
                           )}
                           {course.credential && (
                             <span className="flex items-center gap-1">
-                              <Award className="w-3 h-3" />
+                              <Award aria-label="award" className="w-3 h-3" />
                               {course.credential}
                             </span>
                           )}

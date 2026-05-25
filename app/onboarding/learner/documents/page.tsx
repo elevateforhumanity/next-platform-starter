@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { normalizeSsn, formatSsn, isValidSsn } from '@/lib/ssn';
-import { ArrowLeft, CheckCircle2, Upload, FileText, X, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Upload, FileText, X, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 interface DocRequirement {
@@ -369,7 +369,7 @@ export default function DocumentsPage() {
                     className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isUploaded ? 'bg-brand-blue-100' : 'bg-white'}`}
                   >
                     {isUploaded ? (
-                      <CheckCircle2 className="w-5 h-5 text-brand-blue-600" />
+                      <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
                     ) : (
                       <FileText className="w-5 h-5 text-slate-700" />
                     )}

@@ -89,7 +89,7 @@ export default function FinancingPage() {
       {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-white/10 text-slate-900 text-sm font-medium px-4 py-2 rounded-full mb-6">
             <DollarSign className="w-4 h-4" /> Flexible Financing
           </div>
           <h1 className="text-4xl font-extrabold mb-4">Don't let cost stop you</h1>
@@ -107,12 +107,12 @@ export default function FinancingPage() {
             const Icon = opt.icon;
             const colors: Record<string, string> = {
               blue: 'border-blue-200 bg-blue-50',
-              green: 'border-green-200 bg-green-50',
+              green: 'border-brand-green-200 bg-brand-green-50',
               amber: 'border-amber-200 bg-amber-50',
             };
             const btnColors: Record<string, string> = {
               blue: 'bg-blue-600 hover:bg-blue-700',
-              green: 'bg-green-600 hover:bg-green-700',
+              green: 'bg-brand-green-600 hover:bg-brand-green-700',
               amber: 'bg-amber-600 hover:bg-amber-700',
             };
             return (
@@ -129,7 +129,7 @@ export default function FinancingPage() {
                 <ul className="space-y-2 mb-6 flex-1">
                   {opt.terms.map((t) => (
                     <li key={t} className="flex items-center gap-2 text-sm text-slate-700">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
                       {t}
                     </li>
                   ))}

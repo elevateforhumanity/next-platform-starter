@@ -33,7 +33,7 @@ const PARTNER_TYPES = [
       'Send participant referrals via our intake form',
       'We enroll, train, and report outcomes back to your agency',
     ],
-    cta: { label: 'Learn More', href: '/partners/workforce' },
+    cta: { label: 'See Details', href: '/partners/workforce' },
     apply: { label: 'Start a Referral Partnership', href: '/apply/intake' },
     image: '/images/pages/workforce-partners-page-1.webp',
   },
@@ -48,7 +48,7 @@ const PARTNER_TYPES = [
       'Tell us what roles you are hiring for',
       'We match you with certified graduates and coordinate interviews',
     ],
-    cta: { label: 'Learn More', href: '/partnerships' },
+    cta: { label: 'See Details', href: '/partnerships' },
     apply: { label: 'Apply as Employer Partner', href: '/apply/employer' },
     image: '/images/pages/employer-handshake.webp',
   },
@@ -63,7 +63,7 @@ const PARTNER_TYPES = [
       'Sign the Memorandum of Understanding (MOU)',
       'Receive your first apprentice placement',
     ],
-    cta: { label: 'Learn More', href: '/partners/barbershop-apprenticeship' },
+    cta: { label: 'See Details', href: '/partners/barbershop-apprenticeship' },
     apply: {
       label: 'Apply to Host an Apprentice',
       href: '/partners/barbershop-apprenticeship/apply',
@@ -81,7 +81,7 @@ const PARTNER_TYPES = [
       'We review your credentials and program outcomes',
       'Sign the provider agreement and begin receiving referrals',
     ],
-    cta: { label: 'Learn More', href: '/for-providers' },
+    cta: { label: 'See Details', href: '/for-providers' },
     apply: { label: 'Apply as Training Provider', href: '/apply/program-holder' },
     image: '/images/pages/tech-classroom.webp',
   },
@@ -96,7 +96,7 @@ const PARTNER_TYPES = [
       'Set up a referral pipeline for Job Ready Indy-eligible participants',
       'We enroll, train, and report employment outcomes',
     ],
-    cta: { label: 'Learn More', href: '/partners/reentry' },
+    cta: { label: 'See Details', href: '/partners/reentry' },
     apply: { label: 'Refer a Participant', href: '/apply/intake' },
     image: '/images/pages/community-page-4.webp',
   },
@@ -111,7 +111,7 @@ const PARTNER_TYPES = [
       'Schedule a technical discovery call',
       'Sign a data sharing or licensing agreement',
     ],
-    cta: { label: 'Learn More', href: '/partners/technology' },
+    cta: { label: 'See Details', href: '/partners/technology' },
     apply: { label: 'Request API Access', href: '/partners/sales' },
     image: '/images/pages/technology-sector.webp',
   },
@@ -153,6 +153,7 @@ export default function PartnersIndexPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] min-h-[300px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/workforce-partnership-hero.webp"
             alt="Workforce partnership meeting"

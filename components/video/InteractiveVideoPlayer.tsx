@@ -192,7 +192,7 @@ export default function InteractiveVideoPlayer({
                   variant="ghost"
                   size="icon"
                   onClick={togglePlay}
-                  className="text-white hover:bg-white/20"
+                  className="text-slate-900 hover:bg-white/20"
                 >
                   {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </Button>
@@ -218,7 +218,7 @@ export default function InteractiveVideoPlayer({
                   variant="ghost"
                   size="icon"
                   onClick={toggleMute}
-                  className="text-white hover:bg-white/20"
+                  className="text-slate-900 hover:bg-white/20"
                 >
                   {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                 </Button>
@@ -226,7 +226,7 @@ export default function InteractiveVideoPlayer({
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowTranscript(!showTranscript)}
-                  className="text-white hover:bg-white/20"
+                  className="text-slate-900 hover:bg-white/20"
                 >
                   <Settings className="h-5 w-5" />
                 </Button>
@@ -234,7 +234,7 @@ export default function InteractiveVideoPlayer({
                   variant="ghost"
                   size="icon"
                   onClick={toggleFullscreen}
-                  className="text-white hover:bg-white/20"
+                  className="text-slate-900 hover:bg-white/20"
                 >
                   <Maximize className="h-5 w-5" />
                 </Button>

@@ -175,7 +175,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
 
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors font-semibold"
+                  className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-slate-900 rounded-lg hover:bg-white/30 transition-colors font-semibold"
                 >
                   <Share2 className="w-5 h-5" />
                   Share
@@ -317,7 +317,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
           </div>
         ) : (
           <div className="p-12 text-center">
-            <Award className="w-16 h-16 text-slate-700 mx-auto mb-4" />
+            <Award aria-label="award" className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <p className="text-black">No referrals yet. Start sharing your code!</p>
           </div>
         )}

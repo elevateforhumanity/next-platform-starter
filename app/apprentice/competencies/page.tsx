@@ -4,7 +4,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  CheckCircle2,
   Circle,
   Clock,
   Plus,
@@ -65,8 +64,8 @@ type CategoryWithSkills = {
 function StatusPill({ verified, pending }: { verified: number; pending: number }) {
   if (verified > 0) {
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-        <CheckCircle2 className="w-3 h-3" /> {verified} verified
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-green-100 text-brand-green-800">
+        <span className="w-3 h-3 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> {verified} verified
       </span>
     );
   }
@@ -243,7 +242,7 @@ export default async function ApprenticeCompetenciesPage() {
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">Skills Verified</p>
-            <p className="text-2xl font-black text-green-700">{verifiedSkills}</p>
+            <p className="text-2xl font-black text-brand-green-700">{verifiedSkills}</p>
             <p className="text-xs text-slate-400">supervisor sign-off</p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-4">
@@ -384,7 +383,7 @@ export default async function ApprenticeCompetenciesPage() {
                   <span
                     className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
                       e.status === 'verified'
-                        ? 'bg-green-100 text-green-800'
+                        ? 'bg-brand-green-100 text-brand-green-800'
                         : e.status === 'rejected'
                           ? 'bg-red-100 text-red-700'
                           : 'bg-amber-100 text-amber-800'

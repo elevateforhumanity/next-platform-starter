@@ -115,7 +115,7 @@ export function NotificationBell() {
       case 'course':
         return <BookOpen className="w-5 h-5 text-brand-blue-600" />;
       case 'certificate':
-        return <Award className="w-5 h-5 text-brand-orange-600" />;
+        return <Award aria-label="award" className="w-5 h-5 text-brand-orange-600" />;
       case 'message':
         return <Bell className="w-5 h-5 text-brand-green-600" />;
       default:

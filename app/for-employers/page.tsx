@@ -60,6 +60,7 @@ export default async function ForEmployersPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/for-employers-page-1.webp"
           alt="Employer partner meeting with Elevate for Humanity team"
@@ -71,7 +72,7 @@ export default async function ForEmployersPage() {
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-4">
         <div className="max-w-6xl mx-auto">
-          <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">
+          <p className="text-brand-green-600 font-bold text-xs uppercase tracking-widest mb-2">
             For Employers
           </p>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
@@ -128,7 +129,7 @@ export default async function ForEmployersPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">
+            <p className="text-brand-green-600 font-bold text-xs uppercase tracking-widest mb-2">
               Three Employer Paths
             </p>
             <h2 className="text-3xl font-bold mb-4">
@@ -141,9 +142,9 @@ export default async function ForEmployersPage() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Path 1: Hire */}
-            <div className="bg-white rounded-xl border-t-4 border-green-500 shadow-sm p-6 flex flex-col">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-5 h-5 text-green-700" />
+            <div className="bg-white rounded-xl border-t-4 border-brand-green-500 shadow-sm p-6 flex flex-col">
+              <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-5 h-5 text-brand-green-700" />
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">
                 Hire Pre-Credentialed Graduates
@@ -161,14 +162,14 @@ export default async function ForEmployersPage() {
                   'Business & Finance',
                 ].map((i) => (
                   <li key={i} className="flex items-center gap-2 text-xs text-slate-600">
-                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-500 flex-shrink-0" />
                     {i}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/employer/dashboard"
-                className="bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
+                className="bg-brand-green-600 hover:bg-brand-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
               >
                 Browse Talent Pipeline →
               </Link>
@@ -177,7 +178,7 @@ export default async function ForEmployersPage() {
             {/* Path 2: OJT / Sponsor */}
             <div className="bg-white rounded-xl border-t-4 border-blue-500 shadow-sm p-6 flex flex-col">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Award className="w-5 h-5 text-blue-700" />
+                <Award aria-label="award" className="w-5 h-5 text-blue-700" />
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">Sponsor a DOL Apprentice</h3>
               <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
@@ -371,7 +372,7 @@ export default async function ForEmployersPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition text-lg"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition text-lg"
             >
               <Phone className="w-5 h-5" />
               Contact Us

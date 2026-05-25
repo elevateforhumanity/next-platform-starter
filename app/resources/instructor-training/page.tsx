@@ -123,7 +123,7 @@ export default function InstructorTrainingPage() {
               <p className="text-sm text-slate-600">Training Modules</p>
             </div>
             <div className="text-center p-4 bg-white rounded-lg">
-              <Award className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
+              <Award aria-label="award" className="w-8 h-8 text-brand-blue-600 mx-auto mb-2" />
               <p className="text-2xl font-bold text-slate-900">8</p>
               <p className="text-sm text-slate-600">Annual CE Hours</p>
             </div>
@@ -166,7 +166,7 @@ export default function InstructorTrainingPage() {
                 className="flex items-center justify-between p-4 border rounded-lg"
               >
                 <div className="flex items-center gap-3">
-                  <Award className="w-5 h-5 text-brand-blue-600" />
+                  <Award aria-label="award" className="w-5 h-5 text-brand-blue-600" />
                   <span className="text-slate-900 font-medium">{cert.name}</span>
                 </div>
                 <span

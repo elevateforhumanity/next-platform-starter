@@ -114,8 +114,8 @@ export function AIChatPanel(props: { programSlug: string }) {
             <div
               className={
                 m.role === 'student'
-                  ? 'max-w-[80%] rounded-2xl bg-zinc-900 text-white px-4 py-2 text-sm'
-                  : 'max-w-[80%] rounded-2xl bg-zinc-100 text-zinc-900 px-4 py-2 text-sm'
+                  ? 'max-w-4/5 rounded-2xl bg-zinc-900 text-white px-4 py-2 text-sm'
+                  : 'max-w-4/5 rounded-2xl bg-zinc-100 text-zinc-900 px-4 py-2 text-sm'
               }
             >
               <div>{m.content}</div>

@@ -134,6 +134,7 @@ export default function CompetencyVerificationPage() {
 
       {/* Hero */}
       <section className="relative h-[240px] sm:h-[300px] print:hidden overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/compliance-page-2.webp"
           alt="Competency assessment in progress"

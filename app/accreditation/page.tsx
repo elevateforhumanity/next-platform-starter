@@ -48,7 +48,7 @@ export default function AccreditationPage() {
               { title: 'Digital & Technical Pathways', desc: 'Entry-level IT and digital skills training aligned with employer demand.' },
             ].map((item, i) => (
               <div key={i} className="flex gap-3 p-5 rounded-xl border border-slate-100 bg-slate-50">
-                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900 mb-1">{item.title}</p>
                   <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
@@ -106,7 +106,7 @@ export default function AccreditationPage() {
                 { label: 'VITA Site', detail: 'IRS-authorized Volunteer Income Tax Assistance site — free tax preparation for qualifying individuals.' },
               ].map((cred) => (
                 <div key={cred.label} className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-slate-900 text-sm mb-1">{cred.label}</p>
                     <p className="text-slate-600 text-xs leading-relaxed">{cred.detail}</p>
@@ -126,7 +126,7 @@ export default function AccreditationPage() {
                 { label: 'Black Certified — Partner', detail: 'Certified partner for Black Certified credentialing and professional development programs.' },
               ].map((cred) => (
                 <div key={cred.label} className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50">
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-slate-900 text-sm mb-1">{cred.label}</p>
                     <p className="text-slate-600 text-xs leading-relaxed">{cred.detail}</p>
@@ -162,7 +162,7 @@ export default function AccreditationPage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Military Service</p>
             <div className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 max-w-md">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold text-slate-900 text-sm mb-1">U.S. Army Veteran</p>
                 <p className="text-slate-600 text-xs leading-relaxed">Unit Supply Specialist — honorably served.</p>

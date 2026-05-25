@@ -63,6 +63,7 @@ export default function StateCommunityServicesPage({ state }: StateCommunityServ
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/hero-images/services-hero.jpg"
             alt={`Community Services in ${state.name}`}
@@ -166,7 +167,7 @@ export default function StateCommunityServicesPage({ state }: StateCommunityServ
               </Link>
               <Link
                 href="/check-eligibility"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
+                className="border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
               >
                 Check Eligibility
               </Link>

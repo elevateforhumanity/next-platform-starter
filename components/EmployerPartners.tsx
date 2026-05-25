@@ -413,7 +413,7 @@ export default function EmployerPartners({
               </Link>
               <Link
                 href="/hire-graduates"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/20 text-white rounded-lg font-semibold hover:bg-white/30 transition-all text-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white/20 text-slate-900 rounded-lg font-semibold hover:bg-white/30 transition-all text-lg"
               >
                 Hire Our Graduates
                 <Users className="w-5 h-5" />

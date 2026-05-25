@@ -19,7 +19,6 @@
 import { useState, useEffect } from 'react';
 import {
   Clock,
-  CheckCircle2,
   XCircle,
   RotateCcw,
   AlertCircle,
@@ -72,8 +71,8 @@ const STATUS_UI: Record<
   },
   approved: {
     label: 'Approved',
-    color: 'bg-green-50 border-green-200 text-green-700',
-    icon: <CheckCircle2 className="w-4 h-4" />,
+    color: 'bg-brand-green-50 border-brand-green-200 text-brand-green-700',
+    icon: <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
   },
   rejected: {
     label: 'Not accepted',
@@ -263,7 +262,7 @@ export default function PracticalLessonShell({
                 <p className="text-xs text-slate-500 mb-1">Hours Completed</p>
                 <div className="flex items-end gap-1">
                   <span
-                    className={`text-2xl font-bold ${hoursComplete ? 'text-green-600' : 'text-slate-800'}`}
+                    className={`text-2xl font-bold ${hoursComplete ? 'text-brand-green-600' : 'text-slate-800'}`}
                   >
                     {accumulatedHours}
                   </span>
@@ -271,7 +270,7 @@ export default function PracticalLessonShell({
                 </div>
                 <div className="w-full bg-slate-100 rounded-full h-2 mt-2">
                   <div
-                    className={`h-2 rounded-full transition-all ${hoursComplete ? 'bg-green-500' : 'bg-brand-blue-500'}`}
+                    className={`h-2 rounded-full transition-all ${hoursComplete ? 'bg-brand-green-500' : 'bg-brand-blue-500'}`}
                     style={{ width: `${Math.min(100, (accumulatedHours / requiredHours) * 100)}%` }}
                   />
                 </div>
@@ -282,7 +281,7 @@ export default function PracticalLessonShell({
                 <p className="text-xs text-slate-500 mb-1">Approved Attempts</p>
                 <div className="flex items-end gap-1">
                   <span
-                    className={`text-2xl font-bold ${attemptsComplete ? 'text-green-600' : 'text-slate-800'}`}
+                    className={`text-2xl font-bold ${attemptsComplete ? 'text-brand-green-600' : 'text-slate-800'}`}
                   >
                     {approvedAttempts}
                   </span>
@@ -362,18 +361,18 @@ export default function PracticalLessonShell({
 
       {/* Completion gate */}
       <div
-        className={`border rounded-xl p-4 ${allComplete ? 'border-green-200 bg-green-50' : 'border-slate-200 bg-slate-50'}`}
+        className={`border rounded-xl p-4 ${allComplete ? 'border-brand-green-200 bg-brand-green-50' : 'border-slate-200 bg-slate-50'}`}
       >
         <p className="text-sm font-semibold text-slate-700 mb-3">Completion Requirements</p>
         <div className="space-y-2">
           {requiredHours > 0 && (
             <div className="flex items-center gap-2 text-sm">
               {hoursComplete ? (
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-slate-400" />
               )}
-              <span className={hoursComplete ? 'text-green-700' : 'text-slate-600'}>
+              <span className={hoursComplete ? 'text-brand-green-700' : 'text-slate-600'}>
                 {requiredHours} hours completed ({accumulatedHours} / {requiredHours})
               </span>
             </div>
@@ -381,11 +380,11 @@ export default function PracticalLessonShell({
           {requiredAttempts > 0 && (
             <div className="flex items-center gap-2 text-sm">
               {attemptsComplete ? (
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-slate-400" />
               )}
-              <span className={attemptsComplete ? 'text-green-700' : 'text-slate-600'}>
+              <span className={attemptsComplete ? 'text-brand-green-700' : 'text-slate-600'}>
                 {requiredAttempts} approved attempts ({approvedAttempts} / {requiredAttempts})
               </span>
             </div>
@@ -393,11 +392,11 @@ export default function PracticalLessonShell({
           {requiresEvidence && (
             <div className="flex items-center gap-2 text-sm">
               {evidenceComplete ? (
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-slate-400" />
               )}
-              <span className={evidenceComplete ? 'text-green-700' : 'text-slate-600'}>
+              <span className={evidenceComplete ? 'text-brand-green-700' : 'text-slate-600'}>
                 Evidence {requiresEvaluator ? 'approved by evaluator' : 'submitted'}
               </span>
             </div>
@@ -408,9 +407,9 @@ export default function PracticalLessonShell({
           <button
             type="button"
             onClick={onComplete}
-            className="mt-4 flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"
+            className="mt-4 flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"
           >
-            <Award className="w-4 h-4" />
+            <Award aria-label="award" className="w-4 h-4" />
             Mark Complete
           </button>
         )}

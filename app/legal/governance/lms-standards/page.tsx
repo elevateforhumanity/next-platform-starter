@@ -339,7 +339,7 @@ export default async function LMSStandardsPage() {
 
         <section id="certification" className="mb-12">
           <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-            <Award className="w-6 h-6 text-brand-green-600" />
+            <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
             5. Certification & Credentials
           </h2>
 

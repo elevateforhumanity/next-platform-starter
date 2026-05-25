@@ -37,7 +37,7 @@ export function TermsAcceptBanner() {
 
   if (accepted) {
     return (
-      <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-sm text-green-700 font-medium">
+      <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 rounded-lg px-4 py-3 text-sm text-brand-green-700 font-medium">
         <CheckCircle className="w-4 h-4 flex-shrink-0" />
         Terms accepted — thank you.
       </div>

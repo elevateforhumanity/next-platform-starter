@@ -14,7 +14,7 @@ export function CredentialsOutcomes({
   return (
     <div className="bg-brand-blue-50 rounded-xl p-8 border-2 border-brand-blue-200">
       <h3 className="text-2xl font-bold text-black mb-6 flex items-center gap-3">
-        <Award className="w-7 h-7 text-brand-blue-600" />
+        <Award aria-label="award" className="w-7 h-7 text-brand-blue-600" />
         Credentials & Outcomes
       </h3>
 

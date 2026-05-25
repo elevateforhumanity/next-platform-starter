@@ -127,13 +127,13 @@ function VideoPlayer({ src, onClose }: { src: string; onClose: () => void }) {
     <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition"
+        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 text-slate-900 flex items-center justify-center hover:bg-white/20 transition"
       >
         <X className="w-5 h-5" />
       </button>
       <button
         onClick={handleFullscreen}
-        className="absolute top-4 right-16 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition"
+        className="absolute top-4 right-16 z-10 w-10 h-10 rounded-full bg-white/10 text-slate-900 flex items-center justify-center hover:bg-white/20 transition"
       >
         <Maximize2 className="w-4 h-4" />
       </button>
@@ -168,6 +168,7 @@ function LessonDrawer({
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-md bg-white shadow-2xl overflow-y-auto">
         <div className="relative h-44">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image sizes="100vw"
             src={MODULE_PHOTO[index] || MODULE_PHOTO[0]}
             alt={module.title}
@@ -177,7 +178,7 @@ function LessonDrawer({
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur text-white flex items-center justify-center hover:bg-white/40 transition"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur text-slate-900 flex items-center justify-center hover:bg-white/40 transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -204,7 +205,7 @@ function LessonDrawer({
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-semibold ${
                     isDone
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-brand-green-500 text-white'
                       : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
                   }`}
                 >
@@ -388,7 +389,7 @@ export default function HvacCourseHome({
                             onClick={() => setSearchQuery('')}
                             className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition"
                           >
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isDone ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-500'}`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isDone ? 'bg-brand-green-100 text-brand-green-600' : 'bg-slate-100 text-slate-500'}`}>
                               {isDone ? <Play className="w-3.5 h-3.5" /> : <Ic className="w-3.5 h-3.5" />}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -494,7 +495,7 @@ export default function HvacCourseHome({
                     {i + 1}
                   </div>
                   {isComplete && (
-                    <div className="absolute top-3 right-3 px-2.5 py-1 bg-green-500 text-white text-[10px] font-bold rounded-full shadow uppercase tracking-wide">
+                    <div className="absolute top-3 right-3 px-2.5 py-1 bg-brand-green-500 text-white text-[10px] font-bold rounded-full shadow uppercase tracking-wide">
                       Done
                     </div>
                   )}
@@ -536,7 +537,7 @@ export default function HvacCourseHome({
                   </div>
                   <div className="mt-3 w-full bg-slate-100 rounded-full h-1.5">
                     <div
-                      className={`h-1.5 rounded-full transition-all duration-300 ${isComplete ? 'bg-green-500' : pct > 0 ? 'bg-slate-800' : 'bg-slate-200'}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${isComplete ? 'bg-brand-green-500' : pct > 0 ? 'bg-slate-800' : 'bg-slate-200'}`}
                       style={{ width: `${Math.max(pct, 2)}%` }}
                     />
                   </div>

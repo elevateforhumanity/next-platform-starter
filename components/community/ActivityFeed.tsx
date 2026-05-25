@@ -58,7 +58,7 @@ export default function ActivityFeed() {
         return <Heart className="w-5 h-5 text-brand-red-500" />;
       case 'achievement':
       case 'certificate':
-        return <Award className="w-5 h-5 text-yellow-500" />;
+        return <Award aria-label="award" className="w-5 h-5 text-yellow-500" />;
       case 'course':
       case 'lesson':
         return <BookOpen className="w-5 h-5 text-brand-green-500" />;

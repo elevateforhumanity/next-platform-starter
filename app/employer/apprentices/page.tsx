@@ -97,7 +97,7 @@ export default async function EmployerApprenticesPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <StatCard label="Total Apprentices" value={rows.length} icon={<Users className="w-5 h-5 text-brand-blue-600" />} />
           <StatCard label="Active" value={activeCount} icon={<Clock3 className="w-5 h-5 text-brand-green-600" />} />
-          <StatCard label="Completed" value={completedCount} icon={<GraduationCap className="w-5 h-5 text-brand-blue-600" />} />
+          <StatCard label="Completed" value={completedCount} icon={<GraduationCap aria-label="graduationcap" className="w-5 h-5 text-brand-blue-600" />} />
         </div>
 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">

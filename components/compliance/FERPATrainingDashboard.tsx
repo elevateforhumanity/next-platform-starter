@@ -201,7 +201,7 @@ export default function FERPATrainingDashboard({
           <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-purple-100 rounded-lg">
-                <Award className="w-6 h-6 text-purple-600" />
+                <Award aria-label="award" className="w-6 h-6 text-purple-600" />
               </div>
             </div>
             <div className="text-3xl font-bold text-purple-600">{complianceRate}%</div>

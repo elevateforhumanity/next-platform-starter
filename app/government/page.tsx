@@ -131,6 +131,7 @@ export default async function GovernmentPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <div className="relative h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/workforce-board.webp"
                   alt="Workforce Development Boards"

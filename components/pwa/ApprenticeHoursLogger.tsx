@@ -20,7 +20,6 @@ import {
   Clock,
   Calendar,
   Loader2,
-  CheckCircle2,
   Scissors,
   BookOpen,
   Sparkles,
@@ -140,7 +139,7 @@ export default function ApprenticeHoursLogger({
       <main className="px-4 py-6 max-w-lg mx-auto">
         {success ? (
           <div className="bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-6 text-center space-y-3">
-            <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+            <span className="w-10 h-10 rounded-full bg-emerald-400 inline-block flex-shrink-0 mx-auto" aria-hidden="true" />
             <p className="text-emerald-300 font-bold">Hours logged successfully!</p>
             <p className="text-emerald-400 text-sm">Your supervisor will review and approve.</p>
           </div>

@@ -87,7 +87,7 @@ export default function InviteStaff({ tenantId }: { tenantId: string }) {
 
       {error && <p className="text-sm text-red-600">{error}</p>}
       {done && (
-        <div className="flex items-center gap-2 text-green-700 text-sm">
+        <div className="flex items-center gap-2 text-brand-green-700 text-sm">
           <CheckCircle className="w-4 h-4" /> Invite sent.
         </div>
       )}

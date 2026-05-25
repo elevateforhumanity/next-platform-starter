@@ -40,6 +40,7 @@ export default function GrantProgramsPage() {
 
       {/* Hero Section */}
       <section className="relative h-[400px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/heroes/lms-analytics.webp"
           alt="Funded Training Programs"
@@ -179,9 +180,7 @@ export default function GrantProgramsPage() {
                   <Link
                     href={`/programs/${program.slug}`}
                     className="block w-full text-center bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                  >
-                    Learn More
-                  </Link>
+                  >See Details</Link>
                 </div>
               </div>
             ))}

@@ -102,7 +102,7 @@ export function SitePreviewPanel({ sites }: Props) {
                 {state === null ? (
                   <Clock className="w-4 h-4 text-slate-300 flex-shrink-0 animate-pulse" />
                 ) : state === 'healthy' ? (
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
                 ) : state === 'degraded' ? (
                   <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
                 ) : (
@@ -118,7 +118,7 @@ export function SitePreviewPanel({ sites }: Props) {
               <div className="flex items-center gap-3 flex-shrink-0 ml-4">
                 {state !== null && (
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    state === 'healthy' ? 'bg-green-50 text-green-700' :
+                    state === 'healthy' ? 'bg-brand-green-50 text-brand-green-700' :
                     state === 'degraded' ? 'bg-amber-50 text-amber-700' :
                     'bg-red-50 text-red-700'
                   }`}>

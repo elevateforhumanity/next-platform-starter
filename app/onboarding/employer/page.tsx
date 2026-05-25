@@ -261,14 +261,14 @@ export default async function EmployerOnboardingPage() {
         )}
 
         {isApproved && progressPercent === 100 && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+          <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4 mb-6 flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 text-brand-green-600 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="font-medium text-green-800">Onboarding Complete</p>
-              <p className="text-sm text-green-700">Your employer portal is fully activated.</p>
+              <p className="font-medium text-brand-green-800">Onboarding Complete</p>
+              <p className="text-sm text-brand-green-700">Your employer portal is fully activated.</p>
               <Link
                 href="/employer/dashboard"
-                className="text-sm font-medium text-green-800 underline mt-1 inline-block"
+                className="text-sm font-medium text-brand-green-800 underline mt-1 inline-block"
               >
                 Go to Dashboard →
               </Link>
@@ -285,14 +285,14 @@ export default async function EmployerOnboardingPage() {
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center ${
                     step.status === 'complete'
-                      ? 'bg-green-100'
+                      ? 'bg-brand-green-100'
                       : step.status === 'current'
                         ? 'bg-brand-blue-100'
                         : 'bg-slate-100'
                   }`}
                 >
                   {step.status === 'complete' ? (
-                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <CheckCircle className="w-5 h-5 text-brand-green-600" />
                   ) : step.status === 'current' ? (
                     <Icon className="w-5 h-5 text-brand-blue-600" />
                   ) : (
@@ -319,7 +319,7 @@ export default async function EmployerOnboardingPage() {
                   </Link>
                 )}
                 {step.status === 'complete' && (
-                  <span className="text-sm text-green-600 font-medium">Done</span>
+                  <span className="text-sm text-brand-green-600 font-medium">Done</span>
                 )}
               </div>
             );
@@ -343,11 +343,11 @@ export default async function EmployerOnboardingPage() {
             ].map((doc) => (
               <div key={doc.label} className="flex items-center gap-2 text-sm">
                 {doc.done ? (
-                  <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0" />
                 ) : (
                   <div className="w-4 h-4 rounded-full border-2 border-slate-300 flex-shrink-0" />
                 )}
-                <span className={doc.done ? 'text-green-800' : 'text-slate-900'}>{doc.label}</span>
+                <span className={doc.done ? 'text-brand-green-800' : 'text-slate-900'}>{doc.label}</span>
               </div>
             ))}
           </div>

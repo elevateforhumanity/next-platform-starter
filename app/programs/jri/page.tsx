@@ -64,6 +64,7 @@ export default async function JRIProgramsPage() {
 
       {/* Hero image — no overlay, no text on image per design standard */}
       <div className="relative w-full overflow-hidden" style={{ height: 'clamp(280px, 45vw, 560px)' }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.webp"
           alt="Second chance career training — JRI programs at Elevate for Humanity"
@@ -211,7 +212,7 @@ export default async function JRIProgramsPage() {
               <span className="text-sm font-semibold">DOL Registered Apprenticeships</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Earn While You Learn</h2>
-            <p className="text-xl text-green-100">
+            <p className="text-xl text-brand-green-100">
               Get paid while you train through DOL-registered apprenticeship programs
             </p>
           </div>
@@ -224,21 +225,21 @@ export default async function JRIProgramsPage() {
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">Get Hired First</p>
-                    <p className="text-green-100">Start working with an employer immediately</p>
+                    <p className="text-brand-green-100">Start working with an employer immediately</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">Earn a Paycheck</p>
-                    <p className="text-green-100">Get paid hourly wages while you train</p>
+                    <p className="text-brand-green-100">Get paid hourly wages while you train</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">Learn on the Job</p>
-                    <p className="text-green-100">Hands-on training with experienced mentors</p>
+                    <p className="text-brand-green-100">Hands-on training with experienced mentors</p>
                   </div>
                 </div>
               </div>
@@ -247,21 +248,21 @@ export default async function JRIProgramsPage() {
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">Free Classroom Training</p>
-                    <p className="text-green-100">Related instruction at no cost to you</p>
+                    <p className="text-brand-green-100">Related instruction at no cost to you</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">Earn Certifications</p>
-                    <p className="text-green-100">Industry-recognized credentials included</p>
+                    <p className="text-brand-green-100">Industry-recognized credentials included</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">✓</span>
                   <div>
                     <p className="font-bold text-lg">No Student Debt</p>
-                    <p className="text-green-100">Zero tuition - you get paid to learn</p>
+                    <p className="text-brand-green-100">Zero tuition - you get paid to learn</p>
                   </div>
                 </div>
               </div>
@@ -307,7 +308,7 @@ export default async function JRIProgramsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/programs/apprenticeships"
-                className="inline-flex px-8 py-4 bg-white text-brand-green-600 font-bold rounded-lg hover:bg-green-50 transition text-lg"
+                className="inline-flex px-8 py-4 bg-white text-brand-green-600 font-bold rounded-lg hover:bg-brand-green-50 transition text-lg"
               >
                 View All Apprenticeships
               </Link>
@@ -353,7 +354,7 @@ export default async function JRIProgramsPage() {
                     <span className="px-3 py-2 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">
                       {program.duration}
                     </span>
-                    <span className="px-3 py-2 bg-brand-green-100 text-green-700 text-xs font-semibold rounded-full">
+                    <span className="px-3 py-2 bg-brand-green-100 text-brand-green-700 text-xs font-semibold rounded-full">
                       JRI Funded
                     </span>
                   </div>

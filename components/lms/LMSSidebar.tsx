@@ -129,7 +129,7 @@ export function LMSSidebar({
       <div className="flex items-center justify-between px-4 h-16 border-b border-slate-800 flex-shrink-0">
         <Link href="/lms/dashboard" className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 bg-brand-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-            <GraduationCap className="w-5 h-5 text-white" />
+            <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-white" />
           </div>
           {!collapsed && (
             <span className="font-black text-white text-sm tracking-tight truncate">
@@ -269,7 +269,7 @@ export function LMSSidebar({
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-slate-900 border-b border-slate-800 h-14 flex items-center justify-between px-4">
         <Link href="/lms/dashboard" className="flex items-center gap-2">
           <div className="w-7 h-7 bg-brand-blue-600 rounded-lg flex items-center justify-center">
-            <GraduationCap className="w-4 h-4 text-white" />
+            <GraduationCap aria-label="graduationcap" className="w-4 h-4 text-white" />
           </div>
           <span className="font-black text-white text-sm">Elevate LMS</span>
         </Link>

@@ -28,6 +28,7 @@ export default function DirectSupportProfessionalPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/gallery/image2.webp"
           alt="Direct Support Professional training session"
@@ -36,7 +37,7 @@ export default function DirectSupportProfessionalPage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
         <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
             Direct Support Professional

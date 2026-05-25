@@ -23,6 +23,7 @@ export default function BankingPage() {
 
       {/* Hero */}
       <section className="relative h-64 md:h-80 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/banking-page-2.webp"
           alt="Tax preparation and banking services"
@@ -106,9 +107,7 @@ export default function BankingPage() {
                 <Link
                   href="/banking/refund-advance"
                   className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
-                >
-                  Learn More
-                </Link>
+                >See Details</Link>
               </div>
             </div>
 
@@ -149,9 +148,7 @@ export default function BankingPage() {
                 <Link
                   href="/banking/direct-deposit"
                   className="block w-full bg-brand-green-600 hover:bg-brand-green-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
-                >
-                  Learn More
-                </Link>
+                >See Details</Link>
               </div>
             </div>
 
@@ -191,9 +188,7 @@ export default function BankingPage() {
                 <Link
                   href="/banking/prepaid-card"
                   className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
-                >
-                  Learn More
-                </Link>
+                >See Details</Link>
               </div>
             </div>
           </div>

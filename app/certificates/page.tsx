@@ -32,6 +32,7 @@ export default function CertificatesPage() {
       </div>
       {/* Hero */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/certificates-page-1.webp"
           alt="Certificates & Credentials"
@@ -239,7 +240,7 @@ export default function CertificatesPage() {
             </div>
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
-              <GraduationCap className="h-12 w-12 text-brand-blue-600 mb-4" />
+              <GraduationCap aria-label="graduationcap" className="h-12 w-12 text-brand-blue-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">DOL</h3>
               <p className="text-sm text-black mb-3">
                 Department of Labor - Apprenticeship Programs
@@ -271,7 +272,7 @@ export default function CertificatesPage() {
             </div>
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
-              <Award className="h-12 w-12 text-brand-red-600 mb-4" />
+              <Award aria-label="award" className="h-12 w-12 text-brand-red-600 mb-4" />
               <h3 className="text-lg font-bold text-black mb-2">HHS</h3>
               <p className="text-sm text-black mb-3">
                 Health & Human Services - Healthcare Credentials
@@ -360,7 +361,7 @@ export default function CertificatesPage() {
 
             <div className="text-center">
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-11 w-11 text-brand-blue-600" />
+                <Award aria-label="award" className="h-11 w-11 text-brand-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Career Advancement</h3>
               <p className="text-black">

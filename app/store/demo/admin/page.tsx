@@ -65,9 +65,9 @@ export default function AdminDemoPage() {
                     <div className="text-3xl font-bold text-blue-600 mb-1">247</div>
                     <div className="text-sm text-slate-700">Active Students</div>
                   </div>
-                  <div className="bg-green-50 rounded-lg p-6">
-                    <BookOpen className="w-8 h-8 text-green-600 mb-3" />
-                    <div className="text-3xl font-bold text-green-600 mb-1">18</div>
+                  <div className="bg-brand-green-50 rounded-lg p-6">
+                    <BookOpen className="w-8 h-8 text-brand-green-600 mb-3" />
+                    <div className="text-3xl font-bold text-brand-green-600 mb-1">18</div>
                     <div className="text-sm text-slate-700">Active Courses</div>
                   </div>
                   <div className="bg-purple-50 rounded-lg p-6">
@@ -144,7 +144,7 @@ export default function AdminDemoPage() {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="px-3 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                            <span className="px-3 py-2 bg-brand-green-100 text-brand-green-800 rounded-full text-sm font-semibold">
                               {student.status}
                             </span>
                           </td>
@@ -195,17 +195,17 @@ export default function AdminDemoPage() {
               <div>
                 <h2 className="text-2xl font-bold mb-6">Compliance & Reporting</h2>
                 <div className="grid md:grid-cols-2 gap-6 mb-8">
-                  <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6">
+                  <div className="bg-brand-green-50 border-2 border-brand-green-200 rounded-lg p-6">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold">WIOA Compliance</h3>
-                      <span className="px-3 py-2 bg-green-600 text-white rounded-full text-sm font-bold">
+                      <span className="px-3 py-2 bg-brand-green-600 text-white rounded-full text-sm font-bold">
                         Compliant
                       </span>
                     </div>
                     <p className="text-sm text-slate-700 mb-4">
                       All required data elements captured. Ready for quarterly reporting.
                     </p>
-                    <button className="flex items-center gap-2 text-green-600 font-semibold hover:text-green-700">
+                    <button className="flex items-center gap-2 text-brand-green-600 font-semibold hover:text-brand-green-700">
                       <Download className="w-4 h-4" />
                       Export Report
                     </button>

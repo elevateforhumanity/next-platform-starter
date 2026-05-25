@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import {
   AlertCircle,
   ArrowLeft,
-  CheckCircle2,
   Clock,
   History,
   Save,
@@ -198,7 +197,7 @@ function LogCompetencyForm() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-10 text-center max-w-sm w-full">
-          <CheckCircle2 className="w-14 h-14 text-green-500 mx-auto mb-4" />
+          <span className="w-14 h-14 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h2 className="text-xl font-bold text-slate-900 mb-2">Entry Saved</h2>
           <p className="text-slate-500 text-sm">
             Your competency entry has been submitted for supervisor verification.

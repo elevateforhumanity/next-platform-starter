@@ -46,7 +46,7 @@ export default async function OrgCohortDetailPage({ params }: Props) {
   ]);
 
   const enrollmentBadge = (status: string) => {
-    if (status === 'active') return 'bg-green-100 text-green-800';
+    if (status === 'active') return 'bg-brand-green-100 text-brand-green-800';
     if (status === 'completed') return 'bg-blue-100 text-blue-800';
     if (status === 'withdrawn') return 'bg-red-100 text-red-800';
     return 'bg-slate-100 text-slate-900';

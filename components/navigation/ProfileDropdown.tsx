@@ -345,7 +345,7 @@ export function ProfileDropdown({ className }: Props) {
               onClick={() => setIsOpen(false)}
             >
               <span className="flex items-center gap-3">
-                <Award className="h-4 w-4 text-slate-700" />
+                <Award aria-label="award" className="h-4 w-4 text-slate-700" />
                 Certificates
               </span>
               <ChevronRight className="h-4 w-4 text-slate-700" />

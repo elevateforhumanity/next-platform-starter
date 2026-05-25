@@ -21,7 +21,6 @@ import {
   ExternalLink,
   Clock,
   Award,
-  CheckCircle2,
   Lock,
   ArrowRight,
   Info,
@@ -372,6 +371,7 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
     >
       {/* Cover image */}
       <div className="relative h-44 w-full bg-white">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={cover}
           alt={label}
@@ -385,8 +385,8 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
         </div>
         {/* Status badge */}
         {item.enrolled && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 bg-green-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
-            <CheckCircle2 className="w-3 h-3" /> Enrolled
+          <div className="absolute top-3 right-3 flex items-center gap-1 bg-brand-green-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+            <span className="w-3 h-3 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Enrolled
           </div>
         )}
         {!item.is_required && (
@@ -444,7 +444,7 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
   return (
     <div
       className={`bg-white rounded-2xl border overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow ${
-        item.completed ? 'border-green-200' : 'border-teal-200'
+        item.completed ? 'border-brand-green-200' : 'border-teal-200'
       }`}
     >
       {/* Cover image */}
@@ -460,8 +460,8 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
           {index + 1}
         </div>
         {item.completed && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 bg-green-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
-            <CheckCircle2 className="w-3 h-3" /> Complete
+          <div className="absolute top-3 right-3 flex items-center gap-1 bg-brand-green-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+            <span className="w-3 h-3 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Complete
           </div>
         )}
         {!item.is_required && (
@@ -495,7 +495,7 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
           )}
           {item.credential_name && (
             <span className="flex items-center gap-1">
-              <Award className="w-3 h-3" />
+              <Award aria-label="award" className="w-3 h-3" />
               {item.credential_name}
             </span>
           )}

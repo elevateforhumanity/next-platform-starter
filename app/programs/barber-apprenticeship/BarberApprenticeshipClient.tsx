@@ -156,6 +156,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
             </p>
           </div>
           <div className="relative h-72 rounded-xl overflow-hidden shadow-lg">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image src="/images/pages/barber-apprentice-learning.webp" alt="Barber apprentice learning clipper technique from an instructor" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
         </div>

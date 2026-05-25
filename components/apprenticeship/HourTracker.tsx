@@ -202,7 +202,7 @@ export function HourTracker({ programName, requiredHours, studentId }: HourTrack
             <div className="text-xs text-black">Last Session</div>
           </div>
           <div className="bg-purple-50 rounded-xl p-4 text-center">
-            <Award className="w-6 h-6 text-purple-600 mx-auto mb-2" />
+            <Award aria-label="award" className="w-6 h-6 text-purple-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-purple-600">
               {progressPercentage >= 100 ? '•' : Math.ceil(hoursRemaining)}
             </div>
@@ -237,7 +237,7 @@ export function HourTracker({ programName, requiredHours, studentId }: HourTrack
         {/* Completion Badge */}
         {progressPercentage >= 100 && (
           <div className="   rounded-xl p-6 text-center text-white">
-            <Award className="w-12 h-12 mx-auto mb-3" />
+            <Award aria-label="award" className="w-12 h-12 mx-auto mb-3" />
             <div className="text-xl font-bold">Congratulations!</div>
             <div className="text-sm text-white mt-1">
               You've completed all required hours for {programName}

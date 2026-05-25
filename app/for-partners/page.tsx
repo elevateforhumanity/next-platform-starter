@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 };
 
 const tracks = [
-  { icon: Building2, title: 'Training Providers', desc: 'Deliver Elevate-approved programs under your brand. We handle ETPL listing, WIOA compliance, and participant funding.', href: '/for-providers', cta: 'Learn More', color: 'purple' },
-  { icon: Users, title: 'Employers & Sponsors', desc: 'Hire graduates or host registered apprentices. We match you with qualified candidates and handle DOL RAPIDS paperwork.', href: '/for-employers', cta: 'Learn More', color: 'green' },
-  { icon: FileText, title: 'Workforce Agencies', desc: 'Refer WIOA, FSSA, and WRG participants to Elevate programs. We handle enrollment, compliance, and outcome reporting.', href: '/for-agencies', cta: 'Learn More', color: 'blue' },
+  { icon: Building2, title: 'Training Providers', desc: 'Deliver Elevate-approved programs under your brand. We handle ETPL listing, WIOA compliance, and participant funding.', href: '/for-providers', cta: 'See Details', color: 'purple' },
+  { icon: Users, title: 'Employers & Sponsors', desc: 'Hire graduates or host registered apprentices. We match you with qualified candidates and handle DOL RAPIDS paperwork.', href: '/for-employers', cta: 'See Details', color: 'green' },
+  { icon: FileText, title: 'Workforce Agencies', desc: 'Refer WIOA, FSSA, and WRG participants to Elevate programs. We handle enrollment, compliance, and outcome reporting.', href: '/for-agencies', cta: 'See Details', color: 'blue' },
   { icon: BarChart3, title: 'Government & Oversight', desc: 'Access ETPL performance data, WIOA metrics, and apprenticeship compliance documentation.', href: '/federal-compliance', cta: 'View Compliance', color: 'slate' },
 ];
 
@@ -39,7 +39,7 @@ export default function ForPartnersPage() {
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-8">Elevate connects training providers, employers, workforce agencies, and government entities into a single compliance-ready system.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/partners" className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">Become a Partner</Link>
-            <Link href="/partner-operating-model" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">View Operating Model</Link>
+            <Link href="/partner-operating-model" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">View Operating Model</Link>
           </div>
         </div>
       </section>
@@ -86,7 +86,7 @@ export default function ForPartnersPage() {
           <p className="text-purple-100 text-sm mb-8">Submit a partnership inquiry and our team will reach out within 2 business days.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/partners" className="bg-white text-purple-700 font-bold px-8 py-3.5 rounded-lg hover:bg-purple-50 transition-colors text-sm">Apply to Partner</Link>
-            <Link href="/contact" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Contact Us</Link>
+            <Link href="/contact" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Contact Us</Link>
           </div>
         </div>
       </section>

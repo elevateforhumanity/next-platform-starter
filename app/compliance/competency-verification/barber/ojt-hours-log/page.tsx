@@ -85,7 +85,7 @@ export default function OJTHoursLogPage() {
           <h2 className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Daily OJT Hours</h2>
           <table className="w-full border-collapse text-sm print:text-[9px]">
             <thead>
-              <tr className="bg-slate-900 text-white print:bg-white print:text-slate-900">
+              <tr className="bg-slate-900 text-slate-900 print:bg-white print:text-slate-900">
                 <th className="p-2 border font-semibold text-left w-24 print:p-1">Date</th>
                 <th className="p-2 border font-semibold text-center w-16 print:p-1">Start</th>
                 <th className="p-2 border font-semibold text-center w-16 print:p-1">End</th>

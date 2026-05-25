@@ -2,8 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  Upload, Search, ShieldCheck, PenTool, Download,
-  CheckCircle2, ArrowRight, FileText, Briefcase, Sparkles,
+  Upload, Search, ShieldCheck, PenTool, Download, ArrowRight, FileText, Briefcase, Sparkles,
 } from 'lucide-react';
 
 export const dynamic = 'force-static'; // deploy-trigger: 20260518174229
@@ -18,7 +17,7 @@ const PIPELINE = [
   { icon: Upload,       step: '1', label: 'Upload',   desc: 'Upload any state/agency contract, grant form, or MOU (PDF, DOCX, scanned)' },
   { icon: Search,       step: '2', label: 'Extract',  desc: 'AI detects all blank fields, checkboxes, and signature lines automatically' },
   { icon: ShieldCheck,  step: '3', label: 'Prefill',  desc: 'EIN, UEI, CAGE, SAM status, address, and signatory filled from verified org profile' },
-  { icon: CheckCircle2, step: '4', label: 'Review',   desc: 'Admin approves every field — AI narrative flagged, exact facts never invented' },
+  { icon: step: '4', label: 'Review',   desc: 'Admin approves every field — AI narrative flagged, exact facts never invented' },
   { icon: PenTool,      step: '5', label: 'Sign',     desc: 'Draw or typed signature with legal audit trail and timestamp' },
   { icon: Download,     step: '6', label: 'Export',   desc: 'Generate signed PDF or DOCX ready for submission' },
 ];
@@ -62,7 +61,7 @@ export default function GrantContractSuitePage() {
               Open in Admin <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/store/demo/admin"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold rounded-xl transition-colors">
               Try Demo
             </Link>
           </div>
@@ -98,7 +97,7 @@ export default function GrantContractSuitePage() {
           <div className="grid sm:grid-cols-2 gap-3">
             {FEATURES.map(f => (
               <div key={f} className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50">
-                <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" />
+                <span className="w-4 h-4 rounded-full bg-violet-600 inline-block flex-shrink-0 mt-0.5 shrink-0" aria-hidden="true" />
                 <span className="text-sm text-slate-700">{f}</span>
               </div>
             ))}

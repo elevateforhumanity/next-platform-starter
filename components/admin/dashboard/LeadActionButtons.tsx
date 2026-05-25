@@ -38,13 +38,13 @@ export function LeadActionButtons({ leadId, leadName }: Props) {
       <button
         onClick={handleMarkContacted}
         title={`Mark ${leadName ?? 'lead'} as contacted`}
-        className="p-1.5 rounded-lg hover:bg-green-50 text-slate-400 hover:text-green-600 transition-colors disabled:opacity-50"
+        className="p-1.5 rounded-lg hover:bg-brand-green-50 text-slate-400 hover:text-brand-green-600 transition-colors disabled:opacity-50"
         disabled={state !== 'idle'}
       >
         {state === 'loading' ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : state === 'done' ? (
-          <Check className="w-3.5 h-3.5 text-green-500" />
+          <Check className="w-3.5 h-3.5 text-brand-green-500" />
         ) : (
           <PhoneCall className="w-3.5 h-3.5" />
         )}

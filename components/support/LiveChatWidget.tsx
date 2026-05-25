@@ -149,7 +149,7 @@ function FallbackChatWidget() {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
+                  className={`max-w-4/5 p-3 rounded-2xl ${
                     message.sender === 'user'
                       ? 'bg-brand-blue-600 text-white rounded-br-md'
                       : 'bg-white text-black shadow-sm rounded-bl-md'

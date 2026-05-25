@@ -143,7 +143,7 @@ export default function ApprenticeProgressPage({ config }: { config: DisciplineC
             <p className="text-slate-400 text-xs">This week</p>
           </div>
           <div className="bg-slate-800 rounded-2xl p-4">
-            <Target className="w-5 h-5 text-green-400 mb-2" />
+            <Target className="w-5 h-5 text-brand-green-400 mb-2" />
             <p className="text-2xl font-bold">{fmt(Math.round(avgWeekly * 10) / 10)}</p>
             <p className="text-slate-400 text-xs">Avg hrs/week</p>
           </div>
@@ -152,7 +152,7 @@ export default function ApprenticeProgressPage({ config }: { config: DisciplineC
         {/* Milestones */}
         <div className="bg-slate-800 rounded-2xl p-5">
           <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
-            <Award className="w-5 h-5 text-amber-400" /> Milestones
+            <Award aria-label="award" className="w-5 h-5 text-amber-400" /> Milestones
           </h2>
           <div className="space-y-3">
             {data.milestones.map((m) => (
@@ -160,7 +160,7 @@ export default function ApprenticeProgressPage({ config }: { config: DisciplineC
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.achieved ? 'bg-amber-500' : 'bg-slate-700'}`}
                 >
-                  <Award className={`w-4 h-4 ${m.achieved ? 'text-white' : 'text-slate-500'}`} />
+                  <Award aria-label="award" className={`w-4 h-4 ${m.achieved ? 'text-white' : 'text-slate-500'}`} />
                 </div>
                 <div className="flex-1">
                   <p
@@ -190,7 +190,7 @@ export default function ApprenticeProgressPage({ config }: { config: DisciplineC
                   <span
                     className={`text-xs px-2 py-0.5 rounded-full ${
                       w.status === 'approved'
-                        ? 'bg-green-500/20 text-green-400'
+                        ? 'bg-brand-green-500/20 text-brand-green-400'
                         : w.status === 'pending'
                           ? 'bg-amber-500/20 text-amber-400'
                           : 'bg-slate-700 text-slate-400'

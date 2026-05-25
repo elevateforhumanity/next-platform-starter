@@ -304,7 +304,7 @@ export default async function PortalsPage() {
               href="/login?redirect=/learner/dashboard"
               className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors"
             >
-              <GraduationCap className="w-6 h-6 text-brand-blue-400" />
+              <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-blue-400" />
               <span className="font-semibold">Student Sign In</span>
             </Link>
             <Link

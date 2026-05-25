@@ -18,7 +18,6 @@ import {
   AlertTriangle,
   Wrench,
   Calendar,
-  CheckCircle2,
   ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -171,7 +170,7 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
               {spec.credentials.map((cred, i) => (
                 <div key={i} className="bg-slate-50 rounded-lg p-3">
                   <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-brand-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                     <div>
                       <p className="text-sm font-semibold text-slate-900">{cred.name}</p>
                       <p className="text-xs text-slate-500">Issued by: {cred.issuingBody}</p>

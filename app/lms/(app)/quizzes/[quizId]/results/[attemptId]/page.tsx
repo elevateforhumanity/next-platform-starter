@@ -182,7 +182,7 @@ export default async function QuizResultsPage({ params }: Props) {
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <Award className="w-5 h-5" />
+                <Award aria-label="award" className="w-5 h-5" />
               </div>
               <p className="text-2xl font-bold">{passingScore}%</p>
               <p className="text-sm text-white/80">Passing Score</p>

@@ -84,7 +84,7 @@ export default function PlatformLicensingPage() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-block bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition"
+                className="inline-block bg-white/10 backdrop-blur-sm border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition"
               >
                 See Live Demos
               </Link>
@@ -615,7 +615,7 @@ export default function PlatformLicensingPage() {
                 </div>
               </div>
 
-              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-4 text-xs text-white">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-4 text-xs text-slate-900">
                 <div className="font-semibold mb-1">$110K-$225K Value</div>
                 <div className="text-black">ETPL + WIOA + State approvals</div>
               </div>
@@ -819,7 +819,7 @@ export default function PlatformLicensingPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-block bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition"
+              className="inline-block bg-white/10 backdrop-blur-sm border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition"
             >
               Contact Sales
             </Link>

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Briefcase, Search, CheckCircle2, ArrowRight, BarChart3, ShieldCheck, FileText, Users } from 'lucide-react';
+import { Briefcase, Search, ArrowRight, BarChart3, ShieldCheck, FileText, Users } from 'lucide-react';
 
 export const dynamic = 'force-static';
 export const metadata: Metadata = {
@@ -51,7 +51,7 @@ export default function WorkforceGrantHubPage() {
             <Link href="/admin/grants" className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl transition-colors">
               Open Grants Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/admin/grants/opportunities" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+            <Link href="/admin/grants/opportunities" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold rounded-xl transition-colors">
               Search Opportunities
             </Link>
           </div>
@@ -88,7 +88,7 @@ export default function WorkforceGrantHubPage() {
           <div className="grid sm:grid-cols-2 gap-3">
             {FEATURES.map(f => (
               <div key={f} className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50">
-                <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" />
+                <span className="w-4 h-4 rounded-full bg-violet-600 inline-block flex-shrink-0 mt-0.5 shrink-0" aria-hidden="true" />
                 <span className="text-sm text-slate-700">{f}</span>
               </div>
             ))}

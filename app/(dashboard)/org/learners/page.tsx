@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  active: 'bg-green-100 text-green-800',
+  active: 'bg-brand-green-100 text-brand-green-800',
   completed: 'bg-blue-100 text-blue-800',
   withdrawn: 'bg-red-100 text-red-800',
 };

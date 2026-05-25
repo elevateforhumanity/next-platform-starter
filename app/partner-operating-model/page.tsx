@@ -85,7 +85,7 @@ export default function PartnerOperatingModelPage() {
       {/* Hero */}
       <section className="bg-slate-900 py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-green-400 text-xs font-bold uppercase tracking-widest mb-3">Partner Operating Model</p>
+          <p className="text-brand-green-400 text-xs font-bold uppercase tracking-widest mb-3">Partner Operating Model</p>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-5">
             How Elevate Works With Partners
           </h1>
@@ -93,10 +93,10 @@ export default function PartnerOperatingModelPage() {
             Elevate operates as a workforce intermediary — connecting training providers, employers, workforce agencies, and government entities into a single compliance-ready system.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/partners" className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
+            <Link href="/partners" className="bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
               Become a Partner
             </Link>
-            <Link href="/contact" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+            <Link href="/contact" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
               Contact Us
             </Link>
           </div>
@@ -106,12 +106,12 @@ export default function PartnerOperatingModelPage() {
       {/* Operating Principles */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
-          <p className="text-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Principles</p>
+          <p className="text-brand-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Principles</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Operating Principles</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {principles.map((p) => (
               <div key={p.title} className="flex gap-4 p-6 rounded-2xl border border-slate-200">
-                <CheckCircle className="w-6 h-6 text-green-600 shrink-0 mt-0.5" />
+                <CheckCircle className="w-6 h-6 text-brand-green-600 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-slate-900 text-sm mb-1">{p.title}</p>
                   <p className="text-xs text-slate-600 leading-relaxed">{p.desc}</p>
@@ -125,14 +125,14 @@ export default function PartnerOperatingModelPage() {
       {/* Partner Types */}
       <section className="py-16 px-6 bg-slate-50 border-t border-slate-100">
         <div className="max-w-5xl mx-auto">
-          <p className="text-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Partner Types</p>
+          <p className="text-brand-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Partner Types</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Partner Roles & Requirements</h2>
           <div className="grid sm:grid-cols-2 gap-8">
             {partnerTypes.map(({ icon: Icon, title, desc, requirements, href, cta }) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-white p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 rounded-xl bg-brand-green-50 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-brand-green-600" />
                   </div>
                   <h3 className="font-extrabold text-slate-900 text-base">{title}</h3>
                 </div>
@@ -140,12 +140,12 @@ export default function PartnerOperatingModelPage() {
                 <ul className="space-y-2 mb-5">
                   {requirements.map((r) => (
                     <li key={r} className="flex items-start gap-2 text-xs text-slate-700">
-                      <CheckCircle className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-brand-green-500 shrink-0 mt-0.5" />
                       {r}
                     </li>
                   ))}
                 </ul>
-                <Link href={href} className="inline-flex items-center gap-1.5 text-green-700 font-bold text-xs hover:underline">
+                <Link href={href} className="inline-flex items-center gap-1.5 text-brand-green-700 font-bold text-xs hover:underline">
                   {cta} <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -157,7 +157,7 @@ export default function PartnerOperatingModelPage() {
       {/* Data & Reporting */}
       <section className="py-16 px-6 bg-white border-t border-slate-100">
         <div className="max-w-4xl mx-auto">
-          <p className="text-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Reporting</p>
+          <p className="text-brand-green-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Reporting</p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-4">Shared Data & Outcomes</h2>
           <p className="text-slate-600 text-sm text-center max-w-xl mx-auto mb-10">
             All partners receive access to outcome data relevant to their role. Elevate publishes aggregate performance metrics publicly.
@@ -169,7 +169,7 @@ export default function PartnerOperatingModelPage() {
               { icon: Users, title: 'Employment Placement', desc: '90-day and 1-year employment and wage outcomes for program graduates.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="rounded-2xl border border-slate-200 p-6 text-center">
-                <Icon className="w-8 h-8 text-green-600 mx-auto mb-3" />
+                <Icon className="w-8 h-8 text-brand-green-600 mx-auto mb-3" />
                 <p className="font-extrabold text-slate-900 text-base mb-2">{title}</p>
                 <p className="text-xs text-slate-600 leading-relaxed">{desc}</p>
               </div>
@@ -179,17 +179,17 @@ export default function PartnerOperatingModelPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-green-700 py-16 px-6">
+      <section className="bg-brand-green-700 py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner with Elevate?</h2>
-          <p className="text-green-100 text-sm mb-8">
+          <p className="text-brand-green-100 text-sm mb-8">
             Review the operating model and contact us to begin the partnership agreement process.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/partners" className="bg-white text-green-700 font-bold px-8 py-3.5 rounded-lg hover:bg-green-50 transition-colors text-sm">
+            <Link href="/partners" className="bg-white text-brand-green-700 font-bold px-8 py-3.5 rounded-lg hover:bg-brand-green-50 transition-colors text-sm">
               Become a Partner
             </Link>
-            <Link href="/contact" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+            <Link href="/contact" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
               Contact Us
             </Link>
           </div>

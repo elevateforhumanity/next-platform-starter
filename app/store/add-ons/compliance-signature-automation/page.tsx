@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { PenTool, CheckCircle2, ArrowRight, FileText, Clock } from 'lucide-react';
+import { PenTool, ArrowRight, FileText, Clock } from 'lucide-react';
 
 export const dynamic = 'force-static';
 export const metadata: Metadata = {
@@ -48,7 +48,7 @@ export default function ComplianceSignaturePage() {
             <Link href="/admin/signatures" className="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-400 text-white font-semibold rounded-xl transition-colors">
               Manage Signatures <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/admin/mou" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+            <Link href="/admin/mou" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold rounded-xl transition-colors">
               MOU Management
             </Link>
           </div>
@@ -62,7 +62,7 @@ export default function ComplianceSignaturePage() {
             <div className="space-y-3">
               {FEATURES.map(f => (
                 <div key={f} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span className="w-4 h-4 rounded-full bg-rose-500 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
                   <span className="text-sm text-slate-700">{f}</span>
                 </div>
               ))}

@@ -23,6 +23,7 @@ export default function ApprovalsPage() {
       </div>
       {/* Hero Section with Background Image */}
       <section className="relative h-48 md:h-64 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/approvals-page-1.webp"
           alt="Elevate for Humanity institutional approvals and governance"
@@ -211,7 +212,7 @@ export default function ApprovalsPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-4 mb-12">
-            <Award className="w-12 h-12 text-brand-orange-600" />
+            <Award aria-label="award" className="w-12 h-12 text-brand-orange-600" />
             <h2 className="text-2xl md:text-2xl md:text-3xl font-bold text-2xl md:text-3xl lg:text-2xl md:text-3xl">
               Certification & Testing Partnerships
             </h2>

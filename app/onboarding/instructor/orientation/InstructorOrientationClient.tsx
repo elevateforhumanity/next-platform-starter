@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   userId: string;
@@ -18,13 +18,13 @@ export default function InstructorOrientationClient({ userId, alreadyDone, compl
 
   if (alreadyDone) {
     return (
-      <div className="px-8 py-6 border-t border-slate-100 bg-green-50">
-        <div className="flex items-center gap-3 text-green-700">
-          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+      <div className="px-8 py-6 border-t border-slate-100 bg-brand-green-50">
+        <div className="flex items-center gap-3 text-brand-green-700">
+          <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
           <div>
             <p className="font-semibold">Orientation complete</p>
             {completedAt && (
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-brand-green-600">
                 Completed{' '}
                 {new Date(completedAt).toLocaleDateString('en-US', {
                   month: 'long',

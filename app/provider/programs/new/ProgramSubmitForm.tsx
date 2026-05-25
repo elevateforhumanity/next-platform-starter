@@ -81,7 +81,7 @@ export default function ProgramSubmitForm({ tenantId }: { tenantId: string }) {
   if (done) {
     return (
       <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
-        <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
+        <CheckCircle className="w-12 h-12 text-brand-green-500 mx-auto mb-3" />
         <h2 className="font-bold text-slate-900 mb-1">Program Submitted</h2>
         <p className="text-slate-500 text-sm">Under review. Redirecting…</p>
       </div>

@@ -18,7 +18,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
 
   const confidenceColor =
     suggestion.confidence >= 0.9
-      ? 'text-green-600 bg-green-50 border-green-200'
+      ? 'text-brand-green-600 bg-brand-green-50 border-brand-green-200'
       : suggestion.confidence >= 0.7
         ? 'text-yellow-600 bg-yellow-50 border-yellow-200'
         : 'text-slate-700 bg-slate-50 border-slate-200';
@@ -30,7 +30,7 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
 
   if (used) {
     return (
-      <div className="flex items-center gap-2 text-sm text-green-600 py-1">
+      <div className="flex items-center gap-2 text-sm text-brand-green-600 py-1">
         <CheckCircle className="w-4 h-4" />
         <span>Answer applied</span>
       </div>

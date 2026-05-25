@@ -1,4 +1,5 @@
 'use client';
+// useHeroVideo
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -20,7 +21,7 @@ export default function VideoHeroBanner({
   headline = 'Elevate for Humanity',
   subheadline = 'Free, Funded Workforce Training',
   primaryCTA = { text: 'Apply Now', href: '/apply' },
-  secondaryCTA = { text: 'Learn More', href: '/programs' },
+  secondaryCTA = { text: 'See Details', href: '/programs' },
 }: VideoHeroBannerProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -132,7 +133,7 @@ export default function VideoHeroBanner({
                 </Link>
                 <Link
                   href={secondaryCTA.href}
-                  className="inline-flex items-center justify-center px-6 py-3 bg-transparent text-white text-base font-bold rounded-xl hover:bg-white/10 transition-colors border-2 border-white"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-transparent text-slate-900 text-base font-bold rounded-xl hover:bg-white/10 transition-colors border-2 border-white"
                 >
                   {secondaryCTA.text}
                 </Link>

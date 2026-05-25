@@ -141,7 +141,7 @@ export default async function EnrollPage({ searchParams }: Props) {
                           </div>
                         )}
                         <div className="flex items-center gap-1">
-                          <Award className="w-4 h-4" />
+                          <Award aria-label="award" className="w-4 h-4" />
                           <span>Certificate</span>
                         </div>
                       </div>
@@ -217,7 +217,7 @@ export default async function EnrollPage({ searchParams }: Props) {
                           </div>
                         )}
                         <div className="flex items-center gap-1">
-                          <Award className="w-4 h-4" />
+                          <Award aria-label="award" className="w-4 h-4" />
                           <span>Certificate</span>
                         </div>
                       </div>

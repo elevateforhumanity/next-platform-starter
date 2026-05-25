@@ -142,7 +142,7 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
                   />
                 </div>
 
-                <Button className="w-full">Submit Review</Button>
+                <Button className="w-full">Save Review</Button>
               </div>
             </Card>
 

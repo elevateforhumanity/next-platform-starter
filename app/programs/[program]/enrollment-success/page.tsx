@@ -109,8 +109,8 @@ export default async function BeautyEnrollmentSuccessPage({ params }: Props) {
               <div key={label} className={`flex justify-between items-center py-3 ${i < arr.length - 1 ? 'border-b border-slate-100' : ''}`}>
                 <span className="text-slate-600">{label}</span>
                 {label === 'Status' ? (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full font-bold text-sm">
-                    <span className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-brand-green-100 text-brand-green-700 rounded-full font-bold text-sm">
+                    <span className="w-2 h-2 bg-brand-green-500 rounded-full" />
                     Active
                   </span>
                 ) : isSponsor ? (

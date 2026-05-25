@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Activity, RefreshCw, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
+import { Activity, RefreshCw, AlertTriangle, XCircle } from 'lucide-react';
 
 type HealthStatus = 'healthy' | 'degraded' | 'down';
 
@@ -20,9 +20,9 @@ interface HealthSnapshot {
 
 const STATUS_CONFIG: Record<HealthStatus, { icon: React.ReactNode; badge: string; dot: string }> = {
   healthy: {
-    icon: <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />,
-    badge: 'bg-green-100 text-green-700',
-    dot: 'bg-green-500',
+    icon: <span className="w-3.5 h-3.5 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />,
+    badge: 'bg-brand-green-100 text-brand-green-700',
+    dot: 'bg-brand-green-500',
   },
   degraded: {
     icon: <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />,

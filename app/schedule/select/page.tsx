@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
-import { CheckCircle2, ArrowLeft, Clock, MapPin } from 'lucide-react';
+import { ArrowLeft, Clock, MapPin } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -211,7 +211,7 @@ export default async function SelectSchedulePage() {
               type="submit"
               className="flex items-center gap-2 px-6 py-2.5 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition"
             >
-              <CheckCircle2 className="w-4 h-4" /> Confirm Schedule
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Confirm Schedule
             </button>
           </div>
         </form>

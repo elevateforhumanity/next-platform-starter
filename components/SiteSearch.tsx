@@ -274,7 +274,7 @@ export default function SiteSearch() {
       case 'page':
         return <FileText className="w-4 h-4" />;
       case 'program':
-        return <GraduationCap className="w-4 h-4" />;
+        return <GraduationCap aria-label="graduationcap" className="w-4 h-4" />;
       case 'event':
         return <Calendar className="w-4 h-4" />;
       case 'article':

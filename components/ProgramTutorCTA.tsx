@@ -140,7 +140,7 @@ export function ProgramTutorCTA({
         </button>
         <Link
           href={applyHref}
-          className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
+          className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-white/10"
         >
           Apply Now
           <ArrowRight className="w-4 h-4" />
@@ -177,7 +177,7 @@ export function ProgramTutorCTA({
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-lg p-1.5 text-slate-500 hover:text-white hover:bg-white/10 transition"
+                className="rounded-lg p-1.5 text-slate-500 hover:text-slate-900 hover:bg-white/10 transition"
                 aria-label="Close chat"
               >
                 <X className="w-4 h-4" />
@@ -192,7 +192,7 @@ export function ProgramTutorCTA({
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-5/6 rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
                         ? 'bg-brand-blue-600 text-white'
                         : 'bg-white/5 border border-white/10 text-white/90'
@@ -220,7 +220,7 @@ export function ProgramTutorCTA({
                     key={prompt}
                     type="button"
                     onClick={() => handleSend(prompt)}
-                    className="text-xs bg-white/5 border border-white/10 text-slate-500 hover:text-white hover:bg-white/10 rounded-full px-3 py-1.5 transition"
+                    className="text-xs bg-white/5 border border-white/10 text-slate-500 hover:text-slate-900 hover:bg-white/10 rounded-full px-3 py-1.5 transition"
                   >
                     {prompt}
                   </button>
@@ -245,7 +245,7 @@ export function ProgramTutorCTA({
                   placeholder={`Ask about ${programName}...`}
                   maxLength={500}
                   aria-label="Type your question"
-                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
                 />
                 <button
                   type="submit"

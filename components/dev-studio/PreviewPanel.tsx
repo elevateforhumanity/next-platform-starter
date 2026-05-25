@@ -46,7 +46,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-black">Live Preview</span>
           {filePath && (
-            <span className="text-xs text-slate-700 truncate max-w-[200px]">{filePath}</span>
+            <span className="text-xs text-slate-700 truncate max-w-7xl">{filePath}</span>
           )}
         </div>
 

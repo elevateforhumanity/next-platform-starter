@@ -302,7 +302,7 @@ export default function TrainingLessonFlow({
                             disabled={isSubmitted}
                             className={`w-full text-left px-4 py-2.5 rounded-lg border text-sm transition ${
                               showCorrect
-                                ? 'bg-green-50 border-green-400 text-green-800 font-medium'
+                                ? 'bg-brand-green-50 border-brand-green-400 text-brand-green-800 font-medium'
                                 : showWrong
                                   ? 'bg-red-50 border-red-400 text-red-800'
                                   : isSelected
@@ -319,7 +319,7 @@ export default function TrainingLessonFlow({
                     {isSubmitted && q.explanation && (
                       <p
                         className={`mt-3 text-xs px-3 py-2 rounded-lg ${
-                          isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                          isCorrect ? 'bg-brand-green-50 text-brand-green-700' : 'bg-red-50 text-red-700'
                         }`}
                       >
                         {isCorrect ? '✓ ' : '✗ '}
@@ -374,15 +374,15 @@ export default function TrainingLessonFlow({
       {/* 6. PASSED STATE */}
       {(quizPhase === 'passed' || alreadyPassed) && hasQuiz && (
         <section aria-label="Lesson complete">
-          <div className="rounded-xl bg-green-50 border border-green-200 p-5 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+          <div className="rounded-xl bg-brand-green-50 border border-brand-green-200 p-5 flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-brand-green-100 flex items-center justify-center flex-shrink-0">
+              <CheckCircle className="w-5 h-5 text-brand-green-600" />
             </div>
             <div>
-              <p className="font-bold text-green-900 text-sm">
+              <p className="font-bold text-brand-green-900 text-sm">
                 {score !== null ? `Passed — ${score}%` : 'Lesson Complete'}
               </p>
-              <p className="text-green-700 text-xs mt-0.5">
+              <p className="text-brand-green-700 text-xs mt-0.5">
                 Next lesson is unlocked. Use the navigation below to continue.
               </p>
             </div>

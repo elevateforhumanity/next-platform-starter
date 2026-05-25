@@ -100,8 +100,8 @@ export default function EstheticianSpaApplyPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle className="w-8 h-8 text-brand-green-600" />
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Application Submitted</h1>
           <p className="text-slate-600 mb-6">
@@ -152,7 +152,7 @@ export default function EstheticianSpaApplyPage() {
                 'We handle all RTI coursework and progress tracking',
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0 mt-0.5" />
                   {item}
                 </div>
               ))}

@@ -69,6 +69,7 @@ export default function CareerServicesPage() {
                 className="flex gap-4 sm:flex-col rounded-xl overflow-hidden border border-slate-200 bg-white"
               >
                 <div className="relative w-28 h-28 sm:w-full sm:h-[180px] flex-shrink-0 sm:flex-shrink overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -186,7 +187,7 @@ export default function CareerServicesPage() {
             </Link>
             <Link
               href="/programs"
-              className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
+              className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >
               View Programs
             </Link>

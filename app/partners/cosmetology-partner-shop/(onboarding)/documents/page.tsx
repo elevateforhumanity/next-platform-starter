@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useState, useRef } from 'react';
 import {
   Upload,
-  CheckCircle2,
   AlertCircle,
   FileText,
   Loader2,
@@ -187,8 +186,8 @@ export default function CosmetologyPartnerDocumentsPage() {
             />
           </div>
           {allDone && (
-            <p className="text-sm text-green-700 font-medium mt-2 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All documents uploaded — your application is
+            <p className="text-sm text-brand-green-700 font-medium mt-2 flex items-center gap-1">
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> All documents uploaded — your application is
               under review.
             </p>
           )}
@@ -207,7 +206,7 @@ export default function CosmetologyPartnerDocumentsPage() {
                 key={slot.id}
                 className={`rounded-xl border-2 p-5 transition-colors ${
                   isDone
-                    ? 'border-green-400 bg-green-50'
+                    ? 'border-brand-green-400 bg-brand-green-50'
                     : isError
                       ? 'border-red-300 bg-red-50'
                       : 'border-slate-200 bg-white'
@@ -218,7 +217,7 @@ export default function CosmetologyPartnerDocumentsPage() {
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 mt-0.5">
                     {isDone ? (
-                      <CheckCircle2 className="w-6 h-6 text-green-600" />
+                      <span className="w-6 h-6 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
                     ) : isError ? (
                       <AlertCircle className="w-6 h-6 text-red-500" />
                     ) : (
@@ -234,7 +233,7 @@ export default function CosmetologyPartnerDocumentsPage() {
                         </span>
                       )}
                       {isDone && (
-                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-xs bg-brand-green-100 text-brand-green-700 px-1.5 py-0.5 rounded font-medium">
                           Uploaded
                         </span>
                       )}

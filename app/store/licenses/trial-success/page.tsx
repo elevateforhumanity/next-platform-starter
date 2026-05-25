@@ -31,8 +31,8 @@ function TrialSuccessContent() {
       <div className="max-w-2xl mx-auto px-4">
         {/* Success Header */}
         <div className="text-center mb-10">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-12 h-12 text-green-600" />
+          <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-12 h-12 text-brand-green-600" />
           </div>
           <h1 className="text-3xl font-black text-slate-900 mb-3">
             Your Trial Has Started!
@@ -101,8 +101,8 @@ function TrialSuccessContent() {
             </div>
 
             <div className="flex gap-4 p-4 bg-slate-50 rounded-xl">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <MessageCircle className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <MessageCircle className="w-5 h-5 text-brand-green-600" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">Get support</h3>
@@ -111,7 +111,7 @@ function TrialSuccessContent() {
                 </p>
                 <Link 
                   href="/contact" 
-                  className="text-green-600 text-sm font-medium hover:underline inline-flex items-center gap-1"
+                  className="text-brand-green-600 text-sm font-medium hover:underline inline-flex items-center gap-1"
                 >
                   Contact Support <ArrowRight className="w-4 h-4" />
                 </Link>

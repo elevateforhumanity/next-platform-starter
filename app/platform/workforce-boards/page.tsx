@@ -121,6 +121,7 @@ export default function WorkforceBoardsPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/hero-images/wioa-hero.jpg"
             alt="Workforce Board Solutions"
@@ -275,7 +276,7 @@ export default function WorkforceBoardsPage() {
             </Link>
             <Link
               href="/store/compliance/wioa"
-              className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition"
+              className="px-8 py-4 border-2 border-white text-slate-900 font-bold rounded-lg hover:bg-white/10 transition"
             >
               WIOA Compliance Tools
             </Link>

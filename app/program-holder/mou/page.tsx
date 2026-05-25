@@ -68,16 +68,16 @@ export default async function ProgramHolderMOUPage() {
         </nav>
 
         {holder.mou_signed && hasDigitalSignature ? (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-            <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-            <h2 className="text-xl font-bold text-green-800 mb-1">MOU Signed</h2>
-            <p className="text-green-700 text-sm mb-2">
+          <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
+            <CheckCircle className="w-12 h-12 text-brand-green-500 mx-auto mb-3" />
+            <h2 className="text-xl font-bold text-brand-green-800 mb-1">MOU Signed</h2>
+            <p className="text-brand-green-700 text-sm mb-2">
               Digitally signed on{' '}
               {sigRow?.signed_at ? new Date(sigRow.signed_at).toLocaleDateString() : 'file'}
             </p>
             <Link
               href="/program-holder/onboarding"
-              className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
+              className="inline-block mt-4 bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-6 py-2.5 rounded-xl transition-colors text-sm"
             >
               Continue Onboarding
             </Link>

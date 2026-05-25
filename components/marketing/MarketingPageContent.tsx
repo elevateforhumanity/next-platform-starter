@@ -17,6 +17,7 @@ export function MarketingPageContent({ page }: MarketingPageContentProps) {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[500px] flex items-center">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={page.hero_image}
           alt={page.hero_image_alt}

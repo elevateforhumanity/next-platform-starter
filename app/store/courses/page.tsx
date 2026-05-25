@@ -38,6 +38,7 @@ export default function StoreCoursesPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image src="/images/pages/store-courses-hero.jpg" alt="Certification courses" fill sizes="100vw" className="object-cover" priority quality={85} />
         </div>
         <div className="bg-slate-900 py-10">
@@ -121,7 +122,7 @@ export default function StoreCoursesPage() {
               </p>
             </div>
             <div>
-              <Award className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
+              <Award aria-label="award" className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">Exam Voucher Included</h3>
               <p className="text-slate-700">
                 Every course includes the certification exam voucher - no hidden costs.

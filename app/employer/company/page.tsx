@@ -50,7 +50,7 @@ export default async function EmployerCompanyPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Kpi label="Open + Draft Jobs" value={jobsCount || 0} icon={<Briefcase className="w-5 h-5 text-brand-blue-600" />} />
           <Kpi label="Applications" value={applicationsCount || 0} icon={<Users className="w-5 h-5 text-brand-green-600" />} />
-          <Kpi label="Apprenticeships" value={apprenticeshipsCount || 0} icon={<GraduationCap className="w-5 h-5 text-brand-orange-600" />} />
+          <Kpi label="Apprenticeships" value={apprenticeshipsCount || 0} icon={<GraduationCap aria-label="graduationcap" className="w-5 h-5 text-brand-orange-600" />} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

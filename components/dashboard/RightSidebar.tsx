@@ -330,7 +330,7 @@ export function RightSidebar() {
       {/* Progress Summary */}
       <div className="   rounded-lg p-4 text-white">
         <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <Award className="w-4 h-4" />
+          <Award aria-label="award" className="w-4 h-4" />
           Your Progress
         </h3>
         <div className="space-y-2">

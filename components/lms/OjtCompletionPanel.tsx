@@ -149,7 +149,7 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
         {/* Rep breakdown — stacked on mobile, 3-col on sm+ */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center text-sm">
           <div className="bg-white rounded-lg p-4 border border-slate-200">
-            <div className="text-3xl font-bold text-green-600">{status.verifiedReps}</div>
+            <div className="text-3xl font-bold text-brand-green-600">{status.verifiedReps}</div>
             <div className="text-sm text-slate-500 mt-1">Verified</div>
           </div>
           <div className="bg-white rounded-lg p-4 border border-slate-200">
@@ -267,7 +267,7 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
           <button
             onClick={completeLesson}
             disabled={completing}
-            className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-3.5 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
+            className="w-full flex items-center justify-center gap-2 bg-brand-green-600 text-white py-3.5 rounded-xl font-semibold hover:bg-brand-green-700 disabled:opacity-50 transition-colors"
           >
             {completing ? (
               <>

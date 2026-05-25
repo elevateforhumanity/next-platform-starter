@@ -122,6 +122,7 @@ export default function K12SolutionsPage() {
       {/* Hero */}
       <section className="relative">
         <div className="relative h-[45vh] sm:h-[50vh] md:h-[55vh] min-h-[280px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image sizes="100vw"
             src="/images/pages/k12-hero.webp"
             alt="K-12 students in a career and technical education classroom"
@@ -283,7 +284,7 @@ export default function K12SolutionsPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-white rounded-2xl p-8 border border-slate-200">
             <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <CheckCircle className="w-5 h-5 text-brand-green-600" />
               Compliance &amp; Eligibility
             </h3>
             <div className="grid sm:grid-cols-2 gap-3">
@@ -296,7 +297,7 @@ export default function K12SolutionsPage() {
                 'Registered Apprenticeship Sponsor',
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
                   <span className="text-slate-700 text-sm">{item}</span>
                 </div>
               ))}
@@ -308,7 +309,7 @@ export default function K12SolutionsPage() {
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <GraduationCap className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
+          <GraduationCap aria-label="graduationcap" className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
             Ready to Build a K-12 Partnership?
           </h2>

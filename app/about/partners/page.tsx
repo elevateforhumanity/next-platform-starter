@@ -47,6 +47,7 @@ export default async function PartnersPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/about-partners-hero.webp"
             alt="Partners background"
@@ -107,7 +108,7 @@ export default async function PartnersPage() {
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-center gap-3 mb-8">
-              <Award className="w-8 h-8 text-brand-green-600" />
+              <Award aria-label="award" className="w-8 h-8 text-brand-green-600" />
               <h2 className="text-3xl font-bold text-slate-900">Certification Partners</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -140,7 +141,7 @@ export default async function PartnersPage() {
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-center gap-3 mb-8">
-              <GraduationCap className="w-8 h-8 text-brand-blue-600" />
+              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
               <h2 className="text-3xl font-bold text-slate-900">Training Partners</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -168,7 +169,7 @@ export default async function PartnersPage() {
                       </div>
                     ) : (
                       <div className="h-16 flex items-center justify-center mb-4 bg-slate-50 rounded-lg">
-                        <GraduationCap className="w-8 h-8 text-slate-300" />
+                        <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-slate-300" />
                       </div>
                     )}
                     <h3 className="font-semibold text-slate-900 mb-2">{partner.name}</h3>

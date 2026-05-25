@@ -102,7 +102,7 @@ export function AiInstructorChat({ lessonId, courseId, lessonTitle, isHvac }: Pr
                 ? <Bot className="w-4 h-4 text-brand-blue-600" />
                 : <User className="w-4 h-4 text-slate-600" />}
             </div>
-            <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+            <div className={`max-w-4/5 px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
               msg.role === 'assistant'
                 ? 'bg-slate-100 text-slate-800 rounded-tl-sm'
                 : 'bg-brand-blue-600 text-white rounded-tr-sm'

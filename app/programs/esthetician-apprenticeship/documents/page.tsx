@@ -104,7 +104,7 @@ export default function EstheticianDocumentsPage() {
                   <p className="text-sm text-slate-500">Driver's license, state ID, or passport</p>
                 </div>
                 {governmentId?.status === 'complete' && (
-                  <CheckCircle className="w-6 h-6 text-green-500" />
+                  <CheckCircle className="w-6 h-6 text-brand-green-500" />
                 )}
               </div>
 

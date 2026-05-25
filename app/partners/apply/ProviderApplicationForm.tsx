@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Upload, X, CheckCircle2, ExternalLink } from 'lucide-react';
+import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Upload, X, ExternalLink } from 'lucide-react';
 import { getActiveProgramsByCategory } from '@/lib/program-registry';
 
 const PROGRAM_TYPES = [
@@ -197,13 +197,13 @@ function FileUploadField({
       <Label required={required}>{label}</Label>
       {hint && <p className="text-xs text-slate-500 mb-2">{hint}</p>}
       {value ? (
-        <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-sm">
-          <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-          <span className="text-green-800 flex-1 truncate">Uploaded</span>
-          <a href={value} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:text-green-900">
+        <div className="flex items-center gap-2 p-3 bg-brand-green-50 border border-brand-green-200 rounded-lg text-sm">
+          <span className="w-4 h-4 rounded-full bg-brand-green-600 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
+          <span className="text-brand-green-800 flex-1 truncate">Uploaded</span>
+          <a href={value} target="_blank" rel="noopener noreferrer" className="text-brand-green-700 hover:text-brand-green-900">
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
-          <button type="button" onClick={() => onChange('')} className="text-green-600 hover:text-red-600">
+          <button type="button" onClick={() => onChange('')} className="text-brand-green-600 hover:text-red-600">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -823,18 +823,18 @@ export default function ProviderApplicationForm() {
                 Connecting QuickBooks allows Elevate to sync payments, invoices, and expense records automatically.
               </p>
               {form.quickbooksConnected ? (
-                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
-                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
+                <div className="flex items-center gap-3 p-4 bg-brand-green-50 border border-brand-green-200 rounded-xl">
+                  <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-semibold text-green-800">QuickBooks Connected</p>
+                    <p className="text-sm font-semibold text-brand-green-800">QuickBooks Connected</p>
                     {form.quickbooksCompanyId && (
-                      <p className="text-xs text-green-600 font-mono">Company ID: {form.quickbooksCompanyId}</p>
+                      <p className="text-xs text-brand-green-600 font-mono">Company ID: {form.quickbooksCompanyId}</p>
                     )}
                   </div>
                   <button
                     type="button"
                     onClick={() => { set('quickbooksConnected', false); set('quickbooksCompanyId', ''); setQbStatus(null); }}
-                    className="ml-auto text-xs text-green-600 hover:text-red-600"
+                    className="ml-auto text-xs text-brand-green-600 hover:text-red-600"
                   >
                     Disconnect
                   </button>

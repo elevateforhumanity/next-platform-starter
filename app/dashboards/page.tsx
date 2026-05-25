@@ -43,7 +43,7 @@ const portals = [
     description: 'Post jobs, hire graduates, access WOTC credits',
     href: '/employer/dashboard',
     icon: Building2,
-    color: 'bg-green-500',
+    color: 'bg-brand-green-500',
     public: true,
   },
   {

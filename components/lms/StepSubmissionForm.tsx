@@ -9,7 +9,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { CheckCircle2, Clock, XCircle, RotateCcw, Send, ClipboardList } from 'lucide-react';
+import { Clock, XCircle, RotateCcw, Send, ClipboardList } from 'lucide-react';
 
 interface Submission {
   id: string;
@@ -47,8 +47,8 @@ const STATUS_UI: Record<
   },
   approved: {
     label: 'Approved',
-    color: 'bg-green-50 border-green-200 text-green-700',
-    icon: <CheckCircle2 className="w-4 h-4" />,
+    color: 'bg-brand-green-50 border-brand-green-200 text-brand-green-700',
+    icon: <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
   },
   rejected: {
     label: 'Not accepted',
@@ -174,8 +174,8 @@ export default function StepSubmissionForm({
 
       {/* Success banner */}
       {submitted && !canResubmit && (
-        <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 p-4 text-green-700 text-sm font-medium">
-          <CheckCircle2 className="w-4 h-4 shrink-0" />
+        <div className="flex items-center gap-2 rounded-xl border border-brand-green-200 bg-brand-green-50 p-4 text-brand-green-700 text-sm font-medium">
+          <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
           Submitted successfully. Your instructor will review it shortly.
         </div>
       )}

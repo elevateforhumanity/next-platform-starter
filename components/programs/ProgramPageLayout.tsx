@@ -198,6 +198,7 @@ export default function ProgramPageLayout({
         if (c.heroImage) {
           return (
             <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src={c.heroImage}
                 alt={c.heroImageAlt || c.title}
@@ -684,7 +685,7 @@ export default function ProgramPageLayout({
                   {c.facilityInfo && (
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Training Location</span>
-                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">
+                      <span className="font-semibold text-slate-900 text-right max-w-3/5">
                         {c.facilityInfo}
                       </span>
                     </div>
@@ -692,7 +693,7 @@ export default function ProgramPageLayout({
                   {c.equipmentIncluded && (
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Equipment & Materials</span>
-                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">
+                      <span className="font-semibold text-slate-900 text-right max-w-3/5">
                         {c.equipmentIncluded}
                       </span>
                     </div>

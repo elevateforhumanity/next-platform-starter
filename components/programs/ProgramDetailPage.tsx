@@ -152,6 +152,7 @@ export default function ProgramDetailPage({
             // Fallback: plain image hero for programs without a banner entry
             return (
               <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={p.heroImage}
                   alt={p.heroImageAlt}
@@ -223,7 +224,7 @@ export default function ProgramDetailPage({
                       val: `${p.hoursPerWeekMin}–${p.hoursPerWeekMax} hrs/week`,
                     },
                     {
-                      icon: <Award className="w-3.5 h-3.5" />,
+                      icon: <Award aria-label="award" className="w-3.5 h-3.5" />,
                       val: `${p.credentials.length} credential${p.credentials.length !== 1 ? 's' : ''}`,
                     },
                     {
@@ -511,7 +512,7 @@ export default function ProgramDetailPage({
                           </p>
                           {c.credentialIssued && (
                             <p className="text-brand-green-700 text-xs font-semibold mt-1 flex items-center gap-1">
-                              <Award className="w-3 h-3" /> {c.credentialIssued}
+                              <Award aria-label="award" className="w-3 h-3" /> {c.credentialIssued}
                             </p>
                           )}
                         </div>
@@ -614,7 +615,7 @@ export default function ProgramDetailPage({
                 )}
                 <Link
                   href={hasEligibilityPage ? `/programs/${p.slug}/eligibility` : enrollmentTracks.funded.applyHref}
-                  className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                  className="block w-full text-center bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
                 >
                   {hasImpactOnly ? 'Check Funding Eligibility' : 'Apply Now — $0 Tuition if Eligible'}
                 </Link>

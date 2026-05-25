@@ -97,6 +97,7 @@ export default async function ForAgenciesPage() {
 
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/government-1.webp"
           alt="Workforce agency partnership"
@@ -155,7 +156,7 @@ export default async function ForAgenciesPage() {
                 href={item.href}
                 className="flex items-start gap-3 rounded-xl border border-slate-200 p-4 hover:bg-slate-50 transition"
               >
-                <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 shrink-0 mt-0.5" />
                 <span className="text-sm font-medium text-slate-800">{item.label}</span>
               </Link>
             ))}
@@ -371,7 +372,7 @@ export default async function ForAgenciesPage() {
               </Link>
               <a
                 href="mailto:agencies@elevateforhumanity.org"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-white/10 transition"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-slate-900 hover:bg-white/10 transition"
               >
                 <Mail className="w-4 h-4" /> Email Agency Liaison
               </a>

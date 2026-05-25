@@ -87,7 +87,7 @@ export default async function LmsRootPage() {
                   <p className="text-sm text-slate-500 mb-4 line-clamp-2">{p.desc}</p>
                   <div className="flex items-center gap-3 mb-4">
                     <span className="flex items-center gap-1 text-xs text-slate-500"><Clock className="w-3 h-3" />{p.duration}</span>
-                    <span className="flex items-center gap-1 text-xs text-slate-500"><Award className="w-3 h-3" />{p.credential}</span>
+                    <span className="flex items-center gap-1 text-xs text-slate-500"><Award aria-label="award" className="w-3 h-3" />{p.credential}</span>
                   </div>
                   <div className="flex gap-2">
                     <Link href={`/programs/${p.slug}`} className="flex-1 text-center text-sm font-semibold text-slate-700 border border-slate-200 py-2 rounded-lg hover:bg-slate-50 transition">View Program</Link>

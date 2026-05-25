@@ -37,10 +37,10 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
 
   if (signed) {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-        <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-green-800 mb-1">MOU Signed</h3>
-        <p className="text-green-700 text-sm">Redirecting to your onboarding checklist…</p>
+      <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
+        <CheckCircle className="w-12 h-12 text-brand-green-500 mx-auto mb-3" />
+        <h3 className="text-lg font-bold text-brand-green-800 mb-1">MOU Signed</h3>
+        <p className="text-brand-green-700 text-sm">Redirecting to your onboarding checklist…</p>
       </div>
     );
   }

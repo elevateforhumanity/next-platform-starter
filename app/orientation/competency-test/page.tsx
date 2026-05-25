@@ -7,7 +7,6 @@ import {
   Clock,
   BookOpen,
   HelpCircle,
-  CheckCircle2,
   ArrowRight,
 } from 'lucide-react';
 
@@ -63,6 +62,7 @@ export default function CompetencyTestPage() {
       {/* Hero — image only, title below */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/orientation-page-1.webp"
             alt="Competency assessment"
@@ -111,7 +111,7 @@ export default function CompetencyTestPage() {
               <ul className="space-y-3">
                 {SECTIONS_COVERED.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
+                    <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                     <span className="text-black">{item}</span>
                   </li>
                 ))}
@@ -152,7 +152,7 @@ export default function CompetencyTestPage() {
             </Link>
             <Link
               href="/apply/student"
-              className="border-2 border-white text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition-colors"
+              className="border-2 border-white text-slate-900 font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition-colors"
             >
               Apply Now
             </Link>

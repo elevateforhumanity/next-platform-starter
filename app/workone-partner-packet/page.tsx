@@ -111,7 +111,7 @@ export default function WorkOnePartnerPacketPage() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Award className="w-5 h-5 text-teal-600 flex-shrink-0 mt-1" />
+                <Award aria-label="award" className="w-5 h-5 text-teal-600 flex-shrink-0 mt-1" />
                 <div>
                   <div className="font-semibold text-slate-900">ETPL Status</div>
                   <div className="text-slate-600 text-sm">
@@ -131,7 +131,7 @@ export default function WorkOnePartnerPacketPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
-                  <Award className="w-5 h-5 text-teal-600" />
+                  <Award aria-label="award" className="w-5 h-5 text-teal-600" />
                 </div>
                 <span className="text-teal-600 font-semibold">Section 1</span>
               </div>
@@ -159,6 +159,7 @@ export default function WorkOnePartnerPacketPage() {
             </div>
             <div className="space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/workone-partner-packet-page-1.webp"
                   alt="Workforce partnership"
@@ -334,7 +335,7 @@ export default function WorkOnePartnerPacketPage() {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-brand-blue-600" />
+                <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-brand-blue-600" />
               </div>
               <span className="text-brand-blue-600 font-semibold">Section 3</span>
             </div>
@@ -414,7 +415,7 @@ export default function WorkOnePartnerPacketPage() {
                       <span>{program.duration}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-600">
-                      <Award className="w-4 h-4 text-teal-600" />
+                      <Award aria-label="award" className="w-4 h-4 text-teal-600" />
                       <span>{program.credential}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-600">

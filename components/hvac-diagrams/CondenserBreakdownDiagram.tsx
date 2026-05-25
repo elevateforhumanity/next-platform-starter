@@ -396,7 +396,7 @@ export default function CondenserBreakdownDiagram({
                 key={c.id}
                 className={`text-xs px-2 py-1 rounded-full transition ${
                   revealedComponents.has(c.id)
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-brand-green-100 text-brand-green-700'
                     : 'bg-slate-100 text-slate-400'
                 }`}
               >

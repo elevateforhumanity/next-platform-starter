@@ -127,7 +127,7 @@ export default async function EnrollPage({ params }: Props) {
                     <span>{studentCount ?? 0} students enrolled</span>
                   </div>
                   <div className="flex items-center gap-3 text-slate-600">
-                    <Award className="w-5 h-5" />
+                    <Award aria-label="award" className="w-5 h-5" />
                     <span>Certificate of completion</span>
                   </div>
                 </div>

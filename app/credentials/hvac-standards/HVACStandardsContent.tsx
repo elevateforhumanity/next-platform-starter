@@ -10,7 +10,6 @@ import {
   Search,
   Snowflake,
   Clock,
-  CheckCircle2,
   Building2,
   GraduationCap,
 } from 'lucide-react';
@@ -564,7 +563,7 @@ export default function HVACStandardsContent({
         {/* Assessment Standards */}
         <section>
           <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <GraduationCap className="w-6 h-6 text-brand-blue-600" />
+            <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-blue-600" />
             Assessment Standards
           </h2>
           <div className="bg-white rounded-lg border p-6">
@@ -665,7 +664,7 @@ export default function HVACStandardsContent({
                             })}
                             {comp.verification && (
                               <span className="ml-2 inline-flex items-center gap-1 text-brand-green-700 bg-brand-green-50 px-1.5 py-0.5 rounded">
-                                <CheckCircle2 className="w-3 h-3" />
+                                <span className="w-3 h-3 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
                                 {comp.verification} Verified
                               </span>
                             )}
@@ -714,7 +713,7 @@ export default function HVACStandardsContent({
                 },
               ].map((cred) => (
                 <div key={cred.name} className="flex items-start gap-3 p-3 bg-white rounded">
-                  <CheckCircle2 className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />
+                  <span className="w-4 h-4 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mt-0.5 shrink-0" aria-hidden="true" />
                   <div>
                     <p className="font-medium text-slate-900">{cred.name}</p>
                     <p className="text-xs text-black">

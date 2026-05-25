@@ -141,7 +141,7 @@ export default function ImpactMethodologyPage() {
                 </div>
                 <div className="px-6 py-4">
                   <div className="bg-slate-900 rounded-lg px-4 py-3 mb-3">
-                    <p className="font-mono text-sm text-green-400">{formula}</p>
+                    <p className="font-mono text-sm text-brand-green-400">{formula}</p>
                   </div>
                   <p className="text-xs text-slate-500">{note}</p>
                 </div>

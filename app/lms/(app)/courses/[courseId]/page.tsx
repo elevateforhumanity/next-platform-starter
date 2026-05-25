@@ -343,7 +343,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                     {completedCount === 0 ? 'Start Training' : 'Continue Training'}
                   </Link>
                 ) : (
-                  <div className="inline-flex items-center gap-2 bg-green-50 text-green-800 font-bold px-6 py-3 rounded-xl text-sm border border-green-200">
+                  <div className="inline-flex items-center gap-2 bg-brand-green-50 text-brand-green-800 font-bold px-6 py-3 rounded-xl text-sm border border-brand-green-200">
                     <CheckCircle className="w-4 h-4" /> Training Complete
                   </div>
                 )}
@@ -623,7 +623,7 @@ export default async function CoursePage({ params }: { params: Params }) {
               },
               {
                 icon: DollarSign,
-                color: 'text-green-400',
+                color: 'text-brand-green-400',
                 title: 'Wage Progression',
                 body: 'Entry-level roles typically start lower, with progression into the ~$45K–$75K+ range as experience and certifications grow (BLS).',
               },
@@ -661,7 +661,7 @@ export default async function CoursePage({ params }: { params: Params }) {
               {completedCount} of {allLessons.length} lessons
             </span>
             {!nextLesson && (
-              <span className="flex items-center gap-1 text-green-700 font-bold text-xs bg-green-50 border border-green-200 px-2.5 py-1 rounded-lg">
+              <span className="flex items-center gap-1 text-brand-green-700 font-bold text-xs bg-brand-green-50 border border-brand-green-200 px-2.5 py-1 rounded-lg">
                 <CheckCircle className="w-3.5 h-3.5" /> Complete
               </span>
             )}
@@ -779,7 +779,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                     label: 'Phase 5',
                     name: 'Exam Prep',
                     range: [10, 11],
-                    color: 'bg-green-50 border-green-200 text-green-800',
+                    color: 'bg-brand-green-50 border-brand-green-200 text-brand-green-800',
                   },
                 ];
                 return (
@@ -838,7 +838,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                           className="flex items-center gap-3 px-4 py-3.5 hover:bg-slate-50 transition group"
                         >
                           <div
-                            className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${isCompleted ? 'bg-green-500' : 'bg-slate-100 group-hover:bg-slate-200'}`}
+                            className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${isCompleted ? 'bg-brand-green-500' : 'bg-slate-100 group-hover:bg-slate-200'}`}
                           >
                             {isCompleted ? (
                               <CheckCircle className="w-4 h-4 text-white" />
@@ -848,7 +848,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p
-                              className={`text-sm font-semibold truncate ${isCompleted ? 'text-green-800' : 'text-slate-900'}`}
+                              className={`text-sm font-semibold truncate ${isCompleted ? 'text-brand-green-800' : 'text-slate-900'}`}
                             >
                               {lesson.title}
                             </p>
@@ -910,7 +910,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                       {completedCount > 0 ? 'Continue Training' : 'Start Training'}
                     </Link>
                   ) : (
-                    <div className="flex items-center justify-center gap-2 py-3.5 bg-green-50 text-green-800 rounded-xl font-bold text-sm border border-green-200">
+                    <div className="flex items-center justify-center gap-2 py-3.5 bg-brand-green-50 text-brand-green-800 rounded-xl font-bold text-sm border border-brand-green-200">
                       <CheckCircle className="w-4 h-4" /> Training Complete
                     </div>
                   )}
@@ -974,7 +974,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                 {[
                   {
                     icon: TrendingUp,
-                    color: 'text-green-400',
+                    color: 'text-brand-green-400',
                     text: 'Targets roles: HVAC Helper, Installer Assistant, Entry-Level HVAC Technician',
                   },
                   {
@@ -1026,7 +1026,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                         type: 'lab',
                         icon: FlaskConical,
                         label: 'Hands-On Lab',
-                        color: 'text-green-600',
+                        color: 'text-brand-green-600',
                       },
                       {
                         type: 'practice',
@@ -1059,7 +1059,7 @@ export default async function CoursePage({ params }: { params: Params }) {
                   Credential
                 </h3>
                 <div className="flex items-start gap-3">
-                  <Award className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <Award aria-label="award" className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-slate-900">{credentialName}</p>
                     {program?.credential_type && (

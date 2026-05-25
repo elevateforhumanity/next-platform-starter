@@ -313,11 +313,11 @@ function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: (
       {/* Decision banner */}
       <div
         className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
-          approved ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+          approved ? 'bg-brand-green-50 text-brand-green-800' : 'bg-red-50 text-red-800'
         }`}
       >
         {approved ? (
-          <ShieldCheck className="h-6 w-6 flex-shrink-0 text-green-600" />
+          <ShieldCheck className="h-6 w-6 flex-shrink-0 text-brand-green-600" />
         ) : (
           <ShieldX className="h-6 w-6 flex-shrink-0 text-red-600" />
         )}
@@ -531,7 +531,7 @@ function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: (
 
 function RiskBadge({ level }: { level: 'CLEAN' | 'LOW_RISK' | 'HIGH_RISK' }) {
   const config = {
-    CLEAN: { bg: 'bg-green-100 text-green-800', icon: ShieldCheck, label: 'Clean' },
+    CLEAN: { bg: 'bg-brand-green-100 text-brand-green-800', icon: ShieldCheck, label: 'Clean' },
     LOW_RISK: { bg: 'bg-amber-100 text-amber-800', icon: ShieldAlert, label: 'Low Risk' },
     HIGH_RISK: { bg: 'bg-red-100 text-red-800', icon: ShieldX, label: 'High Risk' },
   }[level];
@@ -562,7 +562,7 @@ function FieldRow({
   icon?: React.ReactNode;
 }) {
   const defaultIcon = ok ? (
-    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
+    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-green-500" />
   ) : informational ? (
     <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-500" />
   ) : (

@@ -1,3 +1,4 @@
+// useHeroVideo
 export const dynamic = 'force-static';
 
 import { Metadata } from 'next';

@@ -193,7 +193,7 @@ export default async function IntegrationsPage() {
             </Link>
             <Link
               href={ROUTES.licensePricing}
-              className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-4 rounded-lg font-semibold border-2 border-white hover:bg-white/10 transition"
+              className="inline-flex items-center justify-center gap-2 bg-transparent text-slate-900 px-8 py-4 rounded-lg font-semibold border-2 border-white hover:bg-white/10 transition"
             >
               View Pricing <ArrowRight className="w-5 h-5" />
             </Link>

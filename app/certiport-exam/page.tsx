@@ -204,7 +204,7 @@ function CertiportExamContent() {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Award className="w-8 h-8 text-white" />
+            <Award aria-label="award" className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Certification Exam</h1>
           <p className="text-slate-600 mt-2">

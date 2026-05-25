@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  Shield, CheckCircle2, Loader2, AlertCircle, ArrowLeft,
+  Shield, Loader2, AlertCircle, ArrowLeft,
   Send, BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
@@ -150,7 +150,7 @@ export default function PolicyAcknowledgmentPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-sm border p-8 text-center">
-          <CheckCircle2 className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
+          <span className="w-16 h-16 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Policies Acknowledged</h1>
           <p className="text-black mb-6">
             All {POLICIES.length} policy acknowledgments have been recorded. A confirmation
@@ -242,7 +242,7 @@ export default function PolicyAcknowledgmentPage() {
                     aria-label={isAcked ? `Remove acknowledgment for ${policy.title}` : `Acknowledge ${policy.title}`}
                   >
                     {isAcked ? (
-                      <CheckCircle2 className="w-6 h-6 text-brand-green-500" />
+                      <span className="w-6 h-6 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                     ) : (
                       <Shield className="w-6 h-6 text-slate-700" />
                     )}

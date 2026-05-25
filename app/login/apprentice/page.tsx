@@ -32,7 +32,7 @@ export default async function ApprenticeLoginPage() {
             Registered Apprenticeship Program
           </p>
           <div className="flex items-center justify-center gap-2 mt-3">
-            <GraduationCap className="w-4 h-4 text-amber-400" />
+            <GraduationCap aria-label="graduationcap" className="w-4 h-4 text-amber-400" />
             <span className="text-xs text-amber-400 font-medium uppercase tracking-widest">
               DOL Registered
             </span>

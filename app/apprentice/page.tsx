@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors, AlertTriangle, CheckCircle2, CreditCard, XCircle } from 'lucide-react';
+import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors, AlertTriangle, CreditCard, XCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
 import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
@@ -168,7 +168,7 @@ export default async function ApprenticePortalPage() {
               {onboardingItems.map((item) => (
                 <li key={item.label} className="flex items-center gap-3 text-sm">
                   {item.done ? (
-                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
                   ) : (
                     <XCircle className="w-4 h-4 text-red-400 shrink-0" />
                   )}

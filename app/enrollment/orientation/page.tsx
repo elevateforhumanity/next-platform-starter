@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { CheckCircle2, ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export default function EnrollmentOrientationPage() {
   const router = useRouter();
@@ -139,7 +139,7 @@ export default function EnrollmentOrientationPage() {
             </span>
             <h2 className="font-bold text-black text-sm">Watch the Orientation Video</h2>
             {videoWatched && (
-              <CheckCircle2 className="w-5 h-5 text-brand-green-600 ml-auto flex-shrink-0" />
+              <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0 ml-auto flex-shrink-0" aria-hidden="true" />
             )}
           </div>
 
@@ -197,7 +197,7 @@ export default function EnrollmentOrientationPage() {
           <div className="px-5 py-3 bg-slate-50 border-t border-slate-200">
             {videoWatched ? (
               <p className="text-brand-green-700 text-sm font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" /> Video complete — sign below to finish
+                <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Video complete — sign below to finish
                 orientation
               </p>
             ) : (
@@ -238,7 +238,7 @@ export default function EnrollmentOrientationPage() {
                 'Professional conduct is required at all times — in class, online, and at employer sites.',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-black">
-                  <CheckCircle2 className="w-4 h-4 text-brand-blue-600 flex-shrink-0 mt-0.5" />
+                  <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                   {item}
                 </li>
               ))}

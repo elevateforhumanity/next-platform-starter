@@ -18,7 +18,7 @@ export default function DonateThankYouPage() {
 
       <div className="max-w-2xl w-full text-center">
         {/* Success icon */}
-        <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/30">
+        <div className="w-24 h-24 bg-brand-green-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-500/30">
           <CheckCircle className="w-12 h-12 text-white" />
         </div>
 
@@ -62,13 +62,13 @@ export default function DonateThankYouPage() {
           </Link>
           <Link
             href="/programs"
-            className="border-2 border-white/30 text-white font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition"
+            className="border-2 border-white/30 text-slate-900 font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition"
           >
             Browse Programs
           </Link>
           <Link
             href="/donate"
-            className="border-2 border-white/30 text-white font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition flex items-center justify-center gap-2"
+            className="border-2 border-white/30 text-slate-900 font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition flex items-center justify-center gap-2"
           >
             <Heart className="w-4 h-4 text-red-400" />
             Give Again

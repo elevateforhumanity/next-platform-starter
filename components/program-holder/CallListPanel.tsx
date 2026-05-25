@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, ChevronDown, ChevronUp, CheckCircle2, Clock, XCircle, Calendar, MapPin, FileText } from 'lucide-react';
+import { Phone, ChevronDown, ChevronUp, Clock, XCircle, Calendar, MapPin, FileText } from 'lucide-react';
 
 interface Applicant {
   id: string;
@@ -270,7 +270,7 @@ export function CallListPanel({ applicants }: { applicants: Applicant[] }) {
                       className="flex items-center gap-2 bg-brand-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 transition-colors"
                     >
                       {isSaved ? (
-                        <><CheckCircle2 className="w-4 h-4" /> Saved!</>
+                        <><span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Saved!</>
                       ) : saving ? (
                         <><Clock className="w-4 h-4 animate-spin" /> Saving…</>
                       ) : (

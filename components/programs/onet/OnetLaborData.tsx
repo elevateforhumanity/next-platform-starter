@@ -42,11 +42,11 @@ export async function OnetLaborData({ slug, socCode }: Props) {
             <p className="text-slate-500 text-sm mt-1">SOC {data.soc} · O*NET {new Date().getUTCFullYear()}</p>
           </div>
           {data.brightOutlook && (
-            <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-bold">
+            <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 text-brand-green-800 px-4 py-2 rounded-full text-sm font-bold">
               <TrendingUp className="w-4 h-4" />
               Bright Outlook
               {data.brightOutlookReasons.length > 0 && (
-                <span className="font-normal text-green-700">
+                <span className="font-normal text-brand-green-700">
                   — {data.brightOutlookReasons.join(', ')}
                 </span>
               )}
@@ -145,7 +145,7 @@ export async function OnetLaborData({ slug, socCode }: Props) {
             <ul className="space-y-2">
               {data.coreTasks.map((task) => (
                 <li key={task} className="text-slate-700 text-sm flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0 mt-1.5" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 flex-shrink-0 mt-1.5" />
                   {task}
                 </li>
               ))}

@@ -445,7 +445,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                       const val = Math.min(1900, Math.max(0, parseInt(e.target.value) || 0));
                       setTransferHours(val);
                     }}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50"
+                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-slate-900 placeholder-white/50"
                     placeholder="0"
                   />
                   <p className="text-xs text-white/70 mt-1">

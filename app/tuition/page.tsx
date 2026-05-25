@@ -28,10 +28,10 @@ export default function TuitionPage() {
       </section>
 
       <section className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-10">
-          <h2 className="text-xl font-bold text-green-900 mb-2">Funded Training — $0 Out of Pocket</h2>
-          <p className="text-green-800 mb-4">Eligible participants may qualify for full tuition coverage through WIOA, Workforce Ready Grant, JRI, or employer sponsorship. No repayment required.</p>
-          <Link href="/check-eligibility" className="inline-flex items-center gap-2 bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-800 transition">
+        <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 mb-10">
+          <h2 className="text-xl font-bold text-brand-green-900 mb-2">Funded Training — $0 Out of Pocket</h2>
+          <p className="text-brand-green-800 mb-4">Eligible participants may qualify for full tuition coverage through WIOA, Workforce Ready Grant, JRI, or employer sponsorship. No repayment required.</p>
+          <Link href="/check-eligibility" className="inline-flex items-center gap-2 bg-brand-green-700 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-brand-green-800 transition">
             Check My Eligibility <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -69,7 +69,7 @@ export default function TuitionPage() {
           ].map((opt) => (
             <div key={opt.title} className="border border-slate-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-2">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-brand-green-600" />
                 <h3 className="font-bold text-slate-900">{opt.title}</h3>
               </div>
               <p className="text-sm text-slate-600">{opt.desc}</p>

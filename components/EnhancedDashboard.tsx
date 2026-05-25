@@ -103,7 +103,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
 
         <div className="bg-white border border-slate-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <Award className="w-8 h-8 text-purple-600" />
+            <Award aria-label="award" className="w-8 h-8 text-purple-600" />
             <span className="text-2xl font-bold text-black">{stats.achievements}</span>
           </div>
           <p className="text-sm text-black">Achievements</p>
@@ -150,7 +150,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             href="/achievements"
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
-            <Award className="w-6 h-6 text-black mb-2" />
+            <Award aria-label="award" className="w-6 h-6 text-black mb-2" />
             <span className="text-xs font-semibold text-black">Achievements</span>
           </a>
 

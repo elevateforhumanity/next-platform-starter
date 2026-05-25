@@ -239,7 +239,7 @@ export default function PirlExportPanel() {
               </div>
               <div>
                 <span className="text-slate-500 block">SHA-256</span>
-                <span className="font-mono text-slate-600 truncate block max-w-[120px]" title={result.checksum}>
+                <span className="font-mono text-slate-600 truncate block max-w-7xl" title={result.checksum}>
                   {result.checksum?.slice(0, 12)}…
                 </span>
               </div>

@@ -157,6 +157,7 @@ export default function CommunityHubPage() {
             {features.map((feature) => (
               <div key={feature.title} className="group bg-white rounded-xl overflow-hidden border hover:shadow-lg transition">
                 <div className="relative h-44 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={feature.image}
                     alt={feature.title}
@@ -345,7 +346,7 @@ export default function CommunityHubPage() {
             </Link>
             <Link
               href="/contact"
-              className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition"
+              className="px-8 py-4 border-2 border-white text-slate-900 font-bold rounded-lg hover:bg-white/10 transition"
             >
               Talk to Sales
             </Link>

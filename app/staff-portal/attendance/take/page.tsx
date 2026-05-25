@@ -123,7 +123,7 @@ export default function TakeAttendancePage() {
   }
 
   const statusColors: Record<AttendanceStatus, string> = {
-    present: 'bg-green-100 text-green-700 border-green-300',
+    present: 'bg-brand-green-100 text-brand-green-700 border-brand-green-300',
     absent: 'bg-red-100 text-red-700 border-red-300',
     late: 'bg-amber-100 text-amber-700 border-amber-300',
     excused: 'bg-slate-100 text-slate-600 border-slate-300',
@@ -163,7 +163,7 @@ export default function TakeAttendancePage() {
           </div>
         )}
         {saved && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
+          <div className="mb-4 p-4 bg-brand-green-50 border border-brand-green-200 rounded-xl text-brand-green-700 text-sm">
             Attendance saved successfully!
           </div>
         )}
@@ -189,7 +189,7 @@ export default function TakeAttendancePage() {
         <div className="flex gap-3 mb-4">
           <button
             onClick={() => markAll('present')}
-            className="px-4 py-2 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium"
+            className="px-4 py-2 text-sm bg-brand-green-100 text-brand-green-700 rounded-lg hover:bg-brand-green-200 font-medium"
           >
             Mark All Present
           </button>

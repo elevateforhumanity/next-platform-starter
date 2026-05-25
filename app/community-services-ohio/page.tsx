@@ -48,7 +48,7 @@ export default function CommunityServicesOhioPage() {
           ].map((service) => (
             <div
               key={service.title}
-              className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500"
+              className="bg-white p-6 rounded-lg shadow-md border-l-4 border-brand-green-500"
             >
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p className="text-slate-600">{service.desc}</p>
@@ -56,12 +56,12 @@ export default function CommunityServicesOhioPage() {
           ))}
         </div>
 
-        <div className="bg-green-600 text-white p-8 rounded-xl text-center">
+        <div className="bg-brand-green-600 text-white p-8 rounded-xl text-center">
           <h2 className="text-2xl font-bold mb-4">Need Support? We&apos;re Here to Help</h2>
           <p className="mb-6">Connect with our team to find the resources you need.</p>
           <Link
             href="/contact"
-            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-slate-100"
+            className="bg-white text-brand-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-slate-100"
           >
             Contact Us
           </Link>
@@ -79,25 +79,25 @@ export default function CommunityServicesOhioPage() {
             <div className="space-y-1">
               <Link
                 href="/community-services-indiana"
-                className="text-green-600 hover:underline block"
+                className="text-brand-green-600 hover:underline block"
               >
                 Indiana
               </Link>
               <Link
                 href="/community-services-illinois"
-                className="text-green-600 hover:underline block"
+                className="text-brand-green-600 hover:underline block"
               >
                 Illinois
               </Link>
               <Link
                 href="/community-services-tennessee"
-                className="text-green-600 hover:underline block"
+                className="text-brand-green-600 hover:underline block"
               >
                 Tennessee
               </Link>
               <Link
                 href="/community-services-texas"
-                className="text-green-600 hover:underline block"
+                className="text-brand-green-600 hover:underline block"
               >
                 Texas
               </Link>
@@ -108,13 +108,13 @@ export default function CommunityServicesOhioPage() {
         <div className="mt-8 text-center text-sm text-slate-500">
           <p>Serving: Columbus, Cleveland, Cincinnati, Toledo, Akron, Dayton, Youngstown</p>
           <div className="mt-4 space-x-4">
-            <Link href="/locations" className="text-green-600 hover:underline">
+            <Link href="/locations" className="text-brand-green-600 hover:underline">
               All Locations
             </Link>
-            <Link href="/programs" className="text-green-600 hover:underline">
+            <Link href="/programs" className="text-brand-green-600 hover:underline">
               All Programs
             </Link>
-            <Link href="/contact" className="text-green-600 hover:underline">
+            <Link href="/contact" className="text-brand-green-600 hover:underline">
               Contact Us
             </Link>
           </div>

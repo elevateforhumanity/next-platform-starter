@@ -14,7 +14,7 @@ const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
 const IMPACT_STATS = [
   { icon: Users, value: 'Many', label: 'Students Trained', color: 'text-blue-600', bg: 'bg-blue-50' },
-  { icon: Award, value: '200+', label: 'Credentials Issued', color: 'text-green-600', bg: 'bg-green-50' },
+  { icon: Award, value: '200+', label: 'Credentials Issued', color: 'text-brand-green-600', bg: 'bg-brand-green-50' },
   { icon: Briefcase, value: '150+', label: 'Jobs Placed', color: 'text-purple-600', bg: 'bg-purple-50' },
   { icon: Globe, value: '10+', label: 'Programs Offered', color: 'text-orange-600', bg: 'bg-orange-50' },
 ];
@@ -100,7 +100,7 @@ export default function DonatePage() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image
+          <Image sizes="100vw"
             src="/images/hero/hero-community.webp"
             alt="Community workforce training"
             fill
@@ -124,9 +124,9 @@ export default function DonatePage() {
             for underserved communities in Indianapolis and beyond.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-300">
-            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-400" /> 501(c)(3) Tax Deductible</span>
-            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-400" /> 100% Goes to Programs</span>
-            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-400" /> Secure Stripe Checkout</span>
+            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-brand-green-400" /> 501(c)(3) Tax Deductible</span>
+            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-brand-green-400" /> 100% Goes to Programs</span>
+            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-brand-green-400" /> Secure Stripe Checkout</span>
           </div>
         </div>
       </section>
@@ -170,7 +170,7 @@ export default function DonatePage() {
             <div className="bg-slate-50 rounded-2xl p-6 mb-8">
               <h3 className="font-bold text-slate-900 mb-4">Your ${finalAmount || 100} gift:</h3>
               <p className="text-slate-700 flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+                <CheckCircle className="w-5 h-5 text-brand-green-600 mt-0.5 shrink-0" />
                 {impactMessage}
               </p>
             </div>
@@ -314,10 +314,10 @@ export default function DonatePage() {
             <div className="mt-6 bg-slate-50 rounded-2xl p-6">
               <h3 className="font-bold text-slate-900 mb-3">Other Ways to Give</h3>
               <ul className="space-y-2 text-sm text-slate-600">
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />Employer matching — ask your HR team about Benevity or Deed</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />Donor-advised fund — use your DAF to grant to Sit Selfish Inc</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />Corporate sponsorship — <Link href="/partners" className="text-blue-600 underline">become a partner</Link></li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />Volunteer your expertise — <Link href="/contact" className="text-blue-600 underline">contact us</Link></li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />Employer matching — ask your HR team about Benevity or Deed</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />Donor-advised fund — use your DAF to grant to Sit Selfish Inc</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />Corporate sponsorship — <Link href="/partners" className="text-blue-600 underline">become a partner</Link></li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />Volunteer your expertise — <Link href="/contact" className="text-blue-600 underline">contact us</Link></li>
               </ul>
             </div>
           </div>
@@ -335,7 +335,7 @@ export default function DonatePage() {
             <Link href="/impact" className="bg-white text-blue-700 font-bold px-8 py-3 rounded-xl hover:bg-blue-50 transition flex items-center gap-2">
               View Live Impact Stats <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/programs" className="border-2 border-white/40 text-white font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition">
+            <Link href="/programs" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition">
               Browse Programs
             </Link>
           </div>

@@ -16,7 +16,7 @@ export default function Hero({
   cta,
   cta_label = 'Get Started',
   cta_secondary,
-  cta_secondary_label = 'Learn More',
+  cta_secondary_label = 'See Details',
   bg_color = 'brand-blue',
 }: HeroProps) {
   return (
@@ -37,7 +37,7 @@ export default function Hero({
             {cta_secondary && (
               <Link
                 href={cta_secondary}
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-all"
+                className="border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-all"
               >
                 {cta_secondary_label}
               </Link>

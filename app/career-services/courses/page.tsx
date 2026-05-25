@@ -57,7 +57,7 @@ export default async function CareerCoursesPage() {
       <section className="relative bg-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 bg-white/20 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">
+            <span className="inline-flex items-center gap-2 bg-white/20 text-slate-900 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               <Sparkles className="w-4 h-4" />
               Self-Paced Video Courses
             </span>
@@ -76,7 +76,7 @@ export default async function CareerCoursesPage() {
                 <span>Downloadable Resources</span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5" />
+                <Award aria-label="award" className="w-5 h-5" />
                 <span>Certificates Included</span>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default async function CareerCoursesPage() {
             </div>
             <div className="text-center">
               <div className="w-14 h-14 bg-brand-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Award className="w-7 h-7 text-brand-blue-600" />
+                <Award aria-label="award" className="w-7 h-7 text-brand-blue-600" />
               </div>
               <h3 className="font-semibold mb-2">Certificate</h3>
               <p className="text-sm text-slate-600">Earn a certificate upon completion</p>

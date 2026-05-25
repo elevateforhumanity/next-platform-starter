@@ -96,7 +96,7 @@ const STATUS_LABEL_MAP: Record<SemanticStatus, string> = {
 };
 
 const COLOR_CLASSES: Record<BadgeColor, string> = {
-  green:  'bg-green-100 text-green-800',
+  green:  'bg-brand-green-100 text-brand-green-800',
   red:    'bg-red-100 text-red-800',
   amber:  'bg-amber-100 text-amber-800',
   blue:   'bg-blue-100 text-blue-800',
@@ -135,7 +135,7 @@ export function StatusBadge({ status, label, color, className, dot = false }: St
         <span
           className={cn(
             'w-1.5 h-1.5 rounded-full flex-shrink-0',
-            resolvedColor === 'green'  && 'bg-green-500',
+            resolvedColor === 'green'  && 'bg-brand-green-500',
             resolvedColor === 'red'    && 'bg-red-500',
             resolvedColor === 'amber'  && 'bg-amber-500',
             resolvedColor === 'blue'   && 'bg-blue-500',

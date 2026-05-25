@@ -84,7 +84,7 @@ export default function LessonVideoWithSimulation({
       <div>
         <div className="flex items-center gap-2 mb-3">
           <span
-            className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${minimumReached ? 'bg-green-100 text-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
+            className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${minimumReached ? 'bg-brand-green-100 text-brand-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
           >
             1
           </span>
@@ -102,11 +102,11 @@ export default function LessonVideoWithSimulation({
         <div className="mt-2 flex items-center gap-3 text-sm">
           <div className="flex-1 h-2 rounded-full bg-slate-200 overflow-hidden">
             <div
-              className={`h-2 rounded-full transition-all duration-500 ${minimumReached ? 'bg-green-500' : 'bg-brand-blue-500'}`}
+              className={`h-2 rounded-full transition-all duration-500 ${minimumReached ? 'bg-brand-green-500' : 'bg-brand-blue-500'}`}
               style={{ width: `${Math.min(100, (watchedSeconds / minimumTimeSeconds) * 100)}%` }}
             />
           </div>
-          <span className={minimumReached ? 'text-green-600 font-medium' : 'text-slate-500'}>
+          <span className={minimumReached ? 'text-brand-green-600 font-medium' : 'text-slate-500'}>
             {minimumReached ? 'Complete' : `${watchedSeconds}s / ${minimumTimeSeconds}s`}
           </span>
         </div>
@@ -117,7 +117,7 @@ export default function LessonVideoWithSimulation({
         <div>
           <div className="flex items-center gap-2 mb-3">
             <span
-              className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${teachingRead ? 'bg-green-100 text-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
+              className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${teachingRead ? 'bg-brand-green-100 text-brand-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
             >
               2
             </span>
@@ -180,7 +180,7 @@ export default function LessonVideoWithSimulation({
             )}
 
             {teachingRead && (
-              <div className="border-t bg-green-50 px-5 py-3 text-center text-sm text-green-700 font-medium">
+              <div className="border-t bg-brand-green-50 px-5 py-3 text-center text-sm text-brand-green-700 font-medium">
                 Components reviewed. 3D simulation unlocked below.
               </div>
             )}
@@ -193,7 +193,7 @@ export default function LessonVideoWithSimulation({
         <div>
           <div className="flex items-center gap-2 mb-3">
             <span
-              className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${simulationComplete ? 'bg-green-100 text-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
+              className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${simulationComplete ? 'bg-brand-green-100 text-brand-green-700' : 'bg-brand-blue-100 text-brand-blue-700'}`}
             >
               3
             </span>
@@ -217,10 +217,10 @@ export default function LessonVideoWithSimulation({
 
       {/* Completion banner */}
       {simulationComplete && (
-        <div className="rounded-xl border-2 border-green-300 bg-green-50 p-5 text-center">
+        <div className="rounded-xl border-2 border-brand-green-300 bg-brand-green-50 p-5 text-center">
           <div className="text-2xl mb-1">&#10003;</div>
-          <div className="font-bold text-green-800 text-lg">Lesson Complete</div>
-          <p className="text-sm text-green-700 mt-1">
+          <div className="font-bold text-brand-green-800 text-lg">Lesson Complete</div>
+          <p className="text-sm text-brand-green-700 mt-1">
             You watched the video, studied the condenser components, and identified all 4 parts on
             the 3D model.
           </p>

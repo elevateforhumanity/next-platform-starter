@@ -321,7 +321,7 @@ export function ApprenticeshipShopFields({
           Supervisor License Type <span className="text-brand-red-500">*</span>
         </label>
         <div className="relative">
-          <Award className="absolute left-3 top-3.5 w-5 h-5 text-slate-400" />
+          <Award aria-label="award" className="absolute left-3 top-3.5 w-5 h-5 text-slate-400" />
           <select
             value={formData.supervisorLicenseType}
             onChange={(e) => onChange({ supervisorLicenseType: e.target.value })}

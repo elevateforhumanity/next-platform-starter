@@ -88,6 +88,7 @@ export default function GuidesPage() {
 
       {/* Hero */}
       <section className="relative h-56 md:h-72 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/store-guides-hero.webp"
           alt="Workforce development guides and resources"
@@ -224,7 +225,7 @@ export default function GuidesPage() {
             </Link>
             <Link
               href="/store"
-              className="inline-flex items-center gap-2 border-2 border-white/40 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-2 border-2 border-white/40 text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-colors"
             >
               Back to Store
             </Link>

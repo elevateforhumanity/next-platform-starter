@@ -874,7 +874,7 @@ export default function LessonPage() {
 
         {/* Sidebar - Lesson List */}
         <aside
-          className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-80 max-w-[85vw] md:max-w-none bg-white border-r overflow-y-auto transition-transform duration-300 fixed md:relative h-full z-40`}
+          className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-80 max-w-5/6 md:max-w-none bg-white border-r overflow-y-auto transition-transform duration-300 fixed md:relative h-full z-40`}
         >
           <div className="p-6 border-b">
             <Link
@@ -1135,7 +1135,7 @@ export default function LessonPage() {
                 <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-8">
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                      <Award className="w-6 h-6 text-indigo-600" />
+                      <Award aria-label="award" className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-wide text-indigo-600 mb-0.5">
@@ -1165,7 +1165,7 @@ export default function LessonPage() {
                     href={`/certiport-exam?exam=${encodeURIComponent(lesson.partner_exam_code)}&courseId=${courseId}&lessonId=${lessonId}&returnUrl=${encodeURIComponent(`/lms/courses/${courseId}/lessons/${lessonId}`)}`}
                     className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors"
                   >
-                    <Award className="w-4 h-4" />
+                    <Award aria-label="award" className="w-4 h-4" />
                     Schedule My Certiport Exam
                   </Link>
                 </div>
@@ -1200,7 +1200,7 @@ export default function LessonPage() {
                 <div className="bg-red-50 border border-red-200 rounded-xl p-8">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                      <Award className="w-5 h-5 text-red-600" />
+                      <Award aria-label="award" className="w-5 h-5 text-red-600" />
                     </div>
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-wide text-red-600">
@@ -1225,7 +1225,7 @@ export default function LessonPage() {
             <div className="max-w-4xl mx-auto p-4 md:p-8">
               <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
                 <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center mx-auto mb-4">
-                  <GraduationCap className="w-8 h-8 text-brand-green-600" />
+                  <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-green-600" />
                 </div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-brand-green-600 mb-2">
                   Certification

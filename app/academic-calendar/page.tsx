@@ -64,6 +64,7 @@ export default function AcademicCalendarPage() {
 
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/academic-calendar-hero.webp"
           alt="Academic calendar and important dates"
@@ -124,7 +125,7 @@ export default function AcademicCalendarPage() {
         {/* Holidays */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <GraduationCap className="w-6 h-6 text-brand-blue-600" />
+            <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-blue-600" />
             Holidays & Breaks
           </h2>
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">

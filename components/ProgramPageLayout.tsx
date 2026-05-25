@@ -70,6 +70,7 @@ export default function ProgramPageLayout({
     <div className="min-h-screen bg-white">
       {/* Hero Banner — image only */}
       <section className="relative h-[350px] sm:h-[400px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={heroImage}
           alt={heroImageAlt}
@@ -271,7 +272,7 @@ export default function ProgramPageLayout({
               </Link>
               <Link
                 href="/contact"
-                className="bg-transparent border-4 border-white text-white px-12 py-6 rounded-full font-bold hover:bg-white hover:text-brand-orange-600 text-xl shadow-2xl transition-all hover:scale-105"
+                className="bg-transparent border-4 border-white text-slate-900 px-12 py-6 rounded-full font-bold hover:bg-white hover:text-brand-orange-600 text-xl shadow-2xl transition-all hover:scale-105"
               >
                 Talk to an Advisor
               </Link>

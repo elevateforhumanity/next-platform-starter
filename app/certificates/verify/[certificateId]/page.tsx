@@ -70,6 +70,7 @@ export default async function VerifyCertificatePage({
       <div className="min-h-screen bg-slate-50">
         {/* Hero Section */}
         <section className="relative h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center text-white overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/artlist/hero-training-3.webp"
             alt="[certificateId]"
@@ -283,7 +284,7 @@ export default async function VerifyCertificatePage({
         {/* Verification Status */}
         <div
           className={`rounded-2xl shadow-xl p-8 mb-8 ${
-            isValid ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'
+            isValid ? 'bg-brand-green-50 border-2 border-brand-green-500' : 'bg-red-50 border-2 border-red-500'
           }`}
         >
           <div className="flex items-center gap-4 mb-4">

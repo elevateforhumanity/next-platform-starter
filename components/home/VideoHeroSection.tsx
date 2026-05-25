@@ -1,4 +1,5 @@
 'use client';
+// useHeroVideo
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -113,7 +114,7 @@ export default function VideoHeroSection() {
             </Link>
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white text-lg font-bold rounded-lg hover:bg-white/20 transition-all border-2 border-white/50"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-slate-900 text-lg font-bold rounded-lg hover:bg-white/20 transition-all border-2 border-white/50"
             >
               View Programs
             </Link>

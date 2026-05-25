@@ -92,8 +92,8 @@ export function AdminPagination({
 
 export function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
-    active: 'bg-green-100 text-green-800',
-    approved: 'bg-green-100 text-green-800',
+    active: 'bg-brand-green-100 text-brand-green-800',
+    approved: 'bg-brand-green-100 text-brand-green-800',
     enrolled: 'bg-blue-100 text-blue-800',
     pending: 'bg-amber-100 text-amber-800',
     submitted: 'bg-amber-100 text-amber-800',

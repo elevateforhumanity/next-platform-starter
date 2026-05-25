@@ -6,7 +6,6 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   Clock,
-  CheckCircle2,
   XCircle,
   AlertTriangle,
   History,
@@ -258,9 +257,9 @@ export default async function TimeclockHistoryPage() {
             <p className="text-2xl font-bold text-brand-blue-700">{totalHours.toFixed(1)}</p>
             <p className="text-xs text-brand-blue-600 mt-0.5">Hours logged</p>
           </div>
-          <div className="bg-green-50 rounded-xl p-4 text-center">
-            <p className="text-2xl font-bold text-green-700">{approvedHours.toFixed(1)}</p>
-            <p className="text-xs text-green-600 mt-0.5">Approved</p>
+          <div className="bg-brand-green-50 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-brand-green-700">{approvedHours.toFixed(1)}</p>
+            <p className="text-xs text-brand-green-600 mt-0.5">Approved</p>
           </div>
           <div className="bg-amber-50 rounded-xl p-4 text-center">
             <p className="text-2xl font-bold text-amber-700">{pendingCount}</p>
@@ -316,7 +315,7 @@ export default async function TimeclockHistoryPage() {
                               ) : s.isOpen ? (
                                 <Clock className="w-4 h-4 text-brand-blue-500 animate-pulse" />
                               ) : (
-                                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                               )}
                             </div>
                             <div>
@@ -363,7 +362,7 @@ export default async function TimeclockHistoryPage() {
                             <span
                               className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                                 s.status === 'approved'
-                                  ? 'bg-green-100 text-green-700'
+                                  ? 'bg-brand-green-100 text-brand-green-700'
                                   : s.status === 'rejected'
                                     ? 'bg-red-100 text-red-700'
                                     : 'bg-slate-100 text-slate-700'

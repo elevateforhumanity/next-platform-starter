@@ -43,8 +43,8 @@ const DELIVERY_COMPONENTS = [
   },
   {
     Icon: HeartHandshake,
-    iconBg: 'bg-green-100',
-    iconColor: 'text-green-700',
+    iconBg: 'bg-brand-green-100',
+    iconColor: 'text-brand-green-700',
     title: 'Support Services — Virtual & In-Person',
     body: [
       'Career counseling, case management, funding navigation, and advising are available virtually (video, phone, chat) and in-person by appointment. WIOA-funded participants also work with their assigned WorkOne career advisor. Supportive services (transportation assistance, childcare support, supplies) are coordinated through applicable funding programs.',
@@ -244,7 +244,7 @@ export default function TrainingDeliveryDisclosure() {
             <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-brand-blue-700 font-bold rounded-lg hover:bg-brand-blue-50 transition text-sm">
               Contact Us <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/legal/disclosures" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition text-sm">
+            <Link href="/legal/disclosures" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-slate-900 font-semibold rounded-lg hover:bg-white/10 transition text-sm">
               All Disclosures
             </Link>
           </div>

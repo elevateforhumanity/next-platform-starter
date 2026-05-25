@@ -209,7 +209,7 @@ export default async function CMLearnerDetailPage({ params }: Props) {
         <div className="bg-white rounded-xl border border-slate-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <Award className="w-5 h-5 text-yellow-600" />
+              <Award aria-label="award" className="w-5 h-5 text-yellow-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{documents?.length || 0}</p>

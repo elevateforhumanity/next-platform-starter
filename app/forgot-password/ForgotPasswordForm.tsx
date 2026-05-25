@@ -32,7 +32,7 @@ function Form() {
   if (success) {
     return (
       <div className="text-center">
-        <CheckCircle className="mx-auto mb-4 h-12 w-12 text-green-500" />
+        <CheckCircle className="mx-auto mb-4 h-12 w-12 text-brand-green-500" />
         <h2 className="text-xl font-bold text-slate-900">Check your email</h2>
         <p className="mt-2 text-slate-600">
           If an account exists for <strong>{email}</strong>, you'll receive a reset link shortly.

@@ -77,7 +77,7 @@ const TAB_META: Record<
   workforce: {
     label: 'Workforce',
     icon: <Users className="w-4 h-4" />,
-    color: 'bg-green-600',
+    color: 'bg-brand-green-600',
     description: 'Applications, enrollments, and placements',
   },
   business: {
@@ -208,8 +208,8 @@ function AdminPanel({ data }: { data: any }) {
         <Stat
           label="Certificates"
           value={data.certificates}
-          icon={<Award className="w-4 h-4" />}
-          color="bg-green-600"
+          icon={<Award aria-label="award" className="w-4 h-4" />}
+          color="bg-brand-green-600"
         />
       </div>
       <div>
@@ -238,14 +238,14 @@ function EducationPanel({ data, role }: { data: any; role: string }) {
         <Stat
           label="Enrolled Programs"
           value={data.enrollments.length}
-          icon={<GraduationCap className="w-4 h-4" />}
+          icon={<GraduationCap aria-label="graduationcap" className="w-4 h-4" />}
           color="bg-blue-600"
         />
         <Stat
           label="Lessons Completed"
           value={data.completedLessons}
           icon={<CheckCircle className="w-4 h-4" />}
-          color="bg-green-600"
+          color="bg-brand-green-600"
         />
         {data.taughtCourses.length > 0 && (
           <Stat
@@ -369,7 +369,7 @@ function TradesPanel({ data }: { data: any }) {
             </div>
             <div className="flex items-center gap-2">
               {data.partner.partners?.mou_signed ? (
-                <CheckCircle className="w-4 h-4 text-green-500" />
+                <CheckCircle className="w-4 h-4 text-brand-green-500" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-amber-500" />
               )}
@@ -379,7 +379,7 @@ function TradesPanel({ data }: { data: any }) {
             </div>
             <div className="flex items-center gap-2">
               {data.partner.partners?.onboarding_completed ? (
-                <CheckCircle className="w-4 h-4 text-green-500" />
+                <CheckCircle className="w-4 h-4 text-brand-green-500" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-amber-500" />
               )}
@@ -455,8 +455,8 @@ function WorkforcePanel({ data }: { data: any }) {
         <Stat
           label="Completions"
           value={data.completions}
-          icon={<Award className="w-4 h-4" />}
-          color="bg-green-600"
+          icon={<Award aria-label="award" className="w-4 h-4" />}
+          color="bg-brand-green-600"
         />
       </div>
 
@@ -496,7 +496,7 @@ function WorkforcePanel({ data }: { data: any }) {
             href="https://www.indianacareerconnect.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-sm text-green-800 font-medium hover:bg-green-100 flex items-center justify-between"
+            className="bg-brand-green-50 border border-brand-green-200 rounded-lg px-4 py-3 text-sm text-brand-green-800 font-medium hover:bg-brand-green-100 flex items-center justify-between"
           >
             WorkOne / WIOA Appointment <ChevronRight className="w-3 h-3" />
           </a>
@@ -547,8 +547,8 @@ function BusinessPanel({ data }: { data: any }) {
         <Stat
           label="Certificates"
           value={data.certificates}
-          icon={<Award className="w-4 h-4" />}
-          color="bg-green-600"
+          icon={<Award aria-label="award" className="w-4 h-4" />}
+          color="bg-brand-green-600"
         />
       </div>
 
@@ -563,7 +563,7 @@ function BusinessPanel({ data }: { data: any }) {
               >
                 <p className="text-sm font-medium text-slate-800">{p.title}</p>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${p.is_active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}
+                  className={`text-xs px-2 py-0.5 rounded-full ${p.is_active ? 'bg-brand-green-100 text-brand-green-700' : 'bg-slate-100 text-slate-500'}`}
                 >
                   {p.is_active ? 'Active' : 'Inactive'}
                 </span>

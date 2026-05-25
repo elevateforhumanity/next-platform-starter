@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { logger } from '@/lib/logger';
-import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 import { getActivePrograms } from '@/lib/program-registry';
 
 interface StudentIntakeData {
@@ -154,7 +154,7 @@ export function InstructorIntakeForm() {
       {/* Success Message */}
       {success && (
         <div className="flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+          <span className="w-5 h-5 rounded-full bg-emerald-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-semibold text-emerald-900">Student intake submitted</p>
             <p className="text-sm text-emerald-800">

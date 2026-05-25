@@ -148,7 +148,7 @@ export default function LiveChatPage() {
                 )}
               </div>
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                className={`max-w-4/5 rounded-2xl px-4 py-3 ${
                   message.role === 'user'
                     ? 'bg-brand-blue-600 text-white rounded-tr-sm'
                     : 'bg-white border border-slate-200 rounded-tl-sm'

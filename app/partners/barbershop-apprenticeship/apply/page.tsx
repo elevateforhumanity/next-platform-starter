@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowLeft, Loader2, AlertCircle, Download,
-  BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight, Upload, CheckCircle2,
+  BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight, Upload,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -367,8 +367,8 @@ export default function BarbershopPartnerApplyPage() {
                     />
                   </label>
                   {einFileName && (
-                    <p className="text-xs text-green-700 mt-1 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" /> {einFileName} selected
+                    <p className="text-xs text-brand-green-700 mt-1 flex items-center gap-1">
+                      <span className="w-3 h-3 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> {einFileName} selected
                     </p>
                   )}
                 </div>
@@ -611,7 +611,7 @@ export default function BarbershopPartnerApplyPage() {
               </div>
               <div className="flex items-center justify-between mt-2">
                 {hasSigned ? (
-                  <p className="text-sm text-green-600 font-medium">Signature captured</p>
+                  <p className="text-sm text-brand-green-600 font-medium">Signature captured</p>
                 ) : (
                   <p className="text-sm text-black">Draw your signature above</p>
                 )}

@@ -63,7 +63,7 @@ export default function WIOAParticipantPage() {
             <Link href="/apply/student" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
               Apply Now
             </Link>
-            <Link href="/check-eligibility" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+            <Link href="/check-eligibility" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
               Check Eligibility
             </Link>
           </div>
@@ -169,7 +169,7 @@ export default function WIOAParticipantPage() {
             <Link href="/apply/student" className="bg-white text-blue-700 font-bold px-8 py-3.5 rounded-lg hover:bg-blue-50 transition-colors text-sm">
               Apply Now
             </Link>
-            <Link href="/contact" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+            <Link href="/contact" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
               Contact Us
             </Link>
           </div>

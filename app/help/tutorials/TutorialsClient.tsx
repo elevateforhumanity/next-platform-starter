@@ -165,7 +165,7 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
                   </span>
                   <div className="flex items-center gap-2">
                     {watched.has(tutorial.id) && (
-                      <span className="flex items-center gap-1 text-xs text-green-600">
+                      <span className="flex items-center gap-1 text-xs text-brand-green-600">
                         <CheckCircle className="w-3 h-3" /> Watched
                       </span>
                     )}

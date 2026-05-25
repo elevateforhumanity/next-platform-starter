@@ -1,3 +1,4 @@
+// useHeroVideo
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -62,7 +63,7 @@ export default async function LicensesPage() {
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full text-sm font-bold mb-6 border border-white/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-slate-900 rounded-full text-sm font-bold mb-6 border border-white/20">
               <Globe className="w-4 h-4" />
               Platform Licensing
             </div>
@@ -70,7 +71,7 @@ export default async function LicensesPage() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
               License Our Platform.
               <br />
-              <span className="text-green-400">
+              <span className="text-brand-green-400">
                 Run Your Own Training Business.
               </span>
             </h1>
@@ -91,7 +92,7 @@ export default async function LicensesPage() {
               </Link>
               <Link
                 href="/store/demos"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-lg hover:bg-white/20 transition-colors"
               >
                 Try Demo
               </Link>
@@ -100,15 +101,15 @@ export default async function LicensesPage() {
             {/* Trust Indicators */}
             <div className="mt-12 flex flex-wrap gap-8 text-white/80 text-sm">
               <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 text-green-400" />
+                <Check className="w-5 h-5 text-brand-green-400" />
                 <span>Deploy in 30 minutes</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 text-green-400" />
+                <Check className="w-5 h-5 text-brand-green-400" />
                 <span>Full source code access</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 text-green-400" />
+                <Check className="w-5 h-5 text-brand-green-400" />
                 <span>White-label ready</span>
               </div>
             </div>
@@ -159,12 +160,12 @@ export default async function LicensesPage() {
                 key={product.id}
                 className={`relative bg-white rounded-2xl border-2 p-8 ${
                   product.licenseType === 'school'
-                    ? 'border-green-600 shadow-2xl scale-105 z-10'
+                    ? 'border-brand-green-600 shadow-2xl scale-105 z-10'
                     : 'border-slate-200 hover:border-slate-300 hover:shadow-lg'
                 } transition-all duration-300`}
               >
                 {product.licenseType === 'school' && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-green-600 text-white text-sm font-bold rounded-full whitespace-nowrap">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-green-600 text-white text-sm font-bold rounded-full whitespace-nowrap">
                     Most Popular
                   </div>
                 )}
@@ -198,7 +199,7 @@ export default async function LicensesPage() {
                   href={`/store/licenses/checkout/${product.slug}`}
                   className={`block w-full text-center px-6 py-3 rounded-lg font-bold transition-all duration-200 mb-6 ${
                     product.licenseType === 'school'
-                      ? 'bg-green-600 text-white hover:bg-green-700 shadow-lg hover:shadow-xl'
+                      ? 'bg-brand-green-600 text-white hover:bg-brand-green-700 shadow-lg hover:shadow-xl'
                       : 'bg-zinc-900 text-white hover:bg-zinc-800'
                   }`}
                 >
@@ -213,12 +214,12 @@ export default async function LicensesPage() {
                   </p>
                   {product.features.slice(0, 5).map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-slate-700">{feature}</span>
                     </div>
                   ))}
                   {product.features.length > 5 && (
-                    <p className="text-sm text-green-600 font-medium">
+                    <p className="text-sm text-brand-green-600 font-medium">
                       + {product.features.length - 5} more features
                     </p>
                   )}
@@ -331,8 +332,8 @@ export default async function LicensesPage() {
             </div>
 
             <div className="bg-zinc-800/50 rounded-xl p-8 border border-zinc-700">
-              <div className="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-6">
-                <Palette className="w-7 h-7 text-green-400" />
+              <div className="w-14 h-14 bg-brand-green-500/20 rounded-xl flex items-center justify-center mb-6">
+                <Palette className="w-7 h-7 text-brand-green-400" />
               </div>
               <h3 className="text-xl font-bold mb-3">White-Label Ready</h3>
               <p className="text-zinc-400">
@@ -391,7 +392,7 @@ export default async function LicensesPage() {
       {/* Testimonial */}
       <section className="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto text-center">
-          <Award className="w-12 h-12 text-green-600 mx-auto mb-6" />
+          <Award className="w-12 h-12 text-brand-green-600 mx-auto mb-6"  aria-label="award"/>
           <blockquote className="text-2xl md:text-3xl font-medium text-slate-900 leading-relaxed mb-8">
             &ldquo;We launched our workforce training program in under a week. The
             platform had everything we needed - LMS, enrollment, payments,
@@ -439,7 +440,7 @@ export default async function LicensesPage() {
             </Link>
             <Link
               href="/contact?topic=enterprise-license"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-transparent border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-transparent border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
             >
               Talk to Sales
             </Link>
@@ -449,7 +450,7 @@ export default async function LicensesPage() {
             Questions? Email{' '}
             <a
               href="mailto:licensing@elevateforhumanity.org"
-              className="underline text-white font-medium hover:text-green-400"
+              className="underline text-white font-medium hover:text-brand-green-400"
             >
               licensing@elevateforhumanity.org
             </a>

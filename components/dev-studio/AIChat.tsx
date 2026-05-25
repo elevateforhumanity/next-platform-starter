@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Send, Bot, User, Loader2, Copy, Check, Sparkles, Paperclip,
-  AlertTriangle, CheckCircle2, Database, Terminal, Zap, ChevronDown, ChevronRight,
+  AlertTriangle, Database, Terminal, Zap, ChevronDown, ChevronRight,
   BookOpen, Video, FileText, PenLine, ExternalLink, Play, RefreshCw,
 } from 'lucide-react';
 
@@ -40,7 +40,7 @@ const PROVIDER_LABELS: Record<ProviderId, string> = {
 
 export const TOOL_META: Record<string, { label: string; color: string; icon: React.ElementType<{ className?: string }> }> = {
   list_programs:                    { label: 'Programs',         color: 'text-brand-blue-700', icon: Database  },
-  list_enrollments:                 { label: 'Enrollments',      color: 'text-green-700',      icon: Database  },
+  list_enrollments:                 { label: 'Enrollments',      color: 'text-brand-green-700',      icon: Database  },
   get_dashboard_stats:              { label: 'Stats',            color: 'text-amber-700',      icon: Zap       },
   get_recent_applications:          { label: 'Applications',     color: 'text-orange-700',     icon: Database  },
   inspect_platform_registry:        { label: 'Platform Registry',color: 'text-brand-blue-700', icon: Database  },
@@ -55,10 +55,10 @@ export const TOOL_META: Record<string, { label: string; color: string; icon: Rea
   design_page_template:             { label: 'Page Template',    color: 'text-indigo-700',     icon: Sparkles  },
   run_safe_command:                 { label: 'Shell',            color: 'text-slate-700',      icon: Terminal  },
   build_course:                     { label: 'Build Course',     color: 'text-purple-700',     icon: BookOpen  },
-  save_course:                      { label: 'Save Course',      color: 'text-green-700',      icon: BookOpen  },
+  save_course:                      { label: 'Save Course',      color: 'text-brand-green-700',      icon: BookOpen  },
   generate_videos:                  { label: 'Generate Videos',  color: 'text-rose-700',       icon: Video     },
   analyze_document:                 { label: 'Analyze Document', color: 'text-amber-700',      icon: FileText  },
-  apply_document_to_application:    { label: 'Apply to App',     color: 'text-green-700',      icon: PenLine   },
+  apply_document_to_application:    { label: 'Apply to App',     color: 'text-brand-green-700',      icon: PenLine   },
 };
 
 // ── Rich tool result renderers ────────────────────────────────────────────────
@@ -149,7 +149,7 @@ function VideoProgressCard({ result }: { result: string }) {
           {jobs.slice(0, 8).map((job, i) => (
             <div key={i} className="flex items-center gap-2 text-xs">
               {job.status === 'completed'
-                ? <CheckCircle2 className="w-3.5 h-3.5 text-green-600 flex-shrink-0" />
+                ? <span className="w-3.5 h-3.5 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
                 : job.status === 'failed'
                 ? <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
                 : <Loader2 className="w-3.5 h-3.5 text-rose-500 animate-spin flex-shrink-0" />}
@@ -188,7 +188,7 @@ function DocumentAnalysisCard({ result }: { result: string }) {
         <FileText className="w-4 h-4 text-amber-700" />
         <span className="text-sm font-semibold text-amber-900">{data.file_name ?? 'Document Analysis'}</span>
         {data.auto_applied && (
-          <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+          <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-brand-green-100 text-brand-green-700 font-medium">
             ✓ Auto-applied
           </span>
         )}
@@ -213,7 +213,7 @@ function DocumentAnalysisCard({ result }: { result: string }) {
         </div>
       )}
       {data.fields_applied && data.fields_applied.length > 0 && (
-        <div className="px-3 py-1.5 bg-green-50 border-t border-green-200 text-[11px] text-green-700">
+        <div className="px-3 py-1.5 bg-brand-green-50 border-t border-brand-green-200 text-[11px] text-brand-green-700">
           Applied to application: {data.fields_applied.join(', ')}
         </div>
       )}
@@ -247,7 +247,7 @@ function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknow
           : <ChevronRight className={`w-3.5 h-3.5 ${meta.color}`} />}
         <Icon className={`w-3.5 h-3.5 ${meta.color}`} />
         <span className={`font-semibold ${meta.color}`}>Used tool: {meta.label}</span>
-        <span className="ml-auto text-slate-400 text-[10px] truncate max-w-[160px]">
+        <span className="ml-auto text-slate-400 text-[10px] truncate max-w-7xl">
           {Object.keys(tc.args).length > 0 ? JSON.stringify(tc.args).slice(0, 60) : ''}
         </span>
       </button>
@@ -458,8 +458,8 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
         <div className="ml-auto flex items-center gap-1.5">
           {aiStatus === 'checking' && <Loader2 className="w-3.5 h-3.5 text-slate-400 animate-spin" />}
           {aiStatus === 'ready' && (
-            <span className="flex items-center gap-1 text-xs text-green-700">
-              <CheckCircle2 className="w-3.5 h-3.5" /> {aiProvider || 'AI'} ready
+            <span className="flex items-center gap-1 text-xs text-brand-green-700">
+              <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> {aiProvider || 'AI'} ready
             </span>
           )}
           {aiStatus === 'unconfigured' && (
@@ -511,7 +511,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                 )}
-                <div className={`max-w-[86%] rounded-2xl px-4 py-2.5 text-sm ${msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 border border-slate-200 text-slate-800'}`}>
+                <div className={`max-w-5/6 rounded-2xl px-4 py-2.5 text-sm ${msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-slate-100 border border-slate-200 text-slate-800'}`}>
                   {msg.role === 'assistant' && msg.provider && (
                     <p className="mb-1 text-[10px] font-mono uppercase tracking-wide text-slate-400">
                       {msg.provider}{msg.model ? ` · ${msg.model}` : ''}
@@ -531,7 +531,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                                 )}
                                 <button onClick={() => copyCode(part.content, i * 100 + j)} className="text-slate-500 hover:text-slate-700">
                                   {copiedIndex === i * 100 + j
-                                    ? <Check className="w-3 h-3 text-green-600" />
+                                    ? <Check className="w-3 h-3 text-brand-green-600" />
                                     : <Copy className="w-3 h-3" />}
                                 </button>
                               </div>

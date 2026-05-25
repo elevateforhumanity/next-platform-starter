@@ -268,7 +268,7 @@ export default function AvatarChatBar() {
                   <span className="text-white text-sm font-medium">{name}</span>
                   <button
                     onClick={toggleMute}
-                    className="p-1.5 bg-white/20 hover:bg-white/30 rounded-full text-white transition-colors"
+                    className="p-1.5 bg-white/20 hover:bg-white/30 rounded-full text-slate-900 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   </button>
@@ -318,7 +318,7 @@ export default function AvatarChatBar() {
                       className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`max-w-[85%] px-3 py-2 rounded-xl text-sm ${
+                        className={`max-w-5/6 px-3 py-2 rounded-xl text-sm ${
                           msg.role === 'user'
                             ? 'bg-brand-blue-600 text-white'
                             : 'bg-white text-slate-800 border border-slate-200 shadow-sm'

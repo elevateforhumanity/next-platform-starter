@@ -247,7 +247,7 @@ export default async function SuccessStoriesPage() {
               <div className="text-sm text-black">Learners Enrolled</div>
             </div>
             <div className="text-center bg-white rounded-xl p-6 shadow-sm">
-              <div className="text-4xl font-black text-green-600 mb-2">
+              <div className="text-4xl font-black text-brand-green-600 mb-2">
                 {totalCompleted > 0 ? totalCompleted.toLocaleString() : '—'}
               </div>
               <div className="text-sm text-black">Programs Completed</div>
@@ -282,6 +282,7 @@ export default async function SuccessStoriesPage() {
                 {/* Image/Video */}
                 <div className={`${index % 2 === 1 ? 'md:order-2' : ''}`}>
                   <div className="relative h-[400px] rounded-2xl overflow-hidden border-4 border-slate-200 group">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                     <Image
                       priority
                       src={story.image}
@@ -363,7 +364,7 @@ export default async function SuccessStoriesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-white text-white">
+      <section className="py-16 bg-white text-slate-900">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">
@@ -381,7 +382,7 @@ export default async function SuccessStoriesPage() {
               </Link>
               <Link
                 href="/programs"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-sm border-2 border-white rounded-lg hover:bg-white/20 transition"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-white/10 backdrop-blur-sm border-2 border-white rounded-lg hover:bg-white/20 transition"
               >
                 View Programs
               </Link>

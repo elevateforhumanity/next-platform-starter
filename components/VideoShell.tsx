@@ -74,7 +74,7 @@ export function VideoShell({
         'relative overflow-hidden shadow-2xl bg-black border border-slate-900',
         'rounded-3xl',
         isVertical
-          ? 'w-full aspect-[9/16] max-w-[420px] mx-auto sm:max-w-[460px]'
+          ? 'w-full aspect-[9/16] max-w-7xl mx-auto sm:max-w-7xl'
           : 'w-full max-w-5xl mx-auto aspect-video',
         className,
       ].join(' ')}
@@ -93,7 +93,7 @@ export function VideoShell({
       {/* Top overlay with title */}
       {title && (
         <div className="pointer-events-none absolute inset-x-0 top-0 p-4">
-          <div className="rounded-2xl     px-4 py-3 max-w-[90%]">
+          <div className="rounded-2xl     px-4 py-3 max-w-11/12">
             <p className="text-[0.65rem] tracking-[0.2em] text-brand-orange-300 uppercase mb-1">
               Elevate for Humanity
             </p>

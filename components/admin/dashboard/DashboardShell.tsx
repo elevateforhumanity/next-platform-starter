@@ -6,7 +6,7 @@ import Image from "next/image";
 import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
-  ArrowRight, AlertTriangle, CheckCircle2,
+  ArrowRight, AlertTriangle,
   Activity, TrendingUp, Inbox, Users, FileText,
   BookOpen, Bot, DollarSign, Handshake, Megaphone, Settings, ShieldCheck,
 } from "lucide-react";
@@ -244,7 +244,7 @@ function TodaysPriorities({ data }: { data: AdminDashboardData }) {
       </div>
       {items.length === 0 ? (
         <div className="px-4 sm:px-6 py-8 flex items-center gap-3 text-brand-green-700">
-          <CheckCircle2 className="w-5 h-5 text-brand-green-500 flex-shrink-0" />
+          <span className="w-5 h-5 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
           <p className="text-sm font-medium">No urgent operational items right now.</p>
         </div>
       ) : (

@@ -200,7 +200,7 @@ export default function SocialProof() {
 
           <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-slate-200">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-3">
-              <Award className="w-6 h-6 text-purple-600" />
+              <Award aria-label="award" className="w-6 h-6 text-purple-600" />
             </div>
             <div className="text-3xl font-bold text-black mb-1">95%</div>
             <div className="text-sm text-black">Completion Rate</div>

@@ -57,7 +57,7 @@ export default async function WhiteLabelPage() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact?topic=white-label"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-brand-green-600 rounded-lg hover:bg-green-700 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-brand-green-600 rounded-lg hover:bg-brand-green-700 transition-colors shadow-lg"
             >
               Request Pricing
             </Link>
@@ -107,19 +107,19 @@ export default async function WhiteLabelPage() {
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Complete Platform</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Full LMS with course management</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Student enrollment & tracking</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Instructor dashboards</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Admin management tools</span>
                 </li>
               </ul>
@@ -127,25 +127,25 @@ export default async function WhiteLabelPage() {
 
             {/* Multi-Tenant SaaS */}
             <div className="p-8 bg-slate-50 rounded-xl border border-slate-200">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-brand-green-100 rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-brand-green-600" />
               </div>
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Multi-Tenant SaaS</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Serve multiple organizations</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Data isolation per tenant</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Custom branding per tenant</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>License management system</span>
                 </li>
               </ul>
@@ -159,19 +159,19 @@ export default async function WhiteLabelPage() {
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Compliance Built-In</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>WIOA reporting ready</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>ETPL compliance tracking</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>RAPIDS apprenticeship sync</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Automated reporting</span>
                 </li>
               </ul>
@@ -185,19 +185,19 @@ export default async function WhiteLabelPage() {
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Mobile Apps Included</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>React Native mobile app</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>iOS & Android ready</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Offline learning support</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Push notifications</span>
                 </li>
               </ul>
@@ -211,19 +211,19 @@ export default async function WhiteLabelPage() {
               <h3 className="text-xl font-bold text-zinc-900 mb-3">AI-Powered Features</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>AI tutor for students</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Automated grading</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Content generation</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Smart recommendations</span>
                 </li>
               </ul>
@@ -237,19 +237,19 @@ export default async function WhiteLabelPage() {
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Partner Integrations</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>6 LMS partner integrations</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Stripe payment processing</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Email automation</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Analytics & reporting</span>
                 </li>
               </ul>
@@ -328,7 +328,7 @@ export default async function WhiteLabelPage() {
               </p>
             </div>
 
-            <div className="p-8 bg-green-50 rounded-xl">
+            <div className="p-8 bg-brand-green-50 rounded-xl">
               <h3 className="text-xl font-bold text-zinc-900 mb-3">Workforce Boards</h3>
               <p className="text-zinc-700">
                 Manage multiple training providers and track outcomes across your entire region.
@@ -363,7 +363,7 @@ export default async function WhiteLabelPage() {
             </Link>
             <Link
               href="/platform"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-transparent border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-900 bg-transparent border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
             >
               Learn More About Platform
             </Link>

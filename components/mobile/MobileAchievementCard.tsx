@@ -42,7 +42,7 @@ export default function MobileAchievementCard({
             icon ? (
               <span className="text-2xl">{icon}</span>
             ) : (
-              <Award size={24} className="text-white" />
+              <Award aria-label="award" size={24} className="text-white" />
             )
           ) : (
             <Lock size={20} className="text-slate-700" />

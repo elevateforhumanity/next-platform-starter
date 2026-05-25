@@ -10,9 +10,9 @@ export default function PeerRecoveryApplySuccessPage() {
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-6">
       <div className="max-w-lg text-center">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-green-100">
           <svg
-            className="h-8 w-8 text-green-600"
+            className="h-8 w-8 text-brand-green-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

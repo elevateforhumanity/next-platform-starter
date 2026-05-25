@@ -81,7 +81,7 @@ export default async function PathwayCTA({
           </Link>
           <Link
             href={secondary.href}
-            className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
+            className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-slate-900 px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
           >
             {secondary.label}
           </Link>

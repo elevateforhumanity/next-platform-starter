@@ -81,7 +81,7 @@ export default async function MesmerizedByBeautyPage() {
             <a href="#apply" className="inline-flex items-center justify-center gap-2 bg-white text-purple-900 font-bold px-8 py-4 rounded-xl hover:bg-purple-50 transition text-lg">
               Apply Now <ArrowRight className="w-5 h-5" />
             </a>
-            <a href="#programs" className="inline-flex items-center justify-center gap-2 border-2 border-white text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition text-lg">
+            <a href="#programs" className="inline-flex items-center justify-center gap-2 border-2 border-white text-slate-900 font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition text-lg">
               View Programs
             </a>
           </div>
@@ -116,7 +116,7 @@ export default async function MesmerizedByBeautyPage() {
             {PROGRAMS.map((p) => (
               <div key={p.title} className="bg-white rounded-2xl border p-6 hover:shadow-lg transition">
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                  <Award className="w-6 h-6 text-purple-700" />
+                  <Award aria-label="award" className="w-6 h-6 text-purple-700" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{p.title}</h3>
                 <div className="flex items-center gap-2 text-sm text-slate-500 mb-3">

@@ -74,7 +74,7 @@ export default function OnboardingPrompt({ userId, userRole }: OnboardingPromptP
               </button>
               <button
                 onClick={handleDismiss}
-                className="px-6 py-2 text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+                className="px-6 py-2 text-slate-900 border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
               >
                 Maybe Later
               </button>

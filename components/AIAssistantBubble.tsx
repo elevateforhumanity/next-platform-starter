@@ -182,7 +182,7 @@ export function AIAssistantBubble() {
               <div>
                 <h3 className="font-bold text-lg">Elevate AI Assistant</h3>
                 <p className="text-xs text-white/80 flex items-center gap-1">
-                  <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse" />
+                  <span className="w-2 h-2 bg-brand-green-300 rounded-full animate-pulse" />
                   Online
                 </p>
               </div>
@@ -190,7 +190,7 @@ export function AIAssistantBubble() {
             <button
               onClick={handleClose}
               aria-label="Close chat"
-              className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
+              className="text-slate-900 hover:bg-white/20 rounded-full p-2 transition-colors"
             >
               <X className="h-6 w-6" />
             </button>
@@ -203,7 +203,7 @@ export function AIAssistantBubble() {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                  className={`max-w-5/6 rounded-2xl px-4 py-3 ${
                     message.role === 'user'
                       ? 'bg-brand-orange-600 text-white'
                       : 'bg-white text-slate-900 shadow-sm border border-slate-200'

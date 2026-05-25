@@ -33,7 +33,7 @@ export default function VerifyPlacementButton({ placementId }: { placementId: st
       <button
         onClick={handleVerify}
         disabled={loading}
-        className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700 disabled:opacity-50"
+        className="rounded-md bg-brand-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-brand-green-700 disabled:opacity-50"
       >
         {loading ? 'Verifying…' : 'Verify'}
       </button>

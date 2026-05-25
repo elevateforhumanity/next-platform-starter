@@ -7,7 +7,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import {
   BookOpen,
-  CheckCircle2,
   ArrowLeft,
   Shield,
   Clock,
@@ -361,7 +360,7 @@ export default async function OrientationPage() {
               <ul className="p-5 space-y-2">
                 {s.items.map((item, j) => (
                   <li key={j} className="flex items-start gap-2 text-xs text-slate-900">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                     {item}
                   </li>
                 ))}
@@ -386,7 +385,7 @@ export default async function OrientationPage() {
               type="submit"
               className="flex items-center gap-2 px-5 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700"
             >
-              <CheckCircle2 className="w-4 h-4" /> Complete Orientation
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Complete Orientation
             </button>
           </div>
         </form>

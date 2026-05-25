@@ -208,9 +208,9 @@ export default async function DownloadsPage() {
             </a>
             <a
               href="#workbooks"
-              className="flex items-center gap-2 px-6 py-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-brand-green-50 text-brand-green-700 rounded-lg hover:bg-brand-green-100 transition-colors"
             >
-              <GraduationCap className="w-5 h-5" />
+              <GraduationCap aria-label="graduationcap" className="w-5 h-5" />
               <span className="font-semibold">Workbooks</span>
             </a>
             <a
@@ -289,7 +289,7 @@ export default async function DownloadsPage() {
             {/* Workbooks */}
             <div id="workbooks">
               <div className="flex items-center gap-3 mb-8">
-                <GraduationCap className="w-8 h-8 text-green-600" />
+                <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-green-600" />
                 <h2 className="text-2xl md:text-3xl font-bold">Program Workbooks</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
@@ -306,12 +306,12 @@ export default async function DownloadsPage() {
                           <span>{item.size || item.file_size}</span>
                         </div>
                       </div>
-                      <BookOpen className="w-8 h-8 text-green-600 flex-shrink-0" />
+                      <BookOpen className="w-8 h-8 text-brand-green-600 flex-shrink-0" />
                     </div>
                     {item.url ? (
                       <a
                         href={item.url}
-                        className="w-full mt-4 flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                        className="w-full mt-4 flex items-center justify-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-lg hover:bg-brand-green-700 transition-colors"
                         download
                       >
                         <Download className="w-4 h-4" />
@@ -320,7 +320,7 @@ export default async function DownloadsPage() {
                     ) : (
                       <a
                         href="tel:+13173143757"
-                        className="w-full mt-4 flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                        className="w-full mt-4 flex items-center justify-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-lg hover:bg-brand-green-700 transition-colors"
                       >
                         <Download className="w-4 h-4" />
                         <span>Call to Request</span>

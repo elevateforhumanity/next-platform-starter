@@ -34,7 +34,7 @@ export function WorkforceBoardStats() {
 
   const items = [
     { label: 'Participants', value: stats.total_participants?.toLocaleString() ?? '—', icon: Users, color: 'text-brand-blue-600', bg: 'bg-brand-blue-50' },
-    { label: 'Employment Rate', value: stats.employment_rate != null ? `${stats.employment_rate}%` : '—', icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50' },
+    { label: 'Employment Rate', value: stats.employment_rate != null ? `${stats.employment_rate}%` : '—', icon: TrendingUp, color: 'text-brand-green-600', bg: 'bg-brand-green-50' },
     { label: 'Avg. Wage', value: stats.avg_wage != null ? `$${stats.avg_wage.toLocaleString()}` : '—', icon: Briefcase, color: 'text-amber-600', bg: 'bg-amber-50' },
     { label: 'Completions', value: stats.completions?.toLocaleString() ?? '—', icon: Award, color: 'text-purple-600', bg: 'bg-purple-50' },
   ];

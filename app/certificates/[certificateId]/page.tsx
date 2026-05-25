@@ -90,7 +90,7 @@ export default async function CertificateViewPage({ params }: Props) {
         <div className="bg-white rounded-3xl shadow-xl border-4 border-brand-blue-100 overflow-hidden">
           {/* Header */}
           <div className="bg-brand-blue-700 text-white p-8 text-center">
-            <Award className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
+            <Award aria-label="award" className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
             <h1 className="text-3xl font-bold mb-2">Certificate of Completion</h1>
             <p className="text-white">Elevate for Humanity</p>
           </div>
@@ -125,7 +125,7 @@ export default async function CertificateViewPage({ params }: Props) {
               </div>
               {certificate.credential_id && (
                 <div className="flex items-center gap-2">
-                  <Award className="w-5 h-5" />
+                  <Award aria-label="award" className="w-5 h-5" />
                   <span>ID: {certificate.credential_id}</span>
                 </div>
               )}

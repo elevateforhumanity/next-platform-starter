@@ -307,7 +307,7 @@ export default function SearchPage() {
             </Link>
             <Link
               href="/programs"
-              className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition"
+              className="border-2 border-white text-slate-900 px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition"
             >
               Browse Programs
             </Link>

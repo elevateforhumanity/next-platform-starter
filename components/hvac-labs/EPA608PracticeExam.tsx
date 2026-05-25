@@ -144,10 +144,10 @@ export default function EPA608PracticeExam({
       <div className="space-y-6">
         {/* Score Card */}
         <div
-          className={`rounded-xl p-6 text-center ${passing ? 'bg-green-50 border-2 border-green-300' : 'bg-red-50 border-2 border-red-300'}`}
+          className={`rounded-xl p-6 text-center ${passing ? 'bg-brand-green-50 border-2 border-brand-green-300' : 'bg-red-50 border-2 border-red-300'}`}
         >
           <div className="text-5xl font-black mb-2">{percentage}%</div>
-          <p className={`text-lg font-bold ${passing ? 'text-green-700' : 'text-red-700'}`}>
+          <p className={`text-lg font-bold ${passing ? 'text-brand-green-700' : 'text-red-700'}`}>
             {passing ? 'PASS' : 'FAIL'} — {correctCount} of {questions.length} correct
           </p>
           <p className="text-sm text-slate-500 mt-1">70% required to pass</p>
@@ -161,11 +161,11 @@ export default function EPA608PracticeExam({
             return (
               <div
                 key={q.id}
-                className={`border rounded-xl p-4 ${isCorrect ? 'border-green-200 bg-green-50/50' : 'border-red-200 bg-red-50/50'}`}
+                className={`border rounded-xl p-4 ${isCorrect ? 'border-brand-green-200 bg-brand-green-50/50' : 'border-red-200 bg-red-50/50'}`}
               >
                 <div className="flex items-start gap-2">
                   {isCorrect ? (
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   ) : (
                     <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   )}
@@ -180,7 +180,7 @@ export default function EPA608PracticeExam({
                             Your answer: {q.options[studentAnswer]}
                           </p>
                         )}
-                        <p className="text-xs text-green-700 font-medium">
+                        <p className="text-xs text-brand-green-700 font-medium">
                           Correct: {q.options[q.answer]}
                         </p>
                       </div>
@@ -307,7 +307,7 @@ export default function EPA608PracticeExam({
             <button
               onClick={finishExam}
               disabled={totalAnswered < questions.length}
-              className="bg-green-600 text-white font-bold px-5 py-2.5 rounded-lg hover:bg-green-700 disabled:bg-slate-300 transition"
+              className="bg-brand-green-600 text-white font-bold px-5 py-2.5 rounded-lg hover:bg-brand-green-700 disabled:bg-slate-300 transition"
             >
               Submit Exam ({totalAnswered}/{questions.length})
             </button>

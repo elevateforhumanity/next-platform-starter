@@ -84,7 +84,7 @@ export default function EmployerDemoPage() {
         <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Employer" }]} />
       </div>
 {/* Demo Header */}
-      <div className="bg-green-600 text-white py-2 px-4 text-center text-sm">
+      <div className="bg-brand-green-600 text-white py-2 px-4 text-center text-sm">
         <span className="font-bold">DEMO MODE</span> - This is a preview of the employer portal. 
         <Link href="/store/licenses" className="underline ml-2">Get the full platform →</Link>
       </div>
@@ -98,7 +98,7 @@ export default function EmployerDemoPage() {
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-brand-green-600 rounded-lg flex items-center justify-center">
                   <Briefcase className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -108,7 +108,7 @@ export default function EmployerDemoPage() {
               </div>
             </div>
             
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 flex items-center gap-2">
+            <button className="bg-brand-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-green-700 flex items-center gap-2">
               <Plus className="w-4 h-4" />
               Post a Job
             </button>
@@ -131,7 +131,7 @@ export default function EmployerDemoPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 py-4 border-b-2 font-medium transition ${
                   activeTab === tab.id
-                    ? 'border-green-600 text-green-600'
+                    ? 'border-brand-green-600 text-brand-green-600'
                     : 'border-transparent text-slate-500 hover:text-slate-700'
                 }`}
               >
@@ -150,7 +150,7 @@ export default function EmployerDemoPage() {
             {/* Stats */}
             <div className="grid md:grid-cols-4 gap-6">
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <div className="text-3xl font-bold text-green-600">2</div>
+                <div className="text-3xl font-bold text-brand-green-600">2</div>
                 <div className="text-slate-600">Active Jobs</div>
               </div>
               <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -179,7 +179,7 @@ export default function EmployerDemoPage() {
                         <p className="text-sm text-slate-500">{job.location} • {job.type}</p>
                       </div>
                       <div className="text-right">
-                        <div className="font-semibold text-green-600">{job.applicants} applicants</div>
+                        <div className="font-semibold text-brand-green-600">{job.applicants} applicants</div>
                         <div className="text-sm text-slate-500">{job.posted}</div>
                       </div>
                     </div>
@@ -193,7 +193,7 @@ export default function EmployerDemoPage() {
                   {candidates.slice(0, 3).map((candidate) => (
                     <div key={candidate.id} className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg">
                       <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                        <Image src={candidate.image} alt={candidate.name} fill className="object-cover" />
+                        <Image sizes="100vw" src={candidate.image} alt={candidate.name} fill className="object-cover" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold">{candidate.name}</h3>
@@ -215,7 +215,7 @@ export default function EmployerDemoPage() {
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold">My Job Postings</h2>
-              <button className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 flex items-center gap-2">
+              <button className="bg-brand-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-green-700 flex items-center gap-2">
                 <Plus className="w-4 h-4" />
                 Post New Job
               </button>
@@ -236,9 +236,9 @@ export default function EmployerDemoPage() {
                           {job.type}
                         </span>
                       </div>
-                      <p className="text-green-600 font-semibold mt-2">{job.salary}</p>
+                      <p className="text-brand-green-600 font-semibold mt-2">{job.salary}</p>
                     </div>
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-brand-green-100 text-brand-green-700 rounded-full text-sm font-medium">
                       {job.status}
                     </span>
                   </div>
@@ -248,7 +248,7 @@ export default function EmployerDemoPage() {
                       <button className="px-4 py-2 border rounded-lg font-medium hover:bg-slate-50">
                         View Applicants
                       </button>
-                      <button className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">
+                      <button className="px-4 py-2 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700">
                         Edit
                       </button>
                     </div>
@@ -272,7 +272,7 @@ export default function EmployerDemoPage() {
                     className="w-full pl-10 pr-4 py-3 border rounded-lg"
                   />
                 </div>
-                <button className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">
+                <button className="px-6 py-3 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700">
                   Search
                 </button>
               </div>
@@ -285,7 +285,7 @@ export default function EmployerDemoPage() {
                   <div className="p-6">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="relative w-16 h-16 rounded-full overflow-hidden">
-                        <Image src={candidate.image} alt={candidate.name} fill className="object-cover" />
+                        <Image sizes="100vw" src={candidate.image} alt={candidate.name} fill className="object-cover" />
                       </div>
                       <div>
                         <h3 className="font-bold text-lg">{candidate.name}</h3>
@@ -311,12 +311,12 @@ export default function EmployerDemoPage() {
                     <div className="flex items-center justify-between pt-4 border-t">
                       <span className={`px-2 py-1 rounded text-sm font-medium ${
                         candidate.status === 'Available' 
-                          ? 'bg-green-100 text-green-700' 
+                          ? 'bg-brand-green-100 text-brand-green-700' 
                           : 'bg-yellow-100 text-yellow-700'
                       }`}>
                         {candidate.status}
                       </span>
-                      <button className="text-green-600 font-medium hover:underline">
+                      <button className="text-brand-green-600 font-medium hover:underline">
                         View Profile
                       </button>
                     </div>

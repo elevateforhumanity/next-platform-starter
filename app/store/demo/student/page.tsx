@@ -67,8 +67,8 @@ export default function StudentDemoPage() {
               <div className="text-3xl font-bold text-blue-600 mb-2">2</div>
               <div className="text-sm text-slate-700">Active Courses</div>
             </div>
-            <div className="bg-green-50 rounded-lg p-6">
-              <div className="text-3xl font-bold text-green-600 mb-2">14</div>
+            <div className="bg-brand-green-50 rounded-lg p-6">
+              <div className="text-3xl font-bold text-brand-green-600 mb-2">14</div>
               <div className="text-sm text-slate-700">Lessons Completed</div>
             </div>
             <div className="bg-purple-50 rounded-lg p-6">
@@ -136,8 +136,8 @@ export default function StudentDemoPage() {
             <div className="space-y-4">
               {[1, 2, 3, 4, 5].map((lesson) => (
                 <div key={lesson} className="flex items-center gap-4 p-4 border rounded-lg hover:bg-slate-50 transition">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-brand-green-600" />
                   </div>
                   <div className="flex-1">
                     <div className="font-bold">Lesson {lesson}: Introduction to Tools</div>
@@ -153,7 +153,7 @@ export default function StudentDemoPage() {
         )}
 
         <div className="mt-8 bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-8 text-center">
-          <Award className="w-16 h-16 text-green-600 mx-auto mb-4" />
+          <Award aria-label="award" className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
           <h3 className="text-2xl font-bold mb-2">This is a Demo</h3>
           <p className="text-slate-700 mb-6 max-w-2xl mx-auto">
             You're experiencing the student portal with sample data. The full platform includes video lessons, SCORM courses, quizzes, certificates, and more.

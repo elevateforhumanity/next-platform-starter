@@ -94,7 +94,7 @@ export function Pretest({ title, questions, onComplete }: PretestProps) {
               disabled={revealed}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
                 isRight
-                  ? 'bg-green-50 border-green-400'
+                  ? 'bg-brand-green-50 border-brand-green-400'
                   : isWrong
                     ? 'bg-red-50 border-red-300'
                     : isSel && !revealed
@@ -105,7 +105,7 @@ export function Pretest({ title, questions, onComplete }: PretestProps) {
               <span
                 className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
                   isRight
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-brand-green-500 text-white'
                     : isWrong
                       ? 'bg-red-400 text-white'
                       : 'bg-slate-100 text-slate-700'

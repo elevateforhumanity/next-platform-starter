@@ -62,7 +62,7 @@ export default function ProgramTemplate() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Award className="w-6 h-6 text-brand-orange-600 flex-shrink-0 mt-1" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-orange-600 flex-shrink-0 mt-1" />
               <div>
                 <div className="font-bold text-black">Credential</div>
                 <div className="text-sm text-black">State License</div>

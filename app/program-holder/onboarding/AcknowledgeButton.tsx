@@ -25,7 +25,7 @@ export function AcknowledgeButton({ documentType, label }: { documentType: strin
   }
 
   if (done) return (
-    <span className="inline-flex items-center gap-1 text-xs text-green-700 font-medium">
+    <span className="inline-flex items-center gap-1 text-xs text-brand-green-700 font-medium">
       <CheckCircle className="w-3.5 h-3.5" /> Acknowledged
     </span>
   );

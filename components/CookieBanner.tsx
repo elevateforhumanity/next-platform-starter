@@ -33,7 +33,7 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 bg-white/95 backdrop-blur-sm text-white shadow-2xl border-t border-slate-700">
+    <div className="fixed inset-x-0 bottom-0 z-50 bg-white/95 backdrop-blur-sm text-slate-900 shadow-2xl border-t border-slate-700">
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           {/* Icon */}

@@ -229,7 +229,7 @@ export default function AIHubPage() {
             </Link>
             <Link
               href="/start"
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-colors"
+              className="px-8 py-4 bg-transparent border-2 border-white text-slate-900 font-bold rounded-lg hover:bg-white/10 transition-colors"
             >
               Enroll in Training
             </Link>

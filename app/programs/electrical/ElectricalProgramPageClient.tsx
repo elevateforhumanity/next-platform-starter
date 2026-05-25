@@ -227,7 +227,7 @@ export function ElectricalProgramPageClient({ enrollmentCount = 0, heroBanner: b
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
               <div className="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <GraduationCap className="w-7 h-7 text-yellow-600" />
+                <GraduationCap aria-label="graduationcap" className="w-7 h-7 text-yellow-600" />
               </div>
               <div className="text-3xl font-bold text-slate-900 mb-1">72</div>
               <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">

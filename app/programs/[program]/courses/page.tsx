@@ -149,7 +149,7 @@ export default async function ProgramCoursesPage({ params }: { params: { program
                     className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                   {course.price === 0 && (
-                    <span className="absolute top-3 right-3 bg-green-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                    <span className="absolute top-3 right-3 bg-brand-green-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">
                       FREE
                     </span>
                   )}
@@ -184,7 +184,7 @@ export default async function ProgramCoursesPage({ params }: { params: { program
                     )}
                     {course.certification && (
                       <span className="flex items-center gap-1">
-                        <Award className="w-3 h-3" />
+                        <Award aria-label="award" className="w-3 h-3" />
                         Certificate
                       </span>
                     )}
@@ -192,7 +192,7 @@ export default async function ProgramCoursesPage({ params }: { params: { program
                   <div className="border-t pt-4 flex items-center justify-between gap-3">
                     <div className="font-extrabold text-lg text-slate-900">
                       {course.price === 0 ? (
-                        <span className="text-green-600">FREE</span>
+                        <span className="text-brand-green-600">FREE</span>
                       ) : (
                         `$${course.price}`
                       )}

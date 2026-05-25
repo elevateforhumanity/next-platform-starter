@@ -418,7 +418,7 @@ export default function TikTokStyleVideoPlayer({
               variant="ghost"
               size="icon"
               onClick={togglePlay}
-              className="text-white hover:bg-white/20"
+              className="text-slate-900 hover:bg-white/20"
             >
               {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
             </Button>
@@ -426,7 +426,7 @@ export default function TikTokStyleVideoPlayer({
               variant="ghost"
               size="icon"
               onClick={() => skip(-10)}
-              className="text-white hover:bg-white/20"
+              className="text-slate-900 hover:bg-white/20"
             >
               <SkipBack className="w-5 h-5" />
             </Button>
@@ -434,7 +434,7 @@ export default function TikTokStyleVideoPlayer({
               variant="ghost"
               size="icon"
               onClick={() => skip(10)}
-              className="text-white hover:bg-white/20"
+              className="text-slate-900 hover:bg-white/20"
             >
               <SkipForward className="w-5 h-5" />
             </Button>
@@ -442,7 +442,7 @@ export default function TikTokStyleVideoPlayer({
               variant="ghost"
               size="icon"
               onClick={toggleMute}
-              className="text-white hover:bg-white/20"
+              className="text-slate-900 hover:bg-white/20"
             >
               {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </Button>
@@ -466,7 +466,7 @@ export default function TikTokStyleVideoPlayer({
                 variant="ghost"
                 size="icon"
                 onClick={() => setShowSettings(!showSettings)}
-                className="text-white hover:bg-white/20"
+                className="text-slate-900 hover:bg-white/20"
               >
                 <Settings className="w-5 h-5" />
               </Button>
@@ -491,7 +491,7 @@ export default function TikTokStyleVideoPlayer({
               variant="ghost"
               size="icon"
               onClick={toggleFullscreen}
-              className="text-white hover:bg-white/20"
+              className="text-slate-900 hover:bg-white/20"
             >
               {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
             </Button>

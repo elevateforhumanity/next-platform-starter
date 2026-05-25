@@ -386,6 +386,7 @@ export default function CredentialsPage() {
                 className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col"
               >
                 <div className="relative h-40 overflow-hidden flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={cred.img}
                     alt={cred.name}
@@ -413,7 +414,7 @@ export default function CredentialsPage() {
       <section id="layer-2" className="py-14 border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-3 mb-1">
-            <Award className="w-5 h-5 text-emerald-600" />
+            <Award aria-label="award" className="w-5 h-5 text-emerald-600" />
             <p className="text-emerald-600 font-bold text-xs uppercase tracking-widest">Layer 2</p>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
@@ -572,7 +573,7 @@ export default function CredentialsPage() {
             </Link>
             <Link
               href="/programs"
-              className="border-2 border-white text-white px-8 py-3.5 rounded-lg font-bold text-base hover:bg-white/10 transition-colors"
+              className="border-2 border-white text-slate-900 px-8 py-3.5 rounded-lg font-bold text-base hover:bg-white/10 transition-colors"
             >
               View Programs
             </Link>

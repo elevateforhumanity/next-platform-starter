@@ -399,7 +399,7 @@ export default function TroubleshootScenario({
         </div>
         {isCorrect && (
           <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 rounded-lg p-3 mb-6">
-            <Award className="w-5 h-5 text-brand-green-600" />
+            <Award aria-label="award" className="w-5 h-5 text-brand-green-600" />
             <span className="text-sm font-medium text-brand-green-800">
               Competency verified — diagnostic accuracy recorded
             </span>

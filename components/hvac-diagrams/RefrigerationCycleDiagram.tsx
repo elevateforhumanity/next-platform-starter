@@ -422,7 +422,7 @@ export default function RefrigerationCycleDiagram({
               <div
                 key={s.id}
                 className={`w-3 h-3 rounded-full transition ${
-                  revealedStages.has(s.id) ? 'bg-green-500' : 'bg-slate-200'
+                  revealedStages.has(s.id) ? 'bg-brand-green-500' : 'bg-slate-200'
                 }`}
                 title={revealedStages.has(s.id) ? s.label : 'Not yet revealed'}
               />

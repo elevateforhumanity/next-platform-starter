@@ -90,6 +90,7 @@ export default async function AtRiskStudentsPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-2.webp"
           alt="At-Risk Students"

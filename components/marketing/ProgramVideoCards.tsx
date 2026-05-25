@@ -5,7 +5,7 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 
 const BADGE_COLORS: Record<string, string> = {
   red: 'bg-brand-red-600 text-white',
-  green: 'bg-green-600 text-white',
+  green: 'bg-brand-green-600 text-white',
   blue: 'bg-blue-600 text-white',
   orange: 'bg-orange-500 text-white',
   purple: 'bg-purple-600 text-white',
@@ -24,6 +24,7 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
     <div className="group flex flex-col rounded-2xl overflow-hidden bg-slate-900 shadow-md hover:shadow-xl transition-shadow">
       {/* Image — fixed height so subjects aren't cropped */}
       <div className="relative w-full h-48 sm:h-52 lg:h-56 overflow-hidden flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={prog.heroImage}
           alt={prog.heroImageAlt || prog.title}
@@ -55,7 +56,7 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
           <h3 className="font-extrabold text-white text-sm leading-snug mb-1">{prog.title}</h3>
           <div className="flex flex-wrap gap-x-3 gap-y-0.5">
             {duration && <p className="text-xs text-slate-400">{duration}</p>}
-            {salary && <p className="text-xs font-bold text-green-400">{salary}</p>}
+            {salary && <p className="text-xs font-bold text-brand-green-400">{salary}</p>}
           </div>
         </div>
         <div className="flex gap-2">
@@ -67,7 +68,7 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
           </Link>
           <Link
             href={programHref}
-            className="flex-1 text-center py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
+            className="flex-1 text-center py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-900 text-xs font-semibold transition-colors"
           >
             Details →
           </Link>

@@ -152,7 +152,7 @@ export default function NRFPage() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-10 py-5 bg-white/20 backdrop-blur-sm text-white text-xl font-bold rounded-full hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/50 shadow-2xl"
+              className="inline-flex items-center justify-center px-10 py-5 bg-white/20 backdrop-blur-sm text-slate-900 text-xl font-bold rounded-full hover:bg-white/30 transition-all hover:scale-105 border-2 border-white/50 shadow-2xl"
             >
               Apply to Elevate
             </Link>

@@ -153,9 +153,9 @@ export default function SignDocumentPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="max-w-md mx-auto text-center bg-white rounded-2xl border border-slate-200 p-8">
-          <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-brand-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
-              className="w-8 h-8 text-green-600"
+              className="w-8 h-8 text-brand-green-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

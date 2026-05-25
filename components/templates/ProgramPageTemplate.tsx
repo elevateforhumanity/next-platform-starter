@@ -104,6 +104,7 @@ export function ProgramPageTemplate({
             className="w-full h-full object-cover"
           />
         ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image src={heroImage} alt={title} fill className="object-cover" priority sizes="100vw" />
         )}
       </section>
@@ -173,7 +174,7 @@ export function ProgramPageTemplate({
               <p className="text-lg font-bold text-slate-900">${price.toLocaleString('en-US')}</p>
             </div>
             <div className="text-center p-4">
-              <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+              <Award aria-label="award" className="w-8 h-8 text-purple-600 mx-auto mb-2" />
               <p className="text-sm text-slate-700">Credential</p>
               <p className="text-lg font-bold text-slate-900">
                 {outcomes.credential || 'Certificate'}
@@ -277,7 +278,7 @@ export function ProgramPageTemplate({
           <div className="grid md:grid-cols-3 gap-8">
             {outcomes.certifications && outcomes.certifications.length > 0 && (
               <div className="border border-slate-200 rounded-2xl p-6">
-                <Award className="w-10 h-10 text-brand-blue-600 mb-4" />
+                <Award aria-label="award" className="w-10 h-10 text-brand-blue-600 mb-4" />
                 <h3 className="text-xl font-bold mb-4 text-slate-900">Certifications</h3>
                 <ul className="space-y-2">
                   {outcomes.certifications.map((cert, i) => (

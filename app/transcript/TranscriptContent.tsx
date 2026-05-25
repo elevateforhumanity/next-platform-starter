@@ -40,7 +40,7 @@ interface TranscriptProps {
 }
 
 const statusColor: Record<string, string> = {
-  completed: 'text-green-700 bg-green-50',
+  completed: 'text-brand-green-700 bg-brand-green-50',
   in_progress: 'text-yellow-700 bg-yellow-50',
   not_started: 'text-slate-400 bg-slate-50',
 };

@@ -101,7 +101,7 @@ export default function EnrollmentCtaSection({ state, onChange }: Props) {
                     </span>
                   )}
                   <span className="flex-1 text-sm font-medium text-slate-900">{cta.label}</span>
-                  <span className="text-xs text-slate-400 truncate max-w-[160px]">{cta.href}</span>
+                  <span className="text-xs text-slate-400 truncate max-w-7xl">{cta.href}</span>
                   <span className="text-xs text-slate-400">
                     {CTA_TYPES.find((t) => t.value === cta.cta_type)?.label}
                   </span>

@@ -258,7 +258,7 @@ export default function ApprenticeshipStructurePage() {
                   key={item.level}
                   className="flex gap-4 items-start bg-white rounded-lg p-4 border print:border-slate-300"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-blue-600 text-white flex items-center justify-center text-sm font-bold print:bg-white">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-blue-600 text-slate-900 flex items-center justify-center text-sm font-bold print:bg-white">
                     {item.level}
                   </div>
                   <div className="flex-1">
@@ -367,7 +367,7 @@ export default function ApprenticeshipStructurePage() {
           <div className="space-y-4">
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-5 print:bg-white print:border-slate-300">
               <div className="flex items-center gap-2 mb-2">
-                <GraduationCap className="w-5 h-5 text-brand-blue-600 print:text-slate-700" />
+                <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-brand-blue-600 print:text-slate-700" />
                 <h3 className="font-bold text-slate-900">Industry Credentials</h3>
                 <span className="text-xs text-slate-500 ml-auto">
                   Issued by: Credential Partner or Certifying Body

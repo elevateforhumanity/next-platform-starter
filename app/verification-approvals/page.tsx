@@ -36,7 +36,7 @@ export default function TransparencyPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-8">What We Provide</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
-              { icon: <Award className="w-5 h-5 text-brand-red-600" />, title: 'Industry-Recognized Certifications', desc: 'Programs are designed to prepare participants for nationally recognized certifications issued by the respective certifying organizations.' },
+              { icon: <Award aria-label="award" className="w-5 h-5 text-brand-red-600" />, title: 'Industry-Recognized Certifications', desc: 'Programs are designed to prepare participants for nationally recognized certifications issued by the respective certifying organizations.' },
               { icon: <TrendingUp className="w-5 h-5 text-brand-red-600" />, title: 'Career Readiness Training', desc: 'Structured pathways that build job-ready skills aligned with high-demand industries.' },
               { icon: <Briefcase className="w-5 h-5 text-brand-red-600" />, title: 'Job Placement Support', desc: 'Employer connections and placement assistance for program completers.' },
               { icon: <Users className="w-5 h-5 text-brand-red-600" />, title: 'Reentry Workforce Pathways', desc: 'Structured programs for individuals entering or re-entering the workforce, including justice-impacted populations.' },
@@ -65,7 +65,7 @@ export default function TransparencyPage() {
               'Certificates issued through our LMS platform',
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-100">
-                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0" />
                 <span className="text-slate-700">{item}</span>
               </div>
             ))}

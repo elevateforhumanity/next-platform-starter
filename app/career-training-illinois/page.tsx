@@ -14,7 +14,7 @@ export default function CareerTrainingIllinoisPage() {
     <div className="min-h-screen bg-slate-50">
       <section className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 py-20">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center gap-2 text-green-200 mb-4">
+          <div className="flex items-center gap-2 text-brand-green-200 mb-4">
             <MapPin className="w-5 h-5" />
             <span className="text-sm font-medium uppercase tracking-wider">
               Serving All of Illinois
@@ -23,7 +23,7 @@ export default function CareerTrainingIllinoisPage() {
           <h1 className="text-4xl md:text-5xl font-black text-white mb-6">
             Career Training &amp; Workforce Programs in Illinois
           </h1>
-          <p className="text-xl text-green-100 mb-8 max-w-3xl">
+          <p className="text-xl text-brand-green-100 mb-8 max-w-3xl">
             Illinois workforce initiatives often span multiple regions and partners. Structured
             learning platforms help ensure consistency and accountability across programs.
           </p>
@@ -36,7 +36,7 @@ export default function CareerTrainingIllinoisPage() {
             </Link>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 rounded-lg text-lg font-bold transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-slate-900 border-2 border-white/30 rounded-lg text-lg font-bold transition-colors"
             >
               How It Works
             </Link>
@@ -58,7 +58,7 @@ export default function CareerTrainingIllinoisPage() {
               'Program oversight',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-slate-700">{item}</span>
               </div>
             ))}
@@ -77,7 +77,7 @@ export default function CareerTrainingIllinoisPage() {
               'Documentation',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 bg-white p-4 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-slate-700">{item}</span>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function CareerTrainingIllinoisPage() {
               href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg hover:bg-slate-100"
             >
-              <Award className="w-6 h-6 text-green-600" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
               <span className="font-semibold text-slate-900">Operational Controls</span>
             </Link>
           </div>
@@ -154,7 +154,7 @@ export default function CareerTrainingIllinoisPage() {
             </Link>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-slate-900 rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors"
             >
               How It Works
             </Link>

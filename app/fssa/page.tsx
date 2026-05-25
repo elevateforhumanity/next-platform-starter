@@ -79,6 +79,7 @@ export default function FssaPage() {
       {/* Hero */}
       <section className="relative bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/funding-impact-1.webp"
             alt="Career training participants"
@@ -109,7 +110,7 @@ export default function FssaPage() {
             </Link>
             <Link
               href="/grants"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-7 py-3.5 font-semibold text-white hover:bg-white/10 transition"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-7 py-3.5 font-semibold text-slate-900 hover:bg-white/10 transition"
             >
               See All Funding Options
             </Link>
@@ -225,7 +226,7 @@ export default function FssaPage() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           {/* Participant */}
           <div className="bg-white rounded-2xl border border-slate-200 p-8">
-            <GraduationCap className="w-8 h-8 text-brand-red-600 mb-4" />
+            <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-red-600 mb-4" />
             <h3 className="text-xl font-bold text-slate-900 mb-2">I'm a SNAP / TANF Recipient</h3>
             <p className="text-slate-600 text-sm mb-6">
               Talk to your FSSA case manager or visit a WorkOne office to get a referral. Once
@@ -264,7 +265,7 @@ export default function FssaPage() {
               </Link>
               <Link
                 href="/fssa/tpp-survey"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-3 font-semibold text-white hover:bg-white/10 transition text-sm"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-3 font-semibold text-slate-900 hover:bg-white/10 transition text-sm"
               >
                 <ClipboardList className="w-4 h-4" /> TPP Questionnaire
               </Link>

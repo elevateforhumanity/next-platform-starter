@@ -123,7 +123,7 @@ export function LiveChatSupport() {
             className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] rounded-lg p-3 ${
+              className={`max-w-4/5 rounded-lg p-3 ${
                 msg.sender === 'user' ? 'bg-brand-orange-600 text-white' : 'bg-slate-100 text-black'
               }`}
             >

@@ -66,7 +66,7 @@ export default async function EnrollProgramPage({ params }: Props) {
               <div className="grid md:grid-cols-2 gap-4">
                 {course.credential && (
                   <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
-                    <Award className="w-5 h-5 text-brand-blue-600" />
+                    <Award aria-label="award" className="w-5 h-5 text-brand-blue-600" />
                     <div>
                       <p className="text-sm text-slate-500">Credential</p>
                       <p className="font-medium">{course.credential}</p>

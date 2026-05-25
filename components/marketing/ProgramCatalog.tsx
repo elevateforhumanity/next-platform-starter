@@ -84,7 +84,7 @@ export function ProgramCatalog() {
               <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
                 {program.meta}
               </p>
-              <p className="mt-1 text-xs font-semibold text-green-400">{program.funding}</p>
+              <p className="mt-1 text-xs font-semibold text-brand-green-400">{program.funding}</p>
               <p className="mt-3 text-sm text-slate-400 flex-1">{program.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
                 <Link

@@ -48,7 +48,7 @@ export default function GetStartedPage() {
               href="/start"
               className="bg-white rounded-xl p-8 shadow-sm border hover:border-brand-blue-500 hover:shadow-md transition group"
             >
-              <GraduationCap className="w-10 h-10 text-brand-blue-600 mb-4" />
+              <GraduationCap aria-label="graduationcap" className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-blue-600">
                 Enroll in a Program
               </h3>

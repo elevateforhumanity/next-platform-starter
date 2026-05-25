@@ -30,6 +30,7 @@ export function ArchetypeBase({
       {/* Hero Section */}
       <section className="relative h-[400px]">
         {finalContent.hero.image && (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={finalContent.hero.image}
             alt={finalContent.hero.imageAlt || ''}

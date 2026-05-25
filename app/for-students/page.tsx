@@ -46,7 +46,7 @@ export default function ForStudentsPage() {
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-8">Elevate connects you to workforce training, funding, certification, and employment — often at no cost through WIOA or state funding.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/apply/student" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">Apply Now</Link>
-            <Link href="/check-eligibility" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Check Eligibility</Link>
+            <Link href="/check-eligibility" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Check Eligibility</Link>
           </div>
         </div>
       </section>

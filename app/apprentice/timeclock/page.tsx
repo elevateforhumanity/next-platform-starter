@@ -13,7 +13,6 @@ import {
   ArrowLeft,
   RefreshCw,
   History,
-  CheckCircle2,
   XCircle,
   ChevronRight,
 } from 'lucide-react';
@@ -700,7 +699,7 @@ export default function TimeclockPage() {
                         {s.auto_clocked_out ? (
                           <XCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
                         ) : s.clock_out_at ? (
-                          <CheckCircle2 className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
+                          <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                         ) : (
                           <Clock className="w-4 h-4 text-brand-blue-500 flex-shrink-0 animate-pulse" />
                         )}

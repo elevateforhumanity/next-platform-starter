@@ -253,6 +253,7 @@ function LoginForm() {
     <div className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative h-[200px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/login-page-1.webp"
           alt="Elevate for Humanity login"
@@ -393,15 +394,15 @@ function LoginForm() {
                   No password? Get a sign-in link →
                 </button>
               ) : linkSent ? (
-                <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-center">
-                  <p className="text-sm font-semibold text-green-800 mb-1">Check your email</p>
-                  <p className="text-sm text-green-700">
+                <div className="rounded-lg bg-brand-green-50 border border-brand-green-200 p-4 text-center">
+                  <p className="text-sm font-semibold text-brand-green-800 mb-1">Check your email</p>
+                  <p className="text-sm text-brand-green-700">
                     A sign-in link was sent to <strong>{linkEmail}</strong>. Click it to log in instantly — no password needed.
                   </p>
                   <button
                     type="button"
                     onClick={() => { setLinkSent(false); setLinkEmail(''); }}
-                    className="mt-3 text-xs text-green-600 underline"
+                    className="mt-3 text-xs text-brand-green-600 underline"
                   >
                     Send to a different email
                   </button>

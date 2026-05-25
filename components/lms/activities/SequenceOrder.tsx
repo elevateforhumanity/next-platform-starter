@@ -90,7 +90,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
               key={stepIdx}
               className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
                 isCorrect
-                  ? 'bg-green-50 border-green-400'
+                  ? 'bg-brand-green-50 border-brand-green-400'
                   : isWrong
                     ? 'bg-red-50 border-red-300'
                     : 'bg-white border-slate-200'
@@ -100,7 +100,7 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                   isCorrect
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-brand-green-500 text-white'
                     : isWrong
                       ? 'bg-red-400 text-white'
                       : 'bg-slate-100 text-slate-700'
@@ -119,14 +119,14 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
               <div className="flex-1 min-w-0">
                 <p
                   className={`font-semibold text-base ${
-                    isCorrect ? 'text-green-800' : isWrong ? 'text-red-800' : 'text-slate-900'
+                    isCorrect ? 'text-brand-green-800' : isWrong ? 'text-red-800' : 'text-slate-900'
                   }`}
                 >
                   {step.label}
                 </p>
                 {submitted && (
                   <p
-                    className={`text-sm mt-0.5 ${isCorrect ? 'text-green-600' : 'text-slate-700'}`}
+                    className={`text-sm mt-0.5 ${isCorrect ? 'text-brand-green-600' : 'text-slate-700'}`}
                   >
                     {step.explanation}
                   </p>
@@ -168,14 +168,14 @@ export function SequenceOrder({ title, description, steps, onComplete }: Sequenc
         </div>
       ) : (
         <div
-          className={`mt-4 p-4 rounded-xl ${score >= 70 ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}
+          className={`mt-4 p-4 rounded-xl ${score >= 70 ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-red-50 border border-red-200'}`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className={`text-lg font-bold ${score >= 70 ? 'text-green-800' : 'text-red-800'}`}>
+              <p className={`text-lg font-bold ${score >= 70 ? 'text-brand-green-800' : 'text-red-800'}`}>
                 {score === 100 ? 'Perfect!' : score >= 70 ? 'Good job!' : 'Not quite — try again'}
               </p>
-              <p className={`text-sm ${score >= 70 ? 'text-green-600' : 'text-red-600'}`}>
+              <p className={`text-sm ${score >= 70 ? 'text-brand-green-600' : 'text-red-600'}`}>
                 {correctCount}/{steps.length} in the right position ({score}%)
               </p>
             </div>

@@ -187,7 +187,7 @@ export default function ForProvidersPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {WHAT_YOU_GET.map((item) => (
               <div key={item} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-slate-700">{item}</span>
               </div>
             ))}

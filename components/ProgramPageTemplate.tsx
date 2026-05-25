@@ -44,7 +44,7 @@ export default function ProgramPageTemplate({
   heroDescription,
   heroCTA1Text = 'Apply Now',
   heroCTA1Link = '/apply',
-  heroCTA2Text = 'Learn More',
+  heroCTA2Text = 'See Details',
   heroCTA2Link = '/contact',
   duration,
   format,
@@ -62,6 +62,7 @@ export default function ProgramPageTemplate({
       {/* Hero Banner */}
       <section className="relative min-h-[600px] flex items-center">
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={heroImage}
             alt={heroTitle}
@@ -336,7 +337,7 @@ export default function ProgramPageTemplate({
             </Link>
             <a
               href="/contact"
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition text-lg"
+              className="px-8 py-4 bg-transparent border-2 border-white text-slate-900 font-bold rounded-full hover:bg-white/10 transition text-lg"
             >
               Email an Advisor
             </a>

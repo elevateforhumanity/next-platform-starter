@@ -26,6 +26,7 @@ export default function CosmetologyHostSalonsPage() {
 
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[450px] max-h-[600px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/cosmetology-hero.webp"
           alt="Professional salon interior with stylist stations"
@@ -48,7 +49,7 @@ export default function CosmetologyHostSalonsPage() {
           {/* Benefit 1 */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/cosmetology-apprenticeship-hero.webp"
                 alt="Cosmetology apprentice learning from licensed stylist"
                 fill
@@ -103,7 +104,7 @@ export default function CosmetologyHostSalonsPage() {
               </ul>
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl order-1 md:order-2">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/cosmetology.webp"
                 alt="Professional cosmetology salon"
                 fill
@@ -115,7 +116,7 @@ export default function CosmetologyHostSalonsPage() {
           {/* Benefit 3 */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/barber-styling-hair.webp"
                 alt="Stylist working with client"
                 fill
@@ -124,7 +125,7 @@ export default function CosmetologyHostSalonsPage() {
             </div>
             <div>
               <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
-                <Award className="w-8 h-8 text-amber-700" />
+                <Award aria-label="award" className="w-8 h-8 text-amber-700" />
               </div>
               <h3 className="text-2xl font-bold text-black mb-4">Build Your Legacy</h3>
               <p className="text-lg text-black mb-4">

@@ -326,12 +326,12 @@ export default function ComponentIDLab() {
         {quizSubmitted ? (
           <div className="space-y-4">
             <div
-              className={`rounded-xl p-6 text-center ${correctCount >= 7 ? 'bg-green-50 border-2 border-green-300' : 'bg-red-50 border-2 border-red-300'}`}
+              className={`rounded-xl p-6 text-center ${correctCount >= 7 ? 'bg-brand-green-50 border-2 border-brand-green-300' : 'bg-red-50 border-2 border-red-300'}`}
             >
               <p className="text-4xl font-black">
                 {correctCount}/{quizQuestions.length}
               </p>
-              <p className={`font-bold ${correctCount >= 7 ? 'text-green-700' : 'text-red-700'}`}>
+              <p className={`font-bold ${correctCount >= 7 ? 'text-brand-green-700' : 'text-red-700'}`}>
                 {correctCount >= 7 ? 'PASS' : 'Keep studying — you need to know every component'}
               </p>
             </div>
@@ -387,7 +387,7 @@ export default function ComponentIDLab() {
             <button
               onClick={() => setQuizSubmitted(true)}
               disabled={Object.keys(quizAnswers).length < quizQuestions.length}
-              className="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 disabled:bg-slate-300 transition"
+              className="w-full bg-brand-green-600 text-white font-bold py-3 rounded-lg hover:bg-brand-green-700 disabled:bg-slate-300 transition"
             >
               Submit Quiz ({Object.keys(quizAnswers).length}/{quizQuestions.length} answered)
             </button>

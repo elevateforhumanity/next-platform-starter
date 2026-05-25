@@ -35,7 +35,7 @@ export function ScheduleMeetingButton() {
       <button onClick={() => setOpen(true)} className="flex items-center gap-2 px-4 py-2.5 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-semibold rounded-xl transition-colors">
         <Plus className="w-4 h-4" /> Schedule Session
       </button>
-      {success && <p className="text-xs text-green-700 font-medium mt-1">✅ Session scheduled</p>}
+      {success && <p className="text-xs text-brand-green-700 font-medium mt-1">✅ Session scheduled</p>}
       {open && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">

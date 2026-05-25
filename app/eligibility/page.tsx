@@ -122,13 +122,13 @@ export default async function EligibilityPage() {
                 className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4"
               >
                 {c.positive ? (
-                  <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-500 shrink-0" />
                 ) : (
                   <XCircle className="w-5 h-5 text-red-400 shrink-0" />
                 )}
                 <span className="text-sm text-slate-700">{c.label}</span>
                 <span
-                  className={`ml-auto text-xs font-semibold ${c.positive ? 'text-green-600' : 'text-red-500'}`}
+                  className={`ml-auto text-xs font-semibold ${c.positive ? 'text-brand-green-600' : 'text-red-500'}`}
                 >
                   {c.positive ? 'Yes → Good' : 'Yes → May affect eligibility'}
                 </span>

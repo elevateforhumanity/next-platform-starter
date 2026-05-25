@@ -15,7 +15,6 @@ import {
   Award,
   Clock,
   BookOpen,
-  CheckCircle2,
   Lock,
   AlertCircle,
   Loader2,
@@ -47,7 +46,7 @@ function Milestone({ pct, label, reached, accentColor }: MilestoneProps) {
             : 'border-slate-300 text-slate-400 bg-white'
         }`}
       >
-        {reached ? <CheckCircle2 className="w-4 h-4" /> : `${pct}%`}
+        {reached ? <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> : `${pct}%`}
       </div>
       <span className="text-xs text-slate-500 text-center leading-tight">{label}</span>
     </div>
@@ -189,7 +188,7 @@ export default function ApprenticeProgress({
             {isEligible ? (
               <div className="bg-emerald-600 rounded-2xl p-5 text-white flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Award className="w-6 h-6" />
+                  <Award aria-label="award" className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
                   <p className="font-black text-lg">Eligible to test!</p>
@@ -345,7 +344,7 @@ export default function ApprenticeProgress({
                 <div className="flex-1">
                   {data.lmsCompleted ? (
                     <div className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle2 className="w-5 h-5" />
+                      <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
                       <span className="font-bold">Theory complete</span>
                     </div>
                   ) : (
@@ -403,7 +402,7 @@ export default function ApprenticeProgress({
                   {item.locked ? (
                     <Lock className="w-5 h-5 text-slate-300 flex-shrink-0" />
                   ) : item.done ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                   ) : (
                     <Clock className="w-5 h-5 text-amber-400 flex-shrink-0" />
                   )}

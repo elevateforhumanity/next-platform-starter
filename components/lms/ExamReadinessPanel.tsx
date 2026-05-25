@@ -54,17 +54,17 @@ export default function ExamReadinessPanel({
 }: ExamReadinessPanelProps) {
   if (isReady) {
     return (
-      <div className="rounded-xl border border-green-200 bg-green-50 p-5">
+      <div className="rounded-xl border border-brand-green-200 bg-brand-green-50 p-5">
         <div className="flex items-center gap-3 mb-2">
-          <Award className="w-6 h-6 text-green-600 shrink-0" />
-          <h3 className="font-semibold text-green-800 text-base">Verified Exam Ready</h3>
+          <Award aria-label="award" className="w-6 h-6 text-brand-green-600 shrink-0" />
+          <h3 className="font-semibold text-brand-green-800 text-base">Verified Exam Ready</h3>
         </div>
-        <p className="text-green-700 text-sm">
+        <p className="text-brand-green-700 text-sm">
           You have met all requirements for <strong>{programTitle}</strong> and are authorized to
           sit for the certification exam.
         </p>
         {authorizationExpiresAt && (
-          <p className="text-green-600 text-xs mt-2">
+          <p className="text-brand-green-600 text-xs mt-2">
             Authorization expires{' '}
             {new Date(authorizationExpiresAt).toLocaleDateString('en-US', {
               timeZone: 'UTC',
@@ -138,19 +138,19 @@ export default function ExamReadinessPanel({
                 key={d.domain_key}
                 className={`flex items-start gap-2 rounded-lg px-3 py-2 text-sm ${
                   d.passed
-                    ? 'bg-green-50 border border-green-200'
+                    ? 'bg-brand-green-50 border border-brand-green-200'
                     : d.learner_avg === 0
                       ? 'bg-slate-50 border border-slate-200'
                       : 'bg-red-50 border border-red-200'
                 }`}
               >
                 {d.passed ? (
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0" />
                 ) : (
                   <XCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <span className={`font-medium ${d.passed ? 'text-green-800' : 'text-slate-800'}`}>
+                  <span className={`font-medium ${d.passed ? 'text-brand-green-800' : 'text-slate-800'}`}>
                     {d.domain_name}
                   </span>
                   {!d.passed && (
@@ -164,7 +164,7 @@ export default function ExamReadinessPanel({
                   )}
                 </div>
                 {d.passed && d.learner_avg > 0 && (
-                  <span className="text-xs text-green-600 font-medium shrink-0">
+                  <span className="text-xs text-brand-green-600 font-medium shrink-0">
                     {d.learner_avg}%
                   </span>
                 )}
@@ -207,13 +207,13 @@ function ProgressRow({
     <div>
       <div className="flex justify-between items-center mb-1">
         <span className="text-xs text-amber-800">{label}</span>
-        <span className={`text-xs font-medium ${passed ? 'text-green-700' : 'text-amber-700'}`}>
+        <span className={`text-xs font-medium ${passed ? 'text-brand-green-700' : 'text-amber-700'}`}>
           {format(value, total)}
         </span>
       </div>
       <div className="h-1.5 bg-amber-100 rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all ${passed ? 'bg-green-500' : 'bg-amber-400'}`}
+          className={`h-full rounded-full transition-all ${passed ? 'bg-brand-green-500' : 'bg-amber-400'}`}
           style={{ width: `${pct}%` }}
         />
       </div>

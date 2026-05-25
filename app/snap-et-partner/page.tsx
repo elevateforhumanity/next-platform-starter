@@ -149,7 +149,7 @@ export default async function SnapEtPartnerPage() {
             ].map((c) => (
               <span
                 key={c}
-                className="inline-flex items-center gap-2 rounded-full bg-green-50 border border-green-200 px-4 py-1.5 text-sm font-medium text-green-800"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-green-50 border border-brand-green-200 px-4 py-1.5 text-sm font-medium text-brand-green-800"
               >
                 <CheckCircle className="w-3.5 h-3.5" /> {c}
               </span>
@@ -222,7 +222,7 @@ export default async function SnapEtPartnerPage() {
             </Link>
             <a
               href="mailto:agencies@elevateforhumanity.org"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-white/10 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white px-6 py-3 font-semibold text-slate-900 hover:bg-white/10 transition"
             >
               <Mail className="w-4 h-4" /> Email Agency Liaison
             </a>

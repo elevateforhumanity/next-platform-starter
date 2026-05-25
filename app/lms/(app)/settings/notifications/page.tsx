@@ -220,7 +220,7 @@ export default function NotificationSettingsPage() {
           <div className="divide-y divide-slate-200">
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <GraduationCap className="w-5 h-5 text-slate-700" />
+                <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-slate-700" />
                 <div>
                   <p className="font-medium text-slate-900">Course Updates</p>
                   <p className="text-sm text-slate-700">New content, announcements, and changes</p>
@@ -246,7 +246,7 @@ export default function NotificationSettingsPage() {
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <GraduationCap className="w-5 h-5 text-slate-700" />
+                <GraduationCap aria-label="graduationcap" className="w-5 h-5 text-slate-700" />
                 <div>
                   <p className="font-medium text-slate-900">Grade Posted</p>
                   <p className="text-sm text-slate-700">When instructors post grades or feedback</p>

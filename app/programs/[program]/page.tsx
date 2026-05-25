@@ -234,7 +234,7 @@ function ProgramPage({
           <div className="flex flex-wrap gap-3 mb-10">
             {credential && (
               <span className="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold px-4 py-2 rounded-full">
-                <Award className="w-3.5 h-3.5 text-brand-red-400" /> {credential}
+                <Award aria-label="award" className="w-3.5 h-3.5 text-brand-red-400" /> {credential}
               </span>
             )}
             {durationWeeks && (
@@ -334,7 +334,7 @@ function ProgramPage({
             </h2>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex items-start gap-4 bg-slate-900 border border-slate-700 rounded-xl px-6 py-5">
-                <Award className="w-5 h-5 text-brand-red-400 shrink-0 mt-0.5" />
+                <Award aria-label="award" className="w-5 h-5 text-brand-red-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-white font-extrabold text-sm">{credential}</p>
                   <p className="text-slate-400 text-xs mt-1">
@@ -474,7 +474,7 @@ function ProgramPage({
             </Link>
             <Link
               href="/check-eligibility"
-              className="border-2 border-white text-white font-extrabold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-sm"
+              className="border-2 border-white text-slate-900 font-extrabold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-sm"
             >
               Check Eligibility
             </Link>

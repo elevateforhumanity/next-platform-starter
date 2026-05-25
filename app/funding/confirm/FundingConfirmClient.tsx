@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const FUNDING_OPTIONS = [
@@ -90,7 +90,7 @@ export default function FundingConfirmClient({ currentFundingSource, alreadyConf
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-6">
         <div className="max-w-md w-full text-center">
-          <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <span className="w-16 h-16 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Funding Confirmed</h1>
           <p className="text-slate-600 mb-6">
             Your funding source is set to{' '}

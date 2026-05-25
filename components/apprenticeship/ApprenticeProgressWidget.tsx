@@ -170,7 +170,7 @@ export function ApprenticeProgressWidget({
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-amber-600" />
+                <Award aria-label="award" className="w-4 h-4 text-amber-600" />
                 <span className="text-sm font-semibold text-amber-800">Transfer Hours</span>
               </div>
               <span className="text-lg font-bold text-amber-600">
@@ -254,13 +254,13 @@ export function ApprenticeProgressWidget({
         {/* State Board Readiness */}
         {summary.ready_for_exam ? (
           <div className="bg-gradient-to-r from-brand-green-500 to-emerald-500 rounded-lg p-4 text-center text-white">
-            <Award className="w-8 h-8 mx-auto mb-2" />
+            <Award aria-label="award" className="w-8 h-8 mx-auto mb-2" />
             <div className="font-bold">Ready for State Board!</div>
             <div className="text-sm text-white">Schedule your Indiana IPLA exam</div>
           </div>
         ) : progressPercentage >= 100 ? (
           <div className="bg-gradient-to-r from-amber-500 to-brand-orange-500 rounded-lg p-4 text-center text-white">
-            <Award className="w-8 h-8 mx-auto mb-2" />
+            <Award aria-label="award" className="w-8 h-8 mx-auto mb-2" />
             <div className="font-bold">Hours Complete!</div>
             <div className="text-sm text-amber-100">
               Complete LMS theory to unlock state board exam

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  FileText, CheckCircle2, Eraser, Download, Send,
+  FileText, Eraser, Download, Send,
   Loader2, AlertCircle, ArrowLeft,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
@@ -359,7 +359,7 @@ export default function SignMOUPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-sm border p-8 text-center">
-          <CheckCircle2 className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
+          <span className="w-16 h-16 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">MOU Signed Successfully</h1>
           <p className="text-black mb-6">
             Your Memorandum of Understanding has been submitted. Our team will countersign
@@ -403,19 +403,19 @@ export default function SignMOUPage() {
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 py-8">
 
         {/* Handbook prerequisite */}
-        <div className={`rounded-xl border-2 p-5 mb-8 ${handbookRead ? 'border-green-400 bg-green-50' : 'border-amber-400 bg-amber-50'}`}>
+        <div className={`rounded-xl border-2 p-5 mb-8 ${handbookRead ? 'border-brand-green-400 bg-brand-green-50' : 'border-amber-400 bg-amber-50'}`}>
           <div className="flex items-start gap-4">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${handbookRead ? 'bg-green-100' : 'bg-amber-100'}`}>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${handbookRead ? 'bg-brand-green-100' : 'bg-amber-100'}`}>
               {handbookRead
-                ? <CheckCircle2 className="w-6 h-6 text-green-600" />
+                ? <span className="w-6 h-6 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
                 : <AlertCircle className="w-6 h-6 text-amber-600" />
               }
             </div>
             <div className="flex-1">
-              <p className={`font-bold text-base mb-1 ${handbookRead ? 'text-green-900' : 'text-amber-900'}`}>
+              <p className={`font-bold text-base mb-1 ${handbookRead ? 'text-brand-green-900' : 'text-amber-900'}`}>
                 {handbookRead ? 'Handbook reviewed — you may proceed' : 'Step 1: Read the Partner Handbook before signing'}
               </p>
-              <p className={`text-sm mb-3 ${handbookRead ? 'text-green-800' : 'text-amber-800'}`}>
+              <p className={`text-sm mb-3 ${handbookRead ? 'text-brand-green-800' : 'text-amber-800'}`}>
                 The Partner Handbook explains your responsibilities as a worksite employer, compensation requirements, hour tracking, and prohibited practices. You must review it before signing this MOU.
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -432,7 +432,7 @@ export default function SignMOUPage() {
                     type="checkbox"
                     checked={handbookRead}
                     onChange={(e) => setHandbookRead(e.target.checked)}
-                    className="w-5 h-5 rounded border-slate-300 text-green-600 focus:ring-green-500"
+                    className="w-5 h-5 rounded border-slate-300 text-brand-green-600 focus:ring-green-500"
                   />
                   <span className="text-sm font-semibold text-slate-900">I have read and understood the Partner Handbook</span>
                 </label>
@@ -582,7 +582,7 @@ export default function SignMOUPage() {
               <p className="text-xs text-black"><strong>Title:</strong> Founder &amp; CEO</p>
               <p className="text-xs text-black"><strong>Organization:</strong> 2Exclusive LLC-S DBA Elevate for Humanity Technical and Career Institute</p>
               <p className="text-xs text-black"><strong>Date:</strong> {new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
-              <div className="mt-3 bg-green-50 border border-green-200 rounded px-3 py-1.5 text-xs text-green-700 font-semibold text-center">✓ Signed by Elevate for Humanity</div>
+              <div className="mt-3 bg-brand-green-50 border border-brand-green-200 rounded px-3 py-1.5 text-xs text-brand-green-700 font-semibold text-center">✓ Signed by Elevate for Humanity</div>
             </div>
             {/* Employer — needs to sign */}
             <div className="border-2 border-dashed border-red-300 rounded-lg p-4 bg-red-50">
@@ -630,7 +630,7 @@ export default function SignMOUPage() {
           </div>
           {hasSigned && (
             <p className="text-sm text-brand-green-600 mt-2 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> Signature captured
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Signature captured
             </p>
           )}
         </div>

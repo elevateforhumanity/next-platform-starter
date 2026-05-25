@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Sparkles, CheckCircle2, ArrowRight, AlertTriangle } from 'lucide-react';
+import { Sparkles, ArrowRight, AlertTriangle } from 'lucide-react';
 
 export const dynamic = 'force-static';
 export const metadata: Metadata = {
@@ -71,7 +71,7 @@ export default function ProposalWritingPage() {
           <div className="flex flex-wrap gap-2">
             {FIELDS.map(f => (
               <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-full text-sm text-slate-700">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {f}
+                <span className="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" /> {f}
               </span>
             ))}
           </div>

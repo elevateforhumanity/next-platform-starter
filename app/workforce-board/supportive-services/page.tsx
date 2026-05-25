@@ -29,6 +29,7 @@ export default function SupportiveServicesPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/workforce-board-page-6.webp"
           alt="Supportive Services"
@@ -88,7 +89,7 @@ export default function SupportiveServicesPage() {
                 <p className="text-black">Access quality training programs</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <Award className="w-8 h-8 text-brand-green-600 mb-4" />
+                <Award aria-label="award" className="w-8 h-8 text-brand-green-600 mb-4" />
                 <h3 className="text-lg font-semibold mb-3">Certify</h3>
                 <p className="text-black">Earn industry certifications</p>
               </div>

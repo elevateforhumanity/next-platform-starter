@@ -26,6 +26,7 @@ export default function HostShopsPage() {
       />
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[450px] max-h-[600px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-gallery-1.webp"
           alt="Professional barbershop interior"
@@ -46,7 +47,7 @@ export default function HostShopsPage() {
           {/* Benefit 1 - Image Left */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/barber-training.webp"
                 alt="Barber training apprentice"
                 fill
@@ -98,7 +99,7 @@ export default function HostShopsPage() {
               </ul>
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl order-1 md:order-2">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/barber-gallery-2.webp"
                 alt="Professional barbershop"
                 fill
@@ -110,7 +111,7 @@ export default function HostShopsPage() {
           {/* Benefit 3 - Image Left */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/barber-gallery-3.webp"
                 alt="Barber with client"
                 fill
@@ -119,7 +120,7 @@ export default function HostShopsPage() {
             </div>
             <div>
               <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
-                <Award className="w-8 h-8 text-amber-700" />
+                <Award aria-label="award" className="w-8 h-8 text-amber-700" />
               </div>
               <h3 className="text-2xl font-bold text-black mb-4">Build Your Legacy</h3>
               <p className="text-lg text-black mb-4">

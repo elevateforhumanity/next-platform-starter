@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  active: 'bg-green-100 text-green-800',
+  active: 'bg-brand-green-100 text-brand-green-800',
   pending: 'bg-yellow-100 text-yellow-800',
   draft: 'bg-slate-100 text-slate-700',
   inactive: 'bg-red-100 text-red-700',

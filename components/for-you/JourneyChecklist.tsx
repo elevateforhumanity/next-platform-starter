@@ -36,14 +36,14 @@ const STEPS: Step[] = [
     title: 'Start Training',
     duration: '1-2 weeks',
     description: 'Enroll with accredited provider and begin your program',
-    icon: <GraduationCap className="h-10 w-10" />,
+    icon: <GraduationCap aria-label="graduationcap" className="h-10 w-10" />,
   },
   {
     number: 5,
     title: 'Earn Credential',
     duration: 'Varies by program',
     description: 'Complete training, pass certification exam, launch your new career',
-    icon: <GraduationCap className="h-10 w-10" />,
+    icon: <GraduationCap aria-label="graduationcap" className="h-10 w-10" />,
   },
 ];
 

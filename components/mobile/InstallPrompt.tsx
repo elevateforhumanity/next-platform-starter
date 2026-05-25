@@ -40,7 +40,7 @@ export default function InstallPrompt() {
               </button>
               <button
                 onClick={() => setDismissed(true)}
-                className="px-4 py-2 bg-white/20 text-white font-medium text-sm rounded-lg active:scale-95 transition-transform"
+                className="px-4 py-2 bg-white/20 text-slate-900 font-medium text-sm rounded-lg active:scale-95 transition-transform"
               >
                 Not now
               </button>

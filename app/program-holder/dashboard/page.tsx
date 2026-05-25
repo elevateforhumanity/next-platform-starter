@@ -168,6 +168,7 @@ export default async function ProgramHolderDashboardPage() {
 
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image src="/images/pages/program-holder-page-1.webp" alt="Program Holder Portal" fill className="object-cover object-center" priority sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-950/90 via-brand-blue-900/50 to-transparent" />
         <div className="absolute inset-0 flex items-end">
@@ -177,7 +178,7 @@ export default async function ProgramHolderDashboardPage() {
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight">Program Holder Portal</h1>
               <p className="text-slate-300 text-sm mt-2">Manage your students, attendance, milestones, and payments.</p>
             </div>
-            <Link href="/program-holder/settings" className="flex-shrink-0 p-3 bg-white/10 hover:bg-white/20 rounded-xl text-white transition">
+            <Link href="/program-holder/settings" className="flex-shrink-0 p-3 bg-white/10 hover:bg-white/20 rounded-xl text-slate-900 transition">
               <Settings className="w-5 h-5" />
             </Link>
           </div>
@@ -360,7 +361,7 @@ export default async function ProgramHolderDashboardPage() {
               <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                   <h2 className="font-bold text-slate-900 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-slate-400" /> Completion &amp; Hours
+                    <Award aria-label="award" className="w-4 h-4 text-slate-400" /> Completion &amp; Hours
                   </h2>
                   <span className="text-xs text-slate-400">HVAC EPA 608 — 40 hrs required</span>
                 </div>

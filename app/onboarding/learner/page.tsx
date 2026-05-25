@@ -391,12 +391,12 @@ export default async function LearnerOnboardingPage({
 
       {/* Payment confirmation banner — shown after Stripe checkout redirect */}
       {checkout === 'success' && (
-        <div className="bg-green-600 text-white px-4 py-4">
+        <div className="bg-brand-green-600 text-white px-4 py-4">
           <div className="max-w-6xl mx-auto flex items-start gap-3">
             <span className="text-2xl leading-none">✅</span>
             <div>
               <p className="font-bold text-lg leading-tight">Payment received — thank you!</p>
-              <p className="text-green-100 text-sm mt-0.5">
+              <p className="text-brand-green-100 text-sm mt-0.5">
                 Your enrollment is confirmed. Complete the steps below, then our team will review
                 your documents and grant your LMS access — usually within 1 business day.
               </p>
@@ -706,14 +706,14 @@ export default async function LearnerOnboardingPage({
                       </Link>
                       <a
                         href="tel:+13173143757"
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-slate-900 rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
                       >
                         <Phone className="w-4 h-4" />
                         (317) 314-3757
                       </a>
                       <Link
                         href="/support/help"
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-slate-900 rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
                       >
                         <HelpCircle className="w-4 h-4" />
                         Help Center

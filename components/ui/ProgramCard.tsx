@@ -20,9 +20,7 @@ export function ProgramCard({ title, description, image, href }: ProgramCardProp
         <Link
           href={href}
           className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-brand-blue-700 transition-colors"
-        >
-          Learn More
-        </Link>
+        >See Details</Link>
       </div>
     </div>
   );

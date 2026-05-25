@@ -236,7 +236,7 @@ export default function TextToSpeech({
               const voice = voices.find((v) => v.name === e.target.value);
               setSelectedVoice(voice || null);
             }}
-            className="text-xs px-2 py-2 border border-slate-300 rounded bg-white max-w-[150px]"
+            className="text-xs px-2 py-2 border border-slate-300 rounded bg-white max-w-7xl"
             disabled={isPlaying}
           >
             {voices

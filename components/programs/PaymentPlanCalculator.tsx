@@ -148,9 +148,9 @@ export default function PaymentPlanCalculator({ programSlug, stripeDepositUrl, s
 
         {/* Result */}
         {payingInFull ? (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-            <p className="text-green-800 font-bold text-lg">Pay in Full — {fmt(pricing.tuition_cents)}</p>
-            <p className="text-green-700 text-sm mt-1">No weekly payments. Enroll immediately.</p>
+          <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4 text-center">
+            <p className="text-brand-green-800 font-bold text-lg">Pay in Full — {fmt(pricing.tuition_cents)}</p>
+            <p className="text-brand-green-700 text-sm mt-1">No weekly payments. Enroll immediately.</p>
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-3 text-center">

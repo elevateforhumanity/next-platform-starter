@@ -29,7 +29,7 @@ const slides: Slide[] = [
     title: 'DOL Registered Barber Apprenticeship',
     text: '2,000-hour barber apprenticeship. Earn while you learn. WIOA, WRG, and JRI fundable. Indiana state licensure.',
     cta: {
-      text: 'Learn More',
+      text: 'See Details',
       href: '/programs/barber-apprenticeship',
     },
   },
@@ -101,7 +101,7 @@ const slides: Slide[] = [
     title: 'Early Childhood Education',
     text: 'Childcare and early education training for rewarding careers working with children.',
     cta: {
-      text: 'Learn More',
+      text: 'See Details',
       href: '/programs/early-childhood-education',
     },
   },
@@ -189,7 +189,7 @@ export default function HeroSlideshow() {
                     </Link>
                     <Link
                       href="/apply"
-                      className="inline-flex items-center justify-center px-8 py-4 bg-transparent text-white font-semibold rounded border-2 border-white hover:bg-white/10 transition-colors"
+                      className="inline-flex items-center justify-center px-8 py-4 bg-transparent text-slate-900 font-semibold rounded border-2 border-white hover:bg-white/10 transition-colors"
                     >
                       Apply Now
                     </Link>
@@ -202,14 +202,14 @@ export default function HeroSlideshow() {
       ))}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all z-10"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-slate-900 p-3 rounded-full transition-all z-10"
         aria-label="Previous slide"
       >
         <ChevronLeft size={24} />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all z-10"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-slate-900 p-3 rounded-full transition-all z-10"
         aria-label="Next slide"
       >
         <ChevronRight size={24} />

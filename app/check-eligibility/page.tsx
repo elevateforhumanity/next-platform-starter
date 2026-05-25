@@ -202,8 +202,8 @@ export default function CheckEligibilityPage() {
     { icon: React.ReactNode; bg: string; title: string; body: string; cta: string }
   > = {
     A: {
-      icon: <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />,
-      bg: 'bg-green-50 border-green-200',
+      icon: <CheckCircle className="w-6 h-6 text-brand-green-600 flex-shrink-0 mt-0.5" />,
+      bg: 'bg-brand-green-50 border-brand-green-200',
       title: 'You likely qualify for fully funded training',
       body: "WIOA, Workforce Ready Grant, and Job Ready Indy may cover your full tuition, books, and certification fees. Confirm your info below and we'll lock in your funding options.",
       cta: 'Continue to Application',
@@ -293,7 +293,7 @@ export default function CheckEligibilityPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />
         <div
           className="relative z-10 h-full flex flex-col justify-between px-4 sm:px-6 py-5"
           style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
@@ -580,8 +580,8 @@ export default function CheckEligibilityPage() {
 
         {step === 3 && (
           <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-9 h-9 text-green-600" />
+            <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-9 h-9 text-brand-green-600" />
             </div>
             <h2 className="text-2xl font-extrabold text-slate-900 mb-3">{confirm.headline}</h2>
             <p className="text-slate-600 mb-2">{confirm.body}</p>

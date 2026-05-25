@@ -47,6 +47,7 @@ export default async function EnrollPage() {
 
       {/* Hero - Image only */}
       <div className="relative h-[40vh] min-h-[300px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image sizes="100vw"
           src="/images/pages/programs-hero.webp"
           alt="Enroll in Training"
@@ -89,12 +90,12 @@ export default async function EnrollPage() {
                     </div>
                     <div className="flex-shrink-0 ml-4 text-right">
                       {program.is_free === true ? (
-                        <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                        <span className="inline-block px-3 py-1 bg-brand-green-100 text-brand-green-800 text-sm font-medium rounded-full">
                           Free
                         </span>
                       ) : program.funding_eligible === true ? (
                         <div>
-                          <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                          <span className="inline-block px-3 py-1 bg-brand-green-100 text-brand-green-800 text-sm font-medium rounded-full">
                             Free with WIOA/WRG
                           </span>
                           {program.price || program.total_cost ? (
@@ -112,7 +113,7 @@ export default async function EnrollPage() {
                           ${((program.price || program.total_cost || 0) as number).toLocaleString()}
                         </span>
                       ) : (
-                        <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                        <span className="inline-block px-3 py-1 bg-brand-green-100 text-brand-green-800 text-sm font-medium rounded-full">
                           Free
                         </span>
                       )}

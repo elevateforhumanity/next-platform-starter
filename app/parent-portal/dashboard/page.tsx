@@ -154,7 +154,7 @@ export default async function ParentDashboardPage() {
                 {/* Student header */}
                 <div className="flex items-center gap-4 px-6 py-5 border-b border-slate-100">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="w-6 h-6 text-blue-600" />
+                    <GraduationCap className="w-6 h-6 text-blue-600"  aria-label="graduationcap"/>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-lg font-bold text-slate-900 truncate">{student.fullName}</p>
@@ -215,7 +215,7 @@ export default async function ParentDashboardPage() {
                         </div>
                         {enr.status === 'completed' && (
                           <div className="flex items-center gap-1.5 mt-2 text-xs text-emerald-600 font-semibold">
-                            <Award className="w-3.5 h-3.5" /> Program completed
+                            <Award className="w-3.5 h-3.5"  aria-label="award"/> Program completed
                           </div>
                         )}
                       </div>

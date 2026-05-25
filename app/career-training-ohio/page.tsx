@@ -14,7 +14,7 @@ export default function CareerTrainingOhioPage() {
     <div className="min-h-screen bg-slate-50">
       <section className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 py-20">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center gap-2 text-green-200 mb-4">
+          <div className="flex items-center gap-2 text-brand-green-200 mb-4">
             <MapPin className="w-5 h-5" />
             <span className="text-sm font-medium uppercase tracking-wider">
               Serving All of Ohio
@@ -23,7 +23,7 @@ export default function CareerTrainingOhioPage() {
           <h1 className="text-4xl md:text-5xl font-black text-white mb-6">
             Career Training &amp; Workforce Programs in Ohio
           </h1>
-          <p className="text-xl text-green-100 mb-8 max-w-3xl">
+          <p className="text-xl text-brand-green-100 mb-8 max-w-3xl">
             Ohio's workforce includes a diverse mix of industries, employers, and training needs.
             Career training programs supported by structured learning platforms help ensure
             consistency, accountability, and measurable progress for participants across the state.
@@ -37,7 +37,7 @@ export default function CareerTrainingOhioPage() {
             </Link>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 rounded-lg text-lg font-bold transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-slate-900 border-2 border-white/30 rounded-lg text-lg font-bold transition-colors"
             >
               How It Works
             </Link>
@@ -59,7 +59,7 @@ export default function CareerTrainingOhioPage() {
               'Clear administrative and instructional roles',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-slate-700">{item}</span>
               </div>
             ))}
@@ -80,7 +80,7 @@ export default function CareerTrainingOhioPage() {
               'Documentation of participation and completion',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 bg-white p-4 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-slate-700">{item}</span>
               </div>
             ))}
@@ -100,11 +100,11 @@ export default function CareerTrainingOhioPage() {
               <span className="text-slate-700">Students and jobseekers</span>
             </div>
             <div className="flex items-start gap-3">
-              <Award className="w-5 h-5 text-purple-500 mt-0.5" />
+              <Award aria-label="award" className="w-5 h-5 text-purple-500 mt-0.5" />
               <span className="text-slate-700">Employers and workforce partners</span>
             </div>
             <div className="flex items-start gap-3">
-              <Users className="w-5 h-5 text-green-500 mt-0.5" />
+              <Users className="w-5 h-5 text-brand-green-500 mt-0.5" />
               <span className="text-slate-700">Training administrators and instructors</span>
             </div>
             <div className="flex items-start gap-3">
@@ -135,7 +135,7 @@ export default function CareerTrainingOhioPage() {
               href="/legal/governance"
               className="flex items-center gap-3 p-4 bg-white rounded-lg hover:bg-slate-50"
             >
-              <Award className="w-6 h-6 text-green-600" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
               <span className="font-semibold text-slate-900">Operational Controls</span>
             </Link>
           </div>
@@ -187,7 +187,7 @@ export default function CareerTrainingOhioPage() {
             </Link>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-slate-900 rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors"
             >
               How It Works
             </Link>

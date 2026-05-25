@@ -6,7 +6,6 @@ import {
   FileText,
   Upload,
   Download,
-  CheckCircle2,
   Clock,
   XCircle,
   AlertTriangle,
@@ -43,7 +42,7 @@ type UploadedDoc = {
 
 const STATUS_CONFIG = {
   pending: { label: 'Under Review', icon: Clock, cls: 'bg-amber-100 text-amber-800' },
-  approved: { label: 'Approved', icon: CheckCircle2, cls: 'bg-green-100 text-green-800' },
+  approved: { label: 'Approved', icon: cls: 'bg-brand-green-100 text-brand-green-800' },
   rejected: { label: 'Rejected', icon: XCircle, cls: 'bg-red-100 text-red-800' },
   expired: { label: 'Expired', icon: AlertTriangle, cls: 'bg-slate-100 text-slate-600' },
 };
@@ -394,7 +393,7 @@ function DocRow({
     <div
       className={`bg-white rounded-xl border shadow-sm p-5 ${
         hasApproved
-          ? 'border-green-200'
+          ? 'border-brand-green-200'
           : hasRejected
             ? 'border-red-200'
             : hasPending
@@ -407,7 +406,7 @@ function DocRow({
           <div
             className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
               hasApproved
-                ? 'bg-green-100'
+                ? 'bg-brand-green-100'
                 : hasPending
                   ? 'bg-amber-100'
                   : hasRejected
@@ -418,7 +417,7 @@ function DocRow({
             <FileText
               className={`w-5 h-5 ${
                 hasApproved
-                  ? 'text-green-600'
+                  ? 'text-brand-green-600'
                   : hasPending
                     ? 'text-amber-600'
                     : hasRejected
@@ -488,8 +487,8 @@ function DocRow({
 
             {/* Upload success */}
             {uploadSuccess && !uploadError && (
-              <p className="mt-2 text-xs text-green-700 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Uploaded — pending review
+              <p className="mt-2 text-xs text-brand-green-700 flex items-center gap-1">
+                <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Uploaded — pending review
               </p>
             )}
           </div>
@@ -548,7 +547,7 @@ function DocRow({
           )}
 
           {/* Approved checkmark */}
-          {hasApproved && <CheckCircle2 className="w-5 h-5 text-green-600" />}
+          {hasApproved && <span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />}
         </div>
       </div>
     </div>

@@ -102,7 +102,7 @@ export default async function OutcomesPage() {
                         <h2 className="text-2xl font-bold text-slate-900">{p.title}</h2>
                         {p.credential && (
                           <p className="text-sm text-slate-500 mt-1 flex items-center gap-1">
-                            <Award className="w-4 h-4" /> {p.credential}
+                            <Award aria-label="award" className="w-4 h-4" /> {p.credential}
                           </p>
                         )}
                       </div>
@@ -113,7 +113,7 @@ export default async function OutcomesPage() {
                           </span>
                         )}
                         {salary && (
-                          <span className="flex items-center gap-1 text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full font-semibold">
+                          <span className="flex items-center gap-1 text-sm bg-brand-green-50 text-brand-green-700 px-3 py-1 rounded-full font-semibold">
                             <DollarSign className="w-3.5 h-3.5" /> {salary}
                           </span>
                         )}
@@ -133,7 +133,7 @@ export default async function OutcomesPage() {
                           {employers.map((e) => (
                             <div key={e.name} className="flex items-center justify-between bg-slate-50 rounded-lg px-4 py-2">
                               <span className="text-sm text-slate-700">{e.name}</span>
-                              <span className="text-sm font-semibold text-green-700">{e.pay}</span>
+                              <span className="text-sm font-semibold text-brand-green-700">{e.pay}</span>
                             </div>
                           ))}
                         </div>

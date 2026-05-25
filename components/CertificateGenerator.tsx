@@ -81,7 +81,7 @@ export default function CertificateGenerator({
       <Card ref={certRef} className="border-4 border-brand-red-600">
         <CardContent className="p-12 text-center">
           <div className="mb-8">
-            <Award className="mx-auto text-brand-orange-600" size={64} />
+            <Award aria-label="award" className="mx-auto text-brand-orange-600" size={64} />
           </div>
           <h1 className="text-4xl font-bold mb-4 text-black text-2xl md:text-3xl lg:text-4xl">
             Certificate of Completion

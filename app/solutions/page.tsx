@@ -34,7 +34,7 @@ const solutions = [
       'Multi-program administration',
       'Student outcome tracking',
     ],
-    cta: 'Learn More',
+    cta: 'See Details',
     href: '/solutions/workforce',
   },
   {
@@ -73,7 +73,7 @@ const solutions = [
       'Progress tracking',
       'Mobile-friendly interface',
     ],
-    cta: 'Learn More',
+    cta: 'See Details',
     href: '/solutions/distance-learning',
   },
   {
@@ -86,7 +86,7 @@ const solutions = [
       'Student information integration',
       'Workforce alignment',
     ],
-    cta: 'Learn More',
+    cta: 'See Details',
     href: '/solutions/higher-ed',
   },
   {
@@ -99,7 +99,7 @@ const solutions = [
       'Industry credential prep',
       'Parent & counselor portals',
     ],
-    cta: 'Learn More',
+    cta: 'See Details',
     href: '/solutions/k12',
   },
 ];
@@ -165,7 +165,7 @@ export default function SolutionsPage() {
                   href="https://calendly.com/elevate4humanityedu"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition"
+                  className="inline-flex items-center justify-center border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition"
                 >
                   Schedule a Demo
                 </Link>
@@ -174,7 +174,7 @@ export default function SolutionsPage() {
             <div className="relative h-96 bg-white/10 rounded-2xl backdrop-blur-sm p-8 overflow-hidden">
               <div className="text-center">
                 <div className="text-6xl mb-4">
-                  <GraduationCap className="w-5 h-5 inline-block" />
+                  <GraduationCap aria-label="graduationcap" className="w-5 h-5 inline-block" />
                 </div>
                 <div className="text-2xl font-bold mb-2">30+ Programs</div>
                 <div className="text-white mb-6">Healthcare • Trades • Technology</div>

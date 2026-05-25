@@ -187,7 +187,7 @@ export function OjtDigitalLogger() {
           </button>
 
           {message && (
-            <p className={`text-sm font-medium ${message.type === 'success' ? 'text-green-700' : 'text-red-600'}`}>
+            <p className={`text-sm font-medium ${message.type === 'success' ? 'text-brand-green-700' : 'text-red-600'}`}>
               {message.type === 'success' ? '✅' : '❌'} {message.text}
             </p>
           )}
@@ -207,7 +207,7 @@ export function OjtDigitalLogger() {
               </div>
               <div className="bg-white rounded-lg border p-3 text-center">
                 <p className="text-xs text-slate-500">Verified</p>
-                <p className="text-xl font-bold text-green-700">
+                <p className="text-xl font-bold text-brand-green-700">
                   {summary.verified_hours}h {summary.verified_minutes}m
                 </p>
               </div>
@@ -248,7 +248,7 @@ export function OjtDigitalLogger() {
                       <td className="p-2 border">
                         <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
                           log.status === 'verified'
-                            ? 'bg-green-100 text-green-700'
+                            ? 'bg-brand-green-100 text-brand-green-700'
                             : 'bg-yellow-100 text-yellow-700'
                         }`}>
                           {log.status}

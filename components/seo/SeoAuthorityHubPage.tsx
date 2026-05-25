@@ -18,7 +18,7 @@
  */
 
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -193,7 +193,7 @@ export default function SeoAuthorityHubPage({
           <div className="flex flex-wrap gap-x-8 gap-y-3 justify-center sm:justify-start">
             {trustBadges.map((b, i) => (
               <div key={i} className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-brand-red-400 flex-shrink-0" />
+                <span className="w-4 h-4 rounded-full bg-brand-red-400 inline-block flex-shrink-0" aria-hidden="true" />
                 <span className="text-sm font-semibold">{b.label}</span>
                 {b.detail && (
                   <span className="text-xs text-slate-400 hidden sm:inline">— {b.detail}</span>
@@ -289,7 +289,7 @@ export default function SeoAuthorityHubPage({
             <ul className="grid sm:grid-cols-2 gap-3 my-6 max-w-2xl">
               {employer.bullets.map((b, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-brand-red-400 flex-shrink-0 mt-0.5" />
+                  <span className="w-4 h-4 rounded-full bg-brand-red-400 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="text-slate-300 text-sm">{b}</span>
                 </li>
               ))}
@@ -348,7 +348,7 @@ export default function SeoAuthorityHubPage({
             {ctaSecondary && (
               <Link
                 href={ctaSecondary.href}
-                className="border-2 border-white/60 text-white hover:bg-white/10 font-bold px-10 py-5 rounded-full text-xl transition-colors"
+                className="border-2 border-white/60 text-slate-900 hover:bg-white/10 font-bold px-10 py-5 rounded-full text-xl transition-colors"
               >
                 {ctaSecondary.label}
               </Link>

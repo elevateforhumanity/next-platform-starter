@@ -107,7 +107,7 @@ export default function TutoringClient({ tutors }: { tutors: { id: string; full_
               {tutors.map((t) => (
                 <div key={t.id} className="bg-white rounded-xl p-5 border flex flex-col items-center text-center">
                   {t.avatar_url ? (
-                    <Image src={t.avatar_url} alt={t.full_name ?? 'Tutor'} width={64} height={64} className="rounded-full mb-3 object-cover" />
+                    <Image sizes="100vw" src={t.avatar_url} alt={t.full_name ?? 'Tutor'} width={64} height={64} className="rounded-full mb-3 object-cover" />
                   ) : (
                     <div className="w-16 h-16 rounded-full bg-brand-blue-100 flex items-center justify-center mb-3">
                       <Users className="w-7 h-7 text-brand-blue-600" />
@@ -198,7 +198,7 @@ export default function TutoringClient({ tutors }: { tutors: { id: string; full_
             <Link href="/lms/courses" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-brand-blue-600 font-bold rounded-xl hover:bg-slate-100 transition text-lg shadow-lg">
               Go to LMS <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl hover:bg-white/10 transition text-lg border-2 border-white">
+            <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-slate-900 font-bold rounded-xl hover:bg-white/10 transition text-lg border-2 border-white">
               <Phone className="w-5 h-5" /> Contact Support
             </Link>
           </div>

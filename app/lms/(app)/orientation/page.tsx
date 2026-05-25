@@ -183,7 +183,7 @@ export default async function OrientationPage() {
                   href="/programs"
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition"
                 >
-                  <Award className="w-5 h-5 text-brand-blue-600" />
+                  <Award aria-label="award" className="w-5 h-5 text-brand-blue-600" />
                   <span className="text-sm font-medium text-black">Funding Options</span>
                 </Link>
                 <Link

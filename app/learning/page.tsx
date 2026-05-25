@@ -36,7 +36,7 @@ export default async function LearningHubPage() {
       {/* Hero */}
       <section className="bg-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <GraduationCap className="w-20 h-20 mx-auto mb-6" />
+          <GraduationCap aria-label="graduationcap" className="w-20 h-20 mx-auto mb-6" />
           <h1 className="text-5xl font-bold mb-6">Learning Hub</h1>
           <p className="text-xl max-w-3xl mx-auto mb-8">
             Everything you need to succeed in your learning journey. Access lessons, resources, and
@@ -93,7 +93,7 @@ export default async function LearningHubPage() {
               count="Essential guide"
             />
             <ResourceCard
-              icon={<GraduationCap className="w-12 h-12 text-indigo-600" />}
+              icon={<GraduationCap aria-label="graduationcap" className="w-12 h-12 text-indigo-600" />}
               title="Courses"
               description="Browse all available courses"
               href="/lms/courses"

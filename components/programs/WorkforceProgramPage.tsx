@@ -183,6 +183,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
 
       {/* Hero */}
       <section className="relative h-[55vh] min-h-[400px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={program.heroImage}
           alt={`${program.title} training program`}
@@ -196,7 +197,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
             <div
               className={`inline-flex items-center gap-2 ${c.bg} text-white px-4 py-2 rounded-full text-sm font-bold mb-4`}
             >
-              <Award className="w-4 h-4" /> {program.structure.fundingNote}
+              <Award aria-label="award" className="w-4 h-4" /> {program.structure.fundingNote}
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-4">{program.title}</h1>
             <p className="text-xl text-white/90 max-w-2xl mb-6">
@@ -214,7 +215,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
                 href="https://www.indianacareerconnect.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40"
+                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-slate-900 px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40"
               >
                 Register at Indiana Career Connect
               </a>
@@ -249,7 +250,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
               <div className="text-slate-400 text-sm">Total Program Cost</div>
             </div>
             <div>
-              <Award className="w-7 h-7 text-brand-blue-400 mx-auto mb-2" />
+              <Award aria-label="award" className="w-7 h-7 text-brand-blue-400 mx-auto mb-2" />
               <div className="text-2xl font-bold text-slate-900">{program.credentials.length}</div>
               <div className="text-slate-400 text-sm">Credentials Earned</div>
             </div>
@@ -430,7 +431,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
             {program.credentials.map((cred, i) => (
               <div key={i} className="bg-slate-50 rounded-xl p-5 border border-slate-200">
                 <div className="flex items-center gap-2 mb-2">
-                  <GraduationCap className={`w-5 h-5 ${c.text}`} />
+                  <GraduationCap aria-label="graduationcap" className={`w-5 h-5 ${c.text}`} />
                   <span className={`text-xs font-bold uppercase tracking-wider ${c.text}`}>
                     {cred.type}
                   </span>
@@ -531,7 +532,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
                   {program.employers.map((emp, i) => (
                     <div
                       key={i}
-                      className="bg-white/20 rounded-lg px-4 py-3 text-white font-medium text-sm"
+                      className="bg-white/20 rounded-lg px-4 py-3 text-slate-900 font-medium text-sm"
                     >
                       {emp}
                     </div>
@@ -639,7 +640,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
             </Link>
             <Link
               href={program.contactHref || '/support'}
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-900 px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30"
             >
               <Phone className="w-5 h-5" /> Get Help Online
             </Link>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { recordHandbookAcknowledgment } from '@/lib/compliance/enforcement';
-import { ArrowLeft, CheckCircle2, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const HANDBOOK_VERSION = '2025.1';
@@ -341,7 +341,7 @@ export default function HandbookPage() {
                         className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAcked ? 'bg-brand-blue-600' : 'bg-slate-100'}`}
                       >
                         {isAcked ? (
-                          <CheckCircle2 className="w-4 h-4 text-white" />
+                          <span className="w-4 h-4 rounded-full bg-white inline-block flex-shrink-0" aria-hidden="true" />
                         ) : (
                           <BookOpen className="w-4 h-4 text-slate-700" />
                         )}

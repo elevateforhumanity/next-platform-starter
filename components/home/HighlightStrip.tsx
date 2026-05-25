@@ -18,7 +18,7 @@ const items: Item[] = [
     sub: 'RAPIDS partners',
   },
   {
-    icon: <GraduationCap className="h-4 w-4" />,
+    icon: <GraduationCap aria-label="graduationcap" className="h-4 w-4" />,
     label: 'ETPL-friendly',
     sub: 'Clear outcomes & credentials',
   },

@@ -39,7 +39,7 @@ export default async function CaseManagerPlacementsPage() {
   const other = (placements ?? []).filter((p: any) => !['pending', 'verified'].includes(p.status));
 
   const statusBadge = (status: string) => {
-    if (status === 'verified') return 'bg-green-100 text-green-800';
+    if (status === 'verified') return 'bg-brand-green-100 text-brand-green-800';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
     if (status === 'rejected') return 'bg-red-100 text-red-800';
     if (status === 'lost') return 'bg-slate-100 text-slate-700';
@@ -84,7 +84,7 @@ export default async function CaseManagerPlacementsPage() {
         {/* Verified */}
         {verified.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-sm font-semibold text-green-700 uppercase tracking-wide mb-3">
+            <h2 className="text-sm font-semibold text-brand-green-700 uppercase tracking-wide mb-3">
               Verified ({verified.length})
             </h2>
             <PlacementTable rows={verified} statusBadge={statusBadge} />

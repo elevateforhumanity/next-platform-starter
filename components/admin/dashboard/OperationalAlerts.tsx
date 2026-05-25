@@ -2,7 +2,7 @@
 // Surfaces three operational alert categories that require admin action.
 
 import Link from 'next/link';
-import { AlertTriangle, Clock, DollarSign, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, Clock, DollarSign } from 'lucide-react';
 import type { AdminDashboardData } from './types';
 
 interface AlertRowProps {
@@ -65,9 +65,9 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
 
   if (totalAlerts === 0) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-5 py-4 mb-6">
-        <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-        <p className="text-sm font-medium text-green-800">
+      <div className="flex items-center gap-3 rounded-xl border border-brand-green-200 bg-brand-green-50 px-5 py-4 mb-6">
+        <span className="w-5 h-5 rounded-full bg-brand-green-500 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
+        <p className="text-sm font-medium text-brand-green-800">
           No operational alerts — applications, outcomes, and funding are all current.
         </p>
       </div>
@@ -119,7 +119,7 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
 
       {/* No outcome after completion */}
       <AlertSection
-        icon={<CheckCircle2 className="h-4 w-4 text-amber-600" />}
+        icon={<span className="w-4 h-4 rounded-full bg-amber-600 inline-block flex-shrink-0" aria-hidden="true" />}
         title="Enrolled — no placement or credential outcome"
         count={noOutcomeEnrollments.length}
         viewAllHref="/admin/reports/wioa"

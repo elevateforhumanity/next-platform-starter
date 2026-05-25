@@ -108,7 +108,7 @@ export default async function SubOfficesPage() {
             <p className="text-slate-600 text-sm">Total Offices</p>
           </div>
           <div className="bg-white rounded-xl p-6 border">
-            <Users className="w-8 h-8 text-green-500 mb-2" />
+            <Users className="w-8 h-8 text-brand-green-500 mb-2" />
             <p className="text-2xl font-bold">{totalStudents}</p>
             <p className="text-slate-600 text-sm">Active Students</p>
           </div>
@@ -133,7 +133,7 @@ export default async function SubOfficesPage() {
                   </div>
                   <span
                     className={`px-2 py-1 rounded text-xs ${
-                      office.is_active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'
+                      office.is_active ? 'bg-brand-green-100 text-brand-green-700' : 'bg-slate-100 text-slate-600'
                     }`}
                   >
                     {office.is_active ? 'Active' : 'Inactive'}

@@ -259,7 +259,7 @@ export default async function HelpPage() {
             </Link>
             <Link
               href="/lms/dashboard"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg font-semibold transition-colors"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-900 px-8 py-4 rounded-lg font-semibold transition-colors"
             >
               Back to Dashboard
             </Link>

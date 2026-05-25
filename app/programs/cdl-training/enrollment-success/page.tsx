@@ -36,7 +36,7 @@ export default function CDLEnrollmentSuccessPage() {
           </div>
           <div className="p-6 space-y-4">
             <div className="flex items-start gap-3 py-3 border-b border-slate-100">
-              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-slate-900 text-sm">Application submitted</p>
                 <p className="text-slate-500 text-xs">Recorded in our enrollment system</p>

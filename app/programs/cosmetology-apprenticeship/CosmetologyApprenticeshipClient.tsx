@@ -74,7 +74,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Award className="w-5 h-5 text-brand-red-600 flex-shrink-0" />
+            <Award aria-label="award" className="w-5 h-5 text-brand-red-600 flex-shrink-0" />
             <div>
               <div className="text-sm font-semibold text-slate-900">{p.credentials.length} credentials</div>
               <div className="text-xs text-slate-500">Earned on completion</div>
@@ -236,7 +236,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
             <div className="grid sm:grid-cols-3 gap-6">
               {p.credentials.map((cred) => (
                 <div key={cred.name} className="border border-slate-200 rounded-lg p-5">
-                  <Award className="w-6 h-6 text-brand-red-600 mb-3" />
+                  <Award aria-label="award" className="w-6 h-6 text-brand-red-600 mb-3" />
                   <div className="font-semibold text-slate-900 mb-1">{cred.name}</div>
                   <div className="text-xs text-slate-500 mb-2">{cred.issuer}</div>
                   <div className="text-sm text-slate-600">{cred.description}</div>
@@ -264,7 +264,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
             </Link>
             <Link
               href="/contact?program=cosmetology-apprenticeship"
-              className="inline-block px-8 py-3 border border-white/30 text-white rounded-lg font-semibold hover:bg-white/10 transition"
+              className="inline-block px-8 py-3 border border-white/30 text-slate-900 rounded-lg font-semibold hover:bg-white/10 transition"
             >
               Request Information
             </Link>

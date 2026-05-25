@@ -74,7 +74,7 @@ export function ProgressTracker({
                 }`}
               >
                 {milestone.completed ? (
-                  <Award className="w-4 h-4" />
+                  <Award aria-label="award" className="w-4 h-4" />
                 ) : (
                   <Target className="w-4 h-4" />
                 )}

@@ -44,7 +44,7 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white animate-pulse">
+              <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-slate-900 animate-pulse">
                 🔥 NOW ENROLLING
               </span>
               <p className="text-white font-semibold text-sm sm:text-base">

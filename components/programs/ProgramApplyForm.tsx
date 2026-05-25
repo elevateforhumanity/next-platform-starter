@@ -64,10 +64,10 @@ export default function ProgramApplyForm({ programSlug, programTitle }: Props) {
 
   if (status === 'success') {
     return (
-      <div className="rounded-2xl bg-green-50 border border-green-200 p-8 text-center">
+      <div className="rounded-2xl bg-brand-green-50 border border-brand-green-200 p-8 text-center">
         <div className="text-4xl mb-3">✅</div>
-        <h3 className="text-xl font-bold text-green-800 mb-2">Application Received!</h3>
-        <p className="text-green-700">
+        <h3 className="text-xl font-bold text-brand-green-800 mb-2">Application Received!</h3>
+        <p className="text-brand-green-700">
           Thank you for applying to <strong>{programTitle}</strong>. An enrollment advisor will
           contact you within 1 business day to discuss next steps and funding options.
         </p>

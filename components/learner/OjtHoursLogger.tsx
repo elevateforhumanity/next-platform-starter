@@ -161,7 +161,7 @@ export default function OjtHoursLogger() {
 
           {error && <p className="text-xs text-red-600">{error}</p>}
           {success && (
-            <p className="text-xs text-green-600 flex items-center gap-1">
+            <p className="text-xs text-brand-green-600 flex items-center gap-1">
               <CheckCircle className="w-3 h-3" /> Hours logged — pending supervisor approval
             </p>
           )}

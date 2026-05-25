@@ -54,7 +54,7 @@ export function TransferHoursCalculator() {
             step="50"
             value={transferHours}
             onChange={(e) => setTransferHours(Math.min(TOTAL_HOURS_REQUIRED - 100, Math.max(0, parseInt(e.target.value) || 0)))}
-            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50 focus:ring-2 focus:ring-white/50 focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-slate-900 placeholder-white/50 focus:ring-2 focus:ring-white/50 focus:border-transparent"
             placeholder="e.g., 500"
           />
           <p className="text-xs text-amber-200 mt-1">Max: {TOTAL_HOURS_REQUIRED - 100} hours</p>
@@ -66,7 +66,7 @@ export function TransferHoursCalculator() {
           <select
             value={hoursPerWeek}
             onChange={(e) => setHoursPerWeek(parseInt(e.target.value))}
-            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white focus:ring-2 focus:ring-white/50 focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-slate-900 focus:ring-2 focus:ring-white/50 focus:border-transparent"
           >
             <option value="20">20 hrs/week</option>
             <option value="25">25 hrs/week</option>

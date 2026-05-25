@@ -110,7 +110,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
                     </div>
                   )}
                   {program.funded && (
-                    <div className="absolute top-3 left-3 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    <div className="absolute top-3 left-3 bg-brand-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
                       Free
                     </div>
                   )}
@@ -120,8 +120,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
                     {program.title}
                   </h3>
                   <p className="text-slate-600 text-sm mb-3 line-clamp-2">{program.description}</p>
-                  <span className="text-blue-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Learn More <span>→</span>
+                  <span className="text-blue-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">See Details<span>→</span>
                   </span>
                 </div>
               </Link>
@@ -187,7 +186,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-2xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-green-700 mb-4">Basic Requirements</h3>
+              <h3 className="text-xl font-bold text-brand-green-700 mb-4">Basic Requirements</h3>
               <ul className="space-y-3">
                 {[
                   '18 years or older',
@@ -197,7 +196,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
                 ].map((req) => (
                   <li key={req} className="flex items-start gap-3">
                     <svg
-                      className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
+                      className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -352,7 +351,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
             </Link>
             <Link
               href="/wioa-eligibility"
-              className="inline-block border-2 border-white text-white px-8 py-4 font-semibold rounded-full hover:bg-white/10 transition-colors"
+              className="inline-block border-2 border-white text-slate-900 px-8 py-4 font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
               Check Eligibility
             </Link>

@@ -185,6 +185,7 @@ export default function LicensingGuidePage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-56 md:h-72 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/store-guides-licensing-hero.jpg"
           alt="Elevate platform licensing guide"

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { FileCheck2, Send, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { FileCheck2, Send, AlertTriangle } from 'lucide-react';
 
 type Defaults = {
   participantsServed: number;
@@ -212,7 +212,7 @@ export default function ReportSubmitClient({
 
           {success && (
             <div className="rounded-lg border border-brand-green-200 bg-brand-green-50 px-4 py-3 text-brand-green-800 text-sm flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 mt-0.5" />
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
               {success}
             </div>
           )}

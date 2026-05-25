@@ -3,7 +3,7 @@
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, XCircle, Loader2, Phone, Mail } from 'lucide-react';
+import { XCircle, Loader2, Phone, Mail } from 'lucide-react';
 
 function ConfirmContent() {
   const params = useSafeSearchParams();
@@ -58,11 +58,11 @@ function ConfirmContent() {
         <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
           {/* Header */}
           <div className={`px-8 py-6 text-center ${
-            status === 'success' ? 'bg-green-600' :
+            status === 'success' ? 'bg-brand-green-600' :
             status === 'declined' ? 'bg-slate-600' :
             'bg-red-600'
           }`}>
-            {status === 'success' && <CheckCircle2 className="w-12 h-12 text-white mx-auto mb-3" />}
+            {status === 'success' && <span className="w-12 h-12 rounded-full bg-white inline-block flex-shrink-0 mx-auto mb-3" aria-hidden="true" />}
             {status === 'declined' && <XCircle className="w-12 h-12 text-white mx-auto mb-3" />}
             {status === 'error' && <XCircle className="w-12 h-12 text-white mx-auto mb-3" />}
             <h1 className="text-xl font-bold text-white">
@@ -77,9 +77,9 @@ function ConfirmContent() {
             <p className="text-slate-700 text-center mb-6">{message}</p>
 
             {status === 'success' && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-5 mb-6">
-                <h3 className="font-semibold text-green-900 mb-3">What Happens Next</h3>
-                <ol className="text-sm text-green-800 space-y-2 list-decimal list-inside">
+              <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-5 mb-6">
+                <h3 className="font-semibold text-brand-green-900 mb-3">What Happens Next</h3>
+                <ol className="text-sm text-brand-green-800 space-y-2 list-decimal list-inside">
                   <li>We will call or email you within 24 hours to schedule your orientation</li>
                   <li>During orientation, we walk through the program and answer your questions</li>
                   <li>After orientation, you submit your $500 down payment to secure your spot</li>

@@ -70,6 +70,7 @@ export default function SponsorLicensingPage() {
             <div className="bg-white rounded-3xl shadow-lg border-2 border-slate-200 p-8 hover:shadow-2xl transition">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src="/images/icons/shield.png"
                     alt="Starter"
@@ -464,7 +465,7 @@ export default function SponsorLicensingPage() {
             </Link>
             <Link
               href="/contact?topic=sponsor-licensing"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-white px-10 py-5 rounded-xl font-bold text-lg transition"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-slate-900 px-10 py-5 rounded-xl font-bold text-lg transition"
             >
               Licensing Questions
             </Link>

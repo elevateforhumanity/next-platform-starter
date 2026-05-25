@@ -135,7 +135,7 @@ function EnrollmentConfirmedContent() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-green-100 rounded-full mb-4">
-            <Award className="w-10 h-10 text-brand-green-600" />
+            <Award aria-label="award" className="w-10 h-10 text-brand-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900">
             {isApproved ? 'Confirm Your Enrollment' : 'Enrollment Confirmed'}
@@ -152,7 +152,7 @@ function EnrollmentConfirmedContent() {
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <Award className="w-5 h-5 text-brand-blue-600 mt-0.5" />
+              <Award aria-label="award" className="w-5 h-5 text-brand-blue-600 mt-0.5" />
               <div>
                 <p className="text-sm text-slate-700">Program</p>
                 <p className="font-semibold text-slate-900">{enrollment.program_name}</p>

@@ -92,7 +92,7 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
       {earnedBadges.length > 0 && (
         <div>
           <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Award className="w-6 h-6 text-brand-orange-400" />
+            <Award aria-label="award" className="w-6 h-6 text-brand-orange-400" />
             Your Badges ({earnedBadges.length})
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -102,7 +102,7 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
                 className={` ${getRarityColor(badge.rarity)} rounded-lg p-4 text-center`}
               >
                 <div className="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center">
-                  <Award className="w-8 h-8 text-white" />
+                  <Award aria-label="award" className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="font-semibold text-slate-900 mb-1">{badge.name}</h4>
                 <p className="text-xs text-slate-600 mb-2">{badge.description}</p>

@@ -200,7 +200,7 @@ function Dashboard({
             },
             {
               href: config.progressHref,
-              icon: <Award className="w-5 h-5" />,
+              icon: <Award aria-label="award" className="w-5 h-5" />,
               label: 'My Progress',
             },
             { href: config.lmsHref, icon: <BookOpen className="w-5 h-5" />, label: 'Training' },

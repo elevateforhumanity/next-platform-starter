@@ -173,7 +173,7 @@ export default async function ProgramHolderPortalPage() {
               label: 'Active',
               value: activeEnrollments ?? 0,
               icon: TrendingUp,
-              color: 'text-green-500',
+              color: 'text-brand-green-500',
             },
             {
               label: 'Completed',
@@ -246,7 +246,7 @@ export default async function ProgramHolderPortalPage() {
                 <div key={p.id} className="flex items-center justify-between px-6 py-3">
                   <p className="text-sm font-medium text-slate-900">{p.title}</p>
                   <span
-                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === 'published' ? 'bg-green-50 text-green-700' : 'bg-amber-50 text-amber-700'}`}
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === 'published' ? 'bg-brand-green-50 text-brand-green-700' : 'bg-amber-50 text-amber-700'}`}
                   >
                     {p.status}
                   </span>

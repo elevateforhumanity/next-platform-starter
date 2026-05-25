@@ -326,6 +326,7 @@ export default function HvacApplyPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
 
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/programs-hvac-apply-hero.webp"
             alt="HVAC technician working on an air conditioning unit"
@@ -626,11 +627,11 @@ export default function HvacApplyPage() {
                 {/* Employer / unsure — simple message */}
                 {(formData.fundingInterest === 'employer' ||
                   formData.fundingInterest === 'unsure') && (
-                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
-                    <Shield className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4 flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-bold text-green-800">No payment required today</p>
-                      <p className="text-sm text-green-700 mt-1">
+                      <p className="text-sm font-bold text-brand-green-800">No payment required today</p>
+                      <p className="text-sm text-brand-green-700 mt-1">
                         Submit your application and our enrollment team will contact you within 2
                         business days to verify your funding and walk you through next steps.
                       </p>
@@ -821,7 +822,7 @@ export default function HvacApplyPage() {
                       >
                         <div className="flex items-center justify-between">
                           <p className="font-bold text-black text-lg">Afterpay / Klarna</p>
-                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">
+                          <span className="text-xs bg-brand-green-100 text-brand-green-700 font-semibold px-2 py-0.5 rounded-full">
                             via Stripe
                           </span>
                         </div>

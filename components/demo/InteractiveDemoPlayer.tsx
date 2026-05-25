@@ -219,7 +219,7 @@ export default function InteractiveDemoPlayer({
                 <button
                   key={choice.nextScene}
                   onClick={() => goToScene(choice.nextScene)}
-                  className={`flex flex-col items-start px-5 py-3 rounded-xl font-semibold text-sm transition min-w-[160px] max-w-[220px] text-left ${
+                  className={`flex flex-col items-start px-5 py-3 rounded-xl font-semibold text-sm transition min-w-[160px] max-w-7xl text-left ${
                     choice.variant === 'secondary'
                       ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
                       : 'bg-brand-red-600 hover:bg-brand-red-700 text-white'

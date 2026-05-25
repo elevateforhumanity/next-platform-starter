@@ -40,7 +40,7 @@ function StatusBadge({ status }: { status: string | null }) {
   if (!status) return <span className="text-xs text-slate-400">not tested</span>;
   if (status === 'ok' || status === 'set') {
     return (
-      <span className="flex items-center gap-1 text-xs text-green-600">
+      <span className="flex items-center gap-1 text-xs text-brand-green-600">
         <CheckCircle className="w-3 h-3" /> {status}
       </span>
     );

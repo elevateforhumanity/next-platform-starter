@@ -73,8 +73,8 @@ export default function CDLWaitlistPage() {
           />
         </div>
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="text-green-600 text-3xl">✓</span>
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-brand-green-600 text-3xl">✓</span>
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">You&apos;re on the Waitlist!</h1>
           <p className="text-lg text-black mb-8">
@@ -118,6 +118,7 @@ export default function CDLWaitlistPage() {
       {/* Hero */}
       <section className="relative py-16 overflow-hidden border-t">
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/programs-cdl-waitlist-hero.webp"
             alt="CDL truck training"

@@ -45,7 +45,7 @@ export default async function ProctorLayout({ children }: { children: React.Reac
           <nav className="flex items-center gap-2">
             <Link
               href="/proctor"
-              className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
             >
               <ClipboardList className="w-4 h-4" />
               Sessions
@@ -59,7 +59,7 @@ export default async function ProctorLayout({ children }: { children: React.Reac
             </Link>
             <Link
               href="https://admin.elevateforhumanity.org/admin/dashboard"
-              className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Admin

@@ -61,7 +61,7 @@ export default async function IntegrationsPage() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold">Salesforce</h3>
-                  <span className="px-3 py-2 bg-green-100 text-green-800 rounded-full text-sm font-bold">
+                  <span className="px-3 py-2 bg-brand-green-100 text-brand-green-800 rounded-full text-sm font-bold">
                     Native Integration
                   </span>
                 </div>
@@ -71,23 +71,23 @@ export default async function IntegrationsPage() {
               </p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Real-time student enrollment sync</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Automatic lead creation from applications</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Course completion tracking</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Custom field mapping</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Circle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <span>Webhook triggers for workflows</span>
                 </li>
               </ul>
@@ -180,23 +180,23 @@ export default async function IntegrationsPage() {
                   <h4 className="font-bold mb-3">Available Endpoints</h4>
                   <ul className="space-y-2 text-sm text-slate-700">
                     <li className="flex items-center gap-2">
-                      <Circle className="w-4 h-4 text-green-600" />
+                      <Circle className="w-4 h-4 text-brand-green-600" />
                       <code className="bg-slate-100 px-2 py-2 rounded">POST /api/students</code>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Circle className="w-4 h-4 text-green-600" />
+                      <Circle className="w-4 h-4 text-brand-green-600" />
                       <code className="bg-slate-100 px-2 py-2 rounded">GET /api/courses</code>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Circle className="w-4 h-4 text-green-600" />
+                      <Circle className="w-4 h-4 text-brand-green-600" />
                       <code className="bg-slate-100 px-2 py-2 rounded">POST /api/enrollments</code>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Circle className="w-4 h-4 text-green-600" />
+                      <Circle className="w-4 h-4 text-brand-green-600" />
                       <code className="bg-slate-100 px-2 py-2 rounded">GET /api/progress</code>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Circle className="w-4 h-4 text-green-600" />
+                      <Circle className="w-4 h-4 text-brand-green-600" />
                       <code className="bg-slate-100 px-2 py-2 rounded">POST /api/certificates</code>
                     </li>
                   </ul>
@@ -205,23 +205,23 @@ export default async function IntegrationsPage() {
                   <h4 className="font-bold mb-3">Features</h4>
                   <ul className="space-y-2 text-sm text-slate-700">
                     <li className="flex items-start gap-2">
-                      <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Circle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span>OAuth 2.0 authentication</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Circle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span>Rate limiting (1000 req/hour)</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Circle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span>Webhook subscriptions</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Circle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span>JSON responses</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Circle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Circle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                       <span>OpenAPI 3.0 spec</span>
                     </li>
                   </ul>
@@ -232,7 +232,7 @@ export default async function IntegrationsPage() {
             <div className="bg-white text-slate-900 rounded-xl p-8">
               <div className="flex items-center justify-between mb-4">
                 <h4 className="font-bold">Example API Call</h4>
-                <span className="text-xs bg-green-600 px-2 py-2 rounded">POST</span>
+                <span className="text-xs bg-brand-green-600 px-2 py-2 rounded">POST</span>
               </div>
               <pre className="bg-white rounded-lg p-4 overflow-x-auto text-sm">
                 <code>{`curl -X POST https://your-platform.com/api/students \\

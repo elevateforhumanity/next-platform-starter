@@ -23,6 +23,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
       {/* Hero */}
       <section className="relative bg-brand-blue-700 text-white py-20 overflow-hidden">
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={config.heroImage}
             alt={`${config.shortName} training`}
@@ -48,7 +49,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-slate-900 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-lg font-bold text-lg hover:bg-white hover:text-slate-900 transition-colors"
             >
               Schedule a Call
             </a>

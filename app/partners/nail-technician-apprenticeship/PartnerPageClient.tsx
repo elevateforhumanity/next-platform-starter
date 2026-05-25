@@ -50,7 +50,8 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
 
       {/* Video Hero */}
       <section className="relative w-full bg-slate-900 overflow-hidden" style={{ minHeight: '60vh' }}>
-        <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.webp"
+        /* useHeroVideo */
+      <video autoPlay muted loop playsInline poster="/images/pages/cosmetology-hero.webp"
           className="absolute inset-0 w-full h-full object-cover opacity-50">
           <source src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4" type="video/mp4" />
         </video>
@@ -60,7 +61,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
           <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice at your nail salon. Build the next generation of licensed nail technicians.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/partners/nail-technician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
+            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
           </div>
         </div>
       </section>
@@ -147,7 +148,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Nail Technician Apprenticeship program and start developing talent for your salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/partners/nail-technician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
-            <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
+            <a href="tel:+13173143757" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">(317) 314-3757</a>
           </div>
         </div>
       </section>
@@ -157,7 +158,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
         <section className="py-16 px-6 bg-slate-50 border-t border-slate-200">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-2">
-              <CheckCircle className="w-6 h-6 text-green-600 shrink-0" />
+              <CheckCircle className="w-6 h-6 text-brand-green-600 shrink-0" />
               <h2 className="text-xl font-bold text-slate-900">After Your Application Is Approved</h2>
             </div>
             <p className="text-sm text-slate-600 mb-5">Complete these four steps to receive your first apprentice placement.</p>

@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { IDVerificationForm } from '@/components/verification/IDVerificationForm';
 
@@ -64,7 +64,7 @@ export default async function VerifyIdentityPage() {
 
         {isVerified ? (
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-center">
-            <CheckCircle2 className="w-12 h-12 text-brand-green-600 mx-auto mb-3" />
+            <span className="w-12 h-12 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mx-auto mb-3" aria-hidden="true" />
             <h2 className="text-xl font-bold text-brand-green-900 mb-2">Identity Verified</h2>
             <p className="text-brand-green-700 mb-4">
               Your identity has been verified. You can proceed to the next onboarding step.

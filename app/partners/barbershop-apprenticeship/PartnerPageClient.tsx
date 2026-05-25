@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, CheckCircle2, Lock } from 'lucide-react';
+import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, Lock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
@@ -23,6 +23,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
         className="relative w-full overflow-hidden"
         style={{ height: 'clamp(280px, 45vw, 560px)' }}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-client-consult.webp"
           alt="Licensed barber consulting with a client during a haircut"
@@ -238,7 +239,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
             </Link>
             <a
               href="tel:+13173143757"
-              className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-white rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
               (317) 314-3757
             </a>
@@ -256,7 +257,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
       <section className="py-16 bg-slate-50 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-2">
-            <CheckCircle2 className="w-6 h-6 text-brand-green-600 flex-shrink-0" />
+            <span className="w-6 h-6 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
             <h2 className="text-2xl font-bold text-slate-900">After Your Application Is Approved</h2>
           </div>
           <p className="text-sm font-medium text-black mb-6">

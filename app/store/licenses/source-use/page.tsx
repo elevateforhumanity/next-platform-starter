@@ -43,6 +43,7 @@ export default function SourceUseLicensePage() {
             {/* Platform screenshot */}
             <div className="max-w-3xl mx-auto">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/demos/lms-overview-thumb.webp"
                   alt="Elevate platform overview"
@@ -84,7 +85,7 @@ export default function SourceUseLicensePage() {
             {/* What You Get */}
             <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
               <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Check className="w-6 h-6 text-green-500" />
+                <Check className="w-6 h-6 text-brand-green-500" />
                 What You Get
               </h2>
               <ul className="space-y-4">
@@ -97,7 +98,7 @@ export default function SourceUseLicensePage() {
                   'Internal organizational use',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-700">
-                    <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <Check className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                     {item}
                   </li>
                 ))}

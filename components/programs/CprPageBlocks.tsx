@@ -49,6 +49,7 @@ function FactsStrip() {
 function FullBleedImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative w-full h-[420px] sm:h-[520px] overflow-hidden border-y border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src={src}
         alt={alt}
@@ -346,7 +347,7 @@ function FinalCTA() {
           </Link>
           <Link
             href="/contact"
-            className="border-2 border-white/30 text-white hover:bg-white/10 font-bold px-8 py-3.5 rounded-lg transition-colors text-sm sm:text-base"
+            className="border-2 border-white/30 text-slate-900 hover:bg-white/10 font-bold px-8 py-3.5 rounded-lg transition-colors text-sm sm:text-base"
           >
             Request Information
           </Link>

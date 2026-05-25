@@ -9,7 +9,6 @@ import {
   Clock,
   BookOpen,
   TrendingUp,
-  CheckCircle2,
   AlertTriangle,
   Loader2,
   LogIn,
@@ -202,8 +201,8 @@ export default function BarberPWAHome() {
             </div>
           </div>
           {data.isClockedIn && (
-            <span className="flex items-center gap-1.5 bg-green-500/20 text-green-400 text-xs font-semibold px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="flex items-center gap-1.5 bg-brand-green-500/20 text-brand-green-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+              <span className="w-2 h-2 bg-brand-green-400 rounded-full animate-pulse" />
               Clocked In
             </span>
           )}
@@ -333,7 +332,7 @@ export default function BarberPWAHome() {
           className="flex items-center justify-between bg-slate-800 rounded-xl p-4 hover:bg-slate-700 transition"
         >
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-amber-400" />
+            <span className="w-5 h-5 rounded-full bg-amber-400 inline-block flex-shrink-0" aria-hidden="true" />
             <div>
               <p className="text-white text-sm font-semibold">Full Apprentice Portal</p>
               <p className="text-slate-500 text-xs">Documents, handbook, state board & more</p>

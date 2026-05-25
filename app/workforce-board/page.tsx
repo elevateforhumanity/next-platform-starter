@@ -141,6 +141,7 @@ export default function WorkforceBoardPage() {
                 className="group bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden border border-slate-100"
               >
                 <div className="relative h-40 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={feature.image}
                     alt={feature.title}
@@ -152,8 +153,7 @@ export default function WorkforceBoardPage() {
                 <div className="p-4">
                   <h3 className="text-base font-bold text-slate-900 mb-1">{feature.title}</h3>
                   <p className="text-black text-sm">{feature.description}</p>
-                  <span className="inline-flex items-center gap-1 text-brand-blue-600 font-medium text-sm mt-2 group-hover:gap-2 transition-all">
-                    Learn More <ArrowRight className="w-4 h-4" />
+                  <span className="inline-flex items-center gap-1 text-brand-blue-600 font-medium text-sm mt-2 group-hover:gap-2 transition-all">See Details<ArrowRight className="w-4 h-4" />
                   </span>
                 </div>
               </Link>
@@ -212,7 +212,7 @@ export default function WorkforceBoardPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-lg font-semibold text-lg transition border border-white/30"
+              className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-slate-900 px-8 py-4 rounded-lg font-semibold text-lg transition border border-white/30"
             >
               Contact Us
             </Link>

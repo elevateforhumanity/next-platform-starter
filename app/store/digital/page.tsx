@@ -135,6 +135,7 @@ export default function StoreDigitalPage() {
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all group border border-slate-100"
               >
                 <div className="relative h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={product.image || '/images/pages/comp-universal-hero.webp'}
                     alt={product.name}
@@ -160,8 +161,7 @@ export default function StoreDigitalPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="flex items-center gap-2 text-indigo-600 font-semibold">
-                    Learn More <ArrowRight className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-indigo-600 font-semibold">See Details<ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </Link>
@@ -238,8 +238,7 @@ export default function StoreDigitalPage() {
                     {product.name}
                   </h3>
                   <p className="text-slate-600 text-sm mb-4">{product.description}</p>
-                  <div className="flex items-center gap-2 text-brand-blue-600 font-semibold">
-                    Learn More <ArrowRight className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-brand-blue-600 font-semibold">See Details<ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </Link>

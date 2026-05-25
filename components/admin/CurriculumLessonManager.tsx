@@ -25,7 +25,6 @@ import {
   ChevronUp,
   Save,
   AlertCircle,
-  CheckCircle2,
 } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -76,10 +75,10 @@ const STEP_TYPE_META: Record<StepType, { label: string; icon: React.ReactNode; c
     icon: <FileText className="w-4 h-4" />,
     color: 'text-purple-600',
   },
-  exam: { label: 'Exam', icon: <Award className="w-4 h-4" />, color: 'text-red-600' },
+  exam: { label: 'Exam', icon: <Award aria-label="award" className="w-4 h-4" />, color: 'text-red-600' },
   certification: {
     label: 'Certification',
-    icon: <GraduationCap className="w-4 h-4" />,
+    icon: <GraduationCap aria-label="graduationcap" className="w-4 h-4" />,
     color: 'text-brand-green-600',
   },
 };
@@ -260,7 +259,7 @@ export default function CurriculumLessonManager({ courseId, moduleOrder }: Props
                         <span className="text-xs text-amber-600 font-medium shrink-0">unsaved</span>
                       )}
                       {saveStatus[lesson.id] === 'saved' && (
-                        <CheckCircle2 className="w-4 h-4 text-brand-green-600 shrink-0" />
+                        <span className="w-4 h-4 rounded-full bg-brand-green-600 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
                       )}
                       {saveStatus[lesson.id] === 'error' && (
                         <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />

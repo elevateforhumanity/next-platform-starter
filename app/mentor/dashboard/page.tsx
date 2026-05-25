@@ -281,7 +281,7 @@ export default async function MentorDashboardPage() {
                     <p className="text-slate-500 text-xs">{s.topic}</p>
                   </div>
                   <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-500" />
                     {s.date}
                   </div>
                 </div>
@@ -321,7 +321,7 @@ export default async function MentorDashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Award className="w-8 h-8 text-slate-600" />
+                <Award aria-label="award" className="w-8 h-8 text-slate-600" />
                 <span className="font-semibold text-slate-900">Resources</span>
               </div>
               <ChevronRight className="w-5 h-5 text-slate-400" />

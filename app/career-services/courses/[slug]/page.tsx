@@ -120,7 +120,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   <span>{course.duration_hours} hours of content</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-brand-blue-400" />
+                  <Award aria-label="award" className="w-5 h-5 text-brand-blue-400" />
                   <span>Certificate included</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -156,6 +156,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image sizes="100vw"
                   src={course.image_url || '/images/pages/career-services-page-4.webp'}
                   alt={course.title}
@@ -293,7 +294,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </Link>
             <Link
               href="/career-services/courses"
-              className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition"
+              className="inline-flex items-center justify-center border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition"
             >
               View All Courses
             </Link>

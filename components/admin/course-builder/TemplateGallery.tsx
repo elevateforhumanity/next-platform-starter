@@ -101,7 +101,7 @@ const TEMPLATES: CourseTemplate[] = [
     lessons: 36,
     durationWeeks: 8,
     fundingEligible: true,
-    color: 'bg-green-500',
+    color: 'bg-brand-green-500',
     icon: Heart,
     features: ['IC&RC aligned', 'Ethics module', 'Checkpoint gating', 'Certificate auto-issue'],
     previewModules: ['Recovery Foundations', 'Ethics & Boundaries', 'Motivational Interviewing'],
@@ -451,7 +451,7 @@ export default function TemplateGallery() {
                       </span>
                     )}
                     {template.fundingEligible && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green-700 bg-brand-green-50 px-2 py-0.5 rounded-full">
                         WIOA
                       </span>
                     )}
@@ -506,7 +506,7 @@ export default function TemplateGallery() {
                       <ul className="space-y-1">
                         {template.features.map((f) => (
                           <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
-                            <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
+                            <CheckCircle className="w-3 h-3 text-brand-green-500 flex-shrink-0" />
                             {f}
                           </li>
                         ))}

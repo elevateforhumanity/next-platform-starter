@@ -118,7 +118,7 @@ export default function StarterTrialPage() {
               <ul className="space-y-2">
                 {LICENSE.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-slate-700">
-                    <Check className="w-4 h-4 text-green-600" />
+                    <Check className="w-4 h-4 text-brand-green-600" />
                     {feature}
                   </li>
                 ))}

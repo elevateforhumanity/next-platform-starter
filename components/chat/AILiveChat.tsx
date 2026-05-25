@@ -274,7 +274,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`flex items-start gap-2 max-w-[80%] ${
+                  className={`flex items-start gap-2 max-w-4/5 ${
                     message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
                   }`}
                 >

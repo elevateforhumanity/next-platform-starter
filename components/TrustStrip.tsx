@@ -62,8 +62,8 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
               <div className="text-3xl font-bold text-slate-900">Many</div>
               <div className="text-sm text-slate-700">Students Enrolled</div>
             </div>
-            <div className="text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition">
-              <GraduationCap className="w-8 h-8 text-green-600 mx-auto mb-3" />
+            <div className="text-center p-6 rounded-xl bg-brand-green-50 hover:bg-brand-green-100 transition">
+              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-green-600 mx-auto mb-3" />
               <div className="text-3xl font-bold text-slate-900">{statLabel.programs}</div>
               <div className="text-sm text-slate-700">Training Programs</div>
             </div>
@@ -73,7 +73,7 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
               <div className="text-sm text-slate-700">Job Placement Rate</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-orange-50 hover:bg-orange-100 transition">
-              <Award className="w-8 h-8 text-orange-600 mx-auto mb-3" />
+              <Award aria-label="award" className="w-8 h-8 text-orange-600 mx-auto mb-3" />
               <div className="text-3xl font-bold text-slate-900">
                 {statLabel.credentials}
               </div>
@@ -112,7 +112,7 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
             <div className="text-slate-700">Students Trained</div>
           </div>
           <div>
-            <div className="text-3xl font-extrabold text-green-600">{statLabel.placement}</div>
+            <div className="text-3xl font-extrabold text-brand-green-600">{statLabel.placement}</div>
             <div className="text-slate-700">Job Placement</div>
           </div>
         </div>

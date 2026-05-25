@@ -122,7 +122,7 @@ function HotspotMarker({
         <div
           className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-bold shadow-lg ${
             isClicked
-              ? 'bg-green-600 text-white'
+              ? 'bg-brand-green-600 text-white'
               : 'bg-white text-slate-900 border border-slate-200'
           }`}
           style={{ transform: 'translateY(-24px)' }}
@@ -215,7 +215,7 @@ export default function HVACSimulation({
           </div>
           <div className="h-2 w-full rounded-full bg-slate-200">
             <div
-              className="h-2 rounded-full bg-green-500 transition-all duration-500"
+              className="h-2 rounded-full bg-brand-green-500 transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -233,12 +233,12 @@ export default function HVACSimulation({
             <div
               key={h.id}
               className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm ${
-                clickedIds.has(h.id) ? 'bg-green-50 text-green-800' : 'bg-slate-50 text-slate-500'
+                clickedIds.has(h.id) ? 'bg-brand-green-50 text-brand-green-800' : 'bg-slate-50 text-slate-500'
               }`}
             >
               {clickedIds.has(h.id) ? (
                 <svg
-                  className="w-4 h-4 text-green-600 flex-shrink-0"
+                  className="w-4 h-4 text-brand-green-600 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

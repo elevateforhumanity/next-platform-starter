@@ -335,7 +335,7 @@ export default function ProgramApplyPage({ program }: Props) {
     return (
       <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <CheckCircle className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted</h1>
           <p className="text-slate-600 mb-6">
             We&apos;ll be in touch within 1 business day to confirm your enrollment.

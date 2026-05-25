@@ -276,15 +276,15 @@ export default function AutomaticCourseBuilder() {
 
       {result && (
         <div
-          className={`mt-6 rounded-lg border p-4 ${result.ok ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}
+          className={`mt-6 rounded-lg border p-4 ${result.ok ? 'bg-brand-green-50 border-brand-green-200' : 'bg-red-50 border-red-200'}`}
         >
           {result.ok ? (
             <>
               <div className="flex items-center gap-2 mb-3">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-                <span className="font-bold text-green-800">Course published successfully</span>
+                <CheckCircle className="w-5 h-5 text-brand-green-600" />
+                <span className="font-bold text-brand-green-800">Course published successfully</span>
               </div>
-              <dl className="text-sm space-y-1 text-green-900">
+              <dl className="text-sm space-y-1 text-brand-green-900">
                 <div className="flex justify-between">
                   <dt>Title</dt>
                   <dd className="font-medium">{result.title}</dd>
@@ -313,13 +313,13 @@ export default function AutomaticCourseBuilder() {
               <div className="mt-4 flex gap-4">
                 <button
                   onClick={() => router.push(`/admin/curriculum/${result.course_id}`)}
-                  className="text-sm font-semibold text-green-700 hover:text-green-800"
+                  className="text-sm font-semibold text-brand-green-700 hover:text-brand-green-800"
                 >
                   Review in Curriculum Builder →
                 </button>
                 <button
                   onClick={() => router.push(`/lms/courses/${result.course_id}`)}
-                  className="flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800"
+                  className="flex items-center gap-1 text-sm font-semibold text-brand-green-700 hover:text-brand-green-800"
                 >
                   <ExternalLink className="w-3 h-3" /> Preview in LMS
                 </button>

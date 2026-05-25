@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CreditCard, AlertCircle, CheckCircle2, Clock, DollarSign, CalendarDays } from 'lucide-react';
+import { CreditCard, AlertCircle, Clock, DollarSign, CalendarDays } from 'lucide-react';
 
 export interface BillingSummary {
   program: 'barber' | 'cosmetology';
@@ -18,8 +18,8 @@ export interface BillingSummary {
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
   active: {
     label: 'Active',
-    color: 'bg-green-100 text-green-800',
-    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+    color: 'bg-brand-green-100 text-brand-green-800',
+    icon: <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
   },
   past_due: {
     label: 'Payment Due',
@@ -38,8 +38,8 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; icon: React.
   },
   paid_in_full: {
     label: 'Paid in Full',
-    color: 'bg-green-100 text-green-800',
-    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+    color: 'bg-brand-green-100 text-brand-green-800',
+    icon: <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
   },
   pending_payment_method: {
     label: 'Setup Pending',
@@ -142,14 +142,14 @@ export default function BillingCard({ billing }: { billing: BillingSummary }) {
 
         <div className="flex items-center justify-between text-sm">
           <span className="text-slate-600">Amount Paid</span>
-          <span className="font-semibold text-green-700">{fmtDollars(totalPaid)}</span>
+          <span className="font-semibold text-brand-green-700">{fmtDollars(totalPaid)}</span>
         </div>
 
         <div className="flex items-center justify-between text-sm">
           <span className="text-slate-600">Remaining Balance</span>
           <span
             className={`font-semibold ${
-              billing.fullyPaid ? 'text-green-700' : 'text-slate-900'
+              billing.fullyPaid ? 'text-brand-green-700' : 'text-slate-900'
             }`}
           >
             {billing.fullyPaid ? '$0.00' : fmtDollars(billing.remainingBalance)}

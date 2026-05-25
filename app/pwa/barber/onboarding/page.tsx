@@ -17,7 +17,6 @@ import {
   Sparkles,
   Scissors,
   TrendingUp,
-  CheckCircle2,
 } from 'lucide-react';
 
 // Maps UI step ids to the boolean column in onboarding_progress
@@ -281,7 +280,7 @@ export default function OnboardingPage() {
                         className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${step.completed ? 'bg-emerald-500' : 'bg-slate-700'}`}
                       >
                         {step.completed ? (
-                          <CheckCircle2 className="w-5 h-5 text-white" />
+                          <span className="w-5 h-5 rounded-full bg-white inline-block flex-shrink-0" aria-hidden="true" />
                         ) : (
                           <span className="text-slate-400 font-medium text-sm">{index + 1}</span>
                         )}

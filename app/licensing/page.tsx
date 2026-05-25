@@ -181,7 +181,7 @@ export default function LicensingPage() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/store/licenses/starter-license"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white bg-brand-green-600 rounded-lg hover:bg-green-700 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white bg-brand-green-600 rounded-lg hover:bg-brand-green-700 transition-colors"
             >
               Start License Setup
             </Link>

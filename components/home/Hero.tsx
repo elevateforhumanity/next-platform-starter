@@ -73,7 +73,7 @@ export function Hero() {
                 href="https://www.indianacareerconnect.com"
                 target="_blank"
                 rel="noreferrer"
-                className="px-5 py-2.5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-sm font-bold hover:bg-white hover:text-brand-orange-600 transition-colors shadow-lg"
+                className="px-5 py-2.5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-slate-900 text-sm font-bold hover:bg-white hover:text-brand-orange-600 transition-colors shadow-lg"
               >
                 Schedule at Indiana Career Connect
               </a>

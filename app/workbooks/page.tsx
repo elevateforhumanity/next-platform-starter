@@ -131,7 +131,7 @@ export default function WorkbooksPage() {
           {workbooks.map((program: any) => (
             <div key={program.slug} className="bg-white rounded-xl shadow-sm p-8">
               <div className="flex items-center gap-3 mb-6">
-                <GraduationCap className="w-8 h-8 text-brand-blue-600" />
+                <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
                 <h2 className="text-2xl font-bold text-black">{program.program}</h2>
               </div>
 

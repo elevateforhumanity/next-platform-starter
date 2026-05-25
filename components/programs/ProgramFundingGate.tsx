@@ -115,7 +115,7 @@ export default function ProgramFundingGate({
                 className={`flex-1 py-2.5 px-3 rounded-xl border-2 text-sm font-semibold transition-colors ${
                   isResident === opt.value
                     ? opt.value
-                      ? 'border-green-500 bg-green-50 text-green-800'
+                      ? 'border-brand-green-500 bg-brand-green-50 text-brand-green-800'
                       : 'border-amber-500 bg-amber-50 text-amber-800'
                     : 'border-slate-200 text-slate-600 hover:border-slate-300'
                 }`}
@@ -322,7 +322,7 @@ function FssaPath({
         disabled={confirmed}
         className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${
           confirmed
-            ? 'bg-green-600 text-white'
+            ? 'bg-brand-green-600 text-white'
             : 'bg-purple-700 hover:bg-purple-800 text-white'
         }`}
       >
@@ -390,7 +390,7 @@ function EmployerPath({
         disabled={confirmed}
         className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${
           confirmed
-            ? 'bg-green-600 text-white'
+            ? 'bg-brand-green-600 text-white'
             : 'bg-blue-700 hover:bg-blue-800 text-white'
         }`}
       >
@@ -496,7 +496,7 @@ function SelfPayOptions({
           disabled={confirmed}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${
             confirmed
-              ? 'bg-green-600 text-white'
+              ? 'bg-brand-green-600 text-white'
               : 'bg-slate-900 hover:bg-slate-800 text-white'
           }`}
         >

@@ -16,6 +16,7 @@ export default async function OfflinePage() {
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-white overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/artlist/hero-training-1.webp"
           alt="Offline"

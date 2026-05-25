@@ -86,7 +86,7 @@ export default function EmployerWorkforcePartnershipsIndianaPage() {
           subtitle:
             'Partner with Elevate for Humanity to access trained, certified candidates in healthcare, skilled trades, and technology — plus OJT wage reimbursement, registered apprenticeship programs, and Work Opportunity Tax Credit support.',
           primaryCta: { label: 'Contact Us', href: '/contact' },
-          secondaryCta: { label: 'Learn More', href: '/employer/dashboard' },
+          secondaryCta: { label: 'See Details', href: '/employer/dashboard' },
         }}
         trustBadges={[
           { label: 'DOL Registered', detail: 'Apprenticeship Sponsor' },

@@ -139,6 +139,7 @@ export default async function StudentApplicationPage({
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[45vh] min-h-[280px] max-h-[520px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/apply-page-4.jpg"
           alt="Apply for career training — Elevate for Humanity"
@@ -228,7 +229,7 @@ export default async function StudentApplicationPage({
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-2 right-2 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 right-2 bg-brand-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                     Funding May Apply
                   </span>
                 </div>

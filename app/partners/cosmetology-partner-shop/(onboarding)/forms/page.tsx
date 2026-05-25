@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 import {
   FileText,
-  CheckCircle2,
   Circle,
   AlertCircle,
   ArrowRight,
@@ -194,7 +193,7 @@ export default function CosmetologyRequiredFormsPage() {
           </div>
           {progress === 100 ? (
             <p className="text-sm text-brand-green-600 font-medium flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All forms complete — you are ready to host
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> All forms complete — you are ready to host
               apprentices.
             </p>
           ) : (
@@ -276,7 +275,7 @@ export default function CosmetologyRequiredFormsPage() {
                         }
                       >
                         {isComplete ? (
-                          <CheckCircle2 className="w-6 h-6 text-brand-green-500" />
+                          <span className="w-6 h-6 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                         ) : (
                           <Circle className="w-6 h-6 text-slate-300" />
                         )}

@@ -41,6 +41,7 @@ export default async function CareerCounselingPage() {
       {/* Hero — standard size, title below */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/career-counseling-page-1.webp"
             alt="Career counseling and guidance"
@@ -153,7 +154,7 @@ export default async function CareerCounselingPage() {
           </a>
           <Link
             href="/contact"
-            className="border-2 border-white text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg"
+            className="border-2 border-white text-slate-900 font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg"
           >
             Send a Message
           </Link>

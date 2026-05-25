@@ -364,7 +364,7 @@ export default function ContractsPage() {
             </Link>
             <Link
               href="/pricing/sponsor-licensing"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-white px-10 py-5 rounded-xl font-bold text-lg transition"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-slate-900 px-10 py-5 rounded-xl font-bold text-lg transition"
             >
               View Pricing
             </Link>

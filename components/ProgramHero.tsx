@@ -55,9 +55,7 @@ export default function ProgramHero({
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-300 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors border border-slate-500"
-              >
-                Learn More
-              </Link>
+              >See Details</Link>
             </div>
           </div>
         </div>

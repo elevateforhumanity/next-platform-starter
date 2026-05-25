@@ -142,7 +142,7 @@ export default async function MonthlyDonationPage() {
                 <ul className="space-y-1.5 mb-5">
                   {tier.perks.map((p) => (
                     <li key={p} className="flex items-center gap-2 text-xs text-slate-600">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" /> {p}
+                      <CheckCircle className="w-3.5 h-3.5 text-brand-green-500 shrink-0" /> {p}
                     </li>
                   ))}
                 </ul>
@@ -180,7 +180,7 @@ export default async function MonthlyDonationPage() {
                 'Reduces administrative overhead vs. one-time campaigns',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                  <CheckCircle className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {item}
+                  <CheckCircle className="w-4 h-4 text-brand-green-500 shrink-0 mt-0.5" /> {item}
                 </li>
               ))}
             </ul>

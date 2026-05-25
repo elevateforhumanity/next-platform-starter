@@ -83,7 +83,7 @@ export default async function OutcomesPage() {
       {/* Commitment */}
       <section className="bg-brand-blue-50 border-b border-brand-blue-100 py-6 px-4">
         <div className="max-w-4xl mx-auto flex items-start gap-4">
-          <Award className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
+          <Award aria-label="award" className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
           <p className="text-slate-700 text-sm leading-relaxed">
             Elevate for Humanity is committed to honest, verifiable reporting of student outcomes. Every metric on this page maps to a specific database source or survey instrument. See our{' '}
             <Link href="/impact/methodology" className="text-brand-blue-600 underline font-medium">Impact Methodology</Link>{' '}
@@ -119,7 +119,7 @@ export default async function OutcomesPage() {
           <div className="grid sm:grid-cols-2 gap-5">
             <div className="bg-slate-50 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 bg-green-500 rounded-lg flex items-center justify-center">
+                <div className="w-9 h-9 bg-brand-green-500 rounded-lg flex items-center justify-center">
                   <Users className="w-4 h-4 text-white" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm">Enrollment &amp; Completion</h3>
@@ -127,7 +127,7 @@ export default async function OutcomesPage() {
               <ul className="space-y-2">
                 {['Students enrolled per program', 'Program completion rates', 'Time to completion', 'Credential attainment'].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 shrink-0" /> {item}
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-2 shrink-0" /> {item}
                   </li>
                 ))}
               </ul>
@@ -161,7 +161,7 @@ export default async function OutcomesPage() {
               </div>
               <div className="px-5 py-4">
                 <div className="bg-slate-900 rounded-lg px-4 py-3 mb-3">
-                  <p className="font-mono text-sm text-green-400">
+                  <p className="font-mono text-sm text-brand-green-400">
                     Placement Rate = (Graduates Employed within 90 days) ÷ (Total Graduates − Exclusions) × 100
                   </p>
                 </div>
@@ -178,7 +178,7 @@ export default async function OutcomesPage() {
               </div>
               <div className="px-5 py-4">
                 <div className="bg-slate-900 rounded-lg px-4 py-3">
-                  <p className="font-mono text-sm text-green-400">
+                  <p className="font-mono text-sm text-brand-green-400">
                     Completion Rate = (Students Completing) ÷ (Students Enrolled − Early Withdrawals within 14 days) × 100
                   </p>
                 </div>
@@ -248,7 +248,7 @@ export default async function OutcomesPage() {
             <Link href="/apply" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-brand-blue-700 font-bold rounded-lg hover:bg-brand-blue-50 transition text-sm">
               Apply Now <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/programs" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition text-sm">
+            <Link href="/programs" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 text-slate-900 font-semibold rounded-lg hover:bg-white/10 transition text-sm">
               View Programs
             </Link>
           </div>

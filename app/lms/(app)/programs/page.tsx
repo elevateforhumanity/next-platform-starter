@@ -51,7 +51,8 @@ export default async function LmsProgramsPage() {
         <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <Link href="/lms">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
                 alt="Elevate for Humanity"
                 width={120}
@@ -100,11 +101,11 @@ export default async function LmsProgramsPage() {
       </section>
 
       {/* FUNDING NOTICE */}
-      <div className="bg-green-50 border-b border-green-100">
+      <div className="bg-brand-green-50 border-b border-brand-green-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <DollarSign className="w-4 h-4 text-green-700 flex-shrink-0" />
-            <span className="text-green-800 text-sm font-bold">
+            <DollarSign className="w-4 h-4 text-brand-green-700 flex-shrink-0" />
+            <span className="text-brand-green-800 text-sm font-bold">
               Funding available for eligible Indiana residents
             </span>
           </div>
@@ -113,7 +114,7 @@ export default async function LmsProgramsPage() {
               href="https://www.indianacareerconnect.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-green-700 text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-green-800 transition"
+              className="inline-flex items-center gap-1.5 bg-brand-green-700 text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-brand-green-800 transition"
             >
               WorkOne / WIOA — Schedule Appointment →
             </a>
@@ -177,7 +178,7 @@ export default async function LmsProgramsPage() {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {p.funded && (
-                        <span className="absolute top-3 left-3 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        <span className="absolute top-3 left-3 bg-brand-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                           FUNDED
                         </span>
                       )}
@@ -205,7 +206,7 @@ export default async function LmsProgramsPage() {
                         )}
                         {p.certification && (
                           <span className="flex items-center gap-1 text-xs text-slate-600">
-                            <Award className="w-3 h-3" />
+                            <Award aria-label="award" className="w-3 h-3" />
                             {p.certification}
                           </span>
                         )}

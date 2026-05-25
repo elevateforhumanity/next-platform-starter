@@ -37,7 +37,7 @@ const PROVIDER_HERO: Record<string, string> = {
 
 const PROVIDER_ACCENT: Record<string, string> = {
   esco: 'from-sky-900',
-  certiport: 'from-blue-900',
+  certiport: 'from-brand-blue-900',
   nha: 'from-emerald-900',
   nrf: 'from-orange-900',
   workkeys: 'from-violet-900',
@@ -101,7 +101,7 @@ export default async function ProviderPage({ params }: Props) {
   }
 
   const heroImg = PROVIDER_HERO[key] ?? '/images/pages/career-services-hero.webp';
-  const accent = PROVIDER_ACCENT[key] ?? 'from-slate-900';
+  const accent = PROVIDER_ACCENT[key] ?? 'from-brand-blue-900';
   const capInfo = CAPABILITY_LABEL[provider.capability];
   const CapIcon = capInfo?.icon ?? MapPin;
   const isActive = provider.status === 'active';
@@ -137,12 +137,12 @@ export default async function ProviderPage({ params }: Props) {
           <span
             className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${
               isActive
-                ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                ? 'bg-brand-green-500/20 text-brand-green-300 border border-brand-green-500/30'
                 : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
             }`}
           >
             <span
-              className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-green-400' : 'bg-amber-400'}`}
+              className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-brand-green-400' : 'bg-amber-400'}`}
             />
             {isActive ? 'Authorized Testing Site' : 'Available Through Partner'}
           </span>
@@ -334,8 +334,8 @@ export default async function ProviderPage({ params }: Props) {
                 </p>
               )}
               {provider.groupDiscount && (
-                <div className="bg-green-50 rounded-lg p-3 border border-green-100 mt-2">
-                  <p className="text-green-800 text-xs font-medium">{provider.groupDiscount}</p>
+                <div className="bg-brand-green-50 rounded-lg p-3 border border-brand-green-100 mt-2">
+                  <p className="text-brand-green-800 text-xs font-medium">{provider.groupDiscount}</p>
                 </div>
               )}
 

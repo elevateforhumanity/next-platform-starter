@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, AlertCircle, User, MapPin, Phone } from 'lucide-react';
+import { AlertCircle, User, MapPin, Phone } from 'lucide-react';
 
 interface Props {
   profile: {
@@ -148,8 +148,8 @@ export default function ProfileEditForm({ profile }: Props) {
         )}
 
         {saved ? (
-          <div className="mt-6 flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm">
-            <CheckCircle2 className="w-4 h-4" /> Saved — returning to onboarding…
+          <div className="mt-6 flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 text-brand-green-700 rounded-xl px-4 py-3 text-sm">
+            <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Saved — returning to onboarding…
           </div>
         ) : (
           <button

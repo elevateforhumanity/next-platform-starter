@@ -94,7 +94,7 @@ export default async function StaffPortalUsersPage() {
                                 : user.role === 'staff'
                                   ? 'bg-blue-100 text-blue-800'
                                   : user.role === 'instructor'
-                                    ? 'bg-green-100 text-green-800'
+                                    ? 'bg-brand-green-100 text-brand-green-800'
                                     : 'bg-slate-100 text-black'
                             }`}
                           >

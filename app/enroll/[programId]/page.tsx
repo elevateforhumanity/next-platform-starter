@@ -261,15 +261,15 @@ export default function EnrollPage() {
                   <div className="flex items-center gap-3 flex-wrap">
                     <h1 className="text-2xl sm:text-3xl font-bold">{program.name}</h1>
                     {program.is_free === true ? (
-                      <span className="px-3 py-1 bg-green-500 text-white text-sm font-bold rounded-full">
+                      <span className="px-3 py-1 bg-brand-green-500 text-white text-sm font-bold rounded-full">
                         FREE
                       </span>
                     ) : program.funding_eligible ? (
-                      <span className="px-3 py-1 bg-green-500 text-white text-sm font-bold rounded-full">
+                      <span className="px-3 py-1 bg-brand-green-500 text-white text-sm font-bold rounded-full">
                         FREE with WIOA/WRG
                       </span>
                     ) : program.price || program.total_cost ? (
-                      <span className="px-3 py-1 bg-white/20 text-white text-sm font-bold rounded-full">
+                      <span className="px-3 py-1 bg-white/20 text-slate-900 text-sm font-bold rounded-full">
                         ${(program.price || program.total_cost || 0).toLocaleString()}
                       </span>
                     ) : null}
@@ -294,7 +294,7 @@ export default function EnrollPage() {
                     message.includes('Error')
                       ? 'bg-red-50 text-red-800 border border-red-200'
                       : message.includes('successful')
-                        ? 'bg-green-50 text-green-800 border border-green-200'
+                        ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200'
                         : 'bg-blue-50 text-blue-800 border border-blue-200'
                   }`}
                 >
@@ -351,25 +351,25 @@ export default function EnrollPage() {
                 </h3>
                 <ul className="space-y-2 sm:space-y-3">
                   <li className="flex items-start gap-2 sm:gap-3">
-                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-700 text-sm sm:text-base">
                       Full access to course materials
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
-                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-700 text-sm sm:text-base">
                       Interactive lessons and assessments
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
-                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-700 text-sm sm:text-base">
                       Certificate upon completion
                     </span>
                   </li>
                   <li className="flex items-start gap-2 sm:gap-3">
-                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-700 text-sm sm:text-base">Instructor support</span>
                   </li>
                 </ul>

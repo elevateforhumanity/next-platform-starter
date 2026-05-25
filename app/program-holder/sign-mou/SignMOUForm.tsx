@@ -62,11 +62,11 @@ export function SignMOUForm() {
   if (done) {
     return (
       <div className="space-y-6">
-        <div className="flex items-start gap-4 bg-green-50 border border-green-200 rounded-lg p-5">
-          <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-4 bg-brand-green-50 border border-brand-green-200 rounded-lg p-5">
+          <CheckCircle className="w-6 h-6 text-brand-green-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-green-900">MOU signed successfully</p>
-            <p className="text-green-800 text-sm mt-1 leading-relaxed">
+            <p className="font-semibold text-brand-green-900">MOU signed successfully</p>
+            <p className="text-brand-green-800 text-sm mt-1 leading-relaxed">
               Your Memorandum of Understanding has been recorded. Continue to the next step below.
             </p>
           </div>

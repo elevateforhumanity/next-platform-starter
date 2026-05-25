@@ -333,9 +333,7 @@ export default function ProgramFinder() {
                       <a
                         href={program.path}
                         className="flex-1 px-6 py-3    text-white rounded-lg font-semibold hover: hover: transition-all text-center"
-                      >
-                        Learn More
-                      </a>
+                      >See Details</a>
                       <a
                         href="/apply"
                         className="flex-1 px-6 py-3 bg-slate-100 text-black rounded-lg font-semibold hover:bg-slate-200 transition-all text-center flex items-center justify-center gap-2"

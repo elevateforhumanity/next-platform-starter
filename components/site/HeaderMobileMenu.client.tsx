@@ -86,7 +86,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
       {/* Mobile Menu Panel */}
       <div
-        className="fixed top-[70px] right-0 bottom-0 w-[85vw] max-w-[320px] bg-white z-[9999] md:hidden transform transition-transform duration-300 overflow-y-auto"
+        className="fixed top-[70px] right-0 bottom-0 w-[85vw] max-w-7xl bg-white z-[9999] md:hidden transform transition-transform duration-300 overflow-y-auto"
         style={{ transform: isOpen ? 'translateX(0)' : 'translateX(100%)' }}
       >
         <nav className="p-4" aria-label="Mobile navigation">

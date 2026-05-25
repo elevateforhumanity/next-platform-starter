@@ -61,6 +61,7 @@ export default async function EmployersPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[280px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/for-employers-page-1.webp"
           alt="Employer partner meeting with Elevate for Humanity team"
@@ -182,7 +183,7 @@ export default async function EmployersPage() {
             {/* Path 2: Sponsor */}
             <div className="bg-white rounded-xl border-t-4 border-brand-blue-500 shadow-sm p-6 flex flex-col">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Award className="w-5 h-5 text-brand-blue-700" />
+                <Award aria-label="award" className="w-5 h-5 text-brand-blue-700" />
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">Sponsor a DOL Apprentice</h3>
               <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
@@ -402,7 +403,7 @@ export default async function EmployersPage() {
             </Link>
             <Link
               href="/contact?program=employer"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition text-lg"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition text-lg"
             >
               <Phone className="w-5 h-5" />
               Talk to Us

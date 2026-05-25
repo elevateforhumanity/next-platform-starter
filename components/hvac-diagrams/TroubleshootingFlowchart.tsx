@@ -229,7 +229,7 @@ export default function TroubleshootingFlowchart({ mode = 'explore', onComplete 
                     {activeNode.yes && (
                       <button
                         onClick={() => goTo(activeNode.yes!)}
-                        className="flex-1 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-sm"
+                        className="flex-1 py-3 bg-brand-green-600 text-white font-semibold rounded-lg hover:bg-brand-green-700 transition text-sm"
                       >
                         ✓ YES — Continue
                       </button>

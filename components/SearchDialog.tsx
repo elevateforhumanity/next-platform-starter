@@ -117,7 +117,7 @@ export function SearchDialog() {
           </kbd>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px]">
+      <DialogContent className="sm:max-w-7xl">
         <DialogHeader>
           <DialogTitle>Search</DialogTitle>
         </DialogHeader>

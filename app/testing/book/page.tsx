@@ -917,7 +917,7 @@ function BookingForm() {
                           </div>
                           <span
                             className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
-                              almostFull ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                              almostFull ? 'bg-red-100 text-red-700' : 'bg-brand-green-100 text-brand-green-700'
                             }`}
                           >
                             {slot.spotsRemaining} spot{slot.spotsRemaining !== 1 ? 's' : ''} left
@@ -1044,18 +1044,18 @@ function BookingForm() {
               })() : null}
 
               {/* Workforce funding path */}
-              <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-                <p className="text-xs font-bold text-green-800 mb-1">
+              <div className="rounded-xl border border-brand-green-200 bg-brand-green-50 p-4">
+                <p className="text-xs font-bold text-brand-green-800 mb-1">
                   Workforce-funded in Indiana? Your fees may be covered.
                 </p>
-                <p className="text-xs text-green-700 mb-2">
+                <p className="text-xs text-brand-green-700 mb-2">
                   Indiana participants using WIOA, WorkOne, SNAP E&T, or employer sponsorship may
                   qualify for fee coverage. We are expanding to additional regions. If funding is
                   not available yet, you can continue with self-pay checkout.
                 </p>
                 <a
                   href={`tel:${TESTING_CENTER.phoneTel}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-green-800 underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green-800 underline"
                 >
                   <Phone className="w-3 h-3" />
                   Call {TESTING_CENTER.phone} to verify funding

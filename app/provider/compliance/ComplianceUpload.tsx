@@ -77,7 +77,7 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
 
   if (done) {
     return (
-      <div className="flex items-center gap-2 text-green-700 text-sm py-2">
+      <div className="flex items-center gap-2 text-brand-green-700 text-sm py-2">
         <CheckCircle className="w-4 h-4" /> Document submitted for review.
       </div>
     );

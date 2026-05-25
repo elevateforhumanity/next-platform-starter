@@ -72,8 +72,8 @@ export default async function MetricsPage() {
             <div className="text-lg text-black">Enrolled Learners</div>
           </div>
 
-          <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-            <div className="text-5xl font-bold text-green-600 mb-2">
+          <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
+            <div className="text-5xl font-bold text-brand-green-600 mb-2">
               {totalCerts > 0 ? `${totalCerts.toLocaleString()}+` : '—'}
             </div>
             <div className="text-lg text-black">Credentials Issued</div>
@@ -98,20 +98,20 @@ export default async function MetricsPage() {
           <h2 className="text-2xl font-bold mb-6 text-black">Workforce Funding</h2>
           <div className="space-y-4 text-black">
             <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">•</span>
+              <span className="text-brand-green-600 font-bold">•</span>
               <div>
                 <strong>WIOA Eligible:</strong> All programs qualify for Workforce Innovation and
                 Opportunity Act funding
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">•</span>
+              <span className="text-brand-green-600 font-bold">•</span>
               <div>
                 <strong>WRG Approved:</strong> Workforce Ready Grant eligible in Indiana
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">•</span>
+              <span className="text-brand-green-600 font-bold">•</span>
               <div>
                 <strong>SNAP E&T:</strong> Supplemental Nutrition Assistance Program Employment &
                 Training approved

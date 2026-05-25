@@ -71,7 +71,7 @@ const STEP_TYPES = [
   { value: 'lesson', label: 'Lesson', icon: BookOpen, color: 'text-blue-500' },
   { value: 'quiz', label: 'Quiz', icon: CheckSquare, color: 'text-purple-500' },
   { value: 'checkpoint', label: 'Checkpoint', icon: CheckSquare, color: 'text-orange-500' },
-  { value: 'lab', label: 'Lab', icon: FlaskConical, color: 'text-green-500' },
+  { value: 'lab', label: 'Lab', icon: FlaskConical, color: 'text-brand-green-500' },
   { value: 'assignment', label: 'Assignment', icon: FileText, color: 'text-yellow-500' },
   { value: 'exam', label: 'Exam', icon: Award, color: 'text-red-500' },
   { value: 'certification', label: 'Certification', icon: Award, color: 'text-brand-red-500' },
@@ -906,7 +906,7 @@ function EditPanel({
               className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-colors ${
                 status === s
                   ? s === 'published'
-                    ? 'bg-green-600 text-white border-green-600'
+                    ? 'bg-brand-green-600 text-white border-brand-green-600'
                     : 'bg-slate-700 text-white border-slate-700'
                   : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
               }`}
@@ -923,7 +923,7 @@ function EditPanel({
         disabled={saving}
         className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-colors ${
           saveStatus === 'saved'
-            ? 'bg-green-600 text-white'
+            ? 'bg-brand-green-600 text-white'
             : saveStatus === 'error'
               ? 'bg-red-600 text-white'
               : 'bg-brand-red-600 hover:bg-brand-red-700 text-white'

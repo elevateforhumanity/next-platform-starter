@@ -50,7 +50,7 @@ export function FollowUpBlastButton({ pendingCount }: Props) {
       title={`Send follow-up emails to ${pendingCount} pending applicant(s)`}
       className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
         state === 'done'
-          ? 'bg-green-600 text-white'
+          ? 'bg-brand-green-600 text-white'
           : state === 'error'
             ? 'bg-red-600 text-white'
             : 'bg-amber-500 hover:bg-amber-600 text-white'

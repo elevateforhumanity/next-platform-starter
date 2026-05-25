@@ -85,7 +85,7 @@ export default async function AnalyticsPage() {
 
   const stats = [
     { label: 'Total Users', value: totalUsers ?? 0, icon: Users, color: 'text-blue-500' },
-    { label: 'Students', value: totalStudents ?? 0, icon: GraduationCap, color: 'text-green-500' },
+    { label: 'Students', value: totalStudents ?? 0, icon: GraduationCap, color: 'text-brand-green-500' },
     {
       label: 'Active Enrollments',
       value: activeEnrollments ?? 0,
@@ -187,7 +187,7 @@ export default async function AnalyticsPage() {
                   <span
                     className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                       e.status === 'active'
-                        ? 'bg-green-50 text-green-700'
+                        ? 'bg-brand-green-50 text-brand-green-700'
                         : e.status === 'completed'
                           ? 'bg-blue-50 text-blue-700'
                           : 'bg-slate-100 text-slate-600'

@@ -49,7 +49,7 @@ export default function LessonVideoEditor({
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold text-slate-700">Video Source</p>
           {usingAsset && (
-            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">
+            <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded font-medium">
               Asset linked
             </span>
           )}

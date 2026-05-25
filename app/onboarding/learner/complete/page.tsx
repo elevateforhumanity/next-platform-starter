@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle2, ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
+import { ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,7 +61,7 @@ export default async function OrientationCompletePage() {
         {/* Success mark */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center">
-            <CheckCircle2 className="w-9 h-9 text-emerald-500" />
+            <span className="w-9 h-9 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
           </div>
         </div>
 
@@ -134,7 +134,7 @@ export default async function OrientationCompletePage() {
               'Your certificate is issued automatically when you finish the program',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2 text-xs text-slate-900">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                <span className="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block flex-shrink-0 mt-0.5" aria-hidden="true" />
                 {item}
               </li>
             ))}

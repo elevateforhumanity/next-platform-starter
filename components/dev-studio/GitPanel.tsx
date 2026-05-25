@@ -37,7 +37,7 @@ type Panel = 'status' | 'log' | 'diff';
 
 const STATUS_COLORS: Record<string, string> = {
   M:  'text-amber-400',
-  A:  'text-green-400',
+  A:  'text-brand-green-400',
   D:  'text-red-400',
   R:  'text-blue-400',
   '?': 'text-slate-400',
@@ -135,7 +135,7 @@ export default function GitPanel() {
   function renderDiff(raw: string) {
     return raw.split('\n').map((line, i) => {
       let cls = 'text-slate-400';
-      if (line.startsWith('+') && !line.startsWith('+++')) cls = 'text-green-400 bg-green-900/20';
+      if (line.startsWith('+') && !line.startsWith('+++')) cls = 'text-brand-green-400 bg-brand-green-900/20';
       else if (line.startsWith('-') && !line.startsWith('---')) cls = 'text-red-400 bg-red-900/20';
       else if (line.startsWith('@@')) cls = 'text-blue-400';
       else if (line.startsWith('diff ') || line.startsWith('index ') || line.startsWith('---') || line.startsWith('+++')) cls = 'text-slate-500';
@@ -171,7 +171,7 @@ export default function GitPanel() {
         <div className="flex items-center gap-1">
           <button
             onClick={() => setShowBranch(v => !v)}
-            className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-slate-900 transition-colors"
             title="Switch branch"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default function GitPanel() {
           <button
             onClick={load}
             disabled={loading}
-            className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-40"
+            className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-slate-900 transition-colors disabled:opacity-40"
             title="Refresh"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
@@ -196,7 +196,7 @@ export default function GitPanel() {
               onChange={e => setNewBranch(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && newBranch.trim() && doAction('checkout', { branch: newBranch.trim() })}
               placeholder="branch name (Enter to checkout/create)"
-              className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+              className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500"
             />
             <button
               onClick={() => newBranch.trim() && doAction('checkout', { branch: newBranch.trim() })}
@@ -258,7 +258,7 @@ export default function GitPanel() {
             {/* Changed files */}
             {status && status.changed.length === 0 && (
               <div className="flex items-center gap-2 text-xs text-slate-500 py-6 justify-center">
-                <Check className="w-4 h-4 text-green-500" /> Working tree clean
+                <Check className="w-4 h-4 text-brand-green-500" /> Working tree clean
               </div>
             )}
 
@@ -301,12 +301,12 @@ export default function GitPanel() {
                   onChange={e => setCommitMsg(e.target.value)}
                   placeholder="Commit message…"
                   rows={2}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
                 />
                 <button
                   onClick={() => doAction('commit', { message: commitMsg })}
                   disabled={!commitMsg.trim() || isLoading('commit')}
-                  className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-40 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700 disabled:opacity-40 transition-colors"
                 >
                   {isLoading('commit') ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <GitCommit className="w-3.5 h-3.5" />}
                   Commit all changes

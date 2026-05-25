@@ -44,8 +44,8 @@ export default async function ThankYouPage({ params }: { params: Promise<{ progr
 
       <div className="max-w-2xl mx-auto px-4 py-16">
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="text-green-600 text-3xl">✓</span>
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-brand-green-600 text-3xl">✓</span>
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-3">Application Submitted!</h1>
           <p className="text-lg text-black">

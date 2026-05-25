@@ -45,7 +45,7 @@ export default function EnrollmentPipeline({
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${
                   activeIndex !== undefined && i < activeIndex
-                    ? 'bg-green-500 border-green-500 text-white'
+                    ? 'bg-brand-green-500 border-brand-green-500 text-white'
                     : activeIndex !== undefined && i === activeIndex
                     ? 'bg-brand-red-600 border-brand-red-600 text-white'
                     : 'bg-slate-800 border-slate-600 text-slate-300'
@@ -54,7 +54,7 @@ export default function EnrollmentPipeline({
                 {activeIndex !== undefined && i < activeIndex ? '✓' : i + 1}
               </div>
               <p className="text-xs font-semibold text-white mt-2 text-center">{step.label}</p>
-              <p className="text-xs text-slate-400 text-center max-w-[60px] leading-tight">{step.desc}</p>
+              <p className="text-xs text-slate-400 text-center max-w-7xl leading-tight">{step.desc}</p>
             </div>
             {i < STEPS.length - 1 && (
               <div className="flex-shrink-0 mx-1 mt-[-20px]">

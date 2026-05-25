@@ -79,9 +79,9 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
         )}
 
         {program.savings && (
-          <div className="rounded-xl border p-6 bg-green-50 border-green-200">
-            <h2 className="text-lg font-semibold text-green-900 mb-1">Employer Savings</h2>
-            <p className="text-green-800">{program.savings}</p>
+          <div className="rounded-xl border p-6 bg-brand-green-50 border-brand-green-200">
+            <h2 className="text-lg font-semibold text-brand-green-900 mb-1">Employer Savings</h2>
+            <p className="text-brand-green-800">{program.savings}</p>
           </div>
         )}
 

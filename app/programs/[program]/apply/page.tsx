@@ -168,7 +168,7 @@ export default function BeautyApplyPage() {
               'Flexible scheduling around your life',
             ].map(item => (
               <div key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0 mt-0.5" />
                 {item}
               </div>
             ))}
@@ -232,7 +232,7 @@ export default function BeautyApplyPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-slate-900">{opt.label}</span>
                         {opt.badge && (
-                          <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">{opt.badge}</span>
+                          <span className="text-xs font-bold text-brand-green-700 bg-brand-green-100 px-2 py-0.5 rounded-full">{opt.badge}</span>
                         )}
                       </div>
                       <p className="text-xs text-slate-500 mt-0.5">{opt.desc}</p>
@@ -276,7 +276,7 @@ export default function BeautyApplyPage() {
                     <div>
                       <p className="text-xs font-semibold text-slate-900">{opt.title}</p>
                       <p className="text-xs text-slate-500 mt-0.5">{opt.desc}</p>
-                      {opt.badge && <p className="text-xs text-green-700 font-medium mt-1">{opt.badge}</p>}
+                      {opt.badge && <p className="text-xs text-brand-green-700 font-medium mt-1">{opt.badge}</p>}
                     </div>
                   </label>
                 ))}
@@ -290,11 +290,11 @@ export default function BeautyApplyPage() {
               <FundingEligibilityFlow fundingType="wioa" onReady={status => setEligibilityStatus(status)} />
             )}
             {fundingType === 'employer' && (
-              <div className="rounded-xl border border-green-200 bg-green-50 p-3 flex gap-3">
-                <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+              <div className="rounded-xl border border-brand-green-200 bg-brand-green-50 p-3 flex gap-3">
+                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-semibold text-green-900">No payment required today</p>
-                  <p className="text-xs text-green-800 mt-0.5">Our team will verify your funding eligibility within 1–2 business days.</p>
+                  <p className="text-xs font-semibold text-brand-green-900">No payment required today</p>
+                  <p className="text-xs text-brand-green-800 mt-0.5">Our team will verify your funding eligibility within 1–2 business days.</p>
                 </div>
               </div>
             )}

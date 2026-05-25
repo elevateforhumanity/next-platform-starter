@@ -108,9 +108,9 @@ export default async function ImpactPage() {
       value: stats ? stats.totalCerts.toLocaleString() : '200+',
       label: 'Credentials Issued',
       sublabel: 'industry-recognized',
-      color: 'text-green-600',
-      bg: 'bg-green-50',
-      border: 'border-green-100',
+      color: 'text-brand-green-600',
+      bg: 'bg-brand-green-50',
+      border: 'border-brand-green-100',
     },
     {
       icon: BookOpen,
@@ -159,7 +159,7 @@ export default async function ImpactPage() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image
+          <Image sizes="100vw"
             src="/images/hero/hero-hands-on-training.webp"
             alt="Hands-on workforce training"
             fill
@@ -169,7 +169,7 @@ export default async function ImpactPage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-4 py-24 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
-            <TrendingUp className="w-4 h-4 text-green-400" />
+            <TrendingUp className="w-4 h-4 text-brand-green-400" />
             Live Impact Data — Updated Hourly
           </div>
           <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
@@ -188,7 +188,7 @@ export default async function ImpactPage() {
               <Heart className="w-4 h-4 text-red-500" />
               Support Our Mission
             </Link>
-            <Link href="/apply" className="border-2 border-white/30 text-white font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition">
+            <Link href="/apply" className="border-2 border-white/30 text-slate-900 font-bold px-8 py-3 rounded-xl hover:bg-white/10 transition">
               Apply for Free Training
             </Link>
           </div>
@@ -251,7 +251,7 @@ export default async function ImpactPage() {
             <ul className="space-y-3">
               {FUNDING_SOURCES.map((source) => (
                 <li key={source} className="flex items-center gap-3 text-slate-700">
-                  <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-brand-green-600 shrink-0" />
                   {source}
                 </li>
               ))}
@@ -313,7 +313,7 @@ export default async function ImpactPage() {
               <Heart className="w-5 h-5 text-red-500" />
               Donate Now
             </Link>
-            <Link href="/apply" className="border-2 border-white/40 text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition text-lg">
+            <Link href="/apply" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition text-lg">
               Apply for Training
             </Link>
           </div>

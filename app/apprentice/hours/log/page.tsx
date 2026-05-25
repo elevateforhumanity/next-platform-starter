@@ -228,7 +228,7 @@ export default function LogApprenticeHoursPage() {
                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                     className="sr-only"
                   />
-                  <Award
+                  <Award aria-label="award"
                     className={`w-6 h-6 mr-2 ${formData.type === 'rti' ? 'text-brand-blue-600' : 'text-slate-700'}`}
                   />
                   <div className="text-left">

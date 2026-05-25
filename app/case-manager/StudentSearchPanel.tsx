@@ -77,7 +77,7 @@ export function StudentSearchPanel() {
                 </div>
                 {s.status && (
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
-                    s.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'
+                    s.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' : 'bg-slate-100 text-slate-600'
                   }`}>
                     {s.status}
                   </span>

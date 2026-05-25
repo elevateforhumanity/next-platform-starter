@@ -8,7 +8,6 @@ import {
   Sparkles,
   Flower2,
   Hand,
-  CheckCircle2,
   AlertCircle,
   Clock,
   XCircle,
@@ -38,7 +37,7 @@ const STATUS_STYLES: Record<
   active: {
     bg: 'bg-emerald-50',
     text: 'text-emerald-700',
-    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+    icon: <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
     label: 'Active',
   },
   past_due: {
@@ -218,7 +217,7 @@ export default async function BoothRentersPage() {
                         <td className="px-4 py-4">
                           {renter.mou_signed ? (
                             <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-semibold">
-                              <CheckCircle2 className="w-3.5 h-3.5" /> Signed
+                              <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Signed
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 text-xs text-amber-600 font-semibold">

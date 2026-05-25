@@ -37,6 +37,7 @@ export default async function CompleteFERPATrainingPage() {
     <>
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/ferpa-page-12.jpg"
           alt="FERPA compliance"

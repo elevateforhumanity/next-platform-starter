@@ -103,7 +103,7 @@ export default async function ProgramGradesPage({
           </div>
         ) : (
           <div className="text-center py-8">
-            <GraduationCap className="w-12 h-12 text-slate-700 mx-auto mb-3" />
+            <GraduationCap aria-label="graduationcap" className="w-12 h-12 text-slate-700 mx-auto mb-3" />
             <p className="text-slate-700">No student enrollments in this program yet.</p>
           </div>
         )}

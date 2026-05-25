@@ -89,7 +89,7 @@ export default function EnrollmentCounter() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 text-white rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 text-slate-900 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
             <div className="relative">
               <Zap className="w-4 h-4" />
               {isLive && (
@@ -300,7 +300,7 @@ export default function EnrollmentCounter() {
             </a>
             <a
               href="/programs"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/20 text-white rounded-lg font-semibold hover:bg-white/30 transition-all backdrop-blur-sm text-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white/20 text-slate-900 rounded-lg font-semibold hover:bg-white/30 transition-all backdrop-blur-sm text-lg"
             >
               View Programs
               <Users className="w-5 h-5" />

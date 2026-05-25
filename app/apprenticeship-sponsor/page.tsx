@@ -157,7 +157,7 @@ export default function ApprenticeshipSponsorPage() {
         {/* Training Delivery Model */}
         <section className="mb-14">
           <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-            <GraduationCap className="w-6 h-6 text-brand-red-600" />
+            <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-red-600" />
             Training Delivery Model
           </h2>
           <p className="text-slate-700 mb-6">

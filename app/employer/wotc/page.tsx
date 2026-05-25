@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { TrendingUp, BadgeDollarSign, CheckCircle2, Briefcase } from 'lucide-react';
+import { TrendingUp, BadgeDollarSign, Briefcase } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,7 +67,7 @@ export default async function EmployerWotcPage() {
           <Metric
             label={`Hired in ${currentYear}`}
             value={hiredThisYear.toString()}
-            icon={<CheckCircle2 className="w-5 h-5 text-brand-green-600" />}
+            icon={<span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />}
           />
           <Metric
             label="Estimated Credit (Low)"
@@ -97,7 +97,7 @@ export default async function EmployerWotcPage() {
 
           {hiredRows.length === 0 ? (
             <div className="p-10 text-center">
-              <CheckCircle2 className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <span className="w-12 h-12 rounded-full bg-slate-300 inline-block flex-shrink-0 mx-auto mb-3" aria-hidden="true" />
               <p className="font-semibold text-slate-800">No hires recorded yet</p>
               <p className="text-sm text-slate-500 mt-1">
                 Mark candidates as hired in your applications workflow to track WOTC impact here.

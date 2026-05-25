@@ -25,6 +25,7 @@ export default function GrantsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-48 md:h-64 flex items-center overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/grants-page-1.webp"
           alt="Students celebrating graduation"
@@ -272,7 +273,7 @@ export default function GrantsPage() {
             <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
               <div className="flex flex-col md:flex-row md:items-start gap-6">
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <GraduationCap className="w-8 h-8 text-brand-blue-600" />
+                  <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">Job Ready Indy</h3>

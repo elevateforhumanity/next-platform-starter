@@ -124,7 +124,7 @@ export default function LessonAssessmentEditor({
                 <span
                   className={`text-xs px-1.5 py-0.5 rounded font-semibold ${
                     q.options.every((o) => o.trim()) && q.question.trim()
-                      ? 'bg-green-100 text-green-700'
+                      ? 'bg-brand-green-100 text-brand-green-700'
                       : 'bg-amber-100 text-amber-700'
                   }`}
                 >

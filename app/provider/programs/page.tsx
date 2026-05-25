@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 
 
 const STATUS_COLORS: Record<string, string> = {
-  published: 'bg-green-100 text-green-700',
+  published: 'bg-brand-green-100 text-brand-green-700',
   pending_review: 'bg-yellow-100 text-yellow-700',
   approved: 'bg-brand-blue-100 text-brand-blue-700',
   rejected: 'bg-red-100 text-red-700',

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import {
   ArrowLeft,
-  CheckCircle2,
   Building2,
   ChevronDown,
   ChevronUp,
@@ -305,7 +304,7 @@ export default function MOUOnboardingPage() {
         {/* Already signed */}
         {alreadySigned && !signed && (
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-center">
-            <CheckCircle2 className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
+            <span className="w-10 h-10 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mx-auto mb-3" aria-hidden="true" />
             <h2 className="text-lg font-semibold text-brand-green-900 mb-1">
               Agreement Already Signed
             </h2>
@@ -593,7 +592,7 @@ export default function MOUOnboardingPage() {
         {/* Success */}
         {signed && (
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-center">
-            <CheckCircle2 className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
+            <span className="w-10 h-10 rounded-full bg-brand-green-600 inline-block flex-shrink-0 mx-auto mb-3" aria-hidden="true" />
             <h2 className="text-lg font-semibold text-brand-green-900 mb-1">Agreement Signed</h2>
             <p className="text-brand-green-700 mb-1">Your signature has been recorded.</p>
             <p className="text-sm text-brand-green-600">Redirecting to onboarding...</p>

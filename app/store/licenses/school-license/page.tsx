@@ -22,7 +22,8 @@ export default function SchoolLicensePage() {
 
       {/* Hero - Clean */}
       <section className="relative h-[50vh] overflow-hidden">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/pages/about-hero.webp"
           alt="School License Platform"
           fill
@@ -140,12 +141,12 @@ export default function SchoolLicensePage() {
           </div>
 
           {/* After - The Transformation */}
-          <div className="mt-12 bg-green-50 rounded-2xl p-8 border-2 border-green-100">
-            <h3 className="text-2xl font-black text-green-800 mb-6">After: The New Reality</h3>
+          <div className="mt-12 bg-brand-green-50 rounded-2xl p-8 border-2 border-brand-green-100">
+            <h3 className="text-2xl font-black text-brand-green-800 mb-6">After: The New Reality</h3>
             
             <div className="space-y-6">
               <div className="flex gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl">☀️</span>
                 </div>
                 <div>
@@ -159,7 +160,7 @@ export default function SchoolLicensePage() {
               </div>
 
               <div className="flex gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl">✅</span>
                 </div>
                 <div>
@@ -174,7 +175,7 @@ export default function SchoolLicensePage() {
               </div>
 
               <div className="flex gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl">📊</span>
                 </div>
                 <div>
@@ -188,7 +189,7 @@ export default function SchoolLicensePage() {
               </div>
 
               <div className="flex gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl">🚀</span>
                 </div>
                 <div>
@@ -202,8 +203,8 @@ export default function SchoolLicensePage() {
               </div>
             </div>
 
-            <div className="mt-8 p-4 bg-green-100 rounded-lg">
-              <p className="text-green-800 font-medium text-center">
+            <div className="mt-8 p-4 bg-brand-green-100 rounded-lg">
+              <p className="text-brand-green-800 font-medium text-center">
                 Maria didn't hire more staff. She didn't work more hours. 
                 She just stopped doing work the system should do.
               </p>
@@ -281,7 +282,7 @@ export default function SchoolLicensePage() {
             ].map((item, i) => (
               <div key={i} className="bg-slate-50 rounded-xl overflow-hidden">
                 <div className="relative h-40">
-                  <Image src={item.img} alt={item.title} fill className="object-cover" />
+                  <Image sizes="100vw" src={item.img} alt={item.title} fill className="object-cover" />
                 </div>
                 <div className="p-6">
                   <h3 className="font-bold text-lg mb-2">{item.title}</h3>

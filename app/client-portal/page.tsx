@@ -71,7 +71,7 @@ export default function ClientPortalPage() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+                className="inline-flex items-center gap-2 border-2 border-white text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
               >
                 Request Access
               </Link>

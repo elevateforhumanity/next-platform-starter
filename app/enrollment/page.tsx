@@ -249,6 +249,7 @@ export default async function EnrollmentPage() {
               >
                 {/* Image — no text overlay */}
                 <div className="relative h-48 overflow-hidden flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={p.image}
                     alt={p.name}
@@ -267,10 +268,10 @@ export default async function EnrollmentPage() {
                       <Clock className="w-3 h-3" /> {p.hours} hrs
                     </span>
                     <span className="flex items-center gap-1">
-                      <GraduationCap className="w-3 h-3" /> {p.weeks} wks
+                      <GraduationCap aria-label="graduationcap" className="w-3 h-3" /> {p.weeks} wks
                     </span>
                     <span className="flex items-center gap-1">
-                      <Award className="w-3 h-3" /> {p.credentials} creds
+                      <Award aria-label="award" className="w-3 h-3" /> {p.credentials} creds
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mb-4">
@@ -369,7 +370,7 @@ export default async function EnrollmentPage() {
                   </Link>
                   <Link
                     href="/financing"
-                    className="border-2 border-white text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition-colors text-sm"
+                    className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition-colors text-sm"
                   >
                     View Financing Options
                   </Link>
@@ -405,7 +406,7 @@ export default async function EnrollmentPage() {
             </Link>
             <a
               href="tel:3173143757"
-              className="border-2 border-white text-white font-bold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg flex items-center gap-2"
+              className="border-2 border-white text-slate-900 font-bold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg flex items-center gap-2"
             >
               <Phone className="w-5 h-5" /> Call Us
             </a>

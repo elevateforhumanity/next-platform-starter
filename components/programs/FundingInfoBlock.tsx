@@ -19,12 +19,12 @@ export default function FundingInfoBlock({
   return (
     <div className="space-y-5">
       {/* Funding explanation */}
-      <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
+      <div className="bg-brand-green-50 border border-brand-green-200 rounded-2xl p-6">
         <div className="flex items-center gap-2 mb-3">
-          <DollarSign className="w-5 h-5 text-green-700" />
-          <h3 className="font-bold text-green-900">This Program May Cost You $0</h3>
+          <DollarSign className="w-5 h-5 text-brand-green-700" />
+          <h3 className="font-bold text-brand-green-900">This Program May Cost You $0</h3>
         </div>
-        <p className="text-green-800 text-sm leading-relaxed mb-4">
+        <p className="text-brand-green-800 text-sm leading-relaxed mb-4">
           {programName} is approved for federal and state workforce funding. Eligible Indiana 
           residents can have <strong>100% of tuition, books, and certification exam fees covered</strong> through 
           programs like {fundingSources.join(', ')}. Eligibility is based on income, employment status, 
@@ -32,30 +32,30 @@ export default function FundingInfoBlock({
         </p>
         <div className="space-y-2 mb-4">
           {fundingSources.map((source) => (
-            <div key={source} className="flex items-center gap-2 text-sm text-green-800">
-              <CheckCircle className="w-4 h-4 text-green-600 shrink-0" />
+            <div key={source} className="flex items-center gap-2 text-sm text-brand-green-800">
+              <CheckCircle className="w-4 h-4 text-brand-green-600 shrink-0" />
               <span>{source} — approved training provider</span>
             </div>
           ))}
         </div>
 
-        <div className="bg-white rounded-xl border border-green-200 p-4">
+        <div className="bg-white rounded-xl border border-brand-green-200 p-4">
           <p className="font-semibold text-slate-900 text-sm mb-2">How to Check Your Eligibility:</p>
           <ol className="space-y-2 text-sm text-slate-700">
             <li className="flex items-start gap-2">
-              <span className="bg-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+              <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
               <span>Visit <a href="https://www.indianacareerconnect.com" target="_blank" rel="noopener noreferrer" className="text-brand-blue-600 font-semibold hover:underline inline-flex items-center gap-1">www.indianacareerconnect.com <ExternalLink className="w-3 h-3" /></a> and create an account</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+              <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
               <span>Search for &quot;Elevate for Humanity&quot; under training providers</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+              <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
               <span>Schedule an appointment with your local <strong>WorkOne</strong> office to complete an eligibility assessment</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+              <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
               <span>Once approved, your WorkOne case manager will issue a training voucher — you pay nothing</span>
             </li>
           </ol>
@@ -66,14 +66,14 @@ export default function FundingInfoBlock({
             href="https://www.indianacareerconnect.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-green-800 transition"
+            className="inline-flex items-center gap-2 bg-brand-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-green-800 transition"
           >
             <ExternalLink className="w-4 h-4" />
             Indiana Career Connect
           </a>
           <a
             href="tel:3173143757"
-            className="inline-flex items-center gap-2 bg-white border border-green-300 text-green-800 text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-green-50 transition"
+            className="inline-flex items-center gap-2 bg-white border border-brand-green-300 text-brand-green-800 text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-green-50 transition"
           >
             <Phone className="w-4 h-4" />
             Call Us: (317) 314-3757

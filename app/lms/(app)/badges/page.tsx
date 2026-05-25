@@ -208,7 +208,7 @@ export default async function BadgesPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
-            <Award className="w-8 h-8 text-yellow-600" />
+            <Award aria-label="award" className="w-8 h-8 text-yellow-600" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900">My Badges</h1>
           <p className="text-slate-600 mt-2">
@@ -322,7 +322,7 @@ export default async function BadgesPage() {
         {/* Empty State */}
         {badges.length === 0 && (
           <div className="bg-white rounded-2xl border border-slate-200 p-16 text-center">
-            <Award className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <Award aria-label="award" className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-slate-900 mb-2">No Badges Available</h2>
             <p className="text-slate-600 mb-6">
               Complete courses and certifications to earn badges. Your achievements will appear

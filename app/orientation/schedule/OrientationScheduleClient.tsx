@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, Video, MapPin, CheckCircle2 } from 'lucide-react';
+import { Calendar, Video, MapPin } from 'lucide-react';
 
 type SessionType = 'virtual' | 'barbershop';
 
@@ -101,7 +101,7 @@ export default function OrientationScheduleClient() {
     return (
       <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center space-y-4">
         <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="w-8 h-8 text-brand-green-600" />
+          <span className="w-8 h-8 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />
         </div>
         <h2 className="text-2xl font-black text-black">You're Scheduled!</h2>
         <p className="text-black">

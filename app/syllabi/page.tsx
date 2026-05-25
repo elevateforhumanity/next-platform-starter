@@ -536,7 +536,7 @@ export default function SyllabiPage() {
                     {/* Assessments */}
                     <div className="mb-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <Award className="w-5 h-5 text-brand-blue-600" />
+                        <Award aria-label="award" className="w-5 h-5 text-brand-blue-600" />
                         <h4 className="font-bold text-black">Assessments & Grading</h4>
                       </div>
                       <ul className="space-y-2">

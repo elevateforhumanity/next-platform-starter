@@ -1,4 +1,5 @@
 'use client';
+// useHeroVideo
 
 /**
  * HomeHero — home page hero.
@@ -163,7 +164,7 @@ export default function HomeHero() {
             </Link>
             <Link
               href="/programs"
-              className="border border-white/20 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-base"
+              className="border border-white/20 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-base"
             >
               See All Programs
             </Link>

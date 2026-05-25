@@ -97,6 +97,7 @@ export default function StoreDemosPage() {
               <div key={demo.id} id={demo.id} className={`flex flex-col animate-fade-in-up ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}>
                 {/* Image */}
                 <div className="w-full md:w-1/2 relative rounded-2xl overflow-hidden shadow-lg aspect-video">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image src={demo.image} alt={demo.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" quality={90} />
                   <Link href={demo.href} className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors">
                     <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg">

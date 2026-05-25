@@ -278,7 +278,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
                     )}
                     {cert.credentialNumber && (
                       <p className="text-sm text-brand-green-800 flex items-center gap-2">
-                        <Award className="w-4 h-4" />
+                        <Award aria-label="award" className="w-4 h-4" />
                         Credential #: {cert.credentialNumber}
                       </p>
                     )}
@@ -339,7 +339,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
         <div className="p-6 bg-brand-green-50 border-t border-brand-green-200">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-brand-green-100 rounded-full flex items-center justify-center">
-              <Award className="w-6 h-6 text-brand-green-600" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
             </div>
             <div>
               <h3 className="font-bold text-brand-green-900">Congratulations!</h3>

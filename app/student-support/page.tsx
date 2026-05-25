@@ -150,6 +150,7 @@ export default function StudentSupportPage() {
                 className="group bg-white rounded-xl overflow-hidden border hover:shadow-lg transition"
               >
                 <div className="relative h-44 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -166,8 +167,7 @@ export default function StudentSupportPage() {
                   <Link
                     href={service.link}
                     className="inline-flex items-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
-                  >
-                    Learn More <ArrowRight className="w-4 h-4" />
+                  >See Details<ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -252,7 +252,7 @@ export default function StudentSupportPage() {
             </Link>
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white text-slate-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition"
             >
               Browse Programs
             </Link>

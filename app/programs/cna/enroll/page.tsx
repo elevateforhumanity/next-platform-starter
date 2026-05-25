@@ -174,7 +174,7 @@ export default function CNAEnrollPage() {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-lg">Payment Plan</span>
-                        <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium">Most Popular</span>
+                        <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs font-medium">Most Popular</span>
                       </div>
                       {paymentOption === 'payment-plan' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
                     </div>

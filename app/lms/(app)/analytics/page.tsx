@@ -314,7 +314,7 @@ export default async function AnalyticsPage() {
             {/* Completion Stats */}
             <div className="bg-brand-blue-600 rounded-2xl p-6 text-white">
               <h3 className="font-bold mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5" />
+                <Award aria-label="award" className="w-5 h-5" />
                 Completion Stats
               </h3>
               <div className="space-y-4">
@@ -368,7 +368,7 @@ export default async function AnalyticsPage() {
                   href="/lms/grades"
                   className="flex items-center gap-2 p-3 bg-white rounded-lg hover:bg-white transition"
                 >
-                  <Award className="w-4 h-4 text-brand-green-600" />
+                  <Award aria-label="award" className="w-4 h-4 text-brand-green-600" />
                   <span className="text-slate-700">View Grades</span>
                 </Link>
                 <Link

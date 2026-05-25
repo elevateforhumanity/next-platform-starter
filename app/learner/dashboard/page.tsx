@@ -503,7 +503,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         <div className="flex gap-4">
                           <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0">
                             <div className="w-full h-full flex items-center justify-center">
-                              <GraduationCap className="w-8 h-8 text-slate-700" />
+                              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-slate-700" />
                             </div>
                           </div>
                           <div className="flex-1">
@@ -566,7 +566,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     <div key={ext.id} className="p-6">
                       <div className="flex gap-4 items-start">
                         <div className="w-16 h-16 bg-brand-blue-50 rounded-lg flex-shrink-0 flex items-center justify-center">
-                          <GraduationCap className="w-7 h-7 text-brand-blue-400" />
+                          <GraduationCap aria-label="graduationcap" className="w-7 h-7 text-brand-blue-400" />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
@@ -623,7 +623,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   },
                   {
                     href: '/lms/certificates',
-                    icon: <Award className="w-7 h-7 text-emerald-600" />,
+                    icon: <Award aria-label="award" className="w-7 h-7 text-emerald-600" />,
                     label: 'Certificates',
                   },
                   {
@@ -845,7 +845,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                           {steps.map((step) => (
                             <li key={step.key} className="flex items-center gap-2 text-xs">
                               {step.done ? (
-                                <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
+                                <CheckCircle className="w-3.5 h-3.5 text-brand-green-500 shrink-0" />
                               ) : (
                                 <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-300 shrink-0" />
                               )}
@@ -917,9 +917,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'certificate_issued' && (
                           <Link
                             href={`/lms/certificates/${req.id}`}
-                            className="flex items-center justify-center gap-2 w-full px-3 py-2 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700"
+                            className="flex items-center justify-center gap-2 w-full px-3 py-2 bg-brand-green-600 text-white text-xs font-medium rounded-lg hover:bg-brand-green-700"
                           >
-                            <Award className="w-3.5 h-3.5" />
+                            <Award aria-label="award" className="w-3.5 h-3.5" />
                             Download Your Certificate
                           </Link>
                         )}

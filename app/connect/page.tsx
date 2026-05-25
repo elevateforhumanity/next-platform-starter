@@ -228,14 +228,14 @@ export default function ConnectPage() {
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="https://www.yoursite.com"
-                  className="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
 
               <div className="flex gap-4">
                 <button
                   onClick={() => setStep('platform')}
-                  className="px-6 py-4 border border-white/20 hover:bg-white/10 text-white font-medium rounded-lg"
+                  className="px-6 py-4 border border-white/20 hover:bg-white/10 text-slate-900 font-medium rounded-lg"
                 >
                   Back
                 </button>
@@ -299,7 +299,7 @@ export default function ConnectPage() {
               <div className="flex gap-4 pt-4">
                 <button
                   onClick={() => setStep('url')}
-                  className="px-6 py-4 border border-white/20 hover:bg-white/10 text-white font-medium rounded-lg"
+                  className="px-6 py-4 border border-white/20 hover:bg-white/10 text-slate-900 font-medium rounded-lg"
                 >
                   Back
                 </button>

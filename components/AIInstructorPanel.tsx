@@ -110,7 +110,7 @@ export function AIInstructorPanel({ instructor, programTitle }: AIInstructorPane
           <div
             key={m.id}
             className={
-              'max-w-[80%] rounded-lg px-3 py-2 text-[11px] ' +
+              'max-w-4/5 rounded-lg px-3 py-2 text-[11px] ' +
               (m.sender === 'student'
                 ? 'ml-auto bg-brand-orange-600 text-white'
                 : 'mr-auto bg-slate-800 text-slate-100')

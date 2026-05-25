@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { FileText, Clock, CheckCircle2, XCircle, Eye, Briefcase } from 'lucide-react';
+import { FileText, Clock, XCircle, Eye, Briefcase } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -80,7 +80,7 @@ export default async function EmployerApplicationsPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <StatCard label="Pending" value={pendingCount} icon={<Clock className="w-5 h-5 text-amber-600" />} />
           <StatCard label="Reviewed" value={reviewedCount} icon={<Eye className="w-5 h-5 text-blue-600" />} />
-          <StatCard label="Hired" value={hiredCount} icon={<CheckCircle2 className="w-5 h-5 text-brand-green-600" />} />
+          <StatCard label="Hired" value={hiredCount} icon={<span className="w-5 h-5 rounded-full bg-brand-green-600 inline-block flex-shrink-0" aria-hidden="true" />} />
           <StatCard label="Rejected" value={rejectedCount} icon={<XCircle className="w-5 h-5 text-brand-red-600" />} />
         </div>
 

@@ -198,7 +198,7 @@ export default function AudienceRouter() {
                     </Link>
                     <Link
                       href={audience.secondaryHref}
-                      className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
+                      className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-slate-900 font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
                     >
                       {audience.secondaryCta}
                     </Link>

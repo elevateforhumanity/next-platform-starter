@@ -79,7 +79,7 @@ export default function JriPage() {
               </Link>
               <a
                 href="tel:317-314-3757"
-                className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
+                className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
               >
                 <Phone className="w-5 h-5" />
                 Call (317) 314-3757
@@ -89,7 +89,7 @@ export default function JriPage() {
             {/* Quick Stats */}
             <div className="flex flex-wrap gap-6 text-white/90">
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-green-400" />
+                <DollarSign className="w-5 h-5 text-brand-green-400" />
                 <span>$0 Cost to You</span>
               </div>
               <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function JriPage() {
       </section>
 
       {/* What JRI Covers */}
-      <section className="py-16 bg-green-50">
+      <section className="py-16 bg-brand-green-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
@@ -130,7 +130,7 @@ export default function JriPage() {
                 icon: Shield,
                 title: 'Certifications',
                 desc: 'Industry credentials and licenses',
-                color: 'bg-green-100 text-green-600',
+                color: 'bg-brand-green-100 text-brand-green-600',
               },
               {
                 icon: Briefcase,
@@ -234,7 +234,7 @@ export default function JriPage() {
                     unoptimized={program.image.endsWith('.svg')}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <div className="absolute top-4 right-4 bg-brand-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                     JRI FUNDED
                   </div>
                 </div>
@@ -248,7 +248,7 @@ export default function JriPage() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">You Get:</span>
-                      <span className="font-medium text-green-600">{program.outcome}</span>
+                      <span className="font-medium text-brand-green-600">{program.outcome}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Salary Range:</span>
@@ -286,7 +286,7 @@ export default function JriPage() {
                   'Have a felony conviction and want to work legally',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-6 h-6 text-brand-green-600 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-700 text-lg">{item}</span>
                   </li>
                 ))}

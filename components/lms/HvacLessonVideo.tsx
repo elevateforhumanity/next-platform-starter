@@ -326,7 +326,7 @@ export default function HvacLessonVideo({
             <button
               type="button"
               onClick={() => seek(-10)}
-              className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+              className="rounded-full p-1.5 text-slate-900/60 hover:bg-white/10 hover:text-slate-900"
               aria-label="Back 10 seconds"
             >
               <svg
@@ -379,7 +379,7 @@ export default function HvacLessonVideo({
             <button
               type="button"
               onClick={() => seek(10)}
-              className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+              className="rounded-full p-1.5 text-slate-900/60 hover:bg-white/10 hover:text-slate-900"
               aria-label="Forward 10 seconds"
             >
               <svg
@@ -397,7 +397,7 @@ export default function HvacLessonVideo({
               </svg>
             </button>
 
-            <span className="text-xs text-white/50 ml-1 truncate max-w-[200px]">{lessonTitle}</span>
+            <span className="text-xs text-white/50 ml-1 truncate max-w-7xl">{lessonTitle}</span>
           </div>
 
           <span className="text-xs tabular-nums text-white/50">

@@ -100,8 +100,8 @@ export default function SetPasswordPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-green-600" />
+          <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-10 h-10 text-brand-green-600" />
           </div>
           <h1 className="text-3xl font-extrabold text-black mb-3">Password Created</h1>
           <p className="text-slate-700 mb-8 text-base">
@@ -223,7 +223,7 @@ export default function SetPasswordPage() {
             </div>
 
             {password.length > 0 && (
-              <p className={`text-sm ${password.length >= 8 ? 'text-green-600' : 'text-red-500'}`}>
+              <p className={`text-sm ${password.length >= 8 ? 'text-brand-green-600' : 'text-red-500'}`}>
                 {password.length >= 8
                   ? '✓ Meets minimum length'
                   : `${8 - password.length} more character${8 - password.length === 1 ? '' : 's'} needed`}

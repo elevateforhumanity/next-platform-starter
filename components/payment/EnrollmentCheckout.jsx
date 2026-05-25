@@ -95,19 +95,19 @@ export default function EnrollmentCheckout({ program, onSuccess, onCancel }) {
       {/* Features */}
       <div className="mb-6 space-y-2">
         <div className="flex items-center gap-2 text-sm text-brand-text">
-          <CheckCircle className="w-4 h-4 text-green-500" />
+          <CheckCircle className="w-4 h-4 text-brand-green-500" />
           <span>Lifetime access to course materials</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-brand-text">
-          <CheckCircle className="w-4 h-4 text-green-500" />
+          <CheckCircle className="w-4 h-4 text-brand-green-500" />
           <span>Industry-recognized certification</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-brand-text">
-          <CheckCircle className="w-4 h-4 text-green-500" />
+          <CheckCircle className="w-4 h-4 text-brand-green-500" />
           <span>Job placement assistance</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-brand-text">
-          <CheckCircle className="w-4 h-4 text-green-500" />
+          <CheckCircle className="w-4 h-4 text-brand-green-500" />
           <span>Instructor support</span>
         </div>
       </div>

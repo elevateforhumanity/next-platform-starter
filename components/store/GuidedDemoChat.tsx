@@ -340,7 +340,7 @@ export function GuidedDemoChat() {
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
+                  className={`max-w-4/5 p-3 rounded-2xl ${
                     msg.role === 'user'
                       ? 'bg-brand-blue-600 text-white rounded-br-md'
                       : 'bg-slate-100 text-slate-900 rounded-bl-md'

@@ -74,7 +74,7 @@ const ACTIVITY_COLOR: Record<ActivityType, string> = {
   video: 'text-brand-blue-600',
   reading: 'text-slate-500',
   flashcards: 'text-purple-600',
-  lab: 'text-green-600',
+  lab: 'text-brand-green-600',
   practice: 'text-amber-600',
   checkpoint: 'text-brand-red-600',
 };
@@ -118,7 +118,7 @@ function ModuleRow({
       >
         <div
           className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${
-            moduleComplete ? 'bg-green-500 text-white' : 'bg-slate-900 text-white'
+            moduleComplete ? 'bg-brand-green-500 text-white' : 'bg-slate-900 text-white'
           }`}
         >
           {moduleComplete ? <CheckCircle className="w-4 h-4" /> : module.order_index}
@@ -230,7 +230,7 @@ function LessonRow({
       >
         <div
           className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isCompleted ? 'bg-green-500' : 'bg-slate-100 group-hover:bg-slate-200'
+            isCompleted ? 'bg-brand-green-500' : 'bg-slate-100 group-hover:bg-slate-200'
           }`}
         >
           {isCompleted ? (
@@ -242,7 +242,7 @@ function LessonRow({
 
         <div className="flex-1 min-w-0">
           <p
-            className={`text-sm font-semibold truncate ${isCompleted ? 'text-green-800' : 'text-slate-900'}`}
+            className={`text-sm font-semibold truncate ${isCompleted ? 'text-brand-green-800' : 'text-slate-900'}`}
           >
             {lesson.title}
           </p>
@@ -386,8 +386,8 @@ export function CourseModuleAccordion({
       header: 'border-blue-200 bg-blue-50/50',
     },
     completed: {
-      badge: 'bg-green-100 text-green-700 border-green-200',
-      dot: 'bg-green-500',
+      badge: 'bg-brand-green-100 text-brand-green-700 border-brand-green-200',
+      dot: 'bg-brand-green-500',
       header: 'border-slate-200 bg-white',
     },
     locked: {
@@ -438,7 +438,7 @@ export function CourseModuleAccordion({
           <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
             <div className="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all ${phaseStatus === 'completed' ? 'bg-green-500' : 'bg-blue-500'}`}
+                className={`h-full rounded-full transition-all ${phaseStatus === 'completed' ? 'bg-brand-green-500' : 'bg-blue-500'}`}
                 style={{ width: `${Math.round((completedLessons / totalLessons) * 100)}%` }}
               />
             </div>

@@ -38,7 +38,7 @@ function StatusBadge({ healthy, status }: { healthy: boolean; status: string }) 
   }
   if (healthy) {
     return (
-      <span className="flex items-center gap-1 text-xs text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+      <span className="flex items-center gap-1 text-xs text-brand-green-700 bg-brand-green-50 px-2 py-0.5 rounded-full">
         <CheckCircle className="w-3 h-3" /> Healthy
       </span>
     );
@@ -61,7 +61,7 @@ function ServiceCard({ svc }: { svc: EcsService }) {
     : null;
 
   return (
-    <div className={`rounded-xl border p-4 ${svc.healthy ? 'border-green-200 bg-green-50/40' : 'border-red-200 bg-red-50/40'}`}>
+    <div className={`rounded-xl border p-4 ${svc.healthy ? 'border-brand-green-200 bg-brand-green-50/40' : 'border-red-200 bg-red-50/40'}`}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
           <Server className="w-4 h-4 text-slate-500" />
@@ -108,7 +108,7 @@ function ServiceCard({ svc }: { svc: EcsService }) {
 function Stat({ label, value, highlight, warn }: { label: string; value: string; highlight?: boolean; warn?: boolean }) {
   return (
     <div className="text-center">
-      <div className={`text-xl font-bold ${highlight ? 'text-green-700' : warn ? 'text-amber-600' : 'text-slate-700'}`}>
+      <div className={`text-xl font-bold ${highlight ? 'text-brand-green-700' : warn ? 'text-amber-600' : 'text-slate-700'}`}>
         {value}
       </div>
       <div className="text-[10px] text-slate-400 uppercase tracking-wide">{label}</div>

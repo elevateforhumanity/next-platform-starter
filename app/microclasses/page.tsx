@@ -42,7 +42,7 @@ function CourseCard({ course }: { course: PartnerCourse }) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <h3 className="text-sm font-bold text-slate-900 leading-snug">{course.title}</h3>
         {isFree ? (
-          <span className="shrink-0 text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded-full">
+          <span className="shrink-0 text-xs font-bold text-brand-green-700 bg-brand-green-100 px-2 py-1 rounded-full">
             Free / WIOA
           </span>
         ) : (
@@ -56,7 +56,7 @@ function CourseCard({ course }: { course: PartnerCourse }) {
           {course.duration}
         </div>
         <div className="flex items-center gap-2 text-xs text-slate-400">
-          <Award className="w-3 h-3" />
+          <Award aria-label="award" className="w-3 h-3" />
           {course.certificationType}
         </div>
         <div className="flex items-center gap-2 text-xs text-slate-400">
@@ -102,7 +102,7 @@ export default function MicroclassesPage() {
       {/* Hero */}
       <section className="bg-slate-900 text-white py-16 lg:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <span className="inline-block bg-white/15 text-white px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+          <span className="inline-block bg-white/15 text-slate-900 px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
             Quick Certifications
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Microclasses</h1>
@@ -116,7 +116,7 @@ export default function MicroclassesPage() {
               1–16 hours
             </div>
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4" />
+              <Award aria-label="award" className="w-4 h-4" />
               Industry-recognized certificates
             </div>
             <div className="flex items-center gap-2">
@@ -128,18 +128,18 @@ export default function MicroclassesPage() {
       </section>
 
       {/* WIOA Banner */}
-      <div className="bg-green-50 border-b border-green-200">
+      <div className="bg-brand-green-50 border-b border-brand-green-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-green-600 shrink-0" />
-            <p className="text-sm text-green-900 font-medium">
+            <ShieldCheck className="w-5 h-5 text-brand-green-600 shrink-0" />
+            <p className="text-sm text-brand-green-900 font-medium">
               All courses are <strong>free for eligible Indiana residents</strong> through WIOA /
               WorkOne funding.
             </p>
           </div>
           <Link
             href="/apply/student"
-            className="shrink-0 text-xs font-bold text-green-800 bg-green-200 hover:bg-green-300 px-4 py-2 rounded-full transition-colors"
+            className="shrink-0 text-xs font-bold text-brand-green-800 bg-brand-green-200 hover:bg-brand-green-300 px-4 py-2 rounded-full transition-colors"
           >
             Check WIOA Eligibility →
           </Link>

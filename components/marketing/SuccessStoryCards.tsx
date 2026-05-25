@@ -52,6 +52,7 @@ export default function SuccessStoryCards() {
               className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition"
             >
               <div className="relative h-48">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={story.image}
                   alt={story.name}

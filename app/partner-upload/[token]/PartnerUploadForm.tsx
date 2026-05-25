@@ -69,7 +69,7 @@ export default function PartnerUploadForm({
             key={doc.type}
             className={`border rounded-lg p-4 transition-colors ${
               state === 'done'
-                ? 'border-green-300 bg-green-50'
+                ? 'border-brand-green-300 bg-brand-green-50'
                 : state === 'error'
                   ? 'border-red-300 bg-red-50'
                   : 'border-slate-200 bg-white'
@@ -87,7 +87,7 @@ export default function PartnerUploadForm({
               </div>
               <div className="flex-shrink-0">
                 {state === 'done' ? (
-                  <span className="flex items-center gap-1 text-green-700 text-sm font-medium">
+                  <span className="flex items-center gap-1 text-brand-green-700 text-sm font-medium">
                     <CheckCircle className="w-5 h-5" /> Uploaded
                   </span>
                 ) : state === 'uploading' ? (
@@ -124,10 +124,10 @@ export default function PartnerUploadForm({
       })}
 
       {allDone && (
-        <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-5 text-center">
-          <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
-          <p className="font-bold text-green-800">All documents uploaded!</p>
-          <p className="text-sm text-green-700 mt-1">
+        <div className="mt-6 bg-brand-green-50 border border-brand-green-200 rounded-lg p-5 text-center">
+          <CheckCircle className="w-8 h-8 text-brand-green-600 mx-auto mb-2" />
+          <p className="font-bold text-brand-green-800">All documents uploaded!</p>
+          <p className="text-sm text-brand-green-700 mt-1">
             Elevate for Humanity will review your documents within 1–3 business days and follow up
             by email.
           </p>

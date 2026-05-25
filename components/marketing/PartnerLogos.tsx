@@ -13,6 +13,7 @@ export default function PartnerLogos() {
         </p>
         <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
           <div className="flex items-center justify-center h-16 w-32">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image sizes="100vw"
               src="/images/partners/dwd.webp"
               alt="Indiana Department of Workforce Development"

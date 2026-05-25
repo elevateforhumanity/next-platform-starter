@@ -58,7 +58,7 @@ export function LearnerActionButtons({ studentId, enrollmentId, studentName }: P
         {emailState === 'loading' ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : emailState === 'done' ? (
-          <Check className="w-3.5 h-3.5 text-green-500" />
+          <Check className="w-3.5 h-3.5 text-brand-green-500" />
         ) : (
           <Mail className="w-3.5 h-3.5" />
         )}
@@ -72,7 +72,7 @@ export function LearnerActionButtons({ studentId, enrollmentId, studentName }: P
         {flagState === 'loading' ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : flagState === 'done' ? (
-          <Check className="w-3.5 h-3.5 text-green-500" />
+          <Check className="w-3.5 h-3.5 text-brand-green-500" />
         ) : (
           <Flag className="w-3.5 h-3.5" />
         )}

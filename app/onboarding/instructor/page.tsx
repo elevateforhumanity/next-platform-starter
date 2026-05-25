@@ -149,7 +149,7 @@ export default async function InstructorOnboardingPage() {
           {allDone && (
             <Link
               href="https://admin.elevateforhumanity.org/instructor"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-brand-green-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-green-700"
             >
               Go to Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
@@ -173,7 +173,7 @@ export default async function InstructorOnboardingPage() {
             />
           </div>
           {allDone ? (
-            <p className="mt-3 text-sm text-green-600 font-medium">
+            <p className="mt-3 text-sm text-brand-green-600 font-medium">
               ✅ All steps complete — your instructor account is fully activated.
             </p>
           ) : (
@@ -209,16 +209,16 @@ export default async function InstructorOnboardingPage() {
               <div
                 key={step.id}
                 className={`bg-white rounded-xl border shadow-sm p-5 flex items-center gap-4 ${
-                  step.done ? 'border-green-200' : isNext ? 'border-blue-300' : 'border-slate-200'
+                  step.done ? 'border-brand-green-200' : isNext ? 'border-blue-300' : 'border-slate-200'
                 }`}
               >
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    step.done ? 'bg-green-100' : isNext ? 'bg-blue-100' : 'bg-slate-100'
+                    step.done ? 'bg-brand-green-100' : isNext ? 'bg-blue-100' : 'bg-slate-100'
                   }`}
                 >
                   {step.done ? (
-                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <CheckCircle className="w-5 h-5 text-brand-green-600" />
                   ) : (
                     <Icon className={`w-5 h-5 ${isNext ? 'text-blue-600' : 'text-slate-400'}`} />
                   )}

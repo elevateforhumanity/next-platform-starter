@@ -55,13 +55,13 @@ type ActionState = Record<string, 'idle' | 'loading' | 'done' | 'error'>;
 const COLOR_MAP: Record<string, string> = {
   blue:   'bg-blue-500',
   purple: 'bg-purple-500',
-  green:  'bg-green-500',
+  green:  'bg-brand-green-500',
 };
 
 function StatusDot({ running, healthy }: { running: boolean | null; healthy: boolean | null }) {
   if (running === null) return <Circle className="w-3 h-3 text-slate-300" />;
   if (!running) return <Circle className="w-3 h-3 text-slate-400" />;
-  if (healthy) return <CheckCircle className="w-3 h-3 text-green-500" />;
+  if (healthy) return <CheckCircle className="w-3 h-3 text-brand-green-500" />;
   return <AlertCircle className="w-3 h-3 text-amber-500" />;
 }
 
@@ -70,8 +70,8 @@ function StatusLabel({ running, healthy, ecs }: { running: boolean | null; healt
   if (ecs?.status === 'NOT_FOUND') return <span className="text-xs text-slate-400">Not deployed</span>;
   if (!running && ecs) return <span className="text-xs text-slate-500">Stopped ({ecs.desiredCount} desired)</span>;
   if (running && !healthy) return <span className="text-xs text-amber-600">Running · health check failing</span>;
-  if (running && healthy) return <span className="text-xs text-green-600">Running · healthy</span>;
-  if (running) return <span className="text-xs text-green-600">Running</span>;
+  if (running && healthy) return <span className="text-xs text-brand-green-600">Running · healthy</span>;
+  if (running) return <span className="text-xs text-brand-green-600">Running</span>;
   return <span className="text-xs text-slate-400">Stopped</span>;
 }
 
@@ -143,7 +143,7 @@ export default function ServicesPanel() {
         <button
           onClick={load}
           disabled={loading}
-          className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-white transition-colors disabled:opacity-40"
+          className="p-1.5 rounded hover:bg-white/10 text-slate-400 hover:text-slate-900 transition-colors disabled:opacity-40"
           title="Refresh"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -183,7 +183,7 @@ export default function ServicesPanel() {
                   href={svc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1.5 rounded hover:bg-white/10 text-slate-500 hover:text-white transition-colors"
+                  className="p-1.5 rounded hover:bg-white/10 text-slate-500 hover:text-slate-900 transition-colors"
                   title="Open site"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -213,10 +213,10 @@ export default function ServicesPanel() {
             {svc.health && (
               <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 text-xs">
                 {svc.health.ok
-                  ? <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
+                  ? <CheckCircle className="w-3.5 h-3.5 text-brand-green-500 shrink-0" />
                   : <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
                 }
-                <span className={svc.health.ok ? 'text-green-400' : 'text-red-400'}>
+                <span className={svc.health.ok ? 'text-brand-green-400' : 'text-red-400'}>
                   HTTP {svc.health.status ?? 'timeout'}
                 </span>
                 <span className="text-slate-500 flex items-center gap-1">
@@ -248,7 +248,7 @@ export default function ServicesPanel() {
               <button
                 onClick={() => doAction(svc.key, 'start')}
                 disabled={isLoading(svc.key, 'start') || svc.running === true}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-green-600/20 text-green-400 hover:bg-green-600/30 disabled:opacity-40 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-green-600/20 text-brand-green-400 hover:bg-brand-green-600/30 disabled:opacity-40 transition-colors"
               >
                 {isLoading(svc.key, 'start') ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
                 Start

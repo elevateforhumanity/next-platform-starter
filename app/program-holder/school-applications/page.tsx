@@ -23,11 +23,11 @@ const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }>
   pending:      { bg: 'bg-yellow-50',  text: 'text-yellow-700',  label: 'Pending' },
   submitted:    { bg: 'bg-blue-50',    text: 'text-blue-700',    label: 'Submitted' },
   under_review: { bg: 'bg-purple-50',  text: 'text-purple-700',  label: 'Under Review' },
-  accepted:     { bg: 'bg-green-50',   text: 'text-green-700',   label: 'Accepted' },
+  accepted:     { bg: 'bg-brand-green-50',   text: 'text-brand-green-700',   label: 'Accepted' },
   waitlisted:   { bg: 'bg-orange-50',  text: 'text-orange-700',  label: 'Waitlisted' },
   rejected:     { bg: 'bg-red-50',     text: 'text-red-700',     label: 'Rejected' },
   enrolled:     { bg: 'bg-emerald-50', text: 'text-emerald-700', label: 'Enrolled' },
-  approved:     { bg: 'bg-green-50',   text: 'text-green-700',   label: 'Approved' },
+  approved:     { bg: 'bg-brand-green-50',   text: 'text-brand-green-700',   label: 'Approved' },
 };
 
 function StatusPill({ status }: { status: string }) {
@@ -128,7 +128,7 @@ export default async function SchoolApplicationsPage() {
           {[
             { label: 'Total Applications', value: stats.total,    icon: Users,        color: 'text-slate-700' },
             { label: 'Needs Review',        value: stats.pending,  icon: Clock,        color: 'text-yellow-600' },
-            { label: 'Accepted',            value: stats.accepted, icon: CheckCircle,  color: 'text-green-600' },
+            { label: 'Accepted',            value: stats.accepted, icon: CheckCircle,  color: 'text-brand-green-600' },
             { label: 'Rejected',            value: stats.rejected, icon: XCircle,      color: 'text-red-500' },
           ].map((s) => (
             <div key={s.label} className="bg-white rounded-xl border p-5">

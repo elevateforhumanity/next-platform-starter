@@ -12,7 +12,6 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   Clock,
-  CheckCircle2,
   XCircle,
   AlertCircle,
   Loader2,
@@ -44,7 +43,7 @@ interface WeekGroup {
 const STATUS_CONFIG = {
   approved: {
     label: 'Approved',
-    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+    icon: <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />,
     classes: 'text-emerald-700 bg-emerald-50 border-emerald-200',
   },
   pending: {

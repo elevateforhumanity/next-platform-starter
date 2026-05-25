@@ -32,7 +32,7 @@ export function CertificateTemplate({
       <div className="relative h-full flex flex-col items-center justify-center text-center px-16">
         {/* Logo/Icon */}
         <div className="w-24 h-24 bg-brand-blue-600 rounded-full flex items-center justify-center mb-6">
-          <Award className="w-12 h-12 text-white" />
+          <Award aria-label="award" className="w-12 h-12 text-white" />
         </div>
 
         {/* Title */}

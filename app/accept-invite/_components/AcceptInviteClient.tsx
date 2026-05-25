@@ -54,9 +54,9 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
   if (state === 'success') {
     return (
       <div className="text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand-green-100 mb-4">
           <svg
-            className="h-6 w-6 text-green-600"
+            className="h-6 w-6 text-brand-green-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

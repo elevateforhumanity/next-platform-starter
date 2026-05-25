@@ -226,6 +226,7 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
 
       {/* Hero Image — clean, no text overlay */}
       <section className="relative h-[45vh] min-h-[280px] max-h-[560px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.heroImage.src}
           alt={config.heroImage.alt}
@@ -409,7 +410,7 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
               <div className="grid md:grid-cols-2 gap-4">
                 {program.what_you_learn.map((item, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <GraduationCap className={`w-5 h-5 ${c.iconText} flex-shrink-0 mt-0.5`} />
+                    <GraduationCap aria-label="graduationcap" className={`w-5 h-5 ${c.iconText} flex-shrink-0 mt-0.5`} />
                     <span className="text-slate-700">{item}</span>
                   </div>
                 ))}

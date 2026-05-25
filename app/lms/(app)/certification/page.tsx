@@ -11,7 +11,6 @@ import {
   FileText,
   AlertCircle,
   ArrowRight,
-  CheckCircle2,
 } from 'lucide-react';
 import { getLearnerCredentialLifecycle } from '@/lib/services/credential-pipeline';
 import { getNextAction } from '@/lib/domain/credentials';
@@ -115,7 +114,7 @@ export default async function CertificationPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-white rounded-xl shadow-sm border p-5 text-center">
-          <Award className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
+          <Award aria-label="award" className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
           <div className="text-2xl font-bold">{certificates.length}</div>
           <div className="text-slate-700 text-sm">Earned</div>
         </div>
@@ -236,7 +235,7 @@ export default async function CertificationPage() {
                   >
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Award className="w-6 h-6 text-yellow-600" />
+                        <Award aria-label="award" className="w-6 h-6 text-yellow-600" />
                       </div>
                       <div>
                         <h3 className="font-semibold">{cert.title}</h3>
@@ -272,7 +271,7 @@ export default async function CertificationPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <Award className="w-12 h-12 mx-auto mb-3 text-slate-700" />
+                <Award aria-label="award" className="w-12 h-12 mx-auto mb-3 text-slate-700" />
                 <p className="text-slate-700 mb-3">No certificates earned yet</p>
                 <Link
                   href="/lms/courses"
@@ -353,7 +352,7 @@ export default async function CertificationPage() {
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-5 h-5 text-brand-blue-600" />
+              <span className="w-5 h-5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
               <h3 className="font-semibold text-brand-blue-900">Verify a Certificate</h3>
             </div>
             <p className="text-sm text-slate-700 mb-4">

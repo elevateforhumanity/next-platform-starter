@@ -497,7 +497,7 @@ export default function DevContainerPanel() {
         <div
           className={`flex items-center gap-2 px-4 py-2 text-sm flex-shrink-0 ${
             status.type === 'success'
-              ? 'bg-green-900/50 text-green-300'
+              ? 'bg-brand-green-900/50 text-brand-green-300'
               : 'bg-red-900/50 text-red-300'
           }`}
         >
@@ -837,12 +837,12 @@ export default function DevContainerPanel() {
 
               {/* Result banners */}
               {ssmResult && (
-                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ssmResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ssmResult.startsWith('✅') ? 'bg-brand-green-50 text-brand-green-700' : 'bg-red-50 text-red-700'}`}>
                   {ssmResult}
                 </p>
               )}
               {ecsResult && (
-                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ecsResult.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ecsResult.startsWith('✅') ? 'bg-brand-green-50 text-brand-green-700' : 'bg-red-50 text-red-700'}`}>
                   {ecsResult}
                 </p>
               )}
@@ -970,12 +970,12 @@ export default function DevContainerPanel() {
                       handleRawChange(aiSuggested);
                       setActiveTab('raw');
                     }}
-                    className="px-3 py-1 text-xs bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    className="px-3 py-1 text-xs bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700 transition-colors"
                   >
                     Apply suggestion →
                   </button>
                 </div>
-                <pre className="text-xs bg-slate-900 text-green-300 rounded-lg p-3 overflow-auto max-h-64 font-mono">
+                <pre className="text-xs bg-slate-900 text-brand-green-300 rounded-lg p-3 overflow-auto max-h-64 font-mono">
                   {aiSuggested}
                 </pre>
                 <p className="text-xs text-slate-400">Clicking "Apply suggestion" loads it into Raw JSON for review. Save manually when ready.</p>

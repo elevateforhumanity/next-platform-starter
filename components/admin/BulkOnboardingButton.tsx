@@ -43,7 +43,7 @@ export function BulkOnboardingButton({ guestCount }: Props) {
 
   if (state === 'done' && result) {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+      <div className="flex items-center gap-2 px-3 py-2 bg-brand-green-50 border border-brand-green-200 rounded-lg text-sm text-brand-green-700">
         <CheckCircle className="w-4 h-4" />
         Sent {result.sent} onboarding emails{result.failed > 0 ? ` (${result.failed} failed)` : ''}
       </div>

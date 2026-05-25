@@ -115,7 +115,7 @@ export default async function WIOAReportPage() {
   const q2Employed     = Object.values(outcomesByParticipant).filter((o: any) => o.employed_q2_after_exit).length;
 
   const eligBadge = (status: string) => {
-    if (status === 'eligible')    return 'bg-green-100 text-green-800';
+    if (status === 'eligible')    return 'bg-brand-green-100 text-brand-green-800';
     if (status === 'pending')     return 'bg-yellow-100 text-yellow-800';
     if (status === 'ineligible')  return 'bg-red-100 text-red-800';
     return 'bg-slate-100 text-slate-900';
@@ -210,7 +210,7 @@ export default async function WIOAReportPage() {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-slate-700 whitespace-nowrap">{w.employment_status_at_entry ?? '—'}</td>
-                      <td className="px-4 py-3 text-slate-700 text-xs max-w-[160px] truncate" title={barriers}>{barriers}</td>
+                      <td className="px-4 py-3 text-slate-700 text-xs max-w-7xl truncate" title={barriers}>{barriers}</td>
                       <td className="px-4 py-3 text-slate-700 whitespace-nowrap">
                         {outcome?.program_entry_date ? new Date(outcome.program_entry_date).toLocaleDateString() : '—'}
                       </td>

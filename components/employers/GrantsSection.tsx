@@ -94,7 +94,7 @@ export default function GrantsSection() {
 
           {/* Incumbent Worker Training */}
           <div className="bg-white rounded-xl border border-slate-200 p-6">
-            <GraduationCap className="w-8 h-8 text-brand-blue-600 mb-3" />
+            <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600 mb-3" />
             <h3 className="text-xl font-bold text-slate-900 mb-3">
               Incumbent Worker Training (IWT)
             </h3>

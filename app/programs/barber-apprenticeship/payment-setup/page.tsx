@@ -214,8 +214,8 @@ export default function PaymentSetupPage() {
 
           {/* Live calculation */}
           {deposit >= MAX_DEPOSIT ? (
-            <div className="bg-green-900/30 border border-green-700 rounded-xl p-4 text-center">
-              <p className="text-green-400 font-bold text-lg">Paid in Full</p>
+            <div className="bg-brand-green-900/30 border border-brand-green-700 rounded-xl p-4 text-center">
+              <p className="text-brand-green-400 font-bold text-lg">Paid in Full</p>
               <p className="text-slate-400 text-xs mt-0.5">No weekly payments — one-time charge of ${MAX_DEPOSIT.toLocaleString()}</p>
             </div>
           ) : (
@@ -243,7 +243,7 @@ export default function PaymentSetupPage() {
             'Failed payments get a 7-day grace period before suspension',
           ].map((text) => (
             <div key={text} className="flex items-center gap-2.5 text-sm text-slate-300">
-              <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+              <CheckCircle className="w-4 h-4 text-brand-green-400 shrink-0" />
               {text}
             </div>
           ))}

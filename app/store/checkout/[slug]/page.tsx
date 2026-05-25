@@ -207,7 +207,7 @@ export default function CheckoutPage() {
                 {product.features.map((feature: string, index: number) => (
                   <div key={index} className="flex items-start gap-2">
                     <CheckCircle
-                      className="text-green-600 flex-shrink-0 mt-0.5"
+                      className="text-brand-green-600 flex-shrink-0 mt-0.5"
                       size={16}
                     />
                     <span className="text-sm text-slate-700">{feature}</span>

@@ -222,14 +222,14 @@ export default async function HvacLessonPage({
                         key={oi}
                         className={`flex items-center gap-3 p-3 rounded-lg border text-sm ${
                           oi === q.correctAnswer
-                            ? 'border-green-500 bg-green-900/20 text-green-300'
+                            ? 'border-brand-green-500 bg-brand-green-900/20 text-brand-green-300'
                             : 'border-slate-600 bg-slate-700 text-slate-300'
                         }`}
                       >
                         <span
                           className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
                             oi === q.correctAnswer
-                              ? 'bg-green-600 text-white'
+                              ? 'bg-brand-green-600 text-white'
                               : 'bg-slate-600 text-slate-300'
                           }`}
                         >
@@ -237,7 +237,7 @@ export default async function HvacLessonPage({
                         </span>
                         {opt}
                         {oi === q.correctAnswer && (
-                          <span className="ml-auto text-green-400 text-xs font-semibold">✓</span>
+                          <span className="ml-auto text-brand-green-400 text-xs font-semibold">✓</span>
                         )}
                       </div>
                     ))}
@@ -252,7 +252,7 @@ export default async function HvacLessonPage({
             /* CSV fallback — single Q&A when quiz bank not yet expanded */
             <div className="border border-slate-700 rounded-lg p-4">
               <p className="text-white font-semibold mb-2">{lesson.quizQuestion}</p>
-              <p className="text-green-300 text-sm">
+              <p className="text-brand-green-300 text-sm">
                 <span className="text-slate-400">Answer: </span>
                 {lesson.quizAnswer}
               </p>
@@ -283,7 +283,7 @@ export default async function HvacLessonPage({
           ) : (
             <Link
               href="/programs/hvac-technician"
-              className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg text-sm font-semibold transition-colors"
+              className="bg-brand-green-600 hover:bg-brand-green-700 text-white px-5 py-3 rounded-lg text-sm font-semibold transition-colors"
             >
               Course Complete ✓
             </Link>

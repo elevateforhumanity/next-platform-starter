@@ -141,7 +141,7 @@ export default async function PaymentPage() {
                   </Link>
                   <Link
                     href="/check-eligibility"
-                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-center transition-colors"
+                    className="border-2 border-white text-slate-900 hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-center transition-colors"
                   >
                     Check WIOA Eligibility
                   </Link>

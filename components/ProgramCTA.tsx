@@ -84,7 +84,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
                 </Link>
                 <a
                   href="/support"
-                  className="inline-block px-8 py-4 bg-transparent text-white font-bold rounded-full border-2 border-white hover:bg-white hover:text-brand-orange-700 transition-all text-center text-lg"
+                  className="inline-block px-8 py-4 bg-transparent text-slate-900 font-bold rounded-full border-2 border-white hover:bg-white hover:text-brand-orange-700 transition-all text-center text-lg"
                 >
                   Get Help
                 </a>

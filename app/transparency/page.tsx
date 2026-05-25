@@ -63,6 +63,7 @@ export default function TransparencyPage() {
 
       {/* Hero image */}
       <section className="relative h-64 sm:h-80 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/transparency-page-1.webp"
           alt="Elevate for Humanity transparency"
@@ -200,7 +201,7 @@ export default function TransparencyPage() {
             <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-100 transition text-sm">
               Contact Us <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/outcomes" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/10 transition text-sm">
+            <Link href="/outcomes" className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-slate-900 font-semibold rounded-lg hover:bg-white/10 transition text-sm">
               Live Outcomes <ExternalLink className="w-4 h-4" />
             </Link>
           </div>

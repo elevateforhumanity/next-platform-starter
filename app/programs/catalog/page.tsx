@@ -145,7 +145,7 @@ export default async function ProgramCatalogPage({
               <>
                 <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
                   {(programs ?? []).map(prog => (
-                    <ProgramCard
+                    <CatalogProgramCard
                       key={prog.program_id}
                       prog={prog}
                       stripeData={stripeBySlug[prog.slug ?? ''] ?? null}
@@ -212,7 +212,7 @@ type StripeData = {
   retail_price_cents: number | null;
 } | null;
 
-function ProgramCard({ prog, stripeData }: { prog: ProgramRow; stripeData: StripeData }) {
+function CatalogProgramCard({ prog, stripeData }: { prog: ProgramRow; stripeData: StripeData }) {
   const slug = prog.slug ?? prog.program_id;
   const detailHref = `/programs/${slug}`;
   const applyHref = `/apply?program=${slug}`;
@@ -249,7 +249,7 @@ function ProgramCard({ prog, stripeData }: { prog: ProgramRow; stripeData: Strip
         <div className="space-y-1 text-xs text-slate-500">
           {prog.credential_name && (
             <div className="flex items-center gap-1.5">
-              <Award className="w-3 h-3 flex-shrink-0" />
+              <Award aria-label="award" className="w-3 h-3 flex-shrink-0" />
               <span className="truncate">{prog.credential_name}</span>
             </div>
           )}

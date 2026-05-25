@@ -56,7 +56,7 @@ export function InstructorBio({
               <span>{coursesCount} Courses</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-black">
-              <Award className="w-4 h-4" />
+              <Award aria-label="award" className="w-4 h-4" />
               <span>{studentsCount} Students</span>
             </div>
           </div>

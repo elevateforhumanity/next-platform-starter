@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  FileText, CheckCircle2, Circle, AlertCircle, ArrowRight,
+  FileText, Circle, AlertCircle, ArrowRight,
   Download, Shield, Clock, BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
@@ -182,7 +182,7 @@ export default function RequiredFormsPage() {
           </div>
           {progress === 100 ? (
             <p className="text-sm text-brand-green-600 font-medium flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All forms complete — you are ready to host apprentices.
+              <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> All forms complete — you are ready to host apprentices.
             </p>
           ) : (
             <p className="text-sm text-black flex items-center gap-1">
@@ -198,6 +198,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image src="/images/pages/barber-tools.webp" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
             </div>
             <div className="p-4">
@@ -270,7 +271,7 @@ export default function RequiredFormsPage() {
                         aria-label={isComplete ? `Mark ${form.name} incomplete` : `Mark ${form.name} complete`}
                       >
                         {isComplete ? (
-                          <CheckCircle2 className="w-6 h-6 text-brand-green-500" />
+                          <span className="w-6 h-6 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                         ) : (
                           <Circle className="w-6 h-6 text-slate-700" />
                         )}

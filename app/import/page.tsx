@@ -331,7 +331,7 @@ export default function ImportSitePage() {
                     type="text"
                     value={config.branding.logoText}
                     onChange={(e) => handleCustomize('logoText', e.target.value)}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-slate-900"
                   />
                 </div>
                 <div>
@@ -340,7 +340,7 @@ export default function ImportSitePage() {
                     type="text"
                     value={config.branding.tagline}
                     onChange={(e) => handleCustomize('tagline', e.target.value)}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-slate-900"
                   />
                 </div>
               </div>
@@ -359,7 +359,7 @@ export default function ImportSitePage() {
                       type="text"
                       value={config.branding.primaryColor}
                       onChange={(e) => handleCustomize('primaryColor', e.target.value)}
-                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm"
+                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-slate-900 text-sm"
                     />
                   </div>
                 </div>
@@ -376,7 +376,7 @@ export default function ImportSitePage() {
                       type="text"
                       value={config.branding.secondaryColor}
                       onChange={(e) => handleCustomize('secondaryColor', e.target.value)}
-                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm"
+                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-slate-900 text-sm"
                     />
                   </div>
                 </div>
@@ -393,7 +393,7 @@ export default function ImportSitePage() {
                       type="text"
                       value={config.branding.accentColor}
                       onChange={(e) => handleCustomize('accentColor', e.target.value)}
-                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm"
+                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-slate-900 text-sm"
                     />
                   </div>
                 </div>
@@ -424,7 +424,7 @@ export default function ImportSitePage() {
             <div className="flex gap-4">
               <button
                 onClick={() => setStep('url')}
-                className="px-6 py-4 border border-white/20 hover:bg-white/10 text-white font-medium rounded-lg transition-colors"
+                className="px-6 py-4 border border-white/20 hover:bg-white/10 text-slate-900 font-medium rounded-lg transition-colors"
               >
                 Start Over
               </button>

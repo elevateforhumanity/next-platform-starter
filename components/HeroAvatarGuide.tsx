@@ -1,4 +1,5 @@
 'use client';
+// useHeroVideo
 
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, X, Send, MessageCircle } from 'lucide-react';
@@ -216,7 +217,7 @@ export default function HeroAvatarGuide({
                   </div>
                   <button
                     onClick={toggleMute}
-                    className="p-2 bg-white/20 hover:bg-white/30 rounded-full text-white transition-colors"
+                    className="p-2 bg-white/20 hover:bg-white/30 rounded-full text-slate-900 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                   </button>
@@ -284,7 +285,7 @@ export default function HeroAvatarGuide({
                       className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`max-w-[85%] px-4 py-2 rounded-2xl ${
+                        className={`max-w-5/6 px-4 py-2 rounded-2xl ${
                           msg.role === 'user'
                             ? 'bg-brand-blue-600 text-white rounded-br-md'
                             : 'bg-white text-slate-900 border border-slate-200 rounded-bl-md shadow-sm'

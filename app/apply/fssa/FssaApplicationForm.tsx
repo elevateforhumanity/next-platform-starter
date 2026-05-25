@@ -122,14 +122,14 @@ export default function FssaApplicationForm() {
           {STEPS.map((s, i) => (
             <div key={i} className="flex items-center gap-1">
               <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                i < step ? 'bg-green-600 text-white' :
+                i < step ? 'bg-brand-green-600 text-white' :
                 i === step ? 'bg-brand-blue-600 text-white' :
                 'bg-slate-200 text-slate-500'
               }`}>
                 {i < step ? <CheckCircle className="w-4 h-4" /> : i + 1}
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`h-0.5 w-8 sm:w-16 ${i < step ? 'bg-green-600' : 'bg-slate-200'}`} />
+                <div className={`h-0.5 w-8 sm:w-16 ${i < step ? 'bg-brand-green-600' : 'bg-slate-200'}`} />
               )}
             </div>
           ))}

@@ -176,6 +176,7 @@ export default function ProgramCategoryPage({
                 className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100"
               >
                 <div className="relative h-52 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={program.image}
                     alt={program.title}
@@ -198,9 +199,7 @@ export default function ProgramCategoryPage({
                   <p className="text-slate-600 mb-4 line-clamp-2">{program.description}</p>
                   <span
                     className={`inline-flex items-center ${colors.text} font-semibold group-hover:gap-2 transition-all`}
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  >See Details<ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
@@ -229,7 +228,7 @@ export default function ProgramCategoryPage({
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center text-white border-2 border-white px-8 py-4 font-semibold rounded-full hover:bg-white/10 transition-colors"
+              className="inline-flex items-center text-slate-900 border-2 border-white px-8 py-4 font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
               Questions? Contact Us
             </Link>

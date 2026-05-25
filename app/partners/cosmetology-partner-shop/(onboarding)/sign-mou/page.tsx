@@ -3,7 +3,7 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { CheckCircle2, Eraser, Loader2, AlertCircle } from 'lucide-react';
+import { Eraser, Loader2, AlertCircle } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
 const MOU_SECTIONS = [
@@ -330,7 +330,7 @@ export default function CosmetologySignMOUPage() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-xl shadow-sm border p-8 text-center">
-          <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <span className="w-16 h-16 rounded-full bg-brand-green-500 inline-block flex-shrink-0 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">MOU Signed Successfully</h1>
           <p className="text-slate-600 mb-6">
             Your Memorandum of Understanding has been submitted. Our team will countersign and send

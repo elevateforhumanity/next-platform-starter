@@ -49,7 +49,7 @@ export function ComplianceBadges({
 
       {showStateLicense && (
         <div className="flex items-center gap-2 px-4 py-2 bg-brand-orange-50 border border-brand-orange-200 rounded-full">
-          <Award className="w-4 h-4 text-brand-orange-700" />
+          <Award aria-label="award" className="w-4 h-4 text-brand-orange-700" />
           <span className="text-sm font-semibold text-brand-orange-900">State Licensed</span>
         </div>
       )}

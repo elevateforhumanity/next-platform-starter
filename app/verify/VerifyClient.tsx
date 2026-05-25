@@ -69,7 +69,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
       {/* Title */}
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-brand-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Award className="w-8 h-8 text-brand-orange-600" />
+          <Award aria-label="award" className="w-8 h-8 text-brand-orange-600" />
         </div>
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Certificate Verification</h1>
         <p className="text-slate-700">
@@ -138,7 +138,7 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-slate-700 text-sm mb-1">
-                      <Award className="w-4 h-4" />
+                      <Award aria-label="award" className="w-4 h-4" />
                       <span>Credential</span>
                     </div>
                     <p className="font-semibold text-slate-900">{resp.record.credentialType}</p>

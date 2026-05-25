@@ -76,6 +76,7 @@ export default async function SponsorLicensingPage() {
             <div className="bg-white rounded-3xl shadow-lg border-2 border-slate-200 p-8 hover:shadow-2xl transition">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src="/images/icons/shield.png"
                     alt="Starter"
@@ -218,7 +219,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">Everything in Starter</span>
                 </div>
@@ -228,7 +229,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">
                     White-label branding (logo, domain, email)
@@ -240,7 +241,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">Multi-trade programs</span>
                 </div>
@@ -250,7 +251,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">WOTC + OJT tracking</span>
                 </div>
@@ -260,7 +261,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">ETPL performance dashboards</span>
                 </div>
@@ -270,7 +271,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5"
                   />
                   <span className="text-sm text-white">WorkOne read-only oversight views</span>
                 </div>
@@ -451,14 +452,14 @@ export default async function SponsorLicensingPage() {
       <section className="py-20 bg-zinc-900  ">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <div className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-bold mb-4">
+            <div className="inline-block px-4 py-2 bg-brand-green-100 text-brand-green-700 rounded-full text-sm font-bold mb-4">
               Allowed & Safe
             </div>
             <h2 className="text-4xl font-bold text-black mb-4">Employer Fees</h2>
             <p className="text-lg text-black">Paid by employer — never grant funds</p>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-green-200">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-brand-green-200">
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               <div className="text-center">
                 <div className="text-3xl font-bold text-black mb-2">$250–$750</div>
@@ -486,7 +487,7 @@ export default async function SponsorLicensingPage() {
               </div>
             </div>
 
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+            <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4">
               <p className="text-sm text-black">
                 <strong className="text-black">Rule:</strong> Never bill training, wages, kits, or
                 grant-funded costs.
@@ -579,7 +580,7 @@ export default async function SponsorLicensingPage() {
             </Link>
             <a
               href="mailto:elevate4humanityedu@gmail.com"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-white px-10 py-5 rounded-xl font-bold text-lg transition"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 border-2 border-white text-slate-900 px-10 py-5 rounded-xl font-bold text-lg transition"
             >
               <Mail className="w-5 h-5" />
               Email Us

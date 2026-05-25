@@ -86,7 +86,7 @@ export default function ProgramCertificationsSection({
             <div
               className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${cred.is_primary ? 'bg-brand-blue-600' : 'bg-slate-100'}`}
             >
-              <Award className={`h-5 w-5 ${cred.is_primary ? 'text-white' : 'text-slate-500'}`} />
+              <Award aria-label="award" className={`h-5 w-5 ${cred.is_primary ? 'text-white' : 'text-slate-500'}`} />
             </div>
 
             <div className="flex-1 min-w-0">

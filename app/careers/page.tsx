@@ -140,6 +140,7 @@ export default async function CareersPage() {
                   className="bg-white text-center p-8 rounded-lg border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-lg transition"
                 >
                   <div className="relative w-full h-40 mb-4 overflow-hidden rounded-lg">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                     <Image
                       src={benefit.image}
                       alt={benefit.title}
@@ -356,7 +357,7 @@ export default async function CareersPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-block border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition"
+              className="inline-block border-2 border-white text-slate-900 px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition"
             >
               Contact Us
             </Link>

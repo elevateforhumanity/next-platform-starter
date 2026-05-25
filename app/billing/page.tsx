@@ -63,7 +63,7 @@ export default async function BillingPage() {
             <p className="text-sm text-slate-500 mt-1">Balance Due</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-6">
-            <CheckCircle className="w-6 h-6 text-green-500 mb-3" />
+            <CheckCircle className="w-6 h-6 text-brand-green-500 mb-3" />
             <p className="text-2xl font-extrabold text-slate-900">
               ${Number(totalPaid).toFixed(2)}
             </p>
@@ -108,7 +108,7 @@ export default async function BillingPage() {
                     <span
                       className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                         inv.status === 'paid'
-                          ? 'bg-green-50 text-green-700'
+                          ? 'bg-brand-green-50 text-brand-green-700'
                           : inv.status === 'overdue'
                             ? 'bg-red-50 text-red-700'
                             : 'bg-amber-50 text-amber-700'

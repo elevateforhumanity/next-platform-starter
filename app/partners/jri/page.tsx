@@ -33,7 +33,7 @@ export default function JriPage() {
             </Link>
             <Link
               href="/apply"
-              className="border-2 border-white/40 text-white font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
+              className="border-2 border-white/40 text-slate-900 font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
             >
               Apply Now
             </Link>

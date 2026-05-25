@@ -55,7 +55,7 @@ export default async function FederalFundedProgramsPage() {
         items={[{ label: 'Programs', href: '/programs' }, { label: 'Federal Funded Programs' }]}
       />
       {/* Hero */}
-      <section className="bg-white text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
+      <section className="bg-white text-slate-900 px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
         <div className="mx-auto max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
             <Shield className="w-5 h-5" />
@@ -68,7 +68,7 @@ export default async function FederalFundedProgramsPage() {
             Zero Cost to You.
           </h1>
 
-          <p className="text-xl sm:text-2xl text-green-100 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl sm:text-2xl text-brand-green-100 leading-relaxed max-w-3xl mx-auto">
             These programs are fully funded by WIOA (Workforce Innovation and Opportunity Act), ETPL
             (Eligible Training Provider List), and WRG (Workforce Ready Grant). You pay nothing.
           </p>
@@ -116,7 +116,7 @@ export default async function FederalFundedProgramsPage() {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl border-2 border-green-200 p-8">
+            <div className="bg-white rounded-xl border-2 border-brand-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">WIOA</h3>
               <p className="text-black mb-4">
                 Workforce Innovation and Opportunity Act provides funding for job training and
@@ -130,7 +130,7 @@ export default async function FederalFundedProgramsPage() {
               </Link>
             </div>
 
-            <div className="bg-white rounded-xl border-2 border-green-200 p-8">
+            <div className="bg-white rounded-xl border-2 border-brand-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">ETPL</h3>
               <p className="text-black mb-4">
                 Eligible Training Provider List certifies quality training programs approved for
@@ -141,7 +141,7 @@ export default async function FederalFundedProgramsPage() {
               </Link>
             </div>
 
-            <div className="bg-white rounded-xl border-2 border-green-200 p-8">
+            <div className="bg-white rounded-xl border-2 border-brand-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">WRG</h3>
               <p className="text-black mb-4">
                 Workforce Ready Grant supports training in high-demand occupations with employer
@@ -171,7 +171,7 @@ export default async function FederalFundedProgramsPage() {
 
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-brand-blue-600 mb-4">
-                <Award className="w-8 h-8" />
+                <Award aria-label="award" className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Certifications</h3>
               <p className="text-black">Exam fees and credentials included</p>
@@ -209,6 +209,7 @@ export default async function FederalFundedProgramsPage() {
                 className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-48 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     priority
                     src={program.heroImage}
@@ -222,7 +223,7 @@ export default async function FederalFundedProgramsPage() {
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-black mb-2">{program.name}</h3>
                   <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="px-3 py-2 bg-brand-green-100 text-green-700 text-xs font-semibold rounded-full">
+                    <span className="px-3 py-2 bg-brand-green-100 text-brand-green-700 text-xs font-semibold rounded-full">
                       {program.duration}
                     </span>
                     <span className="px-3 py-2 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
@@ -271,13 +272,13 @@ export default async function FederalFundedProgramsPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/apply"
-              className="inline-flex px-8 py-4 bg-brand-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition text-lg"
+              className="inline-flex px-8 py-4 bg-brand-green-600 text-white font-bold rounded-lg hover:bg-brand-green-700 transition text-lg"
             >
               Apply Now
             </Link>
             <Link
               href="/wioa-eligibility"
-              className="inline-flex px-8 py-4 bg-white border-2 border-brand-green-600 text-brand-green-600 font-bold rounded-lg hover:bg-green-50 transition text-lg"
+              className="inline-flex px-8 py-4 bg-white border-2 border-brand-green-600 text-brand-green-600 font-bold rounded-lg hover:bg-brand-green-50 transition text-lg"
             >
               Check Eligibility
             </Link>

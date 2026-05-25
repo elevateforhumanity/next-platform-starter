@@ -149,7 +149,7 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
         {/* Program Header */}
         <div className="bg-slate-900 rounded-2xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-3">
-            <GraduationCap className="w-8 h-8 text-white" />
+            <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-white" />
             <h1 className="text-2xl md:text-3xl font-bold text-white">{program.title}</h1>
           </div>
           {program.description && (
@@ -170,7 +170,7 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
               {courseStats.length !== 1 ? 's' : ''}
             </span>
             <span className="flex items-center gap-1 text-white/70 text-sm">
-              <Award className="w-4 h-4" /> {certificates?.length || 0} certificate
+              <Award aria-label="award" className="w-4 h-4" /> {certificates?.length || 0} certificate
               {(certificates?.length || 0) !== 1 ? 's' : ''}
             </span>
           </div>
@@ -275,7 +275,7 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
                   className="bg-white rounded-xl border p-6 flex items-center gap-4"
                 >
                   <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Award className="w-6 h-6 text-amber-600" />
+                    <Award aria-label="award" className="w-6 h-6 text-amber-600" />
                   </div>
                   <div>
                     <h3 className="font-medium text-slate-900">{cert.title}</h3>

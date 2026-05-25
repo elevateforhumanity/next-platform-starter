@@ -180,7 +180,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
                 className={`flex-1 py-2.5 px-3 rounded-xl border-2 text-sm font-semibold transition-colors ${
                   isResident === opt.value
                     ? opt.value
-                      ? 'border-green-500 bg-green-50 text-green-800'
+                      ? 'border-brand-green-500 bg-brand-green-50 text-brand-green-800'
                       : 'border-amber-500 bg-amber-50 text-amber-800'
                     : 'border-slate-200 text-slate-600 hover:border-slate-300'
                 }`}
@@ -256,7 +256,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               onClick={() => confirm('not_resident')}
               disabled={confirmed}
               className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${
-                confirmed ? 'bg-green-600 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'
+                confirmed ? 'bg-brand-green-600 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'
               }`}
             >
               {confirmed ? (
@@ -283,7 +283,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
                   value: 'approved' as const,
                   label: 'Yes — I have my approval / authorization letter',
                   sub: 'ITA, WRG approval, or FSSA training authorization in hand',
-                  active: 'border-green-500 bg-green-50',
+                  active: 'border-brand-green-500 bg-brand-green-50',
                 },
                 {
                   value: 'in_process' as const,
@@ -327,11 +327,11 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
         {/* ── APPROVED ── */}
         {isResident === true && agencyStatus === 'approved' && (
           <div className="space-y-3">
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4 flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-bold text-green-800">You're ready to apply</p>
-                <p className="text-sm text-green-700 mt-1">
+                <p className="text-sm font-bold text-brand-green-800">You're ready to apply</p>
+                <p className="text-sm text-brand-green-700 mt-1">
                   Our enrollment team will contact you within 2 business days to collect your
                   authorization letter and complete your enrollment.
                 </p>
@@ -342,7 +342,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               disabled={confirmed}
               className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
                 confirmed
-                  ? 'bg-green-600 text-white'
+                  ? 'bg-brand-green-600 text-white'
                   : 'bg-brand-red-600 hover:bg-brand-red-700 text-white'
               }`}
             >
@@ -371,7 +371,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               disabled={confirmed}
               className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
                 confirmed
-                  ? 'bg-green-600 text-white'
+                  ? 'bg-brand-green-600 text-white'
                   : 'bg-brand-red-600 hover:bg-brand-red-700 text-white'
               }`}
             >
@@ -423,7 +423,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
                     href={cfg.appointmentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 border border-white/40 text-white font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-center gap-2 border border-white/40 text-slate-900 font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-white/10 transition-colors"
                   >
                     <Calendar className="w-4 h-4" />
                     Find a WorkOne Center
@@ -494,7 +494,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
                 <ul className="px-4 pb-4 space-y-2">
                   {cfg.eligibility.map((e) => (
                     <li key={e} className="flex items-start gap-2 text-sm text-slate-600">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0 mt-0.5" />
                       {e}
                     </li>
                   ))}
@@ -530,11 +530,11 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
             </div>
 
             {/* Submit anyway — team will help */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-              <p className="text-sm font-bold text-green-800 mb-1">
+            <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4">
+              <p className="text-sm font-bold text-brand-green-800 mb-1">
                 Want us to help you get started?
               </p>
-              <p className="text-sm text-green-700">
+              <p className="text-sm text-brand-green-700">
                 Submit your application now and our enrollment team will contact you within 2
                 business days to walk you through the {cfg.agencyShort} process and help you
                 schedule your appointment.
@@ -546,7 +546,7 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               disabled={confirmed}
               className={`w-full py-3 rounded-xl text-sm font-bold transition-colors ${
                 confirmed
-                  ? 'bg-green-600 text-white'
+                  ? 'bg-brand-green-600 text-white'
                   : 'bg-brand-red-600 hover:bg-brand-red-700 text-white'
               }`}
             >

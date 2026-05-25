@@ -182,7 +182,7 @@ export default function DocumentsPanel() {
           </div>
         )}
         {uploadOk && (
-          <div className="flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+          <div className="flex items-center gap-2 text-xs text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg px-3 py-2">
             <CheckCircle className="w-3.5 h-3.5 shrink-0" />
             {uploadOk}
             <button onClick={() => setUploadOk(null)} className="ml-auto"><X className="w-3 h-3" /></button>

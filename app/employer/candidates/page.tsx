@@ -106,7 +106,7 @@ export default async function CandidatesPage() {
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-4">
             <div className="flex items-center gap-3">
-              <Award className="w-8 h-8 text-brand-green-600" />
+              <Award aria-label="award" className="w-8 h-8 text-brand-green-600" />
               <div>
                 <div className="text-2xl font-bold">0</div>
                 <div className="text-sm text-slate-700">Certified</div>
@@ -115,7 +115,7 @@ export default async function CandidatesPage() {
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-4">
             <div className="flex items-center gap-3">
-              <GraduationCap className="w-8 h-8 text-brand-blue-600" />
+              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
               <div>
                 <div className="text-2xl font-bold">0</div>
                 <div className="text-sm text-slate-700">Program Graduates</div>

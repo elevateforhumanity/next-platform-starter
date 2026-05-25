@@ -14,6 +14,7 @@ export function BarberDeliveryModel() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image src="/images/pages/barber-delivery-1.webp" alt="Barber classroom instruction" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
               <div className="p-6">

@@ -28,7 +28,6 @@ import {
   MessageSquare,
   Download,
   Lock,
-  CheckCircle2,
 } from 'lucide-react';
 import type { ActivityId, ActivityDef } from '@/lib/lms/activity-map';
 import { getCheckpointGates } from '@/lib/lms/activity-map';
@@ -49,7 +48,7 @@ const ACTIVITY_COLORS: Record<ActivityId, string> = {
   video: 'text-blue-600',
   reading: 'text-slate-600',
   flashcards: 'text-purple-600',
-  lab: 'text-green-600',
+  lab: 'text-brand-green-600',
   scenario: 'text-teal-600',
   practice: 'text-amber-600',
   checkpoint: 'text-red-600',
@@ -93,7 +92,7 @@ export default function LessonActivityMenu({
     }
     if (done.has(act.id)) {
       return (
-        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" aria-label="Completed" />
+        <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
       );
     }
     if (act.gatesCheckpoint) {

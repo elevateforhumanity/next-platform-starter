@@ -73,7 +73,7 @@ export function AttendanceVerifyButton({ meetingId }: { meetingId: string }) {
     <>
       <button
         onClick={handleOpen}
-        className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-brand-green-600 hover:bg-brand-green-700 text-white text-sm font-semibold rounded-lg transition-colors"
       >
         <Camera className="w-4 h-4" /> Verify Attendance
       </button>
@@ -89,11 +89,11 @@ export function AttendanceVerifyButton({ meetingId }: { meetingId: string }) {
             </div>
 
             {result ? (
-              <div className={`rounded-xl p-4 text-center ${result.verified ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+              <div className={`rounded-xl p-4 text-center ${result.verified ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-red-50 border border-red-200'}`}>
                 {result.verified
-                  ? <CheckCircle className="w-10 h-10 text-green-600 mx-auto mb-2" />
+                  ? <CheckCircle className="w-10 h-10 text-brand-green-600 mx-auto mb-2" />
                   : <X className="w-10 h-10 text-red-500 mx-auto mb-2" />}
-                <p className={`font-semibold ${result.verified ? 'text-green-800' : 'text-red-700'}`}>
+                <p className={`font-semibold ${result.verified ? 'text-brand-green-800' : 'text-red-700'}`}>
                   {result.verified ? 'Attendance Verified' : 'Verification Failed'}
                 </p>
                 {(result.reason || result.message) && (
@@ -113,7 +113,7 @@ export function AttendanceVerifyButton({ meetingId }: { meetingId: string }) {
                 <button
                   onClick={handleVerify}
                   disabled={verifying}
-                  className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-2.5 bg-brand-green-600 hover:bg-brand-green-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {verifying ? <><Loader2 className="w-4 h-4 animate-spin" /> Verifying…</> : 'Verify'}
                 </button>

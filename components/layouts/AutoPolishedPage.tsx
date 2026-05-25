@@ -442,7 +442,7 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white animate-pulse">
+              <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-slate-900 animate-pulse">
                 🔥 NOW ENROLLING
               </span>
               <p className="text-white font-semibold text-sm sm:text-base">
@@ -461,6 +461,7 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
 
       {/* HERO */}
       <section className="relative h-[700px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={getHeroImage()}
           alt={label}

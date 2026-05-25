@@ -389,7 +389,7 @@ export default function LessonPlayer({
                   setHasError(false);
                   audioRef.current?.load();
                 }}
-                className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white hover:bg-white/20"
+                className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-slate-900 hover:bg-white/20"
               >
                 Retry
               </button>
@@ -409,7 +409,7 @@ export default function LessonPlayer({
                 <button
                   type="button"
                   onClick={() => skip(-10)}
-                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  className="rounded-full p-1.5 text-slate-900/60 hover:bg-white/10 hover:text-slate-900"
                   aria-label="Back 10 seconds"
                 >
                   <SkipBack className="h-4 w-4" />
@@ -431,7 +431,7 @@ export default function LessonPlayer({
                 <button
                   type="button"
                   onClick={() => skip(10)}
-                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  className="rounded-full p-1.5 text-slate-900/60 hover:bg-white/10 hover:text-slate-900"
                   aria-label="Forward 10 seconds"
                 >
                   <SkipForward className="h-4 w-4" />
@@ -439,7 +439,7 @@ export default function LessonPlayer({
                 <button
                   type="button"
                   onClick={toggleMute}
-                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  className="rounded-full p-1.5 text-slate-900/60 hover:bg-white/10 hover:text-slate-900"
                   aria-label={muted ? 'Unmute' : 'Mute'}
                 >
                   {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
@@ -518,7 +518,7 @@ export default function LessonPlayer({
                   setHasError(false);
                   videoRef.current?.load();
                 }}
-                className="mt-3 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20"
+                className="mt-3 rounded-lg bg-white/10 px-4 py-2 text-sm text-slate-900 hover:bg-white/20"
               >
                 Retry
               </button>
@@ -552,7 +552,7 @@ export default function LessonPlayer({
                   </div>
                 </div>
                 {durationMinutes && (
-                  <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium text-white/60 backdrop-blur-sm sm:text-xs">
+                  <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium text-slate-900/60 backdrop-blur-sm sm:text-xs">
                     {durationMinutes} min
                   </span>
                 )}
@@ -595,7 +595,7 @@ export default function LessonPlayer({
                   e.stopPropagation();
                   restart();
                 }}
-                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-slate-900 backdrop-blur-sm transition hover:bg-white/20"
               >
                 <RotateCcw className="h-4 w-4" /> Replay
               </button>
@@ -616,7 +616,7 @@ export default function LessonPlayer({
                   <button
                     type="button"
                     onClick={ended ? restart : togglePlay}
-                    className="rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white"
+                    className="rounded-full p-1.5 text-slate-900/80 transition hover:bg-white/10 hover:text-slate-900"
                     aria-label={isPlaying ? 'Pause' : 'Play'}
                   >
                     {isPlaying ? (
@@ -628,7 +628,7 @@ export default function LessonPlayer({
                   <button
                     type="button"
                     onClick={() => skip(-10)}
-                    className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block"
+                    className="hidden rounded-full p-1.5 text-slate-900/60 transition hover:bg-white/10 hover:text-slate-900 sm:block"
                     aria-label="Back 10 seconds"
                   >
                     <SkipBack className="h-4 w-4" />
@@ -636,7 +636,7 @@ export default function LessonPlayer({
                   <button
                     type="button"
                     onClick={() => skip(10)}
-                    className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block"
+                    className="hidden rounded-full p-1.5 text-slate-900/60 transition hover:bg-white/10 hover:text-slate-900 sm:block"
                     aria-label="Forward 10 seconds"
                   >
                     <SkipForward className="h-4 w-4" />
@@ -644,7 +644,7 @@ export default function LessonPlayer({
                   <button
                     type="button"
                     onClick={toggleMute}
-                    className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+                    className="rounded-full p-1.5 text-slate-900/60 transition hover:bg-white/10 hover:text-slate-900"
                     aria-label={muted ? 'Unmute' : 'Mute'}
                   >
                     {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
@@ -662,7 +662,7 @@ export default function LessonPlayer({
                   <button
                     type="button"
                     onClick={toggleFullscreen}
-                    className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+                    className="rounded-full p-1.5 text-slate-900/60 transition hover:bg-white/10 hover:text-slate-900"
                     aria-label="Fullscreen"
                   >
                     {isFullscreen ? (

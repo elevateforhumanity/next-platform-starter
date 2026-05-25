@@ -193,6 +193,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                 className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
               >
                 <div className="relative aspect-[4/3]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={card.img}
                     alt={card.label}
@@ -200,7 +201,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                     sizes="(max-width: 640px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-3">
                     <p className="text-white font-bold text-sm leading-tight">{card.label}</p>
                     <p className="text-slate-300 text-xs mt-0.5 leading-tight">{card.sub}</p>
@@ -232,7 +233,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                     sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 flex items-start gap-2">
                     <Check className="w-4 h-4 text-brand-green-400 flex-shrink-0 mt-0.5" />
                     <p className="text-white text-sm font-semibold leading-snug">{item}</p>
@@ -393,7 +394,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                   sizes="(max-width: 640px) 50vw, 25vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
                 <div className="absolute top-3 left-3 w-8 h-8 bg-brand-red-600 rounded-full flex items-center justify-center text-white font-extrabold text-sm shadow">
                   {s.step}
                 </div>
@@ -482,7 +483,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
               </Link>
               <Link
                 href={infoHref}
-                className="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition text-sm"
+                className="bg-white/10 hover:bg-white/20 border border-white/30 text-slate-900 font-semibold px-8 py-4 rounded-xl transition text-sm"
               >
                 Request Information
               </Link>

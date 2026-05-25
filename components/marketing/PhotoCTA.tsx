@@ -10,6 +10,7 @@ export function PhotoCTA() {
           {/* Photo collage */}
           <div className="grid grid-cols-2 gap-3">
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/comp-photo-cta-1.webp"
                 alt="Barber apprenticeship in action"

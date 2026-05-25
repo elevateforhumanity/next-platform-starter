@@ -85,7 +85,7 @@ export default async function AchievementsPage() {
                 <p className="text-sm text-white/80">7-day learning streak</p>
               </div>
               <div className="bg-white/20 rounded-xl p-4">
-                <Award className="w-8 h-8 mx-auto mb-2" />
+                <Award aria-label="award" className="w-8 h-8 mx-auto mb-2" />
                 <p className="font-bold">Certified</p>
                 <p className="text-sm text-white/80">Earn a certification</p>
               </div>
@@ -99,7 +99,7 @@ export default async function AchievementsPage() {
               </Link>
               <Link
                 href="/programs"
-                className="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition"
+                className="border-2 border-white text-slate-900 font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition"
               >
                 Browse Programs
               </Link>

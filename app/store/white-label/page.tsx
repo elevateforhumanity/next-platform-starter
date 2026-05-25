@@ -152,7 +152,7 @@ export default function WhiteLabelPage() {
               </button>
             </div>
             {available !== null && (
-              <p className={`mt-2 text-sm ${available ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`mt-2 text-sm ${available ? 'text-brand-green-400' : 'text-red-400'}`}>
                 {available ? '✓ Available!' : '✗ Already taken'}
               </p>
             )}
@@ -211,7 +211,7 @@ export default function WhiteLabelPage() {
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
-                      <Check className={`w-5 h-5 flex-shrink-0 ${plan.highlighted ? 'text-blue-400' : 'text-green-600'}`} />
+                      <Check className={`w-5 h-5 flex-shrink-0 ${plan.highlighted ? 'text-blue-400' : 'text-brand-green-600'}`} />
                       <span className={plan.highlighted ? 'text-slate-200' : 'text-slate-700'}>
                         {feature}
                       </span>

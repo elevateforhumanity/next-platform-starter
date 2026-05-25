@@ -210,7 +210,7 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
             >
               <div className={`${lr.color} px-4 py-2.5 flex items-center justify-between`}>
                 <p className="text-slate-900 font-extrabold text-sm">{lr.type}</p>
-                <span className="bg-white/20 text-white font-extrabold text-lg px-3 py-0.5 rounded-full">
+                <span className="bg-white/20 text-slate-900 font-extrabold text-lg px-3 py-0.5 rounded-full">
                   {lr.trigger}
                 </span>
               </div>

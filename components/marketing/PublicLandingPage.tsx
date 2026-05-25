@@ -53,6 +53,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
         style={{ height: 'clamp(320px, 45vw, 560px)' }}
         aria-label={`${config.hero.title} hero image`}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.hero.image}
           alt={config.hero.title}
@@ -152,7 +153,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
               {config.cta.primaryLabel}
             </Link>
             {config.cta.secondaryLabel && config.cta.secondaryHref && (
-              <Link href={config.cta.secondaryHref} className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition">
+              <Link href={config.cta.secondaryHref} className="border-2 border-white text-slate-900 px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition">
                 {config.cta.secondaryLabel}
               </Link>
             )}

@@ -10,7 +10,6 @@ import {
   Award,
   TrendingUp,
   AlertTriangle,
-  CheckCircle2,
   XCircle,
   CreditCard,
   GraduationCap,
@@ -203,7 +202,8 @@ export default async function ApprenticePortalPage() {
     <div className="min-h-screen bg-slate-50">
       {/* ── Hero Banner ── */}
       <div className="relative h-[180px] sm:h-[220px] overflow-hidden bg-slate-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/95 via-brand-blue-800/70 to-transparent z-10" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.heroImage}
           alt={config.label}
@@ -356,7 +356,7 @@ export default async function ApprenticePortalPage() {
                 </div>
               </Link>
               <Link href="/apprentice/competencies/log" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
-                <Award className={`w-5 h-5 ${config.accentText}`} />
+                <Award aria-label="award" className={`w-5 h-5 ${config.accentText}`} />
                 <div>
                   <p className="font-semibold text-sm text-slate-900">Log Service</p>
                   <p className="text-xs text-slate-500">Record a competency</p>
@@ -370,7 +370,7 @@ export default async function ApprenticePortalPage() {
                 </div>
               </Link>
               <Link href="/apprentice/state-board" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
-                <GraduationCap className={`w-5 h-5 ${config.accentText}`} />
+                <GraduationCap aria-label="graduationcap" className={`w-5 h-5 ${config.accentText}`} />
                 <div>
                   <p className="font-semibold text-sm text-slate-900">State Board Prep</p>
                   <p className="text-xs text-slate-500">Exam preparation</p>
@@ -389,14 +389,14 @@ export default async function ApprenticePortalPage() {
           {/* Onboarding Checklist */}
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <h2 className="text-sm font-semibold text-slate-900 mb-3">
-              Onboarding {onboardingComplete && <span className="text-green-600 ml-1">✓ Complete</span>}
+              Onboarding {onboardingComplete && <span className="text-brand-green-600 ml-1">✓ Complete</span>}
             </h2>
             <ul className="space-y-2.5">
               {onboardingItems.map((item) => (
                 <li key={item.label}>
                   {item.done ? (
                     <div className="flex items-center gap-2.5 text-sm text-slate-400">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                      <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
                       <span className="line-through">{item.label}</span>
                     </div>
                   ) : (
@@ -414,7 +414,7 @@ export default async function ApprenticePortalPage() {
         {/* ── Additional Resources ── */}
         <div className="grid sm:grid-cols-3 gap-3">
           <Link href="/apprentice/skills" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition group">
-            <Award className={`w-5 h-5 ${config.accentText} mb-2`} />
+            <Award aria-label="award" className={`w-5 h-5 ${config.accentText} mb-2`} />
             <p className="font-semibold text-sm text-slate-900">Skills Checklist</p>
             <p className="text-xs text-slate-500 mt-0.5">Track competency mastery</p>
           </Link>

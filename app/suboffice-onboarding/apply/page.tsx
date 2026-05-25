@@ -80,7 +80,7 @@ function StepIndicator({ current }: { current: number }) {
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${
                   done
-                    ? 'bg-green-600 text-white'
+                    ? 'bg-brand-green-600 text-white'
                     : active
                     ? 'bg-brand-blue-600 text-white'
                     : 'bg-slate-200 text-slate-500'
@@ -90,7 +90,7 @@ function StepIndicator({ current }: { current: number }) {
               </div>
               <span
                 className={`mt-1 text-xs font-medium ${
-                  active ? 'text-brand-blue-700' : done ? 'text-green-700' : 'text-slate-400'
+                  active ? 'text-brand-blue-700' : done ? 'text-brand-green-700' : 'text-slate-400'
                 }`}
               >
                 {label}
@@ -99,7 +99,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < steps.length - 1 && (
               <div
                 className={`w-16 h-0.5 mx-2 mb-4 transition-colors ${
-                  done ? 'bg-green-500' : 'bg-slate-200'
+                  done ? 'bg-brand-green-500' : 'bg-slate-200'
                 }`}
               />
             )}
@@ -220,8 +220,8 @@ export default function SubofficeApplyPage() {
     return (
       <div className="bg-white min-h-screen">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-green-600" />
+          <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-10 h-10 text-brand-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Submitted</h1>
           <p className="text-lg text-slate-600 mb-2">
@@ -541,7 +541,7 @@ export default function SubofficeApplyPage() {
                   key={field}
                   className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
                     form[field]
-                      ? 'border-green-400 bg-green-50'
+                      ? 'border-brand-green-400 bg-brand-green-50'
                       : 'border-slate-200 bg-white hover:border-slate-300'
                   }`}
                 >

@@ -22,6 +22,7 @@ export default function FounderPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-audit-logs-hero.webp"
           alt="Elevate for Humanity founder"
@@ -315,7 +316,7 @@ export default function FounderPage() {
             </Link>
             <Link
               href="/start"
-              className="inline-flex items-center border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition"
+              className="inline-flex items-center border-2 border-white text-slate-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition"
             >
               Apply Now <ArrowRight className="w-5 h-5 ml-2" />
             </Link>

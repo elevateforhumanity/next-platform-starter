@@ -59,7 +59,7 @@ export default function AdminInstallClient() {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6">
         <div className="text-center">
-          <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+          <CheckCircle className="w-16 h-16 text-brand-green-400 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">Admin App Installed</h1>
           <p className="text-slate-400 mb-6">Open it from your home screen or app drawer.</p>
           <a

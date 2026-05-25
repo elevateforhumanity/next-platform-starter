@@ -5,7 +5,6 @@ import {
   Sparkles,
   Flower2,
   Hand,
-  CheckCircle2,
   ArrowRight,
   MapPin,
   Phone,
@@ -133,7 +132,7 @@ export default function BoothRentalLandingPage() {
                 <ul className="space-y-2 mb-5">
                   {d.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                      <span className="w-4 h-4 rounded-full bg-emerald-500 inline-block flex-shrink-0" aria-hidden="true" />
                       {f}
                     </li>
                   ))}

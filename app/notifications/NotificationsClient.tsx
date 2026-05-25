@@ -49,7 +49,7 @@ export default function NotificationsClient({
       case 'like':
         return <Heart className="w-5 h-5 text-brand-red-500" />;
       case 'achievement':
-        return <Award className="w-5 h-5 text-yellow-500" />;
+        return <Award aria-label="award" className="w-5 h-5 text-yellow-500" />;
       case 'event':
         return <Calendar className="w-5 h-5 text-brand-blue-500" />;
       case 'group':

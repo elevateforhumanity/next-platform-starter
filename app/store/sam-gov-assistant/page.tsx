@@ -250,15 +250,15 @@ Come back anytime if you need help!`,
             </p>
             <div className="flex flex-wrap gap-4 text-sm text-brand-blue-200">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-brand-green-400" />
                 Interactive walkthrough
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-brand-green-400" />
                 Real-time guidance
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-brand-green-400" />
                 Troubleshooting help
               </div>
             </div>
@@ -287,8 +287,8 @@ Come back anytime if you need help!`,
                 </p>
               </div>
               <div className="bg-slate-50 rounded-xl p-4 text-center">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Building2 className="w-5 h-5 text-green-600" />
+                <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="w-5 h-5 text-brand-green-600" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm mb-1">Business Address</h3>
                 <p className="text-xs text-slate-600">
@@ -352,7 +352,7 @@ Come back anytime if you need help!`,
                 </div>
                 <div className="h-2 bg-brand-blue-800 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-green-400 transition-all duration-500"
+                    className="h-full bg-brand-green-400 transition-all duration-500"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -367,7 +367,7 @@ Come back anytime if you need help!`,
                   className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3 ${
+                    className={`max-w-11/12 sm:max-w-5/6 rounded-2xl px-4 py-3 ${
                       message.type === 'user'
                         ? 'bg-brand-blue-600 text-white'
                         : 'bg-white text-slate-900 shadow-sm'

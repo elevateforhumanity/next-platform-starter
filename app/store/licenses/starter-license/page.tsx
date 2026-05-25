@@ -69,7 +69,7 @@ export default function StarterLicensePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500 text-white rounded-full text-sm font-bold mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-green-500 text-white rounded-full text-sm font-bold mb-4">
                 14-Day Free Trial
               </div>
               <h1 className="text-4xl lg:text-5xl font-black mb-4">
@@ -87,7 +87,7 @@ export default function StarterLicensePage() {
               <div className="space-y-3">
                 <Link
                   href="/store/licenses/starter-license/trial"
-                  className="block w-full text-center bg-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors"
+                  className="block w-full text-center bg-brand-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 transition-colors"
                 >
                   Start Free Trial
                 </Link>
@@ -172,7 +172,7 @@ export default function StarterLicensePage() {
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <div className="w-3 h-3 rounded-full bg-brand-green-500" />
                 </div>
                 <div className="bg-slate-700 px-4 py-1 rounded text-slate-300 text-sm font-mono">
                   {activeDemo}
@@ -188,7 +188,7 @@ export default function StarterLicensePage() {
               </div>
               <div
                 className={`bg-white rounded-b-xl overflow-hidden ${
-                  viewMode === 'mobile' ? 'max-w-[375px] mx-auto' : ''
+                  viewMode === 'mobile' ? 'max-w-7xl mx-auto' : ''
                 }`}
                 style={{ height: viewMode === 'mobile' ? '667px' : '600px' }}
               >
@@ -239,7 +239,7 @@ export default function StarterLicensePage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {LICENSE_DATA.features.map((feature, idx) => (
                 <div key={idx} className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0" />
                   <span className="text-slate-700">{feature}</span>
                 </div>
               ))}
@@ -279,7 +279,7 @@ export default function StarterLicensePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/store/licenses/starter-license/trial"
-              className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-brand-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 transition-colors"
             >
               <Play className="w-5 h-5" />
               Start Free Trial

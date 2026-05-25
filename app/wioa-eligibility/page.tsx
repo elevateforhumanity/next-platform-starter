@@ -28,6 +28,7 @@ export default function WIOAEligibilityPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[220px] sm:h-[320px] md:h-[400px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/wioa-meeting.webp"
           alt="WIOA funded career training"
@@ -334,7 +335,7 @@ export default function WIOAEligibilityPage() {
             </a>
             <Link
               href="/start"
-              className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors"
+              className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors"
             >
               Apply for Training
             </Link>

@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, XCircle, Loader2, Phone, Mail } from 'lucide-react';
+import { XCircle, Loader2, Phone, Mail } from 'lucide-react';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 
 function ConfirmContent() {
@@ -71,7 +71,7 @@ function ConfirmContent() {
       <div className="max-w-lg w-full">
         <div className="text-center mb-8">
           <div className={`w-20 h-20 ${c.bg} rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg`}>
-            <CheckCircle2 className="w-10 h-10 text-white" />
+            <span className="w-10 h-10 rounded-full bg-white inline-block flex-shrink-0" aria-hidden="true" />
           </div>
           <h1 className="text-3xl font-black text-slate-900 mb-2">Payment Confirmed</h1>
           <p className="text-slate-600">

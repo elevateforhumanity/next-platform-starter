@@ -156,6 +156,7 @@ export default function EducationLandingPage() {
             {PROGRAMS.map((p) => (
               <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
                 <div className="p-5">
@@ -209,7 +210,7 @@ export default function EducationLandingPage() {
       {/* FUNDING CTA */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 bg-brand-green-100 text-brand-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
             <Clock className="w-4 h-4" /> Now Enrolling
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Training Funding Available</h2>

@@ -191,7 +191,7 @@ export default function AICareerCounseling() {
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm">
-              <GraduationCap className="w-10 h-10 text-brand-orange-600 mb-4" />
+              <GraduationCap aria-label="graduationcap" className="w-10 h-10 text-brand-orange-600 mb-4" />
               <h3 className="font-bold text-lg mb-2">Training Paths</h3>
               <p className="text-slate-700 text-sm">
                 Discover FREE training programs to help you reach your career goals.
@@ -379,7 +379,7 @@ export default function AICareerCounseling() {
                 </div>
               )}
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                className={`max-w-4/5 rounded-2xl px-4 py-3 ${
                   message.role === 'user'
                     ? 'bg-brand-blue-600 text-white'
                     : 'bg-white shadow-sm border'

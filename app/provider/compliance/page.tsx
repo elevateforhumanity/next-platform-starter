@@ -95,7 +95,7 @@ export default async function ProviderCompliancePage() {
             <div key={artifact.id} className="flex items-center justify-between px-5 py-4">
               <div className="flex items-center gap-3">
                 {artifact.verified ? (
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
                 ) : artifact.daysLeft != null && artifact.daysLeft <= 0 ? (
                   <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
                 ) : (
@@ -130,7 +130,7 @@ export default async function ProviderCompliancePage() {
                   </span>
                 )}
                 {artifact.verified && (
-                  <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded-full font-medium">
                     Verified
                   </span>
                 )}

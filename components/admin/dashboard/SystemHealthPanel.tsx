@@ -1,7 +1,7 @@
 // Server component — no "use client"
 import Link from "next/link";
 import {
-  CheckCircle2, XCircle, AlertTriangle, Info,
+  XCircle, AlertTriangle, Info,
   Wifi, Key, Clock, FileText, Award, Flag, CreditCard,
 } from "lucide-react";
 import type { SystemHealth } from "./types";
@@ -56,7 +56,7 @@ export function SystemHealthPanel({ health }: Props) {
         <div className="flex items-center gap-2">
           {isOk ? (
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-700">
-              <CheckCircle2 className="w-3.5 h-3.5" /> All systems operational
+              <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> All systems operational
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700">
@@ -127,7 +127,7 @@ export function SystemHealthPanel({ health }: Props) {
               }`}
             >
               {ok ? (
-                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="w-3.5 h-3.5 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" />
               ) : (
                 <XCircle className="w-3.5 h-3.5 flex-shrink-0" />
               )}

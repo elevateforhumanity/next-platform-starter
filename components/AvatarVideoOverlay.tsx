@@ -148,7 +148,7 @@ export default function AvatarVideoOverlay({
             {/* Play/Pause */}
             <button
               onClick={togglePlay}
-              className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-white transition-all"
+              className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-slate-900 transition-all"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}

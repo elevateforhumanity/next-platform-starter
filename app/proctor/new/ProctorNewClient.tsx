@@ -10,7 +10,6 @@ import {
   Shield,
   Key,
   AlertCircle,
-  CheckCircle2,
   Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -23,7 +22,7 @@ const STEPS: { key: Step; label: string; icon: React.ReactNode }[] = [
   { key: 'student', label: 'Test Taker', icon: <User className="w-4 h-4" /> },
   { key: 'verify', label: 'ID Check', icon: <Shield className="w-4 h-4" /> },
   { key: 'codes', label: 'Start Codes', icon: <Key className="w-4 h-4" /> },
-  { key: 'confirm', label: 'Confirm', icon: <CheckCircle2 className="w-4 h-4" /> },
+  { key: 'confirm', label: 'Confirm', icon: <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> },
 ];
 
 interface FormData {
@@ -531,7 +530,7 @@ export default function NewExamSession({ programs = [] }: { programs?: Program[]
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="w-4 h-4" /> Start Exam Session
+                    <span className="w-4 h-4 rounded-full bg-brand-blue-600 inline-block flex-shrink-0" aria-hidden="true" /> Start Exam Session
                   </>
                 )}
               </button>

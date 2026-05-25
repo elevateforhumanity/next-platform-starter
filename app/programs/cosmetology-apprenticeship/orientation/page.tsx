@@ -171,7 +171,7 @@ export default async function CosmetologyOrientationPage() {
           sizes="100vw"
         />
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />
 
         <div className="relative z-10 h-full flex items-center px-6 py-16 max-w-6xl mx-auto">
           <div className="max-w-xl">
@@ -200,7 +200,7 @@ export default async function CosmetologyOrientationPage() {
               </Link>
               <Link
                 href="/portal/documents"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg border border-white/20 transition-colors"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold px-6 py-3 rounded-lg border border-white/20 transition-colors"
               >
                 View My Documents
               </Link>
@@ -316,12 +316,12 @@ export default async function CosmetologyOrientationPage() {
 
       {/* ── Payment Status ───────────────────────────────────────────── */}
       {subscriptionStatus && (
-        <section className="py-10 px-6 bg-green-50 border-y border-green-200">
+        <section className="py-10 px-6 bg-brand-green-50 border-y border-brand-green-200">
           <div className="max-w-3xl mx-auto flex items-center gap-4">
-            <CheckCircle className="w-8 h-8 text-green-600 shrink-0" />
+            <CheckCircle className="w-8 h-8 text-brand-green-600 shrink-0" />
             <div>
-              <p className="font-bold text-green-900">Payment Plan Active</p>
-              <p className="text-green-700 text-sm">
+              <p className="font-bold text-brand-green-900">Payment Plan Active</p>
+              <p className="text-brand-green-700 text-sm">
                 Your weekly payment plan is set up and active. You can view your payment schedule in your{' '}
                 <Link href="/account/billing" className="underline font-semibold">billing settings</Link>.
               </p>
@@ -384,7 +384,7 @@ export default async function CosmetologyOrientationPage() {
             </Link>
             <Link
               href={`/lms/courses/${COSMETOLOGY_COURSE_ID}`}
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-lg border border-white/30 transition-colors"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-900 font-semibold px-8 py-3.5 rounded-lg border border-white/30 transition-colors"
             >
               View My Course
             </Link>

@@ -116,7 +116,7 @@ export default async function PortfolioPage() {
           <div className="bg-white rounded-xl p-6 shadow-sm border">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-green-100 rounded-xl flex items-center justify-center">
-                <Award className="w-6 h-6 text-brand-green-600" />
+                <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
               </div>
               <div>
                 <div className="text-2xl font-bold text-slate-900">{certificates?.length || 0}</div>
@@ -156,7 +156,7 @@ export default async function PortfolioPage() {
             <div className="bg-white rounded-xl shadow-sm border">
               <div className="p-6 border-b">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2">
-                  <Award className="w-5 h-5 text-yellow-600" />
+                  <Award aria-label="award" className="w-5 h-5 text-yellow-600" />
                   Certificates & Credentials
                 </h2>
               </div>
@@ -193,7 +193,7 @@ export default async function PortfolioPage() {
                 </div>
               ) : (
                 <div className="p-12 text-center">
-                  <Award className="w-12 h-12 text-slate-700 mx-auto mb-4" />
+                  <Award aria-label="award" className="w-12 h-12 text-slate-700 mx-auto mb-4" />
                   <h3 className="font-medium text-slate-900 mb-2">No certificates yet</h3>
                   <p className="text-slate-700 text-sm mb-4">
                     Complete courses to earn certificates and credentials

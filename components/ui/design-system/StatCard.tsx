@@ -23,7 +23,7 @@ interface StatCardProps {
 
 const colorMap = {
   blue:   { icon: 'text-blue-600',   bg: 'bg-blue-50',   value: 'text-blue-700' },
-  green:  { icon: 'text-green-600',  bg: 'bg-green-50',  value: 'text-green-700' },
+  green:  { icon: 'text-brand-green-600',  bg: 'bg-brand-green-50',  value: 'text-brand-green-700' },
   amber:  { icon: 'text-amber-600',  bg: 'bg-amber-50',  value: 'text-amber-700' },
   red:    { icon: 'text-red-600',    bg: 'bg-red-50',    value: 'text-red-700' },
   purple: { icon: 'text-purple-600', bg: 'bg-purple-50', value: 'text-purple-700' },
@@ -66,12 +66,12 @@ export function StatCard({
       </div>
       {trend && trendValue && (
         <div className="flex items-center gap-1 mt-1.5">
-          {trend === 'up'   && <TrendingUp   className="w-3.5 h-3.5 text-green-500" />}
+          {trend === 'up'   && <TrendingUp   className="w-3.5 h-3.5 text-brand-green-500" />}
           {trend === 'down' && <TrendingDown className="w-3.5 h-3.5 text-red-500" />}
           {trend === 'flat' && <Minus        className="w-3.5 h-3.5 text-slate-400" />}
           <span className={cn(
             'text-xs font-medium',
-            trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-slate-500'
+            trend === 'up' ? 'text-brand-green-600' : trend === 'down' ? 'text-red-600' : 'text-slate-500'
           )}>{trendValue}</span>
         </div>
       )}

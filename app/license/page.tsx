@@ -133,7 +133,7 @@ export default async function LicensePage() {
             </Link>
             <Link
               href={ROUTES.licensePricing}
-              className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white/20 transition text-sm sm:text-lg"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 text-slate-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white/20 transition text-sm sm:text-lg"
             >
               View Pricing
               <ArrowRight className="w-5 h-5" />

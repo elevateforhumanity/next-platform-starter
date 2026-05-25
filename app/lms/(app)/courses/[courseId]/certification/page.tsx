@@ -142,7 +142,7 @@ export default async function CertificationPage({ params }: Props) {
         {certificate && (
           <div className="bg-white rounded-xl border border-brand-green-200 p-6 mb-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-brand-green-100 flex items-center justify-center flex-shrink-0">
-              <Award className="w-6 h-6 text-brand-green-600" />
+              <Award aria-label="award" className="w-6 h-6 text-brand-green-600" />
             </div>
             <div className="flex-1">
               <p className="font-semibold text-slate-900">Certificate of Completion Issued</p>
@@ -167,7 +167,7 @@ export default async function CertificationPage({ params }: Props) {
         {cred && (
           <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
             <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
-              <Award className="w-5 h-5 text-brand-blue-600" />
+              <Award aria-label="award" className="w-5 h-5 text-brand-blue-600" />
               Industry Credential: {cred.abbreviation}
             </h2>
             <p className="text-slate-600 text-sm mb-4">{cred.name}</p>

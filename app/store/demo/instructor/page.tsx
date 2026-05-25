@@ -29,7 +29,7 @@ export default function InstructorDemoPage() {
           </Link>
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-8 h-8" />
+              <GraduationCap aria-label="graduationcap" className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-3xl font-black">Instructor Demo</h1>
