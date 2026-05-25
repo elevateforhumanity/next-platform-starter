@@ -74,15 +74,15 @@ export default async function ProviderPage({ params }: Props) {
     description?: string;
     status?: string;
     fees?: any;
-    verify_url?: string;
+    website_url?: string;
   } | null = null;
   // PUBLIC ROUTE: testing provider detail — no auth required.
   try {
     const db = createPublicClient();
     const { data } = await db
       .from('testing_providers')
-      .select('description,status,fees,verify_url')
-      .eq('slug', key)
+      .select('description,status,fees,website_url')
+      .eq('key', key)
       .maybeSingle();
     if (data) dbOverride = data;
   } catch {
@@ -97,7 +97,7 @@ export default async function ProviderPage({ params }: Props) {
     if (dbOverride.description) (provider as any).description = dbOverride.description;
     if (dbOverride.status) (provider as any).status = dbOverride.status;
     if (dbOverride.fees) (provider as any).fees = dbOverride.fees;
-    if (dbOverride.verify_url) (provider as any).verifyUrl = dbOverride.verify_url;
+    if (dbOverride.website_url) (provider as any).verifyUrl = dbOverride.website_url;
   }
 
   const heroImg = PROVIDER_HERO[key] ?? '/images/pages/career-services-hero.webp';
