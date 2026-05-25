@@ -39,7 +39,28 @@ export default async function DocumentsPage() {
     .order('created_at', { ascending: false })
     .limit(50);
 
-  const docs = documents ?? [];
+  // Generate signed URLs server-side for docs that only have a file_path
+  const ALLOWED_BUCKETS = [
+    'documents',
+    'enrollment-documents',
+    'program-holder-documents',
+    'apprentice-uploads',
+    'tax-documents',
+  ];
+
+  const docs = await Promise.all(
+    (documents ?? []).map(async (doc: any) => {
+      if (doc.file_url || doc.url) return doc;
+      if (!doc.file_path) return doc;
+      // Infer bucket from path prefix (e.g. "enrollment-documents/uuid/file.pdf")
+      const bucket = ALLOWED_BUCKETS.find((b) => doc.file_path.startsWith(b + '/')) ?? 'documents';
+      const pathInBucket = doc.file_path.startsWith(bucket + '/')
+        ? doc.file_path.slice(bucket.length + 1)
+        : doc.file_path;
+      const { data } = await db.storage.from(bucket).createSignedUrl(pathInBucket, 300);
+      return { ...doc, file_url: data?.signedUrl ?? null };
+    }),
+  );
 
   return (
     <div className="max-w-7xl mx-auto py-8 space-y-6 px-4 sm:px-6 lg:px-8">
@@ -186,7 +207,6 @@ export default async function DocumentsPage() {
       </div>
 
       <SamGrantAutoFillPanel />
-      <MinorityCertificationPanel />
       <MinorityCertificationPanel />
     </div>
   );

@@ -179,12 +179,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
 
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
-      .eq('enrollment_state', 'active'),
+      .in('enrollment_state', ['active', 'enrolled', 'onboarding']),
 
     // Previous month active enrollments for delta
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, created_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
-      .eq('enrollment_state', 'active')
+      .in('enrollment_state', ['active', 'enrolled', 'onboarding'])
       .lt('created_at', lastMonthEndS),
 
     // Revenue — single RPC does conditional aggregation in Postgres.

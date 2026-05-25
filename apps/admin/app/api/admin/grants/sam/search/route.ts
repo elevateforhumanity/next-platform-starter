@@ -63,9 +63,11 @@ export async function GET(request: NextRequest) {
     // Most SAM feeds support postedFrom; keep it broad by default.
     if (!params.get('postedFrom')) query.set('postedFrom', '01/01/2024');
 
+    // /prod/ path is deprecated and returns 401 for most API keys.
+    // Try the canonical v2 endpoint first, fall back to /prod/ for legacy keys.
     const endpoints = [
-      `https://api.sam.gov/prod/opportunities/v2/search?${query.toString()}`,
       `https://api.sam.gov/opportunities/v2/search?${query.toString()}`,
+      `https://api.sam.gov/prod/opportunities/v2/search?${query.toString()}`,
     ];
 
     let lastError: string | null = null;
@@ -91,7 +93,7 @@ export async function GET(request: NextRequest) {
             : [];
 
       return NextResponse.json({
-        source: endpoint.includes('/prod/') ? 'sam.gov/prod' : 'sam.gov',
+        source: endpoint.includes('/prod/') ? 'sam.gov/prod (legacy)' : 'sam.gov/v2',
         count: rows.length,
         grants: rows.map(normalizeGrantRow),
       });

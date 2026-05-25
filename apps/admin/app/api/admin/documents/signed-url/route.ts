@@ -5,6 +5,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+// createClient not needed — requireAdminClient covers all DB + storage ops
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,9 +26,7 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
-    const supabase = await createClient();
-    const admin = await requireAdminClient();
-    const db = admin || supabase;
+    const db = await requireAdminClient();
 
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('id');
