@@ -29,13 +29,13 @@ export default function SponsorLicensingPage() {
         <Breadcrumbs items={[{ label: 'Platform', href: '/platform' }, { label: 'Sponsors' }]} />
         <p className="text-sm text-black mt-1">
           Part of the{' '}
-          <a href="/platform" className="text-brand-red-600 font-medium hover:underline">
+          <Link href="/platform" className="text-brand-red-600 font-medium hover:underline">
             Elevate Workforce Operating System
-          </a>
+          </Link>
           .{' '}
-          <a href="/store/licenses" className="hover:underline">
+          <Link href="/store/licenses" className="hover:underline">
             View pricing →
-          </a>
+          </Link>
         </p>
       </div>
       {/* Hero Banner */}

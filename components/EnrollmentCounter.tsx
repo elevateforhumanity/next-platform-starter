@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, useMotionValue, animate } from 'framer-motion';
 import { Users, TrendingUp, Clock, Zap, ArrowRight } from 'lucide-react';
 
@@ -291,20 +292,20 @@ export default function EnrollmentCounter() {
             Don't wait—join the next cohort starting soon!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/apply"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-semibold hover:bg-slate-100 transition-all shadow-lg text-lg group"
             >
               Enroll Now
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
+            </Link>
+            <Link
               href="/programs"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/20 text-slate-900 rounded-lg font-semibold hover:bg-white/30 transition-all backdrop-blur-sm text-lg"
             >
               View Programs
               <Users className="w-5 h-5" />
-            </a>
+            </Link>
           </div>
 
           <p className="mt-6 text-white/60 text-sm">

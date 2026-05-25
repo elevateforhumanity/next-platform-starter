@@ -678,9 +678,9 @@ export default async function JRIProgramsPage() {
                   portable nationwide.
                 </p>
                 <p>
-                  <a href="/programs/apprenticeships" className="text-indigo-600 underline font-bold">
+                  <Link href="/programs/apprenticeships" className="text-indigo-600 underline font-bold">
                     Learn more about apprenticeship programs →
-                  </a>
+                  </Link>
                 </p>
               </div>
             </details>

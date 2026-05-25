@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { submitFssaApplication, type FssaApplicationData } from './actions';
 import { CheckCircle, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 import { getActivePrograms } from '@/lib/program-registry';
@@ -334,8 +335,8 @@ export default function FssaApplicationForm() {
 
           <p className="text-xs text-slate-500">
             By submitting this form you agree to Elevate for Humanity&apos;s{' '}
-            <a href="/legal/privacy" className="underline">Privacy Policy</a> and{' '}
-            <a href="/legal" className="underline">Terms of Service</a>.
+            <Link href="/legal/privacy" className="underline">Privacy Policy</Link> and{' '}
+            <Link href="/legal" className="underline">Terms of Service</Link>.
             This application does not guarantee enrollment.
           </p>
         </div>

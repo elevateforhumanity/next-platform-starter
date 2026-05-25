@@ -79,7 +79,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
       .limit(5);
 
     setRecentActivity(notifications || []);
-  }, []);
+  }, [supabase, userId]);
 
   return (
     <div className="space-y-6">

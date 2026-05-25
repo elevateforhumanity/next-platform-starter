@@ -41,6 +41,7 @@ export default function BeautyApplyPage() {
 
   useEffect(() => {
     if (!cfg) return;
+    const slug = cfg.slug;
     const checkAuth = async () => {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
@@ -49,11 +50,11 @@ export default function BeautyApplyPage() {
       );
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        window.location.href = `/login?redirect=/programs/${cfg.slug}/apply`;
+        window.location.href = `/login?redirect=/programs/${slug}/apply`;
       }
     };
     checkAuth();
-  }, [cfg?.slug]);
+  }, [cfg]);
 
   if (!cfg) {
     // Non-beauty slug hit the shared beauty apply page — redirect to the

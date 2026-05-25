@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useState } from 'react';
 import type { ModuleDef } from '@/courses/hvac/modules';
 
@@ -372,19 +373,19 @@ export default function ModulePage({
                   : ' Proceed to the Final Exam.'}
               </p>
               {module.number < totalModules ? (
-                <a
+                <Link
                   href={`/preview/hvac-module-${module.number + 1}`}
                   className="mt-4 inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition"
                 >
                   Next Module →
-                </a>
+                </Link>
               ) : (
-                <a
+                <Link
                   href="/lms/courses"
                   className="mt-4 inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition"
                 >
                   Take Final Exam →
-                </a>
+                </Link>
               )}
             </div>
           </section>

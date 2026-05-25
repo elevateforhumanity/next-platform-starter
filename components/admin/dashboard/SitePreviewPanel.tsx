@@ -71,7 +71,10 @@ export function SitePreviewPanel({ sites }: Props) {
     setChecking(false);
   };
 
-  useEffect(() => { runChecks(); }, []);
+  useEffect(() => {
+    runChecks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const checkedAt = Object.values(statuses).find((s) => s.checkedAt)?.checkedAt;
 

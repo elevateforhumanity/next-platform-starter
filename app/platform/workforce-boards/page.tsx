@@ -110,9 +110,9 @@ export default function WorkforceBoardsPage() {
           />
           <p className="text-sm text-black font-medium mt-1">
             Part of the{' '}
-            <a href="/platform" className="text-brand-red-600 hover:underline">
+            <Link href="/platform" className="text-brand-red-600 hover:underline">
               Elevate Workforce Operating System
-            </a>
+            </Link>
           </p>
         </div>
       </div>

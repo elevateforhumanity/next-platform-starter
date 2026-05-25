@@ -89,8 +89,7 @@ export default function CosmetologyPartnerPageClient({
 
       {/* Hero image — no text overlay, no gradient wash per design standard */}
       <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        // IMAGE-CONTRACT: allow raw img because legacy markup
+        {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
         <img
           src="/images/pages/cosmetology-hero.webp"
           alt="Licensed Indiana cosmetology salon ready to host apprentices"

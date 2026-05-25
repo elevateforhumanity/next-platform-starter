@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface InviteDetails {
   email: string;
@@ -134,9 +135,9 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
           >
             {state === 'loading' ? 'Accepting…' : `Join ${invite.organization_name}`}
           </button>
-          <a href="/" className="block text-center text-xs text-slate-700 hover:text-slate-700">
+          <Link href="/" className="block text-center text-xs text-slate-700 hover:text-slate-700">
             Decline
-          </a>
+          </Link>
         </div>
       )}
     </div>

@@ -515,12 +515,12 @@ function BookingForm() {
                   <strong>at least 30 days before your exam date</strong>. Submit your request early
                   to avoid delays or missed testing opportunities.
                 </p>
-                <a
+                <Link
                   href="/testing/accommodations"
                   className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 hover:text-amber-900 mt-2"
                 >
                   Accommodations Request Info →
-                </a>
+                </Link>
               </div>
             </div>
           )}

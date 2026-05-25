@@ -111,6 +111,7 @@ export default function DocumentsClient() {
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Map uploaded docs by document_type for quick lookup

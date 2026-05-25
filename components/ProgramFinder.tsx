@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Heart,
@@ -357,9 +358,9 @@ export default function ProgramFinder() {
             </button>
             <p className="text-black">
               Not sure yet?{' '}
-              <a href="/programs" className="text-brand-blue-600 hover:underline">
+              <Link href="/programs" className="text-brand-blue-600 hover:underline">
                 Browse all programs
-              </a>
+              </Link>
             </p>
           </div>
         </div>

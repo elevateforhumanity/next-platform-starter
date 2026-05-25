@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Award, Plus, Trash2, Star } from 'lucide-react';
 import BuilderSection from './BuilderSection';
 import type { ProgramBuilderState, ProgramCredential } from './types';
@@ -175,9 +176,9 @@ export default function ProgramCertificationsSection({
         {unattachedCredentials.length === 0 && credentials.length === 0 && (
           <p className="text-sm text-slate-400">
             No credentials exist in the registry yet.{' '}
-            <a href="/admin/credentials" className="text-brand-blue-600 hover:underline">
+            <Link href="/admin/credentials" className="text-brand-blue-600 hover:underline">
               Add credentials →
-            </a>
+            </Link>
           </p>
         )}
       </div>
