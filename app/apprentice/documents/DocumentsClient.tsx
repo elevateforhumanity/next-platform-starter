@@ -7,7 +7,6 @@ import {
   Upload,
   Download,
   Clock,
-  CheckCircle2,
   XCircle,
   AlertTriangle,
   Trash2,
@@ -43,7 +42,7 @@ type UploadedDoc = {
 
 const STATUS_CONFIG = {
   pending: { label: 'Under Review', icon: Clock, cls: 'bg-amber-100 text-amber-800' },
-  approved: { label: 'Approved', icon: CheckCircle2, cls: 'bg-brand-green-100 text-brand-green-800' },
+  approved: { label: 'Approved', icon: FileText, cls: 'bg-brand-green-100 text-brand-green-800' },
   rejected: { label: 'Rejected', icon: XCircle, cls: 'bg-red-100 text-red-800' },
   expired: { label: 'Expired', icon: AlertTriangle, cls: 'bg-slate-100 text-slate-600' },
 };
@@ -112,7 +111,6 @@ export default function DocumentsClient() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Map uploaded docs by document_type for quick lookup
