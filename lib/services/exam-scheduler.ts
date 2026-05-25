@@ -136,7 +136,7 @@ export async function resolveSchedulingRoute(
     .maybeSingle();
 
   if (error || !data) {
-    logger.error('resolveSchedulingRoute: credential not found', { credentialId, error });
+    logger.error('resolveSchedulingRoute: credential not found', undefined, { credentialId, error });
     return null;
   }
 
@@ -230,7 +230,7 @@ export async function requestExamScheduling(
     .maybeSingle();
 
   if (error || !newReq) {
-    logger.error('requestExamScheduling: insert failed', { req, error });
+    logger.error('requestExamScheduling: insert failed', undefined, { req, error });
     return { route: null, requestId: null, alreadyPending: false };
   }
 

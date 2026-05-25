@@ -74,7 +74,7 @@ export async function checkExamEligibility(
     });
 
     if (error) {
-      logger.error('evaluate_exam_eligibility_v2 failed', { learnerId, credentialId, error });
+      logger.error('evaluate_exam_eligibility_v2 failed', undefined, { learnerId, credentialId, error });
       return ineligible(
         learnerId,
         credentialId,
@@ -87,7 +87,7 @@ export async function checkExamEligibility(
 
     return parseV2Result(learnerId, credentialId, programId, evaluatedAt, rows ?? []);
   } catch (err) {
-    logger.error('checkExamEligibility unexpected error', { learnerId, credentialId, err });
+    logger.error('checkExamEligibility unexpected error', undefined, { learnerId, credentialId, err });
     return ineligible(
       learnerId,
       credentialId,
@@ -114,7 +114,7 @@ async function checkEpaEligibility(
   });
 
   if (error) {
-    logger.error('evaluate_exam_eligibility (EPA) failed', { learnerId, credentialId, error });
+    logger.error('evaluate_exam_eligibility (EPA) failed', undefined, { learnerId, credentialId, error });
     return ineligible(
       learnerId,
       credentialId,
@@ -310,7 +310,7 @@ export async function checkEligibilityAndAuthorize(
   });
 
   if (error) {
-    logger.error('Failed to create exam_funding_authorization', { learnerId, credentialId, error });
+    logger.error('Failed to create exam_funding_authorization', undefined, { learnerId, credentialId, error });
     return { ...result, authorizationCreated: false };
   }
 

@@ -66,7 +66,7 @@ export async function getNextJob(): Promise<FulfillmentJob | null> {
   if (!client) return null;
 
   try {
-    const jobStr = await client.lmove(QUEUE_KEY, PROCESSING_KEY, 'RIGHT', 'LEFT');
+    const jobStr = await client.lmove(QUEUE_KEY, PROCESSING_KEY, 'right', 'left');
     if (!jobStr) return null;
     return JSON.parse(jobStr as string) as FulfillmentJob;
   } catch (error) {
