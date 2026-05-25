@@ -15,6 +15,7 @@ import type {
   GradingResult,
 } from './types';
 import { OpenAIProvider, GeminiProvider, AzureProvider, StabilityProvider, GroqProvider } from './providers';
+// AzureProvider re-exported for reasoning resolver below
 
 // -- Provider Registry --
 
@@ -240,4 +241,64 @@ export function isAIAvailable(): boolean {
 export function resetProviders(): void {
   _chatProvider = null;
   _imageProvider = null;
+}
+
+// ── Reasoning model ───────────────────────────────────────────────────────────
+
+let _reasoningProvider: AzureProvider | null = null;
+
+function resolveReasoningProvider(): AzureProvider {
+  if (_reasoningProvider) return _reasoningProvider;
+  const p = new AzureProvider();
+  if (!p.isAvailable()) {
+    throw new Error(
+      'No reasoning provider available. Set AZURE_OPENAI_ENDPOINT + AZURE_OPENAI_API_KEY + AZURE_REASONING_DEPLOYMENT.',
+    );
+  }
+  _reasoningProvider = p;
+  return p;
+}
+
+/**
+ * Send a request to the Azure reasoning model (o3-mini by default).
+ *
+ * Use for tasks that benefit from deep multi-step reasoning:
+ *   - Course generation from complex syllabi
+ *   - Quiz generation with nuanced distractors
+ *   - Funding eligibility analysis
+ *   - Document field extraction with ambiguous content
+ *   - Compliance gap analysis
+ *
+ * Falls back to aiChat() if Azure reasoning is not configured.
+ */
+export async function aiReason(options: ChatCompletionOptions): Promise<ChatCompletionResult> {
+  try {
+    const provider = resolveReasoningProvider();
+    return await withResilience(() => provider.reason(options), {
+      circuitBreaker: breakers.openai,
+      attempts: 2,
+      baseDelayMs: 2000,
+      label: 'aiReason',
+      shouldRetry: (err) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        return !msg.includes('401') && !msg.includes('400');
+      },
+    });
+  } catch {
+    // Graceful fallback to standard chat if reasoning model not configured
+    logger.warn('[aiReason] Reasoning provider unavailable, falling back to aiChat');
+    return aiChat(options);
+  }
+}
+
+/**
+ * Check if the Azure reasoning model is configured and available.
+ */
+export function isReasoningAvailable(): boolean {
+  try {
+    resolveReasoningProvider();
+    return true;
+  } catch {
+    return false;
+  }
 }

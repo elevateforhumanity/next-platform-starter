@@ -13,6 +13,7 @@ import ServerFooter from '@/components/site/ServerFooter';
 import ClientWidgets from './ClientWidgets';
 import MarketingChromeGuardLoader from './MarketingChromeGuardLoader';
 import { SafeSearchParamsProvider } from '@/hooks/useSafeSearchParams';
+import { SiteDisclaimer } from '@/components/compliance/site-disclaimer';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
         </div>
 
         <div data-marketing-chrome data-marketing-footer>
+          <SiteDisclaimer />
           <ServerFooter />
         </div>
 

@@ -15,6 +15,11 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import {
+  analyzeDocument,
+  toExtractedFields,
+  isDocumentIntelligenceAvailable,
+} from '@/lib/ai/azure-document-intelligence';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -214,11 +219,37 @@ export async function POST(request: NextRequest) {
 
     const mimeType = doc.mime_type || doc.document_type || '';
 
-    // Extract text
-    const { text, method, confidence } = await extractText(buffer, mimeType);
+    // ── Azure Document Intelligence (preferred) ───────────────────────────────
+    // Uses Azure's pre-built models for structured field extraction.
+    // Falls back to local regex OCR if Azure is not configured.
+    let fields: Record<string, string> = {};
+    let text = '';
+    let method = 'regex';
+    let confidence = 0;
 
-    // Extract structured fields
-    const fields = text ? extractFields(text) : {};
+    if (isDocumentIntelligenceAvailable()) {
+      try {
+        const diResult = await analyzeDocument(fileUrl, doc.document_type || 'general');
+        fields = toExtractedFields(diResult);
+        text = diResult.rawText;
+        method = `azure-document-intelligence:${diResult.modelId}`;
+        confidence = diResult.confidence;
+      } catch (diErr) {
+        // Azure failed — fall through to local OCR
+        const { text: ocrText, method: ocrMethod, confidence: ocrConf } = await extractText(buffer, mimeType);
+        text = ocrText;
+        method = ocrMethod;
+        confidence = ocrConf;
+        fields = text ? extractFields(text) : {};
+      }
+    } else {
+      // Local regex OCR
+      const extracted = await extractText(buffer, mimeType);
+      text = extracted.text;
+      method = extracted.method;
+      confidence = extracted.confidence;
+      fields = text ? extractFields(text) : {};
+    }
 
     const extracted_data = {
       fields,

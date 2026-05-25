@@ -27,12 +27,14 @@
  *   /api/ai/generate-course     → 'course_generation'         (course builder)
  */
 
-import { aiChat } from '@/lib/ai/ai-service';
+import { aiChat, aiReason, isReasoningAvailable } from '@/lib/ai/ai-service';
 import { logger } from '@/lib/logger';
 import type { ChatMessage } from '@/lib/ai/types';
 import { getRAGContext } from '@/lib/platform/rag';
 import { getKnowledgeGraphContext } from '@/lib/platform/knowledge-graph';
 import { decomposePlan } from '@/lib/platform/planner';
+import { buildMSLearnContext } from '@/lib/ai/microsoft-learn';
+import { getCertiportContextForCourse } from '@/lib/partners/certiport';
 export type { Plan, PlanStep } from '@/lib/platform/planner';
 
 // ─── Task types ───────────────────────────────────────────────────────────────
@@ -79,6 +81,8 @@ export type AITaskContext = {
   topic?: string;
   difficulty?: string;
   moduleCount?: number;
+  certiportExamCode?: string;  // e.g. 'MOS-EXCEL-ASSOC' — enriches with MS Learn content
+  msLearnEnrich?: boolean;     // explicitly enable/disable MS Learn enrichment
 
   // RAG / knowledge graph
   ragQuery?: string;           // Override query for RAG retrieval (defaults to prompt)
@@ -238,6 +242,30 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
     }
   }
 
+  // Augment course/lesson generation with MS Learn + Certiport content
+  if (['course_generation', 'lesson_generation', 'quiz_generation'].includes(task)) {
+    const examCode = context.certiportExamCode;
+    const enrich = context.msLearnEnrich !== false; // default on for course tasks
+
+    if (enrich && examCode) {
+      // Inject MS Learn module list for this specific exam
+      const msLearnCtx = await buildMSLearnContext(examCode).catch(() => '');
+      if (msLearnCtx) systemPrompt += '\n\n' + msLearnCtx;
+
+      // Inject Certiport exam objectives
+      const certiportCtx = getCertiportContextForCourse(examCode);
+      if (certiportCtx) systemPrompt += '\n\n' + certiportCtx;
+    } else if (enrich && context.topic) {
+      // No specific exam — search MS Learn by topic keyword
+      const { searchMSLearn } = await import('@/lib/ai/microsoft-learn');
+      const modules = await searchMSLearn(context.topic, 5).catch(() => []);
+      if (modules.length > 0) {
+        const list = modules.map((m) => `- ${m.title}: ${m.summary.slice(0, 100)}`).join('\n');
+        systemPrompt += `\n\n## Related Microsoft Learn Content\n${list}\nSource: learn.microsoft.com`;
+      }
+    }
+  }
+
   const messages: ChatMessage[] = [
     { role: 'system', content: systemPrompt },
     ...(context.history ?? []),
@@ -268,13 +296,39 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
   const params = defaults[task];
 
   try {
-    const FULL_MODEL_TASKS: AITask[] = ['course_generation', 'quiz_generation', 'diagnostics', 'deployment_analysis', 'knowledge_graph_query', 'rag_query', 'plan_decompose'];
-    const result = await aiChat({
-      model: FULL_MODEL_TASKS.includes(task) ? 'gpt-4.1' : 'gpt-4.1-mini',
-      messages,
-      temperature: temperature ?? params.temperature,
-      maxTokens: maxTokens ?? params.maxTokens,
-    });
+    // Tasks that benefit from deep reasoning (o3-mini via Azure if configured)
+    const REASONING_TASKS: AITask[] = [
+      'course_generation',
+      'quiz_generation',
+      'grant_generation',
+      'diagnostics',
+      'deployment_analysis',
+    ];
+
+    // Tasks that need the full GPT-4.1 model (complex but not reasoning)
+    const FULL_MODEL_TASKS: AITask[] = [
+      'knowledge_graph_query',
+      'rag_query',
+      'plan_decompose',
+      'lesson_generation',
+    ];
+
+    let result;
+    if (REASONING_TASKS.includes(task) && isReasoningAvailable()) {
+      // Use Azure o3-mini for deep reasoning tasks — better structured output,
+      // more coherent multi-step generation, fewer hallucinated facts
+      result = await aiReason({
+        messages,
+        maxTokens: maxTokens ?? params.maxTokens,
+      });
+    } else {
+      result = await aiChat({
+        model: FULL_MODEL_TASKS.includes(task) ? 'gpt-4.1' : 'gpt-4.1-mini',
+        messages,
+        temperature: temperature ?? params.temperature,
+        maxTokens: maxTokens ?? params.maxTokens,
+      });
+    }
 
     logger.info('[ai-orchestrator] Task completed', {
       task,

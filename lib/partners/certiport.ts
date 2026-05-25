@@ -167,3 +167,26 @@ export function getExamCategories(): string[] {
   const categories = new Set(Object.values(CERTIPORT_EXAMS).map((exam) => exam.category));
   return Array.from(categories).sort();
 }
+
+/**
+ * Build a context string for injection into the course builder AI prompt.
+ * Describes the Certiport exam objectives so the AI generates aligned content.
+ */
+export function getCertiportContextForCourse(examCode: string): string {
+  const exam = (CERTIPORT_EXAMS as any)[examCode];
+  if (!exam) return '';
+
+  return `
+## Certiport Exam Alignment: ${exam.name}
+
+This course should prepare learners for the ${exam.name} certification exam.
+- Exam category: ${exam.category}
+- Passing score: ${exam.passingScore} / 1000
+- Administered by: Certiport (Pearson VUE) at authorized testing centers
+- Elevate for Humanity is a registered CATC — students can test on-site
+
+Ensure all lesson content, quiz questions, and learning objectives align with
+the official ${exam.name} exam objectives. Use practical, hands-on examples
+that reflect real workplace tasks covered by this certification.
+`.trim();
+}

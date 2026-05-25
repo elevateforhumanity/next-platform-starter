@@ -6,16 +6,14 @@ import {
   Users,
   BookOpen,
   ArrowRight,
-  Heart,
   Briefcase,
   GraduationCap,
   TrendingUp,
-  Shield,
   Clock,
   DollarSign,
   Phone,
   MapPin,
-  CheckCircle,
+  PlayCircle,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -303,6 +301,102 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
+      {/* Online Training Modules */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Online Training Modules
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Supplement your hands-on training with self-paced online modules. Available to all
+              enrolled Job Ready Indy participants through the Elevate learning portal.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            {[
+              {
+                title: 'Workplace Safety Fundamentals',
+                description: 'OSHA 10 concepts, hazard recognition, and personal protective equipment for skilled trades environments.',
+                duration: '2 hours',
+                badge: 'Safety',
+                badgeColor: 'bg-orange-100 text-orange-700',
+              },
+              {
+                title: 'Professional Readiness',
+                description: 'Resume writing, interview skills, workplace communication, and professional conduct for new employees.',
+                duration: '3 hours',
+                badge: 'Career Skills',
+                badgeColor: 'bg-brand-blue-100 text-brand-blue-700',
+              },
+              {
+                title: 'Financial Literacy for Workers',
+                description: 'Budgeting, banking basics, understanding your paycheck, and building credit after incarceration.',
+                duration: '2.5 hours',
+                badge: 'Financial',
+                badgeColor: 'bg-brand-green-100 text-brand-green-700',
+              },
+              {
+                title: 'Healthcare Infection Control',
+                description: 'Hand hygiene, PPE use, and standard precautions for CNA and healthcare support roles.',
+                duration: '1.5 hours',
+                badge: 'Healthcare',
+                badgeColor: 'bg-red-100 text-red-700',
+              },
+              {
+                title: 'HVAC Safety & EPA Basics',
+                description: 'Refrigerant handling, electrical safety, and EPA 608 exam preparation overview.',
+                duration: '2 hours',
+                badge: 'Skilled Trades',
+                badgeColor: 'bg-yellow-100 text-yellow-700',
+              },
+              {
+                title: 'Digital Skills for the Workplace',
+                description: 'Email, scheduling apps, time-tracking software, and basic computer skills for modern workplaces.',
+                duration: '2 hours',
+                badge: 'Technology',
+                badgeColor: 'bg-purple-100 text-purple-700',
+              },
+            ].map((module, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <PlayCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded ${module.badgeColor}`}>
+                    {module.badge}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{module.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-4">{module.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1 text-xs text-slate-500">
+                    <Clock className="w-3 h-3" />
+                    {module.duration}
+                  </span>
+                  <span className="text-xs text-slate-400 italic">Login required</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-slate-600 mb-4 text-sm">
+              Enrolled participants access all modules through the Elevate learning portal.
+            </p>
+            <Link
+              href="/lms/scorm"
+              className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
+            >
+              <PlayCircle className="w-5 h-5" />
+              Access Online Modules
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
