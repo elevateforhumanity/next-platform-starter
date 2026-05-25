@@ -1,4 +1,3 @@
-/* eslint-disable no-empty */
 import { getStripe } from '@/lib/stripe/client';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { hydrateProcessEnv } from '@/lib/secrets';

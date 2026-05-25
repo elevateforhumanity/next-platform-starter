@@ -106,14 +106,14 @@ export async function autoGenerateCourseForProgram(args: {
   );
   const generationFailures: Array<{ slug: string; reason: string }> = [];
 
-  for (const module of enrichedBlueprint.modules) {
-    const enrichedLessons: typeof module.lessons = [];
+  for (const mod of enrichedBlueprint.modules) {
+    const enrichedLessons: typeof mod.lessons = [];
 
-    for (const lesson of module.lessons ?? []) {
+    for (const lesson of mod.lessons ?? []) {
       try {
         const generated = await generateLessonContent(
           lesson,
-          module.title,
+          mod.title,
           blueprint.credentialTitle,
           blueprint.state ?? 'Indiana',
           standardsBlock,
@@ -140,7 +140,7 @@ export async function autoGenerateCourseForProgram(args: {
       }
     }
 
-    module.lessons = enrichedLessons;
+    mod.lessons = enrichedLessons;
   }
 
   const build = await buildCanonicalCourseFromBlueprint({

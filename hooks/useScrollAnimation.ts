@@ -28,8 +28,9 @@ export function useScrollAnimation(threshold = 0.1) {
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      const el = ref.current;
+      if (el) {
+        observer.unobserve(el);
       }
     };
   }, [threshold]);

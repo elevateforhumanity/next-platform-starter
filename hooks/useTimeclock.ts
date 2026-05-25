@@ -73,6 +73,8 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const graceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Ref to stopHeartbeat so sendHeartbeat can call it without a circular dep
+  const stopHeartbeatRef = useRef<() => void>(() => {});
 
   // Get current GPS position
   const getCurrentPosition = useCallback((): Promise<GPSPosition> => {
@@ -150,7 +152,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
 
       // Update state based on server response
       if (data.auto_clocked_out) {
-        stopHeartbeat();
+        stopHeartbeatRef.current();
         setStatus((prev) => ({
           ...prev,
           state: 'auto_clocked_out',
@@ -215,6 +217,8 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       graceTimerRef.current = null;
     }
   }, []);
+  // Keep ref in sync so sendHeartbeat can call stopHeartbeat without a dep
+  stopHeartbeatRef.current = stopHeartbeat;
 
   // Clock in
   const clockIn = useCallback(async () => {
