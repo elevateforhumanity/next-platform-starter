@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
  *
  * Redirect any callers to the canonical flow.
  */
-export async function POST(_request: NextRequest) {
+export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'payment');
   if (rateLimited) return rateLimited;
   return NextResponse.json(

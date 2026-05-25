@@ -237,7 +237,7 @@ export async function POST(request: NextRequest) {
         extracted_data,
         extraction_status: 'extracted',
         processed_at: new Date().toISOString(),
-        processed_by: auth.user?.id ?? null,
+        processed_by: auth.id ?? null,
       })
       .eq('id', document_id);
 
@@ -306,7 +306,7 @@ export async function POST(request: NextRequest) {
         action: 'document.extract',
         resource_type: 'document',
         resource_id: document_id,
-        actor_id: auth.user?.id ?? null,
+        actor_id: auth.id ?? null,
         metadata: {
           method,
           field_count: Object.keys(fields).length,

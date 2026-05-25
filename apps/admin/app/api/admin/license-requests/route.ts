@@ -33,7 +33,7 @@ async function _PATCH(req: NextRequest) {
     .update({
       status,
       approved_at: status === 'approved' ? new Date().toISOString() : null,
-      approved_by: status === 'approved' ? auth.user.id : null,
+      approved_by: status === 'approved' ? auth.id : null,
       updated_at: new Date().toISOString(),
     })
     .eq('id', id);
@@ -42,7 +42,7 @@ async function _PATCH(req: NextRequest) {
 
   await logAdminAudit({
     action: AdminAction.ENROLLMENT_UPDATED,
-    actorId: auth.user.id,
+    actorId: auth.id,
     entityType: 'license_requests',
     entityId: id,
     metadata: { status },

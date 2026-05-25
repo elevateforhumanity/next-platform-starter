@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
-import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -46,7 +46,7 @@ async function _POST(request: NextRequest) {
     const body = await parseBody<Record<string, any>>(request);
     const { organizationName, contactName, contactEmail, licenseType, paymentIntentId } = body;
 
-    const supabase = await createClient();
+    const supabase = await requireAdminClient();
 
     // 1. Create tenant
     const slug = generateSlug(organizationName);
@@ -136,22 +136,18 @@ async function _POST(request: NextRequest) {
       }),
     });
 
-    // 7. Send setup guide email (5 minutes later)
-    setTimeout(
-      async () => {
-        await resend.emails.send({
-          from: 'Elevate for Humanity <onboarding@elevateforhumanity.org>',
-          to: contactEmail,
-          subject: '📚 Quick Start Guide - Set Up Your Platform',
-          html: generateSetupGuideEmail({
-            organizationName,
-            contactName,
-            adminUrl,
-          }),
-        });
-      },
-      5 * 60 * 1000,
-    ); // 5 minutes
+    // 7. Send setup guide email immediately after welcome email.
+    // setTimeout is not safe in serverless — the function is frozen after response.
+    await resend.emails.send({
+      from: 'Elevate for Humanity <onboarding@elevateforhumanity.org>',
+      to: contactEmail,
+      subject: '📚 Quick Start Guide - Set Up Your Platform',
+      html: generateSetupGuideEmail({
+        organizationName,
+        contactName,
+        adminUrl,
+      }),
+    }).catch(() => { /* non-fatal — welcome email already sent */ });
 
     return NextResponse.json({
       success: true,

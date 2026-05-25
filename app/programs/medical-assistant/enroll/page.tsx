@@ -61,9 +61,9 @@ export default function MedicalAssistantEnrollPage() {
         const d = await r.json(); if (d.url || d.checkout_url) { window.location.href = d.url || d.checkout_url; return; }
       }
       if (paymentOption === 'payment-plan') {
-        window.location.href = `/lms/payments/checkout?program=medical-assistant&amount=${customDown}&type=down-payment&enrollment=${data.enrollmentId}`;
+        window.location.href = `/enroll/payment?application_id=${data.enrollmentId}&program=medical-assistant&amount=${customDown}&type=down-payment`;
       } else {
-        window.location.href = `/lms/payments/checkout?program=medical-assistant&amount=${PROGRAM.price}&type=full-payment&enrollment=${data.enrollmentId}`;
+        window.location.href = `/enroll/payment?application_id=${data.enrollmentId}&program=medical-assistant&amount=${PROGRAM.price}&type=full-payment`;
       }
     } catch (err: any) { setError(err?.message || 'Something went wrong. Call (317) 314-3757.'); setIsSubmitting(false); }
   };

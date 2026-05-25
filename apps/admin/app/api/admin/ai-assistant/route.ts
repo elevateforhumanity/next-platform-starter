@@ -359,10 +359,10 @@ export async function POST(request: NextRequest) {
   const [dataSnapshot, intentData, history] = await Promise.all([
     getLiveDataSnapshot(db),
     resolveIntent(userMessage, db),
-    loadMemory(db, auth.user.id, sessionId),
+    loadMemory(db, auth.id, sessionId),
   ]);
 
-  await saveMemory(db, auth.user.id, sessionId, 'user', userMessage);
+  await saveMemory(db, auth.id, sessionId, 'user', userMessage);
 
   const contextBlock = intentData
     ? `${dataSnapshot}\n\nADDITIONAL LOOKUP DATA:\n${intentData}`
@@ -400,7 +400,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  if (reply) await saveMemory(db, auth.user.id, sessionId, 'assistant', reply);
+  if (reply) await saveMemory(db, auth.id, sessionId, 'assistant', reply);
 
   return NextResponse.json({ reply, sessionId, dataSnapshot });
 }
@@ -413,7 +413,7 @@ export async function DELETE(request: NextRequest) {
   const db = await requireAdminClient();
 
   await db.from('ai_conversation_memory').delete()
-    .eq('user_id', auth.user.id)
+    .eq('user_id', auth.id)
     .eq('session_id', sessionId ?? 'default');
 
   return NextResponse.json({ ok: true });

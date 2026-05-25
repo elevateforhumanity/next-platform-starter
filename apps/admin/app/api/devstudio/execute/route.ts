@@ -3665,12 +3665,12 @@ ENGINEERING
 
         // Emit platform event + write audit log (fire-and-forget)
         try {
-          await emitAiAction('devstudio_execute', auth.user?.id, { command: command.slice(0, 200) });
+          await emitAiAction('devstudio_execute', auth.id, { command: command.slice(0, 200) });
           const { createClient } = await import('@supabase/supabase-js');
           if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
             const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
             await sb.from('audit_logs').insert({
-              actor_id: auth.user?.id ?? null,
+              actor_id: auth.id ?? null,
               action: 'ai_devstudio_execute',
               metadata: { source: 'ai', command: command.slice(0, 500) },
             });

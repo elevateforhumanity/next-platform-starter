@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiAuthGuard(req);
-  const { user } = auth;
+  if (auth.error) return auth.error;
+  const userId = auth.id;
 
   const body = await req.json();
   const { attemptId } = body;
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
     .from('credential_attempts')
     .select('id, learner_id, credential_id, program_id')
     .eq('id', attemptId)
-    .eq('learner_id', user.id)
+    .eq('learner_id', userId)
     .maybeSingle();
 
   if (!attempt) {
@@ -84,7 +85,7 @@ export async function POST(req: NextRequest) {
   const { data: profile } = await db
     .from('profiles')
     .select('email, full_name')
-    .eq('id', user.id)
+    .eq('id', userId)
     .maybeSingle();
 
   // Determine amount — authorization record takes precedence, then credential row, else 0

@@ -26,14 +26,14 @@ export async function PATCH(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   // Require instructor or admin role
   const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('role')
-    .eq('id', user.id)
+    .eq('id', userId)
     .maybeSingle();
 
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
@@ -79,10 +79,10 @@ export async function PATCH(request: NextRequest) {
     .update({
       status,
       instructor_note: note?.trim() || null,
-      instructor_id: user.id,
+      instructor_id: userId,
       instructor_status: instructorStatus,
       instructor_feedback: note?.trim() || null,
-      reviewed_by: user.id,
+      reviewed_by: userId,
       reviewed_at: now,
       updated_at: now,
     })
@@ -102,7 +102,7 @@ export async function PATCH(request: NextRequest) {
       course_id: submission.course_id,
       competency_key: submission.competency_key ?? null,
       action: status,
-      actor_id: user.id,
+      actor_id: userId,
       note: note?.trim() || null,
       created_at: now,
     })

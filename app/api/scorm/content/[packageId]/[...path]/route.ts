@@ -49,7 +49,7 @@ async function _GET(
   // Convention: scorm/<packageId>/<relative file path>
   const filePath = `scorm/${packageId}/${(path || []).join('/')}`;
 
-  const { data, error } = await supabase.storage.from('course_content').download(filePath);
+  const { data, error } = await supabase.storage.from('course-content').download(filePath);
 
   if (error || !data) {
     return NextResponse.json({ error: 'SCORM content not found', filePath }, { status: 404 });

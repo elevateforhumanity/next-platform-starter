@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
         status: 'issued',
         issued_at: new Date().toISOString(),
         expires_at: expiresAt,
-        issued_by: auth.user?.id,
+        issued_by: auth.id,
       })
       .select('id, voucher_number, amount, status, issued_at, expires_at')
       .single();
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeDbError(error, 'Failed to create voucher');
 
     await emitEvent('funding.authorized', 'compliance', {
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'user',
       subject_id: data.id,
       subject_type: 'ita_voucher',

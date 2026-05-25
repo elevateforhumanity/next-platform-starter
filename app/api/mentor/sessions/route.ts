@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     if (upcoming) q = q.gte('scheduled_at', new Date().toISOString()) as typeof q;
 
     if (auth.role === 'mentor') {
-      const { data: myMentorships } = await supabase.from('mentorships').select('id').eq('mentor_id', auth.user!.id);
+      const { data: myMentorships } = await supabase.from('mentorships').select('id').eq('mentor_id', auth.id);
       const ids = (myMentorships ?? []).map((m: { id: string }) => m.id);
       if (ids.length === 0) return NextResponse.json({ sessions: [] });
       q = q.in('mentorship_id', ids) as typeof q;
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     const supabase = await getAdminClient();
     if (auth.role === 'mentor' && mentorship_id) {
       const { data: ms } = await supabase.from('mentorships').select('mentor_id').eq('id', mentorship_id).single();
-      if (!ms || ms.mentor_id !== auth.user!.id) return safeError('Forbidden', 403);
+      if (!ms || ms.mentor_id !== auth.id) return safeError('Forbidden', 403);
     }
 
     const { data, error } = await supabase
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeDbError(error, 'Failed to create session');
 
     await emitEvent('session.scheduled', 'lms', {
-      actor_id: auth.user?.id, actor_type: 'user',
+      actor_id: auth.id, actor_type: 'user',
       subject_id: data.id, subject_type: 'mentor_session',
       message: `Mentor session scheduled: ${new Date(scheduled_at).toLocaleDateString()}`,
     });

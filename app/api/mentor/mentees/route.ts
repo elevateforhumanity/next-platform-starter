@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       .order('started_at', { ascending: false });
 
     if (auth.role === 'mentor') {
-      q = q.eq('mentor_id', auth.user!.id) as typeof q;
+      q = q.eq('mentor_id', auth.id) as typeof q;
     }
 
     const { data, error } = await q;

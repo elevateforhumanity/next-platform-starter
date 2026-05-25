@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       file_name: file.name,
       file_size: file.size,
       status: 'uploaded',
-      created_by: auth.user?.id ?? null,
+      created_by: auth.id ?? null,
     })
     .select('id, title, status, created_at')
     .single();
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
 
   // Audit
   await db.from('contract_audit_logs').insert({
-    actor_id: auth.user?.id ?? null,
+    actor_id: auth.id ?? null,
     action: 'upload',
     entity_type: 'contract_template',
     entity_id: template.id,

@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
 
     if (mentorship_id) q = q.eq('mentorship_id', mentorship_id) as typeof q;
     else if (auth.role === 'mentor') {
-      const { data: myMentorships } = await supabase.from('mentorships').select('id').eq('mentor_id', auth.user!.id);
+      const { data: myMentorships } = await supabase.from('mentorships').select('id').eq('mentor_id', auth.id);
       const ids = (myMentorships ?? []).map((m: { id: string }) => m.id);
       if (ids.length === 0) return NextResponse.json({ messages: [] });
       q = q.in('mentorship_id', ids) as typeof q;
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     const supabase = await getAdminClient();
     const { data, error } = await supabase
       .from('mentor_messages')
-      .insert({ mentorship_id, content: content.trim(), sender_id: auth.user!.id })
+      .insert({ mentorship_id, content: content.trim(), sender_id: auth.id })
       .select('id, content, created_at')
       .single();
 

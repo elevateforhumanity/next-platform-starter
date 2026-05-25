@@ -45,7 +45,7 @@ async function _GET(request: NextRequest) {
         if (!authResult.authorized) {
           return NextResponse.json({ error: authResult.error }, { status: 401 });
         }
-        const codes = await getUserReferralCodes(authResult.user.id);
+        const codes = await getUserReferralCodes(authResult.userId);
         return NextResponse.json({ codes });
 
       case 'my-referrals':
@@ -54,7 +54,7 @@ async function _GET(request: NextRequest) {
           return NextResponse.json({ error: authResult2.error }, { status: 401 });
         }
         const status = searchParams.get('status') as any;
-        const referrals = await getUserReferrals(authResult2.user.id, status);
+        const referrals = await getUserReferrals(authResult2.userId, status);
         return NextResponse.json({ referrals });
 
       case 'stats':
@@ -62,7 +62,7 @@ async function _GET(request: NextRequest) {
         if (!authResult3.authorized) {
           return NextResponse.json({ error: authResult3.error }, { status: 401 });
         }
-        const stats = await getAffiliateStats(authResult3.user.id);
+        const stats = await getAffiliateStats(authResult3.userId);
         return NextResponse.json({ stats });
 
       case 'leaderboard':
@@ -89,14 +89,14 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { action } = body;
 
     switch (action) {
       case 'create-code':
         const { type, customCode, discountPercentage, commissionPercentage } = body;
-        const code = await createReferralCode(user.id, type, {
+        const code = await createReferralCode(userId, type, {
           customCode,
           discountPercentage,
           commissionPercentage,
@@ -108,12 +108,12 @@ async function _POST(request: NextRequest) {
         if (!referralCode) {
           return NextResponse.json({ error: 'referralCode required' }, { status: 400 });
         }
-        const referral = await trackReferral(referralCode, user.id);
+        const referral = await trackReferral(referralCode, userId);
         return NextResponse.json({ success: true, referral });
 
       case 'apply-affiliate':
         const { website, socialMedia, audience, reason } = body;
-        await applyForAffiliate(user.id, {
+        await applyForAffiliate(userId, {
           website,
           socialMedia,
           audience,
@@ -126,7 +126,7 @@ async function _POST(request: NextRequest) {
         if (!amount || !paymentMethod) {
           return NextResponse.json({ error: 'amount and paymentMethod required' }, { status: 400 });
         }
-        await processAffiliatePayout(user.id, amount, paymentMethod, paymentDetails);
+        await processAffiliatePayout(userId, amount, paymentMethod, paymentDetails);
         return NextResponse.json({ success: true });
 
       case 'calculate-discount':

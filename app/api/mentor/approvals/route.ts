@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       .order('requested_at', { ascending: true });
 
     if (auth.role === 'mentor') {
-      q = q.eq('mentor_id', auth.user!.id) as typeof q;
+      q = q.eq('mentor_id', auth.id) as typeof q;
     }
 
     const { data, error } = await q;
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     // Verify ownership
     if (auth.role === 'mentor') {
       const { data: ms } = await supabase.from('mentorships').select('mentor_id').eq('id', mentorship_id).single();
-      if (!ms || ms.mentor_id !== auth.user!.id) return safeError('Forbidden', 403);
+      if (!ms || ms.mentor_id !== auth.id) return safeError('Forbidden', 403);
     }
 
     const newStatus = action === 'approve' ? 'active' : 'declined';
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeDbError(error, 'Failed to update mentorship');
 
     await emitEvent(`mentorship.${action}d`, 'lms', {
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'user',
       subject_id: mentorship_id,
       subject_type: 'mentorship',

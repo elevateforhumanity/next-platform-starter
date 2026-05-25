@@ -309,7 +309,7 @@ export async function GET(req: NextRequest) {
         const severity = results.fail > 0 ? 'error' : results.warn > 0 ? 'warning' : 'info';
         await emitEvent('qa.scan_completed', 'system', {
           severity,
-          actor_id: auth.user?.id,
+          actor_id: auth.id,
           actor_type: 'ai',
           payload: { scope, pass: results.pass, warn: results.warn, fail: results.fail, issues: issues.slice(0, 10) },
           message: `QA scan: ${results.pass} pass, ${results.warn} warn, ${results.fail} fail`,

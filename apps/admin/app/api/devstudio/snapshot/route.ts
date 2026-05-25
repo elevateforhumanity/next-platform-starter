@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       .insert({
         snapshot_type: type,
         label,
-        triggered_by: auth.user?.id ?? null,
+        triggered_by: auth.id ?? null,
         trigger_type: 'ai',
         data: data ?? {},
         rollback_sql: rollback_sql ?? null,
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeError(error.message, 500);
 
     await emitEvent('snapshot.created', 'system', {
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'ai',
       subject_id: snapshot.id,
       subject_type: 'snapshot',

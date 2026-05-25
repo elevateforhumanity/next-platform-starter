@@ -70,7 +70,7 @@ export async function POST(
 
     await emitEvent('snapshot.rolled_back', 'system', {
       severity: 'warning',
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'ai',
       subject_id: id,
       subject_type: 'snapshot',

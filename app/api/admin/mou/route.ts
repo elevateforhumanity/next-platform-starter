@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         expiry_date: expiry_date || null,
         content: mouContent,
         title: mouTitle,
-        created_by: auth.user.id,
+        created_by: auth.id,
         created_at: new Date().toISOString(),
       })
       .select('*, partners:partner_id(name)')

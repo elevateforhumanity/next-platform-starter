@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiAuthGuard(req);
-  const { user } = auth;
+  if (auth.error) return auth.error;
+  const userId = auth.id;
 
   const attemptId = req.nextUrl.searchParams.get('attemptId');
   if (!attemptId) {
@@ -36,7 +37,7 @@ export async function GET(req: NextRequest) {
     .from('credential_attempts')
     .select('id, learner_id, credential_id, program_id')
     .eq('id', attemptId)
-    .eq('learner_id', user.id)
+    .eq('learner_id', userId)
     .maybeSingle();
 
   if (!attempt) {

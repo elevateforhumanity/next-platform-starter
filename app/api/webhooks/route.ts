@@ -73,7 +73,7 @@ async function _POST(request: NextRequest) {
       return authResult;
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { action } = body;
 
@@ -83,7 +83,7 @@ async function _POST(request: NextRequest) {
         if (!url || !events || !Array.isArray(events)) {
           return NextResponse.json({ error: 'url and events array required' }, { status: 400 });
         }
-        const webhook = await createWebhook(url, events as WebhookEvent[], user.id, {
+        const webhook = await createWebhook(url, events as WebhookEvent[], userId, {
           description,
           headers,
         });

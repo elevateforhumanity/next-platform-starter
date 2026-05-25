@@ -50,22 +50,19 @@ async function _POST(request: NextRequest) {
     const programLabel = (app.program_interest || 'Unknown Program').replace(/-/g, ' ');
     const stepLabel = STEP_LABELS[step];
 
-    // Check remaining steps from onboarding_progress
-    const { data: progress } = await supabase
+    // Check remaining steps from onboarding_progress (new schema: step + completed columns)
+    const REQUIRED_STEPS = ['profile', 'agreements', 'handbook', 'documents'];
+    const { data: progressRows } = await supabase
       .from('onboarding_progress')
-      .select('profile_completed, agreements_completed, handbook_acknowledged, documents_uploaded')
+      .select('step, completed')
       .eq('user_id', user.id)
-      .maybeSingle();
+      .in('step', REQUIRED_STEPS);
 
-    const completedSteps = [
-      progress?.profile_completed && 'Profile',
-      progress?.agreements_completed && 'Agreements',
-      progress?.handbook_acknowledged && 'Handbook',
-      progress?.documents_uploaded && 'Documents',
-    ].filter(Boolean);
-
-    const totalRequired = 4;
-    const completedCount = completedSteps.length;
+    const completedSet = new Set(
+      (progressRows ?? []).filter((r) => r.completed).map((r) => r.step),
+    );
+    const completedCount = completedSet.size;
+    const totalRequired = REQUIRED_STEPS.length;
     const remaining = totalRequired - completedCount;
 
     await sendEmail({
@@ -83,10 +80,10 @@ async function _POST(request: NextRequest) {
         `</table>`,
         `<h4>Onboarding Checklist</h4>`,
         `<ul>`,
-        `<li>${progress?.profile_completed ? '✅' : '⬜'} Profile Completed</li>`,
-        `<li>${progress?.agreements_completed ? '✅' : '⬜'} Agreements Signed</li>`,
-        `<li>${progress?.handbook_acknowledged ? '✅' : '⬜'} Handbook Acknowledged</li>`,
-        `<li>${progress?.documents_uploaded ? '✅' : '⬜'} Documents Uploaded</li>`,
+        `<li>${completedSet.has('profile') ? '✅' : '⬜'} Profile Completed</li>`,
+        `<li>${completedSet.has('agreements') ? '✅' : '⬜'} Agreements Signed</li>`,
+        `<li>${completedSet.has('handbook') ? '✅' : '⬜'} Handbook Acknowledged</li>`,
+        `<li>${completedSet.has('documents') ? '✅' : '⬜'} Documents Uploaded</li>`,
         `</ul>`,
         remaining === 0
           ? `<p style="color:#16a34a;font-weight:bold">All steps complete — enrollment approval will be triggered automatically.</p>`

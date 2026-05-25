@@ -17,7 +17,8 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiAuthGuard(request);
-  const { user } = auth;
+  if (auth.error) return auth.error;
+  const userId = auth.id;
 
   const db = await requireAdminClient();
 
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
   const { data: profile } = await db
     .from('profiles')
     .select('role, full_name, email')
-    .eq('id', user.id)
+    .eq('id', userId)
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin'].includes(profile.role)) {

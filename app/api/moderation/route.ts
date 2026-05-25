@@ -29,7 +29,7 @@ async function _GET(request: NextRequest) {
       return authResult;
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
 
@@ -59,7 +59,7 @@ async function _GET(request: NextRequest) {
       }
 
       case 'performance': {
-        const moderatorId = searchParams.get('moderatorId') || user.id;
+        const moderatorId = searchParams.get('moderatorId') || userId;
         const perfStartDate = searchParams.get('startDate') || undefined;
         const perfEndDate = searchParams.get('endDate') || undefined;
         const performance = await getModeratorPerformance(moderatorId, perfStartDate, perfEndDate);
@@ -86,7 +86,7 @@ async function _POST(request: NextRequest) {
       return authResult;
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { action } = body;
 
@@ -102,7 +102,7 @@ async function _POST(request: NextRequest) {
         const report = await reportContent(
           contentType as ContentType,
           contentId,
-          user.id,
+          userId,
           reason as ReportReason,
           description,
         );
@@ -117,7 +117,7 @@ async function _POST(request: NextRequest) {
             { status: 400 },
           );
         }
-        await reviewReport(reportId, user.id, moderationAction as ModerationAction, notes);
+        await reviewReport(reportId, userId, moderationAction as ModerationAction, notes);
         return NextResponse.json({ success: true });
       }
 
@@ -133,7 +133,7 @@ async function _POST(request: NextRequest) {
           type as ContentType,
           id,
           action2 as ModerationAction,
-          user.id,
+          userId,
           moderatorNotes,
         );
         return NextResponse.json({ success: true });

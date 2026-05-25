@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
         write('');
 
         await emitEvent('planner.started', 'ai', {
-          actor_id: auth.user?.id,
+          actor_id: auth.id,
           actor_type: 'ai',
           payload: { goal, plan_id: plan.id, step_count: plan.steps.length },
           message: `AI planner started: ${goal}`,
@@ -173,7 +173,7 @@ export async function POST(req: NextRequest) {
 
         await emitEvent('planner.completed', 'ai', {
           severity: failedSteps > 0 ? 'warning' : 'info',
-          actor_id: auth.user?.id,
+          actor_id: auth.id,
           actor_type: 'ai',
           payload: { goal, plan_id: plan.id, done: doneCount, failed: failedSteps },
           message: `AI planner completed: ${goal} (${doneCount}/${plan.steps.length} steps)`,

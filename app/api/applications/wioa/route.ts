@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { checkRateLimit } from '@/lib/rate-limit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -12,23 +11,8 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'api');
+    const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
-
-    // Rate limiting
-    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
-    const { ok } = await checkRateLimit({
-      key: `wioa-apply:${ip}`,
-      limit: 3,
-      windowSeconds: 60,
-    });
-
-    if (!ok) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again in a minute.' },
-        { status: 429 },
-      );
-    }
 
     const body = await req.json();
     const supabase = await requireAdminClient();

@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   const { searchParams } = new URL(request.url);
   const courseId = searchParams.get('course_id');
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await db
     .from('student_practical_progress')
     .select('accumulated_hours, approved_attempts, status, last_updated_at')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('course_id', courseId)
     .eq('lesson_id', lessonId)
     .maybeSingle();

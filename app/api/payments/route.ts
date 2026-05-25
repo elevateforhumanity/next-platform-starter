@@ -99,14 +99,14 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
 
     switch (action) {
       case 'history':
         const limit = parseInt(searchParams.get('limit') || '50', 10);
-        const history = await getPaymentHistory(user.id, limit);
+        const history = await getPaymentHistory(userId, limit);
         return NextResponse.json({ payments: history });
 
       case 'methods':
@@ -115,7 +115,7 @@ async function _GET(request: NextRequest) {
           return NextResponse.json({ error: 'customerId required' }, { status: 400 });
         }
         // Verify the customer belongs to the authenticated user
-        if (!(await verifyCustomerOwnership(user.id, customerId))) {
+        if (!(await verifyCustomerOwnership(userId, customerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
             { status: 403 },
@@ -160,7 +160,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
 
     switch (action) {
       case 'create-intent':
@@ -169,7 +169,7 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'courseId and amount required' }, { status: 400 });
         }
         const intent = await createCoursePaymentIntent(
-          user.id,
+          userId,
           courseId,
           amount,
           currency,
@@ -183,7 +183,7 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'planId and amount required' }, { status: 400 });
         }
         const subIntent = await createSubscriptionPaymentIntent(
-          user.id,
+          userId,
           planId,
           subscriptionAmount,
           subscriptionCurrency,
@@ -204,7 +204,7 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'paymentId required' }, { status: 400 });
         }
         // Verify the payment belongs to the authenticated user
-        if (!(await verifyPaymentOwnership(user.id, paymentId))) {
+        if (!(await verifyPaymentOwnership(userId, paymentId))) {
           return NextResponse.json(
             { error: 'Access denied: payment does not belong to you' },
             { status: 403 },
@@ -222,7 +222,7 @@ async function _POST(request: NextRequest) {
           );
         }
         // Verify the customer belongs to the authenticated user
-        if (!(await verifyCustomerOwnership(user.id, attachCustomerId))) {
+        if (!(await verifyCustomerOwnership(userId, attachCustomerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
             { status: 403 },
@@ -241,7 +241,7 @@ async function _POST(request: NextRequest) {
         if (!stripe) {
           return NextResponse.json({ error: 'Payment service not configured' }, { status: 503 });
         }
-        const userCustomerId = await getUserStripeCustomerId(user.id);
+        const userCustomerId = await getUserStripeCustomerId(userId);
         if (!userCustomerId) {
           return NextResponse.json({ error: 'No payment profile found' }, { status: 400 });
         }
@@ -261,7 +261,7 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'customerId and methodId required' }, { status: 400 });
         }
         // Verify the customer belongs to the authenticated user
-        if (!(await verifyCustomerOwnership(user.id, defaultCustomerId))) {
+        if (!(await verifyCustomerOwnership(userId, defaultCustomerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
             { status: 403 },
@@ -275,7 +275,7 @@ async function _POST(request: NextRequest) {
         if (!priceId) {
           return NextResponse.json({ error: 'priceId required' }, { status: 400 });
         }
-        const subscription = await createSubscription(user.id, priceId, paymentMethod);
+        const subscription = await createSubscription(userId, priceId, paymentMethod);
         return NextResponse.json({ subscription });
 
       case 'cancel-subscription':
@@ -284,7 +284,7 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'subscriptionId required' }, { status: 400 });
         }
         // Verify the subscription belongs to the authenticated user
-        if (!(await verifySubscriptionOwnership(user.id, subscriptionId))) {
+        if (!(await verifySubscriptionOwnership(userId, subscriptionId))) {
           return NextResponse.json(
             { error: 'Access denied: subscription does not belong to you' },
             { status: 403 },

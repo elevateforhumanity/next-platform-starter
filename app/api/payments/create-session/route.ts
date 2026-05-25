@@ -241,6 +241,9 @@ async function _POST(request: NextRequest) {
             payment_type: 'plan',
           },
           description: `${program.title ?? program.name} - 4 Monthly Payments`,
+          // Cancel automatically after 4 billing cycles so the subscription
+          // does not continue charging after the student has paid in full.
+          cancel_at: Math.floor(Date.now() / 1000) + 4 * 30 * 24 * 60 * 60,
         },
       } as Stripe.Checkout.SessionCreateParams;
     } else {

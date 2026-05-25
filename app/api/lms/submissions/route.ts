@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   let body: {
     course_lesson_id: string;
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
   const { data: enrollment } = await db
     .from('program_enrollments')
     .select('id, status, enrollment_state')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('course_id', course_id)
     .maybeSingle();
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
   const { data: submission, error: insertErr } = await db
     .from('step_submissions')
     .insert({
-      user_id: user.id,
+      user_id: userId,
       lesson_id: course_lesson_id,
       course_lesson_id,
       course_id,
@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   const { searchParams } = new URL(request.url);
   const course_id = searchParams.get('course_id');
@@ -156,7 +156,7 @@ export async function GET(request: NextRequest) {
     .select(
       'id, course_lesson_id, step_type, submission_text, file_urls, status, instructor_note, reviewed_at, created_at, competency_key',
     )
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('course_id', course_id)
     .order('created_at', { ascending: false });
 

@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         participant_id,
         program_id,
         funding_amount: funding_amount ?? 0,
-        case_manager_id: auth.user?.id,
+        case_manager_id: auth.id,
         status: 'open',
         opened_at: new Date().toISOString(),
         notes,
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeDbError(error, 'Failed to create case');
 
     await emitEvent('case.opened', 'compliance', {
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'user',
       subject_id: data.id,
       subject_type: 'wioa_case',

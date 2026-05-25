@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   const { searchParams } = new URL(request.url);
   const courseId = searchParams.get('course_id');
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     .select(
       'id, submission_mode, body_text, file_url, media_url, external_url, status, evaluator_notes, submitted_at, reviewed_at, attempt_number',
     )
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('course_id', courseId)
     .eq('lesson_id', lessonId)
     .order('submitted_at', { ascending: false });
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   let body: Record<string, any>;
   try {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
   const { data: enrollment } = await db
     .from('program_enrollments')
     .select('id, status')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .in('status', ['active', 'enrolled', 'approved'])
     .maybeSingle();
 
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
   const { count } = await db
     .from('student_lesson_evidence')
     .select('id', { count: 'exact', head: true })
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('lesson_id', lesson_id);
 
   const attemptNumber = (count ?? 0) + 1;
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
   const { data: newEvidence, error: insertErr } = await db
     .from('student_lesson_evidence')
     .insert({
-      user_id: user.id,
+      user_id: userId,
       course_id,
       lesson_id,
       submission_mode,

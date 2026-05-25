@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { BARBER_PRICING, calculateWeeklyPayment } from '@/lib/programs/pricing';
-import { TUITION_CENTS, PAYMENT_TERM_WEEKS, remainingHoursDisplay } from '@/lib/barber/pricing';
+import { TUITION_CENTS, PAYMENT_TERM_WEEKS, remainingHoursDisplay, BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
 

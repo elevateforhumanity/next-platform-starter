@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
       return authResult;
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
 
     // Parse options
     const options: ExportOptions = {
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
     // Log audit event
     // Log export action
     await auditLog({
-      actor_user_id: user.id,
+      actor_user_id: userId,
       action: 'EXPORT',
       entity: 'audit_snapshot',
       metadata: {
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
       return authResult;
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { tables, format, filters } = body;
 
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
     // Log audit event
     // Log batch export action
     await auditLog({
-      actor_user_id: user.id,
+      actor_user_id: userId,
       action: 'EXPORT',
       entity: 'audit_snapshot',
       metadata: {

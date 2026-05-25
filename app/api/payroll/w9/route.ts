@@ -28,13 +28,13 @@ export async function GET(request: NextRequest) {
   const { data: profile } = await supabase
     .from('payroll_profiles')
     .select('id, tax_id_uploaded, w9_file_url, w9_uploaded_at, status, rate, payment_type, payout_method')
-    .eq('user_id', auth.user.id)
+    .eq('user_id', auth.id)
     .maybeSingle();
 
   const { data: submissions } = await supabase
     .from('w9_submissions')
     .select('id, file_url, submitted_at, verified, verified_at')
-    .eq('user_id', auth.user.id)
+    .eq('user_id', auth.id)
     .order('submitted_at', { ascending: false })
     .limit(5);
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
   const { data: existingProfile } = await supabase
     .from('payroll_profiles')
     .select('id')
-    .eq('user_id', auth.user.id)
+    .eq('user_id', auth.id)
     .maybeSingle();
 
   let payrollProfileId: string | null = existingProfile?.id ?? null;
@@ -97,12 +97,12 @@ export async function POST(request: NextRequest) {
         ...(body.payroll_provider && { payroll_provider: body.payroll_provider }),
         updated_at: now,
       })
-      .eq('user_id', auth.user.id);
+      .eq('user_id', auth.id);
   } else {
     const { data: newProfile } = await supabase
       .from('payroll_profiles')
       .insert({
-        user_id: auth.user.id,
+        user_id: auth.id,
         tax_id_uploaded: true,
         w9_file_url: body.w9_file_url,
         w9_uploaded_at: now,
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
   // 2. Insert w9_submissions audit row
   const { error: w9Err } = await supabase.from('w9_submissions').insert({
-    user_id: auth.user.id,
+    user_id: auth.id,
     provider_app_id: body.provider_app_id ?? null,
     file_url: body.w9_file_url,
     ein: body.ein ?? null,
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
   }
 
   logger.info('[payroll/w9] W9 submitted and payroll profile updated', {
-    userId: auth.user.id,
+    userId: auth.id,
     payrollProfileId,
   });
 

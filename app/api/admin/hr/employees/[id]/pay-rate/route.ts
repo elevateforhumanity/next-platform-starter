@@ -110,13 +110,13 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       payment_type: body.payment_type ?? null,
       payout_method: body.payout_method ?? null,
       effective_date: body.effective_date ?? now.split('T')[0],
-      set_by: auth.user.id,
+      set_by: auth.id,
       notes: body.notes ?? null,
       created_at: now,
     })
     .catch((err) => logger.warn('[pay-rate] pay_rate_history insert failed (table may not exist yet)', err));
 
-  logger.info('[pay-rate] updated', { employeeId, rate: body.rate, setBy: auth.user.id });
+  logger.info('[pay-rate] updated', { employeeId, rate: body.rate, setBy: auth.id });
 
   return NextResponse.json({ success: true, message: 'Pay rate updated' });
 }

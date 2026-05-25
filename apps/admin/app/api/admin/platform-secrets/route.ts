@@ -83,7 +83,7 @@ async function _POST(request: Request) {
         value_enc: value,   // stored as-is; pgcrypto encryption via DB function
         description: description ?? null,
         category: category ?? 'general',
-        updated_by: auth.user.id,
+        updated_by: auth.id,
         updated_at: new Date().toISOString(),
       }, { onConflict: 'key' });
 
@@ -92,7 +92,7 @@ async function _POST(request: Request) {
       return safeError('Failed to save secret', 500);
     }
 
-    logger.info('[platform-secrets] upserted', { key, actor: auth.user.id });
+    logger.info('[platform-secrets] upserted', { key, actor: auth.id });
     return NextResponse.json({ success: true, key });
   } catch (err) {
     return safeInternalError(err, 'Failed to save secret');
@@ -115,7 +115,7 @@ async function _DELETE(request: Request) {
     const { error } = await db.from('platform_secrets').delete().eq('key', key);
     if (error) return safeError('Failed to delete secret', 500);
 
-    logger.info('[platform-secrets] deleted', { key, actor: auth.user.id });
+    logger.info('[platform-secrets] deleted', { key, actor: auth.id });
     return NextResponse.json({ success: true });
   } catch (err) {
     return safeInternalError(err, 'Failed to delete secret');

@@ -55,7 +55,7 @@ export default function VideoUploadClient() {
 
     const {
       data: { publicUrl },
-    } = supabase.storage.from('course_videos').getPublicUrl(data.path);
+    } = supabase.storage.from('course-videos').getPublicUrl(data.path);
 
     setUploaded((prev) => [...prev, { name: file.name, url: publicUrl, size: file.size }]);
     setUploading(false);

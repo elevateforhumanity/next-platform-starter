@@ -33,13 +33,37 @@ export default function LicenseRequestsClient({ initialRequests }: { initialRequ
   const updateStatus = async (id: string, status: 'approved' | 'rejected') => {
     setProcessingId(id); setError(null);
     try {
+      // 1. Update license request status
       const res = await fetch('/api/admin/license-requests', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status }),
       });
-      if (!res.ok) throw new Error('Update failed');
+      if (!res.ok) throw new Error('Status update failed');
       setRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
+
+      // 2. On approval, trigger tenant provisioning
+      if (status === 'approved') {
+        const req = requests.find(r => r.id === id);
+        if (req) {
+          const provRes = await fetch('/api/onboarding/provision-tenant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              licenseRequestId: id,
+              contactEmail: req.profiles?.email ?? '',
+              contactName: req.profiles?.full_name ?? '',
+              organizationName: req.profiles?.full_name ?? 'New Organization',
+              licenseType: req.license_type ?? 'standard',
+            }),
+          });
+          if (!provRes.ok) {
+            const d = await provRes.json().catch(() => ({}));
+            // Non-fatal — status already updated; surface warning
+            setError(`Approved, but tenant provisioning failed: ${d.error ?? 'unknown error'}. Run manually from Tenants page.`);
+          }
+        }
+      }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Update failed');
     } finally {

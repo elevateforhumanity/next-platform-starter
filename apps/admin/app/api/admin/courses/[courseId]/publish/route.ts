@@ -24,13 +24,13 @@ export async function POST(request: NextRequest, { params }: { params: { courseI
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   const courseId = params.courseId;
   if (!courseId) return safeError('Course ID required', 400);
 
   // Run auditor — this is the single gate
-  const audit = await runAndPersistAudit(courseId, user.id);
+  const audit = await runAndPersistAudit(courseId, userId);
 
   if (!audit.publishable) {
     return NextResponse.json(

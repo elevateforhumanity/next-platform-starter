@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
-  const { user } = auth;
+  const userId = auth.id;
 
   const supabase = await createClient();
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     .select(
       'id, amount, currency, status, payment_option, stripe_payment_intent_id, stripe_session_id, completed_at, created_at, metadata',
     )
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(50);
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     .select(
       'id, amount_paid_cents, funding_source, stripe_payment_intent_id, stripe_session_id, status, enrolled_at, programs ( id, title )',
     )
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .order('enrolled_at', { ascending: false })
     .limit(50);
 

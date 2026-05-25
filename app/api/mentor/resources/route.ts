@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     const supabase = await getAdminClient();
     const { data, error } = await supabase
       .from('mentor_resources')
-      .insert({ title, description, url, file_type, category, created_by: auth.user!.id })
+      .insert({ title, description, url, file_type, category, created_by: auth.id })
       .select('id, title, url, category')
       .single();
 

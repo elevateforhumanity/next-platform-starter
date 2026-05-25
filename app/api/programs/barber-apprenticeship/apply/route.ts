@@ -123,7 +123,7 @@ export async function POST(req: Request) {
     };
 
     // Store RAPIDS pre-registration
-    await supabase.from('rapids_registrations').insert(rapidsPreRegistration).single();
+    await supabase.from('rapids_registrations').insert(rapidsPreRegistration);
 
     // Audit log: Application created
     await auditLog({

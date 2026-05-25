@@ -276,7 +276,7 @@ export async function POST(request: NextRequest) {
       missing_values,
       approved_values: {},
       field_metadata,
-      created_by: auth.user?.id ?? null,
+      created_by: auth.id ?? null,
     })
     .select('id, status, created_at')
     .single();
@@ -287,7 +287,7 @@ export async function POST(request: NextRequest) {
 
   // Audit
   await db.from('contract_audit_logs').insert({
-    actor_id: auth.user?.id ?? null,
+    actor_id: auth.id ?? null,
     action: 'prefill',
     entity_type: 'prefill_run',
     entity_id: run.id,

@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       prefill_run_id: run_id,
       export_type,
       status: 'generating',
-      created_by: auth.user?.id ?? null,
+      created_by: auth.id ?? null,
     })
     .select('id')
     .single();
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
 
     // Audit
     await db.from('contract_audit_logs').insert({
-      actor_id: auth.user?.id ?? null,
+      actor_id: auth.id ?? null,
       action: 'export',
       entity_type: 'contract_export',
       entity_id: exportRow.id,

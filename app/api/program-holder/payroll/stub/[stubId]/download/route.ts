@@ -20,7 +20,7 @@ export async function GET(
   if (rateLimited) return rateLimited;
 
   const auth = await apiAuthGuard(request);
-  const { user } = auth;
+  const userId = auth.id;
 
   const { stubId } = await params;
   if (!stubId) return safeError('stubId is required', 400);
@@ -32,7 +32,7 @@ export async function GET(
     .from('pay_stubs')
     .select('id, user_id, gross_pay, net_pay, created_at, pdf_url, payroll_run_id')
     .eq('id', stubId)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .maybeSingle();
 
   if (error || !stub) return safeError('Pay stub not found', 404);

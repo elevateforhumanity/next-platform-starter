@@ -70,10 +70,7 @@ async function _POST(req: Request) {
     }
     const { firstName, lastName, email, phone, programSlug, fundingSource } = parsed.data;
 
-    const db = await requireAdminClient();
-    if (!supabase) {
-      return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });
-    }
+    const supabase = await requireAdminClient();
 
     // Get program details
     const { data: program, error: programError } = await supabase
@@ -138,10 +135,10 @@ async function _POST(req: Request) {
       const { data: enrollment } = await supabase
         .from('program_enrollments')
         .insert({
-          student_id: userId,
+          user_id: userId,
           program_id: program.id,
-          funding_source: 'SELF_PAY',
-          status: 'PENDING_PAYMENT',
+          funding_source: 'self_pay',
+          status: 'pending_payment',
         })
         .select('id')
         .single();

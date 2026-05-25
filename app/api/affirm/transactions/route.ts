@@ -11,11 +11,12 @@ import { logger } from '@/lib/logger';
 import { toError, toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-const AFFIRM_API_URL = 'https://api.affirm.com';
-const AFFIRM_PUBLIC_KEY = process.env.AFFIRM_PUBLIC_KEY || 'aGax1GLWFexjLyW7PCf23rfznLl6YGyI';
-const AFFIRM_PRIVATE_KEY = process.env.AFFIRM_PRIVATE_KEY || '';
+const AFFIRM_API_URL = 'https://api.affirm.com/api/v1';
+const AFFIRM_PUBLIC_KEY = process.env.AFFIRM_PUBLIC_KEY ?? '';
+const AFFIRM_PRIVATE_KEY = process.env.AFFIRM_PRIVATE_KEY ?? '';
 
-function getAuthHeader() {
+function getAuthHeader(): string | null {
+  if (!AFFIRM_PUBLIC_KEY || !AFFIRM_PRIVATE_KEY) return null;
   const auth = Buffer.from(`${AFFIRM_PUBLIC_KEY}:${AFFIRM_PRIVATE_KEY}`).toString('base64');
   return `Basic ${auth}`;
 }
@@ -25,8 +26,13 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'payment');
   if (rateLimited) return rateLimited;
   try {
-    const authResult = await apiAuthGuard();
-    const user = authResult.user || { id: 'guest', email: '' };
+    const authHeader = getAuthHeader();
+    if (!authHeader) {
+      return NextResponse.json({ error: 'Affirm API keys not configured' }, { status: 503 });
+    }
+    const authResult = await apiAuthGuard(request);
+    if (authResult.error) return authResult.error;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { checkout_token, order_id, action = 'authorize' } = body;
 
@@ -41,7 +47,7 @@ export async function POST(request: NextRequest) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: getAuthHeader(),
+            Authorization: authHeader!,
           },
           body: JSON.stringify({
             checkout_token,
@@ -62,7 +68,7 @@ export async function POST(request: NextRequest) {
 
         logger.info('Affirm transaction authorized:', {
           transaction_id: data.id,
-          user_id: user.id,
+          user_id: userId,
           amount: data.amount,
         });
 
@@ -91,7 +97,7 @@ export async function POST(request: NextRequest) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: getAuthHeader(),
+            Authorization: authHeader!,
           },
           body: JSON.stringify({
             order_id: captureOrderId,
@@ -112,7 +118,7 @@ export async function POST(request: NextRequest) {
 
         logger.info('Affirm transaction captured:', {
           transaction_id: data.id,
-          user_id: user.id,
+          user_id: userId,
         });
 
         return NextResponse.json(data);
@@ -133,7 +139,7 @@ export async function POST(request: NextRequest) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: getAuthHeader(),
+            Authorization: authHeader!,
           },
         });
 
@@ -150,7 +156,7 @@ export async function POST(request: NextRequest) {
 
         logger.info('Affirm transaction voided:', {
           transaction_id: data.id,
-          user_id: user.id,
+          user_id: userId,
         });
 
         return NextResponse.json(data);
@@ -171,7 +177,7 @@ export async function POST(request: NextRequest) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: getAuthHeader(),
+            Authorization: authHeader!,
           },
           body: JSON.stringify({
             ...(refundAmount && { amount: refundAmount }),
@@ -191,7 +197,7 @@ export async function POST(request: NextRequest) {
 
         logger.info('Affirm transaction refunded:', {
           transaction_id: data.id,
-          user_id: user.id,
+          user_id: userId,
           amount: refundAmount,
         });
 
@@ -219,7 +225,12 @@ export async function POST(request: NextRequest) {
 // Get transaction details
 export async function GET(request: NextRequest) {
   try {
-    const authResult = await apiAuthGuard();
+    const authHeader = getAuthHeader();
+    if (!authHeader) {
+      return NextResponse.json({ error: 'Affirm API keys not configured' }, { status: 503 });
+    }
+    const authResult = await apiAuthGuard(request);
+    if (authResult.error) return authResult.error;
 
     const { searchParams } = new URL(request.url);
     const transaction_id = searchParams.get('transaction_id');
@@ -231,7 +242,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(`${AFFIRM_API_URL}/transactions/${transaction_id}`, {
       method: 'GET',
       headers: {
-        Authorization: getAuthHeader(),
+        Authorization: authHeader!,
       },
     });
 

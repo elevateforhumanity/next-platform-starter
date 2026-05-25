@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       file_size_bytes: file.size,
       document_type: category,
       status: 'active',
-      uploaded_by: auth.user.id,
+      uploaded_by: auth.id,
       ...(application_id ? { application_id } : {}),
       ...(user_id        ? { user_id }        : {}),
     })

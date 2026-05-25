@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
 
     // Audit
     await db.from('contract_audit_logs').insert({
-      actor_id: auth.user?.id ?? null,
+      actor_id: auth.id ?? null,
       action: 'extract',
       entity_type: 'contract_template',
       entity_id: body.contract_id,

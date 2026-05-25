@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const auth = await apiAuthGuard(request);
-  const { user } = auth;
+  const userId = auth.id;
 
   let body: {
     question?: string;
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     const { error } = await supabase.from('interactive_video_quiz_answers').upsert(
       {
-        user_id: user.id,
+        user_id: userId,
         lesson_id: lessonId ?? null,
         question,
         selected_answer: selectedAnswer,

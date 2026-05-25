@@ -1,59 +1,16 @@
-import { requireAdminClient } from '@/lib/supabase/admin';
+/**
+ * TOMBSTONE — cash-advance application management belongs in the finance repo.
+ * The admin portal reads cash_advances directly from Supabase.
+ * These routes are not called by any LMS page.
+ */
+import { NextResponse } from 'next/server';
 
-// app/api/cash-advances/applications/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+const GONE = { error: 'Cash-advance management has moved. Use the admin portal directly.' };
 
-import { toErrorMessage } from '@/lib/safe';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { apiRequireAdmin } from '@/lib/admin/guards';
-export const runtime = 'nodejs';
-export const maxDuration = 60;
-
-export const dynamic = 'force-dynamic';
-
-async function _GET(request: NextRequest) {
-  try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-
-    const auth = await apiRequireAdmin(request);
-    if (auth.error) return auth.error;
-
-    const supabase = await requireAdminClient();
-    const searchParams = request.nextUrl.searchParams;
-
-    // Get query parameters
-    const status = searchParams.get('status');
-    const limit = parseInt(searchParams.get('limit') || '100', 10);
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
-
-    // Build query
-    let query = db
-      .from('cash_advance_applications')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1);
-
-    // Filter by status if provided
-    if (status) {
-      query = query.eq('status', status);
-    }
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
-    }
-
-    return NextResponse.json({
-      applications: data,
-      total: count,
-      limit,
-      offset,
-    });
-  } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
-  }
+export async function GET() {
+  return NextResponse.json(GONE, { status: 410 });
 }
-export const GET = withApiAudit('/api/cash-advances/applications', _GET);
+
+export async function POST() {
+  return NextResponse.json(GONE, { status: 410 });
+}

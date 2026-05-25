@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     if (error) return safeDbError(error, 'Failed to create participant');
 
     await emitEvent('participant.created', 'enrollment', {
-      actor_id: auth.user?.id,
+      actor_id: auth.id,
       actor_type: 'user',
       subject_id: data.id,
       subject_type: 'participant',

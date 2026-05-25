@@ -20,7 +20,7 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const tutorialId = searchParams.get('tutorialId');
@@ -30,7 +30,7 @@ async function _GET(request: NextRequest) {
       const { data, error }: any = await supabase
         .from('user_tutorials')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('tutorial_id', tutorialId)
         .maybeSingle();
 
@@ -64,7 +64,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: 401 });
     }
 
-    const { user } = authResult;
+    const userId = authResult.id;
     const body = await parseBody<Record<string, any>>(request);
     const { action, tutorialId, stepId, stepIndex } = body;
 
@@ -74,7 +74,7 @@ async function _POST(request: NextRequest) {
       const { data: current } = await supabase
         .from('user_tutorials')
         .select('completed_steps')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('tutorial_id', tutorialId)
         .maybeSingle();
 
@@ -84,7 +84,7 @@ async function _POST(request: NextRequest) {
       }
 
       await supabase.from('user_tutorials').upsert({
-        user_id: user.id,
+        user_id: userId,
         tutorial_id: tutorialId,
         current_step: stepIndex + 1,
         completed_steps: completedSteps,
@@ -101,7 +101,7 @@ async function _POST(request: NextRequest) {
           completed: true,
           completed_at: new Date().toISOString(),
         })
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('tutorial_id', tutorialId);
 
       return NextResponse.json({ success: true });
