@@ -46,9 +46,9 @@ export function JobBoardPanel() {
   }
 
   const sources = [
-    { key: 'usajobs', label: 'USAJobs.gov', href: 'https://developer.usajobs.gov' },
-    { key: 'careeronestop', label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/technical-information.aspx' },
-    { key: 'indiana_career_connect', label: 'Indiana Career Connect', href: 'https://www.indianacareerconnect.com' },
+    { key: 'usajobs', label: 'USAJobs.gov', href: 'https://developer.usajobs.gov', note: 'Register at developer.usajobs.gov' },
+    { key: 'careeronestop', label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/technical-information.aspx', note: 'Request jobsearch access — email api@careeronestop.org with user ID xmXrnhnrnn4DZNX' },
+    { key: 'indiana_career_connect', label: 'Indiana Career Connect', href: 'https://www.indianacareerconnect.com', note: '' },
   ] as const;
 
   return (
@@ -117,8 +117,8 @@ export function JobBoardPanel() {
                   <CheckCircle className="w-3 h-3" /> Connected
                 </span>
               ) : (
-                <span className="flex items-center gap-1 text-amber-600 font-semibold">
-                  <AlertCircle className="w-3 h-3" /> No API key
+                <span title={source.note} className="flex items-center gap-1 text-amber-600 font-semibold cursor-help">
+                  <AlertCircle className="w-3 h-3" /> Needs approval
                 </span>
               )}
             </div>

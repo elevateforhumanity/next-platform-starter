@@ -79,10 +79,13 @@ async function fetchUSAJobs(keywords: string, location = 'Indiana'): Promise<any
 // API docs: https://www.careeronestop.org/Developers/WebAPI/Jobs/list-jobs.aspx
 // URL pattern: /v1/jobsearch/{userId}/{keyword}/{location}/{radius}/{startRecord}/{sortColumns}/{sortOrder}/{days}/{limit}
 // Auth: Authorization: Bearer <CAREERONESTOP_TOKEN>
-// Fallback: Authorization: Bearer <CAREERONESTOP_API_KEY> (short key from welcome email)
+//
+// NOTE: The jobsearch API requires separate service approval from CareerOneStop.
+// Account xmXrnhnrnn4DZNX has occupation API approved but not jobsearch.
+// To enable: log into careeronestop.org developer portal and request jobsearch access,
+// or email api@careeronestop.org referencing user ID xmXrnhnrnn4DZNX.
 async function fetchCareerOneStop(keyword: string, location = 'Indianapolis, IN'): Promise<any[]> {
   const userId = process.env.CAREERONESTOP_USER_ID;
-  // Try long token first, fall back to short API key
   const token = process.env.CAREERONESTOP_TOKEN ?? process.env.CAREERONESTOP_API_KEY;
   if (!token || !userId) {
     logger.warn('[government-feed] CAREERONESTOP_USER_ID or token not set — skipping');
@@ -114,6 +117,12 @@ async function fetchCareerOneStop(keyword: string, location = 'Indianapolis, IN'
     });
   } catch (err) {
     logger.warn('[government-feed] CareerOneStop network error', { keyword, err });
+    return [];
+  }
+
+  if (res.status === 401) {
+    // jobsearch requires separate service approval — account has occupation approved but not jobsearch
+    logger.warn('[government-feed] CareerOneStop jobsearch not approved for this account — request access at careeronestop.org developer portal');
     return [];
   }
 
