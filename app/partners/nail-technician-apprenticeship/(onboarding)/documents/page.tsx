@@ -50,7 +50,7 @@ const DOC_SLOTS = [
   },
 ];
 
-export default function Nail TechnicianDocumentsPage() {
+export default function NailTechnicianDocumentsPage() {
   const [uploads, setUploads] = useState<Record<string, File | null>>({});
   const [uploading, setUploading] = useState<Record<string, boolean>>({});
   const [uploaded, setUploaded] = useState<Record<string, boolean>>({});

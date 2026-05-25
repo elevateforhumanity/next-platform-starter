@@ -52,7 +52,7 @@ const POLICIES = [
   },
 ];
 
-export default function Nail TechnicianPolicyAcknowledgmentPage() {
+export default function NailTechnicianPolicyAcknowledgmentPage() {
   const [acknowledged, setAcknowledged] = useState<Record<string, boolean>>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');

@@ -93,7 +93,7 @@ const sections = [
   },
 ];
 
-export default function Nail TechnicianHandbookPage() {
+export default function NailTechnicianHandbookPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 py-8">

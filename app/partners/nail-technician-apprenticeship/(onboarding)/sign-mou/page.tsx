@@ -47,7 +47,7 @@ WHAT THIS AGREEMENT IS NOT: This MOU does not make the Spa a Training Network Pa
   },
 ];
 
-export default function Nail TechnicianSignMouPage() {
+export default function NailTechnicianSignMouPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [drawing, setDrawing] = useState(false);
   const [hasSig, setHasSig] = useState(false);
