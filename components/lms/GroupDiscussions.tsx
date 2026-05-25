@@ -173,7 +173,6 @@ export default function GroupDiscussions({
                 <div className="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center overflow-hidden">
                   {post.author_avatar ? (
                     // IMAGE-CONTRACT: allow raw img because author_avatar is a user-supplied external URL incompatible with next/image domain config
-                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={post.author_avatar} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <User className="w-4 h-4 text-slate-400" />

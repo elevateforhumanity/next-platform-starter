@@ -249,7 +249,6 @@ function EmployerCard({ employer }: { employer: Employer }) {
         <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
           {employer.logo_url ? (
             // IMAGE-CONTRACT: allow raw img because employer logo_url is an external user-supplied URL incompatible with next/image domain config
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={employer.logo_url}
               alt={name}
