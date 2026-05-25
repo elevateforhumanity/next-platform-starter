@@ -339,7 +339,15 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
                     {programs.map((p) => (
                       <option key={p.id} value={p.slug}>{p.title}</option>
                     ))}
-                    <option value="other">Other</option>
+                    <optgroup label="External Pathways (Google / Microsoft)">
+                      <option value="google-it-support">Google IT Support Certificate</option>
+                      <option value="google-cybersecurity">Google Cybersecurity Certificate</option>
+                      <option value="google-data-analytics">Google Data Analytics Certificate</option>
+                      <option value="google-project-management">Google Project Management Certificate</option>
+                      <option value="microsoft-azure-fundamentals">Microsoft Azure Fundamentals (AZ-900)</option>
+                      <option value="microsoft-365-fundamentals">Microsoft 365 Fundamentals (MS-900)</option>
+                    </optgroup>
+                    <option value="other">Other / Not Listed</option>
                   </select>
                 </div>
                 <div>

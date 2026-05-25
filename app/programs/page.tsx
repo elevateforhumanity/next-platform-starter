@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { createPublicClient } from '@/lib/supabase/public';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 
 export const revalidate = 3600;
@@ -108,10 +108,10 @@ const SUPPRESSED = new Set([
 type Prog = {slug:string;title:string;description:string|null;category:string;duration:string|null;credential:string|null;funding_eligible:boolean};
 
 export default async function ProgramsPage() {
-  const db = await getAdminClient();
+  const db = createPublicClient();
   let programs: Prog[] = [];
 
-  if (db) {
+  {
     const {data} = await db.from('programs')
       .select('slug,title,short_description,description,category,duration,credential_type,wioa_eligible')
       .eq('is_active',true).eq('published',true).neq('status','archived').order('title');
@@ -225,6 +225,30 @@ export default async function ProgramsPage() {
           );
         })}
       </div>
+
+      {/* External Pathways — Google & Microsoft */}
+      <section className="py-12 border-t border-slate-100 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-xl font-extrabold text-slate-900 mb-1">External Certification Pathways</h2>
+          <p className="text-slate-500 text-sm mb-6">Google and Microsoft certificates available through Coursera and LinkedIn Learning. Elevate advisors can help you access funding and enroll.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { slug: 'google-it-support', title: 'Google IT Support Certificate', issuer: 'Google / Coursera', weeks: '3–6 months' },
+              { slug: 'google-cybersecurity', title: 'Google Cybersecurity Certificate', issuer: 'Google / Coursera', weeks: '6 months' },
+              { slug: 'google-data-analytics', title: 'Google Data Analytics Certificate', issuer: 'Google / Coursera', weeks: '6 months' },
+              { slug: 'google-project-management', title: 'Google Project Management Certificate', issuer: 'Google / Coursera', weeks: '6 months' },
+              { slug: 'microsoft-azure-fundamentals', title: 'Microsoft Azure Fundamentals (AZ-900)', issuer: 'Microsoft', weeks: '4–6 weeks' },
+              { slug: 'microsoft-365-fundamentals', title: 'Microsoft 365 Fundamentals (MS-900)', issuer: 'Microsoft', weeks: '4–6 weeks' },
+            ].map((p) => (
+              <Link key={p.slug} href={`/apply?program=${p.slug}`} className="bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-green-400 hover:shadow-sm transition-all group">
+                <p className="font-bold text-slate-900 text-sm group-hover:text-brand-green-700 leading-snug">{p.title}</p>
+                <p className="text-slate-500 text-xs mt-1">{p.issuer} · {p.weeks}</p>
+                <p className="text-brand-red-600 text-xs font-semibold mt-3">Apply for funding →</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="bg-slate-900 text-white py-16">

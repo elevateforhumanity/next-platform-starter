@@ -64,7 +64,7 @@ export default function HomePage() {
         {[
           { src: '/images/pages/comp-home-pathways-train.webp', alt: 'Learner in workforce training', label: 'Hands-On Training', sub: 'Real skills. Real equipment.', position: 'object-center' },
           { src: '/images/pages/comp-home-highlight-health.webp', alt: 'Healthcare training', label: 'Healthcare Careers', sub: 'CNA, Phlebotomy, Medical Assistant & more.', position: 'object-center' },
-          { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
+          { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: 'Job placement support for every graduate.', position: 'object-center' },
         ].map((p) => (
           <div key={p.src} className="relative aspect-[4/3] sm:aspect-[3/2] lg:aspect-[16/9] overflow-hidden group">
             <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" placeholder="empty" />
