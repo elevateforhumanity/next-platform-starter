@@ -180,6 +180,8 @@ export const NAV_ITEMS: NavItem[] = [
       // Employers
       { name: '— Employers —', href: '/for-employers', isHeader: true },
       { name: 'Hire Our Graduates', href: '/for-employers' },
+      { name: 'Employer Directory', href: '/employers/directory' },
+      { name: 'Job Board', href: '/jobs' },
       { name: 'Post a Job / OJT', href: '/employer/post-job' },
       { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
       { name: 'WOTC Tax Credits', href: '/employer/wotc' },
@@ -245,6 +247,8 @@ export const NAV_ITEMS: NavItem[] = [
       // Employers
       { name: '— Employers —', href: '/apply/employer', isHeader: true },
       { name: 'Employer Application', href: '/apply/employer' },
+      { name: 'Employer Directory', href: '/employers/directory' },
+      { name: 'Job Board', href: '/jobs' },
       { name: 'Post a Job / OJT', href: '/employer/post-job' },
       { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
       { name: 'Employer Onboarding →', href: '/onboarding/employer', isSectionLink: true },
