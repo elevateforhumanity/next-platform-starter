@@ -182,6 +182,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Hire Our Graduates', href: '/for-employers' },
       { name: 'Post a Job / OJT', href: '/employer/post-job' },
       { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
+      { name: 'WOTC Tax Credits', href: '/employer/wotc' },
       { name: 'Employer Portal →', href: '/employer/dashboard', isSectionLink: true },
       // Workforce Agencies
       { name: '— Workforce Agencies —', href: '/for-agencies', isHeader: true },
@@ -193,6 +194,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
       { name: 'How It Works', href: '/for-providers' },
       { name: 'Program Holder Portal', href: '/program-holder/dashboard' },
+      { name: 'Booth Rental', href: '/booth-rental' },
       { name: 'Sponsors & Funders', href: '/platform/sponsors' },
       { name: 'Apply to Partner →', href: '/partners/apply', isSectionLink: true },
     ],
@@ -221,15 +223,51 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Contact Us', href: '/contact' },
       { name: 'Free Advising', href: '/advising' },
       { name: 'Schedule a Consultation', href: '/schedule-consultation' },
-      { name: 'Schedule a Meeting', href: '/schedule' },
       { name: 'Donate', href: '/donate' },
     ],
   },
 
-  // ── 7. Apply — single funnel entry, no dropdown ──────────────────────────────
+  // ── 7. Apply — full application funnel by audience ───────────────────────────
   {
     id: 'apply',
     name: 'Apply',
     href: '/apply',
+    subItems: [
+      // Students / Participants
+      { name: '— Students & Participants —', href: '/apply', isHeader: true },
+      { name: 'Check Eligibility & Apply', href: '/apply' },
+      { name: 'Student Application', href: '/apply/student' },
+      { name: 'FSSA / SNAP E&T Application', href: '/apply/fssa' },
+      { name: 'Enroll in a Program', href: '/enrollment' },
+      { name: 'Track My Application', href: '/apply/track' },
+      { name: 'Check Application Status', href: '/apply/status' },
+
+      // Employers
+      { name: '— Employers —', href: '/apply/employer', isHeader: true },
+      { name: 'Employer Application', href: '/apply/employer' },
+      { name: 'Post a Job / OJT', href: '/employer/post-job' },
+      { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
+      { name: 'Employer Onboarding →', href: '/onboarding/employer', isSectionLink: true },
+
+      // Training Providers & Program Holders
+      { name: '— Training Providers —', href: '/apply/program-holder', isHeader: true },
+      { name: 'Program Holder Application', href: '/apply/program-holder' },
+      { name: 'Barbershop Apprenticeship Host', href: '/partners/barbershop-apprenticeship/apply' },
+      { name: 'Cosmetology Partner Shop', href: '/partners/cosmetology-partner-shop/apply' },
+      { name: 'Booth Rental Application', href: '/booth-rental/apply' },
+      { name: 'Create a Program', href: '/partners/create-program' },
+
+      // Staff & Instructors
+      { name: '— Staff & Instructors —', href: '/apply/staff', isHeader: true },
+      { name: 'Staff Application', href: '/apply/staff' },
+      { name: 'Instructor Application', href: '/onboarding/instructor' },
+      { name: 'Instructor Credentials', href: '/instructor-credentials' },
+
+      // Agencies & Partners
+      { name: '— Agencies & Partners —', href: '/partners/apply', isHeader: true },
+      { name: 'Agency / Partner Application', href: '/partners/apply' },
+      { name: 'Apprenticeship Sponsor', href: '/apprenticeship-sponsor' },
+      { name: 'All Applications →', href: '/apply', isSectionLink: true },
+    ],
   },
 ];
