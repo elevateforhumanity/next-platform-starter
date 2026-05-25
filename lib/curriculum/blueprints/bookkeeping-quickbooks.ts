@@ -23,6 +23,9 @@ export const bookkeepingQuickbooksBlueprint: CredentialBlueprint = {
   state: 'federal',
   programSlug: 'bookkeeping',
   credentialCode: 'QBOCU+ICBP',
+  // Certiport delivers both QuickBooks exams at our CATC location.
+  // QB-ONLINE is the primary track; QB-DESKTOP is offered as an elective.
+  certiportExamCodes: ['QB-ONLINE', 'QB-DESKTOP'],
   trackVariants: ['qbocu', 'icbp', 'dual'],
   status: 'active',
 

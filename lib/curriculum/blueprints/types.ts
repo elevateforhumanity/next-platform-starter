@@ -294,6 +294,16 @@ export type CredentialBlueprint = {
 
   /** Short credential code for display, e.g. 'EPA-608', 'IN-PRS' */
   credentialCode: string;
+
+  /**
+   * Certiport exam codes this program prepares learners for.
+   * Keys must match entries in CERTIPORT_EXAMS in lib/partners/certiport.ts.
+   * Used by the course builder AI to inject exam-aligned context and by the
+   * proctor portal to pre-populate exam selection.
+   * Omit for programs with no Certiport-delivered exam.
+   */
+  certiportExamCodes?: string[];
+
   /** O*NET Standard Occupational Classification code — used for industry standards injection */
   socCode?: string;
 

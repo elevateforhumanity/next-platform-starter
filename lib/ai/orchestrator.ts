@@ -34,7 +34,11 @@ import { getRAGContext } from '@/lib/platform/rag';
 import { getKnowledgeGraphContext } from '@/lib/platform/knowledge-graph';
 import { decomposePlan } from '@/lib/platform/planner';
 import { buildMSLearnContext } from '@/lib/ai/microsoft-learn';
-import { getCertiportContextForCourse } from '@/lib/partners/certiport';
+import {
+  getCertiportContextForCourse,
+  getCertiportContextForProgram,
+  getCertiportExamsForProgram,
+} from '@/lib/partners/certiport';
 export type { Plan, PlanStep } from '@/lib/platform/planner';
 
 // ─── Task types ───────────────────────────────────────────────────────────────
@@ -81,7 +85,8 @@ export type AITaskContext = {
   topic?: string;
   difficulty?: string;
   moduleCount?: number;
-  certiportExamCode?: string;  // e.g. 'MOS-EXCEL-ASSOC' — enriches with MS Learn content
+  programSlug?: string;        // e.g. 'bookkeeping' — auto-resolves Certiport exam codes
+  certiportExamCode?: string;  // explicit override; if omitted, resolved from programSlug
   msLearnEnrich?: boolean;     // explicitly enable/disable MS Learn enrichment
 
   // RAG / knowledge graph
@@ -244,19 +249,34 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
 
   // Augment course/lesson generation with MS Learn + Certiport content
   if (['course_generation', 'lesson_generation', 'quiz_generation'].includes(task)) {
-    const examCode = context.certiportExamCode;
     const enrich = context.msLearnEnrich !== false; // default on for course tasks
 
-    if (enrich && examCode) {
-      // Inject MS Learn module list for this specific exam
-      const msLearnCtx = await buildMSLearnContext(examCode).catch(() => '');
-      if (msLearnCtx) systemPrompt += '\n\n' + msLearnCtx;
+    // Resolve exam codes: explicit override → auto-resolve from programSlug → none
+    const explicitCode = context.certiportExamCode;
+    const programCodes = context.programSlug
+      ? getCertiportExamsForProgram(context.programSlug)
+      : [];
+    const examCodes = explicitCode
+      ? [explicitCode]
+      : programCodes;
 
-      // Inject Certiport exam objectives
-      const certiportCtx = getCertiportContextForCourse(examCode);
+    if (enrich && examCodes.length > 0) {
+      for (const examCode of examCodes) {
+        // Inject MS Learn module list for this exam
+        const msLearnCtx = await buildMSLearnContext(examCode).catch(() => '');
+        if (msLearnCtx) systemPrompt += '\n\n' + msLearnCtx;
+      }
+
+      // Inject Certiport exam objectives (all exams for this program)
+      const certiportCtx = explicitCode
+        ? getCertiportContextForCourse(explicitCode)
+        : context.programSlug
+          ? getCertiportContextForProgram(context.programSlug)
+          : '';
       if (certiportCtx) systemPrompt += '\n\n' + certiportCtx;
+
     } else if (enrich && context.topic) {
-      // No specific exam — search MS Learn by topic keyword
+      // No exam codes — search MS Learn by topic keyword
       const { searchMSLearn } = await import('@/lib/ai/microsoft-learn');
       const modules = await searchMSLearn(context.topic, 5).catch(() => []);
       if (modules.length > 0) {

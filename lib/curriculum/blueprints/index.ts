@@ -42,6 +42,8 @@ export async function getAllBlueprints(): Promise<CredentialBlueprint[]> {
     { peerRecoverySpecialistBlueprint },
     { CCMA_BLUEPRINT },
     { prsIndianaBlueprint },
+    { itHelpDeskBlueprint },
+    { entrepreneurshipBlueprint },
   ] = await Promise.all([
     import('./bookkeeping-quickbooks'),
     import('./barber-apprenticeship'),
@@ -49,6 +51,8 @@ export async function getAllBlueprints(): Promise<CredentialBlueprint[]> {
     import('./peer-recovery-specialist'),
     import('./ccma'),
     import('./prs-indiana'),
+    import('./it-help-desk'),
+    import('./entrepreneurship'),
   ]);
 
   const explicitBlueprints = [
@@ -58,6 +62,8 @@ export async function getAllBlueprints(): Promise<CredentialBlueprint[]> {
     peerRecoverySpecialistBlueprint,
     CCMA_BLUEPRINT,
     prsIndianaBlueprint,
+    itHelpDeskBlueprint,
+    entrepreneurshipBlueprint,
   ];
 
   const explicitProgramSlugs = new Set(explicitBlueprints.map((bp) => bp.programSlug));

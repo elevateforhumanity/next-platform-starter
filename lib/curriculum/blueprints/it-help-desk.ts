@@ -12,6 +12,10 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
   credentialSlug: 'comptia-a-plus',
   credentialTitle: 'CompTIA A+ Certification',
   credentialCode: 'COMPTIA-A+',
+  // CompTIA A+ is delivered by Pearson VUE (not Certiport).
+  // These ITS stackable credentials are Certiport-delivered and align with
+  // the networking and security modules in this program.
+  certiportExamCodes: ['ITS-NETWORKING', 'ITS-CYBERSECURITY'],
   state: 'federal',
   programSlug: 'it-help-desk',
   trackVariants: ['standard'],

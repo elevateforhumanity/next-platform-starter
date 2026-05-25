@@ -169,6 +169,41 @@ export function getExamCategories(): string[] {
 }
 
 /**
+ * Maps program slugs to their Certiport exam codes.
+ * Kept in sync with certiportExamCodes on each CredentialBlueprint.
+ * Used for lookups without loading the full blueprint registry.
+ */
+export const PROGRAM_CERTIPORT_MAP: Record<string, string[]> = {
+  'bookkeeping':        ['QB-ONLINE', 'QB-DESKTOP'],
+  'it-help-desk':       ['ITS-NETWORKING', 'ITS-CYBERSECURITY'],
+  'entrepreneurship':   ['ESB'],
+};
+
+/**
+ * Returns Certiport exam codes for a given program slug.
+ * Returns an empty array if the program has no Certiport exams.
+ */
+export function getCertiportExamsForProgram(programSlug: string): string[] {
+  return PROGRAM_CERTIPORT_MAP[programSlug] ?? [];
+}
+
+/**
+ * Returns true if a program has at least one Certiport exam.
+ */
+export function hasCertiportExam(programSlug: string): boolean {
+  return (PROGRAM_CERTIPORT_MAP[programSlug]?.length ?? 0) > 0;
+}
+
+/**
+ * Returns all programs that use a specific Certiport exam code.
+ */
+export function getProgramsForExam(examCode: string): string[] {
+  return Object.entries(PROGRAM_CERTIPORT_MAP)
+    .filter(([, codes]) => codes.includes(examCode))
+    .map(([slug]) => slug);
+}
+
+/**
  * Build a context string for injection into the course builder AI prompt.
  * Describes the Certiport exam objectives so the AI generates aligned content.
  */
@@ -189,4 +224,17 @@ Ensure all lesson content, quiz questions, and learning objectives align with
 the official ${exam.name} exam objectives. Use practical, hands-on examples
 that reflect real workplace tasks covered by this certification.
 `.trim();
+}
+
+/**
+ * Build a combined context string for all Certiport exams associated with a program.
+ * Used by the orchestrator when no specific examCode is provided but a programSlug is known.
+ */
+export function getCertiportContextForProgram(programSlug: string): string {
+  const codes = getCertiportExamsForProgram(programSlug);
+  if (codes.length === 0) return '';
+  return codes
+    .map((code) => getCertiportContextForCourse(code))
+    .filter(Boolean)
+    .join('\n\n');
 }
