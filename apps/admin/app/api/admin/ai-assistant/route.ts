@@ -346,6 +346,9 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
   const userMessage: string = body.message ?? '';
   const sessionId: string = body.sessionId ?? 'default';
+  // Optional provider/model override from Dev Studio selector
+  const preferredProvider: string = body.provider ?? 'auto';
+  const preferredModel: string | undefined = body.model;
 
   if (!userMessage.trim()) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 });
@@ -376,7 +379,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const result = await aiChat({
-      model: 'gpt-4.1-mini',
+      model: preferredModel ?? 'gpt-4.1-mini',
+      provider: preferredProvider !== 'auto' ? preferredProvider : undefined,
       messages: [{ role: 'system', content: systemPrompt }, ...messages],
       temperature: 0.4,
       maxTokens: 1000,
@@ -385,7 +389,7 @@ export async function POST(request: NextRequest) {
   } catch {
     try {
       const result = await aiChat({
-        model: 'llama-3.3-70b-versatile',
+        model: preferredModel ?? 'llama-3.3-70b-versatile',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         temperature: 0.4,
         maxTokens: 1000,

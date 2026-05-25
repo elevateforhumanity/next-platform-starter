@@ -18,25 +18,9 @@ import { logger } from '@/lib/logger';
 
 const ECS_CLUSTER  = process.env.ECS_CLUSTER  || 'elevate-cluster';
 const ECS_SERVICES = (process.env.ECS_SERVICES || 'elevate-lms,elevate-admin')
-  .split(',').map((s) => s.trim());
-const AWS_REGION = process.env.AWS_DEFAULT_REGION || process.env.AWS_REGION || 'us-east-1';
-
-async function ecsUpdateService(service: string): Promise<void> {
-  const { ECSClient, UpdateServiceCommand } = await import('@aws-sdk/client-ecs');
-  const client = new ECSClient({
-    region: AWS_REGION,
-    credentials: {
-      accessKeyId:     process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-      sessionToken:    process.env.AWS_SESSION_TOKEN,
-    },
-  });
-  await client.send(new UpdateServiceCommand({
-    cluster: ECS_CLUSTER,
-    service,
-    forceNewDeployment: true,
-  }));
-}
+  .split(',')
+  .map((s) => s.trim());
+const AWS_REGION = process.env.AWS_DEFAULT_REGION || 'us-east-1';
 
 export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'strict');
@@ -45,9 +29,15 @@ export async function POST(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+  const accessKey = process.env.AWS_ACCESS_KEY_ID;
+  const secretKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+  if (!accessKey || !secretKey) {
     return NextResponse.json(
-      { triggered: false, reason: 'AWS credentials not configured' },
+      {
+        triggered: false,
+        reason: 'AWS credentials not configured (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)',
+      },
       { status: 503 },
     );
   }
@@ -56,7 +46,20 @@ export async function POST(req: NextRequest) {
 
   for (const service of ECS_SERVICES) {
     try {
-      await ecsUpdateService(service);
+      const { execSync } = await import('child_process');
+      execSync(
+        `aws ecs update-service --cluster ${ECS_CLUSTER} --service ${service} ` +
+          `--force-new-deployment --region ${AWS_REGION} --output json`,
+        {
+          stdio: 'pipe',
+          env: {
+            ...process.env,
+            AWS_ACCESS_KEY_ID: accessKey,
+            AWS_SECRET_ACCESS_KEY: secretKey,
+            AWS_DEFAULT_REGION: AWS_REGION,
+          },
+        },
+      );
       logger.info('[env-vars/deploy] ECS force-deploy triggered', { service, userId: auth.id });
       results.push({ service, status: 'triggered' });
     } catch (err) {

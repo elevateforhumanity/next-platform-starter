@@ -173,9 +173,6 @@ const SERVICE_GROUPS: ServiceGroup[] = [
   {
     label: 'AWS',
     keys: [
-      'CODEBUILD_LMS_PROJECT',
-      'CODEBUILD_ADMIN_PROJECT',
-      'AWS_REGION',
       'AWS_ACCESS_KEY_ID',
       'AWS_SECRET_ACCESS_KEY',
       'AWS_DEFAULT_REGION',

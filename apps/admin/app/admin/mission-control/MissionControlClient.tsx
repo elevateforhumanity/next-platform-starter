@@ -330,7 +330,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
               <div className="grid grid-cols-2 gap-2">
                 {[
                   { label: 'Dev Studio', href: '/admin/dev-studio', icon: Terminal },
-                  { label: 'Command Center', href: '/admin/command-center', icon: Activity },
+                  { label: 'System', href: '/admin/system', icon: Activity },
                   { label: 'Snapshots', href: '/admin/snapshots', icon: DatabaseBackup },
                   { label: 'Audit Logs', href: '/admin/audit-logs', icon: FileSearch },
                   { label: 'Impersonate', href: '/admin/impersonate', icon: Users },
