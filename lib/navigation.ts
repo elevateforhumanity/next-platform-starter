@@ -162,10 +162,11 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Apprenticeship Sponsor', href: '/apprenticeship-sponsor' },
       { name: 'Workforce Boards', href: '/platform/workforce-boards' },
       // Training Providers & Program Holders
-      { name: '— Training Providers —', href: '/for-providers', isHeader: true },
-      { name: 'Run a Program with Us', href: '/for-providers' },
+      { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
+      { name: 'How It Works', href: '/for-providers' },
+      { name: 'Program Holder Portal', href: '/program-holder/dashboard' },
       { name: 'Sponsors & Funders', href: '/platform/sponsors' },
-      { name: 'Apply as a Partner →', href: '/partners/apply', isSectionLink: true },
+      { name: 'Apply to Partner →', href: '/partners/apply', isSectionLink: true },
     ],
   },
 

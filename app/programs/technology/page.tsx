@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 const programs = [
-  { title: 'IT Help Desk', duration: '8 weeks', salary: '$55,510', href: '/programs/it-help-desk', image: '/images/pages/comp-universal-hero.webp' },
+  { title: 'IT Help Desk', duration: '8 weeks', salary: '$55,510', href: '/programs/it-help-desk', image: '/images/pages/it-help-desk.webp' },
   { title: 'Cybersecurity Analyst', duration: '12 weeks', salary: '$112,000', href: '/programs/cybersecurity-analyst', image: '/images/pages/admin-network-hero.webp' },
   { title: 'Web Development', duration: '10 weeks', salary: '$80,267', href: '/programs/technology/web-development', image: '/images/pages/admin-career-courses-create-hero.webp' },
   { title: 'Software Development', duration: '12 weeks', salary: '$104,000', href: '/programs/software-development', image: '/images/pages/admin-dev-hero.jpg' },

@@ -32,13 +32,12 @@ export default function FinanceBookkeepingAccountingPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
-          src="/images/hero-poster.webp"
+          src="/images/pages/finance-accounting.webp"
           alt="Finance and accounting credential pathway"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-center"
           sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
