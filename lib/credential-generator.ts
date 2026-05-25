@@ -62,7 +62,7 @@ export async function issueCredential(params: {
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to issue credential', { error, params });
+    logger.error('Failed to issue credential', undefined, { error, params });
     throw new Error('Failed to issue credential');
   }
 
@@ -115,7 +115,7 @@ export async function createShareLink(params: {
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to create share link', { error, params });
+    logger.error('Failed to create share link', undefined, { error, params });
     throw new Error('Failed to create share link');
   }
 
@@ -148,7 +148,7 @@ export async function revokeCredential(credentialId: string, reason: string, rev
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to revoke credential', { error, credentialId });
+    logger.error('Failed to revoke credential', undefined, { error, credentialId });
     throw new Error('Failed to revoke credential');
   }
 

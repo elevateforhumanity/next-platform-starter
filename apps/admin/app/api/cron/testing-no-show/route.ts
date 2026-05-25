@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     .lte('preferred_date', yesterdayStr);
 
   if (error) {
-    logger.error('[cron/no-show] Query failed', { error });
+    logger.error('[cron/no-show] Query failed', undefined, { error });
     return NextResponse.json({ error: 'Query failed' }, { status: 500 });
   }
 

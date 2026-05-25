@@ -394,7 +394,7 @@ export async function runGuardrailEvaluation(
       } catch (err) {
         const msg = `${holder.id}/${policy.id}: ${err instanceof Error ? err.message : String(err)}`;
         result.errors.push(msg);
-        logger.error('[guardrail-engine] evaluation error', { holderId: holder.id, policyId: policy.id, err });
+        logger.error('[guardrail-engine] evaluation error', undefined, { holderId: holder.id, policyId: policy.id, err });
       }
     }
   }

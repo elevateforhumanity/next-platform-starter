@@ -36,7 +36,7 @@ export async function fetchReceivedEmail(emailId: string): Promise<ResendReceive
 
   if (!resp.ok) {
     const body = await resp.text().catch(() => '');
-    logger.error('[Resend Inbound] Failed to fetch received email', {
+    logger.error('[Resend Inbound] Failed to fetch received email', undefined, {
       emailId,
       status: resp.status,
       body,

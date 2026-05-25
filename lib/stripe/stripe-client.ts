@@ -2,6 +2,8 @@
 import type Stripe from 'stripe';
 import { getStripe, stripe } from '@/lib/stripe/client';
 import { resilientStripe } from '@/lib/resilience/with-resilience';
+
+const stripe = getStripe();
 export interface CheckoutSessionParams {
   courseId: string;
   courseName: string;

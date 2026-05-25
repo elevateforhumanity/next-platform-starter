@@ -28,7 +28,7 @@ export function isLicensingControlled(): boolean {
  * Validate admin session against database
  */
 async function validateAdminSession(sessionId: string): Promise<boolean> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await requireAdminClient();
   if (!supabase) return false;
 
   const { data: session } = await supabase
@@ -48,7 +48,7 @@ async function validateAdminSession(sessionId: string): Promise<boolean> {
  * Validate approved payment link
  */
 async function validatePaymentLink(linkId: string): Promise<boolean> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await requireAdminClient();
   if (!supabase) return false;
 
   const { data: link } = await supabase

@@ -42,7 +42,7 @@ export async function requireDbWrite<T>(
   const { data, error } = await operation;
 
   if (error || !data) {
-    logger.error('requireDbWrite: DB failure', { error, errorMessage });
+    logger.error('requireDbWrite: DB failure', undefined, { error, errorMessage });
     throw new Error(errorMessage);
   }
 

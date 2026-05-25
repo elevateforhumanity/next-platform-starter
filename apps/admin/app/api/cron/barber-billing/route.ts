@@ -85,7 +85,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
               updateUrl: `${SITE_URL}/billing-required`,
             }),
           }).catch((err) =>
-            logger.error('[barber-billing cron] suspension email failed', { id: sub.id, err }),
+            logger.error('[barber-billing cron] suspension email failed', undefined, { id: sub.id, err }),
           );
         }
 
@@ -100,7 +100,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
         logger.info('[barber-billing cron] suspended', { id: sub.id, email: sub.customer_email });
       } catch (err) {
         results.errors.push(`sub ${sub.id}: suspension failed`);
-        logger.error('[barber-billing cron] suspension failed', { id: sub.id, err });
+        logger.error('[barber-billing cron] suspension failed', undefined, { id: sub.id, err });
       }
     }
 

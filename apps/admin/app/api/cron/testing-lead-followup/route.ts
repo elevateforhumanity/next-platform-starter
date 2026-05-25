@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
     .limit(50);
 
   if (err1) {
-    logger.error('[testing-lead-followup] Failed to fetch 24hr leads', { err1 });
+    logger.error('[testing-lead-followup] Failed to fetch 24hr leads', undefined, { err1 });
   } else if (leads1) {
     for (const lead of leads1) {
       try {
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
     .limit(50);
 
   if (err2) {
-    logger.error('[testing-lead-followup] Failed to fetch 48hr leads', { err2 });
+    logger.error('[testing-lead-followup] Failed to fetch 48hr leads', undefined, { err2 });
   } else if (leads2) {
     for (const lead of leads2) {
       try {

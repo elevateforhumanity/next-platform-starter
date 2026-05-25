@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
 
     return safeError(`Unknown action: ${action}`, 400);
   } catch (err) {
-    logger.error('[devstudio/services] POST failed', { action, serviceKey, err });
+    logger.error('[devstudio/services] POST failed', undefined, { action, serviceKey, err });
     return safeInternalError(err, 'Service action failed');
   }
 }

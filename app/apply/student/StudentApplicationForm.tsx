@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { submitStudentApplication } from '../actions';
 import { getActiveProgramsByCategory } from '@/lib/program-registry';
 import { trackEvent } from '@/components/analytics/google-analytics';
-import { XCircle, AlertCircle, CheckCircle, ChevronRight } from 'lucide-react';
+import { XCircle, AlertCircle, CheckCircle, ChevronRight, Save } from 'lucide-react';
+import { useApplicationDraft } from '@/hooks/useApplicationDraft';
 
 // ── Step definitions ──────────────────────────────────────────────────────────
 const STEPS = [
@@ -246,6 +247,27 @@ export default function StudentApplicationForm({
   const [eligibility, setEligibility] = useState<EligibilityAnswers>(EMPTY_ELIGIBILITY);
   const [eligibilityDecision, setEligibilityDecision] = useState<EligibilityDecision | null>(null);
   const [eligibilitySubmitted, setEligibilitySubmitted] = useState(false);
+  const [showDraftBanner, setShowDraftBanner] = useState(false);
+
+  // Draft save/resume
+  const { hasDraft, savedStep, savedData, savedAt, saveDraft, clearDraft } =
+    useApplicationDraft<{ applicationType: string; selectedProgram: string }>('student-apply');
+
+  // Show resume banner once draft is loaded
+  useEffect(() => {
+    if (hasDraft) setShowDraftBanner(true);
+  }, [hasDraft]);
+
+  function resumeDraft() {
+    if (!savedData) return;
+    if (savedData.applicationType === 'inquiry' || savedData.applicationType === 'enrollment') {
+      setApplicationType(savedData.applicationType as 'inquiry' | 'enrollment');
+    }
+    if (savedData.selectedProgram) setSelectedProgram(savedData.selectedProgram);
+    const step = Math.min(Math.max(savedStep, 1), 5) as StepId;
+    setCurrentStep(step);
+    setShowDraftBanner(false);
+  }
 
   // Pre-populate from check-eligibility URL params
   // e.g. /apply/student?program=hvac-technician&type=enrollment&indiana=yes&unemployed=yes
@@ -278,6 +300,8 @@ export default function StudentApplicationForm({
     const next = sequence[currentIndex + 1];
     if (next) {
       setError('');
+      // Auto-save progress before advancing
+      saveDraft({ applicationType, selectedProgram }, next);
       setCurrentStep(next);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -432,6 +456,7 @@ export default function StudentApplicationForm({
 
       if (result.success) {
         trackEvent('application_complete', 'conversion', data.programInterest);
+        clearDraft(); // remove saved draft on successful submission
 
         // Inquiry path — thank you page, no payment
         if (applicationType === 'inquiry') {
@@ -475,6 +500,36 @@ export default function StudentApplicationForm({
         <label htmlFor="website_url">Website</label>
         <input type="text" id="website_url" name="website_url" tabIndex={-1} autoComplete="off" />
       </div>
+
+      {/* Resume draft banner */}
+      {showDraftBanner && (
+        <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+          <Save className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+          <div className="flex-1">
+            <p className="font-semibold text-blue-900">You have a saved application</p>
+            <p className="text-blue-700 text-xs mt-0.5">
+              Saved {savedAt ? savedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'recently'}.
+              Resume where you left off or start fresh.
+            </p>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={resumeDraft}
+              className="text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Resume
+            </button>
+            <button
+              type="button"
+              onClick={() => { clearDraft(); setShowDraftBanner(false); }}
+              className="text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1.5"
+            >
+              Start fresh
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Progress bar */}
       {applicationType && (

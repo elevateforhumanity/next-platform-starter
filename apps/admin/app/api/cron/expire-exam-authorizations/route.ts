@@ -31,7 +31,7 @@ async function _GET(request: Request) {
     const { data, error } = await db.rpc('expire_stale_exam_authorizations');
 
     if (error) {
-      logger.error('expire_stale_exam_authorizations RPC failed', { error: error.message });
+      logger.error('expire_stale_exam_authorizations RPC failed', undefined, { error: error.message });
       return NextResponse.json({ error: 'Expiration job failed' }, { status: 500 });
     }
 
@@ -51,7 +51,7 @@ async function _GET(request: Request) {
       ran_at: new Date().toISOString(),
     });
   } catch (err) {
-    logger.error('Exam authorization expiration job threw', { err });
+    logger.error('Exam authorization expiration job threw', undefined, { err });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

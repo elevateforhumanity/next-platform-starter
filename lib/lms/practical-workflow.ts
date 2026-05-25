@@ -135,7 +135,7 @@ export async function submitPractical(
     .maybeSingle();
 
   if (error) {
-    logger.error('[practical-workflow] submitPractical failed', {
+    logger.error('[practical-workflow] submitPractical failed', undefined, {
       userId,
       courseLessonId,
       error: error.message,
@@ -209,7 +209,7 @@ export async function reviewPractical(
     .eq('id', submissionId);
 
   if (updateErr) {
-    logger.error('[practical-workflow] reviewPractical update failed', {
+    logger.error('[practical-workflow] reviewPractical update failed', undefined, {
       submissionId,
       error: updateErr.message,
     });
@@ -292,7 +292,7 @@ export async function reviewPractical(
       );
 
       if (progressErr) {
-        logger.error('[practical-workflow] lesson_progress upsert failed', {
+        logger.error('[practical-workflow] lesson_progress upsert failed', undefined, {
           lessonId,
           error: progressErr.message,
         });

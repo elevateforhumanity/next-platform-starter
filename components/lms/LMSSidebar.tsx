@@ -154,6 +154,7 @@ export function LMSSidebar({
       >
         <div className="flex items-center gap-3">
           {profile?.avatar_url ? (
+            // IMAGE-CONTRACT: allow raw img because avatar_url is a user-supplied external URL incompatible with next/image domain config
             <img
               src={profile.avatar_url}
               alt={userName}

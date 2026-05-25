@@ -62,13 +62,13 @@ export function validateCourseMetadata(metadata: Record<string, any>): {
     errors.push('Course must have at least one module');
   }
 
-  metadata.modules?.forEach((module: any, index: number) => {
-    if (!module.title) {
+  metadata.modules?.forEach((mod: any, index: number) => {
+    if (!mod.title) {
       errors.push(`Module ${index + 1} is missing a title`);
     }
 
-    if (!module.lessons || module.lessons.length === 0) {
-      errors.push(`Module "${module.title}" has no lessons`);
+    if (!mod.lessons || mod.lessons.length === 0) {
+      errors.push(`Module "${mod.title}" has no lessons`);
     }
   });
 

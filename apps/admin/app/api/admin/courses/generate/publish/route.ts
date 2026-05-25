@@ -158,7 +158,7 @@ async function checkCoverageGate(
   const db = await requireAdminClient();
   if (!db) {
     // DB client unavailable — infrastructure failure, fail open
-    logger.error('coverage-gate: DB client unavailable, skipping audit', { programId });
+    logger.error('coverage-gate: DB client unavailable, skipping audit', undefined, { programId });
     return null;
   }
 
@@ -170,7 +170,7 @@ async function checkCoverageGate(
 
   if (progErr) {
     // Network/DB error — infrastructure failure, fail open and log
-    logger.error('coverage-gate: program lookup failed, skipping audit', {
+    logger.error('coverage-gate: program lookup failed, skipping audit', undefined, {
       programId,
       error: progErr.message,
       code: progErr.code,

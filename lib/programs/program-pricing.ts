@@ -29,6 +29,10 @@ export interface ProgramPricing {
   nhaCostPerLearner?: number;
   /** NHA exam fee only (subset of nhaCostPerLearner). */
   nhaExamFee?: number;
+  /** Regular (non-discounted) price, if different from fullPrice. */
+  regularPrice?: number;
+  /** Whether Buy Now Pay Later is enabled for this program. */
+  bnplEnabled?: boolean;
 }
 
 export const PROGRAM_PRICING: Record<string, ProgramPricing> = {

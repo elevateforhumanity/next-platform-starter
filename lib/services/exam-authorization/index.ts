@@ -256,7 +256,7 @@ export async function confirmPaymentAndAuthorize(
     .maybeSingle();
 
   if (!payment) {
-    logger.warn('[ExamAuth] No exam_fee_payment found for intent', stripePaymentIntentId);
+    logger.warn('[ExamAuth] No exam_fee_payment found for intent', { stripePaymentIntentId });
     return { ok: false, error: 'Payment record not found' };
   }
 

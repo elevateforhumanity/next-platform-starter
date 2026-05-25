@@ -30,13 +30,13 @@ for (const s of students) {
 
   const body = res.status === 200 ? '(no body)' : await res.text();
   if (res.ok || res.status === 200) {
-    console.log(`✓ Recovery email sent to ${s.name} <${s.email}>`);
+    console.info(`✓ Recovery email sent to ${s.name} <${s.email}>`);
   } else {
-    console.log(`✗ ${s.name} <${s.email}> — ${res.status}: ${body}`);
+    console.info(`✗ ${s.name} <${s.email}> — ${res.status}: ${body}`);
   }
 }
 
-console.log('\nNote: Recovery emails redirect to /auth/reset-password by default.');
-console.log('To redirect to /learner/dashboard, the redirect URL must be set in');
-console.log('Supabase Dashboard → Authentication → URL Configuration → Redirect URLs.');
-console.log('Add: https://www.elevateforhumanity.org/**');
+console.info('\nNote: Recovery emails redirect to /auth/reset-password by default.');
+console.info('To redirect to /learner/dashboard, the redirect URL must be set in');
+console.info('Supabase Dashboard → Authentication → URL Configuration → Redirect URLs.');
+console.info('Add: https://www.elevateforhumanity.org/**');

@@ -825,6 +825,26 @@
         {
           "name": "YOUTUBE_API_KEY_2",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/YOUTUBE_API_KEY_2"
+        },
+        {
+          "name": "CAREERONESTOP_USER_ID",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CAREERONESTOP_USER_ID"
+        },
+        {
+          "name": "CAREERONESTOP_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CAREERONESTOP_TOKEN"
+        },
+        {
+          "name": "CAREERONESTOP_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/CAREERONESTOP_API_KEY"
+        },
+        {
+          "name": "USAJOBS_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/USAJOBS_API_KEY"
+        },
+        {
+          "name": "USAJOBS_USER_AGENT_EMAIL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/USAJOBS_USER_AGENT_EMAIL"
         }
       ],
       "logConfiguration": {

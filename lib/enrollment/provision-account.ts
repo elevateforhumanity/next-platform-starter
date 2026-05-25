@@ -97,7 +97,7 @@ export async function provisionAccount(
   });
 
   if (authErr || !authData?.user) {
-    logger.error('[provision-account] Auth user creation failed', {
+    logger.error('[provision-account] Auth user creation failed', undefined, {
       email: normalizedEmail,
       error: authErr?.message,
     });

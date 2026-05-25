@@ -133,7 +133,7 @@ async function _POST(req: Request) {
         emailSent = result.success;
 
         if (!result.success) {
-          logger.error('[Creator Rejection] Email failed', {
+          logger.error('[Creator Rejection] Email failed', undefined, {
             creatorId,
             email: creatorProfile.email,
             error: result.error,

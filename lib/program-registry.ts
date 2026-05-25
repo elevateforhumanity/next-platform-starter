@@ -608,7 +608,6 @@ const SLUG_ALIASES: Record<string, string> = {
   'health-safety': 'emergency-health-safety',
   'emergency-health': 'emergency-health-safety',
   cosmetology: 'cosmetology-apprenticeship',
-  'nail-tech': 'nail-technician',
 };
 
 /**

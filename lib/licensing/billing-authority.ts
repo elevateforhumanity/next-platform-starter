@@ -189,7 +189,7 @@ export function isLicenseActiveNow(
 
   // Rule 4: Unknown tier = DENY (fail closed)
   if (!isKnownTier(tier)) {
-    logger.error('[billing-authority] Unknown tier - denying access', {
+    logger.error('[billing-authority] Unknown tier - denying access', undefined, {
       tier,
       licenseId: license.id,
     });
@@ -205,7 +205,7 @@ export function isLicenseActiveNow(
   if (isSubscriptionTier(tier)) {
     // MUST have stripe_subscription_id
     if (!license.stripe_subscription_id) {
-      logger.error('[billing-authority] Subscription tier missing stripe_subscription_id', {
+      logger.error('[billing-authority] Subscription tier missing stripe_subscription_id', undefined, {
         tier,
         licenseId: license.id,
       });
@@ -220,7 +220,7 @@ export function isLicenseActiveNow(
     // MUST have current_period_end
     const cpe = toDate(license.current_period_end);
     if (!cpe) {
-      logger.error('[billing-authority] Subscription tier missing current_period_end', {
+      logger.error('[billing-authority] Subscription tier missing current_period_end', undefined, {
         tier,
         licenseId: license.id,
       });
@@ -255,7 +255,7 @@ export function isLicenseActiveNow(
 
   // Rule 6: Tiers requiring expiry (trial, pilot, etc.) MUST have expires_at
   if (tierRequiresExpiry(tier) && !exp) {
-    logger.error('[billing-authority] Tier requires expires_at but none set', {
+    logger.error('[billing-authority] Tier requires expires_at but none set', undefined, {
       tier,
       licenseId: license.id,
     });

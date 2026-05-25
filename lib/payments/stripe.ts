@@ -289,7 +289,7 @@ export class StripeService {
           logger.info('Unhandled event type:', { type: event.type });
       }
     } catch (error) {
-      logger.error('Webhook error:', error);
+      logger.error('Webhook error:', error instanceof Error ? error : undefined);
       throw error;
     }
   }

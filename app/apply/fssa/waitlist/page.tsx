@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, Users, Phone, Mail } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Users, Phone, Mail } from 'lucide-react';
 
 export default function FssaWaitlistPage() {
   const [form, setForm] = useState({
@@ -67,8 +67,8 @@ export default function FssaWaitlistPage() {
       <div className="min-h-screen bg-white flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full text-center space-y-6">
           <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-              <CheckCircle2 className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-brand-green-600" />
             </div>
           </div>
           <div>

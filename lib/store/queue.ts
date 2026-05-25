@@ -27,7 +27,10 @@ export async function enqueueJob(
   supabase: {
     from: (table: string) => {
       insert: (data: unknown) => {
-        select: () => { single: () => Promise<{ data: unknown; error: unknown }> };
+        select: () => {
+          single: () => Promise<{ data: unknown; error: unknown }>;
+          maybeSingle: () => Promise<{ data: unknown; error: unknown }>;
+        };
       };
     };
   },
@@ -46,7 +49,7 @@ export async function enqueueJob(
     .maybeSingle();
 
   if (error) {
-    logger.error('Failed to enqueue job', error);
+    logger.error('Failed to enqueue job', error instanceof Error ? error : undefined);
     return null;
   }
 
@@ -92,7 +95,7 @@ export async function processPendingJobs(
     .limit(10);
 
   if (error || !jobs) {
-    logger.error('Failed to fetch pending jobs', error);
+    logger.error('Failed to fetch pending jobs', error instanceof Error ? error : undefined);
     return { processed: 0, failed: 0 };
   }
 
@@ -133,7 +136,7 @@ export async function processPendingJobs(
         .eq('id', job.id!);
 
       failed++;
-      logger.error('Job processing failed', { jobId: job.id, error: errorMessage });
+      logger.error('Job processing failed', undefined, { jobId: job.id, error: errorMessage });
     }
   }
 

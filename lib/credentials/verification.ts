@@ -100,7 +100,7 @@ const CompTIAProvider: VerificationProvider = {
       if (err?.name === 'TimeoutError') {
         return { status: 'error', error: 'CompTIA verification timed out' };
       }
-      logger.error('CompTIA verification threw', { error: err?.message });
+      logger.error('CompTIA verification threw', undefined, { error: err?.message });
       return { status: 'error', error: 'Network error contacting CompTIA' };
     }
   },

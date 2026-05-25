@@ -74,7 +74,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       });
 
       if (result.error) {
-        logger.error('[webhook/checkout] createOrUpdateEnrollment failed', result.error);
+        logger.error('[webhook/checkout] createOrUpdateEnrollment failed', undefined, { error: result.error });
         return;
       }
 
@@ -82,7 +82,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         action: AuditAction.ENROLLMENT_CREATED,
         entity: AuditEntity.ENROLLMENT,
         entityId: result.id,
-        userId,
+        actorId: userId,
         metadata: {
           program_id: programId,
           program_slug: programSlug,
@@ -172,10 +172,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const programSlug = session.metadata?.program_slug;
 
       if (!studentId || !externalCourseId || !programId) {
-        logger.error(
-          '[webhook/checkout] external_course_purchase missing metadata',
-          session.metadata,
-        );
+        logger.error('[webhook/checkout] external_course_purchase missing metadata', undefined, { metadata: session.metadata });
         return;
       }
 

@@ -339,7 +339,7 @@ export async function runContentAlignmentAudit(
     .maybeSingle();
 
   if (!program) {
-    logger.error('audit-alignment: program not found', { programSlug });
+    logger.error('audit-alignment: program not found', undefined, { programSlug });
     return empty;
   }
 
@@ -353,7 +353,7 @@ export async function runContentAlignmentAudit(
     .eq('status', 'published');
 
   if (lessonErr) {
-    logger.error('audit-alignment: failed to load lessons', { lessonErr });
+    logger.error('audit-alignment: failed to load lessons', undefined, { lessonErr });
     return empty;
   }
 

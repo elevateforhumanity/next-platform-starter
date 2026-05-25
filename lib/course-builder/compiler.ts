@@ -332,7 +332,7 @@ export async function compileBlueprintToCourse(opts: CompilerOptions): Promise<C
   // Step 8: Validate
   const { valid, errors: validationErrors } = validatePlan(template);
   if (!valid) {
-    logger.error('[compiler] Plan validation failed', {
+    logger.error('[compiler] Plan validation failed', undefined, {
       courseSlug: template.courseSlug,
       errorCount: validationErrors.length,
     });

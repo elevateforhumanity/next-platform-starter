@@ -16,14 +16,14 @@ const REDIRECT_URL = 'https://www.elevateforhumanity.org/learner/dashboard';
 for (const uid of userIds) {
   const { data: u, error } = await supabase.auth.admin.getUserById(uid);
   if (error) {
-    console.log(`${uid} — ERROR: ${error.message}`);
+    console.info(`${uid} — ERROR: ${error.message}`);
     continue;
   }
 
   const email = u.user?.email;
   const name = u.user?.user_metadata?.full_name || u.user?.user_metadata?.name || '(no name)';
   const confirmed = !!u.user?.email_confirmed_at;
-  console.log(`\nUser: ${email} | name: ${name} | email_confirmed: ${confirmed}`);
+  console.info(`\nUser: ${email} | name: ${name} | email_confirmed: ${confirmed}`);
 
   // Send magic link (invite / sign-in link) so they can access the dashboard
   const { data: link, error: linkErr } = await supabase.auth.admin.generateLink({
@@ -33,8 +33,8 @@ for (const uid of userIds) {
   });
 
   if (linkErr) {
-    console.log(`  Magic link error: ${linkErr.message}`);
+    console.info(`  Magic link error: ${linkErr.message}`);
   } else {
-    console.log(`  Magic link generated: ${link?.properties?.action_link}`);
+    console.info(`  Magic link generated: ${link?.properties?.action_link}`);
   }
 }

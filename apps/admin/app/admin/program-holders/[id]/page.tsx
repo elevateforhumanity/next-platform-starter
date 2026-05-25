@@ -177,7 +177,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     });
 
     if (rpcError) {
-      logger.error('[PH Approve RPC] Database error', { id, error: rpcError });
+      logger.error('[PH Approve RPC] Database error', undefined, { id, error: rpcError });
       redirect(
         `/admin/program-holders/${id}?error=${encodeURIComponent('Database error during approval — check server logs')}`,
       );
@@ -302,7 +302,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     });
 
     if (rpcError) {
-      logger.error('[PH Provision RPC] Database error', { id, programId, error: rpcError });
+      logger.error('[PH Provision RPC] Database error', undefined, { id, programId, error: rpcError });
       redirect(
         `/admin/program-holders/${id}?error=${encodeURIComponent('Database error during provisioning — check server logs')}`,
       );
@@ -334,7 +334,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     });
 
     if (rpcError) {
-      logger.error('[PH Deprovision RPC] Database error', { id, assignmentId, error: rpcError });
+      logger.error('[PH Deprovision RPC] Database error', undefined, { id, assignmentId, error: rpcError });
       redirect(
         `/admin/program-holders/${id}?error=${encodeURIComponent('Database error during deprovisioning — check server logs')}`,
       );

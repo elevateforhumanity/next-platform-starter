@@ -167,7 +167,7 @@ export async function initializeCompetencyResults(
     .upsert(rows, { onConflict: 'user_id,course_id,competency_key', ignoreDuplicates: true });
 
   if (error) {
-    logger.error('[competency-mapper] Failed to initialize competency_results', {
+    logger.error('[competency-mapper] Failed to initialize competency_results', undefined, {
       userId: opts.userId,
       courseId: opts.courseId,
       error: error.message,
@@ -237,7 +237,7 @@ export async function markCompetencyAchieved(
   );
 
   if (error) {
-    logger.error('[competency-mapper] Failed to mark competency achieved', {
+    logger.error('[competency-mapper] Failed to mark competency achieved', undefined, {
       competencyKey: opts.competencyKey,
       userId: opts.userId,
       error: error.message,

@@ -343,7 +343,7 @@ export async function issueProgramCertificate(
     .maybeSingle();
 
   if (certErr) {
-    logger.error('[cert-compiler] Insert failed', { userId, courseId, error: certErr.message });
+    logger.error('[cert-compiler] Insert failed', undefined, { userId, courseId, error: certErr.message });
     return { success: false, alreadyIssued: false, error: certErr.message };
   }
 

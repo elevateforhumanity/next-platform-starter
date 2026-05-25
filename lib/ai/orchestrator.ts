@@ -363,7 +363,7 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
       tokensUsed: result.usage?.totalTokens,
     };
   } catch (err) {
-    logger.error('[ai-orchestrator] Task failed', { task, err });
+    logger.error('[ai-orchestrator] Task failed', undefined, { task, err });
     throw err;
   }
 }

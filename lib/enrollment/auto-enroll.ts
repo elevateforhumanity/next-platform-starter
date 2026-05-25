@@ -106,7 +106,7 @@ export async function autoEnroll(input: AutoEnrollInput): Promise<AutoEnrollResu
     .maybeSingle();
 
   if (enrollErr || !enrollment?.id) {
-    logger.error('[auto-enroll] program_enrollments upsert failed', {
+    logger.error('[auto-enroll] program_enrollments upsert failed', undefined, {
       userId,
       programId,
       error: enrollErr?.message,

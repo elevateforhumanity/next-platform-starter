@@ -136,7 +136,7 @@ class AffirmClient {
 
     if (!response.ok) {
       const error = await response.text();
-      logger.error('Affirm authorize failed', { status: response.status, error });
+      logger.error('Affirm authorize failed', undefined, { status: response.status, error });
       throw new Error(`Affirm authorize failed: ${error}`);
     }
 
@@ -172,7 +172,7 @@ class AffirmClient {
 
     if (!response.ok) {
       const error = await response.text();
-      logger.error('Affirm capture failed', { status: response.status, error });
+      logger.error('Affirm capture failed', undefined, { status: response.status, error });
       throw new Error(`Affirm capture failed: ${error}`);
     }
 
@@ -196,7 +196,7 @@ class AffirmClient {
 
     if (!response.ok) {
       const error = await response.text();
-      logger.error('Affirm get charge failed', { status: response.status, error });
+      logger.error('Affirm get charge failed', undefined, { status: response.status, error });
       throw new Error(`Affirm get charge failed: ${error}`);
     }
 
@@ -221,7 +221,7 @@ class AffirmClient {
 
     if (!response.ok) {
       const error = await response.text();
-      logger.error('Affirm void failed', { status: response.status, error });
+      logger.error('Affirm void failed', undefined, { status: response.status, error });
       throw new Error(`Affirm void failed: ${error}`);
     }
 
@@ -250,7 +250,7 @@ class AffirmClient {
 
     if (!response.ok) {
       const error = await response.text();
-      logger.error('Affirm refund failed', { status: response.status, error });
+      logger.error('Affirm refund failed', undefined, { status: response.status, error });
       throw new Error(`Affirm refund failed: ${error}`);
     }
 

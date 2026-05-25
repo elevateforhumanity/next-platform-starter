@@ -17,7 +17,6 @@ import {
   Clock,
   BookOpen,
   CheckCircle,
-  CheckCircle2,
   AlertCircle,
   ChevronRight,
   Flame,
@@ -530,7 +529,7 @@ export default async function StudentDashboard() {
                             <p className="text-xs text-slate-500 mt-0.5">{course.partner_name} · {course.credential_type}</p>
                           </div>
                           {isApproved ? (
-                            <CheckCircle2 className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
+                            <CheckCircle className="w-5 h-5 text-brand-green-500 flex-shrink-0 mt-0.5" />
                           ) : null}
                         </div>
 

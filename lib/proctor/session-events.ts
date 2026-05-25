@@ -36,7 +36,8 @@ export async function appendSessionEvent(
   if (error) {
     logger.error(
       `[session-events] Failed to append ${eventType} for session ${sessionId}:`,
-      error.message,
+      undefined,
+      { error: error.message },
     );
   }
 }

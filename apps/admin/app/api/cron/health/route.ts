@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
   const allOk = checks.every((c) => c.ok);
 
   if (!allOk) {
-    logger.error('[cron/health] one or more checks failed', { checks });
+    logger.error('[cron/health] one or more checks failed', undefined, { checks });
   }
 
   return NextResponse.json({

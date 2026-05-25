@@ -82,7 +82,7 @@ export async function createTalk(params: CreateTalkParams): Promise<TalkResponse
 
   if (!res.ok) {
     const err = await res.text();
-    logger.error('D-ID createTalk failed', { status: res.status, body: err });
+    logger.error('D-ID createTalk failed', undefined, { status: res.status, body: err });
     throw new Error(`D-ID API error ${res.status}: ${err}`);
   }
 
@@ -118,7 +118,7 @@ export async function pollTalkResult(
     }
 
     if (data.status === 'error') {
-      logger.error('D-ID talk failed', { id: talkId, error: data.error });
+      logger.error('D-ID talk failed', undefined, { id: talkId, error: data.error });
       throw new Error(`D-ID talk failed: ${data.error?.description || 'Unknown error'}`);
     }
 

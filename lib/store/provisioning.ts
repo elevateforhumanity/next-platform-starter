@@ -146,7 +146,7 @@ export async function provisionLicense(
     if (authError) {
       // User might already exist - try to get them
       const { data: existingUsers } = await adminSupabase.auth.admin.listUsers();
-      const existingUser = existingUsers?.users?.find((u) => u.email === input.contactEmail);
+      const existingUser = (existingUsers as { users?: Array<{ id: string; email?: string; user_metadata?: Record<string, unknown> }> } | null)?.users?.find((u) => u.email === input.contactEmail);
 
       if (existingUser) {
         adminUserId = existingUser.id;
@@ -200,7 +200,7 @@ export async function provisionLicense(
     };
   } catch (error) {
     const errorMessage = 'Operation failed';
-    logger.error('Provisioning failed', { error: errorMessage, correlationId });
+    logger.error('Provisioning failed', undefined, { error: errorMessage, correlationId });
 
     // Log failure
     await logProvisioningStep(adminSupabase, {

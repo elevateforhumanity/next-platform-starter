@@ -77,7 +77,7 @@ export async function getCurrentUser() {
     .maybeSingle();
 
   if (error || !profile) {
-    logger.error('Failed to load user profile', { userId: session.user.id, error });
+    logger.error('Failed to load user profile', undefined, { userId: session.user.id, error });
     throw new Error('Profile not found');
   }
 
@@ -120,7 +120,7 @@ export async function requirePartnerIdentity() {
       .insert({ id: user.id, role: 'partner', full_name: fullName, email: user.email });
 
     if (insertErr) {
-      logger.error('Failed to auto-heal missing profile', {
+      logger.error('Failed to auto-heal missing profile', undefined, {
         userId: user.id,
         error: insertErr.message,
       });

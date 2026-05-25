@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowLeft, ArrowRight, CheckCircle2, CreditCard, DollarSign, Building2, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle, CreditCard, DollarSign, Building2, Users } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 type FundingSource = 'wioa' | 'wrg' | 'employer' | 'self_pay';
@@ -142,8 +142,8 @@ export default function FundingPage() {
         </div>
 
         {alreadyConfirmed && (
-          <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-4 py-3 mb-6 text-green-800 text-sm">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 rounded-xl px-4 py-3 mb-6 text-brand-green-800 text-sm">
+            <CheckCircle className="w-4 h-4 shrink-0" />
             Funding source already confirmed. You can update it below if needed.
           </div>
         )}
@@ -172,7 +172,7 @@ export default function FundingPage() {
                         {opt.title}
                       </span>
                       {opt.badge && (
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase tracking-wide">
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-green-100 text-brand-green-700 uppercase tracking-wide">
                           {opt.badge}
                         </span>
                       )}

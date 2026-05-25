@@ -183,7 +183,7 @@ export async function tryAutoActivate(db: SupabaseClient, employerId: string): P
     .eq('id', onboarding.id);
 
   if (error) {
-    logger.error('Failed to auto-activate employer', { employerId, error });
+    logger.error('Failed to auto-activate employer', undefined, { employerId, error });
     return false;
   }
 

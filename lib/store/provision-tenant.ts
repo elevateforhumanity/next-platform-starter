@@ -104,7 +104,9 @@ export async function provisionTenant(
     await supabase.from('licenses').update({ tenant_id: tenant.id }).eq('id', licenseId);
 
     // Check if user already exists in auth
-    const { data: existingUser } = await supabase.auth.admin.getUserByEmail(email);
+    const { data: userListData } = await supabase.auth.admin.listUsers();
+    const userListAny = userListData as { users?: Array<{ id: string; email?: string; user_metadata?: Record<string, unknown> }> } | null;
+    const existingUser = { user: userListAny?.users?.find((u) => u.email === email) ?? null };
 
     let adminUserId: string;
     let temporaryPassword: string | undefined;

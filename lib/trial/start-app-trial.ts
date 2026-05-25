@@ -47,13 +47,13 @@ export async function startAppTrial(
     });
 
     if (error) {
-      logger.error('[startAppTrial] insert failed', { appSlug, userId, error });
+      logger.error('[startAppTrial] insert failed', error instanceof Error ? error : undefined, { appSlug, userId });
       return { status: 'error', message: error.message };
     }
 
     return { status: 'started', trialEndsAt: trialEndsAt.toISOString() };
   } catch (err) {
-    logger.error('[startAppTrial] unexpected error', { appSlug, userId, err });
+    logger.error('[startAppTrial] unexpected error', err instanceof Error ? err : undefined, { appSlug, userId });
     return { status: 'error', message: 'Unexpected error starting trial' };
   }
 }

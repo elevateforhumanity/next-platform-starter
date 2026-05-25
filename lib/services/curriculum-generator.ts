@@ -193,7 +193,7 @@ export class CurriculumGenerator {
     this.programId = programId;
     this.credentialId = credentialId;
     this.mode = mode;
-    this.db = await requireAdminClient();
+    this.db = createAdminClient();
     this.summary = {
       programId,
       mode,

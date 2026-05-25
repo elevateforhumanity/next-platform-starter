@@ -649,7 +649,7 @@ async function main() {
   if (useLive) {
     // Real adapter — queries Supabase via RPC
     const { createSupabaseAdapter } = await import('./supabase_adapter');
-    adapter = createSupabaseAdapter();
+    adapter = await createSupabaseAdapter();
     console.info('Using LIVE Supabase adapter');
   } else {
     // Test adapter with sample data

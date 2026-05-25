@@ -52,7 +52,7 @@ export async function runCosmetologyPostPayment(
     .maybeSingle();
 
   if (appErr || !app) {
-    logger.error('[cosmetology-post-payment] Step 1 failed: application update', {
+    logger.error('[cosmetology-post-payment] Step 1 failed: application update', undefined, {
       applicationId,
       error: appErr?.message,
     });
@@ -90,7 +90,7 @@ export async function runCosmetologyPostPayment(
         postLoginUrl: `${siteUrl}/apprentice`,
       });
       if (provision.error || !provision.userId) {
-        logger.error('[cosmetology-post-payment] Account provisioning failed', { error: provision.error });
+        logger.error('[cosmetology-post-payment] Account provisioning failed', undefined, { error: provision.error });
         steps['provision_account'] = 'failed';
       } else {
         profileId = provision.userId;
@@ -146,7 +146,7 @@ export async function runCosmetologyPostPayment(
             .maybeSingle();
 
           if (enrollErr || !newEnrollment) {
-            logger.error('[cosmetology-post-payment] Enrollment creation failed', {
+            logger.error('[cosmetology-post-payment] Enrollment creation failed', undefined, {
               error: enrollErr?.message,
             });
             steps['create_enrollment'] = 'failed';

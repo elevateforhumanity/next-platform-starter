@@ -74,7 +74,7 @@ export async function handleCredlyBadgeIssue(payload: Record<string, any>): Prom
     .eq('id', learner_credential_id);
 
   if (updateErr) {
-    logger.error('Failed to store Credly badge ID on learner_credential', {
+    logger.error('Failed to store Credly badge ID on learner_credential', undefined, {
       learner_credential_id,
       credly_id: result.credly_id,
       error: updateErr.message,

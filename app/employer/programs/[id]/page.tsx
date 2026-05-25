@@ -54,6 +54,7 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
         </div>
 
         {program.image_url && (
+          // IMAGE-CONTRACT: allow raw img because program.image_url is a user-supplied external URL incompatible with next/image domain config
           <img
             src={program.image_url}
             alt={program.title}

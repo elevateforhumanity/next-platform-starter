@@ -66,7 +66,7 @@ export async function getNextJob(): Promise<FulfillmentJob | null> {
   if (!client) return null;
 
   try {
-    const jobStr = await client.rpoplpush(QUEUE_KEY, PROCESSING_KEY);
+    const jobStr = await client.lmove(QUEUE_KEY, PROCESSING_KEY, 'right', 'left');
     if (!jobStr) return null;
     return JSON.parse(jobStr as string) as FulfillmentJob;
   } catch (error) {
@@ -100,7 +100,7 @@ export async function retryJob(job: FulfillmentJob): Promise<boolean> {
   const retryCount = (job.retryCount || 0) + 1;
 
   if (retryCount > MAX_RETRIES) {
-    logger.error('Job exceeded max retries', { eventId: job.eventId, retryCount });
+    logger.error('Job exceeded max retries', undefined, { eventId: job.eventId, retryCount });
     // Move to dead letter queue
     await client.lpush(
       'store:fulfillment:dead',
