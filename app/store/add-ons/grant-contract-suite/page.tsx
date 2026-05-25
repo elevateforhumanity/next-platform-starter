@@ -17,7 +17,7 @@ const PIPELINE = [
   { icon: Upload,       step: '1', label: 'Upload',   desc: 'Upload any state/agency contract, grant form, or MOU (PDF, DOCX, scanned)' },
   { icon: Search,       step: '2', label: 'Extract',  desc: 'AI detects all blank fields, checkboxes, and signature lines automatically' },
   { icon: ShieldCheck,  step: '3', label: 'Prefill',  desc: 'EIN, UEI, CAGE, SAM status, address, and signatory filled from verified org profile' },
-  { icon: step: '4', label: 'Review',   desc: 'Admin approves every field — AI narrative flagged, exact facts never invented' },
+  { icon: FileText,     step: '4', label: 'Review',   desc: 'Admin approves every field — AI narrative flagged, exact facts never invented' },
   { icon: PenTool,      step: '5', label: 'Sign',     desc: 'Draw or typed signature with legal audit trail and timestamp' },
   { icon: Download,     step: '6', label: 'Export',   desc: 'Generate signed PDF or DOCX ready for submission' },
 ];
