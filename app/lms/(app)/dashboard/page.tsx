@@ -17,7 +17,6 @@ import {
   Clock,
   BookOpen,
   CheckCircle,
-  CheckCircle,
   AlertCircle,
   ChevronRight,
   Flame,
