@@ -164,7 +164,7 @@ wss.on('connection', (ws: WebSocket, req: http.IncomingMessage) => {
   ws.on('close', () => cleanupSession(sessionId));
   ws.on('error', () => cleanupSession(sessionId));
 
-  console.log(`[studio-shell] session ${sessionId} opened for user ${userId} (total: ${sessions.size})`);
+  console.info(`[studio-shell] session ${sessionId} opened for user ${userId} (total: ${sessions.size})`);
 });
 
 function cleanupSession(sessionId: string) {
@@ -173,12 +173,12 @@ function cleanupSession(sessionId: string) {
   clearTimeout(session.timer);
   try { session.pty.kill(); } catch { /* already dead */ }
   sessions.delete(sessionId);
-  console.log(`[studio-shell] session ${sessionId} closed (remaining: ${sessions.size})`);
+  console.info(`[studio-shell] session ${sessionId} closed (remaining: ${sessions.size})`);
 }
 
 // ── Graceful shutdown ─────────────────────────────────────────────────────────
 function shutdown(signal: string) {
-  console.log(`[studio-shell] ${signal} received — closing ${sessions.size} sessions`);
+  console.info(`[studio-shell] ${signal} received — closing ${sessions.size} sessions`);
   for (const [id] of sessions) cleanupSession(id);
   httpServer.close(() => process.exit(0));
   setTimeout(() => process.exit(1), 5000);
@@ -188,5 +188,5 @@ process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT',  () => shutdown('SIGINT'));
 
 httpServer.listen(PORT, '0.0.0.0', () => {
-  console.log(`[studio-shell] listening on :${PORT} — workdir: ${WORKDIR} — shell: ${SHELL}`);
+  console.info(`[studio-shell] listening on :${PORT} — workdir: ${WORKDIR} — shell: ${SHELL}`);
 });
