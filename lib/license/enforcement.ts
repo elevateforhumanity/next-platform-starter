@@ -162,7 +162,7 @@ export function canAccessFeature(
     // All current plans are 'infrastructure' category — enterprise features
     // are gated by plan ID rather than category. Treat any non-top-tier plan
     // as requiring an upgrade.
-    const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+    const enterprisePlanIds: PlanId[] = ['enterprise'];
     if (!enterprisePlanIds.includes(planId)) {
       return {
         allowed: false,
@@ -180,7 +180,7 @@ export function canAccessFeature(
  * Check if multi-site deployment is allowed
  */
 export function canDeployMultiSite(planId: PlanId): EnforcementResult {
-  const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+  const enterprisePlanIds: PlanId[] = ['enterprise'];
   if (!enterprisePlanIds.includes(planId)) {
     return {
       allowed: false,
@@ -197,7 +197,7 @@ export function canDeployMultiSite(planId: PlanId): EnforcementResult {
  * Check if compliance/audit features can be accessed
  */
 export function canAccessComplianceFeatures(planId: PlanId): EnforcementResult {
-  const enterprisePlanIds: PlanId[] = ['implementation_plus_annual', 'implementation_plus_monthly'];
+  const enterprisePlanIds: PlanId[] = ['enterprise'];
   if (!enterprisePlanIds.includes(planId)) {
     return {
       allowed: false,

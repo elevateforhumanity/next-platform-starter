@@ -49,7 +49,7 @@ async function _POST(request: NextRequest) {
     );
   }
 
-  const supabase = getAdminClient();
+  const supabase = await getAdminClient();
   if (!supabase) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
   }
@@ -99,13 +99,12 @@ async function _POST(request: NextRequest) {
         currency: 'usd',
         product_data: {
           name: program.title,
-          description: program.description ?? undefined,
           metadata: { program_slug: slug },
         },
       });
       priceId = price.id;
     } catch (err) {
-      logger.error('Failed to create Stripe price for program', { slug, err });
+      logger.error('Failed to create Stripe price for program', err instanceof Error ? err : new Error(String(err)), { slug });
       return NextResponse.json({ error: 'Failed to create payment.' }, { status: 500 });
     }
   }
@@ -118,9 +117,7 @@ async function _POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
-      payment_method_types: paymentMethods as Parameters<
-        typeof stripe.checkout.sessions.create
-      >[0]['payment_method_types'],
+      payment_method_types: paymentMethods as any,
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: {
@@ -137,7 +134,7 @@ async function _POST(request: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    logger.error('Stripe checkout session creation failed', { slug, err });
+    logger.error('Stripe checkout session creation failed', err instanceof Error ? err : new Error(String(err)), { slug });
     return NextResponse.json({ error: 'Payment session failed. Please try again.' }, { status: 500 });
   }
 }

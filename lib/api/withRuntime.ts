@@ -111,7 +111,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     }
 
     if (missing.length > 0) {
-      logger.error('[withRuntime] Missing required secrets', {
+      logger.error('[withRuntime] Missing required secrets', undefined, {
         route: req.nextUrl.pathname,
         missing,
       });
@@ -150,11 +150,11 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     if (options.auth === 'admin') {
       const guard = await apiRequireAdmin(req);
       if (guard.error) return guard.error;
-      ctx.user = { id: guard.user.id, email: guard.user.email ?? '' };
+      ctx.user = { id: guard.id, email: guard.email ?? '' };
     } else if (options.auth === 'user') {
       const guard = await apiAuthGuard(req);
       if (guard.error) return guard.error;
-      ctx.user = { id: guard.user.id, email: guard.user.email ?? '' };
+      ctx.user = { id: guard.id, email: guard.email ?? '' };
     }
 
     // 6. Run handler — catch unhandled throws so they never surface as 500 HTML
@@ -162,10 +162,9 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
       return await handler!(req, ctx);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      logger.error('[withRuntime] Unhandled handler error', {
+      logger.error('[withRuntime] Unhandled handler error', err instanceof Error ? err : new Error(message), {
         route: req.nextUrl.pathname,
         method: req.method,
-        error: message,
       });
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }

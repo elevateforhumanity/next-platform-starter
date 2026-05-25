@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       entryPoint,
       issuer,
       callbackUrl,
-      cert,
+      idpCert: cert,
       identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
       wantAssertionsSigned: true,
       wantAuthnResponseSigned: true,
@@ -73,11 +73,11 @@ export async function POST(req: NextRequest) {
     });
 
     // Validate the SAML assertion
-    const { profile } = await saml.validatePostResponseAsync({ SAMLResponse: samlResponse });
+    const { profile } = await saml.validatePostResponseAsync({ SAMLResponse: samlResponse }) as { profile: Record<string, any> | null };
 
     const email = profile?.nameID ?? (profile as Record<string, unknown>)?.email as string;
     if (!email || !email.includes('@')) {
-      logger.error('[saml/callback] No email in SAML profile', { profile });
+      logger.error('[saml/callback] No email in SAML profile', undefined, { profile });
       return NextResponse.redirect(`${loginUrl}?error=saml_no_email`);
     }
 
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         user_metadata: { sso_provider: 'saml', saml_name_id: profile?.nameID },
       });
       if (createErr || !created?.user) {
-        logger.error('[saml/callback] Failed to create user', { error: createErr?.message });
+        logger.error('[saml/callback] Failed to create user', undefined, { error: createErr?.message });
         return NextResponse.redirect(`${loginUrl}?error=saml_user_create_failed`);
       }
       userId = created.user.id;
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (linkErr || !link?.properties?.action_link) {
-      logger.error('[saml/callback] Failed to generate session link', { error: linkErr?.message });
+      logger.error('[saml/callback] Failed to generate session link', undefined, { error: linkErr?.message });
       return NextResponse.redirect(`${loginUrl}?error=saml_session_failed`);
     }
 
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
 
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    logger.error('[saml/callback] SAML validation failed', { error: msg });
+    logger.error('[saml/callback] SAML validation failed', undefined, { error: msg });
     return NextResponse.redirect(`${loginUrl}?error=saml_invalid`);
   }
 }

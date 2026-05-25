@@ -310,9 +310,7 @@ async function _POST(req: NextRequest) {
           } catch (_) { console.error('Error:', _); }
           return NextResponse.json({ received: true, duplicate: true });
         }
-        logger.error('FAIL-CLOSED: Cannot record store refund event, skipping mutations', {
-          error: idemErr,
-        });
+        logger.error('FAIL-CLOSED: Cannot record store refund event, skipping mutations', idemErr instanceof Error ? idemErr : new Error(String(idemErr)));
         try {
           await dbIdem
             .from('webhook_retry_log')

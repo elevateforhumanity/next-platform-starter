@@ -59,8 +59,10 @@ async function _GET(request: Request) {
     }
 
     const enrollmentBySlug = new Map<string, any>();
-    for (const enrollment of enrollments || []) {
-      const slug = enrollment.program_slug || enrollment.program?.slug;
+    for (const enrollment of (enrollments || []) as any[]) {
+      const prog = Array.isArray(enrollment.program) ? enrollment.program[0] : enrollment.program;
+      enrollment.program = prog;
+      const slug = enrollment.program_slug || prog?.slug;
       if (slug) enrollmentBySlug.set(slug, enrollment);
     }
 
@@ -74,7 +76,7 @@ async function _GET(request: Request) {
       .order('work_date', { ascending: false });
 
     if (hoursError) {
-      logger.error('Hours fetch error:', hoursError);
+      logger.error('Hours fetch error', new Error(hoursError.message));
     }
 
     // Group hours by enrollment id using program_slug mapping

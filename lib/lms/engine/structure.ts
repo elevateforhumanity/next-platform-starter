@@ -34,8 +34,9 @@ export async function getProgramStructure(
     .eq('course_id', courseId)
     .order('order_index');
 
-  const { data: rows, error } = await query;
+  const { data: rawRows, error } = await query;
   if (error) throw new Error(`getProgramStructure: ${error.message}`);
+  const rows = rawRows as any[];
 
   // Group into modules by module_id
   const moduleMap = new Map<string, EngineModule & { _order: number }>();

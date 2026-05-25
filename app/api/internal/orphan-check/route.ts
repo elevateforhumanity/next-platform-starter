@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
   for (const config of PRE_AUTH_TABLES) {
     // Skip anonymous tables — they have no user_id or email column to reconcile
     if (config.mode !== 'reconcile') {
-      results.push({ table: config.table, orphaned_rows: 0, linkable_rows: 0, status: 'SKIP' });
+      results.push({ table: config.table, orphaned_rows: 0, linkable_rows: 0, status: 'OK' });
       continue;
     }
     try {
@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
       const emails = [
         ...new Set(
           (orphanedRows ?? [])
-            .map((r: Record<string, string>) => r[config.emailColumn]?.toLowerCase().trim())
+            .map((r: any) => (r[config.emailColumn] as string | undefined)?.toLowerCase().trim())
             .filter(Boolean),
         ),
       ];

@@ -33,6 +33,7 @@ interface AffirmWebhookEvent {
 }
 
 async function _POST(request: NextRequest) {
+  let eventId: string | undefined;
   try {
     // Verify webhook authenticity — reject if secret is not set or doesn't match
     const webhookSecret = process.env.AFFIRM_WEBHOOK_SECRET;
@@ -57,7 +58,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Derive a stable event ID for deduplication
-    const eventId = event.data?.id
+    eventId = event.data?.id
       ? `${event.type}:${event.data.id}`
       : `${event.type}:${event.data?.order_id}:${Date.now()}`;
 
@@ -83,7 +84,7 @@ async function _POST(request: NextRequest) {
     // Fail-closed for state mutations: if we can't confirm this isn't a duplicate,
     // reject and let the provider retry when DB is available
     if (!confident) {
-      logger.error('Affirm webhook: cannot verify idempotency — rejecting for retry', { eventId });
+      logger.error('Affirm webhook: cannot verify idempotency — rejecting for retry', undefined, { eventId });
       return NextResponse.json({ error: 'Temporary processing error' }, { status: 503 });
     }
 
@@ -250,7 +251,7 @@ async function handleChargeCaptured(
       try {
         await logAuditEvent({
           action: 'ENROLLMENT_ACTIVATED_FROM_PAYMENT',
-          actor_id: 'system:affirm_webhook',
+          userId: 'system:affirm_webhook',
           target_type: 'barber_subscription',
           target_id: existingSub.id,
           metadata: {
@@ -305,7 +306,7 @@ async function handleChargeCaptured(
         try {
           await logAuditEvent({
             action: 'ENROLLMENT_CREATED_FROM_PAYMENT',
-            actor_id: 'system:affirm_webhook',
+            userId: 'system:affirm_webhook',
             target_type: 'barber_subscription',
             target_id: newSub?.id,
             metadata: {
@@ -347,7 +348,7 @@ async function handleChargeCaptured(
         isNew: result.isNewEnrollment,
       });
     } else {
-      logger.error('Affirm enrollment creation failed', {
+      logger.error('Affirm enrollment creation failed', undefined, {
         error: result.error,
         programId,
         chargeId,
@@ -439,7 +440,7 @@ async function deactivateEnrollmentForCharge(
     try {
       await logAuditEvent({
         action: `ENROLLMENT_DEACTIVATED_${reason.toUpperCase()}`,
-        actor_id: 'system:affirm_webhook',
+        userId: 'system:affirm_webhook',
         target_type: 'barber_subscription',
         target_id: barberSub.id,
         metadata: {
@@ -481,7 +482,7 @@ async function deactivateEnrollmentForCharge(
     try {
       await logAuditEvent({
         action: `ENROLLMENT_DEACTIVATED_${reason.toUpperCase()}`,
-        actor_id: 'system:affirm_webhook',
+        userId: 'system:affirm_webhook',
         target_type: 'program_enrollment',
         target_id: enrollment.id,
         metadata: {

@@ -50,8 +50,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
   // Students with a portal_type get redirected to their industry-specific dashboard.
   // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
-  if (profile?.role === 'student' && profile.portal_type) {
-    redirect(`/portal/${profile.portal_type}`);
+  const profileAny = profile as any;
+  if (profile?.role === 'student' && profileAny.portal_type) {
+    redirect(`/portal/${profileAny.portal_type}`);
   }
 
   // Check if student has completed onboarding but not yet been granted access
@@ -64,7 +65,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       .limit(1)
       .maybeSingle();
 
-    const onboardingDone = profile?.onboarding_completed;
+    const onboardingDone = profileAny.onboarding_completed;
     let accessGranted = !!enrollment?.access_granted_at;
 
     // Fallback: legacy students where status='active' grants access.
@@ -157,9 +158,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     // If access_granted_at is set (admin approved), let the student through regardless.
     if (!onboardingDone && !accessGranted) {
       const onboardingProgramSlug =
-        enrollment?.program_slug ||
-        pendingOnboarding?.program_slug ||
-        applications?.[0]?.program_slug;
+        enrollment?.program_slug;
       if (onboardingProgramSlug) {
         redirect(`/programs/${onboardingProgramSlug}/orientation`);
       }
@@ -670,7 +669,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             {/* WorkOne Checklist — only shown for pending_workone applicants */}
             <WorkOneChecklistSection
               pendingWorkone={isPendingWorkone}
-              fundingSource={workoneApp?.requested_funding_source ?? undefined}
+              fundingSource={(workoneApp as any)?.requested_funding_source ?? undefined}
             />
 
             {/* Achievements */}

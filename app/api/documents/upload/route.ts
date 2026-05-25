@@ -36,7 +36,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   const metadata = formData.get('metadata') as string;
 
   if (!file || !rawDocumentType) {
-    throw APIErrors.validation('file and documentType', 'File and document type are required');
+    throw APIErrors.validationError('File and document type are required');
   }
 
   // Map frontend document types to DB-valid values
@@ -96,7 +96,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     });
 
   if (uploadError) {
-    throw APIErrors.external('Supabase Storage', 'Failed to upload file');
+    throw APIErrors.internal('Failed to upload file');
   }
 
   // Bucket is private — do not use getPublicUrl().
@@ -112,12 +112,12 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
         parsedMetadata === null ||
         Array.isArray(parsedMetadata)
       ) {
-        throw APIErrors.validation('metadata', 'Metadata must be a valid JSON object');
+        throw APIErrors.validationError('Metadata must be a valid JSON object');
       }
     } catch (parseError) {
       await db.storage.from('documents').remove([fileName]);
       if (parseError instanceof Error && parseError.name === 'SyntaxError') {
-        throw APIErrors.validation('metadata', 'Invalid JSON format');
+        throw APIErrors.validationError('Invalid JSON format');
       }
       throw parseError;
     }
@@ -144,7 +144,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   if (dbError) {
     // Clean up uploaded file
     await db.storage.from('documents').remove([fileName]);
-    throw APIErrors.database('Failed to save document record');
+    throw APIErrors.internal('Failed to save document record');
   }
 
   // Audit log: document uploaded
@@ -249,7 +249,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
   const { data: documents, error } = await query;
 
   if (error) {
-    throw APIErrors.database('Failed to fetch documents');
+    throw APIErrors.internal('Failed to fetch documents');
   }
 
   return NextResponse.json({

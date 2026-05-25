@@ -43,7 +43,7 @@ async function _GET(req: NextRequest) {
 
     if (error) throw error;
 
-    const results: Array<{ type: string; id: string; platform: string; success: boolean; error?: string }> = [];
+    const results: Array<Record<string, unknown>> = [];
 
     // ── Auto-post new blog posts ──────────────────────────────────────────
     const { data: unpublishedBlogPosts } = await supabase

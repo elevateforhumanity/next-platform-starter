@@ -48,7 +48,7 @@ async function _POST(req: Request) {
           return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
         }
       } catch (stripeErr) {
-        logger.error('[enroll/complete] Invalid Stripe session', { sessionId });
+        logger.error('[enroll/complete] Invalid Stripe session', undefined, { sessionId });
         return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
       }
     }
@@ -66,7 +66,7 @@ async function _POST(req: Request) {
     const program = await resolveProgram(supabase, programSlug);
 
     if (!program) {
-      logger.error('[enroll/complete] Could not resolve program', { programSlug });
+      logger.error('[enroll/complete] Could not resolve program', undefined, { programSlug });
       return NextResponse.json({ error: 'Program not found' }, { status: 422 });
     }
 
@@ -206,7 +206,7 @@ async function _POST(req: Request) {
           user_id: admin.id,
           type: 'system',
           title: 'New Enrollment Pending Approval',
-          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title ?? program.name}. Enrollment ID: ${enrollmentId}`,
+          message: `${firstName} ${lastName} (${email}) has completed payment for ${program.title}. Enrollment ID: ${enrollmentId}`,
         }));
 
         await supabase.from('notifications').insert(notifications);
@@ -246,7 +246,7 @@ async function _POST(req: Request) {
       await sendWelcomeEmail({
         email: emailLower,
         name: `${firstName} ${lastName}`,
-        programName: program.title ?? program.name,
+        programName: program.title,
         dashboardUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/lms`,
         includesMilady: false, // Milady removed — theory delivered via Elevate LMS
       });

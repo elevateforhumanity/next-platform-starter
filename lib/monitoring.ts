@@ -244,17 +244,17 @@ export function shouldBlockIP(
 /**
  * Middleware to add monitoring to API routes
  */
-export function withMonitoring(handler: (data: any) => Promise<NextResponse>) {
-  return async (data: any): Promise<NextResponse> => {
+export function withMonitoring(handler: (req: Request) => Promise<NextResponse>) {
+  return async (req: Request): Promise<NextResponse> => {
     const startTime = Date.now();
     const endpoint = new URL(req.url).pathname;
     const ip =
-      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-      req.headers.get('x-real-ip') ||
+      (req as any).headers?.get?.('x-forwarded-for')?.split(',')[0]?.trim() ||
+      (req as any).headers?.get?.('x-real-ip') ||
       'unknown';
 
     try {
-      const response = await handler(req, context);
+      const response = await handler(req);
       const duration = Date.now() - startTime;
 
       // Log based on status code

@@ -12,7 +12,7 @@ async function getSupabaseAdmin() {
 }
 
 export async function revokeEntitlement(userId: string, entitlementCode: string) {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   const { error } = await supabase
     .from('store_entitlements')
@@ -32,7 +32,7 @@ export async function revokeEntitlement(userId: string, entitlementCode: string)
 }
 
 export async function revokeLmsAccess(userId: string, courseId: string) {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   const { error } = await supabase
     .from('course_enrollments')
@@ -53,7 +53,7 @@ export async function revokeLmsAccess(userId: string, courseId: string) {
 }
 
 export async function revokeAllAccessForPayment(userId: string, paymentIntentId: string) {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   // Revoke all entitlements tied to this payment
   const { error: entitlementError } = await supabase

@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
               });
               // unlinked is null when fetchError is set — skip linking rather than
               // proceeding with a non-null assertion that would throw.
-              return;
+              return undefined;
             }
 
             const pendingCount = unlinked?.length ?? 0;

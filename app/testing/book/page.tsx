@@ -181,7 +181,7 @@ function BookingForm() {
   useEffect(() => {
     if (!examParam) return;
     const match = ALL_PROVIDERS.find((p) => p.key === examParam);
-    if (match && match.status !== 'coming_soon') setSelectedProvider(match);
+    if (match && (match as any).status !== 'coming_soon') setSelectedProvider(match);
   }, [examParam]);
 
   // Reset proctoring mode, add-on, and slot when provider changes
@@ -601,16 +601,16 @@ function BookingForm() {
                     selectedProvider?.key === provider.key
                       ? 'border-brand-blue-500 bg-brand-blue-50'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
-                  } ${provider.status === 'coming_soon' ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  disabled={provider.status === 'coming_soon'}
+                  } ${(provider as any).status === 'coming_soon' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={(provider as any).status === 'coming_soon'}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <span className="font-bold text-sm text-slate-900 leading-snug">
                       {provider.name}
                     </span>
-                    {provider.status !== 'active' && (
+                    {(provider as any).status !== 'active' && (
                       <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded flex-shrink-0">
-                        {provider.status === 'coming_soon' ? 'Launching' : 'Partner'}
+                        {(provider as any).status === 'coming_soon' ? 'Launching' : 'Partner'}
                       </span>
                     )}
                   </div>
@@ -933,7 +933,7 @@ function BookingForm() {
               </div>
 
               {/* Payment gate — must pay before selecting a slot */}
-              {enforcementHold && !enforcementHold.paid && (
+              {enforcementHold && !(enforcementHold as any).paid && (
                 <div className="rounded-xl border-2 border-brand-blue-400 bg-brand-blue-50 p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="flex-1">
                     <p className="font-bold text-brand-blue-900 text-sm mb-1">
@@ -971,7 +971,7 @@ function BookingForm() {
               )}
               <div
                 className={
-                  (!paid && !enforcementHold) || (enforcementHold && !enforcementHold.paid)
+                  (!paid && !enforcementHold) || (enforcementHold && !(enforcementHold as any).paid)
                     ? 'hidden'
                     : ''
                 }
@@ -1104,7 +1104,7 @@ function BookingForm() {
                 type="submit"
                 disabled={
                   submitting ||
-                  (!!enforcementHold && !enforcementHold.paid) ||
+                  (!!enforcementHold && !(enforcementHold as any).paid) ||
                   checkingHold ||
                   (paid && !selectedSlotId)
                 }
