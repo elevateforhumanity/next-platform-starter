@@ -417,7 +417,7 @@ async function getSupabaseAdmin() {
 export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
   const stripe = getStripe();
   if (!stripe) throw new Error('Stripe not configured');
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'tuition_webhook', requestId: event.id });
   switch (event.type) {
     case 'checkout.session.completed':
@@ -444,6 +444,9 @@ export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
  * - Create subscription if installment plan
  */
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
+  const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
+  const supabase = await getSupabaseAdmin();
   const { metadata } = session;
 
   if (!metadata?.student_id || !metadata?.program_id) {
@@ -552,9 +555,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
  * - Cancel subscription when complete
  */
 async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
-  if (!invoice.subscription) return;
+  const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
+  const supabase = await getSupabaseAdmin();
+  const invoiceAny = invoice as any;
+  if (!invoiceAny.subscription) return;
 
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = invoiceAny.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Only handle tuition installments
@@ -748,9 +755,13 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
  * - Send notification
  */
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
-  if (!invoice.subscription) return;
+  const stripe = getStripe();
+  if (!stripe) throw new Error('Stripe not configured');
+  const supabase = await getSupabaseAdmin();
+  const invoiceAny = invoice as any;
+  if (!invoiceAny.subscription) return;
 
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = invoiceAny.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Only handle tuition installments
@@ -806,6 +817,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
   const studentId = subscription.metadata.student_id;
   const programId = subscription.metadata.program_id;
 
+  const supabase = await getSupabaseAdmin();
   const { data: sub } = await supabase
     .from('tuition_subscriptions')
     .select('installments_paid, total_installments, status')
@@ -845,6 +857,7 @@ async function grantCourseAccess(
   programId: string,
   accessLevel: 'full' | 'active',
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({
@@ -863,6 +876,7 @@ async function suspendCourseAccess(
   programId: string,
   reason: string,
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({
@@ -883,6 +897,7 @@ async function updateEnrollmentStatus(
   status: string,
   paymentStatus: string,
 ): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   await supabase
     .from('program_enrollments')
     .update({

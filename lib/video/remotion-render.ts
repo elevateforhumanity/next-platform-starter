@@ -273,7 +273,7 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
     // nonprofit. Free tier requires no license key (licenseKey: null).
     // See LICENSES.md for compliance documentation.
     await registerUsageEvent({
-      event: 'render',
+      event: 'cloud-render',
       licenseKey: null,
       isProduction: process.env.NODE_ENV === 'production',
     }).catch(() => {

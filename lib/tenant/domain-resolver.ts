@@ -34,10 +34,11 @@ export async function resolveTenantFromDomain(domain: string): Promise<TenantFro
       return null;
     }
 
+    const row = data as { organization_id: string; organization_name: string; license_status: string | null };
     return {
-      organizationId: data.organization_id,
-      organizationName: data.organization_name,
-      licenseStatus: data.license_status,
+      organizationId: row.organization_id,
+      organizationName: row.organization_name,
+      licenseStatus: row.license_status,
     };
   } catch {
     return null;
