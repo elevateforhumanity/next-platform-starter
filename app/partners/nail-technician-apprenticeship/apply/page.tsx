@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
-import { Loader2, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, ArrowRight, Save } from 'lucide-react';
+import { useApplicationDraft } from '@/hooks/useApplicationDraft';
 
 const WORKERS_COMP_OPTIONS = [
   { value: 'verified', label: "Yes — we carry Workers' Compensation insurance" },
@@ -54,9 +55,23 @@ export default function NailTechnicianSpaApplyPage() {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM);
+  const [showDraftBanner, setShowDraftBanner] = useState(false);
 
-  const set = (field: string, value: string | boolean) =>
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const { hasDraft, savedData, savedAt, saveDraft, clearDraft } =
+    useApplicationDraft<typeof INITIAL_FORM>('nail-partner-apply');
+
+  useEffect(() => { if (hasDraft) setShowDraftBanner(true); }, [hasDraft]);
+
+  function resumeDraft() {
+    if (savedData) setFormData(savedData);
+    setShowDraftBanner(false);
+  }
+
+  const set = (field: string, value: string | boolean) => {
+    const next = { ...formData, [field]: value } as typeof INITIAL_FORM;
+    setFormData(next);
+    saveDraft(next, 1);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +103,7 @@ export default function NailTechnicianSpaApplyPage() {
         const json = await res.json().catch(() => ({}));
         throw new Error(json.error || 'Submission failed. Please try again.');
       }
+      clearDraft();
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -162,6 +178,24 @@ export default function NailTechnicianSpaApplyPage() {
               <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">
                 <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 {error}
+              </div>
+            )}
+
+            {showDraftBanner && (
+              <div className="flex items-start gap-3 p-4 mb-4 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+                <Save className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-semibold text-blue-900">You have a saved application</p>
+                  <p className="text-blue-700 text-xs mt-0.5">
+                    Saved {savedAt ? savedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'recently'}. Resume where you left off or start fresh.
+                  </p>
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button type="button" onClick={resumeDraft}
+                    className="text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg">Resume</button>
+                  <button type="button" onClick={() => { clearDraft(); setShowDraftBanner(false); }}
+                    className="text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1.5">Start fresh</button>
+                </div>
               </div>
             )}
 
