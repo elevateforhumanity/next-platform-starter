@@ -114,6 +114,8 @@ function TestimonialCard({
       )}
       <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
         {testimonial.image_url ? (
+          {/* IMAGE-CONTRACT: allow raw img because image_url is a user-supplied external URL incompatible with next/image domain config */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={testimonial.image_url} alt={testimonial.name} className="w-10 h-10 rounded-full object-cover" />
         ) : (
           <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-sm">

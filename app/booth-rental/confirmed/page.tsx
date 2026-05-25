@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CheckCircle2, Phone, Mail, Calendar } from 'lucide-react';
+import { CheckCircle, Phone, Mail, Calendar } from 'lucide-react';
 
 export const metadata = { title: 'Rental Confirmed — Elevate for Humanity' };
 
@@ -8,8 +8,8 @@ export default function BoothRentalConfirmedPage() {
     <div className="min-h-screen bg-white flex items-center justify-center px-4 py-16">
       <div className="max-w-lg w-full text-center space-y-6">
         <div className="flex justify-center">
-          <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-            <CheckCircle2 className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center">
+            <CheckCircle className="w-8 h-8 text-brand-green-600" />
           </div>
         </div>
 
@@ -29,7 +29,7 @@ export default function BoothRentalConfirmedPage() {
               Our team will contact you within 1 business day to schedule your move-in date.
             </li>
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" />
+              <CheckCircle className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" />
               Weekly rent will be charged automatically every Friday to your card on file.
             </li>
             <li className="flex items-start gap-2">

@@ -22,7 +22,7 @@ export default function NailTechnicianApprenticeshipPage() {
           className="object-cover"
           sizes="100vw" placeholder="empty"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-800/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-slate-800/40 to-transparent" />
         <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
           <span className="inline-block bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
             {NAIL_TECH.badge}

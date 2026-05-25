@@ -83,8 +83,8 @@ export default function EstheticianPolicyAcknowledgmentPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="bg-white border border-slate-200 rounded-2xl p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Shield className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Shield className="w-8 h-8 text-brand-green-600" />
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">Policies Acknowledged</h2>
           <p className="text-slate-600 text-sm mb-6">Thank you. Please continue to upload your required documents.</p>
@@ -104,7 +104,7 @@ export default function EstheticianPolicyAcknowledgmentPage() {
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           {POLICIES.map((policy) => (
-            <div key={policy.id} className={`bg-white border rounded-xl p-5 transition-colors ${acknowledged[policy.id] ? 'border-green-300' : 'border-slate-200'}`}>
+            <div key={policy.id} className={`bg-white border rounded-xl p-5 transition-colors ${acknowledged[policy.id] ? 'border-brand-green-300' : 'border-slate-200'}`}>
               <div className="flex items-start gap-3">
                 <input type="checkbox" id={policy.id} checked={!!acknowledged[policy.id]}
                   onChange={(e) => setAcknowledged((prev) => ({ ...prev, [policy.id]: e.target.checked }))}

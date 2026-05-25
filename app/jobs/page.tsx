@@ -48,7 +48,7 @@ const SOURCE_LABEL: Record<string, string> = {
 
 const SOURCE_COLOR: Record<string, string> = {
   usajobs: 'bg-blue-50 text-blue-700 border-blue-200',
-  careeronestop: 'bg-green-50 text-green-700 border-green-200',
+  careeronestop: 'bg-brand-green-50 text-brand-green-700 border-brand-green-200',
   indiana_career_connect: 'bg-amber-50 text-amber-700 border-amber-200',
 };
 
@@ -70,10 +70,10 @@ export default async function JobBoardPage() {
             OJT opportunities, and WIOA-approved positions — all in one place.
           </p>
           <div className="flex flex-wrap gap-3 mt-6">
-            <span className="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">
+            <span className="bg-brand-blue-800/40 text-white text-sm font-semibold px-3 py-1.5 rounded-full">
               {totalJobs} open positions
             </span>
-            <span className="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">
+            <span className="bg-brand-blue-800/40 text-white text-sm font-semibold px-3 py-1.5 rounded-full">
               USAJobs · CareerOneStop · Indiana Career Connect
             </span>
           </div>
@@ -143,7 +143,7 @@ export default async function JobBoardPage() {
                 title="Powered by CareerOneStop"
               >
                 <span className="font-semibold">Powered by</span>
-                <span className="font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded">
+                <span className="font-bold text-brand-green-700 bg-brand-green-50 border border-brand-green-200 px-2 py-0.5 rounded">
                   CareerOneStop
                 </span>
               </a>
@@ -234,6 +234,8 @@ export default async function JobBoardPage() {
               alt="CareerOneStop"
               width={140}
               height={32}
+              sizes="140px"
+              placeholder="empty"
               className="h-8 w-auto"
               unoptimized
             />

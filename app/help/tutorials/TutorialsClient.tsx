@@ -140,6 +140,8 @@ export function TutorialsClient({ tutorials }: { tutorials: Tutorial[] }) {
                   aria-label={`Watch ${tutorial.title}`}
                 >
                   {tutorial.thumbnail_url ? (
+                    // IMAGE-CONTRACT: allow raw img because tutorial.thumbnail_url is a user-supplied external URL incompatible with next/image domain config
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={tutorial.thumbnail_url}
                       alt={tutorial.title}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowLeft, ArrowRight, CheckCircle2, Calendar, Sun, Moon } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle, Calendar, Sun, Moon } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 type SchedulePreference = 'day' | 'evening' | 'weekend' | 'flexible';
@@ -149,8 +149,8 @@ export default function SchedulePage() {
         </div>
 
         {alreadySelected && (
-          <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-4 py-3 mb-6 text-green-800 text-sm">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <div className="flex items-center gap-2 bg-brand-green-50 border border-brand-green-200 rounded-xl px-4 py-3 mb-6 text-brand-green-800 text-sm">
+            <CheckCircle className="w-4 h-4 shrink-0" />
             Schedule preference already saved. You can update it below.
           </div>
         )}

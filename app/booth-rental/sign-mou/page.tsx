@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
-import { CheckCircle2, Eraser, FileText, Loader2, ArrowLeft } from 'lucide-react';
+import { CheckCircle, Eraser, FileText, Loader2, ArrowLeft } from 'lucide-react';
 
 const MOU_SECTIONS = [
   {
@@ -296,7 +296,7 @@ function BoothRentalMouInner() {
             disabled={saving}
             className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-40 text-white rounded-xl font-semibold text-sm transition"
           >
-            {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : <><CheckCircle2 className="w-4 h-4" /> Sign &amp; Activate Rental</>}
+            {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : <><CheckCircle className="w-4 h-4" /> Sign &amp; Activate Rental</>}
           </button>
         </div>
       </div>

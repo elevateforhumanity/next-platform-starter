@@ -113,7 +113,7 @@ export function JobBoardPanel() {
               {loading ? (
                 <span className="text-slate-300">—</span>
               ) : configured ? (
-                <span className="flex items-center gap-1 text-green-600 font-semibold">
+                <span className="flex items-center gap-1 text-brand-green-600 font-semibold">
                   <CheckCircle className="w-3 h-3" /> Connected
                 </span>
               ) : (
@@ -128,7 +128,7 @@ export function JobBoardPanel() {
 
       {/* Import result */}
       {importResult && (
-        <div className={`text-xs rounded-lg px-3 py-2 mb-3 ${importResult.skipped === -1 ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+        <div className={`text-xs rounded-lg px-3 py-2 mb-3 ${importResult.skipped === -1 ? 'bg-red-50 text-red-700' : 'bg-brand-green-50 text-brand-green-700'}`}>
           {importResult.skipped === -1
             ? 'Import failed — check server logs.'
             : `Imported ${importResult.imported} jobs, ${importResult.skipped} skipped.`}

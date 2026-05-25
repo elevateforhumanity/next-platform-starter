@@ -74,6 +74,8 @@ export function HeroVideoBg({ src, poster, audioSrc }: HeroVideoBgProps) {
   // Reduced-motion: show poster image only, no video
   if (reducedMotion) {
     return poster ? (
+      // IMAGE-CONTRACT: allow raw img because this is a reduced-motion fallback for a hero video poster; next/image cannot be used in this dynamic render path
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={poster}
         alt=""

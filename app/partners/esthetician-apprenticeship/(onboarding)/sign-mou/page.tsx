@@ -124,8 +124,8 @@ export default function EstheticianSignMouPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
         <div className="bg-white border border-slate-200 rounded-2xl p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FileText className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <FileText className="w-8 h-8 text-brand-green-600" />
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">MOU Signed!</h2>
           <p className="text-slate-600 text-sm mb-6">

@@ -181,6 +181,8 @@ export default function InteractiveDemoPlayer({
         {videoError && (
           <div className="absolute inset-0 bg-slate-900">
             {scene.poster && (
+              // IMAGE-CONTRACT: allow raw img because scene.poster is a dynamic content URL incompatible with next/image domain config
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={scene.poster}
                 alt={scene.title}

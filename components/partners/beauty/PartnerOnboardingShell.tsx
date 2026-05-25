@@ -81,7 +81,7 @@ export function PartnerOnboardingShell({ program, currentStep, steps, children }
                     }`}
                   >
                     {isDone ? (
-                      <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-brand-green-500 shrink-0" />
                     ) : (
                       <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
                         isCurrent ? `border-current ${accent.split(' ')[0]}` : 'border-slate-300 text-slate-400'

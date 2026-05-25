@@ -84,7 +84,7 @@ export default function EstheticianDocumentsPage() {
 
         <div className="mt-8 space-y-4">
           {DOC_SLOTS.map((slot) => (
-            <div key={slot.id} className={`bg-white border rounded-xl p-5 ${uploaded[slot.id] ? 'border-green-300' : 'border-slate-200'}`}>
+            <div key={slot.id} className={`bg-white border rounded-xl p-5 ${uploaded[slot.id] ? 'border-brand-green-300' : 'border-slate-200'}`}>
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div>
                   <p className="font-semibold text-slate-900 text-sm">
@@ -94,7 +94,7 @@ export default function EstheticianDocumentsPage() {
                   <p className="text-xs text-slate-500 mt-0.5">{slot.description}</p>
                 </div>
                 {uploaded[slot.id] && (
-                  <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full shrink-0">Uploaded</span>
+                  <span className="text-xs font-bold text-brand-green-700 bg-brand-green-50 border border-brand-green-200 px-2 py-0.5 rounded-full shrink-0">Uploaded</span>
                 )}
               </div>
               <p className="text-xs text-slate-400 mb-3">{slot.hint}</p>

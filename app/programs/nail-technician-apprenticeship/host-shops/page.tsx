@@ -33,7 +33,7 @@ export default function NailHostShopsPage() {
           className="object-cover"
           priority placeholder="empty"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
         <div className="absolute bottom-10 left-8 max-w-xl">
           <h1 className="text-4xl font-extrabold text-white mb-2">Become a Host Nail Salon</h1>
           <p className="text-slate-200 text-lg">Train the next generation of licensed nail technicians — zero paperwork burden.</p>
@@ -69,8 +69,8 @@ export default function NailHostShopsPage() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="order-2 md:order-1">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
-                <Shield className="w-8 h-8 text-green-700" />
+              <div className="w-16 h-16 bg-brand-green-100 rounded-2xl flex items-center justify-center mb-6">
+                <Shield className="w-8 h-8 text-brand-green-700" />
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">We Handle DOL Compliance</h3>
               <p className="text-slate-600 text-lg leading-relaxed">
@@ -92,7 +92,7 @@ export default function NailHostShopsPage() {
             </div>
             <div>
               <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
-                <Award className="w-8 h-8 text-amber-700" />
+                <Award className="w-8 h-8 text-amber-700" aria-label="Award" />
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">OJT Wage Reimbursement</h3>
               <p className="text-slate-600 text-lg leading-relaxed">
