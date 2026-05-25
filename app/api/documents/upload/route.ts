@@ -182,7 +182,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
           .from('documents')
           .update({ ocr_text: ocrData.rawText || null })
           .eq('id', document.id)
-          .catch(() => {}); // column may not exist — non-fatal
+          .then(()=>{}, ()=>{}); // column may not exist — non-fatal
       }
     } catch {
       // Non-fatal — document goes to manual review

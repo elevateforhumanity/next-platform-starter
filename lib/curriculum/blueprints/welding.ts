@@ -62,7 +62,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'safety',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['osha_safety', 'ppe', 'fire_prevention'],
+      competencies: [
+        { competencyKey: 'osha_safety', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'ppe', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'fire_prevention', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-osha-safety', title: 'OSHA Safety Standards for Welding Environments', order: 1, domainKey: 'safety' },
         { slug: 'weld-ppe', title: 'Personal Protective Equipment: Helmet, Gloves, and Clothing', order: 2, domainKey: 'safety' },
@@ -80,7 +84,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'theory',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['metallurgy', 'joint_design', 'weld_symbols'],
+      competencies: [
+        { competencyKey: 'metallurgy', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'joint_design', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'weld_symbols', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-metal-properties', title: 'Metal Properties: Steel, Aluminum, and Common Alloys', order: 1, domainKey: 'theory' },
         { slug: 'weld-heat-effects', title: 'Heat Effects on Metal: Distortion, Warping, and Control', order: 2, domainKey: 'theory' },
@@ -98,7 +106,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'smaw',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['electrode_selection', 'smaw_technique', 'bead_running'],
+      competencies: [
+        { competencyKey: 'electrode_selection', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'smaw_technique', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'bead_running', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-smaw-equipment', title: 'SMAW Equipment Setup: Transformer, Polarity, and Amperage', order: 1, domainKey: 'smaw' },
         { slug: 'weld-electrode-selection', title: 'Electrode Selection: E6010, E6011, E6013, E7018', order: 2, domainKey: 'smaw' },
@@ -116,7 +128,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'gmaw',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['mig_technique', 'wire_selection', 'shielding_gas'],
+      competencies: [
+        { competencyKey: 'mig_technique', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'wire_selection', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'shielding_gas', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-gmaw-equipment', title: 'GMAW Equipment: Wire Feed, Drive Rolls, and Gun Setup', order: 1, domainKey: 'gmaw' },
         { slug: 'weld-wire-gas-selection', title: 'Wire and Shielding Gas Selection for GMAW', order: 2, domainKey: 'gmaw' },
@@ -134,7 +150,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'gtaw',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['tig_setup', 'plasma_cutting', 'oxyfuel'],
+      competencies: [
+        { competencyKey: 'tig_setup', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'plasma_cutting', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'oxyfuel', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-gtaw-equipment', title: 'GTAW Equipment: Tungsten Prep, Shielding Gas, and Torch', order: 1, domainKey: 'gtaw' },
         { slug: 'weld-gtaw-technique', title: 'GTAW Technique: Filler Addition, Torch Angle, and Travel', order: 2, domainKey: 'gtaw' },
@@ -151,7 +171,11 @@ export const weldingBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['aws_certification', 'weld_testing', 'career_readiness'],
+      competencies: [
+        { competencyKey: 'aws_certification', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'weld_testing', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'career_readiness', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'weld-aws-certification', title: 'AWS Certified Welder Program: Requirements and Testing', order: 1, domainKey: 'exam_prep' },
         { slug: 'weld-visual-inspection', title: 'Visual Weld Inspection Criteria (AWS D1.1 and D1.3)', order: 2, domainKey: 'exam_prep' },

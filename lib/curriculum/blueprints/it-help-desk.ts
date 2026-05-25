@@ -86,7 +86,11 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'hardware',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['hardware_components', 'motherboards', 'storage'],
+      competencies: [
+        { competencyKey: 'hardware_components', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'motherboards', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'storage', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-hardware-intro', title: 'PC Hardware Components: CPU, RAM, and Motherboards', order: 1, domainKey: 'hardware' },
         { slug: 'it-storage-devices', title: 'Storage Technologies: HDD, SSD, NVMe, and RAID', order: 2, domainKey: 'hardware' },
@@ -103,7 +107,11 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'os',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['windows', 'linux_basics', 'macos'],
+      competencies: [
+        { competencyKey: 'windows', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'linux_basics', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'macos', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-windows-installation', title: 'Windows Installation, Upgrade, and Imaging', order: 1, domainKey: 'os' },
         { slug: 'it-windows-admin', title: 'Windows Administration: Users, Groups, and Policies', order: 2, domainKey: 'os' },
@@ -121,7 +129,11 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'networking',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['tcp_ip', 'wireless', 'troubleshooting'],
+      competencies: [
+        { competencyKey: 'tcp_ip', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'wireless', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'troubleshooting', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-tcp-ip', title: 'TCP/IP Protocols, IP Addressing, and Subnetting', order: 1, domainKey: 'networking' },
         { slug: 'it-network-hardware', title: 'Network Hardware: Routers, Switches, and Cables', order: 2, domainKey: 'networking' },
@@ -139,7 +151,11 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'security',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['threats', 'authentication', 'data_protection'],
+      competencies: [
+        { competencyKey: 'threats', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'authentication', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'data_protection', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-security-threats', title: 'Security Threats: Malware, Phishing, and Social Engineering', order: 1, domainKey: 'security' },
         { slug: 'it-authentication', title: 'Authentication Methods and Access Control', order: 2, domainKey: 'security' },
@@ -157,7 +173,11 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'cloud',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['virtualization', 'cloud_concepts', 'remote_support'],
+      competencies: [
+        { competencyKey: 'virtualization', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'cloud_concepts', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'remote_support', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-virtualization', title: 'Virtualization: Hypervisors, VMs, and Containers', order: 1, domainKey: 'cloud' },
         { slug: 'it-cloud-concepts', title: 'Cloud Computing Models: IaaS, PaaS, SaaS', order: 2, domainKey: 'cloud' },
@@ -174,7 +194,10 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'mobile',
       minLessons: 6, maxLessons: 7, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['mobile_support', 'printer_config'],
+      competencies: [
+        { competencyKey: 'mobile_support', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'printer_config', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'it-mobile-devices', title: 'Mobile Device Hardware, OS, and Connectivity', order: 1, domainKey: 'mobile' },
         { slug: 'it-mobile-troubleshooting', title: 'Mobile Device Troubleshooting and Repair', order: 2, domainKey: 'mobile' },
@@ -191,7 +214,10 @@ export const itHelpDeskBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['core1_prep', 'core2_prep'],
+      competencies: [
+        { competencyKey: 'core1_prep', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'core2_prep', isCritical: true, minimumTouchpoints: 2 },
+      ],
       lessons: [
         { slug: 'it-aplus-exam-overview', title: 'CompTIA A+ Exam: Core 1 and Core 2 Overview', order: 1, domainKey: 'exam_prep' },
         { slug: 'it-core1-review', title: 'Core 1 (220-1101) High-Yield Review', order: 2, domainKey: 'exam_prep' },

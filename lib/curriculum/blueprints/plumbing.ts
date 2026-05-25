@@ -62,7 +62,11 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'safety',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['osha_safety', 'hand_tools', 'ppe'],
+      competencies: [
+        { competencyKey: 'osha_safety', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'hand_tools', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'ppe', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-osha-safety', title: 'OSHA Safety Standards for Plumbing and Construction', order: 1, domainKey: 'safety' },
         { slug: 'plumb-ppe', title: 'Personal Protective Equipment for Plumbing Work', order: 2, domainKey: 'safety' },
@@ -80,7 +84,11 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'theory',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['ipc_code', 'water_theory', 'math'],
+      competencies: [
+        { competencyKey: 'ipc_code', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'water_theory', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'math', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-water-properties', title: 'Properties of Water: Pressure, Flow, and Temperature', order: 1, domainKey: 'theory' },
         { slug: 'plumb-codes-overview', title: 'Indiana Plumbing Codes and IPC Overview', order: 2, domainKey: 'theory' },
@@ -98,7 +106,11 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'pipes',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['pipe_types', 'joining', 'soldering'],
+      competencies: [
+        { competencyKey: 'pipe_types', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'joining', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'soldering', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-copper-pipe', title: 'Copper Pipe: Types, Cutting, and Soldering', order: 1, domainKey: 'pipes' },
         { slug: 'plumb-pvc-cpvc', title: 'PVC and CPVC Pipe: Cutting, Cementing, and Scheduling', order: 2, domainKey: 'pipes' },
@@ -116,7 +128,11 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'systems',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['water_supply', 'dwv', 'rough_in'],
+      competencies: [
+        { competencyKey: 'water_supply', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'dwv', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'rough_in', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-water-supply', title: 'Residential Water Supply Systems: Main, Shut-Off, and Distribution', order: 1, domainKey: 'systems' },
         { slug: 'plumb-water-heaters', title: 'Water Heater Types: Tank, Tankless, and Installation', order: 2, domainKey: 'systems' },
@@ -134,7 +150,11 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'fixtures',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['fixture_installation', 'backflow', 'commercial'],
+      competencies: [
+        { competencyKey: 'fixture_installation', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'backflow', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'commercial', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-toilets-sinks', title: 'Toilet and Sink Installation: Rough-In and Set', order: 1, domainKey: 'fixtures' },
         { slug: 'plumb-showers-tubs', title: 'Shower and Bathtub Installation and Trim', order: 2, domainKey: 'fixtures' },
@@ -151,7 +171,10 @@ export const plumbingBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['license_exam', 'career_readiness'],
+      competencies: [
+        { competencyKey: 'license_exam', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'career_readiness', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'plumb-indiana-license', title: 'Indiana Plumbing Apprentice and Journeyman License Requirements', order: 1, domainKey: 'exam_prep' },
         { slug: 'plumb-code-review', title: 'IPC Code Review: High-Frequency Exam Topics', order: 2, domainKey: 'exam_prep' },

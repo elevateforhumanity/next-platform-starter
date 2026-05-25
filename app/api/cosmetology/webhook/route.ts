@@ -131,7 +131,7 @@ async function _POST(request: NextRequest) {
           }
 
           // Link to account if one exists
-          await linkOrphanedEnrollments(supabase, normalizedEmail).catch(() => {});
+          await linkOrphanedEnrollments(supabase, normalizedEmail).then(()=>{}, ()=>{});
 
           // Send confirmation email
           try {
@@ -288,7 +288,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
               amount_paid: invoice.amount_paid,
               weeks_remaining: newWeeksRemaining,
             },
-          }).catch(() => {});
+          }).then(()=>{}, ()=>{});
         }
 
         logger.info(`[cosmetology/webhook] Invoice paid: ${invoice.id}`);

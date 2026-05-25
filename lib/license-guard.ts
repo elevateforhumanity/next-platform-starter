@@ -163,7 +163,7 @@ export async function checkUsageLimits(tenantId: string): Promise<{
     .from('programs')
     .select('*', { count: 'exact', head: true })
     .eq('tenant_id', tenantId)
-    .catch(() => ({ count: 0 }));
+    .then(()=>({ count: 0 }), ()=>({ count: 0 }));
 
   // Count students
   const { count: studentCount } = await supabase

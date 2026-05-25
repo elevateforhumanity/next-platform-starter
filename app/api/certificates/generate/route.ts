@@ -156,7 +156,7 @@ async function _POST(request: Request) {
     if (isApprenticeship) {
       // Apprenticeship programs: gate on separate OJL + RTI hour minimums.
       // OJL and RTI are independent — neither can substitute for the other.
-      const eligibility = await checkApprenticeshipEligibility(db, enrollment.user_id, {
+      const eligibility = await checkApprenticeshipEligibility(supabase, enrollment.user_id, {
         min_rti_hours: program.min_rti_hours,
         min_ojl_hours: program.min_ojl_hours,
         slug: program.slug,

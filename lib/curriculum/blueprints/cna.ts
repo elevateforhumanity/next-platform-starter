@@ -74,7 +74,11 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['role_scope', 'professionalism', 'communication'],
+      competencies: [
+        { competencyKey: 'role_scope', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'professionalism', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'communication', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-welcome', title: 'Welcome to CNA Training & Program Overview', order: 1, domainKey: 'orientation' },
         { slug: 'cna-role-scope', title: 'Role and Scope of Practice of the CNA', order: 2, domainKey: 'orientation' },
@@ -95,7 +99,11 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['hand_hygiene', 'ppe', 'standard_precautions'],
+      competencies: [
+        { competencyKey: 'hand_hygiene', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'ppe', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'standard_precautions', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-hand-hygiene', title: 'Hand Hygiene: The Foundation of Infection Prevention', order: 1, domainKey: 'infection_control' },
         { slug: 'cna-ppe', title: 'Personal Protective Equipment (PPE) Selection and Use', order: 2, domainKey: 'infection_control' },
@@ -116,7 +124,11 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['adl_assistance', 'vital_signs', 'positioning'],
+      competencies: [
+        { competencyKey: 'adl_assistance', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'vital_signs', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'positioning', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-activities-daily-living', title: 'Assisting with Activities of Daily Living (ADLs)', order: 1, domainKey: 'patient_care' },
         { slug: 'cna-bathing', title: 'Bathing Procedures: Bed Bath, Shower, and Tub', order: 2, domainKey: 'patient_care' },
@@ -139,7 +151,12 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['temperature', 'pulse', 'respiration', 'blood_pressure'],
+      competencies: [
+        { competencyKey: 'temperature', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'pulse', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'respiration', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'blood_pressure', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-temperature', title: 'Measuring Body Temperature: Methods and Normal Ranges', order: 1, domainKey: 'vital_signs' },
         { slug: 'cna-pulse-respiration', title: 'Pulse and Respiration Measurement', order: 2, domainKey: 'vital_signs' },
@@ -161,7 +178,11 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['nutrition_basics', 'feeding_assistance', 'elimination_care'],
+      competencies: [
+        { competencyKey: 'nutrition_basics', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'feeding_assistance', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'elimination_care', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-nutrition-basics', title: 'Nutrition, Hydration, and Special Diets', order: 1, domainKey: 'nutrition' },
         { slug: 'cna-feeding-assistance', title: 'Assisting with Meals and Feeding Techniques', order: 2, domainKey: 'nutrition' },
@@ -182,7 +203,11 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['range_of_motion', 'ambulation', 'restorative_principles'],
+      competencies: [
+        { competencyKey: 'range_of_motion', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ambulation', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'restorative_principles', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cna-restorative-principles', title: 'Principles of Restorative and Rehabilitative Care', order: 1, domainKey: 'restorative' },
         { slug: 'cna-range-of-motion', title: 'Range of Motion Exercises: Active and Passive', order: 2, domainKey: 'restorative' },
@@ -203,7 +228,10 @@ export const cnaBlueprint: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['written_exam_prep', 'skills_test_prep'],
+      competencies: [
+        { competencyKey: 'written_exam_prep', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'skills_test_prep', isCritical: true, minimumTouchpoints: 2 },
+      ],
       lessons: [
         { slug: 'cna-pearsonvue-overview', title: 'Indiana CNA Exam: Format, Registration, and Scoring', order: 1, domainKey: 'exam_prep' },
         { slug: 'cna-written-review', title: 'Written Exam Review: High-Yield Topics', order: 2, domainKey: 'exam_prep' },

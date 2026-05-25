@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       },
       { onConflict: 'user_id', ignoreDuplicates: false },
     )
-    .catch(() => null); // non-blocking — audit_log below is the compliance record
+    .then(()=>null, ()=>null); // non-blocking — audit_log below is the compliance record
 
   // Log the signature for compliance
   await db
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
       },
     })
     .throwOnError()
-    .catch(() => null); // non-blocking
+    .then(()=>null, ()=>null); // non-blocking
 
   return NextResponse.json({ success: true, signed_at: signedAt });
 }

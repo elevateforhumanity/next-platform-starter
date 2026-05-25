@@ -87,7 +87,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   await auditLog({
     actorId: user.id,
     actorRole: profile.role,
-    action: action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_REJECTED,
+    action: action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_DELETED,
     entity: AuditEntity.DOCUMENT,
     entityId: documentId,
     metadata: {
@@ -177,7 +177,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
       if (profile?.role === 'employer') {
         const { tryAutoActivate } = await import('@/lib/employer/check-onboarding-complete');
-        employerActivated = await tryAutoActivate(db, document.user_id);
+        employerActivated = await tryAutoActivate(supabase, document.user_id);
       }
     } catch {
       // Non-fatal

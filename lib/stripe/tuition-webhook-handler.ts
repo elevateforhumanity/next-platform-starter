@@ -232,7 +232,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
           sent_at: new Date().toISOString(),
         },
       ])
-      .catch(() => {}); // Ignore if table doesn't exist
+      .then(()=>{}, ()=>{}); // Ignore if table doesn't exist
 
     // ============================================
     // ADMIN NOTIFICATION - New Enrollment
@@ -417,7 +417,7 @@ async function getSupabaseAdmin() {
 export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
   const stripe = getStripe();
   if (!stripe) throw new Error('Stripe not configured');
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'tuition_webhook', requestId: event.id });
   switch (event.type) {
     case 'checkout.session.completed':
@@ -444,6 +444,8 @@ export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
  * - Create subscription if installment plan
  */
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
+  const supabase = await getSupabaseAdmin();
+  const stripe = getStripe();
   const { metadata } = session;
 
   if (!metadata?.student_id || !metadata?.program_id) {
@@ -483,7 +485,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       session.customer_details?.name || metadata.student_name || '',
       session.customer_details?.email || metadata.student_email || '',
       metadata.program_name || '',
-    ).catch(() => {});
+    ).then(()=>{}, ()=>{});
   } else if (paymentOption === 'installment_plan' && metadata.create_subscription === 'true') {
     // Deposit paid - create subscription for remaining balance (weekly or monthly)
     const customerId = session.customer as string;
@@ -529,7 +531,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         session.customer_details?.name || metadata.student_name || '',
         session.customer_details?.email || metadata.student_email || '',
         metadata.program_name || '',
-      ).catch(() => {});
+      ).then(()=>{}, ()=>{});
     } else {
       logger.error('Failed to create subscription:', result.error);
       // Deposit paid but subscription setup failed — pending_review for admin.
@@ -540,7 +542,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         session.customer_details?.name || metadata.student_name || '',
         session.customer_details?.email || metadata.student_email || '',
         metadata.program_name || '',
-      ).catch(() => {});
+      ).then(()=>{}, ()=>{});
     }
   }
 }
@@ -552,6 +554,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
  * - Cancel subscription when complete
  */
 async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
+  const supabase = await getSupabaseAdmin();
+  const stripe = getStripe();
+  if (!stripe) return;
   if (!invoice.subscription) return;
 
   const subscriptionId = invoice.subscription as string;
@@ -590,7 +595,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
       type: paymentInterval === 'week' ? 'weekly_payment' : 'monthly_payment',
       status: 'completed',
     })
-    .catch(() => {}); // Ignore if table doesn't exist
+    .then(()=>{}, ()=>{}); // Ignore if table doesn't exist
 
   // Update installment count in tuition_subscriptions
   const { data: tuitionSub } = await supabase
@@ -642,7 +647,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
       status: 'active',
     })
     .eq('stripe_subscription_id', subscriptionId)
-    .catch(() => {});
+    .then(()=>{}, ()=>{});
 
   // Increment weeks_paid
   const { data: studentSub } = await supabase
@@ -748,6 +753,9 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
  * - Send notification
  */
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+  const supabase = await getSupabaseAdmin();
+  const stripe = getStripe();
+  if (!stripe) return;
   if (!invoice.subscription) return;
 
   const subscriptionId = invoice.subscription as string;
@@ -801,6 +809,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
  * - Handle cancellation or completion
  */
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   if (subscription.metadata.payment_type !== 'tuition_installment') return;
 
   const studentId = subscription.metadata.student_id;

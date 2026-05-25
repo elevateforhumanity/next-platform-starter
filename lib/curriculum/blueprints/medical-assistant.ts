@@ -76,7 +76,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'foundations',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['professionalism', 'medical_law', 'communication'],
+      competencies: [
+        { competencyKey: 'professionalism', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'medical_law', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'communication', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-role-scope', title: 'The Medical Assistant Role, Scope of Practice, and Settings', order: 1, domainKey: 'foundations' },
         { slug: 'ma-professionalism', title: 'Professionalism, Ethics, and Healthcare Team Dynamics', order: 2, domainKey: 'foundations' },
@@ -94,7 +98,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'anatomy',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['anatomy', 'medical_terms', 'body_systems'],
+      competencies: [
+        { competencyKey: 'anatomy', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'medical_terms', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'body_systems', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-medical-terms', title: 'Medical Terminology: Prefixes, Suffixes, and Root Words', order: 1, domainKey: 'anatomy' },
         { slug: 'ma-integumentary', title: 'Integumentary and Musculoskeletal Systems', order: 2, domainKey: 'anatomy' },
@@ -112,7 +120,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'clinical',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['vital_signs', 'patient_assessment', 'sterile_technique'],
+      competencies: [
+        { competencyKey: 'vital_signs', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'patient_assessment', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'sterile_technique', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-vital-signs', title: 'Vital Signs: Temperature, Pulse, Respiration, and Blood Pressure', order: 1, domainKey: 'clinical' },
         { slug: 'ma-height-weight', title: 'Height, Weight, BMI, and Patient Intake Assessment', order: 2, domainKey: 'clinical' },
@@ -130,7 +142,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'phlebotomy',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['phlebotomy', 'specimen_collection', 'poctt'],
+      competencies: [
+        { competencyKey: 'phlebotomy', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'specimen_collection', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'poctt', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-venipuncture', title: 'Venipuncture Technique: Equipment, Sites, and Procedure', order: 1, domainKey: 'phlebotomy' },
         { slug: 'ma-capillary-puncture', title: 'Capillary Puncture and Fingerstick Techniques', order: 2, domainKey: 'phlebotomy' },
@@ -148,7 +164,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'pharmacology',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['pharmacology', 'injections', 'medication_math'],
+      competencies: [
+        { competencyKey: 'pharmacology', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'injections', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'medication_math', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-drug-classes', title: 'Drug Classifications, Actions, and Adverse Effects', order: 1, domainKey: 'pharmacology' },
         { slug: 'ma-medication-math', title: 'Medication Math: Dosage Calculations and Conversions', order: 2, domainKey: 'pharmacology' },
@@ -166,7 +186,11 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'administrative',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['ehr', 'scheduling', 'billing_coding'],
+      competencies: [
+        { competencyKey: 'ehr', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'scheduling', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'billing_coding', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-ehr-systems', title: 'Electronic Health Records: Navigation, Documentation, and Privacy', order: 1, domainKey: 'administrative' },
         { slug: 'ma-scheduling', title: 'Patient Scheduling, Check-In, and Appointment Management', order: 2, domainKey: 'administrative' },
@@ -183,7 +207,10 @@ export const medicalAssistantBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['ccma_exam', 'career_readiness'],
+      competencies: [
+        { competencyKey: 'ccma_exam', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'career_readiness', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'ma-ccma-overview', title: 'NHA CCMA Exam: Structure, Domains, and Registration', order: 1, domainKey: 'exam_prep' },
         { slug: 'ma-clinical-review', title: 'Clinical Domain Review: High-Frequency Exam Topics', order: 2, domainKey: 'exam_prep' },

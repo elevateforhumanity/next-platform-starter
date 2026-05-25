@@ -62,7 +62,11 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'regulations',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['fmcsr', 'hos', 'dot_compliance'],
+      competencies: [
+        { competencyKey: 'fmcsr', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'hos', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'dot_compliance', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-fmcsr-overview', title: 'FMCSR Overview: Federal Motor Carrier Safety Regulations', order: 1, domainKey: 'regulations' },
         { slug: 'cdl-hours-of-service', title: 'Hours of Service (HOS) Rules and Logbook Requirements', order: 2, domainKey: 'regulations' },
@@ -80,7 +84,11 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'inspection',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['pre_trip', 'en_route', 'post_trip'],
+      competencies: [
+        { competencyKey: 'pre_trip', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'en_route', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'post_trip', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-pre-trip-overview', title: 'Pre-Trip Inspection Overview and Scoring', order: 1, domainKey: 'inspection' },
         { slug: 'cdl-engine-compartment', title: 'Engine Compartment Inspection: Fluids, Belts, and Leaks', order: 2, domainKey: 'inspection' },
@@ -98,7 +106,11 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'vehicle_control',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['shifting', 'backing', 'turning'],
+      competencies: [
+        { competencyKey: 'shifting', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'backing', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'turning', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-shifting', title: 'Shifting Techniques: Manual Transmission Mastery', order: 1, domainKey: 'vehicle_control' },
         { slug: 'cdl-backing-straight', title: 'Straight-Line and Offset Backing', order: 2, domainKey: 'vehicle_control' },
@@ -116,7 +128,11 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'road_skills',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['highway_driving', 'night_driving', 'adverse_conditions'],
+      competencies: [
+        { competencyKey: 'highway_driving', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'night_driving', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'adverse_conditions', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-highway-driving', title: 'Highway and Freeway Driving Techniques', order: 1, domainKey: 'road_skills' },
         { slug: 'cdl-city-driving', title: 'City Driving: Intersections, Traffic, and Pedestrians', order: 2, domainKey: 'road_skills' },
@@ -133,7 +149,10 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'cargo',
       minLessons: 6, maxLessons: 8, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['cargo_securement', 'hazmat_intro'],
+      competencies: [
+        { competencyKey: 'cargo_securement', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'hazmat_intro', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-cargo-loading', title: 'Cargo Loading, Weight Distribution, and Securement', order: 1, domainKey: 'cargo' },
         { slug: 'cdl-cargo-inspection', title: 'Cargo Inspection and Documentation', order: 2, domainKey: 'cargo' },
@@ -150,7 +169,11 @@ export const cdlTrainingBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['written_test', 'road_test_prep', 'career_readiness'],
+      competencies: [
+        { competencyKey: 'written_test', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'road_test_prep', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'career_readiness', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'cdl-written-test-overview', title: 'CDL Knowledge Test: General, Combination, and Endorsement', order: 1, domainKey: 'exam_prep' },
         { slug: 'cdl-skills-test-overview', title: 'CDL Skills Test: Pre-Trip, Basic Control, and On-Road', order: 2, domainKey: 'exam_prep' },

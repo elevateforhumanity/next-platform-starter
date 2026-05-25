@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
         success: true,
         extracted_at: new Date().toISOString(),
       })
-      .catch(() => {}); // Don't fail if logging fails
+      .then(()=>{}, ()=>{}); // Don't fail if logging fails
 
     return NextResponse.json({
       success: true,

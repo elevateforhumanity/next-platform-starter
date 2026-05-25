@@ -214,7 +214,7 @@ export default function CertificateDownload({
               user_id: user.id,
               format: 'svg',
             })
-            .catch(() => {});
+            .then(()=>{}, ()=>{});
         }
       }
 

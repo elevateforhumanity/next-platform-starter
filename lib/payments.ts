@@ -1,7 +1,10 @@
 import type Stripe from 'stripe';
 import { createClient } from '@/lib/supabase/server';
-
+import { getStripe } from '@/lib/stripe/client';
 import { logAuditEvent } from '@/lib/audit';
+
+// Resolved at request time — null when STRIPE_SECRET_KEY is absent (build/test)
+const stripe = getStripe();
 
 // =====================================================
 // PAYMENT TYPES

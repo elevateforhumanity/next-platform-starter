@@ -92,10 +92,10 @@ function buildChapter(
   color: string,
   accentBg: string,
 ): EbookChapter | null {
-  const module = barberApprenticeshipBlueprint.modules.find((m) => m.slug === moduleSlug);
-  if (!module) return null;
+  const blueprintModule = barberApprenticeshipBlueprint.modules.find((m) => m.slug === moduleSlug);
+  if (!blueprintModule) return null;
 
-  const lessons = module.lessons.map(lessonFromRef);
+  const lessons = blueprintModule.lessons.map(lessonFromRef);
   const contentLessons = lessons.filter((l) => !l.isCheckpoint);
   const checkpoint = lessons.find((l) => l.isCheckpoint);
 
@@ -106,8 +106,8 @@ function buildChapter(
   return {
     id,
     chapterNumber,
-    title: module.title,
-    shortTitle: stripModulePrefix(module.title),
+    title: blueprintModule.title,
+    shortTitle: stripModulePrefix(blueprintModule.title),
     color,
     accentBg,
     lessons: contentLessons,

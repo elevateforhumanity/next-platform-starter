@@ -175,7 +175,7 @@ async function _POST(request: NextRequest) {
           assistant_response: reply,
           context: body.context || null,
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     } catch (err) {
       logger.error('Unhandled error', err instanceof Error ? err : undefined);
     }

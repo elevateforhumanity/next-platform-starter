@@ -283,7 +283,7 @@ async function _POST(request: NextRequest) {
   });
 
   // Unified event tracking (secondary to stripe_webhook_events)
-  claimWebhookEvent('stripe', event.id, event.type, { livemode: event.livemode }).catch(() => {});
+  claimWebhookEvent('stripe', event.id, event.type, { livemode: event.livemode }).then(()=>{}, ()=>{});
 
   // Wrap ALL post-verify logic in try/catch to prevent 500s
   try {
@@ -998,7 +998,7 @@ async function _POST(request: NextRequest) {
         .from('stripe_webhook_events')
         .update({ status: 'processed', processed_at: new Date().toISOString() })
         .eq('stripe_event_id', event.id);
-      finalizeWebhookEvent('stripe', event.id, 'processed').catch(() => {});
+      finalizeWebhookEvent('stripe', event.id, 'processed').then(()=>{}, ()=>{});
     } catch (updateErr) {
       logger.warn('[webhook] Failed to update status:', updateErr);
       logger.warn('Failed to update webhook status:', updateErr);
@@ -1021,7 +1021,7 @@ async function _POST(request: NextRequest) {
           processed_at: new Date().toISOString(),
         })
         .eq('stripe_event_id', event.id);
-      finalizeWebhookEvent('stripe', event.id, 'errored', errMsg).catch(() => {});
+      finalizeWebhookEvent('stripe', event.id, 'errored', errMsg).then(()=>{}, ()=>{});
     } catch (updateErr) {
       logger.warn('[webhook] Failed to update failure status:', updateErr);
     }

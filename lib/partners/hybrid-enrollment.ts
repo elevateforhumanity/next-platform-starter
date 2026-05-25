@@ -37,9 +37,9 @@ export interface HybridEnrollmentResult {
 export async function enrollInExternalModule(
   request: HybridEnrollmentRequest,
 ): Promise<HybridEnrollmentResult> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   await setAuditContext(supabase, {
-    actorUserId: request.studentId,
+    actorUserId: request.userId,
     systemActor: 'hybrid_enrollment',
   });
   try {
@@ -156,6 +156,7 @@ async function enrollViaLink(
   module: any,
   request: HybridEnrollmentRequest,
 ): Promise<HybridEnrollmentResult> {
+  const supabase = await getSupabaseAdmin();
   // Create progress record in link mode
   const { data: progress, error } = await supabase
     .from('external_partner_progress')
@@ -184,6 +185,7 @@ async function enrollViaLink(
  * Sync progress for API-based enrollments
  */
 export async function syncExternalModuleProgress(progressId: string): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   const { data: progress, error: progressError } = await supabase
     .from('external_partner_progress')
     .select(

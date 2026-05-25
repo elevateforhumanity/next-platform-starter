@@ -184,7 +184,7 @@ export default function InteractiveVideoPlayer({
           timestamp: currentTime,
           content: newNote,
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     }
   };
 
@@ -205,7 +205,7 @@ export default function InteractiveVideoPlayer({
           last_position: currentTime,
           updated_at: new Date().toISOString(),
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     }
   };
 
@@ -254,7 +254,7 @@ export default function InteractiveVideoPlayer({
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().then(()=>{}, ()=>{});
       }
       setIsPlaying(!isPlaying);
     }
@@ -363,7 +363,7 @@ export default function InteractiveVideoPlayer({
         setCurrentQuiz(null);
         setIsPlaying(true);
         if (videoRef.current) {
-          videoRef.current.play().catch(() => {});
+          videoRef.current.play().then(()=>{}, ()=>{});
         }
       }, 3000);
     }

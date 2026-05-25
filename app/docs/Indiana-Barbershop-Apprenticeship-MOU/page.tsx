@@ -77,9 +77,7 @@ export default function MOUPage() {
           status: 'signed',
           signed_at: new Date().toISOString(),
         })
-        .catch(() => {
-          // Table may not exist — signatures are already saved via SignatureInput
-        });
+        .then(()=>{}, ()=>{});
 
       setSubmitted(true);
     } catch {

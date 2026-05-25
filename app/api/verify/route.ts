@@ -38,7 +38,7 @@ async function logAudit(
   await supabase
     .from('verify_audit')
     .insert({ ip_hash: ipHash, credential_id: credentialId, result })
-    .catch(() => null); // fail silently
+    .then(()=>null, ()=>null); // fail silently
 }
 
 // ── Route ──────────────────────────────────────────────────────────────────

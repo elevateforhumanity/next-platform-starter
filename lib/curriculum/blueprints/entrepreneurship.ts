@@ -79,7 +79,11 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'lesson', requiredCount: 4 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
-      competencies: ['entrepreneurial_thinking', 'opportunity_recognition', 'risk_assessment'],
+      competencies: [
+        { competencyKey: 'entrepreneurial_thinking', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'opportunity_recognition', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'risk_assessment', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-what-is-entrepreneurship', title: 'What Is Entrepreneurship? Traits, Mindset, and Motivation', order: 1, domainKey: 'mindset' },
         { slug: 'esb-opportunity-recognition', title: 'Identifying Business Opportunities and Market Gaps', order: 2, domainKey: 'mindset' },
@@ -98,7 +102,11 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'lesson', requiredCount: 5 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
-      competencies: ['business_plan', 'market_research', 'competitive_analysis'],
+      competencies: [
+        { competencyKey: 'business_plan', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'market_research', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'competitive_analysis', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-business-plan-overview', title: 'The Business Plan: Purpose, Structure, and Components', order: 1, domainKey: 'planning' },
         { slug: 'esb-market-research', title: 'Market Research: Primary and Secondary Methods', order: 2, domainKey: 'planning' },
@@ -118,7 +126,11 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'lesson', requiredCount: 5 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
-      competencies: ['marketing_mix', 'digital_marketing', 'sales_process'],
+      competencies: [
+        { competencyKey: 'marketing_mix', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'digital_marketing', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'sales_process', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-marketing-mix', title: 'The Marketing Mix: Product, Price, Place, Promotion', order: 1, domainKey: 'marketing' },
         { slug: 'esb-branding', title: 'Branding, Logo, and Business Identity', order: 2, domainKey: 'marketing' },
@@ -138,7 +150,12 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'lesson', requiredCount: 6 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
-      competencies: ['startup_costs', 'cash_flow', 'financial_statements', 'funding'],
+      competencies: [
+        { competencyKey: 'startup_costs', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'cash_flow', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'financial_statements', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'funding', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-startup-costs', title: 'Startup Costs: Fixed, Variable, and One-Time Expenses', order: 1, domainKey: 'finance' },
         { slug: 'esb-pricing-strategy', title: 'Pricing Strategy: Cost-Plus, Value-Based, and Competitive', order: 2, domainKey: 'finance' },
@@ -159,7 +176,11 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'lesson', requiredCount: 5 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
-      competencies: ['business_registration', 'contracts', 'operations_management'],
+      competencies: [
+        { competencyKey: 'business_registration', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'contracts', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'operations_management', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-business-registration', title: 'Registering Your Business: Licenses, Permits, and EIN', order: 1, domainKey: 'operations' },
         { slug: 'esb-legal-structures', title: 'Legal Structures: Liability, Taxes, and Compliance', order: 2, domainKey: 'operations' },
@@ -180,7 +201,10 @@ export const entrepreneurshipBlueprint: CredentialBlueprint = {
         { lessonType: 'checkpoint', requiredCount: 1 },
         { lessonType: 'exam', requiredCount: 1 },
       ],
-      competencies: ['esb_exam_readiness', 'business_launch'],
+      competencies: [
+        { competencyKey: 'esb_exam_readiness', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'business_launch', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'esb-exam-overview', title: 'Certiport ESB Exam: Format, Domains, and Strategy', order: 1, domainKey: 'exam_prep' },
         { slug: 'esb-high-yield-review', title: 'High-Yield Review: All Five ESB Domains', order: 2, domainKey: 'exam_prep' },

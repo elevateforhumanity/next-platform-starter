@@ -114,7 +114,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       notes: body.notes ?? null,
       created_at: now,
     })
-    .catch((err) => logger.warn('[pay-rate] pay_rate_history insert failed (table may not exist yet)', err));
+    .then(undefined, (err) => logger.warn('[pay-rate] pay_rate_history insert failed (table may not exist yet)', err));
 
   logger.info('[pay-rate] updated', { employeeId, rate: body.rate, setBy: auth.id });
 
@@ -152,7 +152,7 @@ export async function GET(request: NextRequest, { params }: Props) {
     .eq('employee_id', employeeId)
     .order('created_at', { ascending: false })
     .limit(10)
-    .catch(() => ({ data: [] })) as { data: unknown[] };
+    .then(()=>({ data: [] }), ()=>({ data: [] })) as { data: unknown[] };
 
   return NextResponse.json({
     employee_id: employeeId,

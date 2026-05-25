@@ -62,7 +62,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'safety',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['electrical_safety', 'osha_29cfr', 'ppe'],
+      competencies: [
+        { competencyKey: 'electrical_safety', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'osha_29cfr', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ppe', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-osha-safety', title: 'OSHA Electrical Standards and NFPA 70E Overview', order: 1, domainKey: 'safety' },
         { slug: 'elec-arc-flash', title: 'Arc Flash Hazards, PPE, and Safe Work Practices', order: 2, domainKey: 'safety' },
@@ -80,7 +84,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'theory',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['dc_circuits', 'ac_circuits', 'ohms_law'],
+      competencies: [
+        { competencyKey: 'dc_circuits', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ac_circuits', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ohms_law', isCritical: true, minimumTouchpoints: 2 },
+      ],
       lessons: [
         { slug: 'elec-ohms-law', title: 'Ohm\'s Law, Voltage, Current, and Resistance', order: 1, domainKey: 'theory' },
         { slug: 'elec-dc-circuits', title: 'DC Circuits: Series, Parallel, and Series-Parallel', order: 2, domainKey: 'theory' },
@@ -98,7 +106,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'code',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['nec_articles', 'code_compliance', 'permit_process'],
+      competencies: [
+        { competencyKey: 'nec_articles', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'code_compliance', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'permit_process', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-nec-overview', title: 'NEC Structure, Purpose, and How to Use the Code Book', order: 1, domainKey: 'code' },
         { slug: 'elec-nec-residential', title: 'NEC Requirements for Residential Wiring (Articles 210–230)', order: 2, domainKey: 'code' },
@@ -116,7 +128,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'wiring',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['conduit_bending', 'cable_types', 'device_installation'],
+      competencies: [
+        { competencyKey: 'conduit_bending', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'cable_types', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'device_installation', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-conduit-types', title: 'Conduit Types: EMT, Rigid, PVC, and Flexible', order: 1, domainKey: 'wiring' },
         { slug: 'elec-conduit-bending', title: 'Conduit Bending: 90°, Offsets, Saddles, and Back-to-Back', order: 2, domainKey: 'wiring' },
@@ -134,7 +150,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'motors',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 6 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['motor_theory', 'starters', 'plc_intro'],
+      competencies: [
+        { competencyKey: 'motor_theory', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'starters', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'plc_intro', isCritical: false, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-motor-theory', title: 'Electric Motor Theory: AC and DC Motors', order: 1, domainKey: 'motors' },
         { slug: 'elec-motor-starters', title: 'Motor Starters, Contactors, and Overload Protection', order: 2, domainKey: 'motors' },
@@ -152,7 +172,11 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'troubleshooting',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: true, isCritical: false,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 5 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: ['multimeter', 'clamp_meter', 'circuit_testing'],
+      competencies: [
+        { competencyKey: 'multimeter', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'clamp_meter', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'circuit_testing', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-multimeter', title: 'Using a Multimeter: Voltage, Resistance, and Continuity Tests', order: 1, domainKey: 'troubleshooting' },
         { slug: 'elec-clamp-meter', title: 'Clamp Meters and Power Quality Analyzers', order: 2, domainKey: 'troubleshooting' },
@@ -170,7 +194,10 @@ export const electricalBlueprint: CredentialBlueprint = {
       domainKey: 'exam_prep',
       minLessons: 7, maxLessons: 9, quizRequired: true, practicalRequired: false, isCritical: true,
       requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 4 }, { lessonType: 'checkpoint', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
-      competencies: ['journeyman_exam', 'career_readiness'],
+      competencies: [
+        { competencyKey: 'journeyman_exam', isCritical: true, minimumTouchpoints: 2 },
+        { competencyKey: 'career_readiness', isCritical: true, minimumTouchpoints: 1 },
+      ],
       lessons: [
         { slug: 'elec-journeyman-overview', title: 'Indiana Journeyman Electrician License Requirements', order: 1, domainKey: 'exam_prep' },
         { slug: 'elec-code-calculations', title: 'NEC Code Calculations Practice: Box Fill, Load, and Feeder', order: 2, domainKey: 'exam_prep' },

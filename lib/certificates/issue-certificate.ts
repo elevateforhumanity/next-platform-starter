@@ -73,6 +73,7 @@ export async function issueCertificate(
     courseTitle,
     programName,
     programHours,
+    competencyEvidence,
   } = params;
 
   try {

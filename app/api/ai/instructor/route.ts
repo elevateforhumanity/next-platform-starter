@@ -69,7 +69,7 @@ Keep responses concise (2-4 paragraphs max), practical, and encouraging. Focus o
         await supabase.from('ai_instructor_interactions').insert({
           user_id: user?.id || null, program_id: programId,
           instructor_id: instructorId, user_message: latest, assistant_response: reply,
-        }).catch(() => {});
+        }).then(()=>{}, ()=>{});
       } catch (err) {
         logger.error('Unhandled error', err instanceof Error ? err : undefined);
       }

@@ -272,7 +272,7 @@ async function _POST(request: NextRequest) {
           source: 'public_trial_form',
         },
       })
-      .catch(() => {}); // Non-critical
+      .then(()=>{}, ()=>{}); // Non-critical
 
     // Send welcome email
     const dashboardUrl = `https://${subdomain}.elevatelms.com/admin`;

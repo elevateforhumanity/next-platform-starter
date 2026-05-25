@@ -149,14 +149,14 @@ export default function ContentLibrary({
         user_id: userId,
         content_type: item.type,
       })
-      .catch(() => {});
+      .then(()=>{}, ()=>{});
 
     // Update view count
     await supabase
       .from('content_library')
       .update({ view_count: (item.view_count || 0) + 1 })
       .eq('id', item.id)
-      .catch(() => {});
+      .then(()=>{}, ()=>{});
   };
 
   // Filter content

@@ -57,7 +57,7 @@ async function _POST(request: NextRequest) {
   await supabase
     .from('stripe_webhook_events')
     .insert({ stripe_event_id: event.id, event_type: event.type, status: 'processing' })
-    .catch(() => {});
+    .then(()=>{}, ()=>{});
 
   let processingError = false;
 
@@ -154,7 +154,7 @@ async function _POST(request: NextRequest) {
     .from('stripe_webhook_events')
     .update({ status: processingError ? 'failed' : 'processed' })
     .eq('stripe_event_id', event.id)
-    .catch(() => {});
+    .then(()=>{}, ()=>{});
 
   if (processingError) {
     return NextResponse.json({ error: 'Database update failed' }, { status: 500 });

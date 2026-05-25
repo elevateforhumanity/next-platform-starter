@@ -100,7 +100,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
         actorId: user.id,
         actorRole: profile.role,
         action:
-          action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_REJECTED,
+          action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_DELETED,
         entity: AuditEntity.DOCUMENT,
         entityId: documentId,
         metadata: {

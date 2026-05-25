@@ -79,7 +79,7 @@ async function _POST(request: NextRequest) {
             source: 'trial_success_page',
           },
         })
-        .catch(() => {}); // Non-critical
+        .then(()=>{}, ()=>{}); // Non-critical
     }
 
     return NextResponse.json({ ok: true, correlationId });

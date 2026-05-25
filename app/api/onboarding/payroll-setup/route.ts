@@ -75,7 +75,7 @@ async function _POST(request: NextRequest) {
         { user_id: user.id, file_url: w9FileUrl, legal_name: ph?.full_name ?? null,
           submitted_at: new Date().toISOString(), verified: false },
         { onConflict: 'user_id', ignoreDuplicates: false },
-      ).catch(() => null);
+      ).then(()=>null, ()=>null);
     }
 
     await db.from('audit_logs').insert({
@@ -85,7 +85,7 @@ async function _POST(request: NextRequest) {
       metadata: { payoutMethod, taxIdUploaded, bankName, paymentType },
       ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
       user_agent: request.headers.get('user-agent'),
-    }).catch(() => null);
+    }).then(()=>null, ()=>null);
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

@@ -33,7 +33,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const body = await request.json().catch(() => null);
+    const body = await request.json().then(()=>null, ()=>null);
     if (!body) {
       return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
     }
@@ -127,7 +127,7 @@ async function _POST(request: NextRequest) {
           retention_90_day: retention90,
         },
       })
-      .catch((err) => logger.warn('[employer/reports/submit] audit log failed', err));
+      .then(undefined, (err) => logger.warn('[employer/reports/submit] audit log failed', err));
 
     return NextResponse.json(
       {

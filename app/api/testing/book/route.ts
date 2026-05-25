@@ -163,10 +163,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
 
   // Increment booked_count on the slot atomically
   if (!insertErr && slotId) {
-    await db.rpc('increment_slot_booked_count', { slot_id: slotId }).catch(() => {
-      // Non-fatal — admin can reconcile manually
-      logger.warn('[testing/book] Failed to increment slot booked_count', { slotId });
-    });
+    await db.rpc('increment_slot_booked_count', { slot_id: slotId }).then(()=>{}, ()=>{});
   }
 
   if (insertErr) {

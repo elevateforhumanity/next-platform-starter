@@ -164,7 +164,7 @@ async function _POST(req: Request) {
             .from('program_holder_documents')
             .update({ ocr_text: ocrData.rawText || null })
             .eq('id', document.id)
-            .catch(() => {}); // column may not exist yet — ignore
+            .then(()=>{}, ()=>{}); // column may not exist yet — ignore
           logger.info('[PH Upload] OCR complete', { documentId: document.id, documentType });
         }
       } catch (ocrErr) {
@@ -203,7 +203,7 @@ async function _POST(req: Request) {
               },
             ],
           }),
-        }).catch(() => {});
+        }).then(()=>{}, ()=>{});
       }
     } catch {
       // Non-fatal — don't block upload response

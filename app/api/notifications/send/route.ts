@@ -50,7 +50,7 @@ async function _POST(request: NextRequest) {
           sent_at: new Date().toISOString(),
           status: 'sent',
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     } catch (err) {
       logger.error('Unhandled error', err instanceof Error ? err : undefined);
     }

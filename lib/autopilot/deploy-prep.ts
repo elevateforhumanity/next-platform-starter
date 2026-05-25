@@ -72,7 +72,7 @@ export async function runAutopilot(config: {
       status: 'started',
       started_at: new Date().toISOString(),
     })
-    .catch(() => {});
+    .then(()=>{}, ()=>{});
 
   switch (action) {
     case 'sync-enrollments':

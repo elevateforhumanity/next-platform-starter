@@ -406,18 +406,18 @@ const nextConfig = {
       { source: '/dashboard/sub-offices/new', destination: '/dashboard', permanent: true },
 
       // Employer
-      { source: '/employer/apprenticeship', destination: '/employer', permanent: true },
-      { source: '/employer/apprenticeship/new', destination: '/employer', permanent: true },
-      { source: '/employer/applications', destination: '/employer', permanent: true },
-      { source: '/employer/apprentices/new', destination: '/employer', permanent: true },
+      { source: '/employer/apprenticeship', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer/apprenticeship/new', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer/applications', destination: '/employer/dashboard', permanent: true },
+      { source: '/employer/apprentices/new', destination: '/employer/dashboard', permanent: true },
       { source: '/employer/login', destination: '/login', permanent: true },
-      { source: '/employer/postings/new', destination: '/employer', permanent: true },
+      { source: '/employer/postings/new', destination: '/employer/dashboard', permanent: true },
       { source: '/employer/register', destination: '/apply/employer', permanent: true },
       // employer-portal → canonical /employer/dashboard (legacy portal consolidation)
       { source: '/employer-portal', destination: '/employer/dashboard', permanent: true },
       { source: '/employer-portal/dashboard', destination: '/employer/dashboard', permanent: true },
       { source: '/employer-portal/jobs', destination: '/employer/jobs', permanent: true },
-      { source: '/employer-portal/applications', destination: '/employer/applications', permanent: true },
+      { source: '/employer-portal/applications', destination: '/employer/dashboard', permanent: true },
       { source: '/employer-portal/candidates', destination: '/employer/candidates', permanent: true },
       { source: '/employer-portal/analytics', destination: '/employer/analytics', permanent: true },
       { source: '/employer-portal/company', destination: '/employer/company', permanent: true },
@@ -437,7 +437,7 @@ const nextConfig = {
       { source: '/mentorship/apply', destination: '/apply', permanent: true },
 
       // Partner (app-side) - skip /partner-with-us and /partners intermediaries
-      { source: '/partner/refer', destination: '/platform/partners', permanent: true },
+      { source: '/partner/refer', destination: '/for-providers', permanent: true },
 
       // Portal — exact match before wildcard
       {
@@ -504,7 +504,7 @@ const nextConfig = {
         permanent: true,
       },
       { source: '/admin/blog/new', destination: '/admin/blog', permanent: true },
-      { source: '/admin/course-studio', destination: '/admin/course-templates', permanent: true },
+      { source: '/admin/course-studio', destination: '/admin/course-builder/templates', permanent: true },
       { source: '/admin/dight', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/dight/:path*', destination: '/admin/dashboard/:path*', permanent: true },
       { source: '/admin/users/invite', destination: '/admin/staff', permanent: true },
@@ -893,8 +893,8 @@ const nextConfig = {
       { source: '/programs/electrical-technician', destination: '/programs/electrical', permanent: true },
       { source: '/programs/plumbing-technician', destination: '/programs/plumbing', permanent: true },
       { source: '/programs/dsp-training', destination: '/programs/direct-support-professional', permanent: true },
-      { source: '/programs/chw-cert', destination: '/programs/community-health-worker', permanent: true },
-      { source: '/programs/nrf-riseup', destination: '/programs/nrf-rise-up', permanent: true },
+      { source: '/programs/chw-cert', destination: '/programs', permanent: true },
+      { source: '/programs/nrf-riseup', destination: '/programs', permanent: true },
       { source: '/programs/building-maintenance-wrg', destination: '/programs/building-services-technician', permanent: true },
       { source: '/programs/construction-trades-certification', destination: '/programs/skilled-trades', permanent: true },
       // Donate page has its own content now
@@ -981,10 +981,11 @@ const nextConfig = {
       { source: '/partners/join', destination: '/partners/apply', permanent: true },
       { source: '/partners/training', destination: '/for-providers', permanent: true },
       { source: '/partners/training-provider', destination: '/for-providers', permanent: true },
-      { source: '/partners/barbershop-apprenticeship/onboarding', destination: '/partners/barbershop-apprenticeship/forms', permanent: true },
+      { source: '/partners/barbershop-apprenticeship/onboarding', destination: '/login?redirect=/partners/barbershop-apprenticeship/forms', permanent: true },
       // /partner/programs/barber covered by existing /partner/:path* wildcard
       { source: '/pathways/partners', destination: '/for-providers', permanent: true },
       { source: '/platform/partners', destination: '/for-providers', permanent: true },
+      // /platform/program-holders and /platform/providers already point to /for-providers (consolidated below)
       { source: '/platform/program-holders', destination: '/for-providers', permanent: true },
       { source: '/platform/providers', destination: '/for-providers', permanent: true },
 
@@ -1001,7 +1002,7 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
       // /mentor → /mentor/dashboard already covered above
       { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: '/tax', permanent: true },
+      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
       { source: '/snap', destination: '/snap/snap-et', permanent: true },
       { source: '/training-providers', destination: '/for-providers', permanent: true },
       { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
@@ -1057,15 +1058,16 @@ const nextConfig = {
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
       // Legacy stub pages — redirect at config level to avoid error boundary interference
-      { source: '/sheets', destination: '/credentials/checksheets', permanent: true },
-      { source: '/usermanagement', destination: '/admin/users', permanent: true },
+      { source: '/sheets', destination: '/programs', permanent: true },
+      { source: '/usermanagement', destination: '/admin/reports/users', permanent: true },
       { source: '/curriculumupload', destination: '/admin/curriculum/upload', permanent: true },
       { source: '/community', destination: '/community-services', permanent: true },
       { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
       { source: '/hvac', destination: '/programs/hvac-technician', permanent: true },
       { source: '/industries/healthcare', destination: '/programs/healthcare', permanent: true },
       // /governance/security has a dedicated public page — no redirect
-      { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
+      { source: '/admin/live-sessions/new', destination: '/admin/dashboard', permanent: false },
+      { source: '/admin/live-sessions', destination: '/admin/dashboard', permanent: true },
 
       // ── AUTH DUPLICATES ────────────────────────────────────────────────────
       // Canonical login: /login
@@ -1127,7 +1129,8 @@ const nextConfig = {
       // ── MISC ONE-WORD DUPLICATES ────────────────────────────────────────────
       { source: '/micro-classes', destination: '/microclasses', permanent: true },
       { source: '/donations', destination: '/donate', permanent: true },
-      { source: '/funding-impact', destination: '/fundingimpact', permanent: true },
+      { source: '/funding-impact', destination: '/funding', permanent: true },
+      { source: '/fundingimpact', destination: '/funding', permanent: true },
       { source: '/for/students', destination: '/for-students', permanent: true },
       { source: '/connects', destination: '/connect', permanent: true },
 
@@ -1135,7 +1138,8 @@ const nextConfig = {
       // Canonical: /store/licenses  (more complete at 461 lines)
       { source: '/store/licensing', destination: '/store/licenses', permanent: true },
       { source: '/store/licensing/enterprise', destination: '/store/licenses/enterprise-license', permanent: true },
-      { source: '/store/licensing/managed', destination: '/store/licenses/managed', permanent: true },
+      { source: '/store/licensing/managed', destination: '/store/licenses', permanent: true },
+      { source: '/store/licenses/managed', destination: '/store/licenses', permanent: true },
       { source: '/store/licensing/:path*', destination: '/store/licenses/:path*', permanent: true },
 
       // ── GEOGRAPHIC TRAINING SEO PAGES ─────────────────────────────────────

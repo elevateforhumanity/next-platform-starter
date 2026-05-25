@@ -55,7 +55,7 @@ async function notifyPaymentSucceeded(
         },
         idempotency_key: `barber-invoice-paid-learner-${invoiceId}-${userId}`,
       })
-      .catch(() => {});
+      .then(()=>{}, ()=>{});
   }
 
   // Admin/staff in-app notifications
@@ -84,7 +84,7 @@ async function notifyPaymentSucceeded(
       idempotency_key: `barber-invoice-paid-admin-${invoiceId}-${admin.id}`,
     }));
 
-    await supabase.from('notifications').insert(adminNotifications).catch(() => {});
+    await supabase.from('notifications').insert(adminNotifications).then(()=>{}, ()=>{});
   }
 }
 
@@ -352,7 +352,7 @@ async function _POST(request: NextRequest) {
 
               if (pmId) {
                 // Attach payment method to customer and set as default
-                await stripe.paymentMethods.attach(pmId, { customer: customerId }).catch(() => {});
+                await stripe.paymentMethods.attach(pmId, { customer: customerId }).then(()=>{}, ()=>{});
                 await stripe.customers.update(customerId, {
                   invoice_settings: { default_payment_method: pmId },
                 });
@@ -611,7 +611,7 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive ev
             logger.info(`[barber/webhook] program_enrollments ${enrollResult.action}: ${enrollResult.id}`);
           }
           // Link to account if one already exists for this email
-          await linkOrphanedEnrollments(supabase, normalizedEmail).catch(() => {});
+          await linkOrphanedEnrollments(supabase, normalizedEmail).then(()=>{}, ()=>{});
 
           // Send enrollment confirmation email
           try {
@@ -1006,7 +1006,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             event_type: 'payment_failed',
             stripe_invoice_id: invoiceId || null,
             metadata: { stripe_customer_id: failedCustomerId, event_id: event.id },
-          }).catch(() => {});
+          }).then(()=>{}, ()=>{});
         }
 
         // 2. Send immediate email — only on first failure to avoid duplicate alerts on retries
@@ -1084,9 +1084,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           amount_paid: (invoice.amount_paid || 0) / 100,
           payment_date: new Date().toISOString(),
           invoice_url: invoice.hosted_invoice_url,
-        }, { onConflict: 'stripe_invoice_id', ignoreDuplicates: true }).catch(() => {
-          // Table may not exist yet — non-fatal
-        });
+        }, { onConflict: 'stripe_invoice_id', ignoreDuplicates: true }).then(()=>{}, ()=>{});
 
         // Reinstate if previously suspended or past_due
         const { data: subRecord } = await supabase
@@ -1123,7 +1121,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             stripe_invoice_id: invoice.id,
             amount_cents: invoice.amount_paid,
             metadata: { source: 'invoice.paid_webhook' },
-          }).catch(() => {});
+          }).then(()=>{}, ()=>{});
 
           const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
           if (subRecord.customer_email) {
@@ -1132,7 +1130,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
               to: subRecord.customer_email,
               subject: 'Your Barber Apprenticeship access has been restored',
               html: `<p>Hi ${subRecord.customer_name || 'Apprentice'},</p><p>Your payment was processed and your access has been fully restored.</p><p><a href="${siteUrl}/learner/dashboard">Go to Dashboard</a></p><p>— Elevate for Humanity</p>`,
-            }).catch(() => {});
+            }).then(()=>{}, ()=>{});
           }
 
           logger.info(`[Barber Webhook] Reinstated subscription: ${subscriptionId}`);
@@ -1208,6 +1206,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
  */
 async function _PUT(request: NextRequest) {
   try {
+    const stripe = getStripe();
     const supabase = await createClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });

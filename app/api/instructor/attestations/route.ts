@@ -48,7 +48,7 @@ const ATTESTATION_METHODS = new Set([
 
 async function getInstructorProfile(db: any, userId: string) {
   // Check profiles table for role
-  const { data: profile } = await supabase
+  const { data: profile } = await db
     .from('profiles')
     .select('id, role, full_name, email')
     .eq('id', userId)
@@ -63,7 +63,7 @@ async function getInstructorProfile(db: any, userId: string) {
   }
 
   // Also check if they're an instructor in partner_users
-  const { data: partnerUser } = await supabase
+  const { data: partnerUser } = await db
     .from('partner_users')
     .select('role')
     .eq('user_id', userId)
@@ -93,7 +93,7 @@ async function _POST(req: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const instructor = await getInstructorProfile(db, user.id);
+  const instructor = await getInstructorProfile(supabase, user.id);
   if (!instructor?.allowed) {
     return NextResponse.json(
       { error: 'Only instructors can create attestations' },

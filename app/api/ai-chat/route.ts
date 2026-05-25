@@ -12,7 +12,7 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 async function _POST(req: NextRequest) {
   try {
 
-    const body = await req.json().catch(() => null);
+    const body = await req.json().then(()=>null, ()=>null);
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
@@ -208,7 +208,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
           assistant_response: reply,
           model: 'gpt-4.1-mini',
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     } catch (err) {
       logger.error('Unhandled error', err instanceof Error ? err : undefined);
     }

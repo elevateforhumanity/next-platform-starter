@@ -77,7 +77,7 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
           user_id: user.id,
           joined_at: new Date().toISOString(),
         })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     }
 
     // Fetch participants

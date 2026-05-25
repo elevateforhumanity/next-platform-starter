@@ -1,5 +1,6 @@
 // Stripe Integration for Course Payments and Subscriptions
-import { getStripe } from '@/lib/stripe/client';
+import type Stripe from 'stripe';
+import { getStripe, stripe } from '@/lib/stripe/client';
 import { resilientStripe } from '@/lib/resilience/with-resilience';
 export interface CheckoutSessionParams {
   courseId: string;
@@ -176,4 +177,4 @@ export function verifyWebhookSignature(
 export async function handleWebhookEvent(event: Stripe.Event) {
   throw new Error('handleWebhookEvent is deprecated. Use /api/webhooks/stripe route instead.');
 }
-export { stripe };
+export { stripe, getStripe };

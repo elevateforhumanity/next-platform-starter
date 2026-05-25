@@ -35,7 +35,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { program: slug } = await params;
   const db = await getDb();
-  const { data: program } = await supabase
+  const { data: program } = await db
     .from('programs')
     .select('title, description')
     .or(`slug.eq.${slug},code.eq.${slug}`)

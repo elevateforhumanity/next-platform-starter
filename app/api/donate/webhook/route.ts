@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import type Stripe from 'stripe';
 import { getStripe, stripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -51,7 +52,7 @@ async function _POST(request: Request) {
       await supabase
         .from('stripe_webhook_events')
         .insert({ stripe_event_id: event.id, event_type: event.type, status: 'processing' })
-        .catch(() => {});
+        .then(()=>{}, ()=>{});
     }
 
     // Handle the event
@@ -186,6 +187,8 @@ async function _POST(request: Request) {
 
       default:
     }
+
+    return NextResponse.json({ received: true });
   } catch (error) {
     return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }

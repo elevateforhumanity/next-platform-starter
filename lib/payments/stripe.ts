@@ -1,16 +1,11 @@
 import { logger } from '@/lib/logger';
+import { getStripe } from '@/lib/stripe/client';
 
 import type Stripe from 'stripe';
 
-// Instantiate once at module scope using the canonical getStripe() helper so
-// the key is read at request time (after hydrateProcessEnv). Falls back to a
-// direct instantiation for environments where getStripe is unavailable.
-// Every method in StripeService must null-check `stripe` before use.
-const stripe: Stripe | null = (() => {
-  const key = process.env.STRIPE_SECRET_KEY || process.env.STRIPE_RESTRICTED_KEY;
-  if (!key) return null;
-  return new Stripe(key, { apiVersion: '2024-06-20' });
-})();
+// Use the canonical lazy Stripe client — key is read at request time after
+// hydrateProcessEnv(). Every method in StripeService must null-check before use.
+const stripe: Stripe | null = getStripe();
 
 export interface PaymentIntent {
   id: string;
