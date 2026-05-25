@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/public';
 import { Briefcase, MapPin, Clock, ExternalLink, BadgeCheck, Zap, Building2, ChevronRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -133,13 +134,19 @@ export default async function JobBoardPage() {
                 <Zap className="w-5 h-5 text-amber-500" />
                 Government Job Feed
               </h2>
-              <div className="flex gap-2 text-xs text-slate-500">
-                <span>USAJobs</span>
-                <span>·</span>
-                <span>CareerOneStop</span>
-                <span>·</span>
-                <span>Indiana Career Connect</span>
-              </div>
+              {/* CareerOneStop logo — required by API terms */}
+              <a
+                href="https://www.careeronestop.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700"
+                title="Powered by CareerOneStop"
+              >
+                <span className="font-semibold">Powered by</span>
+                <span className="font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded">
+                  CareerOneStop
+                </span>
+              </a>
             </div>
             <div className="space-y-3">
               {government.map((job: any) => (
@@ -196,6 +203,40 @@ export default async function JobBoardPage() {
           >
             <ExternalLink className="w-4 h-4" />
             Search USAJobs.gov →
+          </a>
+        </div>
+
+        {/* CareerOneStop required attribution */}
+        <div className="border-t border-slate-200 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <p className="text-xs text-slate-400 max-w-lg">
+            Some job listings are sourced from{' '}
+            <a
+              href="https://www.careeronestop.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-slate-500 hover:underline"
+            >
+              CareerOneStop
+            </a>
+            , sponsored by the U.S. Department of Labor, Employment and Training Administration.
+            CareerOneStop is an equal opportunity employer/program. Auxiliary aids and services
+            are available upon request to individuals with disabilities.
+          </p>
+          <a
+            href="https://www.careeronestop.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 hover:border-slate-300 transition-colors"
+            title="CareerOneStop — Sponsored by the U.S. Department of Labor"
+          >
+            <Image
+              src="https://www.careeronestop.org/images/careeronestop-logo.png"
+              alt="CareerOneStop"
+              width={140}
+              height={32}
+              className="h-8 w-auto"
+              unoptimized
+            />
           </a>
         </div>
 

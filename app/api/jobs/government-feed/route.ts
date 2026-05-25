@@ -76,45 +76,58 @@ async function fetchUSAJobs(keywords: string, location = 'Indiana'): Promise<any
 }
 
 // ── CareerOneStop ─────────────────────────────────────────────────────────────
+// API docs: https://www.careeronestop.org/Developers/WebAPI/Jobs/list-jobs.aspx
+// URL pattern: /v1/jobsearch/{userId}/{keyword}/{location}/{radius}/{startRecord}/{sortColumns}/{sortOrder}/{days}/{limit}
 async function fetchCareerOneStop(keyword: string, location = 'Indianapolis, IN'): Promise<any[]> {
   const token = process.env.CAREERONESTOP_TOKEN;
   const userId = process.env.CAREERONESTOP_USER_ID;
   if (!token || !userId) {
-    logger.warn('[government-feed] CAREERONESTOP_TOKEN or USER_ID not set — skipping');
+    logger.warn('[government-feed] CAREERONESTOP_TOKEN or CAREERONESTOP_USER_ID not set — skipping');
     return [];
   }
 
-  const params = new URLSearchParams({
-    keyword,
-    location,
-    radius: '50',
-    days: '30',
-    limit: '25',
-    enableMetaData: 'true',
-  });
+  // Path params: keyword / location / radius=50mi / startRecord=0 / sortColumns=0 / sortOrder=0 / days=30 / limit=25
+  const url = [
+    'https://api.careeronestop.org/v1/jobsearch',
+    userId,
+    encodeURIComponent(keyword),
+    encodeURIComponent(location),
+    '50',   // radius miles
+    '0',    // startRecord
+    '0',    // sortColumns (0 = relevance)
+    '0',    // sortOrder (0 = desc)
+    '30',   // days posted within
+    '25',   // limit
+  ].join('/');
 
-  const res = await fetch(
-    `https://api.careeronestop.org/v1/jobsearch/${userId}/${encodeURIComponent(keyword)}/${encodeURIComponent(location)}/50/0/0/0/0/25?${params}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
       signal: AbortSignal.timeout(10_000),
-    },
-  );
+    });
+  } catch (err) {
+    logger.warn('[government-feed] CareerOneStop network error', { keyword, err });
+    return [];
+  }
 
   if (!res.ok) {
-    logger.warn('[government-feed] CareerOneStop fetch failed', { status: res.status });
+    logger.warn('[government-feed] CareerOneStop fetch failed', { status: res.status, keyword });
     return [];
   }
 
   const data = await res.json();
-  const jobs = data?.Jobs ?? [];
+  const jobs: any[] = data?.Jobs ?? [];
 
   return jobs.map((j: any) => ({
     source: 'careeronestop',
-    external_id: j.JobID ?? j.JobTitle + j.DatePosted,
+    external_id: j.JobID ?? `${j.JobTitle}-${j.DatePosted}-${j.Company}`,
     title: j.JobTitle,
     organization: j.Company,
-    location: `${j.City}, ${j.State}`,
+    location: [j.City, j.State].filter(Boolean).join(', '),
     salary_range: j.Pay ?? null,
     job_type: j.JobType ?? null,
     remote_type: j.IsRemote ? 'remote' : 'onsite',
