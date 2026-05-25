@@ -70,7 +70,8 @@ const sections = [
   },
   {
     id: 'competencies',
-    icon: title: 'Competency Development',
+    icon: Shield,
+    title: 'Competency Development',
     content: [
       'Apprentices must demonstrate proficiency across all cosmetology service categories. You are responsible for providing opportunities to practice and for verifying skill development.',
     ],

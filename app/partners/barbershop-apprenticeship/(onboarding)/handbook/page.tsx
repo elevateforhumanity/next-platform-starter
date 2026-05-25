@@ -77,7 +77,8 @@ const sections = [
   },
   {
     id: 'competencies',
-    icon: title: 'Competency Development',
+    icon: Shield,
+    title: 'Competency Development',
     content: [
       'Apprentices must demonstrate proficiency in specific barbering competencies. You are responsible for providing opportunities to practice and for verifying skill development.',
     ],
