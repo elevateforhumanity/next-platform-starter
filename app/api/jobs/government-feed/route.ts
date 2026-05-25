@@ -172,8 +172,13 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
-  if (auth.error) return auth.error;
+  // Allow cron/internal triggers via x-cron-secret header
+  const cronSecret = request.headers.get('x-cron-secret');
+  const isCron = cronSecret && cronSecret === process.env.CRON_SECRET;
+  if (!isCron) {
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
+  }
 
   const db = await requireAdminClient();
 
