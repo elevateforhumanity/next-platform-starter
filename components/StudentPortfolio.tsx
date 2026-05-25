@@ -307,7 +307,7 @@ export function StudentPortfolio() {
               alt={student.name}
               width={128}
               height={128}
-              className="rounded-full border-4 border-white shadow-lg"
+              className="rounded-full border-4 border-white shadow-lg" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="flex-1 text-center md:text-left">
               <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
@@ -432,7 +432,7 @@ export function StudentPortfolio() {
                       alt={project.title}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" placeholder="empty"
                     />
                   </div>
                   <div className="p-6">

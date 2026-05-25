@@ -53,7 +53,7 @@ export default async function EnrollPage() {
           alt="Enroll in Training"
           fill
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </div>
 

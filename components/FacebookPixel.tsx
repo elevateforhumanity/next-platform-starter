@@ -74,6 +74,7 @@ export default function FacebookPixel() {
 
         <noscript>
           {/* Tracking pixel - empty alt is intentional for decorative/tracking images */}
+          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img
             height="1"
             width="1"

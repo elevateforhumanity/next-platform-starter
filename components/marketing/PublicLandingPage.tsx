@@ -60,7 +60,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         {/* Micro-label — bottom-left, 2–4 words max */}
         {config.hero.tag && (
@@ -99,7 +99,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
             </div>
             {config.intro.image && (
               <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-xl">
-                <Image src={config.intro.image} alt={config.intro.heading} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image src={config.intro.image} alt={config.intro.heading} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
               </div>
             )}
           </div>

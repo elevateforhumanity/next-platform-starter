@@ -90,7 +90,7 @@ export default function CertificationsPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
       {/* Key Stats */}
@@ -137,7 +137,7 @@ export default function CertificationsPage() {
                     alt={prog.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 50vw, 25vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-4">

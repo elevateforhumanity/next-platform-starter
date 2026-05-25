@@ -125,7 +125,7 @@ export default async function CompliancePage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 

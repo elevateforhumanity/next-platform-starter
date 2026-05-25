@@ -190,7 +190,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
           <div className="max-w-5xl mx-auto">
@@ -282,7 +282,7 @@ export function WorkforceProgramPage({ program }: { program: WorkforceProgramDat
                   alt={`${program.title} training`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
+                  className="object-cover" placeholder="empty"
                 />
               </div>
             )}

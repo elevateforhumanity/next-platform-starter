@@ -292,7 +292,7 @@ export default async function ProgressPage() {
                                 alt={enrollment.courses.title || 'Course thumbnail'}
                                 fill
                                 className="object-cover rounded-xl"
-                                sizes="64px"
+                                sizes="64px" placeholder="empty"
                               />
                             ) : (
                               <BookOpen className="w-8 h-8 text-slate-400" />

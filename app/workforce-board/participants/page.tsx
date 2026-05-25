@@ -37,7 +37,7 @@ export default function ParticipantsPage() {
           priority
           sizes="100vw"
           className="object-cover"
-          quality={85}
+          quality={85} placeholder="empty"
         />
       </section>
 
@@ -75,7 +75,7 @@ export default function ParticipantsPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  quality={85}
+                  quality={85} placeholder="empty"
                 />
               </div>
             </div>

@@ -132,7 +132,7 @@ export default function WorkforceAnalyticsPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10">
@@ -225,7 +225,7 @@ export default function WorkforceAnalyticsPage() {
                 alt="Analytics dashboard"
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
             <div>

@@ -50,7 +50,7 @@ export default function GrievancePage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
 

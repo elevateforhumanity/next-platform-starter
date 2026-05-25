@@ -135,6 +135,7 @@ export async function POST(req: NextRequest) {
   const studentHtml = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a">
       <div style="background:#1a1a1a;padding:24px 32px">
+        // IMAGE-CONTRACT: allow raw img because legacy markup
         <img src="${SITE_URL}/images/elevate-logo-white.png" alt="Elevate for Humanity" height="36" />
       </div>
       <div style="padding:32px">

@@ -278,7 +278,7 @@ export default function FAQPage() {
           sizes="100vw"
           quality={90}
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-6">

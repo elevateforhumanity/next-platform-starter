@@ -95,7 +95,7 @@ export default function GuidesPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -147,7 +147,7 @@ export default function GuidesPage() {
                       alt={guide.imageAlt}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw" placeholder="empty"
                     />
                     <div className="absolute top-4 left-4">
                       <span className={`inline-block px-3 py-1.5 rounded-full text-xs font-bold text-white ${guide.badgeColor}`}>

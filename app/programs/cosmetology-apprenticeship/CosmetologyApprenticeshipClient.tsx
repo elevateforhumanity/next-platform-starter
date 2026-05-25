@@ -22,6 +22,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
       {/* Hero image — no text overlay per design standard */}
       <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
+        // IMAGE-CONTRACT: allow raw img because legacy markup
         <img
           src="/images/pages/cosmetology-apprenticeship-hero.webp"
           alt="Cosmetology apprenticeship students working in a licensed Indiana salon"

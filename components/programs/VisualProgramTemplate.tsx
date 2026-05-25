@@ -199,7 +199,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                     alt={card.label}
                     fill
                     sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-3">
@@ -231,7 +231,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                     alt={item}
                     fill
                     sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 flex items-start gap-2">
@@ -296,7 +296,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                 alt="Career outcome"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
           </div>
@@ -392,7 +392,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                   alt={s.label}
                   fill
                   sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover"
+                  className="object-cover" placeholder="empty"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
                 <div className="absolute top-3 left-3 w-8 h-8 bg-brand-red-600 rounded-full flex items-center justify-center text-white font-extrabold text-sm shadow">
@@ -461,7 +461,7 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
             alt="Start your career"
             fill
             sizes="100vw"
-            className="object-cover"
+            className="object-cover" placeholder="empty"
           />
           <div className="absolute inset-0 bg-slate-900/70" />
           <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">

@@ -278,7 +278,7 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
               alt={announcement.authorName}
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
             <div className="w-10 h-10 rounded-full bg-brand-red-100 flex items-center justify-center text-brand-red-700 font-semibold">

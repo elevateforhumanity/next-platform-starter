@@ -150,13 +150,14 @@ export function HeroSection({
         className={`relative ${heightClasses[height]} flex items-end`}
       >
         {/* Full-bleed image - NO overlay */}
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={image}
           alt={imageAlt || title}
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
 
         {/* Content panel - solid background, no gradient */}
@@ -257,7 +258,7 @@ export function HeroSection({
                 alt={imageAlt || title}
                 fill
                 className="object-contain p-4"
-                sizes="100vw"
+                sizes="100vw" placeholder="empty"
               />
             </div>
           </div>
@@ -327,14 +328,14 @@ export function HeroSection({
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
       </div>
 
       {/* Mobile image - shown below content on small screens */}
       <div className="relative aspect-video lg:hidden">
-        <Image src={image} alt={imageAlt || title} fill className="object-cover" sizes="100vw" />
+        <Image src={image} alt={imageAlt || title} fill className="object-cover" sizes="100vw" placeholder="empty" />
       </div>
     </section>
   );

@@ -59,13 +59,14 @@ export default function HeroBanner({
             autoPlayOnMount
           />
         ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={heroImageSrc}
             alt={heroImageAlt}
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover" placeholder="empty"
           />
         )}
 

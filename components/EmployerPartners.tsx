@@ -314,7 +314,7 @@ export default function EmployerPartners({
                         alt={partner.name}
                         width={32}
                         height={32}
-                        className="rounded"
+                        className="rounded" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <Building2 className="w-6 h-6 text-white" />
@@ -354,7 +354,7 @@ export default function EmployerPartners({
                         alt={partner.name}
                         width={32}
                         height={32}
-                        className="rounded"
+                        className="rounded" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <Briefcase className="w-6 h-6 text-white" />

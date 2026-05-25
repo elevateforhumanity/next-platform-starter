@@ -192,7 +192,7 @@ export default function LicensingGuidePage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-0 bg-slate-900/55" />
         <div className="absolute inset-0 flex items-end">
@@ -228,7 +228,7 @@ export default function LicensingGuidePage() {
                 alt="License tier comparison — managed vs source-use"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px"
+                sizes="(max-width: 768px) 100vw, 896px" placeholder="empty"
               />
             </div>
             <div className="grid md:grid-cols-2 gap-5">
@@ -274,7 +274,7 @@ export default function LicensingGuidePage() {
                   alt={step.imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 896px"
+                  sizes="(max-width: 768px) 100vw, 896px" placeholder="empty"
                 />
               </div>
               {step.content}
@@ -293,7 +293,7 @@ export default function LicensingGuidePage() {
                 alt="Billing and subscription management"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px"
+                sizes="(max-width: 768px) 100vw, 896px" placeholder="empty"
               />
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">

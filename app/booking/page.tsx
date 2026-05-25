@@ -98,7 +98,7 @@ export default async function BookingPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10">
@@ -210,7 +210,7 @@ export default async function BookingPage() {
                         fill
                         sizes="100vw"
                         className="object-cover"
-                        sizes="80px"
+                        sizes="80px" placeholder="empty"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

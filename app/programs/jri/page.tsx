@@ -71,7 +71,7 @@ export default async function JRIProgramsPage() {
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </div>
 
@@ -153,7 +153,7 @@ export default async function JRIProgramsPage() {
                 alt="JRI participants in career training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
               />
             </div>
           </div>
@@ -345,7 +345,7 @@ export default async function JRIProgramsPage() {
                     fill
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
+                    loading="lazy" placeholder="empty"
                   />
                 </div>
                 <div className="p-6">

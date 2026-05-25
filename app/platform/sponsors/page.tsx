@@ -76,7 +76,7 @@ export default function SponsorLicensingPage() {
                     alt="Starter"
                     width={24}
                     height={24}
-                    className="w-6 h-6 text-brand-blue-600"
+                    className="w-6 h-6 text-brand-blue-600" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div>
@@ -154,7 +154,7 @@ export default function SponsorLicensingPage() {
                     alt="Growth"
                     width={24}
                     height={24}
-                    className="w-6 h-6 text-white"
+                    className="w-6 h-6 text-white" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div>

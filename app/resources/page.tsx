@@ -97,7 +97,7 @@ export default function ResourcesPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       <section className="py-14 sm:py-20">

@@ -199,7 +199,7 @@ export default function PlatformPage() {
                     alt={cap.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-5">
@@ -268,7 +268,7 @@ export default function PlatformPage() {
                     alt={a.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
@@ -329,7 +329,7 @@ export default function PlatformPage() {
                 alt="Compliance and audit infrastructure"
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw" placeholder="empty"
               />
             </div>
           </div>

@@ -48,7 +48,7 @@ export default async function LmsRootPage() {
     <div className="min-h-screen bg-white">
       <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Link href="/"><Image src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" width={120} height={32} className="h-8 w-auto" /></Link>
+          <Link href="/"><Image src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" width={120} height={32} className="h-8 w-auto" sizes="(max-width: 768px) 100vw, 50vw" /></Link>
           <div className="flex items-center gap-3">
             <Link href="/lms/programs" className="text-sm text-slate-600 hover:text-slate-900 font-medium hidden sm:block">Browse Programs</Link>
             <Link href="/login" className="text-sm text-slate-600 hover:text-slate-900 font-medium border border-slate-200 px-3 py-1.5 rounded-lg">Sign In</Link>

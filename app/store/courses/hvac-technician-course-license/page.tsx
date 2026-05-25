@@ -218,7 +218,8 @@ export default function HvacCourseLicensePage() {
             ].map((c) => (
               <div key={c.credential} className="rounded-xl overflow-hidden border border-slate-200">
                 <div className="relative h-36">
-                  <Image src={c.img} alt={c.credential} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                  <Image src={c.img} alt={c.credential} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty" />
                 </div>
                 <div className="p-4">
                   <p className="font-bold text-slate-900 text-sm">{c.credential}</p>

@@ -33,7 +33,7 @@ export default function CosmetologyHostSalonsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
 
@@ -53,7 +53,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/cosmetology-apprenticeship-hero.webp"
                 alt="Cosmetology apprentice learning from licensed stylist"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
             <div>
@@ -108,7 +108,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/cosmetology.webp"
                 alt="Professional cosmetology salon"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/barber-styling-hair.webp"
                 alt="Stylist working with client"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
             <div>

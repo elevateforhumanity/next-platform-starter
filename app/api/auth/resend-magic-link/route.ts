@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
       html: `
         <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">
           <div style="text-align:center;padding:32px 24px 24px">
+            // IMAGE-CONTRACT: allow raw img because legacy markup
             <img src="${LOGO_URL}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />
           </div>
           <div style="padding:0 32px 32px">

@@ -39,6 +39,7 @@ export function HeroSection({
       {/* Background Image */}
       {image && (
         <div className="absolute inset-0 opacity-30">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={image}
             alt={imageAlt}
@@ -46,7 +47,7 @@ export function HeroSection({
             className="object-cover"
             priority
             quality={90}
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
       )}

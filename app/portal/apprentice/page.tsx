@@ -210,7 +210,7 @@ export default async function ApprenticePortalPage() {
           fill
           className="object-cover object-center"
           sizes="100vw"
-          priority
+          priority placeholder="empty"
         />
         <div className="relative z-20 h-full max-w-6xl mx-auto px-4 sm:px-6 flex items-center">
           <div>

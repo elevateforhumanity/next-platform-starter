@@ -78,7 +78,7 @@ export default function ProgramPageLayout({
           className="object-cover"
           priority
           quality={90}
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -198,7 +198,7 @@ export default function ProgramPageLayout({
                         alt={highlight.imageAlt}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                       />
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default function ProgramPageLayout({
                   alt={careerImageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                 />
               </div>
 

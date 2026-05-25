@@ -469,7 +469,7 @@ export function AutoPolishedPage({ route, label, section }: AutoPolishedPageProp
           sizes="100vw"
           className="object-cover"
           priority
-          quality={90}
+          quality={90} placeholder="empty"
         />
 
         <div className="relative h-full flex items-center">

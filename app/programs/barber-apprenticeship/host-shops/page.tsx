@@ -32,7 +32,7 @@ export default function HostShopsPage() {
           alt="Professional barbershop interior"
           fill sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
 
@@ -51,7 +51,7 @@ export default function HostShopsPage() {
                 src="/images/pages/barber-training.webp"
                 alt="Barber training apprentice"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
             <div>
@@ -103,7 +103,7 @@ export default function HostShopsPage() {
                 src="/images/pages/barber-gallery-2.webp"
                 alt="Professional barbershop"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
           </div>
@@ -115,7 +115,7 @@ export default function HostShopsPage() {
                 src="/images/pages/barber-gallery-3.webp"
                 alt="Barber with client"
                 fill
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
             <div>

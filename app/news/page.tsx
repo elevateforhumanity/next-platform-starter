@@ -28,13 +28,14 @@ export default async function NewsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/success-stories-hero.webp"
           alt="Elevate for Humanity news and updates"
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
 
         <div className="absolute inset-x-0 bottom-0 max-w-6xl mx-auto px-4 pb-8">
@@ -86,7 +87,7 @@ export default async function NewsPage() {
                         alt={featured.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="100vw"
+                        sizes="100vw" placeholder="empty"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-blue-600 to-brand-blue-800 flex items-center justify-center">
@@ -131,7 +132,7 @@ export default async function NewsPage() {
                             alt={post.title}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            sizes="100vw"
+                            sizes="100vw" placeholder="empty"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">

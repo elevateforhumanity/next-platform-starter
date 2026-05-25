@@ -54,7 +54,7 @@ export default async function PartnersPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10">
@@ -90,6 +90,8 @@ export default async function PartnersPage() {
                         height={60}
                         className="object-contain"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        placeholder="empty"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   )}
@@ -123,6 +125,8 @@ export default async function PartnersPage() {
                         height={60}
                         className="object-contain"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        placeholder="empty"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   )}
@@ -165,6 +169,8 @@ export default async function PartnersPage() {
                           height={60}
                           className="object-contain"
                           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        placeholder="empty"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       </div>
                     ) : (

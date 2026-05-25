@@ -37,6 +37,7 @@ export default async function HelpPage() {
       <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/artlist/hero-training-1.webp"
             alt="Student receiving personalized help and support"
@@ -44,7 +45,7 @@ export default async function HelpPage() {
             className="object-cover"
             quality={90}
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
           {/* Gradient Overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-blue-900/90 via-brand-blue-800/80 to-brand-blue-700/90" />
@@ -205,7 +206,7 @@ export default async function HelpPage() {
                 fill
                 className="object-cover"
                 quality={90}
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw" placeholder="empty"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white">

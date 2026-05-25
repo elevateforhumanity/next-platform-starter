@@ -59,7 +59,7 @@ export default function EducatorHubPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10">

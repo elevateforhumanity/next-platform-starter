@@ -56,7 +56,7 @@ function FullBleedImage({ src, alt }: { src: string; alt: string }) {
         fill
         className="object-cover object-center"
         sizes="100vw"
-        priority
+        priority placeholder="empty"
       />
       {/* Hard overlay strip at bottom — no gradient, just a solid band */}
       <div className="absolute bottom-0 left-0 right-0 bg-slate-900 py-3 px-6">
@@ -81,7 +81,7 @@ function SplitBlock() {
             alt="CPR training in progress"
             fill
             className="object-cover object-center"
-            sizes="(max-width: 1024px) 100vw, 50vw"
+            sizes="(max-width: 1024px) 100vw, 50vw" placeholder="empty"
           />
         </div>
         {/* Copy side */}

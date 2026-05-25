@@ -33,7 +33,7 @@ export default function OrientationSchedulePage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">

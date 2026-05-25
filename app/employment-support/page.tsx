@@ -29,7 +29,7 @@ export default function EmploymentSupportPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
 
@@ -103,7 +103,7 @@ export default function EmploymentSupportPage() {
                     fill
                     sizes="(max-width: 640px) 112px, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"
-                    loading="lazy"
+                    loading="lazy" placeholder="empty"
                   />
                 </div>
                 <div className="py-3 pr-3 sm:p-5 flex-1">
@@ -185,7 +185,7 @@ export default function EmploymentSupportPage() {
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                loading="lazy"
+                loading="lazy" placeholder="empty"
               />
             </div>
             <div className="flex flex-col justify-center">
@@ -232,7 +232,7 @@ export default function EmploymentSupportPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  loading="lazy"
+                  loading="lazy" placeholder="empty"
                 />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Industry Training</h3>
@@ -256,7 +256,7 @@ export default function EmploymentSupportPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  loading="lazy"
+                  loading="lazy" placeholder="empty"
                 />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">One-on-One Support</h3>

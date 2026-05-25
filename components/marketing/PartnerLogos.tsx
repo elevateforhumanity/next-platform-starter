@@ -19,7 +19,7 @@ export default function PartnerLogos() {
               alt="Indiana Department of Workforce Development"
               width={120}
               height={60}
-              className="object-contain"
+              className="object-contain" placeholder="empty"
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -28,7 +28,7 @@ export default function PartnerLogos() {
               alt="WorkOne Indiana"
               width={120}
               height={60}
-              className="object-contain"
+              className="object-contain" placeholder="empty"
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -37,7 +37,7 @@ export default function PartnerLogos() {
               alt="US Department of Labor"
               width={120}
               height={60}
-              className="object-contain"
+              className="object-contain" placeholder="empty"
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -46,7 +46,7 @@ export default function PartnerLogos() {
               alt="OSHA Authorized"
               width={120}
               height={60}
-              className="object-contain"
+              className="object-contain" placeholder="empty"
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -55,7 +55,7 @@ export default function PartnerLogos() {
               alt="Next Level Jobs"
               width={120}
               height={60}
-              className="object-contain"
+              className="object-contain" placeholder="empty"
             />
           </div>
         </div>

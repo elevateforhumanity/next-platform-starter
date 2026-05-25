@@ -94,7 +94,7 @@ export function ProgramPageShell({
                     fill
                     sizes="100vw"
                     className="object-cover"
-                    priority
+                    priority placeholder="empty"
                   />
                 </div>
               </Card>

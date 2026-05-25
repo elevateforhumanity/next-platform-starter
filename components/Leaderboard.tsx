@@ -66,7 +66,7 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
                 alt={entry.name}
                 width={48}
                 height={48}
-                className="rounded-full"
+                className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
               />
 
               <div className="flex-1">

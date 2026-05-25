@@ -39,13 +39,14 @@ export default function PageHero({
           <source src={backgroundVideo} type="video/mp4" />
         </video>
       ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={backgroundImage}
           alt={title}
           fill
           priority
           className="object-cover opacity-40 pointer-events-none"
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       )}
 

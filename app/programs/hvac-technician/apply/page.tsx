@@ -333,7 +333,7 @@ export default function HvacApplyPage() {
             fill
             className="object-cover"
             priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10 border-t">

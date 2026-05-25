@@ -22,7 +22,7 @@ export default function EstheticianApprenticeshipPage() {
           fill
           priority
           className="object-cover"
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
         <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">

@@ -255,7 +255,7 @@ export default async function EnrollmentPage() {
                     alt={p.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
@@ -382,7 +382,7 @@ export default async function EnrollmentPage() {
                   alt="Career pathways for all students"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                 />
               </div>
             </div>

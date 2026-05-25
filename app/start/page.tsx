@@ -62,7 +62,7 @@ export default function StartPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
         <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-24">
           <div className="max-w-2xl">

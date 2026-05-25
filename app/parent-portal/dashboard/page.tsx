@@ -92,13 +92,14 @@ export default async function ParentDashboardPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-40 sm:h-56 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/about-career-training.webp"
           alt=""
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </section>

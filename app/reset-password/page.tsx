@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
               alt="Elevate for Humanity"
               width={180}
               height={60}
-              className="mx-auto mb-6"
+              className="mx-auto mb-6" sizes="(max-width: 768px) 100vw, 50vw"
             />
           </Link>
           <h1 className="text-3xl font-bold text-black mb-2">Reset Password</h1>

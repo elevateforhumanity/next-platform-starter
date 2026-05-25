@@ -125,7 +125,7 @@ export default function CDLWaitlistPage() {
             fill
             className="object-cover"
             priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
           />
         </div>
         <div className="relative max-w-3xl mx-auto px-4 text-center">

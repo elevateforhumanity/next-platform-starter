@@ -87,7 +87,7 @@ export function AuthorityBanner() {
                   alt={a.abbr}
                   width={48}
                   height={48}
-                  className="object-contain w-10 h-10"
+                  className="object-contain w-10 h-10" sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className={`text-xs font-bold ${a.color} mb-1`}>{a.abbr}</div>
@@ -120,7 +120,7 @@ export function AuthorityStrip({ className = '' }: { className?: string }) {
             alt={a.abbr}
             width={12}
             height={12}
-            className="w-3 h-3 object-contain"
+            className="w-3 h-3 object-contain" sizes="(max-width: 768px) 100vw, 50vw"
           />
           {a.abbr}
         </span>

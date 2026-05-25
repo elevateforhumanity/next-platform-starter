@@ -76,7 +76,7 @@ export default async function HireGraduatesPage() {
                 alt="Certified graduates ready for employment"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
               />
             </div>
           </div>
@@ -113,7 +113,7 @@ export default async function HireGraduatesPage() {
                     alt={card.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-5">

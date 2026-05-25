@@ -199,7 +199,7 @@ export default function RequiredFormsPage() {
           >
             <div className="relative h-32">
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-              <Image src="/images/pages/barber-tools.webp" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/barber-tools.webp" alt="Sign MOU" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" placeholder="empty" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Sign MOU</p>
@@ -211,7 +211,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-              <Image src="/images/pages/admin-campaigns-new-hero.webp" alt="Partner Handbook" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/admin-campaigns-new-hero.webp" alt="Partner Handbook" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" placeholder="empty" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Partner Handbook</p>
@@ -223,7 +223,7 @@ export default function RequiredFormsPage() {
             className="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all group"
           >
             <div className="relative h-32">
-              <Image src="/images/pages/barber-shop-interior.webp" alt="Policy Forms" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" />
+              <Image src="/images/pages/barber-shop-interior.webp" alt="Policy Forms" fill className="object-cover group-hover:scale-105 transition-transform" sizes="33vw" placeholder="empty" />
             </div>
             <div className="p-4">
               <p className="font-semibold text-slate-900">Policy Forms</p>
@@ -243,7 +243,7 @@ export default function RequiredFormsPage() {
               <div className="flex items-center gap-3 mb-4">
                 {categoryPhotos[cat] ? (
                   <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
-                    <Image src={categoryPhotos[cat].src} alt={categoryPhotos[cat].alt} fill className="object-cover" sizes="40px" />
+                    <Image src={categoryPhotos[cat].src} alt={categoryPhotos[cat].alt} fill className="object-cover" sizes="40px" placeholder="empty" />
                   </div>
                 ) : (
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${catInfo.color}`}>

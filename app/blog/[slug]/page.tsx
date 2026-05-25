@@ -151,7 +151,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -202,7 +202,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                       alt={related.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="100vw"
+                      sizes="100vw" placeholder="empty"
                     />
                   </div>
                   <div className="p-6">

@@ -42,6 +42,7 @@ export default class VideoErrorBoundary extends Component<Props, State> {
       const { fallbackPoster, fallbackAlt = 'Hero image', className } = this.props;
       if (fallbackPoster) {
         return (
+          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img
             src={fallbackPoster}
             alt={fallbackAlt}

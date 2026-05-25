@@ -72,7 +72,7 @@ export default function TrialPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-        <Image src="/images/pages/store-trial-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
+        <Image src="/images/pages/store-trial-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="empty" />
       </section>
         <div className="bg-white border-b">
           <div className="max-w-6xl mx-auto px-4 py-3">
@@ -162,7 +162,7 @@ export default function TrialPage() {
             {/* Left: visual */}
             <div className="hidden lg:block">
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl border border-slate-200 mb-4">
-                <Image src="/images/pages/store-trial-detail.jpg" alt="Your admin dashboard after trial setup" fill className="object-cover"  sizes="100vw" />
+                <Image src="/images/pages/store-trial-detail.jpg" alt="Your admin dashboard after trial setup" fill className="object-cover"  sizes="100vw" placeholder="empty" />
               </div>
               <p className="text-sm text-slate-500 text-center mb-6">Your admin dashboard — ready in under 60 seconds</p>
               <div className="bg-white rounded-xl p-5 border border-slate-200">

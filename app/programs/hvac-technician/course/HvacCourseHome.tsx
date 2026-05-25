@@ -173,7 +173,7 @@ function LessonDrawer({
             src={MODULE_PHOTO[index] || MODULE_PHOTO[0]}
             alt={module.title}
             fill
-            className="object-cover"
+            className="object-cover" placeholder="empty"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <button
@@ -299,7 +299,7 @@ export default function HvacCourseHome({
           alt="HVAC technician"
           fill
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
         <div className="absolute inset-0 flex items-end">
@@ -445,7 +445,7 @@ export default function HvacCourseHome({
                 src="/images/pages/comp-home-highlight-success.webp"
                 alt="Student orientation"
                 fill
-                className="object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+                className="object-cover opacity-70 group-hover:opacity-90 transition-opacity" placeholder="empty"
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -488,7 +488,7 @@ export default function HvacCourseHome({
                     src={MODULE_PHOTO[i]}
                     alt={mod.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder="empty"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-sm font-bold text-slate-800 shadow">

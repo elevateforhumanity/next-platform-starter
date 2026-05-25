@@ -177,13 +177,14 @@ export function HeroCarousel() {
                   transition={{ duration: 0.6, ease: 'easeOut' }}
                   className="absolute inset-0"
                 >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={activeSlide.image}
                     alt={activeSlide.title}
                     fill
                     priority
                     className="object-cover"
-                    sizes="100vw"
+                    sizes="100vw" placeholder="empty"
                   />
                 </motion.div>
               </AnimatePresence>

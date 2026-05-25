@@ -64,13 +64,14 @@ export default function CprHero() {
         style={{ height: 'clamp(400px, 56vw, 780px)' }}
         aria-label="CPR & First Aid hero"
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/cpr-training-real.webp"
           alt="CPR training session"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center" placeholder="empty"
         />
 
         <audio ref={audioRef} src="/audio/heroes/cpr.mp3" preload="metadata" aria-hidden="true" />

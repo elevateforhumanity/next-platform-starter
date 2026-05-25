@@ -162,13 +162,14 @@ export default async function CosmetologyOrientationPage() {
     <div className="min-h-screen bg-white">
       {/* ── Hero Banner ─────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden" style={{ minHeight: 'clamp(340px, 42vw, 520px)' }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/cosmetology-apprenticeship-hero.webp"
           alt="Cosmetology apprenticeship salon training"
           fill
           priority
           className="object-cover object-center"
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />

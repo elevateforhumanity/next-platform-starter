@@ -39,7 +39,7 @@ export default function StoreCoursesPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-          <Image src="/images/pages/store-courses-hero.jpg" alt="Certification courses" fill sizes="100vw" className="object-cover" priority quality={85} />
+          <Image src="/images/pages/store-courses-hero.jpg" alt="Certification courses" fill sizes="100vw" className="object-cover" priority quality={85} placeholder="empty" />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -64,7 +64,7 @@ export default function StoreCoursesPage() {
                     alt={course.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty" />
                   <div className="absolute top-4 left-4 px-3 py-1 bg-brand-blue-600 text-white text-xs font-bold rounded-full">
                     {course.provider}
                   </div>

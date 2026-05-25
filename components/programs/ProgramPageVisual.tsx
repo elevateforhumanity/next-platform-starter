@@ -57,7 +57,7 @@ export function ProgramPageVisual({ program }: Props) {
             className="object-cover"
             priority
             quality={90}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
           />
         )}
 
@@ -133,7 +133,7 @@ export function ProgramPageVisual({ program }: Props) {
                   fill
                   className="object-cover"
                   quality={85}
-                  sizes="100vw"
+                  sizes="100vw" placeholder="empty"
                 />
               </div>
 

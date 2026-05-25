@@ -30,7 +30,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">

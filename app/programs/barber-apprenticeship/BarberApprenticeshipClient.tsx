@@ -157,7 +157,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           </div>
           <div className="relative h-72 rounded-xl overflow-hidden shadow-lg">
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-            <Image src="/images/pages/barber-apprentice-learning.webp" alt="Barber apprentice learning clipper technique from an instructor" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src="/images/pages/barber-apprentice-learning.webp" alt="Barber apprentice learning clipper technique from an instructor" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
           </div>
         </div>
       </section>
@@ -167,7 +167,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="relative h-72 rounded-xl overflow-hidden shadow-lg order-2 md:order-1">
-              <Image src="/images/pages/barber-straight-razor.webp" alt="Barber performing a straight razor shave" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              <Image src="/images/pages/barber-straight-razor.webp" alt="Barber performing a straight razor shave" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
             </div>
             <div className="order-1 md:order-2">
               <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">Measurable Outcomes</p>
@@ -196,7 +196,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
           ].filter(item => item.cred).map((item, i) => (
             <div key={i} className="border border-slate-200 rounded-xl overflow-hidden hover:border-brand-blue-300 transition-colors">
               <div className="relative h-44">
-                <Image src={item.img} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                <Image src={item.img} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" placeholder="empty" />
               </div>
               <div className="p-5">
                 <h3 className="font-semibold text-slate-900">{item.cred.name}</h3>

@@ -78,7 +78,7 @@ export default async function VerifyCertificatePage({
             className="object-cover"
             quality={90}
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
 
           <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
@@ -225,7 +225,7 @@ export default async function VerifyCertificatePage({
                       fill
                       className="object-cover"
                       quality={90}
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                     />
                   </div>
                 </div>

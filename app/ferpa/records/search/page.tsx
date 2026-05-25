@@ -126,7 +126,7 @@ export default async function FerpaRecordsSearchPage({
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       {/* Header */}

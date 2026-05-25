@@ -27,6 +27,7 @@ export default function ProgramHero({
       {/* Hero Banner */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={imageSrc}
             alt={imageAlt}
@@ -34,7 +35,7 @@ export default function ProgramHero({
             className="object-cover"
             priority
             quality={90}
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10 border-t">

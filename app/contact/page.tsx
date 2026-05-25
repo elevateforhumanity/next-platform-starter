@@ -108,7 +108,7 @@ function ContactPageInner() {
           sizes="100vw"
           quality={90}
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </div>
       <div className="bg-white border-b border-slate-200 py-8 px-6">

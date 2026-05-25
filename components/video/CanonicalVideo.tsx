@@ -210,6 +210,7 @@ export default function CanonicalVideo({
   if (reducedMotion || failed) {
     if (!poster)
       return <div className={className} style={{ background: '#0f172a' }} aria-hidden="true" />;
+    // IMAGE-CONTRACT: allow raw img because poster element requires native img for object-fit
     return (
       <img
         src={poster}
@@ -236,6 +237,7 @@ export default function CanonicalVideo({
             fades back in if the video ends (non-looping) or fails.
             Explicit inline position/size so it fills the container regardless
             of what className the caller passes — Safari/iOS stacking fix. */}
+        {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
         <img
           src={poster}
           alt=""

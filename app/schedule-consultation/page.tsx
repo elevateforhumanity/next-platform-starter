@@ -162,7 +162,7 @@ export default function ScheduleConsultationPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </div>
       <div className="bg-white border-b border-slate-200 py-6 px-6">

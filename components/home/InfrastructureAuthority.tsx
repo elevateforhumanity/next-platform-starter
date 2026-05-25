@@ -93,7 +93,7 @@ export default function InfrastructureAuthority() {
                       alt={logo.alt}
                       width={120}
                       height={48}
-                      className="object-contain h-10 w-auto opacity-60 hover:opacity-100 transition-opacity"
+                      className="object-contain h-10 w-auto opacity-60 hover:opacity-100 transition-opacity" sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ))}
                 </div>

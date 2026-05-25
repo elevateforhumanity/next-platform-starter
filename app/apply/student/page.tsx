@@ -146,7 +146,7 @@ export default async function StudentApplicationPage({
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </div>
 
@@ -227,7 +227,7 @@ export default async function StudentApplicationPage({
                     alt={p.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder="empty"
                   />
                   <span className="absolute top-2 right-2 bg-brand-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                     Funding May Apply

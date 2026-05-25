@@ -103,7 +103,7 @@ export default async function IntegrationsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -141,7 +141,7 @@ export default async function IntegrationsPage() {
                   fill
                   className="object-cover"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                 />
               </div>
             </div>

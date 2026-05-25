@@ -163,7 +163,7 @@ export default async function ProgramHolderOnboarding() {
           className="object-cover"
           priority
           quality={95}
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 

@@ -49,7 +49,7 @@ export default function SourceUseLicensePage() {
                   alt="Elevate platform overview"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 70vw"
+                  sizes="(max-width: 768px) 100vw, 70vw" placeholder="empty"
                 />
               </div>
             </div>

@@ -143,7 +143,7 @@ export function RealTimeCollaboration({ roomId, currentUser }: RealTimeCollabora
                     alt={user.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div
                     className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(user.status)}`}

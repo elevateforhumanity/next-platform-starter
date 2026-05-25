@@ -172,6 +172,7 @@ export default function GroupDiscussions({
               <div className="flex gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center overflow-hidden">
                   {post.author_avatar ? (
+                    // IMAGE-CONTRACT: allow raw img because legacy markup
                     <img src={post.author_avatar} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <User className="w-4 h-4 text-slate-400" />

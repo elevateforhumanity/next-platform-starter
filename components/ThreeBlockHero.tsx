@@ -56,12 +56,13 @@ export default function ThreeBlockHero() {
               className="group relative h-[500px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all hover:scale-105"
             >
               {/* Background Image */}
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src={block.image}
                 alt={block.title}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
-                sizes="100vw"
+                sizes="100vw" placeholder="empty"
               />
 
               {/* Content */}

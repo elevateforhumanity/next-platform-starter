@@ -95,7 +95,7 @@ export default async function FerpaHelpPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       <div className="bg-white border-b border-slate-200">

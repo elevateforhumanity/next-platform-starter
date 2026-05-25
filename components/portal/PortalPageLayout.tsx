@@ -74,7 +74,7 @@ export function PortalPageLayout({
                     alt={stat.label}
                     width={400}
                     height={200}
-                    className="w-full h-40 object-cover"
+                    className="w-full h-40 object-cover" placeholder="empty"
                   />
                   <div className="p-4">
                     <p className="text-4xl font-bold text-slate-900">{stat.value}</p>
@@ -105,7 +105,7 @@ export function PortalPageLayout({
                       alt={action.title}
                       fill
                       className="object-cover group-hover:scale-105 transition duration-300"
-                      sizes="100vw"
+                      sizes="100vw" placeholder="empty"
                     />
                   </div>
                   <div className="p-4">
@@ -150,7 +150,7 @@ export function PortalDataTable({
             alt="No data"
             width={200}
             height={150}
-            className="mx-auto rounded-lg mb-4 opacity-50"
+            className="mx-auto rounded-lg mb-4 opacity-50" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
           />
         )}
         <p className="text-slate-500">{emptyMessage || 'No data found'}</p>

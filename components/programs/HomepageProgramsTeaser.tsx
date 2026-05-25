@@ -56,7 +56,7 @@ export function HomepageProgramsTeaser() {
                   alt={program.title}
                   fill
                   sizes="100vw"
-                  className="object-cover"
+                  className="object-cover" placeholder="empty"
                 />
               </div>
               <div className="flex flex-1 flex-col p-4">

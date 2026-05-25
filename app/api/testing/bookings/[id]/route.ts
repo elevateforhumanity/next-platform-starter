@@ -81,6 +81,7 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif">
 <div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
   <div style="background:#1E3A5F;padding:28px 32px;text-align:center">
+    // IMAGE-CONTRACT: allow raw img because legacy markup
     <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" height="60" style="display:block;margin:0 auto 12px"/>
     <p style="color:#94a3b8;font-size:13px;margin:0">Workforce Credential Testing Center · Indianapolis, IN</p>
   </div>

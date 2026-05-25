@@ -157,7 +157,7 @@ export default function EducationLandingPage() {
               <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-                  <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty" />
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold text-slate-900 mb-3">{p.title}</h3>
@@ -186,7 +186,7 @@ export default function EducationLandingPage() {
             {LOCATIONS.map((loc) => (
               <div key={loc.state} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-100">
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-                  <Image src={loc.image} alt={`Training in ${loc.state}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image src={loc.image} alt={`Training in ${loc.state}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty" />
                 </div>
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">

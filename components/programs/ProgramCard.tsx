@@ -18,7 +18,7 @@ export default function ProgramCard({ program }: { program: Program }) {
           alt={program.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover"
+          className="object-cover" placeholder="empty"
         />
       </div>
 

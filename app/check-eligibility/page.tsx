@@ -285,13 +285,14 @@ export default function CheckEligibilityPage() {
         className="relative overflow-hidden"
         style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/funding-page-2.webp"
           alt="Check your eligibility for funded career training"
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />
         <div

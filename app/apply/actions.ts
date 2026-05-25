@@ -387,6 +387,7 @@ async function insertApplication(payload: {
     const emailHeader = [
       `<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">`,
       `<div style="text-align:center;padding:32px 24px 24px">`,
+      // IMAGE-CONTRACT: allow raw img because email HTML template (not JSX)
       `<img src="${logoUrl}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />`,
       `</div>`,
       `<div style="padding:0 32px 32px">`,
@@ -1193,6 +1194,7 @@ async function sendProgramHolderWelcomeEmail(
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <tr><td style="padding:28px 32px;text-align:center;border-bottom:1px solid #e2e8f0">
+          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img src="${logoUrl}" alt="Elevate for Humanity" width="140" style="max-width:140px;height:auto" />
         </td></tr>
         <tr><td style="padding:32px">

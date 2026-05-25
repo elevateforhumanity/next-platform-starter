@@ -174,7 +174,7 @@ export default function PartnerHoursPendingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       <div className="bg-white border-b">

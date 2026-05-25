@@ -44,7 +44,11 @@ function isMarketingProgramHero(relPath, content) {
 function checkRawImg(content, relPath) {
   const rawImgRe = /<img\b[\s\S]*?>/g;
   for (const m of content.matchAll(rawImgRe)) {
-    const pre = content.slice(Math.max(0, m.index - 200), m.index);
+    // Skip <img> inside JSDoc/block comments (* ... *)
+    const pre = content.slice(Math.max(0, m.index - 400), m.index);
+    const lineText = content.split('\n')[lineNumber(content, m.index) - 1] ?? '';
+    if (/^\s*\*/.test(lineText)) continue; // inside JSDoc block comment
+    if (/\/\*[\s\S]*$/.test(pre) && !/\*\//.test(pre.slice(pre.lastIndexOf('/*')))) continue; // inside block comment
     if (!/IMAGE-CONTRACT:\s*allow raw img because/i.test(pre)) {
       addFinding('STRICT', 'RAW_IMG_DISALLOWED', relPath, lineNumber(content, m.index), 'Raw <img> found without IMAGE-CONTRACT allow comment');
     }
@@ -65,9 +69,34 @@ function parseImageBlocks(content, componentNames) {
   const blocks = [];
   for (const name of componentNames) {
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`<${escaped}\\b[\\s\\S]*?(?:\\/?>)`, 'g');
-    for (const m of content.matchAll(re)) {
-      blocks.push({ text: m[0], index: m.index });
+    // Match from <Image to the self-closing /> — skip > inside quoted attribute values
+    // Strategy: find <Image, then scan forward to find the matching />
+    const startRe = new RegExp(`<${escaped}\\b`, 'g');
+    for (const m of content.matchAll(startRe)) {
+      let i = m.index + m[0].length;
+      let inStr = null;
+      let depth = 0;
+      while (i < content.length) {
+        const ch = content[i];
+        if (inStr) {
+          if (ch === inStr && content[i - 1] !== '\\') inStr = null;
+        } else if (ch === '"' || ch === "'") {
+          inStr = ch;
+        } else if (ch === '{') {
+          depth++;
+        } else if (ch === '}') {
+          depth--;
+        } else if (depth === 0 && ch === '/' && content[i + 1] === '>') {
+          // self-closing />
+          blocks.push({ text: content.slice(m.index, i + 2), index: m.index });
+          break;
+        } else if (depth === 0 && ch === '>' && content[i - 1] !== '=') {
+          // opening > (non-self-closing) — treat as end of opening tag
+          blocks.push({ text: content.slice(m.index, i + 1), index: m.index });
+          break;
+        }
+        i++;
+      }
     }
   }
   blocks.sort((a, b) => a.index - b.index);

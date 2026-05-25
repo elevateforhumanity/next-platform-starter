@@ -227,7 +227,7 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
                   alt={review.reviewer}
                   width={48}
                   height={48}
-                  className="rounded-full"
+                  className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">

@@ -61,6 +61,13 @@ function scan(file) {
     /import\s+ProgramDetailPage\s+from\s+['"]@\/components\/programs\/ProgramDetailPage['"]/,
     /import\s+ProgramPageLayout\s+from\s+['"]@\/components\/programs\/ProgramPageLayout['"]/,
     /import\s+ProgramCategoryPage\s+from\s+['"]@\/components\/programs\/ProgramCategoryPage['"]/,
+    // Data-driven program pages using the canonical program schema + structured data are also canonical
+    /import\s+\{[^}]*ProgramStructuredData[^}]*\}\s+from\s+['"]@\/components\/seo\//,
+    /import\s+\{?\s*validateProgram\s*\}?\s+from\s+['"]@\/lib\/programs\/program-schema['"]/,
+    // Pages using PublicLandingPage (config-driven marketing template) are canonical
+    /import\s+PublicLandingPage\s+from\s+['"]@\/components\/marketing\/PublicLandingPage['"]/,
+    // Pages using the program data constants with FundingInfoBlock are canonical program pages
+    /import\s+FundingInfoBlock\s+from\s+['"]@\/components\/programs\/FundingInfoBlock['"]/,
   ]);
 
   if (!usesCanonicalTemplate) {

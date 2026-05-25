@@ -89,7 +89,7 @@ export default function ServicesPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white py-10">
@@ -116,7 +116,7 @@ export default function ServicesPage() {
                     alt={service.title}
                     fill
                     className="object-cover"
-                    sizes="100vw"
+                    sizes="100vw" placeholder="empty"
                   />
                 </div>
                 <div className="p-6">

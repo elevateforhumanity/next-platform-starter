@@ -25,7 +25,8 @@ export function LmsHeroBanner({
   return (
     <section className="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
       <div className="relative h-[200px] md:h-[260px]">
-        <Image src={image} alt={title} fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image src={image} alt={title} fill className="object-cover" priority sizes="100vw" placeholder="empty" />
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-3xl px-8 md:px-12">
             {eyebrow && (

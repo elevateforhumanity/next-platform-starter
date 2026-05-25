@@ -99,7 +99,7 @@ export default async function StaffPortalLanding() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
         <div className="absolute inset-0 flex flex-col justify-end pb-8 px-6 max-w-6xl mx-auto w-full">
           <h1 className="text-3xl font-bold text-slate-900 mb-1">

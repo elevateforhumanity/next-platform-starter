@@ -30,7 +30,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </div>
 
@@ -70,7 +70,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           ].map((photo) => (
             <figure key={photo.src} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
               <div className="relative aspect-[4/3]">
-                <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+                <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty" />
               </div>
               <figcaption className="px-4 py-3 text-sm font-semibold text-slate-800">{photo.label}</figcaption>
             </figure>

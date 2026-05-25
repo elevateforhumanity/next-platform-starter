@@ -159,7 +159,7 @@ export default function ProgramDetailPage({
                   fill
                   className="object-cover object-center"
                   priority
-                  sizes="100vw"
+                  sizes="100vw" placeholder="empty"
                 />
               </div>
             );

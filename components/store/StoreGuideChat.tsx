@@ -190,7 +190,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
           alt="Guide"
           width={24}
           height={24}
-          className="rounded-full"
+          className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
         />
         <span className="font-medium">Need help?</span>
       </button>

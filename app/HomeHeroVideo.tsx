@@ -99,13 +99,14 @@ export default function HomeHeroVideo() {
 
   return (
     <div ref={containerRef} className="relative w-full h-full">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src="/images/hero-poster.webp"
         alt="Elevate for Humanity career training"
         fill
         priority
         sizes="100vw"
-        className="object-cover z-0"
+        className="object-cover z-0" placeholder="empty"
       />
       <video
         ref={videoRef}

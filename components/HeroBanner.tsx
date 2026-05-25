@@ -45,13 +45,14 @@ export function HeroBanner({
 
         {media && (
           <div className="relative h-52 w-full flex-1 overflow-hidden rounded-2xl border border-slate-800 bg-white shadow-lg md:h-64">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={media.imageSrc}
               alt={media.alt}
               fill
               className="object-contain"
               sizes="(min-width: 768px) 50vw, 100vw"
-              priority
+              priority placeholder="empty"
             />
           </div>
         )}

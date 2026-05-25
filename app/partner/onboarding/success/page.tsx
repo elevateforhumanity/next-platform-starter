@@ -36,7 +36,7 @@ export default function PartnerOnboardingSuccessPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       {/* Breadcrumbs */}

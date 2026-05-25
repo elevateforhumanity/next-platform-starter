@@ -67,7 +67,8 @@ export default function HomePage() {
           { src: '/images/pages/comp-home-highlight-success.webp', alt: 'Graduate success', label: 'Real Outcomes', sub: '500+ graduates placed in jobs.', position: 'object-center' },
         ].map((p) => (
           <div key={p.src} className="relative h-52 sm:h-60 lg:h-72 overflow-hidden group">
-            <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+            <Image src={p.src} alt={p.alt} fill className={`object-cover ${p.position} transition-transform duration-700 group-hover:scale-105`} sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" placeholder="empty" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <p className="text-white font-extrabold text-base leading-tight">{p.label}</p>
@@ -176,7 +177,7 @@ export default function HomePage() {
                     fill
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                    loading="lazy"
+                    loading="lazy" placeholder="empty"
                   />
                   {r.badge && (
                     <span className={`absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>
@@ -215,7 +216,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="relative w-full lg:w-96 h-64 lg:h-72 rounded-2xl overflow-hidden shrink-0">
-            <Image src="/images/pages/comp-home-pathways-support.webp" alt="Funding support advisor" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 384px" loading="lazy" />
+            <Image src="/images/pages/comp-home-pathways-support.webp" alt="Funding support advisor" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 384px" loading="lazy" placeholder="empty" />
           </div>
         </div>
       </section>
@@ -254,7 +255,7 @@ export default function HomePage() {
             ].map((b) => (
               <div key={b.label} className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col">
                 <div className="relative w-full aspect-[16/10]">
-                  <Image src={b.img} alt={b.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" />
+                  <Image src={b.img} alt={b.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" loading="lazy" placeholder="empty" />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-base font-bold text-slate-900 mb-2">{b.label}</h3>
@@ -292,7 +293,7 @@ export default function HomePage() {
 
       {/* FULL-WIDTH IMAGE BREAK */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
-        <Image src="/images/pages/career-services-hero.webp" alt="Elevate for Humanity career services" fill className="object-cover object-center" sizes="100vw" loading="lazy" />
+        <Image src="/images/pages/career-services-hero.webp" alt="Elevate for Humanity career services" fill className="object-cover object-center" sizes="100vw" loading="lazy" placeholder="empty" />
         <div className="absolute inset-0 bg-slate-900/50 flex items-center justify-center">
           <p className="text-white text-xl sm:text-3xl font-extrabold text-center px-6 drop-shadow-lg">
             Real credentials. Real jobs. Real lives changed.

@@ -3,6 +3,7 @@ import Image from 'next/image';
 export function HomeTopHero() {
   return (
     <section className="relative w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src="/images/pages/prog-hero-main-2.webp"
         alt="Elevate for Humanity - Empowering Futures Through Innovation & Opportunity"
@@ -10,7 +11,7 @@ export function HomeTopHero() {
         height={800}
         priority
         className="h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px] w-full object-cover"
-        sizes="100vw"
+        sizes="100vw" placeholder="empty"
       />
       {/* Overlay content */}
       <div className="absolute inset-0 flex items-center justify-center">

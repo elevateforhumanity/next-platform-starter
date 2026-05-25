@@ -70,7 +70,7 @@ export default function TransparencyPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
         <div className="absolute inset-0 bg-slate-900/60 flex items-end">
           <div className="max-w-4xl mx-auto px-6 pb-10 w-full">

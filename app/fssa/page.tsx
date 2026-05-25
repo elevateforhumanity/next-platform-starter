@@ -86,7 +86,7 @@ export default function FssaPage() {
             fill
             className="object-cover opacity-30"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="relative max-w-5xl mx-auto px-4 py-20">
@@ -162,7 +162,7 @@ export default function FssaPage() {
               alt="FSSA IMPACT training"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
             />
           </div>
         </div>

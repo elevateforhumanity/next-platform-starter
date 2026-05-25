@@ -48,7 +48,7 @@ export default async function CareerCounselingPage() {
             fill
             sizes="100vw"
             className="object-cover object-center"
-            priority
+            priority placeholder="empty"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">

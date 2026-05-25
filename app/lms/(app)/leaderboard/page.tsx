@@ -142,6 +142,7 @@ export default async function LeaderboardPage() {
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
                   {currentUserEntry.avatarUrl ? (
+                    // IMAGE-CONTRACT: allow raw img because legacy markup
                     <img
                       src={currentUserEntry.avatarUrl}
                       alt={currentUserEntry.name || 'Your avatar'}
@@ -211,6 +212,7 @@ export default async function LeaderboardPage() {
 
                     <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
                       {entry.avatarUrl ? (
+                        // IMAGE-CONTRACT: allow raw img because legacy markup
                         <img
                           src={entry.avatarUrl}
                           alt={entry.name || 'Learner avatar'}

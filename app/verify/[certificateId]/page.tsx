@@ -157,7 +157,7 @@ export default async function VerifyCertificatePage({
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -280,7 +280,7 @@ export default async function VerifyCertificatePage({
                     alt="QR Code"
                     width={192}
                     height={192}
-                    unoptimized
+                    unoptimized placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               </div>

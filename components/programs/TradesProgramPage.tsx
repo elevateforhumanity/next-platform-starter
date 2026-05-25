@@ -79,7 +79,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
@@ -161,7 +161,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
                 alt={`${data.name} training`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
                     alt={mod.title}
                     fill
                     sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-cover"
+                    className="object-cover" placeholder="empty"
                   />
                 </div>
               )}
@@ -331,7 +331,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
                 alt={`${data.name} career opportunities`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
+                className="object-cover" placeholder="empty"
               />
             </div>
           </div>

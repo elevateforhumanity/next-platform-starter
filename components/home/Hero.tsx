@@ -7,13 +7,14 @@ export function Hero() {
     <>
       {/* FULL-WIDTH HERO BANNER AT TOP */}
       <div className="relative w-full h-[250px] sm:h-[350px] lg:h-[450px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/comp-home-hero.webp"
           alt="Elevate For Humanity - Career Training and Partnerships"
           fill
           priority
           className="object-cover"
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </div>
 
@@ -113,7 +114,7 @@ export function Hero() {
               fill
               priority
               sizes="(min-width: 1024px) 560px, 100vw"
-              className="object-cover"
+              className="object-cover" placeholder="empty"
             />
           </div>
         </div>

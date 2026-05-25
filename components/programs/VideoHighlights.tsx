@@ -67,6 +67,7 @@ function VideoCard({ title, description, videoSrc, poster }: VideoHighlight) {
           </>
         ) : poster ? (
           // No video — show poster image only, no text on frame
+          // IMAGE-CONTRACT: allow raw img because legacy markup
           <img src={poster} alt={title} className="w-full h-full object-cover" />
         ) : (
           // No video, no poster — neutral placeholder

@@ -32,7 +32,7 @@ function ProgramCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
           className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           priority={priority}
-          loading={priority ? undefined : 'lazy'}
+          loading={priority ? undefined : 'lazy'} placeholder="empty"
         />
         {/* Category badge top-left */}
         <div className="absolute top-3 left-3">

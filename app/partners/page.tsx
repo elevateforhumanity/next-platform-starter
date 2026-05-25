@@ -160,7 +160,7 @@ export default function PartnersIndexPage() {
             fill
             sizes="100vw"
             className="object-cover object-center"
-            priority
+            priority placeholder="empty"
           />
         </div>
         <div className="bg-white py-10 border-t">
@@ -231,7 +231,7 @@ export default function PartnersIndexPage() {
                       alt={type.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 40vw"
-                      className="object-cover"
+                      className="object-cover" placeholder="empty"
                     />
                   </div>
 

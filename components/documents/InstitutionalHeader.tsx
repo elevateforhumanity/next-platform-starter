@@ -41,7 +41,7 @@ export function InstitutionalHeader({
             width={160}
             height={48}
             className="h-12 w-auto object-contain"
-            priority
+            priority sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
         <div className="text-right text-xs text-slate-500 leading-tight">

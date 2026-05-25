@@ -52,6 +52,7 @@ export default function RotatingHeroBanner() {
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
         >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={s.image}
             alt=""
@@ -59,7 +60,7 @@ export default function RotatingHeroBanner() {
             className="object-cover object-center"
             priority={index === 0}
             quality={90}
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
       ))}

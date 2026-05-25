@@ -52,6 +52,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
 
       {/* Hero Image - Compact */}
       <section className="relative h-[35vh] min-h-[250px] lg:h-[40vh] lg:min-h-[300px] bg-slate-100">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={program.image}
           alt={program.title}
@@ -59,7 +60,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
           sizes="100vw"
           className="object-cover"
           priority
-          quality={85}
+          quality={85} placeholder="empty"
         />
       </section>
 
@@ -339,7 +340,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         quality={85}
-                        sizes="100vw"
+                        sizes="100vw" placeholder="empty"
                       />
                       <div className="absolute bottom-4 left-4">
                         <span className="inline-flex items-center gap-1 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full">

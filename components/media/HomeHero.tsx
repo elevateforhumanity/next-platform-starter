@@ -31,13 +31,14 @@ export function HomeHero({ images }: HomeHeroProps) {
         <div className="md:hidden">
           <div className="relative mx-auto w-full max-w-md aspect-[4/3]">
             <div className="relative w-full overflow-hidden rounded-2xl border border-slate-800 bg-white aspect-[4/3]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src={current.src}
                 alt={current.alt}
                 fill
                 sizes="100vw"
                 className="object-contain"
-                priority
+                priority placeholder="empty"
               />
             </div>
           </div>
@@ -85,7 +86,7 @@ export function HomeHero({ images }: HomeHeroProps) {
                   fill
                   sizes="(max-width: 1024px) 60vw, 40vw"
                   className="object-contain"
-                  priority
+                  priority placeholder="empty"
                 />
               </div>
             </div>

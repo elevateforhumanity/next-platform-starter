@@ -96,7 +96,7 @@ export default function GrantReportingPage() {
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
 // IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-          <Image src="/images/pages/store-page-1.webp" alt="Grant Reporting" fill className="object-cover" priority sizes="100vw" />
+          <Image src="/images/pages/store-page-1.webp" alt="Grant Reporting" fill className="object-cover" priority sizes="100vw" placeholder="empty" />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -118,7 +118,7 @@ export default function GrantReportingPage() {
             {features.map((feature) => (
               <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-brand-orange-500 hover:shadow-xl transition-all group">
                 <div className="relative h-48 overflow-hidden">
-                  <Image src={feature.image} alt={feature.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={feature.image} alt={feature.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty" />
                   <h3 className="absolute bottom-4 left-4 text-xl font-bold text-slate-900">{feature.title}</h3>
                 </div>
                 <div className="p-6">

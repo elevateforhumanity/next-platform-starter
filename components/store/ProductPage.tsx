@@ -508,7 +508,7 @@ export function ProductPage({ product }: ProductPageProps) {
                             alt={review.author}
                             width={48}
                             height={48}
-                            className="rounded-full"
+                            className="rounded-full" sizes="(max-width: 768px) 100vw, 50vw"
                           />
                         ) : (
                           <span className="font-bold text-slate-700">{review.author[0]}</span>

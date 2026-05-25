@@ -30,7 +30,7 @@ export default function BankingPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw"
+          sizes="100vw" placeholder="empty"
         />
       </section>
 
@@ -78,7 +78,7 @@ export default function BankingPage() {
                   alt="Tax preparer reviewing refund advance options with a client"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
                 />
               </div>
               <div className="p-7">
@@ -118,7 +118,7 @@ export default function BankingPage() {
                   alt="Direct deposit tax refund processing"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
                 />
               </div>
               <div className="p-7">
@@ -159,7 +159,7 @@ export default function BankingPage() {
                   alt="Prepaid debit card for tax refund disbursement"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
                 />
               </div>
               <div className="p-7">
@@ -249,7 +249,7 @@ export default function BankingPage() {
                 alt="Professional tax preparation services powered by EPS Financial"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
               />
             </div>
             <div>

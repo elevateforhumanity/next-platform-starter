@@ -64,7 +64,7 @@ export function TrustBadges() {
                 alt="WorkOne Indiana"
                 width={120}
                 height={48}
-                className="object-contain h-10 w-auto"
+                className="object-contain h-10 w-auto" sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
             <div className="h-14 flex items-center justify-center">
@@ -73,7 +73,7 @@ export function TrustBadges() {
                 alt="Indiana Department of Workforce Development"
                 width={120}
                 height={48}
-                className="object-contain h-10 w-auto"
+                className="object-contain h-10 w-auto" sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
             <div className="h-14 flex items-center justify-center">
@@ -82,7 +82,7 @@ export function TrustBadges() {
                 alt="U.S. Department of Labor"
                 width={120}
                 height={48}
-                className="object-contain h-10 w-auto"
+                className="object-contain h-10 w-auto" sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
             <div className="h-14 flex items-center justify-center">
@@ -91,7 +91,7 @@ export function TrustBadges() {
                 alt="Next Level Jobs Indiana"
                 width={120}
                 height={48}
-                className="object-contain h-10 w-auto"
+                className="object-contain h-10 w-auto" sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>

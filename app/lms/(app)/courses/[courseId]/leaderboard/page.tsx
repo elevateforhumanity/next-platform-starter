@@ -103,7 +103,7 @@ export default function CourseLeaderboardPage() {
             className="object-cover"
             quality={90}
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </section>
 
@@ -158,7 +158,7 @@ export default function CourseLeaderboardPage() {
                       fill
                       className="object-cover"
                       quality={90}
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
                     />
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export default function CourseLeaderboardPage() {
                         width={80}
                         height={80}
                         className="rounded-full"
-                        quality={90}
+                        quality={90} placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <span className="text-2xl font-bold text-white">
@@ -301,7 +301,7 @@ export default function CourseLeaderboardPage() {
                         width={96}
                         height={96}
                         className="rounded-full"
-                        quality={90}
+                        quality={90} placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <span className="text-3xl font-bold text-white">
@@ -330,7 +330,7 @@ export default function CourseLeaderboardPage() {
                         width={80}
                         height={80}
                         className="rounded-full"
-                        quality={90}
+                        quality={90} placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <span className="text-2xl font-bold text-white">
@@ -381,7 +381,7 @@ export default function CourseLeaderboardPage() {
                             width={48}
                             height={48}
                             className="rounded-full"
-                            quality={90}
+                            quality={90} placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                           />
                         ) : (
                           <span className="text-brand-blue-600 font-semibold">

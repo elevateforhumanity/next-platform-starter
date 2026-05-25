@@ -80,7 +80,7 @@ export default async function DirectoryPage() {
                         alt={p.name}
                         width={40}
                         height={40}
-                        className="w-10 h-10 object-contain"
+                        className="w-10 h-10 object-contain" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <Building2 className="w-6 h-6 text-slate-400" />

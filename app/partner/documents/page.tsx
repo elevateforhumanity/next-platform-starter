@@ -138,7 +138,7 @@ export default function PartnerDocumentsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       <div className="mb-6">

@@ -107,6 +107,7 @@ async function _POST(request: Request) {
       to: safeEmail,
       subject: `${sessionLabel} Confirmed — ${dateFormatted} at ${time}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
+// IMAGE-CONTRACT: allow raw img because legacy markup
 <img src="https://www.elevateforhumanity.org/logo.jpg" alt="Elevate for Humanity" width="120" style="margin-bottom:20px"/>
 <h2 style="color:#111827">Hi ${firstName},</h2>
 <p>Your <strong>${sessionLabel}</strong> with Elevate for Humanity is confirmed.</p>

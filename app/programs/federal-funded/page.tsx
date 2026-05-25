@@ -217,7 +217,7 @@ export default async function FederalFundedProgramsPage() {
                     fill
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
+                    loading="lazy" placeholder="empty"
                   />
                 </div>
                 <div className="p-6">

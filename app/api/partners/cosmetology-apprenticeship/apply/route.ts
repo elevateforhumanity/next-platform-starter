@@ -129,6 +129,7 @@ async function _POST(request: NextRequest) {
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
   <tr><td style="background:#7c3aed;padding:28px 32px;text-align:center">
+    // IMAGE-CONTRACT: allow raw img because legacy markup
     <img src="${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" width="120" style="max-width:120px;height:auto;filter:brightness(10)" />
   </td></tr>
   <tr><td style="padding:32px">

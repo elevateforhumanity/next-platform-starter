@@ -205,7 +205,7 @@ export default function ProgramPageLayout({
                 fill
                 sizes="100vw"
                 className="object-cover"
-                priority
+                priority placeholder="empty"
               />
             </div>
           );
@@ -342,7 +342,7 @@ export default function ProgramPageLayout({
                     alt={c.overviewImageAlt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
-                    className="object-cover"
+                    className="object-cover" placeholder="empty"
                   />
                 </div>
                 {/* Salary callout */}
@@ -947,7 +947,7 @@ export default function ProgramPageLayout({
                 alt={logo.alt}
                 width={100}
                 height={40}
-                className="object-contain h-8 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                className="object-contain h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" placeholder="empty"
               />
             ))}
           </div>

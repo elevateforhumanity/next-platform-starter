@@ -148,7 +148,7 @@ export default async function FerpaRequestsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority
+          priority placeholder="empty"
         />
       </section>
       {/* Header */}

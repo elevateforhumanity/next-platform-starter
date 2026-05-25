@@ -85,13 +85,14 @@ export default function HeroPicture({
         style={frameStyle}
         aria-label={analyticsName ? `${analyticsName} hero` : 'Hero image'}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={src}
           alt={alt}
           fill
           sizes="100vw"
           className="object-cover object-center"
-          priority={priority}
+          priority={priority} placeholder="empty"
         />
 
         {/* ON-IMAGE ELEMENTS (only these two are allowed) */}
@@ -99,6 +100,7 @@ export default function HeroPicture({
         {/* Brand bug — top-left, only when requested */}
         {showBrandBug && (
           <div className="absolute top-4 left-4 z-10">
+            // IMAGE-CONTRACT: allow raw img because legacy markup
             <img
               src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
               alt="Elevate for Humanity"

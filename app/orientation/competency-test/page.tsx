@@ -69,7 +69,7 @@ export default function CompetencyTestPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw"
+            sizes="100vw" placeholder="empty"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
@@ -128,7 +128,7 @@ export default function CompetencyTestPage() {
                 alt="Student completing assessment"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
               />
             </div>
           </div>

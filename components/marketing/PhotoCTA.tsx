@@ -16,7 +16,7 @@ export function PhotoCTA() {
                 alt="Barber apprenticeship in action"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px"
+                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -25,7 +25,7 @@ export function PhotoCTA() {
                 alt="Healthcare student in lab coat"
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -34,7 +34,7 @@ export function PhotoCTA() {
                 alt="HVAC technician training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px"
+                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -43,7 +43,7 @@ export function PhotoCTA() {
                 alt="Classroom and coaching"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px"
+                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
               />
             </div>
           </div>

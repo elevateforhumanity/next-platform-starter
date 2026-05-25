@@ -107,6 +107,7 @@ export function QualityHero({
 
           {/* Image */}
           <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] rounded-lg overflow-hidden shadow-xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={imageSrc}
               alt={imageAlt}
@@ -114,7 +115,7 @@ export function QualityHero({
               className="object-cover"
               quality={90}
               priority
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
             />
           </div>
         </div>

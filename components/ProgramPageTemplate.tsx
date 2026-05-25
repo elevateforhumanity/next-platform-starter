@@ -70,7 +70,7 @@ export default function ProgramPageTemplate({
             sizes="100vw"
             className="object-cover"
             priority
-            quality={90}
+            quality={90} placeholder="empty"
           />
         </div>
 
@@ -293,7 +293,7 @@ export default function ProgramPageTemplate({
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
-                <Image src={ctaImage} alt={ctaTitle} fill sizes="100vw" className="object-cover" />
+                <Image src={ctaImage} alt={ctaTitle} fill sizes="100vw" className="object-cover" placeholder="empty" />
               </div>
               <div>
                 <h2 className="text-4xl font-bold text-black mb-6 text-2xl md:text-3xl lg:text-4xl">
