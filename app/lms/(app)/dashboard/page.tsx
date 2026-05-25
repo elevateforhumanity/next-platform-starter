@@ -26,6 +26,9 @@ import {
   HelpCircle,
   BarChart2,
   CreditCard,
+  ExternalLink,
+  Upload,
+  BadgeCheck,
 } from 'lucide-react';
 import { NotificationBell } from '@/components/lms/NotificationBell';
 import { GlobalSearch } from '@/components/lms/GlobalSearch';
@@ -45,6 +48,8 @@ export default async function StudentDashboard() {
     workoneAppRes,
     quizAttemptsRes,
     paymentLogsRes,
+    externalCoursesRes,
+    externalCompletionsRes,
   ] = await Promise.all([
     supabase
       .from('program_enrollments')
@@ -84,6 +89,19 @@ export default async function StudentDashboard() {
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(3),
+    // External career pathways — courses linked to any program the learner is enrolled in
+    supabase
+      .from('program_external_courses')
+      .select(
+        'id, title, partner_name, external_url, credential_type, credential_name, duration_display, is_required, program_id',
+      )
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true }),
+    // Learner's completions for external courses
+    supabase
+      .from('external_course_completions')
+      .select('id, external_course_id, approved_at, certificate_url, created_at')
+      .eq('user_id', user.id),
   ]);
 
   // FKs now exist — joins resolve natively
@@ -97,6 +115,20 @@ export default async function StudentDashboard() {
   const isPendingWorkone = !!workoneApp;
   const recentQuizAttempts = quizAttemptsRes.data ?? [];
   const recentPayments = paymentLogsRes.data ?? [];
+
+  // External career pathways — filter to programs the learner is enrolled in
+  const enrolledProgramIds = new Set(
+    programEnrollments.map((e: any) => e.program_id).filter(Boolean),
+  );
+  const allExternalCourses = externalCoursesRes.data ?? [];
+  const externalCourses = allExternalCourses.filter(
+    (c: any) => enrolledProgramIds.has(c.program_id),
+  );
+  const externalCompletions = externalCompletionsRes.data ?? [];
+  const completionByExternalCourseId = new Map(
+    externalCompletions.map((c: any) => [c.external_course_id, c]),
+  );
+
   const totalPaidCents = recentPayments
     .filter((p) => {
       const s = p.status?.toLowerCase();
@@ -617,6 +649,123 @@ export default async function StudentDashboard() {
                 ))}
               </div>
             </div>
+            {/* External Career Pathways */}
+            {externalCourses.length > 0 && (
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-900">External Career Pathways</h2>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Industry-recognized certificates from Google, Microsoft, IBM, and Cisco
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-brand-blue-600 bg-brand-blue-50 px-2 py-1 rounded-full">
+                    {externalCourses.length} available
+                  </span>
+                </div>
+                <div className="divide-y divide-slate-100">
+                  {externalCourses.map((course: any) => {
+                    const completion = completionByExternalCourseId.get(course.id);
+                    const isApproved = !!completion?.approved_at;
+                    const isUploaded = !!completion?.certificate_url && !isApproved;
+                    const isStarted = !!completion && !isApproved && !isUploaded;
+
+                    return (
+                      <div key={course.id} className="px-5 py-4 flex items-start gap-4">
+                        {/* Status icon */}
+                        <div className="flex-shrink-0 mt-0.5">
+                          {isApproved ? (
+                            <div className="w-8 h-8 rounded-full bg-brand-green-100 flex items-center justify-center">
+                              <BadgeCheck className="w-4 h-4 text-brand-green-600" />
+                            </div>
+                          ) : isUploaded ? (
+                            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
+                              <Clock className="w-4 h-4 text-amber-600" />
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                              <ExternalLink className="w-4 h-4 text-slate-500" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <p className="text-sm font-semibold text-slate-900 leading-snug">
+                                {course.title}
+                              </p>
+                              <p className="text-xs text-slate-500 mt-0.5">
+                                {course.partner_name}
+                                {course.duration_display && ` · ${course.duration_display}`}
+                              </p>
+                            </div>
+                            {course.is_required && (
+                              <span className="flex-shrink-0 text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+                                Required
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Status badge */}
+                          <div className="mt-2 flex items-center gap-2 flex-wrap">
+                            {isApproved ? (
+                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-brand-green-700 bg-brand-green-50 px-2 py-0.5 rounded-full">
+                                <CheckCircle className="w-3 h-3" /> Approved
+                              </span>
+                            ) : isUploaded ? (
+                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
+                                <Clock className="w-3 h-3" /> Certificate under review
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-xs text-slate-500">
+                                Not started
+                              </span>
+                            )}
+                            {course.credential_type && (
+                              <span className="text-xs text-slate-400">
+                                {course.credential_type}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Actions */}
+                          {!isApproved && (
+                            <div className="mt-3 flex items-center gap-2 flex-wrap">
+                              <a
+                                href={course.external_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-brand-blue-700 hover:bg-brand-blue-800 px-3 py-1.5 rounded-lg transition-colors"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                                {isUploaded ? 'Return to Course' : 'Start Course'}
+                              </a>
+                              {!isUploaded && (
+                                <Link
+                                  href={`/lms/external-pathways/${course.id}/upload`}
+                                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors"
+                                >
+                                  <Upload className="w-3 h-3" />
+                                  Upload Certificate
+                                </Link>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="px-5 py-3 border-t border-slate-100 bg-slate-50">
+                  <p className="text-xs text-slate-500">
+                    Complete a course on the provider&apos;s platform, then upload your certificate
+                    here for verification. Elevate does not copy or host external course content.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right rail */}
