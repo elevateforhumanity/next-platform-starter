@@ -19,6 +19,7 @@ import { SystemHealthPanel } from "./SystemHealthPanel";
 import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
+import { JobBoardPanel } from "./JobBoardPanel";
 
 
 function fmtUsd(cents: number) {
@@ -526,8 +527,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <ProgramIntegrityPanel />
         </div>
 
-        {/* ── Site status + system health ──────────────────────────────── */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* ── Job board + site status + system health ──────────────────── */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <JobBoardPanel />
           <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
           <SystemHealthPanel health={data.systemHealth} />
         </div>
