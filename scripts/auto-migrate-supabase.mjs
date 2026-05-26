@@ -1,51 +1,34 @@
 #!/usr/bin/env node
 /**
  * Automatic Supabase Migration Runner
- * Connects via pg (pooler) and runs all pending migrations from supabase/migrations/
  *
- * Required env vars (set in GitHub Secrets or .env.local):
- *   SUPABASE_DB_URL  — full postgres:// connection string (pooler or direct)
- *   OR both of:
- *     SUPABASE_DB_PASSWORD — database password
- *     SUPABASE_PROJECT_REF — project ref (e.g. cuxzzpsyufcewtmicszk)
+ * Strategy (in priority order):
+ *   1. Supabase Management API  — works in CI (no direct TCP needed)
+ *   2. pg direct connection     — works locally when IPv4 is available
+ *
+ * Required env vars:
+ *   Management API path (preferred):
+ *     SUPABASE_MANAGEMENT_API_KEY  — personal access token or service key
+ *     SUPABASE_PROJECT_REF         — project ref (e.g. cuxzzpsyufcewtmicszk)
+ *
+ *   Direct pg path (fallback):
+ *     SUPABASE_DB_URL              — full postgres:// connection string
+ *     OR SUPABASE_DB_PASSWORD + SUPABASE_PROJECT_REF
  */
 
-import pg from 'pg';
 import { config } from 'dotenv';
 import { readFileSync, readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-const { Client } = pg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
 
 config({ path: join(rootDir, '.env.local') });
 
-// Build connection string
-function getConnectionString() {
-  if (process.env.SUPABASE_DB_URL) return process.env.SUPABASE_DB_URL;
+// ── Read migration files ──────────────────────────────────────────────────────
 
-  const password = process.env.SUPABASE_DB_PASSWORD;
-  const ref = process.env.SUPABASE_PROJECT_REF || process.env.SUPABASE_PROJECT_REF;
-
-  if (password) {
-    return `postgresql://postgres.${ref}:${encodeURIComponent(password)}@aws-0-us-east-1.pooler.supabase.com:6543/postgres`;
-  }
-
-  return null;
-}
-
-const connStr = getConnectionString();
-if (!connStr) {
-  console.error('❌ No database connection available.');
-  console.error('   Set SUPABASE_DB_URL or SUPABASE_DB_PASSWORD in env.');
-  console.error('   Alternatively, paste the SQL into Supabase Dashboard > SQL Editor.');
-  process.exit(1);
-}
-
-// Read migration files
 const migrationsDir = join(rootDir, 'supabase/migrations');
 let migrationFiles;
 try {
@@ -59,23 +42,58 @@ try {
 
 console.log(`Found ${migrationFiles.length} migration files.`);
 
-// Connect
-const client = new Client({
-  connectionString: connStr,
-  ssl: { rejectUnauthorized: false },
-  connectionTimeoutMillis: 10000,
-});
+// ── Management API runner ─────────────────────────────────────────────────────
 
-try {
-  await client.connect();
-  console.log('✅ Connected to database.');
-} catch (err) {
-  console.error('❌ Failed to connect:', err.message);
-  process.exit(1);
+async function runViaMgmtApi(sql) {
+  const key = process.env.SUPABASE_MANAGEMENT_API_KEY;
+  const ref = process.env.SUPABASE_PROJECT_REF;
+  if (!key || !ref) return null; // not configured
+
+  const res = await fetch(`https://api.supabase.com/v1/projects/${ref}/database/query`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: sql }),
+    signal: AbortSignal.timeout(30000),
+  });
+
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok || body?.message) {
+    throw new Error(body?.message ?? `HTTP ${res.status}`);
+  }
+  return body;
 }
 
-// Ensure tracking table exists
-await client.query(`
+// ── pg direct runner ──────────────────────────────────────────────────────────
+
+async function buildPgClient() {
+  const { default: pg } = await import('pg');
+  const { Client } = pg;
+
+  let connStr = process.env.SUPABASE_DB_URL;
+  if (!connStr) {
+    const password = process.env.SUPABASE_DB_PASSWORD;
+    const ref = process.env.SUPABASE_PROJECT_REF;
+    if (password && ref) {
+      connStr = `postgresql://postgres.${ref}:${encodeURIComponent(password)}@aws-0-us-east-1.pooler.supabase.com:6543/postgres`;
+    }
+  }
+  if (!connStr) return null;
+
+  const client = new Client({
+    connectionString: connStr,
+    ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: 10000,
+  });
+  await client.connect();
+  return client;
+}
+
+// ── Tracking table helpers ────────────────────────────────────────────────────
+
+const TRACKING_DDL = `
   CREATE TABLE IF NOT EXISTS _migrations (
     id SERIAL PRIMARY KEY,
     filename TEXT UNIQUE NOT NULL,
@@ -83,13 +101,62 @@ await client.query(`
     success BOOLEAN DEFAULT TRUE,
     error_message TEXT
   );
-`);
+`;
+
+const RECORD_SUCCESS = (filename) =>
+  `INSERT INTO _migrations (filename, success) VALUES ('${filename.replace(/'/g, "''")}', TRUE)
+   ON CONFLICT (filename) DO UPDATE SET success = TRUE, executed_at = NOW();`;
+
+const RECORD_FAILURE = (filename, msg) =>
+  `INSERT INTO _migrations (filename, success, error_message)
+   VALUES ('${filename.replace(/'/g, "''")}', FALSE, '${msg.replace(/'/g, "''")}')
+   ON CONFLICT (filename) DO UPDATE SET success = FALSE, error_message = EXCLUDED.error_message, executed_at = NOW();`;
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+
+// Detect which runner to use
+const mgmtKey = process.env.SUPABASE_MANAGEMENT_API_KEY;
+const projectRef = process.env.SUPABASE_PROJECT_REF;
+const useMgmtApi = !!(mgmtKey && projectRef);
+
+let pgClient = null;
+
+if (useMgmtApi) {
+  console.log('🔌 Using Supabase Management API');
+  // Ensure tracking table
+  await runViaMgmtApi(TRACKING_DDL).catch(() => {});
+} else {
+  console.log('🔌 Using direct pg connection');
+  try {
+    pgClient = await buildPgClient();
+    if (!pgClient) {
+      console.error('❌ No database connection available.');
+      console.error('   Set SUPABASE_MANAGEMENT_API_KEY + SUPABASE_PROJECT_REF (preferred)');
+      console.error('   or SUPABASE_DB_URL / SUPABASE_DB_PASSWORD.');
+      process.exit(1);
+    }
+    console.log('✅ Connected to database.');
+    await pgClient.query(TRACKING_DDL);
+  } catch (err) {
+    console.error('❌ Failed to connect:', err.message);
+    process.exit(1);
+  }
+}
 
 // Get already-executed migrations
-const { rows: executed } = await client.query(
-  `SELECT filename FROM _migrations WHERE success = TRUE`,
-);
-const executedSet = new Set(executed.map((r) => r.filename));
+let executedSet = new Set();
+try {
+  const selectSql = `SELECT filename FROM _migrations WHERE success = TRUE`;
+  if (useMgmtApi) {
+    const rows = await runViaMgmtApi(selectSql);
+    executedSet = new Set((rows ?? []).map((r) => r.filename));
+  } else {
+    const { rows } = await pgClient.query(selectSql);
+    executedSet = new Set(rows.map((r) => r.filename));
+  }
+} catch {
+  // Tracking table may not exist yet — proceed without skip list
+}
 
 let successCount = 0;
 let skipCount = 0;
@@ -102,42 +169,52 @@ for (const filename of migrationFiles) {
   }
 
   console.log(`▶ Running: ${filename}`);
+  const sql = readFileSync(join(migrationsDir, filename), 'utf8');
 
   try {
-    const sql = readFileSync(join(migrationsDir, filename), 'utf8');
-
-    // Execute the entire file as a single transaction
-    await client.query('BEGIN');
-    await client.query(sql);
-    await client.query('COMMIT');
-
-    // Record success
-    await client.query(
-      `INSERT INTO _migrations (filename, success) VALUES ($1, TRUE) ON CONFLICT (filename) DO UPDATE SET success = TRUE, executed_at = NOW()`,
-      [filename],
-    );
-
+    if (useMgmtApi) {
+      await runViaMgmtApi(sql);
+      await runViaMgmtApi(RECORD_SUCCESS(filename)).catch(() => {});
+    } else {
+      await pgClient.query('BEGIN');
+      await pgClient.query(sql);
+      await pgClient.query('COMMIT');
+      await pgClient.query(RECORD_SUCCESS(filename)).catch(() => {});
+    }
     successCount++;
     console.log(`  ✅ ${filename}`);
   } catch (err) {
-    await client.query('ROLLBACK').catch(() => {});
+    if (!useMgmtApi) await pgClient.query('ROLLBACK').catch(() => {});
 
-    // Record failure
-    await client
-      .query(
-        `INSERT INTO _migrations (filename, success, error_message) VALUES ($1, FALSE, $2) ON CONFLICT (filename) DO UPDATE SET success = FALSE, error_message = $2, executed_at = NOW()`,
-        [filename, err.message],
-      )
-      .catch(() => {});
+    const msg = err.message ?? String(err);
+    // Idempotent errors are not failures (already exists, duplicate key, etc.)
+    const isIdempotent =
+      msg.includes('already exists') ||
+      msg.includes('duplicate key') ||
+      msg.includes('does not exist') && msg.includes('DROP');
 
-    errorCount++;
-    console.error(`  ❌ ${filename}: ${err.message}`);
-
-    if (process.env.CI === 'true') break;
+    if (isIdempotent) {
+      console.log(`  ⚠️  ${filename}: skipped (idempotent — ${msg.slice(0, 80)})`);
+      if (useMgmtApi) {
+        await runViaMgmtApi(RECORD_SUCCESS(filename)).catch(() => {});
+      } else {
+        await pgClient.query(RECORD_SUCCESS(filename)).catch(() => {});
+      }
+      successCount++;
+    } else {
+      errorCount++;
+      console.error(`  ❌ ${filename}: ${msg}`);
+      if (useMgmtApi) {
+        await runViaMgmtApi(RECORD_FAILURE(filename, msg)).catch(() => {});
+      } else {
+        await pgClient.query(RECORD_FAILURE(filename, msg)).catch(() => {});
+      }
+      if (process.env.CI === 'true') break;
+    }
   }
 }
 
-await client.end();
+if (pgClient) await pgClient.end().catch(() => {});
 
 console.log(`\nDone: ${successCount} applied, ${skipCount} skipped, ${errorCount} failed.`);
 
