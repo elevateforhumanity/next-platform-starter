@@ -133,6 +133,29 @@ export const STUDIO_TOOLS = [
       },
     },
   },
+  {
+    type: 'function' as const,
+    function: {
+      name: 'buildCourseFromBlueprint',
+      description: 'Build a complete course from a known blueprint — generates all modules and lessons automatically. Use when the user asks to build, generate, or create a full course (e.g. "Build HVAC certification course", "Generate EPA 608 course").',
+      parameters: {
+        type: 'object',
+        properties: {
+          blueprint_id: {
+            type: 'string',
+            enum: ['hvac-epa608-v1'],
+            description: 'The blueprint to build from. Currently only hvac-epa608-v1 is available.',
+          },
+          mode: {
+            type: 'string',
+            enum: ['append', 'replace'],
+            description: 'append = add missing modules/lessons only. replace = wipe and rebuild. Default: append.',
+          },
+        },
+        required: ['blueprint_id'],
+      },
+    },
+  },
 ] as const;
 
 export type StudioToolName = typeof STUDIO_TOOLS[number]['function']['name'];
@@ -167,6 +190,8 @@ export async function executeStudioTool(
       return executeUpdateCourseTitle(args, courseId, db);
     case 'createModule':
       return executeCreateModule(args, courseId, db);
+    case 'buildCourseFromBlueprint':
+      return executeBuildCourseFromBlueprint(args, courseId, db);
     default:
       return { ok: false, message: `Unknown tool: ${toolName}` };
   }
@@ -292,6 +317,91 @@ async function executeUpdateCourseTitle(
   const { error } = await db.from('courses').update(patch).eq('id', courseId);
   if (error) return { ok: false, message: `Failed to update course: ${error.message}` };
   return { ok: true, message: 'Course updated', data: patch };
+}
+
+async function executeBuildCourseFromBlueprint(
+  args: Record<string, unknown>,
+  courseId: string,
+  db: SupabaseClient,
+): Promise<ToolResult> {
+  const blueprintId = String(args.blueprint_id ?? 'hvac-epa608-v1');
+  const mode = String(args.mode ?? 'append');
+
+  // Load the blueprint
+  const { getBlueprintById } = await import('@/lib/curriculum/blueprints/index');
+  const blueprint = await getBlueprintById(blueprintId);
+  if (!blueprint) return { ok: false, message: `Blueprint "${blueprintId}" not found` };
+
+  if (mode === 'replace') {
+    // Wipe existing modules and lessons for this course
+    await db.from('course_lessons').delete().eq('course_id', courseId);
+    await db.from('course_modules').delete().eq('course_id', courseId);
+  }
+
+  // Get existing modules to avoid duplicates in append mode
+  const { data: existingModules } = await db
+    .from('course_modules')
+    .select('title, order_index')
+    .eq('course_id', courseId);
+  const existingTitles = new Set((existingModules ?? []).map((m: { title: string }) => m.title));
+
+  let modulesCreated = 0;
+  let lessonsCreated = 0;
+
+  for (const mod of blueprint.modules ?? []) {
+    if (mode === 'append' && existingTitles.has(mod.title)) continue;
+
+    const { data: modRow, error: modErr } = await db
+      .from('course_modules')
+      .insert({
+        course_id: courseId,
+        title: mod.title,
+        slug: mod.slug,
+        order_index: mod.orderIndex ?? modulesCreated + 1,
+        is_published: false,
+      })
+      .select('id')
+      .single();
+
+    if (modErr || !modRow) continue;
+    modulesCreated++;
+
+    // Insert lessons for this module
+    const lessons = (mod.lessons ?? []).map((lesson: {
+      title: string;
+      slug: string;
+      order: number;
+      passingScore?: number;
+      durationMinutes?: number;
+    }) => ({
+      course_id: courseId,
+      module_id: modRow.id,
+      title: lesson.title,
+      slug: lesson.slug,
+      // Infer lesson_type from slug suffix (matches blueprint engine convention)
+      lesson_type: lesson.slug.endsWith('-checkpoint') ? 'checkpoint'
+        : lesson.slug.endsWith('-exam') ? 'exam'
+        : lesson.slug.endsWith('-lab') ? 'lab'
+        : lesson.slug.endsWith('-quiz') ? 'quiz'
+        : 'lesson',
+      order_index: lesson.order,
+      passing_score: lesson.passingScore ?? null,
+      duration_minutes: lesson.durationMinutes ?? null,
+      is_published: false,
+      status: 'draft',
+    }));
+
+    if (lessons.length) {
+      const { error: lessonErr } = await db.from('course_lessons').insert(lessons);
+      if (!lessonErr) lessonsCreated += lessons.length;
+    }
+  }
+
+  return {
+    ok: true,
+    message: `Built course from blueprint "${blueprintId}": ${modulesCreated} modules, ${lessonsCreated} lessons created`,
+    data: { blueprintId, modulesCreated, lessonsCreated, mode },
+  };
 }
 
 async function executeCreateModule(
