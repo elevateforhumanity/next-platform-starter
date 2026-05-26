@@ -236,6 +236,12 @@ async function executeCreateLesson(
     .single();
 
   if (error) return { ok: false, message: `Failed to create lesson: ${error.message}` };
+
+  // Trigger embedding in background (non-blocking)
+  import('@/lib/embeddings/embed-lessons').then(({ embedCourseLessons }) => {
+    embedCourseLessons(db, courseId, { force: false }).catch(() => {/* non-fatal */});
+  }).catch(() => {/* non-fatal */});
+
   return {
     ok: true,
     message: `Created lesson "${data.title}" (${data.lesson_type})`,
@@ -396,6 +402,11 @@ async function executeBuildCourseFromBlueprint(
       if (!lessonErr) lessonsCreated += lessons.length;
     }
   }
+
+  // Trigger embedding in background (non-blocking)
+  import('@/lib/embeddings/embed-lessons').then(({ embedCourseLessons }) => {
+    embedCourseLessons(db, courseId, { force: true }).catch(() => {/* non-fatal */});
+  }).catch(() => {/* non-fatal */});
 
   return {
     ok: true,
