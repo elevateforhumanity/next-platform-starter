@@ -430,6 +430,8 @@ const nextConfig = {
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
+      { source: '/dashboard/tax-intake', destination: '/admin/dashboard', permanent: true },
+      { source: '/dashboard/diy-taxes', destination: '/admin/dashboard', permanent: true },
       { source: '/lms/programs', destination: '/lms/courses', permanent: false },
 
       // Mentor / Mentorship

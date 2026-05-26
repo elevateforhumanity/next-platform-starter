@@ -15,7 +15,14 @@ export const metadata: Metadata = {
 // Fetches data independently so the admin shell (nav, idle guard) renders
 // immediately from the layout while this streams in via Suspense.
 async function DashboardContent() {
-  const data = await getAdminDashboardData();
+  let data;
+  try {
+    data = await getAdminDashboardData();
+  } catch (err) {
+    // Surface a typed error so the error boundary digest is meaningful
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    throw Object.assign(new Error(`Dashboard data load failed: ${msg}`), { digest: 'ERR_DASHBOARD_LOAD' });
+  }
   return <AdminDashboardContent data={data} />;
 }
 

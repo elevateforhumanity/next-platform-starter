@@ -125,7 +125,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   // ── Auth first (fast — local JWT decode, no DB round-trip) ──────────────
   const authRes = await supabase.auth.getUser();
   const { data: { user }, error: authError } = authRes;
-  if (authError) throw new Error(`Auth user fetch failed in getAdminDashboardData: ${authError.message}`);
+  // Log but never throw — page-level requireAdmin() already enforces auth.
+  // A transient getUser() failure should degrade gracefully, not crash the dashboard.
+  if (authError) logger.warn('[dashboard] getUser failed — continuing with null user', { message: authError.message });
 
   // ── All DB queries in a single Promise.all — one round-trip to Supabase ──
   const [

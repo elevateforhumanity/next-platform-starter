@@ -80,7 +80,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // parent role handled via /parent-portal — no requireRole yet, falls through
   delegate: '/learner/dashboard', // delegate portal not yet built — falls back to learner dashboard
 
-  vita_staff: '/dashboard/tax-intake',
+  vita_staff: '/admin/dashboard',
 
   // ── Grant clients ─────────────────────────────────────────────────
   grant_client: '/lms/dashboard', // grant-funded learner — lands in LMS, not public grants page
