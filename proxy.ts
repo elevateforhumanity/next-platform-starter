@@ -565,6 +565,35 @@ export async function middleware(request: NextRequest) {
   // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
   // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
   // traffic never gets served under the wrong host.
+  // *.elevatelms.com — tenant subdomain requests.
+  // These are white-label trial/licensed tenants. Serve the tenant admin shell
+  // directly rather than redirecting away. The subdomain is passed as a header
+  // so downstream route handlers can load the correct org context.
+  const isTenantSubdomain =
+    hostWithoutPort.endsWith('.elevatelms.com') &&
+    hostWithoutPort !== 'elevatelms.com' &&
+    hostWithoutPort !== 'cdn.elevatelms.com';
+
+  if (isTenantSubdomain) {
+    const tenantSlug = hostWithoutPort.replace(/\.elevatelms\.com$/, '');
+    const requestHeadersWithTenant = new Headers(request.headers);
+    requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
+    requestHeadersWithTenant.set('x-pathname', pathname);
+
+    // /admin and / both land on the tenant admin dashboard
+    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
+      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = adminPath;
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeadersWithTenant },
+      });
+    }
+
+    // All other paths (API routes, assets) pass through with tenant context
+    return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
+  }
+
   const isCanonicalHost =
     hostWithoutPort === 'www.elevateforhumanity.org' ||
     hostWithoutPort === canonicalAdminHost;
