@@ -3,6 +3,10 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
+import {
+  Shield, Users, FileText, Book, LifeBuoy, LayoutDashboard,
+  Bell, Megaphone, GraduationCap, BookOpen, AlertTriangle, Clock, HelpCircle,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,22 +15,6 @@ export const metadata: Metadata = {
   description: 'Manage your training programs, students, and compliance.',
   manifest: '/manifest-program-holder.json',
 };
-
-import {
-  Shield,
-  Users,
-  FileText,
-  Book,
-  LifeBuoy,
-  LayoutDashboard,
-  Bell,
-  Megaphone,
-  GraduationCap,
-  BookOpen,
-  AlertTriangle,
-  Clock,
-  HelpCircle,
-} from 'lucide-react';
 
 export default async function ProgramHolderLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -141,53 +129,45 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
   }
 
   const navItems = [
-    { href: '/program-holder/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/program-holder/verification', label: 'Verification', icon: Shield },
-    { href: '/program-holder/students', label: 'Students', icon: Users },
-    { href: '/program-holder/students/pending', label: 'Pending Students', icon: Clock },
-    { href: '/program-holder/students/at-risk', label: 'At-Risk Students', icon: AlertTriangle },
+    { href: '/program-holder/dashboard',         label: 'Dashboard',           icon: LayoutDashboard },
+    { href: '/program-holder/verification',       label: 'Verification',        icon: Shield },
+    { href: '/program-holder/students',           label: 'Students',            icon: Users },
+    { href: '/program-holder/students/pending',   label: 'Pending Students',    icon: Clock },
+    { href: '/program-holder/students/at-risk',   label: 'At-Risk Students',    icon: AlertTriangle },
     ...(hasSchoolApplications ? [{ href: '/program-holder/school-applications', label: 'School Applications', icon: FileText }] : []),
-    { href: '/program-holder/grades', label: 'Grades', icon: GraduationCap },
-    { href: '/program-holder/courses/create', label: 'Create Course', icon: BookOpen },
-    { href: '/program-holder/campaigns', label: 'Campaigns', icon: Megaphone },
-    { href: '/program-holder/notifications', label: 'Notifications', icon: Bell },
-    { href: '/program-holder/mou', label: 'MOU', icon: FileText },
-    { href: '/program-holder/how-to-use', label: 'How to Use', icon: HelpCircle },
-    { href: '/program-holder/reports', label: 'Reports', icon: FileText },
-    { href: '/program-holder/compliance', label: 'Compliance', icon: Shield },
-    { href: '/program-holder/documentation', label: 'Documentation', icon: Book },
-    { href: '/program-holder/support', label: 'Support', icon: LifeBuoy },
+    { href: '/program-holder/grades',             label: 'Grades',              icon: GraduationCap },
+    { href: '/program-holder/courses/create',     label: 'Create Course',       icon: BookOpen },
+    { href: '/program-holder/campaigns',          label: 'Campaigns',           icon: Megaphone },
+    { href: '/program-holder/notifications',      label: 'Notifications',       icon: Bell },
+    { href: '/program-holder/mou',                label: 'MOU',                 icon: FileText },
+    { href: '/program-holder/how-to-use',         label: 'How to Use',          icon: HelpCircle },
+    { href: '/program-holder/reports',            label: 'Reports',             icon: FileText },
+    { href: '/program-holder/compliance',         label: 'Compliance',          icon: Shield },
+    { href: '/program-holder/documentation',      label: 'Documentation',       icon: Book },
+    { href: '/program-holder/support',            label: 'Support',             icon: LifeBuoy },
   ];
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top Navigation */}
-      <nav
-        role="navigation"
-        aria-label="Main navigation"
-        className="bg-white border-b border-slate-200"
-      >
+      <nav role="navigation" aria-label="Main navigation" className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <Link
-                  href="/program-holder/dashboard"
-                  className="text-xl font-bold text-brand-orange-600"
-                >
+                <Link href="/program-holder/dashboard" className="text-xl font-bold text-brand-orange-600">
                   Program Holder Portal
                 </Link>
               </div>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <div className="hidden sm:ml-6 sm:flex sm:space-x-6 overflow-x-auto">
                 {navItems.map((item: any) => {
                   const Icon = item.icon;
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-black hover:text-black hover:border-slate-300"
+                      className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-slate-700 hover:text-slate-900 hover:border-slate-300 whitespace-nowrap"
                     >
-                      <Icon className="h-4 w-4 mr-2" />
+                      <Icon className="h-4 w-4 mr-1.5" />
                       {item.label}
                     </Link>
                   );
@@ -195,16 +175,12 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
               </div>
             </div>
             <div className="flex items-center">
-              <form action="/auth/signout" method="post">
-                <button type="submit" className="text-sm font-medium text-black hover:text-black">
-                  Sign Out
-                </button>
-              </form>
+              <Link href="/api/auth/signout" className="text-sm text-slate-500 hover:text-slate-800">
+                Sign out
+              </Link>
             </div>
           </div>
         </div>
-
-        {/* Mobile menu */}
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1">
             {navItems.map((item: any) => {
@@ -213,7 +189,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-black hover:text-black hover:bg-white hover:border-slate-300"
+                  className="flex items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300"
                 >
                   <Icon className="h-5 w-5 mr-3" />
                   {item.label}
@@ -223,8 +199,6 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
           </div>
         </div>
       </nav>
-
-      {/* Main Content */}
       <main>{children}</main>
     </div>
   );
