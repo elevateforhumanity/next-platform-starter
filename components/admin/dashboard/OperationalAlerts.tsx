@@ -125,15 +125,16 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
         viewAllHref="/admin/reports/wioa"
       >
         {noOutcomeEnrollments.map((enr: any) => {
-          const id = (enr.id ?? enr.enrollment_id) as string;
+          // participant_report view uses participant_id; fall back to id/enrollment_id
+          const id = (enr.enrollment_id ?? enr.id ?? enr.participant_id) as string;
           const name = enr.full_name ||
             [enr.first_name, enr.last_name].filter(Boolean).join(' ') ||
             enr.email ||
             (id?.slice(0, 8) + '…');
           return (
             <AlertRow
-              key={id}
-              href={`/admin/enrollments/${id}`}
+              key={enr.participant_id ?? id}
+              href={id ? `/admin/enrollments/${id}` : `/admin/students/${enr.participant_id}`}
               label={name}
               detail={`${enr.program_title ?? 'unknown program'} · no outcome recorded`}
             />
@@ -150,9 +151,10 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
       >
         {missingFundingEnrollments.map((enr: any) => {
           const id = (enr.id ?? enr.enrollment_id) as string;
-          const name = enr.full_name ||
-            [enr.first_name, enr.last_name].filter(Boolean).join(' ') ||
-            enr.email ||
+          // profiles is a joined object from the FK select
+          const profile = enr.profiles as { full_name?: string | null; email?: string | null } | null;
+          const name = profile?.full_name || profile?.email ||
+            enr.full_name || enr.email ||
             (id?.slice(0, 8) + '…');
           return (
             <AlertRow

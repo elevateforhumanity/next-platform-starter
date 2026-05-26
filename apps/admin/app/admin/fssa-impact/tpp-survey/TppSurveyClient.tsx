@@ -1,3 +1,4 @@
+// ARCHIVED — FSSA SNAP E&T program ended. Do not import or extend.
 'use client';
 
 import { useState } from 'react';

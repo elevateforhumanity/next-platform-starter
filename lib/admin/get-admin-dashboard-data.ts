@@ -3,11 +3,7 @@
 // Only queries tables that exist and have live data.
 // No synthetic stats, no fake deltas.
 
-export interface SitePreviewTarget {
-  url: string;
-  label: string;
-}
-
+// SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -299,14 +295,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Live columns: participant_id, full_name, email, program_title, enrollment_status,
     // enrollment_id, program_slug, funding_source, outcome_type, completed_at
     db.from('participant_report')
-      .select('participant_id, full_name, email, program_title, enrollment_status, program_slug')
+      .select('participant_id, enrollment_id, full_name, email, program_title, enrollment_status, program_slug')
       .eq('enrollment_status', 'completed')
       .order('participant_id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding — exclude apprenticeship programs (barber/cosmetology are self-pay by design)
+    // Active enrollments missing funding — join profiles for display name/email
+    // Exclude apprenticeship programs (barber/cosmetology are self-pay by design)
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
+      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source, profiles(full_name, email)')
       .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
       .not('access_granted_at', 'is', null)
       .is('revoked_at', null)

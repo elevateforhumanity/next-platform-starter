@@ -46,10 +46,10 @@ export function JobBoardPanel() {
   }
 
   const sources = [
-    { key: 'usajobs', label: 'USAJobs.gov', href: 'https://developer.usajobs.gov', note: 'Register at developer.usajobs.gov' },
-    { key: 'careeronestop', label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/technical-information.aspx', note: 'Request jobsearch access — email api@careeronestop.org with user ID xmXrnhnrnn4DZNX' },
-    { key: 'indiana_career_connect', label: 'Indiana Career Connect', href: 'https://www.indianacareerconnect.com', note: '' },
-  ] as const;
+    { key: 'usajobs' as const, label: 'USAJobs.gov', href: 'https://developer.usajobs.gov', note: 'Register at developer.usajobs.gov' },
+    { key: 'careeronestop' as const, label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/technical-information.aspx', note: 'Request jobsearch access — email api@careeronestop.org with user ID xmXrnhnrnn4DZNX' },
+    { key: 'indiana_career_connect' as const, label: 'Indiana Career Connect', href: 'https://www.indianacareerconnect.com', note: '' },
+  ];
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5">
@@ -98,7 +98,7 @@ export function JobBoardPanel() {
 
       {/* API source status */}
       <div className="space-y-1.5 mb-4">
-        {sources.map(({ key, label, href }) => {
+        {sources.map(({ key, label, href, note }) => {
           const configured = stats?.configured?.[key] ?? false;
           return (
             <div key={key} className="flex items-center justify-between text-xs">
@@ -117,7 +117,7 @@ export function JobBoardPanel() {
                   <CheckCircle className="w-3 h-3" /> Connected
                 </span>
               ) : (
-                <span title={source.note} className="flex items-center gap-1 text-amber-600 font-semibold cursor-help">
+                <span title={note} className="flex items-center gap-1 text-amber-600 font-semibold cursor-help">
                   <AlertCircle className="w-3 h-3" /> Needs approval
                 </span>
               )}

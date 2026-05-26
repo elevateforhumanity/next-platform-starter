@@ -217,8 +217,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     ).catch(() => DEFAULT_NAV),
   ]);
 
-  // Role enforcement — runs on the result fetched in parallel above
-  const adminRoles = ['super_admin', 'admin', 'staff'];
+  // Role enforcement — runs on the result fetched in parallel above.
+  // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and the admin-login route.
+  const adminRoles = ['super_admin', 'admin', 'staff', 'org_admin'];
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
   if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');

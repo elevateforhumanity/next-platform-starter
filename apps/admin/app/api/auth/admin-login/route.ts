@@ -1,11 +1,13 @@
 // RLS-safe admin login — uses service role key to read profiles table.
-// Deployed: 2026-05-23
+// Uses the shared createClient() from lib/supabase/server.ts so the session
+// cookie domain matches what the admin layout expects (avoids stale-cookie
+// redirect loops on admin.elevateforhumanity.org).
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
-const ADMIN_ROLES = ['super_admin', 'admin', 'staff'];
+// Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and apps/admin/app/admin/layout.tsx
+const ADMIN_ROLES = ['super_admin', 'admin', 'staff', 'org_admin'];
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -14,25 +16,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Email and password required.' }, { status: 400 });
   }
 
-  const cookieStore = await cookies();
-
-  // Sign in with the anon key — this sets the session cookie
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          } catch {}
-        },
-      },
-    }
-  );
+  // Use the shared server client — applies the same cookie domain (.elevateforhumanity.org)
+  // as the admin layout, preventing stale-cookie redirect loops after login.
+  const supabase = await createClient();
 
   const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
     email: email.trim(),

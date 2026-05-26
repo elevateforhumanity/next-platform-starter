@@ -22,8 +22,8 @@ async function getCourseDetail(courseId: string) {
     .eq('id', courseId)
     .maybeSingle();
 
-  if (error) { console.error('[inspect] course query failed', error.message); return null; }
-  if (!course) return null;
+  if (error) { console.error('[inspect] course query failed', error.message); notFound(); }
+  if (!course) notFound();
 
   // course_lessons is the live source lms_lessons view reads from
   const { data: lessons } = await supabase

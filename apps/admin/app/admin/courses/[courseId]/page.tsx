@@ -55,7 +55,7 @@ async function getCourseWithLessons(courseId: string) {
     .eq('id', courseId)
     .maybeSingle();
 
-  if (error || !course) return null;
+  if (error || !course) notFound();
 
   const { data: lessons } = await db
     .from('course_lessons')

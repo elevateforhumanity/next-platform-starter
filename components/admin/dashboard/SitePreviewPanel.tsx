@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Globe, ExternalLink, RefreshCw, CheckCircle, AlertCircle, Clock } from 'lucide-react';
 import Link from 'next/link';
-import type { SitePreviewTarget } from '@/lib/admin/get-admin-dashboard-data';
+import type { SitePreviewTarget } from './types';
 
 interface Props {
   sites: SitePreviewTarget[];

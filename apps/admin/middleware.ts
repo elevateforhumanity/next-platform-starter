@@ -3,7 +3,14 @@ import { NextResponse, type NextRequest } from 'next/server';
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
 // Paths that never require auth
-const PUBLIC_PATHS = ['/login', '/unauthorized', '/api/health'];
+const PUBLIC_PATHS = [
+  '/login',
+  '/unauthorized',
+  '/api/health',
+  // Password reset flow — Supabase redirects here with a code before a session exists
+  '/auth/confirm',
+  '/auth/reset-password',
+];
 
 // Derive cookie name from the Supabase URL env var so it survives project migration.
 // Format: sb-<project-ref>-auth-token  e.g. sb-cuxzzpsyufcewtmicszk-auth-token

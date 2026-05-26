@@ -120,7 +120,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Funding', href: '/admin/funding' },
       { label: 'Grant & Contract Suite', href: '/admin/compliance' },
       { label: 'Grants', href: '/admin/grants' },
-      { label: 'FSSA SNAP E&T', href: '/admin/fssa-impact' },
+      // FSSA SNAP E&T archived — program ended
       { label: 'Grants — Opportunities', href: '/admin/grants/opportunities' },
       { label: 'Grants — Applications', href: '/admin/grants/applications' },
       { label: 'Grants — Intake', href: '/admin/grants/intake' },

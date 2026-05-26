@@ -16,9 +16,7 @@ export const metadata: Metadata = {
 export default async function CreateLicensePage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
-  const tenants = db
-    ? ((await supabase.from('tenants').select('id, name').order('name')).data ?? [])
-    : [];
+  const tenants = (await supabase.from('tenants').select('id, name').order('name')).data ?? [];
 
   return (
     <div className="min-h-screen bg-white p-6">

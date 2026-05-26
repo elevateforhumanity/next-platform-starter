@@ -239,9 +239,9 @@ export async function requireStudent() {
 
 export async function requireAdmin() {
   // Admin app has its own /login page — redirect there, not the main site login.
-  // Allows admin, super_admin, and staff — all three can access the admin portal.
+  // Role set must match ADMIN_ROLES in lib/rbac/role-matrix.ts, admin-login route, and admin layout.
   const adminUrl = getAdminUrl();
-  return requireRole(['admin', 'super_admin', 'staff'], '/admin/dashboard', adminUrl);
+  return requireRole(['admin', 'super_admin', 'staff', 'org_admin'], '/admin/dashboard', adminUrl);
 }
 
 export async function requireProgramHolder() {

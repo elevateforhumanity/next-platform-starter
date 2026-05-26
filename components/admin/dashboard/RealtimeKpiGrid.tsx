@@ -62,11 +62,15 @@ export function RealtimeKpiGrid({ kpis: initialKpis }: Props) {
         if (!wasPending && isPending)  setKpis(k => patchKpi(k, 'application', v => v + 1));
         if (wasPending  && !isPending) setKpis(k => patchKpi(k, 'application', v => v - 1));
       })
-      // ── Revenue ───────────────────────────────────────────────────────────
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'payment_transactions' }, (payload) => {
-        const amount: number = payload.new?.amount_cents ?? payload.new?.amount ?? 0;
-        if (amount > 0) {
-          setKpis(k => patchKpi(k, 'revenue', v => v + amount));
+      // ── Revenue — listen on program_enrollments.amount_paid_cents ────────
+      // payment_transactions table is not actively written; revenue comes from
+      // program_enrollments when a payment is confirmed.
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
+        const prev: number = payload.old?.amount_paid_cents ?? 0;
+        const next: number = payload.new?.amount_paid_cents ?? 0;
+        const delta = next - prev;
+        if (delta > 0) {
+          setKpis(k => patchKpi(k, 'revenue', v => v + delta));
         }
       })
       // ── Certificates ──────────────────────────────────────────────────────
