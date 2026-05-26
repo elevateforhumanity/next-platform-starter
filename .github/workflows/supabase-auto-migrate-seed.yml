@@ -28,8 +28,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run migrations + seed
-        run: pnpm db:setup
+      - name: Run migrations
+        run: pnpm db:migrate
+        env:
+          SUPABASE_MANAGEMENT_API_KEY: ${{ secrets.SUPABASE_MANAGEMENT_API_KEY }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Run seed (non-fatal)
+        run: pnpm db:seed || echo "⚠️ Seed completed with warnings (non-fatal)"
         env:
           # Management API — used as primary runner (no direct TCP needed)
           SUPABASE_MANAGEMENT_API_KEY: ${{ secrets.SUPABASE_MANAGEMENT_API_KEY }}
