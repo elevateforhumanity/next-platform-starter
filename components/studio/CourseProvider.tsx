@@ -362,15 +362,57 @@ export function CourseProvider({ session, children }: CourseProviderProps) {
 
   const buildAIContext = useCallback((): string => {
     const s = stateRef.current;
+
+    // Module list with IDs (needed for createLesson tool calls)
+    const moduleLines = s.modules
+      .slice()
+      .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+      .map(m => `  - [${m.id}] "${m.title}" (order ${m.order_index ?? '?'}, ${
+        s.lessons.filter(l => l.module_id === m.id).length
+      } lessons)`);
+
+    // Lesson list with IDs and types (needed for generateQuiz, attachVideo)
+    const lessonLines = s.lessons
+      .slice()
+      .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+      .slice(0, 30) // cap at 30 to avoid token overflow
+      .map(l => `  - [${l.id}] "${l.title}" (${l.lesson_type ?? 'lesson'}${l.quiz_questions ? ', has quiz' : ''})`);
+
+    // Quiz summary
+    const quizLines = s.quizzes.slice(0, 10).map(q =>
+      `  - [${q.id}] "${q.title}" (${q.question_count ?? 0} questions)`
+    );
+
+    // Video summary
+    const videoLines = s.videos.slice(0, 10).map(v =>
+      `  - [${v.id}] "${v.title}" — ${v.url ?? 'no url'}`
+    );
+
     return [
-      `Course: "${s.course.title}" (${s.course.status})`,
-      `Modules: ${s.modules.length} | Lessons: ${s.lessons.length}`,
-      `Published: ${s.publishState.publishedLessons}/${s.publishState.totalLessons} lessons`,
-      `Approved: ${s.publishState.approvedLessons}/${s.publishState.totalLessons} lessons`,
-      s.course.governing_body ? `Standard: ${s.course.governing_body} ${s.course.governing_standard_version ?? ''}` : '',
-      s.course.compliance_profile_key ? `Compliance: ${s.course.compliance_profile_key}` : '',
-      `Active panel: ${s.activePanel}`,
-    ].filter(Boolean).join('\n');
+      `COURSE: "${s.course.title}" [id: ${s.course.id}]`,
+      `Status: ${s.course.status} | Active panel: ${s.activePanel}`,
+      s.course.governing_body
+        ? `Standard: ${s.course.governing_body} ${s.course.governing_standard_version ?? ''}`
+        : '',
+      s.course.compliance_profile_key
+        ? `Compliance: ${s.course.compliance_profile_key}`
+        : '',
+      '',
+      `MODULES (${s.modules.length}):`,
+      ...moduleLines,
+      '',
+      `LESSONS (${s.lessons.length}${s.lessons.length > 30 ? ', showing first 30' : ''}):`,
+      ...lessonLines,
+      '',
+      s.quizzes.length > 0 ? `QUIZZES (${s.quizzes.length}):` : '',
+      ...quizLines,
+      '',
+      s.videos.length > 0 ? `VIDEOS (${s.videos.length}):` : '',
+      ...videoLines,
+      '',
+      `PUBLISH STATE: ${s.publishState.publishedLessons}/${s.publishState.totalLessons} lessons published, ${s.publishState.approvedLessons} approved`,
+      s.publishState.readyToPublish ? 'Ready to publish: YES' : 'Ready to publish: NO',
+    ].filter(l => l !== undefined && l !== null).join('\n');
   }, []);
 
   const updatePublishState = useCallback((patch: Partial<StudioPublishState>) => {
