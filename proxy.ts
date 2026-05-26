@@ -338,6 +338,14 @@ export async function middleware(request: NextRequest) {
     hostWithoutPort === '127.0.0.1' ||
     hostWithoutPort === '::1';
 
+  // Gitpod preview environments — bypass enrollment/onboarding gates so
+  // developers can access protected routes without a live enrollment record.
+  const isGitpodPreview =
+    hostWithoutPort.endsWith('.gitpod.io') ||
+    hostWithoutPort.endsWith('.gitpod.app') ||
+    hostWithoutPort.endsWith('.preview.gitpod-dev.com') ||
+    (process.env.GITPOD_WORKSPACE_URL !== undefined && isLocalHost);
+
   if (
     (pathname === '/admin' || pathname.startsWith('/admin/')) &&
     hostWithoutPort !== canonicalAdminHost &&
