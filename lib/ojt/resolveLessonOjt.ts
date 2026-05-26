@@ -55,7 +55,7 @@ export async function resolveLessonOjt(
       requires_verification: cl.requires_verification ?? false,
       lesson_type: cl.lesson_type ?? 'lesson',
       course_id: cl.course_id,
-      skill: cl.apprentice_skills as { name: string; description: string } | null,
+      skill: cl.apprentice_skills as unknown as { name: string; description: string } | null,
       source: 'course_lessons',
     };
   }
@@ -86,7 +86,7 @@ export async function resolveLessonOjt(
       requires_verification: cul.requires_verification ?? false,
       lesson_type: cul.step_type ?? 'lesson',
       course_id: cul.course_id,
-      skill: cul.apprentice_skills as { name: string; description: string } | null,
+      skill: cul.apprentice_skills as unknown as { name: string; description: string } | null,
       source: 'curriculum_lessons',
     };
   }
