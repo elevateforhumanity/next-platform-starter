@@ -20,6 +20,8 @@ import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
 import { JobBoardPanel } from "./JobBoardPanel";
+import { TodayActivityStrip } from "./TodayActivityStrip";
+import { EnrollmentFunnel } from "./EnrollmentFunnel";
 
 
 function fmtUsd(cents: number) {
@@ -452,6 +454,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <AdminCategoryLanding />
 
+        {/* ── Today's activity strip ───────────────────────────────────── */}
+        <TodayActivityStrip operational={data.operational} />
+
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
           <div className="mb-6">
@@ -475,6 +480,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
             <CrmFollowUpQueue leads={data.staleLeads} />
           </div>
           <div className="space-y-4">
+            <EnrollmentFunnel data={data} />
             <RecentActivity items={data.recentActivity} />
             {data.recentApplications.length > 0 && (
               <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">

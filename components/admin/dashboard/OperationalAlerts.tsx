@@ -2,7 +2,7 @@
 // Surfaces three operational alert categories that require admin action.
 
 import Link from 'next/link';
-import { AlertTriangle, Clock, DollarSign } from 'lucide-react';
+import { AlertTriangle, Clock, DollarSign, Flag } from 'lucide-react';
 import type { AdminDashboardData } from './types';
 
 interface AlertRowProps {
@@ -58,10 +58,11 @@ function AlertSection({ icon, title, count, viewAllHref, children }: AlertSectio
 }
 
 export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
-  const { stalledApplications, noOutcomeEnrollments, missingFundingEnrollments } = data;
+  const { stalledApplications, noOutcomeEnrollments, missingFundingEnrollments, complianceAlerts } = data;
+  const openComplianceAlerts: any[] = Array.isArray(complianceAlerts) ? complianceAlerts : [];
 
   const totalAlerts =
-    stalledApplications.length + noOutcomeEnrollments.length + missingFundingEnrollments.length;
+    stalledApplications.length + noOutcomeEnrollments.length + missingFundingEnrollments.length + openComplianceAlerts.length;
 
   if (totalAlerts === 0) {
     return (
@@ -166,6 +167,26 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
           );
         })}
       </AlertSection>
+
+      {openComplianceAlerts.length > 0 && (
+        <AlertSection
+          icon={<Flag className="w-4 h-4" />}
+          title="Open Compliance Alerts"
+          count={openComplianceAlerts.length}
+          viewAllHref="/admin/compliance"
+        >
+          {openComplianceAlerts.map((alert: any) => (
+            <AlertRow
+              key={alert.id}
+              href={`/admin/compliance?alert=${alert.id}`}
+              label={alert.title ?? alert.alert_type ?? 'Compliance alert'}
+              detail={`${alert.severity ?? 'unknown'} severity · opened ${
+                Math.floor((Date.now() - new Date(alert.created_at).getTime()) / 86400000)
+              }d ago`}
+            />
+          ))}
+        </AlertSection>
+      )}
     </div>
   );
 }

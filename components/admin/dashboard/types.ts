@@ -159,6 +159,9 @@ export interface OperationalCounts {
   /** new leads + new enrollments created today */
   newToday: number;
   newTodayDetail: string;
+  newAppsToday: number;
+  newLeadsToday: number;
+  newEnrollmentsToday: number;
   /** revenue this month in cents */
   revenueThisMonthCents: number;
 }

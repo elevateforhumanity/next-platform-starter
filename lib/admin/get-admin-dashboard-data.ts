@@ -147,6 +147,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     wioaDocsPendingRes,
     newLeadsTodayRes,
     newEnrollmentsTodayRes,
+    newAppsTodayRes,
     stalledApplicationsRes,
     noOutcomeEnrollmentsRes,
     missingFundingEnrollmentsRes,
@@ -167,13 +168,13 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   ] = await Promise.all([
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .order('created_at', { ascending: true })
       .limit(20),
 
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review']),
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review']),
 
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
@@ -218,7 +219,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Last month pending apps count for delta
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .gte('created_at', lastMonthStartS)
       .lt('created_at', lastMonthEndS),
 
@@ -283,10 +284,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .select('id', { count: 'exact', head: true })
       .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
 
+    // New applications today
+    db.from('applications')
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
+
     // Operational alerts — stalled applications (7+ days in submitted/pending)
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .lt('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
       .order('created_at', { ascending: true })
       .limit(10),
@@ -416,6 +422,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const pendingWioaDocs = wioaDocsPendingRes.error ? 0 : (wioaDocsPendingRes.count ?? 0);
   const newLeadsToday = newLeadsTodayRes.error ? 0 : (newLeadsTodayRes.count ?? 0);
   const newEnrollmentsToday = newEnrollmentsTodayRes.error ? 0 : (newEnrollmentsTodayRes.count ?? 0);
+  const newAppsToday = (newAppsTodayRes as any)?.error ? 0 : ((newAppsTodayRes as any)?.count ?? 0);
 
   const now2 = Date.now();
   const staleLeads = staleLeadsData
@@ -599,7 +606,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       deltaLabel: appsDelta !== 0
         ? `${appsDelta > 0 ? '+' : ''}${appsDelta}% vs last month`
         : 'No change vs last month',
-      href: '/admin/applications?status=submitted,pending,in_review',
+      href: '/admin/applications?status=submitted,pending,in_review,pending_admin_review',
       urgent: totalPending > 0,
       sub: oldestApp
         ? `Oldest: ${oldestApp.age_days}d — ${oldestApp.program_interest || 'unknown program'}`
@@ -791,8 +798,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   if (totalPendingCount > 0) needsReviewParts.push(`${totalPendingCount} application${totalPendingCount !== 1 ? 's' : ''}`);
   if (pendingWioaDocs > 0) needsReviewParts.push(`${pendingWioaDocs} WIOA doc${pendingWioaDocs !== 1 ? 's' : ''}`);
 
-  const newTodayTotal = newLeadsToday + newEnrollmentsToday;
+  const newTodayTotal = newLeadsToday + newEnrollmentsToday + newAppsToday;
   const newTodayParts: string[] = [];
+  if (newAppsToday > 0) newTodayParts.push(`${newAppsToday} application${newAppsToday !== 1 ? 's' : ''}`);
   if (newLeadsToday > 0) newTodayParts.push(`${newLeadsToday} lead${newLeadsToday !== 1 ? 's' : ''}`);
   if (newEnrollmentsToday > 0) newTodayParts.push(`${newEnrollmentsToday} enrollment${newEnrollmentsToday !== 1 ? 's' : ''}`);
 
@@ -806,6 +814,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     complianceAlertsSeverity: highSeverityAlert ? (highSeverityAlert as any).severity : null,
     newToday: newTodayTotal,
     newTodayDetail: newTodayParts.length > 0 ? newTodayParts.join(', ') : 'Nothing new today',
+    newAppsToday,
+    newLeadsToday,
+    newEnrollmentsToday,
     revenueThisMonthCents,
   };
 
