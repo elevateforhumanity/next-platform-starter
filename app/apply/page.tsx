@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
-import { createStaticClient } from '@/lib/supabase/static';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
-export const revalidate = 3600;
+// No static revalidation — use admin client so all published programs are
+// always returned regardless of RLS policy state on the anon key.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Apply | Check Eligibility for Funded Training',
@@ -24,13 +26,18 @@ export default async function ApplyPage({
   // by next.config.mjs before this page renders. No barber-specific branch needed here.
   void normalizeProgramInterest(searchParams?.program);
 
-  const supabase = createStaticClient();
-  const { data: programs } = await supabase
-    .from('programs')
-    .select('id, title, slug')
-    .eq('is_active', true)
-    .eq('published', true)
-    .order('title');
+  // Use admin client to bypass RLS — programs table public_read policy
+  // historically only matched status='active' but published programs use
+  // status='published', so the anon key returns an incomplete list.
+  const db = await requireAdminClient();
+  const { data: programs } = db
+    ? await db
+        .from('programs')
+        .select('id, title, slug')
+        .in('status', ['active', 'published'])
+        .eq('published', true)
+        .order('title')
+    : { data: [] };
 
   return (
     <div className="min-h-screen bg-white">
