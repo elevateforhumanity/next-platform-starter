@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { FileText, Download, Upload } from 'lucide-react';
@@ -22,44 +23,31 @@ export default async function ApprenticeDocumentsPage() {
     redirect('/login?redirect=/apprentice/documents');
   }
 
+  // Use admin client for all data reads to bypass RLS
+  const admin = requireAdminClient();
+
   // Get apprentice profile
-  const { data: apprentice } = await supabase
+  const { data: apprentice } = await admin
     .from('apprentices')
     .select('*')
     .eq('user_id', user.id)
     .maybeSingle();
 
-  // Get documents
-  const { data: documents } = await supabase
+  // Get documents by user_id
+  const { data: documents } = await admin
     .from('documents')
-    .select('*')
-    .eq('apprentice_id', apprentice?.id)
+    .select('id, name, document_type, status, verification_status, file_url, created_at')
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   // Get required forms
-  const { data: requiredForms } = await supabase
+  const { data: requiredForms } = await admin
     .from('apprentice_forms')
     .select('*')
     .eq('program_id', apprentice?.program_id)
     .eq('is_required', true);
 
-  const defaultDocuments = [
-    {
-      id: 1,
-      name: 'Apprenticeship Agreement',
-      category: 'Contracts',
-      created_at: new Date().toISOString(),
-    },
-    { id: 2, name: 'Training Plan', category: 'Training', created_at: new Date().toISOString() },
-    {
-      id: 3,
-      name: 'Safety Certification',
-      category: 'Certifications',
-      created_at: new Date().toISOString(),
-    },
-  ];
-
-  const displayDocuments = documents && documents.length > 0 ? documents : defaultDocuments;
+  const displayDocuments = documents ?? [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -87,34 +75,50 @@ export default async function ApprenticeDocumentsPage() {
               </div>
               {displayDocuments.length > 0 ? (
                 <div className="divide-y">
-                  {displayDocuments.map((doc: any) => (
-                    <div
-                      key={doc.id}
-                      className="p-4 flex items-center justify-between hover:bg-white"
-                    >
-                      <div className="flex items-center gap-4">
-                        <FileText className="w-10 h-10 text-brand-blue-500" />
-                        <div>
-                          <h3 className="font-medium">{doc.name}</h3>
-                          <p className="text-sm text-slate-700">
-                            {doc.category} • {new Date(doc.created_at).toLocaleDateString()}
-                          </p>
+                  {displayDocuments.map((doc: any) => {
+                    const label = (doc.name || doc.document_type || 'Document')
+                      .replace(/_/g, ' ')
+                      .replace(/\b\w/g, (c: string) => c.toUpperCase());
+                    const statusColor =
+                      doc.status === 'approved' ? 'text-green-600' :
+                      doc.status === 'rejected' ? 'text-red-600' : 'text-amber-600';
+                    return (
+                      <div key={doc.id} className="p-4 flex items-center justify-between hover:bg-slate-50">
+                        <div className="flex items-center gap-4">
+                          <FileText className="w-9 h-9 text-brand-blue-500 shrink-0" />
+                          <div>
+                            <h3 className="font-medium text-slate-900">{label}</h3>
+                            <p className="text-sm text-slate-500">
+                              {new Date(doc.created_at).toLocaleDateString()}
+                              {doc.status && (
+                                <span className={`ml-2 font-medium capitalize ${statusColor}`}>
+                                  · {doc.status}
+                                </span>
+                              )}
+                            </p>
+                          </div>
                         </div>
+                        {doc.file_url && (
+                          <a
+                            href={doc.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700"
+                          >
+                            <Download className="w-5 h-5" />
+                          </a>
+                        )}
                       </div>
-                      <a
-                        href={doc.url || '#'}
-                        download
-                        className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700"
-                      >
-                        <Download className="w-5 h-5" />
-                      </a>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
-                <div className="p-8 text-center">
-                  <FileText className="w-12 h-12 text-slate-700 mx-auto mb-4" />
-                  <p className="text-slate-700">No documents found</p>
+                <div className="p-10 text-center">
+                  <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                  <p className="font-medium text-slate-700">No documents uploaded yet</p>
+                  <p className="text-sm text-slate-400 mt-1">
+                    Use the Upload button to add your photo ID, proof of residency, or other required documents.
+                  </p>
                 </div>
               )}
             </div>
