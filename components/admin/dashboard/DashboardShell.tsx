@@ -20,7 +20,8 @@ import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
 import { JobBoardPanel } from "./JobBoardPanel";
-import { TodayActivityStrip } from "./TodayActivityStrip";
+import { RecentPaymentsPanel } from "./RecentPaymentsPanel";
+import { StatsOverviewBar } from "./StatsOverviewBar";
 import { EnrollmentFunnel } from "./EnrollmentFunnel";
 
 
@@ -319,7 +320,7 @@ function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] })
 
 function ReviewQueues({ data }: { data: AdminDashboardData }) {
   const queues = [
-    { label: "Applications awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Intake queue needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted", urgent: data.counts.pendingApplications > 0 },
+    { label: "Applications awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Intake queue needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted,pending,in_review,pending_admin_review", urgent: data.counts.pendingApplications > 0 },
     { label: "WIOA documents awaiting review", count: data.pendingWioaDocs, context: data.pendingWioaDocs > 0 ? "Funding eligibility may be blocked" : "Queue is clear", href: "/admin/wioa/documents", urgent: data.pendingWioaDocs > 0 },
     { label: "Lab submissions awaiting sign-off", count: data.pendingSubmissions.length, context: data.pendingSubmissions.length > 0 ? "Instructor action required" : "Queue is clear", href: "/admin/submissions", urgent: data.pendingSubmissions.length > 0 },
     { label: "Program holders awaiting approval", count: data.counts.pendingProgramHolders, context: data.counts.pendingProgramHolders > 0 ? "Partner applications need review" : "Queue is clear", href: "/admin/program-holders", urgent: data.counts.pendingProgramHolders > 0 },
@@ -357,6 +358,9 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
         <div className="flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-slate-500" />
           <h2 className="font-bold text-slate-900">Follow-Up Queue</h2>
+          {leads.length > 0 && (
+            <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">{leads.length}</span>
+          )}
         </div>
         <Link href="/admin/crm/leads" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
           View all <ArrowRight className="w-3 h-3" />
@@ -384,6 +388,40 @@ function CrmFollowUpQueue({ leads }: { leads: StaleLeadItem[] }) {
   );
 }
 
+
+function RecentStudentsPanel({ students }: { students: import('./types').RecentStudent[] }) {
+  if (!students.length) return null;
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-slate-500" />
+          <h2 className="font-bold text-slate-900 text-sm">Recent Students</h2>
+        </div>
+        <Link href="/admin/students" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
+          View all <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
+      <div className="divide-y divide-slate-50">
+        {students.slice(0, 5).map(s => (
+          <Link key={s.id} href={s.href} className="flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors">
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-slate-900 truncate">{s.full_name ?? s.email ?? s.id.slice(0, 8)}</p>
+              <p className="text-xs text-slate-400 truncate">{s.program_name ?? 'No program'}</p>
+            </div>
+            {s.enrollment_status && (
+              <span className={`ml-2 flex-shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                s.enrollment_status === 'active' ? 'bg-emerald-100 text-emerald-700' :
+                s.enrollment_status === 'completed' ? 'bg-purple-100 text-purple-700' :
+                'bg-slate-100 text-slate-600'
+              }`}>{s.enrollment_status}</span>
+            )}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function RecentActivity({ items }: { items: { id: string; title: string; timestamp: string }[] }) {
   if (items.length === 0) return null;
@@ -439,7 +477,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         </div>
         {/* Quick-action strip — mobile only. Desktop has the full nav bar. */}
         <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 scrollbar-none">
-          <Link href="/admin/applications?status=submitted" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
+          <Link href="/admin/applications?status=submitted,pending,in_review,pending_admin_review" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
           <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
           <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>
@@ -454,8 +492,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <AdminCategoryLanding />
 
-        {/* ── Today's activity strip ───────────────────────────────────── */}
-        <TodayActivityStrip operational={data.operational} />
+        {/* ── Stats overview bar ───────────────────────────────────────── */}
+        <StatsOverviewBar data={data} />
 
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
@@ -496,6 +534,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
                 <RecentApplicationsList items={data.recentApplications} />
               </div>
             )}
+            <RecentPaymentsPanel payments={data.recentPayments} />
+            <RecentStudentsPanel students={data.recentStudents} />
           </div>
         </div>
 
