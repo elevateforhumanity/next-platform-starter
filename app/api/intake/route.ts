@@ -68,6 +68,14 @@ async function _POST(req: Request) {
       ? [barriersRaw as string]
       : [];
 
+  // Document URLs uploaded via /api/intake/upload before form submission
+  const documentUrlsRaw = body.document_urls;
+  const documentUrls: string[] = Array.isArray(documentUrlsRaw)
+    ? documentUrlsRaw.filter((u): u is string => typeof u === 'string' && u.length > 0)
+    : typeof documentUrlsRaw === 'string' && documentUrlsRaw
+      ? [documentUrlsRaw]
+      : [];
+
   // Non-fatal — apprenticeship_intake is a secondary log table. If it fails
   // (e.g. table not yet applied in this environment) we continue to the canonical
   // applications insert below so the application is never lost.
@@ -94,6 +102,7 @@ async function _POST(req: Request) {
       preferred_location: clean(body.preferred_location as string),
       notes: clean(body.notes as string, 1000),
       funding_tag: fundingTag,
+      document_urls: documentUrls.length > 0 ? documentUrls : undefined,
     },
   ]);
 
@@ -123,6 +132,7 @@ async function _POST(req: Request) {
     body.preferred_location ? `Preferred location: ${body.preferred_location}` : null,
     fundingTag ? `Funding tag: ${fundingTag}` : null,
     barriers.length ? `Barriers: ${barriers.join(', ')}` : null,
+    documentUrls.length > 0 ? `Documents uploaded: ${documentUrls.length}` : null,
   ].filter(Boolean).join(' | ');
 
   const zipCode = resolveZip([
@@ -173,6 +183,7 @@ async function _POST(req: Request) {
         workforce_connection: body.workforce_connection,
         county: body.county,
         barriers,
+        document_urls: documentUrls.length > 0 ? documentUrls : undefined,
       },
       submitted_at: new Date().toISOString(),
     })
