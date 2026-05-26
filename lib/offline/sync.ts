@@ -15,7 +15,7 @@ export class SyncManager {
     if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
       try {
         const registration = await navigator.serviceWorker.ready;
-        await (registration as string).sync.register('sync-progress');
+        await (registration as unknown as { sync: { register: (tag: string) => Promise<void> } }).sync.register('sync-progress');
         //
       } catch (error) {
         /* Error handled silently */
@@ -80,7 +80,7 @@ export class SyncManager {
               //
             }
           } else {
-            logger.error(`[Sync] Failed to sync progress:`, response.statusText);
+            logger.error(`[Sync] Failed to sync progress: ${response.statusText}`);
           }
         } catch (error) {
           /* Error handled silently */
