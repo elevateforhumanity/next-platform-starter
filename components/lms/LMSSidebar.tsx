@@ -26,9 +26,20 @@ import {
   Zap,
   Folder,
   Bell,
+  Scissors,
 } from 'lucide-react';
 import { NotificationBell } from './NotificationBell';
 import { createClient } from '@/lib/supabase/client';
+
+const PORTAL_TYPE_TO_PATH: Record<string, string> = {
+  barber:       '/portal/barber',
+  cosmetology:  '/portal/cosmetology',
+  esthetician:  '/portal/esthetician',
+  'nail-technician': '/portal/nail-technician',
+  culinary:     '/portal/culinary',
+  electrical:   '/portal/electrical',
+  plumbing:     '/portal/plumbing',
+};
 
 interface LMSSidebarProps {
   user: { id: string; email?: string };
@@ -38,6 +49,7 @@ interface LMSSidebarProps {
     last_name?: string;
     avatar_url?: string;
     role?: string;
+    portal_type?: string | null;
   } | null;
   courseCount?: number;
   unreadMessages?: number;
@@ -183,6 +195,28 @@ export function LMSSidebar({
 
       {/* Nav */}
       <nav aria-label="LMS sidebar navigation" className="flex-1 overflow-y-auto py-3 px-2">
+        {/* Apprenticeship portal shortcut — shown only for enrolled apprentices */}
+        {profile?.portal_type && PORTAL_TYPE_TO_PATH[profile.portal_type] && (
+          <div className="mb-4">
+            {!collapsed && (
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600 px-3 mb-1">
+                Apprenticeship
+              </p>
+            )}
+            <Link
+              href={PORTAL_TYPE_TO_PATH[profile.portal_type]}
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group mb-0.5 ${
+                pathname?.startsWith('/portal/')
+                  ? 'bg-brand-blue-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Scissors className={`w-4 h-4 flex-shrink-0 ${pathname?.startsWith('/portal/') ? 'text-white' : 'text-slate-500 group-hover:text-white'}`} />
+              {!collapsed && <span className="flex-1 truncate">My Dashboard</span>}
+            </Link>
+          </div>
+        )}
         {[
           { label: 'My Learning', items: learningItems },
           { label: 'Practice', items: practiceItems },
