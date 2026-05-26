@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { requireUser } from '@/lib/auth/require-user';
 import { PartnerProgramHolderShell } from '@/components/portal/PartnerProgramHolderShell';
 
 export const dynamic = 'force-dynamic';
@@ -15,22 +15,27 @@ export const metadata: Metadata = {
   description: 'Manage your host site partnership with Elevate for Humanity.',
 };
 
-export default async function PartnerLayout({ children }: { children: React.ReactNode }) {
-  const { user } = await requireUser({
-    allowedRoles: ['partner', 'admin', 'super_admin', 'org_admin', 'staff'],
-  });
+const PORTAL_ROLES = ['partner', 'program_holder', 'admin', 'super_admin', 'staff', 'org_admin'];
 
+export default async function PartnerLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const admin = await requireAdminClient();
-  const db = admin ?? supabase;
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) redirect('/login?redirect=/partner/dashboard');
+
+  const db = await requireAdminClient() ?? supabase;
 
   const { data: profile } = await db
     .from('profiles')
-    .select('role, full_name, email')
+    .select('id, role, full_name, email')
     .eq('id', user.id)
     .maybeSingle();
 
-  // Resolve org name from partner_users → partners join
+  if (!profile || !PORTAL_ROLES.includes(profile.role ?? '')) {
+    redirect('/unauthorized');
+  }
+
+  // Resolve org name from partner_users → partners
   let orgName: string | undefined;
   const { data: partnerLink } = await db
     .from('partner_users')
@@ -43,9 +48,9 @@ export default async function PartnerLayout({ children }: { children: React.Reac
 
   return (
     <PartnerProgramHolderShell
-      role={profile?.role ?? 'partner'}
-      userName={profile?.full_name ?? user.email ?? ''}
-      userEmail={profile?.email ?? user.email ?? ''}
+      role={profile.role}
+      userName={profile.full_name ?? user.email ?? ''}
+      userEmail={profile.email ?? user.email ?? ''}
       orgName={orgName}
     >
       {children}
