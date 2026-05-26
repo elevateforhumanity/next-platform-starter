@@ -17,7 +17,7 @@ const QuizManagerClient = dynamic(
 
 export function QuizPanel() {
   const { state, appendAIMemory } = useCourse();
-  const { course, lessons } = state;
+  const { course, lessons, quizzes } = state;
 
   const quizLessons = lessons.filter(l =>
     ['quiz', 'checkpoint', 'exam'].includes(l.lesson_type)
@@ -28,12 +28,20 @@ export function QuizPanel() {
       <PanelHeader
         icon={<HelpCircle className="w-5 h-5" />}
         title="Quizzes & Assessments"
-        subtitle={`${quizLessons.length} assessment lesson${quizLessons.length !== 1 ? 's' : ''}`}
+        subtitle={`${quizzes.length} quiz${quizzes.length !== 1 ? 'zes' : ''} · ${quizLessons.length} assessment lesson${quizLessons.length !== 1 ? 's' : ''}`}
       />
       <QuizManagerClient
         course={{ id: course.id, title: course.title }}
         courseId={course.id}
-        initialQuizzes={[]}
+        initialQuizzes={quizzes.map(q => ({
+          id: q.id,
+          course_id: q.course_id,
+          title: q.title,
+          description: q.description,
+          time_limit_minutes: q.time_limit_minutes,
+          passing_score: q.passing_score ?? 70,
+          question_count: q.question_count ?? 0,
+        }))}
         onQuizSaved={(quiz) => {
           appendAIMemory({
             role: 'action',

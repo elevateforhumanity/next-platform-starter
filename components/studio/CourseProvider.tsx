@@ -31,6 +31,7 @@ import type {
   StudioCourse,
   StudioModule,
   StudioLesson,
+  StudioQuiz,
   StudioVideo,
   StudioAutomationRule,
   StudioWorkflow,
@@ -54,6 +55,7 @@ export interface CourseState {
   course: StudioCourse;
   modules: StudioModule[];
   lessons: StudioLesson[];
+  quizzes: StudioQuiz[];
   videos: StudioVideo[];
   automationRules: StudioAutomationRule[];
   workflows: StudioWorkflow[];
@@ -141,7 +143,7 @@ function reducer(state: CourseState, action: CourseAction): CourseState {
         modules: exists
           ? state.modules.map(m => m.id === action.module.id ? action.module : m)
           : [...state.modules, action.module].sort((a, b) => a.order_index - b.order_index),
-        autosave: { ...state.autosave, isDirty: true },
+        // Module mutations have their own API calls — do not mark course metadata dirty
       };
     }
 
@@ -149,7 +151,7 @@ function reducer(state: CourseState, action: CourseAction): CourseState {
       return {
         ...state,
         modules: state.modules.filter(m => m.id !== action.moduleId),
-        autosave: { ...state.autosave, isDirty: true },
+        // Module mutations have their own API calls — do not mark course metadata dirty
       };
 
     case 'SET_LESSONS':
@@ -162,7 +164,7 @@ function reducer(state: CourseState, action: CourseAction): CourseState {
         lessons: exists
           ? state.lessons.map(l => l.id === action.lesson.id ? action.lesson : l)
           : [...state.lessons, action.lesson].sort((a, b) => a.order_index - b.order_index),
-        autosave: { ...state.autosave, isDirty: true },
+        // Lesson mutations have their own API calls — do not mark course metadata dirty
       };
     }
 
@@ -170,7 +172,7 @@ function reducer(state: CourseState, action: CourseAction): CourseState {
       return {
         ...state,
         lessons: state.lessons.filter(l => l.id !== action.lessonId),
-        autosave: { ...state.autosave, isDirty: true },
+        // Lesson mutations have their own API calls — do not mark course metadata dirty
       };
 
     case 'SET_VIDEOS':

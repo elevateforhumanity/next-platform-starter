@@ -127,6 +127,18 @@ export interface StudioWorkflow {
   created_at: string;
 }
 
+export interface StudioQuiz {
+  id: string;
+  course_id: string;
+  title: string;
+  description: string | null;
+  time_limit_minutes: number | null;
+  passing_score: number | null;
+  question_count: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface StudioPublishState {
   isPublished: boolean;
   publishedAt: string | null;
@@ -143,6 +155,7 @@ export interface CourseSession {
   course: StudioCourse;
   modules: StudioModule[];
   lessons: StudioLesson[];
+  quizzes: StudioQuiz[];
   videos: StudioVideo[];
   automationRules: StudioAutomationRule[];
   workflows: StudioWorkflow[];
@@ -191,6 +204,7 @@ export async function loadCourseSession(courseId: string): Promise<CourseSession
     videosRes,
     automationRes,
     workflowsRes,
+    quizzesRes,
   ] = await Promise.all([
     queryDb
       .from('course_modules')
@@ -234,6 +248,13 @@ export async function loadCourseSession(courseId: string): Promise<CourseSession
       .select('id, name, workflow_key, category, status, last_run_at, last_run_status, run_count, created_at')
       .order('created_at', { ascending: false })
       .limit(50),
+
+    // Quizzes scoped to this course
+    queryDb
+      .from('quizzes')
+      .select('id, course_id, title, description, time_limit_minutes, passing_score, question_count, created_at, updated_at')
+      .eq('course_id', courseId)
+      .order('created_at', { ascending: false }),
   ]);
 
   // ── Resolve optional results with graceful degradation ───────────────────
@@ -257,12 +278,17 @@ export async function loadCourseSession(courseId: string): Promise<CourseSession
     warnings.push('workflows query failed');
     logger.warn('[studio] workflows query failed', { message: workflowsRes.error.message });
   }
+  if (quizzesRes.error) {
+    warnings.push('quizzes query failed');
+    logger.warn('[studio] quizzes query failed', { message: quizzesRes.error.message, courseId });
+  }
 
   const modules = (modulesRes.data ?? []) as StudioModule[];
   const lessons = (lessonsRes.data ?? []) as StudioLesson[];
   const videos = (videosRes.data ?? []) as StudioVideo[];
   const automationRules = (automationRes.data ?? []) as StudioAutomationRule[];
   const workflows = (workflowsRes.data ?? []) as StudioWorkflow[];
+  const quizzes = (quizzesRes.data ?? []) as StudioQuiz[];
 
   // ── Derive publish state ──────────────────────────────────────────────────
   const publishedLessons = lessons.filter(l => l.is_published).length;
@@ -288,6 +314,7 @@ export async function loadCourseSession(courseId: string): Promise<CourseSession
     course: course as StudioCourse,
     modules,
     lessons,
+    quizzes,
     videos,
     automationRules,
     workflows,

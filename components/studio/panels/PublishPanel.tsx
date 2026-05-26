@@ -73,6 +73,10 @@ export function PublishPanel() {
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
+        if (d.error === 'PUBLISH_BLOCKED' && Array.isArray(d.blocking_issues) && d.blocking_issues.length > 0) {
+          // Surface each blocking issue as a readable list
+          throw new Error('Cannot publish — fix these issues first:\n• ' + d.blocking_issues.join('\n• '));
+        }
         throw new Error(d.error ?? 'Publish failed');
       }
       updatePublishState({ isPublished: true, publishedAt: new Date().toISOString() });
@@ -163,11 +167,19 @@ export function PublishPanel() {
         </div>
       )}
 
-      {/* Error */}
+      {/* Error — renders blocking_issues as a list when multiple lines */}
       {error && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 border border-red-200 mb-4">
-          <XCircle className="w-5 h-5 text-red-500 shrink-0" />
-          <p className="text-sm text-red-800">{error}</p>
+        <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-red-50 border border-red-200 mb-4">
+          <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+          {error.includes('\n') ? (
+            <ul className="text-sm text-red-800 space-y-1">
+              {error.split('\n').map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-red-800">{error}</p>
+          )}
         </div>
       )}
 

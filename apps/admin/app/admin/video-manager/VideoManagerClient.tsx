@@ -47,13 +47,13 @@ export default function VideoManagerPage({ initialVideos, onVideoAttached, embed
   async function fetchVideos() {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/videos/upload');
+      const res = await fetch('/api/admin/videos');
       if (res.ok) {
-        const data = await res.json();
-        setVideos(data.videos ?? data ?? []);
+        const json = await res.json();
+        setVideos(json.data ?? json.videos ?? []);
       }
     } catch {
-      // API may return empty
+      // silent — stale list is better than a crash
     } finally {
       setLoading(false);
     }

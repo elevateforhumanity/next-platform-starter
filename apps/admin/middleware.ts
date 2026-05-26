@@ -43,7 +43,13 @@ export function middleware(req: NextRequest) {
 
   // Cookie presence check — no Supabase client, no DB round-trip on every request.
   // Role enforcement happens in the admin layout (requireAdmin) and API guards (apiRequireAdmin).
-  const hasSession = req.cookies.get(SESSION_COOKIE);
+  //
+  // @supabase/ssr chunks large tokens across multiple cookies named
+  // `<base>.0`, `<base>.1`, etc. Check for the base name OR any chunk.
+  const allCookies = req.cookies.getAll();
+  const hasSession = allCookies.some(
+    (c) => c.name === SESSION_COOKIE || c.name.startsWith(`${SESSION_COOKIE}.`),
+  );
 
   if (!hasSession) {
     const loginUrl = new URL('/login', req.url);

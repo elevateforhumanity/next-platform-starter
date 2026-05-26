@@ -45,23 +45,36 @@ async function _POST(req: NextRequest) {
     if (!db) return safeError('Database unavailable', 503);
 
     const body = await req.json();
+
+    // Derive next order_index if not provided
+    let orderIndex = body.order_index ?? 0;
+    if (orderIndex === 0 && body.course_id) {
+      const { count } = await db
+        .from('course_lessons')
+        .select('id', { count: 'exact', head: true })
+        .eq('course_id', body.course_id);
+      orderIndex = (count ?? 0);
+    }
+
     const payload = {
       course_id: body.course_id,
+      module_id: body.module_id ?? null,
       title: body.title,
       content: body.content ?? null,
       video_url: body.video_url ?? null,
       duration_minutes: body.duration_minutes ?? null,
-      order_index: body.order_index ?? 0,
-      lesson_number: body.lesson_number ?? null,
+      order_index: orderIndex,
+      lesson_type: body.lesson_type ?? body.step_type ?? 'lesson',
+      is_published: body.is_published ?? false,
     };
 
-    const { data, error } = await db.from('training_lessons').insert(payload).select('*').single();
-    if (error) return safeError('Failed to create lesson', 400);
+    const { data, error } = await db.from('course_lessons').insert(payload).select('*').single();
+    if (error) return safeError(`Failed to create lesson: ${error.message}`, 400);
 
     await logAdminAudit({
       action: AdminAction.LESSON_CREATED,
       actorId: auth.id,
-      entityType: 'training_lessons',
+      entityType: 'course_lessons',
       entityId: data.id,
       metadata: { course_id: payload.course_id },
     });
@@ -86,7 +99,7 @@ async function _PATCH(req: NextRequest) {
     const id = String(body.id || '').trim();
     if (!id) return safeError('Lesson id is required', 400);
 
-    const payload = {
+    const payload: Record<string, unknown> = {
       title: body.title,
       content: body.content ?? null,
       video_url: body.video_url ?? null,
@@ -94,16 +107,19 @@ async function _PATCH(req: NextRequest) {
       order_index: body.order_index ?? 0,
       updated_at: new Date().toISOString(),
     };
+    if (body.lesson_type !== undefined) payload.lesson_type = body.lesson_type;
+    if (body.module_id !== undefined) payload.module_id = body.module_id;
+    if (body.is_published !== undefined) payload.is_published = body.is_published;
 
-    const { data, error } = await db.from('training_lessons').update(payload).eq('id', id).select('*').single();
-    if (error) return safeError('Failed to update lesson', 400);
+    const { data, error } = await db.from('course_lessons').update(payload).eq('id', id).select('*').single();
+    if (error) return safeError(`Failed to update lesson: ${error.message}`, 400);
 
     await logAdminAudit({
       action: AdminAction.LESSON_UPDATED,
       actorId: auth.id,
-      entityType: 'training_lessons',
+      entityType: 'course_lessons',
       entityId: id,
-      metadata: { title: payload.title },
+      metadata: { title: String(payload.title) },
     });
 
     return NextResponse.json({ data });
@@ -127,15 +143,15 @@ async function _PUT(req: NextRequest) {
     const lessonB = body.lessonB as { id: string; order_index: number };
     if (!lessonA?.id || !lessonB?.id) return safeError('Reorder payload is required', 400);
 
-    const { error: errA } = await db.from('training_lessons').update({ order_index: lessonA.order_index }).eq('id', lessonA.id);
+    const { error: errA } = await db.from('course_lessons').update({ order_index: lessonA.order_index }).eq('id', lessonA.id);
     if (errA) return safeError('Failed to reorder lessons', 400);
-    const { error: errB } = await db.from('training_lessons').update({ order_index: lessonB.order_index }).eq('id', lessonB.id);
+    const { error: errB } = await db.from('course_lessons').update({ order_index: lessonB.order_index }).eq('id', lessonB.id);
     if (errB) return safeError('Failed to reorder lessons', 400);
 
     await logAdminAudit({
       action: AdminAction.LESSON_UPDATED,
       actorId: auth.id,
-      entityType: 'training_lessons',
+      entityType: 'course_lessons',
       entityId: lessonA.id,
       metadata: { operation: 'reorder', paired_lesson_id: lessonB.id },
     });
@@ -160,13 +176,13 @@ async function _DELETE(req: NextRequest) {
     const id = String(body.id || '').trim();
     if (!id) return safeError('Lesson id is required', 400);
 
-    const { error } = await db.from('training_lessons').delete().eq('id', id);
-    if (error) return safeError('Failed to delete lesson', 400);
+    const { error } = await db.from('course_lessons').delete().eq('id', id);
+    if (error) return safeError(`Failed to delete lesson: ${error.message}`, 400);
 
     await logAdminAudit({
       action: AdminAction.LESSON_DELETED,
       actorId: auth.id,
-      entityType: 'training_lessons',
+      entityType: 'course_lessons',
       entityId: id,
       metadata: {},
     });

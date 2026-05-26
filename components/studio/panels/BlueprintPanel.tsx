@@ -10,7 +10,7 @@ import { useCourse } from '../CourseProvider';
 import { Layers, ExternalLink } from 'lucide-react';
 
 export function BlueprintPanel() {
-  const { state, updateCourse, appendAIMemory } = useCourse();
+  const { state, updateCourse, appendAIMemory, setPanel } = useCourse();
   const { course, modules } = state;
 
   // Local form state — synced from provider on mount
@@ -21,9 +21,7 @@ export function BlueprintPanel() {
   const [durationHours, setDurationHours] = useState(
     course.duration_hours != null ? String(course.duration_hours) : ''
   );
-  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
-    (course.status as 'draft' | 'published' | 'archived') ?? 'draft'
-  );
+  const status = (course.status as 'draft' | 'published' | 'archived') ?? 'draft';
 
   // Push changes into CourseProvider (triggers autosave)
   function commit(patch: Partial<typeof course>) {
@@ -136,24 +134,27 @@ export function BlueprintPanel() {
           </div>
         </div>
 
-        {/* Status */}
+        {/* Status — read-only; publishing goes through the Publish panel */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
-          <select
-            value={status}
-            onChange={e => {
-              const v = e.target.value as typeof status;
-              setStatus(v);
-              commit({ status: v });
-            }}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent bg-white"
-          >
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
-          </select>
+          <div className="flex items-center justify-between px-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50">
+            <span className={`text-sm font-medium capitalize ${
+              status === 'published' ? 'text-emerald-700' :
+              status === 'archived' ? 'text-slate-400' :
+              'text-amber-700'
+            }`}>
+              {status}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPanel('publish')}
+              className="text-xs font-medium text-brand-blue-600 hover:text-brand-blue-800 transition"
+            >
+              {status === 'published' ? 'Manage →' : 'Publish →'}
+            </button>
+          </div>
           <p className="text-xs text-slate-400 mt-1">
-            Use the Publish panel to publish — it runs readiness checks first.
+            Publishing runs readiness checks. Use the Publish panel to change status.
           </p>
         </div>
 
