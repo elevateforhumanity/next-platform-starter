@@ -272,8 +272,8 @@ export async function syncAllExternalModules(): Promise<void> {
   for (const progress of activeProgress) {
     // Only sync API-based enrollments
     if (
-      progress.external_partner_modules.delivery_mode === 'api' ||
-      progress.external_partner_modules.delivery_mode === 'hybrid'
+      (progress.external_partner_modules as any).delivery_mode === 'api' ||
+      (progress.external_partner_modules as any).delivery_mode === 'hybrid'
     ) {
       try {
         await syncExternalModuleProgress(progress.id);

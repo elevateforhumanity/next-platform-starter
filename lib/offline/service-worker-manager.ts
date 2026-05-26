@@ -106,7 +106,7 @@ export class ServiceWorkerManager {
       return;
     }
     try {
-      const syncManager = (this.registration as string).sync;
+      const syncManager = (this.registration as unknown as { sync: { register: (tag: string) => Promise<void> } }).sync;
       await syncManager.register(tag);
     } catch (error) {
       /* Error handled silently */

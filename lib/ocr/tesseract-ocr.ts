@@ -31,7 +31,7 @@ export async function extractTextFromImage(
     return {
       text: data.text,
       confidence: data.confidence,
-      words: data.words.map((w: any) => ({
+      words: ((data as any).words ?? []).map((w: any) => ({
         text: w.text,
         confidence: w.confidence,
         bbox: w.bbox,
@@ -51,7 +51,7 @@ export async function extractTextFromImage(
 export async function extractTextFromPdf(pdfBuffer: Buffer): Promise<OCRResult> {
   try {
     const pdfParse = await import(/* webpackIgnore: true */ 'pdf-parse');
-    const parsed = await pdfParse.default(pdfBuffer);
+    const parsed = await (pdfParse as any).default(pdfBuffer);
     const text = (parsed.text ?? '').trim();
     return {
       text,
