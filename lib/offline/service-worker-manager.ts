@@ -185,7 +185,7 @@ export class ServiceWorkerManager {
     });
     window.dispatchEvent(event);
     this.syncListeners.forEach((listener) => {
-      listener({ syncedCount } as string);
+      listener({ syncedCount });
     });
   }
   /**
