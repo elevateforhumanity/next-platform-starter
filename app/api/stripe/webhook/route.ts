@@ -80,39 +80,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Handle tax intake DIY service payments
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
-
-      // Check if this is a tax intake payment
-      const intakeId = session.client_reference_id || session.metadata?.intake_id;
-      if (intakeId && session.metadata?.service_type === 'tax_intake') {
-        const { requireAdminClient } = await import('@/lib/supabase/admin');
-        const supabaseAdmin = await requireAdminClient();
-
-        const { error } = await supabaseAdmin
-          .from('tax_intake')
-          .update({
-            paid: true,
-            stripe_session_id: session.id,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', intakeId);
-
-        if (error) {
-          logger.error('Failed to mark tax intake as paid', error);
-        } else {
-          logger.info(`✅ Marked tax intake ${intakeId} as paid (session: ${session.id})`);
-          void emitEvent('payment.completed', 'payment', {
-            actor_id: userId ?? undefined,
-            actor_type: 'user',
-            subject_id: session.id,
-            subject_type: 'stripe_session',
-            payload: { intakeId, amount: session.amount_total, currency: session.currency },
-            message: `Tax intake payment completed (session: ${session.id})`,
-          });
-        }
-      }
 
       // Check if this is a course enrollment payment
       const courseId = session.metadata?.courseId;

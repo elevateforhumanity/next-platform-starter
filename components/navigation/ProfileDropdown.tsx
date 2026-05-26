@@ -36,7 +36,6 @@ const ROLE_PORTAL: Record<string, { label: string; href: string }> = {
   employer:        { label: 'Employer Portal',        href: '/employer/dashboard' },
   partner:         { label: 'Partner Portal',         href: '/partner/dashboard' },
   student:         { label: 'My Dashboard',           href: '/learner/dashboard' },
-  vita_staff:      { label: 'Admin Dashboard',        href: '/admin/dashboard' },
 };
 
 interface UserProfile {

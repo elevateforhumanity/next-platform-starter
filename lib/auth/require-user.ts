@@ -38,7 +38,6 @@ export type AppRole =
   | 'case_manager'
   | 'provider_admin'
   | 'grant_client'
-  | 'vita_staff'
 
 export type AuthUser = {
   id: string;

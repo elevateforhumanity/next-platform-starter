@@ -8,7 +8,6 @@ export type UserRole =
   | 'program_holder'
   | 'instructor'
   | 'admin'
-  | 'vita_staff'
   | 'grant_client';
 
 export type CurrentProfile = {
