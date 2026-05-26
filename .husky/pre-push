@@ -81,7 +81,7 @@ else
   if [ -z "$LINTABLE" ]; then
     echo "  ✅ ESLint: only ignored files changed, skipping."
   else
-    if ! NODE_OPTIONS='--max-old-space-size=4096' npx eslint $LINTABLE --max-warnings=0 2>&1; then
+    if ! NODE_OPTIONS='--max-old-space-size=4096' npx eslint $LINTABLE --max-warnings=0 --no-warn-ignored 2>&1; then
       echo "❌ ESLint: violations found in changed files. Fix before pushing."
       exit 1
     fi
