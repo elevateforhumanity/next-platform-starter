@@ -47,7 +47,7 @@ async function resolveCourse(courseId: string) {
   if (course) return { ...course, _lessonCourseId: course.id };
 
   const { data: tc } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, description, is_active, slug')
     .eq('id', courseId)
     .maybeSingle();

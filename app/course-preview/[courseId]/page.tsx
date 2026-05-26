@@ -153,14 +153,14 @@ export default function CoursePreviewPage() {
     // Support both UUID and slug lookups
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(courseId);
     const { data: courseData } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('*')
       .eq(isUUID ? 'id' : 'slug', courseId)
       .maybeSingle();
 
     const resolvedId = courseData?.id || courseId;
     const { data: lessonsData } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*')
       .eq('course_id', resolvedId)
       .order('order_number');

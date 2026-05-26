@@ -111,7 +111,7 @@ export function SearchBar({
 
       // Search courses
       const { data: courses } = await supabase
-        .from('training_courses')
+        .from('lms_courses')
         .select('id, title, description, slug')
         .or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
         .limit(5);

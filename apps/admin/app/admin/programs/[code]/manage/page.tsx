@@ -94,7 +94,7 @@ export default async function ManageProgramPage({ params }: { params: Promise<{ 
 
   // Load all published + draft courses for the attach picker
   const { data: availableCourses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, course_name, status, category')
     .in('status', ['published', 'draft'])
     .order('title');

@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
 
   if (!directCourse) {
     const { data: tc } = await db
-      .from('training_courses')
+      .from('lms_courses')
       .select('id, slug')
       .eq('id', courseId)
       .maybeSingle();

@@ -228,7 +228,7 @@ export async function getOrgProgress(filters: OrgReportFilters): Promise<OrgProg
 
   if (programId) {
     const { data: tc } = await db
-      .from('training_courses')
+      .from('lms_courses')
       .select('id')
       .eq('program_id', programId)
       .maybeSingle();

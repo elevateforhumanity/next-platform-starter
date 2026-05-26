@@ -96,13 +96,13 @@ async function checkInternalLessons(
   const supabase = await getSupabaseAdmin();
   // Count total lessons in course
   const { count: totalLessons } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('*', { count: 'exact', head: true })
     .eq('course_id', courseId);
 
   // Fetch lesson IDs for this course first (Supabase v2 .in() requires a plain array)
   const { data: lessonRows } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id')
     .eq('course_id', courseId);
   const lessonIds = (lessonRows ?? []).map((r: { id: string }) => r.id);
@@ -184,7 +184,7 @@ async function checkQuizzesPassed(
 
   // Get all quiz-type lessons for this course
   const { data: quizLessons } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id, title')
     .eq('course_id', courseId)
     .eq('type', 'quiz');
@@ -269,7 +269,7 @@ async function generateCourseCertificate(userId: string, courseId: string): Prom
   const supabase = await getSupabaseAdmin();
   // Get course details
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('title')
     .eq('id', courseId)
     .maybeSingle();

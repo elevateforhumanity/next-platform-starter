@@ -15,7 +15,7 @@ async function getCourseDetail(courseId: string) {
   const supabase = await requireAdminClient();
 
   const { data: course, error } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select(
       'id, slug, course_name, description, is_active, updated_at, program_id, programs(slug, title)',
     )

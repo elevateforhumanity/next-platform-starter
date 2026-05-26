@@ -70,7 +70,7 @@ export default async function CertificationPage() {
       .lt('progress_percent', 100),
 
     supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('id, title, certification_name, certification_body')
       .not('certification_name', 'is', null)
       .eq('is_active', true)

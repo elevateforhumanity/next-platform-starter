@@ -62,7 +62,7 @@ async function _GET(request: Request) {
 
       // Active courses
       supabase
-        .from('training_courses')
+        .from('lms_courses')
         .select('id', { count: 'exact', head: true })
         .eq('is_published', true),
 

@@ -58,7 +58,7 @@ async function _GET(_req: NextRequest, { params }: Params) {
 
     // Get course details
     const { data: course } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('title, description')
       .eq('id', certificate.course_id)
       .maybeSingle();

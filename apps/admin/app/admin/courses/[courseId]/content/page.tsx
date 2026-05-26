@@ -22,7 +22,7 @@ export default async function CourseContentPage({
   const supabase = await createClient();
 
   const { data: rawCourse } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('id', courseId)
     .maybeSingle();
@@ -63,7 +63,7 @@ export default async function CourseContentPage({
     lessons = curriculumLessons;
   } else {
     const { data: legacyLessons } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*')
       .eq('course_id', courseId)
       .order('lesson_number');

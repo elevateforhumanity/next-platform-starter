@@ -21,7 +21,7 @@ export default async function CourseQuizzesPage({
   const supabase = await createClient();
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('id', courseId)
     .maybeSingle();

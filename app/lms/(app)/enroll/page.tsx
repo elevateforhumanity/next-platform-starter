@@ -47,7 +47,7 @@ export default async function EnrollPage({ searchParams }: Props) {
 
   // Fetch available courses (not enrolled)
   const { data: courses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('is_published', true)
     .order('created_at', { ascending: false });

@@ -32,7 +32,7 @@ export default async function InstructorDashboard() {
 
   // ── Legacy path: training_courses → training_enrollments (HVAC) ──────────
   const { data: myCourses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id')
     .eq('instructor_id', user.id);
 

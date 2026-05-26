@@ -67,7 +67,7 @@ export default async function RecordAttendancePage() {
 
     // Get active courses linked to this partner
     const { data: courseData } = await db
-      .from('training_courses')
+      .from('lms_courses')
       .select('id, title')
       .eq('partner_id', partnerId)
       .eq('is_active', true);

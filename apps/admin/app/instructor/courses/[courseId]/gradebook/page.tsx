@@ -19,7 +19,7 @@ export default async function GradebookPage({ params }: { params: { courseId: st
   if (!user) redirect('/login');
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('id', params.courseId)
     .maybeSingle();

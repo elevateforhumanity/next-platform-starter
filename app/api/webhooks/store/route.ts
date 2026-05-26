@@ -65,7 +65,7 @@ async function grantLmsAccess(
     courseSlugOrId,
   );
   const { data: course } = await adminDb
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, course_name, slug')
     .eq(isUuid ? 'id' : 'slug', courseSlugOrId)
     .maybeSingle();

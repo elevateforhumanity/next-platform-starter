@@ -56,7 +56,7 @@ async function _POST(request: NextRequest) {
         );
 
         const { data: lessonData, error: lessonError } = await supabase
-          .from('training_lessons')
+          .from('lms_lessons')
           .upsert({
             id: lesson.id.startsWith('lesson-') ? undefined : lesson.id,
             module_id: moduleData.id,

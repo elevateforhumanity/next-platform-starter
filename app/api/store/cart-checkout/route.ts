@@ -88,7 +88,7 @@ async function _POST(req: Request) {
     let courseSlugs: string[] = [];
     if (lmsCourseIds.length > 0) {
       const { data: courses } = await supabase
-        .from('training_courses')
+        .from('lms_courses')
         .select('id, slug')
         .in('id', lmsCourseIds);
       courseSlugs = (courses || []).map((c: any) => c.slug).filter(Boolean);

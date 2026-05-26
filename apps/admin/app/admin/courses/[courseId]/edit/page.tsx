@@ -45,7 +45,7 @@ export default async function EditCoursePage({
     course = { ...canonicalCourse, _source: 'courses' };
   } else {
     const { data: legacyCourse } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('*')
       .eq('id', courseId)
       .maybeSingle();

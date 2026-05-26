@@ -102,7 +102,7 @@ async function _POST(request: NextRequest) {
 
     // ── Step 2: Insert training_courses ──────────────────────────────────────
     const { data: course, error: courseErr } = await adminDb
-      .from('training_courses')
+      .from('lms_courses')
       .insert({
         course_name: draft.course_name, // NOT NULL
         title: draft.title,
@@ -144,7 +144,7 @@ async function _POST(request: NextRequest) {
       const lessonNumber = i + 1;
 
       const { data: lesson, error: lessonErr } = await adminDb
-        .from('training_lessons')
+        .from('lms_lessons')
         .insert({
           course_id: course.id,
           lesson_number: lessonNumber, // NOT NULL

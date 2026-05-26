@@ -102,7 +102,7 @@ async function generateForLesson(
       const result = await generateSynthesiaVideo(script, avatarId);
 
       await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -128,7 +128,7 @@ async function generateForLesson(
       const result = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
 
       await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -152,7 +152,7 @@ async function generateForLesson(
       const result = await generateSoraVideo(prompt, '8', '1280x720');
 
       await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -181,7 +181,7 @@ async function generateForLesson(
     const audioUrl = `/hvac/audio/${filename}`;
 
     await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .update({ video_url: audioUrl, updated_at: new Date().toISOString() })
       .eq('id', lesson.id);
 
@@ -203,7 +203,7 @@ async function generateForLesson(
     const audioUrl = `/hvac/audio/${filename}`;
 
     await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .update({ video_url: audioUrl, updated_at: new Date().toISOString() })
       .eq('id', lesson.id);
 
@@ -239,7 +239,7 @@ async function generateForLesson(
 
     if (result.success && result.videoUrl) {
       await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -285,14 +285,14 @@ async function _POST(request: NextRequest) {
 
     if (lessonId) {
       const { data } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('*, training_courses(course_name)')
         .eq('id', lessonId)
         .maybeSingle();
       if (data) lessons = [data];
     } else if (courseId) {
       const { data } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('*, training_courses(course_name)')
         .eq('course_id', courseId)
         .or('video_url.is.null,video_url.like.%.mp3')
@@ -300,7 +300,7 @@ async function _POST(request: NextRequest) {
       lessons = data || [];
     } else {
       const { data } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('*, training_courses(course_name)')
         .or('video_url.is.null,video_url.like.%.mp3')
         .order('created_at')
@@ -365,22 +365,22 @@ async function _GET(request: NextRequest) {
     const supabase = await createClient();
 
     const { count: total } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*', { count: 'exact', head: true });
 
     const { count: withRealVideo } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*', { count: 'exact', head: true })
       .not('video_url', 'is', null)
       .not('video_url', 'like', '%.mp3');
 
     const { count: withMp3 } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*', { count: 'exact', head: true })
       .like('video_url', '%.mp3');
 
     const { count: noMedia } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*', { count: 'exact', head: true })
       .is('video_url', null);
 

@@ -47,7 +47,7 @@ async function _GET(request: NextRequest) {
       const moduleIds = modules?.map((m) => m.id) || [];
 
       const { data: lessons } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('id')
         .in('module_id', moduleIds);
 
@@ -114,7 +114,7 @@ async function _GET(request: NextRequest) {
       const moduleIds = modules?.map((m) => m.id) || [];
 
       const { data: lessons } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('id')
         .in('module_id', moduleIds);
 

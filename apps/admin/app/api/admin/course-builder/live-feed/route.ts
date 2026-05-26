@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
       ids.length
         ? db.from('video_jobs').select('id, course_id, status').in('course_id', ids)
         : Promise.resolve({ data: [], error: null }),
-      db.from('training_courses').select('id, title, slug, status, created_at').order('created_at', { ascending: false }).limit(10),
+      db.from('lms_courses').select('id, title, slug, status, created_at').order('created_at', { ascending: false }).limit(10),
     ]);
 
     const moduleCount = new Map<string, number>();

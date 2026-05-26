@@ -35,7 +35,7 @@ async function _GET(request: Request) {
         .maybeSingle();
 
       const { data: lessons } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('id, title, order_index, duration_minutes')
         .eq('course_id', courseId)
         .order('order_index');

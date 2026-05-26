@@ -99,7 +99,7 @@ async function _POST(req: Request) {
     if (enrollment.program_id) {
       try {
         const { data: linkedCourses } = await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id')
           .eq('program_id', enrollment.program_id);
 

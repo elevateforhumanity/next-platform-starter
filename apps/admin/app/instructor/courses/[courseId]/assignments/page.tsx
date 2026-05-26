@@ -24,7 +24,7 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
   if (!user) redirect('/login');
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title')
     .eq('id', courseId)
     .maybeSingle();

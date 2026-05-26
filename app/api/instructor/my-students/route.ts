@@ -34,7 +34,7 @@ async function _GET(request: NextRequest) {
 
     // Get courses taught by this instructor
     const { data: courses } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('id, title')
       .eq('instructor_id', user.id);
 

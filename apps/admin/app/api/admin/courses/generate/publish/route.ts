@@ -333,7 +333,7 @@ async function publishCompiledDraft(
 
   // 1. training_courses
   const { data: courseRow, error: courseErr } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .insert({
       course_name: draft.course_name,
       title: draft.course_title,
@@ -541,7 +541,7 @@ async function _POST(req: NextRequest) {
       );
 
     const { data: courseRow, error: courseErr } = await db
-      .from('training_courses')
+      .from('lms_courses')
       .insert({
         course_name: course.title,
         title: course.title,

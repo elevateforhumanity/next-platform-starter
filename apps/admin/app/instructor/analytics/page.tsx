@@ -22,7 +22,7 @@ export default async function InstructorAnalyticsPage() {
 
   // Get courses assigned to this instructor
   const { data: myCourses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id')
     .eq('instructor_id', user.id);
   const courseIds = (myCourses || []).map((c: any) => c.id);

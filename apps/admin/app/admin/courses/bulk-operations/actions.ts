@@ -20,7 +20,7 @@ export async function bulkUpdateCourseStatus(
   if (!db) return { success: false, error: 'DB unavailable' };
 
   const { error } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .update({
       status,
       is_active: status === 'published',
@@ -55,7 +55,7 @@ export async function exportCoursesCSV(
   if (!db) return { error: 'DB unavailable' };
 
   let query = db
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, slug, status, is_active, created_at')
     .order('created_at', { ascending: false });
 

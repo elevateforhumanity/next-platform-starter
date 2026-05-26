@@ -42,7 +42,7 @@ async function resolveCourseId(supabase: any, programInterest: string): Promise<
     hvac: 'hvac technician',
     'hvac tech': 'hvac technician',
   };
-  const { data: courses } = await supabase.from('training_courses').select('id, course_name');
+  const { data: courses } = await supabase.from('lms_courses').select('id, course_name');
   if (!courses?.length) return null;
   const exact = courses.find((c: any) => c.course_name?.toLowerCase() === normalized);
   if (exact) return exact.id;

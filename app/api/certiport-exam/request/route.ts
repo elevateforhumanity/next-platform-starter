@@ -86,7 +86,7 @@ async function _POST(request: NextRequest) {
         .eq('completed', true);
 
       const { data: totalLessons } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('id')
         .eq('course_id', courseId);
 

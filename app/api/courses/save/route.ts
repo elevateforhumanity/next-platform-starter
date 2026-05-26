@@ -50,7 +50,7 @@ async function _POST(req: NextRequest) {
     if (title) updateData.title = title;
 
     const { data, error }: any = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .update(updateData)
       .eq('id', id)
       .select()

@@ -556,7 +556,7 @@ export async function handleStripeWebhook(event: Stripe.Event): Promise<void> {
 export async function getCoursePrice(courseId: string): Promise<number> {
   const supabase = await createClient();
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('price')
     .eq('id', courseId)
     .maybeSingle();

@@ -62,7 +62,7 @@ export default async function ProgramCoursesPage({ params }: { params: { program
   if (!program) notFound();
 
   const { data: courses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select(
       'id, title, description, price, duration, lessons_count, enrolled_count, certification, image_url',
     )

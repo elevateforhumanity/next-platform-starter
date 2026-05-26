@@ -127,7 +127,7 @@ export async function exportStudents(options: ExportOptions = {}): Promise<any[]
 export async function exportCourses(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
-  let query = supabase.from('training_courses').select(`
+  let query = supabase.from('lms_courses').select(`
       id,
       title,
       description,

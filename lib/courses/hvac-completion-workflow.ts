@@ -296,7 +296,7 @@ export async function advanceHvacWorkflow(userId: string): Promise<{
     .eq('completed', true);
 
   const { data: allLessons } = await db
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id')
     .eq('course_id_uuid', hvacCourseId);
 

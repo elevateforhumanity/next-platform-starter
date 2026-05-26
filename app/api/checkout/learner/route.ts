@@ -165,7 +165,7 @@ async function _POST(request: NextRequest) {
         }
 
         const { data: course } = await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id, title, slug, price')
           .eq('id', courseId)
           .maybeSingle();

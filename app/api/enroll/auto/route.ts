@@ -181,7 +181,7 @@ async function _POST(req: Request) {
     // STEP 5b: Create training_enrollments so student can access course content
     try {
       const { data: linkedCourses } = await db
-        .from('training_courses')
+        .from('lms_courses')
         .select('id')
         .eq('program_id', program.id);
 

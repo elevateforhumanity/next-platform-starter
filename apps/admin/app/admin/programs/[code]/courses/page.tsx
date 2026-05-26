@@ -30,7 +30,7 @@ export default async function ProgramCoursesPage({
     );
 
   const { data: courses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, course_name, title, slug, is_active, duration_hours, enrolled_count, status')
     .eq('program_id', program.id)
     .order('created_at', { ascending: true });
@@ -40,7 +40,7 @@ export default async function ProgramCoursesPage({
   const lessonCounts: Record<string, number> = {};
   if (courseIds.length > 0) {
     const { data: lessons } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('course_id')
       .in('course_id', courseIds);
     for (const l of lessons || []) {

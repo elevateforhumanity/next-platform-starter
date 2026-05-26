@@ -54,7 +54,7 @@ async function _POST(req: NextRequest) {
 
   // Fetch course details for expiry calculation
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, cert_valid_days')
     .eq('id', course_id)
     .maybeSingle();

@@ -63,7 +63,7 @@ export default async function InstructorWorkspacePage({
   const supabase = await createClient();
 
   const [coursesQ, studentsQ, submissionsQ] = await Promise.all([
-    supabase.from('training_courses').select('*', { head: true, count: 'exact' }),
+    supabase.from('lms_courses').select('*', { head: true, count: 'exact' }),
     supabase.from('profiles').select('*', { head: true, count: 'exact' }).eq('role', 'student'),
     supabase
       .from('step_submissions')

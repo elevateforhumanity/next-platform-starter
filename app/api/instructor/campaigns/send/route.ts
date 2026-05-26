@@ -46,7 +46,7 @@ async function _POST(request: NextRequest) {
 
     // Verify instructor has access to these students through their courses
     const { data: courses } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('id')
       .eq('instructor_id', user.id);
 

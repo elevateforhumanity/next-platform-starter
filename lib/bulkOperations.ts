@@ -95,7 +95,7 @@ export async function bulkIssueCertificates(
   try {
     // Get course details
     const { data: course } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('title, program_name')
       .eq('id', courseId)
       .maybeSingle();

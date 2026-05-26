@@ -38,7 +38,7 @@ export default async function LaunchCourse({ params }: { params: Params }) {
   // Fetch partner-link fields from training_courses via legacy_course_id
   const { data: tc } = course.legacy_course_id
     ? await supabase
-        .from('training_courses')
+        .from('lms_courses')
         .select('delivery_mode, partner_url')
         .eq('id', course.legacy_course_id)
         .maybeSingle()

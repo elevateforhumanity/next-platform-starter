@@ -43,7 +43,7 @@ async function handler(req: Request) {
 
     // Get course details
     const { data: course, error: courseError } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('*')
       .eq('id', courseId)
       .maybeSingle();

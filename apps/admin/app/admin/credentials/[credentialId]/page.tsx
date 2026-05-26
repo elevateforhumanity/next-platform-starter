@@ -53,7 +53,7 @@ export default async function EditCredentialPage({
 
   // Load linked training courses
   const { data: linkedCourses } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, course_name, status')
     .eq('credential_id', credentialId)
     .order('title');

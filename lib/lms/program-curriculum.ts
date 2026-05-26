@@ -69,7 +69,7 @@ export async function getCoursesByProgram(programId: string): Promise<ProgramCou
   const db = await requireAdminClient();
 
   const { data, error } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('program_id', programId)
     .order('created_at', { ascending: true });
@@ -119,7 +119,7 @@ export async function getLessonsByCourse(courseId: string): Promise<ProgramLesso
   const db = await requireAdminClient();
 
   const { data, error } = await db
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('*')
     .eq('course_id', courseId)
     .order('lesson_number', { ascending: true });
@@ -136,7 +136,7 @@ export async function getLessonById(lessonId: string): Promise<ProgramLesson | n
   const db = await requireAdminClient();
 
   const { data, error } = await db
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('*')
     .eq('id', lessonId)
     .maybeSingle();
@@ -157,13 +157,13 @@ export async function getLessonNav(
 
   const [{ data: prevData }, { data: nextData }] = await Promise.all([
     db
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*')
       .eq('course_id', courseId)
       .eq('lesson_number', lessonNumber - 1)
       .maybeSingle(),
     db
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*')
       .eq('course_id', courseId)
       .eq('lesson_number', lessonNumber + 1)
@@ -183,7 +183,7 @@ export async function getCourseById(courseId: string): Promise<ProgramCourse | n
   const db = await requireAdminClient();
 
   const { data, error } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .select('*')
     .eq('id', courseId)
     .maybeSingle();

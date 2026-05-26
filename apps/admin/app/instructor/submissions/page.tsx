@@ -143,7 +143,7 @@ export default async function InstructorSubmissionsPage({
       courseNameMap = new Map(canonCourses.map((c: any) => [c.id, c.title]));
     } else {
       const { data: legacyCourses } = await supabase
-        .from('training_courses')
+        .from('lms_courses')
         .select('id, course_name')
         .in('id', courseIds);
       courseNameMap = new Map((legacyCourses ?? []).map((c: any) => [c.id, c.course_name]));

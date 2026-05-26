@@ -304,7 +304,7 @@ export async function canAccessCourse(courseId: string): Promise<boolean> {
 
   // Check if user is the course instructor
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('instructor_id')
     .eq('id', courseId)
     .maybeSingle();
@@ -343,7 +343,7 @@ export async function canEditCourse(courseId: string): Promise<boolean> {
 
   // Check if user is the course instructor
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('instructor_id')
     .eq('id', courseId)
     .maybeSingle();
@@ -398,7 +398,7 @@ export async function canAccessStudentData(studentId: string): Promise<boolean> 
 
     // Check if instructor owns this course via training_courses
     const { data: tc } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('id')
       .eq('id', enrollment.course_id)
       .eq('instructor_id', user.id)

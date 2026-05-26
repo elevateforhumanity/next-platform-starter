@@ -54,7 +54,7 @@ export default async function ProgramDashboardPage({
 
   // Counts
   const { count: courseCount } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id', { count: 'exact', head: true })
     .eq('program_id', program.id);
   const { count: enrollmentCount } = await supabase
@@ -62,7 +62,7 @@ export default async function ProgramDashboardPage({
     .select('id', { count: 'exact', head: true })
     .eq('program_id', program.id);
   const { count: lessonCount } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id', { count: 'exact', head: true });
   const { count: certCount } = await supabase
     .from('certificates')

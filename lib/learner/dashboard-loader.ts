@@ -225,7 +225,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
   const { data: trainingCourseRows, error: tcErr } =
     enrollmentCourseIds.length > 0
       ? await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id, course_name, description, duration_hours')
           .in('id', enrollmentCourseIds)
       : { data: [], error: null };

@@ -159,7 +159,7 @@ export async function buildCourse(courseData: {
   const supabase = await createClient();
 
   const { data: course, error } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .insert({
       title: courseData.title,
       description: courseData.description,
@@ -196,7 +196,7 @@ export async function generateSitemap() {
   const supabase = await createClient();
 
   const { data: programs } = await supabase.from('programs').select('slug');
-  const { data: courses } = await supabase.from('training_courses').select('slug');
+  const { data: courses } = await supabase.from('lms_courses').select('slug');
 
   const urls = [
     '/',

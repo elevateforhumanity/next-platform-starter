@@ -63,7 +63,7 @@ async function _GET(request: NextRequest) {
         const moduleIds = modules?.map((m) => m.id) || [];
 
         const { data: lessons } = await supabase
-          .from('training_lessons')
+          .from('lms_lessons')
           .select('id')
           .in('module_id', moduleIds);
 
@@ -99,7 +99,7 @@ async function _GET(request: NextRequest) {
         const moduleIds = modules?.map((m) => m.id) || [];
 
         const { data: lessons } = await supabase
-          .from('training_lessons')
+          .from('lms_lessons')
           .select('id')
           .in('module_id', moduleIds);
 
@@ -137,7 +137,7 @@ async function _GET(request: NextRequest) {
       totalLearners && totalLearners > 0 ? totalMinutesWeek / 60 / totalLearners : 0;
 
     // 5) Program-level stats
-    const { data: courses } = await supabase.from('training_courses').select('id, title');
+    const { data: courses } = await supabase.from('lms_courses').select('id, title');
 
     const byProgram = [];
 
@@ -165,7 +165,7 @@ async function _GET(request: NextRequest) {
             const moduleIds = modules?.map((m) => m.id) || [];
 
             const { data: lessons } = await supabase
-              .from('training_lessons')
+              .from('lms_lessons')
               .select('id')
               .in('module_id', moduleIds);
 

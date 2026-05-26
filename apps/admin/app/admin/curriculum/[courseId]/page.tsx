@@ -42,7 +42,7 @@ export default async function CurriculumCourseEditorPage({
     .maybeSingle();
 
   const { data: trainingCourseRow } = !courseRow
-    ? await supabase.from('training_courses').select('id, title').eq('id', courseId).maybeSingle()
+    ? await supabase.from('lms_courses').select('id, title').eq('id', courseId).maybeSingle()
     : { data: null };
 
   const { data: program } = !courseRow && !trainingCourseRow

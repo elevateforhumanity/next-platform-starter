@@ -79,14 +79,14 @@ async function _POST(req: NextRequest) {
       let course;
       if (r.course_id) {
         const { data }: any = await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id,title,slug,cert_valid_days')
           .eq('id', r.course_id)
           .maybeSingle();
         course = data;
       } else if (r.course_slug) {
         const { data }: any = await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id,title,slug,cert_valid_days')
           .eq('slug', r.course_slug)
           .maybeSingle();

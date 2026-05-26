@@ -19,7 +19,7 @@ export async function createCourseAction(formData: FormData) {
   if (!course_name) return;
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .insert({
       course_name,
       description,

@@ -55,7 +55,7 @@ async function _POST(request: NextRequest) {
 
     // Insert course
     const { data: course, error: courseError } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .insert({
         slug,
         title: courseData.title,

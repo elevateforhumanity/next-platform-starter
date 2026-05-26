@@ -38,7 +38,7 @@ async function _GET(req: NextRequest) {
   const u = userAuth?.user;
 
   const { data: c } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('title')
     .eq('id', cert.course_id)
     .maybeSingle();

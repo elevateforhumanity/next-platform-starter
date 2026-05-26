@@ -122,7 +122,7 @@ async function _POST(request: NextRequest) {
       const courseId = deterministicUUID(`${course.slug}-course`);
 
       // Upsert course
-      const { error: courseError } = await db.from('training_courses').upsert(
+      const { error: courseError } = await db.from('lms_courses').upsert(
         {
           id: courseId,
           course_name: course.title,

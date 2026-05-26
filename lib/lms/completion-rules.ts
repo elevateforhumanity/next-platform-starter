@@ -80,7 +80,7 @@ export async function evaluateCompletion(
     switch (rule.type) {
       case 'lessons_complete': {
         const { count: totalLessons } = await db
-          .from('training_lessons')
+          .from('lms_lessons')
           .select('id', { count: 'exact', head: true })
           .eq('course_id', courseId)
           .eq('is_required', true);

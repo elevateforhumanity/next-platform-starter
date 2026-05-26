@@ -121,7 +121,7 @@ async function _POST(req: NextRequest) {
         : Promise.resolve({ data: null }),
       certificate.course_id
         ? supabase
-            .from('training_courses')
+            .from('lms_courses')
             .select('title')
             .eq('id', certificate.course_id)
             .maybeSingle()

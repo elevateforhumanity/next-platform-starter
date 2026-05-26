@@ -90,7 +90,7 @@ async function confirmSchedule(formData: FormData) {
 
     const { data: course } = enrollment?.program_id
       ? await supabase
-          .from('training_courses')
+          .from('lms_courses')
           .select('id')
           .eq('program_id', enrollment.program_id)
           .limit(1)

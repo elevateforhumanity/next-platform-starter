@@ -1,12 +1,7 @@
-import AdminClientPage from '@/components/admin/AdminClientPage';
-import VideoManagerClient from './VideoManagerClient';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default function Page() {
-  return (
-    <AdminClientPage>
-      <VideoManagerClient />
-    </AdminClientPage>
-  );
+// Video management is now the Studio media panel.
+// /admin/video-manager → /admin/studio
+export default function VideoManagerPage() {
+  redirect('/admin/studio');
 }

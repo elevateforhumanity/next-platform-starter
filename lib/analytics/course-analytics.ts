@@ -54,7 +54,7 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
 
   // Get course info
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title')
     .eq('id', courseId)
     .maybeSingle();
@@ -83,7 +83,7 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
 
   // Get lesson data
   const { data: lessons } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id, title, order_number')
     .eq('course_id', courseId)
     .order('order_number');

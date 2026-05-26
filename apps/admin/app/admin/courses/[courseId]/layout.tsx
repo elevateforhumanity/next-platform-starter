@@ -14,7 +14,7 @@ export default async function AdminCourseLayout({
   if (!supabase) return notFound();
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .select('id')
     .eq('id', courseId)
     .maybeSingle();

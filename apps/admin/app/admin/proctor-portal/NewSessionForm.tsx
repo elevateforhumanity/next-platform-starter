@@ -136,7 +136,7 @@ export default function NewSessionForm({ session, programs = [], onSaved, onCanc
 
     // Check lesson completion
     const { count: totalLessons } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('*', { count: 'exact', head: true })
       .eq('course_id', HVAC_COURSE_ID);
 
@@ -148,7 +148,7 @@ export default function NewSessionForm({ session, programs = [], onSaved, onCanc
 
     // Check quiz pass status
     const { data: quizLessons } = await supabase
-      .from('training_lessons')
+      .from('lms_lessons')
       .select('id')
       .eq('course_id', HVAC_COURSE_ID)
       .eq('content_type', 'quiz');

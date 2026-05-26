@@ -40,6 +40,23 @@ const adminConfig = {
   // Canonical route redirects — legacy aliases forward to canonical paths
   async redirects() {
     return [
+      // ── Studio consolidation — all legacy course/quiz/video/AI surfaces → studio ──
+      { source: '/admin/quizzes', destination: '/admin/studio', permanent: true },
+      { source: '/admin/quizzes/:path*', destination: '/admin/studio', permanent: true },
+      { source: '/admin/copilot', destination: '/admin/studio', permanent: true },
+      { source: '/admin/copilot/:path*', destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-manager', destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-manager/:path*', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder/assessments', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder/generate', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder/media', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder/templates', destination: '/admin/studio', permanent: true },
+      {
+        source: '/admin/course-builder/:courseId',
+        destination: '/admin/studio/:courseId',
+        permanent: true,
+      },
       // document-center → documents (canonical)
       {
         source: '/admin/document-center',
@@ -55,7 +72,7 @@ const adminConfig = {
       {
         source: '/admin/submissions/org',
         destination: '/admin/settings/organization-profile',
-        permanent: false, // soft redirect — submissions/org has its own content
+        permanent: false,
       },
     ];
   },

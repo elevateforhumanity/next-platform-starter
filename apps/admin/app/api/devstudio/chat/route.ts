@@ -982,7 +982,7 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
 
       // 1. Create the course record
       const { data: courseRow, error: courseErr } = await db
-        .from('training_courses')
+        .from('lms_courses')
         .insert({
           title: course.title,
           subtitle: course.subtitle || null,

@@ -29,7 +29,6 @@ async function getSupabase() {
 // ============ COURSES ============
 export async function createCourse(input: CourseCreate) {
   const supabase = await getSupabase();
-  // Generate slug from title: lowercase, hyphens, strip non-alphanumeric
   const slug = input.title
     .toLowerCase()
     .trim()
@@ -39,16 +38,13 @@ export async function createCourse(input: CourseCreate) {
     .slice(0, 80);
 
   const { data, error } = await supabase
-    .from('training_courses')
+    .from('courses')
     .insert({
-      course_name: input.title,
       title: input.title,
       description: input.description || null,
       program_id: input.program_id || null,
       duration_hours: input.duration_hours || null,
-      category: (input as any).category || null,
-      is_published: input.is_published ?? false,
-      is_active: input.is_published ?? false, // active = published for learner visibility
+      is_active: input.is_published ?? false,
       slug,
       status: input.is_published ? 'published' : 'draft',
     })
@@ -61,8 +57,8 @@ export async function createCourse(input: CourseCreate) {
 export async function listCourses() {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_courses')
-    .select('*, programs(id, title)')
+    .from('lms_courses')
+    .select('*')
     .order('created_at', { ascending: false });
   if (error) throw new Error('Database operation failed');
   return data || [];
@@ -71,8 +67,8 @@ export async function listCourses() {
 export async function getCourse(id: string) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_courses')
-    .select('*, programs(id, title)')
+    .from('lms_courses')
+    .select('*')
     .eq('id', id)
     .maybeSingle();
   if (error?.code === 'PGRST116') return null;
@@ -83,10 +79,8 @@ export async function getCourse(id: string) {
 export async function updateCourse(id: string, patch: CourseUpdate) {
   const supabase = await getSupabase();
   const updateData: Record<string, unknown> = { ...patch, updated_at: new Date().toISOString() };
-  // Keep course_name in sync with title
-  if (patch.title) updateData.course_name = patch.title;
   const { data, error } = await supabase
-    .from('training_courses')
+    .from('courses')
     .update(updateData)
     .eq('id', id)
     .select()
@@ -98,7 +92,7 @@ export async function updateCourse(id: string, patch: CourseUpdate) {
 
 export async function deleteCourse(id: string) {
   const supabase = await getSupabase();
-  const { error } = await supabase.from('training_courses').delete().eq('id', id);
+  const { error } = await supabase.from('courses').delete().eq('id', id);
   if (error) throw new Error('Database operation failed');
   return { ok: true };
 }
@@ -537,13 +531,9 @@ import type { CourseBlueprint } from '@/lib/ai/course-ingestion';
  * Persist a full AI-generated course blueprint as a draft.
  *
  * Schema alignment (verified 2025-03):
- *   training_courses  → UUID PK — course record + quiz stored in metadata JSONB
+ *   courses           → canonical course record
  *   course_modules    → UUID PK, course_id UUID
- *   training_lessons  → UUID PK, course_id UUID, module_id UUID
- *
- * NOTE: The legacy quizzes/quiz_questions/quiz_answer_options tables use integer PKs
- * and are incompatible with the UUID-based training stack. Quiz data is stored in
- * training_courses.metadata until a UUID quiz table is created.
+ *   course_lessons    → UUID PK, course_id UUID, module_id UUID
  */
 export async function saveCourseBlueprint(
   blueprint: CourseBlueprint,
@@ -560,25 +550,27 @@ export async function saveCourseBlueprint(
       }
     : null;
 
+  const slug = blueprint.title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 80);
+
   const { data: course, error: courseErr } = await supabase
-    .from('training_courses')
+    .from('courses')
     .insert({
       title: blueprint.title,
-      subtitle: blueprint.subtitle || null,
+      slug,
       description: blueprint.description || null,
-      skill_level: blueprint.skill_level || 'beginner',
-      category: blueprint.category || null,
+      short_description: blueprint.subtitle || null,
       duration_hours: blueprint.estimated_duration_hours
         ? Math.round(blueprint.estimated_duration_hours)
         : null,
       program_id: options.program_id || null,
-      is_published: false,
+      is_active: false,
       status: 'draft',
-      certificate_enabled: blueprint.certificate_enabled ?? false,
-      certificate_title: blueprint.certificate_title || null,
-      passing_score: blueprint.passing_score || 70,
-      created_by: options.created_by || null,
-      metadata: quizMetadata,
     })
     .select('id')
     .maybeSingle();

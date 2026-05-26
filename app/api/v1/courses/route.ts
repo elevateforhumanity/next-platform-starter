@@ -55,7 +55,7 @@ async function _GET(request: NextRequest) {
     const search = searchParams.get('search');
 
     let query = supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select(
         `
         id,
@@ -151,7 +151,7 @@ async function _POST(request: NextRequest) {
     const supabase = await createClient();
 
     const { data: course, error: createError } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .insert({
         title: body.title,
         description: body.description,

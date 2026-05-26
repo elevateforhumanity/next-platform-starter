@@ -11,7 +11,7 @@ export type Certificate = {
 export async function checkCourseCompletion(userId: string, courseId: string): Promise<boolean> {
   // Get all lessons for the course
   const { data: lessons } = await supa
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id')
     .eq('course_id', courseId);
 

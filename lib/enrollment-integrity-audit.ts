@@ -86,7 +86,7 @@ export async function validateEnrollmentIntegrity(db: SupabaseClient): Promise<I
     if (!e3b && lmsPrograms && lmsPrograms.length > 0) {
       for (const prog of lmsPrograms) {
         const { count: courseCount, error: e3c } = await db
-          .from('training_courses')
+          .from('lms_courses')
           .select('id', { count: 'exact', head: true })
           .eq('program_id', prog.id)
           .eq('is_active', true);

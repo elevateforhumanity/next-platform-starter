@@ -17,7 +17,7 @@ export default async function BulkOperationsPage() {
   if (!db) throw new Error('Admin client unavailable');
 
   const { data: courses, count } = await db
-    .from('training_courses')
+    .from('lms_courses')
     .select('id, title, slug, status, is_active, created_at', { count: 'exact' })
     .order('created_at', { ascending: false })
     .limit(200);

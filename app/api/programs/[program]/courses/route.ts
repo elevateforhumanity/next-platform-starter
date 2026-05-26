@@ -41,7 +41,7 @@ async function _GET(request: Request, { params }: { params: Params }) {
 
     // Fetch courses matching the category
     const { data: courses, error } = await supabase
-      .from('training_courses')
+      .from('lms_courses')
       .select('*')
       .eq('published', true)
       .ilike('category', `%${category}%`)

@@ -56,7 +56,7 @@ export default function ProgressCompliance({ userId }: { userId?: string }) {
 
       // Fetch total lessons for enrolled courses
       const { count: totalLessons } = await supabase
-        .from('training_lessons')
+        .from('lms_lessons')
         .select('*', { count: 'exact', head: true });
 
       // Fetch hour logs

@@ -65,7 +65,7 @@ export default async function HvacCoursePage() {
       // Get title for last lesson
       if (lastLessonId) {
         const { data: lessonRow } = await db
-          .from('training_lessons')
+          .from('lms_lessons')
           .select('title')
           .eq('id', lastLessonId)
           .maybeSingle();

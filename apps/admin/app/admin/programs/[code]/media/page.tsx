@@ -27,12 +27,12 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
 
   // Count lessons with video URLs
   const { data: lessons } = await supabase
-    .from('training_lessons')
+    .from('lms_lessons')
     .select('id, title, video_url')
     .eq(
       'course_id',
       (
-        await supabase.from('training_courses').select('id').eq('program_id', program.id).limit(50)
+        await supabase.from('lms_courses').select('id').eq('program_id', program.id).limit(50)
       ).data?.map((c: any) => c.id)?.[0] || '',
     )
     .limit(200);

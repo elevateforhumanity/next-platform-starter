@@ -139,7 +139,7 @@ async function _POST(request: Request) {
   const contextId = context?.id || '';
 
   const { data: course } = await supabase
-    .from('training_courses')
+    .from('lms_courses')
     .upsert({ title: courseTitle, lti_context_id: contextId }, { onConflict: 'lti_context_id' })
     .select()
     .single();

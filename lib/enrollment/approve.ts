@@ -269,7 +269,7 @@ export async function approveApplication(
 
     // Step 3: Create training_enrollments for all active courses
     const { data: courses } = await db
-      .from('training_courses')
+      .from('lms_courses')
       .select('id')
       .eq('program_id', resolvedProgramId)
       .eq('is_active', true);
