@@ -66,26 +66,34 @@ async function _GET(request: NextRequest) {
     if (apprenticeByUserId) {
       apprentice = apprenticeByUserId;
     } else if (user.email) {
-      // Fallback: match by email if user_id not set
-      const { data: apprenticeByEmail } = await supabase
-        .from('apprentices')
-        .select(
-          `
-          id,
-          referral_id,
-          employer_id,
-          shop_id,
-          rapids_id,
-          start_date,
-          status
-        `,
-        )
-        .eq('user_id', user.id)
-        .eq('status', 'active')
+      // Fallback: match by email via profiles join when user_id not set on apprentice row
+      const { data: profileMatch } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', user.email)
         .maybeSingle();
 
-      if (apprenticeByEmail) {
-        apprentice = apprenticeByEmail;
+      if (profileMatch) {
+        const { data: apprenticeByEmail } = await supabase
+          .from('apprentices')
+          .select(
+            `
+            id,
+            referral_id,
+            employer_id,
+            shop_id,
+            rapids_id,
+            start_date,
+            status
+          `,
+          )
+          .eq('user_id', profileMatch.id)
+          .eq('status', 'active')
+          .maybeSingle();
+
+        if (apprenticeByEmail) {
+          apprentice = apprenticeByEmail;
+        }
       }
     }
 

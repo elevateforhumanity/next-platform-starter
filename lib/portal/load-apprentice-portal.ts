@@ -24,7 +24,7 @@ export async function loadApprenticePortalData(programSlug: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect(`/login?redirect=${config.portalPath}`);
 
-  const [profileRes, enrollmentRes] = await Promise.all([
+  const [profileRes, enrollmentRes, apprenticeRes] = await Promise.all([
     supabase.from('profiles').select('full_name').eq('id', user.id).maybeSingle(),
     supabase
       .from('program_enrollments')
@@ -34,17 +34,47 @@ export async function loadApprenticePortalData(programSlug: string) {
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle(),
+    supabase
+      .from('apprentices')
+      .select('id, shop_id, employer_id, start_date, status, rapids_id')
+      .eq('user_id', user.id)
+      .eq('status', 'active')
+      .maybeSingle(),
   ]);
 
   const enrollment = enrollmentRes.data;
-  const hours = await getApprovedHoursByType(supabase, user.id, programSlug);
+  const apprentice = apprenticeRes.data;
 
-  const { data: docs } = await supabase
-    .from('documents')
-    .select('document_type, status, verification_status')
-    .eq('user_id', user.id);
+  // Resolve shop name from shops table (apprentice.shop_id) or barber_shops fallback
+  let shopName: string | null = null;
+  const shopId = apprentice?.shop_id ?? apprentice?.employer_id ?? null;
+  if (shopId) {
+    const { data: shop } = await supabase
+      .from('shops')
+      .select('name')
+      .eq('id', shopId)
+      .maybeSingle();
+    shopName = shop?.name ?? null;
+  }
+
+  const [hoursRes, docsRes] = await Promise.all([
+    getApprovedHoursByType(supabase, user.id, programSlug),
+    supabase.from('documents').select('document_type, status, verification_status').eq('user_id', user.id),
+  ]);
 
   const firstName = profileRes.data?.full_name?.split(' ')[0] ?? 'Apprentice';
+  const fullName = profileRes.data?.full_name ?? 'Apprentice';
 
-  return { config, firstName, enrollment, hours, docs: docs ?? [] };
+  return {
+    config,
+    firstName,
+    fullName,
+    enrollment,
+    apprentice: apprentice
+      ? { id: apprentice.id, shopId: apprentice.shop_id, startDate: apprentice.start_date, rapidsId: apprentice.rapids_id }
+      : null,
+    shopName,
+    hours: hoursRes,
+    docs: docsRes.data ?? [],
+  };
 }
