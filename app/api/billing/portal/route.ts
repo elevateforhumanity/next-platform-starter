@@ -3,10 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 async function _POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'payment');
   if (rateLimited) return rateLimited;
+  await hydrateProcessEnv();
   try {
     const supabase = await createClient();
     const {
