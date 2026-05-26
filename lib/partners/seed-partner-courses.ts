@@ -19,7 +19,6 @@ import {
   HSI_COURSES,
   NRF_COURSES,
   JRI_COURSES,
-  CAREERSAFE_COURSES,
   type PartnerCourse,
 } from './link-based-integration';
 
@@ -58,14 +57,6 @@ const PROVIDERS: ProviderDef[] = [
     websiteUrl: 'https://employindy.org',
     supportEmail: 'info@employindy.org',
     courses: JRI_COURSES,
-  },
-  {
-    slug: 'careersafe',
-    name: 'CareerSafe',
-    type: 'safety_training',
-    websiteUrl: 'https://www.careersafeonline.com',
-    supportEmail: 'support@careersafeonline.com',
-    courses: CAREERSAFE_COURSES,
   },
   // Beauty/barber theory delivered via Elevate LMS — no external partner seeded
 ];
