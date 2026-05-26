@@ -55,7 +55,9 @@ function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
+  // No secret configured — skip verification (dev / unconfigured environments)
   if (!secret) return true;
+  // No token sent — fail only when secret is configured
   if (!token) return false;
 
   try {

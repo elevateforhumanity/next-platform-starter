@@ -1,4 +1,27 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
 export default function UnauthorizedPage() {
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    sb.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+  }, []);
+
+  async function handleSignOut() {
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    await sb.auth.signOut();
+    window.location.href = '/login';
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
       <div className="text-center max-w-sm">
@@ -8,16 +31,29 @@ export default function UnauthorizedPage() {
           </svg>
         </div>
         <h1 className="text-xl font-bold text-white mb-2">Access Denied</h1>
-        <p className="text-slate-400 text-sm mb-6">
+        <p className="text-slate-400 text-sm mb-4">
           Your account does not have permission to access the admin portal.
           Contact your administrator if you believe this is an error.
         </p>
-        <a
-          href="/login"
-          className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors"
-        >
-          Back to Login
-        </a>
+        {email && (
+          <p className="text-slate-500 text-xs mb-4">
+            Signed in as <span className="text-slate-300">{email}</span>
+          </p>
+        )}
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={handleSignOut}
+            className="w-full px-4 py-2 bg-red-900 hover:bg-red-800 text-red-200 text-sm font-medium rounded-lg transition-colors"
+          >
+            Sign Out &amp; Try Different Account
+          </button>
+          <a
+            href="/login"
+            className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors"
+          >
+            Back to Login
+          </a>
+        </div>
       </div>
     </div>
   );

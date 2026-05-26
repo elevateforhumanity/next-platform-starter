@@ -97,6 +97,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     hostShopName: '',
   });
   const [smsConsent, setSmsConsent] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
 
   // Calculate next Friday on client only to avoid hydration mismatch
   useEffect(() => {
@@ -138,6 +139,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
           fundingType: paymentOption === 'full' ? 'self-pay-full' : 'self-pay-plan',
           source: 'barber-apply-page',
           paymentOption,
+          turnstileToken,
           support_notes: [
             formData.hasHostShop ? `Host shop: ${formData.hasHostShop}` : '',
             formData.hostShopName ? `Shop name: ${formData.hostShopName}` : '',
@@ -933,6 +935,11 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
                 {/* Pay Button — hidden while embedded checkout is open */}
                 {!embeddedClientSecret && (
                   <>
+                    <Turnstile
+                      onVerify={(token) => setTurnstileToken(token)}
+                      onExpire={() => setTurnstileToken('')}
+                      formId="barber-apply"
+                    />
                     <button
                       onClick={handlePayNow}
                       disabled={
