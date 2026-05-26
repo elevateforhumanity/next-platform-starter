@@ -161,7 +161,7 @@ export function generateCompleteOnboardingPackage(
       name: 'NDA and Non-Compete Agreement',
       type: 'nda',
       required: true,
-      completed: data.ndaAccepted && data.nonCompeteAccepted,
+      completed: !!data.ndaAccepted && data.nonCompeteAccepted,
     },
     {
       id: 'background-check',
@@ -284,7 +284,7 @@ export function generateCompleteOnboardingPackage(
       title: 'Sign NDA and Non-Compete',
       description: 'Review and digitally sign confidentiality agreements',
       required: true,
-      completed: data.ndaAccepted && data.nonCompeteAccepted,
+      completed: !!data.ndaAccepted && data.nonCompeteAccepted,
       order: 6,
     },
     {
@@ -361,9 +361,9 @@ export function generateCompleteOnboardingPackage(
 
   const canStartWork =
     requiredFormsCompleted === requiredFormsTotal &&
-    data.ndaAccepted &&
-    data.backgroundCheckConsent &&
-    data.signature;
+    !!data.ndaAccepted &&
+    !!data.backgroundCheckConsent &&
+    !!data.signature;
 
   return {
     forms,
