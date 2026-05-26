@@ -67,13 +67,38 @@ for (const filename of seedFiles) {
       .filter((s) => s.length > 0 && !s.startsWith('--'));
 
     for (const statement of statements) {
-      // Try using exec_sql RPC function
-      const { error } = await supabase
-        .rpc('exec_sql', {
-          sql_query: statement,
-        })
-        .catch(async (err) => {
-          // If exec_sql doesn't exist, try REST API directly
+      // Use Management API if available (works in CI without direct TCP)
+      const mgmtKey = process.env.SUPABASE_MANAGEMENT_API_KEY;
+      const projectRef = process.env.SUPABASE_PROJECT_REF;
+
+      if (mgmtKey && projectRef) {
+        const res = await fetch(
+          `https://api.supabase.com/v1/projects/${projectRef}/database/query`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${mgmtKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: statement }),
+            signal: AbortSignal.timeout(30000),
+          },
+        );
+        const body = await res.json().catch(() => ({}));
+        if (body?.message) {
+          // Treat idempotent errors as success
+          const msg = body.message;
+          const isIdempotent =
+            msg.includes('already exists') ||
+            msg.includes('duplicate key') ||
+            (msg.includes('does not exist') && msg.includes('DROP'));
+          if (!isIdempotent) throw new Error(msg);
+        }
+      } else {
+        // Fallback: Supabase JS client exec_sql RPC
+        const { error } = await supabase.rpc('exec_sql', { sql_query: statement });
+        if (error) {
+          // Retry via REST if RPC not found
           const response = await fetch(`${supabaseUrl}/rest/v1/rpc/exec_sql`, {
             method: 'POST',
             headers: {
@@ -83,16 +108,10 @@ for (const filename of seedFiles) {
             },
             body: JSON.stringify({ sql_query: statement }),
           });
-
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${await response.text()}`);
           }
-
-          return { error: null };
-        });
-
-      if (error) {
-        throw error;
+        }
       }
     }
 
