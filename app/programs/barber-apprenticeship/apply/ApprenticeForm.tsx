@@ -150,17 +150,38 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
       const appData = await appResponse.json();
 
-      if (!appResponse.ok) {
-        setError(
-          appData?.error ||
-            'Failed to save your application. Please try again or call (317) 314-3757.',
-        );
-        setErrorSeverity('critical');
-        setLoading(false);
-        return;
-      }
+      let applicationId = appData?.id;
 
-      const applicationId = appData?.id;
+      if (!appResponse.ok) {
+        // 409 = application already submitted — look up existing ID and continue to checkout
+        if (appResponse.status === 409) {
+          const lookupRes = await fetch(
+            `/api/applications/lookup?email=${encodeURIComponent(formData.email)}&program=barber-apprenticeship`,
+          );
+          if (lookupRes.ok) {
+            const lookupData = await lookupRes.json();
+            applicationId = lookupData?.id;
+          }
+          // If we found the existing application, continue to checkout
+          if (!applicationId) {
+            setError(
+              'You already have an application on file. Please call (317) 314-3757 or email info@elevateforhumanity.org to continue.',
+            );
+            setErrorSeverity('info');
+            setLoading(false);
+            return;
+          }
+          // Fall through to checkout with existing applicationId
+        } else {
+          setError(
+            appData?.error ||
+              'Failed to save your application. Please try again or call (317) 314-3757.',
+          );
+          setErrorSeverity('critical');
+          setLoading(false);
+          return;
+        }
+      }
 
       let checkoutResponse;
       const basePayload = {
