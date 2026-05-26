@@ -110,36 +110,18 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
     return <>{children}</>;
   }
 
-  // Resolve holder features for conditional nav items
-  let hasSchoolApplications = false;
-  if (profile?.program_holder_id) {
-    const { data: holderRow } = await db
-      .from('program_holders')
-      .select('features')
-      .eq('id', profile.program_holder_id)
-      .maybeSingle();
-    // features is a JSONB column; fall back to checking school_applications table
-    hasSchoolApplications =
-      isAdmin ||
-      holderRow?.features?.school_applications === true;
-  }
+  // Single query — fetch everything needed for the shell
+  const [{ data: profileFull }, { data: holderRow }] = await Promise.all([
+    db.from('profiles').select('full_name, email').eq('id', user.id).maybeSingle(),
+    profile?.program_holder_id
+      ? db.from('program_holders').select('organization_name, name, features').eq('id', profile.program_holder_id).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
 
-  // Resolve org name for display
-  let orgName: string | undefined;
-  if (profile?.program_holder_id) {
-    const { data: holderRow } = await db
-      .from('program_holders')
-      .select('organization_name, name')
-      .eq('id', profile.program_holder_id)
-      .maybeSingle();
-    orgName = holderRow?.organization_name ?? holderRow?.name ?? undefined;
-  }
-
-  const { data: profileFull } = await db
-    .from('profiles')
-    .select('full_name, email')
-    .eq('id', user.id)
-    .maybeSingle();
+  const orgName: string | undefined =
+    (holderRow as any)?.organization_name ?? (holderRow as any)?.name ?? undefined;
+  const hasSchoolApplications =
+    isAdmin || (holderRow as any)?.features?.school_applications === true;
 
   return (
     <PartnerProgramHolderShell
