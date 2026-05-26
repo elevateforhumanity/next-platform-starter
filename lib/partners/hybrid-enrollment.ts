@@ -252,6 +252,7 @@ export async function syncExternalModuleProgress(progressId: string): Promise<vo
  * Sync all active API-based enrollments
  */
 export async function syncAllExternalModules(): Promise<void> {
+  const supabase = await getSupabaseAdmin();
   const { data: activeProgress } = await supabase
     .from('external_partner_progress')
     .select(
