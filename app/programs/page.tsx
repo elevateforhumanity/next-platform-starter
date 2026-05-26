@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 
-export const revalidate = 3600;
+export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
 
 export const metadata: Metadata = {
   title: 'Programs | Elevate for Humanity',
