@@ -48,9 +48,7 @@ async function raiseAdminAlert(supabase: any, alertType: string, details: Record
     await supabase.from('admin_alerts').insert({
       alert_type: alertType,
       severity: 'warning',
-      details,
       created_at: new Date().toISOString(),
-      resolved: false,
     });
   } catch (error) {
     logger.error('[Timeclock] Failed to raise admin alert:', error);

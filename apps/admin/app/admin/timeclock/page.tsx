@@ -83,8 +83,8 @@ export default async function TimeclockPage({
   // ── Admin alerts (geofence violations, overtime, etc.) ───────────────────
   const { data: alerts } = await db
     .from('admin_alerts')
-    .select('id, alert_type, severity, details, created_at, resolved')
-    .eq('resolved', false)
+    .select('id, alert_type, severity, created_at, resolved_at, resolved_by')
+    .is('resolved_at', null)
     .in('alert_type', ['geofence_violation', 'overtime_warning', 'missing_clock_out', 'timeclock'])
     .order('created_at', { ascending: false })
     .limit(50);
@@ -442,38 +442,29 @@ export default async function TimeclockPage({
               <p className="font-medium">No active alerts</p>
             </div>
           ) : (
-            (alerts ?? []).map((a: any) => {
-              const details = a.details ?? {};
-              return (
-                <div
-                  key={a.id}
-                  className={`rounded-xl border p-4 ${a.severity === 'warning' ? 'border-amber-200 bg-amber-50' : 'border-red-200 bg-red-50'}`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${a.severity === 'warning' ? 'text-amber-600' : 'text-red-600'}`} />
-                      <div>
-                        <p className="font-semibold text-slate-900 text-sm capitalize">
-                          {a.alert_type.replace(/_/g, ' ')}
-                        </p>
-                        {details.site_name && (
-                          <p className="text-xs text-slate-600 mt-0.5">
-                            Site: {details.site_name}
-                            {details.distance_m && ` · ${details.distance_m}m from geofence`}
-                          </p>
-                        )}
-                        <p className="text-xs text-slate-400 mt-1">
-                          {new Date(a.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
-                        </p>
-                      </div>
+            (alerts ?? []).map((a: any) => (
+              <div
+                key={a.id}
+                className={`rounded-xl border p-4 ${a.severity === 'warning' ? 'border-amber-200 bg-amber-50' : 'border-red-200 bg-red-50'}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${a.severity === 'warning' ? 'text-amber-600' : 'text-red-600'}`} />
+                    <div>
+                      <p className="font-semibold text-slate-900 text-sm capitalize">
+                        {a.alert_type.replace(/_/g, ' ')}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-1">
+                        {new Date(a.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                      </p>
                     </div>
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${a.severity === 'warning' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
-                      {a.severity}
-                    </span>
                   </div>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${a.severity === 'warning' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
+                    {a.severity}
+                  </span>
                 </div>
-              );
-            })
+              </div>
+            ))
           )}
         </div>
       )}
