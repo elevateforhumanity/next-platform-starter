@@ -24,10 +24,19 @@ interface VideoRecord {
   duration_minutes: number | null;
 }
 
-export default function VideoManagerPage() {
+interface Props {
+  /** When provided, skips the initial fetch and uses these videos instead */
+  initialVideos?: VideoRecord[];
+  /** When provided, shows an "Attach" button on each video row */
+  onVideoAttached?: (videoUrl: string) => void;
+  /** Suppress breadcrumbs and page chrome when embedded in a panel */
+  embedded?: boolean;
+}
+
+export default function VideoManagerPage({ initialVideos, onVideoAttached, embedded = false }: Props = {}) {
   const [uploadedVideos, setUploadedVideos] = useState<string[]>([]);
-  const [videos, setVideos] = useState<VideoRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [videos, setVideos] = useState<VideoRecord[]>(initialVideos ?? []);
+  const [loading, setLoading] = useState(!initialVideos);
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [search, setSearch] = useState('');
 
@@ -80,33 +89,46 @@ export default function VideoManagerPage() {
   );
 
   return (
-    <div className="min-h-screen bg-white p-6">
-      {/* Hero Image */}
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-4">
-          <Breadcrumbs
-            items={[
-              { label: 'Admin', href: '/admin/dashboard' },
-              { label: 'Videos', href: '/admin/videos' },
-              { label: 'Video Manager' },
-            ]}
-          />
-        </div>
-
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Video Manager</h1>
-            <p className="text-sm text-slate-700 mt-1">
-              Upload, manage, and organize lesson videos
-            </p>
+    <div className={embedded ? 'bg-white' : 'min-h-screen bg-white p-6'}>
+      <div className={embedded ? '' : 'max-w-7xl mx-auto'}>
+        {!embedded && (
+          <>
+            <div className="mb-4">
+              <Breadcrumbs
+                items={[
+                  { label: 'Admin', href: '/admin/dashboard' },
+                  { label: 'Videos', href: '/admin/videos' },
+                  { label: 'Video Manager' },
+                ]}
+              />
+            </div>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-slate-900">Video Manager</h1>
+                <p className="text-sm text-slate-700 mt-1">
+                  Upload, manage, and organize lesson videos
+                </p>
+              </div>
+              <button
+                onClick={fetchVideos}
+                className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
+          </>
+        )}
+        {embedded && (
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-slate-500">{filtered.length} video{filtered.length !== 1 ? 's' : ''} available</p>
+            <button
+              onClick={fetchVideos}
+              className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            </button>
           </div>
-          <button
-            onClick={fetchVideos}
-            className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-slate-100"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-        </div>
+        )}
 
         {/* Upload Section */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
@@ -183,6 +205,15 @@ export default function VideoManagerPage() {
                         <Copy className="w-3.5 h-3.5" />
                       )}
                     </button>
+                    {onVideoAttached && (
+                      <button
+                        onClick={() => onVideoAttached(v.url)}
+                        className="px-2 py-1 text-xs font-medium rounded bg-brand-blue-50 text-brand-blue-700 hover:bg-brand-blue-100 transition"
+                        title="Attach to lesson"
+                      >
+                        Attach
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

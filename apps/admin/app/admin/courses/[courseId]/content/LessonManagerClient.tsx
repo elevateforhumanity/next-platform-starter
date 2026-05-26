@@ -27,11 +27,15 @@ interface Props {
   course: Course | null;
   initialLessons: Lesson[];
   courseId: string;
+  /** Optional: called after a lesson is created or updated */
+  onLessonSaved?: (lesson: Lesson) => void;
+  /** Optional: called after a lesson is deleted */
+  onLessonDeleted?: (lessonId: string) => void;
 }
 
 type VideoGenStatus = 'idle' | 'running' | 'done' | 'error';
 
-export default function LessonManagerClient({ course, initialLessons, courseId }: Props) {
+export default function LessonManagerClient({ course, initialLessons, courseId, onLessonSaved, onLessonDeleted }: Props) {
   const [lessons, setLessons] = useState<Lesson[]>(initialLessons);
   const [showModal, setShowModal] = useState(false);
   const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
@@ -101,6 +105,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Failed to update lesson');
         setLessons(lessons.map((l) => (l.id === editingLesson.id ? payload.data : l)));
+        onLessonSaved?.(payload.data);
       } else {
         const res = await fetch('/api/admin/courses/lessons', {
           method: 'POST',
@@ -110,6 +115,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Failed to create lesson');
         setLessons([...lessons, payload.data]);
+        onLessonSaved?.(payload.data);
       }
       setShowModal(false);
       resetForm();
@@ -132,6 +138,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.error || 'Failed to delete lesson');
       setLessons(lessons.filter((l) => l.id !== lessonId));
+      onLessonDeleted?.(lessonId);
     } catch {
       setError('Failed to delete lesson.');
     } finally {

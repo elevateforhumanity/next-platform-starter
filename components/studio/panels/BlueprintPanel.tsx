@@ -1,41 +1,179 @@
 'use client';
 
 /**
- * BlueprintPanel — wraps CourseBuilderClient + CourseBuilderPageClient
- * Plugged into CourseProvider: reads course/modules, writes via upsertModule.
+ * BlueprintPanel — course metadata editor.
+ * Reads course from CourseProvider, writes via updateCourse (autosaved).
  */
 
-import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 import { useCourse } from '../CourseProvider';
-import { Layers } from 'lucide-react';
-
-const CourseBuilderClient = dynamic(
-  () => import('@/apps/admin/app/admin/course-builder/CourseBuilderClient').then(m => ({ default: m.default ?? m })),
-  { ssr: false, loading: () => <PanelSkeleton label="Blueprint" /> }
-);
+import { Layers, ExternalLink } from 'lucide-react';
 
 export function BlueprintPanel() {
   const { state, updateCourse, appendAIMemory } = useCourse();
   const { course, modules } = state;
 
+  // Local form state — synced from provider on mount
+  const [title, setTitle] = useState(course.title);
+  const [description, setDescription] = useState(course.description ?? '');
+  const [shortDescription, setShortDescription] = useState(course.short_description ?? '');
+  const [thumbnailUrl, setThumbnailUrl] = useState(course.thumbnail_url ?? '');
+  const [durationHours, setDurationHours] = useState(
+    course.duration_hours != null ? String(course.duration_hours) : ''
+  );
+  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
+    (course.status as 'draft' | 'published' | 'archived') ?? 'draft'
+  );
+
+  // Push changes into CourseProvider (triggers autosave)
+  function commit(patch: Partial<typeof course>) {
+    updateCourse(patch);
+    appendAIMemory({
+      role: 'action',
+      content: `Blueprint updated: ${Object.keys(patch).join(', ')}`,
+      source: 'blueprint',
+    });
+  }
+
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-2xl">
       <PanelHeader
         icon={<Layers className="w-5 h-5" />}
         title="Blueprint"
-        subtitle={`${modules.length} module${modules.length !== 1 ? 's' : ''} · ${state.lessons.length} lessons`}
+        subtitle={`${modules.length} module${modules.length !== 1 ? 's' : ''} · ${state.lessons.length} lesson${state.lessons.length !== 1 ? 's' : ''}`}
+        actions={
+          <a
+            href={`/admin/course-builder`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-xs font-medium text-brand-blue-600 hover:text-brand-blue-800 transition"
+          >
+            Full builder <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        }
       />
-      <CourseBuilderClient
-        courseId={course.id}
-        onUpdate={(patch: Record<string, unknown>) => {
-          updateCourse(patch as Parameters<typeof updateCourse>[0]);
-          appendAIMemory({
-            role: 'action',
-            content: `Blueprint updated: ${Object.keys(patch).join(', ')}`,
-            source: 'blueprint',
-          });
-        }}
-      />
+
+      <div className="space-y-5">
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            Course Title <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            onBlur={() => title !== course.title && commit({ title })}
+            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
+            placeholder="e.g. EPA 608 Certification Prep"
+          />
+        </div>
+
+        {/* Short description */}
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            Short Description
+          </label>
+          <input
+            type="text"
+            value={shortDescription}
+            onChange={e => setShortDescription(e.target.value)}
+            onBlur={() => shortDescription !== (course.short_description ?? '') && commit({ short_description: shortDescription })}
+            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
+            placeholder="One-line summary shown in course cards"
+            maxLength={160}
+          />
+          <p className="text-xs text-slate-400 mt-1">{shortDescription.length}/160</p>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            Full Description
+          </label>
+          <textarea
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            onBlur={() => description !== (course.description ?? '') && commit({ description })}
+            rows={5}
+            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent resize-y"
+            placeholder="Detailed course description shown on the course landing page"
+          />
+        </div>
+
+        {/* Thumbnail + Duration row */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Thumbnail URL
+            </label>
+            <input
+              type="url"
+              value={thumbnailUrl}
+              onChange={e => setThumbnailUrl(e.target.value)}
+              onBlur={() => thumbnailUrl !== (course.thumbnail_url ?? '') && commit({ thumbnail_url: thumbnailUrl || null })}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
+              placeholder="https://…"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Duration (hours)
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="0.5"
+              value={durationHours}
+              onChange={e => setDurationHours(e.target.value)}
+              onBlur={() => {
+                const val = durationHours === '' ? null : parseFloat(durationHours);
+                if (val !== course.duration_hours) commit({ duration_hours: val });
+              }}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
+              placeholder="e.g. 8"
+            />
+          </div>
+        </div>
+
+        {/* Status */}
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
+          <select
+            value={status}
+            onChange={e => {
+              const v = e.target.value as typeof status;
+              setStatus(v);
+              commit({ status: v });
+            }}
+            className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent bg-white"
+          >
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+          <p className="text-xs text-slate-400 mt-1">
+            Use the Publish panel to publish — it runs readiness checks first.
+          </p>
+        </div>
+
+        {/* Read-only metadata */}
+        {(course.governing_body || course.compliance_profile_key) && (
+          <div className="rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 space-y-1">
+            {course.governing_body && (
+              <p className="text-xs text-slate-600">
+                <span className="font-medium">Standard:</span> {course.governing_body}
+                {course.governing_standard_version && ` ${course.governing_standard_version}`}
+              </p>
+            )}
+            {course.compliance_profile_key && (
+              <p className="text-xs text-slate-600">
+                <span className="font-medium">Compliance:</span> {course.compliance_profile_key}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

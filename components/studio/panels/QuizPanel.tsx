@@ -16,7 +16,7 @@ const QuizManagerClient = dynamic(
 );
 
 export function QuizPanel() {
-  const { state, upsertLesson, appendAIMemory } = useCourse();
+  const { state, appendAIMemory } = useCourse();
   const { course, lessons } = state;
 
   const quizLessons = lessons.filter(l =>
@@ -31,18 +31,15 @@ export function QuizPanel() {
         subtitle={`${quizLessons.length} assessment lesson${quizLessons.length !== 1 ? 's' : ''}`}
       />
       <QuizManagerClient
+        course={{ id: course.id, title: course.title }}
         courseId={course.id}
-        lessons={lessons}
-        onQuizSaved={(lessonId: string, questions: unknown[]) => {
-          const lesson = lessons.find(l => l.id === lessonId);
-          if (lesson) {
-            upsertLesson({ ...lesson, quiz_questions: questions });
-            appendAIMemory({
-              role: 'action',
-              content: `Quiz updated for lesson "${lesson.title}": ${questions.length} question${questions.length !== 1 ? 's' : ''}`,
-              source: 'quiz',
-            });
-          }
+        initialQuizzes={[]}
+        onQuizSaved={(quiz) => {
+          appendAIMemory({
+            role: 'action',
+            content: `Quiz saved: "${quiz.title}" (passing: ${quiz.passing_score}%)`,
+            source: 'quiz',
+          });
         }}
       />
     </div>

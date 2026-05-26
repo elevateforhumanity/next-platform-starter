@@ -1,10 +1,15 @@
-import { Suspense } from 'react';
+import { Suspense, cache } from 'react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { loadCourseSession } from '@/lib/studio/course-session';
 import { CourseProvider } from '@/components/studio/CourseProvider';
 import { StudioShell } from '@/components/studio/StudioShell';
 import { StudioWorkspace } from '@/components/studio/StudioWorkspace';
+
+// Deduplicate loadCourseSession calls within a single request.
+// generateMetadata and StudioContent both call this — cache ensures
+// only one set of DB queries runs per page load.
+const getCourseSession = cache(loadCourseSession);
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +20,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { courseId } = await params;
   try {
-    const session = await loadCourseSession(courseId);
+    const session = await getCourseSession(courseId);
     return {
       title: `${session.course.title} — Studio | Elevate Admin`,
       robots: { index: false, follow: false },
@@ -42,7 +47,7 @@ function StudioLoading() {
 async function StudioContent({ courseId }: { courseId: string }) {
   let session;
   try {
-    session = await loadCourseSession(courseId);
+    session = await getCourseSession(courseId);
   } catch (err) {
     const msg = err instanceof Error ? err.message : '';
     if (msg.includes('not found') || msg.includes('ERR_STUDIO_COURSE_NOT_FOUND')) {

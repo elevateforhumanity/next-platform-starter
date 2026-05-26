@@ -15,7 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
-import { aiChat } from '@/lib/ai/ai-service';
+import { aiChatStream } from '@/lib/ai/ai-service';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -76,54 +76,41 @@ export async function POST(request: NextRequest) {
     .slice(-12) // max 12 messages in context
     .map(m => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content }));
 
-  try {
-    // Use streaming if available, fall back to non-streaming
-    const result = await aiChat({
-      model: 'gpt-4.1-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...safeMessages,
-      ],
-      temperature: 0.7,
-      maxTokens: 1000,
-    });
+  const encoder = new TextEncoder();
 
-    const content = result.content ?? 'I was unable to generate a response. Please try again.';
-
-    // Return as SSE stream for the client to consume
-    const encoder = new TextEncoder();
-    const stream = new ReadableStream({
-      start(controller) {
-        // Chunk the response to simulate streaming
-        const words = content.split(' ');
-        let i = 0;
-        const interval = setInterval(() => {
-          if (i >= words.length) {
-            controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-            controller.close();
-            clearInterval(interval);
-            return;
-          }
-          const chunk = (i === 0 ? '' : ' ') + words[i];
-          const sseData = JSON.stringify({
-            choices: [{ delta: { content: chunk } }],
-          });
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const delta of aiChatStream({
+          model: 'gpt-4.1-mini',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...safeMessages,
+          ],
+          temperature: 0.7,
+          maxTokens: 1000,
+        })) {
+          const sseData = JSON.stringify({ choices: [{ delta: { content: delta } }] });
           controller.enqueue(encoder.encode(`data: ${sseData}\n\n`));
-          i++;
-        }, 20);
-      },
-    });
+        }
+        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+      } catch (err) {
+        logger.error('[studio/ai-chat] stream error', err instanceof Error ? err : undefined, { courseId });
+        const errData = JSON.stringify({ choices: [{ delta: { content: '\n\nSorry, the AI assistant encountered an error. Please try again.' } }] });
+        controller.enqueue(encoder.encode(`data: ${errData}\n\n`));
+        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+      } finally {
+        controller.close();
+      }
+    },
+  });
 
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    });
-
-  } catch (err) {
-    logger.error('[studio/ai-chat] AI request failed', err instanceof Error ? err : undefined, { courseId });
-    return NextResponse.json({ error: 'AI request failed' }, { status: 500 });
-  }
+  return new Response(readable, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no', // prevent nginx from buffering chunks
+    },
+  });
 }

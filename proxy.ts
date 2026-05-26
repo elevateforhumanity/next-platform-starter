@@ -16,7 +16,6 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/course-generator':     '/admin/studio',
   '/admin/syllabus-generator':   '/admin/studio',
   '/admin/course-templates':     '/admin/studio',
-  '/admin/studio':     '/admin/studio',
   '/admin/courses/manage':       '/admin/courses',
   '/admin/course-import':        '/admin/studio',
   '/admin/quiz-builder':         '/admin/studio',
@@ -43,7 +42,7 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
   // ── Media consolidation ──────────────────────────────────────────────────
-  '/admin/studio':      '/admin/studio',
+  '/admin/ai-studio':   '/admin/studio',
 };
 
 // Webhook paths bypass auth — Stripe signature verification handles security.

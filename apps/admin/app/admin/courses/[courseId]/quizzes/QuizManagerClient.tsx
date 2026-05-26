@@ -23,9 +23,11 @@ interface Props {
   course: Course | null;
   initialQuizzes: Quiz[];
   courseId: string;
+  /** Optional: called after a quiz is created or updated */
+  onQuizSaved?: (quiz: Quiz) => void;
 }
 
-export default function QuizManagerClient({ course, initialQuizzes, courseId }: Props) {
+export default function QuizManagerClient({ course, initialQuizzes, courseId, onQuizSaved }: Props) {
   const [quizzes, setQuizzes] = useState<Quiz[]>(initialQuizzes);
   const [showModal, setShowModal] = useState(false);
   const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
@@ -95,6 +97,7 @@ export default function QuizManagerClient({ course, initialQuizzes, courseId }: 
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Failed to update quiz');
         setQuizzes(quizzes.map((q) => (q.id === editingQuiz.id ? payload.data : q)));
+        onQuizSaved?.(payload.data);
       } else {
         const res = await fetch('/api/admin/courses/quizzes', {
           method: 'POST',
@@ -104,6 +107,7 @@ export default function QuizManagerClient({ course, initialQuizzes, courseId }: 
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Failed to create quiz');
         setQuizzes([payload.data, ...quizzes]);
+        onQuizSaved?.(payload.data);
       }
 
       setShowModal(false);

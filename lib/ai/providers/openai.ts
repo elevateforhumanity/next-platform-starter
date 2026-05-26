@@ -55,6 +55,25 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
     };
   }
 
+  /**
+   * Returns a streaming chat completion as an async iterable of content deltas.
+   * Each yielded string is a raw text chunk from the model.
+   */
+  async *chatStream(options: ChatCompletionOptions): AsyncIterable<string> {
+    const client = this.getClient();
+    const stream = await client.chat.completions.create({
+      model: options.model || 'gpt-4.1-mini',
+      messages: options.messages,
+      temperature: options.temperature ?? 0.7,
+      max_tokens: options.maxTokens || 2048,
+      stream: true,
+    });
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta?.content;
+      if (delta) yield delta;
+    }
+  }
+
   async generateImage(options: ImageGenerationOptions): Promise<GeneratedImage[]> {
     const client = this.getClient();
     const res = await client.images.generate({

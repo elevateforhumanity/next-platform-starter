@@ -27,18 +27,18 @@ export function CurriculumPanel() {
         subtitle={`${lessons.length} lesson${lessons.length !== 1 ? 's' : ''} across ${modules.length} module${modules.length !== 1 ? 's' : ''}`}
       />
       <LessonManagerClient
+        course={course}
         courseId={course.id}
         initialLessons={lessons}
-        initialModules={modules}
-        onLessonSaved={(lesson: Parameters<typeof upsertLesson>[0]) => {
-          upsertLesson(lesson);
+        onLessonSaved={(lesson) => {
+          upsertLesson(lesson as Parameters<typeof upsertLesson>[0]);
           appendAIMemory({
             role: 'action',
-            content: `Lesson saved: "${lesson.title}" (${lesson.lesson_type})`,
+            content: `Lesson saved: "${lesson.title}"`,
             source: 'curriculum',
           });
         }}
-        onLessonDeleted={(lessonId: string) => {
+        onLessonDeleted={(lessonId) => {
           deleteLesson(lessonId);
           appendAIMemory({
             role: 'action',

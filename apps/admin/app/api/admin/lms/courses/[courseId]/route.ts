@@ -47,7 +47,7 @@ export async function PATCH(
 
     // Whitelist updatable fields. status may be set to 'draft' to unpublish;
     // use /publish endpoint to publish (enforces health check).
-    const allowed = ['title', 'short_description', 'description', 'slug', 'status'] as const;
+    const allowed = ['title', 'short_description', 'description', 'slug', 'status', 'thumbnail_url', 'duration_hours'] as const;
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
     for (const key of allowed) {
       if (key in body) updates[key] = body[key];

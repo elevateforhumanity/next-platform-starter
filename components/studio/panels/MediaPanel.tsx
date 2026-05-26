@@ -17,8 +17,17 @@ const VideoManagerClient = dynamic(
 );
 
 export function MediaPanel() {
-  const { state, upsertLesson, appendAIMemory } = useCourse();
-  const { course, videos, lessons } = state;
+  const { state, appendAIMemory } = useCourse();
+  const { videos } = state;
+
+  // Map StudioVideo → VideoRecord shape expected by VideoManagerClient
+  const initialVideos = videos.map(v => ({
+    id: v.id,
+    title: v.title,
+    url: v.url ?? v.video_url ?? '',
+    created_at: v.created_at,
+    duration_minutes: v.duration_seconds != null ? Math.round(v.duration_seconds / 60) : null,
+  }));
 
   return (
     <div className="p-6">
@@ -28,19 +37,14 @@ export function MediaPanel() {
         subtitle={`${videos.length} video${videos.length !== 1 ? 's' : ''} available`}
       />
       <VideoManagerClient
-        courseId={course.id}
-        videos={videos}
-        lessons={lessons}
-        onVideoAttached={(lessonId: string, videoUrl: string) => {
-          const lesson = lessons.find(l => l.id === lessonId);
-          if (lesson) {
-            upsertLesson({ ...lesson, video_url: videoUrl });
-            appendAIMemory({
-              role: 'action',
-              content: `Video attached to lesson "${lesson.title}": ${videoUrl}`,
-              source: 'media',
-            });
-          }
+        embedded
+        initialVideos={initialVideos}
+        onVideoAttached={(videoUrl: string) => {
+          appendAIMemory({
+            role: 'action',
+            content: `Video URL copied for attachment: ${videoUrl}`,
+            source: 'media',
+          });
         }}
       />
     </div>

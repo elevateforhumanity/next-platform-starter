@@ -90,13 +90,8 @@ function AutosaveIndicator() {
 // ─── Topbar ───────────────────────────────────────────────────────────────────
 
 function StudioTopbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
-  const { state, save, updatePublishState } = useCourse();
+  const { state, save, setPanel } = useCourse();
   const { course, publishState } = state;
-
-  const handlePublish = async () => {
-    updatePublishState({ isPublished: true, publishedAt: new Date().toISOString() });
-    await fetch(`/api/admin/lms/courses/${course.id}/publish`, { method: 'POST' });
-  };
 
   return (
     <header className="h-14 border-b border-slate-200 bg-white flex items-center gap-3 px-4 shrink-0">
@@ -155,11 +150,14 @@ function StudioTopbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
         Save
       </button>
 
-      {/* Publish */}
+      {/* Publish — navigates to the Publish panel which runs readiness checks */}
       <button
-        onClick={() => void handlePublish()}
-        disabled={!publishState.readyToPublish || publishState.isPublished}
-        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-blue-600 text-white hover:bg-brand-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition shrink-0"
+        onClick={() => setPanel('publish')}
+        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition shrink-0 ${
+          publishState.isPublished
+            ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+            : 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
+        }`}
       >
         <Rocket className="w-3.5 h-3.5" />
         <span className="hidden sm:inline">

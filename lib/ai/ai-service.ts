@@ -119,6 +119,23 @@ export async function aiChat(options: ChatCompletionOptions): Promise<ChatComple
 }
 
 /**
+ * Stream a chat completion as an async iterable of content deltas.
+ * Only works with OpenAI provider. Falls back to a single-chunk iterable
+ * if the provider doesn't support streaming or no key is configured.
+ */
+export async function* aiChatStream(options: ChatCompletionOptions): AsyncIterable<string> {
+  const provider = resolveChatProvider();
+  if ('chatStream' in provider && typeof (provider as { chatStream?: unknown }).chatStream === 'function') {
+    const streamProvider = provider as { chatStream: (opts: ChatCompletionOptions) => AsyncIterable<string> };
+    yield* streamProvider.chatStream(options);
+  } else {
+    // Provider doesn't support streaming — fall back to a single chunk
+    const result = await provider.chat(options);
+    if (result.content) yield result.content;
+  }
+}
+
+/**
  * Generate images through the configured AI image provider.
  * Provider is selected via AI_IMAGE_PROVIDER env var (default: dalle).
  */
