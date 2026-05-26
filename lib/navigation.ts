@@ -40,6 +40,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
       { name: 'CNA / Nursing Assistant', href: '/programs/cna' },
       { name: 'QMA / Medication Aide', href: '/programs/qma' },
+      { name: 'Phlebotomy Technician', href: '/programs/phlebotomy' },
+      { name: 'Medical Assistant', href: '/programs/medical-assistant' },
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'Direct Support Professional', href: canonicalRoutes.programs.directSupportProfessional },
       { name: 'Drug & Alcohol Collector', href: '/programs/drug-collector' },
@@ -60,6 +62,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
       { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
       { name: 'All Beauty →', href: '/apprenticeships', isSectionLink: true },
 
       // Technology

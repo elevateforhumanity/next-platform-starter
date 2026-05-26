@@ -23,7 +23,7 @@ interface HeaderDesktopNavProps {
 
 export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
   return (
-    <nav className="hidden lg:flex items-center gap-6" aria-label="Main navigation">
+    <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main navigation">
       {items.map((item) => (
         <div key={item.name} className="relative group">
           {item.subItems && item.subItems.length > 0 ? (
@@ -31,7 +31,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
               <Link
                 href={item.href}
                 prefetch={false}
-                className="text-slate-700 hover:text-brand-blue-600 font-medium text-sm transition-colors py-2"
+                className="text-slate-700 hover:text-brand-blue-600 font-medium text-[13px] transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50"
                 aria-haspopup="true"
               >
                 {item.name}
@@ -39,7 +39,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
             ) : (
               <button
                 type="button"
-                className="text-slate-700 hover:text-brand-blue-600 font-medium text-sm transition-colors py-2 cursor-default"
+                className="text-slate-700 hover:text-brand-blue-600 font-medium text-[13px] transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 cursor-default"
                 aria-haspopup="true"
               >
                 {item.name}
@@ -49,12 +49,12 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
             <Link
               href={item.href}
               prefetch={false}
-              className="text-slate-700 hover:text-brand-blue-600 font-medium text-sm transition-colors py-2"
+              className="text-slate-700 hover:text-brand-blue-600 font-medium text-[13px] transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50"
             >
               {item.name}
             </Link>
           ) : (
-            <span className="text-slate-700 font-medium text-sm py-2">{item.name}</span>
+            <span className="text-slate-700 font-medium text-[13px] px-2.5 py-1.5">{item.name}</span>
           )}
 
           {/* Dropdown — horizontal mega-menu layout */}
