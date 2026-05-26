@@ -333,6 +333,11 @@ function BookingForm() {
           window.location.href = data.url;
           return;
         }
+        // Checkout API returned an error — surface it instead of silently falling through
+        const errMsg = data.error ?? 'Unable to start checkout. Please try again or call us.';
+        alert(errMsg);
+        setSubmitting(false);
+        return;
       }
 
       // Only reaches here for exams with no fee configured (free exams)

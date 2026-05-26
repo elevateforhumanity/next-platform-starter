@@ -7,6 +7,7 @@ import {
   Activity, AlertTriangle, Bot, CheckCircle, Database,
   DatabaseBackup, FileSearch, RefreshCw, Server, Shield,
   Terminal, TrendingUp, Users, Zap, XCircle, Mail,
+  Clock, BookOpen, Bell,
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -101,6 +102,23 @@ const SNAPSHOT_COLORS: Record<string, string> = {
 type AuditLog = { id: string; action: string; created_at: string; user_id: string };
 type SnapshotRow = { id: string; snapshot_type: string; label: string; rolled_back: boolean; created_at: string };
 
+type ClockInEntry = {
+  id: string; apprentice_id: string; student_name: string;
+  clock_in_at: string; clock_out_at: string | null;
+  is_active: boolean; duration_min: number | null;
+  program_id: string | null; work_date: string | null;
+};
+type PlatformAlert = {
+  id: string; event_type: string; category: string;
+  severity: string; message: string | null;
+  created_at: string; resolved: boolean;
+  payload: Record<string, unknown>;
+};
+type LessonActivity = {
+  id: string; user_id: string; student_name: string;
+  lesson_id: string; completed_at: string | null; created_at: string;
+};
+
 export default function MissionControlClient({ snapshot }: { snapshot: Snapshot }) {
   const [counts, setCounts] = useState<Snapshot>(snapshot);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
@@ -109,12 +127,18 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
   const [sysStatus, setSysStatus] = useState<SystemStatus | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [lastRefresh, setLastRefresh] = useState(new Date(snapshot.fetchedAt));
+  // Live ops state
+  const [clockIns, setClockIns] = useState<ClockInEntry[]>([]);
+  const [alerts, setAlerts] = useState<PlatformAlert[]>([]);
+  const [lessonActivity, setLessonActivity] = useState<LessonActivity[]>([]);
+  const [liveOpsSummary, setLiveOpsSummary] = useState<{ activeClockIns: number; unresolvedAlerts: number; lessonCompletions24h: number } | null>(null);
 
-  // ── Platform health + recent activity polling (30s) ───────────────────────
+  // ── Platform health + recent activity + live ops polling (30s) ───────────
   const fetchLiveStatus = useCallback(async () => {
-    const [healthRes, activityRes] = await Promise.all([
+    const [healthRes, activityRes, liveOpsRes] = await Promise.all([
       fetch('/api/admin/platform-health').catch(() => null),
       fetch('/api/admin/mission-control/activity').catch(() => null),
+      fetch('/api/admin/mission-control/live-ops').catch(() => null),
     ]);
 
     if (healthRes?.ok) {
@@ -138,6 +162,14 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       const activity = await activityRes.json();
       setAuditLogs(activity.auditLogs ?? []);
       setSnapshots(activity.snapshots ?? []);
+    }
+
+    if (liveOpsRes?.ok) {
+      const liveOps = await liveOpsRes.json();
+      setClockIns(liveOps.clockIns ?? []);
+      setAlerts(liveOps.alerts ?? []);
+      setLessonActivity(liveOps.recentLessonActivity ?? []);
+      setLiveOpsSummary(liveOps.summary ?? null);
     }
 
     setLastRefresh(new Date());
@@ -468,6 +500,143 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
               </div>
             )}
           </div>
+        </div>
+
+        {/* ── Live Ops Row ─────────────────────────────────────────────────── */}
+        <div className="grid lg:grid-cols-3 gap-6 mt-6">
+
+          {/* Clock-in Feed */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-slate-500" />
+                OJT Clock-ins
+                {liveOpsSummary && liveOpsSummary.activeClockIns > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-green-900/60 text-green-300 border border-green-800">
+                    {liveOpsSummary.activeClockIns} active
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/progress" className="text-xs text-brand-blue-400 hover:text-brand-blue-300 transition-colors">
+                View all →
+              </Link>
+            </div>
+            {clockIns.length > 0 ? (
+              <div className="space-y-1 max-h-64 overflow-y-auto">
+                {clockIns.map((entry) => (
+                  <div key={entry.id} className="py-2 border-b border-slate-800 last:border-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${entry.is_active ? 'bg-green-400' : 'bg-slate-600'}`} />
+                        <p className="text-slate-300 text-xs font-medium truncate">{entry.student_name}</p>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {entry.is_active && entry.duration_min !== null && (
+                          <span className="text-xs text-green-400">{entry.duration_min}m</span>
+                        )}
+                        <span className="text-slate-500 text-xs">{formatRelative(entry.clock_in_at)}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-6 text-center">
+                <Clock className="w-8 h-8 text-slate-700 mx-auto mb-2" />
+                <p className="text-slate-500 text-sm">No clock-ins in last 24h</p>
+              </div>
+            )}
+          </div>
+
+          {/* AI / Platform Alerts */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <Bell className="w-4 h-4 text-slate-500" />
+                System Alerts
+                {liveOpsSummary && liveOpsSummary.unresolvedAlerts > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-red-900/60 text-red-300 border border-red-800">
+                    {liveOpsSummary.unresolvedAlerts} unresolved
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/monitoring" className="text-xs text-brand-blue-400 hover:text-brand-blue-300 transition-colors">
+                View all →
+              </Link>
+            </div>
+            {alerts.length > 0 ? (
+              <div className="space-y-1 max-h-64 overflow-y-auto">
+                {alerts.map((alert) => (
+                  <div key={alert.id} className={`py-2 border-b border-slate-800 last:border-0 ${!alert.resolved ? 'opacity-100' : 'opacity-50'}`}>
+                    <div className="flex items-start gap-2">
+                      <span className={`w-2 h-2 rounded-full flex-shrink-0 mt-1.5 ${
+                        alert.severity === 'critical' ? 'bg-red-400' :
+                        alert.severity === 'error'    ? 'bg-red-400' :
+                        alert.severity === 'warning'  ? 'bg-amber-400' : 'bg-slate-500'
+                      }`} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-slate-300 text-xs font-medium truncate">
+                          {alert.message ?? alert.event_type}
+                        </p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className={`text-xs capitalize ${
+                            alert.severity === 'critical' || alert.severity === 'error' ? 'text-red-400' :
+                            alert.severity === 'warning' ? 'text-amber-400' : 'text-slate-500'
+                          }`}>{alert.severity}</span>
+                          <span className="text-slate-600 text-xs">{alert.category}</span>
+                        </div>
+                      </div>
+                      <span className="text-slate-500 text-xs flex-shrink-0">{formatRelative(alert.created_at)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-6 text-center">
+                <CheckCircle className="w-8 h-8 text-green-700 mx-auto mb-2" />
+                <p className="text-slate-500 text-sm">No alerts in last 24h</p>
+              </div>
+            )}
+          </div>
+
+          {/* Active Lesson Activity */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-slate-500" />
+                Lesson Activity
+                {liveOpsSummary && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-blue-900/60 text-blue-300 border border-blue-800">
+                    {liveOpsSummary.lessonCompletions24h} today
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/students" className="text-xs text-brand-blue-400 hover:text-brand-blue-300 transition-colors">
+                View all →
+              </Link>
+            </div>
+            {lessonActivity.length > 0 ? (
+              <div className="space-y-1 max-h-64 overflow-y-auto">
+                {lessonActivity.map((entry) => (
+                  <div key={entry.id} className="py-2 border-b border-slate-800 last:border-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
+                        <p className="text-slate-300 text-xs font-medium truncate">{entry.student_name}</p>
+                      </div>
+                      <span className="text-slate-500 text-xs flex-shrink-0">{formatRelative(entry.created_at)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-6 text-center">
+                <BookOpen className="w-8 h-8 text-slate-700 mx-auto mb-2" />
+                <p className="text-slate-500 text-sm">No completions in last 24h</p>
+              </div>
+            )}
+          </div>
+
         </div>
       </div>
     </div>
