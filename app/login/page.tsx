@@ -201,8 +201,8 @@ function LoginForm() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-gray-900">Two-Factor Authentication</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="text-xl font-bold text-slate-900">Two-Factor Authentication</h2>
+            <p className="text-sm text-slate-500 mt-1">
               {useBackupCode ? 'Enter one of your backup codes' : 'Enter the 6-digit code from your authenticator app'}
             </p>
           </div>
@@ -215,7 +215,7 @@ function LoginForm() {
               value={twoFACode}
               onChange={e => setTwoFACode(e.target.value)}
               placeholder={useBackupCode ? 'Backup code' : '000000'}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-center text-2xl tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg text-center text-2xl tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
               autoFocus
               autoComplete="one-time-code"
             />
@@ -239,7 +239,7 @@ function LoginForm() {
             <button
               type="button"
               onClick={() => { setShow2FA(false); setTwoFACode(''); setTwoFAError(''); }}
-              className="w-full text-sm text-gray-400 hover:text-gray-600 text-center"
+              className="w-full text-sm text-slate-400 hover:text-slate-600 text-center"
             >
               ← Back to login
             </button>

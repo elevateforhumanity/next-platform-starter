@@ -196,7 +196,7 @@ export default function CosmetologyHostShopClient({ isApproved = false }: Props)
             </Link>
             <a
               href="tel:+13173143757"
-              className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-white rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-100 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
               (317) 314-3757
             </a>

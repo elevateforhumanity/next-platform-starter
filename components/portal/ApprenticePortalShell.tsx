@@ -428,13 +428,13 @@ export function ApprenticePortalShell({ config, firstName, enrollment, hours, do
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <h2 className="text-sm font-semibold text-slate-900 mb-3">
               Onboarding{' '}
-              {onboardingComplete && <span className="text-green-600 ml-1">✓ Complete</span>}
+              {onboardingComplete && <span className="text-brand-green-600 ml-1">✓ Complete</span>}
             </h2>
             <ul className="space-y-2.5">
               {onboardingItems.map((item) =>
                 item.done ? (
                   <li key={item.label} className="flex items-center gap-2.5 text-sm text-slate-400">
-                    <span className="w-4 h-4 rounded-full bg-green-500 inline-block flex-shrink-0" aria-hidden="true" />
+                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
                     <span className="line-through">{item.label}</span>
                   </li>
                 ) : (
