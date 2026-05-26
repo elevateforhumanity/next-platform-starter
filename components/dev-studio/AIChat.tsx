@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import {
   Send, Bot, User, Loader2, Copy, Check, Sparkles, Paperclip,
   AlertTriangle, Database, Terminal, Zap, ChevronDown, ChevronRight,
@@ -110,10 +111,10 @@ function CourseCard({ result }: { result: string }) {
         <div className="flex items-center gap-3 px-3 py-2 bg-purple-100 border-t border-purple-200 text-[11px] text-purple-700">
           {data.total_lessons && <span>{data.total_lessons} total lessons</span>}
           {data.course_id && (
-            <a href={`/admin/courses/${data.course_id}`} target="_blank" rel="noreferrer"
+            <Link href={`/admin/courses/${data.course_id}`} target="_blank" rel="noreferrer"
               className="ml-auto flex items-center gap-1 hover:underline">
               Open course <ExternalLink className="w-3 h-3" />
-            </a>
+            </Link>
           )}
         </div>
       )}
