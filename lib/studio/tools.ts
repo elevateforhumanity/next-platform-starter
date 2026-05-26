@@ -143,8 +143,23 @@ export const STUDIO_TOOLS = [
         properties: {
           blueprint_id: {
             type: 'string',
-            enum: ['hvac-epa608-v1'],
-            description: 'The blueprint to build from. Currently only hvac-epa608-v1 is available.',
+            enum: [
+              'hvac-epa608-v1',
+              'bookkeeping-quickbooks-v1',
+              'ccma-v1',
+              'cdl-class-a-v1',
+              'cna-indiana-v1',
+              'crs-indiana',
+              'electrical-v1',
+              'entrepreneurship-v1',
+              'it-help-desk-v1',
+              'medical-assistant-v1',
+              'peer-recovery-specialist-in-v1',
+              'plumbing-v1',
+              'prs-indiana',
+              'welding-v1',
+            ],
+            description: 'The blueprint to build from. Use the exact ID string.',
           },
           mode: {
             type: 'string',

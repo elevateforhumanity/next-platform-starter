@@ -227,24 +227,17 @@ export async function searchLessons(
 
   const vectorLiteral = `[${vectors[0].join(',')}]`;
 
-  // Use pgvector cosine similarity via RPC or raw SQL
-  let queryBuilder = db
-    .from('course_embeddings')
-    .select('lesson_id, course_id, source_text')
-    .not('lesson_id', 'is', null);
+  // Use the match_lessons RPC — proper pgvector cosine similarity via Supabase JS client
+  const { data, error } = await db.rpc('match_lessons', {
+    query_embedding: vectorLiteral,
+    match_threshold: threshold,
+    match_count: limit,
+    filter_course_id: courseId ?? null,
+  });
 
-  if (courseId) queryBuilder = queryBuilder.eq('course_id', courseId);
-
-  // Supabase doesn't expose vector operators via the JS client directly.
-  // Use the query_json RPC for the similarity search.
-  const sql = courseId
-    ? `SELECT lesson_id, course_id, source_text, 1 - (embedding <=> '${vectorLiteral}'::vector) AS similarity FROM course_embeddings WHERE lesson_id IS NOT NULL AND course_id = '${courseId}' AND 1 - (embedding <=> '${vectorLiteral}'::vector) > ${threshold} ORDER BY embedding <=> '${vectorLiteral}'::vector LIMIT ${limit}`
-    : `SELECT lesson_id, course_id, source_text, 1 - (embedding <=> '${vectorLiteral}'::vector) AS similarity FROM course_embeddings WHERE lesson_id IS NOT NULL AND 1 - (embedding <=> '${vectorLiteral}'::vector) > ${threshold} ORDER BY embedding <=> '${vectorLiteral}'::vector LIMIT ${limit}`;
-
-  const { data, error } = await (db as unknown as {
-    rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: SemanticSearchResult[] | null; error: unknown }>
-  }).rpc('query_json', { sql });
-
-  if (error || !data) return [];
-  return data as SemanticSearchResult[];
+  if (error) {
+    logger.error('[embed-lessons] searchLessons error', undefined, { error: error.message });
+    return [];
+  }
+  return (data ?? []) as SemanticSearchResult[];
 }
