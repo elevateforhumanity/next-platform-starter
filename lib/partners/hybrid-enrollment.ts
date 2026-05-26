@@ -72,7 +72,7 @@ export async function enrollInExternalModule(
       module.external_course_code
     ) {
       try {
-        return await enrollViaAPI(module, student, request);
+        return await enrollViaAPI(module, student, request, supabase);
       } catch (apiError) {
         // Error: $1
         // Fall back to link mode if hybrid
@@ -100,6 +100,7 @@ async function enrollViaAPI(
   module: any,
   student: any,
   request: HybridEnrollmentRequest,
+  supabase: Awaited<ReturnType<typeof getSupabaseAdmin>>,
 ): Promise<HybridEnrollmentResult> {
   const partnerType = module.partner_type as PartnerType;
   const client = getPartnerClient(partnerType);
