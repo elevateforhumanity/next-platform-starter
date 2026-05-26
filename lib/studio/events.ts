@@ -99,7 +99,7 @@ export function emitStudioEvent(
   eventType: StudioEventType,
   payload: StudioEventPayload,
 ): void {
-  void emitEvent(eventType, 'course', {
+  void emitEvent(eventType, 'lms', {
     subject_id: payload.courseId,
     actor_type: 'user',
     actor_id: payload.actorId,
