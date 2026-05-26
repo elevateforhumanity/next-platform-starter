@@ -18,6 +18,7 @@
  */
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   BookOpen,
   Layers,
@@ -108,13 +109,13 @@ function StudioTopbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
       </button>
 
       {/* Back to courses */}
-      <a
+      <Link
         href="/admin/courses"
         className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 transition shrink-0"
       >
         <ChevronLeft className="w-4 h-4" />
         <span className="hidden sm:inline">Courses</span>
-      </a>
+      </Link>
 
       <div className="w-px h-5 bg-slate-200 shrink-0" />
 
