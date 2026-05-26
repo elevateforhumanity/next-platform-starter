@@ -1,9 +1,9 @@
-import { EPA608_FEES } from './providers/epa608-pricing';
-import { CERTIPORT_FEES } from './providers/certiport-pricing';
-import { WORKKEYS_FEES } from './providers/workkeys-pricing';
-import { NRF_FEES } from './providers/nrf-riseup';
-import { CAREERSAFE_FEES } from './providers/careersafe-pricing';
-import { MIDLAND_FEES } from './providers/midland-pricing';
+import { EPA608_FEES, EPA608_PRICING } from './providers/epa608-pricing';
+import { CERTIPORT_FEES, CERTIPORT_EXAMS } from './providers/certiport-pricing';
+import { WORKKEYS_FEES, WORKKEYS_PRICING } from './providers/workkeys-pricing';
+import { NRF_FEES, NRF_RISEUP_PRICING } from './providers/nrf-riseup';
+import { CAREERSAFE_FEES, CAREERSAFE_PRICING } from './providers/careersafe-pricing';
+import { MIDLAND_FEES, MIDLAND_PRICING } from './providers/midland-pricing';
 
 /**
  * Proctoring capability model for Elevate's testing center.
@@ -42,6 +42,12 @@ export interface ExamDefinition {
   durationMinutes?: number;
   /** Number of questions */
   questionCount?: number;
+  /**
+   * Price for this specific exam in cents.
+   * When set, the cart uses this amount instead of the provider-level fee.
+   * Required for providers where different exams have different prices.
+   */
+  amountCents?: number;
 }
 
 export interface CertProvider {
@@ -120,6 +126,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers EPA regulations, refrigerant safety, environmental impact of ozone-depleting substances, and proper handling procedures. Required as part of every certification type. Must pass Core to earn any Section 608 certificate.',
         durationMinutes: 20,
         questionCount: 25,
+        amountCents: EPA608_PRICING.singleSection.price * 100,
       },
       {
         name: 'Type I — Small Appliances',
@@ -127,6 +134,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers equipment containing 5 lbs or less of refrigerant — window AC units, refrigerators, freezers, and dehumidifiers. Focuses on safe recovery techniques for sealed systems.',
         durationMinutes: 20,
         questionCount: 25,
+        amountCents: EPA608_PRICING.singleSection.price * 100,
       },
       {
         name: 'Type II — High-Pressure',
@@ -134,6 +142,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers high-pressure systems using refrigerants like R-22 and R-410A — residential and commercial AC, heat pumps, and refrigeration equipment. The most common certification for residential HVAC technicians.',
         durationMinutes: 20,
         questionCount: 25,
+        amountCents: EPA608_PRICING.singleSection.price * 100,
       },
       {
         name: 'Type III — Low-Pressure',
@@ -141,6 +150,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers low-pressure systems using refrigerants like R-11 and R-123 — large commercial chillers found in office buildings, hospitals, and industrial facilities.',
         durationMinutes: 20,
         questionCount: 25,
+        amountCents: EPA608_PRICING.singleSection.price * 100,
       },
       {
         name: 'Universal (All Sections)',
@@ -148,6 +158,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Passes all four sections — Core, Type I, Type II, and Type III — in a single sitting. Required for technicians who work across residential, commercial, and industrial systems. Most employers require Universal certification.',
         durationMinutes: 80,
         questionCount: 100,
+        amountCents: EPA608_PRICING.universal.price * 100,
       },
     ],
     verifyUrl: 'https://www.escogroup.org/esco/certifications/epa608.aspx',
@@ -218,6 +229,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Entry-level credential covering the basics of working in retail — store operations, customer interaction, product handling, and workplace safety. Designed for first-time job seekers and career changers entering retail or service industries.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: NRF_RISEUP_PRICING.retailFundamentals.price * 100,
       },
       {
         name: 'Customer Service & Sales',
@@ -225,6 +237,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers professional customer service skills, sales techniques, handling complaints, building customer loyalty, and meeting sales goals. Validates readiness for customer-facing roles across retail, hospitality, and service industries.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: NRF_RISEUP_PRICING.customerServiceSales.price * 100,
       },
       {
         name: 'Business of Retail: Operations & Profit',
@@ -232,6 +245,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers retail business operations — inventory management, merchandising, loss prevention, financial basics, and store performance metrics. Designed for candidates moving into supervisory or management roles.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: NRF_RISEUP_PRICING.businessOfRetail.price * 100,
       },
     ],
     verifyUrl: 'https://nrffoundation.org/riseup',
@@ -287,6 +301,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates hands-on proficiency in Microsoft Office applications. Exams available for Word, Excel, PowerPoint, Outlook, and Access. Performance-based — you complete real tasks inside the application during the exam. Recognized by employers for administrative, accounting, and office roles.',
         questionCount: 35,
         durationMinutes: 50,
+        amountCents: CERTIPORT_EXAMS.mos.price * 100,
       },
       {
         name: 'IT Specialist',
@@ -294,6 +309,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Entry-level IT certification series covering foundational programming and networking concepts. Exams available in Python, Java, HTML/CSS, JavaScript, Networking, Databases, and Cybersecurity. Ideal for students and career changers entering IT without prior experience.',
         durationMinutes: 45,
         questionCount: 40,
+        amountCents: CERTIPORT_EXAMS.its.price * 100,
       },
       {
         name: 'Intuit QuickBooks Certified User',
@@ -301,6 +317,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates proficiency in QuickBooks Online — the most widely used small business accounting software. Covers invoicing, payroll, bank reconciliation, reporting, and financial management. Required or preferred by many bookkeeping and accounting employers.',
         durationMinutes: 50,
         questionCount: 50,
+        amountCents: CERTIPORT_EXAMS.quickbooks.price * 100,
       },
       {
         name: 'Entrepreneurship & Small Business (ESB)',
@@ -308,6 +325,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers the fundamentals of starting and running a small business — business planning, marketing, financial management, and operations. Recognized by the Kauffman Foundation. Useful for aspiring entrepreneurs and small business employees.',
         durationMinutes: 50,
         questionCount: 50,
+        amountCents: CERTIPORT_EXAMS.esb.price * 100,
       },
       {
         name: 'IC3 Digital Literacy',
@@ -315,6 +333,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Globally recognized digital literacy certification covering computer hardware, software, internet use, and online communication. Three modules: Computing Fundamentals, Key Applications, and Living Online. Widely accepted as proof of basic computer competency for employment and education.',
         durationMinutes: 45,
         questionCount: 45,
+        amountCents: CERTIPORT_EXAMS.ic3.price * 100,
       },
       {
         name: 'Adobe Certified Professional',
@@ -322,6 +341,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates creative skills in Adobe applications — Photoshop, Illustrator, InDesign, Premiere Pro, and After Effects. Performance-based exam completed inside the Adobe application. Recognized by creative agencies, marketing departments, and media companies.',
         durationMinutes: 50,
         questionCount: 40,
+        amountCents: CERTIPORT_EXAMS.adobe.price * 100,
       },
       {
         name: 'CompTIA A+ · Network+ · Security+',
@@ -329,6 +349,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Industry-standard IT certifications. A+ covers hardware and OS troubleshooting (entry-level IT support). Network+ covers networking concepts, protocols, and infrastructure. Security+ covers cybersecurity fundamentals and is DoD 8570 approved — required for many federal IT roles.',
         durationMinutes: 90,
         questionCount: 90,
+        amountCents: CERTIPORT_EXAMS.comptia.price * 100,
       },
     ],
     verifyUrl: 'https://certiport.pearsonvue.com/Locator',
@@ -416,6 +437,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           "Validates skills in venipuncture, capillary puncture, specimen handling, and patient interaction. Phlebotomists draw blood for lab testing in hospitals, clinics, blood banks, and doctor's offices. One of the fastest paths into healthcare — training typically 4–8 weeks.",
         durationMinutes: 120,
         questionCount: 100,
+        amountCents: 24900,
       },
       {
         name: 'Certified Clinical Medical Assistant (CCMA)',
@@ -423,6 +445,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers clinical and administrative duties — taking vital signs, preparing patients for exams, assisting with procedures, EKG, phlebotomy, and managing patient records. Medical assistants work in physician offices, urgent care, and outpatient clinics. One of the most in-demand healthcare credentials.',
         durationMinutes: 120,
         questionCount: 150,
+        amountCents: 24900,
       },
       {
         name: 'Certified EKG Technician (CET)',
@@ -430,6 +453,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates the ability to perform electrocardiograms (EKGs/ECGs), Holter monitor setup, stress testing, and basic cardiac rhythm interpretation. EKG technicians work in hospitals, cardiology offices, and diagnostic centers.',
         durationMinutes: 90,
         questionCount: 100,
+        amountCents: 24900,
       },
       {
         name: 'Certified Patient Care Technician/Assistant (CPCT/A)',
@@ -437,6 +461,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers direct patient care skills — vital signs, phlebotomy, EKG, catheter care, wound care, and patient mobility. Patient care techs work in hospitals and long-term care facilities, often as a stepping stone to RN or LPN programs.',
         durationMinutes: 120,
         questionCount: 150,
+        amountCents: 24900,
       },
       {
         name: 'Certified Medical Administrative Assistant (CMAA)',
@@ -444,6 +469,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers front-office healthcare operations — scheduling, insurance verification, medical billing basics, HIPAA compliance, and patient communication. Medical administrative assistants work in physician offices, hospitals, and health systems.',
         durationMinutes: 90,
         questionCount: 110,
+        amountCents: 24900,
       },
       {
         name: 'Certified Pharmacy Technician — ExCPT',
@@ -451,6 +477,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates pharmacy technician skills — prescription processing, drug dispensing, inventory management, compounding basics, and pharmacy law. ExCPT is accepted by most retail and hospital pharmacies. Required for licensure in many states.',
         durationMinutes: 110,
         questionCount: 120,
+        amountCents: 24900,
       },
     ],
     verifyUrl: 'https://www.nhanow.com/',
@@ -576,6 +603,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 33,
+        amountCents: WORKKEYS_PRICING.individual.price * 100,
       },
       {
         name: 'Workplace Documents',
@@ -584,6 +612,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 35,
+        amountCents: WORKKEYS_PRICING.individual.price * 100,
       },
       {
         name: 'Graphic Literacy',
@@ -592,12 +621,14 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 38,
+        amountCents: WORKKEYS_PRICING.individual.price * 100,
       },
       {
         name: 'National Career Readiness Certificate (NCRC)',
         description:
           'Earned by completing all three WorkKeys assessments (Applied Math, Workplace Documents, Graphic Literacy). The NCRC level — Bronze, Silver, Gold, or Platinum — is determined by the lowest score across the three tests. Recognized by employers, workforce agencies, and state governments as proof of job readiness.',
         ncrcLevel: 'Bronze · Silver · Gold · Platinum',
+        amountCents: WORKKEYS_PRICING.ncrc.price * 100,
       },
     ],
     verifyUrl:
@@ -704,24 +735,28 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         description:
           'Covers workplace safety fundamentals for non-construction environments — manufacturing, warehousing, healthcare, retail, and service industries. Topics include hazard recognition, electrical safety, PPE, fire safety, and OSHA rights. Required by many employers for entry-level workers. DOL wallet card issued.',
         durationMinutes: 600,
+        amountCents: CAREERSAFE_PRICING.osha10.price * 100,
       },
       {
         name: 'OSHA 10-Hour — Construction',
         description:
           'Covers construction site safety — fall protection, scaffolding, electrical hazards, struck-by and caught-in hazards, and OSHA standards for the construction industry. Required by many general contractors and union apprenticeship programs for all workers on site. DOL wallet card issued.',
         durationMinutes: 600,
+        amountCents: CAREERSAFE_PRICING.osha10.price * 100,
       },
       {
         name: 'OSHA 30-Hour — General Industry',
         description:
           'Advanced safety training for supervisors and workers with safety responsibilities in general industry. Covers all OSHA 10 topics in greater depth plus additional modules on ergonomics, machine guarding, hazardous materials, and safety program management. Required for safety officers and site supervisors in many industries.',
         durationMinutes: 1800,
+        amountCents: CAREERSAFE_PRICING.osha30.price * 100,
       },
       {
         name: 'OSHA 30-Hour — Construction',
         description:
           'Advanced construction safety training for foremen, supervisors, and safety personnel. Covers all OSHA 10-Construction topics plus excavation, cranes, rigging, concrete, steel erection, and safety program development. Required by many union trades and federal construction contracts.',
         durationMinutes: 1800,
+        amountCents: CAREERSAFE_PRICING.osha30.price * 100,
       },
     ],
     verifyUrl: 'https://www.osha.gov/training/outreach',
@@ -786,6 +821,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers foundational HVAC/R knowledge: electrical theory, refrigeration cycle, tools and safety, system components, and basic troubleshooting. Required before any specialty track assessment.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: MIDLAND_PRICING.core.price * 100,
       },
       {
         name: 'Air Conditioning & Heat Pumps',
@@ -793,6 +829,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Validates skills in residential and light commercial A/C and heat pump systems — system installation, charging, diagnosing faults, and heat pump reversing valve operation.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: MIDLAND_PRICING.specialty.price * 100,
       },
       {
         name: 'Gas & Oil Heating',
@@ -800,6 +837,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers installation, service, and troubleshooting of forced-air gas furnaces, oil burners, and hydronic heating systems. Includes combustion analysis, venting, and safety controls.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: MIDLAND_PRICING.specialty.price * 100,
       },
       {
         name: 'Commercial Refrigeration',
@@ -807,6 +845,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Tests knowledge of commercial refrigeration systems — reach-in cases, walk-in coolers and freezers, condensing units, and supermarket systems. Includes system design, leak detection, and recovery procedures.',
         durationMinutes: 60,
         questionCount: 60,
+        amountCents: MIDLAND_PRICING.specialty.price * 100,
       },
       {
         name: 'Light Commercial HVAC/R',
@@ -814,6 +853,7 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           'Covers rooftop units, split systems, packaged equipment, and light commercial refrigeration. Bridges the gap between residential service and full commercial systems.',
         durationMinutes: 75,
         questionCount: 75,
+        amountCents: MIDLAND_PRICING.specialty.price * 100,
       },
     ],
     verifyUrl: 'https://www.midlandtesting.com/',

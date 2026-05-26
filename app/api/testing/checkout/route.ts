@@ -8,11 +8,12 @@
  * Body: {
  *   examType: string        — provider key (e.g. 'workkeys', 'nha')
  *   examName: string        — display name (e.g. 'Applied Math')
- *   feeCents: number        — amount in cents
+ *   feeCents?: number       — ignored; amount is always resolved server-side
  *   bookingType: string     — 'individual' | 'organization'
  *   participantCount: number
  *   email?: string          — prefill Stripe checkout
  *   name?: string
+ *   cartItems?: CartItem[]  — multi-exam cart; total is sum of per-exam amountCents
  * }
  *
  * Returns: { url: string } — Stripe hosted checkout URL
@@ -24,9 +25,41 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { CERT_PROVIDERS } from '@/lib/testing/proctoring-capabilities';
+import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
+
+interface CartItem {
+  examType: string;
+  examName: string;
+  amountCents: number;
+}
+
+/**
+ * Resolve the server-authoritative price for a single exam.
+ * Looks up the exam by name in CERT_PROVIDERS[examType].exams.
+ * Falls back to the provider's minimum published fee if no per-exam price is set.
+ */
+function resolveExamAmountCents(examType: string, examName?: string): number {
+  const provider = CERT_PROVIDERS[examType];
+  if (!provider) return 0;
+
+  // Try to find a matching exam with amountCents
+  if (examName && provider.exams) {
+    const match = provider.exams.find(
+      (e): e is ExamDefinition =>
+        typeof e === 'object' && e.name === examName && typeof e.amountCents === 'number',
+    );
+    if (match?.amountCents) return match.amountCents;
+  }
+
+  // Fall back to provider minimum fee
+  if (provider.fees && provider.fees.length > 0) {
+    return Math.min(...provider.fees.map((f) => f.amount * 100));
+  }
+
+  return 0;
+}
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -48,7 +81,7 @@ export async function POST(req: NextRequest) {
   let body: {
     examType: string;
     examName?: string;
-    feeCents?: number;
+    feeCents?: number; // ignored — amount always resolved server-side
     bookingType?: string;
     participantCount?: number;
     email?: string;
@@ -56,6 +89,7 @@ export async function POST(req: NextRequest) {
     pendingBookingId?: string;
     addOn?: boolean;
     slotId?: string;
+    cartItems?: CartItem[];
   };
 
   try {
@@ -74,28 +108,41 @@ export async function POST(req: NextRequest) {
     pendingBookingId,
     addOn,
     slotId,
+    cartItems,
   } = body;
 
   if (!examType) {
     return safeError('examType is required', 400);
   }
 
-  // Fee comes from server-side CERT_PROVIDERS — never trust client-supplied feeCents
   const provider = CERT_PROVIDERS[examType as keyof typeof CERT_PROVIDERS];
   if (!provider) return safeError('Unknown exam type', 400);
 
-  // Use the lowest published fee as the canonical amount
-  const feeCents =
-    provider.fees && provider.fees.length > 0
-      ? Math.min(...provider.fees.map((f) => f.amount * 100))
-      : 0;
+  // Multi-exam cart: sum server-resolved prices for each item.
+  // Single exam: resolve by examName, fall back to provider minimum.
+  let feeCents: number;
+  let displayName: string;
+
+  if (cartItems && cartItems.length > 0) {
+    // Validate every item belongs to a known provider, then sum server-side prices.
+    feeCents = cartItems.reduce((sum, item) => {
+      const cents = resolveExamAmountCents(item.examType, item.examName);
+      return sum + cents;
+    }, 0);
+    displayName =
+      cartItems.length === 1
+        ? cartItems[0].examName
+        : `${cartItems.length} Exams — ${cartItems.map((i) => i.examName).join(', ')}`;
+  } else {
+    feeCents = resolveExamAmountCents(examType, examName);
+    displayName = examName ?? provider.name;
+  }
 
   if (feeCents <= 0) {
     return safeError('No fee configured for this exam type', 400);
   }
 
   const qty = bookingType === 'organization' ? (participantCount ?? 1) : 1;
-  const displayName = examName ?? provider.name;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -127,6 +174,12 @@ export async function POST(req: NextRequest) {
         pending_booking_id: pendingBookingId ?? '',
         add_on: addOn === true ? 'true' : 'false',
         slot_id: slotId ?? '',
+        // Cart items stored as JSON for the webhook to record all exams on the booking.
+        // Stripe metadata values are strings, max 500 chars each.
+        cart_items:
+          cartItems && cartItems.length > 1
+            ? JSON.stringify(cartItems.map((i) => ({ t: i.examType, n: i.examName }))).slice(0, 500)
+            : '',
       },
 
       success_url: `${SITE_URL}/testing/book?session_id={CHECKOUT_SESSION_ID}`,

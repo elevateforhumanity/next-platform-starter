@@ -11,8 +11,10 @@ import {
   CalendarDays,
   Briefcase,
 } from 'lucide-react';
-import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
+import { CERT_PROVIDERS } from '@/lib/testing/proctoring-capabilities';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
+import { TestingCartProvider } from '@/components/testing/TestingCart';
+import { ProviderExamList } from '@/components/testing/ProviderExamList';
 
 export const dynamic = 'force-dynamic';
 import { createPublicClient } from '@/lib/supabase/public';
@@ -107,6 +109,7 @@ export default async function ProviderPage({ params }: Props) {
   const isActive = provider.status === 'active';
 
   return (
+    <TestingCartProvider>
     <main className="min-h-screen bg-white">
       {/* HERO */}
       <section
@@ -180,54 +183,11 @@ export default async function ProviderPage({ params }: Props) {
           {/* Exams available */}
           <section>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Exams Available</h2>
-            <div className="space-y-4">
-              {provider.exams.map((exam) => {
-                const isObj = typeof exam === 'object';
-                const name = isObj ? (exam as ExamDefinition).name : (exam as string);
-                const desc = isObj ? (exam as ExamDefinition).description : undefined;
-                const duration = isObj ? (exam as ExamDefinition).durationMinutes : undefined;
-                const questions = isObj ? (exam as ExamDefinition).questionCount : undefined;
-                const ncrc = isObj ? (exam as ExamDefinition).ncrcLevel : undefined;
-                return (
-                  <div key={name} className="bg-slate-50 rounded-xl border border-slate-100 p-5">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <h3 className="font-bold text-slate-900 text-base leading-snug">{name}</h3>
-                      {isActive && (
-                        <Link
-                          href={`/testing/book?exam=${key}&exam_name=${encodeURIComponent(name)}`}
-                          className="inline-flex items-center gap-1 border border-brand-red-300 text-brand-red-700 hover:border-brand-red-400 text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap"
-                        >
-                          Pay for Test
-                        </Link>
-                      )}
-                    </div>
-                    {desc && <p className="text-slate-700 text-sm leading-relaxed ml-8">{desc}</p>}
-                    {(duration || questions || ncrc) && (
-                      <div className="ml-8 mt-3 flex flex-wrap gap-3">
-                        {duration && (
-                          <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full">
-                            ⏱{' '}
-                            {duration >= 60
-                              ? `${Math.floor(duration / 60)}h${duration % 60 ? ` ${duration % 60}m` : ''}`
-                              : `${duration} min`}
-                          </span>
-                        )}
-                        {questions && (
-                          <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full">
-                            {questions} question{questions !== 1 ? 's' : ''}
-                          </span>
-                        )}
-                        {ncrc && (
-                          <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full">
-                            {ncrc}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <ProviderExamList
+              providerKey={key}
+              exams={provider.exams}
+              isActive={isActive}
+            />
           </section>
 
           {/* Proctoring options */}
@@ -448,5 +408,6 @@ export default async function ProviderPage({ params }: Props) {
         </div>
       </section>
     </main>
+    </TestingCartProvider>
   );
 }
