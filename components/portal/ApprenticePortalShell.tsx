@@ -244,41 +244,85 @@ export function ApprenticePortalShell({ config, firstName, enrollment, hours, do
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Payment alert — no subscription at all */}
         {!hasSubscription && enrollment && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-4 flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
-            <div className="flex-1">
-              <p className="font-semibold text-red-800 text-sm">Payment method required</p>
-              <p className="text-red-700 text-xs mt-0.5">Set up weekly payments to stay enrolled.</p>
+          <div className="rounded-xl border border-red-200 bg-red-50 overflow-hidden">
+            <div className="p-4 flex items-start gap-3 border-b border-red-200">
+              <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold text-red-800 text-sm">Action required — payment method needed</p>
+                <p className="text-red-700 text-xs mt-0.5">
+                  Your enrollment is confirmed but weekly payments are not yet set up. Follow the steps below to activate your plan.
+                </p>
+              </div>
+              <Link
+                href="/apprentice/billing"
+                className={`${config.accentBg} text-white text-xs font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shrink-0`}
+              >
+                Set Up Payment
+              </Link>
             </div>
-            <Link
-              href="/apprentice/billing"
-              className={`${config.accentBg} text-white text-xs font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shrink-0`}
-            >
-              Set Up Payment
-            </Link>
+            <ol className="p-4 space-y-2.5">
+              {[
+                { n: 1, text: 'Click "Set Up Payment" above — you\'ll be taken to a secure Stripe page.' },
+                { n: 2, text: 'Enter your debit or credit card number, expiration date, and CVC.' },
+                { n: 3, text: 'Click "Save" — Stripe will verify your card. No charge happens yet.' },
+                { n: 4, text: 'Return here. Your first weekly payment of $' + (config.requiredOjl === 1500 ? '151.03' : '76.41') + ' will process on the next billing date.' },
+              ].map(({ n, text }) => (
+                <li key={n} className="flex items-start gap-3 text-xs text-red-800">
+                  <span className="w-5 h-5 rounded-full bg-red-200 text-red-700 font-bold flex items-center justify-center shrink-0 text-[11px]">{n}</span>
+                  <span>{text}</span>
+                </li>
+              ))}
+            </ol>
           </div>
         )}
 
         {/* Payment alert — subscription exists but payment action needed */}
         {needsPaymentMethod && (
-          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
-            <CreditCard className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
-            <div className="flex-1">
-              <p className="font-semibold text-amber-800 text-sm">
-                {subStatus === 'past_due' ? 'Payment past due' : 'Add a payment method to activate your plan'}
-              </p>
-              <p className="text-amber-700 text-xs mt-0.5">
-                {subStatus === 'past_due'
-                  ? 'A payment failed. Update your card to keep your enrollment active.'
-                  : 'Weekly billing will start once you add a card.'}
-              </p>
+          <div className="rounded-xl border border-amber-200 bg-amber-50 overflow-hidden">
+            <div className="p-4 flex items-start gap-3 border-b border-amber-200">
+              <CreditCard className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold text-amber-800 text-sm">
+                  {subStatus === 'past_due'
+                    ? 'Action required — payment past due'
+                    : 'Action required — add a card to activate your plan'}
+                </p>
+                <p className="text-amber-700 text-xs mt-0.5">
+                  {subStatus === 'past_due'
+                    ? 'A recent payment failed. Update your card now to avoid losing access.'
+                    : 'Your enrollment is ready. Weekly billing starts as soon as you add a card.'}
+                </p>
+              </div>
+              <Link
+                href="/apprentice/billing"
+                className={`${config.accentBg} text-white text-xs font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shrink-0`}
+              >
+                {subStatus === 'past_due' ? 'Update Card' : 'Add Card'}
+              </Link>
             </div>
-            <Link
-              href="/apprentice/billing"
-              className={`${config.accentBg} text-white text-xs font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition shrink-0`}
-            >
-              {subStatus === 'past_due' ? 'Update Card' : 'Add Card'}
-            </Link>
+            <ol className="p-4 space-y-2.5">
+              {(subStatus === 'past_due'
+                ? [
+                    { n: 1, text: 'Click "Update Card" above — you\'ll be taken to a secure Stripe page.' },
+                    { n: 2, text: 'Under "Payment methods," add a new debit or credit card.' },
+                    { n: 3, text: 'Set it as your default payment method.' },
+                    { n: 4, text: 'Stripe will automatically retry the failed payment within 24 hours.' },
+                    { n: 5, text: 'Once the payment clears, your dashboard will update and this alert will disappear.' },
+                  ]
+                : [
+                    { n: 1, text: 'Click "Add Card" above — you\'ll be taken to a secure Stripe page.' },
+                    { n: 2, text: 'Enter your debit or credit card number, expiration date, and CVC.' },
+                    { n: 3, text: 'Click "Save" — Stripe will verify your card. No charge happens yet.' },
+                    { n: 4, text: 'Your first weekly payment will process automatically on the next billing date.' },
+                    { n: 5, text: 'Return here — this alert will disappear once your card is on file.' },
+                  ]
+              ).map(({ n, text }) => (
+                <li key={n} className="flex items-start gap-3 text-xs text-amber-800">
+                  <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-700 font-bold flex items-center justify-center shrink-0 text-[11px]">{n}</span>
+                  <span>{text}</span>
+                </li>
+              ))}
+            </ol>
           </div>
         )}
 
