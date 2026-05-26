@@ -42,7 +42,7 @@ export default async function IndustryPortalPageRoute({
   const [enrollmentsRes, lessonsRes, certsRes] = await Promise.all([
     supabase
       .from('program_enrollments')
-      .select('id, program_id, program_slug, enrollment_state')
+      .select('id, program_id, program_slug, enrollment_state, progress_percent')
       .eq('user_id', user.id)
       .in('enrollment_state', ['active', 'completed'])
       .order('created_at', { ascending: false }),
@@ -66,7 +66,7 @@ export default async function IndustryPortalPageRoute({
     title: e.program_slug?.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) ?? 'Program',
     slug: e.program_slug ?? e.program_id,
     credential: `${config.label} Credential`,
-    progress: 0,
+    progress: e.progress_percent ?? 0,
     status: e.enrollment_state as 'active' | 'completed',
   }));
 

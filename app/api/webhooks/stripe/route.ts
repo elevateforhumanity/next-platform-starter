@@ -592,6 +592,13 @@ async function _POST(request: NextRequest) {
         case 'customer.subscription.updated': {
           const subscription = event.data.object as Stripe.Subscription;
 
+          // Sync status to program_enrollments for any subscription matched by ID.
+          // This keeps the learner dashboard banner accurate without a live Stripe call.
+          await supabase
+            .from('program_enrollments')
+            .update({ stripe_subscription_status: subscription.status })
+            .eq('stripe_subscription_id', subscription.id);
+
           // Only handle store subscriptions
           if (subscription.metadata?.user_id) {
             const lmsMeta = parseWebhookMeta(
@@ -657,6 +664,12 @@ async function _POST(request: NextRequest) {
 
         case 'customer.subscription.deleted': {
           const subscription = event.data.object as Stripe.Subscription;
+
+          // Sync canceled status to program_enrollments
+          await supabase
+            .from('program_enrollments')
+            .update({ stripe_subscription_status: 'canceled' })
+            .eq('stripe_subscription_id', subscription.id);
 
           if (subscription.metadata?.user_id) {
             try {

@@ -191,7 +191,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
     .select(
       `id, course_id, program_id, program_slug,
        status, enrollment_state, progress_percent,
-       enrolled_at, access_granted_at`,
+       enrolled_at, access_granted_at, cohort_id`,
     )
     .eq('user_id', user.id)
     .order('enrolled_at', { ascending: false });

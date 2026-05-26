@@ -660,26 +660,7 @@ const nextConfig = {
         destination: '/login?redirect=/partners/barbershop-apprenticeship/policy-acknowledgment',
         permanent: false,
       },
-      {
-        source: '/partners/cosmetology-apprenticeship/forms',
-        destination: '/login?redirect=/partners/cosmetology-apprenticeship/forms',
-        permanent: false,
-      },
-      {
-        source: '/partners/cosmetology-apprenticeship/handbook',
-        destination: '/login?redirect=/partners/cosmetology-apprenticeship/handbook',
-        permanent: false,
-      },
-      {
-        source: '/partners/cosmetology-apprenticeship/sign-mou',
-        destination: '/login?redirect=/partners/cosmetology-apprenticeship/sign-mou',
-        permanent: false,
-      },
-      {
-        source: '/partners/cosmetology-apprenticeship/policy-acknowledgment',
-        destination: '/login?redirect=/partners/cosmetology-apprenticeship/policy-acknowledgment',
-        permanent: false,
-      },
+
       { source: '/partner-courses/:path*', destination: '/partners/:path*', permanent: true },
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
 

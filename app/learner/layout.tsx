@@ -18,8 +18,8 @@ const navItems = [
   { href: '/lms/assignments',            label: 'Assignments' },
   { href: '/lms/grades',                 label: 'Grades' },
   { href: '/lms/calendar',               label: 'Schedule' },
-  { href: '/notifications',              label: 'Notifications' },
-  { href: '/support',                    label: 'Support' },
+  { href: '/lms/notifications',          label: 'Notifications' },
+  { href: '/lms/support',                label: 'Support' },
 ];
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {

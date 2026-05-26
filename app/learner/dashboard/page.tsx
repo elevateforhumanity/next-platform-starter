@@ -55,6 +55,32 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     redirect(`/portal/${profileAny.portal_type}`);
   }
 
+  // Apprenticeship students each get their own dedicated portal dashboard.
+  if (profile?.role === 'student') {
+    const APPRENTICESHIP_SLUG_TO_PORTAL: Record<string, string> = {
+      'barber-apprenticeship':          '/portal/barber',
+      'cosmetology-apprenticeship':     '/portal/cosmetology',
+      'esthetician-apprenticeship':     '/portal/esthetician',
+      'nail-technician-apprenticeship': '/portal/nail-technician',
+      'culinary-apprenticeship':        '/portal/culinary',
+      'electrical':                     '/portal/electrical',
+      'plumbing':                       '/portal/plumbing',
+    };
+    const { data: apEnrollment } = await supabase
+      .from('program_enrollments')
+      .select('program_slug')
+      .eq('user_id', user.id)
+      .in('program_slug', Object.keys(APPRENTICESHIP_SLUG_TO_PORTAL))
+      .in('enrollment_state', ['active', 'confirmed', 'orientation_complete', 'documents_complete'])
+      .order('enrolled_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (apEnrollment?.program_slug) {
+      redirect(APPRENTICESHIP_SLUG_TO_PORTAL[apEnrollment.program_slug] ?? '/portal/apprentice');
+    }
+  }
+
   // Check if student has completed onboarding but not yet been granted access
   if (profile?.role === 'student') {
     const { data: enrollment } = await supabase
@@ -361,32 +387,36 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   step: '1',
                   title: 'My Programs',
                   desc: 'Your active enrollments are listed below. Click Continue to pick up where you left off.',
+                  href: '/lms/courses',
                 },
                 {
                   step: '2',
                   title: 'Track Progress',
                   desc: 'Your completion percentage updates automatically as you finish lessons and pass checkpoints.',
+                  href: '/lms/progress',
                 },
                 {
                   step: '3',
                   title: 'Earn Certificates',
                   desc: 'Complete all lessons and pass every checkpoint to unlock your credential certificate.',
+                  href: '/lms/certificates',
                 },
                 {
                   step: '4',
                   title: 'Get Help',
                   desc: 'Use Quick Actions below to view attendance, contact your advisor, or find your certificates.',
+                  href: '/lms/support',
                 },
-              ].map(({ step, title, desc }) => (
-                <div key={step} className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">
+              ].map(({ step, title, desc, href }) => (
+                <Link key={step} href={href} className="flex gap-3 hover:bg-brand-blue-100 rounded-lg p-1.5 -m-1.5 transition group">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5 group-hover:bg-brand-blue-700 transition">
                     {step}
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-brand-blue-900">{title}</p>
+                    <p className="text-xs font-semibold text-brand-blue-900 group-hover:underline">{title}</p>
                     <p className="text-xs text-brand-blue-700 mt-0.5 leading-relaxed">{desc}</p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -523,13 +553,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                                 <div className="flex items-center justify-between text-sm mb-1">
                                   <span className="text-slate-700">Progress</span>
                                   <span className="font-medium text-slate-900">
-                                    {enrollment.progress || 0}%
+                                    {enrollment.progress_percent || 0}%
                                   </span>
                                 </div>
                                 <div className="w-full bg-slate-200 rounded-full h-2">
                                   <div
                                     className="bg-brand-orange-500 h-2 rounded-full transition-all"
-                                    style={{ width: `${enrollment.progress || 0}%` }}
+                                    style={{ width: `${enrollment.progress_percent || 0}%` }}
                                   />
                                 </div>
                               </div>
@@ -637,17 +667,17 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     label: 'Attendance',
                   },
                   {
-                    href: '/credentials',
+                    href: '/lms/grades',
                     icon: <FileText className="w-7 h-7 text-brand-orange-600" />,
-                    label: 'Credentials',
+                    label: 'Grades',
                   },
                   {
-                    href: '/transcript',
+                    href: '/lms/progress',
                     icon: <ScrollText className="w-7 h-7 text-slate-600" />,
-                    label: 'Transcript',
+                    label: 'Progress',
                   },
                   {
-                    href: '/support/contact',
+                    href: '/lms/support',
                     icon: <MessageSquare className="w-7 h-7 text-brand-blue-600" />,
                     label: 'Get Help',
                   },

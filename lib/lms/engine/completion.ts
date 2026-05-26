@@ -100,11 +100,22 @@ export async function recordStepCompletion(
       .maybeSingle();
 
     if (courseRow?.program_id) {
-      await db
+      const { data: fallbackUpdated, error: fallbackError } = await db
         .from('program_enrollments')
         .update({ progress_percent: progressPercent, updated_at: new Date().toISOString() })
         .eq('user_id', userId)
-        .eq('program_id', courseRow.program_id);
+        .eq('program_id', courseRow.program_id)
+        .select('id');
+
+      if (fallbackError) {
+        logger.error('[engine] progress_percent fallback update failed', { userId, courseId, fallbackError });
+      } else if (!fallbackUpdated?.length) {
+        // No enrollment row matched by course_id or program_id — the DB trigger will
+        // handle it if lesson_progress.course_id is set, but log for diagnostics.
+        logger.warn('[engine] progress_percent update matched no enrollment rows', { userId, courseId });
+      }
+    } else {
+      logger.warn('[engine] progress_percent update: no program_id found for course', { userId, courseId });
     }
   }
 
