@@ -430,6 +430,15 @@ const nextConfig = {
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
+      // Studio consolidation — old standalone pages redirect to studio
+      { source: '/admin/copilot',           destination: '/admin/studio', permanent: false },
+      { source: '/admin/course-builder',    destination: '/admin/studio', permanent: false },
+      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: false },
+      { source: '/admin/video-manager',     destination: '/admin/studio', permanent: false },
+      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: false },
+      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: false },
+      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: false },
+      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: false },
 
       { source: '/lms/programs', destination: '/lms/courses', permanent: false },
 
