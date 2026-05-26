@@ -54,7 +54,7 @@ export default async function ProgramHolderDashboardPage() {
     !payrollRes.data?.bank_name && { label: 'Set up direct deposit', href: '/onboarding/payroll-setup' },
     !acks.some((a: any) => a.document_type === 'handbook') && { label: 'Acknowledge Handbook', href: '/program-holder/handbook' },
     !acks.some((a: any) => a.document_type === 'rights') && { label: 'Acknowledge Rights & Responsibilities', href: '/program-holder/rights-responsibilities' },
-    !(docsRes.data ?? []).length && { label: 'Upload HVAC license', href: '/program-holder/documents?required=true' },
+    !(docsRes.data ?? []).length && { label: 'Upload required license / credential', href: '/program-holder/documents?required=true' },
   ].filter(Boolean) as { label: string; href: string }[];
 
   // ── programs & enrollment counts ───────────────────────────────────────────

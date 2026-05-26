@@ -654,19 +654,19 @@ export default async function LearnerOnboardingPage({
                                 {step.description}
                               </p>
 
-                              {!isComplete && (
-                                <Link
-                                  href={step.href}
-                                  className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-                                    isNext
+                              <Link
+                                href={step.href}
+                                className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
+                                  isComplete
+                                    ? 'text-slate-400 hover:text-slate-600'
+                                    : isNext
                                       ? 'bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700'
                                       : 'text-brand-blue-600 hover:text-brand-blue-800'
-                                  }`}
-                                >
-                                  {isNext ? 'Start' : 'Complete'}
-                                  <ArrowRight className="w-4 h-4" />
-                                </Link>
-                              )}
+                                }`}
+                              >
+                                {isComplete ? 'Review' : isNext ? 'Start' : 'Complete'}
+                                <ArrowRight className="w-4 h-4" />
+                              </Link>
                             </div>
                           </div>
                         </div>
