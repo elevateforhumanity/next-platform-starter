@@ -18,43 +18,48 @@ interface NavItem {
   section: string;
 }
 
-// Partner and program_holder are the same role — one unified nav.
-// All items visible to all portal roles.
-const ALL_ROLES = ['partner', 'program_holder', 'admin', 'super_admin', 'staff', 'org_admin'];
+const PH = ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'];
+const PA = ['partner', 'admin', 'super_admin', 'staff', 'org_admin'];
 
 const NAV: NavItem[] = [
   // ── Overview ───────────────────────────────────────────────────────────────
-  { href: '/program-holder/dashboard',     label: 'Dashboard',      icon: LayoutDashboard, roles: ALL_ROLES, section: 'Overview' },
+  { href: '/program-holder/dashboard', label: 'Dashboard',        icon: LayoutDashboard, roles: PH, section: 'Overview' },
+  { href: '/partner/dashboard',        label: 'Dashboard',        icon: LayoutDashboard, roles: PA, section: 'Overview' },
 
   // ── Students ───────────────────────────────────────────────────────────────
-  { href: '/program-holder/students',          label: 'Students',   icon: Users,          roles: ALL_ROLES, section: 'Students' },
-  { href: '/program-holder/students/pending',  label: 'Pending',    icon: Clock,          roles: ALL_ROLES, section: 'Students' },
-  { href: '/program-holder/students/at-risk',  label: 'At-Risk',    icon: AlertTriangle,  roles: ALL_ROLES, section: 'Students' },
+  { href: '/program-holder/students',         label: 'Students',        icon: Users,         roles: PH, section: 'Students' },
+  { href: '/program-holder/students/pending', label: 'Pending',         icon: Clock,         roles: PH, section: 'Students' },
+  { href: '/program-holder/students/at-risk', label: 'At-Risk',         icon: AlertTriangle, roles: PH, section: 'Students' },
+  { href: '/partner/students',                label: 'My Students',     icon: Users,         roles: PA, section: 'Students' },
 
-  // ── Training ───────────────────────────────────────────────────────────────
-  { href: '/partner/attendance',           label: 'Attendance',     icon: CalendarDays,   roles: ALL_ROLES, section: 'Training' },
-  { href: '/partner/hours',                label: 'Hours',          icon: Clock,          roles: ALL_ROLES, section: 'Training' },
-  { href: '/partner/competencies',         label: 'Competencies',   icon: CheckCircle,    roles: ALL_ROLES, section: 'Training' },
-  { href: '/program-holder/grades',        label: 'Grades',         icon: GraduationCap,  roles: ALL_ROLES, section: 'Training' },
-  { href: '/partner/programs',             label: 'Programs',       icon: Briefcase,      roles: ALL_ROLES, section: 'Training' },
-  { href: '/program-holder/courses/create',label: 'Create Course',  icon: BookOpen,       roles: ALL_ROLES, section: 'Training' },
+  // ── Training (partner / host site) ────────────────────────────────────────
+  { href: '/partner/attendance',    label: 'Attendance',    icon: CalendarDays, roles: PA, section: 'Training' },
+  { href: '/partner/hours',         label: 'Hours',         icon: Clock,        roles: PA, section: 'Training' },
+  { href: '/partner/competencies',  label: 'Competencies',  icon: CheckCircle,  roles: PA, section: 'Training' },
+  { href: '/partner/programs',      label: 'Programs',      icon: Briefcase,    roles: PA, section: 'Training' },
+
+  // ── Training (program holder) ─────────────────────────────────────────────
+  { href: '/program-holder/grades',         label: 'Grades',        icon: GraduationCap, roles: PH, section: 'Training' },
+  { href: '/program-holder/courses/create', label: 'Create Course', icon: BookOpen,      roles: PH, section: 'Training' },
 
   // ── Documents & Compliance ─────────────────────────────────────────────────
-  { href: '/program-holder/documents',     label: 'Documents',      icon: FileText,       roles: ALL_ROLES, section: 'Compliance' },
-  { href: '/program-holder/verification',  label: 'Verification',   icon: Shield,         roles: ALL_ROLES, section: 'Compliance' },
-  { href: '/program-holder/compliance',    label: 'Compliance',     icon: ClipboardCheck, roles: ALL_ROLES, section: 'Compliance' },
-  { href: '/program-holder/mou',           label: 'MOU',            icon: FileText,       roles: ALL_ROLES, section: 'Compliance' },
+  { href: '/program-holder/documents',    label: 'Documents',    icon: FileText,       roles: PH, section: 'Compliance' },
+  { href: '/partner/documents',           label: 'Documents',    icon: FileText,       roles: PA, section: 'Compliance' },
+  { href: '/program-holder/verification', label: 'Verification', icon: Shield,         roles: PH, section: 'Compliance' },
+  { href: '/program-holder/compliance',   label: 'Compliance',   icon: ClipboardCheck, roles: PH, section: 'Compliance' },
+  { href: '/program-holder/mou',          label: 'MOU',          icon: FileText,       roles: PH, section: 'Compliance' },
 
   // ── Reports ────────────────────────────────────────────────────────────────
-  { href: '/program-holder/reports',       label: 'Reports',        icon: BarChart3,      roles: ALL_ROLES, section: 'Reports' },
-  { href: '/program-holder/campaigns',     label: 'Campaigns',      icon: Megaphone,      roles: ALL_ROLES, section: 'Reports' },
+  { href: '/program-holder/reports',   label: 'Reports',   icon: BarChart3, roles: PH, section: 'Reports' },
+  { href: '/program-holder/campaigns', label: 'Campaigns', icon: Megaphone, roles: PH, section: 'Reports' },
 
   // ── Settings & Support ─────────────────────────────────────────────────────
-  { href: '/program-holder/notifications', label: 'Notifications',  icon: Bell,           roles: ALL_ROLES, section: 'Settings' },
-  { href: '/program-holder/how-to-use',    label: 'How to Use',     icon: HelpCircle,     roles: ALL_ROLES, section: 'Settings' },
-  { href: '/program-holder/documentation', label: 'Documentation',  icon: Book,           roles: ALL_ROLES, section: 'Settings' },
-  { href: '/program-holder/support',       label: 'Support',        icon: LifeBuoy,       roles: ALL_ROLES, section: 'Settings' },
-  { href: '/program-holder/settings',      label: 'Settings',       icon: Settings,       roles: ALL_ROLES, section: 'Settings' },
+  { href: '/program-holder/notifications', label: 'Notifications', icon: Bell,      roles: PH, section: 'Settings' },
+  { href: '/program-holder/how-to-use',    label: 'How to Use',    icon: HelpCircle,roles: PH, section: 'Settings' },
+  { href: '/program-holder/documentation', label: 'Documentation', icon: Book,      roles: PH, section: 'Settings' },
+  { href: '/program-holder/support',       label: 'Support',       icon: LifeBuoy,  roles: PH, section: 'Settings' },
+  { href: '/program-holder/settings',      label: 'Settings',      icon: Settings,  roles: PH, section: 'Settings' },
+  { href: '/partner/settings',             label: 'Settings',      icon: Settings,  roles: PA, section: 'Settings' },
 ];
 
 const SECTIONS = ['Overview', 'Students', 'Training', 'Compliance', 'Reports', 'Settings'];
@@ -84,8 +89,9 @@ export function PartnerProgramHolderShell({
     ? [...visibleNav, { href: '/program-holder/school-applications', label: 'School Applications', icon: FileText, roles: ['program_holder'], section: 'Students' }]
     : visibleNav;
 
-  const portalName = role === 'partner' ? 'Partner Portal' : 'Program Holder Portal';
-  const homeHref = role === 'partner' ? '/partner/dashboard' : '/program-holder/dashboard';
+  const isPartner = role === 'partner';
+  const portalName = isPartner ? 'Host Site Portal' : 'Program Holder Portal';
+  const homeHref = isPartner ? '/partner/dashboard' : '/program-holder/dashboard';
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
