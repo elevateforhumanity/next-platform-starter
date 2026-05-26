@@ -112,7 +112,7 @@ async function _GET(request: NextRequest) {
       .from('program_enrollments')
       .select('program_id, required_hours, program_slug, programs(title, slug, total_hours)')
       .eq('user_id', user.id)
-      .in('status', ['active', 'enrolled', 'in_progress'])
+      .in('enrollment_state', ['active', 'enrolled', 'in_progress'])
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
