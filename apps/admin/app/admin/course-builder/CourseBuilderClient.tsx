@@ -337,7 +337,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
               <p className="font-medium text-slate-900">Create Course</p>
             </button>
             <Link
-              href="/admin/course-builder/templates"
+              href="/admin/studio"
               className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md text-center"
             >
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -358,7 +358,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
               <p className="font-medium text-slate-900">Templates</p>
             </Link>
             <Link
-              href="/admin/course-builder/media"
+              href="/admin/studio"
               className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md text-center"
             >
               <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -379,7 +379,7 @@ export default function CourseBuilderClient({ initialCourses, programs }: Props)
               <p className="font-medium text-slate-900">Media Library</p>
             </Link>
             <Link
-              href="/admin/course-builder/assessments"
+              href="/admin/studio"
               className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md text-center"
             >
               <div className="w-10 h-10 bg-brand-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">

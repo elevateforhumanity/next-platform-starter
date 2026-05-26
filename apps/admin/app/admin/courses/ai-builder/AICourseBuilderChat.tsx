@@ -330,7 +330,7 @@ export default function AICourseBuilderChat({
 
           <div className="flex gap-3">
             <Link
-              href={`/admin/course-builder/${savedCourseId}`}
+              href="/admin/studio"
               className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 text-sm font-medium text-center"
             >
               Open Course Builder
@@ -564,7 +564,7 @@ export default function AICourseBuilderChat({
         {!embedded && (
           <div className="flex gap-2">
             <Link
-              href="/admin/course-builder"
+              href="/admin/studio"
               className="text-xs text-slate-400 hover:text-slate-600 border px-3 py-1.5 rounded-lg"
             >
               Form builder →

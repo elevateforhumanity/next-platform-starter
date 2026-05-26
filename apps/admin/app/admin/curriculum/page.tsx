@@ -134,7 +134,7 @@ export default async function CurriculumPage() {
               Run the curriculum generator or AI builder to seed lessons.
             </p>
             <Link
-              href="/admin/course-builder"
+              href="/admin/studio"
               className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-blue-700 transition"
             >
               Open AI builder
@@ -145,7 +145,7 @@ export default async function CurriculumPage() {
             {courses.map((course) => (
               <Link
                 key={course.id}
-                href={'/admin/curriculum/' + course.id}
+                href={'/admin/studio' + course.id}
                 className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition group"
               >
                 <div className="flex-1 min-w-0">

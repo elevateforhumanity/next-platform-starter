@@ -433,7 +433,7 @@ export function CourseBuilderPageClient() {
                     Video Studio ↗
                   </a>
                   <a
-                    href="/admin/media-studio"
+                    href="/admin/studio"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 text-center border py-2 rounded-lg text-xs font-semibold hover:bg-slate-50"

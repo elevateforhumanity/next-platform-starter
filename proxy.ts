@@ -13,13 +13,13 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/dashboard-enhanced':   '/admin/dashboard',
   '/admin/lms-dashboard':        '/admin/dashboard',
   // ── Course / curriculum consolidation ────────────────────────────────────
-  '/admin/course-generator':     '/admin/course-builder/generate',
-  '/admin/syllabus-generator':   '/admin/course-builder/generate',
-  '/admin/course-templates':     '/admin/course-builder/templates',
-  '/admin/courses/generate':     '/admin/course-builder/generate',
+  '/admin/course-generator':     '/admin/studio',
+  '/admin/syllabus-generator':   '/admin/studio',
+  '/admin/course-templates':     '/admin/studio',
+  '/admin/studio':     '/admin/studio',
   '/admin/courses/manage':       '/admin/courses',
-  '/admin/course-import':        '/admin/course-builder',
-  '/admin/quiz-builder':         '/admin/course-builder/assessments',
+  '/admin/course-import':        '/admin/studio',
+  '/admin/quiz-builder':         '/admin/studio',
   // career-courses is a separate table/product — not an LMS course duplicate
   '/admin/external-courses':     '/admin/courses',
   // ── Enrollment / student consolidation ───────────────────────────────────
@@ -43,7 +43,7 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
   // ── Media consolidation ──────────────────────────────────────────────────
-  '/admin/video-generator':      '/admin/media-studio',
+  '/admin/studio':      '/admin/studio',
 };
 
 // Webhook paths bypass auth — Stripe signature verification handles security.

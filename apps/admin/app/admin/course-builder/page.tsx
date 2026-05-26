@@ -42,15 +42,15 @@ export default async function CourseBuilderPage({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Link href="/admin/course-builder/templates"
+          <Link href="/admin/studio"
             className="flex items-center gap-2 px-4 py-2 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold rounded-lg transition-colors">
             <Layout className="w-3.5 h-3.5" /> Templates
           </Link>
-          <Link href="/admin/course-builder/media"
+          <Link href="/admin/studio"
             className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors">
             Media Library
           </Link>
-          <Link href="/admin/course-builder/assessments"
+          <Link href="/admin/studio"
             className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition-colors">
             Assessments
           </Link>

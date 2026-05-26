@@ -99,7 +99,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: 'Signatures', href: '/admin/signatures' },
     { label: 'Performance', href: '/admin/performance-dashboard' },
     { label: 'ETPL Tracking', href: '/admin/dashboard/etpl' },
-    { label: 'Curriculum Builder', href: '/admin/curriculum' },
+    { label: 'Curriculum Builder', href: '/admin/studio' },
   ],
   education: [
     { label: 'My Programs', href: '/lms/courses' },

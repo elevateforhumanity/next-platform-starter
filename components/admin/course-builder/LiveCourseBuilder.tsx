@@ -950,7 +950,7 @@ function EditPanel({
           Quick Links
         </p>
         <a
-          href={`/admin/curriculum/${courseId}`}
+          href={`/admin/studio/courseId`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-xs text-slate-500 hover:text-slate-700 py-1"

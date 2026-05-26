@@ -227,7 +227,7 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
         </div>
         <div className="flex gap-3 flex-wrap">
           <Link
-            href="/admin/course-builder"
+            href="/admin/studio"
             className="px-4 py-2 border rounded-lg hover:bg-slate-50 text-sm"
           >
             ← Courses

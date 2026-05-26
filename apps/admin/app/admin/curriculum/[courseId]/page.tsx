@@ -95,7 +95,7 @@ export default async function CurriculumCourseEditorPage({
           <Breadcrumbs
             items={[
               { label: 'Admin', href: '/admin' },
-              { label: 'Curriculum', href: '/admin/curriculum' },
+              { label: 'Curriculum', href: '/admin/studio' },
               { label: courseName ?? courseId },
             ]}
           />
@@ -115,7 +115,7 @@ export default async function CurriculumCourseEditorPage({
         <div className="flex items-start justify-between mb-6">
           <div>
             <Link
-              href="/admin/curriculum"
+              href="/admin/studio"
               className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-2"
             >
               <ArrowLeft className="w-4 h-4" />

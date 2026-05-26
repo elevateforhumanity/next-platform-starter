@@ -77,7 +77,7 @@ if [ -z "$CHANGED" ]; then
 else
   # Filter out files in eslint-ignored directories (scripts/, _archived/, etc.)
   # to avoid the "File ignored" warning that fails --max-warnings=0
-  LINTABLE=$(echo "$CHANGED" | tr ' ' '\n' | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/" | tr '\n' ' ')
+  LINTABLE=$(echo "$CHANGED" | tr ' ' '\n' | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/\|^tests/" | tr '\n' ' ')
   if [ -z "$LINTABLE" ]; then
     echo "  ✅ ESLint: only ignored files changed, skipping."
   else

@@ -30,13 +30,13 @@ export const ADMIN = {
   // ── Programs & Courses ───────────────────────────────────────────────────
   PROGRAMS:           '/admin/programs',
   COURSES:            '/admin/courses',
-  COURSE_PIPELINE:    '/admin/courses/pipeline',
-  COURSE_BUILDER:     '/admin/course-builder',
-  CURRICULUM:         '/admin/curriculum',
+  COURSE_PIPELINE:    '/admin/studio',
+  COURSE_BUILDER:     '/admin/studio',
+  CURRICULUM:         '/admin/studio',
 
   // ── AI ───────────────────────────────────────────────────────────────────
-  AI_STUDIO:          '/admin/ai-studio',
-  AI_CONSOLE:         '/admin/ai-studio',         // alias → ai-studio
+  AI_STUDIO:          '/admin/studio',
+  AI_CONSOLE:         '/admin/studio',         // alias → ai-studio
   DEV_STUDIO:         '/admin/dev-studio',
 
   // ── Finance ──────────────────────────────────────────────────────────────

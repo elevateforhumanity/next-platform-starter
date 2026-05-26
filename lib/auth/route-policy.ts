@@ -21,7 +21,7 @@ export const ROUTE_POLICY: Record<string, AccessPolicy> = {
   '/admin/applications/review/[id]': 'admin',
   '/admin/courses': 'admin',
   '/admin/courses/[courseId]': 'admin',
-  '/admin/curriculum': 'admin',
+  '/admin/studio': 'admin',
   '/admin/enrollments': 'admin',
   '/admin/gradebook': 'admin',
   '/admin/programs': 'admin',

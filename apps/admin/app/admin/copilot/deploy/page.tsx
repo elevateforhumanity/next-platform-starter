@@ -33,7 +33,7 @@ export default async function DeployCopilotPage() {
               </li>
               <li>/</li>
               <li>
-                <Link href="/admin/copilot" className="hover:text-primary">
+                <Link href="/admin/studio" className="hover:text-primary">
                   Copilot
                 </Link>
               </li>

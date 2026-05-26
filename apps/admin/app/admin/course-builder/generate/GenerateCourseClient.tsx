@@ -463,7 +463,7 @@ export function GenerateCourseClient() {
             Open Dev Studio Command
           </Link>
           <Link
-            href="/admin/video-generator"
+            href="/admin/studio"
             className="text-xs px-3 py-1.5 rounded border border-slate-600 text-slate-200 hover:bg-slate-700 transition-colors"
           >
             Open Video Generator

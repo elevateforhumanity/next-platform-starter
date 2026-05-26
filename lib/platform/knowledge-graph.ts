@@ -164,7 +164,7 @@ export const SYSTEMS: SystemNode[] = [
       '/admin/users',
       '/admin/programs',
       '/admin/courses',
-      '/admin/course-builder',
+      '/admin/studio',
       '/admin/payroll',
       '/admin/reports',
       '/admin/analytics',

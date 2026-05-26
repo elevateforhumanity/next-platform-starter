@@ -202,9 +202,9 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
     pages: [
       { label: 'All Programs', path: '/admin/programs' },
       { label: 'Create Program', path: '/admin/programs/new' },
-      { label: 'Program Builder', path: '/admin/course-builder' },
+      { label: 'Program Builder', path: '/admin/studio' },
       { label: 'Programs — Catalog', path: '/admin/programs/catalog' },
-      { label: 'Curriculum', path: '/admin/curriculum' },
+      { label: 'Curriculum', path: '/admin/studio' },
       { label: 'Modules', path: '/admin/modules' },
       { label: 'Courses', path: '/admin/courses' },
       { label: 'Certifications', path: '/admin/certifications' },
@@ -223,12 +223,12 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
   {
     section: 'Build',
     pages: [
-      { label: 'Blueprint Builder', path: '/admin/course-builder' },
+      { label: 'Blueprint Builder', path: '/admin/studio' },
       { label: 'Course Import', path: '/admin/course-import' },
       { label: 'Editor', path: '/admin/editor' },
-      { label: 'Media Studio', path: '/admin/media-studio' },
-      { label: 'Video Manager', path: '/admin/video-manager' },
-      { label: 'Video Generator', path: '/admin/video-generator' },
+      { label: 'Media Studio', path: '/admin/studio' },
+      { label: 'Video Manager', path: '/admin/studio' },
+      { label: 'Video Generator', path: '/admin/studio' },
       { label: 'Videos', path: '/admin/videos' },
     ],
   },
@@ -236,7 +236,7 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
     section: 'AI',
     pages: [
       { label: 'AI Console', path: '/admin/ai-console' },
-      { label: 'Copilot', path: '/admin/copilot' },
+      { label: 'Copilot', path: '/admin/studio' },
       { label: 'Automation', path: '/admin/automation' },
       { label: 'Workflows', path: '/admin/workflows' },
       { label: 'Dev Studio', path: '/admin/dev-studio' },
