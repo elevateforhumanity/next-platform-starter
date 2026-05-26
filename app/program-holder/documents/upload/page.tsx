@@ -86,7 +86,11 @@ export default async function UploadDocumentPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <DocumentUploadForm requirements={requirements || []} />
+        <DocumentUploadForm
+          requirements={requirements || []}
+          apiEndpoint="/api/program-holder/documents/upload"
+          successRedirect="/program-holder/documents"
+        />
       </div>
     </div>
   );

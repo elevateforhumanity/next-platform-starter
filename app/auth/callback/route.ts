@@ -105,7 +105,6 @@ export async function GET(request: Request) {
             'case_manager',
             'provider_admin',
             'grant_client',
-            'vita_staff',
           ];
           const metaRole = user.user_metadata?.role;
 

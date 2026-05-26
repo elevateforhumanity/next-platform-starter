@@ -17,9 +17,13 @@ interface DocumentRequirement {
 
 interface Props {
   requirements: DocumentRequirement[];
+  /** API endpoint to POST the upload to. Defaults to /api/documents/upload */
+  apiEndpoint?: string;
+  /** Where to redirect after a successful upload. Defaults to role-based logic. */
+  successRedirect?: string;
 }
 
-export function DocumentUploadForm({ requirements }: Props) {
+export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect }: Props) {
   const router = useRouter();
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
@@ -90,9 +94,11 @@ export function DocumentUploadForm({ requirements }: Props) {
 
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('documentType', documentType);
+      formData.append('document_type', documentType);
+      formData.append('documentType', documentType); // legacy compat
 
-      const response = await fetch('/api/documents/upload', {
+      const endpoint = apiEndpoint ?? '/api/documents/upload';
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
@@ -104,30 +110,34 @@ export function DocumentUploadForm({ requirements }: Props) {
       }
 
       setSuccess(true);
-      // Redirect to the correct documents page based on role
-      const {
-        data: { user: currentUser },
-      } = await supabase.auth.getUser();
-      let dest = '/learner/dashboard';
-      if (currentUser) {
-        const { data: prof } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', currentUser.id)
-          .single();
-        if (prof?.role === 'program_holder') {
-          dest = '/program-holder/onboarding';
-          // Fire onboarding-complete check — sends welcome email if all steps done
-          fetch('/api/program-holder/onboarding-complete', { method: 'POST' }).catch(() => {});
-        } else if (prof?.role === 'employer') {
-          dest = '/employer/documents';
-        } else if (prof?.role === 'student' || prof?.role === 'learner') {
-          dest = '/onboarding/learner/documents';
+
+      // Determine redirect destination
+      let dest = successRedirect ?? '';
+      if (!dest) {
+        // Role-based fallback
+        const {
+          data: { user: currentUser },
+        } = await supabase.auth.getUser();
+        dest = '/learner/dashboard';
+        if (currentUser) {
+          const { data: prof } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', currentUser.id)
+            .single();
+          if (prof?.role === 'program_holder') {
+            dest = '/program-holder/documents';
+            fetch('/api/program-holder/onboarding-complete', { method: 'POST' }).catch(() => {});
+          } else if (prof?.role === 'employer') {
+            dest = '/employer/documents';
+          } else if (prof?.role === 'student' || prof?.role === 'learner') {
+            dest = '/onboarding/learner/documents';
+          }
         }
       }
       setTimeout(() => {
         router.push(dest);
-      }, 2000);
+      }, 1500);
     } catch (err: any) {
       setError(err?.message || 'Failed to upload document');
     } finally {
