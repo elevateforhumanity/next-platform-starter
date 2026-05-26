@@ -250,7 +250,7 @@ export function ApprenticePortalShell({ config, firstName, enrollment, hours, do
               <div className="flex-1">
                 <p className="font-semibold text-red-800 text-sm">Action required — payment method needed</p>
                 <p className="text-red-700 text-xs mt-0.5">
-                  Your enrollment is confirmed but weekly payments are not yet set up. Follow the steps below to activate your plan.
+                  Your enrollment is confirmed, but your weekly payment plan is not active yet. Apprenticeship tuition is billed weekly — a card on file is required to keep your enrollment active, your hours counting, and your progress toward your license on track. Without it your enrollment will be paused.
                 </p>
               </div>
               <Link
@@ -289,8 +289,8 @@ export function ApprenticePortalShell({ config, firstName, enrollment, hours, do
                 </p>
                 <p className="text-amber-700 text-xs mt-0.5">
                   {subStatus === 'past_due'
-                    ? 'A recent payment failed. Update your card now to avoid losing access.'
-                    : 'Your enrollment is ready. Weekly billing starts as soon as you add a card.'}
+                    ? 'Your weekly tuition payment failed — this usually happens when a card expires or has insufficient funds. Update your card now so your enrollment stays active and your hours keep counting toward your license.'
+                    : 'Your apprenticeship tuition is billed weekly. A card on file keeps your payments automatic so your enrollment stays active, your hours keep counting, and you stay on track toward your license. Without it, your plan cannot process and your enrollment may be paused.'}
                 </p>
               </div>
               <Link
