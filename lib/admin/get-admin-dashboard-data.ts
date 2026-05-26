@@ -158,6 +158,10 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     barberSubscriptionRowsRes,
     cosmetologySubscriptionRowsRes,
     barberPaymentRowsRes,
+    // Recent paid Stripe sessions
+    recentStripeSessionsRes,
+    // Total students count
+    totalStudentsRes,
     // Supplemental batch (was third sequential Promise.all)
     inactiveLearnersRes,
     unpublishedProgramsRes,
@@ -346,6 +350,16 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('barber_payments')
       .select('id, amount_paid, payment_date, created_at, status')
       .gt('amount_paid', 0),
+    // Recent paid Stripe sessions — newest first
+    db.from('stripe_sessions_staging')
+      .select('session_id, email, amount, program_slug, kind, created_at')
+      .in('payment_status', ['paid', 'completed'])
+      .order('created_at', { ascending: false })
+      .limit(20),
+    // Total registered students (all time)
+    db.from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('role', 'student'),
     // Supplemental batch — merged into single Promise.all
     db.rpc('admin_inactive_learners', { inactive_days: 3, limit_n: 20 }),
     db.from('programs')
@@ -404,6 +418,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const activeEnrollCount    = dashboardActiveEnrollments.length;
   const lastMonthEnrollCount = lastMonthDashboardActiveEnrollments.length;
   const lastMonthAppsCount   = lastMonthAppsRes.error ? 0 : (lastMonthAppsRes.count ?? 0);
+  const totalStudents        = totalStudentsRes.error ? 0 : (totalStudentsRes.count ?? 0);
   // certsRes is a combined count from certificates + program_completion_certificates
   const certsCount           = certsRes.error ? 0 : (certsRes.count ?? 0);
   const certsThisMonth       = certsThisMonthRes.error ? 0 : (certsThisMonthRes.count ?? 0);
@@ -559,6 +574,53 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const revenueAllTimeCents = directTrackedAllTimeCents;
   const revenueThisMonthCents = directTrackedThisMonthCents;
   const revenueLastMonthCents = rpcRevenueLastMonthCents;
+
+  // ── Recent payments — merge stripe sessions + apprenticeship subscriptions ─
+  type RecentPayment = import('@/components/admin/dashboard/types').RecentPayment;
+  const recentPayments: RecentPayment[] = [];
+
+  for (const row of (recentStripeSessionsRes.error ? [] : (recentStripeSessionsRes.data ?? [])) as any[]) {
+    recentPayments.push({
+      id: row.session_id,
+      email: row.email ?? null,
+      amountCents: toSafeNumber(row.amount),
+      label: row.program_slug ?? row.kind ?? null,
+      source: 'stripe',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of barberSubscriptionRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: row.customer_email ?? null,
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
+      label: row.customer_name ?? 'Barber apprenticeship',
+      source: 'barber',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of cosmetologySubscriptionRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: row.customer_email ?? null,
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
+      label: row.customer_name ?? 'Cosmetology apprenticeship',
+      source: 'cosmetology',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of barberPaymentRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: null,
+      amountCents: dollarsToCents(row.amount_paid),
+      label: 'Barber recurring',
+      source: 'barber_recurring',
+      paidAt: row.payment_date ?? row.created_at,
+    });
+  }
+  recentPayments.sort((a, b) => new Date(b.paidAt).getTime() - new Date(a.paidAt).getTime());
+  const recentPaymentsSlice = recentPayments.slice(0, 10);
 
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};
@@ -991,6 +1053,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       pendingProgramHolders: pendingHoldersCount,
       pendingDocuments:      pendingHolderDocsCount,
     },
+    revenueAllTimeCents,
+    totalStudents,
+    recentPayments: recentPaymentsSlice,
     operational,
     priorities,
     kpis,
