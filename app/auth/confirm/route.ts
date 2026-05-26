@@ -30,7 +30,11 @@ export async function GET(request: NextRequest) {
       // Redirect to the specified next URL or default based on type
       let redirectTo = next;
 
-      if (type === 'signup' || type === 'email') {
+      if (type === 'magiclink') {
+        // Respect explicit next param — used for admin impersonation / direct dashboard access.
+        // Skip enrollment linking and role overrides for magic links.
+        redirectTo = next !== '/' ? next : '/learner/dashboard';
+      } else if (type === 'signup' || type === 'email') {
         // Default for learners — may be overridden below based on role
         redirectTo = '/learner/dashboard?verified=true';
 
