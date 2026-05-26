@@ -368,46 +368,9 @@ async function publishCompiledDraft(
 
   const courseId = courseRow.id;
 
-  // 2. training_lessons
-  let lessonNumber = 1;
-  const lessonRows: Record<string, unknown>[] = [];
-
-  for (const mod of draft.modules) {
-    for (const lesson of mod.lessons) {
-      lessonRows.push({
-        course_id: courseId,
-        lesson_number: lessonNumber,
-        title: lesson.lesson_title,
-        description: lesson.lesson_objectives[0] ?? '',
-        content: renderCompiledLessonContent(lesson),
-        content_type: 'text',
-        duration_minutes: lesson.estimated_minutes,
-        is_required: true,
-        is_published: draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-        order_index: lessonNumber - 1,
-        quiz_questions: lesson.knowledge_check,
-        metadata: {
-          ai_generated: true,
-          module_title: mod.module_title,
-          module_order: mod.module_order,
-          module_objectives: mod.module_objectives,
-          lesson_objectives: lesson.lesson_objectives,
-          narration_script: lesson.narration_script,
-          slide_outline: lesson.slide_outline,
-          practice_exercise: lesson.practice_exercise,
-          instructor_notes: lesson.instructor_notes,
-          estimated_minutes: lesson.estimated_minutes,
-        },
-      });
-      lessonNumber++;
-    }
-  }
-
-  const { error: lessonsErr } = await db.from('training_lessons').insert(lessonRows);
-  if (lessonsErr) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-
-  // 2b. course_modules + course_lessons — canonical LMS delivery tables.
-  // lms_lessons view reads course_lessons. Write here so learners see content.
+  // 2. course_modules + course_lessons — canonical LMS delivery tables.
+  // training_lessons is a read-only HVAC archive. All new courses write here only.
+  // lms_lessons view reads course_lessons.
   {
     let clLessonNumber = 1;
     for (const mod of draft.modules) {
@@ -503,7 +466,8 @@ async function publishCompiledDraft(
       logger.warn('program_courses upsert failed (non-fatal)', { courseId, error: pcErr.message });
   }
 
-  return { courseId, slug: courseRow.slug, lessonCount: lessonRows.length };
+  const lessonCount = draft.modules.reduce((s, m) => s + m.lessons.length, 0);
+  return { courseId, slug: courseRow.slug, lessonCount };
 }
 
 export const runtime = 'nodejs';
@@ -626,11 +590,9 @@ async function _POST(req: NextRequest) {
       })),
     );
 
-    const { error: lessonsErr } = await db.from('training_lessons').insert(lessonRows);
-    if (lessonsErr) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-
     // ── 2b. course_modules + course_lessons — canonical LMS delivery tables ──
-    // lms_lessons view reads course_lessons. Write here so learners see content.
+    // training_lessons is a read-only HVAC archive. All new courses write here only.
+    // lms_lessons view reads course_lessons.
     for (let modIdx = 0; modIdx < course.modules.length; modIdx++) {
       const mod = course.modules[modIdx];
       const totalInModule = mod.lessons.length;

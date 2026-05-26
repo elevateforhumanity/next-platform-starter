@@ -104,10 +104,12 @@ export async function deleteCourse(id: string) {
 }
 
 // ============ LESSONS ============
+// All lesson CRUD targets course_lessons (canonical).
+// training_lessons is a read-only HVAC archive — do not write to it.
 export async function createLesson(input: LessonCreate) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_lessons')
+    .from('course_lessons')
     .insert({
       course_id: input.course_id,
       title: input.title,
@@ -115,6 +117,8 @@ export async function createLesson(input: LessonCreate) {
       video_url: input.video_url || null,
       duration_minutes: input.duration_minutes || null,
       order_index: input.order_index ?? 0,
+      lesson_type: (input as any).lesson_type ?? 'lesson',
+      is_published: false,
     })
     .select()
     .maybeSingle();
@@ -125,7 +129,7 @@ export async function createLesson(input: LessonCreate) {
 export async function listLessons(courseId: string) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_lessons')
+    .from('course_lessons')
     .select('*')
     .eq('course_id', courseId)
     .order('order_index', { ascending: true });
@@ -136,7 +140,7 @@ export async function listLessons(courseId: string) {
 export async function getLesson(id: string) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_lessons')
+    .from('course_lessons')
     .select('*')
     .eq('id', id)
     .maybeSingle();
@@ -148,7 +152,7 @@ export async function getLesson(id: string) {
 export async function updateLesson(id: string, patch: LessonUpdate) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
-    .from('training_lessons')
+    .from('course_lessons')
     .update({ ...patch, updated_at: new Date().toISOString() })
     .eq('id', id)
     .select()
@@ -160,7 +164,7 @@ export async function updateLesson(id: string, patch: LessonUpdate) {
 
 export async function deleteLesson(id: string) {
   const supabase = await getSupabase();
-  const { error } = await supabase.from('training_lessons').delete().eq('id', id);
+  const { error } = await supabase.from('course_lessons').delete().eq('id', id);
   if (error) throw new Error('Database operation failed');
   return { ok: true };
 }
@@ -620,12 +624,10 @@ export async function saveCourseBlueprint(
         course_id: courseId,
         module_id: moduleRow.id,
         title: lesson.title,
-        description: lesson.description || null,
         content: compiledContent,
         order_index: lesson.order_index ?? li,
-        lesson_number: li + 1,
         duration_minutes: lesson.duration_minutes || null,
-        content_type: lesson.content_type || 'text',
+        lesson_type: (lesson as any).lesson_type ?? 'lesson',
         is_published: false,
         // Store compiled slide/quiz/example assets in quiz_questions JSONB
         ...(lessonQuizData ? { quiz_questions: lessonQuizData } : {}),
@@ -633,7 +635,7 @@ export async function saveCourseBlueprint(
     });
 
     if (lessons.length) {
-      const { error: lessonErr } = await supabase.from('training_lessons').insert(lessons);
+      const { error: lessonErr } = await supabase.from('course_lessons').insert(lessons);
       if (!lessonErr) lessonCount += lessons.length;
     }
   }

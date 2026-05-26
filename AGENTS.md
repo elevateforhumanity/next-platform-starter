@@ -89,14 +89,26 @@ programs → modules → curriculum_lessons (step_type) → lesson_progress
 | Object                            | Purpose                                                                                    |
 | --------------------------------- | ------------------------------------------------------------------------------------------ |
 | `curriculum_lessons`              | Canonical lesson store — `step_type`, `module_order`, `lesson_order`, `passing_score`      |
-| `training_lessons`                | Legacy HVAC lesson store (94 rows) — do not add new programs here                          |
-| `lms_lessons` (view)              | Unified lesson source: `curriculum_lessons` (priority) UNION `training_lessons` (fallback) |
-| `modules`                         | Module definitions — `title`, `slug`, `program_id`                                         |
-| `lesson_progress`                 | Per-user lesson completion                                                                 |
+| `training_lessons`                | Legacy HVAC lesson store (94 rows) — **read-only archive, do not write**                   |
+| `course_lessons`                  | Canonical lesson write target for all new courses — blueprint engine, Studio, LMS engine   |
+| `lms_lessons` (view)              | Unified lesson read source: `curriculum_lessons` (priority) UNION `training_lessons`       |
+| `courses`                         | Canonical course table — all new courses write here                                        |
+| `training_courses`                | Legacy course table — **do not write new courses here**                                    |
+| `lms_courses` (view)              | Unified course read source: `courses` (priority) UNION `training_courses` (fallback)       |
+| `course_modules`                  | Course-scoped modules — linked via `course_id`. Used by Studio, blueprint engine, LMS engine |
+| `modules`                         | Program-scoped modules — linked via `program_id`. Used by transcript, analytics, mobile API. **Different scope from `course_modules` — not a duplicate** |
+| `lesson_progress`                 | Per-lesson completion — one row per user+lesson. Canonical for checkpoint gating           |
+| `lms_progress`                    | Per-course summary — one row per user+course. Tracks `status`, `progress_percent`, `last_activity_at`. **Not a duplicate of `lesson_progress`** |
+| `progress_entries`                | OJT apprenticeship timeclock — clock-in/out, geofencing. Unrelated to lesson progress      |
 | `checkpoint_scores`               | Per-user checkpoint pass/fail records — drives module gating                               |
 | `step_submissions`                | Lab/assignment submissions with instructor sign-off                                        |
 | `completion_rules`                | Per-course/program completion rule definitions                                             |
 | `program_completion_certificates` | Auto-issued on course completion when all checkpoints pass                                 |
+
+**Progress table contract — do not create new progress tables:**
+- Lesson-level completion → `lesson_progress`
+- Course-level summary (started/completed/percent) → `lms_progress`
+- OJT hours / timeclock → `progress_entries`
 
 ### Checkpoint Gating
 
@@ -688,11 +700,35 @@ Do not tighten without replacing admin remediation and enrollment-management beh
 
 ---
 
+## Quiz Model — Two Parallel Systems (Do Not Conflate)
+
+There are two distinct quiz systems. They serve different purposes and must not be merged.
+
+**Model A — Standalone Quiz Engine** (`quizzes` + `quiz_questions` + `quiz_attempts` tables)
+- Full quiz objects with their own IDs, separate from lessons
+- Used by: `/lms/quizzes/[quizId]`, quiz submit/start API routes, admin quiz management pages
+- `quiz_attempts` written on every submission
+- Studio `QuizPanel` loads from this model
+- Write path: `POST /api/lms/quizzes/[quizId]/start` → `quiz_attempts` → `POST /api/lms/quizzes/[quizId]/submit`
+
+**Model B — Inline Lesson Questions** (`course_lessons.quiz_questions` JSONB column)
+- Questions stored as JSONB on the lesson row — no separate quiz object
+- Used by: lesson page `QuizPlayer`, checkpoint gating, `lms_lessons` view
+- Completion written to `lesson_progress` and `checkpoint_scores` (not `quiz_attempts`)
+- Blueprint engine writes questions here via `activities` JSONB
+- Write path: lesson page → `POST /api/lms/progress/complete` → `lesson_progress` + `checkpoint_scores`
+
+**Rule**: Do not create a third quiz model. New inline lesson assessments use Model B. New standalone assessable quizzes (e.g. practice exams, standalone assessments) use Model A.
+
+---
+
 ## Remaining Technical Debt
 
 - `console.log` calls remain in some non-runtime areas — prefer `import { logger } from '@/lib/logger'` for new code
 - 8 certificate-related tables have no migration source — verify in Supabase Dashboard
 - One migration requires superuser application: `20260417000013_documents_bucket_policies.sql` (`storage.objects` ownership)
+- ~60 files still read `training_courses` directly — should migrate to `lms_courses` view incrementally
+- `training_courses` write path in `lib/db/courses.ts` `createCourseFromBlueprint()` still targets `training_courses` for the course row (lesson rows now fixed) — migrate to `courses` table when ready
 
 ---
 

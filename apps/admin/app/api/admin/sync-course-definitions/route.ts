@@ -182,17 +182,15 @@ async function _POST(request: NextRequest) {
 
           lessonRows.push({
             id: lessonId,
-            course_id_uuid: courseId,
-            lesson_number: lessonNumber,
+            course_id: courseId,
             order_index: orderIndex,
             title: lesson.title,
             content: contentHtml,
-            description: lesson.description || null,
             duration_minutes: lesson.durationMinutes || null,
             is_published: true,
             is_required: true,
-            content_type: contentType,
-            quiz_questions: quizQuestions ? JSON.stringify(quizQuestions) : '[]',
+            lesson_type: contentType === 'quiz' ? 'quiz' : contentType === 'video' ? 'lesson' : 'lesson',
+            quiz_questions: quizQuestions ?? null,
             passing_score: lesson.type === 'quiz' ? 70 : null,
           });
         }
@@ -200,9 +198,9 @@ async function _POST(request: NextRequest) {
 
       // Delete existing lessons for this course, then insert fresh
       const { error: deleteError } = await db
-        .from('training_lessons')
+        .from('course_lessons')
         .delete()
-        .eq('course_id_uuid', courseId);
+        .eq('course_id', courseId);
 
       if (deleteError) {
         logger.error(`[SyncDefs] Lesson delete failed: ${course.slug}`, deleteError);
@@ -219,7 +217,7 @@ async function _POST(request: NextRequest) {
       let inserted = 0;
       for (let batch = 0; batch < lessonRows.length; batch += 50) {
         const chunk = lessonRows.slice(batch, batch + 50);
-        const { error: insertError } = await db.from('training_lessons').insert(chunk);
+        const { error: insertError } = await db.from('course_lessons').insert(chunk);
 
         if (insertError) {
           logger.error(

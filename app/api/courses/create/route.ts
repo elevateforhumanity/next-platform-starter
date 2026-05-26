@@ -86,15 +86,15 @@ async function _POST(request: NextRequest) {
       for (let lessonIndex = 0; lessonIndex < moduleData.lessons.length; lessonIndex++) {
         const lessonData = moduleData.lessons[lessonIndex];
 
-        const { error: lessonError } = await supabase.from('training_lessons').insert({
+        const { error: lessonError } = await supabase.from('course_lessons').insert({
           course_id: course.id,
           title: lessonData.title,
-          description: moduleData.description || '',
           content: lessonData.content || '',
           video_url: lessonData.type === 'video' ? lessonData.content : null,
           duration_minutes: lessonData.duration || 0,
           order_index: moduleIndex * 100 + lessonIndex,
-          is_preview: lessonIndex === 0,
+          lesson_type: lessonData.type === 'video' ? 'lesson' : (lessonData.type ?? 'lesson'),
+          is_published: false,
         });
 
         if (lessonError) {
