@@ -80,7 +80,7 @@ export default async function ApprenticeDocumentsPage() {
                       .replace(/_/g, ' ')
                       .replace(/\b\w/g, (c: string) => c.toUpperCase());
                     const statusColor =
-                      doc.status === 'approved' ? 'text-green-600' :
+                      doc.status === 'approved' ? 'text-brand-green-600' :
                       doc.status === 'rejected' ? 'text-red-600' : 'text-amber-600';
                     return (
                       <div key={doc.id} className="p-4 flex items-center justify-between hover:bg-slate-50">

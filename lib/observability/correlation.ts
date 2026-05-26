@@ -46,8 +46,8 @@ export function getCorrelationFromStripeEvent(event: Stripe.Event): CorrelationC
   }
 
   if (event.type.startsWith('invoice.')) {
-    const invoice = eventObject as Stripe.Invoice;
-    paymentIntentId = invoice.payment_intent as string;
+    const invoice = eventObject as Stripe.Invoice & { payment_intent?: string | null };
+    paymentIntentId = (invoice.payment_intent as string) ?? '';
   }
 
   // Correlation ID priority: payment_intent > event_id
