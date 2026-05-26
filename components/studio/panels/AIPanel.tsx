@@ -129,7 +129,7 @@ export function AIPanel() {
 
       if (!res.ok) throw new Error('AI request failed');
 
-      // Stream response
+      // Stream response — handles text deltas and tool_call events
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
       let fullContent = '';
@@ -139,23 +139,68 @@ export function AIPanel() {
           const { done, value } = await reader.read();
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
-          // Parse SSE chunks
           const lines = chunk.split('\n');
           for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6);
-              if (data === '[DONE]') break;
-              try {
-                const parsed = JSON.parse(data);
-                const delta = parsed.choices?.[0]?.delta?.content ?? '';
-                fullContent += delta;
+            if (!line.startsWith('data: ')) continue;
+            const data = line.slice(6);
+            if (data === '[DONE]') break;
+            try {
+              const parsed = JSON.parse(data);
+
+              // New format: { type: 'delta'|'tool_call', ... }
+              if (parsed.type === 'delta') {
+                fullContent += parsed.content ?? '';
                 setMessages(prev => prev.map(m =>
-                  m.id === assistantMsgId
-                    ? { ...m, content: fullContent }
-                    : m
+                  m.id === assistantMsgId ? { ...m, content: fullContent } : m
                 ));
-              } catch { /* skip malformed chunks */ }
-            }
+              } else if (parsed.type === 'tool_call') {
+                // AI wants to execute a tool — dispatch server-side
+                const toolName: string = parsed.name;
+                const toolArgs: Record<string, unknown> = parsed.args ?? {};
+
+                // Show tool execution indicator in the message
+                const indicator = `\n\n⚙️ Running: **${toolName}**...`;
+                fullContent += indicator;
+                setMessages(prev => prev.map(m =>
+                  m.id === assistantMsgId ? { ...m, content: fullContent } : m
+                ));
+
+                // Execute the tool
+                try {
+                  const toolRes = await fetch('/api/admin/studio/tool-execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      courseId: state.course.id,
+                      toolName,
+                      args: toolArgs,
+                    }),
+                  });
+                  const toolResult = await toolRes.json() as { ok: boolean; message: string; data?: Record<string, unknown> };
+                  const resultText = toolResult.ok
+                    ? ` ✅ ${toolResult.message}`
+                    : ` ❌ ${toolResult.message}`;
+                  fullContent = fullContent.replace(`⚙️ Running: **${toolName}**...`, `⚙️ **${toolName}**${resultText}`);
+                  setMessages(prev => prev.map(m =>
+                    m.id === assistantMsgId ? { ...m, content: fullContent } : m
+                  ));
+                } catch {
+                  fullContent = fullContent.replace(`⚙️ Running: **${toolName}**...`, `⚙️ **${toolName}** ❌ execution failed`);
+                  setMessages(prev => prev.map(m =>
+                    m.id === assistantMsgId ? { ...m, content: fullContent } : m
+                  ));
+                }
+              } else {
+                // Legacy format: { choices: [{ delta: { content } }] }
+                const delta = parsed.choices?.[0]?.delta?.content ?? '';
+                if (delta) {
+                  fullContent += delta;
+                  setMessages(prev => prev.map(m =>
+                    m.id === assistantMsgId ? { ...m, content: fullContent } : m
+                  ));
+                }
+              }
+            } catch { /* skip malformed chunks */ }
           }
         }
       }
