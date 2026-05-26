@@ -168,7 +168,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   }
 
   // Load all dashboard data via the canonical loader
-  const data = await loadLearnerDashboard();
+  let data;
+  try {
+    data = await loadLearnerDashboard();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    throw Object.assign(new Error(`Learner dashboard load failed: ${msg}`), { digest: 'ERR_LEARNER_DASHBOARD' });
+  }
 
   const {
     enrollments,
@@ -189,7 +195,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
     applications,
     attendanceData,
     attendanceHours,
-  } = data;
+  } = data!;
 
   const isPendingWorkone = !!workoneApp;
 
