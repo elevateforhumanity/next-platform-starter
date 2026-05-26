@@ -319,3 +319,51 @@ export function isReasoningAvailable(): boolean {
     return false;
   }
 }
+
+// ─── Tool-calling stream ──────────────────────────────────────────────────────
+
+export type ToolDefinition = {
+  type: 'function';
+  function: {
+    name: string;
+    description: string;
+    parameters: Record<string, unknown>;
+  };
+};
+
+export type ToolStreamEvent =
+  | { type: 'delta'; content: string }
+  | { type: 'tool_call'; name: string; args: Record<string, unknown> };
+
+/**
+ * Stream a chat completion with OpenAI function calling.
+ * Yields ToolStreamEvent — either text deltas or tool_call events.
+ * Falls back to plain text stream if OpenAI is unavailable.
+ */
+export async function* aiChatWithTools(options: {
+  messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>;
+  tools: ToolDefinition[];
+  model?: string;
+  temperature?: number;
+  maxTokens?: number;
+}): AsyncIterable<ToolStreamEvent> {
+  const provider = resolveChatProvider();
+
+  // Only OpenAI supports tool calling — check if it's the active provider
+  if (provider.name !== 'openai' || !provider.isAvailable()) {
+    // Fallback: plain stream, no tool calls
+    for await (const delta of aiChatStream({
+      model: options.model ?? 'gpt-4.1-mini',
+      messages: options.messages,
+      temperature: options.temperature,
+      maxTokens: options.maxTokens,
+    })) {
+      yield { type: 'delta', content: delta };
+    }
+    return;
+  }
+
+  // Use OpenAI provider's underlying client via chatStream with tools
+  const openaiProvider = provider as OpenAIProvider;
+  yield* openaiProvider.chatStreamWithTools(options);
+}

@@ -29,9 +29,8 @@ export default function InstructorAnnouncementsPage() {
   const [message, setMessage] = useState('');
   const [enrolledCount, setEnrolledCount] = useState(0);
 
-  useEffect(() => {
-    loadData();
-  }, [courseId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { loadData(); }, [courseId]);
 
   async function loadData() {
     const supabase = createClient();

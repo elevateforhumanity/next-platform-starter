@@ -74,6 +74,57 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
     }
   }
 
+  /**
+   * Stream a chat completion with OpenAI function calling.
+   * Yields ToolStreamEvent — text deltas and tool_call events.
+   */
+  async *chatStreamWithTools(options: {
+    messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>;
+    tools: Array<{ type: 'function'; function: { name: string; description: string; parameters: Record<string, unknown> } }>;
+    model?: string;
+    temperature?: number;
+    maxTokens?: number;
+  }): AsyncIterable<{ type: 'delta'; content: string } | { type: 'tool_call'; name: string; args: Record<string, unknown> }> {
+    const client = this.getClient();
+    const stream = await client.chat.completions.create({
+      model: options.model ?? 'gpt-4.1-mini',
+      messages: options.messages,
+      tools: options.tools as OpenAI.Chat.Completions.ChatCompletionTool[],
+      tool_choice: 'auto',
+      temperature: options.temperature ?? 0.7,
+      max_tokens: options.maxTokens ?? 1200,
+      stream: true,
+    });
+
+    const toolCallAccum: Record<number, { name: string; args: string }> = {};
+
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta;
+      if (!delta) continue;
+
+      if (delta.content) {
+        yield { type: 'delta', content: delta.content };
+      }
+
+      if (delta.tool_calls) {
+        for (const tc of delta.tool_calls) {
+          const idx = tc.index ?? 0;
+          if (!toolCallAccum[idx]) toolCallAccum[idx] = { name: '', args: '' };
+          if (tc.function?.name) toolCallAccum[idx].name += tc.function.name;
+          if (tc.function?.arguments) toolCallAccum[idx].args += tc.function.arguments;
+        }
+      }
+
+      if (chunk.choices[0]?.finish_reason === 'tool_calls') {
+        for (const tc of Object.values(toolCallAccum)) {
+          let args: Record<string, unknown> = {};
+          try { args = JSON.parse(tc.args); } catch { /* malformed */ }
+          yield { type: 'tool_call', name: tc.name, args };
+        }
+      }
+    }
+  }
+
   async generateImage(options: ImageGenerationOptions): Promise<GeneratedImage[]> {
     const client = this.getClient();
     const res = await client.images.generate({

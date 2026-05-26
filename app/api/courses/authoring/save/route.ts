@@ -28,16 +28,16 @@ async function _POST(request: NextRequest) {
     const { courseId, modules } = body;
 
     // Save or update course structure
-    for (const module of modules) {
+    for (const mod of modules) {
       // Upsert module
       const { data: moduleData, error: moduleError } = await supabase
         .from('modules')
         .upsert({
-          id: module.id.startsWith('module-') ? undefined : module.id,
+          id: mod.id.startsWith('module-') ? undefined : mod.id,
           course_id: courseId,
-          title: module.title,
-          description: module.description,
-          order: module.order,
+          title: mod.title,
+          description: mod.description,
+          order: mod.order,
         })
         .select()
         .maybeSingle();
@@ -45,7 +45,7 @@ async function _POST(request: NextRequest) {
       if (moduleError) throw moduleError;
 
       // Save lessons
-      for (const lesson of module.lessons) {
+      for (const lesson of mod.lessons) {
         // LEGACY_SYSTEM_DISABLED — lesson writes must go through canonical course_lessons
         return NextResponse.json(
           {

@@ -6,8 +6,8 @@
  * tool_call event so the client can dispatch it to /api/admin/studio/tool-execute.
  *
  * SSE event types:
- *   data: {"type":"delta","content":"..."}   — text chunk
- *   data: {"type":"tool_call","name":"...","args":{...}}  — AI wants to run a tool
+ *   data: {"type":"delta","content":"..."}
+ *   data: {"type":"tool_call","name":"...","args":{...}}
  *   data: [DONE]
  */
 
@@ -15,8 +15,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { aiChatWithTools } from '@/lib/ai/ai-service';
 import { STUDIO_TOOLS } from '@/lib/studio/tools';
-import OpenAI from 'openai';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -32,6 +32,7 @@ Your tools:
 - attachVideo: attach a video URL to a lesson
 - publishCourse: publish the course (only when explicitly requested)
 - updateCourseTitle: update course title or description
+- buildCourseFromBlueprint: build a full course from a blueprint (e.g. HVAC EPA 608)
 
 Rules:
 - Match content to the course context provided
@@ -39,12 +40,6 @@ Rules:
 - After calling a tool, briefly confirm what was done
 - If you need a lesson_id or module_id, use the IDs from the course context
 - Keep text responses concise`;
-
-function getOpenAIClient(): OpenAI | null {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key || key === 'placeholder-build-key' || key === 'sk-placeholder-build-key') return null;
-  return new OpenAI({ apiKey: key });
-}
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -69,23 +64,6 @@ export async function POST(request: NextRequest) {
   const { courseId, courseContext, messages = [], activePanel = 'blueprint' } = body;
   if (!courseId) return NextResponse.json({ error: 'courseId required' }, { status: 400 });
 
-  const openai = getOpenAIClient();
-  if (!openai) {
-    // No API key — return a static message
-    const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      start(controller) {
-        const msg = JSON.stringify({ type: 'delta', content: 'AI assistant is not configured. Set OPENAI_API_KEY to enable tool execution.' });
-        controller.enqueue(encoder.encode(`data: ${msg}\n\n`));
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-        controller.close();
-      },
-    });
-    return new Response(readable, {
-      headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' },
-    });
-  }
-
   const systemPrompt = [
     SYSTEM_BASE,
     courseContext ? `\n--- Current Course Context ---\n${courseContext}` : '',
@@ -105,48 +83,15 @@ export async function POST(request: NextRequest) {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
 
       try {
-        const stream = await openai.chat.completions.create({
+        for await (const event of aiChatWithTools({
           model: 'gpt-4.1-mini',
           messages: [{ role: 'system', content: systemPrompt }, ...safeMessages],
-          tools: STUDIO_TOOLS as OpenAI.Chat.Completions.ChatCompletionTool[],
-          tool_choice: 'auto',
+          tools: STUDIO_TOOLS as Parameters<typeof aiChatWithTools>[0]['tools'],
           temperature: 0.7,
-          max_tokens: 1200,
-          stream: true,
-        });
-
-        // Accumulate tool call chunks
-        const toolCallAccum: Record<number, { name: string; args: string }> = {};
-
-        for await (const chunk of stream) {
-          const delta = chunk.choices[0]?.delta;
-          if (!delta) continue;
-
-          // Text delta
-          if (delta.content) {
-            send({ type: 'delta', content: delta.content });
-          }
-
-          // Tool call chunks — accumulate across stream
-          if (delta.tool_calls) {
-            for (const tc of delta.tool_calls) {
-              const idx = tc.index ?? 0;
-              if (!toolCallAccum[idx]) toolCallAccum[idx] = { name: '', args: '' };
-              if (tc.function?.name) toolCallAccum[idx].name += tc.function.name;
-              if (tc.function?.arguments) toolCallAccum[idx].args += tc.function.arguments;
-            }
-          }
-
-          // Emit accumulated tool calls when stream finishes
-          if (chunk.choices[0]?.finish_reason === 'tool_calls') {
-            for (const tc of Object.values(toolCallAccum)) {
-              let args: Record<string, unknown> = {};
-              try { args = JSON.parse(tc.args); } catch { /* malformed args */ }
-              send({ type: 'tool_call', name: tc.name, args });
-            }
-          }
+          maxTokens: 1200,
+        })) {
+          send(event);
         }
-
         controller.enqueue(encoder.encode('data: [DONE]\n\n'));
       } catch (err) {
         logger.error('[studio/ai-chat] stream error', err instanceof Error ? err : undefined, { courseId });
