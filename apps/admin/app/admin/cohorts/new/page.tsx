@@ -1,18 +1,19 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createCohort } from './actions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'New Cohort | Admin',
 };
 
 export default async function NewCohortPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
