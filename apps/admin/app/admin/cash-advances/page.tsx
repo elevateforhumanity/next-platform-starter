@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BarChart, DollarSign, Gift } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Cash Advances Admin | Elevate For Humanity',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CashAdvancesAdminPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const supabase = await requireAdminClient();
 
   // Fetch applications
