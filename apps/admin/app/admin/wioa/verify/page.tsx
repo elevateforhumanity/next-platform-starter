@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 import Link from 'next/link';
 import {
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Verify Eligibility | WIOA Admin',
@@ -27,7 +28,7 @@ export default async function WIOAVerifyPage({
 }: {
   searchParams: Promise<{ id?: string }>;
 }) {
-  const auth = await requireRole(['admin', 'super_admin', 'staff']);
+  const auth = await requireAdmin();
   if ('error' in auth) {
     return <div className="p-8 text-center text-brand-red-600">Access denied</div>;
   }

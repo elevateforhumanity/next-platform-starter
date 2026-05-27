@@ -6,6 +6,7 @@ import { ChevronRight, FileText, Clock, CheckCircle, XCircle } from 'lucide-reac
 import ProgramHolderDocumentsClient from './ProgramHolderDocumentsClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'Program Holder Documents | Admin | Elevate For Humanity' };
 
 export default async function ProgramHolderDocumentsPage() {

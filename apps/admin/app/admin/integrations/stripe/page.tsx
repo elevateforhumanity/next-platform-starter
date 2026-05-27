@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
@@ -104,7 +105,7 @@ function cents(value: unknown): number {
 }
 
 export default async function AdminStripeIntegrationPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const supabase = await requireAdminClient();
   if (!supabase) notFound();
 

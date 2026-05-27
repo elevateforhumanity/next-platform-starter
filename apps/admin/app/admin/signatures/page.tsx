@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { FileSignature, Clock, XCircle, Plus } from 'lucide-react';
 import { SignatureLinkCopier } from './SignatureLinkCopier';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignaturesPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const [signaturesResult, docsResult] = await Promise.all([

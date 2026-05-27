@@ -7,6 +7,7 @@ import { ArrowLeft, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = { title: 'Exception Queue | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function ExceptionQueuePage() {
   const supabase = await createClient();

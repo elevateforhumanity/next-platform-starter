@@ -6,14 +6,15 @@ export const metadata: Metadata = {
   description: 'Elevate For Humanity - Career training and workforce development',
 };
 
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import MarkPaidButton from './MarkPaidButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function AdminPayoutsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
 
   const supabase = await createClient();
 

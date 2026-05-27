@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const QUEUE_TYPE_CONFIG: Record<string, { label: string; icon: any; color: string }> = {
   document_review: { label: 'Document Review', icon: FileText, color: 'blue' },

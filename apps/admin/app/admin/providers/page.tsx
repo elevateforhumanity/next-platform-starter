@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Building2, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Providers | Admin',

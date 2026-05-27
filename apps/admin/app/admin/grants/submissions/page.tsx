@@ -5,13 +5,14 @@
 
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import Image from 'next/image';
 import { BarChart, Globe, Mail } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {
@@ -85,7 +86,7 @@ export default async function GrantSubmissionsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
 
   const { submissions } = await getSubmissionsData();
 

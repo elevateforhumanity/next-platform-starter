@@ -6,6 +6,7 @@ import { Users, CheckCircle, Briefcase, FileText, User, ArrowRight, Shield } fro
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Job Ready Indy | Elevate For Humanity',

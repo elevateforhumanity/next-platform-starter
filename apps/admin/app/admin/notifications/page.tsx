@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Bell, ChevronRight, CheckCircle, XCircle, Clock } from 'lucide-react';
 import NotificationBroadcastForm from './NotificationBroadcastForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Notifications | Admin',
 };
@@ -31,7 +32,7 @@ function fmtDate(iso: string) {
 }
 
 export default async function AdminNotificationsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const { data: adminUsers } = await db

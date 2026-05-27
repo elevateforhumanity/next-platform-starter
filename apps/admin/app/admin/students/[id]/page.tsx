@@ -22,6 +22,7 @@ import EnrollmentVoucherPanel from '@/components/admin/EnrollmentVoucherPanel';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Student Profile | Admin',
 };

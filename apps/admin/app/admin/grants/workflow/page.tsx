@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Grants Workflow | Elevate For Humanity',
@@ -43,7 +44,7 @@ export default async function GrantWorkflowPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
 
   const { grants, entities, applications } = await getWorkflowData();
 

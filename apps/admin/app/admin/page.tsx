@@ -1,10 +1,11 @@
 import { redirect } from 'next/navigation';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function AdminLegacyLandingPage() {
   // Canonical landing route is /admin/dashboard.
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   redirect('/admin/dashboard');
 }

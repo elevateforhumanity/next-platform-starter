@@ -1,4 +1,4 @@
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import { DollarSign, Clock, Search, FileText, TrendingUp, Plus, Circle } from 'l
 import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'WOTC Management | Admin',

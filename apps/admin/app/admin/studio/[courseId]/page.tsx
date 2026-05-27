@@ -12,6 +12,7 @@ import { StudioWorkspace } from '@/components/studio/StudioWorkspace';
 const getCourseSession = cache(loadCourseSession);
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 interface Props {
   params: Promise<{ courseId: string }>;

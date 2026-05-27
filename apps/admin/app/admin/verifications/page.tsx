@@ -7,6 +7,7 @@ import { Shield, CheckCircle, Clock, XCircle, Eye, ArrowRight } from 'lucide-rea
 import { AdminPageShell, AdminCard, AdminEmptyState } from '@/components/admin/AdminPageShell';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Verifications | Admin',
 };

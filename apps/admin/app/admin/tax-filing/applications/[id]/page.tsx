@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import TaxApplicationEditForm from './TaxApplicationEditForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'Tax Application | Admin' };
 
 export default async function TaxApplicationDetailPage({

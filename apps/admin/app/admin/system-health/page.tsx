@@ -5,6 +5,7 @@ import { getPlatformHealth } from '@/lib/platform/platform-health';
 import SystemHealthClient from './SystemHealthClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'System Health | Admin | Elevate for Humanity',

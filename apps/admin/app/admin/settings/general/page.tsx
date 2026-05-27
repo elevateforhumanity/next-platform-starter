@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { GeneralSettingsClient } from './GeneralSettingsClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'General Settings | Admin' };
 
 export default async function GeneralSettingsPage() {

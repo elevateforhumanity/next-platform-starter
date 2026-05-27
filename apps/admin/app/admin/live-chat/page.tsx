@@ -4,6 +4,7 @@ import AdminClientPage from '@/components/admin/AdminClientPage';
 import LiveChatClient from './LiveChatClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default function Page() {
   return (

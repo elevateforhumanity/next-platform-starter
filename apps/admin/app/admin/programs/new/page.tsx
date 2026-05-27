@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { ProgramForm } from '../program-form';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Create Program | Admin',

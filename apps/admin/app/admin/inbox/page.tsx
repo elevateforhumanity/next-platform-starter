@@ -11,6 +11,7 @@ import { redirect } from 'next/navigation';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 async function requireAdmin(supabase: any) {
   const { data }: any = await supabase.auth.getUser();

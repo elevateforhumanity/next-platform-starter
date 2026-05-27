@@ -5,6 +5,7 @@ import { ChevronRight } from 'lucide-react';
 import NewLearningPathClient from './NewLearningPathClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'New Learning Path | Admin | Elevate For Humanity' };
 
 export default async function NewLearningPathPage() {

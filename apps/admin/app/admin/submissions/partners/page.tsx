@@ -7,6 +7,7 @@ import { ArrowLeft, Users, Plus, AlertTriangle, CheckCircle2 } from 'lucide-reac
 
 export const metadata: Metadata = { title: 'Partner Entities | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function PartnerEntitiesPage() {
   const supabase = await createClient();

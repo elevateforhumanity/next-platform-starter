@@ -18,6 +18,7 @@ import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const runtime = 'nodejs';
 
 export const metadata: Metadata = {

@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import TestingCenterClient from './TestingCenterClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Testing Center | Admin | Elevate For Humanity',
 };
 
 export default async function TestingCenterPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const dateFrom = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);

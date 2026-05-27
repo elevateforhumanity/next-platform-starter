@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { Award } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = { title: 'Program Certificates | Elevate Admin' };
 
@@ -14,7 +15,7 @@ export default async function ProgramCertificatesPage({
   params: Promise<{ code: string }>;
 }) {
   const { code } = await params;
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data: program } = await supabase

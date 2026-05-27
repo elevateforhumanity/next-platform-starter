@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import MissionControlClient from './MissionControlClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Mission Control | Admin | Elevate For Humanity',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MissionControlPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const [
@@ -24,12 +25,12 @@ export default async function MissionControlPage() {
     { count: pendingDocuments },
   ] = await Promise.all([
     db.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-    db.from('program_enrollments').select('*', { count: 'exact', head: true }).in('enrollment_state', ['active', 'enrolled', 'onboarding']),
+    db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'active'),
     db.from('applications').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
-    db.from('at_risk_students').select('*', { count: 'exact', head: true }).is('resolved_at', null),
+    db.from('at_risk_students').select('*', { count: 'exact', head: true }).eq('resolved', false),
     db.from('programs').select('*', { count: 'exact', head: true }).eq('published', true).eq('is_active', true),
     db.from('courses').select('*', { count: 'exact', head: true }).eq('is_active', true),
-    db.from('documents').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    db.from('documents').select('*', { count: 'exact', head: true }).eq('status', 'pending_review'),
   ]);
 
   const snapshot = {

@@ -18,6 +18,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Review Program Holder | Admin',

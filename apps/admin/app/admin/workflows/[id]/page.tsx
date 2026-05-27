@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkflowDetailClient from './WorkflowDetailClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Workflow Detail | Admin | Elevate For Humanity',
@@ -16,7 +17,7 @@ export default async function WorkflowDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const { id } = await params;
   const db = await requireAdminClient();
 
