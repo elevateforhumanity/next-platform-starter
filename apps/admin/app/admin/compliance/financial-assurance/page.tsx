@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Financial Assurance | Admin | Elevate For Humanity',
@@ -18,7 +19,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 export default async function FinancialAssurancePage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const [{ data: records }, { data: summary }] = await Promise.all([
