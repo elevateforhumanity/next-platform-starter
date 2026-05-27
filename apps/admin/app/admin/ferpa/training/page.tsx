@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import FERPATrainingDashboard from '@/components/compliance/FERPATrainingDashboard';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'FERPA Training Management | Elevate For Humanity',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FERPATrainingPage() {
-  const { id: userId } = await requireRole(['admin', 'super_admin', 'staff']);
+  const { id: userId } = await requireAdmin();
   const db = await requireAdminClient();
 
   const [{ data: profile }, { data: trainingRecords }, { data: pendingUsers }] = await Promise.all([
