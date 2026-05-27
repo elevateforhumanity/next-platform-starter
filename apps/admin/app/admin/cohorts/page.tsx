@@ -1,4 +1,4 @@
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Cohort Tracker | Admin',
@@ -29,7 +30,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function CohortTrackerPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   if (!db) {
