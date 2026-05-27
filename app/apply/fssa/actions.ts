@@ -147,18 +147,9 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
       text: `${applicationDetails}\n\nReview at: https://www.elevateforhumanity.org/admin/applications`,
     }).catch((err) => logger.error('[fssa-apply] Failed to send admin notification email', { error: String(err) }));
 
-    // Notify FSSA/DFR IMPACT 50 mailbox
-    await sendEmail({
-      to: 'IMPACT50@fssa.IN.gov',
-      subject: `New FSSA IMPACT Training Application — ${data.firstName} ${data.lastName}`,
-      html: `
-<p>A new FSSA IMPACT training application has been submitted through Elevate for Humanity.</p>
-<pre style="font-family:monospace;font-size:14px;background:#f8f8f8;padding:16px;border-radius:4px">${applicationDetails}</pre>
-<p>This applicant has applied for funded workforce training. Elevate for Humanity will follow up to verify eligibility and coordinate enrollment.</p>
-<p>Questions: <a href="mailto:elevate4humanityedu@gmail.com">elevate4humanityedu@gmail.com</a> | (317) 559-4999</p>
-      `.trim(),
-      text: `New FSSA IMPACT training application submitted through Elevate for Humanity.\n\n${applicationDetails}\n\nElevate for Humanity will follow up to verify eligibility and coordinate enrollment.\nQuestions: elevate4humanityedu@gmail.com | (317) 559-4999`,
-    }).catch((err) => logger.error('[fssa-apply] Failed to send FSSA/DFR notification email', { error: String(err) }));
+    // FSSA/DFR IMPACT 50 mailbox notification — archived 2026-07
+    // Direct email to IMPACT50@fssa.IN.gov is no longer sent.
+    // Elevate coordinates with FSSA case managers directly after eligibility review.
 
     // Confirm receipt to applicant
     if (data.email) {
