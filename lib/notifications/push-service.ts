@@ -4,6 +4,7 @@
  */
 import webpush from 'web-push';
 import { createClient } from '@/lib/supabase/server';
+import { logger } from '@/lib/logger';
 // VAPID configuration
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY || '';
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || '';
@@ -145,7 +146,7 @@ export class PushNotificationService {
       const supabase = await createClient();
       await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint);
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('[PushService] Failed to remove expired subscription', { endpoint, error: String(error) });
     }
   }
   /**

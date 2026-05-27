@@ -33,6 +33,33 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiAuthGuard, apiRequireAdmin } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
+import { requireAdminClient } from '@/lib/supabase/admin';
+
+/** Fire-and-forget: write a cron_job_runs row. Never throws. */
+async function recordCronRun(
+  jobName: string,
+  status: 'success' | 'failed',
+  startedAt: Date,
+  result?: unknown,
+  error?: string,
+): Promise<void> {
+  try {
+    const db = await requireAdminClient();
+    const finishedAt = new Date();
+    await db.from('cron_job_runs').insert({
+      job_name: jobName,
+      status,
+      started_at: startedAt.toISOString(),
+      finished_at: finishedAt.toISOString(),
+      duration_ms: finishedAt.getTime() - startedAt.getTime(),
+      result: result ? (result as object) : null,
+      error: error ?? null,
+    });
+  } catch (err) {
+    // Non-fatal — observability must never break the cron job itself
+    logger.warn('[withRuntime] cron_job_runs write failed', { jobName, error: String(err) });
+  }
+}
 
 type RateLimitTier = 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public';
 type AuthMode = 'user' | 'admin';
@@ -158,14 +185,30 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     }
 
     // 6. Run handler — catch unhandled throws so they never surface as 500 HTML
+    const cronStartedAt = options.cron ? new Date() : null;
+    const jobName = options.cron
+      ? req.nextUrl.pathname.replace(/^\/api\/cron\//, '').replace(/\/$/, '')
+      : null;
+
     try {
-      return await handler!(req, ctx);
+      const response = await handler!(req, ctx);
+      if (cronStartedAt && jobName) {
+        // Parse result body for observability — non-blocking
+        response.clone().json().then(
+          (body) => recordCronRun(jobName, 'success', cronStartedAt, body),
+          () => recordCronRun(jobName, 'success', cronStartedAt),
+        );
+      }
+      return response;
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       logger.error('[withRuntime] Unhandled handler error', err instanceof Error ? err : new Error(message), {
         route: req.nextUrl.pathname,
         method: req.method,
       });
+      if (cronStartedAt && jobName) {
+        recordCronRun(jobName, 'failed', cronStartedAt, undefined, message);
+      }
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
   };

@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -88,7 +89,7 @@ async function qbRequest(method: string, path: string, body?: unknown) {
   const data = await res.json();
   if (!res.ok) {
     const msg = data?.Fault?.Error?.[0]?.Message ?? `QB API error ${res.status}`;
-    console.error(`[QuickBooks] ${method} ${path} failed — intuit_tid: ${intuitTid} — ${msg}`);
+    logger.error(`[QuickBooks] ${method} ${path} failed`, { intuit_tid: intuitTid, message: msg });
     throw new Error(msg);
   }
   return data;

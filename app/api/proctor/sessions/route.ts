@@ -117,6 +117,31 @@ async function _POST(req: NextRequest) {
       );
     }
 
+    // Block retake if an active enforcement hold exists for this student
+    if (student_id) {
+      const { data: hold } = await db
+        .from('exam_enforcement_holds')
+        .select('id, expires_at, reason')
+        .eq('student_id', student_id)
+        .eq('status', 'active')
+        .gt('expires_at', new Date().toISOString())
+        .maybeSingle();
+
+      if (hold) {
+        const expiresAt = new Date(hold.expires_at).toLocaleString('en-US', {
+          timeZone: 'America/Indiana/Indianapolis',
+        });
+        return NextResponse.json(
+          {
+            error: 'Retake hold active',
+            message: `This student has an active exam enforcement hold until ${expiresAt} ET. Reason: ${hold.reason ?? 'exam failure cooldown'}.`,
+            hold_expires_at: hold.expires_at,
+          },
+          { status: 409 },
+        );
+      }
+    }
+
     // Detect retest: check for any prior attempt for this student + provider
     let isRetest = false;
     if (student_email || student_id) {

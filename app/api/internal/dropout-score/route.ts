@@ -106,10 +106,20 @@ Respond with ONLY valid JSON, no markdown, no explanation. Example: {"score":72,
             ? (row.risk_factors as Record<string, unknown>)
             : {};
 
+        // Derive probabilities from dropout score (0–100 → 0–1 scale)
+        // completion_probability: inverse of dropout score
+        // placement_probability: completion with an additional penalty for overdue items
+        const completionProb = parseFloat((1 - score / 100).toFixed(4));
+        const overduePenalty = Math.min(overdue * 0.02, 0.15); // max 15% penalty
+        const placementProb = parseFloat(Math.max(0, completionProb - overduePenalty).toFixed(4));
+
         await db
           .from('student_risk_status')
           .update({
             risk_score: score,
+            placement_probability: placementProb,
+            completion_probability: completionProb,
+            probabilities_updated_at: new Date().toISOString(),
             risk_factors: {
               ...existingFactors,
               ai_dropout_score: score,

@@ -145,7 +145,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
       subject: `New FSSA IMPACT Application — ${data.firstName} ${data.lastName}`,
       html: `<pre style="font-family:monospace;font-size:14px">${applicationDetails}</pre><br><a href="https://www.elevateforhumanity.org/admin/applications">Review in Admin →</a>`,
       text: `${applicationDetails}\n\nReview at: https://www.elevateforhumanity.org/admin/applications`,
-    }).catch(() => {});
+    }).catch((err) => logger.error('[fssa-apply] Failed to send admin notification email', { error: String(err) }));
 
     // Notify FSSA/DFR IMPACT 50 mailbox
     await sendEmail({
@@ -158,7 +158,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
 <p>Questions: <a href="mailto:elevate4humanityedu@gmail.com">elevate4humanityedu@gmail.com</a> | (317) 559-4999</p>
       `.trim(),
       text: `New FSSA IMPACT training application submitted through Elevate for Humanity.\n\n${applicationDetails}\n\nElevate for Humanity will follow up to verify eligibility and coordinate enrollment.\nQuestions: elevate4humanityedu@gmail.com | (317) 559-4999`,
-    }).catch(() => {});
+    }).catch((err) => logger.error('[fssa-apply] Failed to send FSSA/DFR notification email', { error: String(err) }));
 
     // Confirm receipt to applicant
     if (data.email) {
@@ -181,7 +181,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
 </div>
         `.trim(),
         text: `Hi ${data.firstName},\n\nWe received your FSSA IMPACT application. Here's what happens next:\n\n1. Eligibility review — Our team will review your application and verify your SNAP/TANF status.\n2. Case manager coordination — If you have an IMPACT case manager, we will contact them to confirm funding authorization.\n3. Enrollment decision — You will hear from us within 1–2 business days by phone or email.\n\nQuestions? Call (317) 559-4999 or email enroll@elevateforhumanity.org.\n\nThis application does not guarantee enrollment.\n\n— Elevate for Humanity`,
-      }).catch(() => {});
+      }).catch((err) => logger.error('[fssa-apply] Failed to send applicant confirmation email', { email: data.email, error: String(err) }));
     }
 
     return { success: true, applicationId: inserted.id };

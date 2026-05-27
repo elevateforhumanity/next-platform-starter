@@ -234,7 +234,9 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
               action_url: '/lms/courses',
               link: '/lms/courses',
               read: false,
-            }).then(undefined, () => {});
+            }).then(undefined, (err) =>
+              logger.error('[Proctor] Failed to create exam fail notification', { sessionId: id, error: String(err) }),
+            );
           }
         } catch (holdErr) {
           logger.error('[Proctor] Retake hold creation failed (non-blocking)', holdErr as Error);
