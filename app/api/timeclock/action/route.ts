@@ -5,6 +5,10 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { checkBarberSuspension } from '@/lib/barber/suspension';
+import { sendEmail } from '@/lib/email/service';
+import { emitEvent } from '@/lib/events/emit';
+
+const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 const MAX_ACCURACY_M = 50;
 const LUNCH_DURATION_MINUTES = 60;
@@ -41,20 +45,121 @@ function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
 }
 
 /**
- * Log admin alert for compliance violations
+ * Write an admin alert with full operational context in metadata.
+ * The details object is stored verbatim — include apprentice_id, site_id,
+ * distances, shift_id, hours, and any violation metadata so downstream
+ * AI, investigations, and escalation workflows have the full picture.
  */
 async function raiseAdminAlert(supabase: any, alertType: string, details: Record<string, any>) {
   try {
+    const message = buildAlertMessage(alertType, details);
     await supabase.from('admin_alerts').insert({
       alert_type: alertType,
-      severity: 'warning',
-      details,
+      severity: details.severity ?? 'warning',
+      apprentice_id: details.apprentice_id ?? null,
+      progress_entry_id: details.progress_entry_id ?? null,
+      site_id: details.site_id ?? null,
+      message,
+      metadata: details,
       created_at: new Date().toISOString(),
-      resolved: false,
     });
   } catch (error) {
     logger.error('[Timeclock] Failed to raise admin alert:', error);
   }
+}
+
+function buildAlertMessage(alertType: string, d: Record<string, any>): string {
+  switch (alertType) {
+    case 'geofence_violation':
+      return `Geofence violation: ${d.distance_m}m from ${d.site_name ?? 'site'} (allowed ${d.radius_m}m) during ${d.action}`;
+    case 'excessive_lunch':
+      return `Lunch exceeded standard: ${d.lunch_minutes}min (standard ${d.standard_minutes}min)`;
+    case 'missing_lunch':
+      return `No lunch break recorded for ${d.shift_hours}h shift`;
+    case 'missed_clock_out':
+      return `Auto-closed shift after ${d.open_hours}h without clock-out`;
+    case 'low_hours_pace':
+      return `Behind OJL pace: ${d.completed_hours}h completed, need ${d.required_pace_hours}h/week to finish on time`;
+    default:
+      return alertType.replace(/_/g, ' ');
+  }
+}
+
+/**
+ * Sync a completed progress_entries shift to hour_entries (OJL timeclock bucket).
+ * Idempotent: skips if hour_entry_id is already set on the progress entry.
+ *
+ * This is the authoritative bridge between the GPS timeclock and the
+ * apprenticeship hours pipeline. Without this, clock-out events never
+ * reach OJL totals, dashboards, or RAPIDS.
+ */
+async function syncShiftToHourEntries(
+  supabase: any,
+  params: {
+    progressEntryId: string;
+    apprenticeId: string;   // apprentices.id (UUID)
+    programId: string;
+    workDate: string;
+    hoursWorked: number;
+    siteId: string | null;
+  },
+): Promise<string | null> {
+  const { progressEntryId, apprenticeId, programId, workDate, hoursWorked, siteId } = params;
+
+  // Skip if already synced
+  const { data: existing } = await supabase
+    .from('progress_entries')
+    .select('hour_entry_id')
+    .eq('id', progressEntryId)
+    .maybeSingle();
+
+  if (existing?.hour_entry_id) {
+    return existing.hour_entry_id;
+  }
+
+  // Resolve user_id from apprentices table
+  const { data: apprentice } = await supabase
+    .from('apprentices')
+    .select('user_id, program_id')
+    .eq('id', apprenticeId)
+    .maybeSingle();
+
+  if (!apprentice?.user_id) {
+    logger.warn('[Timeclock] syncShiftToHourEntries: no user_id for apprentice', { apprenticeId });
+    return null;
+  }
+
+  // Insert into hour_entries as a timeclock OJL entry (pending approval)
+  const { data: hourEntry, error: insertError } = await supabase
+    .from('hour_entries')
+    .insert({
+      user_id: apprentice.user_id,
+      source_type: 'timeclock',
+      work_date: workDate,
+      hours_claimed: hoursWorked,
+      status: 'pending',
+      entered_by_email: apprentice.user_id,
+      entered_at: new Date().toISOString(),
+      program_slug: programId,
+      notes: `Auto-synced from timeclock shift ${progressEntryId}`,
+      legacy_source: 'progress_entries',
+      legacy_id: progressEntryId,
+    })
+    .select('id')
+    .maybeSingle();
+
+  if (insertError) {
+    logger.error('[Timeclock] syncShiftToHourEntries insert failed:', insertError);
+    return null;
+  }
+
+  // Back-link the hour_entry_id onto the progress entry for idempotency
+  await supabase
+    .from('progress_entries')
+    .update({ hour_entry_id: hourEntry.id })
+    .eq('id', progressEntryId);
+
+  return hourEntry.id;
 }
 
 async function notifyClockIn(
@@ -242,8 +347,7 @@ async function _POST(request: NextRequest) {
     const withinGeofence = distance <= site.radius_meters;
 
     if (!withinGeofence) {
-      // Raise admin alert for attempted action outside geofence
-      await raiseAdminAlert(supabase, 'geofence_violation', {
+      const violationDetails = {
         apprentice_id: resolvedApprenticeId,
         site_id,
         site_name: site.name,
@@ -253,7 +357,38 @@ async function _POST(request: NextRequest) {
         lat,
         lng,
         timestamp: new Date().toISOString(),
-      });
+      };
+
+      // Write alert with full context
+      await raiseAdminAlert(supabase, 'geofence_violation', violationDetails);
+
+      // Escalate: email admin immediately (geofence violations are active compliance events)
+      sendEmail({
+        to: ADMIN_EMAIL,
+        subject: `Geofence Violation: ${site.name ?? 'Unknown site'} — ${action}`,
+        html: `
+<h2>Geofence Violation Detected</h2>
+<p><strong>Site:</strong> ${site.name ?? site_id}</p>
+<p><strong>Action attempted:</strong> ${action}</p>
+<p><strong>Distance from site:</strong> ${Math.round(distance)}m (allowed: ${site.radius_meters}m)</p>
+<p><strong>GPS coordinates:</strong> ${lat}, ${lng}</p>
+<p><strong>Time:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Indianapolis' })} ET</p>
+<p>The clock-in was blocked. No hours were recorded.</p>
+<p><a href="https://www.elevateforhumanity.org/admin/apprentices">Review in admin dashboard</a></p>
+        `.trim(),
+        text: `Geofence violation at ${site.name ?? site_id}: ${Math.round(distance)}m from site (allowed ${site.radius_meters}m) during ${action}. Clock-in blocked.`,
+      }).catch(() => {});
+
+      // Platform event for audit trail and AI review
+      emitEvent('timeclock.geofence_violation', 'compliance', {
+        severity: 'warning',
+        actor_type: 'user',
+        actor_id: user.id,
+        subject_id: site_id,
+        subject_type: 'apprentice_site',
+        payload: violationDetails,
+        message: `Geofence violation: ${Math.round(distance)}m from ${site.name ?? 'site'} during ${action}`,
+      }).catch(() => {});
 
       return NextResponse.json(
         {
@@ -472,19 +607,51 @@ async function _POST(request: NextRequest) {
           return NextResponse.json({ error: 'Failed to clock out' }, { status: 500 });
         }
 
-        // Reload to get derived hours
+        // Reload to get derived hours (DB trigger calculates hours_worked on clock_out_at update)
         const { data: updatedEntry } = await supabase
           .from('progress_entries')
           .select('hours_worked')
           .eq('id', progress_entry_id)
           .maybeSingle();
 
+        const hoursWorked = updatedEntry?.hours_worked ?? 0;
+
+        // Sync to hour_entries — this is the authoritative OJL pipeline bridge.
+        // Without this, timeclock hours never reach dashboards, OJL totals, or RAPIDS.
+        if (hoursWorked > 0) {
+          const hourEntryId = await syncShiftToHourEntries(supabase, {
+            progressEntryId: progress_entry_id,
+            apprenticeId: resolvedApprenticeId,
+            programId: resolvedProgramId,
+            workDate: serverDate,
+            hoursWorked,
+            siteId: site_id,
+          });
+          if (!hourEntryId) {
+            logger.warn('[Timeclock] clock_out: hour_entries sync failed for entry', { progress_entry_id });
+          }
+
+          // Non-blocking RAPIDS update — fire and forget so clock-out response is never delayed.
+          if (resolvedApprenticeId) {
+            fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/rapids/safe-update`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                apprentice_id: resolvedApprenticeId,
+                trigger: 'clock_out',
+                progress_entry_id,
+                hours_worked: hoursWorked,
+              }),
+            }).catch((err) => logger.warn('[Timeclock] RAPIDS update failed (non-blocking)', err));
+          }
+        }
+
         return NextResponse.json({
           success: true,
           action: 'clock_out',
           progress_entry_id,
           clock_out_at: serverNow,
-          hours_worked: updatedEntry?.hours_worked || null,
+          hours_worked: hoursWorked,
         });
       }
 
