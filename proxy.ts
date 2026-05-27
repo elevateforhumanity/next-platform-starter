@@ -565,17 +565,16 @@ export async function middleware(request: NextRequest) {
   // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
   // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
   // traffic never gets served under the wrong host.
-  // *.elevatelms.com — tenant subdomain requests.
+  // *.app.elevateforhumanity.org — tenant subdomain requests.
   // These are white-label trial/licensed tenants. Serve the tenant admin shell
   // directly rather than redirecting away. The subdomain is passed as a header
   // so downstream route handlers can load the correct org context.
   const isTenantSubdomain =
-    hostWithoutPort.endsWith('.elevatelms.com') &&
-    hostWithoutPort !== 'elevatelms.com' &&
-    hostWithoutPort !== 'cdn.elevatelms.com';
+    hostWithoutPort.endsWith('.app.elevateforhumanity.org') &&
+    hostWithoutPort !== 'app.elevateforhumanity.org';
 
   if (isTenantSubdomain) {
-    const tenantSlug = hostWithoutPort.replace(/\.elevatelms\.com$/, '');
+    const tenantSlug = hostWithoutPort.replace(/\.app\.elevateforhumanity\.org$/, '');
     const requestHeadersWithTenant = new Headers(request.headers);
     requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
     requestHeadersWithTenant.set('x-pathname', pathname);
@@ -596,7 +595,8 @@ export async function middleware(request: NextRequest) {
 
   const isCanonicalHost =
     hostWithoutPort === 'www.elevateforhumanity.org' ||
-    hostWithoutPort === canonicalAdminHost;
+    hostWithoutPort === canonicalAdminHost ||
+    hostWithoutPort === 'app.elevateforhumanity.org';
   if (
     hostWithoutPort &&
     !isCanonicalHost &&
