@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Clock, XCircle, Eye, CheckCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata = {
   title: 'Employer Onboarding Review | Admin',
