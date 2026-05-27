@@ -16,6 +16,7 @@ import {
 } from '@/lib/compliance/guardrails';
 import ComplianceItemsPanel from './ComplianceItemsPanel';
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {
