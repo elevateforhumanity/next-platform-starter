@@ -1,6 +1,7 @@
 // POST /api/admin/exam-authorizations/[authId]/result
 // Records exam result (pass/fail + score) in exam_results.
 // Transitions authorization status to 'passed' or 'failed'.
+// On pass: issues program_completion_certificates if all checkpoints are met.
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -8,6 +9,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { logger } from '@/lib/logger';
+import { issueCertificateIfEligible } from '@/lib/lms/engine/certificate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -87,9 +89,46 @@ export async function POST(request: Request, { params }: { params: Promise<{ aut
     req: request,
   }).catch((e) => logger.warn('[exam-result] Audit log failed', e));
 
+  // On pass: attempt certificate issuance if the learner has a matching enrollment.
+  // Non-blocking — a missing enrollment or unmet checkpoint requirements returns null silently.
+  let certificateNumber: string | null = null;
+  if (passedBool && existing.user_id) {
+    try {
+      // Find the active enrollment for this user + program
+      const { data: enrollment } = await db
+        .from('program_enrollments')
+        .select('id, course_id')
+        .eq('user_id', existing.user_id)
+        .eq('program_id', existing.program_id)
+        .in('status', ['active', 'completed'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (enrollment?.id && enrollment?.course_id) {
+        certificateNumber = await issueCertificateIfEligible(
+          existing.user_id,
+          enrollment.course_id,
+          enrollment.id,
+        );
+        if (certificateNumber) {
+          logger.info('[exam-result] Certificate issued on exam pass', {
+            authId,
+            userId: existing.user_id,
+            certificateNumber,
+          });
+        }
+      }
+    } catch (certErr) {
+      // Certificate failure must never block the exam result response
+      logger.error('[exam-result] Certificate issuance failed (non-blocking)', certErr);
+    }
+  }
+
   return NextResponse.json({
     success: true,
     passed: passedBool,
     status: passedBool ? 'passed' : 'failed',
+    certificate_number: certificateNumber ?? undefined,
   });
 }

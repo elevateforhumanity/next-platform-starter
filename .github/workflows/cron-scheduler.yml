@@ -19,8 +19,10 @@ on:
           - missed-clockout
           - hours-pace-check
           - workflow-event-processor
+          - workflow-schedule-processor
           - funding-followup
           - inactivity-reminders
+          - at-risk-detection
           - enrollment-automation
           - stale-applications
           - process-notifications
@@ -78,6 +80,7 @@ jobs:
       || (github.event_name == 'workflow_dispatch' && (
             github.event.inputs.job == 'process-notifications'
          || github.event.inputs.job == 'workflow-event-processor'
+         || github.event.inputs.job == 'workflow-schedule-processor'
          ))
     steps:
       - name: Process notifications
@@ -101,6 +104,13 @@ jobs:
             -H "Content-Type: application/json" \
             --max-time 55 || echo "::warning::workflow-event-processor failed"
 
+      - name: Fire scheduled workflow triggers
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/workflow-schedule-processor" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 55 || echo "::warning::workflow-schedule-processor failed"
+
   # ── Daily 8 AM: follow-ups, reminders, compliance ─────────────────────────
   daily-morning:
     name: Daily morning jobs (8 AM UTC)
@@ -111,6 +121,7 @@ jobs:
             github.event.inputs.job == 'all-daily'
          || github.event.inputs.job == 'funding-followup'
          || github.event.inputs.job == 'inactivity-reminders'
+         || github.event.inputs.job == 'at-risk-detection'
          || github.event.inputs.job == 'enrollment-automation'
          || github.event.inputs.job == 'stale-applications'
          || github.event.inputs.job == 'expire-exam-authorizations'
@@ -154,6 +165,13 @@ jobs:
           curl -sf -X GET "$ADMIN_URL/api/cron/inactivity-reminders" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::inactivity-reminders failed"
+
+      - name: Proactive at-risk detection
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/at-risk-detection" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 55 || echo "::warning::at-risk-detection failed"
 
       - name: Enrollment automation
         run: |

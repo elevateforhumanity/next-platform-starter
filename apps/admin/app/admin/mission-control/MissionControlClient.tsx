@@ -131,7 +131,11 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
   const [clockIns, setClockIns] = useState<ClockInEntry[]>([]);
   const [alerts, setAlerts] = useState<PlatformAlert[]>([]);
   const [lessonActivity, setLessonActivity] = useState<LessonActivity[]>([]);
-  const [liveOpsSummary, setLiveOpsSummary] = useState<{ activeClockIns: number; unresolvedAlerts: number; lessonCompletions24h: number } | null>(null);
+  const [liveOpsSummary, setLiveOpsSummary] = useState<{ activeClockIns: number; unresolvedAlerts: number; lessonCompletions24h: number; adminAlertCount: number; lowHourCount: number; stripeFailureCount: number; rapidsMissingCount: number } | null>(null);
+  const [adminAlerts, setAdminAlerts] = useState<any[]>([]);
+  const [lowHourAlerts, setLowHourAlerts] = useState<any[]>([]);
+  const [stripeFailures, setStripeFailures] = useState<any[]>([]);
+  const [rapidsMissing, setRapidsMissing] = useState<any[]>([]);
 
   // ── Platform health + recent activity + live ops polling (30s) ───────────
   const fetchLiveStatus = useCallback(async () => {
@@ -169,6 +173,10 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       setClockIns(liveOps.clockIns ?? []);
       setAlerts(liveOps.alerts ?? []);
       setLessonActivity(liveOps.recentLessonActivity ?? []);
+      setAdminAlerts(liveOps.adminAlerts ?? []);
+      setLowHourAlerts(liveOps.lowHourAlerts ?? []);
+      setStripeFailures(liveOps.stripeFailures ?? []);
+      setRapidsMissing(liveOps.rapidsMissing ?? []);
       setLiveOpsSummary(liveOps.summary ?? null);
     }
 
@@ -696,6 +704,150 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
               <div className="py-6 text-center">
                 <BookOpen className="w-8 h-8 text-slate-700 mx-auto mb-2" />
                 <p className="text-slate-500 text-sm">No completions in last 24h</p>
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* ── Operational Intelligence Row ──────────────────────────────────── */}
+        <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+
+          {/* Low-Hour Apprentices */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-amber-500" />
+                Low Hours
+                {(liveOpsSummary?.lowHourCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-900/60 text-amber-300 border border-amber-800">
+                    {liveOpsSummary!.lowHourCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/apprentices?filter=low-hours" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {lowHourAlerts.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {lowHourAlerts.slice(0, 8).map((a: any) => (
+                  <div key={a.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <p className="text-slate-300 text-xs truncate">{a.message}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">{formatRelative(a.created_at)}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">All apprentices on pace</p>
+              </div>
+            )}
+          </div>
+
+          {/* Stripe Payment Failures */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <XCircle className="w-4 h-4 text-red-500" />
+                Payment Failures
+                {(liveOpsSummary?.stripeFailureCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-red-900/60 text-red-300 border border-red-800">
+                    {liveOpsSummary!.stripeFailureCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/billing" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {stripeFailures.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {stripeFailures.slice(0, 8).map((s: any) => (
+                  <div key={s.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-slate-300 text-xs truncate">{s.full_name}</p>
+                      <span className={`text-xs flex-shrink-0 ${s.payment_status === 'suspended' ? 'text-red-400' : 'text-amber-400'}`}>
+                        {s.payment_status}
+                      </span>
+                    </div>
+                    {s.failed_payment_at && (
+                      <p className="text-slate-500 text-xs mt-0.5">{formatRelative(s.failed_payment_at)}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">No payment failures</p>
+              </div>
+            )}
+          </div>
+
+          {/* RAPIDS Missing */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                RAPIDS Missing
+                {(liveOpsSummary?.rapidsMissingCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-900/60 text-amber-300 border border-amber-800">
+                    {liveOpsSummary!.rapidsMissingCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/rapids" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {rapidsMissing.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {rapidsMissing.slice(0, 8).map((r: any) => (
+                  <div key={r.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <p className="text-slate-300 text-xs truncate">{r.full_name}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">Enrolled {formatRelative(r.created_at)}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">All enrollments registered</p>
+              </div>
+            )}
+          </div>
+
+          {/* Operational Alerts (admin_alerts) */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-slate-500" />
+                Ops Alerts
+                {(liveOpsSummary?.adminAlertCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-red-900/60 text-red-300 border border-red-800">
+                    {liveOpsSummary!.adminAlertCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/alerts" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {adminAlerts.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {adminAlerts.slice(0, 8).map((a: any) => (
+                  <div key={a.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <div className="flex items-start gap-1.5">
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5 ${
+                        a.severity === 'high' ? 'bg-red-400' :
+                        a.severity === 'warning' ? 'bg-amber-400' : 'bg-slate-500'
+                      }`} />
+                      <div className="min-w-0">
+                        <p className="text-slate-300 text-xs truncate">{a.message}</p>
+                        <p className="text-slate-500 text-xs mt-0.5">{a.alert_type} · {formatRelative(a.created_at)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">No active ops alerts</p>
               </div>
             )}
           </div>
