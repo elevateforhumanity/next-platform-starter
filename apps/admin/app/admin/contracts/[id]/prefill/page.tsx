@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import PrefillReviewClient from './PrefillReviewClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'Review Fields | Contract | Admin' };
 
 export default async function PrefillReviewPage({
