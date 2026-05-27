@@ -159,6 +159,9 @@ export interface OperationalCounts {
   /** new leads + new enrollments created today */
   newToday: number;
   newTodayDetail: string;
+  newAppsToday: number;
+  newLeadsToday: number;
+  newEnrollmentsToday: number;
   /** revenue this month in cents */
   revenueThisMonthCents: number;
 }
@@ -168,8 +171,27 @@ export interface SitePreviewTarget {
   url: string;
 }
 
+export interface RecentPayment {
+  id: string;
+  /** Payer email — from stripe_sessions_staging or subscription tables */
+  email: string | null;
+  /** Amount in cents */
+  amountCents: number;
+  /** Program slug or product label */
+  label: string | null;
+  /** Payment source: 'stripe' | 'barber' | 'cosmetology' | 'barber_recurring' */
+  source: string;
+  paidAt: string;
+}
+
 export interface AdminDashboardData {
   counts: DashboardCounts;
+  /** All-time tracked revenue in cents — shown in stats overview bar */
+  revenueAllTimeCents: number;
+  /** Total registered students (profiles with role=student) */
+  totalStudents: number;
+  /** Last 10 payments across all sources, newest first */
+  recentPayments: RecentPayment[];
   operational: OperationalCounts;
   /** Scored and sorted priority items — top 10, ready to render directly */
   priorities: import('@/lib/admin/priority-score').PriorityItem[];

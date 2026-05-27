@@ -142,21 +142,42 @@ export function BnplCheckoutWidget({
           return;
         }
         setClientSecret(data.clientSecret);
-      } else {
-        // Separate SDK flow — redirect to provider checkout URL
-        const sdkRoute =
-          selectedId === 'affirm'
-            ? '/api/affirm/checkout'
-            : selectedId === 'sezzle'
-              ? '/api/sezzle/checkout'
-              : null;
+      } else if (selectedId === 'affirm') {
+        // Affirm uses a client-side JS SDK — fetch config then invoke affirm.checkout()
+        const email = (checkoutPayload.customer_email as string) ?? '';
+        const fullName = (checkoutPayload.customer_name as string) ?? '';
+        const [firstName, ...rest] = fullName.trim().split(' ');
+        const lastName = rest.join(' ') || firstName;
 
-        if (!sdkRoute) {
-          setError('This provider is not yet available. Please choose another option.');
+        const res = await fetch('/api/affirm/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            amount: amountCents / 100,
+            application_id: checkoutPayload.application_id ?? null,
+            programSlug: checkoutPayload.program_slug ?? null,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.publicKey || !data.checkoutConfig) {
+          setError(data.error ?? 'Affirm is temporarily unavailable. Please try another option.');
           return;
         }
-
-        const res = await fetch(sdkRoute, {
+        // Load Affirm JS SDK and open checkout
+        const script = document.createElement('script');
+        script.src = data.affirmJsUrl ?? 'https://cdn1.affirm.com/js/v2/affirm.js';
+        script.onload = () => {
+          (window as any)._affirm_config = { public_api_key: data.publicKey };
+          (window as any).affirm?.checkout(data.checkoutConfig);
+          (window as any).affirm?.checkout.open();
+        };
+        document.head.appendChild(script);
+      } else if (selectedId === 'sezzle') {
+        // Sezzle returns a checkoutUrl — redirect the browser there
+        const res = await fetch('/api/sezzle/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -166,12 +187,12 @@ export function BnplCheckoutWidget({
         });
         const data = await res.json();
         if (!res.ok || !data.checkoutUrl) {
-          setError(
-            data.error ?? `${selectedProvider.name} is temporarily unavailable. Please try another option.`,
-          );
+          setError(data.error ?? 'Sezzle is temporarily unavailable. Please try another option.');
           return;
         }
         window.location.href = data.checkoutUrl;
+      } else {
+        setError('This provider is not yet available. Please choose another option.');
       }
     } catch {
       setError('Connection error. Please check your network and try again.');

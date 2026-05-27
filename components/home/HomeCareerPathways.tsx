@@ -1,0 +1,205 @@
+/**
+ * HomeCareerPathways
+ *
+ * Featured program cards — server-rendered from static catalog with
+ * live data overlay (funding availability, apprenticeship flag).
+ * Falls back gracefully if DB is unavailable.
+ */
+
+import Link from 'next/link';
+import Image from 'next/image';
+import { Clock, Award, DollarSign, HardHat, ArrowRight } from 'lucide-react';
+import { ALL_PROGRAMS } from '@/data/programs/catalog';
+import type { ProgramSchema } from '@/lib/programs/program-schema';
+
+// Featured programs shown on homepage — ordered by demand/visibility
+const FEATURED_SLUGS = [
+  'cdl-training',
+  'hvac-technician',
+  'cna',
+  'barber-apprenticeship',
+  'medical-assistant',
+  'it-help-desk',
+  'electrical',
+  'welding',
+];
+
+const SECTOR_COLORS: Record<string, string> = {
+  healthcare: 'bg-blue-600',
+  'skilled-trades': 'bg-amber-600',
+  transportation: 'bg-emerald-600',
+  technology: 'bg-purple-600',
+  'personal-services': 'bg-pink-600',
+  business: 'bg-slate-600',
+};
+
+function PathwayCard({ prog }: { prog: ProgramSchema }) {
+  const sectorColor = SECTOR_COLORS[prog.sector] ?? 'bg-slate-600';
+  const duration = prog.durationWeeks
+    ? prog.durationWeeks === 1
+      ? '1 week'
+      : `${prog.durationWeeks} weeks`
+    : null;
+  const salary = prog.laborMarket?.salaryRange ?? null;
+  const hasApprenticeship =
+    prog.slug === 'barber-apprenticeship' ||
+    prog.slug === 'cdl-training' ||
+    prog.slug === 'hvac-technician' ||
+    prog.slug === 'electrical' ||
+    prog.slug === 'welding' ||
+    prog.slug === 'culinary-apprenticeship';
+
+  return (
+    <article className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200 hover:border-brand-red-300 hover:shadow-lg transition-all hover:-translate-y-0.5">
+      {/* Image */}
+      <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100">
+        <Image
+          src={prog.heroImage}
+          alt={prog.heroImageAlt || prog.title}
+          fill
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          loading="lazy"
+          placeholder="empty"
+        />
+        {/* Sector badge */}
+        <div className="absolute top-3 left-3">
+          <span
+            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white ${sectorColor}`}
+          >
+            {prog.category}
+          </span>
+        </div>
+        {/* Funding badge */}
+        {prog.badge && (
+          <div className="absolute top-3 right-3">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-green-600 text-white">
+              {prog.badge}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-4 gap-3">
+        <h3 className="font-extrabold text-slate-900 text-sm leading-snug">{prog.title}</h3>
+
+        {/* Meta row */}
+        <div className="flex flex-wrap gap-x-3 gap-y-1">
+          {duration && (
+            <span className="flex items-center gap-1 text-[11px] text-slate-500">
+              <Clock className="w-3 h-3" aria-hidden="true" />
+              {duration}
+            </span>
+          )}
+          {salary && (
+            <span className="flex items-center gap-1 text-[11px] font-semibold text-brand-green-700">
+              <DollarSign className="w-3 h-3" aria-hidden="true" />
+              {salary}
+            </span>
+          )}
+        </div>
+
+        {/* Credential + apprenticeship flags */}
+        <div className="flex flex-wrap gap-1.5">
+          {prog.credentials?.slice(0, 1).map((c) => (
+            <span
+              key={c.name}
+              className="flex items-center gap-1 text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full"
+            >
+              <Award className="w-2.5 h-2.5" aria-hidden="true" />
+              {c.name}
+            </span>
+          ))}
+          {hasApprenticeship && (
+            <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
+              <HardHat className="w-2.5 h-2.5" aria-hidden="true" />
+              Apprenticeship
+            </span>
+          )}
+        </div>
+
+        {/* CTAs */}
+        <div className="flex gap-2 mt-auto pt-1">
+          <Link
+            href={prog.cta?.applyHref || `/apply?program=${prog.slug}`}
+            className="flex-1 text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
+          >
+            Apply Now
+          </Link>
+          <Link
+            href={`/programs/${prog.slug}`}
+            className="flex-1 text-center py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+          >
+            Details
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function HomeCareerPathways() {
+  const featured = FEATURED_SLUGS.map((slug) =>
+    ALL_PROGRAMS.find((p) => p.slug === slug),
+  ).filter((p): p is ProgramSchema => Boolean(p));
+
+  return (
+    <section
+      className="bg-white py-16 px-4"
+      aria-labelledby="career-pathways-heading"
+    >
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+          <div>
+            <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-2">
+              Career Pathways
+            </p>
+            <h2
+              id="career-pathways-heading"
+              className="text-2xl sm:text-3xl font-extrabold text-slate-900"
+            >
+              Pick a career. Start in weeks.
+            </h2>
+            <p className="text-slate-500 text-sm mt-2 max-w-lg">
+              Healthcare, skilled trades, CDL, technology, and more — each with a real
+              credential, funding options, and job placement support.
+            </p>
+          </div>
+          <Link
+            href="/programs"
+            className="inline-flex items-center gap-1.5 text-brand-red-600 hover:text-brand-red-700 text-sm font-bold transition-colors shrink-0"
+          >
+            View all {ALL_PROGRAMS.length}+ programs <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {featured.map((prog) => (
+            <PathwayCard key={prog.slug} prog={prog} />
+          ))}
+        </div>
+
+        {/* Sector quick-links */}
+        <div className="mt-8 flex flex-wrap gap-2 justify-center">
+          {[
+            { label: 'Healthcare', href: '/programs?category=healthcare' },
+            { label: 'Skilled Trades', href: '/programs?category=skilled-trades' },
+            { label: 'Transportation', href: '/programs?category=transportation' },
+            { label: 'Technology', href: '/programs?category=technology' },
+            { label: 'Personal Services', href: '/programs?category=personal-services' },
+            { label: 'Business', href: '/programs?category=business' },
+          ].map((s) => (
+            <Link
+              key={s.label}
+              href={s.href}
+              className="text-xs font-semibold text-slate-600 hover:text-brand-red-600 bg-slate-100 hover:bg-brand-red-50 px-3 py-1.5 rounded-full transition-colors"
+            >
+              {s.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

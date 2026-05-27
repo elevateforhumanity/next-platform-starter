@@ -147,6 +147,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     wioaDocsPendingRes,
     newLeadsTodayRes,
     newEnrollmentsTodayRes,
+    newAppsTodayRes,
     stalledApplicationsRes,
     noOutcomeEnrollmentsRes,
     missingFundingEnrollmentsRes,
@@ -157,6 +158,10 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     barberSubscriptionRowsRes,
     cosmetologySubscriptionRowsRes,
     barberPaymentRowsRes,
+    // Recent paid Stripe sessions
+    recentStripeSessionsRes,
+    // Total students count
+    totalStudentsRes,
     // Supplemental batch (was third sequential Promise.all)
     inactiveLearnersRes,
     unpublishedProgramsRes,
@@ -167,13 +172,13 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   ] = await Promise.all([
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .order('created_at', { ascending: true })
       .limit(20),
 
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review']),
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review']),
 
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
@@ -218,7 +223,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Last month pending apps count for delta
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .gte('created_at', lastMonthStartS)
       .lt('created_at', lastMonthEndS),
 
@@ -283,10 +288,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .select('id', { count: 'exact', head: true })
       .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
 
+    // New applications today
+    db.from('applications')
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
+
     // Operational alerts — stalled applications (7+ days in submitted/pending)
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review'])
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .lt('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
       .order('created_at', { ascending: true })
       .limit(10),
@@ -340,6 +350,16 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('barber_payments')
       .select('id, amount_paid, payment_date, created_at, status')
       .gt('amount_paid', 0),
+    // Recent paid Stripe sessions — newest first
+    db.from('stripe_sessions_staging')
+      .select('session_id, email, amount, program_slug, kind, created_at')
+      .in('payment_status', ['paid', 'completed'])
+      .order('created_at', { ascending: false })
+      .limit(20),
+    // Total registered students (all time)
+    db.from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('role', 'student'),
     // Supplemental batch — merged into single Promise.all
     db.rpc('admin_inactive_learners', { inactive_days: 3, limit_n: 20 }),
     db.from('programs')
@@ -398,6 +418,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const activeEnrollCount    = dashboardActiveEnrollments.length;
   const lastMonthEnrollCount = lastMonthDashboardActiveEnrollments.length;
   const lastMonthAppsCount   = lastMonthAppsRes.error ? 0 : (lastMonthAppsRes.count ?? 0);
+  const totalStudents        = totalStudentsRes.error ? 0 : (totalStudentsRes.count ?? 0);
   // certsRes is a combined count from certificates + program_completion_certificates
   const certsCount           = certsRes.error ? 0 : (certsRes.count ?? 0);
   const certsThisMonth       = certsThisMonthRes.error ? 0 : (certsThisMonthRes.count ?? 0);
@@ -416,6 +437,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const pendingWioaDocs = wioaDocsPendingRes.error ? 0 : (wioaDocsPendingRes.count ?? 0);
   const newLeadsToday = newLeadsTodayRes.error ? 0 : (newLeadsTodayRes.count ?? 0);
   const newEnrollmentsToday = newEnrollmentsTodayRes.error ? 0 : (newEnrollmentsTodayRes.count ?? 0);
+  const newAppsToday = (newAppsTodayRes as any)?.error ? 0 : ((newAppsTodayRes as any)?.count ?? 0);
 
   const now2 = Date.now();
   const staleLeads = staleLeadsData
@@ -553,6 +575,53 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const revenueThisMonthCents = directTrackedThisMonthCents;
   const revenueLastMonthCents = rpcRevenueLastMonthCents;
 
+  // ── Recent payments — merge stripe sessions + apprenticeship subscriptions ─
+  type RecentPayment = import('@/components/admin/dashboard/types').RecentPayment;
+  const recentPayments: RecentPayment[] = [];
+
+  for (const row of (recentStripeSessionsRes.error ? [] : (recentStripeSessionsRes.data ?? [])) as any[]) {
+    recentPayments.push({
+      id: row.session_id,
+      email: row.email ?? null,
+      amountCents: toSafeNumber(row.amount),
+      label: row.program_slug ?? row.kind ?? null,
+      source: 'stripe',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of barberSubscriptionRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: row.customer_email ?? null,
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
+      label: row.customer_name ?? 'Barber apprenticeship',
+      source: 'barber',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of cosmetologySubscriptionRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: row.customer_email ?? null,
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
+      label: row.customer_name ?? 'Cosmetology apprenticeship',
+      source: 'cosmetology',
+      paidAt: row.created_at,
+    });
+  }
+  for (const row of barberPaymentRows as any[]) {
+    recentPayments.push({
+      id: row.id,
+      email: null,
+      amountCents: dollarsToCents(row.amount_paid),
+      label: 'Barber recurring',
+      source: 'barber_recurring',
+      paidAt: row.payment_date ?? row.created_at,
+    });
+  }
+  recentPayments.sort((a, b) => new Date(b.paidAt).getTime() - new Date(a.paidAt).getTime());
+  const recentPaymentsSlice = recentPayments.slice(0, 10);
+
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};
   for (const row of enrollmentTrendRes.data ?? []) {
@@ -599,7 +668,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       deltaLabel: appsDelta !== 0
         ? `${appsDelta > 0 ? '+' : ''}${appsDelta}% vs last month`
         : 'No change vs last month',
-      href: '/admin/applications?status=submitted,pending,in_review',
+      href: '/admin/applications?status=submitted,pending,in_review,pending_admin_review',
       urgent: totalPending > 0,
       sub: oldestApp
         ? `Oldest: ${oldestApp.age_days}d — ${oldestApp.program_interest || 'unknown program'}`
@@ -791,8 +860,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   if (totalPendingCount > 0) needsReviewParts.push(`${totalPendingCount} application${totalPendingCount !== 1 ? 's' : ''}`);
   if (pendingWioaDocs > 0) needsReviewParts.push(`${pendingWioaDocs} WIOA doc${pendingWioaDocs !== 1 ? 's' : ''}`);
 
-  const newTodayTotal = newLeadsToday + newEnrollmentsToday;
+  const newTodayTotal = newLeadsToday + newEnrollmentsToday + newAppsToday;
   const newTodayParts: string[] = [];
+  if (newAppsToday > 0) newTodayParts.push(`${newAppsToday} application${newAppsToday !== 1 ? 's' : ''}`);
   if (newLeadsToday > 0) newTodayParts.push(`${newLeadsToday} lead${newLeadsToday !== 1 ? 's' : ''}`);
   if (newEnrollmentsToday > 0) newTodayParts.push(`${newEnrollmentsToday} enrollment${newEnrollmentsToday !== 1 ? 's' : ''}`);
 
@@ -806,6 +876,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     complianceAlertsSeverity: highSeverityAlert ? (highSeverityAlert as any).severity : null,
     newToday: newTodayTotal,
     newTodayDetail: newTodayParts.length > 0 ? newTodayParts.join(', ') : 'Nothing new today',
+    newAppsToday,
+    newLeadsToday,
+    newEnrollmentsToday,
     revenueThisMonthCents,
   };
 
@@ -980,6 +1053,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       pendingProgramHolders: pendingHoldersCount,
       pendingDocuments:      pendingHolderDocsCount,
     },
+    revenueAllTimeCents,
+    totalStudents,
+    recentPayments: recentPaymentsSlice,
     operational,
     priorities,
     kpis,

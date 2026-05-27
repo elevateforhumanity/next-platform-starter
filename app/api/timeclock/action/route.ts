@@ -62,6 +62,7 @@ async function raiseAdminAlert(supabase: any, alertType: string, details: Record
       message,
       metadata: details,
       created_at: new Date().toISOString(),
+      resolved: false,
     });
   } catch (error) {
     logger.error('[Timeclock] Failed to raise admin alert:', error);

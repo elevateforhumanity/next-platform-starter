@@ -623,10 +623,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET"
         },
         {
-          "name": "STRIPE_TESTING_WEBHOOK_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_TESTING_WEBHOOK_SECRET"
-        },
-        {
           "name": "STRIPE_WEBHOOK_SECRET_BARBER",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STRIPE_WEBHOOK_SECRET_BARBER"
         },
