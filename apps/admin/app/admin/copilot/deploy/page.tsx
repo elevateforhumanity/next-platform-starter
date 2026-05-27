@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DeployClient from './DeployClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {
