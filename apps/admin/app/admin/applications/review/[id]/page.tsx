@@ -14,6 +14,7 @@ import { resolveProgram } from '@/lib/programs/resolve';
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Review Application | Elevate For Humanity',
