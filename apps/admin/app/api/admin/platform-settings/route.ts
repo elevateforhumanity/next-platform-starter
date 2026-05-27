@@ -16,6 +16,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { invalidateSecuritySettingsCache } from '@/lib/admin/security-settings';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -83,6 +84,9 @@ export async function POST(req: NextRequest) {
     if (error) return safeInternalError(error, 'Failed to save settings');
 
     logger.info('[platform-settings] upserted', { keys: rows.map(r => r.key), actor: auth.id });
+
+    // Bust in-process caches so security settings take effect on the next request
+    invalidateSecuritySettingsCache();
 
     return NextResponse.json({ ok: true, updated: rows.length });
   } catch (err) {

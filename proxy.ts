@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { randomUUID } from 'crypto';
+import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
+import { getSecuritySettings } from '@/lib/admin/security-settings';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -500,8 +502,11 @@ export async function middleware(request: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
 
-      // For admin API routes, verify admin/super_admin/staff role
+      // For admin API routes, verify admin/super_admin/staff role + IP allowlist
       if (pathname.startsWith('/api/admin/')) {
+        const ipBlocked = await checkAdminIPAsync(request);
+        if (ipBlocked) return ipBlocked;
+
         const { data: apiProfile } = await apiSupabase
           .from('profiles')
           .select('role')
@@ -728,10 +733,11 @@ export async function middleware(request: NextRequest) {
 
   // ============================================
   // SERVER-SIDE IDLE TIMEOUT (NIST 800-63B)
-  // Signs out users after 30 minutes of inactivity.
-  // Uses a cookie to track last activity timestamp.
+  // Timeout value read from platform_settings (session_timeout key, in minutes).
+  // Env var SESSION_TIMEOUT_MINUTES overrides the DB value.
+  // Falls back to 30 minutes if neither is set.
   // ============================================
-  const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+  const { sessionTimeoutMs: IDLE_TIMEOUT_MS } = await getSecuritySettings();
   const ACTIVITY_COOKIE = 'efh_last_activity';
   const now = Date.now();
   const lastActivity = request.cookies.get(ACTIVITY_COOKIE)?.value;

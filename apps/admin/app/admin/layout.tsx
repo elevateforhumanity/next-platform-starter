@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -12,6 +13,7 @@ import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { unstable_cache } from 'next/cache';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
+import { getSecuritySettings } from '@/lib/admin/security-settings';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
@@ -134,6 +136,30 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!roleCheck) redirect('/login?error=profile_missing');
   if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
 
+  // MFA enforcement — if mfa_required is enabled in platform_settings,
+  // redirect admins who haven't set up MFA to the security settings page.
+  // Exempt the security settings page itself to avoid a redirect loop.
+  const { mfaRequired, sessionTimeoutMs } = await getSecuritySettings();
+  if (mfaRequired) {
+    const reqHeaders = await headers();
+    const currentPath = reqHeaders.get('x-invoke-path') ?? reqHeaders.get('x-pathname') ?? '';
+    const isMfaExempt =
+      currentPath.startsWith('/admin/settings/security') ||
+      currentPath.startsWith('/admin/settings/general');
+
+    if (!isMfaExempt) {
+      const { data: mfaRow } = await effectiveDb
+        .from('two_factor_auth')
+        .select('enabled')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (mfaRow?.enabled !== true) {
+        redirect('/admin/settings/security?mfa_required=1');
+      }
+    }
+  }
+
   // Reconcile trial onboarding — fire and forget
   if (context?.tenantId) {
     reconcileTrialOnboarding(supabase, context.tenantId).catch(() => {});
@@ -155,7 +181,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const content = (
     <div className="min-h-screen bg-white text-slate-900">
       <AdminNavShell navSections={navSections} />
-      <IdleTimeoutGuard />
+      <IdleTimeoutGuard timeoutMs={sessionTimeoutMs} />
       <PWAManager />
       <UpdatePrompt />
       <AdminInstallPrompt />
