@@ -16,6 +16,7 @@ import {
 import { DownloadReportButton } from './DownloadReportButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Accreditation Report | Admin',
