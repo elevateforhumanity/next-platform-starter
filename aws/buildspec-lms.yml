@@ -20,7 +20,8 @@ phases:
       - export IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - export CACHE_IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:buildcache
       - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - export COMMIT_REF=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - if [ -z "$COMMIT_HASH" ]; then export COMMIT_HASH=$(date +%Y%m%d%H%M%S); fi
+      - export COMMIT_REF=${CODEBUILD_RESOLVED_SOURCE_VERSION:-$COMMIT_HASH}
       - docker pull $CACHE_IMAGE_URI || true
       - export NEXT_PUBLIC_SUPABASE_URL=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_URL --with-decryption --query Parameter.Value --output text)
       - export NEXT_PUBLIC_SUPABASE_ANON_KEY=$(aws ssm get-parameter --name /elevate/NEXT_PUBLIC_SUPABASE_ANON_KEY --with-decryption --query Parameter.Value --output text)

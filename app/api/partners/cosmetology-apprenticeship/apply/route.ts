@@ -217,7 +217,6 @@ async function _POST(request: NextRequest) {
 
     // Create or invite the applicant's Supabase auth account so they can
     // log in and sign the MOU immediately after applying.
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
     const mouRedirect = `${siteUrl}/partners/cosmetology-partner-shop/sign-mou`;
 
     try {
