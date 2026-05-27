@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Analytics | Admin',
 };
@@ -40,11 +41,11 @@ export default async function AnalyticsPage() {
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .in('enrollment_state', ['active', 'enrolled', 'onboarding']),
+      .eq('status', 'active'),
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('enrollment_state', 'completed'),
+      .eq('status', 'completed'),
     db.from('program_completion_certificates').select('*', { count: 'exact', head: true }),
     db.from('programs').select('*', { count: 'exact', head: true }).eq('published', true),
     db
