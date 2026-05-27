@@ -6,6 +6,7 @@ import { ArrowLeft, User, Mail, Phone, Building, MapPin } from 'lucide-react';
 import { createContactAction } from './actions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'New Contact | CRM | Admin | Elevate For Humanity',
