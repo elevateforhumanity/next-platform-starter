@@ -1179,7 +1179,7 @@ async function execTool(name: string, args: Record<string, unknown>): Promise<st
 
 async function _POST(req: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(req, 'strict');
+    const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
     const auth = await apiRequireAdmin(req);
