@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { FileText, Upload, ChevronRight, Download, ArrowRight } from 'lucide-react';
@@ -7,6 +7,7 @@ import SamGrantAutoFillPanel from './SamGrantAutoFillPanel';
 import MinorityCertificationPanel from './MinorityCertificationPanel';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Documents | Admin',
 };
@@ -27,7 +28,7 @@ function fmtBytes(bytes: number) {
 }
 
 export default async function DocumentsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const { data: documents, count } = await db
