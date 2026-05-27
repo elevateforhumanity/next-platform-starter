@@ -1,7 +1,7 @@
 // Server component — no client state.
 // Renders a horizontal stats bar with key all-time and period metrics.
 import Link from 'next/link';
-import { Users, BookOpen, DollarSign, Award, FileText, TrendingUp } from 'lucide-react';
+import { Users, BookOpen, DollarSign, BadgeCheck, FileText, TrendingUp } from 'lucide-react';
 import type { AdminDashboardData } from './types';
 
 interface Props {
@@ -53,35 +53,35 @@ export function StatsOverviewBar({ data }: Props) {
       <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Overview</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
         <StatCard
-          icon={<Users className="w-3.5 h-3.5" />}
+          icon={<Users className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Total Students"
           value={totalStudents.toLocaleString()}
           sub="all time"
           href="/admin/students"
         />
         <StatCard
-          icon={<BookOpen className="w-3.5 h-3.5" />}
+          icon={<BookOpen className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Active Enrollments"
           value={counts.activeEnrollments.toLocaleString()}
           sub="currently enrolled"
           href="/admin/students?status=active"
         />
         <StatCard
-          icon={<DollarSign className="w-3.5 h-3.5" />}
+          icon={<DollarSign className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Revenue (Month)"
           value={fmt(counts.revenueThisMonthCents)}
           sub={`${fmt(revenueAllTimeCents)} all time`}
           href="/admin/students?payment_status=paid"
         />
         <StatCard
-          icon={<Award className="w-3.5 h-3.5" />}
+          icon={<BadgeCheck className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Certificates"
           value={counts.certificatesIssued.toLocaleString()}
           sub="issued all time"
           href="/admin/certificates"
         />
         <StatCard
-          icon={<FileText className="w-3.5 h-3.5" />}
+          icon={<FileText className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Pending Applications"
           value={counts.pendingApplications.toLocaleString()}
           sub="awaiting review"
@@ -89,7 +89,7 @@ export function StatsOverviewBar({ data }: Props) {
           urgent={counts.pendingApplications > 0}
         />
         <StatCard
-          icon={<TrendingUp className="w-3.5 h-3.5" />}
+          icon={<TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />}
           label="New Today"
           value={(operational.newAppsToday + operational.newLeadsToday + operational.newEnrollmentsToday).toLocaleString()}
           sub={`${operational.newAppsToday} apps · ${operational.newLeadsToday} leads · ${operational.newEnrollmentsToday} enrolls`}
