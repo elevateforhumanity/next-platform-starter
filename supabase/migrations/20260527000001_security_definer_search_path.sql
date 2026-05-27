@@ -117,55 +117,93 @@ ALTER FUNCTION public.submit_program_holder_application(text, text, text, text, 
   SET search_path = public;
 
 
--- ── 2. Revoke anon EXECUTE on functions with no public use case ───────────────
+-- ── 2. Revoke PUBLIC EXECUTE and re-grant to appropriate roles ───────────────
+-- Supabase auto-grants EXECUTE to PUBLIC on all functions in public schema.
+-- REVOKE FROM anon is insufficient — must REVOKE FROM PUBLIC, then re-grant
+-- to authenticated/service_role as appropriate.
+
+-- Second overload of approve_application_and_grant_access_atomic
+ALTER FUNCTION public.approve_application_and_grant_access_atomic(uuid, text)
+  SET search_path = public;
+
+-- ── 2a. Revoke PUBLIC EXECUTE ─────────────────────────────────────────────────
 -- These are admin/internal operations that should never be callable by
 -- unauthenticated users. RLS alone is not sufficient when SECURITY DEFINER
 -- bypasses row-level policies.
 
--- Admin/internal operations
-REVOKE EXECUTE ON FUNCTION public.archive_stale_applications(integer) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.escalate_funding_verification_sla() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.escalate_overdue_funding_verifications() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.wioa_summary_metrics(date, date, uuid, text) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.devstudio_append_log(uuid, text[]) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.snapshot_course_version(uuid, uuid, text) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.cleanup_expired_ai_memory() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.get_revenue_all_time() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.get_revenue_last_month() FROM anon;
-REVOKE EXECUTE ON FUNCTION public._tmp_get_triggers() FROM anon;
+-- Admin/internal — service_role only
+REVOKE EXECUTE ON FUNCTION public.archive_stale_applications(integer) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.escalate_funding_verification_sla() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.escalate_overdue_funding_verifications() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.devstudio_append_log(uuid, text[]) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.snapshot_course_version(uuid, uuid, text) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.cleanup_expired_ai_memory() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.get_revenue_all_time() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.get_revenue_last_month() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public._tmp_get_triggers() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.maybe_issue_certificate_after_checkpoint_score() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.maybe_issue_certificate_after_lesson_progress() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.sync_progress_to_hour_entries() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.auto_create_exam_authorization() FROM PUBLIC;
 
--- Enrollment/application operations — require authenticated user
-REVOKE EXECUTE ON FUNCTION public.enroll_application(uuid, uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.enroll_application(uuid, uuid, text) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.rpc_enroll_student(uuid, uuid, text, text, jsonb) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.approve_application_and_grant_access_atomic(uuid, uuid, text) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.revoke_application_access_atomic(uuid, uuid, text) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.approve_barber_practical(uuid, uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.check_application_access_readiness(uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.evaluate_exam_readiness(uuid, uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.is_program_completion_eligible(uuid, uuid) FROM anon;
+-- Enrollment/application — authenticated + service_role
+REVOKE EXECUTE ON FUNCTION public.enroll_application(uuid, uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.enroll_application(uuid, uuid, text) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.rpc_enroll_student(uuid, uuid, text, text, jsonb) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.approve_application_and_grant_access_atomic(uuid, uuid, text) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.approve_application_and_grant_access_atomic(uuid, text) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.revoke_application_access_atomic(uuid, uuid, text) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.approve_barber_practical(uuid, uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.check_application_access_readiness(uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.evaluate_exam_readiness(uuid, uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.is_program_completion_eligible(uuid, uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.wioa_summary_metrics(date, date, uuid, text) FROM PUBLIC;
 
--- Payment operations
-REVOKE EXECUTE ON FUNCTION public.upsert_stripe_session(text, text, text, integer, text, timestamptz, text, text, text, text, text, jsonb) FROM anon;
+-- Payment
+REVOKE EXECUTE ON FUNCTION public.upsert_stripe_session(text, text, text, integer, text, timestamptz, text, text, text, text, text, jsonb) FROM PUBLIC;
 
--- Course/content operations — require authenticated user
-REVOKE EXECUTE ON FUNCTION public.can_publish_course(uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.enforce_course_content_before_publish() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.snapshot_course_version(uuid, uuid, text) FROM anon;
+-- Course/content
+REVOKE EXECUTE ON FUNCTION public.can_publish_course(uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.enforce_course_content_before_publish() FROM PUBLIC;
 
--- Slot management — require authenticated user
-REVOKE EXECUTE ON FUNCTION public.increment_slot_booked_count(uuid) FROM anon;
-REVOKE EXECUTE ON FUNCTION public.decrement_slot_booked_count(uuid) FROM anon;
+-- Slot management
+REVOKE EXECUTE ON FUNCTION public.increment_slot_booked_count(uuid) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.decrement_slot_booked_count(uuid) FROM PUBLIC;
 
--- Certificate/progress triggers — internal, called by trigger not directly
-REVOKE EXECUTE ON FUNCTION public.maybe_issue_certificate_after_checkpoint_score() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.maybe_issue_certificate_after_lesson_progress() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.sync_progress_to_hour_entries() FROM anon;
-REVOKE EXECUTE ON FUNCTION public.auto_create_exam_authorization() FROM anon;
+-- ── 2b. Re-grant to appropriate roles ────────────────────────────────────────
 
--- Keep anon access on:
---   is_admin_role()         — used in RLS policies, must be callable
---   my_tenant_id()          — used in RLS policies, must be callable
---   audit_trigger_fn()      — trigger function, called by DB not users
---   audit_enrollment_insert() — trigger function
---   block_direct_enrollment_insert() — trigger function
+-- Authenticated users + service_role (user-callable RPCs)
+GRANT EXECUTE ON FUNCTION public.enroll_application(uuid, uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.enroll_application(uuid, uuid, text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.rpc_enroll_student(uuid, uuid, text, text, jsonb) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.approve_application_and_grant_access_atomic(uuid, uuid, text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.approve_application_and_grant_access_atomic(uuid, text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.revoke_application_access_atomic(uuid, uuid, text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.approve_barber_practical(uuid, uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.check_application_access_readiness(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.evaluate_exam_readiness(uuid, uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.is_program_completion_eligible(uuid, uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.upsert_stripe_session(text, text, text, integer, text, timestamptz, text, text, text, text, text, jsonb) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.can_publish_course(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.increment_slot_booked_count(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.decrement_slot_booked_count(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.wioa_summary_metrics(date, date, uuid, text) TO authenticated, service_role;
+
+-- Service_role only (admin/internal/cron)
+GRANT EXECUTE ON FUNCTION public.archive_stale_applications(integer) TO service_role;
+GRANT EXECUTE ON FUNCTION public.escalate_funding_verification_sla() TO service_role;
+GRANT EXECUTE ON FUNCTION public.escalate_overdue_funding_verifications() TO service_role;
+GRANT EXECUTE ON FUNCTION public.devstudio_append_log(uuid, text[]) TO service_role;
+GRANT EXECUTE ON FUNCTION public.snapshot_course_version(uuid, uuid, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.cleanup_expired_ai_memory() TO service_role;
+GRANT EXECUTE ON FUNCTION public.get_revenue_all_time() TO service_role;
+GRANT EXECUTE ON FUNCTION public.get_revenue_last_month() TO service_role;
+GRANT EXECUTE ON FUNCTION public.maybe_issue_certificate_after_checkpoint_score() TO service_role;
+GRANT EXECUTE ON FUNCTION public.maybe_issue_certificate_after_lesson_progress() TO service_role;
+GRANT EXECUTE ON FUNCTION public.sync_progress_to_hour_entries() TO service_role;
+GRANT EXECUTE ON FUNCTION public.auto_create_exam_authorization() TO service_role;
+
+-- Keep PUBLIC access on (used by RLS policies — must be callable by all roles):
+--   is_admin_role()
+--   my_tenant_id()
+--   audit_trigger_fn(), audit_enrollment_insert(), block_direct_enrollment_insert() — DB triggers
