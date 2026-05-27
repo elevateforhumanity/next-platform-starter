@@ -849,6 +849,10 @@
         {
           "name": "STUDIO_TOKEN_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_TOKEN_SECRET"
+        },
+        {
+          "name": "HCAPTCHA_SECRET_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/HCAPTCHA_SECRET_KEY"
         }
       ],
       "logConfiguration": {
