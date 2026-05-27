@@ -565,31 +565,9 @@ export async function middleware(request: NextRequest) {
   // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
   // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
   // traffic never gets served under the wrong host.
-  // app.elevateforhumanity.org — tenant portal entry point.
-  // No wildcard DNS needed. Tenant is identified by ?org= query param.
-  // e.g. app.elevateforhumanity.org/admin?org=elizabeth-greene
-  if (hostWithoutPort === 'app.elevateforhumanity.org') {
-    const tenantSlug = request.nextUrl.searchParams.get('org') || '';
-    const requestHeadersWithTenant = new Headers(request.headers);
-    if (tenantSlug) requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
-    requestHeadersWithTenant.set('x-pathname', pathname);
-
-    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
-      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
-      const rewriteUrl = request.nextUrl.clone();
-      rewriteUrl.pathname = adminPath;
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeadersWithTenant },
-      });
-    }
-
-    return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
-  }
-
   const isCanonicalHost =
     hostWithoutPort === 'www.elevateforhumanity.org' ||
-    hostWithoutPort === canonicalAdminHost ||
-    hostWithoutPort === 'app.elevateforhumanity.org';
+    hostWithoutPort === canonicalAdminHost;
   if (
     hostWithoutPort &&
     !isCanonicalHost &&

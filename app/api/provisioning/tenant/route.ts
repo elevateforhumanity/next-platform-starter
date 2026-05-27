@@ -58,7 +58,7 @@ async function sendWelcomeEmail(
       <h1>Welcome to Elevate LMS!</h1>
       <p>Your organization <strong>${orgName}</strong> has been successfully provisioned.</p>
       <p><strong>Your Dashboard:</strong> <a href="${dashboardUrl}">${dashboardUrl}</a></p>
-      <p><strong>Subdomain:</strong> ${subdomain}.app.elevateforhumanity.org</p>
+      <p><strong>Subdomain:</strong> ${subdomain}.elevatelms.com</p>
       <h2>Next Steps:</h2>
       <ol>
         <li>Log in to your admin dashboard</li>
@@ -156,7 +156,7 @@ async function _POST(request: NextRequest) {
         contact_name: contactName,
         contact_email: contactEmail,
         contact_phone: contactPhone,
-        domain: customDomain || `${tenantSubdomain}.app.elevateforhumanity.org`,
+        domain: customDomain || `${tenantSubdomain}.elevatelms.com`,
       })
       .select()
       .maybeSingle();
@@ -209,7 +209,7 @@ async function _POST(request: NextRequest) {
         contactEmail,
         organizationName,
         tenantSubdomain,
-        `https://app.elevateforhumanity.org/admin?org=${tenantSubdomain}`,
+        `https://${tenantSubdomain}.elevatelms.com/admin`,
       );
     } catch (emailError) {
       logger.error('Failed to send welcome email:', emailError);
@@ -226,7 +226,7 @@ async function _POST(request: NextRequest) {
         name: org.name,
         subdomain: tenantSubdomain,
         domain: org.domain,
-        dashboardUrl: `https://app.elevateforhumanity.org/admin?org=${tenantSubdomain}`,
+        dashboardUrl: `https://${tenantSubdomain}.elevatelms.com/admin`,
       },
       license: {
         id: license.id,
@@ -275,7 +275,7 @@ async function _GET(request: NextRequest) {
   return NextResponse.json({
     available: !data,
     subdomain: normalized,
-    domain: `${normalized}.app.elevateforhumanity.org`,
+    domain: `${normalized}.elevatelms.com`,
   });
 }
 export const GET = withRuntime(withApiAudit('/api/provisioning/tenant', _GET));
