@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,6 +48,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   const { data, error } = await db.from('workflows').update(update).eq('id', id).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  logAdminAudit({ action: AdminAction.WORKFLOW_UPDATED, actorId: auth.id, entityType: 'workflows', entityId: id, metadata: update, req: request }).catch(() => {});
+
   return NextResponse.json({ workflow: data });
 }
 
@@ -59,5 +63,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const db = await requireAdminClient();
   const { error } = await db.from('workflows').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  logAdminAudit({ action: AdminAction.WORKFLOW_DELETED, actorId: auth.id, entityType: 'workflows', entityId: id, metadata: {}, req: request }).catch(() => {});
+
   return NextResponse.json({ deleted: true });
 }
