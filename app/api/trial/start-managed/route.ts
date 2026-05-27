@@ -164,7 +164,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'A trial already exists for this email address',
-          tenantUrl: `https://${existingOrg.slug}.elevatelms.com/admin`,
+          tenantUrl: `https://app.elevateforhumanity.org/admin?org=${existingOrg.slug}`,
           subdomain: existingOrg.slug,
         },
         { status: 409 },
@@ -210,7 +210,7 @@ async function _POST(request: NextRequest) {
         status: 'active',
         contact_name: adminName.trim(),
         contact_email: email,
-        domain: `${subdomain}.elevatelms.com`,
+        domain: `${subdomain}.app.elevateforhumanity.org`,
       })
       .select()
       .maybeSingle();
@@ -277,7 +277,7 @@ async function _POST(request: NextRequest) {
     // Dashboard URL: the real admin app, with org slug so it can load the right context.
     // The subdomain (e.g. acme-training) is a display label and future routing identifier —
     // it does not correspond to a live subdomain deployment today.
-    const dashboardUrl = `https://${subdomain}.elevatelms.com/admin`;
+    const dashboardUrl = `https://app.elevateforhumanity.org/admin?org=${subdomain}`;
 
     // Send welcome email
     try {

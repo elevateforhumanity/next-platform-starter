@@ -8,6 +8,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { emitEvent } from '@/lib/platform/events';
 import { sendEmail } from '@/lib/email/service';
+import { aiChat } from '@/lib/ai/ai-service';
 import { logger } from '@/lib/logger';
 import type { WorkflowStep, RunStatus } from './types';
 
@@ -147,6 +148,83 @@ function execCondition(
   };
 }
 
+async function execCreateRecord(
+  config: Record<string, unknown>,
+  ctx: RunContext,
+): Promise<{ ok: boolean; output: Record<string, unknown> }> {
+  const table = config.table as string | undefined;
+  const values = config.values as Record<string, unknown> | undefined;
+  if (!table || !values) {
+    return { ok: false, output: { error: 'create_record requires table and values in action_config' } };
+  }
+  // Interpolate {{key}} placeholders in string values
+  const interpolate = (v: unknown): unknown => {
+    if (typeof v === 'string') {
+      return v.replace(/\{\{(\w+)\}\}/g, (_, k) => String(ctx.triggerPayload[k] ?? ''));
+    }
+    return v;
+  };
+  const resolved = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, interpolate(v)]));
+  const db = createAdminClient();
+  const { data, error } = await db.from(table).insert(resolved).select().maybeSingle();
+  if (error) return { ok: false, output: { error: error.message } };
+  return { ok: true, output: { created: data } };
+}
+
+async function execUpdateRecord(
+  config: Record<string, unknown>,
+  ctx: RunContext,
+): Promise<{ ok: boolean; output: Record<string, unknown> }> {
+  const table = config.table as string | undefined;
+  const match = config.match as Record<string, unknown> | undefined;
+  const values = config.values as Record<string, unknown> | undefined;
+  if (!table || !match || !values) {
+    return { ok: false, output: { error: 'update_record requires table, match, and values in action_config' } };
+  }
+  const interpolate = (v: unknown): unknown => {
+    if (typeof v === 'string') {
+      return v.replace(/\{\{(\w+)\}\}/g, (_, k) => String(ctx.triggerPayload[k] ?? ''));
+    }
+    return v;
+  };
+  const resolvedValues = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, interpolate(v)]));
+  const resolvedMatch = Object.fromEntries(Object.entries(match).map(([k, v]) => [k, interpolate(v)]));
+  const db = createAdminClient();
+  const { error } = await db.from(table).update(resolvedValues).match(resolvedMatch);
+  if (error) return { ok: false, output: { error: error.message } };
+  return { ok: true, output: { updated: true, match: resolvedMatch } };
+}
+
+async function execAiAction(
+  config: Record<string, unknown>,
+  ctx: RunContext,
+): Promise<{ ok: boolean; output: Record<string, unknown> }> {
+  const prompt = config.prompt as string | undefined;
+  if (!prompt) {
+    return { ok: false, output: { error: 'ai_action requires prompt in action_config' } };
+  }
+  // Interpolate payload into prompt
+  const resolvedPrompt = prompt.replace(/\{\{(\w+)\}\}/g, (_, k) => String(ctx.triggerPayload[k] ?? ''));
+  try {
+    const response = await aiChat([
+      { role: 'system', content: 'You are an operational AI assistant for Elevate for Humanity. Respond concisely and factually.' },
+      { role: 'user', content: resolvedPrompt },
+    ]);
+    // Optionally persist result to a target field
+    const persistTable = config.persist_table as string | undefined;
+    const persistMatch = config.persist_match as Record<string, unknown> | undefined;
+    const persistField = config.persist_field as string | undefined;
+    if (persistTable && persistMatch && persistField && response) {
+      const db = createAdminClient();
+      await db.from(persistTable).update({ [persistField]: response }).match(persistMatch)
+        .then(undefined, (err) => logger.warn('[workflow/ai_action] persist failed', err));
+    }
+    return { ok: true, output: { response } };
+  } catch (err: any) {
+    return { ok: false, output: { error: err.message } };
+  }
+}
+
 async function execStep(
   step: WorkflowStep,
   ctx: RunContext,
@@ -162,6 +240,12 @@ async function execStep(
       return execSendEmail(step.action_config, ctx);
     case 'condition':
       return execCondition(step.action_config, step.condition_expr ?? null, ctx);
+    case 'create_record':
+      return execCreateRecord(step.action_config, ctx);
+    case 'update_record':
+      return execUpdateRecord(step.action_config, ctx);
+    case 'ai_action':
+      return execAiAction(step.action_config, ctx);
     default:
       return { ok: true, output: { note: `action ${step.action_type} not yet implemented` } };
   }

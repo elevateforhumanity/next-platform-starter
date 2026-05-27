@@ -23,6 +23,9 @@ on:
           - funding-followup
           - inactivity-reminders
           - at-risk-detection
+          - dropout-score
+          - lesson-pace-check
+          - ai-operator
           - enrollment-automation
           - stale-applications
           - process-notifications
@@ -81,6 +84,7 @@ jobs:
             github.event.inputs.job == 'process-notifications'
          || github.event.inputs.job == 'workflow-event-processor'
          || github.event.inputs.job == 'workflow-schedule-processor'
+         || github.event.inputs.job == 'ai-operator'
          ))
     steps:
       - name: Process notifications
@@ -110,6 +114,13 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
             --max-time 55 || echo "::warning::workflow-schedule-processor failed"
+
+      - name: AI operator triage
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/ai-operator" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 55 || echo "::warning::ai-operator failed"
 
   # ── Daily 8 AM: follow-ups, reminders, compliance ─────────────────────────
   daily-morning:
@@ -172,6 +183,20 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
             --max-time 55 || echo "::warning::at-risk-detection failed"
+
+      - name: AI dropout scoring
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/dropout-score" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 120 || echo "::warning::dropout-score failed"
+
+      - name: LMS lesson pace check
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/lesson-pace-check" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 60 || echo "::warning::lesson-pace-check failed"
 
       - name: Enrollment automation
         run: |

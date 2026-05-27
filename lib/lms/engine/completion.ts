@@ -261,3 +261,21 @@ export async function recordCheckpointAttempt(
 
   return { lessonId, score, passed, passingScore, attemptNumber };
 }
+
+// ── Canonical re-exports ──────────────────────────────────────────────────────
+// Course-level completion check and credential pipeline are co-located here
+// so callers can import from a single canonical path.
+export {
+  checkCourseCompletion,
+  completeCourse,
+  getCourseProgress,
+  type CourseCompletionStatus,
+} from '@/lib/course-completion';
+
+export {
+  startCredentialAttempt,
+  resolvePaymentResponsibility,
+  getLearnerCredentialLifecycle,
+  issueCompletionCertificate,
+  checkCertificateIssuanceEligibility,
+} from '@/lib/services/credential-pipeline';

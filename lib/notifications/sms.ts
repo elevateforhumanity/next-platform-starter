@@ -46,11 +46,11 @@ export class SMSService {
     const formattedPhone = cleanPhone.startsWith('1') ? `+${cleanPhone}` : `+1${cleanPhone}`;
 
     if (!this.enabled) {
-      logger.info('SMS not sent (Twilio not configured)', {
+      logger.error('SMS not sent — Twilio is not configured. Set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER.', new Error('SMS service unavailable'), {
         to: formattedPhone,
         messageLength: notification.message.length,
       });
-      return { success: true, messageId: 'not-configured' };
+      return { success: false, error: 'SMS service unavailable — Twilio not configured' };
     }
 
     try {
