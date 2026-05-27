@@ -120,6 +120,12 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
       return;
     }
 
+    if (!turnstileToken) {
+      setError('Please complete the security check above before continuing.');
+      setErrorSeverity('info');
+      return;
+    }
+
     setLoading(true);
     setError('');
     setErrorSeverity('info');
@@ -173,9 +179,12 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
           }
           // Fall through to checkout with existing applicationId
         } else {
+          const apiError = appData?.error ?? '';
+          const isBotError = apiError.toLowerCase().includes('bot') || apiError.toLowerCase().includes('verification');
           setError(
-            appData?.error ||
-              'Failed to save your application. Please try again or call (317) 314-3757.',
+            isBotError
+              ? 'Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call (317) 314-3757.'
+              : apiError || 'Failed to save your application. Please try again or call (317) 314-3757.',
           );
           setErrorSeverity('critical');
           setLoading(false);
@@ -428,7 +437,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
           <LazyVideo
-            src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
+            src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
             poster="/images/pages/barber-hero-main.jpg"
             className="absolute inset-0 w-full h-full object-cover"
           />

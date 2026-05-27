@@ -414,8 +414,8 @@
     ],
     "transcript": "Train for AWS D1.1 certification in 10 weeks, building MIG, TIG, and stick welding skills on structural steel. Testing is conducted by a Certified Welding Inspector at an AWS Authorized Test Facility. Welders commonly earn $38,000 to $62,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
     "analyticsName": "welding",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "_pexelsVideoId": 14314764
   },
   "plumbing": {
@@ -445,8 +445,8 @@
     ],
     "transcript": "Train for NCCER Core Curriculum and OSHA 10 Construction credentials in 10 weeks, building skills in residential and commercial plumbing systems, pipe fitting, and code compliance. Plumbing helpers commonly earn $36,000 to $52,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
     "analyticsName": "plumbing",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "_pexelsVideoId": 7584762
   },
   "diesel-mechanic": {
@@ -476,8 +476,8 @@
     ],
     "transcript": "Train for ASE exam preparation and OSHA 10 Construction credentials in 12 weeks, building skills in diesel engine diagnosis, transmission repair, and hydraulic systems. Diesel technicians commonly earn $42,000 to $58,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
     "analyticsName": "diesel-mechanic",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "_pexelsVideoId": 7006123
   },
   "construction-trades-certification": {
@@ -506,8 +506,8 @@
     ],
     "transcript": "Earn OSHA 30 Construction, EPA 608, and Forklift Operator Certification in 8 weeks — a multi-credential foundation for construction, HVAC, and logistics work. Entry-level construction workers commonly earn $32,000 to $48,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
     "analyticsName": "construction-trades-certification",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "_pexelsVideoId": 32244797
   },
   "forklift": {
@@ -537,8 +537,8 @@
     ],
     "transcript": "Earn OSHA 29 CFR 1910.178 compliant Forklift Operator Certification in 1 week at Elevate for Humanity. Training covers sit-down, stand-up, and reach truck forklifts. Certification is valid for 3 years and accepted by warehousing, logistics, and manufacturing employers. Self-pay is $500. WIOA funding available.",
     "analyticsName": "forklift",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "_pexelsVideoId": 32838797
   },
   "cna": {
@@ -573,7 +573,7 @@
   },
   "medical-assistant": {
     "pageKey": "medical-assistant",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/medical-assistant-lab.webp",
     "voiceoverSrc": "/audio/heroes/medical-assistant.mp3",
     "microLabel": "NHA CCMA Certification",
@@ -599,12 +599,12 @@
     ],
     "transcript": "Train for NHA CCMA and CPT certification in 12 weeks, building skills in clinical procedures, patient intake, EHR documentation, and phlebotomy. Medical assistants commonly earn $35,000 to $45,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
     "analyticsName": "medical-assistant",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 6130025
   },
   "pharmacy-technician": {
     "pageKey": "pharmacy-technician",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/pharmacy-tech.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "PTCB CPhT Prep",
@@ -631,12 +631,12 @@
     ],
     "transcript": "Train for PTCB CPhT certification in 10 weeks, building skills in medication dispensing, pharmacy law, sterile compounding, and inventory management. Pharmacy technicians commonly earn $34,000 to $46,000. Free with WIOA funding for eligible Indiana residents. Self-pay is $4,200 with payment plans available.",
     "analyticsName": "pharmacy-technician",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 8657331
   },
   "phlebotomy": {
     "pageKey": "phlebotomy",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/phlebotomy-real.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "NHA CPT Certification",
@@ -662,12 +662,12 @@
     ],
     "transcript": "Train for NHA CPT certification in 4 weeks, completing 120 hours of classroom and clinical training in venipuncture, specimen processing, and patient interaction. Phlebotomy technicians commonly earn $30,000 to $40,000. The NHA CPT is the employer-accepted standard in Indiana. Self-pay is $1,500 with payment plans available.",
     "analyticsName": "phlebotomy",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 6290542
   },
   "home-health-aide": {
     "pageKey": "home-health-aide",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/healthcare-classroom.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "Indiana HHA Certification",
@@ -693,7 +693,7 @@
     ],
     "transcript": "Earn Indiana HHA certification and the CCHW credential in 4 weeks, preparing for in-home and community care work with licensed agencies. Home health aides commonly earn $26,000 to $36,000. Free with WIOA or Workforce Ready Grant for eligible Indiana residents.",
     "analyticsName": "home-health-aide",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 7517699
   },
   "emergency-health-safety": {
@@ -722,13 +722,13 @@
     ],
     "transcript": "Earn NREMT Emergency Medical Responder, CPR/AED, First Aid, and OSHA 10 credentials in 4 weeks. Emergency health and safety roles commonly earn $32,000 to $45,000. Free with WIOA or Workforce Ready Grant for eligible Indiana residents. Self-pay is $4,950.",
     "analyticsName": "emergency-health-safety",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 3981771
   },
   "cpr-first-aid": {
     "pageKey": "cpr-first-aid",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/cpr-mannequin.webp",
     "voiceoverSrc": "/audio/heroes/cpr.mp3",
     "microLabel": "HSI Certified",
@@ -755,12 +755,12 @@
     ],
     "transcript": "Earn HSI-certified CPR, AED, and First Aid certification in 1 day from home — a mannequin ships to your door and a live instructor guides the skills session. Accepted for healthcare, education, childcare, and licensed professions. $130 self-pay. Included free with any Elevate training program.",
     "analyticsName": "cpr-first-aid",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 3981738
   },
   "sanitation-infection-control": {
     "pageKey": "sanitation-infection-control",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/sanitation.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "ServSafe + Bloodborne",
@@ -787,12 +787,12 @@
     ],
     "transcript": "Earn ServSafe Food Handler and OSHA-compliant Bloodborne Pathogens certifications in 2 weeks. Both credentials are required for healthcare, food service, and personal services work. Included free with any Elevate training program. Self-pay is $400.",
     "analyticsName": "sanitation-infection-control",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 6151285
   },
   "barber-apprenticeship": {
     "pageKey": "barber-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "posterImage": "/images/pages/barber-hero-main.jpg",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "DOL Registered Apprenticeship",
@@ -819,7 +819,7 @@
     ],
     "transcript": "Earn your Indiana Barber License through a DOL Registered Apprenticeship — 2,000 hours of training, 1,500 of which are paid on-the-job at a licensed barbershop. Barbers commonly earn $28,000 to $52,000 depending on clientele and setting. Wages begin on day one.",
     "analyticsName": "barber-apprenticeship",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
   },
   "cosmetology-apprenticeship": {
     "pageKey": "cosmetology-apprenticeship",
@@ -904,13 +904,13 @@
     ],
     "transcript": "Earn ServSafe Manager certification through a DOL Registered Culinary Apprenticeship of 2,000 hours in a professional kitchen, building skills in food preparation, kitchen operations, and food safety. Culinary professionals commonly earn $28,000 to $45,000. Wages begin on day one.",
     "analyticsName": "culinary-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 8626681
   },
   "esthetician": {
     "pageKey": "esthetician",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "posterImage": "/images/pages/cosmetology.webp",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Esthetician Certificate",
@@ -936,12 +936,12 @@
     ],
     "transcript": "Earn an Esthetician Certificate in 5 weeks, building skills in skin analysis, facial treatments, chemical peels, hair removal, and business startup. Estheticians commonly earn $32,000 to $48,000. ETPL approved. Free with WIOA or Workforce Ready Grant for eligible Indiana residents.",
     "analyticsName": "esthetician",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 4264878
   },
   "beauty-career-educator": {
     "pageKey": "beauty-career-educator",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Certiport ESB",
@@ -968,7 +968,7 @@
     ],
     "transcript": "Earn Certiport ESB, Rise Up, and CPR credentials in 12 weeks alongside hands-on salon training and peer teaching skills. Beauty and career educator roles commonly earn $28,000 to $45,000. Hybrid schedule. Free with WIOA or Workforce Ready Grant for eligible Indiana residents.",
     "analyticsName": "beauty-career-educator",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 6964488
   },
   "apprenticeships": {
@@ -1299,8 +1299,8 @@
     ],
     "transcript": "Train for QuickBooks Certified User certification in 5 weeks, building skills in small business accounting, accounts payable, accounts receivable, and payroll processing. Bookkeepers commonly earn $38,000 to $52,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
     "analyticsName": "bookkeeping",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "_pexelsVideoId": 8298000
   },
   "office-administration": {
@@ -1329,8 +1329,8 @@
     ],
     "transcript": "Train for Microsoft Office Specialist Word and Excel certifications in 6 weeks, building skills in Word, Excel, PowerPoint, Outlook, and business communication. Office administrators commonly earn $32,000 to $48,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
     "analyticsName": "office-administration",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "_pexelsVideoId": 7640073
   },
   "entrepreneurship": {
@@ -1359,8 +1359,8 @@
     ],
     "transcript": "Train for Certiport ESB certification in 6 weeks, building skills in business planning, marketing, and financial management. Small business owners and business support roles commonly earn $32,000 to $55,000. Evening schedule. Free with WIOA or grant funding for eligible Indiana residents.",
     "analyticsName": "entrepreneurship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "_pexelsVideoId": 7414172
   },
   "business-administration": {
@@ -1419,8 +1419,8 @@
     ],
     "transcript": "Train for Certiport Project Management certification in 6 weeks, building skills in Agile, Scrum, and traditional project management methodologies. Project managers commonly earn $52,000 to $75,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
     "analyticsName": "project-management",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
     "_pexelsVideoId": 3195441
   },
   "finance-bookkeeping-accounting": {
@@ -1454,7 +1454,7 @@
   },
   "peer-recovery-specialist": {
     "pageKey": "peer-recovery-specialist",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/career-counseling.jpg",
     "microLabel": "Indiana CPRS Credential",
     "credentialLabel": "Indiana CPRS",
@@ -1479,7 +1479,7 @@
     ],
     "transcript": "Train for Indiana CPRS certification in 8 weeks, building skills in substance use recovery support, motivational interviewing, and crisis response. Peer recovery specialists commonly earn $32,000 to $45,000. WIOA, FSSA IMPACT, and JRI funding available for eligible Indiana residents.",
     "analyticsName": "peer-recovery-specialist",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 5713016
   },
   "technology": {
@@ -2525,7 +2525,7 @@
   },
   "esthetician-apprenticeship": {
     "pageKey": "esthetician-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "posterImage": "/images/pages/cosmetology.webp",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Esthetician License",
@@ -2549,7 +2549,7 @@
     ],
     "transcript": "Earn your Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon.",
     "analyticsName": "esthetician-apprenticeship",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 7582852
   },
   "cybersecurity": {
@@ -2602,8 +2602,8 @@
       "Indianapolis, Indiana"
     ],
     "analyticsName": "hospitality",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 7820473
   },
   "direct-support-professional": {
@@ -2611,10 +2611,10 @@
     "microLabel": "Elevate for Humanity",
     "analyticsName": "direct-support-professional",
     "trustIndicators": [],
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/hero-images/dsp-hero.webp",
     "belowHeroHeadline": "Direct Support Professional — Indiana DSP credential in 6 weeks.",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 8400789
   },
   "career-training-indiana": {
@@ -2645,7 +2645,7 @@
   },
   "qma": {
     "pageKey": "qma",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/healthcare-hero.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "Indiana QMA Certification",
@@ -2671,7 +2671,7 @@
     ],
     "transcript": "Train for Indiana QMA certification in 4 weeks, learning medication administration, documentation, and resident safety under nurse supervision. QMAs in Indiana commonly earn $30,000 to $42,000. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Self-pay is $1,200.",
     "analyticsName": "qma",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 6130024
   },
   "drug-collector": {
@@ -2679,15 +2679,15 @@
     "microLabel": "Elevate for Humanity",
     "analyticsName": "drug-collector",
     "trustIndicators": [],
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "posterImage": "/images/pages/drug-testing-main-1.jpg",
     "belowHeroHeadline": "Drug & Alcohol Collector — DOT-compliant certification in 2 weeks.",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 7230300
   },
   "beauty": {
     "pageKey": "beauty",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "microLabel": "DOL Registered Apprenticeships",
     "belowHeroHeadline": "Beauty Industry Apprenticeships",
@@ -2709,7 +2709,8 @@
       "Flat-fee pricing"
     ],
     "analyticsName": "beauty-programs",
-    "transcript": "Elevate for Humanity offers DOL-registered beauty apprenticeships in cosmetology, esthetics, and nail technology. Earn while you learn."
+    "transcript": "Elevate for Humanity offers DOL-registered beauty apprenticeships in cosmetology, esthetics, and nail technology. Earn while you learn.",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
   },
   "administrative-assistant": {
     "pageKey": "administrative-assistant",
