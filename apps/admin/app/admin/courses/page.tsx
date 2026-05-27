@@ -7,6 +7,7 @@ import { AdminCoursesTable } from './AdminCoursesTable';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Course Management | Admin | Elevate For Humanity',
 };
