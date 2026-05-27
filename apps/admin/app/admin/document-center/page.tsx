@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { DocumentCenterClient } from './DocumentCenterClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Document Center | Admin | Elevate For Humanity',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DocumentCenterPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await createAdminClient();
 
   const { data, error } = await db
