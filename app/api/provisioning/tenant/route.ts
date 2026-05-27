@@ -209,7 +209,7 @@ async function _POST(request: NextRequest) {
         contactEmail,
         organizationName,
         tenantSubdomain,
-        `https://${tenantSubdomain}.app.elevateforhumanity.org/admin`,
+        `https://app.elevateforhumanity.org/admin?org=${tenantSubdomain}`,
       );
     } catch (emailError) {
       logger.error('Failed to send welcome email:', emailError);
@@ -226,7 +226,7 @@ async function _POST(request: NextRequest) {
         name: org.name,
         subdomain: tenantSubdomain,
         domain: org.domain,
-        dashboardUrl: `https://${tenantSubdomain}.app.elevateforhumanity.org/admin`,
+        dashboardUrl: `https://app.elevateforhumanity.org/admin?org=${tenantSubdomain}`,
       },
       license: {
         id: license.id,
