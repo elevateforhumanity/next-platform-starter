@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import CoursePipelineClient from './CoursePipelineClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Course Pipeline | Admin | Elevate for Humanity',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CoursePipelinePage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data: programs } = await supabase
