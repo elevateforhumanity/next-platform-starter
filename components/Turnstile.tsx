@@ -104,10 +104,23 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
     };
   }, [renderWidget, onVerify]);
 
-  // Don't render anything if no site key
+  // No site key — dev mode, widget auto-verified above
   if (!SITE_KEY) {
     return null;
   }
 
-  return <div ref={containerRef} className="my-4" />;
+  return (
+    <div className="my-4">
+      <div ref={containerRef} />
+      <p className="text-[11px] text-slate-400 mt-1 text-center">
+        Security check required before submitting.{' '}
+        <a
+          href="tel:3173143757"
+          className="underline hover:text-slate-600 transition-colors"
+        >
+          Need help? Call (317) 314-3757
+        </a>
+      </p>
+    </div>
+  );
 }
