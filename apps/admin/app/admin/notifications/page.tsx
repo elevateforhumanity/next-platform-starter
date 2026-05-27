@@ -6,6 +6,7 @@ import { Bell, ChevronRight, CheckCircle, XCircle, Clock } from 'lucide-react';
 import NotificationBroadcastForm from './NotificationBroadcastForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Notifications | Admin',
 };

@@ -11,6 +11,7 @@ import { createClient } from '@/lib/supabase/server';
 import MarkPaidButton from './MarkPaidButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function AdminPayoutsPage() {
   await requireAdmin();

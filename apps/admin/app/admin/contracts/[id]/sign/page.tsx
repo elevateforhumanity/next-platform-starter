@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import SignatureClient from './SignatureClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'Sign Contract | Admin' };
 
 export default async function SignPage({

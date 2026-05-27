@@ -7,6 +7,7 @@ import { ArrowLeft, Award, Plus, AlertTriangle, CheckCircle2 } from 'lucide-reac
 
 export const metadata: Metadata = { title: 'Past Performance | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function PastPerformancePage() {
   const supabase = await createClient();

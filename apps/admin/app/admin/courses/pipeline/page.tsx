@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import CoursePipelineClient from './CoursePipelineClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Course Pipeline | Admin | Elevate for Humanity',

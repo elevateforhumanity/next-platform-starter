@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { BarChart, Globe, Mail } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {

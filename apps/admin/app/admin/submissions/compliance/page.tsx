@@ -7,6 +7,7 @@ import { ArrowLeft, ShieldCheck, Plus, AlertTriangle, CheckCircle2, XCircle } fr
 
 export const metadata: Metadata = { title: 'Compliance Records | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function CompliancePage() {
   const supabase = await createClient();

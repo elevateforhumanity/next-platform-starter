@@ -8,6 +8,7 @@ import { FileSignature, Clock, XCircle, Plus } from 'lucide-react';
 import { SignatureLinkCopier } from './SignatureLinkCopier';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: {

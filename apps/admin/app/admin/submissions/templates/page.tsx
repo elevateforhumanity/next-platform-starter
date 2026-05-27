@@ -7,6 +7,7 @@ import { ArrowLeft, FileText, Plus, AlertTriangle } from 'lucide-react';
 
 export const metadata: Metadata = { title: 'Document Templates | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function TemplatesPage() {
   const supabase = await createClient();

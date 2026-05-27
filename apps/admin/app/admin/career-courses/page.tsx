@@ -7,6 +7,7 @@ import { BookOpen, CheckCircle, Clock, Plus, ArrowRight } from 'lucide-react';
 import { AdminPageShell, AdminCard, AdminEmptyState } from '@/components/admin/AdminPageShell';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Career Courses | Admin',
 };

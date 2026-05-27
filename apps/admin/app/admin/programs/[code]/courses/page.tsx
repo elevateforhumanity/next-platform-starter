@@ -5,6 +5,7 @@ import { requireAdmin } from '@/lib/auth';
 import { Plus, BookOpen, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = { title: 'Program Courses | Elevate Admin' };
 

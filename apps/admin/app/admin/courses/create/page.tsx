@@ -6,6 +6,7 @@ import CourseIngestionWizard from './CourseIngestionWizard';
 import { QuickCreateForm } from './QuickCreateForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Create Course | Admin | Elevate LMS',

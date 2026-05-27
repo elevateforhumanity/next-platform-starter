@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import ContractDetailClient from './ContractDetailClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Contract | Admin | Elevate For Humanity',

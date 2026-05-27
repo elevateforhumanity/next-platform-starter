@@ -7,6 +7,7 @@ import { ArrowLeft, Building2, CheckCircle2, AlertTriangle, ExternalLink } from 
 
 export const metadata: Metadata = { title: 'Org Profile | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
   return (

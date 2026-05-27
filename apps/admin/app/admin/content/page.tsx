@@ -3,6 +3,7 @@ import { requireAdmin } from '@/lib/auth';
 import ContentManagerClient from './ContentManagerClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Content Management | Admin | Elevate for Humanity',

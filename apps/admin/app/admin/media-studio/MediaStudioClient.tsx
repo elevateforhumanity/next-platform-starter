@@ -19,6 +19,7 @@ import {
 import Image from 'next/image';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 interface MediaFile {
   name: string;

@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Building2, Users, CheckCircle, TrendingUp } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/admin/reports/partners' },

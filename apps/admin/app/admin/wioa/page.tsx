@@ -14,6 +14,7 @@ import {
 import { WioaExportButton } from './WioaExportButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'WIOA | Admin',
 };

@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CredentialForm from '../CredentialForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'New Credential | Admin' };
 
 export default async function NewCredentialPage() {

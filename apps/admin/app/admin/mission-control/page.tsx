@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import MissionControlClient from './MissionControlClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Mission Control | Admin | Elevate For Humanity',

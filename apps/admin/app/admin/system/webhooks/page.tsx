@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import WebhookHealthDashboard from './WebhookHealthDashboard';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Webhook Health | Elevate For Humanity',

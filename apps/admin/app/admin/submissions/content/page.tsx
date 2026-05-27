@@ -7,6 +7,7 @@ import { ArrowLeft, BookOpen, Plus, AlertTriangle, CheckCircle2, Clock } from 'l
 
 export const metadata: Metadata = { title: 'Content Library | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const STATUS_CLS: Record<string, string> = {
   approved: 'bg-green-100 text-green-800',

@@ -15,6 +15,7 @@ import {
 
 export const metadata: Metadata = { title: 'Facts Vault | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const STATUS_STYLES: Record<string, string> = {
   approved: 'bg-green-100 text-green-800',

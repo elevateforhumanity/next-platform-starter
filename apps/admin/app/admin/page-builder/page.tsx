@@ -3,6 +3,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import PageBuilderClient from './PageBuilderClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Page Builder | Admin | Elevate for Humanity',

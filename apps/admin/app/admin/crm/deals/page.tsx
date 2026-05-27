@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 // Pipeline stage config — UI metadata only, not business data
 const PIPELINE_STAGES = [

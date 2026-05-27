@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import DirectoryInfoClient from './DirectoryInfoClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'FERPA Directory Information | Admin | Elevate for Humanity',

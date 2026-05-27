@@ -6,6 +6,7 @@ import { ChevronRight, Users, BookOpen, Star, TrendingUp } from 'lucide-react';
 import InstructorPerformanceClient from './InstructorPerformanceClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = { title: 'Instructor Performance | Admin | Elevate For Humanity' };
 
 export default async function InstructorPerformancePage() {

@@ -5,6 +5,7 @@ import { requireAdmin } from '@/lib/auth';
 import { Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = { title: 'Program Enrollments | Elevate Admin' };
 

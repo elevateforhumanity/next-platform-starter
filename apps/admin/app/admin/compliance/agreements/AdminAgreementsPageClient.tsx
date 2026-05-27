@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 interface AgreementStats {
   agreement_type: string;

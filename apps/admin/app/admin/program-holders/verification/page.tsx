@@ -5,6 +5,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 import { XCircle, Clock, FileText, Download, Eye, CheckCircle } from 'lucide-react';
 

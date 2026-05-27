@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/auth';
 import { AlertCircle, RefreshCw, XCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Enrollment Jobs | Admin',

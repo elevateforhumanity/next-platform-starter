@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import { GradebookClient } from './GradebookClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Gradebook | Admin | Elevate LMS',

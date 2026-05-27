@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import SiteStatsClient from './SiteStatsClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Site Stats | Admin | Elevate for Humanity',

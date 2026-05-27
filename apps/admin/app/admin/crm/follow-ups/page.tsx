@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Clock, Phone, Mail, Calendar, Plus, CheckCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Follow-ups | CRM Admin',

@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { DocumentCenterClient } from './DocumentCenterClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Document Center | Admin | Elevate For Humanity',

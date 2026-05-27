@@ -6,6 +6,7 @@ import { DollarSign, Clock, Search, FileText, TrendingUp, Plus, Circle } from 'l
 import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'WOTC Management | Admin',

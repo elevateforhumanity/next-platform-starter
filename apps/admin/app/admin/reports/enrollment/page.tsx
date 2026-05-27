@@ -6,6 +6,7 @@ import { ArrowLeft, GraduationCap, TrendingUp, Circle, Clock } from 'lucide-reac
 import ExportButton from './ExportButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Enrollment Report | Admin',

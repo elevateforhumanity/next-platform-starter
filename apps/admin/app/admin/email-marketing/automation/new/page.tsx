@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import NewAutomationClient from './NewAutomationClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function Page() {
   await requireRole(['admin', 'super_admin', 'staff']);

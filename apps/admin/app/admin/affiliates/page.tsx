@@ -15,6 +15,7 @@ import {
 import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Affiliate Management | Admin | Elevate for Humanity',

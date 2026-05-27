@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import DevStudioClient from './DevStudioClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Dev Studio | Admin | Elevate For Humanity',

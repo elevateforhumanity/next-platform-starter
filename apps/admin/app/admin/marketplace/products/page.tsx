@@ -11,6 +11,7 @@ import { createClient } from '@/lib/supabase/server';
 import ProductApprovalActions from './ProductApprovalActions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function AdminProductsPage() {
   await requireAdmin();

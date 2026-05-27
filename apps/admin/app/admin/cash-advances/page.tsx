@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { BarChart, DollarSign, Gift } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Cash Advances Admin | Elevate For Humanity',

@@ -3,6 +3,7 @@ import { requireAdmin } from '@/lib/auth';
 import SnapshotsClient from './SnapshotsClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Platform Snapshots | Admin | Elevate for Humanity',

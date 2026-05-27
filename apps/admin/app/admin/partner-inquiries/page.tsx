@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Admin Partner Inquiries | Elevate For Humanity',

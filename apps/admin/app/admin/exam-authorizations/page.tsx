@@ -6,6 +6,7 @@ import { AlertTriangle, Clock, CheckCircle, XCircle, Calendar, RefreshCw } from 
 import ExamAuthWorkQueue from './ExamAuthWorkQueue';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Exam Authorization Queue | Admin',

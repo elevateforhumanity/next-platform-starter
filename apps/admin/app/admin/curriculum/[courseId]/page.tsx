@@ -7,6 +7,7 @@ import { BookOpen, ArrowLeft, Layers } from 'lucide-react';
 import CurriculumLessonManager from '@/components/admin/CurriculumLessonManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Curriculum Editor | Admin | Elevate For Humanity',

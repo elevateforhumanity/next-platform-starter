@@ -16,6 +16,7 @@ import {
 
 export const metadata: Metadata = { title: 'Attachment Library | Submissions OS | Admin' };
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const TYPE_LABELS: Record<string, string> = {
   w9: 'W-9',

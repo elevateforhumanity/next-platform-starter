@@ -6,6 +6,7 @@ import { ArrowLeft, User, Mail, GraduationCap, Calendar } from 'lucide-react';
 import { createLeadAction } from './actions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'New Lead | CRM | Admin | Elevate For Humanity',
