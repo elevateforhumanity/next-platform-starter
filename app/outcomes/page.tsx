@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { BarChart3, Users, Briefcase, Award, TrendingUp, AlertCircle, Calendar, ArrowRight } from 'lucide-react';
+import { BarChart3, Users, Briefcase, Award, TrendingUp, AlertCircle, Calendar, ArrowRight, Building2, Star } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
@@ -11,6 +11,21 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 3600;
+
+async function getEmployerPartners() {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('employer_partners')
+      .select('id, name, logo_url, industry, placements_count')
+      .eq('featured', true)
+      .order('placements_count', { ascending: false })
+      .limit(12);
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
 
 async function getStats() {
   try {
@@ -48,7 +63,7 @@ async function getStats() {
 }
 
 export default async function OutcomesPage() {
-  const stats = await getStats();
+  const [stats, employers] = await Promise.all([getStats(), getEmployerPartners()]);
 
   const statCards = stats ? [
     { label: 'Total Enrolled', value: stats.enrolled > 0 ? stats.enrolled.toLocaleString() : '—', note: 'Live · program_enrollments' },
@@ -110,6 +125,70 @@ export default async function OutcomesPage() {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {/* Employer partners */}
+        {employers.length > 0 && (
+          <section>
+            <div className="flex items-center gap-2 mb-6">
+              <Building2 className="w-5 h-5 text-brand-blue-600" />
+              <h2 className="text-2xl font-bold text-slate-900">Employer Partners</h2>
+            </div>
+            <p className="text-slate-600 text-sm mb-6">
+              Our graduates are hired by employers across Indiana and the Midwest. These organizations have partnered with Elevate for Humanity to hire our credentialed graduates.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {employers.map((e: any) => (
+                <div key={e.id} className="border border-slate-200 rounded-xl p-4 flex flex-col items-center gap-2 text-center">
+                  {e.logo_url ? (
+                    <img src={e.logo_url} alt={e.name} className="h-10 object-contain" />
+                  ) : (
+                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <Building2 className="w-5 h-5 text-slate-400" />
+                    </div>
+                  )}
+                  <p className="text-sm font-semibold text-slate-800 leading-tight">{e.name}</p>
+                  {e.industry && <p className="text-xs text-slate-400">{e.industry}</p>}
+                  {e.placements_count > 0 && (
+                    <p className="text-xs text-brand-blue-600 font-semibold">{e.placements_count} placement{e.placements_count !== 1 ? 's' : ''}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Placement metrics strip */}
+        {stats && stats.placed > 0 && (
+          <section className="bg-slate-900 rounded-2xl p-8 text-white">
+            <div className="flex items-center gap-2 mb-6">
+              <Star className="w-5 h-5 text-amber-400" />
+              <h2 className="text-xl font-bold">Placement Outcomes</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div>
+                <p className="text-4xl font-extrabold text-emerald-400">{stats.placed.toLocaleString()}</p>
+                <p className="text-slate-300 text-sm mt-1">Verified job placements</p>
+              </div>
+              {stats.avgWage && (
+                <div>
+                  <p className="text-4xl font-extrabold text-brand-blue-400">{stats.avgWage}</p>
+                  <p className="text-slate-300 text-sm mt-1">Average starting wage</p>
+                </div>
+              )}
+              {stats.completed > 0 && stats.placed > 0 && (
+                <div>
+                  <p className="text-4xl font-extrabold text-amber-400">
+                    {Math.round((stats.placed / stats.completed) * 100)}%
+                  </p>
+                  <p className="text-slate-300 text-sm mt-1">Placement rate (completers)</p>
+                </div>
+              )}
+            </div>
+            <p className="text-slate-500 text-xs mt-6">
+              Based on verified employment_outcomes records. Self-reported data excluded from placement rate calculation.
+            </p>
           </section>
         )}
 

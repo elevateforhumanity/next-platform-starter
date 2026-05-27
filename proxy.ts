@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { randomUUID } from 'crypto';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -312,6 +313,11 @@ export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   const requestHeaders = new Headers(request.headers);
+
+  // Propagate or generate a trace_id for every request.
+  // Downstream handlers read x-trace-id from headers() for structured logging.
+  const traceId = request.headers.get('x-trace-id') ?? randomUUID();
+  requestHeaders.set('x-trace-id', traceId);
   requestHeaders.set('x-pathname', pathname);
 
   function nextWithPathname() {
@@ -866,6 +872,7 @@ export async function middleware(request: NextRequest) {
   }
   response.headers.set('x-user-id', user.id);
   response.headers.set('x-user-role', userRole);
+  response.headers.set('x-trace-id', traceId);
 
   // ============================================
   // NOINDEX FOR INTERNAL PAGES
