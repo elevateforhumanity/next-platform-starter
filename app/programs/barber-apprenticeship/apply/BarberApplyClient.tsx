@@ -3,12 +3,16 @@
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import ApprenticeForm from './ApprenticeForm';
 
-// Reads ?payment= and ?reason= from the URL.
+// Reads ?payment=, ?reason=, ?email=, ?name=, ?application_id= from the URL.
 // ?reason=payment_required is set when orientation redirects back due to no payment on file.
+// ?email=, ?name=, ?application_id= pre-fill the form and skip straight to checkout.
 export default function BarberApplyClient() {
   const searchParams = useSafeSearchParams();
   const payment = searchParams.get('payment');
   const reason = searchParams.get('reason');
+  const email = searchParams.get('email');
+  const name = searchParams.get('name');
+  const applicationId = searchParams.get('application_id');
 
   return (
     <>
@@ -19,7 +23,12 @@ export default function BarberApplyClient() {
           </div>
         </div>
       )}
-      <ApprenticeForm initialPayment={payment} />
+      <ApprenticeForm
+        initialPayment={payment}
+        initialEmail={email ?? undefined}
+        initialName={name ?? undefined}
+        initialApplicationId={applicationId ?? undefined}
+      />
     </>
   );
 }

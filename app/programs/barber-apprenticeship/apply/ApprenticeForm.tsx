@@ -61,7 +61,17 @@ function resolveInitialPayment(param: string | null): PaymentOption {
   return 'weekly';
 }
 
-export default function ApprenticeForm({ initialPayment }: { initialPayment?: string | null }) {
+export default function ApprenticeForm({
+  initialPayment,
+  initialEmail,
+  initialName,
+  initialApplicationId,
+}: {
+  initialPayment?: string | null;
+  initialEmail?: string;
+  initialName?: string;
+  initialApplicationId?: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [errorSeverity, setErrorSeverity] = useState<'info' | 'critical'>('info');
@@ -87,14 +97,17 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     Math.max(PRICING.minDownPayment, customAmount || PRICING.minDownPayment),
   );
 
-  // Form state
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    hasHostShop: '',
-    hostShopName: '',
+  // Form state — pre-fill from URL params when returning to complete payment
+  const [formData, setFormData] = useState(() => {
+    const nameParts = (initialName ?? '').trim().split(' ');
+    return {
+      firstName: nameParts[0] ?? '',
+      lastName: nameParts.slice(1).join(' ') ?? '',
+      email: initialEmail ?? '',
+      phone: '',
+      hasHostShop: '',
+      hostShopName: '',
+    };
   });
   const [smsConsent, setSmsConsent] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string>('');
@@ -131,6 +144,10 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
     setErrorSeverity('info');
 
     try {
+      // If returning to complete payment (application already exists), skip the POST
+      let applicationId: string | undefined = initialApplicationId;
+
+      if (!applicationId) {
       // Save application — must succeed before proceeding to checkout
       const appResponse = await fetch('/api/applications', {
         method: 'POST',
@@ -156,7 +173,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
 
       const appData = await appResponse.json();
 
-      let applicationId = appData?.id;
+      applicationId = appData?.id;
 
       if (!appResponse.ok) {
         // 409 = application already submitted — look up existing ID and continue to checkout
@@ -191,6 +208,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
           return;
         }
       }
+      } // end if (!applicationId)
 
       let checkoutResponse;
       const basePayload = {
