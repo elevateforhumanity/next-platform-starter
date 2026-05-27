@@ -36,8 +36,14 @@ const ALLOWED_PATHS = [
 ];
 
 function isAllowed(filename) {
-  // Normalise to forward slashes and strip leading /workspaces/…/ prefix
-  const rel = filename.replace(/\\/g, '/').replace(/^.*\/Elevate-lms\//, '');
+  // Normalise to forward slashes, then strip any absolute prefix so we always
+  // test against a repo-relative path (works in local dev, CI, and CodeBuild
+  // where the zip is extracted to an arbitrary directory without Elevate-lms/).
+  const norm = filename.replace(/\\/g, '/');
+  // Try stripping up to and including the repo root dir name
+  const afterRepo = norm.replace(/^.*\/Elevate-lms\//, '');
+  // If that didn't strip anything (no Elevate-lms/ in path), strip up to /src/
+  const rel = afterRepo !== norm ? afterRepo : norm.replace(/^.*\/src\//, '');
   return ALLOWED_PATHS.some((pattern) => pattern.test(rel));
 }
 
