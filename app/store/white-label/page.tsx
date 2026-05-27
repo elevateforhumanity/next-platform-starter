@@ -18,7 +18,7 @@ const FEATURES = [
   {
     icon: Globe,
     title: 'Custom Domain',
-    description: 'Use your own domain (training.yourorg.com) or get a subdomain (yourorg.elevatelms.com).',
+    description: 'Use your own domain (training.yourorg.com) or get a subdomain (yourorg.app.elevateforhumanity.org).',
   },
   {
     icon: Shield,
@@ -141,7 +141,7 @@ export default function WhiteLabelPage() {
                   placeholder="yourorg"
                   className="flex-1 bg-transparent px-4 py-3 text-white placeholder-slate-400 outline-none"
                 />
-                <span className="text-slate-400 pr-4">.elevatelms.com</span>
+                <span className="text-slate-400 pr-4">.app.elevateforhumanity.org</span>
               </div>
               <button
                 onClick={checkSubdomain}
