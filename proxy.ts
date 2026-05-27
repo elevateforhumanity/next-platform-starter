@@ -565,21 +565,15 @@ export async function middleware(request: NextRequest) {
   // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
   // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
   // traffic never gets served under the wrong host.
-  // *.app.elevateforhumanity.org — tenant subdomain requests.
-  // These are white-label trial/licensed tenants. Serve the tenant admin shell
-  // directly rather than redirecting away. The subdomain is passed as a header
-  // so downstream route handlers can load the correct org context.
-  const isTenantSubdomain =
-    hostWithoutPort.endsWith('.app.elevateforhumanity.org') &&
-    hostWithoutPort !== 'app.elevateforhumanity.org';
-
-  if (isTenantSubdomain) {
-    const tenantSlug = hostWithoutPort.replace(/\.app\.elevateforhumanity\.org$/, '');
+  // app.elevateforhumanity.org — tenant portal entry point.
+  // No wildcard DNS needed. Tenant is identified by ?org= query param.
+  // e.g. app.elevateforhumanity.org/admin?org=elizabeth-greene
+  if (hostWithoutPort === 'app.elevateforhumanity.org') {
+    const tenantSlug = request.nextUrl.searchParams.get('org') || '';
     const requestHeadersWithTenant = new Headers(request.headers);
-    requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
+    if (tenantSlug) requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
     requestHeadersWithTenant.set('x-pathname', pathname);
 
-    // /admin and / both land on the tenant admin dashboard
     if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
       const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
       const rewriteUrl = request.nextUrl.clone();
@@ -589,7 +583,6 @@ export async function middleware(request: NextRequest) {
       });
     }
 
-    // All other paths (API routes, assets) pass through with tenant context
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
   }
 
