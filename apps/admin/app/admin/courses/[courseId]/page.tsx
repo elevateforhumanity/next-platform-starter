@@ -18,6 +18,7 @@ import {
 } from './actions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Course Builder | Admin | Elevate For Humanity',
 };
