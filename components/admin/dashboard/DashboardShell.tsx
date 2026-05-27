@@ -71,13 +71,25 @@ const ADMIN_CATEGORY_CARDS = [
   {
     title: 'Operations',
     eyebrow: 'Command center',
-    description: 'Daily priorities, analytics, reports, and system status.',
+    description: 'Daily priorities, analytics, reports, at-risk learners, and system status.',
     href: '/admin/dashboard',
     Icon: Activity,
     links: [
       { label: 'Analytics', href: '/admin/analytics' },
       { label: 'Reports', href: '/admin/reports' },
       { label: 'At-risk', href: '/admin/at-risk' },
+    ],
+  },
+  {
+    title: 'Intelligence',
+    eyebrow: 'AI + forecasting',
+    description: 'Risk scoring, completion forecasts, AI console, and operational memory.',
+    href: '/admin/intelligence',
+    Icon: Bot,
+    links: [
+      { label: 'Risk dashboard', href: '/admin/intelligence' },
+      { label: 'Forecast', href: '/admin/intelligence/forecast' },
+      { label: 'AI Console', href: '/admin/ai-console' },
     ],
   },
   {
@@ -105,22 +117,9 @@ const ADMIN_CATEGORY_CARDS = [
     ],
   },
   {
-    title: 'Dev Studio',
-    eyebrow: 'Automation layer',
-    description: 'Terminal, editor, live preview, Ellie AI assistant, and deploy controls.',
-    href: '/admin/dev-studio',
-    Icon: Bot,
-    links: [
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
-      { label: 'Terminal',       href: '/admin/dev-studio?tab=terminal' },
-      { label: 'Code AI',        href: '/admin/dev-studio?tab=chat' },
-      { label: 'Workflows',      href: '/admin/workflows' },
-    ],
-  },
-  {
     title: 'Funding',
     eyebrow: 'WIOA + grants',
-    description: 'WIOA, JRI, grant applications, dislocated worker funding, payouts.',
+    description: 'WIOA, JRI, grant applications, dislocated worker funding, and payouts.',
     href: '/admin/funding',
     Icon: DollarSign,
     links: [
@@ -132,13 +131,13 @@ const ADMIN_CATEGORY_CARDS = [
   {
     title: 'Partners',
     eyebrow: 'Employers + providers',
-    description: 'Program holders, employers, shops, providers, and marketplace ops.',
+    description: 'Program holders, employers, shops, providers, tenants, and marketplace.',
     href: '/admin/program-holders',
     Icon: Handshake,
     links: [
       { label: 'Program holders', href: '/admin/program-holders' },
       { label: 'Employers', href: '/admin/employers' },
-      { label: 'Shops', href: '/admin/shops' },
+      { label: 'Tenants', href: '/admin/tenants' },
     ],
   },
   {
@@ -162,19 +161,19 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Compliance', href: '/admin/compliance' },
       { label: 'Audit logs', href: '/admin/audit-logs' },
-      { label: 'Signatures', href: '/admin/signatures' },
+      { label: 'FERPA', href: '/admin/ferpa' },
     ],
   },
   {
-    title: 'System',
-    eyebrow: 'Platform settings',
-    description: 'Settings, staff, integrations, API keys, monitoring, and migrations.',
-    href: '/admin/settings',
+    title: 'Dev Studio',
+    eyebrow: 'Automation layer',
+    description: 'Terminal, editor, Ellie AI assistant, workflows, and deploy controls.',
+    href: '/admin/dev-studio',
     Icon: Settings,
     links: [
-      { label: 'Settings', href: '/admin/settings' },
-      { label: 'Staff', href: '/admin/staff' },
-      { label: 'Monitoring', href: '/admin/monitoring' },
+      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
+      { label: 'Workflows', href: '/admin/workflows' },
+      { label: 'System health', href: '/admin/system-health' },
     ],
   },
 ] as const;

@@ -44,10 +44,18 @@ export function RealtimeKpiGrid({ kpis: initialKpis }: Props) {
         setKpis(k => patchKpi(k, 'learner', v => v + 1));
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
-        const wasActive = payload.old?.status === 'active';
-        const isActive  = payload.new?.status === 'active';
+        // program_enrollments uses enrollment_state, not status
+        const ACTIVE_STATES = ['active', 'enrolled', 'onboarding'];
+        const wasActive = ACTIVE_STATES.includes(payload.old?.enrollment_state);
+        const isActive  = ACTIVE_STATES.includes(payload.new?.enrollment_state);
         if (!wasActive && isActive)  setKpis(k => patchKpi(k, 'learner', v => v + 1));
         if (wasActive  && !isActive) setKpis(k => patchKpi(k, 'learner', v => v - 1));
+
+        // Revenue delta on same UPDATE event
+        const prev: number = payload.old?.amount_paid_cents ?? 0;
+        const next: number = payload.new?.amount_paid_cents ?? 0;
+        const delta = next - prev;
+        if (delta > 0) setKpis(k => patchKpi(k, 'revenue', v => v + delta));
       })
       // ── Applications ─────────────────────────────────────────────────────
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'applications' }, (payload) => {
@@ -61,17 +69,6 @@ export function RealtimeKpiGrid({ kpis: initialKpis }: Props) {
         const isPending  = pending.includes(payload.new?.status);
         if (!wasPending && isPending)  setKpis(k => patchKpi(k, 'application', v => v + 1));
         if (wasPending  && !isPending) setKpis(k => patchKpi(k, 'application', v => v - 1));
-      })
-      // ── Revenue — listen on program_enrollments.amount_paid_cents ────────
-      // payment_transactions table is not actively written; revenue comes from
-      // program_enrollments when a payment is confirmed.
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
-        const prev: number = payload.old?.amount_paid_cents ?? 0;
-        const next: number = payload.new?.amount_paid_cents ?? 0;
-        const delta = next - prev;
-        if (delta > 0) {
-          setKpis(k => patchKpi(k, 'revenue', v => v + delta));
-        }
       })
       // ── Certificates ──────────────────────────────────────────────────────
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'program_completion_certificates' }, () => {
