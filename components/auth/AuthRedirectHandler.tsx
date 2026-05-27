@@ -45,6 +45,12 @@ export default function AuthRedirectHandler() {
     const searchParams = new URLSearchParams(window.location.search);
     const next = searchParams.get('next');
 
+    // If the user landed on a payment/checkout page via magic link, keep them
+    // there after auth — do not redirect to their role destination.
+    const PAYMENT_PATH_PREFIXES = ['/payment', '/checkout', '/store', '/apply/success'];
+    const currentPath = window.location.pathname;
+    const isPaymentPage = PAYMENT_PATH_PREFIXES.some((p) => currentPath.includes(p));
+
     const supabase = createBrowserClient();
 
     // The Supabase client automatically exchanges the hash fragment for a
@@ -54,16 +60,23 @@ export default function AuthRedirectHandler() {
 
       subscription.unsubscribe();
 
+      // Capture search params before replaceState strips them
+      const currentSearch = window.location.search;
+
       // Clear the hash and next param from the URL immediately so tokens aren't visible
       window.history.replaceState(null, '', window.location.pathname);
 
       const user = session.user;
 
       // If an explicit destination was encoded in the link, use it directly.
+      // If the landing page is a payment/checkout page, stay on it after auth.
       // Otherwise route by role, using cached portal_type for students.
       let destination: string;
       if (next && next.startsWith('/')) {
         destination = next;
+      } else if (isPaymentPage) {
+        // Stay on the current payment page — preserve search params, drop the hash
+        destination = currentPath + (currentSearch || '');
       } else {
         const { data: profile } = await supabase
           .from('profiles')
