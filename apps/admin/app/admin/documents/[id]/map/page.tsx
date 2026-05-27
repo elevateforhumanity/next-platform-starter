@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import FieldMapClient from './FieldMapClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Field Mapping | Admin | Elevate For Humanity',
