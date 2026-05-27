@@ -845,6 +845,10 @@
         {
           "name": "USAJOBS_USER_AGENT_EMAIL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/USAJOBS_USER_AGENT_EMAIL"
+        },
+        {
+          "name": "STUDIO_TOKEN_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_TOKEN_SECRET"
         }
       ],
       "logConfiguration": {
