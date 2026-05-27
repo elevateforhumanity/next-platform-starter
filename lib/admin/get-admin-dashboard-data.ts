@@ -15,6 +15,7 @@ import {
 } from '@/lib/admin/priority-score';
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
 import { getSystemHealth } from './dashboard/get-system-health';
+import { withTimeout } from '@/lib/utils/withTimeout';
 
 function toSafeNumber(value: unknown): number {
   const n = Number(value ?? 0);
@@ -322,8 +323,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('id', { ascending: true })
       .limit(10),
 
-    // System health — runs in parallel with all other queries
-    getSystemHealth(db).catch(() => ({
+    // System health — 4s timeout so a slow Stripe API never blocks the dashboard.
+    withTimeout(getSystemHealth(db), 4000, 'getSystemHealth').catch(() => ({
       stripeWebhookOk: false,
       stripeIssuingOk: false,
       buildEnvOk: false,
