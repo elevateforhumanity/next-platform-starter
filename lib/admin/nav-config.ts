@@ -230,6 +230,7 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/dev-studio',
     items: [
       { label: 'Dev Studio', href: '/admin/dev-studio' },
+      { label: 'AI Studio', href: '/admin/ai-studio' },
       { label: 'System Health', href: '/admin/system-health' },
       { label: 'Snapshots', href: '/admin/snapshots' },
       { label: 'Impersonate', href: '/admin/impersonate' },

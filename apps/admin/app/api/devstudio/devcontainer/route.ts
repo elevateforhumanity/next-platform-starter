@@ -26,6 +26,51 @@ const MAX_CONTENT_BYTES = 64 * 1024; // 64 KB
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+/**
+ * DEVSTUDIO_DEVCONTAINER_MODE controls how the devcontainer route resolves
+ * its read/write source:
+ *
+ *   github-only  — always use GitHub API; fail-fast if GITHUB_TOKEN missing
+ *   local-only   — always use local filesystem; fail if file not found
+ *   auto         — GitHub (if token present) → local → GitHub public read-only
+ *
+ * Defaults to 'auto' for backward compatibility.
+ */
+type DevContainerMode = 'github-only' | 'local-only' | 'auto';
+
+function resolveMode(): DevContainerMode {
+  const raw = (process.env.DEVSTUDIO_DEVCONTAINER_MODE ?? 'auto').toLowerCase();
+  if (raw === 'github-only' || raw === 'local-only') return raw;
+  return 'auto';
+}
+
+interface RuntimeCapabilities {
+  mode: DevContainerMode;
+  canRead: boolean;
+  canCommit: boolean;
+  hasGitHubToken: boolean;
+  hasLocalFile: boolean;
+}
+
+async function getRuntimeCapabilities(): Promise<RuntimeCapabilities> {
+  const mode = resolveMode();
+  const hasToken = hasGitHubToken();
+  let hasLocal = false;
+  try {
+    const p = await resolveLocalDevcontainerPath();
+    await access(p);
+    hasLocal = true;
+  } catch { /* no local file */ }
+
+  return {
+    mode,
+    canRead:     mode === 'github-only' ? hasToken : (hasToken || hasLocal || true),
+    canCommit:   hasToken,
+    hasGitHubToken: hasToken,
+    hasLocalFile:   hasLocal,
+  };
+}
+
 function stripJsonCommentsAndTrailingCommas(input: string): string {
   let out = '';
   let inString = false;
@@ -177,32 +222,61 @@ export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
+  const caps = await getRuntimeCapabilities();
+
   try {
-    if (hasGitHubToken()) {
+    // ── github-only mode ────────────────────────────────────────────────────
+    if (caps.mode === 'github-only') {
+      if (!caps.hasGitHubToken) {
+        return safeError(
+          'DEVSTUDIO_DEVCONTAINER_MODE=github-only but GITHUB_TOKEN is not set. ' +
+          'Set GITHUB_TOKEN in SSM or switch mode to auto.',
+          503,
+        );
+      }
       const gh = await readGitHubDevcontainer(true);
       if (!gh.ok) {
         if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
         return safeError('GitHub API error', gh.status);
       }
       return NextResponse.json({
-        raw: gh.raw,
-        parsed: gh.parsed,
-        sha: gh.sha,
-        source: 'github',
-        writable: true,
+        raw: gh.raw, parsed: gh.parsed, sha: gh.sha,
+        source: 'github', writable: true,
+        mode: caps.mode, capabilities: caps, canCommit: caps.canCommit,
       });
     }
 
-    // No GITHUB_TOKEN: prefer local file (dev env), then fallback to unauthenticated
-    // GitHub read (public repo) so the panel still works in ECS as read-only.
+    // ── local-only mode ─────────────────────────────────────────────────────
+    if (caps.mode === 'local-only') {
+      const local = await readLocalDevcontainer();
+      return NextResponse.json({
+        raw: local.raw, parsed: local.parsed, sha: local.sha,
+        source: 'local', writable: true,
+        mode: caps.mode, capabilities: caps, canCommit: false,
+      });
+    }
+
+    // ── auto mode (default) ─────────────────────────────────────────────────
+    // Priority: GitHub (authenticated) → local file → GitHub (public read-only)
+    if (caps.hasGitHubToken) {
+      const gh = await readGitHubDevcontainer(true);
+      if (!gh.ok) {
+        if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
+        return safeError('GitHub API error', gh.status);
+      }
+      return NextResponse.json({
+        raw: gh.raw, parsed: gh.parsed, sha: gh.sha,
+        source: 'github', writable: true,
+        mode: caps.mode, capabilities: caps, canCommit: true,
+      });
+    }
+
     try {
       const local = await readLocalDevcontainer();
       return NextResponse.json({
-        raw: local.raw,
-        parsed: local.parsed,
-        sha: local.sha,
-        source: 'local',
-        writable: true,
+        raw: local.raw, parsed: local.parsed, sha: local.sha,
+        source: 'local', writable: true,
+        mode: caps.mode, capabilities: caps, canCommit: false,
       });
     } catch {
       const gh = await readGitHubDevcontainer(false);
@@ -211,11 +285,9 @@ export async function GET(request: NextRequest) {
         return safeError('Devcontainer unavailable: set GITHUB_TOKEN or ensure repo is publicly readable', 503);
       }
       return NextResponse.json({
-        raw: gh.raw,
-        parsed: gh.parsed,
-        sha: gh.sha,
-        source: 'github-readonly',
-        writable: false,
+        raw: gh.raw, parsed: gh.parsed, sha: gh.sha,
+        source: 'github-readonly', writable: false,
+        mode: caps.mode, capabilities: caps, canCommit: false,
       });
     }
   } catch (err) {
@@ -229,6 +301,16 @@ export async function PUT(request: NextRequest) {
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
+
+  const caps = await getRuntimeCapabilities();
+
+  // Fail-fast: github-only mode requires a token
+  if (caps.mode === 'github-only' && !caps.hasGitHubToken) {
+    return safeError(
+      'DEVSTUDIO_DEVCONTAINER_MODE=github-only but GITHUB_TOKEN is not set. Cannot write.',
+      503,
+    );
+  }
 
   try {
     const body = await request.json();
@@ -248,17 +330,16 @@ export async function PUT(request: NextRequest) {
     parseJsonc(content);
 
     if (!hasGitHubToken()) {
+      if (caps.mode === 'local-only') {
+        const result = await writeLocalDevcontainer(content, sha);
+        if (result.conflict) return safeError('sha mismatch; reload before saving', 409);
+        return NextResponse.json({ ok: true, sha: result.sha, commit: 'local write' });
+      }
+      // auto mode — try local, then fail with helpful message
       try {
         const result = await writeLocalDevcontainer(content, sha);
-        if (result.conflict) {
-          return safeError('sha mismatch; reload before saving', 409);
-        }
-
-        return NextResponse.json({
-          ok: true,
-          sha: result.sha,
-          commit: 'local write (GITHUB_TOKEN not configured)',
-        });
+        if (result.conflict) return safeError('sha mismatch; reload before saving', 409);
+        return NextResponse.json({ ok: true, sha: result.sha, commit: 'local write (GITHUB_TOKEN not configured)' });
       } catch {
         return safeError('Save requires GITHUB_TOKEN in production/ECS environments', 503);
       }
