@@ -23,7 +23,7 @@ interface HeaderDesktopNavProps {
 
 export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
   return (
-    <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main navigation">
+    <nav className="hidden xl:flex items-center gap-1 2xl:gap-2" aria-label="Main navigation">
       {items.map((item) => (
         <div key={item.name} className="relative group">
           {item.subItems && item.subItems.length > 0 ? (

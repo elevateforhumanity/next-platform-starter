@@ -6,24 +6,19 @@
     "posterImage": "/images/pages/comp-home-hero.webp",
     "voiceoverSrc": "/audio/heroes/home.mp3",
     "microLabel": "Indianapolis, Indiana",
-    "belowHeroHeadline": "Workforce Training. Apprenticeships. Funding. Placement. All in One System.",
-    "belowHeroSubheadline": "Elevate for Humanity connects individuals to training, funding, certification, and employment — often at no cost through WIOA or state funding.",
+    "belowHeroHeadline": "Workforce Infrastructure. Apprenticeships. Funding. Placement.",
+    "belowHeroSubheadline": "Elevate connects people to funded training, DOL-registered apprenticeships, industry credentials, and employment — often at no cost through WIOA or state funding.",
     "primaryCta": {
-      "label": "Check Eligibility",
-      "href": "/check-eligibility"
+      "label": "Explore Career Pathways",
+      "href": "/programs"
     },
     "secondaryCta": {
-      "label": "For Agencies & Partners",
-      "href": "/for-agencies",
+      "label": "For Employers",
+      "href": "/for-employers",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "DOL Registered Apprenticeship Sponsor",
-      "ETPL & WIOA approved",
-      "Compliance-ready reporting",
-      "Indianapolis, Indiana"
-    ],
-    "transcript": "Elevate for Humanity is a workforce operating system — not just a training provider. We handle credentialing, compliance tracking, employer placement, and funding documentation so agencies and participants can focus on outcomes.",
+    "trustIndicators": [],
+    "transcript": "Elevate for Humanity is an AI-powered workforce operating system — not just a training provider. We handle credentialing, compliance tracking, employer placement, apprenticeship coordination, and funding documentation so agencies and participants can focus on outcomes.",
     "analyticsName": "home"
   },
   "about": {

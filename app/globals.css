@@ -342,16 +342,17 @@ body {
   }
 }
 
-/* Tighter section spacing - matches SkilledUS */
-section {
+/* Tighter section spacing - scoped to marketing content areas only.
+   Homepage sections (components/home/) use Tailwind py-* directly. */
+.marketing-content section:not([class*="py-"]) {
   width: 100%;
   margin: 0;
-  padding: 3rem 0; /* Reduced from 4rem */
+  padding: 3rem 0;
   position: relative;
 }
 
 @media (min-width: 768px) {
-  section {
+  .marketing-content section:not([class*="py-"]) {
     padding: 4rem 0;
   }
 }
@@ -1993,7 +1994,7 @@ header[role='banner'] a.\!text-white {
    client navigates to an app route. CSS handles the rest — no DOM removal. */
 
 [data-marketing-main] {
-  padding-top: 70px;
+  padding-top: 60px;
 }
 
 /* Hide all marketing chrome (header + footer) on app routes */
