@@ -30,7 +30,7 @@ export default function CNAPage() {
             {CNA.title}
           </h1>
           <p className="text-white/90 text-base sm:text-lg leading-relaxed">
-            Indiana state certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site.
+            Indiana state certification in 4 weeks. Clinical rotations at licensed facilities. State exam proctored on-site.
           </p>
         </div>
       </section>
@@ -62,7 +62,7 @@ export default function CNAPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Program Overview</h2>
           <p className="text-slate-700 text-base leading-relaxed mb-3">
-            Elevate&apos;s CNA program prepares you for the Indiana state Certified Nursing Assistant exam in 6 weeks. You complete supervised clinical rotations at licensed healthcare facilities and sit for the state exam on-site — no separate testing center required.
+            Elevate&apos;s CNA program prepares you for the Indiana state Certified Nursing Assistant exam in 4 weeks. You complete supervised clinical rotations at licensed healthcare facilities and sit for the state exam on-site — no separate testing center required.
           </p>
           <p className="text-slate-700 text-base leading-relaxed">
             CNAs are in high demand across Indiana hospitals, nursing homes, and home health agencies. Most graduates receive job offers before or immediately after completing the program. Starting pay ranges from $16–$20/hr in the Indianapolis metro area.
@@ -78,7 +78,7 @@ export default function CNAPage() {
             {[
               { step: 1, title: 'Apply', desc: 'Submit your application online. No prior healthcare experience required.' },
               { step: 2, title: 'Enroll', desc: 'Complete enrollment paperwork and background check. Confirm funding or self-pay.' },
-              { step: 3, title: 'Train', desc: '6 weeks of classroom instruction, skills lab, and supervised clinical rotations at licensed facilities.' },
+              { step: 3, title: 'Train', desc: '4 weeks of classroom instruction, skills lab, and supervised clinical rotations at licensed facilities.' },
               { step: 4, title: 'Credential', desc: 'Sit for the Indiana state CNA written and skills exam, proctored on-site at Elevate.' },
               { step: 5, title: 'Employment', desc: 'Receive job placement support and direct introductions to healthcare employer partners.' },
             ].map((item) => (

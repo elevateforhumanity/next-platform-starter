@@ -4,7 +4,7 @@ export const CNA: ProgramSchema = {
   slug: 'cna',
   title: 'Certified Nursing Assistant (CNA)',
   subtitle:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850).',
+    'Indiana state CNA certification in 4 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850).',
   sector: 'healthcare',
   category: 'Healthcare',
   programType: 'workforce',
@@ -15,7 +15,7 @@ export const CNA: ProgramSchema = {
 
   deliveryMode: 'hybrid',
   deliveredBy: 'Elevate',
-  durationWeeks: 6,
+  durationWeeks: 4,
   hoursPerWeekMin: 30,
   hoursPerWeekMax: 40,
   hoursBreakdown: {
@@ -62,31 +62,31 @@ export const CNA: ProgramSchema = {
     {
       statement:
         'Measure and document vital signs — temperature, pulse, respiration, and blood pressure — within clinical accuracy standards',
-      assessedAt: 'Week 2',
+      assessedAt: 'Week 1',
     },
     {
       statement:
         'Perform a complete bed bath, oral hygiene, and grooming on a skills lab mannequin to state exam standards',
-      assessedAt: 'Week 3',
+      assessedAt: 'Week 2',
     },
     {
       statement:
         'Assist a patient with ambulation using a gait belt, transfer from bed to wheelchair, and reposition in bed',
-      assessedAt: 'Week 4',
+      assessedAt: 'Week 2',
     },
     {
       statement:
         'Complete supervised clinical rotations at a licensed Indiana healthcare facility with documented competency sign-offs',
-      assessedAt: 'Week 5',
+      assessedAt: 'Week 3',
     },
     {
       statement:
         'Pass the Indiana state CNA written and skills exam — proctored on-site at Elevate',
-      assessedAt: 'Week 6',
+      assessedAt: 'Week 4',
     },
     {
       statement: 'Document patient care observations accurately in a simulated medical record',
-      assessedAt: 'Week 4',
+      assessedAt: 'Week 2',
     },
   ],
 
@@ -125,27 +125,33 @@ export const CNA: ProgramSchema = {
 
   weeklySchedule: [
     {
-      week: 'Weeks 1–2',
+      week: 'Week 1',
       title: 'Foundations of Patient Care',
       competencyMilestone:
         'Accurately measure and document all four vital signs within clinical tolerance',
     },
     {
-      week: 'Weeks 3–4',
+      week: 'Week 2',
       title: 'Clinical Skills Lab',
       competencyMilestone:
         'Complete bed bath, transfer, ambulation, and catheter care to state exam standards',
     },
     {
-      week: 'Weeks 5–6',
-      title: 'Clinical Rotations & State Exam',
+      week: 'Week 3',
+      title: 'Clinical Rotations',
+      competencyMilestone:
+        'Complete supervised clinical hours at a licensed Indiana facility with competency sign-offs',
+    },
+    {
+      week: 'Week 4',
+      title: 'State Exam',
       competencyMilestone: 'Pass Indiana state CNA written and skills exam proctored on-site',
     },
   ],
 
   curriculum: [
     {
-      title: 'Weeks 1–2: Patient Care Foundations',
+      title: 'Week 1: Patient Care Foundations',
       topics: [
         'Measure blood pressure, pulse, temperature, and respiration on lab partners — document results to clinical standard',
         'Perform hand hygiene and don/doff PPE correctly before every patient contact exercise',
@@ -154,7 +160,7 @@ export const CNA: ProgramSchema = {
       ],
     },
     {
-      title: 'Weeks 3–4: Clinical Skills Lab',
+      title: 'Week 2: Clinical Skills Lab',
       topics: [
         'Complete a full bed bath, shampoo, oral hygiene, and nail care on a skills lab mannequin',
         'Assist a simulated patient with eating, including thickened liquids and adaptive utensils',
@@ -164,10 +170,15 @@ export const CNA: ProgramSchema = {
       ],
     },
     {
-      title: 'Weeks 5–6: Clinical Rotations & State Exam',
+      title: 'Week 3: Clinical Rotations',
       topics: [
         'Complete supervised clinical hours at a licensed Indiana nursing facility or hospital',
         'Perform all skills under RN supervision with competency sign-off from clinical instructor',
+      ],
+    },
+    {
+      title: 'Week 4: State Exam',
+      topics: [
         'Sit for the Indiana state CNA written exam — 70 questions, 90-minute time limit',
         'Demonstrate 5 randomly selected clinical skills for the state skills examiner — proctored on-site at Elevate',
       ],
@@ -178,7 +189,7 @@ export const CNA: ProgramSchema = {
     {
       standard: 'Indiana State Department of Health — CNA Curriculum',
       description:
-        "Program meets Indiana's minimum 75-hour CNA training requirement including required clinical hours.",
+        "Program meets Indiana's minimum 75-hour CNA training requirement including required clinical hours, delivered in an accelerated 4-week format.",
     },
     {
       standard: 'OBRA 1987 (Omnibus Budget Reconciliation Act)',
@@ -223,12 +234,12 @@ export const CNA: ProgramSchema = {
     {
       question: 'Is the state exam included?',
       answer:
-        'Yes. The Indiana state CNA written and skills exam is proctored on-site at Elevate during Week 6. The exam fee is included in tuition or covered by funding when applicable.',
+        'Yes. The Indiana state CNA written and skills exam is proctored on-site at Elevate during Week 4. The exam fee is included in tuition or covered by funding when applicable.',
     },
     {
       question: 'What funding is available?',
       answer:
-        'CNA is funded through the FSSA IMPACT program for eligible SNAP and TANF recipients. Many students pay $0. Eligibility is determined through FSSA intake. Self-pay tuition is $2,500 (currently on sale for $1,850). BNPL financing available through Affirm and Sezzle.',
+        'CNA is funded through the FSSA IMPACT program for eligible SNAP and TANF recipients. Many students pay $0. Eligibility is determined through FSSA intake. Self-pay tuition is $2,500 (currently on sale for $1,850). BNPL financing available through Affirm, Sezzle, Klarna, and more.',
     },
     {
       question: 'Where are the clinical rotations?',
@@ -253,9 +264,9 @@ export const CNA: ProgramSchema = {
     requestInfoHref: '/contact?program=cna',
   },
 
-  metaTitle: 'CNA Program — Indiana State Certification in 6 Weeks | Elevate for Humanity',
+  metaTitle: 'CNA Program — Indiana State Certification in 4 Weeks | Elevate for Humanity',
   metaDescription:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850). Indianapolis.',
+    'Indiana state CNA certification in 4 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $2,500 (Sale: $1,850). Indianapolis.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',

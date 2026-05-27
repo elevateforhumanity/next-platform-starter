@@ -31,7 +31,7 @@ export default function CnaWaitlistPage() {
           <h2 className="font-bold text-blue-900 mb-2">About the CNA Program</h2>
           <ul className="space-y-2 text-sm text-blue-800">
             {[
-              '6-week accelerated program — classroom and clinical hours',
+              '4-week accelerated program — classroom and clinical hours',
               'Prepares you for the Indiana State CNA competency exam',
               'WIOA and Workforce Ready Grant funding accepted',
               'Job placement support with nursing home and hospital partners',
