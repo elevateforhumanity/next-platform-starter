@@ -189,6 +189,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     const jobName = options.cron
       ? req.nextUrl.pathname.replace(/^\/api\/cron\//, '').replace(/\/$/, '')
       : null;
+    const traceId = req.headers.get('x-trace-id') ?? 'no-trace';
 
     try {
       const response = await handler!(req, ctx);
@@ -205,6 +206,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
       logger.error('[withRuntime] Unhandled handler error', err instanceof Error ? err : new Error(message), {
         route: req.nextUrl.pathname,
         method: req.method,
+        trace_id: traceId,
       });
       if (cronStartedAt && jobName) {
         recordCronRun(jobName, 'failed', cronStartedAt, undefined, message);

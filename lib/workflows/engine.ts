@@ -267,11 +267,14 @@ export async function executeWorkflow(
   triggeredBy: 'manual' | 'event' | 'schedule' | 'webhook',
   triggerPayload: Record<string, unknown> = {},
   triggerId?: string,
+  traceId?: string,
+  tenantId?: string,
 ): Promise<{ runId: string; status: RunStatus; stepsRun: number; error?: string }> {
   const runStart = Date.now();
   const db = await requireAdminClient();
+  const trace = traceId ?? (triggerPayload['trace_id'] as string | undefined) ?? 'no-trace';
 
-  logger.info('[WORKFLOW START]', { workflowId, triggeredBy, trigger_id: triggerId });
+  logger.info('[WORKFLOW START]', { workflowId, triggeredBy, trigger_id: triggerId, trace_id: trace });
 
   const { data: steps, error: stepsErr } = await db
     .from('workflow_steps')
@@ -281,7 +284,7 @@ export async function executeWorkflow(
     .order('step_order', { ascending: true });
 
   if (stepsErr) {
-    logger.error('[WORKFLOW FAILED] could not load steps', { workflowId, error: stepsErr.message });
+    logger.error('[WORKFLOW FAILED] could not load steps', { workflowId, error: stepsErr.message, trace_id: trace });
     return { runId: '', status: 'failed', stepsRun: 0, error: stepsErr.message };
   }
 
@@ -292,22 +295,23 @@ export async function executeWorkflow(
       trigger_id: triggerId ?? null,
       status: 'running',
       triggered_by: triggeredBy,
-      trigger_payload: triggerPayload,
+      trigger_payload: { ...triggerPayload, trace_id: trace },
       steps_total: (steps ?? []).length,
       steps_done: 0,
       retry_count: 0,
       started_at: new Date().toISOString(),
+      ...(tenantId ? { tenant_id: tenantId } : {}),
     })
     .select('id')
     .single();
 
   if (runErr || !run) {
-    logger.error('[WORKFLOW FAILED] could not create run record', { workflowId, error: runErr?.message });
+    logger.error('[WORKFLOW FAILED] could not create run record', { workflowId, error: runErr?.message, trace_id: trace });
     return { runId: '', status: 'failed', stepsRun: 0, error: runErr?.message };
   }
 
   const runId = run.id;
-  const ctx: RunContext = { workflowId, runId, triggerPayload };
+  const ctx: RunContext = { workflowId, runId, triggerPayload: { ...triggerPayload, trace_id: trace } };
   let stepsDone = 0;
   let finalStatus: RunStatus = 'success';
   let errorMessage: string | undefined;
@@ -370,9 +374,9 @@ export async function executeWorkflow(
   }).eq('id', runId);
 
   if (finalStatus === 'success') {
-    logger.info('[WORKFLOW SUCCESS]', { workflowId, runId, stepsRun: stepsDone, duration_ms: totalDuration });
+    logger.info('[WORKFLOW SUCCESS]', { workflowId, runId, stepsRun: stepsDone, duration_ms: totalDuration, trace_id: trace });
   } else {
-    logger.error('[WORKFLOW FAILED]', { workflowId, runId, stepsRun: stepsDone, duration_ms: totalDuration, error: errorMessage });
+    logger.error('[WORKFLOW FAILED]', { workflowId, runId, stepsRun: stepsDone, duration_ms: totalDuration, error: errorMessage, trace_id: trace });
   }
 
   return { runId, status: finalStatus, stepsRun: stepsDone, error: errorMessage };

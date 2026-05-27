@@ -125,6 +125,23 @@ export const POST = withRuntime({ cron: true }, async () => {
       continue;
     }
 
+    // Concurrency guard: skip if workflow already has an active run
+    const { data: activeRun } = await db
+      .from('workflow_runs')
+      .select('id')
+      .eq('workflow_id', trigger.workflow_id)
+      .eq('status', 'running')
+      .maybeSingle();
+
+    if (activeRun) {
+      logger.warn('[workflow-schedule-processor] Skipping — workflow already running', {
+        workflow_id: trigger.workflow_id,
+        active_run_id: activeRun.id,
+      });
+      skipped++;
+      continue;
+    }
+
     try {
       await executeWorkflow(trigger.workflow_id, 'schedule', { trigger_id: trigger.id }, trigger.id);
       fired++;

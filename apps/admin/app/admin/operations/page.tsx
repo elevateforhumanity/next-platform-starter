@@ -4,11 +4,15 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Activity, AlertTriangle, CheckCircle, Clock, XCircle,
-  RefreshCw, Inbox, Zap, BarChart3, ArrowRight,
+  RefreshCw, Inbox, Zap, BarChart3, ArrowRight, RotateCcw,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Operations | Admin' };
+
+// Dead-letter replay is a client action — link to the detail page instead
+// so the server component stays pure. The replay API is at:
+// POST /api/admin/workflows/dead-letters/[id]/replay
 
 function StatusDot({ status }: { status: 'ok' | 'warn' | 'fail' }) {
   if (status === 'ok') return <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />;
@@ -167,6 +171,15 @@ export default async function OperationsPage() {
                     <span className="text-white font-mono">{r.action_type ?? 'unknown'}</span>
                     <span className="text-slate-500 text-xs ml-auto">{r.attempts} attempts</span>
                     <span className="text-slate-600 text-xs">{new Date(r.created_at).toLocaleDateString()}</span>
+                    {r.workflow_id && (
+                      <Link
+                        href={`/admin/workflows/${r.workflow_id}`}
+                        className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition-colors"
+                        title="Replay via workflow page"
+                      >
+                        <RotateCcw className="w-3 h-3" /> Replay
+                      </Link>
+                    )}
                   </div>
                   {r.last_error && (
                     <p className="mt-1 ml-7 text-red-400 text-xs truncate">{r.last_error}</p>
