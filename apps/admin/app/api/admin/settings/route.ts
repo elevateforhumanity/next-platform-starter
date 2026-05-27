@@ -59,7 +59,26 @@ async function _POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const allowed = ['site_name', 'support_email', 'email_notifications', 'system_alerts'];
+  const allowed = [
+    // General
+    'site_name', 'support_email', 'contact_phone', 'timezone',
+    // Email
+    'email_from_name', 'email_from_address', 'reply_to_email', 'email_provider',
+    'mou_archive_email', 'sponsor_finance_email',
+    // Notifications
+    'email_notifications', 'sms_notifications', 'slack_webhook',
+    'notify_on_enrollment', 'notify_on_application', 'notify_on_payment', 'notify_on_certificate',
+    'alert_email', 'alert_email_to',
+    // Payments
+    'stripe_mode', 'currency', 'payment_methods',
+    'bnpl_enabled', 'affirm_enabled', 'sezzle_enabled', 'klarna_enabled', 'afterpay_enabled',
+    'payment_plans_enabled', 'stripe_webhook_endpoint', 'payment_success_url', 'payment_cancel_url',
+    // Security
+    'mfa_required', 'session_timeout', 'ip_allowlist',
+    'demo_mode', 'demo_allow_in_prod', 'max_login_attempts', 'lockout_duration_minutes',
+    // Legacy
+    'system_alerts',
+  ];
   const updates = Object.entries(body)
     .filter(([k]) => allowed.includes(k))
     .map(([key, value]) => ({
