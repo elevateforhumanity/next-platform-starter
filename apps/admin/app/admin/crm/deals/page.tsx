@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
+import { requireAdmin } from '@/lib/authGuards';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { DollarSign, Plus, Building2, Calendar, ArrowRight } from 'lucide-react';
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 // Pipeline stage config — UI metadata only, not business data
 const PIPELINE_STAGES = [
@@ -26,7 +27,7 @@ const STAGE_BADGE: Record<string, string> = {
 };
 
 export default async function DealsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  await requireAdmin();
   const db = await requireAdminClient();
 
   const { data: deals, error } = await db
