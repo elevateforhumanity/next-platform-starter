@@ -7,6 +7,7 @@
 
 import { createAdminClient } from '@/lib/supabase/admin';
 import { emitEvent } from '@/lib/platform/events';
+import { sendEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import type { WorkflowStep, RunStatus } from './types';
 
@@ -70,6 +71,82 @@ async function execWebhookCall(
   }
 }
 
+async function execSendEmail(
+  config: Record<string, unknown>,
+  ctx: RunContext,
+): Promise<{ ok: boolean; output: Record<string, unknown> }> {
+  const to = config.to as string | string[] | undefined;
+  const subject = config.subject as string | undefined;
+  const html = config.html as string | undefined;
+
+  if (!to || !subject || !html) {
+    return { ok: false, output: { error: 'send_email requires to, subject, and html in action_config' } };
+  }
+
+  // Interpolate {{key}} placeholders from triggerPayload
+  const interpolate = (s: string) =>
+    s.replace(/\{\{(\w+)\}\}/g, (_, k) => String(ctx.triggerPayload[k] ?? ''));
+
+  const resolvedTo = Array.isArray(to) ? to.map(interpolate) : interpolate(to);
+  const resolvedSubject = interpolate(subject);
+  const resolvedHtml = interpolate(html);
+
+  try {
+    const ok = await sendEmail({ to: resolvedTo, subject: resolvedSubject, html: resolvedHtml });
+    return { ok, output: { to: resolvedTo, subject: resolvedSubject } };
+  } catch (err: any) {
+    return { ok: false, output: { error: err.message } };
+  }
+}
+
+/**
+ * Condition step — evaluates a simple dot-path expression against triggerPayload.
+ * condition_expr format: "field operator value"
+ * Supported operators: == != > < >= <=
+ * Example: "severity == critical"  |  "deficit > 40"
+ * Returns ok=false (halts workflow) when condition fails.
+ */
+function execCondition(
+  config: Record<string, unknown>,
+  conditionExpr: string | null,
+  ctx: RunContext,
+): { ok: boolean; output: Record<string, unknown> } {
+  const expr = (config.condition_expr as string | undefined) ?? conditionExpr;
+  if (!expr) return { ok: true, output: { condition: 'passed', reason: 'no expression' } };
+
+  const match = expr.trim().match(/^([\w.]+)\s*(==|!=|>=|<=|>|<)\s*(.+)$/);
+  if (!match) return { ok: true, output: { condition: 'passed', reason: 'unparseable expression' } };
+
+  const [, path, op, rawExpected] = match;
+  const expected = rawExpected.trim().replace(/^["']|["']$/g, '');
+
+  // Resolve dot-path from triggerPayload
+  const actual = path.split('.').reduce<unknown>((obj, key) => {
+    if (obj && typeof obj === 'object') return (obj as Record<string, unknown>)[key];
+    return undefined;
+  }, ctx.triggerPayload as unknown);
+
+  const actualStr = String(actual ?? '');
+  const actualNum = parseFloat(actualStr);
+  const expectedNum = parseFloat(expected);
+
+  let passed: boolean;
+  switch (op) {
+    case '==': passed = actualStr === expected; break;
+    case '!=': passed = actualStr !== expected; break;
+    case '>':  passed = !isNaN(actualNum) && !isNaN(expectedNum) && actualNum > expectedNum; break;
+    case '<':  passed = !isNaN(actualNum) && !isNaN(expectedNum) && actualNum < expectedNum; break;
+    case '>=': passed = !isNaN(actualNum) && !isNaN(expectedNum) && actualNum >= expectedNum; break;
+    case '<=': passed = !isNaN(actualNum) && !isNaN(expectedNum) && actualNum <= expectedNum; break;
+    default:   passed = true;
+  }
+
+  return {
+    ok: passed,
+    output: { condition: passed ? 'passed' : 'failed', expr, actual: actualStr, expected },
+  };
+}
+
 async function execStep(
   step: WorkflowStep,
   ctx: RunContext,
@@ -82,12 +159,9 @@ async function execStep(
     case 'webhook_call':
       return execWebhookCall(step.action_config);
     case 'send_email':
-      // Placeholder — wire to SendGrid/delivery_logs when email service is integrated
-      return { ok: true, output: { note: 'email queued (stub)' } };
+      return execSendEmail(step.action_config, ctx);
     case 'condition':
-      // Simple condition: evaluate condition_expr against triggerPayload
-      // For now always passes — extend with jsonpath/jmespath later
-      return { ok: true, output: { condition: 'passed' } };
+      return execCondition(step.action_config, step.condition_expr ?? null, ctx);
     default:
       return { ok: true, output: { note: `action ${step.action_type} not yet implemented` } };
   }
