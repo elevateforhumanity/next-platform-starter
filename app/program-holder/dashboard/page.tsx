@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   Users, BookOpen, TrendingUp, Award, Settings, AlertCircle, Clock, ClipboardList, CalendarDays, CreditCard,
-  ChevronRight, DollarSign, FileText,
+  ChevronRight, DollarSign, FileText, CheckCircle, XCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
@@ -138,6 +138,38 @@ export default async function ProgramHolderDashboardPage() {
     msByStudent[m.user_id].total++;
     if (m.completed) msByStudent[m.user_id].done++;
   }
+
+  // ── pending hour approvals ─────────────────────────────────────────────────
+  const { data: pendingHoursRaw } = holderId
+    ? await db.from('hour_entries')
+        .select('id, user_id, work_date, hours_claimed, source_type, created_at')
+        .eq('program_holder_id', holderId)
+        .eq('status', 'pending')
+        .order('work_date', { ascending: false })
+        .limit(10)
+    : { data: [] };
+  const pendingHoursUserIds = [...new Set((pendingHoursRaw ?? []).map((h: any) => h.user_id).filter(Boolean))];
+  const { data: pendingHoursProfiles } = pendingHoursUserIds.length
+    ? await db.from('profiles').select('id, full_name').in('id', pendingHoursUserIds)
+    : { data: [] };
+  const phpMap = Object.fromEntries((pendingHoursProfiles ?? []).map((p: any) => [p.id, p.full_name]));
+  const pendingHours = (pendingHoursRaw ?? []).map((h: any) => ({
+    ...h,
+    full_name: phpMap[h.user_id] ?? 'Unknown',
+  }));
+
+  // ── at-risk students (no activity in 7 days) ───────────────────────────────
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  const { data: recentActivityRaw } = studentUserIds.length
+    ? await db.from('progress_entries')
+        .select('user_id')
+        .in('user_id', studentUserIds)
+        .gte('work_date', sevenDaysAgo)
+    : { data: [] };
+  const recentlyActiveIds = new Set((recentActivityRaw ?? []).map((e: any) => e.user_id));
+  const atRiskStudents = students.filter(
+    (s) => s.status === 'active' && !recentlyActiveIds.has(s.userId),
+  );
 
   // ── payout schedules ───────────────────────────────────────────────────────
   const { data: payoutsRaw } = holderId
@@ -478,6 +510,81 @@ export default async function ProgramHolderDashboardPage() {
 
           {/* Right rail */}
           <div className="space-y-4">
+
+            {/* Pending Hour Approvals */}
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-amber-500" />
+                  Pending Hours
+                  {pendingHours.length > 0 && (
+                    <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-100 text-amber-800 border border-amber-200">
+                      {pendingHours.length}
+                    </span>
+                  )}
+                </h2>
+                <Link href="/program-holder/hours" className="text-xs text-brand-blue-600 hover:underline font-medium">
+                  Review →
+                </Link>
+              </div>
+              {pendingHours.length === 0 ? (
+                <div className="px-4 py-5 text-center">
+                  <CheckCircle className="w-6 h-6 text-green-400 mx-auto mb-1" />
+                  <p className="text-xs text-slate-400">No pending approvals</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-slate-50">
+                  {pendingHours.slice(0, 5).map((h: any) => (
+                    <div key={h.id} className="px-4 py-2.5 flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold text-slate-800 truncate">{h.full_name}</p>
+                        <p className="text-xs text-slate-400">{h.work_date} · {h.source_type}</p>
+                      </div>
+                      <span className="text-xs font-bold text-amber-700 flex-shrink-0">
+                        {Number(h.hours_claimed).toFixed(1)}h
+                      </span>
+                    </div>
+                  ))}
+                  {pendingHours.length > 5 && (
+                    <div className="px-4 py-2 text-center">
+                      <Link href="/program-holder/hours" className="text-xs text-brand-blue-600 hover:underline">
+                        +{pendingHours.length - 5} more →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* At-Risk Students */}
+            {atRiskStudents.length > 0 && (
+              <div className="bg-amber-50 rounded-xl border border-amber-200 overflow-hidden">
+                <div className="px-4 py-3 border-b border-amber-200 flex items-center justify-between">
+                  <h2 className="font-bold text-amber-900 text-sm flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600" />
+                    At Risk
+                    <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-200 text-amber-900">
+                      {atRiskStudents.length}
+                    </span>
+                  </h2>
+                  <Link href="/program-holder/students/at-risk" className="text-xs text-amber-700 hover:underline font-medium">
+                    View all →
+                  </Link>
+                </div>
+                <div className="divide-y divide-amber-100">
+                  {atRiskStudents.slice(0, 5).map((s) => (
+                    <div key={s.id} className="px-4 py-2.5 flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold text-amber-900 truncate">{s.name}</p>
+                        <p className="text-xs text-amber-600">No activity in 7+ days</p>
+                      </div>
+                      <XCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {[
               { label: 'Handbook', sub: 'Policies & requirements', href: '/program-holder/handbook', img: '/images/pages/program-holder-page-2.webp' },
               { label: 'Manage Students', sub: 'Attendance & progress', href: '/program-holder/students', img: '/images/pages/mentorship-page-1.webp' },
