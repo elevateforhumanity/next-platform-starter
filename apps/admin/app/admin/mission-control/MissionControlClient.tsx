@@ -189,7 +189,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
 
     const sb = createClient(url, key);
 
-    const channel = sb.channel('mission-control-counts')
+    const countChannel = sb.channel('mission-control-counts')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, () => {
         setCounts(c => ({ ...c, students: c.students + 1 }));
       })
@@ -197,7 +197,6 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
         setCounts(c => ({ ...c, activeEnrollments: c.activeEnrollments + 1 }));
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
-        // If status changed away from active, decrement
         if (payload.old?.status === 'active' && payload.new?.status !== 'active') {
           setCounts(c => ({ ...c, activeEnrollments: Math.max(0, c.activeEnrollments - 1) }));
         } else if (payload.old?.status !== 'active' && payload.new?.status === 'active') {
@@ -228,7 +227,71 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       })
       .subscribe();
 
-    return () => { sb.removeChannel(channel); };
+    // Live platform_events feed — new alerts appear instantly without polling
+    const alertsChannel = sb.channel('mission-control-alerts')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'platform_events' },
+        (payload) => {
+          const ev = payload.new as PlatformAlert;
+          setAlerts(prev => [ev, ...prev].slice(0, 20));
+          setLiveOpsSummary(s => s ? { ...s, unresolvedAlerts: s.unresolvedAlerts + 1 } : s);
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'platform_events' },
+        (payload) => {
+          if (payload.new?.resolved && !payload.old?.resolved) {
+            setAlerts(prev => prev.map(a => a.id === payload.new.id ? { ...a, resolved: true } : a));
+            setLiveOpsSummary(s => s ? { ...s, unresolvedAlerts: Math.max(0, s.unresolvedAlerts - 1) } : s);
+          }
+        },
+      )
+      .subscribe();
+
+    // Live timeclock feed — active clock-ins update in real time
+    const clockChannel = sb.channel('mission-control-clockins')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'progress_entries' },
+        (payload) => {
+          if (!payload.new?.clock_out_at) {
+            // New open shift — add to active list
+            const entry: ClockInEntry = {
+              id: payload.new.id,
+              apprentice_id: payload.new.apprentice_id,
+              student_name: 'Loading…',
+              clock_in_at: payload.new.clock_in_at,
+              clock_out_at: null,
+              is_active: true,
+              duration_min: null,
+              program_id: payload.new.program_id ?? null,
+              work_date: payload.new.work_date ?? null,
+            };
+            setClockIns(prev => [entry, ...prev]);
+            setLiveOpsSummary(s => s ? { ...s, activeClockIns: s.activeClockIns + 1 } : s);
+          }
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'progress_entries' },
+        (payload) => {
+          if (payload.new?.clock_out_at && !payload.old?.clock_out_at) {
+            // Shift closed — remove from active list
+            setClockIns(prev => prev.filter(c => c.id !== payload.new.id));
+            setLiveOpsSummary(s => s ? { ...s, activeClockIns: Math.max(0, s.activeClockIns - 1) } : s);
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      sb.removeChannel(countChannel);
+      sb.removeChannel(alertsChannel);
+      sb.removeChannel(clockChannel);
+    };
   }, []);
 
   const handleRefresh = async () => {

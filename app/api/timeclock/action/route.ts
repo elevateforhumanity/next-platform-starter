@@ -630,6 +630,20 @@ async function _POST(request: NextRequest) {
           if (!hourEntryId) {
             logger.warn('[Timeclock] clock_out: hour_entries sync failed for entry', { progress_entry_id });
           }
+
+          // Non-blocking RAPIDS update — fire and forget so clock-out response is never delayed.
+          if (resolvedApprenticeId) {
+            fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/rapids/safe-update`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                apprentice_id: resolvedApprenticeId,
+                trigger: 'clock_out',
+                progress_entry_id,
+                hours_worked: hoursWorked,
+              }),
+            }).catch((err) => logger.warn('[Timeclock] RAPIDS update failed (non-blocking)', err));
+          }
         }
 
         return NextResponse.json({
