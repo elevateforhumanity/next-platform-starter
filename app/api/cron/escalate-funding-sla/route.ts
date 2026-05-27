@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/escalate-funding-sla
  * Escalate funding SLA breaches — assignments pending > SLA threshold get critical alerts.

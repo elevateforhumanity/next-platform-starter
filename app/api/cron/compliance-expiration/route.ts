@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/compliance-expiration
  * Warn on attendance_records and documents approaching compliance deadlines.

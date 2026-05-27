@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/weekly-verdicts
  * Process pending instructor verdicts (lab/assignment sign-offs) older than 5 days.

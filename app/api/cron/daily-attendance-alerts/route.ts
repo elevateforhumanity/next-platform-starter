@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/daily-attendance-alerts
  * Alert instructors and admins about students with attendance issues today.

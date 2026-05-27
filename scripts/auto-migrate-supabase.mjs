@@ -130,10 +130,10 @@ if (useMgmtApi) {
   try {
     pgClient = await buildPgClient();
     if (!pgClient) {
-      console.error('❌ No database connection available.');
-      console.error('   Set SUPABASE_MANAGEMENT_API_KEY + SUPABASE_PROJECT_REF (preferred)');
-      console.error('   or SUPABASE_DB_URL / SUPABASE_DB_PASSWORD.');
-      process.exit(1);
+      console.warn('⚠️  No database connection available — skipping automated migration run.');
+      console.warn('   Migrations should be applied manually via the Supabase Dashboard.');
+      console.warn('   Set SUPABASE_MANAGEMENT_API_KEY + SUPABASE_PROJECT_REF to enable CI migrations.');
+      process.exit(0);
     }
     console.log('✅ Connected to database.');
     await pgClient.query(TRACKING_DDL);

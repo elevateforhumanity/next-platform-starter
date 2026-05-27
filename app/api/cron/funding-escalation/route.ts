@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/funding-escalation
  * Escalate funding assignments that have been pending > 7 days to critical alert.

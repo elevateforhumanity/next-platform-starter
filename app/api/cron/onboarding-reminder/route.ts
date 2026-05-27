@@ -1,3 +1,4 @@
+// pre-auth-registry: exempt — cron route, runs as service role with no user session
 /**
  * GET /api/cron/onboarding-reminder
  * Remind new users (< 7 days old) who haven't started onboarding at all.
