@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { Resend } from 'resend';
 
 
 async function _POST(request: NextRequest) {
@@ -212,6 +213,40 @@ async function _POST(request: NextRequest) {
           }),
         }),
       ]);
+    }
+
+    // Create or invite the applicant's Supabase auth account so they can
+    // log in and sign the MOU immediately after applying.
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const mouRedirect = `${siteUrl}/partners/cosmetology-partner-shop/sign-mou`;
+
+    try {
+      // Check if user already exists
+      const { data: existingUsers } = await db.auth.admin.listUsers();
+      const existingUser = existingUsers?.users?.find((u: { email?: string }) => u.email === contactEmail);
+
+      if (existingUser) {
+        // User exists — send magic link so they can log in
+        await db.auth.admin.generateLink({
+          type: 'magiclink',
+          email: contactEmail,
+          options: { redirectTo: mouRedirect },
+        });
+      } else {
+        // New user — create account and send invite email
+        await db.auth.admin.inviteUserByEmail(contactEmail, {
+          redirectTo: mouRedirect,
+          data: {
+            full_name: applicantName,
+            role: 'partner',
+            partner_type: 'cosmetology_salon',
+            partner_id: partner.id,
+          },
+        });
+      }
+    } catch (authErr) {
+      // Non-fatal — application is saved, log the error but don't fail the request
+      logger.error('Failed to create/invite partner auth account:', authErr);
     }
 
     return NextResponse.json({ success: true, partnerId: partner.id }, { status: 201 });
