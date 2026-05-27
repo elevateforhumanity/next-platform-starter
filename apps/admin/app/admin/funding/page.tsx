@@ -49,7 +49,7 @@ export default async function FundingPage() {
     // All enrolled students with payment data
     db.from('program_enrollments')
       .select('id, user_id, full_name, email, program_slug, payment_status, amount_paid_cents, funding_source, payout_status, payout_amount, payout_due_date, access_granted_at, enrolled_at')
-      .in('status', ['active', 'enrolled', 'in_progress'])
+      .in('enrollment_state', ['active', 'enrolled', 'onboarding'])
       .order('enrolled_at', { ascending: false })
       .limit(200),
   ]);

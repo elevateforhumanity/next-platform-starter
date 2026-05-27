@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -14,7 +14,7 @@ export default async function ProgramEnrollmentsPage({
   params: Promise<{ code: string }>;
 }) {
   const { code } = await params;
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
 
   const { data: program } = await supabase

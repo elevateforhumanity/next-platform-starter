@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { requireAdmin } from '@/lib/authGuards';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkflowsClient from './WorkflowsClient';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WorkflowsPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
   const { data: workflows } = await db

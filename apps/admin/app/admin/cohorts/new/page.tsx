@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewCohortPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 

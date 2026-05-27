@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { DocumentCenterClient } from './DocumentCenterClient';
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DocumentCenterPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await createAdminClient();
 
   const { data, error } = await db

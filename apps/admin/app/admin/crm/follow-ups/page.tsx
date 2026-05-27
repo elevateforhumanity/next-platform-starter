@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Clock, Phone, Mail, Calendar, Plus, CheckCircle } from 'lucide-react';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CRMFollowUpsPage() {
-  const auth = await requireAdmin();
+  const auth = await requireRole(['admin', 'super_admin', 'staff']);
   if ('error' in auth) {
     return <div className="p-8 text-center text-brand-red-600">Access denied</div>;
   }

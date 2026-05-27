@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { requireAdmin } from '@/lib/authGuards';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 export default async function EmailAutomationPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
   const { data: automations, error: automationsError } = await db

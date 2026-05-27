@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Bell, ChevronRight, CheckCircle, XCircle, Clock } from 'lucide-react';
@@ -31,7 +31,7 @@ function fmtDate(iso: string) {
 }
 
 export default async function AdminNotificationsPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
   const { data: adminUsers } = await db

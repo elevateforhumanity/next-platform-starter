@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import ContentManagerClient from './ContentManagerClient';
 
 export const dynamic = 'force-dynamic';
@@ -11,6 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ContentPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   return <ContentManagerClient />;
 }

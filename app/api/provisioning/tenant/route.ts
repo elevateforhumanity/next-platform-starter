@@ -1,9 +1,9 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
-import { createClient as createServerClient } from '@/lib/supabase/server';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -11,31 +11,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
 async function getSupabaseAdmin() {
-  return await getAdminClient();
-}
-
-async function verifyAdminAuth(
-  request: NextRequest,
-): Promise<{ isAdmin: boolean; userId?: string }> {
-  try {
-    const serverClient = await createServerClient();
-    const {
-      data: { user },
-    } = await serverClient.auth.getUser();
-
-    if (!user) return { isAdmin: false };
-
-    const { data: profile } = await serverClient
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
-    return { isAdmin, userId: user.id };
-  } catch {
-    return { isAdmin: false };
-  }
+  return await requireAdminClient();
 }
 
 async function sendWelcomeEmail(
@@ -84,22 +60,13 @@ async function _POST(request: NextRequest) {
   try {
     await hydrateProcessEnv();
 
-    // Verify admin or webhook secret
+    // Allow webhook secret bypass (automated provisioning) or admin session
     const webhookSecret = request.headers.get('x-webhook-secret');
+    const isWebhook = webhookSecret === process.env.PROVISIONING_WEBHOOK_SECRET && !!webhookSecret;
 
-    let authorized = false;
-
-    // Check webhook secret first
-    if (webhookSecret === process.env.PROVISIONING_WEBHOOK_SECRET) {
-      authorized = true;
-    } else {
-      // Check admin auth
-      const { isAdmin } = await verifyAdminAuth(request);
-      authorized = isAdmin;
-    }
-
-    if (!authorized) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!isWebhook) {
+      const auth = await apiRequireAdmin(request);
+      if (auth.error) return auth.error;
     }
 
     const body = await request.json();

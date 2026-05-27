@@ -5,7 +5,7 @@
 
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import Image from 'next/image';
@@ -85,7 +85,7 @@ export default async function GrantSubmissionsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
 
   const { submissions } = await getSubmissionsData();
 

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 import Link from 'next/link';
 import {
@@ -27,7 +27,7 @@ export default async function WIOAVerifyPage({
 }: {
   searchParams: Promise<{ id?: string }>;
 }) {
-  const auth = await requireAdmin();
+  const auth = await requireRole(['admin', 'super_admin', 'staff']);
   if ('error' in auth) {
     return <div className="p-8 text-center text-brand-red-600">Access denied</div>;
   }

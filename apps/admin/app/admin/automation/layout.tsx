@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireDevToolsAccess } from '@/lib/admin/guards';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const { role } = await requireAdmin();
+  const { role } = await requireRole(['admin', 'super_admin', 'staff']);
   requireDevToolsAccess(role);
   return <>{children}</>;
 }

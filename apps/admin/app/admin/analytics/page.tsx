@@ -40,11 +40,11 @@ export default async function AnalyticsPage() {
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'active'),
+      .in('enrollment_state', ['active', 'enrolled', 'onboarding']),
     db
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'completed'),
+      .eq('enrollment_state', 'completed'),
     db.from('program_completion_certificates').select('*', { count: 'exact', head: true }),
     db.from('programs').select('*', { count: 'exact', head: true }).eq('published', true),
     db

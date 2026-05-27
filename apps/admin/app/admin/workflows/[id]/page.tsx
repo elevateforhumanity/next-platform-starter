@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { requireAdmin } from '@/lib/authGuards';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkflowDetailClient from './WorkflowDetailClient';
@@ -16,7 +16,7 @@ export default async function WorkflowDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
   const db = await requireAdminClient();
 

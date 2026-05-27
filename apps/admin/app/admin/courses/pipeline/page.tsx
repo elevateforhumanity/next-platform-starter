@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import CoursePipelineClient from './CoursePipelineClient';
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CoursePipelinePage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
 
   const { data: programs } = await supabase

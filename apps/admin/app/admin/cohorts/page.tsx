@@ -1,4 +1,4 @@
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function CohortTrackerPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
   if (!db) {

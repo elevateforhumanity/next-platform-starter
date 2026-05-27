@@ -1,11 +1,11 @@
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import PageClient from './PageClient';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
   const { data: programs } = await supabase
     .from('programs').select('id, title, slug').eq('is_active', true).order('title');

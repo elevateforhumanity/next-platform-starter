@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/auth';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
@@ -104,7 +104,7 @@ function cents(value: unknown): number {
 }
 
 export default async function AdminStripeIntegrationPage() {
-  await requireAdmin();
+  await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await requireAdminClient();
   if (!supabase) notFound();
 

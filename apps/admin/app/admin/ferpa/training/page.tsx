@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { requireAdmin } from '@/lib/authGuards';
+import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import FERPATrainingDashboard from '@/components/compliance/FERPATrainingDashboard';
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FERPATrainingPage() {
-  const { id: userId } = await requireAdmin();
+  const { id: userId } = await requireRole(['admin', 'super_admin', 'staff']);
   const db = await requireAdminClient();
 
   const [{ data: profile }, { data: trainingRecords }, { data: pendingUsers }] = await Promise.all([
