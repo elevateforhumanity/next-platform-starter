@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Shield } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'FERPA Audit Log | Admin | Elevate for Humanity',
