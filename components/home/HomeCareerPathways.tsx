@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock, Award, DollarSign, HardHat, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 
@@ -81,51 +81,43 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-4 gap-3">
-        <h3 className="font-extrabold text-slate-900 text-sm leading-snug">{prog.title}</h3>
+      <div className="flex flex-col flex-1 p-4 gap-2">
+        <h3 className="font-extrabold text-slate-900 text-sm leading-snug line-clamp-2">{prog.title}</h3>
 
-        {/* Meta row */}
-        <div className="flex flex-wrap gap-x-3 gap-y-1">
+        {/* Meta row — text only, no icons */}
+        <div className="flex flex-col gap-0.5">
           {duration && (
-            <span className="flex items-center gap-1 text-[11px] text-slate-500">
-              <Clock className="w-3 h-3" aria-hidden="true" />
-              {duration}
-            </span>
+            <span className="text-[11px] text-slate-500">{duration}</span>
           )}
           {salary && (
-            <span className="flex items-center gap-1 text-[11px] font-semibold text-brand-green-700">
-              <DollarSign className="w-3 h-3" aria-hidden="true" />
-              {salary}
-            </span>
+            <span className="text-[11px] font-semibold text-brand-green-700">{salary}</span>
           )}
         </div>
 
-        {/* Credential + apprenticeship flags */}
+        {/* Credential + apprenticeship flags — text only */}
         <div className="flex flex-wrap gap-1.5">
           {prog.credentials?.slice(0, 1).map((c) => (
             <span
               key={c.name}
-              className="flex items-center gap-1 text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full"
+              className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full truncate max-w-full"
             >
-              <Award className="w-2.5 h-2.5" aria-hidden="true" />
               {c.name}
             </span>
           ))}
           {hasApprenticeship && (
-            <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
-              <HardHat className="w-2.5 h-2.5" aria-hidden="true" />
+            <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
               Apprenticeship
             </span>
           )}
         </div>
 
         {/* CTAs */}
-        <div className="flex gap-2 mt-auto pt-1">
+        <div className="flex gap-2 mt-auto pt-2">
           <Link
             href={prog.cta?.applyHref || `/apply?program=${prog.slug}`}
             className="flex-1 text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
           >
-            Apply Now
+            Apply
           </Link>
           <Link
             href={`/programs/${prog.slug}`}
@@ -174,7 +166,7 @@ export function HomeCareerPathways() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {featured.map((prog) => (
             <PathwayCard key={prog.slug} prog={prog} />
           ))}
