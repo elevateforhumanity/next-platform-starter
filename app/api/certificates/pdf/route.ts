@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Use Node.js runtime
 export const runtime = 'nodejs';
@@ -44,7 +45,7 @@ async function _GET(req: NextRequest) {
     .maybeSingle();
 
   // Generate verification URL
-  const origin = req.headers.get('origin') || 'https://www.elevateforhumanity.org';
+  const origin = req.headers.get('origin') || PLATFORM_DEFAULTS.siteUrl;
   const verifyUrl = `${origin}/verify/${cert.verification_code || cert.serial}`;
 
   // Generate PDF via internal API route (runs on same ECS container)

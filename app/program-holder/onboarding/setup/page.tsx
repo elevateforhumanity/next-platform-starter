@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Upload, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useRouter } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function ProgramHolderSetup() {
   // Auth guard — must be signed in to access onboarding
@@ -343,7 +344,7 @@ export default function ProgramHolderSetup() {
                   { label: 'Program Name', value: formData.programName },
                   {
                     label: 'Certificate Will Read',
-                    value: `${formData.programName} — Sponsored by Elevate for Humanity Career & Technical Institute`,
+                    value: `${formData.programName} — Sponsored by ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                     highlight: true,
                   },
                   { label: 'Program Type', value: formData.programType },

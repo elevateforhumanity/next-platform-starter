@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Check, Code, Users, Shield, Zap, Globe } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +50,7 @@ export default async function WhiteLabelPage() {
           </h1>
 
           <p className="mt-6 text-xl text-zinc-700 leading-relaxed max-w-3xl mx-auto">
-            Get the complete Elevate for Humanity platform with your branding. Multi-tenant SaaS,
+            Get the complete {PLATFORM_DEFAULTS.orgName} platform with your branding. Multi-tenant SaaS,
             WIOA compliance, apprenticeship tracking, mobile apps, and AI tutoring—all ready to
             deploy.
           </p>
@@ -95,7 +96,7 @@ export default async function WhiteLabelPage() {
         <div className="mx-auto max-w-6xl">
           <h2 className="text-4xl font-black text-zinc-900 text-center">What's Included</h2>
           <p className="mt-4 text-lg text-zinc-700 text-center max-w-3xl mx-auto">
-            Everything we built for Elevate for Humanity, ready for your organization.
+            Everything we built for {PLATFORM_DEFAULTS.orgName}, ready for your organization.
           </p>
 
           <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
 import { DEMO_CANDIDATES } from '@/lib/demo/sandbox-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Candidates | Employer Demo | Elevate for Humanity',
+  title: 'Candidates | Employer Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

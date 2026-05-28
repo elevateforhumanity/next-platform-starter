@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Clock, Shield, AlertTriangle, CreditCard } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Service Level Agreement | Elevate for Humanity',
+  title: 'Service Level Agreement | {PLATFORM_DEFAULTS.orgName}',
   description: 'Platform availability targets, service commitments, and service credit policy.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/sla',
@@ -35,7 +36,7 @@ export default async function SLAPage() {
         <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
         <p className="text-black mb-6">
           This Service Level Agreement (SLA) defines the availability targets, service 
-          commitments, and remedies for the Elevate for Humanity platform. It applies to 
+          commitments, and remedies for the {PLATFORM_DEFAULTS.orgName} platform. It applies to 
           all paying customers and institutional partners.
         </p>
 
@@ -194,7 +195,7 @@ export default async function SLAPage() {
         <ul className="list-none mb-6 text-black space-y-2 p-0">
           <li><strong>General Support:</strong> our contact form</li>
           <li><strong>Billing Questions:</strong> our contact form</li>
-          <li><strong>Phone:</strong> (317) 314-3757</li>
+          <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
         </ul>
 
         <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

@@ -16,6 +16,7 @@ import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { resolveCourseId } from '@/lib/course-builder/schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -100,18 +101,18 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   }
 
   const firstName = studentName.split(' ')[0];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const logoUrl = `${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
 
   // Send access-granted email to student
   if (studentEmail) {
     sendEmail({
       to: studentEmail,
-      subject: `Your access to ${programName} is now active — Elevate for Humanity`,
+      subject: `Your access to ${programName} is now active — ${PLATFORM_DEFAULTS.orgName}`,
       html: `
         <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">
           <div style="text-align:center;padding:32px 24px 24px">
-            <img src="${logoUrl}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />
+            <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="160" style="max-width:160px;height:auto" />
           </div>
           <div style="padding:0 32px 32px">
             <h2 style="font-weight:normal;font-size:22px;margin:0 0 20px">Hi ${firstName}, your access is ready!</h2>
@@ -128,8 +129,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
               </a>
             </div>
             <p style="font-size:14px;color:#555;line-height:1.7">
-              Questions? Call <a href="tel:3173143757" style="color:#1a1a1a">(317) 314-3757</a> or email
-              <a href="mailto:info@elevateforhumanity.org" style="color:#1a1a1a">info@elevateforhumanity.org</a>
+              Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1a1a1a">${PLATFORM_DEFAULTS.supportPhone}</a> or email
+              <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#1a1a1a">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
             </p>
           </div>
         </div>`,

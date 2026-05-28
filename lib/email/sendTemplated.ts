@@ -1,6 +1,7 @@
 import { getEmailTemplate, renderTemplate, renderSubject } from './templates';
 import sgMail from '@sendgrid/mail';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
@@ -32,7 +33,7 @@ export async function sendTenantTemplatedEmail(params: {
   try {
     await sgMail.send({
       to: params.to,
-      from: process.env.SENDGRID_FROM || 'noreply@elevateforhumanity.org',
+      from: process.env.SENDGRID_FROM || PLATFORM_DEFAULTS.emailFromAddress,
       subject,
       html,
     });
@@ -60,7 +61,7 @@ export async function sendWelcomeEmail(params: {
     to: params.studentEmail,
     variables: {
       student_name: params.studentName,
-      platform_name: params.platformName || 'Elevate for Humanity',
+      platform_name: params.platformName || PLATFORM_DEFAULTS.orgName,
     },
   });
 }

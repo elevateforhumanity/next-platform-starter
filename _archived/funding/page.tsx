@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   DollarSign,
   Users,
   FileText,
@@ -157,7 +158,7 @@ export default function FundingPage() {
       title: 'Equal Opportunity',
       description:
         'Our commitment to equal opportunity and non-discrimination in all programs and services.',
-      fullDescription: 'Elevate for Humanity is an equal opportunity provider. We do not discriminate based on race, color, religion, sex, national origin, age, disability, or political affiliation. All programs and services are available to all eligible individuals.',
+      fullDescription: '{PLATFORM_DEFAULTS.orgName} is an equal opportunity provider. We do not discriminate based on race, color, religion, sex, national origin, age, disability, or political affiliation. All programs and services are available to all eligible individuals.',
       href: '/equal-opportunity',
       icon: Users,
       color: 'sky',
@@ -266,7 +267,7 @@ export default function FundingPage() {
                   <ul className="text-sm text-gray-500 space-y-1">
                     <li>• Appointments are free and typically 30-60 minutes</li>
                     <li>• Bring your ID, Social Security card, and proof of income</li>
-                    <li>• Tell them you want to enroll in training at Elevate for Humanity</li>
+                    <li>• Tell them you want to enroll in training at {PLATFORM_DEFAULTS.orgName}</li>
                   </ul>
                 </div>
               </div>
@@ -294,7 +295,7 @@ export default function FundingPage() {
                   <h4 className="font-bold text-gray-900 text-lg mb-2">Receive Your Training Voucher (ITA)</h4>
                   <p className="text-gray-600 mb-3">
                     Once approved, you&apos;ll receive an Individual Training Account (ITA) voucher.
-                    This voucher covers 100% of your tuition at Elevate for Humanity.
+                    This voucher covers 100% of your tuition at {PLATFORM_DEFAULTS.orgName}.
                     Bring this voucher to us to complete your enrollment.
                   </p>
                   <ul className="text-sm text-gray-500 space-y-1">
@@ -310,7 +311,7 @@ export default function FundingPage() {
                 <div>
                   <h4 className="font-bold text-gray-900 text-lg mb-2">Start Your Training!</h4>
                   <p className="text-gray-600 mb-3">
-                    Bring your ITA voucher to Elevate for Humanity and we&apos;ll complete your enrollment.
+                    Bring your ITA voucher to {PLATFORM_DEFAULTS.orgName} and we&apos;ll complete your enrollment.
                     You&apos;ll start your training program with $0 out of pocket.
                     We&apos;ll also help you track your progress and prepare for employment.
                   </p>
@@ -366,7 +367,7 @@ export default function FundingPage() {
               <h3 className="font-bold text-gray-900 text-lg mb-2">Dedicated Support</h3>
               <p className="text-gray-600">
                 Our enrollment team is available to answer questions and guide you 
-                through the process. Call us at (317) 314-3757 anytime.
+                through the process. Call us at {PLATFORM_DEFAULTS.supportPhone} anytime.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -597,10 +598,10 @@ export default function FundingPage() {
             </a>{' '}
             or call{' '}
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="text-green-600 hover:underline font-semibold"
             >
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

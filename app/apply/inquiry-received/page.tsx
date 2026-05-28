@@ -2,6 +2,7 @@ export const revalidate = 3600;
 
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Inquiry Received',
@@ -29,13 +30,13 @@ export default function InquiryReceivedPage() {
 
         <h1 className="text-2xl font-bold text-slate-800 mb-3">We received your inquiry!</h1>
         <p className="text-black mb-2 leading-relaxed">
-          Thank you for your interest in Elevate for Humanity. An advisor will follow up with you
+          Thank you for your interest in {PLATFORM_DEFAULTS.orgName}. An advisor will follow up with you
           within <strong>1–2 business days</strong> with program details, costs, and next steps.
         </p>
         <p className="text-black text-sm mb-8">
           Check your email for a confirmation. Questions? Call us at{' '}
-          <a href="tel:+13173143757" className="text-brand-blue-600 font-semibold">
-            (317) 314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-semibold">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>{' '}
           or email{' '}
           <a href="mailto:info@elevateforhumanity.org" className="text-brand-blue-600">

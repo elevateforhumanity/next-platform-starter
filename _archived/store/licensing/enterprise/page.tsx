@@ -8,9 +8,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Info, Check, X, Building2, Shield, ArrowRight } from 'lucide-react';
 import { LicenseDemo } from '@/components/store/LicenseDemo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Enterprise Source-Use License | Elevate for Humanity',
+  title: 'Enterprise Source-Use License | {PLATFORM_DEFAULTS.orgName}',
   description: 'Enterprise internal deployment license. Source code access for internal use.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licensing/enterprise',
@@ -178,7 +179,7 @@ export default function SourceUseLicensePage() {
                 <div>
                   <h3 className="text-slate-900 font-semibold mb-1">Attribution Required</h3>
                   <p className="text-slate-600 text-sm">
-                    All deployments must display "Powered by Elevate for Humanity™" in the footer, about page, and login screen. 
+                    All deployments must display "Powered by {PLATFORM_DEFAULTS.orgName}™" in the footer, about page, and login screen. 
                     Removal of attribution is a material breach and terminates the license.
                   </p>
                 </div>
@@ -218,7 +219,7 @@ export default function SourceUseLicensePage() {
                   <h3 className="text-slate-900 font-semibold mb-1">Updates Not Guaranteed</h3>
                   <p className="text-slate-600 text-sm">
                     Access to updates requires active compliance with license terms. 
-                    Elevate for Humanity may revoke update access for any breach.
+                    {PLATFORM_DEFAULTS.orgName} may revoke update access for any breach.
                   </p>
                 </div>
               </div>
@@ -369,7 +370,7 @@ export default function SourceUseLicensePage() {
           <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-8">
             <h4 className="text-slate-900 font-semibold mb-3">Attribution Requirement</h4>
             <p className="text-slate-600 text-sm">
-              All deployments must retain &quot;Powered by Elevate for Humanity&quot; attribution and trademark notices 
+              All deployments must retain &quot;Powered by {PLATFORM_DEFAULTS.orgName}&quot; attribution and trademark notices 
               in the footer, login screen, and about page. Removal of attribution is a material breach 
               and results in immediate license termination.
             </p>
@@ -389,14 +390,14 @@ export default function SourceUseLicensePage() {
 
           <div className="text-center text-slate-600 text-xs space-y-2">
             <p>
-              Elevate for Humanity™ and the Elevate logo are trademarks of 2Exclusive LLC-S.
+              {PLATFORM_DEFAULTS.orgName}™ and the Elevate logo are trademarks of 2Exclusive LLC-S.
             </p>
             <p>
               Source-Use License is subject to full license agreement. Unauthorized use, distribution, 
               rebranding, or credential misrepresentation will result in license termination and legal action.
             </p>
             <p className="pt-4 border-t border-slate-200 mt-4">
-              All products are licensed access to platforms operated by Elevate for Humanity. 
+              All products are licensed access to platforms operated by {PLATFORM_DEFAULTS.orgName}. 
               Ownership of software, infrastructure, and intellectual property is not transferred.
             </p>
           </div>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Validate a redirect URL parameter to prevent open-redirect attacks.
  * Allows:
@@ -8,8 +9,8 @@
  */
 
 const TRUSTED_HOSTS = [
-  'www.elevateforhumanity.org',
-  'elevateforhumanity.org',
+  PLATFORM_DEFAULTS.canonicalDomain,
+  PLATFORM_DEFAULTS.canonicalDomain,
   'admin.elevateforhumanity.org',
 ];
 

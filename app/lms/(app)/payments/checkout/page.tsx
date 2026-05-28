@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CreditCard, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Exam fee checkout page.
@@ -40,7 +41,7 @@ function CheckoutContent() {
   };
 
   const SOURCE_LABELS: Record<string, string> = {
-    elevate: 'Elevate for Humanity',
+    elevate: PLATFORM_DEFAULTS.orgName,
     grant: 'a grant',
     employer: 'your employer',
     partner: 'a partner organization',
@@ -68,7 +69,7 @@ function CheckoutContent() {
       // Sponsored but not yet approved → pending review
       if (funding.fundingSource !== 'self_pay' && funding.fundingStatus === 'pending') {
         setBlockedMessage(
-          'Your funding request is under review. You will be notified when it is approved. Questions? Call (317) 314-3757.',
+          'Your funding request is under review. You will be notified when it is approved. Questions? Call ${PLATFORM_DEFAULTS.supportPhone}.',
         );
         setIsProcessing(false);
         return;

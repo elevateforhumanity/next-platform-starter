@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Search, XCircle, Code } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'SEO & Indexing Governance | Elevate for Humanity',
+  title: 'SEO & Indexing Governance | {PLATFORM_DEFAULTS.orgName}',
   description:
     'How search engine indexing is controlled and enforced to protect platform credibility and prevent accidental exposure.',
   robots: {
@@ -165,7 +166,7 @@ export default async function SeoIndexingPage() {
             </p>
             <pre className="bg-slate-800 text-slate-100 p-4 rounded-lg text-sm overflow-x-auto">
               {`<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.elevateforhumanity.org/page-path">`}
+<link rel="canonical" href="${PLATFORM_DEFAULTS.siteUrl}/page-path">`}
             </pre>
             <p className="text-sm text-slate-600 mt-4">
               See{' '}

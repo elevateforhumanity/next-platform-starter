@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Copyright as CopyrightIcon, Shield, FileText } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   },
   title: 'Copyright & Intellectual Property',
   description:
-    'Copyright and intellectual property information for Elevate for Humanity platform and content.',
+    'Copyright and intellectual property information for {PLATFORM_DEFAULTS.orgName} platform and content.',
 };
 
 export default function CopyrightPage() {
@@ -30,11 +31,11 @@ export default function CopyrightPage() {
           <h2 className="text-2xl font-bold text-black mb-4">Ownership</h2>
           <p className="text-lg text-black leading-relaxed mb-4">
             All original content, platform architecture, workflows, designs, documentation, and
-            software components associated with Elevate for Humanity are protected by copyright and
+            software components associated with {PLATFORM_DEFAULTS.orgName} are protected by copyright and
             intellectual property laws.
           </p>
           <p className="text-lg font-bold text-black">
-            © Elevate for Humanity. All rights reserved.
+            © {PLATFORM_DEFAULTS.orgName}. All rights reserved.
           </p>
         </div>
 
@@ -72,7 +73,7 @@ export default function CopyrightPage() {
             remain the property of their respective owners.
           </p>
           <p className="text-black font-semibold">
-            Elevate for Humanity does not claim ownership over partner-provided educational content.
+            {PLATFORM_DEFAULTS.orgName} does not claim ownership over partner-provided educational content.
           </p>
         </div>
 
@@ -89,7 +90,7 @@ export default function CopyrightPage() {
 
           <h3 className="text-lg font-bold text-black mb-3">Platform Use Authorization</h3>
           <p className="text-black mb-4">
-            Use of the Elevate for Humanity platform for organizational, workforce, or training
+            Use of the {PLATFORM_DEFAULTS.orgName} platform for organizational, workforce, or training
             operations requires:
           </p>
 

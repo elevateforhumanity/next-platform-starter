@@ -18,12 +18,13 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 const FROM = 'Elevate Testing Center <testing@elevateforhumanity.org>';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 const BOOK_URL = `${SITE_URL}/certification-testing`;
 
 function firstName(lead: { first_name: string | null }) {
@@ -138,7 +139,7 @@ function followUp1Html(lead: { first_name: string | null; exam_type: string }) {
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif">
 <div style="max-width:560px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
   <div style="background:#1E3A5F;padding:24px 32px">
-    <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">Elevate for Humanity Testing Center</p>
+    <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Testing Center</p>
     <h1 style="color:#fff;font-size:20px;margin:0">Still need your certification exam?</h1>
   </div>
   <div style="padding:28px 32px;color:#1E293B;font-size:15px;line-height:1.7">
@@ -154,7 +155,7 @@ function followUp1Html(lead: { first_name: string | null; exam_type: string }) {
       $249 total — no hidden fees.
     </p>
     <p style="font-size:13px;color:#64748b;margin-top:20px">
-      Questions? Call <a href="tel:3173143757" style="color:#1E3A5F;font-weight:600">(317) 314-3757</a> or reply to this email.
+      Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1E3A5F;font-weight:600">${PLATFORM_DEFAULTS.supportPhone}</a> or reply to this email.
     </p>
   </div>
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 32px;text-align:center;color:#94a3b8;font-size:11px">
@@ -173,7 +174,7 @@ function followUp2Html(lead: { first_name: string | null; exam_type: string }) {
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif">
 <div style="max-width:560px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
   <div style="background:#1E3A5F;padding:24px 32px">
-    <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">Elevate for Humanity Testing Center</p>
+    <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Testing Center</p>
     <h1 style="color:#fff;font-size:20px;margin:0">Last call for this week's testing slots</h1>
   </div>
   <div style="padding:28px 32px;color:#1E293B;font-size:15px;line-height:1.7">
@@ -188,7 +189,7 @@ function followUp2Html(lead: { first_name: string | null; exam_type: string }) {
       $249 total · Secure checkout · Instant confirmation
     </p>
     <p style="font-size:13px;color:#64748b;margin-top:20px">
-      Need help? Call <a href="tel:3173143757" style="color:#1E3A5F;font-weight:600">(317) 314-3757</a>.
+      Need help? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1E3A5F;font-weight:600">${PLATFORM_DEFAULTS.supportPhone}</a>.
     </p>
   </div>
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 32px;text-align:center;color:#94a3b8;font-size:11px">

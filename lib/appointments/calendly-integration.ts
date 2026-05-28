@@ -6,6 +6,7 @@
 import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/server';
 import { sendAppointmentConfirmationEmail } from '@/lib/email/automated-triggers';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CalendlyEvent {
   uri: string;
@@ -391,7 +392,7 @@ export async function getAppointmentsNeedingReminders(
  * Real contact information for appointments
  */
 export const APPOINTMENT_CONTACT = {
-  phone: '(317) 314-3757',
+  phone: PLATFORM_DEFAULTS.supportPhone,
   email: 'info@elevateforhumanity.org',
   address: '8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240',
   hours: 'Monday-Friday, 9:00 AM - 5:00 PM EST',

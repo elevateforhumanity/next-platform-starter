@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { sendTeamsMessage } from '@/lib/notifications/teams';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
     await sendTeamsMessage(
       'Elevate LMS — Test Notification',
       'Teams integration is working correctly.',
-      { 'Sent by': 'Admin integration test', Platform: 'Elevate for Humanity LMS' },
+      { 'Sent by': 'Admin integration test', Platform: '' + PLATFORM_DEFAULTS.orgName + ' LMS' },
     );
     return NextResponse.json({ ok: true });
   } catch (err) {

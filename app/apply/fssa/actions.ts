@@ -5,6 +5,7 @@ import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { headers } from 'next/headers';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface FssaApplicationData {
   // Personal
@@ -143,8 +144,8 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
     await sendEmail({
       to: 'elevate4humanityedu@gmail.com',
       subject: `New FSSA IMPACT Application — ${data.firstName} ${data.lastName}`,
-      html: `<pre style="font-family:monospace;font-size:14px">${applicationDetails}</pre><br><a href="https://www.elevateforhumanity.org/admin/applications">Review in Admin →</a>`,
-      text: `${applicationDetails}\n\nReview at: https://www.elevateforhumanity.org/admin/applications`,
+      html: `<pre style="font-family:monospace;font-size:14px">${applicationDetails}</pre><br><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/applications">Review in Admin →</a>`,
+      text: `${applicationDetails}\n\nReview at: ${PLATFORM_DEFAULTS.siteUrl}/admin/applications`,
     }).catch(() => {});
 
     // Notify FSSA/DFR IMPACT 50 mailbox
@@ -152,12 +153,12 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
       to: 'IMPACT50@fssa.IN.gov',
       subject: `New FSSA IMPACT Training Application — ${data.firstName} ${data.lastName}`,
       html: `
-<p>A new FSSA IMPACT training application has been submitted through Elevate for Humanity.</p>
+<p>A new FSSA IMPACT training application has been submitted through ${PLATFORM_DEFAULTS.orgName}.</p>
 <pre style="font-family:monospace;font-size:14px;background:#f8f8f8;padding:16px;border-radius:4px">${applicationDetails}</pre>
-<p>This applicant has applied for funded workforce training. Elevate for Humanity will follow up to verify eligibility and coordinate enrollment.</p>
+<p>This applicant has applied for funded workforce training. ${PLATFORM_DEFAULTS.orgName} will follow up to verify eligibility and coordinate enrollment.</p>
 <p>Questions: <a href="mailto:elevate4humanityedu@gmail.com">elevate4humanityedu@gmail.com</a> | (317) 559-4999</p>
       `.trim(),
-      text: `New FSSA IMPACT training application submitted through Elevate for Humanity.\n\n${applicationDetails}\n\nElevate for Humanity will follow up to verify eligibility and coordinate enrollment.\nQuestions: elevate4humanityedu@gmail.com | (317) 559-4999`,
+      text: `New FSSA IMPACT training application submitted through ${PLATFORM_DEFAULTS.orgName}.\n\n${applicationDetails}\n\n${PLATFORM_DEFAULTS.orgName} will follow up to verify eligibility and coordinate enrollment.\nQuestions: elevate4humanityedu@gmail.com | (317) 559-4999`,
     }).catch(() => {});
 
     // Confirm receipt to applicant
@@ -175,12 +176,12 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Indiana/Ind
     <li><strong>Case manager coordination</strong> — If you have an IMPACT case manager, we will contact them to confirm funding authorization.</li>
     <li><strong>Enrollment decision</strong> — You will hear from us within <strong>1–2 business days</strong> by phone or email.</li>
   </ol>
-  <p>If you have questions in the meantime, call us at <a href="tel:+13175594999">(317) 559-4999</a> or email <a href="mailto:enroll@elevateforhumanity.org">enroll@elevateforhumanity.org</a>.</p>
+  <p>If you have questions in the meantime, call us at <a href="tel:+13175594999">(317) 559-4999</a> or email <a href="mailto:enroll@${PLATFORM_DEFAULTS.canonicalDomain}">enroll@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
   <p style="color:#64748b;font-size:13px">This application does not guarantee enrollment. Final acceptance is based on eligibility, funding approval, and program capacity.</p>
-  <p>— Elevate for Humanity</p>
+  <p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>
         `.trim(),
-        text: `Hi ${data.firstName},\n\nWe received your FSSA IMPACT application. Here's what happens next:\n\n1. Eligibility review — Our team will review your application and verify your SNAP/TANF status.\n2. Case manager coordination — If you have an IMPACT case manager, we will contact them to confirm funding authorization.\n3. Enrollment decision — You will hear from us within 1–2 business days by phone or email.\n\nQuestions? Call (317) 559-4999 or email enroll@elevateforhumanity.org.\n\nThis application does not guarantee enrollment.\n\n— Elevate for Humanity`,
+        text: `Hi ${data.firstName},\n\nWe received your FSSA IMPACT application. Here's what happens next:\n\n1. Eligibility review — Our team will review your application and verify your SNAP/TANF status.\n2. Case manager coordination — If you have an IMPACT case manager, we will contact them to confirm funding authorization.\n3. Enrollment decision — You will hear from us within 1–2 business days by phone or email.\n\nQuestions? Call (317) 559-4999 or email enroll@${PLATFORM_DEFAULTS.canonicalDomain}.\n\nThis application does not guarantee enrollment.\n\n— ${PLATFORM_DEFAULTS.orgName}`,
       }).catch(() => {});
     }
 

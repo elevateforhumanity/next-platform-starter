@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { User, Save, ArrowLeft } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,7 +76,7 @@ export default async function EditProfilePage({
         <h1 className="text-2xl font-bold text-slate-900 mb-6">Complete Your Profile</h1>
         {errorParam === 'save-failed' && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-            Failed to save your profile. Please try again or call (317) 314-3757 for help.
+            Failed to save your profile. Please try again or call {PLATFORM_DEFAULTS.supportPhone} for help.
           </div>
         )}
         <form
@@ -98,7 +99,7 @@ export default async function EditProfilePage({
               type="tel"
               defaultValue={profile?.phone || ''}
               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="(317) 314-3757"
+              placeholder={PLATFORM_DEFAULTS.supportPhone}
             />
           </div>
           <div>

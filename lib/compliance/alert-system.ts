@@ -13,6 +13,7 @@
  */
 
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   INDIANA_REPORTING_SCHEDULES,
   INDIANA_ALERT_TRIGGERS,
   INDIANA_EMAIL_TEMPLATES,
@@ -241,10 +242,10 @@ The system has already generated most of the report for you. You just need to re
 
 [Complete Report Now] {{dashboard_link}}
 
-Questions? Reply to this email or call (317) 314-3757.
+Questions? Reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.
 
 Thanks,
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -273,10 +274,10 @@ Please acknowledge this email and confirm you're working on it.
 ⚠️ IMPORTANT: This report affects our master credentials. Late submission could impact all program holders in our network.
 
 Need help? Contact us immediately:
-Email: support@www.elevateforhumanity.org
-Phone: (317) 314-3757
+Email: support@${PLATFORM_DEFAULTS.canonicalDomain}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -305,9 +306,9 @@ SUBMIT NOW:
 
 This is your final reminder before the deadline.
 
-Need emergency assistance? Call (317) 314-3757 NOW.
+Need emergency assistance? Call ${PLATFORM_DEFAULTS.supportPhone} NOW.
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -335,9 +336,9 @@ SUBMIT RIGHT NOW:
 [Complete Report] {{dashboard_link}}
 
 We're here to help. Call us if you need assistance:
-(317) 314-3757
+${PLATFORM_DEFAULTS.supportPhone}
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -370,9 +371,9 @@ RESTORE ACCESS:
 Submit the report and access will be automatically restored within 1 hour.
 
 Call us NOW if you need help:
-(317) 314-3757 (Emergency Line)
+${PLATFORM_DEFAULTS.supportPhone} (Emergency Line)
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -409,10 +410,10 @@ Section 8.3 - Three Strike Policy
 This is your FINAL opportunity to submit before formal enforcement.
 
 Emergency Contact:
-Phone: (317) 314-3757
-Email: compliance@www.elevateforhumanity.org
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: compliance@${PLATFORM_DEFAULTS.canonicalDomain}
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -445,7 +446,7 @@ RESOURCES AVAILABLE:
 
 We're here to help you succeed. Let's address this early.
 
-Elevate for Humanity Success Team
+${PLATFORM_DEFAULTS.orgName} Success Team
     `,
   },
 
@@ -481,7 +482,7 @@ ACTION PLAN:
 
 We want you to succeed. Let's work together to improve these numbers.
 
-Elevate for Humanity Success Team
+${PLATFORM_DEFAULTS.orgName} Success Team
     `,
   },
 
@@ -525,7 +526,7 @@ Mandatory Call Scheduled:
 
 This is serious. Let's fix it together.
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 
@@ -567,10 +568,10 @@ REQUIRED ACTIONS:
 This is your final opportunity before formal probation.
 
 Emergency Contact:
-Phone: (317) 314-3757
-Email: compliance@www.elevateforhumanity.org
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: compliance@${PLATFORM_DEFAULTS.canonicalDomain}
 
-Elevate for Humanity Compliance Team
+${PLATFORM_DEFAULTS.orgName} Compliance Team
     `,
   },
 };

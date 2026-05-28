@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Check, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import AvatarVideoOverlay from '@/components/AvatarVideoOverlay';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function SchoolLicensePage() {
   const [activeSection, setActiveSection] = useState<string | null>('maria');
@@ -367,7 +368,7 @@ export default function SchoolLicensePage() {
             </Link>
           </div>
           <p className="mt-8 text-orange-200">
-            Questions? Call (317) 314-3757
+            Questions? Call {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </div>
       </section>

@@ -7,6 +7,7 @@ import {
   Briefcase, BarChart3,
 } from 'lucide-react';
 import type { ORG_PROFILE } from '@/lib/grants/org-profile';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type StaticProfile = typeof ORG_PROFILE;
 type Org = Record<string, unknown> | null;
@@ -27,7 +28,7 @@ function factStr(v: unknown): string {
 const SECTIONS = [
   { id: 'identity', label: 'Legal Identity', icon: Building2, fields: [
     { key: 'legal_name', label: 'Legal Name', placeholder: '2Exclusive LLC-S' },
-    { key: 'dba_name', label: 'DBA Name', placeholder: 'Elevate for Humanity Technical and Career Institute' },
+    { key: 'dba_name', label: 'DBA Name', placeholder: PLATFORM_DEFAULTS.orgLegalName },
     { key: 'org_type', label: 'Organization Type', placeholder: 'Nonprofit / LLC' },
     { key: 'ein', label: 'EIN', placeholder: 'XX-XXXXXXX' },
     { key: 'uei', label: 'UEI (SAM.gov)', placeholder: 'VX2GK5S8SZH8' },
@@ -43,9 +44,9 @@ const SECTIONS = [
     { key: 'city', label: 'City', placeholder: 'Indianapolis' },
     { key: 'state', label: 'State', placeholder: 'IN' },
     { key: 'zip', label: 'ZIP', placeholder: '46240' },
-    { key: 'phone', label: 'Phone', placeholder: '(317) 314-3757' },
+    { key: 'phone', label: 'Phone', placeholder: PLATFORM_DEFAULTS.supportPhone },
     { key: 'general_email', label: 'Email', placeholder: 'elevate4humanityedu@gmail.com' },
-    { key: 'website', label: 'Website', placeholder: 'https://www.elevateforhumanity.org' },
+    { key: 'website', label: 'Website', placeholder: PLATFORM_DEFAULTS.siteUrl },
   ]},
   { id: 'leadership', label: 'Leadership & Signatory', icon: Users, fields: [
     { key: 'authorized_signatory_name', label: 'Authorized Signatory', placeholder: 'Elizabeth Greene' },
@@ -54,7 +55,7 @@ const SECTIONS = [
     { key: 'years_operating', label: 'Years Operating', placeholder: 'Active since 2020' },
   ]},
   { id: 'mission', label: 'Mission & Programs', icon: Briefcase, fields: [
-    { key: 'mission', label: 'Mission Statement', textarea: true, placeholder: 'Elevate for Humanity connects Hoosiers to funded career training...' },
+    { key: 'mission', label: 'Mission Statement', textarea: true, placeholder: '{PLATFORM_DEFAULTS.orgName} connects Hoosiers to funded career training...' },
     { key: 'capability_statement', label: 'Capability Statement', textarea: true, placeholder: 'Full capability statement for grant applications...' },
     { key: 'statement_of_need', label: 'Statement of Need', textarea: true, placeholder: 'Problem statement for grant applications...' },
     { key: 'target_population', label: 'Target Population', textarea: true, placeholder: 'Justice-involved individuals, veterans, low-income adults...' },

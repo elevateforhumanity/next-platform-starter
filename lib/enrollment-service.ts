@@ -17,6 +17,7 @@ import { logger } from '@/lib/logger';
  */
 
 import type { SupabaseClient } from '@/lib/supabase';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type EnrollmentInput = {
   userId: string;
@@ -152,7 +153,7 @@ export async function createOrUpdateEnrollment(
     // Notify program holder when a new HVAC student enrolls
     const HVAC_PROGRAM_ID = '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7';
     if (action === 'created' && programId === HVAC_PROGRAM_ID) {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.elevateforhumanity.org';
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? PLATFORM_DEFAULTS.siteUrl;
       fetch(`${baseUrl}/api/program-holder/new-student-notify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-internal-secret': 'elevate-internal-2026' },

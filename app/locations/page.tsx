@@ -8,11 +8,12 @@ import { MapPin, Phone, Mail, Clock, Navigation } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Locations',
   description:
-    'Visit Elevate for Humanity at our Indianapolis locations. Find directions, hours, and contact information.',
+    'Visit {PLATFORM_DEFAULTS.orgName} at our Indianapolis locations. Find directions, hours, and contact information.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/locations',
   },

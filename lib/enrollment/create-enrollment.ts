@@ -8,6 +8,7 @@ import { randomBytes } from 'crypto';
 import { logger } from '@/lib/logger';
 
 import { logAuditEvent } from '@/lib/audit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface EnrollmentParams {
   studentId?: string;
@@ -285,7 +286,7 @@ async function sendEnrollmentWelcomeEmail(params: {
       .eq('id', programId)
       .maybeSingle();
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     const loginSection =
       isNewUser
@@ -315,7 +316,7 @@ async function sendEnrollmentWelcomeEmail(params: {
         subject: `Welcome to ${programDetails?.name || 'Your Program'} - Your Access is Ready!`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #1e3a8a;">Welcome to Elevate for Humanity!</h2>
+            <h2 style="color: #1e3a8a;">Welcome to ${PLATFORM_DEFAULTS.orgName}!</h2>
             <p>Hi ${firstName || 'there'},</p>
             <p>Congratulations! Your enrollment in <strong>${programDetails?.name || 'your program'}</strong> is now <span style="color: #22c55e; font-weight: bold;">ACTIVE</span>.</p>
             
@@ -330,7 +331,7 @@ async function sendEnrollmentWelcomeEmail(params: {
             
             <p>If you have any questions, please contact our support team.</p>
             
-            <p>Best regards,<br>The Elevate for Humanity Team</p>
+            <p>Best regards,<br>The ${PLATFORM_DEFAULTS.orgName} Team</p>
           </div>
         `,
       }),

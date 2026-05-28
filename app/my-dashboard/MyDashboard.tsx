@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BookOpen,
   Scissors,
   Users,
@@ -284,7 +285,7 @@ function EducationPanel({ data, role }: { data: any; role: string }) {
 
       {data.taughtCourses.length > 0 && (
         <div>
-          <SectionHeader title="Courses I Teach" href="https://admin.elevateforhumanity.org/instructor" />
+          <SectionHeader title="Courses I Teach" href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/instructor" />
           <div className="space-y-2">
             {data.taughtCourses.map((c: any) => (
               <div
@@ -666,7 +667,7 @@ export default function MyDashboard({
                 },
                 {
                   label: 'Instructor Portal',
-                  href: 'https://admin.elevateforhumanity.org/instructor',
+                  href: 'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/instructor',
                   roles: ['instructor', 'admin', 'super_admin'],
                 },
                 {

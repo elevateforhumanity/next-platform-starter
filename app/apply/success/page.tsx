@@ -15,6 +15,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
 import { ConversionPixel } from '@/components/analytics/ConversionPixel';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Funding sources that require Indiana Career Connect / WorkOne referral
 const WORKFORCE_FUNDING = [
@@ -332,7 +333,7 @@ export default async function ApplicationSuccessPage({
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="font-bold flex-shrink-0">3.</span> Contact your local WorkOne
-                  office and mention Elevate for Humanity
+                  office and mention {PLATFORM_DEFAULTS.orgName}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="font-bold flex-shrink-0">4.</span> Ask your case manager to
@@ -389,7 +390,7 @@ export default async function ApplicationSuccessPage({
                 className="flex items-center gap-2 text-brand-blue-600 hover:underline text-sm"
               >
                 <Phone className="w-4 h-4" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </Link>
               <Link
                 href="/contact"

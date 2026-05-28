@@ -5,6 +5,7 @@ import React from 'react';
 import { usePushNotifications } from '@/hooks/use-push-notifications';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function PushNotificationSettings() {
   const {
@@ -61,7 +62,7 @@ export function PushNotificationSettings() {
     try {
       const registration = await navigator.serviceWorker.ready;
       await registration.showNotification('Test Notification', {
-        body: 'This is a test notification from Elevate for Humanity',
+        body: 'This is a test notification from {PLATFORM_DEFAULTS.orgName}',
         icon: '/icon-192x192.png',
         badge: '/icon-72.png',
         vibrate: [200, 100, 200],

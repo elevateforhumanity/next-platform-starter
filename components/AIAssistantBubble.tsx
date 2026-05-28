@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   role: 'assistant' | 'user';
@@ -40,7 +41,7 @@ export function AIAssistantBubble() {
         {
           role: 'assistant',
           content:
-            "Welcome to Elevate for Humanity! I'm your AI assistant. How can I help you today?\n\n• Learn about our training programs\n• Check WIOA eligibility\n• Start your application\n• Talk to a human",
+            "Welcome to {PLATFORM_DEFAULTS.orgName}! I'm your AI assistant. How can I help you today?\n\n• Learn about our training programs\n• Check WIOA eligibility\n• Start your application\n• Talk to a human",
         },
       ]);
     }

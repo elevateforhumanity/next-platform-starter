@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const COSMETOLOGY: ProgramSchema = {
   slug: 'cosmetology-apprenticeship',
@@ -33,7 +34,7 @@ export const COSMETOLOGY: ProgramSchema = {
     },
     {
       name: 'Infection Control Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description: 'Sanitation and infection control for personal services.',
       validity: '2 years',
     },

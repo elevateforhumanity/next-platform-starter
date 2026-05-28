@@ -23,6 +23,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type FundingSource = 'self_pay' | 'workone' | 'wioa' | 'grant' | 'employer';
 
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
 
     const customerEmail = profile?.email || user.email || '';
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     // Build line items
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];

@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Monthly OJT Evaluation — Barber Apprenticeship',
@@ -90,7 +91,7 @@ export default function MonthlyOJTEvaluationPage() {
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Monthly OJT Evaluation — Barber Apprenticeship</h1>
-            <p className="text-[10px] text-slate-700">Elevate for Humanity | RAPIDS ID: 2025-IN-132301</p>
+            <p className="text-[10px] text-slate-700">{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301</p>
           </div>
           <div className="text-right text-[10px] text-slate-700">
             <p>Completed by: Licensed Barbershop Supervisor</p>

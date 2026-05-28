@@ -14,11 +14,12 @@ import {
   ClipboardList,
 } from 'lucide-react';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Portal | Elevate for Humanity',
+  title: 'Instructor Portal | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage your courses, students, and teaching materials.',
   manifest: '/manifest-instructor.json',
 };

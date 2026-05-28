@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft, Printer, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { SignatureInput } from '@/components/onboarding/SignatureInput';
 import { createBrowserClient } from '@supabase/ssr';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function MOUPage() {
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
@@ -81,7 +82,7 @@ export default function MOUPage() {
 
       setSubmitted(true);
     } catch {
-      setError('Failed to submit. Please try again or call (317) 314-3757.');
+      setError('Failed to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setSubmitting(false);
     }
@@ -175,7 +176,7 @@ export default function MOUPage() {
           </p>
           <ul>
             <li>
-              <strong>Sponsor:</strong> 2Exclusive LLC-S, DBA Elevate for Humanity Career &amp;
+              <strong>Sponsor:</strong> 2Exclusive LLC-S, DBA {PLATFORM_DEFAULTS.orgName} Career &amp;
               Technical Institute (&quot;Sponsor&quot;)
             </li>
             <li>
@@ -194,7 +195,7 @@ export default function MOUPage() {
             This Memorandum of Understanding (&quot;MOU&quot;) establishes the terms and conditions
             under which the Shop will serve as a worksite partner for the Indiana Barbershop
             Apprenticeship Program, a USDOL Registered Apprenticeship sponsored by 2Exclusive LLC-S
-            (DBA Elevate for Humanity Career &amp; Technical Institute).
+            (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute).
           </p>
 
           <h2>2. PROGRAM OVERVIEW</h2>
@@ -215,7 +216,7 @@ export default function MOUPage() {
 
           <h2>3. SPONSOR RESPONSIBILITIES</h2>
           <p>
-            2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute), as the
+            2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute), as the
             Sponsor of Record, agrees to:
           </p>
           <h3>Registration &amp; Compliance</h3>
@@ -549,7 +550,7 @@ export default function MOUPage() {
             <div className="mt-8">
               <p>
                 <strong>
-                  SPONSOR: 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical
+                  SPONSOR: 2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical
                   Institute)
                 </strong>
               </p>
@@ -583,7 +584,7 @@ export default function MOUPage() {
         </div>
 
         <div className="mt-8 text-center text-sm text-slate-500 print:mt-12">
-          <p>2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)</p>
+          <p>2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute)</p>
           <p>Indianapolis, Indiana | www.elevateforhumanity.org</p>
           <p>RAPIDS Program ID: 2025-IN-132301</p>
         </div>

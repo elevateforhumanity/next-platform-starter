@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { 
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle, 
   ArrowRight, 
   Heart, 
@@ -75,11 +76,11 @@ export default function JriPage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="tel:317-314-3757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone}"
                 className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
               >
                 <Phone className="w-5 h-5" />
-                Call (317) 314-3757
+                Call {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
 
@@ -258,7 +259,7 @@ export default function JriPage() {
 
               <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <p className="text-amber-800">
-                  <strong>Not sure if you qualify?</strong> Call us at (317) 314-3757. 
+                  <strong>Not sure if you qualify?</strong> Call us at {PLATFORM_DEFAULTS.supportPhone}. 
                   We&apos;ll help you figure it out — no judgment, just answers.
                 </p>
               </div>
@@ -355,7 +356,7 @@ export default function JriPage() {
               {
                 step: 1,
                 title: 'Apply Online or Call Us',
-                desc: 'Fill out a short application (10 minutes) or call (317) 314-3757. Tell us about yourself and what career interests you.'
+                desc: 'Fill out a short application (10 minutes) or call {PLATFORM_DEFAULTS.supportPhone}. Tell us about yourself and what career interests you.'
               },
               {
                 step: 2,
@@ -401,11 +402,11 @@ export default function JriPage() {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:317-314-3757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
               className="inline-flex items-center gap-2 bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-800 transition-all border border-white/30"
             >
               <Phone className="w-5 h-5" />
-              Call (317) 314-3757
+              Call {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <p className="text-indigo-200 mt-6 text-sm">

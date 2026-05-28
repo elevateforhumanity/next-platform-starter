@@ -3,15 +3,16 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Always use the canonical www domain for password reset links.
 
-const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 // Normalize: ensure www prefix so Supabase's allowed-redirect check passes.
 const SITE_URL = RAW_SITE_URL.replace(
   'https://elevateforhumanity.org',
-  'https://www.elevateforhumanity.org',
-).replace('http://elevateforhumanity.org', 'https://www.elevateforhumanity.org');
+  PLATFORM_DEFAULTS.siteUrl,
+).replace('http://elevateforhumanity.org', PLATFORM_DEFAULTS.siteUrl);
 
 /**
  * Generate a password recovery link via Supabase Admin API and send it
@@ -63,7 +64,7 @@ export async function sendRecoveryEmail(
 
     const result = await sendEmail({
       to: email,
-      subject: 'Reset Your Password — Elevate for Humanity',
+      subject: 'Reset Your Password — ${PLATFORM_DEFAULTS.orgName}',
       html: `
 <!DOCTYPE html>
 <html>
@@ -97,8 +98,8 @@ export async function sendRecoveryEmail(
         <tr>
           <td style="background:#f8fafc;padding:20px;text-align:center;border-top:1px solid #e2e8f0">
             <p style="color:#64748b;font-size:13px;margin:0">
-              Elevate for Humanity | Indianapolis, IN |
-              <a href="https://www.elevateforhumanity.org" style="color:#ea580c;text-decoration:none">elevateforhumanity.org</a>
+              ${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN |
+              <a href={PLATFORM_DEFAULTS.siteUrl} style="color:#ea580c;text-decoration:none">${PLATFORM_DEFAULTS.canonicalDomain}</a>
             </p>
           </td>
         </tr>

@@ -11,6 +11,7 @@
 import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@/lib/supabase';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const COSMETOLOGY_PROGRAM_SLUG = 'cosmetology-apprenticeship';
 const COSMETOLOGY_COURSE_ID = 'b427be5e-c85b-4b41-91d6-4288aec8c975';
@@ -35,7 +36,7 @@ export async function runCosmetologyPostPayment(
 ): Promise<CosmetologyPostPaymentResult> {
   const { db, applicationId, stripeSessionId, stripePaymentIntentId, amountPaidCents } = input;
   const steps: Record<string, 'ok' | 'skipped' | 'failed'> = {};
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   // ── Step 1: Mark application paid (CRITICAL) ──────────────────────────────
   const { data: app, error: appErr } = await db
@@ -245,7 +246,7 @@ export async function runCosmetologyPostPayment(
 
     await sendEmail({
       to: 'elevate4humanityedu@gmail.com',
-      from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
       replyTo: 'elevate4humanityedu@gmail.com',
       subject: `New Enrollment: ${studentName} — Cosmetology Apprenticeship`,
       html: `

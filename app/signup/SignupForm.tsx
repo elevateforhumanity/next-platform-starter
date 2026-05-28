@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Turnstile from '@/components/Turnstile';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { validatePassword } from '@/lib/auth/password-validation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -102,7 +103,7 @@ function SignupFormContent() {
             full_name: `${formData.firstName} ${formData.lastName}`,
             role: formData.role,
           },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/auth/callback`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/auth/callback`,
         },
       });
 
@@ -133,7 +134,7 @@ function SignupFormContent() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/auth/callback`,
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/auth/callback`,
         },
       });
 

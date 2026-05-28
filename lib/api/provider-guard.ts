@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError } from '@/lib/api/safe-error';
 import type { NextResponse } from 'next/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type GuardSuccess = {
   error: null;
@@ -51,7 +52,7 @@ export async function providerApiGuard(): Promise<GuardSuccess | GuardFailure> {
   if (tenant.status === 'suspended') {
     return {
       error: safeError(
-        'Your provider account is suspended. Contact support@elevateforhumanity.org.',
+        `Your provider account is suspended. Contact ${PLATFORM_DEFAULTS.supportEmail}.`,
         403,
       ),
     };

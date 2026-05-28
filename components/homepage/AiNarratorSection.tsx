@@ -1,6 +1,7 @@
 'use client';
 
 import { aiNarrator } from '@/content/homepage/aiInstructor';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function AiNarratorSection() {
   return (
@@ -12,17 +13,17 @@ export function AiNarratorSection() {
             AI Instructor
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-black">
-            Let our AI guide explain Elevate for Humanity
+            Let our AI guide explain {PLATFORM_DEFAULTS.orgName}
           </h2>
           <p className="text-sm text-black">
-            This short AI-narrated overview introduces Elevate for Humanity and the Elevate for
+            This short AI-narrated overview introduces {PLATFORM_DEFAULTS.orgName} and the Elevate for
             Humanity. It explains how our programs connect to federal and state workforce funding
             streams like WIOA, Workforce Ready Grants, and other local initiatives so that eligible
             learners may attend at little or no cost.
           </p>
 
           <ul className="mt-3 space-y-2 text-sm text-black list-disc pl-4">
-            <li>What Elevate for Humanity is and who we serve</li>
+            <li>What {PLATFORM_DEFAULTS.orgName} is and who we serve</li>
             <li>How programs link to WIOA and state workforce grants</li>
             <li>How to use www.elevateforhumanity.org to explore and apply</li>
           </ul>

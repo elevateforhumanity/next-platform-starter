@@ -4,12 +4,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { Shield } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Audit Log | Admin | Elevate for Humanity',
+  title: 'FERPA Audit Log | Admin | {PLATFORM_DEFAULTS.orgName}',
 };
 
 const FERPA_ACTIONS = [

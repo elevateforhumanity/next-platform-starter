@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { AcknowledgeHandbookForm } from './AcknowledgeHandbookForm';
 import { AlertTriangle, BookOpen, Info, ShieldAlert } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +59,7 @@ export default async function ProgramHolderHandbookPage() {
             <div>
               <h1 className="text-4xl font-bold">Program Holder Handbook</h1>
               <p className="text-slate-300 mt-2">
-                Elevate for Humanity — Required Reading Before You Begin
+                {PLATFORM_DEFAULTS.orgName} — Required Reading Before You Begin
               </p>
             </div>
           </div>
@@ -120,7 +121,7 @@ export default async function ProgramHolderHandbookPage() {
             1. What Elevate For Humanity Is
           </h2>
           <p>
-            Elevate for Humanity is a workforce development organization based in Indianapolis,
+            {PLATFORM_DEFAULTS.orgName} is a workforce development organization based in Indianapolis,
             Indiana. We provide career training, credentialing, and job placement support to job
             seekers, returning citizens, veterans, and underserved communities. We operate as an
             eligible training provider under Indiana&apos;s INTraining / Eligible Training Provider
@@ -204,7 +205,7 @@ export default async function ProgramHolderHandbookPage() {
             </li>
             <li>
               <strong>General Liability Insurance</strong> — Certificate of insurance showing
-              minimum $1,000,000 per occurrence / $2,000,000 aggregate. Elevate for Humanity must be
+              minimum $1,000,000 per occurrence / $2,000,000 aggregate. {PLATFORM_DEFAULTS.orgName} must be
               named as an additional insured.
             </li>
             <li>
@@ -474,7 +475,7 @@ export default async function ProgramHolderHandbookPage() {
           <h2 className="text-2xl font-bold text-slate-900 border-b pb-2">13. Contact</h2>
           <ul>
             <li>
-              <strong>Phone:</strong> (317) 314-3757
+              <strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}
             </li>
             <li>
               <strong>Email:</strong> elevate4humanityedu@gmail.com

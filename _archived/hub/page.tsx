@@ -15,9 +15,10 @@ import AutomationFeed from '@/components/hub/AutomationFeed';
 import EnrollmentState from '@/components/hub/EnrollmentState';
 import CohortView from '@/components/hub/CohortView';
 import { HubNavigation } from '@/components/navigation/HubNavigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Hub | Elevate for Humanity',
+  title: 'Hub | {PLATFORM_DEFAULTS.orgName}',
   description: 'Your operational command center - track progress, view automation, and manage your journey.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/hub',

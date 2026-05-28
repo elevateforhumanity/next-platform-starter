@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Platform Licensing',
   description:
-    'Operate your organization on enterprise platforms built and managed by Elevate for Humanity. Managed LMS and restricted source-use licensing.',
+    'Operate your organization on enterprise platforms built and managed by {PLATFORM_DEFAULTS.orgName}. Managed LMS and restricted source-use licensing.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/licenses',
   },
@@ -35,7 +36,7 @@ export default function LicensesPage() {
             Humanity.
           </p>
           <p className="text-sm text-slate-600 border-l-4 border-slate-300 pl-4 text-left max-w-2xl mx-auto">
-            All products are licensed access to platforms operated by Elevate for Humanity.
+            All products are licensed access to platforms operated by {PLATFORM_DEFAULTS.orgName}.
             Ownership of software, infrastructure, and intellectual property is not transferred.
           </p>
         </div>
@@ -172,7 +173,7 @@ export default function LicensesPage() {
 
       {/* Footer */}
       <section className="py-8 px-4 bg-slate-900 text-center">
-        <p className="text-slate-400 text-sm">Powered by Elevate for Humanity</p>
+        <p className="text-slate-400 text-sm">Powered by {PLATFORM_DEFAULTS.orgName}</p>
       </section>
     </div>
   );

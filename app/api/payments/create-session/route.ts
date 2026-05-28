@@ -7,6 +7,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -155,7 +156,7 @@ async function _POST(request: NextRequest) {
     paymentMethodTypes.push('us_bank_account');
 
     // Base URL for redirects
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     // Look up the most recent application for this user+program so we can
     // embed application_id in metadata — required for reconciliation.

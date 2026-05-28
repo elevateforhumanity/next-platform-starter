@@ -18,6 +18,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -282,7 +283,7 @@ export default async function ProgramHolderOnboarding() {
           <div className="bg-white rounded-lg shadow-sm border p-8">
             <p className="text-lg text-black mb-4">
               A <strong>Program Holder</strong> is an organization or entity that partners with
-              Elevate for Humanity to deliver workforce training programs to students. As a program
+              {PLATFORM_DEFAULTS.orgName} to deliver workforce training programs to students. As a program
               holder, you are responsible for:
             </p>
             <ul className="space-y-3 text-black">

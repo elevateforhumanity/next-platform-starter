@@ -16,6 +16,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'For Employers | Hire, Sponsor & Train | Elevate Workforce OS',
@@ -63,7 +64,7 @@ export default async function ForEmployersPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/for-employers-page-1.webp"
-          alt="Employer partner meeting with Elevate for Humanity team"
+          alt="Employer partner meeting with {PLATFORM_DEFAULTS.orgName} team"
           fill
           className="object-cover"
           priority

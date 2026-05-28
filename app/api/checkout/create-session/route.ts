@@ -7,6 +7,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -40,7 +41,7 @@ async function _POST(req: NextRequest) {
     const origin =
       req.headers.get('origin') ||
       process.env.NEXT_PUBLIC_SITE_URL ||
-      'https://www.elevateforhumanity.org';
+      PLATFORM_DEFAULTS.siteUrl;
 
     // Build line items — single payment or first installment
     const unitAmount = Math.round(amount * 100); // caller sends dollars

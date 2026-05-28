@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Download, Presentation } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Capital Readiness Slide Deck | Elevate Store',
@@ -99,7 +100,7 @@ const slides = [
   },
   {
     id: 15,
-    title: 'Elevate for Humanity',
+    title: '{PLATFORM_DEFAULTS.orgName}',
     content: 'Capital Readiness is Infrastructure.',
     type: 'close',
   },

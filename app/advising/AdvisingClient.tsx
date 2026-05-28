@@ -5,6 +5,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Program { id: string; title: string; slug: string }
 
@@ -212,7 +213,7 @@ export default function AdvisingPage({ programs = [] }: { programs?: Program[] }
               </div>
 
               <p className="text-[0.7rem] text-slate-500">
-                By submitting this form, you are giving Elevate for Humanity permission to contact
+                By submitting this form, you are giving {PLATFORM_DEFAULTS.orgName} permission to contact
                 you about advising, programs, and support services. We do not share your information
                 without your consent except as required by law.
               </p>

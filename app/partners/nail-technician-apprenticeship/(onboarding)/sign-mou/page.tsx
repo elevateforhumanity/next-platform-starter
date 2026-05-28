@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { FileText, Eraser, Download, Send, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const MOU_SECTIONS = [
   {
     title: '1. Parties and Purpose',
-    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Sponsor") and the nail salon identified at execution ("Worksite Partner" or "Spa").
+    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute ("Sponsor") and the nail salon identified at execution ("Worksite Partner" or "Spa").
 
-This MOU establishes the terms under which the Spa will serve as a worksite for the Indiana Nail Technician Apprenticeship Program, a USDOL Registered Apprenticeship sponsored by Elevate for Humanity.
+This MOU establishes the terms under which the Spa will serve as a worksite for the Indiana Nail Technician Apprenticeship Program, a USDOL Registered Apprenticeship sponsored by ${PLATFORM_DEFAULTS.orgName}.
 
 WHAT THIS AGREEMENT IS: This is a worksite hosting agreement for a federally registered apprenticeship program. The Spa is hosting an apprentice employee and providing on-the-job training under federal Department of Labor oversight.
 
@@ -29,7 +30,7 @@ WHAT THIS AGREEMENT IS NOT: This MOU does not make the Spa a Training Network Pa
   },
   {
     title: '3. Sponsor Obligations',
-    content: `Elevate for Humanity agrees to:
+    content: `${PLATFORM_DEFAULTS.orgName} agrees to:
 • Provide Related Technical Instruction (RTI) through the Elevate LMS at no cost to the Spa
 • Submit verified hours to USDOL RAPIDS system
 • Coordinate IPLA licensing exam registration and preparation

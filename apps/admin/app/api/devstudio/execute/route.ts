@@ -53,6 +53,7 @@ import { requireTypedConfirmation, getConfirmationPhrase } from '@/lib/security/
 import { emitAiAction, emitMigrationEvent } from '@/lib/platform/events';
 import { describeCheckedAppDirs, discoverNextAppDirs } from '@/lib/devstudio/next-app-dirs';
 import { getDevIntPromptContext } from '@/lib/devstudio/devint-container';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -1682,7 +1683,7 @@ async function executeAction(
             enrollmentIds: ids,
             templateId: args.template_id,
             issueDate: new Date().toISOString().split('T')[0],
-            signedBy: args.signed_by || 'Elevate for Humanity',
+            signedBy: args.signed_by || PLATFORM_DEFAULTS.orgName,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -1930,7 +1931,7 @@ async function executeAction(
             html: String(args.body).includes('<')
               ? args.body
               : `<p>${String(args.body).replace(/\n/g, '<br/>')}</p>`,
-            fromName: args.from_name || 'Elevate for Humanity',
+            fromName: args.from_name || PLATFORM_DEFAULTS.orgName,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -3480,7 +3481,7 @@ export async function POST(req: NextRequest) {
   }
 
   // All /api/admin/* routes live on the admin app, not the public LMS.
-  // In production: https://admin.elevateforhumanity.org
+  // In production: https://admin.${PLATFORM_DEFAULTS.canonicalDomain}
   // In dev: http://localhost:3001 (or NEXT_PUBLIC_ADMIN_URL)
   const baseUrl = getAdminUrl();
   const cookieHeader = req.headers.get('cookie') || '';
@@ -3528,7 +3529,7 @@ export async function POST(req: NextRequest) {
           const systemSummary = SYSTEMS.map(s => `• ${s.id} (${s.status}): ${s.description}`).join('\n');
           const registryContext = getSystemRegistryContext();
 
-          const systemPrompt = `You are the Elevate for Humanity platform operator AI — the engineering control layer and operational command center for the entire platform.
+          const systemPrompt = `You are the ${PLATFORM_DEFAULTS.orgName} platform operator AI — the engineering control layer and operational command center for the entire platform.
 
 You are NOT a chatbot. You are a platform architect, senior DevOps engineer, LMS operator, systems auditor, workflow orchestrator, compliance assistant, grant assistant, and document intelligence engine.
 
@@ -3537,7 +3538,7 @@ Be decisive. If the intent is clear, act immediately. If ambiguous, use ask_ques
 When using ask_question to request missing parameters, write a single concise plain-text question. Do NOT output markdown, code blocks, tool names, or fake interfaces. Just ask the question directly.
 
 ## Organization Context
-- Organization: Elevate for Humanity
+- Organization: ${PLATFORM_DEFAULTS.orgName}
 - Mission: Workforce development and career training for underserved communities
 - Programs: HVAC, CNA, Barber, Tax Preparation, Apprenticeships, and more
 - Compliance: WIOA, DOL, ETPL, state licensing, FERPA

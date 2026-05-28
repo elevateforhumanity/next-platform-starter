@@ -8,6 +8,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -127,7 +128,7 @@ export async function POST(request: NextRequest) {
     if (action === 'create_webhook') {
       const callbackUrl =
         webhookUri ??
-        `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/api/chatbot/calendly-webhook`;
+        `${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/api/chatbot/calendly-webhook`;
 
       const me = await calendlyFetch('/users/me');
       const orgUri = me?.resource?.current_organization;

@@ -12,6 +12,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Clock, Upload, FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -235,7 +236,7 @@ export default async function ShopOnboardingPage() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-6">
           <h3 className="text-lg font-bold text-brand-blue-900 mb-3">Sponsor of Record</h3>
           <p className="text-sm text-brand-blue-900 mb-2">
-            Elevate for Humanity Career &amp; Technical Institute is a DBA of 2Exclusive LLC-S, the
+            {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is a DBA of 2Exclusive LLC-S, the
             USDOL Registered Apprenticeship Sponsor of Record.
           </p>
           <p className="text-sm text-brand-blue-800">

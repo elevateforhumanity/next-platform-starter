@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Heart, Users, BookOpen, Target, Zap } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'About | Elevate Hub',
@@ -33,7 +34,7 @@ export default function AboutPage() {
         <div className="bg-white rounded-2xl border border-slate-200 p-8 mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Mission</h2>
           <p className="text-slate-600 leading-relaxed">
-            Elevate for Humanity exists to break down barriers to career advancement. We believe everyone 
+            {PLATFORM_DEFAULTS.orgName} exists to break down barriers to career advancement. We believe everyone 
             deserves access to quality education, supportive community, and pathways to meaningful employment. 
             Through our platform, we connect learners with funded training programs, industry certifications, 
             and a network of peers and mentors who are invested in their success.

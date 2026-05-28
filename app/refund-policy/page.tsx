@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -158,7 +159,7 @@ export default async function RefundPolicyPage() {
               <p className="text-black mb-2">
                 Phone:{' '}
                 <a href="/support" className="text-brand-blue-600 hover:underline">
-                  317-314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>
               <p className="text-black">

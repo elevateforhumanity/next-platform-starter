@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   ArrowRight,
   Phone,
@@ -190,7 +191,7 @@ export default function CheckEligibilityPage() {
       setStep(3);
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : 'Something went wrong. Please call (317) 314-3757.',
+        err instanceof Error ? err.message : 'Something went wrong. Please call ${PLATFORM_DEFAULTS.supportPhone}.',
       );
     } finally {
       setSubmitting(false);
@@ -271,7 +272,7 @@ export default function CheckEligibilityPage() {
       primaryLabel: 'View Programs',
       primaryHref: '/programs',
       secondaryLabel: 'Call Us Now',
-      secondaryHref: 'tel:3173143757',
+      secondaryHref: 'tel:${PLATFORM_DEFAULTS.supportPhone}',
     },
   };
 
@@ -304,14 +305,14 @@ export default function CheckEligibilityPage() {
               href="/"
               className="text-white/80 hover:text-white text-sm font-semibold transition-colors"
             >
-              ← Elevate for Humanity
+              ← ${PLATFORM_DEFAULTS.orgName}
             </Link>
             <a
-              href="tel:3173143757"
+              href="tel:${PLATFORM_DEFAULTS.supportPhone}"
               className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              ${PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <div className="pb-6">
@@ -571,8 +572,8 @@ export default function CheckEligibilityPage() {
               </button>
               <p className="text-center text-xs text-slate-400">
                 Questions? Call or text{' '}
-                <a href="tel:3173143757" className="text-slate-600 font-semibold">
-                  (317) 314-3757
+                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-slate-600 font-semibold">
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>
             </form>
@@ -613,8 +614,8 @@ export default function CheckEligibilityPage() {
 
             <p className="text-slate-500 text-sm mb-8">
               Can&apos;t wait? Call or text:{' '}
-              <a href="tel:3173143757" className="text-brand-red-600 font-bold">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-red-600 font-bold">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
             <div className="flex flex-col gap-3">

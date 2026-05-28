@@ -4,13 +4,14 @@ import { getAdminClient } from '@/lib/supabase/admin';
 
 export const metadata: Metadata = {
   title: 'Metrics',
-  description: 'Live enrollment, completion, and certification metrics for Elevate for Humanity workforce training programs.',
+  description: 'Live enrollment, completion, and certification metrics for {PLATFORM_DEFAULTS.orgName} workforce training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/metrics',
   },
 };
 
 import { ComplianceBar } from '@/components/ComplianceBar';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Public aggregate metrics — revalidate every 5 minutes
 export const revalidate = 300;

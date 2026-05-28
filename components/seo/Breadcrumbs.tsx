@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface BreadcrumbItem {
   label: string;
@@ -40,7 +41,7 @@ export function Breadcrumbs() {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.label,
-      item: `https://www.elevateforhumanity.org${crumb.href}`,
+      item: `${PLATFORM_DEFAULTS.siteUrl}${crumb.href}`,
     })),
   };
 

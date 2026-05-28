@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -19,13 +20,13 @@ async function _POST(req: NextRequest) {
       // Fallback response when API key is not configured
       const userMessage = body?.messages?.slice(-1)?.[0]?.content?.toLowerCase() || '';
 
-      let fallbackReply = `Thanks for reaching out! I'm here to help you learn about Elevate for Humanity's free career training programs.
+      let fallbackReply = `Thanks for reaching out! I'm here to help you learn about ${PLATFORM_DEFAULTS.orgName}'s free career training programs.
 
 **Quick Info:**
 • Training is 100% FREE for eligible Indiana residents through WIOA funding
 • Programs: Healthcare (CNA), Skilled Trades (HVAC, CDL), Barbering, and more
-• Call us: (317) 314-3757
-• Apply online: elevateforhumanity.org/apply
+• Call us: ${PLATFORM_DEFAULTS.supportPhone}
+• Apply online: ${PLATFORM_DEFAULTS.canonicalDomain}/apply
 
 What would you like to know more about?`;
 
@@ -36,12 +37,12 @@ What would you like to know more about?`;
       ) {
         fallbackReply = `Great! Here's how to apply:
 
-1. Visit **elevateforhumanity.org/apply**
+1. Visit **${PLATFORM_DEFAULTS.canonicalDomain}/apply**
 2. Complete the eligibility questionnaire (10-15 min)
 3. Upload required documents (ID, proof of income)
 4. Schedule your orientation
 
-Training may be available at no cost for eligible participants. Call (317) 314-3757 if you need help.`;
+Training may be available at no cost for eligible participants. Call ${PLATFORM_DEFAULTS.supportPhone} if you need help.`;
       } else if (
         userMessage.includes('program') ||
         userMessage.includes('course') ||
@@ -54,7 +55,7 @@ Training may be available at no cost for eligible participants. Call (317) 314-3
 **Professional:** Barbering, Cosmetology
 **Technology:** IT Fundamentals, Microsoft Office
 
-All programs include job placement assistance! Visit elevateforhumanity.org/programs for details.`;
+All programs include job placement assistance! Visit ${PLATFORM_DEFAULTS.canonicalDomain}/programs for details.`;
       } else if (
         userMessage.includes('free') ||
         userMessage.includes('cost') ||
@@ -67,7 +68,7 @@ All programs include job placement assistance! Visit elevateforhumanity.org/prog
 • **Job Ready Indy** - For justice-involved individuals  
 • **WRG** - Indiana Workforce Ready Grant
 
-Check your eligibility at elevateforhumanity.org/wioa-eligibility or call (317) 314-3757.`;
+Check your eligibility at ${PLATFORM_DEFAULTS.canonicalDomain}/wioa-eligibility or call ${PLATFORM_DEFAULTS.supportPhone}.`;
       } else if (userMessage.includes('eligib') || userMessage.includes('qualify')) {
         fallbackReply = `To qualify for funded training, you generally need to be:
 
@@ -76,7 +77,7 @@ Check your eligibility at elevateforhumanity.org/wioa-eligibility or call (317) 
 ✓ US citizen or authorized to work
 ✓ Meet income guidelines (varies by family size)
 
-Check your eligibility at elevateforhumanity.org/wioa-eligibility or call (317) 314-3757 for help!`;
+Check your eligibility at ${PLATFORM_DEFAULTS.canonicalDomain}/wioa-eligibility or call ${PLATFORM_DEFAULTS.supportPhone} for help!`;
       } else if (
         userMessage.includes('contact') ||
         userMessage.includes('call') ||
@@ -86,9 +87,9 @@ Check your eligibility at elevateforhumanity.org/wioa-eligibility or call (317) 
       ) {
         fallbackReply = `You can reach our team at:
 
-📞 **Phone:** (317) 314-3757
-📧 **Email:** info@elevateforhumanity.org
-🌐 **Website:** elevateforhumanity.org
+📞 **Phone:** ${PLATFORM_DEFAULTS.supportPhone}
+📧 **Email:** info@${PLATFORM_DEFAULTS.canonicalDomain}
+🌐 **Website:** ${PLATFORM_DEFAULTS.canonicalDomain}
 
 We're here to help you start your career journey!`;
       }
@@ -107,7 +108,7 @@ We're here to help you start your career journey!`;
     }));
 
     const systemPrompt = `
-You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospective students.
+You are the ${PLATFORM_DEFAULTS.orgName} AI Assistant - a warm, helpful guide for prospective students.
 
 **CRITICAL: Always be helpful and answer the question directly. Never say you can't help.**
 
@@ -130,14 +131,14 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
 - Veterans and their families
 
 **How to Apply:**
-1. Visit elevateforhumanity.org/apply
+1. Visit ${PLATFORM_DEFAULTS.canonicalDomain}/apply
 2. Fill out the quick application (10 min)
 3. We'll check your eligibility for free training
 4. Start your new career!
 
 **Contact:**
-- Phone: (317) 314-3757
-- Email: info@elevateforhumanity.org
+- Phone: ${PLATFORM_DEFAULTS.supportPhone}
+- Email: info@${PLATFORM_DEFAULTS.canonicalDomain}
 - Website: elevateforhumanity.org
 
 **Response Guidelines:**
@@ -145,7 +146,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
 - Answer the specific question asked
 - Use bullet points for lists
 - Always provide a clear next step
-- If unsure, say "Great question! Call us at (317) 314-3757 for details"
+- If unsure, say "Great question! Call us at ${PLATFORM_DEFAULTS.supportPhone} for details"
 - Keep responses under 150 words
 - End with an action: apply link, phone number, or follow-up question
     `.trim();
@@ -176,13 +177,13 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
 
       if (userMessage.includes('program') || userMessage.includes('training')) {
         fallbackReply +=
-          '**Our Programs:**\n• Healthcare (CNA, Phlebotomy)\n• Skilled Trades (HVAC, CDL)\n• Professional (Barbering)\n\nVisit elevateforhumanity.org/programs or call (317) 314-3757';
+          '**Our Programs:**\n• Healthcare (CNA, Phlebotomy)\n• Skilled Trades (HVAC, CDL)\n• Professional (Barbering)\n\nVisit ${PLATFORM_DEFAULTS.siteUrl}/programs or call ${PLATFORM_DEFAULTS.supportPhone}';
       } else if (userMessage.includes('apply') || userMessage.includes('start')) {
         fallbackReply +=
-          "**To Apply:**\n1. Go to elevateforhumanity.org/apply\n2. Complete the form\n3. We'll contact you!\n\nOr call (317) 314-3757";
+          "**To Apply:**\n1. Go to ${PLATFORM_DEFAULTS.siteUrl}/apply\n2. Complete the form\n3. We'll contact you!\n\nOr call ${PLATFORM_DEFAULTS.supportPhone}";
       } else {
         fallbackReply +=
-          "Please call us at **(317) 314-3757** or visit **elevateforhumanity.org** and we'll help you right away!";
+          "Please call us at **" + PLATFORM_DEFAULTS.supportPhone + "** or visit **elevateforhumanity.org** and we'll help you right away!";
       }
 
       return NextResponse.json({ reply: fallbackReply });
@@ -191,7 +192,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
     const data = await res.json();
     const reply =
       data.choices?.[0]?.message?.content ??
-      "I couldn't generate a response. Please call us at (317) 314-3757 for immediate help!";
+      "I couldn't generate a response. Please call us at " + PLATFORM_DEFAULTS.supportPhone + " for immediate help!";
 
     // Log interaction to database
     try {
@@ -218,7 +219,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
     logger.error('Chat API error:', error);
     return NextResponse.json({
       reply:
-        "I'm having technical difficulties. Please call us at (317) 314-3757 or visit elevateforhumanity.org/apply to get started!",
+        "I'm having technical difficulties. Please call us at " + PLATFORM_DEFAULTS.supportPhone + " or visit ${PLATFORM_DEFAULTS.siteUrl}/apply to get started!",
     });
   }
 }

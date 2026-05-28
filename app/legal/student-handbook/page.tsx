@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Student Handbook',
@@ -16,7 +17,7 @@ export default function StudentHandbookPage() {
       <DocumentPage
         documentType="Student Handbook Acknowledgment"
         title="Student Handbook"
-        subtitle="Elevate for Humanity Career & Technical Institute"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
         date="2025-01-01"
         version="2.0"
       >
@@ -33,7 +34,7 @@ export default function StudentHandbookPage() {
 
         <DocumentSection heading="Mission" number={1}>
           <p>
-            Elevate for Humanity provides career training, credentialing, and job placement support
+            {PLATFORM_DEFAULTS.orgName} provides career training, credentialing, and job placement support
             to job seekers, returning citizens, veterans, and underserved communities across
             Indiana. Our programs are designed to get you employed in a skilled trade or career
             field with industry-recognized credentials. You are here because you chose to invest in
@@ -164,7 +165,7 @@ export default function StudentHandbookPage() {
           </p>
           <ul>
             <li>Follow all employer site rules and safety requirements without exception.</li>
-            <li>Represent Elevate for Humanity professionally at all times.</li>
+            <li>Represent {PLATFORM_DEFAULTS.orgName} professionally at all times.</li>
             <li>Complete all required site documentation before leaving.</li>
             <li>
               Report any incidents or concerns to your program coordinator immediately — same day.
@@ -262,11 +263,11 @@ export default function StudentHandbookPage() {
 
         <DocumentSection heading="Contact" number={12}>
           <p>
-            Elevate for Humanity — Program Director
+            {PLATFORM_DEFAULTS.orgName} — Program Director
             <br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
             <br />
-            Email: elevate4humanityedu@gmail.com · Phone: (317) 314-3757
+            Email: elevate4humanityedu@gmail.com · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

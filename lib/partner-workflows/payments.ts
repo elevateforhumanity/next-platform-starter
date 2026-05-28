@@ -7,6 +7,7 @@ import 'server-only';
 
 import { stripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface PaymentRequest {
   studentId: string;
@@ -85,7 +86,7 @@ export async function createPartnerPaymentSession(request: PaymentRequest): Prom
             product_data: {
               name: `${provider.provider_name} Certification`,
               description: `Access to ${provider.provider_name} courses and certifications`,
-              images: ['https://www.elevateforhumanity.org/images/certification-badge.png'],
+              images: ['${PLATFORM_DEFAULTS.siteUrl}/images/certification-badge.png'],
             },
             unit_amount: Math.round(request.amount * 100), // Convert to cents
           },

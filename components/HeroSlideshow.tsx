@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 interface Slide {
   image: string;
   title: string;
@@ -17,7 +18,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     image: '/images/hero/hero-main-welcome.webp',
-    title: 'Elevate for Humanity',
+    title: PLATFORM_DEFAULTS.orgName,
     text: 'State-approved, federally aligned workforce training that opens doors to high-wage careers.',
     cta: {
       text: 'Explore Programs',

@@ -24,6 +24,7 @@ import { createSchedulingLink, getEventTypes } from '@/lib/testing/calendly';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { ENV } from '@/lib/api/env-groups';
 import { TestingSessionMeta, parseWebhookMeta } from '@/lib/stripe/webhook-schemas';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -33,7 +34,7 @@ const FROM = TESTING_EMAIL.from;
 export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, async (req, ctx) => {
   const stripeKey = ctx.env.STRIPE_SECRET_KEY;
   const webhookSecret = ctx.env.STRIPE_TESTING_WEBHOOK_SECRET;
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
   const body = await req.text();
   const sig = req.headers.get('stripe-signature');
@@ -300,7 +301,7 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
         html: `<!DOCTYPE html>
 <html><body style="font-family:Arial,sans-serif;padding:24px;color:#1E293B">
   <h2 style="color:#1E3A5F">Your ${label} has been received.</h2>
-  <p>You can now schedule your exam at Elevate for Humanity Testing Center.</p>
+  <p>You can now schedule your exam at ${PLATFORM_DEFAULTS.orgName} Testing Center.</p>
   <p><a href="${SITE_URL}/testing/book" style="background:#1E3A5F;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block">Book Your Exam →</a></p>
   <p style="color:#64748b;font-size:13px">Questions? Call ${TESTING_CENTER.phone} or reply to this email.</p>
 </body></html>`,

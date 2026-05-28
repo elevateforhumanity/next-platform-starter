@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function getSafeRedirect(raw: string | null): string {
   if (!raw) return '/admin/dashboard';
@@ -219,7 +220,7 @@ export default function AdminLoginForm({ redirectTo, initialError }: { redirectT
         )}
 
         <p className="text-center text-slate-600 text-xs mt-6">
-          Elevate for Humanity · Admin Portal · Restricted Access
+          {PLATFORM_DEFAULTS.orgName} · Admin Portal · Restricted Access
         </p>
       </div>
     </div>

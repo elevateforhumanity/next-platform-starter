@@ -23,6 +23,7 @@ import {
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getStripeMethodsForAmount, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * POST /api/barber/checkout/public
@@ -122,7 +123,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Build success/cancel URLs
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const finalSuccessUrl = success_url || `${baseUrl}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancel_url || `${baseUrl}/programs/barber-apprenticeship/apply?canceled=true`;
 

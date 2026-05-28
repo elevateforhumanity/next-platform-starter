@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Platform / Licensing Email Templates
  * For organizations interested in licensing the Elevate platform
@@ -8,13 +9,13 @@ export const platformEmailTemplates = {
    * EMAIL 1: Platform Inquiry Received
    */
   inquiryReceived: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: 'Platform inquiry received',
     getHtml: (data: { name: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.name},</p>
 
-        <p>Thank you for your interest in the Elevate for Humanity platform.</p>
+        <p>Thank you for your interest in the ${PLATFORM_DEFAULTS.orgName} platform.</p>
 
         <div style="background-color: #f9fafb; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #e5e7eb;">
           <p style="margin: 0;"><strong>We'll review your inquiry and follow up to:</strong></p>
@@ -28,14 +29,14 @@ export const platformEmailTemplates = {
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
     getText: (data: { name: string }) => `
 Hello ${data.name},
 
-Thank you for your interest in the Elevate for Humanity platform.
+Thank you for your interest in the ${PLATFORM_DEFAULTS.orgName} platform.
 
 We'll review your inquiry and follow up to:
 • Discuss your use case
@@ -43,7 +44,7 @@ We'll review your inquiry and follow up to:
 • Review licensing options
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 
@@ -51,7 +52,7 @@ Elevate for Humanity
    * EMAIL 2: Licensing Proposal
    */
   licensingProposal: {
-    from: 'partnerships@www.elevateforhumanity.org',
+    from: 'partnerships@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: 'Platform licensing proposal',
     getHtml: (data: { name: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -70,7 +71,7 @@ Elevate for Humanity
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
@@ -85,7 +86,7 @@ Attached is your platform licensing proposal, including:
 Please review and let us know if you'd like to proceed.
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 
@@ -93,7 +94,7 @@ Elevate for Humanity
    * EMAIL 3: Platform Payment Confirmation
    */
   paymentConfirmation: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: 'Platform access & onboarding details',
     getHtml: (data: { name: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -115,7 +116,7 @@ Elevate for Humanity
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
@@ -132,7 +133,7 @@ Next steps:
 Welcome aboard.
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 };

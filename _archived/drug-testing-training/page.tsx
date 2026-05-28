@@ -6,8 +6,9 @@ import { Phone, GraduationCap, Award, Users } from 'lucide-react';
 
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Drug Testing Training Courses | Elevate for Humanity',
+  title: 'Drug Testing Training Courses | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Professional drug testing training courses. DOT and non-DOT collector training, supervisor training, DER training, and more.',
   alternates: {

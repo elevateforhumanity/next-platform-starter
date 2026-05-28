@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Program Licensing Agreement | Elevate for Humanity',
+  title: 'Program Licensing Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -19,7 +20,7 @@ export default function ProgramLicenseAgreementPage() {
       <DocumentPage
         documentType="Program Licensing Agreement"
         title="Inter-Entity Program Licensing Agreement"
-        subtitle="Elevate for Humanity (Nonprofit) and 2Exclusive LLC-S (Operating Company)"
+        subtitle="{PLATFORM_DEFAULTS.orgName} (Nonprofit) and 2Exclusive LLC-S (Operating Company)"
         date="2025-01-01"
         version="1.0"
         confidential
@@ -31,12 +32,12 @@ export default function ProgramLicenseAgreementPage() {
           </p>
           <ul>
             <li>
-              <strong>Elevate for Humanity</strong> ("Program Authority"), a nonprofit organization
+              <strong>{PLATFORM_DEFAULTS.orgName}</strong> ("Program Authority"), a nonprofit organization
               operating under Indiana law, responsible for curriculum, credential relationships,
               compliance, and program standards; and
             </li>
             <li>
-              <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong>{' '}
+              <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong>{' '}
               ("Operating Company"), a for-profit limited liability company operating under Indiana law,
               responsible for enrollment operations, tuition collection, technology infrastructure,
               marketing, and training network expansion.
@@ -85,7 +86,7 @@ export default function ProgramLicenseAgreementPage() {
             <li>Program model, training methodology, and operational framework</li>
             <li>Credential relationships and exam authorization agreements</li>
             <li>ETPL registration and workforce agency relationships</li>
-            <li>Elevate for Humanity brand, trademarks, and public identity</li>
+            <li>{PLATFORM_DEFAULTS.orgName} brand, trademarks, and public identity</li>
             <li>Student outcome data and program performance records</li>
           </ul>
           <p className="mt-3">

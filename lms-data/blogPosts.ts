@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export interface BlogPost {
   slug: string;
   title: string;
@@ -16,7 +17,7 @@ export const blogPosts: BlogPost[] = [
       'A plain-language walkthrough of how Elevate combines state grants, Job Ready Indy (JRI), and scholarship funds so learners pay less out of pocket.',
     publishedDate: '2025-11-20',
     body: `
-At Elevate for Humanity, we don't believe that a zip code or bank account should decide who gets access to career training.
+At ' + PLATFORM_DEFAULTS.orgName + ', we don't believe that a zip code or bank account should decide who gets access to career training.
 
 Behind the scenes, our team is constantly braiding together different funding streams:
 

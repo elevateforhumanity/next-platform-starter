@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -53,7 +54,7 @@ export default function CareerCounselingPage() {
         },
         cta: {
           heading: 'Schedule a Session',
-          subtitle: 'Free for all enrolled students and graduates. Call (317) 314-3757 to schedule.',
+          subtitle: 'Free for all enrolled students and graduates. Call {PLATFORM_DEFAULTS.supportPhone} to schedule.',
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',

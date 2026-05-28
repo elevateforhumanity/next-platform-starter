@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Partnerships',
   description:
-    'Strategic partnerships with employers, workforce boards, community organizations, and technology providers. Partner with Elevate for Humanity to expand workforce development impact in Indiana.',
+    'Strategic partnerships with employers, workforce boards, community organizations, and technology providers. Partner with {PLATFORM_DEFAULTS.orgName} to expand workforce development impact in Indiana.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partnerships' },
 };
 
@@ -25,7 +26,7 @@ export default function PartnershipsPage() {
         intro: {
           heading: 'Partnership Types',
           paragraphs: [
-            'Elevate for Humanity partners with employers who hire our graduates, workforce agencies who refer participants, community organizations who serve overlapping populations, and technology providers who integrate with our platform.',
+            '{PLATFORM_DEFAULTS.orgName} partners with employers who hire our graduates, workforce agencies who refer participants, community organizations who serve overlapping populations, and technology providers who integrate with our platform.',
             'Every partnership is structured around a shared outcome: more Indiana residents with industry credentials and living-wage jobs.',
           ],
           image: '/images/pages/about-career-training.webp',
@@ -54,7 +55,7 @@ export default function PartnershipsPage() {
         },
         cta: {
           heading: 'Start a Partnership Conversation',
-          subtitle: 'Contact us to explore how we can work together. Call (317) 314-3757 or use the form below.',
+          subtitle: 'Contact us to explore how we can work together. Call {PLATFORM_DEFAULTS.supportPhone} or use the form below.',
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'View Partner Types',

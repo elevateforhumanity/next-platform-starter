@@ -15,9 +15,10 @@ import {
   Phone,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Governance | Elevate for Humanity',
+  title: 'Governance | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
   robots: {
@@ -232,7 +233,7 @@ export default async function GovernancePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apply`}
+                href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/apply`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition"
@@ -244,7 +245,7 @@ export default async function GovernancePage() {
                 className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
               >
                 <Phone className="w-4 h-4" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

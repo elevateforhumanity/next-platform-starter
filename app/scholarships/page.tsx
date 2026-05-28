@@ -16,8 +16,9 @@ import {
   Star,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const metadata: Metadata = {
   title: 'Scholarships & Financial Aid | Free Training Funding | Elevate',
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     title: 'Scholarships & Financial Aid | Free Training Funding',
     description: 'Explore scholarships, grants, and funding options for career training.',
     url: `${SITE_URL}/scholarships`,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: `${SITE_URL}/images/pages/success-stories-hero.webp`,

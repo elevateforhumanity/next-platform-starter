@@ -19,6 +19,7 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -162,7 +163,7 @@ async function sendUpcomingPaymentReminder(
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
   await resend.emails.send({
-    from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
     to: student.email,
     subject: 'Upcoming Payment Reminder',
     html: `
@@ -171,9 +172,9 @@ async function sendUpcomingPaymentReminder(
       <p>This is a friendly reminder that your weekly tuition payment of <strong>$${subscription.weekly_amount}</strong> will be automatically charged on <strong>${paymentDate.toLocaleDateString()}</strong>.</p>
       <p>Payment ${subscription.weeks_paid + 1} of ${subscription.total_weeks}</p>
       <p>Please ensure your payment method is up to date.</p>
-      <p><a href="https://www.elevateforhumanity.org/account/billing">Manage Payment Method</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/account/billing">Manage Payment Method</a></p>
       <p>Thank you for your commitment to your education!</p>
-      <p>- Elevate for Humanity</p>
+      <p>- ${PLATFORM_DEFAULTS.orgName}</p>
     `,
   });
 }
@@ -185,7 +186,7 @@ async function sendPastDueAlert(
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
   await resend.emails.send({
-    from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
     to: student.email,
     subject: 'Action Required: Payment Past Due',
     html: `
@@ -193,15 +194,15 @@ async function sendPastDueAlert(
       <p>Hi ${student.full_name || 'Student'},</p>
       <p>Your weekly tuition payment of <strong>$${subscription.weekly_amount}</strong> was not successfully processed.</p>
       <p><strong>Please update your payment method immediately to avoid interruption to your course access.</strong></p>
-      <p><a href="https://www.elevateforhumanity.org/account/billing" style="background-color: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Update Payment Method</a></p>
-      <p>If you're experiencing financial difficulties, please contact us at support@elevateforhumanity.org to discuss options.</p>
-      <p>- Elevate for Humanity Billing Team</p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/account/billing" style="background-color: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Update Payment Method</a></p>
+      <p>If you're experiencing financial difficulties, please contact us at ${PLATFORM_DEFAULTS.supportEmail} to discuss options.</p>
+      <p>- ${PLATFORM_DEFAULTS.orgName} Billing Team</p>
     `,
   });
 
   // Also notify admin
   await resend.emails.send({
-    from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
     to: 'elevate4humanityedu@gmail.com',
     subject: `Past Due Alert: ${student.full_name || student.email}`,
     html: `

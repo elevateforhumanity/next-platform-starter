@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,7 +100,7 @@ export default async function OrientationCompletePage() {
                   and create a free account
                 </>,
                 'Schedule an appointment with your local WorkOne office',
-                'Tell them you are enrolling in training at Elevate for Humanity',
+                'Tell them you are enrolling in training at {PLATFORM_DEFAULTS.orgName}',
                 'They will confirm your eligibility and issue a training voucher',
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-amber-800">
@@ -155,8 +156,8 @@ export default async function OrientationCompletePage() {
 
         <p className="text-center text-xs text-slate-700 mt-6">
           Questions? Call{' '}
-          <a href="tel:+13173143757" className="underline">
-            (317) 314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>{' '}
           or email{' '}
           <a href="mailto:elevate4humanityedu@gmail.com" className="underline">

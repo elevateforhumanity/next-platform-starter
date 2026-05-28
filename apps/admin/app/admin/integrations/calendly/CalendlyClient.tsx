@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CalendlyStatus {
   connected: boolean;
@@ -305,7 +306,7 @@ export default function CalendlyClient() {
         <p className="text-xs text-slate-500">
           Bookings received via webhook are stored in the <code className="bg-white border border-slate-200 px-1 rounded">calendly_bookings</code> table.
           Webhook URL: <code className="bg-white border border-slate-200 px-1 rounded break-all">
-            {typeof window !== 'undefined' ? window.location.origin.replace('admin.', 'www.') : 'https://www.elevateforhumanity.org'}/api/chatbot/calendly-webhook
+            {typeof window !== 'undefined' ? window.location.origin.replace('admin.', 'www.') : PLATFORM_DEFAULTS.siteUrl}/api/chatbot/calendly-webhook
           </code>
         </p>
       </div>

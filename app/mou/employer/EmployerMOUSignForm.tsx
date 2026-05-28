@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { SignatureCanvas } from '@/components/SignatureCanvas';
 import { CheckCircle, AlertCircle, Download } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function EmployerMOUSignForm({ programs }: { programs: string[] }) {
   const [step, setStep] = useState<'form' | 'sign' | 'done'>('form');
@@ -73,7 +74,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
 
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error ?? 'Failed to generate MOU. Please try again or call (317) 314-3757.');
+        setError(d.error ?? 'Failed to generate MOU. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         return;
       }
 
@@ -83,7 +84,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
       setPdfUrl(url);
       setStep('done');
     } catch {
-      setError('Network error. Please try again or call (317) 314-3757.');
+      setError('Network error. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setLoading(false);
     }
@@ -100,7 +101,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
           <h2 className="text-2xl font-bold text-slate-900 mb-2">MOU Signed</h2>
           <p className="text-slate-600 max-w-md mx-auto">
             Thank you, <strong>{signerName}</strong>. Your Memorandum of Understanding with
-            Elevate for Humanity has been executed. A copy has been sent to Elizabeth Greene.
+            {PLATFORM_DEFAULTS.orgName} has been executed. A copy has been sent to Elizabeth Greene.
           </p>
         </div>
         {pdfUrl && (
@@ -114,7 +115,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
           </a>
         )}
         <p className="text-sm text-slate-400">
-          Questions? Call Elizabeth directly at (317) 314-3757 or email{' '}
+          Questions? Call Elizabeth directly at {PLATFORM_DEFAULTS.supportPhone} or email{' '}
           <a href="mailto:elevate4humanityedu@gmail.com" className="text-blue-600 hover:underline">
             elevate4humanityedu@gmail.com
           </a>
@@ -200,7 +201,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
 
           <div className="rounded-xl border border-slate-200 p-5 text-sm text-slate-600 space-y-3 max-h-48 overflow-y-auto">
             <p className="font-semibold text-slate-800">Memorandum of Understanding — Summary</p>
-            <p>This MOU establishes {employerName} as an official employer partner of Elevate for Humanity Technical and Career Institute. As a partner, you agree to consider qualified Elevate graduates for open positions, participate in career events when available, and share relevant job openings with our network.</p>
+            <p>This MOU establishes {employerName} as an official employer partner of {PLATFORM_DEFAULTS.orgLegalName}. As a partner, you agree to consider qualified Elevate graduates for open positions, participate in career events when available, and share relevant job openings with our network.</p>
             <p>There is <strong>no financial obligation</strong>. This is a hiring partnership only. The MOU is effective for one year and renews automatically. Either party may terminate with 30 days written notice.</p>
             <p>Student personally identifiable information is protected under FERPA and applicable Indiana law.</p>
           </div>

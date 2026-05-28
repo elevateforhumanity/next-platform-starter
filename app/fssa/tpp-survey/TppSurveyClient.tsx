@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckCircle, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // FSSA DFR Third Party Provider (TPP) Questionnaire
 // Sections mirror the actual Indiana FSSA SNAP E&T TPP application
@@ -84,7 +85,7 @@ type SurveyData = {
 };
 
 const INITIAL: SurveyData = {
-  org_name: '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)',
+  org_name: '2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgLegalName})',
   org_type: 'nonprofit',
   ein: '',
   uei: 'VX2GK5S8SZH8',
@@ -95,7 +96,7 @@ const INITIAL: SurveyData = {
   contact_name: 'Elizabeth Greene',
   contact_title: 'Founder & Chief Executive Officer',
   contact_email: 'elevate4humanityedu@gmail.com',
-  contact_phone: '(317) 314-3757',
+  contact_phone: PLATFORM_DEFAULTS.supportPhone,
   program_name: 'SNAP E&T Workforce Credential Program',
   program_type: 'vocational_training',
   delivery_mode: 'hybrid',
@@ -260,7 +261,7 @@ export default function TppSurveyClient() {
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error ?? 'Failed to generate PDF. Please try again or call (317) 314-3757.');
+        setError(d.error ?? 'Failed to generate PDF. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         return;
       }
       const blob = await res.blob();
@@ -289,7 +290,7 @@ export default function TppSurveyClient() {
         </p>
         <p className="text-slate-500 mb-6 max-w-md mx-auto text-sm">
           Need help submitting? Call Elizabeth at{' '}
-          <a href="tel:3173143757" className="text-blue-600 font-medium">(317) 314-3757</a>
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-blue-600 font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
         <button
           onClick={() => { setSubmitted(false); setStep(0); }}

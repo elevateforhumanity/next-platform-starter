@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Elevate Apps | Elevate for Humanity',
+  title: 'Elevate Apps | {PLATFORM_DEFAULTS.orgName}',
   description: 'Installable apps for students, instructors, employers, and administrators.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pwa' },
 };
@@ -105,7 +106,7 @@ export default function PWAIndexPage() {
       </main>
 
       <footer className="px-6 py-8 text-center">
-        <p className="text-slate-500 text-sm mb-4">Part of the Elevate for Humanity platform</p>
+        <p className="text-slate-500 text-sm mb-4">Part of the {PLATFORM_DEFAULTS.orgName} platform</p>
         <Link href="/" className="text-slate-400 hover:text-white text-sm underline">Go to main website</Link>
       </footer>
     </div>

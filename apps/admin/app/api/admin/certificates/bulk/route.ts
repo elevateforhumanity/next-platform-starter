@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { generateCertificateNumber } from '@/lib/partner-workflows/certificates';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,7 +65,7 @@ async function _POST(req: NextRequest) {
         course_id: enrollment.course_id,
         enrollment_id: enrollmentId,
         issue_date: issueDate || new Date().toISOString().split('T')[0],
-        signed_by: signedBy || 'Elevate for Humanity Career & Technical Institute',
+        signed_by: signedBy || '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
         status: 'issued',
         issued_by: user.id,
       });
@@ -79,7 +80,7 @@ async function _POST(req: NextRequest) {
           template_id: templateId,
           course_id: enrollment.course_id,
           issued_date: issueDate || new Date().toISOString().split('T')[0],
-          signed_by: signedBy || 'Elevate for Humanity Career & Technical Institute',
+          signed_by: signedBy || '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
           status: 'active',
           issued_by: user.id,
         });

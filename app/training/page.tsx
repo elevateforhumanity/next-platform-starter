@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -97,7 +98,7 @@ export default function TrainingPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/training-page-3.webp"
-          alt="Career training programs at Elevate for Humanity"
+          alt="Career training programs at {PLATFORM_DEFAULTS.orgName}"
           fill
           className="object-cover"
           priority

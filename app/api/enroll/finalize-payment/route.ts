@@ -17,6 +17,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -214,7 +215,7 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Failed to initiate payment' }, { status: 500 });
     }
 
-    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl);
 
     // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({

@@ -8,6 +8,7 @@ import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -73,7 +74,7 @@ async function _POST(req: NextRequest) {
         ? new URL(successUrl).origin
         : (req.headers.get('origin') ??
           process.env.NEXT_PUBLIC_SITE_URL ??
-          (((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')));
+          (((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)));
 
     // Build session options
     const sessionOptions: Stripe.Checkout.SessionCreateParams = {

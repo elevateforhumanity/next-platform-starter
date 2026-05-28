@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { getActiveJobs, formatSalary, jobTypeLabel } from '@/lib/data/jobs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Careers - Join Our Team',
@@ -13,17 +14,17 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/careers',
   },
   openGraph: {
-    title: 'Careers at Elevate for Humanity',
+    title: 'Careers at {PLATFORM_DEFAULTS.orgName}',
     description:
       'Join our mission to provide career training at no cost to eligible participants and workforce development.',
     url: 'https://www.elevateforhumanity.org/careers',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Careers at Elevate' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Careers at Elevate for Humanity',
+    title: 'Careers at {PLATFORM_DEFAULTS.orgName}',
     description: 'Join our mission to provide career training at no cost to eligible participants.',
     images: ['/og-default.webp'],
   },

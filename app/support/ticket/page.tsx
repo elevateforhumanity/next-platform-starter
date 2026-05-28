@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, Send, AlertCircle, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const categories = [
   { value: 'enrollment', label: 'Enrollment & Admissions' },
@@ -166,7 +167,7 @@ function SubmitTicketContent() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
-                  placeholder="(317) 314-3757"
+                  placeholder={PLATFORM_DEFAULTS.supportPhone}
                 />
               </div>
               <div>
@@ -262,7 +263,7 @@ function SubmitTicketContent() {
             <p className="text-sm text-slate-700 text-center">
               Need immediate help? Contact us at{' '}
               <a href="/support" className="text-brand-blue-600 font-semibold hover:underline">
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
           </div>

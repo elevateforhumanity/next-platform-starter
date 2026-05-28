@@ -4,6 +4,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeInternalError } from '@/lib/api/safe-error';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import PDFKit from 'pdfkit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,10 +24,10 @@ async function buildW9(sigPngBytes: Uint8Array): Promise<Uint8Array> {
 
   form
     .getTextField('topmostSubform[0].Page1[0].f1_01[0]')
-    .setText('2Exclusive LLC-S DBA Elevate for Humanity Career & Technical Institute');
+    .setText('2Exclusive LLC-S DBA ' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute');
   form
     .getTextField('topmostSubform[0].Page1[0].f1_02[0]')
-    .setText('Elevate for Humanity Career & Technical Institute');
+    .setText('' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute');
   form.getCheckBox('topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[5]').check();
   form.getTextField('topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].f1_03[0]').setText('S');
   form
@@ -152,7 +153,7 @@ function buildACH(sigDataUrl: string): Promise<Buffer> {
     section('PAYEE INFORMATION');
     field(
       'Payee / Vendor Name',
-      '2Exclusive LLC-S DBA Elevate for Humanity Career & Technical Institute',
+      '2Exclusive LLC-S DBA ' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     );
     fieldRow([
       ['Address', '8888 Keystone Crossing, Suite 1300'],
@@ -195,7 +196,7 @@ function buildACH(sigDataUrl: string): Promise<Buffer> {
     fieldRow([
       ['Name', 'Elizabeth Greene'],
       ['E-mail', 'info@elevateforhumanity.org'],
-      ['Phone', '(317) 314-3757'],
+      ['Phone', PLATFORM_DEFAULTS.supportPhone],
     ]);
 
     // Banking
@@ -217,7 +218,7 @@ function buildACH(sigDataUrl: string): Promise<Buffer> {
       ['Address', '200 University Ave W'],
       ['City, State, Zip', 'Saint Paul, MN 55103'],
     ]);
-    field('Name (as it appears on bank account)', '2Exclusive LLC-S DBA Elevate for Humanity');
+    field('Name (as it appears on bank account)', '2Exclusive LLC-S DBA ' + PLATFORM_DEFAULTS.orgName + '');
     fieldRow([
       ['9-Digit ABA Routing Number', '091017138'],
       ['Bank Account Number', '692101663981'],
@@ -271,7 +272,7 @@ function buildACH(sigDataUrl: string): Promise<Buffer> {
       .fillColor(GRAY)
       .font('Helvetica')
       .text(
-        'Elevate for Humanity Career & Technical Institute  |  8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240  |  (317) 314-3757',
+        `${PLATFORM_DEFAULTS.orgLegalName}  |  8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240  |  ${PLATFORM_DEFAULTS.supportPhone}`,
         { align: 'center', width: W },
       );
 
@@ -329,14 +330,14 @@ export async function POST(request: NextRequest) {
 
     const body = {
       personalizations: [{ to: [{ email: TO_EMAIL, name: 'Elizabeth Greene' }] }],
-      from: { email: FROM_EMAIL, name: 'Elevate for Humanity' },
+      from: { email: FROM_EMAIL, name: PLATFORM_DEFAULTS.orgName },
       reply_to: { email: FROM_EMAIL },
       subject: `Signed Documents — ${docLabels.join(' + ')}`,
       content: [
         {
           type: 'text/html',
           value: `<div style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto;padding:24px;">
-          <img src="https://elevateforhumanity.org/logo.jpg" alt="Elevate for Humanity" style="height:50px;margin-bottom:20px;"/><br/>
+          <img src="https://${PLATFORM_DEFAULTS.canonicalDomain}/logo.jpg" alt={PLATFORM_DEFAULTS.orgName} style="height:50px;margin-bottom:20px;"/><br/>
           <p>Elizabeth,</p>
           <p>Your signed documents are attached:</p>
           <ul>${docLabels.map((l) => `<li><strong>${l}</strong></li>`).join('')}</ul>

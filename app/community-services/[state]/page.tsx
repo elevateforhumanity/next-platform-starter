@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getStateConfig } from '@/config/states';
 import { StateCommunityServicesPage } from '@/components/templates';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +15,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const state = getStateConfig(slug);
   if (!state) return {};
   return {
-    title: `${state.communityServices.headline} | Elevate for Humanity`,
+    title: `${state.communityServices.headline} | ${PLATFORM_DEFAULTS.orgName}`,
     description: state.communityServices.description,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/community-services-${state.slug}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/community-services-${state.slug}`,
     },
     keywords: [
       `community services ${state.name}`,

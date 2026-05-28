@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield, Clock, Users, AlertTriangle, Phone, FileText, Scale, Heart, ArrowRight,
 } from 'lucide-react';
 
@@ -114,7 +115,7 @@ const sections = [
     icon: Phone,
     title: 'Communication & Reporting',
     content: [
-      'Open communication with the Sponsor (Elevate for Humanity) is essential for program success.',
+      'Open communication with the Sponsor ({PLATFORM_DEFAULTS.orgName}) is essential for program success.',
     ],
     items: [
       'Respond to Sponsor inquiries within 2 business days',
@@ -266,8 +267,8 @@ export default function PartnerHandbookPage() {
             policy violations, contact us immediately:
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="tel:+13173143757" className="inline-flex items-center gap-2 text-red-700 font-semibold">
-              <Phone className="w-4 h-4" /> (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="inline-flex items-center gap-2 text-red-700 font-semibold">
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a href="mailto:apprenticeships@elevateforhumanity.org" className="inline-flex items-center gap-2 text-red-700 font-semibold">
               apprenticeships@elevateforhumanity.org

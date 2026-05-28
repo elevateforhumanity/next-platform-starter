@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Server, Code, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { RedirectNotice } from '@/components/store/RedirectNotice';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Licenses | Elevate Store',
@@ -187,7 +188,7 @@ export default function StoreLicensesPage() {
               { q: 'Can I try the platform before buying?', a: 'Yes. Start a free 14-day trial with no credit card required, or take a guided demo tour to see each role in action.' },
               { q: 'What happens after I purchase a license?', a: 'Managed Platform: We set up your branded instance within 5 business days. Source-Use: Legal review and repository access within 2 weeks after agreement execution.' },
               { q: 'Can I cancel my managed platform subscription?', a: 'Yes. Monthly subscriptions can be cancelled with 30 days notice. Annual contracts are non-refundable but will not auto-renew unless requested.' },
-              { q: 'Do I own the software?', a: 'No. All licenses grant access to use the platform. Ownership of software, IP, and infrastructure remains with Elevate for Humanity.' },
+              { q: 'Do I own the software?', a: 'No. All licenses grant access to use the platform. Ownership of software, IP, and infrastructure remains with {PLATFORM_DEFAULTS.orgName}.' },
               { q: 'Is the platform FERPA and WIOA compliant?', a: 'Yes. The platform is built for workforce development and includes FERPA-compliant data handling, WIOA reporting templates, and WCAG 2.1 AA accessibility.' },
               { q: 'Can I use my own domain and branding?', a: 'Yes. All managed platform licenses include custom domain setup and full branding (logo, colors, email templates).' },
             ].map((faq) => (

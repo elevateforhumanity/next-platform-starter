@@ -21,9 +21,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Community Marketplace | Elevate for Humanity',
+  title: 'Community Marketplace | {PLATFORM_DEFAULTS.orgName}',
   description: 'Discover courses, training materials, professional tools, and resources from our community of educators, program owners, and industry professionals.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/community/marketplace',

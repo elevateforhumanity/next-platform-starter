@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { success, failure } from '@/lib/api/safe-handler';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(req: Request) {
   try {
@@ -75,7 +76,7 @@ async function _POST(req: Request) {
         route: '/api/enrollment/submit-documents',
       });
       return failure(
-        'Failed to record document submission. Please try again or call (317) 314-3757.',
+        'Failed to record document submission. Please try again or call ' + PLATFORM_DEFAULTS.supportPhone + '.',
       );
     }
 

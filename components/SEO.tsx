@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface SEOProps {
   title: string;
@@ -17,9 +18,9 @@ export function SEO({
   ogType = 'website',
   noindex = false,
 }: SEOProps) {
-  const siteName = 'Elevate for Humanity';
+  const siteName = PLATFORM_DEFAULTS.orgName;
   const fullTitle = `${title} | ${siteName}`;
-  const siteUrl = 'https://www.elevateforhumanity.org';
+  const siteUrl = PLATFORM_DEFAULTS.siteUrl;
   const fullCanonical = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
   return (

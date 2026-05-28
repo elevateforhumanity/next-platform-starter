@@ -3,13 +3,14 @@
 import React from 'react';
 
 /*
-  Copyright (c) 2025 Elevate for Humanity
+  Copyright (c) 2025 {PLATFORM_DEFAULTS.orgName}
   Commercial License. No resale, sublicensing, or redistribution allowed.
   See LICENSE file for details.
 */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   MessageCircle,
   X,
   Send,

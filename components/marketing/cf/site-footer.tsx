@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function SiteFooter() {
   return (
@@ -60,7 +61,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 border-t pt-6 flex flex-col gap-2 text-sm text-slate-700 md:flex-row md:justify-between">
-          <p>© {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.</p>
           <p>
             {siteConfig.phone} · {siteConfig.address}
           </p>

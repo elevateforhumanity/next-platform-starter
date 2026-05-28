@@ -20,6 +20,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Student Onboarding',
@@ -47,7 +48,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     href: '/profile/edit',
     icon: User,
     image: '/images/pages/career-services-page-2.jpg',
-    imageAlt: 'Student completing profile at Elevate for Humanity',
+    imageAlt: 'Student completing profile at {PLATFORM_DEFAULTS.orgName}',
     required: true,
   },
   {
@@ -348,7 +349,7 @@ export default async function LearnerOnboardingPage({
       const emailAddr = profile?.email || user.email || '';
       const firstName = profile?.first_name || profile?.full_name?.split(' ')[0] || 'Student';
       const resolvedProgramName = enrollmentProgramName || 'your training program';
-      const siteUrlInner = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const siteUrlInner = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
       // Send student confirmation email
       if (emailAddr) {
@@ -362,7 +363,7 @@ export default async function LearnerOnboardingPage({
       }
 
       // Notify admin of new completed onboarding
-      const adminEmail = process.env.ADMIN_EMAIL || 'admin@elevateforhumanity.org';
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@${PLATFORM_DEFAULTS.canonicalDomain}';
       const { sendEmail } = await import('@/lib/email/resend');
       await sendEmail({
         to: adminEmail,
@@ -376,7 +377,7 @@ export default async function LearnerOnboardingPage({
     }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const studentName = profile?.first_name || 'Student';
   const programName = enrollmentProgramName || 'your selected program';
 
@@ -425,7 +426,7 @@ export default async function LearnerOnboardingPage({
               Student Onboarding
             </p>
             <h1 className="text-3xl font-black text-slate-900 mb-2 leading-tight">
-              Welcome to Elevate for Humanity
+              Welcome to ${PLATFORM_DEFAULTS.orgName}
             </h1>
             <p className="text-slate-500">
               {enrollmentProgramName
@@ -503,8 +504,8 @@ export default async function LearnerOnboardingPage({
             </Link>
             <p className="text-sm text-slate-400 mt-6">
               Questions? Call{' '}
-              <a href="tel:+13173143757" className="underline">
-                (317) 314-3757
+              <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}" className="underline">
+                ${PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
           </div>
@@ -575,7 +576,7 @@ export default async function LearnerOnboardingPage({
                     <h2 className="text-xl font-black text-slate-900 mb-1">Onboarding Complete</h2>
                     <p className="text-slate-500 text-sm">
                       Your documents are under review. You'll receive an email once access is
-                      granted. Questions? Call (317) 314-3757.
+                      granted. Questions? Call ${PLATFORM_DEFAULTS.supportPhone}.
                     </p>
                   </div>
                   <Link
@@ -682,7 +683,7 @@ export default async function LearnerOnboardingPage({
                   <div className="absolute inset-0">
                     <Image
                       src="/images/pages/onboarding.webp"
-                      alt="Contact Elevate for Humanity support"
+                      alt="Contact {PLATFORM_DEFAULTS.orgName} support"
                       fill
                       className="object-cover opacity-20"
                       sizes="100vw"
@@ -705,11 +706,11 @@ export default async function LearnerOnboardingPage({
                         Contact Support
                       </Link>
                       <a
-                        href="tel:+13173143757"
+                        href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-slate-900 rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
                       >
                         <Phone className="w-4 h-4" />
-                        (317) 314-3757
+                        {PLATFORM_DEFAULTS.supportPhone}
                       </a>
                       <Link
                         href="/support/help"

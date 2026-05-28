@@ -27,10 +27,11 @@ import {
   type BoothRentalDiscipline,
 } from '@/lib/programs/pricing';
 import { PRICES } from '@/lib/stripe/prices';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'contact');
@@ -117,7 +118,7 @@ export async function POST(request: NextRequest) {
         key: tier.stripePriceKey,
       });
       return safeError(
-        `Online signup for ${tier.label} ${tier.spaceType} rental ($${tier.weeklyRateDollars}/week) is not yet active. Call (317) 314-3757 or email info@elevateforhumanity.org to reserve your suite.`,
+        `Online signup for ${tier.label} ${tier.spaceType} rental ($${tier.weeklyRateDollars}/week) is not yet active. Call ${PLATFORM_DEFAULTS.supportPhone} or email info@${PLATFORM_DEFAULTS.canonicalDomain} to reserve your suite.`,
         503,
       );
     }
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
           unit_amount: tier.weeklyRateCents,
           product_data: {
             name: `${tier.label} ${tier.spaceType} — First Week`,
-            description: `First week's rent at Elevate for Humanity`,
+            description: `First week's rent at ${PLATFORM_DEFAULTS.orgName}`,
           },
         },
         quantity: 1,

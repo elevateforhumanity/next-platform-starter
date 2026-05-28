@@ -3,6 +3,7 @@
  * Monitors security events and sends immediate notifications
  */
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Alert severity levels
 export enum AlertSeverity {
   CRITICAL = 'critical',
@@ -139,7 +140,7 @@ async function sendEmailAlert(alert: SecurityAlert, emails?: string[]): Promise<
       },
       body: JSON.stringify({
         personalizations: emails.map((email) => ({ to: [{ email }] })),
-        from: { email: 'security@www.elevateforhumanity.org', name: 'EFH Security' },
+        from: { email: 'security@${PLATFORM_DEFAULTS.canonicalDomain}', name: 'EFH Security' },
         subject,
         content: [
           {
@@ -290,7 +291,7 @@ function formatEmailBody(alert: SecurityAlert): string {
           }
         </div>
         <div class="footer">
-          <p>This is an automated security alert from Elevate for Humanity.</p>
+          <p>This is an automated security alert from ${PLATFORM_DEFAULTS.orgName}.</p>
           <p>If you believe this is a false positive, please contact the security team.</p>
           <p><strong>Do not reply to this email.</strong></p>
         </div>

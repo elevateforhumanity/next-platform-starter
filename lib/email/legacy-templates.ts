@@ -3,6 +3,7 @@
  * and the /api/emails/* routes. sendEmail is re-exported from ./sendgrid.
  */
 import { sendEmail } from './sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export { sendEmail };
 
 // Email templates
@@ -13,7 +14,7 @@ export const emailTemplates = {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Welcome to Elevate for Humanity</title>
+      <title>Welcome to ${PLATFORM_DEFAULTS.orgName}</title>
     </head>
     <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #ffffff;">
       <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #ffffff; padding: 40px 20px;">
@@ -32,7 +33,7 @@ export const emailTemplates = {
                 <td style="padding: 40px 30px;">
                   <h2 style="margin: 0 0 20px 0; color: #111827; font-size: 24px;">Hi ${studentName},</h2>
                   <p style="margin: 0 0 20px 0; color: #4b5563; font-size: 16px; line-height: 1.6;">
-                    Welcome to Elevate for Humanity! We're excited to have you enrolled in <strong>${courseName}</strong>.
+                    Welcome to ${PLATFORM_DEFAULTS.orgName}! We're excited to have you enrolled in <strong>${courseName}</strong>.
                   </p>
                   <p style="margin: 0 0 20px 0; color: #4b5563; font-size: 16px; line-height: 1.6;">
                     Your learning journey starts now. Access your course materials, track your progress, and earn your certificate by completing all required lessons and assessments.
@@ -60,7 +61,7 @@ export const emailTemplates = {
                   </div>
 
                   <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                    Need help? Contact us at <a href="mailto:info@elevateforhumanity.org" style="color: #dc2626;">info@elevateforhumanity.org</a>
+                    Need help? Contact us at <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #dc2626;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                   </p>
                 </td>
               </tr>
@@ -146,10 +147,10 @@ export const emailTemplates = {
               <tr>
                 <td style="padding: 30px; background-color: #ffffff; text-align: center; border-top: 1px solid #e5e7eb;">
                   <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">
-                    Elevate for Humanity Career & Technical Institute
+                    ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
                   </p>
                   <p style="margin: 0; color: #9ca3af; font-size: 12px;">
-                    <a href="mailto:info@elevateforhumanity.org" style="color: #dc2626; text-decoration: none;">info@elevateforhumanity.org</a>
+                    <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #dc2626; text-decoration: none;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                   </p>
                 </td>
               </tr>
@@ -234,7 +235,7 @@ export const emailTemplates = {
               <tr>
                 <td style="padding: 30px; background-color: #ffffff; text-align: center; border-top: 1px solid #e5e7eb;">
                   <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">
-                    Elevate for Humanity Career & Technical Institute
+                    ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
                   </p>
                   <p style="margin: 0; color: #9ca3af; font-size: 12px;">
                     Empowering individuals through workforce training
@@ -317,10 +318,10 @@ export const emailTemplates = {
               <tr>
                 <td style="padding: 30px; background-color: #ffffff; text-align: center; border-top: 1px solid #e5e7eb;">
                   <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">
-                    Elevate for Humanity Career & Technical Institute
+                    ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
                   </p>
                   <p style="margin: 0; color: #9ca3af; font-size: 12px;">
-                    <a href="mailto:info@elevateforhumanity.org" style="color: #2563eb; text-decoration: none;">info@elevateforhumanity.org</a>
+                    <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #2563eb; text-decoration: none;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                   </p>
                 </td>
               </tr>
@@ -396,7 +397,7 @@ export const emailTemplates = {
               <tr>
                 <td style="padding: 30px; background-color: #ffffff; text-align: center; border-top: 1px solid #e5e7eb;">
                   <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">
-                    Elevate for Humanity Career & Technical Institute
+                    ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
                   </p>
                 </td>
               </tr>
@@ -423,14 +424,14 @@ export async function sendWelcomeEmail(params: WelcomeEmailParams) {
 
   return sendEmail({
     to,
-    subject: 'Welcome to Elevate for Humanity - License Activated',
+    subject: 'Welcome to ${PLATFORM_DEFAULTS.orgName} - License Activated',
     html: `
-      <h1>Welcome to Elevate for Humanity!</h1>
+      <h1>Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
       <p>Your ${licenseType} license has been successfully activated.</p>
       <p><strong>Tenant ID:</strong> ${tenantId}</p>
       <p><strong>Valid Until:</strong> ${new Date(validUntil).toLocaleDateString()}</p>
-      <p>You can now access your platform at: <a href="https://www.elevateforhumanity.org/platform">https://www.elevateforhumanity.org/platform</a></p>
-      <p>If you have any questions, please contact us at info@elevateforhumanity.org</p>
+      <p>You can now access your platform at: <a href="${PLATFORM_DEFAULTS.siteUrl}/platform">https://${PLATFORM_DEFAULTS.canonicalDomain}/platform</a></p>
+      <p>If you have any questions, please contact us at info@${PLATFORM_DEFAULTS.canonicalDomain}</p>
       <p>Thank you for choosing Elevate for Humanity!</p>
     `,
   });
@@ -459,8 +460,8 @@ export async function sendEnrollmentEmail(params: EnrollmentEmailParams) {
         <li>Review program materials</li>
         <li>Attend orientation (if required)</li>
       </ol>
-      <p><a href="https://www.elevateforhumanity.org/learner/dashboard">Access Your Dashboard</a></p>
-      <p>If you have any questions, please contact us at info@elevateforhumanity.org</p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/learner/dashboard">Access Your Dashboard</a></p>
+      <p>If you have any questions, please contact us at info@${PLATFORM_DEFAULTS.canonicalDomain}</p>
     `,
   });
 }

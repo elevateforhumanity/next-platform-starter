@@ -3,13 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, ArrowRight, Heart, Users, Award, Briefcase } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Our Mission',
   description:
-    'Elevate for Humanity creates accessible career pathways, credential-bearing workforce training, and community support for underserved populations across Indiana and the Midwest.',
+    '{PLATFORM_DEFAULTS.orgName} creates accessible career pathways, credential-bearing workforce training, and community support for underserved populations across Indiana and the Midwest.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/about/mission' },
   openGraph: {
     title: 'Our Mission',
@@ -69,7 +70,7 @@ export default function MissionPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/mission-hero.webp"
-            alt="Elevate for Humanity mission"
+            alt="{PLATFORM_DEFAULTS.orgName} mission"
             fill
             className="object-cover opacity-40"
             priority
@@ -78,7 +79,7 @@ export default function MissionPage() {
         </div>
         <div className="relative max-w-5xl mx-auto px-4 py-20">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
-            Elevate for Humanity
+            {PLATFORM_DEFAULTS.orgName}
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight max-w-3xl">
             Accessible Career Pathways for People Who Need Them Most
@@ -96,7 +97,7 @@ export default function MissionPage() {
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Why We Exist</h2>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              Elevate for Humanity was founded on the belief that a person's zip code, background,
+              {PLATFORM_DEFAULTS.orgName} was founded on the belief that a person's zip code, background,
               or past should not determine their future. Too many adults in our communities are
               locked out of stable, well-paying careers — not because they lack ability, but because
               they lack access.
@@ -115,7 +116,7 @@ export default function MissionPage() {
           <div className="relative rounded-2xl overflow-hidden h-80">
             <Image
               src="/images/pages/mission-page-1.webp"
-              alt="Elevate for Humanity training"
+              alt="{PLATFORM_DEFAULTS.orgName} training"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"

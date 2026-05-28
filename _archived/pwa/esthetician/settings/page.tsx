@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { ArrowLeft, Bell, Shield, LogOut, ChevronRight, Flower2, Clock, BookOpen, TrendingUp } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const NAV = [
   { href: '/pwa/esthetician', icon: Flower2, label: 'Home' },
@@ -82,7 +83,7 @@ export default function EstheticianSettingsPage() {
         </button>
 
         <p className="text-slate-600 text-xs text-center pt-2">
-          Esthetician Apprenticeship · Elevate for Humanity
+          Esthetician Apprenticeship · {PLATFORM_DEFAULTS.orgName}
         </p>
       </main>
 

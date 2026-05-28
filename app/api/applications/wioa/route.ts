@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -83,7 +84,7 @@ async function _POST(req: Request) {
     if (error) {
       return NextResponse.json(
         {
-          error: 'Failed to save application. Please call 317-314-3757 for assistance.',
+          error: 'Failed to save application. Please call ${PLATFORM_DEFAULTS.supportPhone} for assistance.',
           details: process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
         },
         { status: 500 },
@@ -97,7 +98,7 @@ async function _POST(req: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: body.email,
-          subject: `Application Received [Ref: ${referenceNumber}] - Elevate for Humanity`,
+          subject: `Application Received [Ref: ${referenceNumber}] - ${PLATFORM_DEFAULTS.orgName}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #ea580c;">Application Received!</h2>
@@ -123,8 +124,8 @@ async function _POST(req: Request) {
                 <a href="https://calendly.com/elevate4humanityedu" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Schedule Call Now</a>
               </div>
 
-              <p>Questions? Call us at <a href="tel:3173143757" style="color: #ea580c; font-weight: bold;">317-314-3757</a></p>
-              <p>Best regards,<br><strong>Elevate for Humanity Team</strong></p>
+              <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #ea580c; font-weight: bold;">${PLATFORM_DEFAULTS.supportPhone}</a></p>
+              <p>Best regards,<br><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
           `,
         }),

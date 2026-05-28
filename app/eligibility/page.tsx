@@ -4,13 +4,14 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
 import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Eligibility | Funded Career Training',
   description:
-    'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at Elevate for Humanity. Most participants qualify for no-cost training.',
+    'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at {PLATFORM_DEFAULTS.orgName}. Most participants qualify for no-cost training.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/eligibility' },
 };
 

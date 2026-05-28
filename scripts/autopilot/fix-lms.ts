@@ -29,7 +29,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 
 export const metadata = {
-  title: 'HVAC Technician Pathway | Elevate for Humanity',
+  title: 'HVAC Technician Pathway | ' + PLATFORM_DEFAULTS.orgName + '',
   description: 'Launch your HVAC career with workforce-ready training, apprenticeships, and funding pathways.',
 };
 
@@ -153,7 +153,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 
 export const metadata = {
-  title: 'Barber Apprenticeship | Elevate for Humanity',
+  title: 'Barber Apprenticeship | ' + PLATFORM_DEFAULTS.orgName + '',
   description: 'State-approved barber apprenticeship program leading to Indiana barber license.',
 };
 
@@ -293,9 +293,10 @@ export default function BarberProgramPage() {
     content: `import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = {
-  title: 'CNA Certification | Elevate for Humanity',
+  title: 'CNA Certification | ' + PLATFORM_DEFAULTS.orgName + '',
   description: 'Certified Nursing Assistant training program with clinical experience and state certification.',
 };
 

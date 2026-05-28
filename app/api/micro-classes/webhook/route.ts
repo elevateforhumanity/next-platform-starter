@@ -19,13 +19,14 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { getCourseById } from '@/lib/partners/link-based-integration';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'elevate4humanityedu@gmail.com';
-const FROM_EMAIL = 'noreply@elevateforhumanity.org';
+const FROM_EMAIL = PLATFORM_DEFAULTS.emailFromAddress;
 
 export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_MICRO_CLASS_WEBHOOK_SECRET;
@@ -136,7 +137,7 @@ export async function POST(req: NextRequest) {
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a">
       <div style="background:#1a1a1a;padding:24px 32px">
         // IMAGE-CONTRACT: allow raw img because legacy markup
-        <img src="${SITE_URL}/images/elevate-logo-white.png" alt="Elevate for Humanity" height="36" />
+        <img src="${SITE_URL}/images/elevate-logo-white.png" alt={PLATFORM_DEFAULTS.orgName} height="36" />
       </div>
       <div style="padding:32px">
         <h1 style="font-size:22px;font-weight:700;margin:0 0 8px">You're enrolled, ${firstName}!</h1>
@@ -174,7 +175,7 @@ export async function POST(req: NextRequest) {
         </p>
       </div>
       <div style="background:#f0f0f0;padding:16px 32px;font-size:12px;color:#888;text-align:center">
-        Elevate for Humanity · Indianapolis, IN · <a href="${SITE_URL}" style="color:#888">${SITE_URL}</a>
+        ${PLATFORM_DEFAULTS.orgName} · Indianapolis, IN · <a href="${SITE_URL}" style="color:#888">${SITE_URL}</a>
       </div>
     </div>
   `;

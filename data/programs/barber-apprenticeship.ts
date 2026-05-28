@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Barber Apprenticeship — Program Detail Template v1
@@ -51,7 +52,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     },
     {
       name: 'Barbershop Business Management Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description: 'Business fundamentals for barbers: client management, booking systems, pricing strategy, and shop operations.',
     },
   ],
@@ -201,13 +202,13 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     {
       training: 'Sanitation/infection control (Weeks 1–8)',
       certification: 'Sanitation & Infection Control Certificate',
-      certBody: 'Elevate for Humanity',
+      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
       jobRole: 'Barber / Personal Care Professional',
     },
     {
       training: 'Business fundamentals (Weeks 27–40)',
       certification: 'Barbershop Business Certificate',
-      certBody: 'Elevate for Humanity',
+      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
       jobRole: 'Barbershop Manager / Owner',
     },
   ],

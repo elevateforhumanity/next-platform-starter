@@ -3,6 +3,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError } from '@/lib/api/safe-error';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // PUBLIC ROUTE: unauthenticated users need this to sign in
 export async function POST(req: Request) {
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
 
   const db = await getAdminClient();
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   // Always route through /auth/callback so the session is established correctly
   // and role-based destination routing runs. Never redirect directly to a page.
   const destination = redirectTo || getRoleDestination('student');
@@ -60,19 +61,19 @@ export async function POST(req: Request) {
     },
     body: JSON.stringify({
       personalizations: [{ to: [{ email: email.trim() }] }],
-      from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+      from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
       reply_to: { email: 'elevate4humanityedu@gmail.com' },
-      subject: 'Your sign-in link — Elevate for Humanity',
+      subject: 'Your sign-in link — ${PLATFORM_DEFAULTS.orgName}',
       content: [
         {
           type: 'text/html',
           value: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;background:#fff;">
   // IMAGE-CONTRACT: allow raw img because legacy markup
-  <img src="https://www.elevateforhumanity.org/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px;" />
+  <img src="${PLATFORM_DEFAULTS.siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} style="height:60px;margin-bottom:24px;" />
   <h2 style="color:#1e293b;margin-bottom:8px;">Hi ${firstName},</h2>
   <p style="color:#475569;font-size:15px;line-height:1.6;">
-    Here is your sign-in link for Elevate for Humanity. Click the button below to access your portal — no password needed.
+    Here is your sign-in link for ${PLATFORM_DEFAULTS.orgName}. Click the button below to access your portal — no password needed.
   </p>
   <div style="margin:32px 0;">
     <a href="${magicLink}" style="background:#dc2626;color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold;font-size:16px;display:inline-block;">

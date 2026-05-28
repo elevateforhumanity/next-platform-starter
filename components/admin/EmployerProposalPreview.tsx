@@ -1,5 +1,6 @@
 import { Employer } from '@/lms-data/employers';
 import { getProgramsWithTuitionMeta } from '@/lms-data/tuition';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const programsWithTuition = getProgramsWithTuitionMeta();
 
@@ -22,7 +23,7 @@ export function EmployerProposalPreview({ employer }: Props) {
           Dear {employer.contactName || 'Employer Partner'},
         </p>
         <p className="mt-2 text-[11px] text-slate-300">
-          Elevate for Humanity Career and Technical Institute is a workforce hub that combines
+          {PLATFORM_DEFAULTS.orgName} Career and Technical Institute is a workforce hub that combines
           credentialed training, soft skills, and on-the-job experiences so your hires show up
           ready, not just certified. We are approved with your local workforce system and actively
           align with JRI, WRG, WEX, OJT, apprenticeships and employer-sponsored training.

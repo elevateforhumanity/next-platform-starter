@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DemoStartButtons } from './DemoStartButtons';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Demo Environment | Elevate LMS',
@@ -87,7 +88,7 @@ export default function DemoHubPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-lg font-bold text-slate-900 hover:text-orange-600 transition">
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </Link>
             <div className="flex items-center gap-4">
               <Link href="/store/licenses" className="text-slate-600 hover:text-orange-600 transition text-sm">
@@ -259,7 +260,7 @@ export default function DemoHubPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+              © {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link href="/store/licenses" className="text-slate-500 text-sm hover:text-orange-600 transition">Licensing</Link>

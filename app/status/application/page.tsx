@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { CheckCircle, Clock, AlertCircle, ArrowRight, FileText, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type ApplicationData = {
   fullName: string;
@@ -212,8 +213,8 @@ function StatusContent() {
         <p className="font-medium text-slate-900">Questions about your application?</p>
         <p className="mt-1 text-sm text-slate-700">
           Call{' '}
-          <a href="tel:+13173143757" className="font-medium text-brand-blue-600 hover:underline">
-            (317) 314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="font-medium text-brand-blue-600 hover:underline">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>{' '}
           or email{' '}
           <a

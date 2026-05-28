@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { Check, Shield, Download, Zap } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getCatalogProduct } from '@/lib/store/db';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 type Props = { params: Promise<{ slug: string }> };
 
 const CHECKOUT_ERROR_MESSAGES: Record<string, string> = {
-  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
+  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call {PLATFORM_DEFAULTS.supportPhone}.',
   'checkout-failed':     'We could not start your checkout session. Please try again.',
   'invalid-product':     'This product is not available for purchase. Please contact support.',
   'rate-limited':        'Too many requests. Please wait a moment and try again.',
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${product.name} | Elevate For Humanity`,
     description: product.description,
-    alternates: { canonical: `https://www.elevateforhumanity.org/platform/${product.slug}` },
+    alternates: { canonical: `${PLATFORM_DEFAULTS.siteUrl}/platform/${product.slug}` },
   };
 }
 

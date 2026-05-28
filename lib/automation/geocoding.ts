@@ -13,6 +13,7 @@ import 'server-only';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface GeocodingResult {
   success: boolean;
@@ -40,7 +41,7 @@ export async function geocodeAddress(
 
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'ElevateForHumanity-LMS/1.0 (contact@elevateforhumanity.org)',
+        'User-Agent': 'ElevateForHumanity-LMS/1.0 (contact@${PLATFORM_DEFAULTS.canonicalDomain})',
       },
     });
 

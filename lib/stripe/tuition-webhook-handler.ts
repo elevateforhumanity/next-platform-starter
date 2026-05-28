@@ -21,6 +21,7 @@ import {
   handleFailedPayment,
 } from './tuition-checkout';
 import { INSTALLMENT_RULES } from './tuition-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Send emails after payment is completed
@@ -63,7 +64,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     // EMAIL 1: MIKADY - Payment Confirmation
     // ============================================
     await resend.emails.send({
-      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+      from: '' + PLATFORM_DEFAULTS.orgName + ' <billing@elevateforhumanity.org>',
       to: student.email,
       subject: `Payment Confirmed - ${programName}`,
       html: `
@@ -75,7 +76,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://www.elevateforhumanity.org/logo.png" alt="Elevate for Humanity" style="max-width: 200px;">
+            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt={PLATFORM_DEFAULTS.orgName} style="max-width: 200px;">
           </div>
           
           <div style="background-color: #10b981; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
@@ -97,17 +98,17 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
           
           <p>If you have any questions about your payment, please contact our billing department:</p>
           <ul>
-            <li>Phone: (317) 314-3757</li>
-            <li>Email: billing@elevateforhumanity.org</li>
+            <li>Phone: ${PLATFORM_DEFAULTS.supportPhone}</li>
+            <li>Email: billing@${PLATFORM_DEFAULTS.canonicalDomain}</li>
           </ul>
           
           <p>Best regards,<br>
-          <strong>Elevate for Humanity Billing</strong></p>
+          <strong>${PLATFORM_DEFAULTS.orgName} Billing</strong></p>
           
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
           
           <p style="font-size: 12px; color: #6b7280; text-align: center;">
-            © ${new Date().getFullYear()} 2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute). All rights reserved.
+            © ${new Date().getFullYear()} 2Exclusive LLC-S (DBA ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute). All rights reserved.
           </p>
         </body>
         </html>
@@ -120,7 +121,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     // EMAIL 2: WELCOME LETTER - Complete Enrollment
     // ============================================
     await resend.emails.send({
-      from: 'Elevate for Humanity <admissions@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <admissions@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: student.email,
       subject: `ACTION REQUIRED: Complete Your Enrollment - ${programName}`,
       html: `
@@ -132,10 +133,10 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://www.elevateforhumanity.org/logo.png" alt="Elevate for Humanity" style="max-width: 200px;">
+            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt={PLATFORM_DEFAULTS.orgName} style="max-width: 200px;">
           </div>
           
-          <h1 style="color: #1e40af; text-align: center;">Welcome to Elevate for Humanity!</h1>
+          <h1 style="color: #1e40af; text-align: center;">Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
           
           <p>Dear ${studentName},</p>
           
@@ -173,7 +174,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://www.elevateforhumanity.org/student-portal/onboarding" style="background-color: #1e40af; color: white; padding: 20px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 18px;">Complete Enrollment Now</a>
+            <a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/student-portal/onboarding" style="background-color: #1e40af; color: white; padding: 20px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 18px;">Complete Enrollment Now</a>
           </div>
           
           <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0;">
@@ -188,15 +189,15 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
           
           <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">Contact Information</h3>
-            <p style="margin: 5px 0;"><strong>Phone:</strong> (317) 314-3757</p>
-            <p style="margin: 5px 0;"><strong>Email:</strong> support@elevateforhumanity.org</p>
+            <p style="margin: 5px 0;"><strong>Phone:</strong> ${PLATFORM_DEFAULTS.supportPhone}</p>
+            <p style="margin: 5px 0;"><strong>Email:</strong> ${PLATFORM_DEFAULTS.supportEmail}</p>
             <p style="margin: 5px 0;"><strong>Address:</strong> 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240</p>
           </div>
           
           <p>We look forward to supporting you on your journey to a rewarding career!</p>
           
           <p>Best regards,<br>
-          <strong>The Elevate for Humanity Admissions Team</strong></p>
+          <strong>The ${PLATFORM_DEFAULTS.orgName} Admissions Team</strong></p>
           
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
           
@@ -271,7 +272,7 @@ async function sendAdminEnrollmentNotification(
 
   try {
     await resend.emails.send({
-      from: 'Elevate for Humanity <system@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <system@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: adminEmail,
       subject: `🎉 New Enrollment: ${studentName} - ${programName}`,
       html: `
@@ -307,14 +308,14 @@ async function sendAdminEnrollmentNotification(
           </div>
 
           <div style="text-align: center; margin: 20px 0;">
-            <a href="https://www.elevateforhumanity.org/admin/enrollments" style="background-color: #dc2626; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">Grant LMS Access →</a>
-            <a href="https://www.elevateforhumanity.org/admin/learner/${studentId}" style="background-color: #6b7280; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; display: inline-block; margin-left: 10px;">View Student</a>
+            <a href="${PLATFORM_DEFAULTS.siteUrl}/admin/enrollments" style="background-color: #dc2626; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">Grant LMS Access →</a>
+            <a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/admin/learner/${studentId}" style="background-color: #6b7280; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; display: inline-block; margin-left: 10px;">View Student</a>
           </div>
           
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
           
           <p style="font-size: 12px; color: #6b7280; text-align: center;">
-            This is an automated notification from Elevate for Humanity LMS.
+            This is an automated notification from ${PLATFORM_DEFAULTS.orgName} LMS.
           </p>
         </body>
         </html>
@@ -392,7 +393,7 @@ async function sendPaymentFailedEmail(studentId: string, programId: string): Pro
   if (!student?.email) return;
 
   await resend.emails.send({
-    from: 'Elevate LMS <billing@elevateforhumanity.org>',
+    from: 'Elevate LMS <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
     to: student.email,
     subject: 'Payment Failed - Action Required',
     html: `
@@ -400,8 +401,8 @@ async function sendPaymentFailedEmail(studentId: string, programId: string): Pro
       <p>Hi ${student.full_name || 'Student'},</p>
       <p>We were unable to process your tuition payment for <strong>${program?.title || 'your program'}</strong>.</p>
       <p>Please update your payment method to avoid interruption to your course access.</p>
-      <p><a href="https://www.elevateforhumanity.org/account/billing">Update Payment Method</a></p>
-      <p>If you have questions, contact us at support@elevateforhumanity.org</p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/account/billing">Update Payment Method</a></p>
+      <p>If you have questions, contact us at ${PLATFORM_DEFAULTS.supportEmail}</p>
     `,
   });
 }
@@ -694,7 +695,7 @@ async function sendPaymentConfirmationEmail(
 
   await resend.emails
     .send({
-      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: student.email,
       subject: `Payment Received - ${paymentNumber} of ${totalPayments}`,
       html: `
@@ -704,7 +705,7 @@ async function sendPaymentConfirmationEmail(
       <p><strong>Payment Progress:</strong> ${paymentNumber} of ${totalPayments} payments completed</p>
       <p>Remaining: ${totalPayments - paymentNumber} payments</p>
       <p>Thank you for staying on track with your education!</p>
-      <p>- Elevate for Humanity</p>
+      <p>- ${PLATFORM_DEFAULTS.orgName}</p>
     `,
     })
     .catch((err) => logger.error('Failed to send payment confirmation:', err));
@@ -734,7 +735,7 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
 
   await resend.emails
     .send({
-      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: student.email,
       subject: 'Congratulations! Tuition Paid in Full',
       html: `
@@ -743,7 +744,7 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
       <p>Congratulations! You have successfully completed all tuition payments for <strong>${program?.title || 'your program'}</strong>.</p>
       <p>Your dedication to your education is inspiring. Keep up the great work!</p>
       <p>If you have any questions, please don't hesitate to reach out.</p>
-      <p>- Elevate for Humanity</p>
+      <p>- ${PLATFORM_DEFAULTS.orgName}</p>
     `,
     })
     .catch((err) => logger.error('Failed to send completion email:', err));

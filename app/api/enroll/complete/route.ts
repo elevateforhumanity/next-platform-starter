@@ -8,6 +8,7 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 import { resolveProgram } from '@/lib/programs/resolve';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -135,8 +136,8 @@ async function _POST(req: Request) {
           const { sendEmail } = await import('@/lib/email/sendgrid');
           await sendEmail({
             to: emailLower,
-            subject: 'Set Your Password — Elevate for Humanity',
-            html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto"><h2>Welcome to Elevate for Humanity!</h2><p>Your account has been created. Click below to set your password:</p><p style="text-align:center;margin:24px 0"><a href="${linkData.properties.action_link}" style="background:#dc2626;color:#fff;padding:14px 32px;border-radius:6px;text-decoration:none;font-weight:bold">Set Password</a></p><p style="color:#64748b;font-size:13px">This link expires in 24 hours.</p></div>`,
+            subject: 'Set Your Password — ${PLATFORM_DEFAULTS.orgName}',
+            html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto"><h2>Welcome to ${PLATFORM_DEFAULTS.orgName}!</h2><p>Your account has been created. Click below to set your password:</p><p style="text-align:center;margin:24px 0"><a href="${linkData.properties.action_link}" style="background:#dc2626;color:#fff;padding:14px 32px;border-radius:6px;text-decoration:none;font-weight:bold">Set Password</a></p><p style="color:#64748b;font-size:13px">This link expires in 24 hours.</p></div>`,
           });
         }
       } catch (err) {

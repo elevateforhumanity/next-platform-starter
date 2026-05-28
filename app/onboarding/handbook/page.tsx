@@ -12,6 +12,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const HANDBOOK_VERSION = '2025.1';
 
@@ -21,7 +22,7 @@ const SECTIONS = [
     title: 'Partnership Overview',
     content: `As an Elevate program-holder partner you are responsible for hosting training programs at your site, supporting enrolled students, and maintaining compliance with WIOA, DOL, and Indiana workforce development requirements.
 
-Elevate for Humanity provides curriculum, instructors, LMS access, and compliance reporting tools. You provide the training site, student recruitment support, and local coordination.
+${PLATFORM_DEFAULTS.orgName} provides curriculum, instructors, LMS access, and compliance reporting tools. You provide the training site, student recruitment support, and local coordination.
 
 This handbook governs your responsibilities as a program holder. Review it carefully before signing your MOU.`,
   },
@@ -46,7 +47,7 @@ You are not responsible for delivering curriculum or grading — Elevate instruc
 • Maintain accurate attendance records using the Elevate partner portal
 • Submit required documentation within 48 hours of request
 • Cooperate fully with DOL audits and site visits
-• Report any suspected fraud, waste, or abuse immediately to compliance@elevateforhumanity.org
+• Report any suspected fraud, waste, or abuse immediately to compliance@${PLATFORM_DEFAULTS.canonicalDomain}
 • Retain all program records for a minimum of 7 years
 
 Failure to comply with WIOA requirements may result in suspension of your partnership and recovery of grant funds.`,
@@ -146,7 +147,7 @@ export default function PartnerHandbookPage() {
               <BookOpen className="w-6 h-6 text-white opacity-80" />
               <h1 className="text-2xl font-bold text-white">Program-Holder Partner Handbook</h1>
             </div>
-            <p className="text-blue-100 text-sm">Version {HANDBOOK_VERSION} · Elevate for Humanity</p>
+            <p className="text-blue-100 text-sm">Version {HANDBOOK_VERSION} · {PLATFORM_DEFAULTS.orgName}</p>
           </div>
 
           <div className="divide-y divide-slate-100">

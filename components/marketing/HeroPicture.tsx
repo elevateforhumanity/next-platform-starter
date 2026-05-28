@@ -15,6 +15,7 @@
 
 import Image from 'next/image';
 import { useId, useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface HeroPictureCta {
   label: string;
@@ -103,7 +104,7 @@ export default function HeroPicture({
             // IMAGE-CONTRACT: allow raw img because legacy markup
             <img
               src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-              alt="Elevate for Humanity"
+              alt={PLATFORM_DEFAULTS.orgName}
               className="h-7 w-auto opacity-90"
             />
           </div>

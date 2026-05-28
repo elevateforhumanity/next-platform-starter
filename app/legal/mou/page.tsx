@@ -5,9 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Memorandum of Understanding',
-  description: 'Memorandum of Understanding for Elevate for Humanity partnerships.',
+  description: 'Memorandum of Understanding for {PLATFORM_DEFAULTS.orgName} partnerships.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/legal/mou',
   },
@@ -36,7 +37,7 @@ export default async function MOUPage() {
             <h2 className="text-2xl font-bold text-black mb-4">1. Purpose</h2>
             <p className="text-black mb-4">
               This Memorandum of Understanding ("MOU") establishes a collaborative partnership
-              between Elevate for Humanity ("EFH") and the partnering organization ("Partner") to
+              between {PLATFORM_DEFAULTS.orgName} ("EFH") and the partnering organization ("Partner") to
               provide apprenticeship training and workforce development services.
             </p>
           </section>
@@ -45,7 +46,7 @@ export default async function MOUPage() {
             <h2 className="text-2xl font-bold text-black mb-4">2. Parties</h2>
             <div className="bg-slate-50 p-4 rounded-lg mb-4">
               <p className="text-black mb-2">
-                <strong>Elevate for Humanity</strong>
+                <strong>{PLATFORM_DEFAULTS.orgName}</strong>
                 <br />
                 Registered Apprenticeship Sponsor
                 <br />
@@ -71,7 +72,7 @@ export default async function MOUPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-black mb-4">4. EFH Responsibilities</h2>
-            <p className="text-black mb-4">Elevate for Humanity agrees to:</p>
+            <p className="text-black mb-4">{PLATFORM_DEFAULTS.orgName} agrees to:</p>
             <ul className="list-disc pl-6 text-black space-y-2 mb-4">
               <li>Serve as the registered apprenticeship sponsor</li>
               <li>Provide curriculum and training materials</li>
@@ -144,11 +145,11 @@ export default async function MOUPage() {
             </p>
             <div className="bg-slate-50 p-4 rounded-lg">
               <p className="text-black">
-                <strong>Elevate for Humanity</strong>
+                <strong>{PLATFORM_DEFAULTS.orgName}</strong>
                 <br />
                 Email: our contact form
                 <br />
-                Phone: (317) 314-3757
+                Phone: {PLATFORM_DEFAULTS.supportPhone}
               </p>
             </div>
           </section>

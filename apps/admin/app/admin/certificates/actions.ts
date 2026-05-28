@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import { generateCertificateNumber } from '@/lib/partner-workflows/certificates';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function issueCertificate(formData: FormData) {
   const supabase = await createClient();
@@ -52,7 +53,7 @@ export async function issueCertificate(formData: FormData) {
       name: `Certificate for ${recipientName}`,
       description: descParts.length > 0 ? descParts.join(' | ') : null,
       issue_date: issueDate,
-      signed_by: signedBy || 'Elevate for Humanity Career & Technical Institute',
+      signed_by: signedBy || '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
       status: 'issued',
     })
     .select('id')

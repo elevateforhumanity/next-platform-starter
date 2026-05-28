@@ -21,6 +21,7 @@ import { logger } from '@/lib/logger';
 import { resolvePaymentAmount } from '@/lib/payments/resolve-amount';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(request: NextRequest) {
   try {
@@ -126,7 +127,7 @@ async function _POST(request: NextRequest) {
     }
 
     const supabase = await createClient();
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     // Use randomBytes — Math.random() has collision risk for concurrent checkouts.
     const referenceId = `EFH-${Date.now()}-${randomBytes(6).toString('hex')}`;

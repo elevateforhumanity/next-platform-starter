@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeInternalError } from '@/lib/api/safe-error';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -59,7 +60,7 @@ export async function GET(req: NextRequest) {
 
     if (format === 'csv') {
       const rows = [
-        ['Grant Report — Sit Selfish Inc / Elevate for Humanity'],
+        ['Grant Report — Sit Selfish Inc / ' + PLATFORM_DEFAULTS.orgName + ''],
         [`Period: ${from} to ${to}`],
         [`Generated: ${new Date().toISOString()}`],
         [],
@@ -103,7 +104,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       period: { from, to },
       generated_at: new Date().toISOString(),
-      organization: 'Sit Selfish Inc / Elevate for Humanity',
+      organization: 'Sit Selfish Inc / ' + PLATFORM_DEFAULTS.orgName + '',
       summary: {
         total_enrollments: enrollments.length,
         completed_programs: completedEnrollments,

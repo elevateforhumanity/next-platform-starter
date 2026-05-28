@@ -9,6 +9,7 @@ import { BARBER_PRICING, calculateWeeklyPayment } from '@/lib/programs/pricing';
 import { TUITION_CENTS, PAYMENT_TERM_WEEKS, remainingHoursDisplay, BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * POST /api/barber/checkout/embedded
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
       customerId = customer.id;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const returnUrl = `${baseUrl}/programs/barber-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
 
     const session = await stripe.checkout.sessions.create({

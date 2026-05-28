@@ -5,6 +5,7 @@ import { use, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Upload, Briefcase, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function CareerApplicationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -113,7 +114,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
             </div>
             <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Submitted!</h1>
             <p className="text-slate-700 mb-8">
-              Thank you for your interest in joining Elevate for Humanity. We&apos;ll review your
+              Thank you for your interest in joining {PLATFORM_DEFAULTS.orgName}. We&apos;ll review your
               application and get back to you within 5-7 business days.
             </p>
             <div className="space-y-4">
@@ -217,7 +218,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                placeholder="(317) 314-3757"
+                placeholder={PLATFORM_DEFAULTS.supportPhone}
               />
             </div>
           </div>

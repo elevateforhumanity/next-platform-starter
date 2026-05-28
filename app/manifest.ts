@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Elevate for Humanity',
+    name: PLATFORM_DEFAULTS.orgName,
     short_name: 'Elevate',
     description: 'Free career training in healthcare, skilled trades, and business',
     start_url: '/',
@@ -32,7 +33,7 @@ export default function manifest(): MetadataRoute.Manifest {
         // @ts-expect-error — form_factor is valid per spec, not yet in Next.js types
         form_factor: 'narrow',
         type: 'image/jpeg',
-        label: 'Elevate for Humanity — career training programs',
+        label: '' + PLATFORM_DEFAULTS.orgName + ' — career training programs',
       },
       {
         src: '/screenshots/home-wide.jpg',
@@ -40,7 +41,7 @@ export default function manifest(): MetadataRoute.Manifest {
         // @ts-expect-error — form_factor is valid per spec, not yet in Next.js types
         form_factor: 'wide',
         type: 'image/jpeg',
-        label: 'Elevate for Humanity — employer partners and job placement',
+        label: '' + PLATFORM_DEFAULTS.orgName + ' — employer partners and job placement',
       },
     ],
   };

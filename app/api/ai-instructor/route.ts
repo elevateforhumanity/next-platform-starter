@@ -7,12 +7,13 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { aiChat, isAIAvailable } from '@/lib/ai';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-const SYSTEM_PROMPT = `You are an AI instructor assistant for Elevate for Humanity, a workforce training institution. Your role is to guide students through their programs and courses with consistent, helpful support.
+const SYSTEM_PROMPT = `You are an AI instructor assistant for ${PLATFORM_DEFAULTS.orgName}, a workforce training institution. Your role is to guide students through their programs and courses with consistent, helpful support.
 
 ## Your Responsibilities:
 1. **Program Guidance**: Help students understand their program requirements, course sequences, and learning outcomes

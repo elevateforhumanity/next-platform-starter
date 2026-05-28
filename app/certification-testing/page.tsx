@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   Shield,
   Clock,
@@ -316,8 +317,8 @@ export default function CertificationTestingPage() {
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" />
-              <a href="tel:3173143757" className="hover:text-white transition-colors">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="hover:text-white transition-colors">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

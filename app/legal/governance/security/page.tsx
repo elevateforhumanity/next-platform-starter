@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Security and Data Protection Statement',
   description:
@@ -413,7 +414,7 @@ export default async function SecurityStatementPage() {
               <strong>Data Protection Officer:</strong> our contact form
             </p>
             <p>
-              <strong>Phone:</strong> 317-314-3757
+              <strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}
             </p>
           </div>
         </section>

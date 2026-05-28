@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Funding Options | Free Career Training',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'WIOA, Job Ready Indy, and state funding programs. Most adults qualify for Funded training.',
     url: 'https://www.elevateforhumanity.org/funding',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Career Training Funding' }],
     type: 'website',
   },

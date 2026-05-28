@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowRight, Phone, Mail, Clock } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -65,8 +66,8 @@ export default function EstheticianThankYouPage() {
             <div className="bg-slate-50 rounded-xl p-4 text-center">
               <Phone className="w-6 h-6 text-slate-500 mx-auto mb-2" />
               <p className="text-sm font-semibold text-slate-900">Phone</p>
-              <a href="tel:3173143757" className="text-xs text-pink-600 hover:underline">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-xs text-pink-600 hover:underline">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

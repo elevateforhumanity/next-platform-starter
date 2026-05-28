@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { AlertTriangle } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Incident Response Policy | Elevate for Humanity',
+  title: 'Incident Response Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'How we detect, respond to, and resolve platform incidents.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/incident-response',
@@ -32,7 +33,7 @@ export default async function IncidentResponsePage() {
 
           <div className="prose prose-lg max-w-none">
             <p className="text-black mb-8">
-              This policy outlines how Elevate for Humanity detects, responds to, and resolves 
+              This policy outlines how {PLATFORM_DEFAULTS.orgName} detects, responds to, and resolves 
               incidents affecting platform availability or security.
             </p>
 

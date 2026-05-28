@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -76,7 +77,7 @@ export default function CareerTrainingIndianaPage() {
             Indiana Career Training & Workforce Development
           </h1>
           <p className="text-slate-600 leading-relaxed max-w-3xl">
-            Elevate for Humanity supports Indiana learners with practical career pathways, documented
+            {PLATFORM_DEFAULTS.orgName} supports Indiana learners with practical career pathways, documented
             training progression, and credential-focused outcomes. Programs are structured for
             residents seeking workforce entry, transition, or advancement.
           </p>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Static org profile constants — fallback only.
  *
@@ -13,8 +14,8 @@
 export const ORG_PROFILE = {
   // ── Legal Identity ──────────────────────────────────────────────────────────
   legalName: '2Exclusive LLC-S',
-  dba: 'Elevate for Humanity Technical and Career Institute',
-  fullName: '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)',
+  dba: PLATFORM_DEFAULTS.orgLegalName,
+  fullName: '2Exclusive LLC-S (DBA: ' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute)',
   orgType: 'Nonprofit / LLC',
   ein: 'Available upon request',
   uei: 'VX2GK5S8SZH8',
@@ -27,9 +28,9 @@ export const ORG_PROFILE = {
   city: 'Indianapolis',
   state: 'Indiana',
   zip: '46240',
-  phone: '(317) 314-3757',
+  phone: PLATFORM_DEFAULTS.supportPhone,
   email: 'elevate4humanityedu@gmail.com',
-  website: 'https://www.elevateforhumanity.org',
+  website: PLATFORM_DEFAULTS.siteUrl,
 
   // ── Leadership ──────────────────────────────────────────────────────────────
   primaryContact: 'Elizabeth Greene',

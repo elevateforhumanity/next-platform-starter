@@ -1,9 +1,10 @@
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Job Placement',
-  description: 'Elevate for Humanity career services — Job Placement.',
+  description: '{PLATFORM_DEFAULTS.orgName} career services — Job Placement.',
   path: '/career-services/job-placement',
 });
 
@@ -12,7 +13,7 @@ export default function Page() {
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">Job Placement</h1>
       <p className="mt-4 text-slate-700">
-        Available to all Elevate for Humanity program graduates. Contact us to schedule your session.
+        Available to all {PLATFORM_DEFAULTS.orgName} program graduates. Contact us to schedule your session.
       </p>
       <div className="mt-8 flex gap-4">
         <a href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800">Apply Now</a>

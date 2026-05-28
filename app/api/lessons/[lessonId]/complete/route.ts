@@ -15,6 +15,7 @@ import {
 import type { CheckpointGateError } from '@/lib/lms/engine';
 import { assertLessonAccess, accessErrorResponse } from '@/lib/lms/access-control';
 import { checkCompetencyGate } from '@/lib/lms/competency-gate';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -410,7 +411,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ lesso
       const xapiEndpoint = process.env.XAPI_LRS_ENDPOINT;
       if (xapiEndpoint) {
         // Internal server-to-server call to /api/xapi/statement
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
         fetch(`${siteUrl}/api/xapi/statement`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Registered Apprenticeship sponsor disclosure block.
 // Required on all apprenticeship, barber program, and partner shop pages
 // to match RAPIDS record 2025-IN-132301.
@@ -15,7 +16,7 @@ export default function SponsorDisclosure() {
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Instructional Provider:</dt>
-          <dd className="font-semibold">Elevate for Humanity Career &amp; Technical Institute</dd>
+          <dd className="font-semibold">{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</dd>
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Training Sites:</dt>

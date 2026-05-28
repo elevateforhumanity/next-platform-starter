@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { GraduationCap, Award, FileCheck, Briefcase, Building2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const AUTHORITIES = [
   {
@@ -74,7 +75,7 @@ export function AuthorityBanner() {
             Authorized. Registered. Certified.
           </h2>
           <p className="text-sm text-slate-700 mt-2 max-w-2xl mx-auto">
-            Elevate for Humanity is a DOL-registered apprenticeship sponsor, ETPL-approved training
+            {PLATFORM_DEFAULTS.orgName} is a DOL-registered apprenticeship sponsor, ETPL-approved training
             provider, and authorized testing center — not a content vendor.
           </p>
         </div>

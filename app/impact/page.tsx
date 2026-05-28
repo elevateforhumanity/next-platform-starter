@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users, Award, Briefcase, BookOpen, Clock, TrendingUp,
   Heart, ArrowRight, CheckCircle, MapPin, Star, Globe,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Our Impact | Sit Selfish Inc × Elevate for Humanity',
-  description: 'Real-time impact data — students trained, credentials issued, and careers launched through Elevate for Humanity workforce programs.',
+  title: 'Our Impact | Sit Selfish Inc × {PLATFORM_DEFAULTS.orgName}',
+  description: 'Real-time impact data — students trained, credentials issued, and careers launched through {PLATFORM_DEFAULTS.orgName} workforce programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/impact' },
 };
 
@@ -179,7 +180,7 @@ export default async function ImpactPage() {
             </span>
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
-            Sit Selfish Inc and Elevate for Humanity are transforming lives through
+            Sit Selfish Inc and ${PLATFORM_DEFAULTS.orgName} are transforming lives through
             no-cost workforce training, industry credentials, and career placement
             across Indiana.
           </p>
@@ -244,7 +245,7 @@ export default async function ImpactPage() {
           <div>
             <h2 className="text-3xl font-black text-slate-900 mb-4">How We Fund Training</h2>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              Sit Selfish Inc and Elevate for Humanity leverage federal, state, and private
+              Sit Selfish Inc and {PLATFORM_DEFAULTS.orgName} leverage federal, state, and private
               funding to make workforce training completely free for eligible participants.
               Your donation fills the gaps that government funding doesn't cover.
             </p>

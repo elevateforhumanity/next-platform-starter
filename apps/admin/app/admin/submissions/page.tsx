@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building2,
   Database,
   Paperclip,
@@ -20,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Submissions OS | Admin | Elevate for Humanity',
+  title: 'Submissions OS | Admin | {PLATFORM_DEFAULTS.orgName}',
   description:
     'External Submissions Operating System — grants, contracts, bids, vendor registrations.',
 };

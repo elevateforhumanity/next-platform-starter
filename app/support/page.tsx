@@ -7,6 +7,7 @@ import SupportForm from '@/components/support/SupportForm';
 import SupportTicketsList from '@/components/support/SupportTicketsList';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { LiveChatSupport } from '@/components/LiveChatSupport';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -264,7 +265,7 @@ export default async function SupportPage() {
               </summary>
               <div className="px-5 pb-5 text-slate-700">
                 For WIOA funding questions, contact your WorkOne case manager directly. For general
-                funding questions, email us at our contact form or call (317) 314-3757.
+                funding questions, email us at our contact form or call {PLATFORM_DEFAULTS.supportPhone}.
               </div>
             </details>
 

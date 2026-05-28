@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Award,
   Download,
   Share2,
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: certificate
       ? `${certificate.title} | Certificate`
-      : 'Certificate | Elevate for Humanity',
+      : 'Certificate | ${PLATFORM_DEFAULTS.orgName}',
     description: 'View and verify this certificate of completion.',
   };
 }
@@ -92,7 +93,7 @@ export default async function CertificateViewPage({ params }: Props) {
           <div className="bg-brand-blue-700 text-white p-8 text-center">
             <Award aria-label="award" className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
             <h1 className="text-3xl font-bold mb-2">Certificate of Completion</h1>
-            <p className="text-white">Elevate for Humanity</p>
+            <p className="text-white">${PLATFORM_DEFAULTS.orgName}</p>
           </div>
 
           {/* Body */}
@@ -145,7 +146,7 @@ export default async function CertificateViewPage({ params }: Props) {
             <div className="flex items-center justify-between">
               <div className="text-sm text-slate-600">
                 <p>Certificate ID: {certificate.id.slice(0, 8).toUpperCase()}</p>
-                <p>Verify at: elevateforhumanity.org/verify/{certificate.id}</p>
+                <p>Verify at: ${PLATFORM_DEFAULTS.canonicalDomain}/verify/{certificate.id}</p>
               </div>
               <div className="flex gap-3">
                 <a
@@ -170,7 +171,7 @@ export default async function CertificateViewPage({ params }: Props) {
             <p className="text-slate-600 text-sm">
               This certificate verifies that the recipient has successfully completed all
               requirements for the course or program listed above. The certificate is issued by
-              Elevate for Humanity and can be verified using the certificate ID.
+              ${PLATFORM_DEFAULTS.orgName} and can be verified using the certificate ID.
             </p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-6">

@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ForgotPasswordForm from './ForgotPasswordForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Forgot Password | Reset Your Account',
   description:
-    'Reset your Elevate for Humanity account password. Enter your email to receive a password reset link.',
+    'Reset your {PLATFORM_DEFAULTS.orgName} account password. Enter your email to receive a password reset link.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/forgot-password' },
 };
 

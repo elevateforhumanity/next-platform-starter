@@ -25,11 +25,12 @@ import {
   sendExternalCourseApprovedEmail,
 } from '@/lib/email/external-course';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -164,7 +165,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
           <div style="background:#1e293b;padding:24px 32px">
             <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-                 alt="Elevate for Humanity" height="48" style="display:block" />
+                 alt={PLATFORM_DEFAULTS.orgName} height="48" style="display:block" />
           </div>
           <div style="padding:32px">
             <h2 style="margin:0 0 8px;font-size:20px">Please resubmit your credential</h2>
@@ -180,7 +181,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
               Resubmit credential →
             </a>
             <p style="font-size:13px;color:#94a3b8;margin:24px 0 0">
-              Questions? Reply to this email or call 317-314-3757.
+              Questions? Reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.
             </p>
           </div>
         </div>

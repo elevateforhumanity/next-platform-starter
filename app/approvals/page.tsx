@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 import Link from 'next/link';
 import Image from 'next/image';
 import { Award, Building2, Shield, Users, FileCheck, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function ApprovalsPage() {
   return (
@@ -26,7 +27,7 @@ export default function ApprovalsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/approvals-page-1.webp"
-          alt="Elevate for Humanity institutional approvals and governance"
+          alt="{PLATFORM_DEFAULTS.orgName} institutional approvals and governance"
           fill
           className="object-cover"
           priority
@@ -41,7 +42,7 @@ export default function ApprovalsPage() {
           <div className="bg-white rounded-2xl p-8 border border-slate-200">
             <h2 className="text-xl font-bold text-slate-900 mb-3">Institutional Governance</h2>
             <p className="text-base text-slate-700 leading-relaxed mb-4">
-              Elevate for Humanity Career &amp; Technical Institute operates under 2Exclusive LLC-S
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute operates under 2Exclusive LLC-S
               and coordinates apprenticeship sponsorship, instruction, and partner training sites
               under formal agreements and applicable regulatory standards.
             </p>
@@ -57,7 +58,7 @@ export default function ApprovalsPage() {
                   DBA
                 </dt>
                 <dd className="text-slate-900 font-medium mt-1">
-                  Elevate for Humanity Career &amp; Technical Institute
+                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
                 </dd>
               </div>
               <div>

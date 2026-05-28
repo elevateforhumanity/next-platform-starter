@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -21,7 +22,7 @@ export default function PrivacyPolicyPage() {
 
           <div className="prose prose-gray max-w-none">
             <p className="text-lg text-slate-700 mb-6">
-              Elevate for Humanity collects information you provide when you use our website, submit
+              {PLATFORM_DEFAULTS.orgName} collects information you provide when you use our website, submit
               applications, request information, enroll in programs, or contact us.
             </p>
 

@@ -1,13 +1,14 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export default function StructuredData() {
   // Single unified Organization schema (combines EducationalOrganization + LocalBusiness)
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': ['EducationalOrganization', 'LocalBusiness'],
     '@id': 'https://www.elevateforhumanity.org/#organization',
-    name: 'Elevate for Humanity',
-    legalName: '2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute',
+    name: PLATFORM_DEFAULTS.orgName,
+    legalName: '2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
     alternateName: 'Elevate 4 Humanity',
-    url: 'https://www.elevateforhumanity.org',
+    url: PLATFORM_DEFAULTS.siteUrl,
     logo: {
       '@type': 'ImageObject',
       url: 'https://www.elevateforhumanity.org/logo.jpg',
@@ -19,7 +20,7 @@ export default function StructuredData() {
     description:
       'Nonprofit workforce development institute in Indianapolis providing career training at no cost to eligible Indiana residents through WIOA and state funding. Programs in healthcare, skilled trades, technology, barbering, and business. Job placement assistance included.',
     slogan: 'This Is Not Graduation. This Is Elevation.',
-    telephone: '+1-317-314-3757',
+    telephone: '+1-{PLATFORM_DEFAULTS.supportPhone}',
     email: 'info@elevateforhumanity.org',
     founder: {
       '@type': 'Person',
@@ -46,7 +47,7 @@ export default function StructuredData() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: '+1-317-314-3757',
+      telephone: '+1-{PLATFORM_DEFAULTS.supportPhone}',
       email: 'info@elevateforhumanity.org',
       availableLanguage: ['English', 'Spanish'],
     },
@@ -145,8 +146,8 @@ export default function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': 'https://www.elevateforhumanity.org/#website',
-    url: 'https://www.elevateforhumanity.org',
-    name: 'Elevate for Humanity',
+    url: PLATFORM_DEFAULTS.siteUrl,
+    name: PLATFORM_DEFAULTS.orgName,
     description:
       'Career training at no cost to eligible Indiana residents. WIOA and state-funded programs in healthcare, trades, technology, and business.',
     publisher: {

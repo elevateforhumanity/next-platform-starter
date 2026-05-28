@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Shield } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -101,7 +102,7 @@ export default async function EnrollmentSuccessPage() {
             <p className="text-sm text-slate-600 mb-2">Questions? We're here to help.</p>
             <p className="text-sm text-slate-900">
               <strong>Email:</strong> <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a><br />
-              <strong>Phone:</strong> <a href="tel:+13173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>
+              <strong>Phone:</strong> <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
             </p>
           </div>
 

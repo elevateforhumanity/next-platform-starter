@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Training Network Partner Agreement | Elevate for Humanity',
+  title: 'Training Network Partner Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -16,7 +17,7 @@ export default function PartnerMOUPage() {
       <DocumentPage
         documentType="Memorandum of Understanding"
         title="Training Network Partner Agreement"
-        subtitle="Elevate for Humanity Career & Technical Institute — Indiana Workforce Training Network"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute — Indiana Workforce Training Network"
         date="2025-01-01"
         version="3.0"
         confidential
@@ -25,7 +26,7 @@ export default function PartnerMOUPage() {
         <DocumentSection heading="Parties" number={1}>
           <p>
             This Memorandum of Understanding ("Agreement") is entered into between{' '}
-            <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong>{' '}
+            <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong>{' '}
             ("Program Owner" or "Elevate"), a workforce training provider operating under Indiana law,
             and the collaborating organization identified at the time of execution ("Collaborating Party").
           </p>
@@ -49,14 +50,14 @@ export default function PartnerMOUPage() {
           <p className="mt-3">
             All program ownership, curriculum, intellectual property, tuition structures, credential
             relationships, and operational systems remain the sole property and exclusive authority of
-            Elevate for Humanity. The Collaborating Party participates solely in the role designated
+            {PLATFORM_DEFAULTS.orgName}. The Collaborating Party participates solely in the role designated
             in Section 5 of this Agreement.
           </p>
         </DocumentSection>
 
         <DocumentSection heading="Nature of the Collaboration" number={3}>
           <p>
-            This Agreement establishes a collaborative training arrangement in which Elevate for Humanity
+            This Agreement establishes a collaborative training arrangement in which {PLATFORM_DEFAULTS.orgName}
             serves as the Program Owner and Primary Training Provider. The Collaborating Party supports
             program delivery through facility hosting, program facilitation, or student referral as
             defined in Section 5.
@@ -72,7 +73,7 @@ export default function PartnerMOUPage() {
 
         <DocumentSection heading="Training Network Model" number={4}>
           <p>
-            Elevate for Humanity operates a <strong>Training Network Model</strong> in which Elevate
+            {PLATFORM_DEFAULTS.orgName} operates a <strong>Training Network Model</strong> in which Elevate
             serves as the sole Program Owner and Primary Training Provider. Authorized organizations
             participate as approved Training Network Sites for the purpose of delivering in-person or
             hybrid components of the program under Elevate's standardized delivery model.
@@ -210,7 +211,7 @@ export default function PartnerMOUPage() {
             All curriculum materials, instructional content, learning management systems, operational
             procedures, branding, credential alignments, and program methodologies used in Elevate
             programs constitute <strong>proprietary intellectual property owned exclusively by
-            Elevate for Humanity</strong>.
+            {PLATFORM_DEFAULTS.orgName}</strong>.
           </p>
           <p className="mt-3">
             Training Network Sites receive limited, non-transferable authorization to deliver program
@@ -245,7 +246,7 @@ export default function PartnerMOUPage() {
           <p>
             All decisions regarding tuition pricing, curriculum content, credential partnerships,
             program policies, instructional standards, student eligibility, and training delivery
-            methods remain under the <strong>exclusive authority of Elevate for Humanity</strong>.
+            methods remain under the <strong>exclusive authority of {PLATFORM_DEFAULTS.orgName}</strong>.
           </p>
           <p className="mt-3">
             The Collaborating Party may not modify program structure, tuition rates, curriculum
@@ -317,10 +318,10 @@ export default function PartnerMOUPage() {
 
         <DocumentSection heading="Program Owner Contact" number={15}>
           <p>
-            <strong>Elevate for Humanity Career &amp; Training Institute</strong><br />
-            2Exclusive LLC-S d/b/a Elevate for Humanity<br />
+            <strong>{PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong><br />
+            2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName}<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

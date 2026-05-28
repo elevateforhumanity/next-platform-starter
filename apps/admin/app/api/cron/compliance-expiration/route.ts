@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -88,7 +89,7 @@ export async function GET(request: Request) {
             artifact_type: artifact.artifact_type,
             expires_at: artifact.expires_at,
             days_until_expiry: daysLeft,
-            portal_link: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/provider/compliance`,
+            portal_link: `${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/provider/compliance`,
           },
           status: 'queued',
           scheduled_for: now.toISOString(),

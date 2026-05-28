@@ -7,6 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import * as Sentry from '@sentry/nextjs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 function getWebhookSecret() {
@@ -99,7 +100,7 @@ async function _POST(req: Request) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               to: customerEmail,
-              subject: 'Your Career Course Purchase - Elevate for Humanity',
+              subject: 'Your Career Course Purchase - ${PLATFORM_DEFAULTS.orgName}',
               html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                   <h2 style="color: #7c3aed;">Thank You for Your Purchase!</h2>
@@ -116,8 +117,8 @@ async function _POST(req: Request) {
                     </a>
                   </div>
                   
-                  <p>Questions? Reply to this email or call (317) 314-3757.</p>
-                  <p>Best regards,<br><strong>Elevate for Humanity Team</strong></p>
+                  <p>Questions? Reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.</p>
+                  <p>Best regards,<br><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
                 </div>
               `,
             }),

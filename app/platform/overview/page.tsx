@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   AlertTriangle,
   ArrowRight,
   Building2,
@@ -826,7 +827,7 @@ export default function PlatformLicensingPage() {
           </div>
           <p className="mt-6 text-black">
             <Phone className="inline w-4 h-4 mr-2" />
-            (317) 314-3757
+            {PLATFORM_DEFAULTS.supportPhone}
             <span className="mx-3">|</span>
             <Mail className="inline w-4 h-4 mr-2" />
             our contact form

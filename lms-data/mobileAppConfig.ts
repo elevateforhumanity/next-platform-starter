@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Central config for the Elevate mobile app(s).
 // This is what the mobile manifest route exposes.
 
@@ -28,7 +29,7 @@ export interface MobileAppConfig {
 }
 
 export const mobileAppConfig: MobileAppConfig = {
-  appName: 'Elevate for Humanity',
+  appName: '' + PLATFORM_DEFAULTS.orgName + '',
   bundleIdAndroid: 'org.elevateforhumanity.app',
   bundleIdIos: 'org.elevateforhumanity.app',
   minVersion: '1.0.0',

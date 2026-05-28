@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Jozanna George | Our Team | Elevate for Humanity',
-  description: 'Jozanna George — Director of Enrollment & Beauty Industry Programs at Elevate for Humanity Career & Technical Institute.',
+  title: 'Jozanna George | Our Team | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Jozanna George — Director of Enrollment & Beauty Industry Programs at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -40,7 +41,7 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Jozanna George</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Director of Enrollment & Beauty Industry Programs</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Jozanna is a multi-licensed beauty professional holding Nail Technician, Nail Instructor, and Esthetician licenses. She oversees the nail program at Textures Institute of Cosmetology and manages enrollment operations for Elevate for Humanity.</p>
+                <p>Jozanna is a multi-licensed beauty professional holding Nail Technician, Nail Instructor, and Esthetician licenses. She oversees the nail program at Textures Institute of Cosmetology and manages enrollment operations for {PLATFORM_DEFAULTS.orgName}.</p>
                 <p>Her expertise spans beauty industry education, student enrollment processes, and program coordination. Jozanna ensures that prospective students receive guidance through the application and funding eligibility process, connecting them with the right training programs and support services.</p>
               </div>
             </div>

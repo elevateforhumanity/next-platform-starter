@@ -9,6 +9,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const EMPLOYER_PATHS = [
   {
@@ -99,7 +100,7 @@ export function HomeEmployerStrip() {
           <div className="relative h-52 lg:h-60 rounded-2xl overflow-hidden">
             <Image
               src="/images/pages/for-employers-page-1.webp"
-              alt="Employer partner meeting with Elevate for Humanity team"
+              alt="Employer partner meeting with {PLATFORM_DEFAULTS.orgName} team"
               fill
               className="object-cover object-top"
               sizes="(max-width: 1024px) 100vw, 50vw"

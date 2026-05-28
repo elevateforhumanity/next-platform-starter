@@ -1,5 +1,6 @@
 // lib/xapi/video.ts
 import { getXAPIClient } from './xapi-client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type VideoStatementInput = {
   verb: 'initialized' | 'played' | 'paused' | 'completed' | 'seeked';
@@ -31,7 +32,7 @@ export async function sendVideoStatement(input: VideoStatementInput) {
         display: { 'en-US': input.verb },
       },
       object: {
-        id: `https://www.elevateforhumanity.org/video/${input.videoId}`,
+        id: `${PLATFORM_DEFAULTS.siteUrl}/video/${input.videoId}`,
         objectType: 'Activity' as const,
         definition: {
           name: { 'en-US': input.title },
@@ -43,14 +44,14 @@ export async function sendVideoStatement(input: VideoStatementInput) {
         contextActivities: {
           parent: [
             {
-              id: `https://www.elevateforhumanity.org/course/${input.courseId}`,
+              id: `${PLATFORM_DEFAULTS.siteUrl}/course/${input.courseId}`,
               objectType: 'Activity' as const,
             },
           ],
           ...(input.lessonId && {
             grouping: [
               {
-                id: `https://www.elevateforhumanity.org/lesson/${input.lessonId}`,
+                id: `${PLATFORM_DEFAULTS.siteUrl}/lesson/${input.lessonId}`,
                 objectType: 'Activity' as const,
               },
             ],

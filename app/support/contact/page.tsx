@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, Clock, HelpCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/support/contact' },
@@ -21,7 +22,7 @@ const CONTACT_METHODS = [
   },
   {
     title: 'Phone',
-    desc: '(317) 314-3757',
+    desc: PLATFORM_DEFAULTS.supportPhone,
     detail: 'Mon–Fri, 9 AM – 5 PM EST',
     icon: Phone,
     href: 'tel:+13173143757',

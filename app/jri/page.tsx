@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   BookOpen,
   ArrowRight,
@@ -243,7 +244,7 @@ export default function JRIPage() {
                   href="/support"
                   className="block w-full border-2 border-slate-300 text-slate-700 text-center px-6 py-4 rounded-lg font-semibold hover:bg-white transition"
                 >
-                  Contact Us: (317) 314-3757
+                  Contact Us: {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>
@@ -482,7 +483,7 @@ export default function JRIPage() {
               className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 transition"
             >
               <Phone className="mr-2 w-5 h-5" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <p className="text-white text-sm mt-6">

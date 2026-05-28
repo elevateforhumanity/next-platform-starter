@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { resolveZip } from '@/lib/intake/normalize-zip';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
         full_name: body.full_name.trim(),
           program_interest: programInterest || 'Not specified',
         stage,
-        status_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/status/application?token=${application.public_status_token}`,
+        status_url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/status/application?token=${application.public_status_token}`,
       },
       status: 'queued',
       scheduled_for: new Date().toISOString(),
@@ -206,7 +207,7 @@ export async function POST(request: NextRequest) {
         template_key: 'intake_self_pay_options',
         template_data: {
           full_name: body.full_name.trim(),
-          status_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/status/application?token=${application.public_status_token}`,
+          status_url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/status/application?token=${application.public_status_token}`,
         },
         status: 'queued',
         scheduled_for: new Date(Date.now() + 60 * 60 * 1000).toISOString(),

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2, Search, Wand2, Send, Clock3, Download } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type GrantRow = {
   opportunityId: string;
@@ -104,9 +105,9 @@ export default function SamGrantAutoFillPanel() {
         body: JSON.stringify({
           grant: selected,
           organization: {
-            legalName: 'Elevate for Humanity Career & Technical Institute',
-            contactEmail: 'info@elevateforhumanity.org',
-            contactPhone: '(317) 314-3757',
+            legalName: '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+            contactEmail: 'info@${PLATFORM_DEFAULTS.canonicalDomain}',
+            contactPhone: PLATFORM_DEFAULTS.supportPhone,
             address: '8888 Keystone Crossing, Suite 1300',
             city: 'Indianapolis',
             state: 'IN',

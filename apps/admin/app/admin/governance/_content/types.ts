@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Brand configuration for governance pages
 export type Brand = 'elevate';
 
@@ -12,17 +13,17 @@ export interface BrandConfig {
 
 export const brandConfigs: Record<Brand, BrandConfig> = {
   elevate: {
-    name: 'Elevate for Humanity',
+    name: PLATFORM_DEFAULTS.orgName,
     shortName: 'Elevate',
-    domain: 'www.elevateforhumanity.org',
-    canonicalDomain: 'www.elevateforhumanity.org',
+    domain: PLATFORM_DEFAULTS.canonicalDomain,
+    canonicalDomain: PLATFORM_DEFAULTS.canonicalDomain,
     primaryColor: 'blue',
     accentColor: 'slate',
   },};
 
 // Canonical domain helper for governance links
 export function getCanonicalUrl(path: string): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const base = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   return `${base}${path}`;
 }
 

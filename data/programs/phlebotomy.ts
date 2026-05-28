@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Phlebotomy Technician — Program Detail
@@ -53,7 +54,7 @@ export const PHLEBOTOMY: ProgramSchema = {
     },
     {
       name: 'Bloodborne Pathogens Certificate',
-      issuer: 'OSHA / Elevate for Humanity',
+      issuer: 'OSHA / ' + PLATFORM_DEFAULTS.orgName + '',
       description: 'OSHA-compliant training in bloodborne pathogen exposure prevention.',
       validity: '1 year',
     },

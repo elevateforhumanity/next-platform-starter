@@ -5,6 +5,7 @@ import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { Resend } from 'resend';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
 async function _POST(request: NextRequest) {
@@ -115,7 +116,7 @@ async function _POST(request: NextRequest) {
 
     // Send emails — non-fatal
     const sgKey = process.env.SENDGRID_API_KEY;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const adminEmail = process.env.PARTNER_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com';
 
     if (sgKey) {
@@ -131,7 +132,7 @@ async function _POST(request: NextRequest) {
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
   <tr><td style="background:#7c3aed;padding:28px 32px;text-align:center">
     // IMAGE-CONTRACT: allow raw img because legacy markup
-    <img src="${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" width="120" style="max-width:120px;height:auto;filter:brightness(10)" />
+    <img src="${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} width="120" style="max-width:120px;height:auto;filter:brightness(10)" />
   </td></tr>
   <tr><td style="padding:32px">
     <h2 style="color:#1a1a1a;font-size:20px;margin:0 0 16px">Application Received — ${salonLegalName}</h2>
@@ -160,12 +161,12 @@ async function _POST(request: NextRequest) {
       </table>
     </div>
     <p style="color:#64748b;font-size:13px;line-height:1.7;margin:0">
-      Questions? Call <a href="tel:3173143757" style="color:#7c3aed">(317) 314-3757</a> or email
+      Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#7c3aed">${PLATFORM_DEFAULTS.supportPhone}</a> or email
       <a href="mailto:elevate4humanityedu@gmail.com" style="color:#7c3aed">elevate4humanityedu@gmail.com</a>.
     </p>
   </td></tr>
   <tr><td style="background:#f8fafc;padding:16px 32px;text-align:center;border-top:1px solid #e2e8f0">
-    <p style="color:#94a3b8;font-size:12px;margin:0">Elevate for Humanity Career &amp; Technical Institute · (317) 314-3757</p>
+    <p style="color:#94a3b8;font-size:12px;margin:0">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute · ${PLATFORM_DEFAULTS.supportPhone}</p>
   </td></tr>
 </table>
 </td></tr>
@@ -195,7 +196,7 @@ async function _POST(request: NextRequest) {
           method: 'POST',
           headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+            from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
             reply_to: { email: 'elevate4humanityedu@gmail.com' },
             personalizations: [{ to: [{ email: contactEmail, name: applicantName }] }],
             subject: `Application Received — ${salonLegalName} | Elevate Cosmetology Apprenticeship`,
@@ -206,7 +207,7 @@ async function _POST(request: NextRequest) {
           method: 'POST',
           headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+            from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
             personalizations: [{ to: [{ email: adminEmail }] }],
             subject: `[NEW APPLICATION] Cosmetology Salon — ${salonLegalName}`,
             content: [{ type: 'text/html', value: adminHtml }],

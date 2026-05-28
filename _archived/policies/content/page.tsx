@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Content Policy | Elevate for Humanity',
+  title: 'Content Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Guidelines for user-generated content, intellectual property rights, and content standards on our platforms.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/content',
@@ -31,7 +32,7 @@ export default async function ContentPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This Content Policy governs user-generated content on Elevate for Humanity platforms, including 
+              This Content Policy governs user-generated content on {PLATFORM_DEFAULTS.orgName} platforms, including 
               discussion forums, social media, course submissions, and any other content created or shared by 
               users. These guidelines ensure our platforms remain educational, respectful, and legally compliant.
             </p>
@@ -46,7 +47,7 @@ export default async function ContentPage() {
               <li>Social media pages and groups</li>
               <li>Student portfolios and project showcases</li>
               <li>Comments, reviews, and feedback</li>
-              <li>Any other Elevate for Humanity digital properties</li>
+              <li>Any other {PLATFORM_DEFAULTS.orgName} digital properties</li>
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Acceptable Content</h2>
@@ -135,7 +136,7 @@ export default async function ContentPage() {
             <h3 className="text-xl font-bold text-black mt-6 mb-3">License Grant</h3>
             <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200 mb-6">
               <p className="text-black mb-4">
-                By posting content, you grant Elevate for Humanity a non-exclusive, worldwide, royalty-free 
+                By posting content, you grant {PLATFORM_DEFAULTS.orgName} a non-exclusive, worldwide, royalty-free 
                 license to:
               </p>
               <ul className="list-disc pl-6 text-black space-y-2">
@@ -180,7 +181,7 @@ export default async function ContentPage() {
             
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Our Rights</h3>
             <p className="text-black mb-4">
-              Elevate for Humanity reserves the right to:
+              {PLATFORM_DEFAULTS.orgName} reserves the right to:
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Review all user-generated content</li>
@@ -213,7 +214,7 @@ export default async function ContentPage() {
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Use the "Report" button on the content (if available)</li>
               <li>Email our contact form with details</li>
-              <li>Call (317) 314-3757 for urgent concerns</li>
+              <li>Call {PLATFORM_DEFAULTS.supportPhone} for urgent concerns</li>
               <li>Include link to content and reason for report</li>
             </ul>
 
@@ -293,7 +294,7 @@ export default async function ContentPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>DMCA Agent:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
             </ul>

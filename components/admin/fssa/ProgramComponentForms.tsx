@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ClipboardList, AlertCircle, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const COMPONENT_TYPES = [
   { value: 'job_search', label: 'Job Search' },
@@ -43,7 +44,7 @@ const EMPTY: ComponentForm = {
   required_hours: '',
   completed_hours: '0',
   status: 'active',
-  provider_name: 'Elevate for Humanity',
+  provider_name: PLATFORM_DEFAULTS.orgName,
   notes: '',
 };
 

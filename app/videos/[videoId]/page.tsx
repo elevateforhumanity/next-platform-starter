@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { videos, getVideoById } from '../../../lms-data/videos';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,15 +25,15 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${video.title} | Elevate for Humanity`,
+    title: `${video.title} | ${PLATFORM_DEFAULTS.orgName}`,
     description: video.description,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/videos/${video.id}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/videos/${video.id}`,
     },
     openGraph: {
       title: video.title,
       description: video.description,
-      url: `https://www.elevateforhumanity.org/videos/${video.id}`,
+      url: `${PLATFORM_DEFAULTS.siteUrl}/videos/${video.id}`,
       type: 'video.other',
       images: [
         {
@@ -44,7 +45,7 @@ export async function generateMetadata({
       ],
       videos: [
         {
-          url: `https://www.elevateforhumanity.org${video.videoUrl}`,
+          url: `${PLATFORM_DEFAULTS.siteUrl}${video.videoUrl}`,
           width: 1280,
           height: 720,
           type: 'video/mp4',
@@ -76,17 +77,17 @@ export default async function VideoWatchPage({ params }: { params: Promise<{ vid
     '@type': 'VideoObject',
     name: video.title,
     description: video.description,
-    thumbnailUrl: `https://www.elevateforhumanity.org${video.thumbnailUrl}`,
+    thumbnailUrl: `${PLATFORM_DEFAULTS.siteUrl}${video.thumbnailUrl}`,
     uploadDate: video.uploadDate,
     duration: video.duration,
-    contentUrl: `https://www.elevateforhumanity.org${video.videoUrl}`,
-    embedUrl: `https://www.elevateforhumanity.org${video.videoUrl}`,
+    contentUrl: `${PLATFORM_DEFAULTS.siteUrl}${video.videoUrl}`,
+    embedUrl: `${PLATFORM_DEFAULTS.siteUrl}${video.videoUrl}`,
     publisher: {
       '@type': 'Organization',
-      name: 'Elevate for Humanity',
+      name: PLATFORM_DEFAULTS.orgName,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.elevateforhumanity.org/logo.jpg',
+        url: 'https://${PLATFORM_DEFAULTS.canonicalDomain}/logo.jpg',
       },
     },
   };

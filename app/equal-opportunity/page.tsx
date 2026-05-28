@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Scale, Shield, Users, Accessibility, FileText, ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Equal Opportunity Employer',
   description:
-    'Elevate for Humanity is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
+    '{PLATFORM_DEFAULTS.orgName} is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/equal-opportunity',
   },
@@ -115,7 +116,7 @@ export default function EqualOpportunityPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Equal Opportunity Employer</h1>
           <p className="text-xl text-white max-w-3xl">
-            Elevate for Humanity is committed to providing equal opportunity in employment and
+            {PLATFORM_DEFAULTS.orgName} is committed to providing equal opportunity in employment and
             education without regard to race, color, religion, sex, national origin, age,
             disability, genetic information, or any other protected status.
           </p>
@@ -128,7 +129,7 @@ export default function EqualOpportunityPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Commitment</h2>
           <div className="prose prose-lg max-w-none text-slate-700">
             <p>
-              Elevate for Humanity is an Equal Opportunity Employer and Training Provider. We are
+              {PLATFORM_DEFAULTS.orgName} is an Equal Opportunity Employer and Training Provider. We are
               committed to creating and maintaining a workplace and learning environment free from
               discrimination and harassment.
             </p>

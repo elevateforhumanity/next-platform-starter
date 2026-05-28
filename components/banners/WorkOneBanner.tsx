@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function WorkOneBanner() {
   return (
@@ -13,7 +14,7 @@ export function WorkOneBanner() {
               We are appointment-based for program + funding information. Step 1: Submit the Elevate
               for Humanity inquiry form. Step 2: Create your account at
               www.indianacareerconnect.com. Step 3: Schedule an appointment with a WorkOne advisor.
-              At your appointment, tell them you are there for Elevate for Humanity. After you
+              At your appointment, tell them you are there for {PLATFORM_DEFAULTS.orgName}. After you
               schedule, come back and complete your progress checklist.
             </p>
           </div>

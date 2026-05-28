@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function GET(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'auth');
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
 
   const rawNext = req.nextUrl.searchParams.get('next') ?? '';
   const next = validateRedirect(rawNext, '/learner/dashboard');
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({

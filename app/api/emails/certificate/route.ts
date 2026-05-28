@@ -7,6 +7,7 @@ import { sendEmail, emailTemplates } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -63,7 +64,7 @@ async function _POST(request: NextRequest) {
       ? certificate.profiles[0]
       : certificate.profiles;
 
-    const verificationUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || 'https://www.elevateforhumanity.org')}/verify/${certificate.verification_code}`;
+    const verificationUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)}/verify/${certificate.verification_code}`;
 
     const html = emailTemplates.certificateIssued(
       certificate.student_name,

@@ -6,6 +6,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -56,8 +57,8 @@ async function _POST(request: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/courses/hsi/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/programs/cpr-first-aid`,
+      success_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)}/courses/hsi/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)}/programs/cpr-first-aid`,
       customer_email: studentEmail,
       client_reference_id: studentId,
       // Enable Buy Now Pay Later options

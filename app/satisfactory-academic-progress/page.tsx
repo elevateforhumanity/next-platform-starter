@@ -4,11 +4,12 @@ import { Metadata } from 'next';
 import { Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Satisfactory Academic Progress (SAP) Policy',
   description:
-    'Academic progress requirements for students at Elevate for Humanity. Understand pace, completion, and standing requirements.',
+    'Academic progress requirements for students at {PLATFORM_DEFAULTS.orgName}. Understand pace, completion, and standing requirements.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/satisfactory-academic-progress',
   },
@@ -32,7 +33,7 @@ export default function SAPPolicyPage() {
         {/* Introduction */}
         <section className="mb-10">
           <p className="text-slate-900 text-lg">
-            Elevate for Humanity requires all students to maintain Satisfactory Academic Progress
+            {PLATFORM_DEFAULTS.orgName} requires all students to maintain Satisfactory Academic Progress
             (SAP) to remain enrolled in their program. This policy establishes the standards for
             academic achievement and the pace at which students must progress through their program.
           </p>

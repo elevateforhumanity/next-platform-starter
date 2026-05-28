@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Upload, FileText, X, Loader2, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 const MAX_MB = 10;
@@ -199,8 +200,8 @@ export default function CertificateUploadPage() {
 
           <p className="mt-6 text-center text-xs text-slate-400">
             Questions? Call{' '}
-            <a href="tel:3173143757" className="text-slate-600 font-medium">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-slate-600 font-medium">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>{' '}
             or email{' '}
             <a href="mailto:info@elevateforhumanity.org" className="text-slate-600 font-medium">

@@ -11,6 +11,7 @@ import HeaderDesktopNav from './HeaderDesktopNav';
 import SearchModal from './SearchModal.client';
 import LanguageSwitcher from './LanguageSwitcher.client';
 import { NAV_ITEMS } from '@/lib/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Marketing site navigation.
 //
@@ -45,7 +46,7 @@ export default function Header() {
         <Link
           href="/"
           className="flex items-center gap-2 flex-shrink-0"
-          aria-label="Elevate for Humanity home"
+          aria-label="{PLATFORM_DEFAULTS.orgName} home"
         >
           <LogoImage alt="Elevate" width={40} height={60} className="w-auto h-10" priority />
           <span className="font-bold text-base text-slate-900 hidden sm:block">Elevate</span>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface PageFlowProps {
   currentStep?: 'learn' | 'apply' | 'enroll' | 'train' | 'work';
@@ -112,7 +113,7 @@ export function ComplianceFooter() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-xs text-black space-y-2">
           <p>
-            <strong>Equal Opportunity:</strong> Elevate for Humanity is an equal opportunity
+            <strong>Equal Opportunity:</strong> {PLATFORM_DEFAULTS.orgName} is an equal opportunity
             employer and training provider. We do not discriminate on the basis of race, color,
             religion, sex, national origin, age, disability, or any other protected class.
           </p>

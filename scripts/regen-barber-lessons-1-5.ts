@@ -11,6 +11,7 @@ import fs from 'fs/promises';
 import { generateTextToSpeech } from '../server/tts-service';
 import { renderLessonVideo } from '../server/lesson-video-renderer';
 import type { LessonSlide } from '../lib/autopilot/lesson-script-generator';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const OUTPUT_DIR = path.join(process.cwd(), 'public/videos/barber-lessons');
 const INSTRUCTOR_PHOTO = path.join(
@@ -510,7 +511,7 @@ async function main() {
       instructorTitle: 'Barber Instructor',
       instructorPhoto: INSTRUCTOR_PHOTO,
       accentColor: '#d97706',
-      courseName: 'Barber Apprenticeship — Elevate for Humanity',
+      courseName: 'Barber Apprenticeship — ' + PLATFORM_DEFAULTS.orgName + '',
     });
     await fs.unlink(tmpAudio).catch(() => {});
     console.log(

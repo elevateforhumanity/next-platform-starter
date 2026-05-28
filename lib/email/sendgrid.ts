@@ -1,6 +1,7 @@
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { withResilience, breakers } from '@/lib/resilience';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface EmailOptions {
   to: string | string[];
@@ -31,7 +32,7 @@ export async function sendEmail(options: EmailOptions) {
   const FROM_EMAIL =
     process.env.EMAIL_FROM ||
     process.env.MAIL_FROM ||
-    'Elevate for Humanity <info@elevateforhumanity.org>';
+    '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
   const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
   const from = options.from || FROM_EMAIL;
@@ -150,7 +151,7 @@ export async function sendWelcomeEmail(params: {
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
     <body style="font-family:Arial,sans-serif;line-height:1.6;color:#333">
       <div style="max-width:600px;margin:0 auto;padding:20px">
-        <div style="background:#f97316;color:white;padding:30px;text-align:center"><h1>Welcome to Elevate for Humanity!</h1></div>
+        <div style="background:#f97316;color:white;padding:30px;text-align:center"><h1>Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1></div>
         <div style="padding:30px;background:#f9fafb">
           <h2>Hi ${params.name},</h2>
           <p>Congratulations! You've successfully enrolled in <strong>${params.programName}</strong>.</p>
@@ -158,8 +159,8 @@ export async function sendWelcomeEmail(params: {
           <p><strong>To get started:</strong></p>
           <ol><li>Click the button below to log in to your student portal</li><li>Complete the required orientation (about 10 minutes)</li><li>Once orientation is done, your courses will be unlocked</li></ol>
           <p style="text-align:center"><a href="${params.dashboardUrl}" style="display:inline-block;padding:12px 30px;background:#f97316;color:white;text-decoration:none;border-radius:6px;margin:20px 0">Log In to Student Portal</a></p>
-          <p>If you have any questions, reply to this email or call (317) 314-3757.</p>
-          <p>Best regards,<br>The Elevate for Humanity Team</p>
+          <p>If you have any questions, reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.</p>
+          <p>Best regards,<br>The ${PLATFORM_DEFAULTS.orgName} Team</p>
         </div>
         <div style="padding:20px;text-align:center;color:#666;font-size:14px">
           <p>Elevate for Humanity Career &amp; Technical Institute<br>8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>

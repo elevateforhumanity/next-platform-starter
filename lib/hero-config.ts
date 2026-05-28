@@ -9,6 +9,7 @@
  */
 
 import type { HeroVariant, HeroHeight, HeroCTA } from '@/components/ui/HeroSection';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Video hero sources - used across the site
 // Rules: No gradient overlays, text in solid container, calm motion only
@@ -302,7 +303,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
 
   // About
   '/about': {
-    title: 'About Elevate for Humanity',
+    title: 'About ' + PLATFORM_DEFAULTS.orgName + '',
     subtitle: 'Breaking the cycle of poverty through free workforce training since 2020.',
     image: '/images/pages/about-hero.webp',
     variant: 'split',

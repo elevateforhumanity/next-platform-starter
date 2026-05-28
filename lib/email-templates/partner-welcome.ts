@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Partner LMS Welcome Email Templates
  * Sent when a student is enrolled in an external LMS partner
@@ -108,7 +109,7 @@ export function getPartnerWelcomeEmail(data: PartnerWelcomeData): {
 
     <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e5e7eb;">
       <p style="color: #6b7280; font-size: 14px; margin: 0;">
-        This enrollment was created through <strong>Elevate for Humanity</strong>. If you didn't request this enrollment, please contact us immediately.
+        This enrollment was created through <strong>${PLATFORM_DEFAULTS.orgName}</strong>. If you didn't request this enrollment, please contact us immediately.
       </p>
     </div>
 
@@ -117,12 +118,12 @@ export function getPartnerWelcomeEmail(data: PartnerWelcomeData): {
   <!-- Footer -->
   <div style="text-align: center; padding: 30px 20px; color: #9ca3af; font-size: 14px;">
     <p style="margin: 0 0 10px 0;">
-      <strong>Elevate for Humanity</strong><br>
+      <strong>${PLATFORM_DEFAULTS.orgName}</strong><br>
       Empowering Communities Through Education
     </p>
     <p style="margin: 0;">
-      <a href="https://www.elevateforhumanity.org" style="color: #667eea; text-decoration: none;">Visit Our Website</a> |
-      <a href="https://www.elevateforhumanity.org/support" style="color: #667eea; text-decoration: none;">Get Support</a>
+      <a href={PLATFORM_DEFAULTS.siteUrl} style="color: #667eea; text-decoration: none;">Visit Our Website</a> |
+      <a href="${PLATFORM_DEFAULTS.siteUrl}/support" style="color: #667eea; text-decoration: none;">Get Support</a>
     </p>
   </div>
 
@@ -181,11 +182,11 @@ ${data.contactPhone ? `Phone: ${data.contactPhone}` : ''}
 }
 
 ---
-This enrollment was created through Elevate for Humanity.
+This enrollment was created through ${PLATFORM_DEFAULTS.orgName}.
 If you didn't request this enrollment, please contact us immediately.
 
-Elevate for Humanity
-https://www.elevateforhumanity.org
+${PLATFORM_DEFAULTS.orgName}
+${PLATFORM_DEFAULTS.siteUrl}
   `;
 
   return { subject, html, text };
@@ -261,7 +262,7 @@ export function getPartnerCompletionEmail(data: {
   <!-- Footer -->
   <div style="text-align: center; padding: 30px 20px; color: #9ca3af; font-size: 14px;">
     <p style="margin: 0 0 10px 0;">
-      <strong>Elevate for Humanity</strong><br>
+      <strong>${PLATFORM_DEFAULTS.orgName}</strong><br>
       Empowering Communities Through Education
     </p>
   </div>
@@ -298,8 +299,8 @@ WHAT'S NEXT?
 Keep up the great work! We're proud of your achievement.
 
 ---
-Elevate for Humanity
-https://www.elevateforhumanity.org
+${PLATFORM_DEFAULTS.orgName}
+${PLATFORM_DEFAULTS.siteUrl}
   `;
 
   return { subject, html, text };
@@ -357,7 +358,7 @@ export function getPartnerMilestoneEmail(data: {
     </div>
 
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://www.elevateforhumanity.org/lms/courses" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">Continue Learning</a>
+      <a href="${PLATFORM_DEFAULTS.siteUrl}/lms/courses" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">Continue Learning</a>
     </div>
 
   </div>
@@ -365,7 +366,7 @@ export function getPartnerMilestoneEmail(data: {
   <!-- Footer -->
   <div style="text-align: center; padding: 30px 20px; color: #9ca3af; font-size: 14px;">
     <p style="margin: 0 0 10px 0;">
-      <strong>Elevate for Humanity</strong><br>
+      <strong>${PLATFORM_DEFAULTS.orgName}</strong><br>
       Empowering Communities Through Education
     </p>
   </div>
@@ -386,11 +387,11 @@ You're ${data.progress}% complete!
 
 Keep going! You're doing great! Keep up the momentum and you'll reach your goal in no time.
 
-Continue Learning: https://www.elevateforhumanity.org/lms/courses
+Continue Learning: ${PLATFORM_DEFAULTS.siteUrl}/lms/courses
 
 ---
-Elevate for Humanity
-https://www.elevateforhumanity.org
+${PLATFORM_DEFAULTS.orgName}
+https://${PLATFORM_DEFAULTS.canonicalDomain}
   `;
 
   return { subject, html, text };

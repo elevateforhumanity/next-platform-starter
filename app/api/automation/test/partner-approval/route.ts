@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -85,7 +86,7 @@ async function _POST() {
         .insert({
           name: `Test Partner - ${testCase.name}`,
           owner_name: 'Test Owner',
-          email: `test-${Date.now()}@test.elevateforhumanity.org`,
+          email: `test-${Date.now()}@test.${PLATFORM_DEFAULTS.canonicalDomain}`,
           phone: '555-0100',
           address_line1: '123 Test St',
           city: 'Indianapolis',

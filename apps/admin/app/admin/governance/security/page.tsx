@@ -7,10 +7,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Security & Data Protection Statement | Elevate for Humanity',
-  description: 'How 2Exclusive LLC-S (d/b/a Elevate for Humanity Career & Technical Institute) protects personal, educational, and operational data.',
+  title: 'Security & Data Protection Statement | {PLATFORM_DEFAULTS.orgName}',
+  description: 'How 2Exclusive LLC-S (d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute) protects personal, educational, and operational data.',
   robots: {
     index: false,
     follow: false,
@@ -59,7 +60,7 @@ export default async function SecurityDocumentPage() {
             </div>
           </div>
           <p className="text-slate-300">
-            2Exclusive LLC-S (d/b/a Elevate for Humanity Career &amp; Technical Institute)
+            2Exclusive LLC-S (d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute)
           </p>
           <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
             <span>Version: 1.0</span>
@@ -79,12 +80,12 @@ export default async function SecurityDocumentPage() {
               1. Purpose
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              This document defines how 2Exclusive LLC-S (d/b/a Elevate for Humanity Career &amp; Technical Institute) 
+              This document defines how 2Exclusive LLC-S (d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute) 
               protects personal, educational, and operational data across the workforce training platform. 
               It provides clear, accurate, and reviewable information to students, partners, regulators, 
               and funding agencies regarding security practices and data handling.
               Rise Forward Foundation and approved training partners operate 
-              their own systems independently. This document covers only Elevate for Humanity systems.
+              their own systems independently. This document covers only {PLATFORM_DEFAULTS.orgName} systems.
             </p>
             <p className="text-slate-700 leading-relaxed mt-4">
               This document governs all systems unless a more specific authoritative document explicitly 

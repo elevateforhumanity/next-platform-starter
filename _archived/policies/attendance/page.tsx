@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Attendance Policy | Elevate for Humanity',
+  title: 'Attendance Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Requirements for class attendance, participation, and procedures for absences and tardiness.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/attendance',
@@ -126,7 +127,7 @@ export default async function AttendancePage() {
                     </p>
                     <ul className="list-disc pl-6 text-black mt-2 space-y-1">
                       <li>Email to instructor</li>
-                      <li>Phone call to main office: (317) 314-3757</li>
+                      <li>Phone call to main office: {PLATFORM_DEFAULTS.supportPhone}</li>
                       <li>Student portal absence reporting form</li>
                     </ul>
                   </div>
@@ -277,9 +278,9 @@ export default async function AttendancePage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 8:00 AM - 6:00 PM EST</li>
-              <li><strong>Emergency Line:</strong> (317) 314-3757 ext. 911 (after hours)</li>
+              <li><strong>Emergency Line:</strong> {PLATFORM_DEFAULTS.supportPhone} ext. 911 (after hours)</li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

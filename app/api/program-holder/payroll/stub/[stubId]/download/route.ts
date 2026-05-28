@@ -3,6 +3,7 @@ import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,7 +72,7 @@ export async function GET(
     `Gross Pay:  $${Number(stub.gross_pay ?? 0).toFixed(2)}`,
     `Net Pay:    $${Number(stub.net_pay ?? 0).toFixed(2)}`,
     '',
-    'For questions contact: billing@elevateforhumanity.org',
+    'For questions contact: billing@${PLATFORM_DEFAULTS.canonicalDomain}',
   ].join('\n');
 
   return new NextResponse(text, {

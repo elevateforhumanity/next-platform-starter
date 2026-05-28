@@ -4,6 +4,7 @@ import { Trophy, Medal, Flame } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Leaderboard',
   description: 'See top learners and compete for the top spots.',
@@ -17,7 +18,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function LeaderboardPage() {
   // Fetch via canonical leaderboard API (includes achievements + badges)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   let topLearners: any[] = [];
   try {
     const res = await fetch(`${siteUrl}/api/leaderboard?limit=50`, { cache: 'no-store' });

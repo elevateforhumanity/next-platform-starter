@@ -1,6 +1,7 @@
 // Email sequences for career course purchasers.
 // All CTA links route to the canonical LMS paths, not /career-services/.
 import { HVAC_COURSE_ID } from '@/lib/courses/hvac-uuids';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CourseEmailData {
   email: string;
@@ -40,12 +41,12 @@ function wrap(body: string): string {
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; background: #ffffff;">
   <div style="text-align: center; margin-bottom: 28px;">
-    <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height: 60px;">
+    <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} style="height: 60px;">
   </div>
   ${body}
   <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 32px 0;">
   <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">
-    Elevate for Humanity &nbsp;|&nbsp; 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br>
+    ${PLATFORM_DEFAULTS.orgName} &nbsp;|&nbsp; 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br>
     <a href="${SITE_URL}/unsubscribe" style="color: #94a3b8;">Unsubscribe</a>
   </p>
 </body>
@@ -80,7 +81,7 @@ export function getWelcomeEmail(data: CourseEmailData) {
       ${btn(courseUrl, 'Start My Course →')}
 
       <p style="color: #64748b; font-size: 14px;">Questions? Reply to this email — we respond within one business day.</p>
-      <p>— The Elevate for Humanity Team</p>
+      <p>— The ${PLATFORM_DEFAULTS.orgName} Team</p>
     `),
   };
 }
@@ -156,7 +157,7 @@ export function getCompletionEmail(data: CourseEmailData & { certificateId?: str
       </ul>
 
       <p>We're proud of you.</p>
-      <p>— The Elevate for Humanity Team</p>
+      <p>— The ${PLATFORM_DEFAULTS.orgName} Team</p>
     `),
   };
 }
@@ -213,7 +214,7 @@ export function getCertificateIssuedEmail(data: {
         It is permanently accessible and does not expire.
       </div>
 
-      <p>— The Elevate for Humanity Team</p>
+      <p>— The ${PLATFORM_DEFAULTS.orgName} Team</p>
     `),
   };
 }

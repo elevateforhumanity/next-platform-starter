@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'FERPA Consent | Elevate for Humanity',
+  title: 'FERPA Consent | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -22,7 +23,7 @@ export default function FerpaConsentPage() {
       >
         <DocumentSection heading="Purpose" number={1}>
           <p>
-            The Family Educational Rights and Privacy Act (FERPA) protects the privacy of student education records. This consent authorizes Elevate for Humanity to disclose specific educational records to designated parties for the purposes described below.
+            The Family Educational Rights and Privacy Act (FERPA) protects the privacy of student education records. This consent authorizes {PLATFORM_DEFAULTS.orgName} to disclose specific educational records to designated parties for the purposes described below.
           </p>
         </DocumentSection>
 
@@ -49,7 +50,7 @@ export default function FerpaConsentPage() {
         </DocumentSection>
 
         <DocumentSection heading="Authorized Recipients" number={4}>
-          <p>By signing this consent, you authorize Elevate for Humanity to share the above records with:</p>
+          <p>By signing this consent, you authorize {PLATFORM_DEFAULTS.orgName} to share the above records with:</p>
           <ul>
             <li><strong>Indiana Department of Workforce Development (DWD)</strong> — WIOA Title I compliance and outcome reporting</li>
             <li><strong>WorkOne / Local Workforce Development Boards</strong> — Case management and co-enrollment services</li>
@@ -75,15 +76,15 @@ export default function FerpaConsentPage() {
 
         <DocumentSection heading="Directory Information" number={7}>
           <p>
-            Elevate for Humanity may designate the following as directory information, which may be disclosed without consent: student name, program of study, enrollment status, dates of attendance, certificates earned, and honors received. You may opt out by notifying the Program Director in writing within 10 days of enrollment.
+            {PLATFORM_DEFAULTS.orgName} may designate the following as directory information, which may be disclosed without consent: student name, program of study, enrollment status, dates of attendance, certificates earned, and honors received. You may opt out by notifying the Program Director in writing within 10 days of enrollment.
           </p>
         </DocumentSection>
 
         <DocumentSection heading="Contact" number={8}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757<br />
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}<br />
             U.S. Department of Education: studentprivacy.ed.gov
           </p>
         </DocumentSection>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function HomeHeroVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -102,7 +103,7 @@ export default function HomeHeroVideo() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image
         src="/images/hero-poster.webp"
-        alt="Elevate for Humanity career training"
+        alt="{PLATFORM_DEFAULTS.orgName} career training"
         fill
         priority
         sizes="100vw"

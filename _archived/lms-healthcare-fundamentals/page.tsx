@@ -23,6 +23,7 @@ import {
   Calendar,
 CheckCircle, } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Healthcare Fundamentals Course | LMS | Elevate For Humanity',
@@ -392,7 +393,7 @@ export default function HealthcareFundamentalsCoursePage() {
             </Link>
           </div>
           <p className="text-white/80 mt-6">
-            Questions? Contact us at (317) 314-3757
+            Questions? Contact us at {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </div>
       </section>

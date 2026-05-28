@@ -15,13 +15,14 @@ import {
   Shield,
 } from 'lucide-react';
 import { STORE_PRODUCTS, CLONE_LICENSES } from '@/lib/data/store-products';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Platform Licenses | Elevate for Humanity Store',
+  title: 'Platform Licenses | {PLATFORM_DEFAULTS.orgName} Store',
   description:
-    'License the complete Elevate for Humanity workforce training platform. White-label solutions for schools, training providers, and workforce agencies.',
+    'License the complete {PLATFORM_DEFAULTS.orgName} workforce training platform. White-label solutions for schools, training providers, and workforce agencies.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licenses',
   },
@@ -78,7 +79,7 @@ export default async function LicensesPage() {
             </h1>
 
             <p className="mt-6 text-xl text-slate-300 leading-relaxed max-w-2xl">
-              Get the complete Elevate for Humanity platform with your branding.
+              Get the complete {PLATFORM_DEFAULTS.orgName} platform with your branding.
               Everything you need to launch and scale workforce training
               programs.
             </p>

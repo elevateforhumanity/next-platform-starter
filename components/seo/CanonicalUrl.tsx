@@ -2,8 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 import Head from 'next/head';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 /**
  * Generates canonical URL for the current page

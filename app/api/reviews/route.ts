@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -122,7 +123,7 @@ async function _POST(request: Request) {
     // Notify admin of new review
     await supabase.from('email_queue').insert({
       to_email: 'elevate4humanityedu@gmail.com',
-      from_email: 'noreply@elevateforhumanity.org',
+      from_email: PLATFORM_DEFAULTS.emailFromAddress,
       subject: 'New Review Submitted - Pending Moderation',
       template_name: 'new_review_notification',
       template_data: {

@@ -25,6 +25,7 @@ declare global {
 }
 
 import { getProgramBySlug } from '@/data/programs/catalog';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -238,7 +239,7 @@ function CheckoutPageInner() {
             <p className="text-sm text-slate-600 mt-1">
               Fee-based enrollment within a USDOL Registered Apprenticeship framework.
               <br />
-              Sponsor of Record: 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical
+              Sponsor of Record: 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical
               Institute.
             </p>
           )}
@@ -294,7 +295,7 @@ function CheckoutPageInner() {
                     </summary>
                     <div className="px-4 py-3 border-t border-slate-200 text-slate-600 space-y-2">
                       <p>
-                        Elevate for Humanity is the program brand operated by 2Exclusive LLC-S, the
+                        ${PLATFORM_DEFAULTS.orgName} is the program brand operated by 2Exclusive LLC-S, the
                         USDOL Registered Apprenticeship Sponsor of Record.
                       </p>
                       <p>This program is fee-based and not funded by the State of Indiana.</p>

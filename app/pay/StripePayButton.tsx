@@ -4,6 +4,7 @@ import React from 'react';
 // app/pay/StripePayButton.tsx
 
 import { useEffect, useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function StripePayButton() {
   const [loaded, setLoaded] = useState(false);
@@ -39,7 +40,7 @@ export default function StripePayButton() {
       />
 
       <p className="text-[11px] text-slate-500">
-        By completing your payment you agree to Elevate for Humanity&apos;s refund policy and
+        By completing your payment you agree to {PLATFORM_DEFAULTS.orgName}&apos;s refund policy and
         enrollment terms.
       </p>
     </div>

@@ -8,6 +8,7 @@
 import OpenAI from 'openai';
 import fs from 'fs/promises';
 import path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -27,7 +28,7 @@ const MEDIA_SPECS: MediaSpec[] = [
     type: 'audio',
     voice: 'nova',
     description: 'Welcome voiceover for homepage',
-    script: `Welcome to Elevate for Humanity. We're here to help you build a career that matters. 
+    script: `Welcome to ' + PLATFORM_DEFAULTS.orgName + '. We're here to help you build a career that matters. 
     
 Whether you're starting fresh, changing paths, or leveling up your skills, our programs connect you with real training, real credentials, and real job opportunities.
 

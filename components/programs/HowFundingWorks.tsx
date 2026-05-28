@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface HowFundingWorksProps {
   programSlug: string;
@@ -10,7 +11,7 @@ export function HowFundingWorks({ programSlug }: HowFundingWorksProps) {
       <h2 className="text-2xl font-bold text-zinc-900 mb-4">How Funding & Enrollment Works</h2>
       <p className="text-zinc-700 mb-4">
         Funding for this program is based on your location, eligibility, and workforce status. To
-        ensure accuracy and avoid delays, Elevate for Humanity uses an appointment-based process in
+        ensure accuracy and avoid delays, {PLATFORM_DEFAULTS.orgName} uses an appointment-based process in
         coordination with WorkOne and Indiana Career Connect.
       </p>
 

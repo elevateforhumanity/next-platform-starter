@@ -4,11 +4,12 @@ import { Metadata } from 'next';
 import { Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Attendance Policy',
   description:
-    'Attendance requirements for hybrid programs at Elevate for Humanity. Understand expectations for online and in-person components.',
+    'Attendance requirements for hybrid programs at {PLATFORM_DEFAULTS.orgName}. Understand expectations for online and in-person components.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/attendance-policy',
   },
@@ -277,7 +278,7 @@ export default function AttendancePolicyPage() {
             <strong>Effective Date:</strong> January 2026
           </p>
           <p className="text-slate-700 text-sm mb-6">
-            Questions about attendance? Contact your program coordinator or call (317) 314-3757.
+            Questions about attendance? Contact your program coordinator or call {PLATFORM_DEFAULTS.supportPhone}.
           </p>
           <div className="flex flex-wrap gap-4 text-sm">
             <Link href="/legal/disclosures" className="text-brand-orange-600 hover:underline">
@@ -316,7 +317,7 @@ export default function AttendancePolicyPage() {
                 className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
               >
                 <Phone className="w-4 h-4" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

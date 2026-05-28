@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { SITE_STATS, statLabel } from '@/lib/site-stats';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   GraduationCap,
   Award,
   Users,
@@ -168,7 +169,7 @@ export default function K12SolutionsPage() {
               Built for CTE Directors and School Counselors
             </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Elevate for Humanity is an ETPL-approved, Perkins V-eligible training provider. We
+              {PLATFORM_DEFAULTS.orgName} is an ETPL-approved, Perkins V-eligible training provider. We
               handle curriculum, credentialing, and employer connections — so your staff can focus
               on students.
             </p>

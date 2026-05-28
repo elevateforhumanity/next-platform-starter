@@ -26,6 +26,7 @@ import {
   Home,
 } from 'lucide-react';
 import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type FundingType = 'wioa' | 'wrg' | 'fssa';
 
@@ -73,7 +74,7 @@ const CFG = {
     note: 'The Workforce Ready Grant covers full tuition for approved programs. HVAC is on the approved list. Apply entirely online — no in-person visit required.',
     steps: [
       'Go to IndianaCareerConnect.com and create a free account',
-      'Search for "HVAC" and select Elevate for Humanity as your provider',
+      'Search for "HVAC" and select {PLATFORM_DEFAULTS.orgName} as your provider',
       'Complete the Workforce Ready Grant application online',
       'Receive approval notification (typically 5–10 business days)',
       'Bring your WRG approval letter to Elevate for enrollment',
@@ -244,10 +245,10 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-slate-400" />
                 <a
-                  href="tel:3173143757"
+                  href="tel:${PLATFORM_DEFAULTS.supportPhone}"
                   className="text-brand-blue-600 font-semibold hover:underline"
                 >
-                  (317) 314-3757
+                  ${PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>
@@ -520,10 +521,10 @@ export default function FundingEligibilityFlow({ fundingType, onReady }: Props) 
               <p className="text-xs text-slate-500">
                 Select "Self-pay" above to see all payment options, or call us at{' '}
                 <a
-                  href="tel:3173143757"
+                  href="tel:${PLATFORM_DEFAULTS.supportPhone}"
                   className="text-brand-blue-600 font-semibold hover:underline"
                 >
-                  (317) 314-3757
+                  ${PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 .
               </p>

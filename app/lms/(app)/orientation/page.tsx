@@ -4,6 +4,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import ProgramOrientationVideo from '@/components/student/ProgramOrientationVideo';
 import { Book, Users, Award, Briefcase } from 'lucide-react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +59,7 @@ export default async function OrientationPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Orientation Video */}
             <ProgramOrientationVideo
-              title="Welcome to Elevate for Humanity"
+              title="Welcome to {PLATFORM_DEFAULTS.orgName}"
               description="Learn about our programs, what to expect, and how to succeed in your training journey."
               videoUrl="/videos/orientation-full.mp4"
               onComplete={async () => {

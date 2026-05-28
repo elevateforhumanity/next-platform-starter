@@ -4,12 +4,13 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { BookOpen, CheckCircle, ChevronRight, FileText, Shield, Users, Clock, AlertTriangle, Heart, Briefcase } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Employee Handbook | Elevate For Humanity',
-  description: 'Elevate for Humanity employee policies, procedures, and guidelines.',
+  description: '{PLATFORM_DEFAULTS.orgName} employee policies, procedures, and guidelines.',
   robots: { index: false, follow: false },
 };
 
@@ -20,9 +21,9 @@ const HANDBOOK_SECTIONS = [
     icon: Heart,
     color: 'brand-red',
     title: 'Welcome & Mission',
-    summary: 'Our mission, values, and what it means to work at Elevate for Humanity.',
+    summary: 'Our mission, values, and what it means to work at {PLATFORM_DEFAULTS.orgName}.',
     content: [
-      'Elevate for Humanity exists to connect people to funded workforce training and career pathways. Every team member plays a direct role in that mission.',
+      '{PLATFORM_DEFAULTS.orgName} exists to connect people to funded workforce training and career pathways. Every team member plays a direct role in that mission.',
       'Our core values: Integrity, Equity, Excellence, and Community. These guide every decision we make.',
       'We are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, or any other protected characteristic.',
     ],
@@ -34,7 +35,7 @@ const HANDBOOK_SECTIONS = [
     title: 'Employment Policies',
     summary: 'At-will employment, classifications, background checks, and probationary period.',
     content: [
-      'All employment at Elevate for Humanity is at-will. Either party may terminate the employment relationship at any time, with or without cause or notice.',
+      'All employment at {PLATFORM_DEFAULTS.orgName} is at-will. Either party may terminate the employment relationship at any time, with or without cause or notice.',
       'New employees serve a 90-day introductory period. During this time, performance is evaluated and either party may end the relationship without additional process.',
       'All offers are contingent on successful completion of a background check and identity verification.',
       'Employee classifications: Full-Time (30+ hrs/week), Part-Time (<30 hrs/week), Contract/1099.',
@@ -89,7 +90,7 @@ const HANDBOOK_SECTIONS = [
     title: 'Safety & Workplace',
     summary: 'Workplace safety, incident reporting, drug-free workplace, and emergency procedures.',
     content: [
-      'Elevate for Humanity maintains a drug-free workplace. Use, possession, or distribution of controlled substances on company property is prohibited.',
+      '{PLATFORM_DEFAULTS.orgName} maintains a drug-free workplace. Use, possession, or distribution of controlled substances on company property is prohibited.',
       'All workplace injuries or incidents must be reported to HR within 24 hours, regardless of severity.',
       'Emergency procedures are posted at each office location. Familiarize yourself with evacuation routes on your first day.',
       'OSHA rights: You have the right to a safe workplace. Report unsafe conditions to your supervisor or HR without fear of retaliation.',
@@ -154,11 +155,11 @@ export default async function EmployeeHandbookPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold">Employee Handbook</h1>
-              <p className="text-slate-500 text-sm">Elevate for Humanity Career &amp; Technical Institute · {new Date().getFullYear()} Edition</p>
+              <p className="text-slate-500 text-sm">{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute · {new Date().getFullYear()} Edition</p>
             </div>
           </div>
           <p className="text-slate-600 max-w-2xl">
-            This handbook describes the policies, procedures, and expectations for all Elevate for Humanity employees.
+            This handbook describes the policies, procedures, and expectations for all {PLATFORM_DEFAULTS.orgName} employees.
             Please read each section carefully and acknowledge at the bottom.
           </p>
           {ack && (

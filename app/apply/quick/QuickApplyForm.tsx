@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getActivePrograms } from '@/lib/program-registry';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function QuickApplyForm() {
   const router = useRouter();
@@ -33,13 +34,13 @@ export default function QuickApplyForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Something went wrong. Please try again or call 317-314-3757.');
+        setError(data.error || 'Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         return;
       }
 
       router.push('/apply/confirmation');
     } catch {
-      setError('Something went wrong. Please try again or call 317-314-3757.');
+      setError('Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setSubmitting(false);
     }
@@ -146,8 +147,8 @@ export default function QuickApplyForm() {
 
       <p className="text-xs text-slate-500 text-center">
         We'll contact you within 1–2 business days. Need help?{' '}
-        <a href="tel:3173143757" className="text-emerald-600 hover:underline">
-          317-314-3757
+        <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-emerald-600 hover:underline">
+          {PLATFORM_DEFAULTS.supportPhone}
         </a>
       </p>
     </form>

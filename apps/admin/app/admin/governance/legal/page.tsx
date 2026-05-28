@@ -7,10 +7,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Building2, Handshake, Heart, GraduationCap, FileText, Mail, MapPin, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Legal & Entity Information | Elevate for Humanity',
-  description: 'Corporate structure, entity relationships, and governance documents for Elevate for Humanity Career & Technical Institute.',
+  title: 'Legal & Entity Information | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Corporate structure, entity relationships, and governance documents for {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
   robots: {
     index: false,
     follow: false,
@@ -64,7 +65,7 @@ export default async function LegalGovernancePage() {
               </div>
               <div>
                 <p className="text-sm text-slate-500">Trade Name (DBA)</p>
-                <p className="font-semibold text-slate-900">Elevate for Humanity Career &amp; Technical Institute</p>
+                <p className="font-semibold text-slate-900">{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
               </div>
               <div>
                 <p className="text-sm text-slate-500">Entity Type</p>
@@ -76,7 +77,7 @@ export default async function LegalGovernancePage() {
               </div>
             </div>
             <p className="text-slate-700 text-sm pt-2 border-t border-slate-200">
-              Elevate for Humanity Career &amp; Technical Institute (&ldquo;Elevate for Humanity&rdquo;) is operated
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute (&ldquo;{PLATFORM_DEFAULTS.orgName}&rdquo;) is operated
               by 2Exclusive LLC-S (the &ldquo;School,&rdquo; &ldquo;we,&rdquo; &ldquo;us&rdquo;). The School runs
               the institute, the website at elevateforhumanity.org, the learning management system,
               enrollment and credentialing systems, student contracts, and all associated workforce
@@ -143,7 +144,7 @@ export default async function LegalGovernancePage() {
             <p className="text-slate-700 text-sm pt-2 border-t border-slate-200">
               CurvatureBody Sculpting is a mental wellness program operated by Rise Forward Foundation.
               It is not a separate contracting entity. CurvatureBody provides wellness support services
-              to students enrolled in Elevate for Humanity training programs.
+              to students enrolled in {PLATFORM_DEFAULTS.orgName} training programs.
             </p>
           </div>
         </section>
@@ -174,7 +175,7 @@ export default async function LegalGovernancePage() {
             <p className="text-slate-700 text-sm">
               Unless a specific written agreement states otherwise, training enrollment, platform access,
               and website use are provided by 2Exclusive LLC-S. Rise Forward Foundation and training
-              partners do not control the Elevate for Humanity website or student contracts except
+              partners do not control the {PLATFORM_DEFAULTS.orgName} website or student contracts except
               where explicitly stated.
             </p>
           </div>
@@ -187,7 +188,7 @@ export default async function LegalGovernancePage() {
           </h2>
           <div className="bg-slate-50 rounded-xl p-6">
             <ul className="space-y-2 text-slate-700 text-sm">
-              <li>&ldquo;Elevate for Humanity Career &amp; Technical Institute&rdquo; is a trade name (DBA) of 2Exclusive LLC-S.</li>
+              <li>&ldquo;{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute&rdquo; is a trade name (DBA) of 2Exclusive LLC-S.</li>
               <li>&ldquo;Rise Forward Foundation&rdquo; is a trade name of Selfish Inc.</li>
               <li>&ldquo;CurvatureBody Sculpting&rdquo; is a program of Rise Forward Foundation (not a separate entity).</li>
               <li>&ldquo;Tax Operations&rdquo; is a trade name of 2Exclusive LLC-S, used exclusively for tax preparation services.</li>
@@ -255,7 +256,7 @@ export default async function LegalGovernancePage() {
               <Phone className="w-4 h-4 text-slate-500" />
               <div>
                 <p className="text-sm text-slate-500">Phone</p>
-                <p className="text-slate-900">(317) 314-3757</p>
+                <p className="text-slate-900">{PLATFORM_DEFAULTS.supportPhone}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">

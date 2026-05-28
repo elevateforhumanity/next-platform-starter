@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, ArrowRight, CheckCircle, Calendar, Sun, Moon } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type SchedulePreference = 'day' | 'evening' | 'weekend' | 'flexible';
 
@@ -222,7 +223,7 @@ export default function SchedulePage() {
 
         <p className="text-xs text-slate-400 mt-4">
           Need a custom schedule?{' '}
-          <a href="tel:+13173143757" className="underline">Call (317) 314-3757</a> to discuss options.
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">Call {PLATFORM_DEFAULTS.supportPhone}</a> to discuss options.
         </p>
       </div>
     </div>

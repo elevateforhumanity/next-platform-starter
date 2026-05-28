@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   applicationId: string;
@@ -142,7 +143,7 @@ export default function ApplicationActions({
   const program = programInterest.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   const inquirySubject = encodeURIComponent(`Your Application Inquiry — ${program}`);
   const inquiryBody = encodeURIComponent(
-    `Hi ${applicantName},\n\nThank you for your interest in the ${program} program at Elevate for Humanity.\n\nWe wanted to follow up regarding your application and answer any questions you may have.\n\nPlease reply to this email or call us at (317) 314-3757.\n\nBest regards,\nElevate for Humanity\n(317) 314-3757\nelevate4humanityedu@gmail.com`,
+    `Hi ${applicantName},\n\nThank you for your interest in the ${program} program at ${PLATFORM_DEFAULTS.orgName}.\n\nWe wanted to follow up regarding your application and answer any questions you may have.\n\nPlease reply to this email or call us at ${PLATFORM_DEFAULTS.supportPhone}.\n\nBest regards,\n${PLATFORM_DEFAULTS.orgName}\n${PLATFORM_DEFAULTS.supportPhone}\nelevate4humanityedu@gmail.com`,
   );
   const inquiryHref = `mailto:${applicantEmail}?subject=${inquirySubject}&body=${inquiryBody}`;
 

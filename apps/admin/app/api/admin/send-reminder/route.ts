@@ -6,6 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireApiAuth } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -118,18 +119,18 @@ async function _POST(req: Request) {
       case 'workone_24hr':
         message = `Reminder: You have a WorkOne appointment tomorrow${
           checklist?.workone_appointment_date ? ` at ${checklist.workone_appointment_date}` : ''
-        }. Please attend and tell them you are enrolling with Elevate for Humanity. Call 317-314-3757 if you need help.`;
+        }. Please attend and tell them you are enrolling with ${PLATFORM_DEFAULTS.orgName}. Call ${PLATFORM_DEFAULTS.supportPhone} if you need help.`;
         break;
       case 'workone_2hr':
         message = `Reminder: Your WorkOne appointment is in 2 hours${
           checklist?.workone_location ? ` at ${checklist.workone_location}` : ''
-        }. Tell them you are enrolling with Elevate for Humanity.`;
+        }. Tell them you are enrolling with ${PLATFORM_DEFAULTS.orgName}.`;
         break;
       case 'workone_followup':
-        message = `Hi ${app.first_name}, we noticed you haven't attended your WorkOne appointment yet. Please call us at 317-314-3757 if you need help rescheduling.`;
+        message = `Hi ${app.first_name}, we noticed you haven't attended your WorkOne appointment yet. Please call us at ${PLATFORM_DEFAULTS.supportPhone} if you need help rescheduling.`;
         break;
       case 'icc_reminder':
-        message = `Hi ${app.first_name}, please create your account at IndianaCareerConnect.com and schedule your WorkOne appointment. Call 317-314-3757 if you need help.`;
+        message = `Hi ${app.first_name}, please create your account at IndianaCareerConnect.com and schedule your WorkOne appointment. Call ${PLATFORM_DEFAULTS.supportPhone} if you need help.`;
         break;
       default:
         return NextResponse.json({ error: 'Invalid reminder type' }, { status: 400 });

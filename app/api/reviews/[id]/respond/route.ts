@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -68,7 +69,7 @@ async function _POST(request: Request, { params }: { params: Promise<{ id: strin
     if (review.reviewer_email) {
       await supabase.from('email_queue').insert({
         to_email: review.reviewer_email,
-        from_email: 'noreply@elevateforhumanity.org',
+        from_email: PLATFORM_DEFAULTS.emailFromAddress,
         subject: 'Response to Your Review',
         template_name: 'review_response',
         template_data: {

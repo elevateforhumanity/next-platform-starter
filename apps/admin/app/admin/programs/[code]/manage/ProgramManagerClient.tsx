@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Plus,
   Trash2,
   ExternalLink,
@@ -704,7 +705,7 @@ export default function ProgramManagerClient({
       {/* Footer actions */}
       <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
         <a
-          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/programs/${programCode}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/programs/${programCode}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50"

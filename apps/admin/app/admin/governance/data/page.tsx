@@ -7,12 +7,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { 
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield, Clock, Trash2, Lock, FileText, 
   Database, Eye, AlertTriangle 
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Data Governance | Elevate for Humanity',
+  title: 'Data Governance | {PLATFORM_DEFAULTS.orgName}',
   description: 'Data retention, deletion policies, and governance framework for the Elevate Workforce Operating System.',
   robots: {
     index: false,

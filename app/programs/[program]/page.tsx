@@ -14,10 +14,11 @@ import heroBanners from '@/content/heroBanners';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 // Slugs that have a dedicated /programs/{slug}/apply page.
 // All others fall back to /apply?program={slug} (generic intake).
@@ -45,15 +46,15 @@ export async function generateMetadata({
   const ogImage = getProgramOgImageUrl(program, SITE_URL);
 
   const ogBase = {
-    images: [{ url: ogImage, width: 1200, height: 630, alt: `${program.replace(/-/g, ' ')} training program at Elevate for Humanity` }],
-    siteName: 'Elevate for Humanity',
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `${program.replace(/-/g, ' ')} training program at ${PLATFORM_DEFAULTS.orgName}` }],
+    siteName: PLATFORM_DEFAULTS.orgName,
     type: 'website' as const,
   };
 
   // Static ProgramSchema — preferred source for metadata
   const sp = getStaticProgram(program);
   if (sp) {
-    const title = sp.metaTitle || `${sp.title} | Elevate for Humanity`;
+    const title = sp.metaTitle || `${sp.title} | ${PLATFORM_DEFAULTS.orgName}`;
     const description = sp.metaDescription || sp.subtitle || '';
     const img = sp.heroImage || ogImage;
     return {
@@ -68,7 +69,7 @@ export async function generateMetadata({
   // cf-programs fallback
   const cfp = staticPrograms.find((p) => p.slug === program);
   if (cfp) {
-    const title = `${cfp.title} | Elevate for Humanity`;
+    const title = `${cfp.title} | ${PLATFORM_DEFAULTS.orgName}`;
     const description = cfp.summary;
     return {
       title,
@@ -88,7 +89,7 @@ export async function generateMetadata({
       .eq('slug', program)
       .maybeSingle();
     if (data) {
-      const title = `${data.title} | Elevate for Humanity`;
+      const title = `${data.title} | ${PLATFORM_DEFAULTS.orgName}`;
       const description = data.short_description || data.description || '';
       return {
         title,
@@ -481,8 +482,8 @@ function ProgramPage({
           </div>
           <p className="mt-8 text-red-100 text-xs">
             Questions? Call or text{' '}
-            <a href="tel:3173143757" className="text-white font-bold underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-white font-bold underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

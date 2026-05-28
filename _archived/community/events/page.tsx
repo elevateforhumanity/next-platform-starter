@@ -5,12 +5,13 @@ import { getUpcomingEvents, getPastEvents } from '@/lib/data/events';
 import EventCard from '@/components/events/EventCard';
 import EventsEmptyState from '@/components/events/EventsEmptyState';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static'
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Community Events | Elevate for Humanity',
+  title: 'Community Events | {PLATFORM_DEFAULTS.orgName}',
   description: 'Live workshops, webinars, networking events, and Q&A sessions with the Elevate community.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/community/events' },
 };

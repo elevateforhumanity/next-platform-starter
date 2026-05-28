@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle, Users, Phone, Mail } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function FssaWaitlistPage() {
   const [form, setForm] = useState({
@@ -81,7 +82,7 @@ export default function FssaWaitlistPage() {
           <div className="bg-slate-50 rounded-xl p-5 text-sm text-slate-600 text-left space-y-2">
             <p className="font-semibold text-slate-800">While you wait:</p>
             <ul className="space-y-1 list-disc list-inside">
-              <li>Ask your case manager to contact us directly at (317) 314-3757</li>
+              <li>Ask your case manager to contact us directly at {PLATFORM_DEFAULTS.supportPhone}</li>
               <li>Gather any FSSA/TANF benefit documentation you have</li>
               <li>
                 <Link href="/programs" className="text-brand-blue-600 underline">
@@ -111,7 +112,7 @@ export default function FssaWaitlistPage() {
           </Link>
           <div>
             <h1 className="text-lg font-bold text-slate-900">FSSA IMPACT — Waitlist</h1>
-            <p className="text-sm text-slate-500">Elevate for Humanity</p>
+            <p className="text-sm text-slate-500">{PLATFORM_DEFAULTS.orgName}</p>
           </div>
         </div>
       </div>
@@ -133,10 +134,10 @@ export default function FssaWaitlistPage() {
           </div>
           <div className="flex flex-wrap gap-4 text-sm">
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="flex items-center gap-1.5 text-blue-700 hover:text-blue-900 font-medium"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a
               href="mailto:info@elevateforhumanity.org"
@@ -285,7 +286,7 @@ export default function FssaWaitlistPage() {
           </button>
 
           <p className="text-xs text-center text-slate-400">
-            By submitting you agree to be contacted by Elevate for Humanity regarding enrollment.
+            By submitting you agree to be contacted by {PLATFORM_DEFAULTS.orgName} regarding enrollment.
           </p>
         </form>
       </div>

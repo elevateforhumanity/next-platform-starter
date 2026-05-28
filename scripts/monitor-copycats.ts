@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Copycat Detection Script
  *
@@ -31,7 +32,7 @@ const UNIQUE_IDENTIFIERS = [
   'EFH-ORIGINAL-2024',
   'Elizabeth L. Greene',
   'elevateforhumanity.org',
-  'Elevate for Humanity',
+  '' + PLATFORM_DEFAULTS.orgName + '',
   'dmca@www.elevateforhumanity.org',
 ];
 
@@ -54,7 +55,7 @@ const PRIVATE_PREFIXES = ['100.', '192.168.', '10.', '172.16.', '172.17.',
 
 // Search queries to monitor
 const SEARCH_QUERIES = [
-  '"Elevate for Humanity" -site:elevateforhumanity.org',
+  '"' + PLATFORM_DEFAULTS.orgName + '" -site:elevateforhumanity.org',
   '"EFH-ORIGINAL-2024"',
   '"workforce development apprenticeship" "elevate"',
 
@@ -299,7 +300,7 @@ export async function checkUrl(url: string): Promise<void> {
  */
 async function main(): Promise<void> {
   console.log('='.repeat(60));
-  console.log('Elevate for Humanity - Copyright Monitoring');
+  console.log('' + PLATFORM_DEFAULTS.orgName + ' - Copyright Monitoring');
   console.log('='.repeat(60));
   console.log(`\nTimestamp: ${new Date().toISOString()}`);
 
@@ -343,7 +344,7 @@ For automated monitoring, consider:
 
 1. Google Alerts (Free):
    https://www.google.com/alerts
-   Set up alerts for: "Elevate for Humanity", "EFH-ORIGINAL-2024"
+   Set up alerts for: "" + PLATFORM_DEFAULTS.orgName + "", "EFH-ORIGINAL-2024"
 
 2. Copyscape (Paid):
    https://www.copyscape.com/copysentry.php

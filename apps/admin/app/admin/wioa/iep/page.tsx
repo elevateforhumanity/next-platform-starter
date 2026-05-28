@@ -13,9 +13,10 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import IepCreateButton from './IepCreateButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Individual Employment Plans | Admin | Elevate for Humanity',
+  title: 'Individual Employment Plans | Admin | {PLATFORM_DEFAULTS.orgName}',
 };
 
 export const dynamic = 'force-dynamic';

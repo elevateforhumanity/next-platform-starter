@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
 import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 import FundingEligibilityFlow, {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
 
@@ -127,7 +128,7 @@ export default function HvacApplyPage() {
       try {
         appData = await appResponse.json();
       } catch {
-        setError('Server error — please call (317) 314-3757 or try again in a moment.');
+        setError('Server error — please call {PLATFORM_DEFAULTS.supportPhone} or try again in a moment.');
         setErrorSeverity('critical');
         setLoading(false);
         return;
@@ -137,10 +138,10 @@ export default function HvacApplyPage() {
       if (!appResponse.ok) {
         const msg =
           appResponse.status === 503
-            ? 'Our system is temporarily unavailable. Please call (317) 314-3757 — we can take your application by phone.'
+            ? 'Our system is temporarily unavailable. Please call {PLATFORM_DEFAULTS.supportPhone} — we can take your application by phone.'
             : appResponse.status === 409
-              ? appData.error || 'A duplicate application was found. Please call (317) 314-3757.'
-              : appData.error || 'Failed to submit application. Please try again or call (317) 314-3757.';
+              ? appData.error || 'A duplicate application was found. Please call {PLATFORM_DEFAULTS.supportPhone}.'
+              : appData.error || 'Failed to submit application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.';
         setError(msg);
         setErrorSeverity('critical');
         setLoading(false);
@@ -255,7 +256,7 @@ export default function HvacApplyPage() {
       // Stripe BNPL (Afterpay/Klarna) — uses same /api/enroll/payment endpoint
       // Stripe automatically enables BNPL methods when the session amount qualifies
       if (paymentOption === 'stripe-bnpl') {
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
         const bnplResponse = await fetch('/api/enroll/payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -287,7 +288,7 @@ export default function HvacApplyPage() {
       // Uses /api/enroll/payment — no auth required, accepts program slug + amount
       const isFullPay = paymentOption === 'full';
       const chargeAmount = isFullPay ? PRICING.fullPrice : PRICING.depositAmount;
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
       const checkoutResponse = await fetch('/api/enroll/payment', {
         method: 'POST',
@@ -529,7 +530,7 @@ export default function HvacApplyPage() {
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="(317) 314-3757"
+                    placeholder={PLATFORM_DEFAULTS.supportPhone}
                   />
                 </div>
 

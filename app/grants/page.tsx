@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, Users, Building2, ArrowRight, Shield, GraduationCap } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Grants & Scholarships | Get Your Training Paid For',
@@ -371,7 +372,7 @@ export default function GrantsPage() {
           <p className="text-slate-700">
             Contact us at{' '}
             <a href="/support" className="font-semibold text-brand-blue-600 hover:underline">
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>{' '}
             or email{' '}
             <a href="/contact" className="font-semibold text-brand-blue-600 hover:underline">

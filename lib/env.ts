@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Environment configuration with SAFE fallbacks
 // This file ensures the app NEVER crashes due to missing env vars
 
@@ -15,7 +16,7 @@ export const env = {
   DATABASE_URL: safeEnv('DATABASE_URL'),
 
   // Site
-  NEXT_PUBLIC_SITE_URL: safeEnv('NEXT_PUBLIC_SITE_URL') || 'https://www.elevateforhumanity.org',
+  NEXT_PUBLIC_SITE_URL: safeEnv('NEXT_PUBLIC_SITE_URL') || PLATFORM_DEFAULTS.siteUrl,
 
   // Stripe
   STRIPE_SECRET_KEY: safeEnv('STRIPE_SECRET_KEY'),

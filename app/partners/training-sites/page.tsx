@@ -27,13 +27,14 @@ import {
   type TrainingPartner,
 } from '@/data/training-partners';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const metadata: Metadata = {
   title: 'Employer Partners & Training Sites',
   description:
-    'Approved employer training sites where Elevate for Humanity students complete hands-on training, OJT hours, clinical rotations, and apprenticeship placements across Indiana.',
+    'Approved employer training sites where {PLATFORM_DEFAULTS.orgName} students complete hands-on training, OJT hours, clinical rotations, and apprenticeship placements across Indiana.',
   alternates: { canonical: `${SITE_URL}/partners/training-sites` },
 };
 
@@ -196,7 +197,7 @@ export default async function TrainingSitesPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apprenticeship-hero.webp"
-          alt="Elevate for Humanity training sites and employer partners"
+          alt="{PLATFORM_DEFAULTS.orgName} training sites and employer partners"
           fill
           className="object-cover object-center"
           priority
@@ -303,7 +304,7 @@ export default async function TrainingSitesPage() {
                 <h2 className="text-2xl font-black text-slate-900 mb-2">Active Training Sites</h2>
                 <p className="text-slate-600">
                   The following employers and training sites have active, documented agreements with
-                  Elevate for Humanity. Each site has been verified for licensing, supervision
+                  {PLATFORM_DEFAULTS.orgName}. Each site has been verified for licensing, supervision
                   capability, and safety standards.
                 </p>
               </div>
@@ -397,7 +398,7 @@ export default async function TrainingSitesPage() {
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
               <Image
                 src="/images/pages/employer-handshake.webp"
-                alt="Employer partnership with Elevate for Humanity"
+                alt="Employer partnership with {PLATFORM_DEFAULTS.orgName}"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
@@ -416,7 +417,7 @@ export default async function TrainingSitesPage() {
           </div>
           <p className="text-slate-700 mb-8 max-w-3xl">
             Every employer training site operates under at least one of the following documented
-            agreements with Elevate for Humanity. Documentation is maintained on file and available
+            agreements with {PLATFORM_DEFAULTS.orgName}. Documentation is maintained on file and available
             for review by authorized regulatory agencies, workforce boards, and grant auditors.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

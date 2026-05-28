@@ -15,6 +15,7 @@ import {
 import { IPLA_EXAM_INFO, IPLA_EXAM_FEES } from '@/lib/payment-config';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   APPRENTICESHIP_REQUIRED_HOURS,
   getApprenticeshipRequiredHours,
 } from '@/lib/compliance/apprenticeship';
@@ -376,10 +377,10 @@ export default async function StateBoardExamPage() {
           <p className="text-sm text-slate-500 mb-4">We&apos;re here to help you get licensed.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="text-sm font-medium text-purple-700 bg-purple-50 border border-purple-200 px-4 py-2 rounded-lg hover:bg-purple-100 transition-colors"
             >
-              Call 317-314-3757
+              Call {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a
               href="/contact"

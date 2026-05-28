@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Database, FileCheck, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Impact Methodology | Elevate for Humanity',
+  title: 'Impact Methodology | {PLATFORM_DEFAULTS.orgName}',
   description:
-    'How Elevate for Humanity defines, measures, and reports workforce outcomes — enrollment, completion, credential attainment, and employment placement.',
+    'How {PLATFORM_DEFAULTS.orgName} defines, measures, and reports workforce outcomes — enrollment, completion, credential attainment, and employment placement.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/impact/methodology' },
 };
 
@@ -86,7 +87,7 @@ export default function ImpactMethodologyPage() {
           </p>
           <h1 className="text-4xl font-extrabold mb-4 leading-tight">Impact Methodology</h1>
           <p className="text-slate-300 text-lg max-w-2xl leading-relaxed">
-            How we define, measure, and report workforce outcomes across all Elevate for Humanity programs.
+            How we define, measure, and report workforce outcomes across all {PLATFORM_DEFAULTS.orgName} programs.
           </p>
         </div>
       </section>
@@ -96,7 +97,7 @@ export default function ImpactMethodologyPage() {
         <div className="max-w-4xl mx-auto flex items-start gap-4">
           <FileCheck className="w-6 h-6 text-brand-blue-600 shrink-0 mt-0.5" />
           <p className="text-slate-700 text-sm leading-relaxed">
-            Elevate for Humanity publishes this methodology so that students, funders, workforce boards, and auditors can independently verify how our reported numbers are calculated. Every metric on our{' '}
+            {PLATFORM_DEFAULTS.orgName} publishes this methodology so that students, funders, workforce boards, and auditors can independently verify how our reported numbers are calculated. Every metric on our{' '}
             <Link href="/outcomes" className="text-brand-blue-600 underline font-medium">Outcomes page</Link>{' '}
             maps directly to a definition below.
           </p>

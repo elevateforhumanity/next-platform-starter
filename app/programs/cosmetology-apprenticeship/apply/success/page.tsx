@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Received | Cosmetology Apprenticeship',
@@ -35,7 +36,7 @@ export default function CosmetologyApplySuccessPage() {
           </div>
 
           <p className="text-sm text-slate-500 mb-6">
-            Questions? Contact us at <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a> or call <a href="tel:+13173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>
+            Questions? Contact us at <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a> or call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
           </p>
 
           <div className="space-y-3">

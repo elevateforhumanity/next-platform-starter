@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Upload, X, ExternalLink } from 'lucide-react';
 import { getActiveProgramsByCategory } from '@/lib/program-registry';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PROGRAM_TYPES = [
   ...getActiveProgramsByCategory().map((g) => g.category),
@@ -943,7 +944,7 @@ export default function ProviderApplicationForm() {
                 <span className="text-sm text-slate-700">
                   I confirm that the information provided is accurate and that I am authorized to
                   submit this application on behalf of my organization. I understand that approval
-                  is subject to review and that Elevate for Humanity may request additional
+                  is subject to review and that {PLATFORM_DEFAULTS.orgName} may request additional
                   documentation.
                 </span>
               </label>

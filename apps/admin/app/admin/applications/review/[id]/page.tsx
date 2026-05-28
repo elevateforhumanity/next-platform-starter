@@ -10,8 +10,9 @@ import { withTimeout } from '@/lib/utils/withTimeout';
 import ApplicationActions from './ApplicationActions';
 import EditApplicationForm from './EditApplicationForm';
 import { resolveProgram } from '@/lib/programs/resolve';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org';
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl;
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;

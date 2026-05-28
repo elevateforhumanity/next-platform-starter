@@ -19,6 +19,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 import fs from 'fs/promises';
 import { generateTextToSpeech } from '../server/tts-service';
 import { createInstructorCompositeFrame } from '../server/video-renderer';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Lazy-load native deps
 let _ffmpeg: any = null;
@@ -60,7 +61,7 @@ const SCENES: LessonScene[] = [
     id: 'title',
     slideTitle: 'Welcome to Bookkeeping & QuickBooks',
     slideText:
-      'Elevate for Humanity\n\n' +
+      '' + PLATFORM_DEFAULTS.orgName + '\n\n' +
       'Bookkeeping & QuickBooks Certified User Program\n\n' +
       '5-Week Certiport-Aligned Program\n' +
       '• QuickBooks Certified User (QBCU)\n' +

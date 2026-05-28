@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 import { getStripe, stripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
 import { emitEvent } from '@/lib/events/emit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function tierFromPrice(priceId?: string | null): 'free' | 'student' | 'career' {
   if (!priceId) return 'free';
@@ -282,13 +283,13 @@ export async function POST(req: Request) {
               programDetails?.slug === 'barber-apprenticeship'
             ) {
               const barberEmail = {
-                subject: 'Welcome to Barber Apprenticeship — Elevate for Humanity',
-                html: `<p>Hi ${firstName || 'Student'},</p><p>You are now enrolled in the Barber Apprenticeship program. Log in to your dashboard to get started: <a href="https://www.elevateforhumanity.org/lms/dashboard">Dashboard</a></p><p>Questions? Call or text (317) 314-3757.</p>`,
-                text: `Hi ${firstName || 'Student'},\n\nYou are now enrolled in the Barber Apprenticeship program.\n\nDashboard: https://www.elevateforhumanity.org/lms/dashboard\n\nQuestions? Call or text (317) 314-3757.`,
+                subject: 'Welcome to Barber Apprenticeship — ${PLATFORM_DEFAULTS.orgName}',
+                html: `<p>Hi ${firstName || 'Student'},</p><p>You are now enrolled in the Barber Apprenticeship program. Log in to your dashboard to get started: <a href="${PLATFORM_DEFAULTS.siteUrl}/lms/dashboard">Dashboard</a></p><p>Questions? Call or text ${PLATFORM_DEFAULTS.supportPhone}.</p>`,
+                text: `Hi ${firstName || 'Student'},\n\nYou are now enrolled in the Barber Apprenticeship program.\n\nDashboard: ${PLATFORM_DEFAULTS.siteUrl}/lms/dashboard\n\nQuestions? Call or text ${PLATFORM_DEFAULTS.supportPhone}.`,
               };
 
               await fetch(
-                `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+                `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/api/email/send`,
                 {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -305,7 +306,7 @@ export async function POST(req: Request) {
             } else {
               // Generic welcome email for other programs
               await fetch(
-                `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+                `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/api/email/send`,
                 {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -313,18 +314,18 @@ export async function POST(req: Request) {
                     to: email,
                     subject: `Welcome to ${programDetails?.name || 'Your Program'}!`,
                     html: `
-                  <h2>Welcome to Elevate for Humanity!</h2>
+                  <h2>Welcome to ${PLATFORM_DEFAULTS.orgName}!</h2>
                   <p>Hi ${firstName || 'there'},</p>
                   <p>Congratulations! Your enrollment in <strong>${programDetails?.name || 'your program'}</strong> is now active.</p>
                   <h3>Next Steps:</h3>
                   <ol>
-                    <li>Log in to your student portal: <a href="https://www.elevateforhumanity.org/login">Login Here</a></li>
+                    <li>Log in to your student portal: <a href="${PLATFORM_DEFAULTS.siteUrl}/login">Login Here</a></li>
                     <li>Complete your student profile</li>
                     <li>Access your course materials</li>
                     <li>Meet your instructor</li>
                   </ol>
-                  <p>Questions? Call us at <a href="tel:3173143757">317-314-3757</a></p>
-                  <p>Best regards,<br>Elevate for Humanity Team</p>
+                  <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a></p>
+                  <p>Best regards,<br>${PLATFORM_DEFAULTS.orgName} Team</p>
                 `,
                   }),
                 },

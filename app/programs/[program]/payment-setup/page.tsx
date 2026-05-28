@@ -9,6 +9,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Loader2 } from 'lucide-react';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -71,9 +72,9 @@ export default function BeautyPaymentSetupPage() {
       .then(r => r.json())
       .then(d => {
         if (d.clientSecret) setClientSecret(d.clientSecret);
-        else setFetchError('Unable to initialize payment. Please call (317) 314-3757.');
+        else setFetchError('Unable to initialize payment. Please call ${PLATFORM_DEFAULTS.supportPhone}.');
       })
-      .catch(() => setFetchError('Unable to initialize payment. Please call (317) 314-3757.'));
+      .catch(() => setFetchError('Unable to initialize payment. Please call ${PLATFORM_DEFAULTS.supportPhone}.'));
   }, [cfg?.slug]);
 
   if (!cfg) {

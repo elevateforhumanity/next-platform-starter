@@ -8,6 +8,7 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -246,7 +247,7 @@ async function processPendingEmails(supabase: any, workflow: any, now: Date) {
 
       // Send email
       await resend.emails.send({
-        from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+        from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
         to: enrollment.user_email,
         subject,
         html,

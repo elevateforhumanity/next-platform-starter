@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Users, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Staff Orientation',
@@ -35,7 +36,7 @@ const SECTIONS = [
   },
   {
     title: 'Getting help',
-    body: 'Your supervisor is your first point of contact for operational questions. For HR or payroll questions, contact hr@elevateforhumanity.org. For technical issues, use the staff help desk. For compliance questions, contact compliance@elevateforhumanity.org. For urgent matters, call (317) 314-3757.',
+    body: 'Your supervisor is your first point of contact for operational questions. For HR or payroll questions, contact hr@elevateforhumanity.org. For technical issues, use the staff help desk. For compliance questions, contact compliance@elevateforhumanity.org. For urgent matters, call {PLATFORM_DEFAULTS.supportPhone}.',
   },
 ];
 

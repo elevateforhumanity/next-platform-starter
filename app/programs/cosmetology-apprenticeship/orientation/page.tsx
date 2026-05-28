@@ -19,9 +19,10 @@ import {
   Scissors,
 } from 'lucide-react';
 import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TOTAL_HOURS_REQUIRED } from '@/lib/cosmetology/pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Welcome to Your Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Welcome to Your Cosmetology Apprenticeship | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Your orientation guide for the Elevate cosmetology apprenticeship program. Everything you need to start your first week.',
   robots: { index: false, follow: false },
@@ -341,7 +342,7 @@ export default async function CosmetologyOrientationPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl mx-auto">
             <a
-              href="tel:+13173143757"
+              href="tel:+1${PLATFORM_DEFAULTS.supportPhone}"
               className="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-5 transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-brand-red-100 flex items-center justify-center shrink-0">
@@ -349,11 +350,11 @@ export default async function CosmetologyOrientationPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Call Us</p>
-                <p className="text-slate-600 text-sm">(317) 314-3757</p>
+                <p className="text-slate-600 text-sm">${PLATFORM_DEFAULTS.supportPhone}</p>
               </div>
             </a>
             <a
-              href="mailto:programs@elevateforhumanity.org"
+              href="mailto:programs@${PLATFORM_DEFAULTS.canonicalDomain}"
               className="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-5 transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-brand-red-100 flex items-center justify-center shrink-0">
@@ -361,7 +362,7 @@ export default async function CosmetologyOrientationPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Email Us</p>
-                <p className="text-slate-600 text-sm">programs@elevateforhumanity.org</p>
+                <p className="text-slate-600 text-sm">programs@${PLATFORM_DEFAULTS.canonicalDomain}</p>
               </div>
             </a>
           </div>

@@ -4,10 +4,11 @@ import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const maxDuration = 60;
 
 // System prompt for the AI receptionist
-const RECEPTIONIST_PROMPT = `You are the AI receptionist for Elevate for Humanity, a workforce development organization in Indiana.
+const RECEPTIONIST_PROMPT = `You are the AI receptionist for ${PLATFORM_DEFAULTS.orgName}, a workforce development organization in Indiana.
 
 Your role is to:
 - Answer questions quickly and professionally (keep responses under 100 words)

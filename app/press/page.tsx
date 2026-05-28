@@ -5,13 +5,14 @@ import { Calendar, ArrowRight, Newspaper, Mail, Download } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { formatPostDate } from '@/lib/data/news';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Press & Media',
   description:
-    'Press coverage, media resources, and contact information for journalists covering Elevate for Humanity workforce development programs.',
+    'Press coverage, media resources, and contact information for journalists covering {PLATFORM_DEFAULTS.orgName} workforce development programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/press' },
 };
 

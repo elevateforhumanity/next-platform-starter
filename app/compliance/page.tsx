@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Compliance & Credentials',
   description:
-    'Compliance posture, credential disclosure, and program-to-credential mapping for Elevate for Humanity workforce programs.',
+    'Compliance posture, credential disclosure, and program-to-credential mapping for {PLATFORM_DEFAULTS.orgName} workforce programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/compliance',
   },
@@ -42,12 +43,12 @@ export default async function CompliancePage() {
           <div className="bg-white rounded-xl shadow-sm p-6 space-y-4 text-slate-900">
             <p>
               Training is delivered through licensed credential partners and approved program
-              holders under centralized institutional oversight by Elevate for Humanity, preparing
+              holders under centralized institutional oversight by {PLATFORM_DEFAULTS.orgName}, preparing
               students for industry-recognized credentials.
               <strong>
                 {' '}
                 Credentials and licenses are issued by external credential bodies, exam providers,
-                and state agencies — not by Elevate for Humanity.
+                and state agencies — not by {PLATFORM_DEFAULTS.orgName}.
               </strong>
             </p>
             <p>
@@ -190,7 +191,7 @@ export default async function CompliancePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Data Security & Privacy</h2>
           <div className="bg-white rounded-xl shadow-sm p-6 space-y-4 text-slate-900">
             <p>
-              Elevate for Humanity collects personal information — including government-issued IDs,
+              {PLATFORM_DEFAULTS.orgName} collects personal information — including government-issued IDs,
               Social Security Numbers, and eligibility documents — as required for workforce funding
               verification under WIOA, WRG, and Job Ready Indy guidelines. We treat this data with
               the highest level of care.
@@ -244,7 +245,7 @@ export default async function CompliancePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Workforce Board Alignment</h2>
           <div className="bg-white rounded-xl shadow-sm p-6 space-y-4 text-slate-900">
             <p>
-              Elevate for Humanity coordinates with the local workforce development board through{' '}
+              {PLATFORM_DEFAULTS.orgName} coordinates with the local workforce development board through{' '}
               <strong>WorkOne Indianapolis (Region 5)</strong> for all WIOA-funded participant
               services. This includes referrals, OJT contracts, work experience authorizations,
               credential attainment reporting, and employment outcome tracking.

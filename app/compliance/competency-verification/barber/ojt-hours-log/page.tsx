@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
 import { OjtDigitalLogger } from './OjtDigitalLogger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'OJT Hours Log — Barber Apprenticeship',
@@ -56,7 +57,7 @@ export default function OJTHoursLogPage() {
       <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-slate-900">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-[8px] uppercase tracking-widest text-slate-700 mb-0.5">Elevate for Humanity</p>
+            <p className="text-[8px] uppercase tracking-widest text-slate-700 mb-0.5">{PLATFORM_DEFAULTS.orgName}</p>
             <h1 className="text-base font-bold">ON-THE-JOB TRAINING (OJT) HOURS LOG</h1>
             <p className="text-[9px] text-slate-700">Barbering Apprenticeship | RAPIDS ID: 2025-IN-132301</p>
           </div>
@@ -195,7 +196,7 @@ export default function OJTHoursLogPage() {
         {/* Footer */}
         <div className="border-t pt-3 mt-6 text-center text-xs text-slate-700 print:text-[8px] print:pt-2 print:mt-4">
           <p>Maintain original in apprentice compliance file. Copy to LMS records.</p>
-          <p>Elevate for Humanity | RAPIDS ID: 2025-IN-132301</p>
+          <p>{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301</p>
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Invisible Watermark Component
  *
@@ -24,7 +25,7 @@ interface WatermarkProps {
   timestamp?: string;
 }
 export function InvisibleWatermark({
-  owner = 'Elizabeth L. Greene / Elevate for Humanity',
+  owner = 'Elizabeth L. Greene / {PLATFORM_DEFAULTS.orgName}',
   siteId = 'EFH-ORIGINAL-2024',
   timestamp,
 }: WatermarkProps) {
@@ -179,7 +180,7 @@ export function VisibleWatermark({
         <div style={{ fontSize: '9px', opacity: 0.6, marginTop: '4px' }}>{timestamp}</div>
       )}
       <div style={{ fontSize: '9px', opacity: 0.6, marginTop: '4px' }}>
-        © 2025 Elevate for Humanity
+        © 2025 {PLATFORM_DEFAULTS.orgName}
       </div>
     </div>
   );
@@ -195,7 +196,7 @@ export function DMCATrackingPixel() {
     if (process.env.NODE_ENV !== 'production') return;
     const trackingData = {
       siteId: 'EFH-ORIGINAL-2024',
-      owner: 'Elevate for Humanity',
+      owner: PLATFORM_DEFAULTS.orgName,
       url: window.location.href,
       referrer: document.referrer,
       timestamp: new Date().toISOString(),

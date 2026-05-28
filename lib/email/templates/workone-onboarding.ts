@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * WorkOne Program Onboarding Email
  *
@@ -25,12 +26,12 @@ export function workoneOnboardingEmail(data: WorkOneOnboardingData) {
   const calendlyLink = data.calendlyLink || 'https://calendly.com/elevate4humanityedu';
 
   return {
-    subject: `Next Steps for Your ${data.programName} Application — Elevate for Humanity`,
+    subject: `Next Steps for Your ${data.programName} Application — ${PLATFORM_DEFAULTS.orgName}`,
     html: `
 <div style="${baseStyles} max-width: 600px; margin: 0 auto; background: #ffffff;">
   <!-- Header -->
   <div style="background: #1e293b; padding: 28px; text-align: center; border-radius: 12px 12px 0 0;">
-    <h1 style="color: white; margin: 0; font-size: 24px;">Welcome to Elevate for Humanity</h1>
+    <h1 style="color: white; margin: 0; font-size: 24px;">Welcome to ${PLATFORM_DEFAULTS.orgName}</h1>
     <p style="color: #94a3b8; margin: 8px 0 0; font-size: 14px;">Career & Technical Institute — Indianapolis, IN</p>
   </div>
 
@@ -38,7 +39,7 @@ export function workoneOnboardingEmail(data: WorkOneOnboardingData) {
   <div style="padding: 32px; border: 1px solid #e2e8f0; border-top: none;">
     <p style="font-size: 16px;">Hi ${data.firstName},</p>
 
-    <p>Thank you for applying to the <strong>${data.programName}</strong> program at Elevate for Humanity. We received your application and are excited to help you get started.</p>
+    <p>Thank you for applying to the <strong>${data.programName}</strong> program at ${PLATFORM_DEFAULTS.orgName}. We received your application and are excited to help you get started.</p>
 
     <p>Before we can enroll you in training, there are a few steps you need to complete through <strong>WorkOne</strong>. This is required for funded training programs.</p>
 
@@ -90,15 +91,15 @@ export function workoneOnboardingEmail(data: WorkOneOnboardingData) {
     <p>If you have questions or need help with any of these steps, contact us:</p>
 
     <ul style="color: #4b5563; font-size: 14px;">
-      <li>Phone: <strong>(317) 314-3757</strong></li>
-      <li>Email: <a href="mailto:info@elevateforhumanity.org" style="color: #ea580c;">info@elevateforhumanity.org</a></li>
-      <li>Text: (317) 314-3757</li>
+      <li>Phone: <strong>${PLATFORM_DEFAULTS.supportPhone}</strong></li>
+      <li>Email: <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #ea580c;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a></li>
+      <li>Text: ${PLATFORM_DEFAULTS.supportPhone}</li>
     </ul>
 
     <p>We look forward to working with you.</p>
 
     <p style="margin-top: 24px;">
-      <strong>Elevate for Humanity</strong><br>
+      <strong>" + PLATFORM_DEFAULTS.orgName + "</strong><br>
       <span style="font-size: 14px; color: #64748b;">Career & Technical Institute</span>
     </p>
   </div>
@@ -106,8 +107,8 @@ export function workoneOnboardingEmail(data: WorkOneOnboardingData) {
   <!-- Footer -->
   <div style="background: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 12px 12px;">
     <p style="margin: 0;">Elevate for Humanity | 8888 Keystone Crossing, Indianapolis, IN</p>
-    <p style="margin: 4px 0 0;">(317) 314-3757 | info@elevateforhumanity.org</p>
-    <p style="margin: 8px 0 0;"><a href="https://www.elevateforhumanity.org" style="color: #ea580c;">www.elevateforhumanity.org</a></p>
+    <p style="margin: 4px 0 0;">" + PLATFORM_DEFAULTS.supportPhone + " | info@elevateforhumanity.org</p>
+    <p style="margin: 8px 0 0;"><a href={PLATFORM_DEFAULTS.siteUrl} style="color: #ea580c;">${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
   </div>
 </div>
     `.trim(),

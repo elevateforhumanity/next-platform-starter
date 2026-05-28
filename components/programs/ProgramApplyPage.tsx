@@ -19,6 +19,7 @@ import FundingEligibilityFlow, {
 } from '@/components/programs/FundingEligibilityFlow';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   program: ProgramSchema;
@@ -132,7 +133,7 @@ export default function ProgramApplyPage({ program }: Props) {
     (!isWorkoneFunding || workoneIntakeCompleted !== '') &&
     (formData.fundingInterest === 'self-pay' || fundedReady);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const affirmName = ACTIVE_BNPL_PROVIDERS.find((p) => p.id === 'affirm')?.name ?? 'Affirm';
   const sezzleName = ACTIVE_BNPL_PROVIDERS.find((p) => p.id === 'sezzle')?.name ?? 'Sezzle';
   const stripeBnplNames = ACTIVE_BNPL_PROVIDERS.filter((p) => p.stripeMethodId !== null)
@@ -179,10 +180,10 @@ export default function ProgramApplyPage({ program }: Props) {
       if (!appRes.ok) {
         const msg =
           appRes.status === 503
-            ? 'Our system is temporarily unavailable. Please call (317) 314-3757.'
+            ? 'Our system is temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone}.'
             : appRes.status === 409
-              ? appData.error || 'A duplicate application was found. Please call (317) 314-3757.'
-              : appData.error || 'Failed to submit. Please try again or call (317) 314-3757.';
+              ? appData.error || 'A duplicate application was found. Please call ${PLATFORM_DEFAULTS.supportPhone}.'
+              : appData.error || 'Failed to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.';
         setError(msg);
         setErrorSeverity('critical');
         setLoading(false);
@@ -325,7 +326,7 @@ export default function ProgramApplyPage({ program }: Props) {
         setLoading(false);
       }
     } catch {
-      setError('Something went wrong. Please try again or call (317) 314-3757.');
+      setError('Something went wrong. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.');
       setErrorSeverity('critical');
       setLoading(false);
     }
@@ -436,7 +437,7 @@ export default function ProgramApplyPage({ program }: Props) {
               <div className="mt-4 flex items-start gap-2">
                 <Info className="w-4 h-4 text-white/70 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-white/80">
-                  Questions? Call (317) 314-3757 or{' '}
+                  Questions? Call ${PLATFORM_DEFAULTS.supportPhone} or{' '}
                   <Link href="/contact" className="underline">contact us</Link>.
                 </p>
               </div>

@@ -5,12 +5,13 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Access Requests | Admin | Elevate for Humanity',
+  title: 'FERPA Access Requests | Admin | {PLATFORM_DEFAULTS.orgName}',
 };
 
 async function getAccessRequests() {

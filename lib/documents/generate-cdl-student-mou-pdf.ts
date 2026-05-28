@@ -6,6 +6,7 @@
  */
 
 import { PDFDocument, rgb, StandardFonts, PDFFont, PDFPage } from 'pdf-lib';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type CDLStudentMOUData = {
   // Signing party
@@ -26,11 +27,11 @@ export type CDLStudentMOUData = {
   mou_version?: string;
 };
 
-const SPONSOR = '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)';
+const SPONSOR = '2Exclusive LLC-S (DBA: ' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute)';
 const SPONSOR_SIGNER = 'Elizabeth Greene';
 const SPONSOR_TITLE = 'Founder & Chief Executive Officer';
 const ADDRESS = '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240';
-const PHONE = '(317) 314-3757';
+const PHONE = PLATFORM_DEFAULTS.supportPhone;
 const EMAIL = 'elevate4humanityedu@gmail.com';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -278,14 +279,14 @@ export async function generateCDLStudentMOUPdf(data: CDLStudentMOUData): Promise
   page.drawText('$500 per enrolled student — due at class start', {
     x: M + 10, y: y - 16, size: 11, font: bold, color: rgb(0.55, 0.27, 0.07),
   });
-  page.drawText('Elevate for Humanity covers the remaining program balance on behalf of the student.', {
+  page.drawText('${PLATFORM_DEFAULTS.orgName} covers the remaining program balance on behalf of the student.', {
     x: M + 10, y: y - 30, size: BODY, font: regular, color: rgb(0.2, 0.2, 0.2),
   });
   y -= boxH + 16;
 
   body(
     'Referral partners entering into this MOU agree to submit a $500 referral contribution per student at the ' +
-    'time of class start. Elevate for Humanity will fund the remaining balance of the program cost (up to the ' +
+    'time of class start. ${PLATFORM_DEFAULTS.orgName} will fund the remaining balance of the program cost (up to the ' +
     'full program price less $500) on behalf of the referred student. The referral partner is not responsible ' +
     'for any additional tuition beyond the $500 per-student contribution.'
   );
@@ -300,7 +301,7 @@ export async function generateCDLStudentMOUPdf(data: CDLStudentMOUData): Promise
 
   page.drawRectangle({ x: M, y: y - 14, width: tColW, height: 18, color: SECTION_COLOR });
   page.drawRectangle({ x: tCol2, y: y - 14, width: tColW, height: 18, color: rgb(0.75, 0.22, 0.17) });
-  page.drawText('Elevate for Humanity', { x: M + 6, y: y - 10, size: BODY, font: bold, color: rgb(1, 1, 1) });
+  page.drawText(PLATFORM_DEFAULTS.orgName, { x: M + 6, y: y - 10, size: BODY, font: bold, color: rgb(1, 1, 1) });
   page.drawText('Referral Partner', { x: tCol2 + 6, y: y - 10, size: BODY, font: bold, color: rgb(1, 1, 1) });
   y -= 22;
 

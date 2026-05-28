@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Funding Approved | Elevate for Humanity',
+  title: 'Funding Approved | {PLATFORM_DEFAULTS.orgName}',
   description: 'Your funding has been approved and processed',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/funding/success',
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 import { CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default async function FundingSuccessPage() {
   const supabase = createPublicClient();

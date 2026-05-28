@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Canonical certificate / verification types and mappers.
  *
@@ -82,7 +83,7 @@ export function mapCertificateRow(row: RawCertificateRow): CertificateRecord {
     learnerName: row.learner_name ?? 'Unknown Learner',
     credentialName: row.credential_name ?? 'Unnamed Credential',
     credentialType: row.credential_type ?? 'Certificate',
-    issuingAuthority: row.issuing_authority ?? 'Elevate for Humanity',
+    issuingAuthority: row.issuing_authority ?? PLATFORM_DEFAULTS.orgName,
     issuedAt: row.issued_at ?? new Date().toISOString(),
     expiresAt: row.expires_at ?? null,
     status: normalizeCertStatus(row.status),

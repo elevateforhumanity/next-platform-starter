@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building2, ClipboardCheck, Users, BookOpen,
   ShieldCheck, ArrowRight, CheckCircle, FileText,
 } from 'lucide-react';
@@ -11,7 +12,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Run a Program with Elevate | Training Providers & Program Holders',
   description:
-    'Partner with Elevate for Humanity to deliver workforce training. Whether you run a barbershop, cosmetology school, employer training site, or community org — here is how to get started.',
+    'Partner with {PLATFORM_DEFAULTS.orgName} to deliver workforce training. Whether you run a barbershop, cosmetology school, employer training site, or community org — here is how to get started.',
 };
 
 // ── Two distinct roles ────────────────────────────────────────────────────────

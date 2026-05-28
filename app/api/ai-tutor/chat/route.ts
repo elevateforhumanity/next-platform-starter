@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -12,9 +13,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 const SYSTEM_PROMPTS: Record<string, string> = {
-  chat: `You are an AI tutor for Elevate for Humanity, a workforce development platform in Indianapolis, Indiana. You help students studying for career certifications in healthcare, skilled trades, technology, business, and other fields. Provide clear, accurate, educational responses. Reference Indiana-specific licensing requirements, employers, and resources when relevant. Keep responses focused and practical.`,
-  essay: `You are an essay writing assistant for Elevate for Humanity students. Help students improve their writing with constructive feedback, structural suggestions, grammar corrections, and clarity improvements. Be encouraging but honest.`,
-  'study-guide': `You are a study guide creator for Elevate for Humanity students preparing for career certification exams. Create comprehensive study materials including key concepts, definitions, practice questions, and exam tips. Structure content clearly with headers and bullet points.`,
+  chat: `You are an AI tutor for ${PLATFORM_DEFAULTS.orgName}, a workforce development platform in Indianapolis, Indiana. You help students studying for career certifications in healthcare, skilled trades, technology, business, and other fields. Provide clear, accurate, educational responses. Reference Indiana-specific licensing requirements, employers, and resources when relevant. Keep responses focused and practical.`,
+  essay: `You are an essay writing assistant for ${PLATFORM_DEFAULTS.orgName} students. Help students improve their writing with constructive feedback, structural suggestions, grammar corrections, and clarity improvements. Be encouraging but honest.`,
+  'study-guide': `You are a study guide creator for ${PLATFORM_DEFAULTS.orgName} students preparing for career certification exams. Create comprehensive study materials including key concepts, definitions, practice questions, and exam tips. Structure content clearly with headers and bullet points.`,
 };
 
 const FALLBACK_RESPONSES: Record<string, string[]> = {

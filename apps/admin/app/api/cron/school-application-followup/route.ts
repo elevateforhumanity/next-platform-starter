@@ -17,6 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -25,7 +26,7 @@ export const maxDuration = 60;
 const SCHOOL_NAME = 'Mesmerized by Beauty Cosmetology Academy';
 const SCHOOL_EMAIL = 'mesmerizedbybeautyl@yahoo.com';
 const ELEVATE_BCC = 'info@elevateforhumanity.org';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
 const PROGRAM_LABELS: Record<string, string> = {
   'cosmetology-apprenticeship': 'Cosmetology',
@@ -38,7 +39,7 @@ const PROGRAM_LABELS: Record<string, string> = {
 function header(subtitle = '') {
   return `
   <div style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:32px;text-align:center">
-    <p style="color:rgba(255,255,255,0.75);font-size:11px;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px">Sponsored by Elevate for Humanity</p>
+    <p style="color:rgba(255,255,255,0.75);font-size:11px;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px">Sponsored by ${PLATFORM_DEFAULTS.orgName}</p>
     <h1 style="color:#fff;font-size:20px;font-weight:800;margin:0 0 4px">${SCHOOL_NAME}</h1>
     ${subtitle ? `<p style="color:rgba(255,255,255,0.8);font-size:13px;margin:0">${subtitle}</p>` : ''}
   </div>`;
@@ -49,7 +50,7 @@ function footer() {
   <div style="background:#f1f5f9;padding:20px 32px;text-align:center;border-top:1px solid #e2e8f0">
     <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">8325 Michigan Road · Indianapolis, IN 46268</p>
     <p style="color:#94a3b8;font-size:12px;margin:0">
-      Sponsored by <a href="${SITE_URL}" style="color:#7c3aed">Elevate for Humanity</a>
+      Sponsored by <a href="${SITE_URL}" style="color:#7c3aed">${PLATFORM_DEFAULTS.orgName}</a>
     </p>
   </div>`;
 }

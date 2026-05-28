@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Download, Share2, Printer, Loader2, ExternalLink, Copy } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CertificateData {
   id: string;
@@ -180,7 +181,7 @@ export default function CertificateDownload({
       
       <!-- Certificate number and verification -->
       <text x='700' y='900' text-anchor='middle' font-size='14' font-family='monospace' fill='#94a3b8'>Certificate #: ${certificate.certificate_number}</text>
-      <text x='700' y='920' text-anchor='middle' font-size='12' font-family='Arial, sans-serif' fill='#94a3b8'>Verify at: elevateforhumanity.org/verify/${certificate.verification_code}</text>
+      <text x='700' y='920' text-anchor='middle' font-size='12' font-family='Arial, sans-serif' fill='#94a3b8'>Verify at: ${PLATFORM_DEFAULTS.canonicalDomain}/verify/${certificate.verification_code}</text>
     </svg>`;
   };
 
@@ -295,7 +296,7 @@ export default function CertificateDownload({
 
     const shareData = {
       title: `${certificate.credential_type} - ${certificate.student_name}`,
-      text: `I earned my ${certificate.program_name} certificate from Elevate for Humanity!`,
+      text: `I earned my ${certificate.program_name} certificate from ${PLATFORM_DEFAULTS.orgName}!`,
       url: `${window.location.origin}/verify/${certificate.verification_code}`,
     };
 

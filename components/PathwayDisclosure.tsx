@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface PathwayDisclosureProps {
   programName?: string;
@@ -108,7 +109,7 @@ export default function PathwayDisclosure({
         {/* Disclosure Text */}
         <div className="bg-brand-blue-50 border border-brand-blue-100 rounded-lg p-4 text-xs text-slate-600 mb-5">
           <p>
-            Elevate for Humanity delivers all training through a structured career pathway.
+            {PLATFORM_DEFAULTS.orgName} delivers all training through a structured career pathway.
             Participants begin with an eligibility and career alignment phase, where funding
             eligibility is determined and program selection occurs. Once eligibility is confirmed,
             participants enter occupational training with structured on-the-job learning. Training

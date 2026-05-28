@@ -4,10 +4,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, Users, TrendingUp, Briefcase, Mail, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Transparency & Outcomes | Elevate for Humanity Career & Technical Institute',
-  description: 'Elevate for Humanity Career & Technical Institute is committed to transparency in how we deliver training and track outcomes.',
+  title: 'Transparency & Outcomes | {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+  description: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute is committed to transparency in how we deliver training and track outcomes.',
   robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/verification-approvals' },
 };
@@ -26,7 +27,7 @@ export default function TransparencyPage() {
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Transparency &amp; Outcomes</p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Program Verification</h1>
-          <p className="text-slate-300 text-lg max-w-2xl">Elevate for Humanity Career &amp; Technical Institute is committed to transparency in how we deliver training and track outcomes.</p>
+          <p className="text-slate-300 text-lg max-w-2xl">{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is committed to transparency in how we deliver training and track outcomes.</p>
         </div>
       </section>
 
@@ -70,7 +71,7 @@ export default function TransparencyPage() {
               </div>
             ))}
           </div>
-          <p className="text-slate-500 text-sm mt-6">To submit a verification request, contact: <a href="mailto:support@elevateforhumanity.org" className="text-brand-red-600 font-semibold hover:underline">support@elevateforhumanity.org</a></p>
+          <p className="text-slate-500 text-sm mt-6">To submit a verification request, contact: <a href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="text-brand-red-600 font-semibold hover:underline">{PLATFORM_DEFAULTS.supportEmail}</a></p>
         </div>
       </section>
 
@@ -87,7 +88,7 @@ export default function TransparencyPage() {
       <section className="py-14 px-4 bg-amber-50 border-y border-amber-100">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Ongoing Development</h2>
-          <p className="text-slate-700 leading-relaxed">We are actively expanding our partnerships and pursuing additional approvals and recognitions where appropriate. Elevate for Humanity Career &amp; Technical Institute is <strong>not currently approved as a postsecondary institution</strong> through the Indiana Department of Education. Our focus remains on delivering measurable outcomes and scalable workforce solutions.</p>
+          <p className="text-slate-700 leading-relaxed">We are actively expanding our partnerships and pursuing additional approvals and recognitions where appropriate. {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is <strong>not currently approved as a postsecondary institution</strong> through the Indiana Department of Education. Our focus remains on delivering measurable outcomes and scalable workforce solutions.</p>
         </div>
       </section>
 
@@ -98,7 +99,7 @@ export default function TransparencyPage() {
             <h2 className="text-xl font-bold text-white mb-2">Funders, Employers &amp; Agency Partners</h2>
             <p className="text-slate-500 text-sm">If you are seeking verification or partnership information, contact us directly.</p>
           </div>
-          <Link href="mailto:support@elevateforhumanity.org" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
+          <Link href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
             <Mail className="w-4 h-4" />Contact Us
           </Link>
         </div>

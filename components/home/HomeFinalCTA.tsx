@@ -8,6 +8,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function HomeFinalCTA() {
   return (
@@ -51,11 +52,11 @@ export function HomeFinalCTA() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-red-200 text-xs">
           <a
-            href="tel:3173143757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
             className="inline-flex items-center gap-1.5 text-white font-bold hover:text-red-100 transition-colors"
           >
             <Phone className="w-3.5 h-3.5" aria-hidden="true" />
-            (317) 314-3757
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
           <span className="hidden sm:block text-red-400" aria-hidden="true">·</span>
           <span>Call or text — Mon–Fri, 9am–5pm ET</span>

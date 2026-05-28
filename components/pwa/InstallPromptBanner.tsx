@@ -13,11 +13,12 @@
  */
 
 import { InstallPrompt } from './InstallPrompt';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function InstallPromptBanner() {
   return (
     <InstallPrompt
-      appName="Elevate for Humanity"
+      appName={PLATFORM_DEFAULTS.orgName}
       appDescription="Add to your home screen for fast access to your courses and programs."
       themeColor="#1E3A5F"
     />

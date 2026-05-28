@@ -6,10 +6,11 @@
  */
 
 import { getAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
-const FROM_NAME = 'Elizabeth Greene — Elevate for Humanity';
+const FROM_NAME = 'Elizabeth Greene — ' + PLATFORM_DEFAULTS.orgName + '';
 const APPLY_URL = 'https://www.elevateforhumanity.org/programs/hvac-technician/apply';
 
 if (!SENDGRID_API_KEY) {
@@ -25,7 +26,7 @@ async function sendEmail(to: string, firstName: string): Promise<boolean> {
 <body style="font-family:Georgia,serif;font-size:12px;color:#111;max-width:620px;margin:0 auto;padding:32px 24px;line-height:1.7;">
 
   <div style="border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:20px;">
-    <div style="font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">Elevate for Humanity</div>
+    <div style="font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">" + PLATFORM_DEFAULTS.orgName + "</div>
     <div style="font-size:10px;color:#444;margin-top:2px;">www.elevateforhumanity.org &nbsp;·&nbsp; Indianapolis, Indiana</div>
   </div>
 

@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import EmployerMOUSignForm from './EmployerMOUSignForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Employer Partnership MOU',
   description:
-    'Sign your Memorandum of Understanding with Elevate for Humanity to become an official employer hiring partner.',
+    'Sign your Memorandum of Understanding with {PLATFORM_DEFAULTS.orgName} to become an official employer hiring partner.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mou/employer' },
 };
 
@@ -44,7 +45,7 @@ export default async function EmployerMOUPage() {
       {/* Header */}
       <div className="bg-[#0e3a7d] text-white px-4 py-8 text-center">
         <p className="text-xs font-semibold tracking-widest uppercase text-blue-300 mb-2">
-          Elevate for Humanity · Technical and Career Institute
+          {PLATFORM_DEFAULTS.orgName} · Technical and Career Institute
         </p>
         <h1 className="text-2xl sm:text-3xl font-bold mb-2">Employer Partnership MOU</h1>
         <p className="text-blue-200 text-sm max-w-lg mx-auto">
@@ -77,7 +78,7 @@ export default async function EmployerMOUPage() {
 
         <p className="text-center text-xs text-slate-400 mt-6">
           Questions? Call Elizabeth Greene directly at{' '}
-          <a href="tel:3173143757" className="text-blue-600 hover:underline">(317) 314-3757</a>
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
           {' '}or email{' '}
           <a href="mailto:elevate4humanityedu@gmail.com" className="text-blue-600 hover:underline">
             elevate4humanityedu@gmail.com

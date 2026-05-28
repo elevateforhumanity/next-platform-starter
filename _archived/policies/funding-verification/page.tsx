@@ -6,8 +6,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, Phone, Mail, Shield, AlertCircle } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Funding Verification Policy | Elevate for Humanity',
+  title: 'Funding Verification Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Funding verification requirements for enrollment. Accepted funding sources, verification process, and required documentation.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies/funding-verification' },
 };

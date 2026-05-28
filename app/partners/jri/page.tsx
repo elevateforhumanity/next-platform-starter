@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: 'Job Ready Indy (JRI)',
   description:
-    'Elevate for Humanity is a Job Ready Indy approved training provider. JRI funding covers tuition for eligible Marion County residents.',
+    '{PLATFORM_DEFAULTS.orgName} is a Job Ready Indy approved training provider. JRI funding covers tuition for eligible Marion County residents.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/jri' },
 };
 
@@ -22,7 +23,7 @@ export default function JriPage() {
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">Job Ready Indy (JRI)</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
             Job Ready Indy is a Marion County workforce initiative that funds training for
-            high-demand careers. Elevate for Humanity is an approved JRI training provider.
+            high-demand careers. {PLATFORM_DEFAULTS.orgName} is an approved JRI training provider.
           </p>
           <div className="flex flex-wrap gap-3 mt-8">
             <Link

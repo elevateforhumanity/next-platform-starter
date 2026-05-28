@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import AICareerCounseling from '@/components/AICareerCounseling';
 import { ArrowRight, Clock, DollarSign, Award, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -69,7 +70,7 @@ export default async function CareerCounselingPage() {
               Start Free Counseling
             </a>
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="border-2 border-black text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-2"
             >
               <Phone className="w-4 h-4" /> Talk to a Person
@@ -147,10 +148,10 @@ export default async function CareerCounselingPage() {
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <a
-            href="tel:3173143757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
             className="bg-white text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-100 transition-colors flex items-center gap-2 text-lg"
           >
-            <Phone className="w-5 h-5" /> (317) 314-3757
+            <Phone className="w-5 h-5" /> {PLATFORM_DEFAULTS.supportPhone}
           </a>
           <Link
             href="/contact"

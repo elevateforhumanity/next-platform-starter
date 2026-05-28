@@ -17,6 +17,7 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import OpenAI from 'openai';
 import { getSceneVideoClips } from '@/lib/video/pexels';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'public/videos/barber-lessons');
@@ -38,7 +39,7 @@ const SCENES: SceneDef[] = [
   {
     heading: 'Welcome to the Program',
     keyword: 'barbershop interior professional atmosphere',
-    tagline: 'Elevate for Humanity - Indiana Barber Apprenticeship',
+    tagline: '' + PLATFORM_DEFAULTS.orgName + ' - Indiana Barber Apprenticeship',
     narration:
       'Welcome to the Elevate for Humanity Barber Apprenticeship Program. This orientation gives you the full picture before your first day: how the apprenticeship works, what is expected of you, and how to succeed.',
   },

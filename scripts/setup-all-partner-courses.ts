@@ -4,6 +4,7 @@
  */
 
 import Stripe from 'stripe';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 if (!process.env.STRIPE_SECRET_KEY) {
   process.exit(1);
@@ -413,7 +414,7 @@ const partnerCourses = {
       name: 'VITA Site Coordinator Training',
       basePrice: 50,
       price: 70,
-      provider: 'Elevate for Humanity',
+      provider: '' + PLATFORM_DEFAULTS.orgName + '',
       category: 'Tax Preparation',
       description: 'Annual certification',
     },

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { ArrowLeft, User, Mail, Phone, Building, MapPin } from 'lucide-react';
 import { createContactAction } from './actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -98,7 +99,7 @@ export default async function NewContactPage() {
                   type="tel"
                   name="phone"
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                  placeholder="(317) 314-3757"
+                  placeholder={PLATFORM_DEFAULTS.supportPhone}
                 />
               </div>
             </div>

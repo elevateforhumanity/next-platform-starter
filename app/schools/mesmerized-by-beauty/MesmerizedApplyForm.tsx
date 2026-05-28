@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PROGRAMS = [
   { value: 'cosmetology-apprenticeship',     label: 'Cosmetology Apprenticeship (2,000 hrs)' },
@@ -137,7 +138,7 @@ export default function MesmerizedApplyForm() {
         {status === 'submitting' ? 'Submitting…' : 'Submit Application'}
       </button>
 
-      <p className="text-xs text-slate-500 text-center">By submitting, you agree to be contacted by Mesmerized by Beauty and Elevate for Humanity regarding your application.</p>
+      <p className="text-xs text-slate-500 text-center">By submitting, you agree to be contacted by Mesmerized by Beauty and {PLATFORM_DEFAULTS.orgName} regarding your application.</p>
     </form>
   );
 }

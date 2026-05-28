@@ -4,6 +4,7 @@ import { toErrorMessage } from '@/lib/safe';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -34,7 +35,7 @@ async function _POST(request: NextRequest) {
 <body>
   <div class="container">
     <div class="header">
-      <h1>🎉 Welcome to Elevate for Humanity!</h1>
+      <h1>🎉 Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
     </div>
     <div class="content">
       <h2>Hi ${name},</h2>
@@ -43,13 +44,13 @@ async function _POST(request: NextRequest) {
 
       <div class="info-box">
         <h3>📚 Your Access Links:</h3>
-        <p><strong>Hub (Command Center):</strong> <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/hub">${process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '').replace('http://', '') || 'www.elevateforhumanity.org'}/hub</a></p>
-        <p><strong>LMS Dashboard:</strong> <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/learner/dashboard">${process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '').replace('http://', '') || 'www.elevateforhumanity.org'}/learner/dashboard</a></p>
+        <p><strong>Hub (Command Center):</strong> <a href="${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/hub">${process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '').replace('http://', '') || PLATFORM_DEFAULTS.canonicalDomain}/hub</a></p>
+        <p><strong>LMS Dashboard:</strong> <a href="${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/learner/dashboard">${process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '').replace('http://', '') || PLATFORM_DEFAULTS.canonicalDomain}/learner/dashboard</a></p>
         <p><strong>Email:</strong> ${to}</p>
         <p><strong>Password:</strong> The password you created during registration</p>
       </div>
 
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/hub" class="button">Go to Your Hub →</a>
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/hub" class="button">Go to Your Hub →</a>
 
       <h3>What's Next?</h3>
       <ul>
@@ -62,7 +63,7 @@ async function _POST(request: NextRequest) {
 
       <div class="info-box">
         <h3>📞 Need Help?</h3>
-        <p><strong>Phone:</strong> (317) 314-3757</p>
+        <p><strong>Phone:</strong> ${PLATFORM_DEFAULTS.supportPhone}</p>
         <p><strong>Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</p>
       </div>
 
@@ -71,7 +72,7 @@ async function _POST(request: NextRequest) {
       <p>We're excited to have you in our program!</p>
 
       <p>Best regards,<br>
-      <strong>Elevate for Humanity Team</strong></p>
+      <strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
     </div>
     <div class="footer">
       <p>Elevate for Humanity | Indianapolis, IN 46240</p>
@@ -93,7 +94,7 @@ async function _POST(request: NextRequest) {
         },
         body: JSON.stringify({
           personalizations: [{ to: [{ email: to }] }],
-          from: { name: 'Elevate for Humanity', email: 'onboarding@elevateforhumanity.org' },
+          from: { name: PLATFORM_DEFAULTS.orgName, email: 'onboarding@elevateforhumanity.org' },
           subject: '🎉 Welcome! Your LMS Access is Ready',
           content: [{ type: 'text/html', value: emailHTML }],
         }),

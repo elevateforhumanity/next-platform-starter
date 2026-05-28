@@ -8,6 +8,7 @@ import { logger } from '@/lib/logger';
 import { TESTING_CENTER, TESTING_EMAIL } from '@/lib/testing/testing-config';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { formatBookingDate } from '@/lib/testing/booking-validation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
@@ -109,7 +110,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
     stripeSessionId,
   } = parsed.data;
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const db = await requireAdminClient();
   const confirmationCode = generateCode();
@@ -182,7 +183,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
 <div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
   <div style="background:#1E3A5F;padding:28px 32px;text-align:center">
     // IMAGE-CONTRACT: allow raw img because legacy markup
-    <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" height="60" style="display:block;margin:0 auto 12px"/>
+    <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} height="60" style="display:block;margin:0 auto 12px"/>
     <p style="color:#94a3b8;font-size:13px;margin:0">Workforce Credential Testing Center · Indianapolis, IN</p>
   </div>
   <div style="padding:32px;color:#1E293B;font-size:15px;line-height:1.7">
@@ -210,7 +211,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
       </ul>
     </div>
     <p>Questions? Reply to this email or call <strong>${TESTING_CENTER.phone}</strong>.</p>
-    <p style="margin-bottom:0">See you soon,<br><strong>${TESTING_CENTER.coordinator.name}</strong><br>${TESTING_CENTER.coordinator.title}<br>Elevate for Humanity</p>
+    <p style="margin-bottom:0">See you soon,<br><strong>${TESTING_CENTER.coordinator.name}</strong><br>${TESTING_CENTER.coordinator.title}<br>${PLATFORM_DEFAULTS.orgName}</p>
   </div>
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:20px 32px;text-align:center;color:#64748b;font-size:12px">
     <p style="margin:0">${TESTING_CENTER.address} · ${TESTING_CENTER.phone}</p>
@@ -244,7 +245,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
 <div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
   <div style="background:#1E3A5F;padding:28px 32px;text-align:center">
     // IMAGE-CONTRACT: allow raw img because legacy markup
-    <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" height="60" style="display:block;margin:0 auto 12px"/>
+    <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} height="60" style="display:block;margin:0 auto 12px"/>
     <p style="color:#94a3b8;font-size:13px;margin:0">Certification Success Package</p>
   </div>
   <div style="padding:32px;color:#1E293B;font-size:15px;line-height:1.7">
@@ -260,7 +261,7 @@ export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
       </table>
     </div>
     <p>If you don't have an LMS account yet, reply to this email and we'll get you set up before your exam date.</p>
-    <p style="margin-bottom:0">Good luck,<br><strong>${TESTING_CENTER.coordinator.name}</strong><br>${TESTING_CENTER.coordinator.title}<br>Elevate for Humanity</p>
+    <p style="margin-bottom:0">Good luck,<br><strong>${TESTING_CENTER.coordinator.name}</strong><br>${TESTING_CENTER.coordinator.title}<br>${PLATFORM_DEFAULTS.orgName}</p>
   </div>
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:20px 32px;text-align:center;color:#64748b;font-size:12px">
     <p style="margin:0">${TESTING_CENTER.address} · ${TESTING_CENTER.phone}</p>

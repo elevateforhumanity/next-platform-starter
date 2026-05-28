@@ -18,6 +18,7 @@ import {
   Phone,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /* Data contract */
 
@@ -54,7 +55,7 @@ export interface WorkforceProgramData {
   slug: string;
   programId: string; // INTraining ID e.g. "#10004322"
   providerName: string; // "2Exclusive LLC-S" on INTraining
-  locationName: string; // "Elevate for Humanity Training Center"
+  locationName: string; // "{PLATFORM_DEFAULTS.orgName} Training Center"
   category: string;
   categoryHref: string;
   heroImage: string;

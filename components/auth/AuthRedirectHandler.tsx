@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function AuthRedirectHandler() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export default function AuthRedirectHandler() {
     }
 
     // Check for an explicit ?next= param encoded in the landing URL.
-    // Magic links are generated with redirect_to=https://www.elevateforhumanity.org?next=/apprentice
+    // Magic links are generated with redirect_to=${PLATFORM_DEFAULTS.siteUrl}?next=/apprentice
     // Supabase preserves query params on the base URL even when it strips the path.
     const searchParams = new URLSearchParams(window.location.search);
     const next = searchParams.get('next');

@@ -8,6 +8,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'payment');
@@ -94,7 +95,7 @@ export async function POST(request: NextRequest) {
       'link',
     ];
 
-    const baseUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+    const baseUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl);
 
     let sessionConfig: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: paymentMethodTypes,

@@ -13,6 +13,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -207,7 +208,7 @@ export default function AvatarChatBar() {
           content:
             data.message ||
             data.response ||
-            "I'm here to help! Please try again or call (317) 314-3757.",
+            "I'm here to help! Please try again or call {PLATFORM_DEFAULTS.supportPhone}.",
         },
       ]);
 
@@ -222,7 +223,7 @@ export default function AvatarChatBar() {
         ...prev,
         {
           role: 'assistant',
-          content: 'Connection issue. Please call (317) 314-3757 for immediate help.',
+          content: 'Connection issue. Please call {PLATFORM_DEFAULTS.supportPhone} for immediate help.',
         },
       ]);
     } finally {

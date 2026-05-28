@@ -21,6 +21,7 @@ import {
 import { DOCUMENT_TYPE_LABELS, getRequiredDocuments, type DocumentType } from '@/lib/partner/types';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { SponsorshipInfoPanel } from '@/components/partner/SponsorshipInfoPanel';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const AVAILABLE_PROGRAMS = [
   {
@@ -338,7 +339,7 @@ export default function PartnerOnboardingPage() {
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="(317) 314-3757"
+                    placeholder={PLATFORM_DEFAULTS.supportPhone}
                   />
                 </div>
               </div>

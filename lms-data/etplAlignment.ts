@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export interface EtplAlignmentProfile {
   programId: string;
   label: string;
@@ -34,7 +35,7 @@ export const etplAlignmentProfiles: EtplAlignmentProfile[] = [
     programId: 'prog-barber',
     label: 'Barber Apprenticeship',
     onETPL: true,
-    etplProgramName: 'Barber Apprenticeship (Elevate for Humanity CTI)',
+    etplProgramName: 'Barber Apprenticeship (' + PLATFORM_DEFAULTS.orgName + ' CTI)',
     etplProviderId: 'ETPL-IND-XXXX-BARB',
     wrgEligible: false,
     wioaAdultEligible: true,

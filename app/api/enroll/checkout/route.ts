@@ -26,6 +26,7 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -148,14 +149,14 @@ async function _POST(req: Request) {
       }
     }
 
-    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl);
 
     if (!stripe) {
       logger.error('Stripe not configured — STRIPE_SECRET_KEY missing');
       return NextResponse.json(
         {
           error:
-            'Payment processing is temporarily unavailable. Please contact admissions at info@elevateforhumanity.org.',
+            'Payment processing is temporarily unavailable. Please contact admissions at info@${PLATFORM_DEFAULTS.canonicalDomain}.',
         },
         { status: 503 },
       );

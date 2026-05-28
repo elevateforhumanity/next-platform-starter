@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: "You're In — CNA Program",
@@ -57,16 +58,16 @@ export default function CNAApplySuccessPage() {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="tel:3173143757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
             className="rounded-xl bg-brand-blue-700 px-6 py-3.5 font-semibold text-white hover:bg-brand-blue-800 transition-colors"
           >
-            Call Now &mdash; 317-314-3757
+            Call Now &mdash; {PLATFORM_DEFAULTS.supportPhone}
           </a>
           <a
             href="sms:3173143757"
             className="rounded-xl border-2 border-brand-blue-700 px-6 py-3.5 font-semibold text-brand-blue-700 hover:bg-brand-blue-50 transition-colors"
           >
-            Text Us &mdash; 317-314-3757
+            Text Us &mdash; {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </div>
 

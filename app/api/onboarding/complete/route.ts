@@ -8,12 +8,13 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 async function sendEnrollmentConfirmationEmail({
@@ -47,12 +48,12 @@ async function sendEnrollmentConfirmationEmail({
 
   await sendEmail({
     to,
-    subject: `You're enrolled in ${programName} — Elevate for Humanity`,
+    subject: `You're enrolled in ${programName} — ${PLATFORM_DEFAULTS.orgName}`,
     html: `
       <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">
         <div style="text-align:center;padding:32px 24px 24px">
           // IMAGE-CONTRACT: allow raw img because legacy markup
-          <img src="${logoUrl}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />
+          <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="160" style="max-width:160px;height:auto" />
         </div>
         <div style="padding:0 32px 32px">
           <h2 style="font-weight:normal;font-size:22px;margin:0 0 20px;color:#1a1a1a">Hi ${firstName}, you're enrolled!</h2>
@@ -80,13 +81,13 @@ async function sendEnrollmentConfirmationEmail({
           </div>
           <div style="border-top:1px solid #e0e0e0;margin-top:12px;padding-top:16px;font-family:Arial,sans-serif;font-size:13px;color:#555">
             <p style="margin:0 0 8px">Questions? We're here to help:</p>
-            <p style="margin:0 0 4px">📞 <a href="tel:3173143757" style="color:#555">(317) 314-3757</a></p>
+            <p style="margin:0 0 4px">📞 <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#555">${PLATFORM_DEFAULTS.supportPhone}</a></p>
             <p style="margin:0">✉️ <a href="mailto:elevate4humanityedu@gmail.com" style="color:#555">elevate4humanityedu@gmail.com</a></p>
           </div>
           <div style="border-top:1px solid #e0e0e0;margin-top:32px;padding-top:20px;text-align:center;font-family:Arial,sans-serif;font-size:12px;color:#999">
-            <p style="margin:0 0 4px">Elevate for Humanity Career &amp; Technical Institute</p>
+            <p style="margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
             <p style="margin:0 0 4px">8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
-            <p style="margin:0"><a href="${SITE_URL}" style="color:#999;text-decoration:underline">www.elevateforhumanity.org</a> &nbsp;|&nbsp; (317) 314-3757</p>
+            <p style="margin:0"><a href="${SITE_URL}" style="color:#999;text-decoration:underline">${PLATFORM_DEFAULTS.canonicalDomain}</a> &nbsp;|&nbsp; ${PLATFORM_DEFAULTS.supportPhone}</p>
           </div>
         </div>
       </div>`,

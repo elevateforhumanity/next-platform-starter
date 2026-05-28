@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import SendGridSettingsClient from './SendGridSettingsClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'SendGrid Settings | Admin | Elevate for Humanity',
+  title: 'SendGrid Settings | Admin | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -20,7 +21,7 @@ export default async function SendGridSettingsPage() {
   const fromEmail =
     process.env.EMAIL_FROM?.replace(/^.*<(.+)>$/, '$1') ||
     process.env.SENDGRID_FROM ||
-    'noreply@elevateforhumanity.org';
+    PLATFORM_DEFAULTS.emailFromAddress;
 
   const replyTo =
     process.env.EMAIL_REPLY_TO ||
@@ -40,8 +41,8 @@ export default async function SendGridSettingsPage() {
         const domains: any[] = await res.json();
         const match = domains.find(
           (d: any) =>
-            d.domain === 'elevateforhumanity.org' ||
-            d.subdomain?.endsWith('elevateforhumanity.org'),
+            d.domain === PLATFORM_DEFAULTS.canonicalDomain ||
+            d.subdomain?.endsWith(PLATFORM_DEFAULTS.canonicalDomain),
         );
         domainVerified = match?.valid === true;
       }

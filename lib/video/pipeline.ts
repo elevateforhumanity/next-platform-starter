@@ -23,6 +23,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { BROLL_MAP, pickBrollKey } from './broll-map';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -256,7 +257,7 @@ function generateBrandCard(
   const bold = fontPath('bold');
   const semi = fontPath('semi');
 
-  const line1 = type === 'intro' ? esc(profile.programName) : 'Elevate for Humanity';
+  const line1 = type === 'intro' ? esc(profile.programName) : PLATFORM_DEFAULTS.orgName;
   const line2 = type === 'intro' ? esc(lessonTitle) : 'Complete the activities to continue.';
 
   // Top accent bar + program name + lesson title (intro) or sign-off (outro)
@@ -270,7 +271,7 @@ function generateBrandCard(
     // Lesson title / sign-off
     `[t1]drawtext=fontfile='${semi}':text='${line2}':fontcolor=${fg}@0.75:fontsize=24:x=(w-text_w)/2:y=340:alpha='if(lt(t,0.5),t/0.5,1)'[t2]`,
     // Elevate logo text bottom-right
-    `[t2]drawtext=fontfile='${bold}':text='elevateforhumanity.org':fontcolor=${fg}@0.4:fontsize=16:x=w-text_w-24:y=h-36[out]`,
+    `[t2]drawtext=fontfile='${bold}':text=${PLATFORM_DEFAULTS.canonicalDomain}:fontcolor=${fg}@0.4:fontsize=16:x=w-text_w-24:y=h-36[out]`,
   ].join(';');
 
   execSync(

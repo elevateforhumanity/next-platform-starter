@@ -3,9 +3,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { ChevronRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Changelog | Elevate for Humanity',
+  title: 'Changelog | {PLATFORM_DEFAULTS.orgName}',
   description: 'View platform updates and changes.',
   robots: { index: false, follow: false },
 };

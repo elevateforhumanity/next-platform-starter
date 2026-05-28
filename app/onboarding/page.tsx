@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { Users, Building2, GraduationCap, ArrowRight, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -42,7 +43,7 @@ export default async function OnboardingPage() {
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
         <Image
           src="/images/pages/onboarding-page-2.webp"
-          alt="Welcome to Elevate for Humanity"
+          alt="Welcome to {PLATFORM_DEFAULTS.orgName}"
           fill
           className="object-cover"
           priority
@@ -53,7 +54,7 @@ export default async function OnboardingPage() {
       <section className="py-12 sm:py-16 border-b">
         <div className="max-w-7xl mx-auto px-6">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black mb-4">
-            Welcome to Elevate for Humanity
+            Welcome to {PLATFORM_DEFAULTS.orgName}
           </h1>
           <p className="text-base md:text-lg sm:text-base md:text-lg text-black mb-6">
             Choose your path to get started with our platform and access free workforce training.

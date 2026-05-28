@@ -4,6 +4,7 @@ import { Phone, ExternalLink } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Funding & Enrollment | Cosmetology Apprenticeship',
@@ -58,11 +59,11 @@ export default function CosmetologyEligibilityPage() {
               Contact Us
             </a>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center gap-2 px-6 py-3 border border-brand-blue-600 text-brand-blue-600 rounded-lg hover:bg-blue-50 transition font-semibold"
             >
               <ExternalLink className="w-4 h-4" />
-              Call (317) 314-3757
+              Call {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

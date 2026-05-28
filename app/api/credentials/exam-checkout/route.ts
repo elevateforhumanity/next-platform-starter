@@ -19,6 +19,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolvePaymentResponsibility } from '@/lib/services/credential-pipeline';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -92,12 +93,12 @@ export async function POST(req: NextRequest) {
   const amountCents = decision.amountCents ?? credential.exam_fee_cents ?? 0;
   if (amountCents <= 0) {
     return NextResponse.json(
-      { error: 'Exam fee amount not configured for this credential. Contact (317) 314-3757.' },
+      { error: 'Exam fee amount not configured for this credential. Contact ' + PLATFORM_DEFAULTS.supportPhone + '.' },
       { status: 400 },
     );
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
   // Use stored Stripe price ID when available — avoids creating duplicate products
   const lineItem = credential.stripe_price_id

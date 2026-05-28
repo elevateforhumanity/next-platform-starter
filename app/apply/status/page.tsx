@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, Circle, Clock, XCircle, Phone, Loader2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ApplicationStatus {
   id: string;
@@ -44,7 +45,7 @@ export default function ApplicationStatusPage() {
         );
       }
     } catch (error) {
-      setError('Failed to check status. Please try again or call 317-314-3757.');
+      setError('Failed to check status. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setLoading(false);
     }
@@ -202,8 +203,8 @@ export default function ApplicationStatusPage() {
               applied with.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center text-sm">
-              <a href="tel:3173143757" className="text-emerald-600 font-medium hover:underline">
-                Call (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-emerald-600 font-medium hover:underline">
+                Call {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <Link href="/apply" className="text-emerald-600 font-medium hover:underline">
                 Submit a new application
@@ -215,8 +216,8 @@ export default function ApplicationStatusPage() {
         <div className="mt-8 text-center text-black">
           <p>
             Need help? Contact us at{' '}
-            <a href="tel:317-314-3757" className="text-emerald-600 font-medium">
-              317-314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone}" className="text-emerald-600 font-medium">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
           <p className="mt-2">

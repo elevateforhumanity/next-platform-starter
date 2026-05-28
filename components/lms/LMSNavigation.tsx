@@ -10,6 +10,7 @@ import LogoImage from '@/components/site/LogoImage';
 import { usePathname } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BookOpen,
   LayoutDashboard,
   Award,
@@ -153,7 +154,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
           >
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform p-1">
               <LogoImage
-                alt="Elevate for Humanity"
+                alt={PLATFORM_DEFAULTS.orgName}
                 width={32}
                 height={32}
                 className="w-full h-full object-contain"

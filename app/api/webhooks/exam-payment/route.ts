@@ -15,6 +15,7 @@ import { markPaymentSucceeded } from '@/lib/services/credential-pipeline';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -158,7 +159,7 @@ export async function POST(req: NextRequest) {
       if (profile?.email && credential) {
         const { resend } = await import('@/lib/resend');
         await resend.emails.send({
-          from: process.env.EMAIL_FROM ?? 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+          from: process.env.EMAIL_FROM ?? '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>',
           to: profile.email,
           subject: `Exam fee confirmed — schedule your ${credential.name} exam`,
           html: `
@@ -167,8 +168,8 @@ export async function POST(req: NextRequest) {
             <p>You can now schedule your exam. Log in to your dashboard and visit
             <strong>My Credentials</strong> to see your scheduling options.</p>
             <p>Issued by: ${credential.issuing_authority}</p>
-            <p>Questions? Call (317) 314-3757 or reply to this email.</p>
-            <p>— Elevate for Humanity</p>
+            <p>Questions? Call ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.</p>
+            <p>— ${PLATFORM_DEFAULTS.orgName}</p>
           `,
         });
       }

@@ -1,4 +1,5 @@
 import type { HeroSize } from '@/components/ui/PageVideoHero';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface HeroMediaEntry {
   video: string;
@@ -18,14 +19,14 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   home: {
     video: '/videos/hero-home.mp4',
     poster: '/images/pages/home-hero.jpg',
-    alt: 'Elevate for Humanity — workforce training in Indianapolis',
+    alt: '' + PLATFORM_DEFAULTS.orgName + ' — workforce training in Indianapolis',
     audio: '/audio/heroes/home.mp3',
     size: 'primary',
   },
   about: {
     video: '/videos/about-mission.mp4',
     poster: '/images/pages/about-hero.jpg',
-    alt: 'About Elevate for Humanity',
+    alt: 'About ' + PLATFORM_DEFAULTS.orgName + '',
     audio: '/audio/heroes/about.mp3',
     size: 'marketing',
   },
@@ -53,7 +54,7 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   education: {
     video: '/videos/lms-learning.mp4',
     poster: '/images/pages/education-hero.jpg',
-    alt: 'Career training programs at Elevate for Humanity',
+    alt: 'Career training programs at ' + PLATFORM_DEFAULTS.orgName + '',
     audio: '/audio/heroes/education.mp3',
     size: 'marketing',
   },

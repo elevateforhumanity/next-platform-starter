@@ -7,8 +7,9 @@ import { ShopClient } from './ShopClient';
 import { PageTracker } from '@/components/analytics/PageTracker';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const dynamic = 'force-dynamic';
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     description:
       'Shop professional tools, equipment, apparel, and study materials for your career training programs.',
     url: `${SITE_URL}/shop`,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     type: 'website',
     images: [
       { url: `${SITE_URL}/images/og/shop-og.jpg`, width: 1200, height: 630, alt: 'Elevate Shop' },
@@ -111,7 +112,7 @@ export default async function ShopPage() {
               className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

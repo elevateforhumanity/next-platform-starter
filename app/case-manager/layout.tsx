@@ -3,12 +3,13 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Case Manager Portal | Elevate for Humanity',
+    default: 'Case Manager Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Case Manager Portal',
   },
   description: 'Manage participant cases, track progress, and report outcomes.',

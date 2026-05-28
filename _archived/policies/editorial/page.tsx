@@ -4,8 +4,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Editorial Policy | Elevate for Humanity',
+  title: 'Editorial Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Standards for published content, editorial review processes, and content quality guidelines.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/editorial',
@@ -31,7 +32,7 @@ export default async function EditorialPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This Editorial Policy establishes standards for content published by Elevate for Humanity, including 
+              This Editorial Policy establishes standards for content published by {PLATFORM_DEFAULTS.orgName}, including 
               website content, blog posts, course materials, communications, and marketing materials. These guidelines 
               ensure accuracy, clarity, consistency, and professionalism in all published content.
             </p>
@@ -238,7 +239,7 @@ export default async function EditorialPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
             </ul>
 

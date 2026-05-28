@@ -22,6 +22,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface AppScreenshotProps {
   app: 'sam-gov' | 'grants' | 'website-builder';
@@ -213,7 +214,7 @@ function GrantsScreenshot({ variant }: { variant: string }) {
         <div className="flex-1 mx-4">
           <div className="bg-white rounded px-3 py-1 text-xs text-slate-700 flex items-center gap-2 max-w-md">
             <Shield className="w-3 h-3 text-brand-green-500" />
-            www.elevateforhumanity.org/grants
+            ${PLATFORM_DEFAULTS.canonicalDomain}/grants
           </div>
         </div>
       </div>
@@ -362,7 +363,7 @@ function WebsiteBuilderScreenshot({ variant }: { variant: string }) {
         <div className="flex-1 mx-4">
           <div className="bg-white rounded px-3 py-1 text-xs text-slate-700 flex items-center gap-2 max-w-md">
             <Shield className="w-3 h-3 text-brand-green-500" />
-            www.elevateforhumanity.org/website-builder
+            ${PLATFORM_DEFAULTS.canonicalDomain}/website-builder
           </div>
         </div>
       </div>

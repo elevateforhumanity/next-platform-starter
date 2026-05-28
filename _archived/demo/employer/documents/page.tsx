@@ -5,9 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { FileText, Download, Clock } from 'lucide-react';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Documents | Employer Demo | Elevate for Humanity',
+  title: 'Documents | Employer Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

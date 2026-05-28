@@ -7,13 +7,14 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { randomBytes } from 'crypto';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.org';
 
 function generateEmbedScript(siteId: string, apiKey: string, features: string[]): string {
-  return `<!-- Elevate for Humanity LMS Integration -->
+  return `<!-- ${PLATFORM_DEFAULTS.orgName} LMS Integration -->
 <script>
   window.ElevateConfig = {
     siteId: "${siteId}",
@@ -31,7 +32,7 @@ function generateSetupSteps(platform: string): string[] {
     'Paste it before the closing </body> tag on your site',
     'Add a container element where you want the LMS to appear: <div id="elevate-lms"></div>',
     'Save and publish your changes',
-    'Contact us at (317) 314-3757 to activate your integration',
+    'Contact us at ${PLATFORM_DEFAULTS.supportPhone} to activate your integration',
   ];
 
   const platformSteps: Record<string, string[]> = {
@@ -40,28 +41,28 @@ function generateSetupSteps(platform: string): string[] {
       'Paste the script before </body>',
       'Add the shortcode [elevate_lms] where you want the widget',
       'Install the Elevate LMS WordPress plugin (contact us for access)',
-      'Contact us at (317) 314-3757 to activate',
+      'Contact us at ${PLATFORM_DEFAULTS.supportPhone} to activate',
     ],
     wix: [
       'In Wix Editor, click Add → Embed → Custom Code',
       'Paste the script and set placement to "Body - end"',
       'Add an HTML iframe element where you want the LMS',
       'Publish your site',
-      'Contact us at (317) 314-3757 to activate',
+      'Contact us at ' + PLATFORM_DEFAULTS.supportPhone + ' to activate',
     ],
     squarespace: [
       'In Squarespace, go to Settings → Advanced → Code Injection',
       'Paste the script in the Footer section',
       'Add a Code Block where you want the LMS to appear',
       'Save and publish',
-      'Contact us at (317) 314-3757 to activate',
+      'Contact us at ' + PLATFORM_DEFAULTS.supportPhone + ' to activate',
     ],
     shopify: [
       'In Shopify Admin, go to Online Store → Themes → Edit Code',
       'Open theme.liquid and paste before </body>',
       'Add a custom section for the LMS widget',
       'Save the theme',
-      'Contact us at (317) 314-3757 to activate',
+      'Contact us at ' + PLATFORM_DEFAULTS.supportPhone + ' to activate',
     ],
   };
 
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
       await db.from('partner_applications').insert({
         shop_name: shopName,
         owner_name: 'Integration Request',
-        contact_email: `integration+${siteId}@pending.elevateforhumanity.org`,
+        contact_email: `integration+${siteId}@pending.${PLATFORM_DEFAULTS.canonicalDomain}`,
         phone: 'N/A',
         address_line1: 'Not provided',
         city: 'Not provided',

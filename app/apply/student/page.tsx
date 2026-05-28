@@ -5,6 +5,7 @@ import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
 import { getProgramBySlug } from '@/data/programs/catalog';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 600;
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     description:
       'Apply for workforce training and career development programs. Funding may be available for eligible participants. Most students begin training within 2–4 weeks.',
     url: 'https://www.elevateforhumanity.org/apply/student',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/images/pages/comp-home-highlight-health.webp',
@@ -142,7 +143,7 @@ export default async function StudentApplicationPage({
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apply-page-4.jpg"
-          alt="Apply for career training — Elevate for Humanity"
+          alt="Apply for career training — {PLATFORM_DEFAULTS.orgName}"
           fill
           sizes="100vw"
           className="object-cover"
@@ -336,10 +337,10 @@ export default async function StudentApplicationPage({
               Takes about 5 minutes. We will follow up within one business day to schedule your
               orientation. Call us at{' '}
               <a
-                href="tel:+13173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="text-brand-red-600 font-semibold hover:underline"
               >
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               if you have questions.
             </p>

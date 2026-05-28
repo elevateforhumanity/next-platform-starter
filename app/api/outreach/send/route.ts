@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -19,12 +20,12 @@ const PARTNERSHIP_HTML = `<!DOCTYPE html>
 <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%;">
 <tr><td style="padding-bottom:24px; border-bottom:2px solid #222;">
   // IMAGE-CONTRACT: allow raw img because legacy markup
-  <img src="https://www.elevateforhumanity.org/logo.jpg" alt="Elevate for Humanity" width="44" height="44" style="display:inline-block; vertical-align:middle; margin-right:12px;">
-  <span style="font-size:20px; font-weight:bold; vertical-align:middle;">Elevate for Humanity</span>
+  <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.jpg" alt={PLATFORM_DEFAULTS.orgName} width="44" height="44" style="display:inline-block; vertical-align:middle; margin-right:12px;">
+  <span style="font-size:20px; font-weight:bold; vertical-align:middle;">${PLATFORM_DEFAULTS.orgName}</span>
 </td></tr>
 <tr><td style="padding:24px 0;">
 <p>Good morning,</p>
-<p>My name is Elizabeth Greene. I am the founder of <strong>Elevate for Humanity</strong>, a 501(c)(3) nonprofit workforce development institute based in Indianapolis.</p>
+<p>My name is Elizabeth Greene. I am the founder of <strong>${PLATFORM_DEFAULTS.orgName}</strong>, a 501(c)(3) nonprofit workforce development institute based in Indianapolis.</p>
 <p>I am reaching out because your organization serves people who may benefit from funded career training — and I would like to explore a partnership.</p>
 <p style="font-size:17px; font-weight:bold; margin:24px 0 12px;">Who we are</p>
 <p>Elevate for Humanity is a U.S. Department of Labor Registered Apprenticeship sponsor, an ETPL-approved training provider listed with Indiana DWD, and an authorized Certiport testing center. We operate as a career and technical instructional institution providing industry-recognized certifications.</p>
@@ -42,22 +43,22 @@ const PARTNERSHIP_HTML = `<!DOCTYPE html>
 <p style="font-size:17px; font-weight:bold; margin:24px 0 12px;">What I am asking</p>
 <p>I would appreciate 15 minutes of your time to discuss whether a referral partnership or directory listing makes sense for your organization. You can pick a day and time that works for you:</p>
 <p style="margin:16px 0;">
-  <a href="https://www.elevateforhumanity.org/schedule-consultation" style="color:#222; font-weight:bold; font-size:16px;">Schedule a Meeting</a><br>
-  <span style="font-size:13px; color:#555;">elevateforhumanity.org/schedule-consultation</span>
+  <a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/schedule-consultation" style="color:#222; font-weight:bold; font-size:16px;">Schedule a Meeting</a><br>
+  <span style="font-size:13px; color:#555;">${PLATFORM_DEFAULTS.canonicalDomain}/schedule-consultation</span>
 </p>
 <p>You can also learn more about our programs and partnerships at:</p>
 <ul style="padding-left:20px; margin:0 0 16px;">
-  <li style="margin-bottom:4px;">Programs: <a href="https://www.elevateforhumanity.org/programs" style="color:#222;">elevateforhumanity.org/programs</a></li>
-  <li style="margin-bottom:4px;">Partnerships: <a href="https://www.elevateforhumanity.org/partnerships" style="color:#222;">elevateforhumanity.org/partnerships</a></li>
+  <li style="margin-bottom:4px;">Programs: <a href="${PLATFORM_DEFAULTS.siteUrl}/programs" style="color:#222;">${PLATFORM_DEFAULTS.canonicalDomain}/programs</a></li>
+  <li style="margin-bottom:4px;">Partnerships: <a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/partnerships" style="color:#222;">elevateforhumanity.org/partnerships</a></li>
   <li style="margin-bottom:4px;">Resource Directory: <a href="https://www.elevateforhumanity.org/directory" style="color:#222;">elevateforhumanity.org/directory</a></li>
   <li style="margin-bottom:4px;">Funding Information: <a href="https://www.elevateforhumanity.org/funding" style="color:#222;">elevateforhumanity.org/funding</a></li>
 </ul>
 <p>Thank you for the work you do in our community. I look forward to hearing from you.</p>
 <p style="margin-top:24px;">
   Elizabeth Greene<br>
-  Founder, Elevate for Humanity<br>
-  <a href="tel:+13173143757" style="color:#222;">(317) 314-3757</a><br>
-  <a href="https://www.elevateforhumanity.org" style="color:#222;">www.elevateforhumanity.org</a><br>
+  Founder, " + PLATFORM_DEFAULTS.orgName + "<br>
+  <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}" style="color:#222;">${PLATFORM_DEFAULTS.supportPhone}</a><br>
+  <a href={PLATFORM_DEFAULTS.siteUrl} style="color:#222;">www.elevateforhumanity.org</a><br>
   Indianapolis, Indiana
 </p>
 </td></tr>
@@ -72,12 +73,12 @@ const PARTNERSHIP_HTML = `<!DOCTYPE html>
 
 const PARTNERSHIP_TEXT = `Good morning,
 
-My name is Elizabeth Greene. I am the founder of Elevate for Humanity, a 501(c)(3) nonprofit workforce development institute based in Indianapolis.
+My name is Elizabeth Greene. I am the founder of ${PLATFORM_DEFAULTS.orgName}, a 501(c)(3) nonprofit workforce development institute based in Indianapolis.
 
 I am reaching out because your organization serves people who may benefit from funded career training — and I would like to explore a partnership.
 
 WHO WE ARE
-Elevate for Humanity is a U.S. Department of Labor Registered Apprenticeship sponsor, an ETPL-approved training provider listed with Indiana DWD, and an authorized Certiport testing center. We operate as a career and technical instructional institution providing industry-recognized certifications.
+${PLATFORM_DEFAULTS.orgName} is a U.S. Department of Labor Registered Apprenticeship sponsor, an ETPL-approved training provider listed with Indiana DWD, and an authorized Certiport testing center. We operate as a career and technical instructional institution providing industry-recognized certifications.
 
 WHAT WE DO
 We provide career training programs in healthcare (CNA, Medical Assistant, Phlebotomy), skilled trades (HVAC, Electrical, Welding, Plumbing), CDL trucking (Class A and B), technology (IT Support, Cybersecurity), barbering (DOL Registered Apprenticeship), and tax preparation. Most programs run 4 to 16 weeks and include hands-on training, certification exam preparation, proctored testing on-site, and job placement assistance.
@@ -95,20 +96,20 @@ HOW A PARTNERSHIP WORKS
 WHAT I AM ASKING
 I would appreciate 15 minutes of your time to discuss whether a referral partnership or directory listing makes sense for your organization. You can pick a day and time that works for you:
 
-  Schedule a Meeting: https://www.elevateforhumanity.org/schedule-consultation
+  Schedule a Meeting: ${PLATFORM_DEFAULTS.siteUrl}/schedule-consultation
 
 Learn more:
-  Programs: https://www.elevateforhumanity.org/programs
-  Partnerships: https://www.elevateforhumanity.org/partnerships
-  Resource Directory: https://www.elevateforhumanity.org/directory
-  Funding Information: https://www.elevateforhumanity.org/funding
+  Programs: https://${PLATFORM_DEFAULTS.canonicalDomain}/programs
+  Partnerships: https://www.${PLATFORM_DEFAULTS.canonicalDomain}/partnerships
+  Resource Directory: ${PLATFORM_DEFAULTS.siteUrl}/directory
+  Funding Information: https://${PLATFORM_DEFAULTS.canonicalDomain}/funding
 
 Thank you for the work you do in our community. I look forward to hearing from you.
 
 Elizabeth Greene
 Founder, Elevate for Humanity
-(317) 314-3757
-www.elevateforhumanity.org
+${PLATFORM_DEFAULTS.supportPhone}
+www.${PLATFORM_DEFAULTS.canonicalDomain}
 Indianapolis, Indiana`;
 
 // Wave definitions
@@ -169,7 +170,7 @@ async function sendViaSendGrid(to: string[], subject: string, html: string, text
         },
         body: JSON.stringify({
           personalizations: [{ to: [{ email }] }],
-          from: { email: SENDGRID_FROM, name: 'Elizabeth Greene — Elevate for Humanity' },
+          from: { email: SENDGRID_FROM, name: 'Elizabeth Greene — ${PLATFORM_DEFAULTS.orgName}' },
           reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
           subject,
           content: [
@@ -224,7 +225,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const { wave, test_email } = body;
 
-  const subject = 'Partnership Inquiry — Elevate for Humanity (Workforce Training)';
+  const subject = 'Partnership Inquiry — ' + PLATFORM_DEFAULTS.orgName + ' (Workforce Training)';
 
   // Test mode: send to a single email
   if (test_email) {

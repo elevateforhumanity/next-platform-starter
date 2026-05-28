@@ -4,6 +4,7 @@ export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import { ProductPage } from '@/components/store/ProductPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'SAM.gov Assistant - Federal Contractor Registration Tool | Elevate Store',
@@ -242,7 +243,7 @@ const productData = {
   ],
   lastUpdated: 'January 20, 2026',
   version: '3.2.1',
-  developer: 'Elevate for Humanity',
+  developer: '{PLATFORM_DEFAULTS.orgName}',
   supportEmail: '/contact',
 };
 

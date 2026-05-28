@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Heart, Users, TrendingUp, MessageSquare, Calendar, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Ongoing Support | Career Services',
@@ -209,7 +210,7 @@ export default async function OngoingSupportPage() {
                 href="/support"
                 className="flex items-center justify-center gap-2 text-pink-600 font-medium"
               >
-                <Phone className="w-4 h-4" /> (317) 314-3757
+                <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
 

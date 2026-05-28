@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: 'WorkOne / WIOA Referrals | Workforce Agency Partners',
   description:
-    'Elevate for Humanity is an approved WIOA training provider. WorkOne case managers can refer clients directly to our programs.',
+    '{PLATFORM_DEFAULTS.orgName} is an approved WIOA training provider. WorkOne case managers can refer clients directly to our programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/workforce' },
 };
 
@@ -20,7 +21,7 @@ export default function WorkforcePartnersPage() {
           </p>
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">WorkOne / WIOA Referrals</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            Elevate for Humanity is an approved WIOA training provider on Indiana's ETPL. WorkOne
+            {PLATFORM_DEFAULTS.orgName} is an approved WIOA training provider on Indiana's ETPL. WorkOne
             case managers can refer clients directly — we handle enrollment, progress tracking, and
             reporting.
           </p>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Apprenticeship Handbook Content
  *
@@ -38,7 +39,7 @@ Congratulations on taking the first step toward your career as a licensed barber
 
 ## Program Sponsor
 **2Exclusive LLC-S** (Sponsor of Record)
-DBA Elevate for Humanity Career & Technical Institute
+DBA ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
 
 ## Program Registration
 - **DOL RAPIDS Program Number:** ${process.env.NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER || '2025-IN-132301'}
@@ -458,7 +459,7 @@ If you experience financial difficulty:
 
 ## Parties to This Agreement
 - **Apprentice:** (Your name as signed below)
-- **Sponsor of Record:** 2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)
+- **Sponsor of Record:** 2Exclusive LLC-S (DBA ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute)
 - **Employer/Shop:** (Your sponsoring barbershop)
 
 ## Purpose

@@ -8,6 +8,7 @@ import { SocialShare } from '@/components/blog/SocialShare';
 import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 import { STATIC_POSTS, type BlogPost } from '@/content/blog/posts';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,12 +91,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: `${post.title} | Elevate For Humanity Blog`,
     description: post.excerpt,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/blog/${slug}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/blog/${slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://www.elevateforhumanity.org/blog/${slug}`,
+      url: `${PLATFORM_DEFAULTS.siteUrl}/blog/${slug}`,
       type: 'article',
       publishedTime: post.published_at,
       authors: [post.author_name],
@@ -126,7 +127,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   }
 
   const relatedPosts = await getRelatedPosts(post.category, slug);
-  const postUrl = `https://www.elevateforhumanity.org/blog/${slug}`;
+  const postUrl = `${PLATFORM_DEFAULTS.siteUrl}/blog/${slug}`;
 
   const publishedDate = post.published_at
     ? new Date(post.published_at).toLocaleDateString('en-US', {

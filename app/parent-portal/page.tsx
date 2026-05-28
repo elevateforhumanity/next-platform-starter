@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Eye,
   Calendar,
   MessageSquare,
@@ -134,10 +135,10 @@ export default async function ParentPortalPage() {
               Access Portal
             </Link>
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="border-2 border-black text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-2"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>
@@ -248,7 +249,7 @@ export default async function ParentPortalPage() {
                   Request Access
                 </Link>
                 <a
-                  href="tel:3173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="border-2 border-black text-black font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors flex items-center gap-2"
                 >
                   <Phone className="w-4 h-4" /> Call Us

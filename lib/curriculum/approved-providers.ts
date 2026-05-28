@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * lib/curriculum/approved-providers.ts
  *
@@ -155,8 +156,8 @@ export const APPROVED_PROVIDERS: Record<string, ApprovedProvider> = {
   // ── Elevate Proprietary Content ────────────────────────────────────────────
   'elevate-proprietary': {
     id: 'elevate-proprietary',
-    name: 'Elevate for Humanity (Proprietary)',
-    url: 'https://www.elevateforhumanity.org',
+    name: '' + PLATFORM_DEFAULTS.orgName + ' (Proprietary)',
+    url: PLATFORM_DEFAULTS.siteUrl,
     description: 'Elevate-authored curriculum: HVAC, Barber, CNA, PRS, and other proprietary programs.',
     fetchStrategy: 'static_catalog',
     license: 'proprietary',

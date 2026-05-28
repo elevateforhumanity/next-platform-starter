@@ -8,11 +8,12 @@
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const TO_EMAIL = 'elevate4humanityedu@gmail.com';
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
-const FROM_NAME = 'Elevate for Humanity';
+const FROM_NAME = '' + PLATFORM_DEFAULTS.orgName + '';
 
 if (!SENDGRID_API_KEY) {
   console.error('❌ SENDGRID_API_KEY not set');
@@ -135,7 +136,7 @@ function mdToBody(md: string): string {
 
 function buildHtml(md: string, title: string, num: number, total: number): string {
   const body = mdToBody(md);
-  const logoTag = LOGO_B64 ? `<img src="${LOGO_B64}" class="logo" alt="Elevate for Humanity">` : '';
+  const logoTag = LOGO_B64 ? `<img src="${LOGO_B64}" class="logo" alt="" + PLATFORM_DEFAULTS.orgName + "">` : '';
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#111;line-height:1.6;background:white}
@@ -169,7 +170,7 @@ function buildHtml(md: string, title: string, num: number, total: number): strin
   <div class="letterhead">
     ${logoTag}
     <div>
-      <div class="org-name">Elevate for Humanity</div>
+      <div class="org-name">" + PLATFORM_DEFAULTS.orgName + "</div>
       <div class="org-creds">
         DOL Registered Apprenticeship Sponsor &nbsp;·&nbsp; ETPL Provider &nbsp;·&nbsp; WIOA / WRG / JRI Approved &nbsp;·&nbsp; WorkOne Partner &nbsp;·&nbsp; EmployIndy Partner<br>
         SAM.gov Registered (CAGE: 0Q856) &nbsp;·&nbsp; IMM Certified &nbsp;·&nbsp; ByBlack Certified &nbsp;·&nbsp; CareerSafe OSHA Provider &nbsp;·&nbsp; Certiport CATC<br>
@@ -219,7 +220,7 @@ async function sendEmail(
       content: [
         {
           type: 'text/html',
-          value: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px"><div style="border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:14px"><div style="font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:1px">Elevate for Humanity</div><div style="font-size:10px;color:#555;margin-top:2px">www.elevateforhumanity.org &nbsp;·&nbsp; Indianapolis, Indiana &nbsp;·&nbsp; CAGE: 0Q856</div></div><p style="font-size:12px;margin:0 0 10px">Attached: <strong>${subject}</strong></p><p style="font-size:12px;margin:0 0 10px">EmployIndy RFP 2026-003 — WIOA In-School Youth Service Provision</p><p style="font-size:10px;color:#666;margin:0">Deadline: April 24, 2026, 11:59PM</p></div>`,
+          value: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px"><div style="border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:14px"><div style="font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:1px">" + PLATFORM_DEFAULTS.orgName + "</div><div style="font-size:10px;color:#555;margin-top:2px">www.elevateforhumanity.org &nbsp;·&nbsp; Indianapolis, Indiana &nbsp;·&nbsp; CAGE: 0Q856</div></div><p style="font-size:12px;margin:0 0 10px">Attached: <strong>${subject}</strong></p><p style="font-size:12px;margin:0 0 10px">EmployIndy RFP 2026-003 — WIOA In-School Youth Service Provision</p><p style="font-size:10px;color:#666;margin:0">Deadline: April 24, 2026, 11:59PM</p></div>`,
         },
       ],
       attachments: [

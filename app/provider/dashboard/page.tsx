@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   Clock,
   ArrowRight,
@@ -51,7 +52,7 @@ export default async function ProviderDashboardPage() {
 
   const appHost = getHostFromEnv(
     process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_BASE_URL,
-    'www.elevateforhumanity.org',
+    PLATFORM_DEFAULTS.canonicalDomain,
   );
   const adminHost = getHostFromEnv(
     process.env.NEXT_PUBLIC_ADMIN_URL,

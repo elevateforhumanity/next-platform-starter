@@ -5,11 +5,12 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 // Statuses that mean the applicant hasn't been enrolled yet and needs a nudge
 const PENDING_STATUSES = ['pending', 'submitted', 'in_review'];
@@ -25,7 +26,7 @@ function buildFollowUpHtml(firstName: string, programInterest: string): string {
 
   <div style="background:#1e293b;padding:30px;text-align:center;border-radius:8px 8px 0 0">
     <h1 style="margin:0;color:white;font-size:22px">Still Interested in ${program}?</h1>
-    <p style="margin:8px 0 0;color:#fed7aa;font-size:14px">Elevate for Humanity Career &amp; Technical Institute</p>
+    <p style="margin:8px 0 0;color:#fed7aa;font-size:14px">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
   </div>
 
   <div style="padding:30px;background:#ffffff;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px">
@@ -46,25 +47,25 @@ function buildFollowUpHtml(firstName: string, programInterest: string): string {
     <div style="background:#f9fafb;border:1px solid #e5e7eb;border-left:4px solid #f97316;padding:16px;border-radius:0 6px 6px 0;margin:12px 0">
       <h3 style="margin-top:0;color:#1e293b">Step 2 — Call WorkOne and Schedule an Appointment</h3>
       <p><strong>Indianapolis WorkOne: (317) 890-4640</strong></p>
-      <p>Tell them: <em>"I want to apply for WIOA funding for the ${program} program at Elevate for Humanity Career &amp; Technical Institute."</em></p>
+      <p>Tell them: <em>"I want to apply for WIOA funding for the ${program} program at ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute."</em></p>
       <p>Bring: photo ID, proof of income, proof of address.</p>
     </div>
 
     <div style="background:#f9fafb;border:1px solid #e5e7eb;border-left:4px solid #f97316;padding:16px;border-radius:0 6px 6px 0;margin:12px 0">
       <h3 style="margin-top:0;color:#1e293b">Step 3 — Call Us After Your WorkOne Appointment</h3>
-      <p>Once WorkOne approves your funding, call us at <strong>(317) 314-3757</strong> or reply to this email. We will get you enrolled and give you a start date.</p>
+      <p>Once WorkOne approves your funding, call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email. We will get you enrolled and give you a start date.</p>
     </div>
 
     <div style="background:#fef2f2;border:1px solid #fecaca;padding:14px 16px;border-radius:6px;margin:20px 0;font-weight:bold;color:#991b1b;text-align:center">
       WorkOne appointments fill up fast. Call today — do not wait.
     </div>
 
-    <p>Questions? Call <strong>(317) 314-3757</strong> or reply to this email. We are here to help you every step of the way.</p>
+    <p>Questions? Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email. We are here to help you every step of the way.</p>
 
     <p style="margin-top:28px">
       Elizabeth Greene<br>
       Director, Elevate for Humanity Career &amp; Technical Institute<br>
-      (317) 314-3757<br>
+      ${PLATFORM_DEFAULTS.supportPhone}<br>
       <a href="${SITE_URL}" style="color:#f97316">${SITE_URL}</a>
     </p>
 
@@ -84,7 +85,7 @@ function buildFollowUpText(firstName: string, programInterest: string): string {
 
   return `Hi ${firstName},
 
-We received your application for the ${program} program at Elevate for Humanity and we have not forgotten about you.
+We received your application for the ${program} program at ${PLATFORM_DEFAULTS.orgName} and we have not forgotten about you.
 
 Training is free for most applicants through WIOA, WRG, or Job Ready Indy funding.
 
@@ -93,19 +94,19 @@ YOUR NEXT STEPS:
 1. Create an Indiana Career Connect account at www.indianacareerconnect.com
 
 2. Call WorkOne Indianapolis at (317) 890-4640 and say:
-   "I want to apply for WIOA funding for the ${program} program at Elevate for Humanity Career & Technical Institute."
+   "I want to apply for WIOA funding for the ${program} program at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute."
    Bring: photo ID, proof of income, proof of address.
 
-3. After your WorkOne appointment, call us at (317) 314-3757 or reply to this email.
+3. After your WorkOne appointment, call us at ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
    We will get you enrolled and give you a start date.
 
 WorkOne appointments fill up fast. Call today.
 
-Questions? Call (317) 314-3757 or reply to this email.
+Questions? Call ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
 
 Elizabeth Greene
 Director, Elevate for Humanity Career & Technical Institute
-(317) 314-3757
+${PLATFORM_DEFAULTS.supportPhone}
 ${SITE_URL}`;
 }
 

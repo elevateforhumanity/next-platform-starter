@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
 import type { UserRole } from '@/types/database';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // =====================================================
 // BUILD-TIME CLIENT (No cookies, for generateStaticParams)
@@ -207,7 +208,7 @@ export async function requireAuth(redirectTo?: string, loginBase?: string) {
   const session = await getSession();
   if (!session) {
     const base =
-      loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+      loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
     const loginUrl = redirectTo
       ? `${base}/login?redirect=${encodeURIComponent(redirectTo)}`
       : `${base}/login`;
@@ -347,6 +348,6 @@ export async function canAccessEnrollment(enrollmentId: string): Promise<boolean
 export async function signOut() {
   const supabase = await createServerSupabaseClient();
   await supabase.auth.signOut();
-  const mainSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const mainSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   redirect(`${mainSiteUrl}/login`);
 }

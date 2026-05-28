@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const maxDuration = 60;
 
@@ -131,8 +132,8 @@ async function _POST(req: NextRequest) {
                 ETPL Listed Provider • WIOA Eligible Training Provider
               </p>
               <p style="color: #6b7280; font-size: 12px; margin: 0 0 15px 0;">
-                <a href="tel:+13173143757" style="color: #2563eb; text-decoration: none;">(317) 314-3757</a> •
-                <a href="mailto:info@elevateforhumanity.org" style="color: #2563eb; text-decoration: none;">info@elevateforhumanity.org</a>
+                <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}" style="color: #2563eb; text-decoration: none;">${PLATFORM_DEFAULTS.supportPhone}</a> •
+                <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #2563eb; text-decoration: none;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
               </p>
               <p style="color: #9ca3af; font-size: 11px; margin: 0;">
                 © ${new Date().getFullYear()} Elevate For Humanity. All rights reserved.

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Standardized document templates for MOUs, reports, and emails.
  * These are the documents partners and agencies see most often.
@@ -250,7 +251,7 @@ www.elevateforhumanity.org`,
     id: 'workforce-board-followup',
     name: 'Workforce Board Follow-Up',
     description: 'Follow-up communication with a workforce development board.',
-    subject: 'Follow-Up: [Program Name] – Elevate for Humanity',
+    subject: 'Follow-Up: [Program Name] – ' + PLATFORM_DEFAULTS.orgName + '',
     placeholders: [
       '[Recipient Name]',
       '[Program Name]',
@@ -277,7 +278,7 @@ www.elevateforhumanity.org`,
     id: 'employer-recruitment',
     name: 'Employer Recruitment',
     description: 'Outreach to employers for hiring program graduates.',
-    subject: 'Skilled Workforce Pipeline – Elevate for Humanity Graduates',
+    subject: 'Skilled Workforce Pipeline – ' + PLATFORM_DEFAULTS.orgName + ' Graduates',
     placeholders: [
       '[Recipient Name]',
       '[Company Name]',
@@ -348,7 +349,7 @@ www.elevateforhumanity.org`,
     id: 'meeting-request',
     name: 'Meeting Request',
     description: 'Request a meeting with a partner, agency, or stakeholder.',
-    subject: 'Meeting Request: [Topic] – Elevate for Humanity',
+    subject: 'Meeting Request: [Topic] – ' + PLATFORM_DEFAULTS.orgName + '',
     placeholders: [
       '[Recipient Name]',
       '[Topic]',

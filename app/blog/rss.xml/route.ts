@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/lms/api';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export async function GET() {
-  const baseUrl = 'https://www.elevateforhumanity.org';
+  const baseUrl = PLATFORM_DEFAULTS.siteUrl;
 
   try {
     const supabase = await getDb();
@@ -33,7 +34,7 @@ export async function GET() {
     const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Elevate for Humanity Blog</title>
+    <title>${PLATFORM_DEFAULTS.orgName} Blog</title>
     <link>${baseUrl}/blog</link>
     <description>Success stories, workforce development insights, and program updates</description>
     <language>en-us</language>
@@ -41,7 +42,7 @@ export async function GET() {
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <image>
       <url>${baseUrl}/logo.jpg</url>
-      <title>Elevate for Humanity</title>
+      <title>${PLATFORM_DEFAULTS.orgName}</title>
       <link>${baseUrl}</link>
     </image>
     ${items}
@@ -58,7 +59,7 @@ export async function GET() {
     const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Elevate for Humanity Blog</title>
+    <title>${PLATFORM_DEFAULTS.orgName} Blog</title>
     <link>${baseUrl}/blog</link>
     <description>Success stories and workforce development insights</description>
     <language>en-us</language>

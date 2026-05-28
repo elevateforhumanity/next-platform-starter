@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { ArrowLeft, Scissors, Store } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import FundingGateCard from '@/components/programs/FundingGateCard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Apply — Cosmetology Apprenticeship',
   description:
-    'Apply to the Elevate for Humanity DOL-registered cosmetology apprenticeship — as an apprentice or as a partner salon.',
+    'Apply to the {PLATFORM_DEFAULTS.orgName} DOL-registered cosmetology apprenticeship — as an apprentice or as a partner salon.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/cosmetology-apprenticeship/apply' },
 };
 

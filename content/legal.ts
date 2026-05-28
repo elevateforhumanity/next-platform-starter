@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export type LegalDoc = {
   slug: string;
   title: string;
@@ -13,7 +14,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: 'enrollment-agreement',
     title: 'Enrollment Agreement',
-    summary: 'Terms and conditions of enrollment in Elevate for Humanity programs.',
+    summary: 'Terms and conditions of enrollment in ' + PLATFORM_DEFAULTS.orgName + ' programs.',
   },
   {
     slug: 'eula',

@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Content Moderation Policy | Elevate for Humanity',
+  title: 'Content Moderation Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Content moderation standards, enforcement procedures, and appeal processes for platform content.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/moderation',
@@ -32,7 +33,7 @@ export default async function ModerationPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
               This Content Moderation Policy establishes how we review, moderate, and enforce standards for 
-              user-generated content on Elevate for Humanity platforms. Our goal is to maintain a safe, 
+              user-generated content on {PLATFORM_DEFAULTS.orgName} platforms. Our goal is to maintain a safe, 
               respectful, and productive learning environment while respecting freedom of expression.
             </p>
 
@@ -298,7 +299,7 @@ export default async function ModerationPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Report Button:</strong> Available on all content</li>
               <li><strong>Response Time:</strong> 24-48 hours for most reports</li>
             </ul>

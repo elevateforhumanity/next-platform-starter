@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   Clock,
   AlertCircle,
@@ -147,7 +148,7 @@ export default function FERPATrainingDashboard({
               <Link href="/ferpa" className="px-4 py-2 text-black hover:text-black font-medium">
                 FERPA Portal
               </Link>
-              <Link href="https://admin.elevateforhumanity.org/admin/dashboard" className="px-4 py-2 text-black hover:text-black font-medium">
+              <Link href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/admin/dashboard" className="px-4 py-2 text-black hover:text-black font-medium">
                 Admin Dashboard
               </Link>
             </div>

@@ -12,6 +12,7 @@
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 if (!OPENAI_API_KEY) {
@@ -25,7 +26,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 const SCENES: { id: string; text: string }[] = [
   {
     id: 'scene-01',
-    text: `Welcome to Elevate for Humanity's Program Holder Orientation.
+    text: `Welcome to ' + PLATFORM_DEFAULTS.orgName + ''s Program Holder Orientation.
 
 If you're watching this, you've been approved as a Program Holder in our Training Network — and we're glad to have you.
 

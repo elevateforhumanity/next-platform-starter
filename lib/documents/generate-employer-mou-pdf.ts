@@ -5,6 +5,7 @@
  */
 
 import { PDFDocument, rgb, StandardFonts, PDFFont, PDFPage } from 'pdf-lib';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type EmployerMOUPDFData = {
   employer_name: string;
@@ -22,11 +23,11 @@ export type EmployerMOUPDFData = {
   mou_version?: string;
 };
 
-const SPONSOR = '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)';
+const SPONSOR = '2Exclusive LLC-S (DBA: ' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute)';
 const SPONSOR_SIGNER = 'Elizabeth Greene';
 const SPONSOR_TITLE = 'Founder & Chief Executive Officer';
 const ADDRESS = '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240';
-const PHONE = '(317) 314-3757';
+const PHONE = PLATFORM_DEFAULTS.supportPhone;
 const EMAIL = 'elevate4humanityedu@gmail.com';
 
 function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: number): string[] {
@@ -217,7 +218,7 @@ export async function generateEmployerMOUPdf(data: EmployerMOUPDFData): Promise<
   y -= lineH;
   y = drawWrappedText(
     page,
-    `This Memorandum of Understanding ("MOU") establishes a formal partnership between Elevate for Humanity Technical and Career Institute ("Elevate") and ${data.employer_name} ("Employer") to support workforce development, graduate hiring, and career pathway programs in the Indianapolis metropolitan area.`,
+    `This Memorandum of Understanding ("MOU") establishes a formal partnership between ${PLATFORM_DEFAULTS.orgLegalName} ("Elevate") and ${data.employer_name} ("Employer") to support workforce development, graduate hiring, and career pathway programs in the Indianapolis metropolitan area.`,
     margin,
     y,
     contentWidth,

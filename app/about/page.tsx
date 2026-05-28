@@ -6,19 +6,20 @@ import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TEAM } from '@/data/team';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Elevate for Humanity is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
+  description: '{PLATFORM_DEFAULTS.orgName} is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/about' },
   openGraph: {
-    title: 'About Elevate for Humanity',
+    title: 'About {PLATFORM_DEFAULTS.orgName}',
     description: 'A workforce development institute providing funded career training in Indianapolis, Indiana. Founded by Elizabeth Greene.',
     url: 'https://www.elevateforhumanity.org/about',
-    siteName: 'Elevate for Humanity',
-    images: [{ url: '/images/team/elizabeth-greene-headshot.webp', width: 800, height: 1080, alt: 'Elizabeth Greene, Founder of Elevate for Humanity' }],
+    siteName: PLATFORM_DEFAULTS.orgName,
+    images: [{ url: '/images/team/elizabeth-greene-headshot.webp', width: 800, height: 1080, alt: 'Elizabeth Greene, Founder of {PLATFORM_DEFAULTS.orgName}' }],
     type: 'website',
   },
 };
@@ -68,7 +69,7 @@ export default async function AboutPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src="/images/team/elizabeth-greene.webp"
-              alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"
+              alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
               fill
               className="object-cover object-top"
               priority
@@ -81,7 +82,7 @@ export default async function AboutPage() {
               Indianapolis, Indiana
             </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-3">
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </h1>
             <p className="text-black text-base sm:text-lg max-w-2xl leading-relaxed mb-2">
               Workforce development institute providing funded career training to people facing barriers to employment.
@@ -97,12 +98,12 @@ export default async function AboutPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-4 mb-6">
-            <Logo alt="Elevate for Humanity logo" width={64} height={64} />
+            <Logo alt="{PLATFORM_DEFAULTS.orgName} logo" width={64} height={64} />
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Who We Are</h2>
           </div>
           <div className="text-slate-700 space-y-4">
             <p>
-              Elevate for Humanity is a workforce development institute based in
+              {PLATFORM_DEFAULTS.orgName} is a workforce development institute based in
               Indianapolis, Indiana. We provide funded career training to people who need it most —
               justice-involved individuals, low-income families, veterans, dislocated workers,
               individuals with disabilities, and anyone facing barriers to employment.
@@ -234,7 +235,7 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-slate-900 mb-3">Training Delivery Model</h2>
           <p className="text-sm text-black mb-4">
-            Elevate for Humanity is a hybrid workforce training hub and DOL Registered Apprenticeship
+            {PLATFORM_DEFAULTS.orgName} is a hybrid workforce training hub and DOL Registered Apprenticeship
             Sponsor (RAPIDS: 2025-IN-132301). We coordinate employer-based hands-on instruction with
             online didactic learning — not a traditional campus model.
           </p>
@@ -288,7 +289,7 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Centralized Workforce Development &amp; Apprenticeship Sponsor</h2>
           <p className="text-sm text-slate-700 mb-4">
-            Elevate for Humanity Career &amp; Technical Institute, a program of 2Exclusive LLC-S, operates as a centralized workforce development and Registered Apprenticeship sponsor organization. The institute provides related technical instruction (RTI), apprenticeship sponsorship, workforce-funded career pathway enrollment, and coordination with licensed employer training sites under a unified governance and compliance structure.
+            {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute, a program of 2Exclusive LLC-S, operates as a centralized workforce development and Registered Apprenticeship sponsor organization. The institute provides related technical instruction (RTI), apprenticeship sponsorship, workforce-funded career pathway enrollment, and coordination with licensed employer training sites under a unified governance and compliance structure.
           </p>
           <p className="text-sm text-black mb-6">
             Apprentices receive structured instruction through the institute while completing supervised on-the-job training at sponsor-approved licensed partner locations in accordance with state and federal apprenticeship standards.
@@ -377,7 +378,7 @@ export default async function AboutPage() {
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 text-center">Our Credentials</h2>
           <p className="text-black text-center mb-8 max-w-2xl mx-auto">
             These are the government agencies and workforce organizations that have approved,
-            registered, or partnered with Elevate for Humanity.
+            registered, or partnered with {PLATFORM_DEFAULTS.orgName}.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -450,7 +451,7 @@ export default async function AboutPage() {
               <div className="relative w-48 h-48 sm:w-56 sm:h-64 flex-shrink-0 overflow-hidden mx-auto sm:mx-0">
                 <Image
                   src="/images/team/founder/elizabeth-greene-founder-hero-01.jpg"
-                  alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"
+                  alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
                   fill
                   sizes="(max-width: 640px) 192px, 224px"
                   quality={95}

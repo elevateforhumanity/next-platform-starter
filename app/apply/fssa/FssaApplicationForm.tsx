@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { submitFssaApplication, type FssaApplicationData } from './actions';
 import { CheckCircle, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 import { getActivePrograms } from '@/lib/program-registry';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const EDUCATION_LEVELS = [
   'Less than high school',
@@ -313,13 +314,13 @@ export default function FssaApplicationForm() {
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" className={`${checkCls} mt-0.5`} checked={form.consentContact} onChange={e => set('consentContact', e.target.checked)} />
               <span className="text-sm text-slate-700">
-                <span className="font-semibold">I consent</span> to be contacted by Elevate for Humanity staff by phone, email, or text regarding my application and program enrollment. <span className="text-red-500">*</span>
+                <span className="font-semibold">I consent</span> to be contacted by ${PLATFORM_DEFAULTS.orgName} staff by phone, email, or text regarding my application and program enrollment. <span className="text-red-500">*</span>
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" className={`${checkCls} mt-0.5`} checked={form.consentRelease} onChange={e => set('consentRelease', e.target.checked)} />
               <span className="text-sm text-slate-700">
-                <span className="font-semibold">I authorize</span> Elevate for Humanity to share my application information with FSSA, DFR, and relevant workforce agencies for the purpose of verifying eligibility and coordinating services.
+                <span className="font-semibold">I authorize</span> {PLATFORM_DEFAULTS.orgName} to share my application information with FSSA, DFR, and relevant workforce agencies for the purpose of verifying eligibility and coordinating services.
               </span>
             </label>
           </div>
@@ -334,7 +335,7 @@ export default function FssaApplicationForm() {
           </Field>
 
           <p className="text-xs text-slate-500">
-            By submitting this form you agree to Elevate for Humanity&apos;s{' '}
+            By submitting this form you agree to {PLATFORM_DEFAULTS.orgName}&apos;s{' '}
             <Link href="/legal/privacy" className="underline">Privacy Policy</Link> and{' '}
             <Link href="/legal" className="underline">Terms of Service</Link>.
             This application does not guarantee enrollment.

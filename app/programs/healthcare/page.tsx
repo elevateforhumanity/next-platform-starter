@@ -7,6 +7,7 @@ import ProgramPageLayout from '@/components/programs/ProgramPageLayout';
 import type { ProgramPageConfig } from '@/components/programs/ProgramPageLayout';
 import { InView } from '@/components/ui/InView';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 export const revalidate = 86400;
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     title: 'Healthcare Training Programs | Free with WIOA | Indianapolis',
     description: 'CNA, Medical Assistant, Phlebotomy, and CPR certification programs. Free for eligible participants. Job placement included.',
     url: 'https://www.elevateforhumanity.org/programs/healthcare',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Healthcare Training Programs | Free with WIOA | Indianapolis' }],
     type: 'website',
   },

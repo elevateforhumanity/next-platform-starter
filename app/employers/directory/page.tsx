@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building2,
   Briefcase,
   BadgeCheck,
@@ -16,14 +17,14 @@ import {
 export const revalidate = 1800; // 30 min
 
 export const metadata: Metadata = {
-  title: 'Employer Directory | Elevate for Humanity',
+  title: 'Employer Directory | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Browse Elevate employer partners hiring graduates in Indiana. Find OJT sponsors, apprenticeship hosts, and WOTC-participating employers.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/employers/directory',
   },
   openGraph: {
-    title: 'Employer Directory | Elevate for Humanity',
+    title: 'Employer Directory | {PLATFORM_DEFAULTS.orgName}',
     description:
       'Employer partners hiring Elevate graduates — OJT, apprenticeships, and direct placement.',
   },

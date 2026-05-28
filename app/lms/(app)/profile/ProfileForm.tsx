@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { updateProfile } from './actions';
 import { Save, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ProfileFormProps {
   profile: {
@@ -95,7 +96,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           name="phone"
           defaultValue={profile?.phone || ''}
           className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-          placeholder="(317) 314-3757"
+          placeholder={PLATFORM_DEFAULTS.supportPhone}
         />
       </div>
 

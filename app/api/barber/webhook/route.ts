@@ -18,9 +18,10 @@ import { withRuntime } from '@/lib/api/withRuntime';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const LMS_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
+  (process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl) + '/lms/courses';
 
 async function notifyPaymentSucceeded(
   supabase: Awaited<ReturnType<typeof getAdminClient>>,
@@ -381,7 +382,7 @@ async function _POST(request: NextRequest) {
 • Weekly payment: $${(weeklyPaymentCents / 100).toFixed(2)} for ~${invoiceWeeks} weeks`;
             }
 
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: customerEmail,
               subject: 'Payment Received — Complete Your Barber Apprenticeship Application',
@@ -403,8 +404,8 @@ async function _POST(request: NextRequest) {
 
 ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive every Friday starting next week.</p>` : ''}
 
-<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a> or reply to this email.</p>
-<p>— Elevate for Humanity</p>
+<p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> or reply to this email.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>
               `,
             });
@@ -415,7 +416,7 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive ev
           // Admin notification — action required to grant LMS access
           try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrlAdmin = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrlAdmin = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: 'elevate4humanityedu@gmail.com',
               subject: `⚠️ ACTION REQUIRED — New Barber Apprentice Payment: ${customerName || customerEmail}`,
@@ -557,7 +558,7 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive ev
               ? `Paid in full: $${(amountPaidCents / 100).toLocaleString()}`
               : `Setup fee paid: $${(amountPaidCents / 100).toFixed(2)} — $${(weeklyPaymentCents / 100).toFixed(2)}/week for ~${weeksRemaining} weeks`;
 
-            const siteUrl2 = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl2 = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: customerEmail,
               subject: 'Payment Received — Complete Your Barber Apprenticeship Application',
@@ -580,8 +581,8 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive ev
 
 ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive every Friday starting next week.</p>` : ''}
 
-<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a> or reply to this email.</p>
-<p>— Elevate for Humanity</p>
+<p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> or reply to this email.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>
               `,
             });
@@ -615,7 +616,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           // No application_id — send LMS access email (legacy public checkout path)
           if (!applicationId) { try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrl3 = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl3 = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: customerEmail,
               subject: 'Your Coursework Access — Barber Apprenticeship',
@@ -626,8 +627,8 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 <p style="text-align:center;margin:24px 0;">
   <a href="${LMS_URL}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">Go to My Courses →</a>
 </p>
-<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a>.</p>
-<p>— Elevate for Humanity</p>
+<p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>
               `,
             });
@@ -739,7 +740,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         // Generate magic link for dashboard access.
         // Always route through /auth/callback so the session is established
         // and role-based routing runs — never redirect directly to a page.
-        const siteUrlMagic = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const siteUrlMagic = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
         let magicLink = `${siteUrlMagic}/login`;
 
         if (customerEmail) {
@@ -792,9 +793,9 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
 <p>Your related instruction is available in the <a href="${LMS_URL}">Elevate LMS</a> — log in to your student portal to access your courses.</p>
 
-<p>If you have questions or need assistance, contact support at (317) 314-3757.</p>
+<p>If you have questions or need assistance, contact support at ${PLATFORM_DEFAULTS.supportPhone}.</p>
 
-<p>— Elevate for Humanity</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
               `,
             });
             
@@ -951,7 +952,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         if (studentEmail && isFirstFailure) {
           try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: studentEmail,
               subject: '⚠️ Payment Failed — Action Required to Keep Your Enrollment',
@@ -971,8 +972,8 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 </p>
 <p style="color:#dc2626;font-weight:bold">Important: If this is not resolved within 7 days, your account will be suspended from logging hours. You can continue coursework, but hours cannot be recorded until your billing is resolved.</p>
 <p>Hours logged while suspended do not count toward your apprenticeship total.</p>
-<p>Call us at <a href="tel:3173143757">(317) 314-3757</a> if you need help — we can work with you before suspension occurs.</p>
-<p>— Elevate for Humanity</p>
+<p>Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> if you need help — we can work with you before suspension occurs.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>`,
             });
           } catch (emailErr) {
@@ -1060,13 +1061,13 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             metadata: { source: 'invoice.paid_webhook' },
           }).then(()=>{}, ()=>{});
 
-          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
           if (subRecord.customer_email) {
             const { sendEmail } = await import('@/lib/email/sendgrid');
             await sendEmail({
               to: subRecord.customer_email,
               subject: 'Your Barber Apprenticeship access has been restored',
-              html: `<p>Hi ${subRecord.customer_name || 'Apprentice'},</p><p>Your payment was processed and your access has been fully restored.</p><p><a href="${siteUrl}/learner/dashboard">Go to Dashboard</a></p><p>— Elevate for Humanity</p>`,
+              html: `<p>Hi ${subRecord.customer_name || 'Apprentice'},</p><p>Your payment was processed and your access has been fully restored.</p><p><a href="${siteUrl}/learner/dashboard">Go to Dashboard</a></p><p>— ${PLATFORM_DEFAULTS.orgName}</p>`,
             }).then(()=>{}, ()=>{});
           }
 
@@ -1111,9 +1112,9 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
 <p>Your dashboard remains active for hour tracking and progress monitoring.</p>
 
-<p>Thank you for choosing Elevate for Humanity!</p>
+<p>Thank you for choosing ${PLATFORM_DEFAULTS.orgName}!</p>
 
-<p>— Elevate for Humanity Team</p>
+<p>— ${PLATFORM_DEFAULTS.orgName} Team</p>
                   `,
                 });
               }

@@ -5,6 +5,7 @@ import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Briefcase,
   User,
   Mail,
@@ -204,7 +205,7 @@ function ApplyPageContent() {
             {/* Elevate Graduate */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Are you an Elevate for Humanity graduate or student?
+                Are you an {PLATFORM_DEFAULTS.orgName} graduate or student?
               </label>
               <select
                 value={formData.elevateGraduate}
@@ -270,7 +271,7 @@ function ApplyPageContent() {
             {formData.license === 'no' && (
               <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
                 <p className="text-brand-blue-800 text-sm">
-                  <strong>Need training?</strong> Elevate for Humanity offers FREE esthetician 
+                  <strong>Need training?</strong> {PLATFORM_DEFAULTS.orgName} offers FREE esthetician 
                   training through WIOA funding.{' '}
                   <Link href="/programs/esthetician-apprenticeship" className="underline font-medium">
                     Learn more →

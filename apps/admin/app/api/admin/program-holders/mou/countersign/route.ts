@@ -12,6 +12,7 @@ import { toErrorMessage } from '@/lib/safe';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -100,7 +101,7 @@ const _POST = withAuth(
     const archiveEmail = process.env.MOU_ARCHIVE_EMAIL;
     if (archiveEmail && updated) {
       try {
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
         await internalFetch(`${siteUrl}/api/email/send`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

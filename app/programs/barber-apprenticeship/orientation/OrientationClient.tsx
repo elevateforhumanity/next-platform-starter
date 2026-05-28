@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { formatCurrency } from '@/lms-data/orientationConfig';
 import { BARBER_PRICING } from '@/lib/programs/pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface BarberPaymentSummary {
   downPayment: number;
@@ -78,7 +79,7 @@ const HANDBOOK_SLIDES = [
       'Program access is suspended if a failed payment is not resolved within 7 days.',
       'Suspended students cannot log hours or access coursework. Suspended hours do not count toward your total.',
       'Enrollment may be terminated after 7 days of non-payment. Amounts already paid are non-refundable.',
-      'Call (317) 314-3757 before a payment fails — we can work with you proactively.',
+      'Call {PLATFORM_DEFAULTS.supportPhone} before a payment fails — we can work with you proactively.',
     ],
   },
   {
@@ -86,7 +87,7 @@ const HANDBOOK_SLIDES = [
     icon: AlertTriangle,
     title: 'Conduct & Termination',
     content: [
-      'You represent Elevate for Humanity at your host shop. Professional conduct is required at all times.',
+      'You represent {PLATFORM_DEFAULTS.orgName} at your host shop. Professional conduct is required at all times.',
       'Violations that may result in immediate termination: GPS fraud, harassment, theft, or falsifying hours.',
       'Your host shop may request your removal at any time. Elevate will attempt to place you at another shop, but this is not guaranteed.',
       'If you voluntarily leave the program, amounts already paid are non-refundable.',
@@ -149,7 +150,7 @@ export default function BarberOrientationClient({ payment }: { payment: BarberPa
       }
       router.push('/programs/barber-apprenticeship/documents');
     } catch {
-      setSubmitError('We could not save your orientation completion. Please try again or call (317) 314-3757.');
+      setSubmitError('We could not save your orientation completion. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setSubmitting(false);
     }

@@ -7,6 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -33,14 +34,14 @@ export async function POST(request: NextRequest) {
 
   await sendEmail({
     to: profile.email,
-    subject: 'We want to help you get back on track — Elevate for Humanity',
+    subject: 'We want to help you get back on track — ' + PLATFORM_DEFAULTS.orgName + '',
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px">
         <h2 style="color:#1e293b">Hi ${firstName},</h2>
         <p>We noticed you haven't been active in your program recently and we want to make sure you have the support you need.</p>
         <p>Your success matters to us. If you're facing any challenges — scheduling, funding, personal circumstances — please reach out and we'll work with you.</p>
         <p><strong>Reply to this email</strong> or call us directly and we'll connect you with your case manager.</p>
-        <p style="margin-top:24px">— Elevate for Humanity Student Services</p>
+        <p style="margin-top:24px">— ${PLATFORM_DEFAULTS.orgName} Student Services</p>
       </div>
     `,
   });

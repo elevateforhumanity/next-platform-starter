@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createBrowserClient } from '@supabase/ssr';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function GrantProgramsPage() {
   const [dbRows, setDbRows] = useState<any[]>([]);
@@ -240,7 +241,7 @@ export default function GrantProgramsPage() {
               <Link href="/contact" className="text-brand-orange-600 hover:underline">
                 Contact us
               </Link>{' '}
-              or contact us at (317) 314-3757
+              or contact us at {PLATFORM_DEFAULTS.supportPhone}
             </p>
           </div>
         </div>

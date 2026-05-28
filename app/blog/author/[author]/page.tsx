@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export async function generateMetadata({
@@ -17,12 +18,12 @@ export async function generateMetadata({
     title: `Articles by ${author} | Elevate For Humanity`,
     description: `Read articles written by ${author}`,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/blog/author/${authorSlug}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/blog/author/${authorSlug}`,
     },
     openGraph: {
       title: `Articles by ${author} | Elevate For Humanity`,
       description: `Read articles written by ${author}`,
-      url: `https://www.elevateforhumanity.org/blog/author/${authorSlug}`,
+      url: `${PLATFORM_DEFAULTS.siteUrl}/blog/author/${authorSlug}`,
       type: 'website',
       images: [
         {

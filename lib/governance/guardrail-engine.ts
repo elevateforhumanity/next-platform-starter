@@ -14,6 +14,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CRITICAL_GUARDRAILS,
   MAJOR_GUARDRAILS,
   MINOR_GUARDRAILS,
@@ -295,7 +296,7 @@ async function sendGuardrailNotifications(
   }
 
   if (policy.notifyAdmin) {
-    const adminEmail = process.env.ADMIN_ALERT_EMAIL || process.env.ADMIN_EMAIL || 'compliance@elevateforhumanity.org';
+    const adminEmail = process.env.ADMIN_ALERT_EMAIL || process.env.ADMIN_EMAIL || 'compliance@${PLATFORM_DEFAULTS.canonicalDomain}';
     notifications.push(
       sendEmail({
         to: adminEmail,

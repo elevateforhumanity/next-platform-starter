@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function GET() {
   try {
@@ -13,7 +14,7 @@ export async function GET() {
       .order('published_at', { ascending: false })
       .limit(50);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const buildDate = new Date().toUTCString();
 
     const rss = `<?xml version="1.0" encoding="UTF-8"?>

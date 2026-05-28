@@ -3,12 +3,13 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import WorkforceShell from './WorkforceShell';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Workforce Portal | Elevate for Humanity',
+    default: 'Workforce Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Workforce Portal',
   },
   description: 'Participant management, placements, compliance, and workforce outcomes.',

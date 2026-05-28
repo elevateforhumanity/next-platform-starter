@@ -6,6 +6,7 @@ import { Upload, FileText, AlertCircle, X, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface UploadedFile {
   name: string;
@@ -94,13 +95,13 @@ export default function BeautyDocumentsPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setSubmitError(data.error || 'Submission failed. Please try again or call (317) 314-3757.');
+        setSubmitError(data.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         setSubmitting(false);
         return;
       }
       router.push(`/programs/${cfg.slug}/payment-setup`);
     } catch {
-      setSubmitError('Unable to submit. Please try again or call (317) 314-3757.');
+      setSubmitError('Unable to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.');
       setSubmitting(false);
     }
   };

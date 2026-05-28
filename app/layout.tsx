@@ -20,6 +20,7 @@ import { generateChromeSuppressionScript } from '@/lib/layout/app-routes';
 import PWAManager from '@/components/PWAManager';
 import { InstallPromptBanner } from '@/components/pwa/InstallPromptBanner';
 import AuthRedirectHandler from '@/components/auth/AuthRedirectHandler';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const inter = { variable: '' };
 
@@ -31,16 +32,16 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-// Global SEO configuration - canonical domain is www.elevateforhumanity.org
-const SITE_URL = 'https://www.elevateforhumanity.org';
+// Global SEO configuration - canonical domain is ${PLATFORM_DEFAULTS.canonicalDomain}
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 const isProduction = process.env.NODE_ENV === 'production';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: 'Elevate for Humanity | Career Training at No Cost for Eligible Participants',
-    template: '%s | Elevate for Humanity',
+    default: '${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
+    template: '%s | ${PLATFORM_DEFAULTS.orgName}',
   },
 
   description:
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
 
   // Homepage canonical - child pages should override with their own
   alternates: {
-    canonical: 'https://www.elevateforhumanity.org',
+    canonical: PLATFORM_DEFAULTS.siteUrl,
   },
 
   keywords: [
@@ -75,13 +76,13 @@ export const metadata: Metadata = {
     'paid training programs Indianapolis',
   ],
 
-  authors: [{ name: 'Elevate for Humanity' }],
+  authors: [{ name: PLATFORM_DEFAULTS.orgName }],
 
   openGraph: {
     type: 'website',
     url: SITE_URL,
-    siteName: 'Elevate for Humanity',
-    title: 'Elevate for Humanity | Career Training at No Cost for Eligible Participants',
+    siteName: PLATFORM_DEFAULTS.orgName,
+    title: '{PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
     description:
       'Learn job-ready skills through career training programs in healthcare, skilled trades, CDL, and technology. Training at no cost to eligible Indiana residents through WIOA and state funding.',
     images: [
@@ -89,14 +90,14 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Elevate for Humanity — workforce training programs in Indianapolis',
+        alt: '{PLATFORM_DEFAULTS.orgName} — workforce training programs in Indianapolis',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Elevate for Humanity | Career Training at No Cost for Eligible Participants',
+    title: '{PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
     description:
       'Learn job-ready skills through career training programs in healthcare, skilled trades, CDL, and technology. Training at no cost to eligible Indiana residents through WIOA and state funding.',
     images: ['/images/og-image.jpg'],
@@ -165,10 +166,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'Elevate for Humanity',
-              url: 'https://www.elevateforhumanity.org',
-              logo: 'https://www.elevateforhumanity.org/logo.png',
-              image: 'https://www.elevateforhumanity.org/images/og-image.jpg',
+              name: PLATFORM_DEFAULTS.orgName,
+              url: PLATFORM_DEFAULTS.siteUrl,
+              logo: '${PLATFORM_DEFAULTS.siteUrl}/logo.png',
+              image: 'https://${PLATFORM_DEFAULTS.canonicalDomain}/images/og-image.jpg',
               sameAs: [
                 'https://www.facebook.com/elevateforhumanity',
                 'https://www.linkedin.com/company/elevate-for-humanity',

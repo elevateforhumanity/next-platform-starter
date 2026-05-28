@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FileText, Users, Calendar, ArrowRight, X, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CareerServicesHookProps {
   programName: string;
@@ -215,7 +216,7 @@ Notes: ${formData.get('notes') || 'None'}
                       type="tel"
                       name="phone"
                       className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                      placeholder="(317) 314-3757"
+                      placeholder={PLATFORM_DEFAULTS.supportPhone}
                     />
                   </div>
                   <div>

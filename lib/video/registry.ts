@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Video Registry - Canonical source of truth for all video content
  *
@@ -43,7 +44,7 @@ export interface VideoPlaybackEvent {
 export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'hero-home': {
     id: 'hero-home',
-    title: 'Elevate for Humanity - Free Career Training Programs',
+    title: '' + PLATFORM_DEFAULTS.orgName + ' - Free Career Training Programs',
     description:
       'Discover 100% free, funded workforce training programs in Indianapolis. WIOA-funded programs in healthcare, skilled trades, technology, and business.',
     video_url: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4',

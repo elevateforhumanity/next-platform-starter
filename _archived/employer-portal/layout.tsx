@@ -10,10 +10,11 @@ import {
   MessageSquare, BookOpen, Settings, Building2, TrendingUp,
 } from 'lucide-react';
 import EmployerNav from './EmployerNav';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Employer Portal | Elevate for Humanity',
+    default: 'Employer Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Elevate Hire',
   },
   description: 'Hire skilled graduates and access workforce solutions.',

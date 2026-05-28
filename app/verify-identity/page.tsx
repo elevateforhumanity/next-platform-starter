@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { IDVerificationForm } from '@/components/verification/IDVerificationForm';
 import { Shield } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -125,7 +126,7 @@ export default async function VerifyIdentityPage() {
             </p>
             <div className="p-4 bg-white rounded-lg border border-brand-red-200 mb-4">
               <p className="text-sm text-black">
-                Please contact support at (317) 314-3757 for details on why your verification was
+                Please contact support at {PLATFORM_DEFAULTS.supportPhone} for details on why your verification was
                 not approved.
               </p>
             </div>

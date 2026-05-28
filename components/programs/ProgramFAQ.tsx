@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const faqs = [
   {
@@ -17,7 +18,7 @@ const faqs = [
   {
     question: 'What do I tell the advisor?',
     answer:
-      "Tell them you are working with Elevate for Humanity and the program you're interested in.",
+      "Tell them you are working with {PLATFORM_DEFAULTS.orgName} and the program you're interested in.",
   },
   {
     question: "What if I don't qualify for funding?",

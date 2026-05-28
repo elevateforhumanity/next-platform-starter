@@ -1,4 +1,5 @@
 import { siteConfig } from '@/content/site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const routes = {
   home: '/',
@@ -17,7 +18,7 @@ export const routes = {
   contact: '/contact',
   funding: '/funding',
   enrollment: '/enrollment',
-  // Handoff to learn.elevateforhumanity.org
+  // Handoff to learn.${PLATFORM_DEFAULTS.canonicalDomain}
   apply: siteConfig.handoff.apply,
   login: siteConfig.handoff.login,
   checkout: siteConfig.handoff.checkout,

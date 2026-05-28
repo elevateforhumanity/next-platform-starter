@@ -8,6 +8,7 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
@@ -89,14 +90,14 @@ async function _POST(request: NextRequest) {
       const personalizedContent = html_content
         .replace(/\{\{student_name\}\}/g, student.full_name || 'Student')
         .replace(/\{\{user_name\}\}/g, student.full_name || 'Student')
-        .replace(/\{\{organization_name\}\}/g, 'Elevate for Humanity')
+        .replace(/\{\{organization_name\}\}/g, PLATFORM_DEFAULTS.orgName)
         .replace(/\{\{dashboard_link\}\}/g, 'https://www.elevateforhumanity.org/dashboard')
-        .replace(/\{\{support_email\}\}/g, 'support@elevateforhumanity.org')
+        .replace(/\{\{support_email\}\}/g, PLATFORM_DEFAULTS.supportEmail)
         .replace(/\{\{support_phone\}\}/g, '(555) 123-4567');
 
       try {
         await resend.emails.send({
-          from: `${profile.full_name} <noreply@elevateforhumanity.org>`,
+          from: `${profile.full_name} <${PLATFORM_DEFAULTS.emailFromAddress}>`,
           to: student.email,
           subject,
           html: personalizedContent,

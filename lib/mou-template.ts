@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * MOU Template Generator
  * Generates a Memorandum of Understanding for Training Providers
@@ -20,7 +21,7 @@ MEMORANDUM OF UNDERSTANDING (MOU)
 
 This Memorandum of Understanding ("MOU") outlines the collaborative partnership between:
 
-Elevate for Humanity Career & Technical Institute
+${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
 ("Elevate", "EFH", or "Training Sponsor")
 
 and
@@ -47,7 +48,7 @@ The purpose of this MOU is to establish a clear, written understanding of how El
 
 2. ROLES AND RESPONSIBILITIES
 
-2.1 Elevate for Humanity will:
+2.1 ${PLATFORM_DEFAULTS.orgName} will:
 
 a. Serve as the primary training sponsor and system of record for the programs listed in this MOU.
 
@@ -366,6 +367,6 @@ Date: ${data.date}
 ---
 
 This MOU was generated on ${data.date} via the Elevate for Humanity Training Provider Portal.
-For questions or to request modifications, contact: admin@www.elevateforhumanity.org
+For questions or to request modifications, contact: admin@${PLATFORM_DEFAULTS.canonicalDomain}
 `;
 }

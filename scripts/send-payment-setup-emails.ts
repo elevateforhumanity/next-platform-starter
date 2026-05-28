@@ -8,6 +8,7 @@
 
 import Stripe from 'stripe';
 import { sendEmail } from '@/lib/email';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2024-04-10',
@@ -63,7 +64,7 @@ async function sendPaymentSetupEmails() {
           </p>
           
           <p style="margin-top: 20px; font-size: 14px; color: #666;">
-            If you have any questions or need assistance, please contact us at (317) 314-3757 or reply to this email.
+            If you have any questions or need assistance, please contact us at ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
           </p>
           
           <p style="margin-top: 30px; color: #999; font-size: 12px;">

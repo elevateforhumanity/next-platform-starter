@@ -4,8 +4,9 @@ import Image from 'next/image';
 import { ArrowRight, Phone, MessageSquare, Calendar } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const metadata: Metadata = {
   title: 'Student Support Services',
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     description:
       'Access academic support, financial aid, career services, and counseling to help you succeed.',
     url: `${SITE_URL}/student-support`,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     type: 'website',
     images: [
       {
@@ -109,7 +110,7 @@ export default function StudentSupportPage() {
         analyticsName="student-support"
       >
         <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">
-          Elevate for Humanity
+          {PLATFORM_DEFAULTS.orgName}
         </p>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-4">
           Student Support Services
@@ -185,14 +186,14 @@ export default function StudentSupportPage() {
               <Phone className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
               <h3 className="font-bold text-slate-900 mb-1">Phone Support</h3>
               <a
-                href="tel:+13173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="text-brand-green-600 font-semibold hover:underline"
               >
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <p className="text-sm text-slate-500 mt-1">Mon–Fri 8am–6pm EST</p>
               <Link
-                href="tel:+13173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="inline-flex items-center gap-2 mt-4 bg-brand-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
               >
                 Call Now

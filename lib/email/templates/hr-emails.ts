@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * HR / Hiring Email Templates
  * Fired automatically at each step of the hiring and onboarding pipeline.
@@ -21,8 +22,8 @@ const BRAND = {
   muted: '#64748B',
 };
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-const FROM = 'Elevate for Humanity HR <hr@elevateforhumanity.org>';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
+const FROM = '' + PLATFORM_DEFAULTS.orgName + ' HR <hr@elevateforhumanity.org>';
 const REPLY_TO = 'hr@elevateforhumanity.org';
 
 function layout(body: string) {
@@ -33,7 +34,7 @@ function layout(body: string) {
   <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;margin-top:24px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
     <!-- Header -->
     <div style="background:${BRAND.primary};padding:28px 32px;text-align:center">
-      <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" height="60" style="display:block;margin:0 auto 12px" />
+      <img src="${BASE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} height="60" style="display:block;margin:0 auto 12px" />
       <p style="color:#94a3b8;font-size:13px;margin:0">Workforce Development · Career Training · Indianapolis, IN</p>
     </div>
     <!-- Body -->
@@ -42,9 +43,9 @@ function layout(body: string) {
     </div>
     <!-- Footer -->
     <div style="background:${BRAND.light};border-top:1px solid #e2e8f0;padding:20px 32px;text-align:center;color:${BRAND.muted};font-size:12px">
-      <p style="margin:0 0 4px">Elevate for Humanity Career &amp; Technical Institute</p>
+      <p style="margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
       <p style="margin:0 0 4px">8888 Keystone Crossing Suite 1300 · Indianapolis, IN 46240</p>
-      <p style="margin:0">(317) 314-3757 · <a href="mailto:hr@elevateforhumanity.org" style="color:${BRAND.primary}">hr@elevateforhumanity.org</a></p>
+      <p style="margin:0">${PLATFORM_DEFAULTS.supportPhone} · <a href="mailto:hr@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:${BRAND.primary}">hr@${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
     </div>
   </div>
 </body>
@@ -87,11 +88,11 @@ export const hrEmailTemplates = {
   application_received: (p: HrEmailParams) => ({
     from: FROM,
     replyTo: REPLY_TO,
-    subject: `We received your application — ${p.position ?? 'Elevate for Humanity'}`,
+    subject: `We received your application — ${p.position ?? PLATFORM_DEFAULTS.orgName}`,
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">Application Received</h2>
       <p>Hi ${p.firstName},</p>
-      <p>Thank you for applying to <strong>${p.position ?? 'a position'}</strong> at Elevate for Humanity. We've received your application and our HR team will review it shortly.</p>
+      <p>Thank you for applying to <strong>${p.position ?? 'a position'}</strong> at ${PLATFORM_DEFAULTS.orgName}. We've received your application and our HR team will review it shortly.</p>
       <div style="background:${BRAND.light};border-left:4px solid ${BRAND.primary};padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0">
         <p style="margin:0 0 8px;font-weight:bold">What happens next:</p>
         <ol style="margin:0;padding-left:20px">
@@ -101,9 +102,9 @@ export const hrEmailTemplates = {
           <li>Offers are extended within 5–7 business days of interview</li>
         </ol>
       </div>
-      <p>If you have questions, reply to this email or call <strong>(317) 314-3757</strong>.</p>
+      <p>If you have questions, reply to this email or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
       <p>We appreciate your interest in joining our mission.</p>
-      <p style="margin-bottom:0">Warm regards,<br><strong>Elevate for Humanity HR Team</strong></p>
+      <p style="margin-bottom:0">Warm regards,<br><strong>${PLATFORM_DEFAULTS.orgName} HR Team</strong></p>
     `),
   }),
 
@@ -115,11 +116,11 @@ export const hrEmailTemplates = {
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">Thank You for Applying</h2>
       <p>Hi ${p.firstName},</p>
-      <p>We wanted to take a moment to personally thank you for your interest in joining the Elevate for Humanity team. Our work — connecting people to funded workforce training and career pathways — depends on dedicated people like you.</p>
+      <p>We wanted to take a moment to personally thank you for your interest in joining the ${PLATFORM_DEFAULTS.orgName} team. Our work — connecting people to funded workforce training and career pathways — depends on dedicated people like you.</p>
       <p>Your application for <strong>${p.position ?? 'this position'}</strong> has been logged and is in our review queue. We read every application carefully.</p>
       ${divider()}
       <p style="color:${BRAND.muted};font-size:14px">Application Reference: <strong>${p.applicationId ?? 'Pending'}</strong></p>
-      <p style="margin-bottom:0">Thank you again,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, Elevate for Humanity</p>
+      <p style="margin-bottom:0">Thank you again,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
     `),
   }),
 
@@ -127,7 +128,7 @@ export const hrEmailTemplates = {
   next_steps: (p: HrEmailParams) => ({
     from: FROM,
     replyTo: REPLY_TO,
-    subject: `Next steps for your application — ${p.position ?? 'Elevate for Humanity'}`,
+    subject: `Next steps for your application — ${p.position ?? PLATFORM_DEFAULTS.orgName}`,
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">You're Moving Forward!</h2>
       <p>Hi ${p.firstName},</p>
@@ -144,7 +145,7 @@ export const hrEmailTemplates = {
       ${btn('Start Competency Assessment', p.testLink ?? `${BASE_URL}/careers/assessment`)}
       <p style="text-align:center;color:${BRAND.muted};font-size:13px;margin-top:-12px">Link expires in 7 days</p>
       <p>After completing the assessment, our team will reach out within 2 business days to schedule your interview.</p>
-      <p style="margin-bottom:0">Best,<br><strong>Elevate for Humanity HR Team</strong></p>
+      <p style="margin-bottom:0">Best,<br><strong>${PLATFORM_DEFAULTS.orgName} HR Team</strong></p>
     `),
   }),
 
@@ -152,7 +153,7 @@ export const hrEmailTemplates = {
   interview_scheduled: (p: HrEmailParams) => ({
     from: FROM,
     replyTo: REPLY_TO,
-    subject: `Interview Scheduled — ${p.position ?? 'Elevate for Humanity'} · ${p.interviewDate ?? ''}`,
+    subject: `Interview Scheduled — ${p.position ?? PLATFORM_DEFAULTS.orgName} · ${p.interviewDate ?? ''}`,
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">Your Interview is Confirmed</h2>
       <p>Hi ${p.firstName},</p>
@@ -176,7 +177,7 @@ export const hrEmailTemplates = {
           <li>Questions? Reply to this email</li>
         </ul>
       </div>
-      <p style="margin-bottom:0">See you soon,<br><strong>Elevate for Humanity HR Team</strong></p>
+      <p style="margin-bottom:0">See you soon,<br><strong>${PLATFORM_DEFAULTS.orgName} HR Team</strong></p>
     `),
   }),
 
@@ -191,7 +192,7 @@ export const hrEmailTemplates = {
         <h2 style="color:${BRAND.primary};margin:8px 0 0">Welcome Aboard!</h2>
       </div>
       <p>Hi ${p.firstName},</p>
-      <p>We are thrilled to welcome you to the Elevate for Humanity team! You've been selected for the <strong>${p.position ?? 'position'}</strong>${p.department ? ` in our <strong>${p.department}</strong> department` : ''}, and we couldn't be more excited to have you join our mission.</p>
+      <p>We are thrilled to welcome you to the ${PLATFORM_DEFAULTS.orgName} team! You've been selected for the <strong>${p.position ?? 'position'}</strong>${p.department ? ` in our <strong>${p.department}</strong> department` : ''}, and we couldn't be more excited to have you join our mission.</p>
       <p>Your official start date is <strong>${p.startDate ?? 'TBD'}</strong>. Before then, you'll receive your formal offer letter and onboarding instructions.</p>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:20px 0">
         <p style="margin:0 0 8px;font-weight:bold;color:#15803d">Your next steps:</p>
@@ -204,7 +205,7 @@ export const hrEmailTemplates = {
       </div>
       ${btn('Start Onboarding', p.onboardingLink ?? `${BASE_URL}/onboarding/staff`, BRAND.accent)}
       <p>If you have any questions before your start date, don't hesitate to reach out. We're here to make your transition as smooth as possible.</p>
-      <p style="margin-bottom:0">With excitement,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, Elevate for Humanity</p>
+      <p style="margin-bottom:0">With excitement,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
     `),
   }),
 
@@ -212,12 +213,12 @@ export const hrEmailTemplates = {
   hire_letter: (p: HrEmailParams) => ({
     from: FROM,
     replyTo: REPLY_TO,
-    subject: `Offer Letter — ${p.position ?? 'Position'} at Elevate for Humanity`,
+    subject: `Offer Letter — ${p.position ?? 'Position'} at ${PLATFORM_DEFAULTS.orgName}`,
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">Formal Offer of Employment</h2>
       <p style="color:${BRAND.muted};font-size:13px">Date: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
       <p>Dear ${p.firstName}${p.lastName ? ' ' + p.lastName : ''},</p>
-      <p>On behalf of Elevate for Humanity Career &amp; Technical Institute, I am pleased to formally offer you the position of <strong>${p.position ?? 'Staff Member'}</strong>${p.department ? ` within our <strong>${p.department}</strong> department` : ''}.</p>
+      <p>On behalf of ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute, I am pleased to formally offer you the position of <strong>${p.position ?? 'Staff Member'}</strong>${p.department ? ` within our <strong>${p.department}</strong> department` : ''}.</p>
       <div style="background:${BRAND.light};border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:20px 0">
         <p style="margin:0 0 12px;font-weight:bold;color:${BRAND.primary}">Offer Details</p>
         <table style="width:100%;border-collapse:collapse;font-size:14px">
@@ -232,9 +233,9 @@ export const hrEmailTemplates = {
       <p>To accept this offer, please complete your onboarding portal within <strong>5 business days</strong>.</p>
       ${btn('Accept Offer & Start Onboarding', p.onboardingLink ?? `${BASE_URL}/onboarding/staff`)}
       <p>We look forward to having you on the team. Please don't hesitate to contact HR with any questions.</p>
-      <p style="margin-bottom:0">Sincerely,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO<br>Elevate for Humanity Career &amp; Technical Institute</p>
+      <p style="margin-bottom:0">Sincerely,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO<br>${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
       ${divider()}
-      <p style="font-size:12px;color:${BRAND.muted}">This offer letter does not constitute a contract of employment. Employment at Elevate for Humanity is at-will and may be terminated by either party at any time.</p>
+      <p style="font-size:12px;color:${BRAND.muted}">This offer letter does not constitute a contract of employment. Employment at ${PLATFORM_DEFAULTS.orgName} is at-will and may be terminated by either party at any time.</p>
     `),
   }),
 
@@ -246,7 +247,7 @@ export const hrEmailTemplates = {
     html: layout(`
       <h2 style="color:${BRAND.primary};margin-top:0">You Start Tomorrow!</h2>
       <p>Hi ${p.firstName},</p>
-      <p>We're so excited for your first day as <strong>${p.position ?? 'a team member'}</strong> at Elevate for Humanity. Here's everything you need to know before you arrive.</p>
+      <p>We're so excited for your first day as <strong>${p.position ?? 'a team member'}</strong> at ${PLATFORM_DEFAULTS.orgName}. Here's everything you need to know before you arrive.</p>
       <div style="background:${BRAND.light};border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:20px 0">
         <p style="margin:0 0 12px;font-weight:bold">Pre-Start Checklist</p>
         <table style="width:100%;border-collapse:collapse;font-size:14px">
@@ -275,7 +276,7 @@ export const hrEmailTemplates = {
         <p style="margin:0;font-size:14px;color:#1e40af"><strong>First Day Info:</strong> Report to 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240. Bring a valid government-issued ID. Orientation begins at 9:00 AM.</p>
       </div>
       <p>See you tomorrow!</p>
-      <p style="margin-bottom:0">Warmly,<br><strong>Elevate for Humanity HR Team</strong></p>
+      <p style="margin-bottom:0">Warmly,<br><strong>${PLATFORM_DEFAULTS.orgName} HR Team</strong></p>
     `),
   }),
 };

@@ -9,14 +9,15 @@ import { Mail, Phone, MapPin, Clock, Send, AlertCircle, Loader2 } from 'lucide-r
 import Turnstile from '@/components/Turnstile';
 
 import FeedbackWidget from '@/components/FeedbackWidget';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
-    value: '(317) 314-3757',
+    value: PLATFORM_DEFAULTS.supportPhone,
     subtitle: 'Mon-Fri 8am-6pm EST',
-    href: 'tel:+13173143757',
+    href: 'tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}',
   },
   {
     icon: Mail,
@@ -103,7 +104,7 @@ function ContactPageInner() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/contact-page-1.webp"
-          alt="Elevate for Humanity contact"
+          alt="${PLATFORM_DEFAULTS.orgName} contact"
           fill
           sizes="100vw"
           quality={90}
@@ -343,11 +344,11 @@ function ContactPageInner() {
                     const endH = (parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0');
                     const endDT = `${date.replace(/-/g, '')}T${endH}${time.split(':')[1]}00`;
                     const details = `Meeting with ${name} (${email})%0A%0ATopic: ${encodeURIComponent(topic || 'General inquiry')}%0A%0AZoom Link: ${zoomLink}`;
-                    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Elevate for Humanity — Meeting')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)},${encodeURIComponent('info@elevateforhumanity.org')}&location=Zoom`;
+                    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('${PLATFORM_DEFAULTS.orgName} — Meeting')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)},${encodeURIComponent('info@${PLATFORM_DEFAULTS.canonicalDomain}')}&location=Zoom`;
 
                     window.open(calUrl, '_blank');
                   } catch {
-                    alert('Failed to schedule meeting. Please call (317) 314-3757.');
+                    alert('Failed to schedule meeting. Please call {PLATFORM_DEFAULTS.supportPhone}.');
                   }
                 }}
                 className="space-y-4"
@@ -476,17 +477,17 @@ function ContactPageInner() {
               <p className="text-black text-sm">
                 Questions? Call{' '}
                 <a
-                  href="tel:+13173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="text-brand-blue-600 font-medium hover:underline"
                 >
-                  (317) 314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>
             </div>
 
             {/* Campus Info */}
             <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="font-semibold text-slate-900 mb-2">Elevate for Humanity</h3>
+              <h3 className="font-semibold text-slate-900 mb-2">{PLATFORM_DEFAULTS.orgName}</h3>
               <p className="text-black">8888 Keystone Crossing, Suite 1300</p>
               <p className="text-black">Indianapolis, IN 46240</p>
               <p className="text-black mt-3 text-sm font-medium text-amber-700">
@@ -508,7 +509,7 @@ function ContactPageInner() {
             },
             {
               q: 'How quickly will I get a response?',
-              a: 'We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at (317) 314-3757.',
+              a: 'We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at {PLATFORM_DEFAULTS.supportPhone}.',
             },
             {
               q: 'Can I visit your office in person?',

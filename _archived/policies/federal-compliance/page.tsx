@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Shield, Scale, Users, Accessibility, FileText, ArrowRight, Phone, Mail } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Federal Compliance Policy | Elevate for Humanity',
+  title: 'Federal Compliance Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Our commitment to compliance with FERPA, Title IX, ADA, WIOA, and other federal regulations.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/federal-compliance',
@@ -41,7 +42,7 @@ export default async function FederalCompliancePage() {
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Federal Compliance Policy</h1>
             <p className="text-xl text-brand-blue-100">
-              Elevate for Humanity maintains full compliance with all applicable federal laws governing educational institutions and workforce development programs.
+              {PLATFORM_DEFAULTS.orgName} maintains full compliance with all applicable federal laws governing educational institutions and workforce development programs.
             </p>
             <p className="text-sm text-brand-blue-200 mt-4">Effective Date: January 1, 2025 | Last Updated: January 2026</p>
           </div>
@@ -54,7 +55,7 @@ export default async function FederalCompliancePage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Policy Statement</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              Elevate for Humanity ("the Institution") is committed to maintaining full compliance with all applicable federal laws, regulations, and guidelines that govern educational institutions and workforce development programs. As a recipient of federal funding through the Workforce Innovation and Opportunity Act (WIOA) and other federal programs, we recognize our responsibility to uphold the highest standards of legal and ethical conduct.
+              {PLATFORM_DEFAULTS.orgName} ("the Institution") is committed to maintaining full compliance with all applicable federal laws, regulations, and guidelines that govern educational institutions and workforce development programs. As a recipient of federal funding through the Workforce Innovation and Opportunity Act (WIOA) and other federal programs, we recognize our responsibility to uphold the highest standards of legal and ethical conduct.
             </p>
             <p>
               This policy establishes our framework for ensuring compliance with key federal statutes including the Family Educational Rights and Privacy Act (FERPA), Title IX of the Education Amendments of 1972, the Americans with Disabilities Act (ADA), Section 504 of the Rehabilitation Act, and the Workforce Innovation and Opportunity Act (WIOA). All employees, contractors, and partners are required to understand and adhere to these requirements.
@@ -76,7 +77,7 @@ export default async function FederalCompliancePage() {
           
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              The Family Educational Rights and Privacy Act (FERPA) is a federal law that protects the privacy of student education records. FERPA applies to all schools that receive funds under an applicable program of the U.S. Department of Education. Elevate for Humanity fully complies with FERPA requirements.
+              The Family Educational Rights and Privacy Act (FERPA) is a federal law that protects the privacy of student education records. FERPA applies to all schools that receive funds under an applicable program of the U.S. Department of Education. {PLATFORM_DEFAULTS.orgName} fully complies with FERPA requirements.
             </p>
             
             <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Student Rights Under FERPA</h3>
@@ -119,7 +120,7 @@ export default async function FederalCompliancePage() {
           
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              Title IX of the Education Amendments of 1972 prohibits discrimination on the basis of sex in any education program or activity receiving federal financial assistance. Elevate for Humanity does not discriminate on the basis of sex in its educational programs, activities, or employment practices.
+              Title IX of the Education Amendments of 1972 prohibits discrimination on the basis of sex in any education program or activity receiving federal financial assistance. {PLATFORM_DEFAULTS.orgName} does not discriminate on the basis of sex in its educational programs, activities, or employment practices.
             </p>
             
             <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Scope of Protection</h3>
@@ -146,7 +147,7 @@ export default async function FederalCompliancePage() {
             <div className="bg-white rounded-lg p-4 mt-4">
               <p className="font-semibold text-gray-900">Title IX Coordinator Contact:</p>
               <p>Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></p>
-              <p>Phone: (317) 314-3757</p>
+              <p>Phone: {PLATFORM_DEFAULTS.supportPhone}</p>
             </div>
           </div>
         </section>
@@ -165,7 +166,7 @@ export default async function FederalCompliancePage() {
           
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              The Americans with Disabilities Act (ADA) and Section 504 of the Rehabilitation Act prohibit discrimination against individuals with disabilities. Elevate for Humanity is committed to providing equal access to all programs, services, and activities for individuals with disabilities.
+              The Americans with Disabilities Act (ADA) and Section 504 of the Rehabilitation Act prohibit discrimination against individuals with disabilities. {PLATFORM_DEFAULTS.orgName} is committed to providing equal access to all programs, services, and activities for individuals with disabilities.
             </p>
             
             <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Reasonable Accommodations</h3>
@@ -206,7 +207,7 @@ export default async function FederalCompliancePage() {
           
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              The Workforce Innovation and Opportunity Act (WIOA) is the primary federal workforce development legislation. As a WIOA-approved Eligible Training Provider, Elevate for Humanity complies with all WIOA requirements regarding program delivery, participant eligibility, data collection, and performance reporting.
+              The Workforce Innovation and Opportunity Act (WIOA) is the primary federal workforce development legislation. As a WIOA-approved Eligible Training Provider, {PLATFORM_DEFAULTS.orgName} complies with all WIOA requirements regarding program delivery, participant eligibility, data collection, and performance reporting.
             </p>
             
             <h3 className="text-xl font-bold text-gray-900 mt-6 mb-3">Equal Opportunity Requirements</h3>
@@ -241,7 +242,7 @@ export default async function FederalCompliancePage() {
               <h3 className="font-bold text-lg mb-3">Internal Reporting</h3>
               <div className="space-y-2 text-gray-300">
                 <p className="flex items-center gap-2"><Mail className="w-4 h-4" /> our contact form</p>
-                <p className="flex items-center gap-2"><Phone className="w-4 h-4" /> (317) 314-3757</p>
+                <p className="flex items-center gap-2"><Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}</p>
               </div>
               <Link href="/policies/grievance" className="inline-block mt-4 text-brand-orange-400 hover:text-brand-orange-300">
                 View Grievance Procedure →

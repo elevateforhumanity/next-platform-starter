@@ -4,11 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Tuition & Fees',
   description:
-    'Complete tuition and fee schedule for all programs at Elevate for Humanity. Transparent pricing with no hidden costs.',
+    'Complete tuition and fee schedule for all programs at {PLATFORM_DEFAULTS.orgName}. Transparent pricing with no hidden costs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/tuition-fees',
   },
@@ -29,7 +30,7 @@ export default async function TuitionFeesPage() {
   // Static program data — authoritative tuition schedule
   // DB programs supplement this if tuition_cost is populated
   const STATIC_PROGRAMS = [
-    // Prices sourced from INTraining / ETPL official listing (2Exclusive LLC-S / Elevate for Humanity Training Center)
+    // Prices sourced from INTraining / ETPL official listing (2Exclusive LLC-S / {PLATFORM_DEFAULTS.orgName} Training Center)
     {
       name: 'Barber Apprenticeship',
       duration: '15 months',
@@ -224,7 +225,7 @@ export default async function TuitionFeesPage() {
             </li>
             <li>
               • Funding eligibility (WIOA/WRG) is determined by your local workforce agency, not by
-              Elevate for Humanity
+              ${PLATFORM_DEFAULTS.orgName}
             </li>
             <li>
               • See our{' '}
@@ -296,7 +297,7 @@ export default async function TuitionFeesPage() {
           <p className="text-slate-700 mb-4">
             Some programs prepare students for industry certification exams administered by third
             parties. These fees are paid directly to the certifying organization and are not
-            collected by Elevate for Humanity.
+            collected by {PLATFORM_DEFAULTS.orgName}.
           </p>
           <ul className="text-slate-700 space-y-2 text-sm">
             {programs
@@ -369,7 +370,7 @@ export default async function TuitionFeesPage() {
         {/* Footer Links */}
         <div className="mt-12 pt-8 border-t text-center">
           <p className="text-slate-600 mb-4">
-            Questions about tuition or payment options? Contact us at (317) 314-3757 or our contact
+            Questions about tuition or payment options? Contact us at {PLATFORM_DEFAULTS.supportPhone} or our contact
             form
           </p>
           <div className="flex justify-center gap-6 text-sm">
@@ -403,7 +404,7 @@ export default async function TuitionFeesPage() {
                 className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
               >
                 <Phone className="w-4 h-4" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

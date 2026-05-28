@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { ArrowLeft, Scissors, Store } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import FundingGateCard from '@/components/programs/FundingGateCard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Apply — Barber Apprenticeship',
   description:
-    'Apply to the Elevate for Humanity DOL-registered barber apprenticeship — as an apprentice or as a partner barbershop.',
+    'Apply to the {PLATFORM_DEFAULTS.orgName} DOL-registered barber apprenticeship — as an apprentice or as a partner barbershop.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/apply' },
 };
 

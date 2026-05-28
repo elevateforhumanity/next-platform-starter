@@ -17,6 +17,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { useI18n, I18nProvider } from '@/lib/i18n/context';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /* Data */
 
@@ -294,7 +295,7 @@ function StudyGuideContent() {
 
   const buildTextContent = () => {
     let text = 'EPA 608 UNIVERSAL CERTIFICATION STUDY GUIDE\n';
-    text += 'Elevate for Humanity Career & Technical Institute\n';
+    text += '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute\n';
     text += '='.repeat(60) + '\n\n';
 
     text += 'CERTIFICATION TYPES\n' + '-'.repeat(40) + '\n';
@@ -328,7 +329,7 @@ function StudyGuideContent() {
     });
 
     text += '\n' + '='.repeat(60) + '\n';
-    text += 'Elevate for Humanity | Indianapolis, IN\n';
+    text += '${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN\n';
     text += 'ETPL Program #10004322 | WIOA-Approved\n';
     return text;
   };
@@ -340,7 +341,7 @@ function StudyGuideContent() {
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="font-bold text-slate-900">EPA 608 Study Guide</h1>
-            <p className="text-xs text-black">Elevate for Humanity · HVAC Technician</p>
+            <p className="text-xs text-black">${PLATFORM_DEFAULTS.orgName} · HVAC Technician</p>
           </div>
           <div className="flex gap-2">
             <button
@@ -549,7 +550,7 @@ function StudyGuideContent() {
 
         {/* Footer */}
         <div className="text-center text-xs text-black pb-8 print:pb-4">
-          <p>Elevate for Humanity Career & Technical Institute · Indianapolis, IN</p>
+          <p>{PLATFORM_DEFAULTS.orgName} Career & Technical Institute · Indianapolis, IN</p>
           <p className="mt-1">{sg('footer')}</p>
           <p className="mt-1">{sg('footerNote')}</p>
         </div>

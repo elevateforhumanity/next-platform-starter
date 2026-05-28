@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, CheckCircle, Building2, Users, FileText, BarChart3 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'For Partners',
-  description: 'Partner with Elevate for Humanity as a training provider, employer, workforce agency, or government entity.',
+  description: 'Partner with {PLATFORM_DEFAULTS.orgName} as a training provider, employer, workforce agency, or government entity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners' },
   robots: { index: false, follow: false },
 };

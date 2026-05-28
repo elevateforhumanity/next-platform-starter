@@ -12,9 +12,10 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Community Groups | Elevate for Humanity',
+  title: 'Community Groups | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Join study groups, networking circles, and special interest groups. Connect with peers who share your goals and interests.',
   alternates: {

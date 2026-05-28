@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Employer Partnership Agreement',
@@ -18,7 +19,7 @@ export default function EmployerAgreementPage() {
       <DocumentPage
         documentType="Employer Partnership Agreement"
         title="Employer Partnership Agreement"
-        subtitle="Elevate for Humanity — Workforce & Apprenticeship Programs"
+        subtitle="{PLATFORM_DEFAULTS.orgName} — Workforce & Apprenticeship Programs"
         date="2025-01-01"
         version="1.0"
         confidential
@@ -27,7 +28,7 @@ export default function EmployerAgreementPage() {
           <p>
             This Employer Partnership Agreement is entered into between{' '}
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
+              2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
             </strong>{' '}
             ("Elevate") and the employer identified at the time of execution ("Employer").
           </p>
@@ -133,11 +134,11 @@ export default function EmployerAgreementPage() {
 
         <DocumentSection heading="Contact" number={10}>
           <p>
-            Elevate for Humanity — Program Director
+            {PLATFORM_DEFAULTS.orgName} — Program Director
             <br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
             <br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

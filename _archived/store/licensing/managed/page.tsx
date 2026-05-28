@@ -9,10 +9,11 @@ import Image from 'next/image';
 import { BNPL_CHECKOUT_LABEL } from '@/lib/bnpl-config';
 import { Check, Shield, Users, BarChart3, Lock, Headphones, ArrowRight, AlertTriangle } from 'lucide-react';
 import { LicenseDemo } from '@/components/store/LicenseDemo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Managed Enterprise LMS Platform | Elevate for Humanity',
-  description: 'Run your organization on an enterprise LMS operated by Elevate for Humanity. Your branding, your domain, our infrastructure.',
+  title: 'Managed Enterprise LMS Platform | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Run your organization on an enterprise LMS operated by {PLATFORM_DEFAULTS.orgName}. Your branding, your domain, our infrastructure.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licensing/managed',
   },
@@ -106,7 +107,7 @@ export default function ManagedPlatformPage() {
             </h1>
             
             <p className="text-xl text-slate-700 mb-4">
-              Elevate for Humanity operates the LMS. You operate your organization within it.
+              {PLATFORM_DEFAULTS.orgName} operates the LMS. You operate your organization within it.
             </p>
             <p className="text-slate-600 mb-8">
               Your branding, your domain, your programs — backed by our technology and operations team.
@@ -403,7 +404,7 @@ export default function ManagedPlatformPage() {
       <section className="py-8 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-slate-600 text-xs">
-            All products are licensed access to platforms operated by Elevate for Humanity. 
+            All products are licensed access to platforms operated by {PLATFORM_DEFAULTS.orgName}. 
             Ownership of software, infrastructure, and intellectual property is not transferred.
           </p>
         </div>

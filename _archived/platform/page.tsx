@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Platform',
-  description: 'The Elevate for Humanity platform connects learners, employers, workforce boards, and training providers.',
+  description: 'The {PLATFORM_DEFAULTS.orgName} platform connects learners, employers, workforce boards, and training providers.',
   path: '/platform',
 });
 

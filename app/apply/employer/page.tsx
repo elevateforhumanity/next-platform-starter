@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import EmployerApplicationForm from './EmployerApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,7 +38,7 @@ export default async function EmployerApplicationPage() {
           priority placeholder="empty"
         />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
-          <span className="text-sm font-bold text-slate-900">Elevate for Humanity</span>
+          <span className="text-sm font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type SiteLogoProps = {
   className?: string;
@@ -10,7 +11,7 @@ export function SiteLogo({ className }: SiteLogoProps) {
     <Link href="/" aria-label="Link" className={className ?? ''}>
       <Image
         src="/logo-small.png"
-        alt="Elevate for Humanity – Building Success Stories"
+        alt="{PLATFORM_DEFAULTS.orgName} – Building Success Stories"
         width={96}
         height={96}
         priority

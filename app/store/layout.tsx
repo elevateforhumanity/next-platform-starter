@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import StoreClientWrapper from './StoreClientWrapper';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Store — License the Elevate Workforce Platform',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     title: 'License the Elevate Workforce Platform',
     description: 'Deploy a proven eligibility-to-placement workforce system. Start with a 14-day free trial.',
     url: 'https://www.elevateforhumanity.org/store',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     type: 'website',
     images: [
       {

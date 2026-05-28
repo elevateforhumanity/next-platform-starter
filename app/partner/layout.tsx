@@ -1,16 +1,17 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: {
-    default: 'Host Site Portal | Elevate for Humanity',
+    default: 'Host Site Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Host Site Portal',
   },
-  description: 'Manage your host site partnership with Elevate for Humanity.',
+  description: 'Manage your host site partnership with {PLATFORM_DEFAULTS.orgName}.',
 };
 
 const PORTAL_ROLES = ['partner', 'program_holder', 'admin', 'super_admin', 'staff', 'org_admin'];

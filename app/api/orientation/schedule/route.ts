@@ -9,6 +9,7 @@ import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -44,8 +45,8 @@ async function _POST(request: Request) {
 
     const isBarbershop = sessionType === 'barbershop';
     const topic = isBarbershop
-      ? `Elevate for Humanity — Barbershop Walk-Through: ${safeName}`
-      : `Elevate for Humanity — Orientation: ${safeName}`;
+      ? `${PLATFORM_DEFAULTS.orgName} — Barbershop Walk-Through: ${safeName}`
+      : `${PLATFORM_DEFAULTS.orgName} — Orientation: ${safeName}`;
     const duration = isBarbershop ? 60 : 45;
     const agenda = isBarbershop
       ? `Barbershop walk-through / site visit for ${safeName} (${safeEmail}). Covers apprenticeship hosting requirements, OJT structure, and next steps.`
@@ -108,9 +109,9 @@ async function _POST(request: Request) {
       subject: `${sessionLabel} Confirmed — ${dateFormatted} at ${time}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
 // IMAGE-CONTRACT: allow raw img because legacy markup
-<img src="https://www.elevateforhumanity.org/logo.jpg" alt="Elevate for Humanity" width="120" style="margin-bottom:20px"/>
+<img src="${PLATFORM_DEFAULTS.siteUrl}/logo.jpg" alt={PLATFORM_DEFAULTS.orgName} width="120" style="margin-bottom:20px"/>
 <h2 style="color:#111827">Hi ${firstName},</h2>
-<p>Your <strong>${sessionLabel}</strong> with Elevate for Humanity is confirmed.</p>
+<p>Your <strong>${sessionLabel}</strong> with ${PLATFORM_DEFAULTS.orgName} is confirmed.</p>
 <table style="width:100%;border-collapse:collapse;margin:16px 0">
 <tr><td style="padding:10px;border:1px solid #e5e7eb;font-weight:bold;width:120px">Session</td><td style="padding:10px;border:1px solid #e5e7eb">${sessionLabel}</td></tr>
 <tr><td style="padding:10px;border:1px solid #e5e7eb;font-weight:bold">Date</td><td style="padding:10px;border:1px solid #e5e7eb">${dateFormatted}</td></tr>
@@ -122,9 +123,9 @@ async function _POST(request: Request) {
 <a href="${meeting.join_url}" style="color:#2563eb;font-size:14px">${meeting.join_url}</a><br/>
 ${meeting.id ? `<span style="color:#6b7280;font-size:12px">Meeting ID: ${meeting.id}</span>` : ''}
 </div>
-<p>Need to reschedule? Call or text <strong>(317) 314-3757</strong> or reply to this email.</p>
+<p>Need to reschedule? Call or text <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.</p>
 <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0"/>
-<p style="color:#6b7280;font-size:12px">Elevate for Humanity Career &amp; Technical Institute &middot; Indianapolis, IN</p>
+<p style="color:#6b7280;font-size:12px">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute &middot; Indianapolis, IN</p>
 </div>`,
     }).catch((err) => {
       logger.error('[Orientation] Student email failed:', err instanceof Error ? err.message : err);
@@ -181,7 +182,7 @@ ${meeting.id ? `<span style="color:#6b7280;font-size:12px">Meeting ID: ${meeting
   } catch (err) {
     logger.error('[Orientation] Error:', err instanceof Error ? err.message : err);
     return NextResponse.json(
-      { error: 'Failed to create meeting. Please call (317) 314-3757.' },
+      { error: 'Failed to create meeting. Please call ' + PLATFORM_DEFAULTS.supportPhone + '.' },
       { status: 500 },
     );
   }

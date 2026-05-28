@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   ArrowRight,
   Users,
@@ -19,7 +20,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'FSSA IMPACT Program | SNAP E&T Career Training',
   description:
-    "Indiana SNAP and TANF recipients may qualify for free career training through FSSA's IMPACT program. Elevate for Humanity is an ETPL-approved, FSSA-participating training provider.",
+    "Indiana SNAP and TANF recipients may qualify for free career training through FSSA's IMPACT program. {PLATFORM_DEFAULTS.orgName} is an ETPL-approved, FSSA-participating training provider.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/fssa' },
 };
 
@@ -97,7 +98,7 @@ export default function FssaPage() {
             Free Career Training for<br className="hidden md:block" /> SNAP &amp; TANF Recipients
           </h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-8">
-            Elevate for Humanity is an ETPL-approved, FSSA-participating training provider. If you
+            {PLATFORM_DEFAULTS.orgName} is an ETPL-approved, FSSA-participating training provider. If you
             receive SNAP or TANF benefits in Indiana, you may qualify for fully funded career
             training through the IMPACT program.
           </p>
@@ -147,7 +148,7 @@ export default function FssaPage() {
               education, and employment services.
             </p>
             <p className="text-slate-600 mb-4">
-              As an approved Third Party Provider (TPP), Elevate for Humanity delivers
+              As an approved Third Party Provider (TPP), {PLATFORM_DEFAULTS.orgName} delivers
               FSSA-reimbursable training in high-demand trades and healthcare fields. Participants
               pay nothing out of pocket — tuition, books, and exam fees are covered.
             </p>
@@ -290,10 +291,10 @@ export default function FssaPage() {
               <Mail className="w-4 h-4" /> agencies@elevateforhumanity.org
             </a>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50 transition"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

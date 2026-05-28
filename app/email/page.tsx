@@ -3,13 +3,14 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/email',
   },
   title: 'Email',
-  description: 'Manage your Elevate for Humanity inbox — program updates, instructor messages, and credential notifications.',
+  description: 'Manage your {PLATFORM_DEFAULTS.orgName} inbox — program updates, instructor messages, and credential notifications.',
 };
 
 export default async function EmailPage() {

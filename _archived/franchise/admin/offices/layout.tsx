@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Franchise Offices | Elevate for Humanity',
+  title: 'Franchise Offices | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage franchise office locations.',
 };
 

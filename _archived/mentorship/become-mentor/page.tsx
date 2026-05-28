@@ -2,9 +2,10 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Users } from 'lucide-react';
 import BecomeMentorForm from './BecomeMentorForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Become a Mentor | Elevate for Humanity',
+  title: 'Become a Mentor | {PLATFORM_DEFAULTS.orgName}',
   description: 'Volunteer as a mentor to guide students through career training programs. Share your industry experience with the next generation of workers.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/become-mentor' },
 };

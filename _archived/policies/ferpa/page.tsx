@@ -4,10 +4,11 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Force static generation - FERPA is a trust page that must never hang
 
 export const metadata: Metadata = {
-  title: 'FERPA Privacy Policy | Elevate for Humanity',
+  title: 'FERPA Privacy Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Family Educational Rights and Privacy Act compliance policy',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/ferpa',
@@ -28,7 +29,7 @@ export default async function FERPAPage() {
 
       <h2>Overview</h2>
       <p>
-        Elevate for Humanity complies with the Family Educational Rights and Privacy Act (FERPA),
+        {PLATFORM_DEFAULTS.orgName} complies with the Family Educational Rights and Privacy Act (FERPA),
         which protects the privacy of student education records. This policy explains your rights
         and our responsibilities under FERPA.
       </p>
@@ -115,7 +116,7 @@ export default async function FERPAPage() {
       <p>
         <strong>Registrar's Office</strong><br />
         Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a><br />
-        Phone: (317) 314-3757
+        Phone: {PLATFORM_DEFAULTS.supportPhone}
       </p>
 
       <h2>File a Complaint</h2>

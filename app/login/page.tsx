@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -256,7 +257,7 @@ function LoginForm() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/login-page-1.webp"
-          alt="Elevate for Humanity login"
+          alt="${PLATFORM_DEFAULTS.orgName} login"
           fill
           className="object-cover"
           priority
@@ -481,8 +482,8 @@ function LoginForm() {
           <div className="mt-6 text-center text-sm text-black">
             <p>
               Need help?{' '}
-              <a href="tel:+13173143757" className="text-brand-blue-600 font-semibold">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-semibold">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or{' '}
               <Link href="/support" className="text-brand-blue-600 font-semibold">

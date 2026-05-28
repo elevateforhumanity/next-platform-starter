@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import type { ProgramPageConfig } from '@/components/programs/ProgramPageContract';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-const SITE_NAME = 'Elevate for Humanity';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
+const SITE_NAME = PLATFORM_DEFAULTS.orgName;
 
 /**
  * Generate Next.js Metadata from ProgramPageContract config.

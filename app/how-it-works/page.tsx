@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     description:
       'From assessment to employment and follow-up support. See exactly how Elevate workforce and employment services work.',
     url: 'https://www.elevateforhumanity.org/how-it-works',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/images/pages/how-it-works-hero.webp',

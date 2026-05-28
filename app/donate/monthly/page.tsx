@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Heart, DollarSign, Users, Award, CheckCircle, ArrowRight, RefreshCw } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Monthly Giving | Sustain Workforce Development',
   description:
-    'Become a monthly donor and provide sustained support for career training, certifications, and job placement at Elevate for Humanity.',
+    'Become a monthly donor and provide sustained support for career training, certifications, and job placement at {PLATFORM_DEFAULTS.orgName}.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/donate/monthly' },
 };
 
@@ -147,7 +148,7 @@ export default async function MonthlyDonationPage() {
                   ))}
                 </ul>
                 <a
-                  href={`mailto:donate@elevateforhumanity.org?subject=Monthly Donation - $${tier.amount}/month`}
+                  href={`mailto:donate@${PLATFORM_DEFAULTS.canonicalDomain}?subject=Monthly Donation - $${tier.amount}/month`}
                   className={`w-full text-center rounded-lg px-4 py-2.5 text-sm font-semibold transition ${
                     tier.featured
                       ? 'bg-brand-red-600 text-white hover:bg-brand-red-700'

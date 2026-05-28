@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'ACT WorkKeys / NCRC | Elevate for Humanity — Indianapolis',
+  title: 'ACT WorkKeys / NCRC | {PLATFORM_DEFAULTS.orgName} — Indianapolis',
   description:
-    'Take the ACT WorkKeys assessment and earn the National Career Readiness Certificate (NCRC) at Elevate for Humanity in Indianapolis. Proctored on-site.',
+    'Take the ACT WorkKeys assessment and earn the National Career Readiness Certificate (NCRC) at {PLATFORM_DEFAULTS.orgName} in Indianapolis. Proctored on-site.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/workkeys' },
 };
 
@@ -78,7 +79,7 @@ export default function WorkKeysPage() {
           </h1>
           <p className="text-black text-base sm:text-lg max-w-2xl leading-relaxed mb-6">
             The National Career Readiness Certificate (NCRC) is a portable, employer-recognized
-            credential that proves your workplace skills. Proctored on-site at Elevate for Humanity
+            credential that proves your workplace skills. Proctored on-site at {PLATFORM_DEFAULTS.orgName}
             in Indianapolis.
           </p>
           <div className="flex flex-wrap gap-3">

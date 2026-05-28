@@ -9,12 +9,13 @@ import {
   FileText, PenLine, Hash,
 } from 'lucide-react';
 import ApproveButton from './ApproveButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Partner Barbershop Applications | Admin | Elevate for Humanity',
+  title: 'Partner Barbershop Applications | Admin | {PLATFORM_DEFAULTS.orgName}',
 };
 
 type Application = {
@@ -145,7 +146,7 @@ export default async function BarberShopApplicationsPage() {
             </p>
           </div>
           <Link
-            href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apply/student?program=barber-apprenticeship&type=partner_shop`}
+            href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/apply/student?program=barber-apprenticeship&type=partner_shop`}
             className="text-sm text-brand-blue-600 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
@@ -314,7 +315,7 @@ export default async function BarberShopApplicationsPage() {
                 </Link>
                 <ApproveButton applicationId={app.id} status={app.status} />
                 <a
-                  href={`mailto:${app.contact_email}?subject=Your Barbershop Partner Application — Elevate for Humanity`}
+                  href={`mailto:${app.contact_email}?subject=Your Barbershop Partner Application — ${PLATFORM_DEFAULTS.orgName}`}
                   className="text-sm px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition"
                 >
                   Email Applicant

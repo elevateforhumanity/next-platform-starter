@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getOpenAIClient, isOpenAIConfigured } from '@/lib/ai/openai-client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -76,11 +77,11 @@ async function _POST(request: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `You are a professional content writer for Elevate for Humanity, a workforce development organization in Indianapolis, Indiana. Write engaging, informative blog posts about career training, apprenticeships, and workforce development. Use a professional but accessible tone. Include practical information, statistics when relevant, and clear calls-to-action.`,
+          content: `You are a professional content writer for ${PLATFORM_DEFAULTS.orgName}, a workforce development organization in Indianapolis, Indiana. Write engaging, informative blog posts about career training, apprenticeships, and workforce development. Use a professional but accessible tone. Include practical information, statistics when relevant, and clear calls-to-action.`,
         },
         {
           role: 'user',
-          content: `Write a comprehensive blog post about: ${topic}\n\nContext from our site:\n${context}\n\nThe post should:\n- Be 800-1200 words\n- Use markdown formatting\n- Include relevant headings (##)\n- Provide actionable information\n- End with a call-to-action\n- Be SEO-friendly\n- Include information about WIOA funding if relevant\n- Mention our contact info: (317) 314-3757, info@elevateforhumanity.org`,
+          content: `Write a comprehensive blog post about: ${topic}\n\nContext from our site:\n${context}\n\nThe post should:\n- Be 800-1200 words\n- Use markdown formatting\n- Include relevant headings (##)\n- Provide actionable information\n- End with a call-to-action\n- Be SEO-friendly\n- Include information about WIOA funding if relevant\n- Mention our contact info: ${PLATFORM_DEFAULTS.supportPhone}, info@${PLATFORM_DEFAULTS.canonicalDomain}`,
         },
       ],
       temperature: 0.7,
@@ -128,7 +129,7 @@ async function _POST(request: NextRequest) {
         content,
         category: category || 'Resource',
         status: 'draft', // Admin can review before publishing
-        author_name: 'Elevate for Humanity',
+        author_name: PLATFORM_DEFAULTS.orgName,
         reading_time: readingTime,
         tags: [topic, programSlug].filter(Boolean),
       })

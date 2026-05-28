@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { FAQStructuredData, BreadcrumbStructuredData, OrganizationStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide. Employer placement pipeline. Agency referrals accepted.',
     url: CANONICAL,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Workforce Training Indianapolis' }],
     type: 'website',
   },
@@ -30,14 +31,14 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    question: 'What is Elevate for Humanity?',
+    question: 'What is {PLATFORM_DEFAULTS.orgName}?',
     answer:
-      'Elevate for Humanity is a nonprofit workforce development organization and Indiana ETPL-approved training provider headquartered in Indianapolis. We deliver career certification programs in healthcare, skilled trades, and technology. Elevate for Humanity is a workforce training provider, not a degree-granting institution.',
+      '{PLATFORM_DEFAULTS.orgName} is a nonprofit workforce development organization and Indiana ETPL-approved training provider headquartered in Indianapolis. We deliver career certification programs in healthcare, skilled trades, and technology. {PLATFORM_DEFAULTS.orgName} is a workforce training provider, not a degree-granting institution.',
   },
   {
     question: 'Who qualifies for no-cost or low-cost training?',
     answer:
-      'Funding eligibility—including WIOA, Workforce Ready Grant, and FSSA IMPACT—is determined by your local workforce agency or WorkOne office, not by Elevate for Humanity. Contact us or your nearest WorkOne center to start the eligibility process.',
+      'Funding eligibility—including WIOA, Workforce Ready Grant, and FSSA IMPACT—is determined by your local workforce agency or WorkOne office, not by {PLATFORM_DEFAULTS.orgName}. Contact us or your nearest WorkOne center to start the eligibility process.',
   },
   {
     question: 'What programs are available in Indianapolis?',
@@ -50,7 +51,7 @@ const faqs = [
       'You can apply online at elevateforhumanity.org/apply or contact our admissions team. If you are referred through WorkOne or a workforce agency, your case manager will coordinate enrollment.',
   },
   {
-    question: 'Does Elevate for Humanity work with employers?',
+    question: 'Does {PLATFORM_DEFAULTS.orgName} work with employers?',
     answer:
       'Yes. We provide employer partners with pre-screened, trained candidates, OJT wage reimbursement coordination, registered apprenticeship pathways, and Work Opportunity Tax Credit (WOTC) support. See our Employer Partnerships page.',
   },
@@ -73,7 +74,7 @@ export default function WorkforceTrainingIndianapolisPage() {
           tag: 'Indianapolis · Indiana',
           heading: 'Workforce Training & Career Certifications in Indianapolis',
           subtitle:
-            'Elevate for Humanity is Indiana\'s ETPL-approved, WIOA-compliant workforce training provider. We connect adults with funded career certifications in healthcare, skilled trades, and technology — and connect graduates with hiring employers.',
+            '{PLATFORM_DEFAULTS.orgName} is Indiana\'s ETPL-approved, WIOA-compliant workforce training provider. We connect adults with funded career certifications in healthcare, skilled trades, and technology — and connect graduates with hiring employers.',
           primaryCta: { label: 'Apply Now', href: '/apply' },
           secondaryCta: { label: 'Explore Programs', href: '/programs' },
         }}
@@ -119,8 +120,8 @@ export default function WorkforceTrainingIndianapolisPage() {
         funding={{
           heading: 'Funding & No-Cost Training Options',
           paragraphs: [
-            'Many Indianapolis and Indiana residents qualify for funded workforce training through federal and state programs. As an ETPL-approved provider, Elevate for Humanity is authorized to accept funding referrals from approved agencies.',
-            'The most common funding sources for our participants are the Workforce Innovation and Opportunity Act (WIOA), the Workforce Ready Grant, and FSSA IMPACT. Eligibility is determined by the referring agency, not by Elevate for Humanity.',
+            'Many Indianapolis and Indiana residents qualify for funded workforce training through federal and state programs. As an ETPL-approved provider, {PLATFORM_DEFAULTS.orgName} is authorized to accept funding referrals from approved agencies.',
+            'The most common funding sources for our participants are the Workforce Innovation and Opportunity Act (WIOA), the Workforce Ready Grant, and FSSA IMPACT. Eligibility is determined by the referring agency, not by {PLATFORM_DEFAULTS.orgName}.',
           ],
           bullets: [
             'WIOA — federal workforce funding for eligible adults and dislocated workers',
@@ -130,7 +131,7 @@ export default function WorkforceTrainingIndianapolisPage() {
             'Justice Reinvestment Initiative (JRI) — reentry workforce funding',
           ],
           eligibilityNote:
-            'Final funding eligibility is determined by your local WorkOne office or workforce agency, not by Elevate for Humanity. Contact us or WorkOne to start the eligibility process.',
+            'Final funding eligibility is determined by your local WorkOne office or workforce agency, not by {PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the eligibility process.',
         }}
         pathwaysHeading="Training Program Areas"
         pathways={[
@@ -168,7 +169,7 @@ export default function WorkforceTrainingIndianapolisPage() {
         employer={{
           heading: 'Employer Placement Pipeline',
           paragraphs: [
-            'Elevate for Humanity works directly with Indianapolis and Indiana employers to fill open positions with trained, certified candidates — at no recruiting fee.',
+            '{PLATFORM_DEFAULTS.orgName} works directly with Indianapolis and Indiana employers to fill open positions with trained, certified candidates — at no recruiting fee.',
             'We support OJT wage reimbursement programs, DOL-registered apprenticeships, and Work Opportunity Tax Credit (WOTC) eligibility for qualifying hires.',
           ],
           bullets: [
@@ -193,8 +194,8 @@ export default function WorkforceTrainingIndianapolisPage() {
           { label: 'Contact Us', href: '/contact' },
         ]}
         complianceNotes={[
-          'Elevate for Humanity is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation. Credentials and certifications are awarded by independent third-party certifying bodies.',
-          'Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by Elevate for Humanity. Approval is not guaranteed.',
+          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation. Credentials and certifications are awarded by independent third-party certifying bodies.',
+          'Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by {PLATFORM_DEFAULTS.orgName}. Approval is not guaranteed.',
           'Outcomes, wages, and employment are not guaranteed. Results vary based on individual effort, local market conditions, and employer hiring decisions.',
           'Content reviewed 2026. Program availability subject to change.',
         ]}

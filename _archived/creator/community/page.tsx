@@ -2,12 +2,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 
 export const metadata: Metadata = {
-  title: 'Creator Community | Elevate for Humanity',
+  title: 'Creator Community | {PLATFORM_DEFAULTS.orgName}',
   description: 'Connect with other course creators',
 };
 

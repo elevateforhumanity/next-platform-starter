@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Script to generate AI avatar hero videos using HeyGen API
  * Run with: npx ts-node scripts/generate-hero-videos.ts
@@ -17,7 +18,7 @@ interface HeroVideoConfig {
 const heroVideos: HeroVideoConfig[] = [
   {
     id: 'homepage',
-    title: 'Elevate for Humanity - Homepage',
+    title: '' + PLATFORM_DEFAULTS.orgName + ' - Homepage',
     script: `Welcome to Elevate for Humanity. We're transforming lives through free workforce training in Indianapolis. Whether you're looking to start a new career in healthcare, technology, commercial driving, or skilled trades, we're here to help you succeed. Our programs are completely free for eligible participants, and we provide job placement assistance to help you land your dream career. Take the first step toward your future today.`,
     avatarId: 'Adriana_Business_Front_public',
     outputFile: 'homepage-hero.mp4',

@@ -7,6 +7,7 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   User,
   Mail,
   Phone,
@@ -209,7 +210,7 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
 
       if (holderData?.contact_email) {
         const { sendProgramHolderApprovalEmail } = await import('@/lib/email/sendgrid');
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
         await sendProgramHolderApprovalEmail({
           email: holderData.contact_email,
           name: holderData.contact_name || holderData.organization_name || 'Partner',

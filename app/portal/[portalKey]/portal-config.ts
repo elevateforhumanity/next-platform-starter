@@ -15,6 +15,7 @@ import {
   Shield,
 } from 'lucide-react';
 import type { PortalKey } from '@/lib/portal/router';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface PortalConfig {
   label: string;
@@ -41,7 +42,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Heart,
     accentColor: 'text-rose-600',
     accentBg: 'bg-rose-600',
-    metaTitle: 'Healthcare Portal — Elevate for Humanity',
+    metaTitle: 'Healthcare Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your healthcare training portal. Track CNA, Medical Assistant, Phlebotomy, and other healthcare program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -59,7 +60,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Monitor,
     accentColor: 'text-indigo-600',
     accentBg: 'bg-indigo-600',
-    metaTitle: 'Technology Portal — Elevate for Humanity',
+    metaTitle: 'Technology Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your technology training portal. Track IT, Cybersecurity, Web Development, and other tech program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -77,7 +78,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Wrench,
     accentColor: 'text-amber-600',
     accentBg: 'bg-amber-600',
-    metaTitle: 'Skilled Trades Portal — Elevate for Humanity',
+    metaTitle: 'Skilled Trades Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your skilled trades training portal. Track HVAC, CDL, Welding, Electrical, and other trades program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -95,7 +96,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Briefcase,
     accentColor: 'text-emerald-600',
     accentBg: 'bg-emerald-600',
-    metaTitle: 'Business Portal — Elevate for Humanity',
+    metaTitle: 'Business Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your business & office training portal. Track Office Administration, Bookkeeping, and other business program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -113,7 +114,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Scissors,
     accentColor: 'text-pink-600',
     accentBg: 'bg-pink-600',
-    metaTitle: 'Beauty & Barber Portal — Elevate for Humanity',
+    metaTitle: 'Beauty & Barber Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your beauty & barber training portal. Track cosmetology, barber, and esthetics program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -131,7 +132,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Users,
     accentColor: 'text-teal-600',
     accentBg: 'bg-teal-600',
-    metaTitle: 'Social Services Portal — Elevate for Humanity',
+    metaTitle: 'Social Services Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your social services training portal. Track Peer Recovery, DSP, and human services program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -148,7 +149,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: UtensilsCrossed,
     accentColor: 'text-orange-600',
     accentBg: 'bg-orange-600',
-    metaTitle: 'Hospitality Portal — Elevate for Humanity',
+    metaTitle: 'Hospitality Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your hospitality training portal. Track ServSafe, Guest Service, and food service program progress.',
     quickLinks: [
       ...SHARED_LINKS,
@@ -167,7 +168,7 @@ export const PORTAL_CONFIGS: Record<string, PortalConfig> = {
     icon: Shield,
     accentColor: 'text-violet-600',
     accentBg: 'bg-violet-600',
-    metaTitle: 'JRI Portal — Elevate for Humanity',
+    metaTitle: 'JRI Portal — ' + PLATFORM_DEFAULTS.orgName + '',
     metaDescription: 'Your Justice Reinvestment Initiative portal. Complete workforce readiness badges via SCORM modules and prepare for career placement.',
     quickLinks: [
       { name: 'My Programs', href: '/lms/courses', icon: BookOpen, description: 'Continue SCORM modules' },

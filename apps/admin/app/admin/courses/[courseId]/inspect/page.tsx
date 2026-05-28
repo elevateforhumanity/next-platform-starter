@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -76,7 +77,7 @@ export default async function InspectCoursePage({
               Edit Content
             </Link>
             <Link
-              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${courseId}`}
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/lms/courses/${courseId}`}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg bg-white text-brand-blue-700 hover:bg-brand-blue-50 px-3 py-1.5 text-sm font-medium"

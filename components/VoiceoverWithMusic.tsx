@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface VoiceoverWithMusicProps {
   audioSrc: string;
@@ -154,7 +155,7 @@ export default function VoiceoverWithMusic({
                 />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-bold text-white truncate">Elevate for Humanity</p>
+                <p className="text-sm font-bold text-white truncate">{PLATFORM_DEFAULTS.orgName}</p>
                 <p className="text-xs text-slate-400 truncate">Indianapolis workforce training</p>
               </div>
             </div>
@@ -188,7 +189,7 @@ export default function VoiceoverWithMusic({
             </svg>
             <div className="text-left">
               <span className="text-sm font-bold block leading-tight">Hear Our Story</span>
-              <span className="text-xs opacity-80 leading-tight">Elevate for Humanity</span>
+              <span className="text-xs opacity-80 leading-tight">{PLATFORM_DEFAULTS.orgName}</span>
             </div>
           </div>
         </div>

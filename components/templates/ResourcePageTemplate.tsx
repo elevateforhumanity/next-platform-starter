@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Calendar, User, FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * SEO-SAFE RESOURCE PAGE TEMPLATE
@@ -260,13 +261,13 @@ export function generateResourceMetadata(props: {
     title: props.title,
     description: props.description,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org${props.path}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}${props.path}`,
     },
     openGraph: {
       title: props.title,
       description: props.description,
-      url: `https://www.elevateforhumanity.org${props.path}`,
-      siteName: 'Elevate for Humanity',
+      url: `${PLATFORM_DEFAULTS.siteUrl}${props.path}`,
+      siteName: PLATFORM_DEFAULTS.orgName,
       type: 'article',
     },
     robots: {

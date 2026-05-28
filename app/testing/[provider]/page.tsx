@@ -18,6 +18,7 @@ import { ProviderExamList } from '@/components/testing/ProviderExamList';
 
 export const dynamic = 'force-dynamic';
 import { createPublicClient } from '@/lib/supabase/public';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const LEVEL_COLORS: Record<string, string> = {
   amber: 'bg-amber-50 border-amber-200 text-amber-900',
@@ -62,9 +63,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = CERT_PROVIDERS[key];
   if (!p) return {};
   return {
-    title: `${p.name} | Testing Center | Elevate for Humanity`,
+    title: `${p.name} | Testing Center | ${PLATFORM_DEFAULTS.orgName}`,
     description: p.description,
-    alternates: { canonical: `https://www.elevateforhumanity.org/testing/${key}` },
+    alternates: { canonical: `${PLATFORM_DEFAULTS.siteUrl}/testing/${key}` },
   };
 }
 

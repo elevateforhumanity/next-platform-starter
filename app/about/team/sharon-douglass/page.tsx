@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Sharon Douglass | Our Team',
-  description: 'Sharon Douglass — Respiratory Therapy & Health Informatics Specialist at Elevate for Humanity Career & Technical Institute.',
+  description: 'Sharon Douglass — Respiratory Therapy & Health Informatics Specialist at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -40,7 +41,7 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Sharon Douglass</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Respiratory Therapy & Health Informatics Specialist</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Sharon brings over 30 years of experience as a Respiratory Therapist with a Master's degree in Health Informatics. She supports healthcare training programs and workforce readiness initiatives at Elevate for Humanity.</p>
+                <p>Sharon brings over 30 years of experience as a Respiratory Therapist with a Master's degree in Health Informatics. She supports healthcare training programs and workforce readiness initiatives at {PLATFORM_DEFAULTS.orgName}.</p>
                 <p>Her three decades of clinical experience combined with graduate-level expertise in health informatics provides credibility and depth to Elevate's healthcare program offerings, including CNA, medical assistant, and phlebotomy training.</p>
               </div>
             </div>

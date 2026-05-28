@@ -5,13 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Accessibility, Mail, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/accessibility',
   },
   title: 'Accessibility Statement',
-  description: 'Accessibility commitment and support for Elevate for Humanity services.',
+  description: 'Accessibility commitment and support for {PLATFORM_DEFAULTS.orgName} services.',
 };
 
 export default function AccessibilityPage() {
@@ -41,7 +42,7 @@ export default function AccessibilityPage() {
       <div className="max-w-4xl mx-auto px-4 py-16">
         <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
           <p className="text-xl text-black leading-relaxed mb-6">
-            Elevate for Humanity is committed to accessibility for all individuals.
+            {PLATFORM_DEFAULTS.orgName} is committed to accessibility for all individuals.
           </p>
 
           <p className="text-lg text-black leading-relaxed mb-6">

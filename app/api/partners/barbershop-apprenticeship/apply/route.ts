@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger';
 import crypto from 'crypto';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -384,7 +385,7 @@ async function _POST(req: Request) {
         <div class="header"><h1>Welcome to the Barbershop Partner Program</h1></div>
         <div class="content">
           <h2>Hi ${body.contactName},</h2>
-          <p>Thank you for your interest in becoming a partner shop with <strong>Elevate for Humanity</strong>! We received your application for <strong>${shopDisplayName}</strong> and we are excited to move forward with you.</p>
+          <p>Thank you for your interest in becoming a partner shop with <strong>${PLATFORM_DEFAULTS.orgName}</strong>! We received your application for <strong>${shopDisplayName}</strong> and we are excited to move forward with you.</p>
 
           <div class="section">
             <h3>About the Program</h3>
@@ -414,7 +415,7 @@ async function _POST(req: Request) {
               <li><strong>Photos of the inside and outside of your shop</strong> (at least 2-3 of each)</li>
               <li>These will be used on your partner profile page on our website</li>
             </ul>
-            <p>You can reply to this email with the images attached, or text them to <strong>(317) 314-3757</strong>.</p>
+            <p>You can reply to this email with the images attached, or text them to <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
           </div>
 
           <div class="section">
@@ -427,7 +428,7 @@ async function _POST(req: Request) {
               <li><strong>Apprentice Matching:</strong> We work with you to match qualified apprentice candidates.</li>
             </ol>
             <p>In the meantime, you can review the MOU template here:<br>
-            <a href="https://www.elevateforhumanity.org/docs/Indiana-Barbershop-Apprenticeship-MOU" style="color:#f97316">View MOU Template</a></p>
+            <a href="${PLATFORM_DEFAULTS.siteUrl}/docs/Indiana-Barbershop-Apprenticeship-MOU" style="color:#f97316">View MOU Template</a></p>
           </div>
 
           <div class="section" style="text-align:center;background:#fff7ed">
@@ -436,17 +437,17 @@ async function _POST(req: Request) {
             <p><a href="https://calendly.com/elevate4humanityedu" class="cta-btn" style="background:#f97316;color:white">Schedule Site Visit</a></p>
           </div>
 
-          <p>We look forward to having <strong>${shopDisplayName}</strong> as part of the team. If you have any questions, just reply to this email or call us at <strong>(317) 314-3757</strong>.</p>
+          <p>We look forward to having <strong>${shopDisplayName}</strong> as part of the team. If you have any questions, just reply to this email or call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 
           <p>Welcome aboard,<br>
           <strong>Elizabeth Greene</strong><br>
-          Founder &amp; CEO, Elevate for Humanity<br>
+          Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}<br>
           Career &amp; Technical Institute<br>
           8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
         </div>
         <div class="footer">
           <p>Elevate for Humanity Career &amp; Technical Institute<br>
-          <a href="https://www.elevateforhumanity.org">www.elevateforhumanity.org</a> | (317) 314-3757</p>
+          <a href={PLATFORM_DEFAULTS.siteUrl}>${PLATFORM_DEFAULTS.canonicalDomain}</a> | ${PLATFORM_DEFAULTS.supportPhone}</p>
         </div>
       </div></body></html>
     `;

@@ -3,10 +3,11 @@ export const revalidate = 3600;
 import { Metadata } from 'next';
 import Link from 'next/link';
 import VerifyClient from './VerifyClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Verify Certificate',
-  description: 'Verify the authenticity of certificates issued by Elevate for Humanity.',
+  description: 'Verify the authenticity of certificates issued by {PLATFORM_DEFAULTS.orgName}.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/verify',
   },
@@ -31,7 +32,7 @@ export default async function VerifyPage({
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-xl font-bold text-slate-900">
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </Link>
             <Link
               href="/verify-credentials"

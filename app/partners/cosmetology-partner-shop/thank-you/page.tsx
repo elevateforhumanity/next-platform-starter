@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowRight, Phone, Mail, Clock } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Received | Salon Partner',
@@ -101,10 +102,10 @@ export default function CosmetologyThankYouPage() {
             <h3 className="font-semibold text-slate-900 mb-3">Questions?</h3>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+13173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
               >
-                <Phone className="w-4 h-4" /> (317) 314-3757
+                <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <a
                 href="/contact"

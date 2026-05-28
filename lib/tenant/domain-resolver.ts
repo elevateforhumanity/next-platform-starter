@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface TenantFromDomain {
   organizationId: string;
@@ -13,8 +14,8 @@ export interface TenantFromDomain {
 export async function resolveTenantFromDomain(domain: string): Promise<TenantFromDomain | null> {
   // Skip resolution for main domains
   const mainDomains = [
-    'elevateforhumanity.org',
-    'www.elevateforhumanity.org',
+    PLATFORM_DEFAULTS.canonicalDomain,
+    PLATFORM_DEFAULTS.canonicalDomain,
     
     'localhost',
   ];

@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Target, ArrowRight, Calendar, TrendingUp, Award } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Goal Setting Mentorship | Elevate for Humanity',
+  title: 'Goal Setting Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Set and achieve meaningful career goals with mentor support. Create actionable plans for your professional growth.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/goal-setting' },
 };

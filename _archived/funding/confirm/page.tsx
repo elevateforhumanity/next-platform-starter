@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, CheckCircle2, ArrowLeft, FileText, ExternalLink } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Confirm Funding | Elevate for Humanity',
+  title: 'Confirm Funding | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -61,7 +62,7 @@ export default async function ConfirmFundingPage({
         <p className="text-sm text-slate-600 mb-6">Select your funding source. Most students qualify for $0 out-of-pocket through workforce funding.</p>
         {errorParam === 'save-failed' && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-            Failed to save your funding selection. Please try again or call (317) 314-3757 for help.
+            Failed to save your funding selection. Please try again or call {PLATFORM_DEFAULTS.supportPhone} for help.
           </div>
         )}
         <form action={confirmFunding} className="space-y-4">

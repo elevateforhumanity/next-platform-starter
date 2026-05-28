@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { CheckCircle, Phone, Mail, Calendar } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-export const metadata = { title: 'Rental Confirmed — Elevate for Humanity' };
+export const metadata = { title: 'Rental Confirmed — {PLATFORM_DEFAULTS.orgName}' };
 
 export default function BoothRentalConfirmedPage() {
   return (
@@ -34,7 +35,7 @@ export default function BoothRentalConfirmedPage() {
             </li>
             <li className="flex items-start gap-2">
               <Mail className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" />
-              A copy of your signed agreement is on file with Elevate for Humanity.
+              A copy of your signed agreement is on file with {PLATFORM_DEFAULTS.orgName}.
             </li>
           </ul>
         </div>
@@ -43,7 +44,7 @@ export default function BoothRentalConfirmedPage() {
           <p className="font-semibold mb-1">Questions?</p>
           <p className="flex items-center justify-center gap-2">
             <Phone className="w-4 h-4" />
-            <a href="tel:3173143757" className="underline">(317) 314-3757</a>
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>
             <span>·</span>
             <Mail className="w-4 h-4" />
             <a href="mailto:info@elevateforhumanity.org" className="underline">

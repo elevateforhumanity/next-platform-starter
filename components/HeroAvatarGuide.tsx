@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, X, Send, MessageCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -148,7 +149,7 @@ export default function HeroAvatarGuide({
           ...prev,
           {
             role: 'assistant',
-            content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
+            content: "I'm sorry, I encountered an issue. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.",
           },
         ]);
       } else {

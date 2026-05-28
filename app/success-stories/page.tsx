@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Quote, ArrowRight, Play, CheckCircle, TrendingUp, Heart } from 'lucide-react';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Success Stories - Real People, Real Results',
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     description:
       'Inspiring stories from graduates who transformed their lives through workforce training.',
     url: 'https://www.elevateforhumanity.org/success-stories',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Success Stories' }],
     type: 'website',
   },

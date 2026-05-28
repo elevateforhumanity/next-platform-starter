@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Centralized site configuration
  * All hardcoded values should be defined here
@@ -5,19 +6,19 @@
 
 export const siteConfig = {
   // Brand
-  name: 'Elevate for Humanity',
+  name: PLATFORM_DEFAULTS.orgName,
   shortName: 'Elevate',
   tagline: 'Workforce Infrastructure',
   description:
     'Workforce infrastructure that connects public funding, employer demand, and credential-backed training to drive measurable outcomes.',
 
   // URLs
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
-  domain: 'elevateforhumanity.org',
+  url: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl,
+  domain: PLATFORM_DEFAULTS.canonicalDomain,
 
   // Contact
   phone: {
-    display: '(317) 314-3757',
+    display: PLATFORM_DEFAULTS.supportPhone,
     href: 'tel:+13173143757',
     e164: '+13173143757',
   },
@@ -63,8 +64,8 @@ export const siteConfig = {
 
   // SEO defaults
   seo: {
-    titleTemplate: '%s | Elevate for Humanity',
-    defaultTitle: 'Elevate for Humanity | Workforce Infrastructure',
+    titleTemplate: '%s | ' + PLATFORM_DEFAULTS.orgName + '',
+    defaultTitle: '' + PLATFORM_DEFAULTS.orgName + ' | Workforce Infrastructure',
     defaultDescription:
       'Free workforce training programs in healthcare, skilled trades, and technology. WIOA-funded career pathways in Indianapolis.',
     defaultImage: '/og-default.webp',

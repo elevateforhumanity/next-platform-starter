@@ -4,6 +4,7 @@ import React from 'react';
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ProtectedImageProps {
   src: string;
@@ -55,7 +56,7 @@ export function ProtectedImage({
         }}
       >
         <div className="absolute bottom-2 right-2 text-[8px] text-white/20 font-mono">
-          © Elevate for Humanity
+          © {PLATFORM_DEFAULTS.orgName}
         </div>
       </div>
 
@@ -90,7 +91,7 @@ export function ProtectedImage({
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
           <div className="rounded-lg bg-brand-blue-700 px-4 py-3 text-center text-white">
             <p className="text-sm font-semibold">⚠️ Content Protected</p>
-            <p className="mt-1 text-xs">This image is copyrighted by Elevate for Humanity</p>
+            <p className="mt-1 text-xs">This image is copyrighted by {PLATFORM_DEFAULTS.orgName}</p>
           </div>
         </div>
       )}

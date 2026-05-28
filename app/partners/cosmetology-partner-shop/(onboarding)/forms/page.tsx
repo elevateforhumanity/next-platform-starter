@@ -15,6 +15,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface FormItem {
   id: string;
@@ -32,7 +33,7 @@ const REQUIRED_FORMS: FormItem[] = [
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
     description:
-      'Partnership agreement between your salon and Elevate for Humanity. Must be signed before hosting apprentices.',
+      'Partnership agreement between your salon and {PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.',
     required: true,
     category: 'legal',
     action: 'sign',
@@ -338,8 +339,8 @@ export default function CosmetologyRequiredFormsPage() {
                   apprenticeships@elevateforhumanity.org
                 </a>{' '}
                 or call{' '}
-                <a href="tel:+13173143757" className="underline font-medium">
-                  (317) 314-3757
+                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline font-medium">
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 .
               </p>

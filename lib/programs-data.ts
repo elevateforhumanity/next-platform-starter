@@ -237,6 +237,7 @@ export const PROGRAMS: ProgramData[] = [
 // ---------------------------------------------------------------------------
 
 import type { LOCProgramSpec } from '@/components/programs/ProgramSpecSheet';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SHARED_LOC_FIELDS = {
   cohortSizeMin: 15,
@@ -340,7 +341,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
       {
         name: 'Program Completion Certificate',
-        issuingBody: 'Elevate for Humanity Career & Technical Institute',
+        issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
         examFeeIncluded: true,
       },
     ],
@@ -392,7 +393,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
       {
         name: 'Program Completion Certificate',
-        issuingBody: 'Elevate for Humanity Career & Technical Institute',
+        issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
         examFeeIncluded: true,
       },
     ],

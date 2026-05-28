@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Bell, Mail, MessageSquare, Smartphone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -219,7 +220,7 @@ export default async function NotificationSettingsPage() {
                   type="tel"
                   name="sms_phone"
                   defaultValue={prefs.sms_phone || ''}
-                  placeholder="(317) 314-3757"
+                  placeholder={PLATFORM_DEFAULTS.supportPhone}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>

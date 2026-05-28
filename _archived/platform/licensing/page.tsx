@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ArrowRight, Shield, Building2, Users, FileCheck, Clock,
   Server, Globe, Lock, BarChart3, CheckCircle, Zap,
   XCircle, Minus,
@@ -75,7 +76,7 @@ export default async function LicensingPage() {
                 We run this ourselves.<br />This is not theoretical.
               </h2>
               <p className="text-lg text-slate-600 mb-8">
-                Elevate for Humanity operates this platform daily — managing enrollments, tracking apprenticeship hours, generating compliance reports, and connecting graduates with employers across Indiana. Every feature has been tested in production with real students, real funding sources, and real audits.
+                {PLATFORM_DEFAULTS.orgName} operates this platform daily — managing enrollments, tracking apprenticeship hours, generating compliance reports, and connecting graduates with employers across Indiana. Every feature has been tested in production with real students, real funding sources, and real audits.
               </p>
               <div className="space-y-4">
                 {[

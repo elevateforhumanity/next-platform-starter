@@ -11,6 +11,7 @@ import { checkRateLimit, verifyTurnstileToken } from '@/lib/turnstile';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -257,7 +258,7 @@ async function _POST(req: Request) {
     return NextResponse.json(
       {
         message:
-          'Something went wrong submitting your application. Please try again or call (317) 314-3757.',
+          'Something went wrong submitting your application. Please try again or call ' + PLATFORM_DEFAULTS.supportPhone + '.',
       },
       { status: 500 },
     );

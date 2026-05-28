@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText, Shield, Scale, Lock } from 'lucide-react';
 import { TermsAcceptBanner } from '@/app/terms/TermsAcceptBanner';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Legal',
-  description: 'Legal documents, policies, and disclosures for Elevate for Humanity. Terms of service, privacy policy, license agreements, and compliance disclosures.',
+  description: 'Legal documents, policies, and disclosures for {PLATFORM_DEFAULTS.orgName}. Terms of service, privacy policy, license agreements, and compliance disclosures.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/legal' },
 };
 
@@ -33,7 +34,7 @@ export default function LegalPage() {
       </div>
       <section className="bg-slate-900 text-white py-14 px-4 text-center">
         <h1 className="text-4xl font-black mb-3">Legal & Compliance</h1>
-        <p className="text-slate-300 max-w-xl mx-auto">Policies, disclosures, and legal documents governing Elevate for Humanity programs and platform.</p>
+        <p className="text-slate-300 max-w-xl mx-auto">Policies, disclosures, and legal documents governing {PLATFORM_DEFAULTS.orgName} programs and platform.</p>
       </section>
       <section className="max-w-4xl mx-auto px-4 py-12">
         <div className="grid sm:grid-cols-2 gap-4">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { CoursePlayer } from './CoursePlayer';
 import { ArrowLeft, Lock } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   return {
-    title: `Learning: ${slug} | Elevate for Humanity`,
+    title: `Learning: ${slug} | ${PLATFORM_DEFAULTS.orgName}`,
   };
 }
 

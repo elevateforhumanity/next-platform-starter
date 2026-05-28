@@ -5,6 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CTA_SECTION = `
       {/* CTA Section */}
@@ -24,7 +25,7 @@ const CTA_SECTION = `
               className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-800 transition"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              ${PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

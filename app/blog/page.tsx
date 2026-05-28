@@ -5,18 +5,19 @@ import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { STATIC_POSTS, type BlogPost } from '@/content/blog/posts';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description:
-    'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
+    'Workforce development insights, funding guides, credential explainers, and career training tips from {PLATFORM_DEFAULTS.orgName}.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog',
   },
   openGraph: {
     title: 'Blog',
     description:
-      'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
+      'Workforce development insights, funding guides, credential explainers, and career training tips from {PLATFORM_DEFAULTS.orgName}.',
     url: 'https://www.elevateforhumanity.org/blog',
     type: 'website',
     images: [
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Blog',
     description:
-      'Workforce development insights, funding guides, credential explainers, and career training tips from Elevate for Humanity.',
+      'Workforce development insights, funding guides, credential explainers, and career training tips from {PLATFORM_DEFAULTS.orgName}.',
     images: ['/images/pages/social-media-1.webp'],
   },
 };
@@ -81,7 +82,7 @@ export default async function BlogPage() {
           <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Blog</h1>
           <p className="text-lg text-slate-600 max-w-2xl">
             Workforce funding guides, credential explainers, and career training insights from
-            Elevate for Humanity.
+            {PLATFORM_DEFAULTS.orgName}.
           </p>
         </div>
       </div>

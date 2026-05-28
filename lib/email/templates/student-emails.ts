@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Student / Training Email Templates
  * All templates are IRS compliant and match ecosystem tone
@@ -8,13 +9,13 @@ export const studentEmailTemplates = {
    * EMAIL 1: Application Received (Auto)
    */
   applicationReceived: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: "We received your application — here's what happens next",
     getHtml: (data: { firstName: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
 
-        <p>Thank you for applying to Elevate for Humanity. We've received your information, and there is no payment required at this time.</p>
+        <p>Thank you for applying to ${PLATFORM_DEFAULTS.orgName}. We've received your information, and there is no payment required at this time.</p>
 
         <p><strong>Here's what happens next:</strong></p>
         <ul>
@@ -24,23 +25,23 @@ export const studentEmailTemplates = {
           <li>Our process is appointment-based and handled by real people</li>
         </ul>
 
-        <p>If you have questions or need immediate assistance, you can reach us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+        <p>If you have questions or need immediate assistance, you can reach us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
 
         <p>We're glad you took this step.</p>
 
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong><br />
-          Support: <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a><br />
-          Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+          Support: <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}">info@${PLATFORM_DEFAULTS.canonicalDomain}</a><br />
+          Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
       </div>
     `,
     getText: (data: { firstName: string }) => `
 Hello ${data.firstName},
 
-Thank you for applying to Elevate for Humanity. We've received your information, and there is no payment required at this time.
+Thank you for applying to ${PLATFORM_DEFAULTS.orgName}. We've received your information, and there is no payment required at this time.
 
 Here's what happens next:
 • An advisor will review your application
@@ -48,14 +49,14 @@ Here's what happens next:
 • We'll discuss programs, funding options, and next steps
 • Our process is appointment-based and handled by real people
 
-If you have questions or need immediate assistance, you can reach us at (317) 314-3757.
+If you have questions or need immediate assistance, you can reach us at ${PLATFORM_DEFAULTS.supportPhone}.
 
 We're glad you took this step.
 
 —
-Elevate for Humanity
-Support: info@elevateforhumanity.org
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Support: info@${PLATFORM_DEFAULTS.canonicalDomain}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
     `,
   },
 
@@ -63,13 +64,13 @@ Phone: (317) 314-3757
    * EMAIL 2: Advisor Outreach (Manual / Assisted)
    */
   advisorOutreach: {
-    from: 'advisor@www.elevateforhumanity.org',
+    from: 'advisor@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: "Let's talk about your next steps",
     getHtml: (data: { firstName: string; advisorName: string; calendlyLink?: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hi ${data.firstName},</p>
 
-        <p>My name is ${data.advisorName}, and I'm part of the Elevate for Humanity advising team.</p>
+        <p>My name is ${data.advisorName}, and I'm part of the ${PLATFORM_DEFAULTS.orgName} advising team.</p>
 
         <p><strong>I'd like to connect with you to talk about:</strong></p>
         <ul>
@@ -87,7 +88,7 @@ Phone: (317) 314-3757
             : ''
         }
 
-        <p>If you'd rather talk by phone, feel free to reply to this email or call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+        <p>If you'd rather talk by phone, feel free to reply to this email or call us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
 
         <p>Looking forward to speaking with you.</p>
 
@@ -95,27 +96,27 @@ Phone: (317) 314-3757
 
         <p style="color: #666; font-size: 14px;">
           ${data.advisorName}<br />
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
     getText: (data: { firstName: string; advisorName: string; calendlyLink?: string }) => `
 Hi ${data.firstName},
 
-My name is ${data.advisorName}, and I'm part of the Elevate for Humanity advising team.
+My name is ${data.advisorName}, and I'm part of the ${PLATFORM_DEFAULTS.orgName} advising team.
 
 I'd like to connect with you to talk about:
 • Your program interests
 • Funding eligibility (WIOA, WRG, JRI, apprenticeships)
 • Timeline and next steps
 
-${data.calendlyLink ? `You can schedule a time that works for you here:\n${data.calendlyLink}\n\n` : ''}If you'd rather talk by phone, feel free to reply to this email or call us at (317) 314-3757.
+${data.calendlyLink ? `You can schedule a time that works for you here:\n${data.calendlyLink}\n\n` : ''}If you'd rather talk by phone, feel free to reply to this email or call us at ${PLATFORM_DEFAULTS.supportPhone}.
 
 Looking forward to speaking with you.
 
 —
 ${data.advisorName}
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 
@@ -123,7 +124,7 @@ Elevate for Humanity
    * EMAIL 3: Eligibility Outcome
    */
   eligibilityOutcome: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: 'Update on your program eligibility',
     getHtml: (data: { firstName: string; eligibilityStatus: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -144,7 +145,7 @@ Elevate for Humanity
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
@@ -162,7 +163,7 @@ No payments are required unless discussed and approved with an advisor.
 Thank you for working with us.
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 
@@ -170,7 +171,7 @@ Elevate for Humanity
    * EMAIL 4: Enrollment Confirmation
    */
   enrollmentConfirmation: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: "You're enrolled — here's what's next",
     getHtml: (data: {
       firstName: string;
@@ -200,7 +201,7 @@ Elevate for Humanity
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong>
         </p>
       </div>
     `,
@@ -225,7 +226,7 @@ Your advisor will remain your point of contact throughout your journey.
 We're excited to support you.
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
     `,
   },
 };

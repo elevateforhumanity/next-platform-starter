@@ -9,6 +9,7 @@ import { logger } from '@/lib/logger';
  */
 
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type TemplateKey =
   | 'inquiry_received'
@@ -51,7 +52,7 @@ export interface TokenOptions {
   metadata?: Record<string, any>;
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 const DEFAULT_FROM = 'notifications@elevateforhumanity.org';
 
 /**

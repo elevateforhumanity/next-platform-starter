@@ -6,6 +6,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest) {
     const confirmHtml = buildWaitlistConfirmationEmail(body.firstName.trim());
     await sendEmail({
       to: body.email.toLowerCase().trim(),
-      subject: "CDL Training Waitlist — You're In! | Elevate for Humanity",
+      subject: "CDL Training Waitlist — You're In! | ${PLATFORM_DEFAULTS.orgName}",
       html: confirmHtml,
     }).catch((err) => logger.error('Failed to send CDL waitlist confirmation', err));
 
@@ -129,7 +130,7 @@ function buildWaitlistConfirmationEmail(firstName: string): string {
   <div class="header"><h1>CDL Training — You're on the Waitlist!</h1></div>
   <div class="content">
     <h2>Hi ${firstName},</h2>
-    <p>Thank you for joining the waitlist for the <strong>CDL Class A Training Program</strong> with Elevate for Humanity! You are confirmed for the <strong>October 2026 cohort</strong>.</p>
+    <p>Thank you for joining the waitlist for the <strong>CDL Class A Training Program</strong> with ${PLATFORM_DEFAULTS.orgName}! You are confirmed for the <strong>October 2026 cohort</strong>.</p>
 
     <div class="section">
       <h3>Program Details</h3>
@@ -165,17 +166,17 @@ function buildWaitlistConfirmationEmail(firstName: string): string {
       <p>Not sure about funding? We will help you figure it out — just reply to this email or call us.</p>
     </div>
 
-    <p>If you have any questions, reply to this email or call us at <strong>(317) 314-3757</strong>.</p>
+    <p>If you have any questions, reply to this email or call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 
     <p>We look forward to seeing you in October!<br>
     <strong>Elizabeth Greene</strong><br>
-    Founder &amp; CEO, Elevate for Humanity<br>
+    Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}<br>
     Career &amp; Technical Institute<br>
     8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
   </div>
   <div class="footer">
     <p>Elevate for Humanity Career &amp; Technical Institute<br>
-    <a href="https://www.elevateforhumanity.org">www.elevateforhumanity.org</a> | (317) 314-3757</p>
+    <a href={PLATFORM_DEFAULTS.siteUrl}>${PLATFORM_DEFAULTS.canonicalDomain}</a> | ${PLATFORM_DEFAULTS.supportPhone}</p>
   </div>
 </div></body></html>`;
 }

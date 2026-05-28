@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Job Postings',
@@ -57,8 +58,8 @@ export default async function EmployerPostingsPage() {
           </a>
           <p className="text-slate-500 text-sm mt-4">
             Or contact us at{' '}
-            <a href="tel:317-314-3757" className="text-blue-600 hover:underline">
-              317-314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone}" className="text-blue-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>{' '}
             for assistance
           </p>

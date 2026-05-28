@@ -18,6 +18,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getStripeMethodsForAmount, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 import { formatFirstBillingDate } from '@/lib/programs/pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(request: NextRequest) {
   try {
@@ -62,7 +63,7 @@ async function _POST(request: NextRequest) {
       customerId = customer.id;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const finalSuccessUrl = success_url || `${baseUrl}/programs/cosmetology-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancel_url || `${baseUrl}/programs/cosmetology-apprenticeship/apply?canceled=true`;
 

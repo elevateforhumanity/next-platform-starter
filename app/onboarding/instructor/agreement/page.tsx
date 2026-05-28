@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import InstructorAgreementClient from './InstructorAgreementClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +59,7 @@ export default async function InstructorAgreementPage() {
           <div className="px-8 py-6 prose prose-slate max-w-none text-sm leading-relaxed">
             <p>
               This Instructor Services Agreement (&ldquo;Agreement&rdquo;) is entered into between{' '}
-              <strong>Elevate for Humanity</strong> (&ldquo;Elevate&rdquo;) and the instructor
+              <strong>{PLATFORM_DEFAULTS.orgName}</strong> (&ldquo;Elevate&rdquo;) and the instructor
               identified below (&ldquo;Instructor&rdquo;).
             </p>
 

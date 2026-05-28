@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Career Services',
-  description: 'Resume building, interview prep, job placement, and ongoing career support from Elevate for Humanity.',
+  description: 'Resume building, interview prep, job placement, and ongoing career support from {PLATFORM_DEFAULTS.orgName}.',
   path: '/career-services',
 });
 

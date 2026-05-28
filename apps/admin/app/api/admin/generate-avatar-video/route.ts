@@ -9,6 +9,7 @@ import { createTalk, pollTalkResult } from '@/lib/d-id/generate-talk';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * POST /api/admin/generate-avatar-video
@@ -81,7 +82,7 @@ async function _POST(req: NextRequest) {
 
     // Strict domain whitelist — hardcoded, not config-driven
     const allowedOrigins = new Set([
-      'https://www.elevateforhumanity.org',
+      PLATFORM_DEFAULTS.siteUrl,
       'https://elevateforhumanity.org',
     ]);
     const urlsToCheck = audioUrl ? [audioUrl] : audioUrls;
@@ -90,7 +91,7 @@ async function _POST(req: NextRequest) {
         const origin = new URL(url).origin;
         if (!allowedOrigins.has(origin)) {
           return NextResponse.json(
-            { error: `Audio URL must be from elevateforhumanity.org, got: ${origin}` },
+            { error: `Audio URL must be from ${PLATFORM_DEFAULTS.canonicalDomain}, got: ${origin}` },
             { status: 400 },
           );
         }
@@ -98,7 +99,7 @@ async function _POST(req: NextRequest) {
         return NextResponse.json({ error: `Invalid URL: ${url}` }, { status: 400 });
       }
     }
-    const photoUrl = 'https://www.elevateforhumanity.org/images/team/elizabeth-greene-headshot.jpg';
+    const photoUrl = '${PLATFORM_DEFAULTS.siteUrl}/images/team/elizabeth-greene-headshot.jpg';
 
     // Single file mode
     if (audioUrl) {

@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Send, Bot, User, Clock, MessageSquare } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   id: string;
@@ -39,10 +40,10 @@ async function getAIResponse(history: Message[], userMessage: string): Promise<s
       data.message ||
       data.reply ||
       data.choices?.[0]?.message?.content ||
-      'Thank you for your message. For immediate assistance, call (317) 314-3757 Mon–Fri 9am–5pm ET or submit a support ticket at /support.'
+      'Thank you for your message. For immediate assistance, call ${PLATFORM_DEFAULTS.supportPhone} Mon–Fri 9am–5pm ET or submit a support ticket at /support.'
     );
   } catch {
-    return 'Thank you for your message. For immediate assistance, please call (317) 314-3757 (Mon–Fri 9am–5pm ET) or submit a support ticket at /support.';
+    return 'Thank you for your message. For immediate assistance, please call ${PLATFORM_DEFAULTS.supportPhone} (Mon–Fri 9am–5pm ET) or submit a support ticket at /support.';
   }
 }
 

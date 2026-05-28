@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Academic Integrity Policy | Elevate for Humanity',
+  title: 'Academic Integrity Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Standards for honest academic work, prohibited behaviors, and consequences for violations of academic integrity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/academic-integrity',
@@ -31,7 +32,7 @@ export default async function AcademicIntegrityPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              Elevate for Humanity is committed to maintaining the highest standards of academic integrity. 
+              {PLATFORM_DEFAULTS.orgName} is committed to maintaining the highest standards of academic integrity. 
               This policy establishes expectations for honest academic work and outlines consequences for violations. 
               Academic integrity is fundamental to the educational process and essential for the value of credentials we issue.
             </p>
@@ -125,7 +126,7 @@ export default async function AcademicIntegrityPage() {
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li>Phone: (317) 314-3757</li>
+              <li>Phone: {PLATFORM_DEFAULTS.supportPhone}</li>
               <li>In-person: Visit the Academic Affairs office</li>
               <li>Anonymous reporting available through student portal</li>
             </ul>
@@ -163,7 +164,7 @@ export default async function AcademicIntegrityPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
             </ul>
 

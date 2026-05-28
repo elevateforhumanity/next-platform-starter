@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Enrollment Flow Microcopy
  * Centralized copy for the entire application → enrollment → LMS flow
@@ -8,7 +9,7 @@
 export const COPY = {
   // Program Page
   programPage: {
-    heroHeadline: 'Welcome to Elevate for Humanity',
+    heroHeadline: 'Welcome to ' + PLATFORM_DEFAULTS.orgName + '',
     heroSubtext:
       "If you're here, you're in the right place. This program is designed to take you from interested to enrolled, then into class with a clear next step at every stage.",
     ctaButton: 'Start Eligibility & Apply',

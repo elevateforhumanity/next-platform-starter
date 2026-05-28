@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/require-role';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -18,19 +19,19 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const to = String(body?.to ?? '').trim();
-  const subject = String(body?.subject ?? 'SendGrid Test — Elevate for Humanity').trim();
+  const subject = String(body?.subject ?? 'SendGrid Test — ' + PLATFORM_DEFAULTS.orgName + '').trim();
 
   if (!to) return NextResponse.json({ error: 'Missing "to" address' }, { status: 400 });
 
   const result = await sendEmail({
     to,
-    from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+    from: '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>',
     replyTo: 'elevate4humanityedu@gmail.com',
     subject,
     html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a;">
   <div style="background:#1e293b;padding:24px 32px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">Elevate for Humanity</p>
+    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">${PLATFORM_DEFAULTS.orgName}</p>
     <p style="margin:4px 0 0;color:#94a3b8;font-size:13px;">SendGrid Configuration Test</p>
   </div>
   <div style="padding:32px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
       </tr>
       <tr style="border-bottom:1px solid #e2e8f0;">
         <td style="padding:8px 0;font-weight:600;">From</td>
-        <td style="padding:8px 0;">noreply@elevateforhumanity.org</td>
+        <td style="padding:8px 0;">${PLATFORM_DEFAULTS.emailFromAddress}</td>
       </tr>
       <tr style="border-bottom:1px solid #e2e8f0;">
         <td style="padding:8px 0;font-weight:600;">Reply-to</td>
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
     </table>
     <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
     <p style="color:#94a3b8;font-size:12px;text-align:center;margin:0;">
-      Elevate for Humanity · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
+      ${PLATFORM_DEFAULTS.orgName} · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
     </p>
   </div>
 </div>`,

@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Checks whether all 4 program holder onboarding steps are complete and,
@@ -100,7 +101,7 @@ async function sendWelcomeEmail(opts: {
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const logoUrl = `${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
   const dashboardUrl = `${siteUrl}/program-holder/dashboard`;
 
@@ -111,13 +112,13 @@ async function sendWelcomeEmail(opts: {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <tr><td style="padding:28px 32px;text-align:center;border-bottom:1px solid #e2e8f0">
-          <img src="${logoUrl}" alt="Elevate for Humanity" width="140" style="max-width:140px;height:auto" />
+          <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="140" style="max-width:140px;height:auto" />
         </td></tr>
         <tr><td style="padding:32px">
-          <h2 style="color:#1a1a1a;font-size:22px;margin:0 0 16px">Welcome to Elevate for Humanity, ${opts.firstName}!</h2>
+          <h2 style="color:#1a1a1a;font-size:22px;margin:0 0 16px">Welcome to ${PLATFORM_DEFAULTS.orgName}, ${opts.firstName}!</h2>
           <p style="color:#334155;font-size:15px;line-height:1.7;margin:0 0 16px">
             Congratulations — your onboarding is complete. <strong>${opts.organizationName}</strong> is now
-            an active Program Holder with Elevate for Humanity. Your portal is ready.
+            an active Program Holder with ${PLATFORM_DEFAULTS.orgName}. Your portal is ready.
           </p>
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr><td align="center" style="padding:8px 0 28px">
@@ -140,7 +141,7 @@ async function sendWelcomeEmail(opts: {
             <p style="color:#1e40af;font-size:13px;font-weight:bold;margin:0 0 6px">Your next step</p>
             <p style="color:#1e40af;font-size:13px;margin:0">
               Log in to your dashboard and enroll your first student. Need help?
-              Call <a href="tel:3173143757" style="color:#1d4ed8">(317) 314-3757</a> or email
+              Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1d4ed8">${PLATFORM_DEFAULTS.supportPhone}</a> or email
               <a href="mailto:elevate4humanityedu@gmail.com" style="color:#1d4ed8">elevate4humanityedu@gmail.com</a>.
             </p>
           </div>
@@ -151,7 +152,7 @@ async function sendWelcomeEmail(opts: {
         <tr><td style="background:#f8fafc;padding:20px 32px;text-align:center;border-top:1px solid #e2e8f0">
           <p style="color:#94a3b8;font-size:12px;margin:0">Elevate for Humanity Career &amp; Technical Institute</p>
           <p style="color:#94a3b8;font-size:12px;margin:4px 0">8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
-          <p style="color:#94a3b8;font-size:12px;margin:4px 0">(317) 314-3757</p>
+          <p style="color:#94a3b8;font-size:12px;margin:4px 0">${PLATFORM_DEFAULTS.supportPhone}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -162,8 +163,8 @@ async function sendWelcomeEmail(opts: {
     method: 'POST',
     headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-      reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' },
+      from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
+      reply_to: { email: 'elevate4humanityedu@gmail.com', name: PLATFORM_DEFAULTS.orgName },
       personalizations: [{ to: [{ email: opts.email, name: opts.firstName }] }],
       subject: 'Welcome — Your Program Holder Portal is Ready',
       content: [{ type: 'text/html', value: html }],

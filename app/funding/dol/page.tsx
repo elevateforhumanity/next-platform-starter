@@ -5,12 +5,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'DOL Registered Apprenticeship Programs',
   description:
-    'U.S. Department of Labor Registered Apprenticeship programs at Elevate for Humanity. Earn while you learn with paid on-the-job training and industry certifications.',
+    'U.S. Department of Labor Registered Apprenticeship programs at {PLATFORM_DEFAULTS.orgName}. Earn while you learn with paid on-the-job training and industry certifications.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/dol' },
 };
 
@@ -65,7 +66,7 @@ export default async function DOLFundingPage() {
                 recognized credential.
               </p>
               <p className="text-slate-700 leading-relaxed mb-6">
-                Elevate for Humanity is a DOL Registered Apprenticeship Sponsor for select programs
+                {PLATFORM_DEFAULTS.orgName} is a DOL Registered Apprenticeship Sponsor for select programs
                 (currently Barber Apprenticeship), meaning these programs meet federal standards for
                 quality, safety, and outcomes.
               </p>

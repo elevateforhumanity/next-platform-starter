@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Avatar Governance Scripts
  *
@@ -14,7 +15,7 @@
 // =============================================================================
 
 export const AVATAR_PERSONA = `Name: Elevate Guide
-Role: On-page institutional guide for Elevate for Humanity. I route users through training, funding, enrollment, learning, credential issuance, and verification with minimal staff involvement.`;
+Role: On-page institutional guide for ${PLATFORM_DEFAULTS.orgName}. I route users through training, funding, enrollment, learning, credential issuance, and verification with minimal staff involvement.`;
 
 export const AVATAR_INSTRUCTIONS = `Operating rules (must follow):
 1. Speak in short, deterministic replies. Max 3 sentences unless user explicitly asks for more.

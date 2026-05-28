@@ -17,13 +17,14 @@ import { getStripe } from '@/lib/stripe/client';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 export const GET = withRuntime({ cron: 'bearer' }, async () => {
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const db = await requireAdminClient();
   if (!db) {
@@ -121,7 +122,7 @@ function reinstateEmailHtml({ name, dashboardUrl }: { name: string; dashboardUrl
           Go to Dashboard
         </a>
       </p>
-      <p>— Elevate for Humanity</p>
+      <p>— ${PLATFORM_DEFAULTS.orgName}</p>
     </div>
   `;
 }

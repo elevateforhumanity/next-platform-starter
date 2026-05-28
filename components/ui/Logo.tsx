@@ -1,4 +1,5 @@
 import Image, { type ImageProps } from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type LogoProps = Omit<ImageProps, 'src' | 'alt'> & {
   alt?: string;
@@ -9,7 +10,7 @@ type LogoProps = Omit<ImageProps, 'src' | 'alt'> & {
  * and prevent server/client srcSet hydration mismatches.
  */
 export default function Logo({
-  alt = 'Elevate for Humanity',
+  alt = PLATFORM_DEFAULTS.orgName,
   priority = false,
   ...props
 }: LogoProps) {

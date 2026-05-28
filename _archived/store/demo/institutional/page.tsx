@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Play, LayoutGrid, Users, FileBarChart, Eye, Award, Clock } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Institutional Operator Demo | Elevate for Humanity',
+  title: 'Institutional Operator Demo | {PLATFORM_DEFAULTS.orgName}',
   description: 'See how institutions operate multiple programs while maintaining clean, auditable records.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/demo/institutional',

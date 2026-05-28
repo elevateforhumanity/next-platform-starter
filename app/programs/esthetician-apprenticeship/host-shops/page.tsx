@@ -3,11 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Become a Host Spa | Esthetician Apprenticeship',
   description:
-    'Partner with Elevate for Humanity as a host spa or salon for our DOL-registered esthetician apprenticeship. Train the next generation of licensed estheticians.',
+    'Partner with {PLATFORM_DEFAULTS.orgName} as a host spa or salon for our DOL-registered esthetician apprenticeship. Train the next generation of licensed estheticians.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/esthetician-apprenticeship/host-shops',
   },

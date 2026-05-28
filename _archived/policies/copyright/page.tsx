@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Copyright Policy | Elevate for Humanity',
+  title: 'Copyright Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Protection of intellectual property, fair use guidelines, and DMCA compliance procedures.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/copyright',
@@ -41,7 +42,7 @@ export default async function CopyrightPage() {
             <div className="bg-brand-blue-50 rounded-xl p-6 border-2 border-brand-blue-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">What We Own</h3>
               <p className="text-black mb-4">
-                Unless otherwise noted, all content on Elevate for Humanity platforms is owned by or licensed to us:
+                Unless otherwise noted, all content on {PLATFORM_DEFAULTS.orgName} platforms is owned by or licensed to us:
               </p>
               <ul className="list-disc pl-6 text-black space-y-2">
                 <li>Course materials, curricula, and lesson plans</li>
@@ -53,7 +54,7 @@ export default async function CopyrightPage() {
                 <li>Website design and layout</li>
               </ul>
               <p className="text-black mt-4">
-                <strong>Copyright Notice:</strong> © 2026 Elevate for Humanity. All rights reserved.
+                <strong>Copyright Notice:</strong> © 2026 {PLATFORM_DEFAULTS.orgName}. All rights reserved.
               </p>
             </div>
 
@@ -101,7 +102,7 @@ export default async function CopyrightPage() {
             <h3 className="text-xl font-bold text-black mt-6 mb-3">License You Grant Us</h3>
             <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200 mb-6">
               <p className="text-black mb-4">
-                By posting content, you grant Elevate for Humanity a:
+                By posting content, you grant {PLATFORM_DEFAULTS.orgName} a:
               </p>
               <ul className="list-disc pl-6 text-black space-y-2">
                 <li><strong>Non-exclusive license:</strong> We don't own your content exclusively</li>
@@ -210,10 +211,10 @@ export default async function CopyrightPage() {
               <h4 className="text-lg font-bold text-black mb-3">DMCA Agent Contact</h4>
               <ul className="list-none text-black space-y-2">
                 <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-                <li><strong>Mail:</strong> DMCA Agent, Elevate for Humanity</li>
+                <li><strong>Mail:</strong> DMCA Agent, {PLATFORM_DEFAULTS.orgName}</li>
                 <li className="ml-6">3737 N Meridian St, Suite 200</li>
                 <li className="ml-6">Indianapolis, IN 46208</li>
-                <li><strong>Phone:</strong> (317) 314-3757</li>
+                <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               </ul>
             </div>
 
@@ -247,10 +248,10 @@ export default async function CopyrightPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Trademarks</h2>
             <p className="text-black mb-4">
-              Elevate for Humanity trademarks include:
+              {PLATFORM_DEFAULTS.orgName} trademarks include:
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
-              <li>Elevate for Humanity name and logo</li>
+              <li>{PLATFORM_DEFAULTS.orgName} name and logo</li>
               <li>Program names and branding</li>
               <li>Slogans and taglines</li>
               <li>Service marks</li>
@@ -264,11 +265,11 @@ export default async function CopyrightPage() {
             
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Citing Our Materials</h3>
             <p className="text-black mb-4">
-              When citing Elevate for Humanity materials:
+              When citing {PLATFORM_DEFAULTS.orgName} materials:
             </p>
             <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-200 mb-6">
               <p className="text-black font-mono text-sm">
-                Elevate for Humanity. (2026). [Course/Material Title]. Retrieved from 
+                {PLATFORM_DEFAULTS.orgName}. (2026). [Course/Material Title]. Retrieved from 
                 https://www.elevateforhumanity.org/[url]
               </p>
             </div>
@@ -293,7 +294,7 @@ export default async function CopyrightPage() {
               <li><strong>DMCA Notices:</strong> our contact form</li>
               <li><strong>Permission Requests:</strong> our contact form</li>
               <li><strong>Trademark Licensing:</strong> our contact form</li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

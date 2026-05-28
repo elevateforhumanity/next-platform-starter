@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { ArrowLeft, Sparkles, Store } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import FundingGateCard from '@/components/programs/FundingGateCard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Apply — Esthetician Apprenticeship',
   description:
-    'Apply to the Elevate for Humanity DOL-registered esthetician apprenticeship — as an apprentice or as a partner spa/salon.',
+    'Apply to the {PLATFORM_DEFAULTS.orgName} DOL-registered esthetician apprenticeship — as an apprentice or as a partner spa/salon.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/esthetician-apprenticeship/apply' },
 };
 

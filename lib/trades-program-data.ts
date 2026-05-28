@@ -1,4 +1,5 @@
 import type { TradesProgramData } from '@/components/programs/TradesProgramPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SHARED = {
   cohortMin: 15,
@@ -183,7 +184,7 @@ export const ELECTRICAL_DATA: TradesProgramData = {
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
     {
       name: 'Program Completion Certificate',
-      issuingBody: 'Elevate for Humanity Career & Technical Institute',
+      issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     },
   ],
   curriculum: [
@@ -311,7 +312,7 @@ export const PLUMBING_DATA: TradesProgramData = {
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
     {
       name: 'Program Completion Certificate',
-      issuingBody: 'Elevate for Humanity Career & Technical Institute',
+      issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     },
   ],
   curriculum: [

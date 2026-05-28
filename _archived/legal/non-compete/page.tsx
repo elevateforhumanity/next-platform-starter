@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { ShieldAlert, Ban } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
 export const metadata: Metadata = {
   title: 'Non-Compete Agreement | Elevate For Humanity',
-  description: 'Non-Compete Agreement for Elevate for Humanity partners, Program Holders, and collaborating organizations.',
+  description: 'Non-Compete Agreement for {PLATFORM_DEFAULTS.orgName} partners, Program Holders, and collaborating organizations.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/legal/non-compete',
   },
@@ -37,7 +38,7 @@ export default async function NonCompetePage() {
             <Ban size={40} />
             <div>
               <h1 className="text-3xl font-bold">Non-Compete Agreement</h1>
-              <p className="text-slate-300 mt-1">Elevate for Humanity — Effective upon execution of any partnership, MOU, or Program Holder agreement</p>
+              <p className="text-slate-300 mt-1">{PLATFORM_DEFAULTS.orgName} — Effective upon execution of any partnership, MOU, or Program Holder agreement</p>
             </div>
           </div>
           <p className="text-slate-500 text-sm mt-3">
@@ -65,7 +66,7 @@ export default async function NonCompetePage() {
             <h2 className="text-xl font-bold text-slate-900 mb-3">1. Parties</h2>
             <p className="text-slate-700 mb-3">This Non-Compete Agreement (&quot;Agreement&quot;) is between:</p>
             <ul className="list-disc pl-6 text-slate-700 space-y-1 mb-3">
-              <li><strong>Protected Party:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute (&quot;Elevate&quot;)</li>
+              <li><strong>Protected Party:</strong> 2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute (&quot;Elevate&quot;)</li>
               <li><strong>Restricted Party:</strong> The individual or organization that has entered into a partnership, MOU, Program Holder agreement, or any other formal relationship with Elevate</li>
             </ul>
             <p className="text-sm text-slate-500">
@@ -210,10 +211,10 @@ export default async function NonCompetePage() {
           <section className="border border-slate-200 rounded-xl p-6">
             <h2 className="text-xl font-bold text-slate-900 mb-3">11. Contact</h2>
             <div className="text-slate-700 space-y-1">
-              <p><strong>Elevate for Humanity</strong></p>
+              <p><strong>{PLATFORM_DEFAULTS.orgName}</strong></p>
               <p>8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240</p>
               <p>Email: elevate4humanityedu@gmail.com</p>
-              <p>Phone: (317) 314-3757</p>
+              <p>Phone: {PLATFORM_DEFAULTS.supportPhone}</p>
             </div>
           </section>
 
@@ -221,7 +222,7 @@ export default async function NonCompetePage() {
 
         <div className="mt-8 bg-white border border-slate-200 rounded-xl p-6">
           <p className="text-sm text-slate-600">
-            This Non-Compete Agreement is incorporated by reference into all Elevate for Humanity
+            This Non-Compete Agreement is incorporated by reference into all {PLATFORM_DEFAULTS.orgName}
             partner agreements, MOUs, Program Holder agreements, and barbershop apprenticeship agreements.
             Execution of any such agreement constitutes acceptance of these terms.
           </p>

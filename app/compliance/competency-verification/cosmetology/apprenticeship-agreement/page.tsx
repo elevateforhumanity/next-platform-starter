@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import { PrintButton } from '../PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Cosmetology Apprenticeship Agreement',
@@ -36,7 +37,7 @@ export default function CosmetologyApprenticeshipAgreementPage() {
         />
 
         <section className="mt-6 space-y-6 text-sm text-slate-800">
-          <p>This Apprenticeship Agreement is entered into between <strong>Elevate for Humanity</strong> (Program Sponsor), the <strong>Host Salon</strong> (Training Agent), and the <strong>Apprentice</strong>, in accordance with the National Apprenticeship Act and Indiana apprenticeship standards.</p>
+          <p>This Apprenticeship Agreement is entered into between <strong>{PLATFORM_DEFAULTS.orgName}</strong> (Program Sponsor), the <strong>Host Salon</strong> (Training Agent), and the <strong>Apprentice</strong>, in accordance with the National Apprenticeship Act and Indiana apprenticeship standards.</p>
 
           <div>
             <h2 className="font-bold text-base mb-2">1. Program Requirements</h2>

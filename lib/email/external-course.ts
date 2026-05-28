@@ -1,7 +1,8 @@
 import { sendEmail } from './sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
 interface ExternalCourseLoginEmailParams {
   to: string;
@@ -30,7 +31,7 @@ export async function sendExternalCourseLoginEmail(params: ExternalCourseLoginEm
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
         <div style="background:#1e293b;padding:24px 32px">
           <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-               alt="Elevate for Humanity" height="48" style="display:block" />
+               alt={PLATFORM_DEFAULTS.orgName} height="48" style="display:block" />
         </div>
 
         <div style="padding:32px">
@@ -70,13 +71,13 @@ export async function sendExternalCourseLoginEmail(params: ExternalCourseLoginEm
           </ol>
 
           <p style="font-size:13px;color:#94a3b8;margin:0">
-            Questions? Reply to this email or call us at 317-314-3757.<br />
-            Elevate for Humanity · Indianapolis, IN
+            Questions? Reply to this email or call us at ${PLATFORM_DEFAULTS.supportPhone}.<br />
+            ${PLATFORM_DEFAULTS.orgName} · Indianapolis, IN
           </p>
         </div>
       </div>
     `,
-    text: `Hi ${studentName},\n\nYou're enrolled in ${courseTitle} through ${partnerName}.\n\nLogin information:\n${loginInstructions}\n\nGo to: ${partnerUrl}\n\nAfter completing the course, upload your certificate in your Elevate dashboard to advance.\n\nQuestions? Call 317-314-3757.`,
+    text: `Hi ${studentName},\n\nYou're enrolled in ${courseTitle} through ${partnerName}.\n\nLogin information:\n${loginInstructions}\n\nGo to: ${partnerUrl}\n\nAfter completing the course, upload your certificate in your Elevate dashboard to advance.\n\nQuestions? Call ${PLATFORM_DEFAULTS.supportPhone}.`,
   });
 }
 
@@ -108,7 +109,7 @@ export async function sendExternalCourseApprovedEmail(params: ExternalCourseAppr
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
         <div style="background:#1e293b;padding:24px 32px">
           <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-               alt="Elevate for Humanity" height="48" style="display:block" />
+               alt={PLATFORM_DEFAULTS.orgName} height="48" style="display:block" />
         </div>
 
         <div style="padding:32px">
@@ -126,7 +127,7 @@ export async function sendExternalCourseApprovedEmail(params: ExternalCourseAppr
           </a>
 
           <p style="font-size:13px;color:#94a3b8;margin:32px 0 0">
-            Elevate for Humanity · Indianapolis, IN
+            ${PLATFORM_DEFAULTS.orgName} · Indianapolis, IN
           </p>
         </div>
       </div>
@@ -171,7 +172,7 @@ export async function sendAdminExternalCoursePurchaseAlert(
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
         <div style="background:#1e293b;padding:24px 32px">
           <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-               alt="Elevate for Humanity" height="48" style="display:block" />
+               alt={PLATFORM_DEFAULTS.orgName} height="48" style="display:block" />
         </div>
 
         <div style="padding:32px">

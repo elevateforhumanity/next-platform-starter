@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Payouts | Elevate for Humanity',
+  title: 'Payouts | {PLATFORM_DEFAULTS.orgName}',
   description: 'View and manage franchise payouts.',
 };
 

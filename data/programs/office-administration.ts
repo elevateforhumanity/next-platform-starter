@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const OFFICE_ADMINISTRATION: ProgramSchema = {
   slug: 'office-administration',
@@ -55,7 +56,7 @@ export const OFFICE_ADMINISTRATION: ProgramSchema = {
     },
     {
       name: 'Business Communication Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description:
         'Institutional certificate verifying professional writing and communication competency.',
       validity: 'Lifetime',

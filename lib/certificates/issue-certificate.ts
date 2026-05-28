@@ -12,6 +12,7 @@
 
 import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CompetencyEvidence {
   quizScores?: Record<string, number>;
@@ -97,7 +98,7 @@ export async function issueCertificate(
         certificateId: existingCert.id,
       });
 
-      const certificateUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/certificates/${existingCert.id}`;
+      const certificateUrl = `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/certificates/${existingCert.id}`;
 
       return {
         success: true,
@@ -173,7 +174,7 @@ export async function issueCertificate(
         issued_at: completionDate,
         exam_session_id: competencyEvidence?.examSessionId || null,
         verification_code: certificateNumber.split('-').pop(),
-        verification_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/verify/${certificateNumber.split('-').pop()?.toLowerCase()}`,
+        verification_url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/verify/${certificateNumber.split('-').pop()?.toLowerCase()}`,
         metadata: certMetadata,
       })
       .select()
@@ -212,7 +213,7 @@ export async function issueCertificate(
     }
 
     // Send certificate delivery email
-    const certificateUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/certificates/${certificate.id}`;
+    const certificateUrl = `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/certificates/${certificate.id}`;
 
     if (studentEmail) {
       try {

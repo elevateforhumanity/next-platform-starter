@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { ChevronRight, ChevronLeft, Check } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface OnboardingStep {
   id: string;
@@ -49,7 +50,7 @@ export default function OnboardingFlow({ steps, onComplete }: OnboardingFlowProp
         {/* Header */}
         <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-black">Welcome to Elevate for Humanity</h2>
+            <h2 className="text-2xl font-bold text-black">Welcome to {PLATFORM_DEFAULTS.orgName}</h2>
             <button onClick={handleSkip} className="text-sm text-slate-500 hover:text-black">
               Skip tour
             </button>

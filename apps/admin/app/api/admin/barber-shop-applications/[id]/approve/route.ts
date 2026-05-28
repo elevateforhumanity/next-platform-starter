@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -163,23 +164,23 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   }
 
   // Send approval notification email (non-blocking)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
     await sendEmail({
       to: application.contact_email,
-      subject: `Your Barbershop Partner Application Has Been Approved — Elevate for Humanity`,
+      subject: `Your Barbershop Partner Application Has Been Approved — ${PLATFORM_DEFAULTS.orgName}`,
       html: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
 <p>Hi ${application.contact_name || application.owner_name || 'there'},</p>
 
-<p>Congratulations! <strong>${application.shop_legal_name}</strong> has been approved as a partner training site for the Elevate for Humanity Barber Apprenticeship Program.</p>
+<p>Congratulations! <strong>${application.shop_legal_name}</strong> has been approved as a partner training site for the ${PLATFORM_DEFAULTS.orgName} Barber Apprenticeship Program.</p>
 
 <p>Our team will be in touch shortly with next steps, including your MOU finalization and apprentice placement details.</p>
 
-<p>Questions? Call us at (317) 314-3757 or visit <a href="${siteUrl}">${siteUrl}</a>.</p>
+<p>Questions? Call us at ${PLATFORM_DEFAULTS.supportPhone} or visit <a href="${siteUrl}">${siteUrl}</a>.</p>
 
-<p>— Elevate for Humanity</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>
       `,
     });

@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 import { createClient } from '@/lib/supabase/server';
 import Stripe from 'stripe';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Plan configuration
 const PLANS = {
@@ -51,7 +52,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
           >
             Contact Us
           </a>
-          <p className="text-center text-sm text-slate-500 mt-4">Or call (317) 314-3757</p>
+          <p className="text-center text-sm text-slate-500 mt-4">Or call {PLATFORM_DEFAULTS.supportPhone}</p>
         </div>
       </div>
     );
@@ -81,7 +82,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: { p
     } = await supabase.auth.getUser();
 
     // Get base URL
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({

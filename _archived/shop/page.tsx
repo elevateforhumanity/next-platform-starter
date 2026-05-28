@@ -9,28 +9,29 @@ import { ShopClient } from './ShopClient';
 import { PageTracker } from '@/components/analytics/PageTracker';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Shop | Elevate for Humanity',
+  title: 'Shop | {PLATFORM_DEFAULTS.orgName}',
   description: 'Shop professional tools, equipment, apparel, and study materials for your career training programs. Quality gear at student-friendly prices.',
   keywords: ['shop', 'tools', 'equipment', 'scrubs', 'study guides', 'career training', 'student supplies'],
   alternates: {
     canonical: `${SITE_URL}/shop`,
   },
   openGraph: {
-    title: 'Shop | Elevate for Humanity',
+    title: 'Shop | {PLATFORM_DEFAULTS.orgName}',
     description: 'Shop professional tools, equipment, apparel, and study materials for your career training programs.',
     url: `${SITE_URL}/shop`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     type: 'website',
     images: [{ url: `${SITE_URL}/images/og/shop-og.jpg`, width: 1200, height: 630, alt: 'Elevate Shop' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Shop | Elevate for Humanity',
+    title: 'Shop | {PLATFORM_DEFAULTS.orgName}',
     description: 'Shop professional tools, equipment, and study materials for your career training.',
   },
 };
@@ -96,7 +97,7 @@ export default async function ShopPage() {
               className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

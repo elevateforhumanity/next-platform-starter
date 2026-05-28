@@ -8,6 +8,7 @@ import { Building, Briefcase, Award } from 'lucide-react';
 import PageAvatar from '@/components/PageAvatar';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Partners | Elevate Workforce OS',
   description: 'Training providers, employers, workforce boards, and community organizations operating on the Elevate Workforce OS.',
@@ -108,14 +109,14 @@ export default async function PartnersPage() {
 <header className="relative min-h-[400px] flex items-center">
         <Image
           src="/images/team-vibrant.jpg"
-          alt="Partner with Elevate for Humanity"
+          alt="Partner with {PLATFORM_DEFAULTS.orgName}"
           fill
           className="object-cover"
           priority
         />
         
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 text-white">
-          <h1 className="text-4xl md:text-5xl font-bold">Partner With Elevate for Humanity</h1>
+          <h1 className="text-4xl md:text-5xl font-bold">Partner With {PLATFORM_DEFAULTS.orgName}</h1>
           <p className="mt-4 max-w-3xl text-lg text-white/90">
             Plug into workforce infrastructure that reduces hiring risk, improves training completion, and supports
             funding and reimbursement pathways.
@@ -366,7 +367,7 @@ export default async function PartnersPage() {
         <div className="mx-auto max-w-4xl px-6 py-16">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Partner FAQ</h2>
           <p className="text-lg text-gray-600 text-center mb-12">
-            Common questions about partnering with Elevate for Humanity.
+            Common questions about partnering with {PLATFORM_DEFAULTS.orgName}.
           </p>
           
           <div className="space-y-4">

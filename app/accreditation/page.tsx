@@ -3,10 +3,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Shield, CheckCircle, Building2, Users, TrendingUp, Mail } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Institutional Status | Elevate for Humanity Career & Technical Institute',
-  description: 'Elevate for Humanity Career & Technical Institute is a workforce training provider delivering industry-recognized certifications and career pathways.',
+  title: 'Institutional Status | {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+  description: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute is a workforce training provider delivering industry-recognized certifications and career pathways.',
   robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/accreditation' },
 };
@@ -19,7 +20,7 @@ export default function AccreditationPage() {
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Institutional Status</p>
-          <h1 className="text-4xl font-extrabold text-white mb-4">Elevate for Humanity<br />Career &amp; Technical Institute</h1>
+          <h1 className="text-4xl font-extrabold text-white mb-4">{PLATFORM_DEFAULTS.orgName}<br />Career &amp; Technical Institute</h1>
           <p className="text-slate-300 text-lg max-w-2xl">A workforce training provider focused on delivering industry-recognized certifications, career readiness training, and employment pathways for underserved and justice-impacted populations.</p>
         </div>
       </section>
@@ -29,7 +30,7 @@ export default function AccreditationPage() {
           <Shield className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
           <div>
             <h2 className="text-xl font-bold text-slate-900 mb-2">Postsecondary Approval Status</h2>
-            <p className="text-slate-700 leading-relaxed">Elevate for Humanity Career &amp; Technical Institute is <strong>not currently approved as a postsecondary institution</strong> through the Indiana Department of Education. We are actively building program quality, employer partnerships, and measurable outcomes as part of our long-term approval and expansion strategy.</p>
+            <p className="text-slate-700 leading-relaxed">{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is <strong>not currently approved as a postsecondary institution</strong> through the Indiana Department of Education. We are actively building program quality, employer partnerships, and measurable outcomes as part of our long-term approval and expansion strategy.</p>
             <p className="text-slate-600 mt-3 leading-relaxed">Our programs are workforce training programs — not degree-granting or federally accredited academic programs. Certifications are issued by the respective industry certifying organizations upon successful completion of required examinations.</p>
           </div>
         </div>
@@ -91,7 +92,7 @@ export default function AccreditationPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Founder Credentials &amp; Authorizations</h2>
           <p className="text-slate-600 text-sm mb-8">
-            Elizabeth Greene, Founder &amp; CEO — credentials held personally and applied through Elevate for Humanity and Elevate tax operations.
+            Elizabeth Greene, Founder &amp; CEO — credentials held personally and applied through {PLATFORM_DEFAULTS.orgName} and Elevate tax operations.
           </p>
 
           <div className="mb-10">
@@ -178,7 +179,7 @@ export default function AccreditationPage() {
             <h2 className="text-xl font-bold text-white mb-2">Partnership &amp; Compliance Inquiries</h2>
             <p className="text-slate-500 text-sm">For funding, partnership, or compliance questions, contact our team directly.</p>
           </div>
-          <Link href="mailto:support@elevateforhumanity.org" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
+          <Link href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
             <Mail className="w-4 h-4" />Contact Us
           </Link>
         </div>

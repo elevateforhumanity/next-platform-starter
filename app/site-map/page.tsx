@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { headerNavigation } from '@/lib/navigation/site-nav.config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Sitemap',
-  description: 'Complete directory of all pages on Elevate for Humanity.',
+  description: 'Complete directory of all pages on {PLATFORM_DEFAULTS.orgName}.',
 };
 
 export default function SitemapPage() {

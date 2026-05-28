@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Save, CheckCircle, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   initialSettings: Record<string, string>;
@@ -37,8 +38,8 @@ export function GeneralSettingsClient({ initialSettings }: Props) {
   }
 
   const fields = [
-    { key: 'site_name', label: 'Site Name', placeholder: 'Elevate for Humanity' },
-    { key: 'support_email', label: 'Support Email', placeholder: 'support@elevateforhumanity.org' },
+    { key: 'site_name', label: 'Site Name', placeholder: PLATFORM_DEFAULTS.orgName },
+    { key: 'support_email', label: 'Support Email', placeholder: PLATFORM_DEFAULTS.supportEmail },
     { key: 'contact_phone', label: 'Contact Phone', placeholder: '(317) 555-0100' },
     { key: 'timezone', label: 'Timezone', placeholder: 'America/Indiana/Indianapolis' },
   ];

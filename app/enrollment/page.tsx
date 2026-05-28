@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -189,10 +190,10 @@ export default async function EnrollmentPage() {
               Check Funding Eligibility
             </Link>
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="border-2 border-black text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors text-base flex items-center gap-2"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>
@@ -405,7 +406,7 @@ export default async function EnrollmentPage() {
               Apply Now
             </Link>
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="border-2 border-white text-slate-900 font-bold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg flex items-center gap-2"
             >
               <Phone className="w-5 h-5" /> Call Us

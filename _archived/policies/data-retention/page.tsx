@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Data Retention Policy | Elevate for Humanity',
+  title: 'Data Retention Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'How long we keep student and institutional data, retention schedules, and secure deletion procedures.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/data-retention',
@@ -31,7 +32,7 @@ export default async function DataRetentionPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This Data Retention Policy establishes how long Elevate for Humanity retains different types of 
+              This Data Retention Policy establishes how long {PLATFORM_DEFAULTS.orgName} retains different types of 
               data, when and how data is deleted, and the legal and operational reasons for our retention 
               schedules. We balance our need to maintain records with privacy principles and legal requirements.
             </p>
@@ -285,8 +286,8 @@ export default async function DataRetentionPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Mail:</strong> Privacy Officer, Elevate for Humanity</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
+              <li><strong>Mail:</strong> Privacy Officer, {PLATFORM_DEFAULTS.orgName}</li>
               <li className="ml-6">3737 N Meridian St, Suite 200</li>
               <li className="ml-6">Indianapolis, IN 46208</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>

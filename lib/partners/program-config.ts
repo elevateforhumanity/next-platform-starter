@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Universal partner program configuration.
  * Each program defines its display info, required fields, and email content.
@@ -295,7 +296,7 @@ export const PROGRAM_CONFIGS: Record<string, ProgramConfig> = {
       'Host CNA students for clinical rotations at your healthcare facility. Help train the next generation of certified nursing assistants.',
     registeredApprenticeship: false,
     trainingHours: 75,
-    theoryProvider: 'Elevate for Humanity',
+    theoryProvider: PLATFORM_DEFAULTS.orgName,
     licensingBody: 'Indiana State Department of Health (ISDH)',
     licensingExam: 'Indiana CNA competency exam',
     minimumWage: 'N/A (clinical rotation)',

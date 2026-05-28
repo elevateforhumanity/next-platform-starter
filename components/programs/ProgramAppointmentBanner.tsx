@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function ProgramAppointmentBanner() {
   return (
@@ -29,7 +30,7 @@ export function ProgramAppointmentBanner() {
                 indianacareerconnect.com
               </a>
             </li>
-            <li>Tell the advisor you are working with Elevate for Humanity</li>
+            <li>Tell the advisor you are working with {PLATFORM_DEFAULTS.orgName}</li>
             <li>Return and complete your Next Steps Checklist so we can move you forward</li>
           </ol>
         </div>

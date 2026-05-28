@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createBrowserClient } from '@supabase/ssr';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 const grantFundedPrograms = programs.filter((p) =>
   p.fundingOptions.some(
     (f) =>
@@ -299,7 +300,7 @@ export default function GrantProgramsPage() {
               >
                 Contact us
               </Link>{' '}
-              or contact us at (317) 314-3757
+              or contact us at {PLATFORM_DEFAULTS.supportPhone}
             </p>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { sanitizeHtml } from '@/lib/sanitize';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function Breadcrumbs() {
   const pathname = usePathname();
@@ -31,7 +32,7 @@ export function Breadcrumbs() {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      item: `https://www.elevateforhumanity.org${item.href}`,
+      item: `${PLATFORM_DEFAULTS.siteUrl}${item.href}`,
     })),
   };
 

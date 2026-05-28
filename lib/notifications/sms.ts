@@ -1,5 +1,6 @@
 // SMS notification system using Twilio
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface SMSNotification {
   to: string;
@@ -95,7 +96,7 @@ export class SMSService {
   ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
-      message: `Reminder: ${assignmentName} is due on ${dueDate}. Submit at www.elevateforhumanity.org/lms/assignments`,
+      message: `Reminder: ${assignmentName} is due on ${dueDate}. Submit at ${PLATFORM_DEFAULTS.canonicalDomain}/lms/assignments`,
     });
   }
 
@@ -106,7 +107,7 @@ export class SMSService {
   ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
-      message: `Your ${className} class starts at ${startTime}. Join at www.elevateforhumanity.org/lms/live`,
+      message: `Your ${className} class starts at ${startTime}. Join at ${PLATFORM_DEFAULTS.canonicalDomain}/lms/live`,
     });
   }
 
@@ -116,21 +117,21 @@ export class SMSService {
   ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
-      message: `Achievement unlocked: ${achievementName}! View at www.elevateforhumanity.org/achievements`,
+      message: `Achievement unlocked: ${achievementName}! View at ${PLATFORM_DEFAULTS.canonicalDomain}/achievements`,
     });
   }
 
   async sendCertificateNotification(phoneNumber: string, courseName: string): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
-      message: `Your ${courseName} certificate is ready! Download at www.elevateforhumanity.org/certificates`,
+      message: `Your ${courseName} certificate is ready! Download at ${PLATFORM_DEFAULTS.canonicalDomain}/certificates`,
     });
   }
 
   async sendEnrollmentConfirmation(phoneNumber: string, courseName: string): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
-      message: `You're enrolled in ${courseName}! Start learning at www.elevateforhumanity.org/lms/courses`,
+      message: `You're enrolled in ${courseName}! Start learning at ${PLATFORM_DEFAULTS.canonicalDomain}/lms/courses`,
     });
   }
 

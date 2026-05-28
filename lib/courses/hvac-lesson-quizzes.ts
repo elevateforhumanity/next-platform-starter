@@ -3,6 +3,7 @@
 // Used by the dynamic lesson template to render inline comprehension checks.
 
 import { QuizQuestion } from './hvac-quizzes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Module 1: Program Orientation ────────────────────────────────────────────
 
@@ -5279,7 +5280,7 @@ export const QUIZ_16_05: QuizQuestion[] = [
   },
   {
     id: 'q-16-05-5',
-    question: "Elevate for Humanity's mission is:",
+    question: "' + PLATFORM_DEFAULTS.orgName + ''s mission is:",
     options: [
       'To train as many people as possible regardless of outcome',
       'To provide workforce development that creates real economic mobility for underserved communities',

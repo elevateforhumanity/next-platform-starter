@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function SetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -147,8 +148,8 @@ export default function SetPasswordPage() {
           </Link>
           <p className="mt-4 text-sm text-slate-700">
             Need help?{' '}
-            <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

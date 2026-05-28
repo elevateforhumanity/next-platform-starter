@@ -2,6 +2,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { 
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   
   BookOpen, 
   Award, 
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Capital Readiness Course for Workforce & Licensed Organizations',
     description: 'Learn to build institutional trust, pass audits, and access funding.',
     url: `${siteUrl}/courses/capital-readiness`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     type: 'website',
     images: [
       {
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Capital Readiness Course | Elevate for Humanity',
+    title: 'Capital Readiness Course | {PLATFORM_DEFAULTS.orgName}',
     description: 'Learn to build institutional trust, pass audits, and access funding.',
   },
   alternates: {
@@ -52,7 +53,7 @@ const courseSchema = {
   description: 'A structured course on capital readiness, compliance, and institutional trust for licensed businesses, workforce-aligned employers, and nonprofits.',
   provider: {
     '@type': 'Organization',
-    name: 'Elevate for Humanity',
+    name: '{PLATFORM_DEFAULTS.orgName}',
     url: siteUrl,
   },
   educationalLevel: 'Professional',

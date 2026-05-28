@@ -5,6 +5,7 @@ import { ArrowLeft, Phone, Clock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import RequestInfoForm from './RequestInfoForm';
 import { getProgramBySlug } from '@/lib/programs/get-program';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const program = await getProgramBySlug(params.program);
   if (!program) return { title: 'Request Information' };
   return {
-    title: `Request Information — ${program.title} | Elevate for Humanity`,
+    title: `Request Information — ${program.title} | ${PLATFORM_DEFAULTS.orgName}`,
     description: `Get answers about the ${program.title} program — funding options, schedule, credentials, and enrollment.`,
   };
 }
@@ -125,8 +126,8 @@ export default async function RequestInfoPage({ params }: Props) {
                 <Phone className="w-4 h-4 text-black" />
                 <h3 className="font-bold text-slate-900 text-sm">Prefer to call?</h3>
               </div>
-              <a href="tel:3173143757" className="text-brand-blue-600 font-bold hover:underline">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-bold hover:underline">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <div className="flex items-center gap-1.5 mt-1">
                 <Clock className="w-3.5 h-3.5 text-black" />

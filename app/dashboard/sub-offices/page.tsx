@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Building2, Users, MapPin, Phone, Mail, Plus, Edit } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Sub-Offices | Dashboard',
@@ -80,7 +81,7 @@ export default async function SubOfficesPage() {
             Home
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="https://admin.elevateforhumanity.org/admin/dashboard" className="hover:text-orange-600">
+          <Link href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/admin/dashboard" className="hover:text-orange-600">
             Admin
           </Link>
           <ChevronRight className="w-4 h-4" />

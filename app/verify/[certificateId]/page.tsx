@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Dynamic canonical — each certificate has its own URL
 export async function generateMetadata({ params }: { params: Promise<{ certificateId: string }> }): Promise<Metadata> {
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ certifica
     title: 'Verify Certificate',
     description: 'Verify the authenticity of a certificate issued by Elevate For Humanity.',
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/verify/${certificateId}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/verify/${certificateId}`,
     },
     robots: { index: false, follow: false },
   };

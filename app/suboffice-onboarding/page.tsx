@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building2,
   Upload,
   FileText,
@@ -15,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Suboffice Onboarding | Partner with Elevate for Humanity',
+  title: 'Suboffice Onboarding | Partner with {PLATFORM_DEFAULTS.orgName}',
   description:
     'Open a tax preparation suboffice. Complete onboarding, upload PTIN/EFIN, pass compliance test, and start earning revenue share.',
   alternates: {

@@ -1,12 +1,13 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Elevate Institutional Email Template System
 // All outbound emails use the institutional header with logo,
 // professional typography, and consistent signature block.
 
-const ORG_NAME = 'Elevate for Humanity';
+const ORG_NAME = PLATFORM_DEFAULTS.orgName;
 const ORG_OPERATOR = '2Exclusive LLC-S';
-const ORG_WEBSITE = 'www.elevateforhumanity.org';
+const ORG_WEBSITE = PLATFORM_DEFAULTS.canonicalDomain;
 const ORG_EMAIL = 'info@elevateforhumanity.org';
-const ORG_PHONE = '(317) 314-3757';
+const ORG_PHONE = PLATFORM_DEFAULTS.supportPhone;
 const ORG_LOGO = 'https://www.elevateforhumanity.org/images/logo.png';
 const ORG_TAGLINE = 'Workforce Development & Career Training';
 
@@ -71,9 +72,9 @@ function signatureBlock(senderName?: string, senderTitle?: string): string {
 export const emailTemplates = {
   // Welcome email
   welcome: (data: { name: string; loginUrl: string }) => ({
-    subject: 'Welcome to Elevate for Humanity',
+    subject: 'Welcome to ${PLATFORM_DEFAULTS.orgName}',
     html: wrapEmail(
-      'Welcome to Elevate for Humanity',
+      'Welcome to ${PLATFORM_DEFAULTS.orgName}',
       `
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Your account has been created. You now have access to the Elevate for Humanity training platform.</p>
@@ -103,7 +104,7 @@ export const emailTemplates = {
           ${signatureBlock()}
     `,
     ),
-    text: `Dear ${data.name},\n\nYour account has been created. You now have access to the Elevate for Humanity training platform.\n\nNext Steps:\n1. Complete your profile\n2. Browse available training programs\n3. Check your WIOA eligibility\n4. Connect with a career advisor\n\nAccess your dashboard: ${data.loginUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}\n${ORG_WEBSITE}`,
+    text: `Dear ${data.name},\n\nYour account has been created. You now have access to the ${PLATFORM_DEFAULTS.orgName} training platform.\n\nNext Steps:\n1. Complete your profile\n2. Browse available training programs\n3. Check your WIOA eligibility\n4. Connect with a career advisor\n\nAccess your dashboard: ${data.loginUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}\n${ORG_WEBSITE}`,
   }),
 
   // Course enrollment

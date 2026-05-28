@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * License Welcome Email Template
  * Sent after successful license purchase with implementation instructions
@@ -50,7 +51,7 @@ export function generateLicenseWelcomeEmail(data: LicenseWelcomeEmailData): {
                 🎉 License Activated!
               </h1>
               <p style="color: #6b7280; margin: 10px 0 0 0; font-size: 16px;">
-                Welcome to Elevate for Humanity
+                Welcome to ${PLATFORM_DEFAULTS.orgName}
               </p>
             </td>
           </tr>
@@ -135,7 +136,7 @@ export function generateLicenseWelcomeEmail(data: LicenseWelcomeEmailData): {
                     <a href="${data.repoUrl}" style="display: inline-block; background-color: #ea580c; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; margin-right: 12px;">
                       Access Repository
                     </a>
-                    <a href="https://www.elevateforhumanity.org/store/deployment" style="display: inline-block; background-color: #f3f4f6; color: #374151; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                    <a href="${PLATFORM_DEFAULTS.siteUrl}/store/deployment" style="display: inline-block; background-color: #f3f4f6; color: #374151; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
                       Deployment Guide
                     </a>
                   </td>
@@ -164,7 +165,7 @@ export function generateLicenseWelcomeEmail(data: LicenseWelcomeEmailData): {
                 <h4 style="color: #1e40af; font-size: 16px; margin: 0 0 8px 0;">Need Help?</h4>
                 <p style="color: #3b82f6; font-size: 14px; margin: 0;">
                   Schedule a free onboarding call with our team:<br>
-                  <a href="https://www.elevateforhumanity.org/schedule?type=onboarding" style="color: #1e40af; font-weight: 600;">Book Onboarding Call</a>
+                  <a href="${PLATFORM_DEFAULTS.siteUrl}/schedule?type=onboarding" style="color: #1e40af; font-weight: 600;">Book Onboarding Call</a>
                 </p>
               </div>
             </td>
@@ -174,10 +175,10 @@ export function generateLicenseWelcomeEmail(data: LicenseWelcomeEmailData): {
           <tr>
             <td style="background-color: #1e293b; padding: 24px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="color: #6b7280; font-size: 14px; margin: 0 0 8px 0;">
-                Elevate for Humanity
+                ${PLATFORM_DEFAULTS.orgName}
               </p>
               <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-                Questions? Reply to this email or contact <a href="mailto:info@elevateforhumanity.org" style="color: #059669;">info@elevateforhumanity.org</a>
+                Questions? Reply to this email or contact <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #059669;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
               </p>
             </td>
           </tr>
@@ -222,12 +223,12 @@ ${data.features.map((f) => `✓ ${formatFeatureName(f)}`).join('\n')}
 
 NEED HELP?
 ==========
-Schedule a free onboarding call: https://www.elevateforhumanity.org/schedule?type=onboarding
+Schedule a free onboarding call: ${PLATFORM_DEFAULTS.siteUrl}/schedule?type=onboarding
 
-Questions? Reply to this email or contact info@elevateforhumanity.org
+Questions? Reply to this email or contact info@${PLATFORM_DEFAULTS.canonicalDomain}
 
 ---
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
 `;
 
   return { subject, html, text };

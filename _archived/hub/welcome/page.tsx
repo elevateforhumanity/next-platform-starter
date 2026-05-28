@@ -4,9 +4,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Hub | Elevate for Humanity',
+  title: 'Hub | {PLATFORM_DEFAULTS.orgName}',
   description: 'Your operational command center - track progress, view automation, and manage your learning journey.',
 };
 

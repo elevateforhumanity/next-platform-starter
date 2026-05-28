@@ -6,6 +6,7 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import webpush from 'web-push';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -14,7 +15,7 @@ export const dynamic = 'force-dynamic';
 // Initialize web-push with VAPID keys
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY;
-const VAPID_SUBJECT = process.env.VAPID_SUBJECT || 'mailto:support@elevateforhumanity.org';
+const VAPID_SUBJECT = process.env.VAPID_SUBJECT || `mailto:${PLATFORM_DEFAULTS.supportEmail}`;
 
 if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
   webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);

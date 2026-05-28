@@ -1,16 +1,17 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Email Templates for Elevate for Humanity
 
 export const emailTemplates = {
   welcome: {
     name: 'Welcome Email',
-    subject: 'Welcome to Elevate for Humanity!',
+    subject: 'Welcome to ' + PLATFORM_DEFAULTS.orgName + '!',
     html: `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Elevate for Humanity</title>
+  <title>Welcome to ${PLATFORM_DEFAULTS.orgName}</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #ffffff;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #ffffff; padding: 40px 20px;">
@@ -20,7 +21,7 @@ export const emailTemplates = {
           <!-- Header -->
           <tr>
             <td style="padding: 40px 30px; text-align: center; border-bottom: 2px solid #e5e7eb;">
-              <h1 style="color: #1e293b; margin: 0; font-size: 28px; font-weight: bold;">Welcome to Elevate for Humanity!</h1>
+              <h1 style="color: #1e293b; margin: 0; font-size: 28px; font-weight: bold;">Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
             </td>
           </tr>
 
@@ -30,7 +31,7 @@ export const emailTemplates = {
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">Hi {{firstName}},</p>
 
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                We're excited to have you join Elevate for Humanity! You're taking the first step toward a life-changing career.
+                We're excited to have you join ' + PLATFORM_DEFAULTS.orgName + '! You're taking the first step toward a life-changing career.
               </p>
 
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 30px 0;">
@@ -61,7 +62,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center; border-top: 1px solid #e2e8f0;">
               <p style="color: #64748b; font-size: 14px; margin: 0 0 10px 0;">
-                Questions? Call us at <a href="tel:317-314-3757" style="color: #ea580c; text-decoration: none;">(317) 314-3757</a>
+                Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #ea580c; text-decoration: none;">${PLATFORM_DEFAULTS.supportPhone}</a>
               </p>
               <p style="color: #64748b; font-size: 14px; margin: 0;">
                 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
@@ -141,7 +142,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                Elevate for Humanity | (317) 314-3757 | info@elevateforhumanity.org
+                ${PLATFORM_DEFAULTS.orgName} | ${PLATFORM_DEFAULTS.supportPhone} | info@${PLATFORM_DEFAULTS.canonicalDomain}
               </p>
             </td>
           </tr>
@@ -316,7 +317,7 @@ export const emailTemplates = {
 
   partnerOutreach: {
     name: 'Partner Outreach',
-    subject: 'Partnership Opportunity with Elevate for Humanity',
+    subject: 'Partnership Opportunity with ${PLATFORM_DEFAULTS.orgName}',
     html: `
 <!DOCTYPE html>
 <html>
@@ -332,7 +333,7 @@ export const emailTemplates = {
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">Dear {{partnerName}},</p>
 
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Elevate for Humanity is Indiana's leading workforce training provider, offering 100% funded programs in high-demand careers.
+                ${PLATFORM_DEFAULTS.orgName} is Indiana's leading workforce training provider, offering 100% funded programs in high-demand careers.
               </p>
 
               <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 0 0 30px 0;">
@@ -385,7 +386,7 @@ export const emailTemplates = {
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">Dear {{employerName}},</p>
 
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Finding skilled workers is challenging. Elevate for Humanity provides pre-trained, job-ready candidates in {{industry}} at no cost to you.
+                Finding skilled workers is challenging. ${PLATFORM_DEFAULTS.orgName} provides pre-trained, job-ready candidates in {{industry}} at no cost to you.
               </p>
 
               <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 25px; margin: 0 0 30px 0;">
@@ -432,7 +433,7 @@ export const emailTemplates = {
               </table>
 
               <p style="color: #64748b; font-size: 14px; text-align: center; margin: 30px 0 0 0;">
-                Or call us at <a href="tel:317-314-3757" style="color: #1e40af; text-decoration: none; font-weight: bold;">(317) 314-3757</a>
+                Or call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #1e40af; text-decoration: none; font-weight: bold;">${PLATFORM_DEFAULTS.supportPhone}</a>
               </p>
             </td>
           </tr>
@@ -440,7 +441,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                Elevate for Humanity | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
+                ${PLATFORM_DEFAULTS.orgName} | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
               </p>
             </td>
           </tr>
@@ -519,7 +520,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                Elevate for Humanity | (317) 314-3757 | info@elevateforhumanity.org
+                ${PLATFORM_DEFAULTS.orgName} | ${PLATFORM_DEFAULTS.supportPhone} | info@${PLATFORM_DEFAULTS.canonicalDomain}
               </p>
             </td>
           </tr>
@@ -601,7 +602,7 @@ export const emailTemplates = {
               </table>
 
               <p style="color: #64748b; font-size: 14px; text-align: center; margin: 30px 0 0 0;">
-                Questions? Call us at <a href="tel:317-314-3757" style="color: #ea580c; text-decoration: none; font-weight: bold;">(317) 314-3757</a>
+                Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #ea580c; text-decoration: none; font-weight: bold;">${PLATFORM_DEFAULTS.supportPhone}</a>
               </p>
             </td>
           </tr>
@@ -609,7 +610,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                Elevate for Humanity | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
+                ${PLATFORM_DEFAULTS.orgName} | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240
               </p>
             </td>
           </tr>
@@ -723,7 +724,7 @@ export const emailTemplates = {
           <tr>
             <td style="background-color: #ffffff; padding: 30px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                Elevate for Humanity | (317) 314-3757 | info@elevateforhumanity.org
+                ${PLATFORM_DEFAULTS.orgName} | ${PLATFORM_DEFAULTS.supportPhone} | info@${PLATFORM_DEFAULTS.canonicalDomain}
               </p>
             </td>
           </tr>

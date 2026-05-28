@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Fee Schedule | Elevate for Humanity',
+  title: 'Fee Schedule | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage tax preparation fee schedules.',
 };
 

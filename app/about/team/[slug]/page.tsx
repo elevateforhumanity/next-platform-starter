@@ -3,6 +3,7 @@ import { teamMembers } from '@/content/cf-team';
 import { findBySlug, staticParamsFromSlugs } from '@/lib/content-helpers';
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!member) return {};
   return buildMetadata({
     title: member.name,
-    description: `${member.name} — ${member.title} at Elevate for Humanity.`,
+    description: `${member.name} — ${member.title} at ${PLATFORM_DEFAULTS.orgName}.`,
     path: `/about/team/${slug}`,
   });
 }

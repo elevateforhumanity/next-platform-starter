@@ -17,6 +17,7 @@ import {
 // Product data fetched from /api/store/products/:slug (DB-backed with hardcoded fallback)
 import { ArrowLeft, Lock, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -367,7 +368,7 @@ export default function LicenseCheckoutPage() {
                         })
                       }
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-600 focus:border-transparent"
-                      placeholder="(317) 314-3757"
+                      placeholder="{PLATFORM_DEFAULTS.supportPhone}"
                     />
                   </div>
 

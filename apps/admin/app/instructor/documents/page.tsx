@@ -4,11 +4,12 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import InstructorDocumentsClient from './InstructorDocumentsClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Documents | Elevate for Humanity',
+  title: 'Instructor Documents | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
@@ -102,7 +103,7 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Elevate for Humanity <noreply@www.elevateforhumanity.org>',
+        from: '' + PLATFORM_DEFAULTS.orgName + ' <noreply@www.elevateforhumanity.org>',
         to: [enrollment.student_email],
         subject,
         html: htmlContent,

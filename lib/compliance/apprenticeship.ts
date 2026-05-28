@@ -1,8 +1,9 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const APPRENTICESHIP = {
   IN: {
     enabled: true,
     state: 'Indiana',
-    sponsorName: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)',
+    sponsorName: '2Exclusive LLC-S (DBA ' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute)',
     system: 'U.S. Department of Labor Registered Apprenticeship (RAPIDS)',
     programName: 'Barber Apprenticeship',
     earnAndLearn: true,

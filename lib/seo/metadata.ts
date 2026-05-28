@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface SEOParams {
   title: string;
@@ -10,12 +11,12 @@ interface SEOParams {
 }
 
 export function generateMetadata(params: SEOParams): Metadata {
-  const baseUrl = 'https://www.elevateforhumanity.org';
+  const baseUrl = PLATFORM_DEFAULTS.siteUrl;
   const url = `${baseUrl}${params.path}`;
   const image = params.image || '/images/og-default.jpg';
   const fullTitle = params.title.includes('|')
     ? params.title
-    : `${params.title} | Elevate for Humanity`;
+    : `${params.title} | ${PLATFORM_DEFAULTS.orgName}`;
 
   const metadata: Metadata = {
     title: fullTitle,
@@ -30,7 +31,7 @@ export function generateMetadata(params: SEOParams): Metadata {
       title: fullTitle,
       description: params.description,
       url: url,
-      siteName: 'Elevate for Humanity',
+      siteName: PLATFORM_DEFAULTS.orgName,
       images: [
         {
           url: image,

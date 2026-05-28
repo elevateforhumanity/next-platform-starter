@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { XCircle, Loader2, Phone, Mail } from 'lucide-react';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function ConfirmContent() {
   const params = useParams<{ program: string }>();
@@ -55,7 +56,7 @@ function ConfirmContent() {
               Try Again
             </Link>
             <a
-              href="tel:3173143757"
+              href="tel:${PLATFORM_DEFAULTS.supportPhone}"
               className="px-6 py-3 border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition flex items-center gap-2 justify-center"
             >
               <Phone className="w-4 h-4" /> Call Us

@@ -3,11 +3,12 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Plug, Circle, Code, Zap, Database, Mail, CreditCard, Users } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Integrations & API | Elevate for Humanity Store',
+  title: 'Integrations & API | {PLATFORM_DEFAULTS.orgName} Store',
   description: 'Salesforce, Zapier, REST API, webhooks, and custom integrations. Connect your workforce platform to your existing systems.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/integrations',

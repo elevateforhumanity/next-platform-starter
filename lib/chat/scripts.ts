@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Chat Assistant Script Registry
  *
@@ -161,19 +162,19 @@ Need help with any of these steps?`,
         trigger: 'complaint',
         action: 'transfer_to_human',
         message:
-          'I understand you have a concern. Let me connect you with our support team who can help resolve this. You can also reach them directly at (317) 314-3757.',
+          'I understand you have a concern. Let me connect you with our support team who can help resolve this. You can also reach them directly at ${PLATFORM_DEFAULTS.supportPhone}.',
       },
       {
         trigger: 'refund',
         action: 'show_contact',
         message:
-          'For refund inquiries, please contact our finance team at info@elevateforhumanity.org or call (317) 314-3757.',
+          'For refund inquiries, please contact our finance team at info@${PLATFORM_DEFAULTS.canonicalDomain} or call ${PLATFORM_DEFAULTS.supportPhone}.',
       },
       {
         trigger: 'emergency',
         action: 'redirect_to_page',
         message:
-          'If this is an emergency, please call 911. For urgent support, call us at (317) 314-3757.',
+          'If this is an emergency, please call 911. For urgent support, call us at ' + PLATFORM_DEFAULTS.supportPhone + '.',
         target: '/contact',
       },
     ],
@@ -286,7 +287,7 @@ Try answering them, and I can check your work!`,
         trigger: 'technical_issue',
         action: 'redirect_to_page',
         message:
-          'For technical issues, please visit our support page or contact info@elevateforhumanity.org',
+          'For technical issues, please visit our support page or contact info@${PLATFORM_DEFAULTS.canonicalDomain}',
         target: '/support',
       },
     ],

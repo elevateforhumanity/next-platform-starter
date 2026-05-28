@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, ArrowRight, CheckCircle, CreditCard, DollarSign, Building2, Users } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type FundingSource = 'wioa' | 'wrg' | 'employer' | 'self_pay';
 
@@ -231,7 +232,7 @@ export default function FundingPage() {
 
         <p className="text-xs text-slate-400 mt-4">
           Not sure which applies to you?{' '}
-          <a href="tel:+13173143757" className="underline">Call (317) 314-3757</a> and we&apos;ll help you figure it out.
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">Call {PLATFORM_DEFAULTS.supportPhone}</a> and we&apos;ll help you figure it out.
         </p>
       </div>
     </div>

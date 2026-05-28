@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * NDA and Non-Compete Template for Onboarding
  * Standalone agreement for employees, contractors, and partners
@@ -315,8 +316,8 @@ ${data.recipientAddress ? `Address: ${data.recipientAddress}` : ''}
 
 ---
 
-This Agreement was generated on ${data.effectiveDate} via the Elevate for Humanity Onboarding System.
-For questions or concerns, contact: legal@www.elevateforhumanity.org
+This Agreement was generated on ${data.effectiveDate} via the ${PLATFORM_DEFAULTS.orgName} Onboarding System.
+For questions or concerns, contact: legal@${PLATFORM_DEFAULTS.canonicalDomain}
 
 IMPORTANT NOTICE: This is a legally binding agreement. By signing, you agree to be bound by all terms and conditions. If you have questions or concerns, please seek legal counsel before signing.
 `;

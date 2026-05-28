@@ -16,6 +16,7 @@ import {
   Star,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -207,17 +208,17 @@ export default async function StaffOnboardingPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="mailto:hr@elevateforhumanity.org"
+              href="mailto:hr@${PLATFORM_DEFAULTS.canonicalDomain}"
               className="text-sm text-brand-blue-600 hover:underline font-medium"
             >
-              hr@elevateforhumanity.org
+              hr@${PLATFORM_DEFAULTS.canonicalDomain}
             </Link>
             <span className="text-slate-300">·</span>
             <Link
-              href="tel:+13173143757"
+              href="tel:+1${PLATFORM_DEFAULTS.supportPhone}"
               className="text-sm text-brand-blue-600 hover:underline font-medium"
             >
-              (317) 314-3757
+              ${PLATFORM_DEFAULTS.supportPhone}
             </Link>
           </div>
         </div>

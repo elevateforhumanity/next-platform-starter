@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Download, Share2, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 interface CertificateGeneratorProps {
   studentName?: string;
   courseName?: string;
@@ -67,9 +68,9 @@ export default function CertificateGenerator({
     // LinkedIn's certification add flow requires their API; this opens the
     // profile share as the closest publicly available option.
     const text = encodeURIComponent(
-      `I just completed "${courseName}" through Elevate for Humanity! Certificate ID: ${certificateId}`,
+      `I just completed "${courseName}" through ${PLATFORM_DEFAULTS.orgName}! Certificate ID: ${certificateId}`,
     );
-    const url = encodeURIComponent('https://www.elevateforhumanity.org');
+    const url = encodeURIComponent(PLATFORM_DEFAULTS.siteUrl);
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${url}&summary=${text}`,
       '_blank',
@@ -102,7 +103,7 @@ export default function CertificateGenerator({
           </div>
           <div className="border-t-2 border-slate-300 pt-8">
             <div className="text-sm text-black">
-              Elevate for Humanity Career &amp; Technical Institute
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
             </div>
             <div className="text-xs text-slate-700 mt-2">Workforce Development & Training</div>
           </div>

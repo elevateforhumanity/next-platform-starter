@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   Clock,
   Users,
@@ -108,7 +109,7 @@ const sections = [
     icon: Phone,
     title: 'Communication & Reporting',
     content: [
-      'Open communication with the Sponsor (Elevate for Humanity) is essential for program success and DOL compliance.',
+      'Open communication with the Sponsor ({PLATFORM_DEFAULTS.orgName}) is essential for program success and DOL compliance.',
     ],
     items: [
       'Respond to Sponsor inquiries within 2 business days',

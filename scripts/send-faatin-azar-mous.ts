@@ -19,6 +19,7 @@
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const API_KEY = process.env.SENDGRID_API_KEY;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
@@ -100,7 +101,7 @@ const RECIPIENTS = [
 ];
 
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
-const FROM_NAME = 'Elizabeth Greene | Elevate for Humanity';
+const FROM_NAME = 'Elizabeth Greene | ' + PLATFORM_DEFAULTS.orgName + '';
 const REPLY_TO = 'elevate4humanityedu@gmail.com';
 const CC_EMAIL = 'elevate4humanityedu@gmail.com';
 
@@ -128,17 +129,17 @@ function buildPlainText(recipient: (typeof RECIPIENTS)[0]): string {
     '  A simple one-page Memorandum of Understanding (MOU) that takes about 5 minutes to complete.',
     '  There is no financial obligation. This is a hiring partnership only.',
     '',
-    'To get started, please reply to this email or call me directly at (317) 314-3757.',
+    'To get started, please reply to this email or call me directly at ' + PLATFORM_DEFAULTS.supportPhone + '.',
     'I will send you the MOU and walk you through it personally.',
     '',
     'Thank you for your time. I look forward to connecting.',
     '',
     'Elizabeth Greene',
     'Founder & CEO',
-    'Elevate for Humanity Technical and Career Institute',
+    '' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute',
     '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240',
     'elevate4humanityedu@gmail.com',
-    '(317) 314-3757',
+    '' + PLATFORM_DEFAULTS.supportPhone + '',
   ].join('\n');
 }
 
@@ -157,7 +158,7 @@ function buildHtml(recipient: (typeof RECIPIENTS)[0]): string {
 
   <!-- Header bar -->
   <tr><td style="background:#0e3a7d;padding:28px 40px 24px;">
-    <p style="margin:0;color:#ffffff;font-size:20px;font-weight:bold;font-family:Arial,sans-serif;">Elevate for Humanity</p>
+    <p style="margin:0;color:#ffffff;font-size:20px;font-weight:bold;font-family:Arial,sans-serif;">" + PLATFORM_DEFAULTS.orgName + "</p>
     <p style="margin:4px 0 0;color:#93b8f0;font-size:12px;font-family:Arial,sans-serif;letter-spacing:0.04em;">TECHNICAL AND CAREER INSTITUTE &nbsp;·&nbsp; INDIANAPOLIS, INDIANA</p>
   </td></tr>
 
@@ -218,7 +219,7 @@ function buildHtml(recipient: (typeof RECIPIENTS)[0]): string {
     </table>
 
     <p style="margin:0 0 6px;color:#334155;font-size:14px;line-height:1.8;">
-      Please feel free to call me directly at <strong>(317) 314-3757</strong> with any questions.
+      Please feel free to call me directly at <strong>" + PLATFORM_DEFAULTS.supportPhone + "</strong> with any questions.
     </p>
 
     <p style="margin:24px 0 0;color:#334155;font-size:14px;line-height:1.8;">
@@ -226,7 +227,7 @@ function buildHtml(recipient: (typeof RECIPIENTS)[0]): string {
       <strong style="font-size:15px;">Elizabeth Greene</strong><br>
       Founder &amp; Chief Executive Officer<br>
       Elevate for Humanity Technical and Career Institute<br>
-      <a href="mailto:${REPLY_TO}" style="color:#0e3a7d;text-decoration:none;">${REPLY_TO}</a> &nbsp;&middot;&nbsp; (317) 314-3757
+      <a href="mailto:${REPLY_TO}" style="color:#0e3a7d;text-decoration:none;">${REPLY_TO}</a> &nbsp;&middot;&nbsp; " + PLATFORM_DEFAULTS.supportPhone + "
     </p>
 
   </td></tr>

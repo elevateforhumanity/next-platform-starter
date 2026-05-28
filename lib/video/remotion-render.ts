@@ -20,6 +20,7 @@ import { getPexelsImage } from './pexels';
 import { logger } from '@/lib/logger';
 // Type-only import — never bundled, only used for type checking
 import type { ElevateLessonProps } from '@/remotion-src/compositions/ElevateLesson';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Remotion's inputProps requires Record<string, unknown> — this cast is safe
 // because ElevateLessonProps is a plain serialisable object.
@@ -269,7 +270,7 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
       inputProps: compositionProps,
     });
 
-    // Remotion free license — Elevate for Humanity is a registered 501(c)(3)
+    // Remotion free license — ${PLATFORM_DEFAULTS.orgName} is a registered 501(c)(3)
     // nonprofit. Free tier requires no license key (licenseKey: null).
     // See LICENSES.md for compliance documentation.
     await registerUsageEvent({

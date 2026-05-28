@@ -6,6 +6,7 @@
  */
 
 import { PDFDocument, rgb, StandardFonts, PDFFont, PDFPage } from 'pdf-lib';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type CDLMOUPDFData = {
   company_name: string;
@@ -23,11 +24,11 @@ export type CDLMOUPDFData = {
   mou_version?: string;
 };
 
-const SPONSOR = '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)';
+const SPONSOR = '2Exclusive LLC-S (DBA: ' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute)';
 const SPONSOR_SIGNER = 'Elizabeth Greene';
 const SPONSOR_TITLE = 'Founder & Chief Executive Officer';
 const ADDRESS = '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240';
-const PHONE = '(317) 314-3757';
+const PHONE = PLATFORM_DEFAULTS.supportPhone;
 const EMAIL = 'elevate4humanityedu@gmail.com';
 
 function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: number): string[] {
@@ -241,7 +242,7 @@ export async function generateCDLMOUPdf(data: CDLMOUPDFData): Promise<Uint8Array
   y -= lineH;
   y = drawWrappedText(
     page,
-    `This MOU establishes ${data.company_name} ("Training Site") as an approved behind-the-wheel and on-the-job training partner for Elevate for Humanity's CDL Class ${cdlClass} program. The Training Site provides supervised driving hours, equipment access, and industry mentorship required for Indiana CDL licensure.`,
+    `This MOU establishes ${data.company_name} ("Training Site") as an approved behind-the-wheel and on-the-job training partner for ${PLATFORM_DEFAULTS.orgName}'s CDL Class ${cdlClass} program. The Training Site provides supervised driving hours, equipment access, and industry mentorship required for Indiana CDL licensure.`,
     margin,
     y,
     contentWidth,

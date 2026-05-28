@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, MapPin, User, Video, Building } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Book an Appointment',
@@ -236,7 +237,7 @@ export default async function BookingPage() {
                 href="/support"
                 className="inline-flex items-center justify-center bg-slate-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-slate-900"
               >
-                Call (317) 314-3757
+                Call {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <Link
                 href="/contact"

@@ -3,11 +3,12 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Courses | Elevate for Humanity',
+  title: 'My Courses | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage your courses',
 };
 

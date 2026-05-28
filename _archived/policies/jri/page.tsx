@@ -7,8 +7,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, Phone, Mail } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Justice Reinvestment Initiative Policy | Elevate for Humanity',
+  title: 'Justice Reinvestment Initiative Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'JRI funding policy for workforce training for justice-involved individuals. Eligibility, covered services, and application process.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies/jri' },
 };

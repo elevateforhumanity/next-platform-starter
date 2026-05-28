@@ -4,8 +4,9 @@ import { Play, ArrowRight, Mail } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Purchase Successful | Elevate for Humanity',
+  title: 'Purchase Successful | {PLATFORM_DEFAULTS.orgName}',
   description: 'Thank you for your purchase. Access your courses now.',
 };
 

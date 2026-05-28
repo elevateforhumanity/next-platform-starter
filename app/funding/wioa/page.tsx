@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 600;
 
@@ -322,7 +323,7 @@ export default async function WioaPage() {
               <strong>Need help navigating the process?</strong> We work with WorkOne centers every
               day. Contact us at{' '}
               <a href="/support" className="font-bold underline">
-                317-314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               and we'll guide you through it.
             </p>
@@ -401,7 +402,7 @@ export default async function WioaPage() {
           <p className="mt-6 text-black">
             Questions? Call{' '}
             <a href="/support" className="font-bold underline">
-              317-314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

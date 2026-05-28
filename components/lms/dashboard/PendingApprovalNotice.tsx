@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function PendingApprovalNotice() {
   return (
@@ -48,7 +49,7 @@ export function PendingApprovalNotice() {
             </span>
           </div>
           <p className="text-amber-600 text-sm mt-4">
-            Questions? Call <strong>(317) 314-3757</strong> or{' '}
+            Questions? Call <strong>{PLATFORM_DEFAULTS.supportPhone}</strong> or{' '}
             <Link href="/support" className="underline hover:text-amber-800">
               get help online
             </Link>

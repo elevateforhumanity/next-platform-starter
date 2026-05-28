@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CreditCard, AlertCircle, Clock, DollarSign, CalendarDays } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface BillingSummary {
   program: 'barber' | 'cosmetology';
@@ -212,8 +213,8 @@ export default function BillingCard({ billing }: { billing: BillingSummary }) {
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <span>
               Your account is suspended due to non-payment. Call{' '}
-              <a href="tel:3173143757" className="font-semibold underline">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="font-semibold underline">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               to restore access.
             </span>

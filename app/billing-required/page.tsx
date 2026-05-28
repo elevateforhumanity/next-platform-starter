@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { AlertTriangle, CheckCircle, Phone, Mail, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function BillingRequiredContent() {
   const searchParams = useSafeSearchParams();
@@ -102,11 +103,11 @@ function BillingRequiredContent() {
               <div className="border-t pt-4 space-y-2">
                 <p className="text-sm font-medium text-slate-700">Need help?</p>
                 <a
-                  href="tel:+13173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
                 >
                   <Phone className="w-4 h-4" />
-                  (317) 314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 <a
                   href="mailto:elevate4humanityedu@gmail.com"

@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowRight, AlertTriangle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Platform Licensing Guide | Elevate LMS',
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 const MASTER_STATEMENT =
-  'All platform products are licensed access to systems operated by Elevate for Humanity. Ownership of software, infrastructure, and intellectual property is not transferred.';
+  'All platform products are licensed access to systems operated by {PLATFORM_DEFAULTS.orgName}. Ownership of software, infrastructure, and intellectual property is not transferred.';
 
 const STEPS = [
   {

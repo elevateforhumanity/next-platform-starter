@@ -3,6 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -36,7 +37,7 @@ async function _POST(req: NextRequest) {
     );
   }
 
-  const displayName = fromName ? String(fromName) : 'Elevate for Humanity';
+  const displayName = fromName ? String(fromName) : PLATFORM_DEFAULTS.orgName;
   const fromAddress =
     process.env.EMAIL_FROM || process.env.MAIL_FROM || 'info@elevateforhumanity.org';
   const fromField = `${displayName} <${fromAddress}>`;

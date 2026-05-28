@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   BarChart,
   FileText,
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Partner Portal',
     description: 'Manage students, track outcomes, and access reports through the partner portal.',
     url: 'https://www.elevateforhumanity.org/platform/partner-portal',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       { url: '/hero-images/pathways-hero.jpg', width: 1200, height: 630, alt: 'Partner Portal' },
     ],

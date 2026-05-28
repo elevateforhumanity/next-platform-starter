@@ -30,9 +30,10 @@ import {
 import { WORKKEYS_PRICING } from '@/lib/testing/providers/workkeys-pricing';
 import { NRF_RISEUP_PRICING } from '@/lib/testing/providers/nrf-riseup';
 import { EPA608_PRICING } from '@/lib/testing/providers/epa608-pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const FROM = TESTING_EMAIL.from;
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
 /**
  * Returns the retake fee in cents for a given exam type key.
@@ -140,7 +141,7 @@ export const POST = withRuntime({ auth: 'admin' }, async (req) => {
     html: `<!DOCTYPE html>
 <html><body style="font-family:Arial,sans-serif;padding:24px;color:#1E293B;max-width:600px;margin:0 auto">
   <h2 style="color:#1E3A5F">Exam Result — ${examName ?? 'Your Exam'}</h2>
-  <p>Thank you for testing at Elevate for Humanity. Unfortunately, you did not pass this attempt.</p>
+  <p>Thank you for testing at ${PLATFORM_DEFAULTS.orgName}. Unfortunately, you did not pass this attempt.</p>
   <p>You are eligible to retake the exam. A <strong>${retakeFeeDisplay} retake fee</strong> is required to schedule your next attempt.</p>
   <p><a href="${SITE_URL}/testing/book" style="background:#1E3A5F;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block">Pay Fee &amp; Schedule Retake →</a></p>
   <p style="color:#64748b;font-size:13px">Questions? Call <strong>${TESTING_CENTER.phone}</strong> or reply to this email.</p>

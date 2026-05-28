@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BookOpen, CheckCircle, Award, Clock, ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Instructor Training',
   description:
-    'Training resources and requirements for Elevate for Humanity instructors. Covers pedagogy, compliance, platform usage, and professional development.',
+    'Training resources and requirements for {PLATFORM_DEFAULTS.orgName} instructors. Covers pedagogy, compliance, platform usage, and professional development.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/resources/instructor-training' },
 };
 
@@ -97,7 +98,7 @@ export default function InstructorTrainingPage() {
           <BookOpen className="w-16 h-16 mx-auto mb-4 text-brand-orange-400" />
           <h1 className="text-4xl font-bold mb-4">Instructor Training</h1>
           <p className="text-xl text-slate-600">
-            Resources and requirements for Elevate for Humanity instructors.
+            Resources and requirements for {PLATFORM_DEFAULTS.orgName} instructors.
           </p>
         </div>
       </section>
@@ -106,7 +107,7 @@ export default function InstructorTrainingPage() {
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Overview</h2>
           <p className="text-slate-600 mb-4">
-            All Elevate for Humanity instructors complete a 16-hour onboarding training before
+            All {PLATFORM_DEFAULTS.orgName} instructors complete a 16-hour onboarding training before
             leading classes. This training covers platform usage, adult education methods,
             compliance requirements, and safety standards. Ongoing professional development is
             required annually.

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { CheckCircle, Upload, Loader2, AlertCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const DOCS = [
   {
@@ -128,7 +129,7 @@ export default function PartnerUploadForm({
           <CheckCircle className="w-8 h-8 text-brand-green-600 mx-auto mb-2" />
           <p className="font-bold text-brand-green-800">All documents uploaded!</p>
           <p className="text-sm text-brand-green-700 mt-1">
-            Elevate for Humanity will review your documents within 1–3 business days and follow up
+            {PLATFORM_DEFAULTS.orgName} will review your documents within 1–3 business days and follow up
             by email.
           </p>
         </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   ExternalLink,
   Building2,
@@ -49,7 +50,7 @@ const credentials: VerifiableCredential[] = [
     validThrough: null,
     verificationUrl: 'https://www.apprenticeship.gov/partner-finder',
     verificationInstructions:
-      'Search for "Elevate for Humanity" in the DOL Apprenticeship Partner Finder',
+      'Search for PLATFORM_DEFAULTS.orgName in the DOL Apprenticeship Partner Finder',
     icon: Shield,
     image: '/images/pages/credential-partners-hero.webp',
     category: 'federal',
@@ -62,7 +63,7 @@ const credentials: VerifiableCredential[] = [
     validThrough: null,
     verificationUrl: 'https://intraining.dwd.in.gov/',
     verificationInstructions:
-      'Search INTraining for Location ID 10004621 or "Elevate for Humanity"',
+      'Search INTraining for Location ID 10004621 or PLATFORM_DEFAULTS.orgName',
     icon: Building2,
     image: '/images/pages/credential-partners-hero.webp',
     category: 'state',
@@ -217,7 +218,7 @@ export default function VerifyCredentialsPage() {
       <section className="relative h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden">
         <Image
           src="/images/pages/verify-credentials-page-1.webp"
-          alt="Elevate for Humanity credential verification"
+          alt="{PLATFORM_DEFAULTS.orgName} credential verification"
           fill
           sizes="100vw"
           className="object-cover"
@@ -265,7 +266,7 @@ export default function VerifyCredentialsPage() {
                   <li className="flex items-start gap-2">
                     <span className="text-slate-400 flex-shrink-0">•</span>
                     <span>
-                      <strong>Legal Name:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity
+                      <strong>Legal Name:</strong> 2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName}
                       Career &amp; Technical Institute
                     </span>
                   </li>
@@ -353,7 +354,7 @@ export default function VerifyCredentialsPage() {
                       href="/support"
                       className="font-medium text-slate-900 hover:text-brand-blue-600"
                     >
-                      (317) 314-3757
+                      {PLATFORM_DEFAULTS.supportPhone}
                     </a>
                   </div>
                 </div>

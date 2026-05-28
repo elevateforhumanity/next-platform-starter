@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const FORKLIFT: ProgramSchema = {
   slug: 'forklift',
@@ -27,14 +28,14 @@ export const FORKLIFT: ProgramSchema = {
   credentials: [
     {
       name: 'OSHA-Compliant Forklift Operator Certification',
-      issuer: 'Elevate for Humanity (OSHA-compliant)',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + ' (OSHA-compliant)',
       description:
         'Certification meeting OSHA 29 CFR 1910.178 powered industrial truck requirements.',
       validity: '3 years',
     },
     {
       name: 'Warehouse Safety Awareness',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description: 'Covers warehouse hazard recognition and safe material handling.',
       validity: '3 years',
     },
@@ -184,7 +185,7 @@ export const FORKLIFT: ProgramSchema = {
     {
       training: 'Forklift Operator (1 week)',
       certification: 'OSHA-Compliant Forklift Certification',
-      certBody: 'Elevate for Humanity',
+      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
       jobRole: 'Forklift Operator / Warehouse Associate',
     },
   ],

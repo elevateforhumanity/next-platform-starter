@@ -6,6 +6,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { barberConfirmationAdminEmail } from '@/lib/email/templates/barber-full-onboarding';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
       message:
         response === 'yes'
           ? 'Thank you for confirming! We will contact you within 24 hours to schedule your orientation.'
-          : 'We understand. If you change your mind, contact us at (317) 314-3757.',
+          : 'We understand. If you change your mind, contact us at ' + PLATFORM_DEFAULTS.supportPhone + '.',
     });
   } catch (err) {
     logger.error('[BarberConfirm] Error:', err);

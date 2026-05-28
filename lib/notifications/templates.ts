@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Email Templates for Notification System
  *
@@ -33,8 +34,8 @@ export type TemplateKey =
   | 'program_rejected';
 
 const BRAND_COLOR = '#7c3aed';
-const SUPPORT_EMAIL = 'support@elevateforhumanity.org';
-const SUPPORT_PHONE = '(317) 314-3757';
+const SUPPORT_EMAIL = PLATFORM_DEFAULTS.supportEmail;
+const SUPPORT_PHONE = PLATFORM_DEFAULTS.supportPhone;
 
 function baseTemplate(content: string): string {
   return `
@@ -49,7 +50,7 @@ function baseTemplate(content: string): string {
   <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
   <p style="font-size: 12px; color: #666;">
     Questions? Reply to this email or call ${SUPPORT_PHONE}<br>
-    Elevate for Humanity | Indianapolis, IN
+    ${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN
   </p>
 </body>
 </html>
@@ -371,11 +372,11 @@ Please reach out to the apprentice to coordinate their first day. Questions? Rep
 
     case 'employer_application_received':
       return {
-        subject: 'Application Received — Elevate for Humanity Employer Partnership',
+        subject: 'Application Received — ${PLATFORM_DEFAULTS.orgName} Employer Partnership',
         html: baseTemplate(`
           <h2 style="color: ${BRAND_COLOR};">Application Received</h2>
           <p>Dear ${data.contact_name},</p>
-          <p>Thank you for applying to become an employer partner with Elevate for Humanity. We received your application for <strong>${data.business_name}</strong>.</p>
+          <p>Thank you for applying to become an employer partner with ${PLATFORM_DEFAULTS.orgName}. We received your application for <strong>${data.business_name}</strong>.</p>
 
           <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">What happens next</h3>
@@ -411,7 +412,7 @@ Please reach out to the apprentice to coordinate their first day. Questions? Rep
 
 Dear ${data.contact_name},
 
-Thank you for applying to become an employer partner with Elevate for Humanity. We received your application for ${data.business_name}.
+Thank you for applying to become an employer partner with ${PLATFORM_DEFAULTS.orgName}. We received your application for ${data.business_name}.
 
 What happens next:
 1. Our team reviews your application (typically 2-3 business days)
@@ -438,9 +439,9 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
 
     case 'employer_activated':
       return {
-        subject: 'Welcome to Elevate for Humanity — Your Employer Portal Is Live',
+        subject: 'Welcome to ${PLATFORM_DEFAULTS.orgName} — Your Employer Portal Is Live',
         html: baseTemplate(`
-          <h2 style="color: #16a34a;">Welcome to Elevate for Humanity</h2>
+          <h2 style="color: #16a34a;">Welcome to ${PLATFORM_DEFAULTS.orgName}</h2>
           <p>Dear ${data.contact_name},</p>
           <p>Congratulations! <strong>${data.business_name}</strong> has completed all onboarding requirements. Your employer portal is now fully activated.</p>
 
@@ -455,7 +456,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
             </ul>
           </div>
 
-          ${button('Go to Your Dashboard →', 'https://www.elevateforhumanity.org/employer/dashboard')}
+          ${button('Go to Your Dashboard →', '${PLATFORM_DEFAULTS.siteUrl}/employer/dashboard')}
 
           <h3>Employer Partner Benefits</h3>
           <ul>
@@ -468,7 +469,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
           <p>Thank you for partnering with Elevate for Humanity. Together, we are building real career pathways.</p>
           <p style="font-size: 13px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Welcome to Elevate for Humanity
+        text: `Welcome to ${PLATFORM_DEFAULTS.orgName}
 
 Dear ${data.contact_name},
 
@@ -481,7 +482,7 @@ What you can do now:
 - Documents — Manage insurance, agreements, and compliance files
 - Reports — Access workforce outcome and retention data
 
-Go to your dashboard: https://www.elevateforhumanity.org/employer/dashboard
+Go to your dashboard: ${PLATFORM_DEFAULTS.siteUrl}/employer/dashboard
 
 Employer Partner Benefits:
 - Pre-screened, trained candidates at no recruitment cost
@@ -489,7 +490,7 @@ Employer Partner Benefits:
 - Work Opportunity Tax Credits (WOTC) — $2,400 to $9,600 per qualified hire
 - Dedicated support from the Elevate team
 
-Thank you for partnering with Elevate for Humanity.
+Thank you for partnering with ${PLATFORM_DEFAULTS.orgName}.
 
 Questions? Reply to this email or call ${SUPPORT_PHONE}`,
       };
@@ -537,7 +538,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
         };
       } else {
         return {
-          subject: 'Application Update — Elevate for Humanity',
+          subject: 'Application Update — ${PLATFORM_DEFAULTS.orgName}',
           html: baseTemplate(`
             <h2 style="color: #dc2626;">Application Not Approved</h2>
             <p>Dear ${data.contact_name},</p>
@@ -564,14 +565,14 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
         html: baseTemplate(`
           <h2 style="color: #16a34a;">Welcome to the Elevate Apprenticeship Network</h2>
           <p>Hi ${data.owner_name || 'there'},</p>
-          <p>Your partner application has been <strong>approved</strong>. Your shop is now an authorized training site in the Elevate for Humanity Barber Apprenticeship Program.</p>
+          <p>Your partner application has been <strong>approved</strong>. Your shop is now an authorized training site in the ${PLATFORM_DEFAULTS.orgName} Barber Apprenticeship Program.</p>
 
           <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
             <h3 style="color: ${BRAND_COLOR}; margin-top: 0;">Onboarding Checklist</h3>
             <p style="margin-bottom: 12px;">Complete these steps to begin receiving apprentices:</p>
             <ol style="margin: 0; padding-left: 20px; line-height: 2;">
               <li><strong>Sign in to your Partner Portal</strong> using the link below</li>
-              <li><strong>Upload your Certificate of Insurance (COI)</strong> &mdash; must show Commercial General Liability ($1M/$2M) with &quot;Elevate for Humanity&quot; as Certificate Holder</li>
+              <li><strong>Upload your Certificate of Insurance (COI)</strong> &mdash; must show Commercial General Liability ($1M/$2M) with &quot;${PLATFORM_DEFAULTS.orgName}&quot; as Certificate Holder</li>
               <li><strong>Sign the Memorandum of Understanding (MOU)</strong> &mdash; available in your portal</li>
               <li><strong>Confirm your supervising barber</strong> &mdash; name, license number, and availability</li>
               <li><strong>Set your apprentice capacity</strong> &mdash; how many apprentices your shop can host at once</li>
@@ -582,7 +583,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
             <p style="margin: 0; font-size: 14px;"><strong>Insurance requirement:</strong> Your COI must be on file and approved before apprentices can be placed at your shop. Ask your insurance agent for an ACORD 25 certificate naming &quot;Elevate for Humanity&quot; as Certificate Holder.</p>
           </div>
 
-          ${button('Sign In to Partner Portal \u2192', data.login_link || 'https://www.elevateforhumanity.org/login')}
+          ${button('Sign In to Partner Portal \u2192', data.login_link || '${PLATFORM_DEFAULTS.siteUrl}/login')}
 
           <p><strong>What happens next:</strong></p>
           <ul style="padding-left: 20px; line-height: 1.8;">
@@ -593,7 +594,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
 
           <p style="font-size: 14px; color: #666;">If you have questions about onboarding, insurance requirements, or the program, reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Partner Onboarding \u2014 You're Approved\n\nHi ${data.owner_name || 'there'},\n\nYour partner application has been approved. Your shop is now an authorized training site in the Elevate for Humanity Barber Apprenticeship Program.\n\nONBOARDING CHECKLIST\n1. Sign in to your Partner Portal: ${data.login_link || 'https://www.elevateforhumanity.org/login'}\n2. Upload your Certificate of Insurance (COI) \u2014 Commercial General Liability ($1M/$2M) with "Elevate for Humanity" as Certificate Holder\n3. Sign the Memorandum of Understanding (MOU)\n4. Confirm your supervising barber\n5. Set your apprentice capacity\n\nINSURANCE REQUIREMENT: Your COI must be on file and approved before apprentices can be placed. Ask your insurance agent for an ACORD 25 certificate naming "Elevate for Humanity" as Certificate Holder.\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n\nElevate for Humanity | Indianapolis, IN`,
+        text: `Partner Onboarding \u2014 You're Approved\n\nHi ${data.owner_name || 'there'},\n\nYour partner application has been approved. Your shop is now an authorized training site in the ${PLATFORM_DEFAULTS.orgName} Barber Apprenticeship Program.\n\nONBOARDING CHECKLIST\n1. Sign in to your Partner Portal: ${data.login_link || '${PLATFORM_DEFAULTS.siteUrl}/login'}\n2. Upload your Certificate of Insurance (COI) \u2014 Commercial General Liability ($1M/$2M) with PLATFORM_DEFAULTS.orgName as Certificate Holder\n3. Sign the Memorandum of Understanding (MOU)\n4. Confirm your supervising barber\n5. Set your apprentice capacity\n\nINSURANCE REQUIREMENT: Your COI must be on file and approved before apprentices can be placed. Ask your insurance agent for an ACORD 25 certificate naming PLATFORM_DEFAULTS.orgName as Certificate Holder.\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n\n${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN`,
       };
 
     case 'provider_approved':
@@ -604,7 +605,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
           <p>Hi ${data.contact_name || 'there'},</p>
           <p><strong>${data.org_name || 'Your organization'}</strong> has been approved as a provider on the Elevate Workforce Hub.</p>
           <p>Use the link below to sign in and complete your provider profile. Your account is ready — no password required for first login.</p>
-          ${button('Access Your Provider Portal →', data.login_link || 'https://www.elevateforhumanity.org/provider/dashboard')}
+          ${button('Access Your Provider Portal →', data.login_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/dashboard')}
           <p><strong>Your next steps:</strong></p>
           <ol style="padding-left: 20px; line-height: 2;">
             <li>Complete your organization profile and upload your logo</li>
@@ -613,7 +614,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
           </ol>
           <p style="font-size: 14px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Your provider application has been approved\n\nHi ${data.contact_name || 'there'},\n\n${data.org_name || 'Your organization'} has been approved as a provider on the Elevate Workforce Hub.\n\nSign in to your provider portal: ${data.login_link || 'https://www.elevateforhumanity.org/provider/dashboard'}\n\nNext steps:\n1. Complete your organization profile\n2. Upload compliance documents (MOU, insurance, W-9)\n3. Submit your first program for review\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\nElevate for Humanity | Indianapolis, IN`,
+        text: `Your provider application has been approved\n\nHi ${data.contact_name || 'there'},\n\n${data.org_name || 'Your organization'} has been approved as a provider on the Elevate Workforce Hub.\n\nSign in to your provider portal: ${data.login_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/dashboard'}\n\nNext steps:\n1. Complete your organization profile\n2. Upload compliance documents (MOU, insurance, W-9)\n3. Submit your first program for review\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN`,
       };
 
     case 'compliance_expiring': {
@@ -629,10 +630,10 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
             Expires: <strong>${data.expires_at || 'soon'}</strong></p>
           </div>
           <p>Upload a renewed document in your provider portal to avoid a compliance hold on your programs.</p>
-          ${button('Upload Renewal →', data.portal_link || 'https://www.elevateforhumanity.org/provider/compliance')}
+          ${button('Upload Renewal →', data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/compliance')}
           <p style="font-size: 14px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Compliance document expiring in ${daysLeft} days\n\nHi ${data.contact_name || 'there'},\n\n${data.artifact_label || 'A compliance document'} for ${data.org_name || 'your organization'} expires on ${data.expires_at || 'soon'}.\n\nUpload a renewal at: ${data.portal_link || 'https://www.elevateforhumanity.org/provider/compliance'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\nElevate for Humanity | Indianapolis, IN`,
+        text: `Compliance document expiring in ${daysLeft} days\n\nHi ${data.contact_name || 'there'},\n\n${data.artifact_label || 'A compliance document'} for ${data.org_name || 'your organization'} expires on ${data.expires_at || 'soon'}.\n\nUpload a renewal at: ${data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/compliance'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN`,
       };
     }
 
@@ -644,10 +645,10 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
           <p>Hi ${data.contact_name || 'there'},</p>
           <p><strong>${data.program_title || 'Your program'}</strong> has been reviewed and approved. It is now published in the Elevate program catalog.</p>
           ${data.review_notes ? `<p><strong>Reviewer notes:</strong> ${data.review_notes}</p>` : ''}
-          ${button('View Your Programs →', data.portal_link || 'https://www.elevateforhumanity.org/provider/programs')}
+          ${button('View Your Programs →', data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/programs')}
           <p style="font-size: 14px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Program approved: ${data.program_title || 'Your program'}\n\nHi ${data.contact_name || 'there'},\n\n${data.program_title || 'Your program'} has been approved and is now published in the catalog.\n\n${data.review_notes ? `Reviewer notes: ${data.review_notes}\n\n` : ''}View your programs: ${data.portal_link || 'https://www.elevateforhumanity.org/provider/programs'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\nElevate for Humanity | Indianapolis, IN`,
+        text: `Program approved: ${data.program_title || 'Your program'}\n\nHi ${data.contact_name || 'there'},\n\n${data.program_title || 'Your program'} has been approved and is now published in the catalog.\n\n${data.review_notes ? `Reviewer notes: ${data.review_notes}\n\n` : ''}View your programs: ${data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/programs'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN`,
       };
 
     case 'program_rejected':
@@ -666,15 +667,15 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
               : ''
           }
           <p>Update your program submission and resubmit for review.</p>
-          ${button('Edit Program →', data.portal_link || 'https://www.elevateforhumanity.org/provider/programs')}
+          ${button('Edit Program →', data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/programs')}
           <p style="font-size: 14px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>
         `),
-        text: `Program needs revision: ${data.program_title || 'Your program'}\n\nHi ${data.contact_name || 'there'},\n\n${data.program_title || 'Your program'} requires changes before it can be published.\n\n${data.review_notes ? `Reviewer feedback: ${data.review_notes}\n\n` : ''}Edit your program: ${data.portal_link || 'https://www.elevateforhumanity.org/provider/programs'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\nElevate for Humanity | Indianapolis, IN`,
+        text: `Program needs revision: ${data.program_title || 'Your program'}\n\nHi ${data.contact_name || 'there'},\n\n${data.program_title || 'Your program'} requires changes before it can be published.\n\n${data.review_notes ? `Reviewer feedback: ${data.review_notes}\n\n` : ''}Edit your program: ${data.portal_link || '${PLATFORM_DEFAULTS.siteUrl}/provider/programs'}\n\nQuestions? Reply to this email or call ${SUPPORT_PHONE}\n${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN`,
       };
 
     default:
       return {
-        subject: 'Notification from Elevate for Humanity',
+        subject: 'Notification from ${PLATFORM_DEFAULTS.orgName}',
         html: baseTemplate(`
           <p>You have a new notification. Please log in to view details.</p>
         `),

@@ -15,6 +15,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Partner course data from catalog
 const PARTNER_COURSES = {
@@ -658,7 +659,7 @@ export default function CoursesCatalogPage() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-xs text-slate-500">
             This is a proprietary instructional and workforce development
-            platform operated by Elevate for Humanity. Access is limited to
+            platform operated by {PLATFORM_DEFAULTS.orgName}. Access is limited to
             authorized participants.
           </p>
         </div>

@@ -5,13 +5,14 @@ import { generateMetadata } from '@/lib/seo/metadata';
 export const metadata: Metadata = generateMetadata({
   title: 'Application-Success',
   description:
-    'Application-Success - Elevate for Humanity workforce training and career development programs in Indianapolis.',
+    'Application-Success - {PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.',
   path: '/application-success',
 });
 
 import Link from 'next/link';
 import { PartyPopper } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export default async function ApplicationSuccessPage() {
@@ -76,7 +77,7 @@ export default async function ApplicationSuccessPage() {
                   3
                 </span>
                 <span>
-                  Tell them you are enrolling with <strong>Elevate for Humanity</strong>
+                  Tell them you are enrolling with <strong>{PLATFORM_DEFAULTS.orgName}</strong>
                 </span>
               </li>
               <li className="flex items-start gap-3">

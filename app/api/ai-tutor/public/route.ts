@@ -6,6 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { PROGRAMS, buildSystemPrompt } from '@/lib/ai/programRegistry';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,7 +15,7 @@ export const maxDuration = 30;
 const MAX_INPUT_CHARS = 500;
 const MAX_OUTPUT_TOKENS = 400;
 
-const ALLOWED_ORIGINS = ['https://www.elevateforhumanity.org', 'https://elevateforhumanity.org'];
+const ALLOWED_ORIGINS = [PLATFORM_DEFAULTS.siteUrl, 'https://elevateforhumanity.org'];
 
 function isAllowedOrigin(origin: string): boolean {
   if (ALLOWED_ORIGINS.includes(origin)) return true;
@@ -141,7 +142,7 @@ async function _POST(req: NextRequest) {
   }
 
   if (!aiAvailable) {
-    const fallback = `The ${program.title ?? program.name} program is available at Elevate for Humanity. Apply at elevateforhumanity.org${program.applyUrl} or contact us for details.`;
+    const fallback = `The ${program.title ?? program.name} program is available at ${PLATFORM_DEFAULTS.orgName}. Apply at ${PLATFORM_DEFAULTS.canonicalDomain}${program.applyUrl} or contact us for details.`;
     await logRequest(fallback.length, 'no_ai_provider');
     return NextResponse.json({ message: fallback, fallback: true }, { headers });
   }

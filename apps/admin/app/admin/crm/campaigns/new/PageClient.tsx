@@ -6,6 +6,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Send, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function NewCampaignPage() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function NewCampaignPage() {
   const [formData, setFormData] = useState({
     name: '',
     subject: '',
-    from_name: 'Elevate for Humanity',
+    from_name: PLATFORM_DEFAULTS.orgName,
     from_email: 'info@elevateforhumanity.org',
     html_content: '',
     target_audience: 'all_students', // all_students, active_students, inactive_students, program_holders, instructors

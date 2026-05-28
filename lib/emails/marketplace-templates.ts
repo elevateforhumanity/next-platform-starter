@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Email templates for marketplace transactions
 
 export interface BuyerDeliveryEmailData {
@@ -75,13 +76,13 @@ export function generateBuyerDeliveryEmail(data: BuyerDeliveryEmailData): {
                 <li>For product support, contact the creator directly</li>
               </ul>
 
-              <p>If you have any issues accessing your purchase, please contact us at <a href="mailto:support@www.elevateforhumanity.org">support@www.elevateforhumanity.org</a></p>
+              <p>If you have any issues accessing your purchase, please contact us at <a href="mailto:support@${PLATFORM_DEFAULTS.canonicalDomain}">support@www.${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
 
               <p>Thank you for supporting our creator community!</p>
-              <p><strong>Elevate for Humanity Team</strong></p>
+              <p><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
             <div class="footer">
-              <p>Elevate for Humanity Creator Marketplace</p>
+              <p>${PLATFORM_DEFAULTS.orgName} Creator Marketplace</p>
               <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/marketplace">Browse More Products</a></p>
             </div>
           </div>
@@ -108,11 +109,11 @@ Important Information:
 - Save this email for future reference
 - For product support, contact the creator directly
 
-If you have any issues, contact: support@www.elevateforhumanity.org
+If you have any issues, contact: support@${PLATFORM_DEFAULTS.canonicalDomain}
 
 Thank you for supporting our creator community!
 
-Elevate for Humanity Team
+${PLATFORM_DEFAULTS.orgName} Team
     `,
   };
 }
@@ -173,10 +174,10 @@ export function generateCreatorSaleEmail(data: CreatorSaleEmailData): {
               </p>
 
               <p>Keep creating amazing products!</p>
-              <p><strong>Elevate for Humanity Team</strong></p>
+              <p><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
             <div class="footer">
-              <p>Elevate for Humanity Creator Marketplace</p>
+              <p>${PLATFORM_DEFAULTS.orgName} Creator Marketplace</p>
             </div>
           </div>
         </body>
@@ -206,7 +207,7 @@ View Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/products
 
 Keep creating amazing products!
 
-Elevate for Humanity Team
+${PLATFORM_DEFAULTS.orgName} Team
     `,
   };
 }
@@ -239,7 +240,7 @@ export function generateCreatorApprovalEmail(data: CreatorApprovalEmailData): {
             </div>
             <div class="content">
               <p>Hi ${data.creatorName},</p>
-              <p>Congratulations! Your creator application has been approved. You can now start selling your digital products on the Elevate for Humanity Marketplace.</p>
+              <p>Congratulations! Your creator application has been approved. You can now start selling your digital products on the ${PLATFORM_DEFAULTS.orgName} Marketplace.</p>
 
               <div style="text-align: center;">
                 <a href="${process.env.NEXT_PUBLIC_SITE_URL}/creator/products" class="button">Go to Creator Dashboard</a>
@@ -264,10 +265,10 @@ export function generateCreatorApprovalEmail(data: CreatorApprovalEmailData): {
               </ul>
 
               <p>We're excited to have you in our creator community!</p>
-              <p><strong>Elevate for Humanity Team</strong></p>
+              <p><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
             <div class="footer">
-              <p>Questions? Email us at <a href="mailto:creators@www.elevateforhumanity.org">creators@www.elevateforhumanity.org</a></p>
+              <p>Questions? Email us at <a href="mailto:creators@${PLATFORM_DEFAULTS.canonicalDomain}">creators@www.${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
             </div>
           </div>
         </body>
@@ -278,7 +279,7 @@ export function generateCreatorApprovalEmail(data: CreatorApprovalEmailData): {
 
 Hi ${data.creatorName},
 
-Congratulations! Your creator application has been approved. You can now start selling your digital products on the Elevate for Humanity Marketplace.
+Congratulations! Your creator application has been approved. You can now start selling your digital products on the ${PLATFORM_DEFAULTS.orgName} Marketplace.
 
 Go to Creator Dashboard: ${process.env.NEXT_PUBLIC_SITE_URL}/creator/products
 
@@ -296,9 +297,9 @@ Important Reminders:
 
 We're excited to have you in our creator community!
 
-Elevate for Humanity Team
+${PLATFORM_DEFAULTS.orgName} Team
 
-Questions? Email: creators@www.elevateforhumanity.org
+Questions? Email: creators@${PLATFORM_DEFAULTS.canonicalDomain}
     `,
   };
 }

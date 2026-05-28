@@ -20,6 +20,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { aiChat, isAIAvailable } from '@/lib/ai/ai-service';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(request: NextRequest) {
   try {
@@ -47,8 +48,8 @@ async function _POST(request: NextRequest) {
 **Quick Info:**
 • Training is 100% FREE for eligible Indiana residents through WIOA funding
 • Programs: Healthcare (CNA), Skilled Trades (HVAC, CDL), Barbering, and more
-• Call us: (317) 314-3757
-• Apply online: elevateforhumanity.org/apply
+• Call us: ${PLATFORM_DEFAULTS.supportPhone}
+• Apply online: ${PLATFORM_DEFAULTS.canonicalDomain}/apply
 
 What would you like to know more about?`,
         needs_human: false,
@@ -63,9 +64,9 @@ What would you like to know more about?`,
       })) || [];
 
     // System prompt for the AI
-    const systemPrompt = `You are the Elevate for Humanity AI Assistant - a helpful, friendly guide for prospective students and visitors.
+    const systemPrompt = `You are the ${PLATFORM_DEFAULTS.orgName} AI Assistant - a helpful, friendly guide for prospective students and visitors.
 
-**About Elevate for Humanity:**
+**About ${PLATFORM_DEFAULTS.orgName}:**
 - Nonprofit workforce development organization in Indianapolis, Indiana
 - DOL Registered Apprenticeship Sponsor (Barber program)
 - WIOA-approved training provider
@@ -92,14 +93,14 @@ What would you like to know more about?`,
 - Meet income guidelines for WIOA (varies by family size)
 
 **How to Apply:**
-1. Visit elevateforhumanity.org/apply
+1. Visit ${PLATFORM_DEFAULTS.canonicalDomain}/apply
 2. Complete the eligibility questionnaire
 3. Upload required documents
 4. Schedule orientation
 
 **Contact:**
-- Phone: (317) 314-3757
-- Email: info@elevateforhumanity.org
+- Phone: ${PLATFORM_DEFAULTS.supportPhone}
+- Email: info@${PLATFORM_DEFAULTS.canonicalDomain}
 - Address: Indianapolis, Indiana
 
 **Your Role:**
@@ -126,7 +127,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
 
     const aiResponse =
       completion.content ||
-      'I apologize, but I encountered an error. Please call us at (317) 314-3757 for assistance.';
+      'I apologize, but I encountered an error. Please call us at ' + PLATFORM_DEFAULTS.supportPhone + ' for assistance.';
 
     // Check if human handoff is needed
     const needsHuman =
@@ -165,7 +166,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
     logger.error('AI Chat error:', err);
     return NextResponse.json({
       response:
-        "I'm having a bit of trouble right now. Please call us at (317) 314-3757 or visit elevateforhumanity.org/apply to get started!",
+        "I'm having a bit of trouble right now. Please call us at " + PLATFORM_DEFAULTS.supportPhone + " or visit elevateforhumanity.org/apply to get started!",
       needs_human: true,
     });
   }

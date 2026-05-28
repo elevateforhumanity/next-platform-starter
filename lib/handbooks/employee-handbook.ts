@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Complete Employee Handbook
  * Elevate For Humanity Career & Technical Institute
@@ -425,7 +426,7 @@ This handbook is confidential and proprietary. Unauthorized reproduction or dist
 For questions or concerns, contact:
 Human Resources
 Elevate For Humanity Career & Technical Institute
-Email: hr@www.elevateforhumanity.org
+Email: hr@${PLATFORM_DEFAULTS.canonicalDomain}
 Phone: [Company Phone]
 
 Last Updated: ${new Date().toLocaleDateString()}

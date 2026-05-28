@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Apprenticeship Programs | Earn While You Learn',
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     description:
       'DOL-registered apprenticeships in barbering, cosmetology, culinary arts, and skilled trades. Hands-on training with job placement.',
     url: 'https://www.elevateforhumanity.org/apprenticeships',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Apprenticeship Programs' }],
     type: 'website',
   },

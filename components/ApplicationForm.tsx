@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Progress } from '@/components/ui/Progress';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export function ApplicationForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -79,7 +80,7 @@ export function ApplicationForm() {
       }
 
       if (!result.referenceNumber) {
-        throw new Error('Application could not be confirmed. Please call (317) 314-3757.');
+        throw new Error('Application could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
       }
 
       setApplicationId(result.referenceNumber);
@@ -177,7 +178,7 @@ export function ApplicationForm() {
                       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                     >,
                   ) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="(317) 314-3757"
+                  placeholder={PLATFORM_DEFAULTS.supportPhone}
                 />
               </div>
               <div className="md:col-span-2">

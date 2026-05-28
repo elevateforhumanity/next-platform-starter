@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -94,14 +95,14 @@ async function _POST(req: Request) {
           <p><strong>Time:</strong> ${data.time}</p>
           ${data.notes ? `<p><strong>Notes:</strong><br>${data.notes}</p>` : ''}
           <hr>
-          <p><em>Submitted from www.elevateforhumanity.org/schedule/meeting</em></p>
+          <p><em>Submitted from ${PLATFORM_DEFAULTS.canonicalDomain}/schedule/meeting</em></p>
         `,
       });
 
       // Confirmation email to the requester
       await sendEmail({
         to: data.email,
-        subject: 'Meeting Request Received — Elevate for Humanity',
+        subject: 'Meeting Request Received — ${PLATFORM_DEFAULTS.orgName}',
         html: `
           <h2>Your Meeting Request Has Been Received</h2>
           <p>Hi ${data.name.split(' ')[0]},</p>
@@ -109,8 +110,8 @@ async function _POST(req: Request) {
           <p><strong>Requested Date:</strong> ${dateStr}<br>
           <strong>Requested Time:</strong> ${data.time}</p>
           <p>Our team will confirm your meeting within 1 business day. If the requested time is unavailable, we will suggest alternatives.</p>
-          <p>If you need to reach us sooner, email <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>
-          <p>— Elevate for Humanity</p>
+          <p>If you need to reach us sooner, email <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
+          <p>— ${PLATFORM_DEFAULTS.orgName}</p>
         `,
       });
 

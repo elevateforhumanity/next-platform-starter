@@ -2,13 +2,14 @@
 import { createClient } from '@supabase/supabase-js';
 import * as https from 'https';
 import { config } from 'dotenv';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 config({ path: '.env.local' });
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const SG_KEY        = process.env.SENDGRID_API_KEY!;
 const FROM_EMAIL    = 'noreply@elevateforhumanity.org';
-const FROM_NAME     = 'Elevate for Humanity';
+const FROM_NAME     = '' + PLATFORM_DEFAULTS.orgName + '';
 const SITE_URL      = 'https://www.elevateforhumanity.org';
 const ELEVATE_CC    = ['elevate4humanityedu@gmail.com'];
 
@@ -61,7 +62,7 @@ function sendEmail(to: string, toName: string, subject: string, html: string, cc
 function applicantEmail(firstName: string): string {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Important Update About Your Application</h2>
   <p>Dear ${firstName},</p>
   <p>We want to sincerely apologize — we are currently experiencing <strong>technical difficulties with our enrollment system</strong> and your application may have been affected. We are actively working to resolve this and want to make sure you don't lose your spot.</p>
@@ -93,7 +94,7 @@ function partnerOnboardingEmail(firstName: string, role: string, resetLink: stri
   const portalLabel = role === 'partner' ? 'Partner Portal' : 'Program Holder Dashboard';
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Your New Portal Access Link — Action Required</h2>
   <p>Dear ${firstName},</p>
   <p>We are updating our partner portal and sending you a fresh onboarding link. Please use the button below to set your password and complete your account setup.</p>
@@ -115,7 +116,7 @@ function partnerOnboardingEmail(firstName: string, role: string, resetLink: stri
 
   <p>If you run into any issues or your dashboard is not loading correctly, reply to this email and we will assist you immediately.</p>
 
-  <p style="margin-top:32px">Warm regards,<br/><strong>Elevate for Humanity Team</strong><br/>
+  <p style="margin-top:32px">Warm regards,<br/><strong>" + PLATFORM_DEFAULTS.orgName + " Team</strong><br/>
   <a href="mailto:elevate4humanityedu@gmail.com">elevate4humanityedu@gmail.com</a></p>
 </div>`;
 }
@@ -123,7 +124,7 @@ function partnerOnboardingEmail(firstName: string, role: string, resetLink: stri
 function studentResetEmail(firstName: string, resetLink: string, program: string): string {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Welcome Back — Set Your New Password</h2>
   <p>Dear ${firstName},</p>
   <p>Your ${program} account has been refreshed. Please click the button below to set your own password and access your student dashboard.</p>
@@ -186,7 +187,7 @@ let sent = 0, failed = 0;
 // 1. Applicant "technical difficulty" emails
 for (const p of applicants as any[]) {
   const firstName = (p.full_name || '').split(' ')[0] || 'there';
-  const ok = await sendEmail(p.email, p.full_name || firstName, 'Important Update About Your Elevate for Humanity Application', applicantEmail(firstName), ELEVATE_CC);
+  const ok = await sendEmail(p.email, p.full_name || firstName, 'Important Update About Your ' + PLATFORM_DEFAULTS.orgName + ' Application', applicantEmail(firstName), ELEVATE_CC);
   console.log(`  [APPLICANT] ${ok ? 'OK' : 'FAIL'} → ${p.full_name} <${p.email}>`);
   ok ? sent++ : failed++;
 }
@@ -213,7 +214,7 @@ async function getResetLink(email: string): Promise<string> {
 for (const p of partners as any[]) {
   const firstName = (p.full_name || '').split(' ')[0] || 'there';
   const resetLink = await getResetLink(p.email);
-  const ok = await sendEmail(p.email, p.full_name || firstName, 'Your Elevate for Humanity Partner Portal — New Access Link', partnerOnboardingEmail(firstName, p.role, resetLink), ELEVATE_CC);
+  const ok = await sendEmail(p.email, p.full_name || firstName, 'Your ' + PLATFORM_DEFAULTS.orgName + ' Partner Portal — New Access Link', partnerOnboardingEmail(firstName, p.role, resetLink), ELEVATE_CC);
   console.log(`  [PARTNER]    ${ok ? 'OK' : 'FAIL'} → ${p.full_name} <${p.email}>`);
   ok ? sent++ : failed++;
 }
@@ -221,7 +222,7 @@ for (const p of partners as any[]) {
 // 3. Confirmed partners (Adam + Elizabeth)
 for (const p of confirmedPartners) {
   const resetLink = await getResetLink(p.email);
-  const ok = await sendEmail(p.email, p.name, 'Your Elevate for Humanity Partner Portal — New Access Link', partnerOnboardingEmail(p.name, p.role, resetLink), ELEVATE_CC);
+  const ok = await sendEmail(p.email, p.name, 'Your ' + PLATFORM_DEFAULTS.orgName + ' Partner Portal — New Access Link', partnerOnboardingEmail(p.name, p.role, resetLink), ELEVATE_CC);
   console.log(`  [CONF PARTNER] ${ok ? 'OK' : 'FAIL'} → ${p.name} <${p.email}>`);
   ok ? sent++ : failed++;
 }

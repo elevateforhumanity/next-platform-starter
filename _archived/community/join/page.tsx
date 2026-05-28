@@ -5,10 +5,11 @@ import Image from 'next/image';
 import { Users, MessageSquare, BookOpen, Award, ArrowRight, Star } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Join Our Community | Elevate for Humanity',
+  title: 'Join Our Community | {PLATFORM_DEFAULTS.orgName}',
   description: 'Become part of the Elevate community. Connect with fellow learners, access exclusive resources, and accelerate your career growth.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/community/join',
@@ -102,7 +103,7 @@ export default async function JoinCommunityPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Join?</h2>
           <p className="text-lg text-black mb-8">
-            Start your journey with Elevate for Humanity today.
+            Start your journey with {PLATFORM_DEFAULTS.orgName} today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/start" className="bg-brand-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-700 transition">

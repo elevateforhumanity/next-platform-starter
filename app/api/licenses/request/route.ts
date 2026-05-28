@@ -7,6 +7,7 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(request: NextRequest) {
   try {
@@ -98,7 +99,7 @@ This request was submitted via the Platform Licensing page.
                 ],
               },
             ],
-            from: { name: 'Elevate for Humanity', email: 'noreply@elevateforhumanity.org' },
+            from: { name: PLATFORM_DEFAULTS.orgName, email: PLATFORM_DEFAULTS.emailFromAddress },
             subject: `[License Request] ${licenseType === 'source_use' ? 'Enterprise Source-Use' : 'Managed LMS'} - ${organizationName}`,
             content: [{ type: 'text/plain', value: emailBody }],
           }),

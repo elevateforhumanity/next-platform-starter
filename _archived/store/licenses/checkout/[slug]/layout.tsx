@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'License Checkout | Elevate for Humanity',
+  title: 'License Checkout | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

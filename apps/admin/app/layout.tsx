@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
 import ToasterClient from '@/components/ui/ToasterClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     default: 'Elevate Admin',
     template: '%s | Elevate Admin',
   },
-  description: 'Elevate for Humanity — Admin Portal',
+  description: '{PLATFORM_DEFAULTS.orgName} — Admin Portal',
   robots: { index: false, follow: false },
   icons: {
     icon: '/favicon.ico',

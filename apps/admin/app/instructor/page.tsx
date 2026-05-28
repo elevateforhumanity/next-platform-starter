@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { GraduationCap } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Instructor Portal | Elevate For Humanity',
@@ -157,7 +158,7 @@ export default function InstructorPortalLanding() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/login?redirect=/instructor/dashboard`}
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/login?redirect=/instructor/dashboard`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition"
@@ -165,7 +166,7 @@ export default function InstructorPortalLanding() {
               Sign In
             </Link>
             <Link
-              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/apply?role=instructor`}
+              href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/apply?role=instructor`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-slate-100 text-slate-900 font-bold rounded-lg hover:bg-slate-200 transition"

@@ -1,6 +1,7 @@
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Partner Shop Requirements',
@@ -25,7 +26,7 @@ export default function PartnerRequirementsPage() {
 
           <p>
             All partner barbershops approved as apprenticeship or hands-on training sites with
-            Elevate for Humanity must maintain active commercial insurance appropriate for a live
+            {PLATFORM_DEFAULTS.orgName} must maintain active commercial insurance appropriate for a live
             service training environment.
           </p>
 
@@ -97,7 +98,7 @@ export default function PartnerRequirementsPage() {
 
           <h3>Additional Insured</h3>
           <p>
-            Elevate for Humanity may require partner shops to list the organization as an Additional
+            {PLATFORM_DEFAULTS.orgName} may require partner shops to list the organization as an Additional
             Insured for apprenticeship training conducted at the partner location to ensure
             liability protection and workforce compliance.
           </p>
@@ -145,7 +146,7 @@ export default function PartnerRequirementsPage() {
               apprentices
             </li>
             <li>
-              Records must be available for review by Elevate for Humanity, RAPIDS, or state
+              Records must be available for review by {PLATFORM_DEFAULTS.orgName}, RAPIDS, or state
               licensing boards upon request
             </li>
             <li>

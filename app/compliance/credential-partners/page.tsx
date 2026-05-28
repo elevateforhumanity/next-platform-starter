@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   GraduationCap,
   Building2,
@@ -15,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: 'Credential Partner Registry | Compliance',
   description:
-    'Formal registry of credential partners, license status, program assignments, credential issuance, and MOU status for Elevate for Humanity workforce training programs.',
+    'Formal registry of credential partners, license status, program assignments, credential issuance, and MOU status for {PLATFORM_DEFAULTS.orgName} workforce training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/compliance/credential-partners',
   },
@@ -272,7 +273,7 @@ export default function CredentialPartnersPage() {
                 </p>
                 <p className="text-sm text-slate-700">
                   Authorized reviewers (ETPL, DWD, DOL, workforce boards, grant evaluators) may
-                  request full provider documentation by contacting Elevate for Humanity directly.
+                  request full provider documentation by contacting {PLATFORM_DEFAULTS.orgName} directly.
                   Verification requests are processed within 5 business days.
                 </p>
               </div>

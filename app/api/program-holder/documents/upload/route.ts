@@ -8,6 +8,7 @@ import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -183,14 +184,14 @@ async function _POST(req: Request) {
         .maybeSingle();
 
       const sgKey = process.env.SENDGRID_API_KEY;
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
       if (sgKey && phProfile) {
         await fetch('https://api.sendgrid.com/v3/mail/send', {
           method: 'POST',
           headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-            reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' },
+            from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
+            reply_to: { email: 'elevate4humanityedu@gmail.com', name: PLATFORM_DEFAULTS.orgName },
             personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com' }] }],
             subject: `Document Uploaded — ${phProfile.full_name || 'Program Holder'} (${documentType.replace(/_/g, ' ')})`,
             content: [

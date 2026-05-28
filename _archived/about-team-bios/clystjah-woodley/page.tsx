@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Clystjah Woodley | Our Team | Elevate for Humanity',
-  description: 'Clystjah Woodley — Program Coordinator at Elevate for Humanity Career & Technical Institute.',
+  title: 'Clystjah Woodley | Our Team | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Clystjah Woodley — Program Coordinator at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -40,7 +41,7 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Clystjah Woodley</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Program Coordinator</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Clystjah supports program operations and student services at Elevate for Humanity, helping participants navigate enrollment and stay on track through their training programs.</p>
+                <p>Clystjah supports program operations and student services at {PLATFORM_DEFAULTS.orgName}, helping participants navigate enrollment and stay on track through their training programs.</p>
                 <p>She coordinates scheduling, tracks student progress, manages documentation requirements, and serves as a point of contact for participants throughout their training journey.</p>
               </div>
             </div>

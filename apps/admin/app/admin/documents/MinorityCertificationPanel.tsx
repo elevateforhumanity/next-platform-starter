@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Loader2, Wand2, Download, Clock3, Send } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type TimelineEvent = {
   id: string;
@@ -11,7 +12,7 @@ type TimelineEvent = {
 };
 
 export default function MinorityCertificationPanel() {
-  const [businessName, setBusinessName] = useState('Elevate for Humanity Career & Technical Institute');
+  const [businessName, setBusinessName] = useState('{PLATFORM_DEFAULTS.orgName} Career & Technical Institute');
   const [ownerName, setOwnerName] = useState('Elizabeth Greene');
   const [ownerEthnicity, setOwnerEthnicity] = useState('Black / African American');
   const [ownerGender, setOwnerGender] = useState('Female');
@@ -21,9 +22,9 @@ export default function MinorityCertificationPanel() {
   const [naicsCodes, setNaicsCodes] = useState('611430, 611519');
   const [businessAddress, setBusinessAddress] = useState('8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240');
   const [contactEmail, setContactEmail] = useState('info@elevateforhumanity.org');
-  const [contactPhone, setContactPhone] = useState('(317) 314-3757');
+  const [contactPhone, setContactPhone] = useState(PLATFORM_DEFAULTS.supportPhone);
   const [certifyingAgency, setCertifyingAgency] = useState('Indiana IOT MWBE');
-  const [businessNarrative, setBusinessNarrative] = useState('Elevate for Humanity provides workforce development, credential training, and apprenticeship pathways serving underserved communities across Indiana.');
+  const [businessNarrative, setBusinessNarrative] = useState('{PLATFORM_DEFAULTS.orgName} provides workforce development, credential training, and apprenticeship pathways serving underserved communities across Indiana.');
   const [emailTo, setEmailTo] = useState('');
   const [loading, setLoading] = useState(false);
   const [timelineLoading, setTimelineLoading] = useState(false);

@@ -4,6 +4,7 @@
 // 10 Weeks / 150 Hours / Hybrid
 
 import type { Course } from '@/types/course';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const taxPrepVitaCourse: Course = {
   id: 'tax-vita-001',
@@ -46,7 +47,7 @@ export const taxPrepVitaCourse: Course = {
       id: 'elevate-cert',
       name: 'Certificate of Completion',
       type: 'certificate',
-      provider: 'Elevate for Humanity',
+      provider: '' + PLATFORM_DEFAULTS.orgName + '',
       testRequired: false,
       obtainedInProgram: true,
     },

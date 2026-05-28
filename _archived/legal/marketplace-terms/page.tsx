@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Legal Marketplace Terms | Elevate For Humanity',
   description: 'Elevate For Humanity - Career training and workforce development',
@@ -26,7 +27,7 @@ export default async function MarketplaceTermsPage() {
           <section>
             <h2 className="text-2xl font-bold mb-3">1. Marketplace Overview</h2>
             <p>
-              The Elevate for Humanity Creator Marketplace ("Marketplace") is a
+              The {PLATFORM_DEFAULTS.orgName} Creator Marketplace ("Marketplace") is a
               platform where approved creators sell digital products. By
               purchasing from the Marketplace, you agree to these terms.
             </p>
@@ -204,7 +205,7 @@ export default async function MarketplaceTermsPage() {
               12. Limitation of Liability
             </h2>
             <p>
-              Elevate for Humanity is not liable for any damages arising from
+              {PLATFORM_DEFAULTS.orgName} is not liable for any damages arising from
               your purchase or use of Marketplace products. Our total liability
               is limited to the amount you paid for the product.
             </p>

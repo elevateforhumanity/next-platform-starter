@@ -10,6 +10,7 @@ import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // FOOTER STRUCTURE — 5 columns
 // Col 1: Programs
@@ -114,11 +115,11 @@ export default function ServerFooter() {
         {/* Institutional Identity */}
         <div className="mb-10 pb-8 border-b border-slate-800">
           <div className="flex items-center gap-3 mb-3">
-            <Logo alt="Elevate for Humanity" width={32} height={48} className="w-auto h-8" />
-            <span className="text-lg font-bold text-white">Elevate for Humanity</span>
+            <Logo alt={PLATFORM_DEFAULTS.orgName} width={32} height={48} className="w-auto h-8" />
+            <span className="text-lg font-bold text-white">{PLATFORM_DEFAULTS.orgName}</span>
           </div>
           <p className="text-sm text-white max-w-2xl leading-relaxed">
-            Elevate for Humanity is an AI-powered workforce operating system — not just a training
+            {PLATFORM_DEFAULTS.orgName} is an AI-powered workforce operating system — not just a training
             provider. We handle credentialing, compliance tracking, employer placement,
             apprenticeship coordination, and funding documentation so agencies and participants can
             focus on outcomes.
@@ -179,7 +180,7 @@ export default function ServerFooter() {
         {/* Operational disclosure */}
         <div className="border-t border-slate-800 pt-6 pb-4">
           <p className="text-slate-500 text-xs text-center max-w-3xl mx-auto leading-relaxed">
-            Elevate for Humanity operates as a workforce development system coordinating training,
+            {PLATFORM_DEFAULTS.orgName} operates as a workforce development system coordinating training,
             funding, testing, and employment pathways. Program delivery may be conducted directly
             by Elevate or through approved training providers depending on the program.
           </p>
@@ -192,14 +193,14 @@ export default function ServerFooter() {
             <div className="flex items-center gap-3">
               <LogoImage alt="Elevate" width={28} height={42} className="w-auto h-7" />
               <p className="text-white text-sm">
-                <Copyright entity="2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute" />
+                <Copyright entity="2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute" />
               </p>
             </div>
 
             {/* Contact */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-white text-sm mb-4">
-              <a href="tel:+13173143757" className="hover:text-white">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="hover:text-white">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <span className="text-white">|</span>
               <a href="mailto:info@elevateforhumanity.org" className="hover:text-white">
@@ -285,14 +286,14 @@ export default function ServerFooter() {
             {/* Legal Disclaimer */}
             <div className="mt-6 pt-6 border-t border-slate-800">
               <p className="text-[10px] leading-relaxed text-slate-500 max-w-4xl mx-auto text-center">
-                Elevate for Humanity Career &amp; Technical Institute is a DOL Registered
+                {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is a DOL Registered
                 Apprenticeship Sponsor, Indiana ETPL-listed workforce training provider, and
                 Certiport Authorized Testing Center operating under 2Exclusive LLC-S. Industry
                 certifications are issued by the respective credentialing bodies (CompTIA, NHA, EPA,
                 NCCCO, etc.) upon passing the required exams — these are the same credentials
                 employers hire for. Training may be fully funded for eligible participants through
                 WIOA, Workforce Ready Grant, JRI, and approved workforce partners; eligibility is
-                determined by the applicable agency. Elevate for Humanity Career &amp; Technical
+                determined by the applicable agency. {PLATFORM_DEFAULTS.orgName} Career &amp; Technical
                 Institute is a workforce training organization, not a degree-granting postsecondary
                 institution under the Indiana Department of Education — our programs lead to
                 industry certifications and employment, not academic degrees.

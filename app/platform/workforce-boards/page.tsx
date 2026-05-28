@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building,
   BarChart,
   Users,
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Workforce Board Solutions',
     description: 'Workforce development platform for regional workforce boards.',
     url: 'https://www.elevateforhumanity.org/platform/workforce-boards',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/hero-images/wioa-hero.jpg',

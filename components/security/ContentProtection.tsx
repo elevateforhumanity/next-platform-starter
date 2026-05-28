@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useEffect, useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ContentProtectionProps {
   children: React.ReactNode;
@@ -83,7 +84,7 @@ export function ContentProtection({ children, showWarning = true }: ContentProte
               </svg>
               <div>
                 <p className="font-semibold">Content Protected</p>
-                <p className="text-sm">© Elevate for Humanity - All Rights Reserved</p>
+                <p className="text-sm">© {PLATFORM_DEFAULTS.orgName} - All Rights Reserved</p>
               </div>
             </div>
           </div>

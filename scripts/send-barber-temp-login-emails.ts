@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 import path from 'path';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 config({ path: path.resolve(process.cwd(), '.env.local') });
 config({ path: path.resolve(process.cwd(), '.env') });
@@ -36,7 +37,7 @@ const recipients: Recipient[] = [
   { name: 'Natalia Roa', email: 'natataroa@gmail.com' },
 ];
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Elevate for Humanity <info@elevateforhumanity.org>';
+const FROM_EMAIL = process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
 function parseFrom(value: string): { email: string; name?: string } {
@@ -172,7 +173,7 @@ async function main() {
   </div>
 
   <p>This ensures you have two working paths and won&apos;t get locked out.</p>
-  <p>If you need help, call <a href="tel:3173143757">(317) 314-3757</a>.</p>
+  <p>If you need help, call <a href="tel:3173143757">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
   <p>Elevate for Humanity</p>
 </div>`;
 

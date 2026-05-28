@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ChevronRight,
   HelpCircle,
   Book,
@@ -177,7 +178,7 @@ export default async function FerpaHelpPage() {
                   <div>
                     <p className="text-sm text-slate-700">Phone</p>
                     <a href="/support" className="text-brand-blue-600 hover:text-brand-blue-700">
-                      (317) 314-3757
+                      {PLATFORM_DEFAULTS.supportPhone}
                     </a>
                   </div>
                 </div>

@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: `Compliance Dashboard | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
+  title: `Compliance Dashboard | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? PLATFORM_DEFAULTS.orgName}`,
   description:
     'Monitor and manage GDPR, CCPA, and regulatory compliance. Track data requests, audit logs, and privacy compliance metrics.',
 };

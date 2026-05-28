@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // lib/notifications/slack.ts
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
@@ -26,7 +27,7 @@ export async function sendSlackMessage(params: {
           value: f.value,
           short: f.short ?? true,
         })),
-        footer: 'Elevate for Humanity',
+        footer: PLATFORM_DEFAULTS.orgName,
         ts: Math.floor(Date.now() / 1000),
       },
     ],

@@ -1,4 +1,5 @@
 import 'server-only';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Program Holder Responsibilities Guide
  * Complete documentation of all duties and obligations
@@ -564,7 +565,7 @@ Elevate provides:
 ✓ CONTACTS
 • Case Manager: [Assigned contact]
 • Program Director: [Contact info]
-• Technical Support: support@www.elevateforhumanity.org
+• Technical Support: support@${PLATFORM_DEFAULTS.canonicalDomain}
 • Emergency: [Emergency contact]
 
 ---
@@ -593,9 +594,9 @@ This document is confidential and proprietary. Unauthorized reproduction or dist
 
 For questions or support:
 Elevate For Humanity Career & Technical Institute
-Email: partners@www.elevateforhumanity.org
+Email: partners@www.${PLATFORM_DEFAULTS.canonicalDomain}
 Phone: [Company Phone]
-Website: www.www.elevateforhumanity.org
+Website: www.${PLATFORM_DEFAULTS.canonicalDomain}
 
 Last Updated: ${new Date().toLocaleDateString()}
 Version: 1.0
@@ -930,8 +931,8 @@ Date: _______________________________
 © ${new Date().getFullYear()} Elevate For Humanity Career & Technical Institute. All Rights Reserved.
 
 For questions or support:
-Email: support@www.elevateforhumanity.org
+Email: support@${PLATFORM_DEFAULTS.canonicalDomain}
 Phone: [Company Phone]
-Website: www.www.elevateforhumanity.org
+Website: www.www.${PLATFORM_DEFAULTS.canonicalDomain}
 `;
 }

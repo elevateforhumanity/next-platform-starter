@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, Users, FileText, Mic, Handshake, Bus, HeartHandshake } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/employment-support' },
@@ -25,7 +26,7 @@ export default function EmploymentSupportPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/employment-support-page-1.webp"
-          alt="Employment support services at Elevate for Humanity"
+          alt="Employment support services at {PLATFORM_DEFAULTS.orgName}"
           fill
           sizes="100vw"
           className="object-cover"
@@ -281,7 +282,7 @@ export default function EmploymentSupportPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="rounded-xl bg-white border border-slate-200 p-4">
             <p className="text-sm text-slate-600">
-              <strong>Disclosure:</strong> Elevate for Humanity provides employment assistance and
+              <strong>Disclosure:</strong> {PLATFORM_DEFAULTS.orgName} provides employment assistance and
               employer connections. Job placement is not guaranteed and depends on participant
               readiness, local hiring demand, and employer selection. Support services are included
               with enrollment at no additional cost.

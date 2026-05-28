@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { submitEmployerApplication } from '../actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function EmployerApplicationForm() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function EmployerApplicationForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      setError(result.error ?? 'Something went wrong. Please try again or call 317-314-3757.');
+      setError(result.error ?? 'Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setLoading(false);
     }
   }

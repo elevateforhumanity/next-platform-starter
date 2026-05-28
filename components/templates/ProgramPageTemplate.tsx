@@ -16,6 +16,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface ProgramPageProps {
   // Basic Info
@@ -84,7 +85,7 @@ export function ProgramPageTemplate({
   outcomes,
   enrollLink,
   applyLink,
-  contactPhone = '(317) 314-3757',
+  contactPhone = PLATFORM_DEFAULTS.supportPhone,
 }: ProgramPageProps) {
   return (
     <div className="min-h-screen bg-white">

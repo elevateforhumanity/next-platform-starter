@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, Shield, MapPin, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-training-illinois' },
-  title: 'Career Training Illinois | Elevate for Humanity - Workforce Development Programs',
+  title: 'Career Training Illinois | {PLATFORM_DEFAULTS.orgName} - Workforce Development Programs',
   description:
     'Workforce development and career training programs in Illinois. Structured learning platforms ensuring consistency and accountability across programs spanning multiple regions.',
 };

@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   },
   title: 'Student Handbook | Student Portal | Elevate For Humanity',
   description:
-    'Student handbook with policies, procedures, rights, responsibilities, and resources for Elevate for Humanity students.',
+    'Student handbook with policies, procedures, rights, responsibilities, and resources for {PLATFORM_DEFAULTS.orgName} students.',
 };
 
 export default async function HandbookPage() {

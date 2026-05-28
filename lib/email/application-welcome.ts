@@ -5,8 +5,9 @@
  */
 
 import { sendEmail } from './sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 type FundingType =
   | 'wioa'
@@ -256,7 +257,7 @@ function buildFundingHtml(p: ProgramInfo): string {
 <li><strong>Self-Pay</strong> — pay tuition directly. Payment plans may be available.</li>
 <li><strong>Employer-Sponsored</strong> — your employer pays for your training. Ask your HR department about tuition reimbursement or professional development funds.</li>
 </ul>
-<p>Contact us at <strong>(317) 314-3757</strong> to discuss payment options and any available scholarships.</p>`;
+<p>Contact us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> to discuss payment options and any available scholarships.</p>`;
   }
 
   let html = `
@@ -329,7 +330,7 @@ function buildNextStepsHtml(p: ProgramInfo): string {
 <h2 style="color:#1e293b;font-size:18px;border-bottom:2px solid #f97316;padding-bottom:6px;margin-top:28px">YOUR NEXT STEPS</h2>
 <div style="background:white;border:1px solid #e2e8f0;border-left:4px solid #e5e7eb;padding:16px;margin:12px 0;border-radius:0 6px 6px 0">
 <h3 style="margin-top:0">Step 1: Call Us to Discuss Enrollment</h3>
-<p>Call <strong>(317) 314-3757</strong> or reply to this email. We will walk you through:</p>
+<p>Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email. We will walk you through:</p>
 <ul>
 <li>Program schedule and start dates</li>
 <li>Tuition and payment options</li>
@@ -364,8 +365,8 @@ function buildNextStepsHtml(p: ProgramInfo): string {
 <li>Log in to <a href="https://www.indianacareerconnect.com">indianacareerconnect.com</a></li>
 <li>Click <strong>"Find a WorkOne Office"</strong> or <strong>"Locations"</strong></li>
 <li>Search by your ZIP code</li>
-<li>Call that office and say: <strong>"I want to make an appointment with a career counselor to discuss WIOA funding for the ${p.name} program through Elevate for Humanity Career &amp; Technical Institute"</strong></li>
-<li>Training provider name: <strong>Elevate for Humanity Career &amp; Technical Institute</strong></li>
+<li>Call that office and say: <strong>"I want to make an appointment with a career counselor to discuss WIOA funding for the ${p.name} program through ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute"</strong></li>
+<li>Training provider name: <strong>${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</strong></li>
 <li>Program name: <strong>${p.name}</strong></li>
 </ol>
 <p><strong>Indianapolis WorkOne:</strong> Call <strong>(317) 890-4640</strong> &mdash; they will direct you to the right location.</p>
@@ -387,7 +388,7 @@ ${hasFunding(p, 'jri') ? '<li>If you have a <strong>criminal record</strong>, as
 <h3 style="margin-top:0">Step 4: Call Us Back and Update Your Progress</h3>
 <p>Once you have met with WorkOne:</p>
 <ol>
-<li><strong>Call us at (317) 314-3757</strong> or reply to this email with:
+<li><strong>Call us at ${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email with:
 <ul><li>Whether you were approved for funding</li><li>Your WorkOne counselor's name</li><li>When you want to start</li></ul></li>
 <li><strong>Log in and update your progress</strong> so we can track where you are:<br>
 <a href="${SITE_URL}/next-steps" style="color:#f97316;font-weight:bold">${SITE_URL}/next-steps</a></li>
@@ -403,13 +404,13 @@ function buildHtml(firstName: string, p: ProgramInfo): string {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;line-height:1.8;color:#333;margin:0;padding:0">
 <div style="max-width:680px;margin:0 auto;padding:24px">
 <div style="padding:30px;text-align:center;border-radius:8px 8px 0 0;border-bottom:2px solid #e5e7eb">
-  <h1 style="margin:0;color:white;font-size:24px">Welcome to Elevate for Humanity!</h1>
+  <h1 style="margin:0;color:white;font-size:24px">Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
   <p style="margin:8px 0 0;color:#fed7aa;font-size:15px">${p.name} Program</p>
 </div>
 <div style="padding:30px;background:#ffffff;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px">
 
 <p>Hi ${firstName},</p>
-<p>Thank you for applying to the <strong>${p.name}</strong> program at Elevate for Humanity Career &amp; Technical Institute! We received your application and we are excited to help you get started.</p>
+<p>Thank you for applying to the <strong>${p.name}</strong> program at ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute! We received your application and we are excited to help you get started.</p>
 
 <h2 style="color:#1e293b;font-size:18px;border-bottom:2px solid #f97316;padding-bottom:6px;margin-top:28px">ABOUT THE PROGRAM</h2>
 <p>${p.description}</p>
@@ -422,9 +423,9 @@ ${buildFundingHtml(p)}
 
 ${buildNextStepsHtml(p)}
 
-<p>If you have any questions &mdash; call me directly at <strong>(317) 314-3757</strong> or reply to this email.</p>
+<p>If you have any questions &mdash; call me directly at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.</p>
 <p>Looking forward to working with you, ${firstName}.</p>
-<p>Best regards,<br><strong>Elizabeth Greene</strong><br>Director, Elevate for Humanity Career &amp; Technical Institute<br>(317) 314-3757<br><a href="${SITE_URL}">${SITE_URL}</a></p>
+<p>Best regards,<br><strong>Elizabeth Greene</strong><br>Director, Elevate for Humanity Career &amp; Technical Institute<br>${PLATFORM_DEFAULTS.supportPhone}<br><a href="${SITE_URL}">${SITE_URL}</a></p>
 
 </div>
 <div style="padding:20px;text-align:center;color:#6b7280;font-size:13px;margin-top:16px">
@@ -440,7 +441,7 @@ function buildText(firstName: string, p: ProgramInfo): string {
   let fundingText = '';
   if (selfPay) {
     fundingText = `PROGRAM COST
-The ${p.name} program is self-pay or employer-sponsored. Contact us at (317) 314-3757 to discuss payment options.`;
+The ${p.name} program is self-pay or employer-sponsored. Contact us at ${PLATFORM_DEFAULTS.supportPhone} to discuss payment options.`;
   } else {
     fundingText = 'HOW FUNDING WORKS\n';
     if (hasFunding(p, 'wioa')) {
@@ -457,21 +458,21 @@ The ${p.name} program is self-pay or employer-sponsored. Contact us at (317) 314
   let stepsText = '';
   if (selfPay) {
     stepsText = `NEXT STEPS
-1. Call us at (317) 314-3757 to discuss enrollment, schedule, and payment options.
+1. Call us at ${PLATFORM_DEFAULTS.supportPhone} to discuss enrollment, schedule, and payment options.
 2. Once payment is arranged, we get you started.`;
   } else {
     stepsText = `NEXT STEPS — DO THIS NOW
 1. Create account at www.indianacareerconnect.com (Job Seeker account)
-2. Call your local WorkOne: (317) 890-4640. Say "I want an appointment for WIOA funding for ${p.name} through Elevate for Humanity"
+2. Call your local WorkOne: (317) 890-4640. Say "I want an appointment for WIOA funding for ${p.name} through ${PLATFORM_DEFAULTS.orgName}"
 3. Attend appointment. Bring: photo ID, proof of income, proof of address${hasFunding(p, 'jri') ? '. Ask about JRI if applicable.' : ''}
-4. Call us back at (317) 314-3757 with your funding status. Update progress at ${SITE_URL}/next-steps
+4. Call us back at ${PLATFORM_DEFAULTS.supportPhone} with your funding status. Update progress at ${SITE_URL}/next-steps
 
 DO NOT WAIT — appointments take 1-2 weeks to schedule.`;
   }
 
   return `Hi ${firstName},
 
-Thank you for applying to ${p.name} at Elevate for Humanity!
+Thank you for applying to ${p.name} at ${PLATFORM_DEFAULTS.orgName}!
 
 ABOUT THE PROGRAM
 ${p.description}
@@ -483,10 +484,10 @@ ${fundingText}
 
 ${stepsText}
 
-Questions? Call (317) 314-3757 or reply to this email.
+Questions? Call ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
 
 Elizabeth Greene
-Director, Elevate for Humanity Career & Technical Institute
-(317) 314-3757
+Director, ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
+${PLATFORM_DEFAULTS.supportPhone}
 ${SITE_URL}`;
 }

@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: 'Reentry Organization Partners',
   description:
-    'Elevate for Humanity partners with reentry organizations to provide workforce training for justice-involved individuals. Learn how to refer clients.',
+    '{PLATFORM_DEFAULTS.orgName} partners with reentry organizations to provide workforce training for justice-involved individuals. Learn how to refer clients.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/reentry' },
 };
 

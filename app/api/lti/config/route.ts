@@ -5,16 +5,17 @@
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const toolUrl = process.env.LTI_TOOL_URL || 'https://www.elevateforhumanity.org';
+  const toolUrl = process.env.LTI_TOOL_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const config = {
-    title: 'Elevate for Humanity LMS',
+    title: '' + PLATFORM_DEFAULTS.orgName + ' LMS',
     description: 'Workforce & apprenticeship training LMS by Elevate for Humanity',
     jwks_uri: `${toolUrl}/api/lti/jwks`,
     initiate_login_uri: `${toolUrl}/api/lti/login`,
@@ -29,7 +30,7 @@ async function _GET(request: Request) {
               placement: 'course_navigation',
               message_type: 'LtiResourceLinkRequest',
               target_link_uri: `${toolUrl}/api/lti/launch`,
-              label: 'Elevate for Humanity',
+              label: PLATFORM_DEFAULTS.orgName,
             },
           ],
         },

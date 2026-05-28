@@ -5,9 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { AlertTriangle, XCircle } from 'lucide-react';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Compliance | Admin Demo | Elevate for Humanity',
+  title: 'Compliance | Admin Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

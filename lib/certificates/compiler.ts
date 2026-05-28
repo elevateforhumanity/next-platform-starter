@@ -28,6 +28,7 @@ import {
 } from '@/lib/course-builder/competency-mapper';
 import { computeCertificateHours } from '@/lib/course-builder/hours-engine';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type { CertificateEvidence };
 
@@ -354,7 +355,7 @@ export async function issueProgramCertificate(
     .eq('id', enrollmentId);
 
   // In-app notification
-  const verifyUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/verify/${certNumber.split('-').pop()?.toLowerCase()}`;
+  const verifyUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/verify/${certNumber.split('-').pop()?.toLowerCase()}`;
   await db.from('notifications').insert({
     user_id: userId,
     type: 'achievement',

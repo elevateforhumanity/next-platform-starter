@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import TuitionCalculator from '@/components/programs/TuitionCalculator';
 import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PROGRAM = {
   name: 'Certified Nursing Assistant (CNA)',
@@ -65,7 +66,7 @@ export default function CNAEnrollPage() {
 
       const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!data.enrollmentId || !uuidPattern.test(data.enrollmentId)) {
-        throw new Error('Enrollment could not be confirmed. Please call (317) 314-3757.');
+        throw new Error('Enrollment could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
       }
 
       if (paymentOption === 'affirm') {
@@ -84,7 +85,7 @@ export default function CNAEnrollPage() {
         window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM.price}&type=full-payment&enrollment=${data.enrollmentId}`;
       }
     } catch (err: any) {
-      setError(err?.message || 'Something went wrong. Call (317) 314-3757.');
+      setError(err?.message || 'Something went wrong. Call ${PLATFORM_DEFAULTS.supportPhone}.');
       setIsSubmitting(false);
     }
   };
@@ -247,7 +248,7 @@ export default function CNAEnrollPage() {
 
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <Shield className="w-4 h-4" />
-                  <span>All payments secure & encrypted · Call (317) 314-3757 for help</span>
+                  <span>All payments secure & encrypted · Call {PLATFORM_DEFAULTS.supportPhone} for help</span>
                 </div>
 
                 <div className="flex gap-3">

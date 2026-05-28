@@ -17,6 +17,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { ENV } from '@/lib/api/env-groups';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -35,7 +36,7 @@ const EnforcementCheckoutSchema = z.object({
 export const POST = withRuntime(
   { secrets: [...ENV.STRIPE], rateLimit: 'payment' },
   async (req, ctx) => {
-    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
     const stripeKey = ctx.env.STRIPE_SECRET_KEY;
 
     let raw: unknown;
@@ -83,7 +84,7 @@ export const POST = withRuntime(
               unit_amount: hold.fee_cents,
               product_data: {
                 name: label,
-                description: 'Elevate for Humanity Testing Center — Indianapolis, IN',
+                description: '' + PLATFORM_DEFAULTS.orgName + ' Testing Center — Indianapolis, IN',
               },
             },
             quantity: 1,

@@ -7,9 +7,10 @@ import { Building2, DollarSign, Layout, Lock, ArrowRight, Star,
   Phone
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'My Apps | Elevate for Humanity',
+  title: 'My Apps | {PLATFORM_DEFAULTS.orgName}',
   description: 'Access your purchased apps and tools.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apps',

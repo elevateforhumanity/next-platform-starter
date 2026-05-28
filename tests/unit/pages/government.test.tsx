@@ -6,6 +6,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Test page metadata and configuration
 describe('GovernmentPage', () => {
@@ -60,7 +61,7 @@ describe('GovernmentPage', () => {
     });
 
     it('should have valid contact information format', () => {
-      const phone = '(317) 314-3757';
+      const phone = '{PLATFORM_DEFAULTS.supportPhone}';
       const email = 'elevate4humanityedu@gmail.com';
 
       // Phone format validation

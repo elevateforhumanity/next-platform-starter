@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -177,7 +178,7 @@ async function sendEmailNotification(data: z.infer<typeof ContactSchema>) {
         ${data.role ? `<p><strong>Role:</strong> ${data.role}</p>` : ''}
         <p><strong>Message:</strong><br>${data.message}</p>
         <hr>
-        <p><em>Submitted from www.elevateforhumanity.org</em></p>
+        <p><em>Submitted from ${PLATFORM_DEFAULTS.canonicalDomain}</em></p>
       `,
     });
 

@@ -2,6 +2,7 @@
 
 import { Building2, MapPin, Phone, User, Award, Globe, AlertTriangle, Info } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface ShopFormData {
   trainingRegion: string;
@@ -259,7 +260,7 @@ export function ApprenticeshipShopFields({
             type="tel"
             value={formData.shopPhone}
             onChange={(e) => onChange({ shopPhone: e.target.value })}
-            placeholder="(317) 314-3757"
+            placeholder={PLATFORM_DEFAULTS.supportPhone}
             className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-purple-500 ${
               errors.shopPhone ? 'border-brand-red-500' : 'border-slate-300'
             }`}

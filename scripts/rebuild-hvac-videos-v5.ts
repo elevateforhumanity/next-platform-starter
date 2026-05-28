@@ -20,6 +20,7 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -292,7 +293,7 @@ function generateSlideVideo(
     `format=yuv420p`,
     // Elevate branding bar at top
     `drawbox=x=0:y=0:w=iw:h=60:color=0x1e40af@0.9:t=fill`,
-    `drawtext=text='Elevate for Humanity':fontfile=${FB}:fontsize=18:fontcolor=white@0.8:x=20:y=20`,
+    `drawtext=text='' + PLATFORM_DEFAULTS.orgName + '':fontfile=${FB}:fontsize=18:fontcolor=white@0.8:x=20:y=20`,
     // Title
     `drawtext=text='${safeTitle}':fontfile=${FB}:fontsize=30:fontcolor=white:x=60:y=100`,
     // Underline
@@ -381,7 +382,7 @@ function assembleVideo(
       `drawbox=x=0:y=ih-40:w=iw:h=40:color=0x0f172a@0.85:t=fill,` +
       `drawtext=text='${label}':fontfile=${FR}:fontsize=12:fontcolor=white@0.6:x=15:y=h-28,` +
       `drawtext=text='${safeTitle}':fontfile=${FB}:fontsize=14:fontcolor=white@0.8:x=160:y=h-28,` +
-      `drawtext=text='Elevate for Humanity':fontfile=${FR}:fontsize=11:fontcolor=white@0.4:x=w-170:y=h-28` +
+      `drawtext=text='' + PLATFORM_DEFAULTS.orgName + '':fontfile=${FR}:fontsize=11:fontcolor=white@0.4:x=w-170:y=h-28` +
       `" -c:v libx264 -preset fast -crf 26 -c:a aac -b:a 96k ` +
       `-movflags +faststart "${outPath}"`,
     { stdio: 'pipe' },

@@ -14,6 +14,7 @@ import {
   ClipboardCheck,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Instructor Onboarding',
@@ -148,7 +149,7 @@ export default async function InstructorOnboardingPage() {
           </div>
           {allDone && (
             <Link
-              href="https://admin.elevateforhumanity.org/instructor"
+              href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/instructor"
               className="inline-flex items-center gap-2 px-4 py-2 bg-brand-green-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-green-700"
             >
               Go to Dashboard <ArrowRight className="w-4 h-4" />

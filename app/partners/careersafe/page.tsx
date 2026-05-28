@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'CareerSafe OSHA Training | Short-Term Courses',
@@ -199,7 +200,7 @@ export default async function CAREERSAFEPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Enroll in CareerSafe OSHA Training courses through Elevate for Humanity
+            Enroll in CareerSafe OSHA Training courses through {PLATFORM_DEFAULTS.orgName}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

@@ -18,6 +18,7 @@ import {
   Presentation
 } from 'lucide-react';
 import { BuyButton } from './BuyButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: 'Capital Readiness Guide for Licensed & Workforce Organizations',
     description: 'Build institutional trust, pass audits, and scale responsibly. A practical guide for licensed and workforce-aligned organizations.',
     url: `${siteUrl}/store/guides/capital-readiness`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     type: 'website',
     images: [
       {
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Capital Readiness Guide | Elevate for Humanity',
+    title: 'Capital Readiness Guide | {PLATFORM_DEFAULTS.orgName}',
     description: 'Build institutional trust, pass audits, and scale responsibly.',
     images: [`${siteUrl}/images/og/capital-readiness-guide.jpg`],
   },
@@ -57,7 +58,7 @@ const productSchema = {
   '@type': 'Product',
   name: 'The Elevate Capital Readiness Guide',
   description: 'A practical guide to building institutional trust, compliance, and funding readiness for licensed businesses, workforce-aligned employers, and nonprofits.',
-  brand: { '@type': 'Brand', name: 'Elevate for Humanity' },
+  brand: { '@type': 'Brand', name: '{PLATFORM_DEFAULTS.orgName}' },
   offers: {
     '@type': 'Offer',
     price: '39.00',
@@ -197,7 +198,7 @@ export default function CapitalReadinessGuidePage() {
                   <div className="text-center p-8">
                     <BookOpen className="w-16 h-16 text-slate-600 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Capital Readiness Guide</h3>
-                    <p className="text-slate-600 text-sm">Elevate for Humanity</p>
+                    <p className="text-slate-600 text-sm">{PLATFORM_DEFAULTS.orgName}</p>
                   </div>
                 </div>
               </div>

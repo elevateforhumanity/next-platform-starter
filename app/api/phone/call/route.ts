@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -67,7 +68,7 @@ async function handleClickToCall(phoneNumber: string) {
   return NextResponse.json({
     success: true,
     method: 'client-side',
-    telLink: `tel:+13173143757`, // Your office number
+    telLink: `tel:+1${PLATFORM_DEFAULTS.supportPhone}`, // Your office number
     message: 'Opening phone dialer...',
   });
 }
@@ -123,7 +124,7 @@ async function handleVoicemail(phoneNumber: string, message: string) {
 async function notifyTeam(callbackData: Record<string, any>) {
   // Send email notification
   // await sendEmail({
-  //   to: "team@elevateforhumanity.org",
+  //   to: "team@${PLATFORM_DEFAULTS.canonicalDomain}",
   //   subject: "New Callback Request",
   //   body: `Phone: ${callbackData.phone_number}\nMessage: ${callbackData.message}`
   // });

@@ -6,11 +6,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { aiChat } from '@/lib/ai/ai-service';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
-const SYSTEM_PROMPT = `You are an AI Career Counselor for Elevate for Humanity, a workforce development organization in Indianapolis.
+const SYSTEM_PROMPT = `You are an AI Career Counselor for ${PLATFORM_DEFAULTS.orgName}, a workforce development organization in Indianapolis.
 
 Your role is to help users:
 1. Explore career paths based on their skills and interests

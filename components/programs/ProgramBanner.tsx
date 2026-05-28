@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function ProgramBanner() {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ export function ProgramBanner() {
           </p>
           <p className="text-sm text-black mt-1">
             1) Submit the Inquiry Form. 2) Schedule a WorkOne appointment on
-            IndianaCareerConnect.com. 3) Tell them you're there for Elevate for Humanity. 4)
+            IndianaCareerConnect.com. 3) Tell them you're there for {PLATFORM_DEFAULTS.orgName}. 4)
             Complete your checklist so we can track your progress.
           </p>
         </div>
@@ -123,7 +124,7 @@ function WorkOneChecklist() {
 
       <div className="mt-4 grid gap-3">
         <CheckRow
-          label="I submitted the Elevate for Humanity Inquiry Form"
+          label="I submitted the {PLATFORM_DEFAULTS.orgName} Inquiry Form"
           checked={state.inquirySubmitted}
           onChange={(v) => save({ ...state, inquirySubmitted: v })}
         />
@@ -149,7 +150,7 @@ function WorkOneChecklist() {
             />
           </label>
           <CheckRow
-            label="I told WorkOne I'm there for Elevate for Humanity"
+            label="I told WorkOne I'm there for {PLATFORM_DEFAULTS.orgName}"
             checked={state.toldAdvisorEFH}
             onChange={(v) => save({ ...state, toldAdvisorEFH: v })}
           />

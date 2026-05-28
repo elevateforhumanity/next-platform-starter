@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { Briefcase, Building2, MapPin, Clock, Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Job Postings | Admin | Elevate for Humanity',
+  title: 'Job Postings | Admin | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage job postings and employer partnerships',
 };
 

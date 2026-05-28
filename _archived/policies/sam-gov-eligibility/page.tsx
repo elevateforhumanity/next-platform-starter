@@ -5,9 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'SAM.gov Eligibility Criteria | Elevate for Humanity',
-  description: 'SAM.gov registration and eligibility requirements for federal grant and contract opportunities at Elevate for Humanity.',
+  title: 'SAM.gov Eligibility Criteria | {PLATFORM_DEFAULTS.orgName}',
+  description: 'SAM.gov registration and eligibility requirements for federal grant and contract opportunities at {PLATFORM_DEFAULTS.orgName}.',
   keywords: ['SAM.gov', 'federal grants', 'government contracts', 'eligibility criteria', 'federal funding', 'grant opportunities', 'DUNS', 'UEI'],
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/sam-gov-eligibility',
@@ -29,7 +30,7 @@ export default async function SAMGovEligibilityPage() {
       <div className="bg-brand-blue-50 border-l-4 border-brand-blue-500 p-6 mb-8">
         <p className="text-lg font-semibold text-brand-blue-900 mb-2">Federal Funding Opportunities</p>
         <p className="text-brand-blue-800">
-          Elevate for Humanity maintains active registration in the System for Award Management (SAM.gov) 
+          {PLATFORM_DEFAULTS.orgName} maintains active registration in the System for Award Management (SAM.gov) 
           to pursue federal grant and contract opportunities that support our mission to provide accessible 
           workforce education.
         </p>
@@ -38,7 +39,7 @@ export default async function SAMGovEligibilityPage() {
       <section className="mb-12">
         <h2>Purpose</h2>
         <p>
-          This policy outlines the eligibility criteria and requirements for Elevate for Humanity's 
+          This policy outlines the eligibility criteria and requirements for {PLATFORM_DEFAULTS.orgName}'s 
           participation in federal funding opportunities through SAM.gov, including:
         </p>
         <ul>
@@ -74,7 +75,7 @@ export default async function SAMGovEligibilityPage() {
         
         <h3>Legal Entity Status</h3>
         <p>
-          Elevate for Humanity must maintain:
+          {PLATFORM_DEFAULTS.orgName} must maintain:
         </p>
         <ul>
           <li><strong>Legal Formation:</strong> Valid incorporation or organization under state law</li>

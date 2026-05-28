@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { Users, DollarSign, TrendingUp, Copy, Check, Share2, Gift, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ReferralDashboardProps {
   userId: string;
@@ -54,12 +55,12 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
 
   const handleShare = async () => {
     const shareUrl = `${window.location.origin}/signup?ref=${referralCode}`;
-    const shareText = `Join Elevate for Humanity and get 10% off! Use my referral code: ${referralCode}`;
+    const shareText = `Join ${PLATFORM_DEFAULTS.orgName} and get 10% off! Use my referral code: ${referralCode}`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Join Elevate for Humanity',
+          title: 'Join ${PLATFORM_DEFAULTS.orgName}',
           text: shareText,
           url: shareUrl,
         });
@@ -87,7 +88,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
       <div>
         <h1 className="text-3xl font-bold text-black">Referral Program</h1>
         <p className="text-black mt-2">
-          Earn rewards by referring friends and family to Elevate for Humanity
+          Earn rewards by referring friends and family to {PLATFORM_DEFAULTS.orgName}
         </p>
       </div>
 

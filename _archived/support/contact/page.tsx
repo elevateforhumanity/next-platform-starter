@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, Clock, HelpCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/support/contact' },
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 const CONTACT_METHODS = [
   { title: 'Email', desc: 'our contact form', detail: 'Response within 1 business day', icon: Mail, href: 'mailto:our contact form' },
-  { title: 'Phone', desc: '(317) 314-3757', detail: 'Mon–Fri, 9 AM – 5 PM EST', icon: Phone, href: 'tel:+13173143757' },
+  { title: 'Phone', desc: '{PLATFORM_DEFAULTS.supportPhone}', detail: 'Mon–Fri, 9 AM – 5 PM EST', icon: Phone, href: 'tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}' },
   { title: 'Location', desc: 'Indianapolis, Indiana', detail: 'By appointment only', icon: MapPin, href: '/contact' },
 ];
 

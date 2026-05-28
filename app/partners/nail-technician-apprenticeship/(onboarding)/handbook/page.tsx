@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Shield, Clock, Users, AlertTriangle, Phone, FileText, Scale, ArrowRight } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Partner Handbook | Nail Technician Apprenticeship',
@@ -86,9 +87,9 @@ const sections = [
     content: ['Elevate provides ongoing support throughout the apprenticeship. Contact us for any questions or concerns.'],
     items: [
       'Partner Support: partners@elevateforhumanity.org',
-      'Phone: (317) 314-3757',
+      'Phone: {PLATFORM_DEFAULTS.supportPhone}',
       'Compliance issues: compliance@elevateforhumanity.org',
-      'Emergency: Call (317) 314-3757 and select option 2',
+      'Emergency: Call {PLATFORM_DEFAULTS.supportPhone} and select option 2',
     ],
   },
 ];

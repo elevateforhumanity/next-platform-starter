@@ -5,9 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Clock, AlertTriangle } from 'lucide-react';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'WIOA | Admin Demo | Elevate for Humanity',
+  title: 'WIOA | Admin Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

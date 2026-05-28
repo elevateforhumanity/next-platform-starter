@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Scale, AlertTriangle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Compliance & Disclosure Framework | Governance | Elevate for Humanity',
+  title: 'Compliance & Disclosure Framework | Governance | {PLATFORM_DEFAULTS.orgName}',
   description:
     'How legal, financial, and eligibility disclosures are presented and how compliance alignment is maintained across the platform.',
   robots: {
@@ -77,7 +78,7 @@ export default async function CompliancePage() {
               1. Purpose
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              Elevate for Humanity is a workforce development and career training institute operated
+              {PLATFORM_DEFAULTS.orgName} is a workforce development and career training institute operated
               by 2Exclusive LLC-S, a registered limited liability company in the State of Indiana.
               This document defines how disclosures are presented, how claims are supported, and how
               compliance alignment is maintained across the platform. It exists to ensure that

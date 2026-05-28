@@ -5,6 +5,7 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -102,7 +103,7 @@ serve(async (req) => {
           course_id: courseId,
           certification_name: course.certification_name,
           certification_issuer:
-            course.certification_issuer || 'Elevate for Humanity',
+            course.certification_issuer || '' + PLATFORM_DEFAULTS.orgName + '',
           verify_code: verifyCode,
           issued_at: new Date().toISOString(),
         });

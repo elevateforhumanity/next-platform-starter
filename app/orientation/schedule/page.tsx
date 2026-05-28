@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone } from 'lucide-react';
 import OrientationScheduleClient from './OrientationScheduleClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation/schedule' },
@@ -81,10 +82,10 @@ export default function OrientationSchedulePage() {
           Our team can schedule your session over the phone in under 2 minutes.
         </p>
         <a
-          href="tel:3173143757"
+          href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
           className="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-100 transition-colors text-lg"
         >
-          <Phone className="w-5 h-5" /> (317) 314-3757
+          <Phone className="w-5 h-5" /> {PLATFORM_DEFAULTS.supportPhone}
         </a>
       </section>
     </div>

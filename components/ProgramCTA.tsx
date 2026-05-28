@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface ProgramCTAProps {
   programName?: string;
@@ -150,7 +151,7 @@ export default function ProgramCTA({ programName = 'this program' }: ProgramCTAP
                   <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">
                     4
                   </div>
-                  <p className="text-slate-300">Enroll with Elevate for Humanity</p>
+                  <p className="text-slate-300">Enroll with {PLATFORM_DEFAULTS.orgName}</p>
                 </div>
               </div>
 

@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Leslie Wafford | Our Team | Elevate for Humanity',
-  description: 'Leslie Wafford — Director of Community Services at Elevate for Humanity Career & Technical Institute.',
+  title: 'Leslie Wafford | Our Team | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Leslie Wafford — Director of Community Services at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {

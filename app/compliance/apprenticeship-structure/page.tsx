@@ -13,6 +13,7 @@ import {
   Users,
 } from 'lucide-react';
 import { PrintButton } from './PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Apprenticeship & RTI Structure | Compliance',
@@ -148,7 +149,7 @@ export default function ApprenticeshipStructurePage() {
       {/* Print header — visible only on print */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Apprenticeship & RTI Structure</h1>
-        <p className="text-sm text-slate-600">Elevate for Humanity — Master Compliance Document</p>
+        <p className="text-sm text-slate-600">{PLATFORM_DEFAULTS.orgName} — Master Compliance Document</p>
         <p className="text-xs text-slate-500 mt-1">
           RAPIDS ID: 2025-IN-132301 | INTraining Location ID: 10004621
         </p>
@@ -161,7 +162,7 @@ export default function ApprenticeshipStructurePage() {
             <h2 className="text-lg font-bold text-slate-900 mb-2">Document Purpose</h2>
             <p className="text-slate-700 text-sm leading-relaxed">
               This document defines the institutional structure for apprenticeship and workforce
-              training programs operated under Elevate for Humanity. It serves as the backbone
+              training programs operated under {PLATFORM_DEFAULTS.orgName}. It serves as the backbone
               reference for workforce boards, ETPL reviewers, partnership due diligence, grant
               evaluators, and DOL apprenticeship audits. All roles, hour structures, and credential
               chains documented here are binding across all programs.
@@ -175,7 +176,7 @@ export default function ApprenticeshipStructurePage() {
                 Registered Apprenticeship Sponsor
               </p>
               <p className="font-bold text-slate-900">
-                2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)
+                2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute)
               </p>
               <p className="text-sm text-slate-600 mt-1">RAPIDS ID: 2025-IN-132301</p>
             </div>
@@ -206,7 +207,7 @@ export default function ApprenticeshipStructurePage() {
               {
                 level: 1,
                 role: 'Sponsor (Oversight & Compliance)',
-                entity: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)',
+                entity: '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)',
                 icon: Shield,
                 scope:
                   'RAPIDS registration, ETPL compliance, curriculum standards, enrollment management, funding navigation, progress tracking, credential verification, institutional accountability. Final authority on all program decisions.',
@@ -389,7 +390,7 @@ export default function ApprenticeshipStructurePage() {
                 <FileCheck className="w-5 h-5 text-brand-green-600 print:text-slate-700" />
                 <h3 className="font-bold text-slate-900">Completion Certificates</h3>
                 <span className="text-xs text-slate-500 ml-auto">
-                  Issued by: Elevate for Humanity
+                  Issued by: {PLATFORM_DEFAULTS.orgName}
                 </span>
               </div>
               <p className="text-sm text-slate-700 mb-2">

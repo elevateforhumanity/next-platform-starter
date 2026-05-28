@@ -5,6 +5,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function EmployerWorkforceAnalytics() {
   const [timeRange, setTimeRange] = useState('30');
@@ -220,7 +221,7 @@ export default function EmployerWorkforceAnalytics() {
           <Card className="p-6   ">
             <h3 className="font-bold mb-3">🎯 Recommendation</h3>
             <p className="text-sm text-black">
-              Partner with Elevate for Humanity to address the AWS skills gap. 15 qualified
+              Partner with {PLATFORM_DEFAULTS.orgName} to address the AWS skills gap. 15 qualified
               candidates available.
             </p>
           </Card>

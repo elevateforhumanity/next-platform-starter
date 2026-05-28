@@ -11,6 +11,7 @@
  */
 
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface URLCheck {
   url: string;
@@ -111,7 +112,7 @@ export class URLHealthMonitor {
     // Dev server — only registered when NEXT_PUBLIC_SITE_URL points to a non-production host
     if (
       process.env.NEXT_PUBLIC_SITE_URL &&
-      !process.env.NEXT_PUBLIC_SITE_URL.includes('elevateforhumanity.org')
+      !process.env.NEXT_PUBLIC_SITE_URL.includes(PLATFORM_DEFAULTS.canonicalDomain)
     ) {
       this.addEndpoint({
         id: 'dev-server',
@@ -128,8 +129,8 @@ export class URLHealthMonitor {
     // Sister sites
     this.addEndpoint({
       id: 'elevate-connects',
-      name: 'Elevate for Humanity',
-      url: 'https://www.elevateforhumanity.org',
+      name: PLATFORM_DEFAULTS.orgName,
+      url: PLATFORM_DEFAULTS.siteUrl,
       type: 'external',
       critical: false,
       checkInterval: 3600000,

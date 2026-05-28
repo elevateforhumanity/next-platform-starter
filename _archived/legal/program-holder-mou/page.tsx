@@ -3,10 +3,11 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
 export const metadata: Metadata = {
-  title: 'Program Holder MOU | Elevate for Humanity',
+  title: 'Program Holder MOU | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -24,20 +25,20 @@ export default async function ProgramHolderMOUPage() {
       <DocumentPage
         documentType="Memorandum of Understanding"
         title="Program Holder MOU"
-        subtitle="Elevate for Humanity — Training Provider Partnership"
+        subtitle="{PLATFORM_DEFAULTS.orgName} — Training Provider Partnership"
         date="2025-01-01"
         version="1.0"
         confidential
       >
         <DocumentSection heading="Parties" number={1}>
           <p>
-            This Memorandum of Understanding is entered into between <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong> ("Elevate"), and the Program Holder identified at the time of execution ("Program Holder").
+            This Memorandum of Understanding is entered into between <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong> ("Elevate"), and the Program Holder identified at the time of execution ("Program Holder").
           </p>
         </DocumentSection>
 
         <DocumentSection heading="Purpose" number={2}>
           <p>
-            This MOU establishes the terms under which the Program Holder will deliver training programs through the Elevate for Humanity platform, including use of the LMS, credentialing infrastructure, and enrollment management systems.
+            This MOU establishes the terms under which the Program Holder will deliver training programs through the {PLATFORM_DEFAULTS.orgName} platform, including use of the LMS, credentialing infrastructure, and enrollment management systems.
           </p>
         </DocumentSection>
 
@@ -96,9 +97,9 @@ export default async function ProgramHolderMOUPage() {
 
         <DocumentSection heading="Contact" number={10}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

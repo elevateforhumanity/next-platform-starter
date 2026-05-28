@@ -2,11 +2,12 @@ export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Memorandum of Understanding',
   description:
-    'MOU partnership framework for workforce agencies, employers, and training providers partnering with Elevate for Humanity.',
+    'MOU partnership framework for workforce agencies, employers, and training providers partnering with {PLATFORM_DEFAULTS.orgName}.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/mou' },
 };
 
@@ -20,12 +21,12 @@ export default function MOUPage() {
           tag: 'Partnership Framework',
           title: 'Memorandum of Understanding',
           subtitle:
-            'Formalize your partnership with Elevate for Humanity through a structured MOU agreement.',
+            'Formalize your partnership with {PLATFORM_DEFAULTS.orgName} through a structured MOU agreement.',
         },
         intro: {
           heading: 'Partnership Agreement Framework',
           paragraphs: [
-            'Our Memorandum of Understanding (MOU) establishes the terms, responsibilities, and expectations for partnerships between Elevate for Humanity and workforce agencies, employers, training providers, and community organizations.',
+            'Our Memorandum of Understanding (MOU) establishes the terms, responsibilities, and expectations for partnerships between {PLATFORM_DEFAULTS.orgName} and workforce agencies, employers, training providers, and community organizations.',
             'The MOU covers participant referral processes, data sharing protocols, outcome reporting requirements, and the roles and responsibilities of each party.',
             'Contact us to request an MOU template or discuss partnership terms specific to your organization.',
           ],

@@ -7,6 +7,7 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -59,7 +60,7 @@ class SendGridProvider implements EmailProvider {
           })),
           from: {
             email: request.from || 'noreply@www.elevateforhumanity.org',
-            name: 'Elevate for Humanity',
+            name: '' + PLATFORM_DEFAULTS.orgName + '',
           },
           reply_to: request.replyTo ? { email: request.replyTo } : undefined,
           subject: request.subject,

@@ -14,6 +14,7 @@ import {
   VolumeX,
 } from 'lucide-react';
 import { getAssistantScript, AssistantScript, QuickAction } from '@/lib/chat/scripts';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   id: string;
@@ -200,7 +201,7 @@ export default function UnifiedChatAssistant({
           id: `error_${Date.now()}`,
           role: 'assistant',
           content:
-            "I'm having trouble connecting right now. Please try again in a moment, or contact us at (317) 314-3757 for immediate assistance.",
+            "I'm having trouble connecting right now. Please try again in a moment, or contact us at ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.",
           timestamp: new Date(),
         };
 

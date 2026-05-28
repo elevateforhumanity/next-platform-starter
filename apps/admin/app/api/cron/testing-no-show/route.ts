@@ -17,12 +17,13 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 const FROM = 'Elevate Testing Center <testing@elevateforhumanity.org>';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 const NO_SHOW_FEE_CENTS = 5000; // $50
 
 export async function GET(req: NextRequest) {
@@ -108,7 +109,7 @@ export async function GET(req: NextRequest) {
   <p>Our records show you did not attend your scheduled exam on <strong>${booking.preferred_date}</strong>.</p>
   <p>To rebook, a <strong>$50 rescheduling fee</strong> is required. This fee covers the reserved seat and proctor time.</p>
   <p><a href="${SITE_URL}/testing/book" style="background:#dc2626;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block">Pay Fee &amp; Rebook →</a></p>
-  <p style="color:#64748b;font-size:13px">If you believe this is an error, call <strong>(317) 314-3757</strong> within 48 hours.</p>
+  <p style="color:#64748b;font-size:13px">If you believe this is an error, call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> within 48 hours.</p>
 </body></html>`,
     }).catch((err) => logger.warn('[cron/no-show] Email failed', { email: booking.email, err }));
 

@@ -5,12 +5,13 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { EmployerProposalPreview } from '@/components/admin/EmployerProposalPreview';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Employer Proposal | Admin | Elevate for Humanity',
+  title: 'Employer Proposal | Admin | {PLATFORM_DEFAULTS.orgName}',
   description: 'View and manage employer partnership proposals.',
 };
 

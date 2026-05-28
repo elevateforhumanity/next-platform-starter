@@ -6,6 +6,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -52,19 +53,19 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
       .eq('id', id);
 
     // Send denial email
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     try {
       await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: application.contact_email,
-          subject: 'Partner Application Update - Elevate for Humanity',
+          subject: 'Partner Application Update - ${PLATFORM_DEFAULTS.orgName}',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #1e3a8a;">Partner Application Update</h2>
               <p>Hi ${application.owner_name},</p>
-              <p>Thank you for your interest in becoming a Partner Shop with Elevate for Humanity.</p>
+              <p>Thank you for your interest in becoming a Partner Shop with ${PLATFORM_DEFAULTS.orgName}.</p>
               <p>After reviewing your application for <strong>${application.shop_name}</strong>, we are unable to approve it at this time.</p>
               
               ${
@@ -79,14 +80,14 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
               
               <p>If you believe this decision was made in error or if your circumstances have changed, please feel free to:</p>
               <ul>
-                <li>Contact us at <a href="tel:3173143757">(317) 314-3757</a></li>
+                <li>Contact us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a></li>
                 <li>Reply to this email with additional information</li>
                 <li>Reapply after addressing the concerns mentioned above</li>
               </ul>
               
               <p>We appreciate your interest in supporting workforce development.</p>
               
-              <p>Best regards,<br><strong>Elevate for Humanity Team</strong></p>
+              <p>Best regards,<br><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
           `,
         }),

@@ -3,6 +3,7 @@ import { getStripe, stripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -28,7 +29,7 @@ async function _POST(request: NextRequest) {
             product_data: {
               name: 'IPLA Apprenticeship Exam',
               description: `Exam scheduled for ${new Date(examDate).toLocaleDateString()} at ${examTime}`,
-              images: ['https://www.elevateforhumanity.org/logo.jpg'],
+              images: ['${PLATFORM_DEFAULTS.siteUrl}/logo.jpg'],
             },
             unit_amount: 15000, // $150.00
           },

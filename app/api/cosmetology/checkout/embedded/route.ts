@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TUITION_CENTS, PAYMENT_TERM_WEEKS, COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID } from '@/lib/cosmetology/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * POST /api/cosmetology/checkout/embedded
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
       customerId = customer.id;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const returnUrl = `${baseUrl}/programs/cosmetology-apprenticeship/apply/success?session_id={CHECKOUT_SESSION_ID}`;
 
     const session = await stripe.checkout.sessions.create({

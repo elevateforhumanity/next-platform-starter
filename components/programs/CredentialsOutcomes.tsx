@@ -1,4 +1,5 @@
 import { Award, Building2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CredentialsOutcomesProps {
   programName: string;
@@ -24,7 +25,7 @@ export function CredentialsOutcomes({
           <span className="text-slate-400 flex-shrink-0">•</span>
           <div>
             <p className="text-black font-medium">
-              Certificate of Completion issued by Elevate for Humanity Career & Technical Institute
+              Certificate of Completion issued by {PLATFORM_DEFAULTS.orgName} Career & Technical Institute
             </p>
             <p className="text-sm text-slate-600 mt-1">
               Documents successful completion of the {programName} training program
@@ -74,7 +75,7 @@ export function CredentialsOutcomes({
       <div className="mt-6 pt-4 border-t border-brand-blue-200">
         <p className="text-xs text-slate-500">
           Note: Third-party certifications and state licenses are issued by external credentialing
-          bodies, not by Elevate for Humanity. Exam fees may apply separately.
+          bodies, not by {PLATFORM_DEFAULTS.orgName}. Exam fees may apply separately.
         </p>
       </div>
     </div>

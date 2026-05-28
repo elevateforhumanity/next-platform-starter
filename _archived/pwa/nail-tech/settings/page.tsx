@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { ArrowLeft, Bell, Shield, LogOut, ChevronRight, Sparkles, Clock, BookOpen, TrendingUp } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const NAV = [
   { href: '/pwa/nail-tech', icon: Sparkles, label: 'Home' },
@@ -86,7 +87,7 @@ export default function NailTechSettingsPage() {
         </button>
 
         <p className="text-slate-600 text-xs text-center pt-2">
-          Nail Technician Apprenticeship · Elevate for Humanity
+          Nail Technician Apprenticeship · {PLATFORM_DEFAULTS.orgName}
         </p>
       </main>
 

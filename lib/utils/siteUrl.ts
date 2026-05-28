@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Canonical URL helpers.
  *
@@ -16,12 +17,12 @@ function requireUrl(name: string): string {
   return val.replace(/\/$/, '');
 }
 
-/** LMS app base URL — https://www.elevateforhumanity.org */
+/** LMS app base URL — ${PLATFORM_DEFAULTS.siteUrl} */
 export function getSiteUrl(): string {
   return requireUrl('NEXT_PUBLIC_SITE_URL');
 }
 
-/** Admin app base URL — https://admin.elevateforhumanity.org */
+/** Admin app base URL — https://admin.${PLATFORM_DEFAULTS.canonicalDomain} */
 export function getAdminUrl(): string {
   const url = requireUrl('NEXT_PUBLIC_ADMIN_URL');
   try {

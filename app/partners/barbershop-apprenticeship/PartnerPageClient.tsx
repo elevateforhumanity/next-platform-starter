@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, Lock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
@@ -238,10 +239,10 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <Link
@@ -354,7 +355,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </div>
 
           <p className="mt-6 text-xs text-black text-center">
-            Already approved? <Link href="/login?redirect=/partners/barbershop-apprenticeship/forms" className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href="tel:3173143757" className="underline">(317) 314-3757</a>.
+            Already approved? <Link href="/login?redirect=/partners/barbershop-apprenticeship/forms" className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </div>
       </section>

@@ -5481,7 +5481,7 @@ export const ORIENTATION_QUIZ_EXT: QuizQuestion[] = [
   },
   {
     id: 'q-m01-20',
-    question: "Elevate for Humanity's mission focuses on:",
+    question: "' + PLATFORM_DEFAULTS.orgName + ''s mission focuses on:",
     options: [
       'Training as many people as possible',
       'Economic mobility for underserved communities through workforce development',
@@ -8185,6 +8185,7 @@ export const HVAC_FINAL_EXAM: QuizQuestion[] = [
 // Maps lesson IDs from definitions.ts to their quiz question arrays
 
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   QUIZ_01_01,
   QUIZ_01_02,
   QUIZ_01_03,

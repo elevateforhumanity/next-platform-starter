@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Complete Your Application',
@@ -139,10 +140,10 @@ export default async function EnrollPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
-              Call (317) 314-3757
+              Call {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <Link
               href="/contact"

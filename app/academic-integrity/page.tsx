@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Shield, AlertTriangle, BookOpen, FileText, Users, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Academic Integrity Policy',
@@ -45,7 +46,7 @@ export default function AcademicIntegrityPage() {
             Our Commitment to Academic Honesty
           </h2>
           <p className="text-black mb-4">
-            At Elevate for Humanity, we are committed to maintaining the highest standards of
+            At {PLATFORM_DEFAULTS.orgName}, we are committed to maintaining the highest standards of
             academic integrity. Academic honesty is fundamental to the learning process and
             essential for preparing students for professional careers.
           </p>
@@ -349,7 +350,7 @@ export default function AcademicIntegrityPage() {
               <li>• Contact the Dean of Students</li>
               <li>• Submit an anonymous report through the student portal</li>
               <li>• Email: our contact form</li>
-              <li>• Phone: 317-314-3757</li>
+              <li>• Phone: {PLATFORM_DEFAULTS.supportPhone}</li>
             </ul>
             <p className="text-brand-blue-900 text-sm mt-4">
               <strong>Protection:</strong> Students who report violations in good faith will not

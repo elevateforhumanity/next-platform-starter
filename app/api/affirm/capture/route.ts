@@ -15,6 +15,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 async function _GET(request: NextRequest) {
@@ -34,7 +35,7 @@ async function _GET(request: NextRequest) {
   const checkoutToken = searchParams.get('checkout_token');
   const orderId = searchParams.get('order_id');
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const supabase = await requireAdminClient();
 
   if (!supabase) {

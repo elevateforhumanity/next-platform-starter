@@ -4,6 +4,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Phone, Building2, Users, DollarSign, TrendingUp, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -91,7 +92,7 @@ export default function AgenciesPage() {
           A WIOA-compliant pipeline you can refer into today.
         </h1>
         <p className="text-slate-700 text-base leading-relaxed max-w-2xl mb-6">
-          Elevate for Humanity is Indiana ETPL certified, DOL Registered, and RAPIDS-tracked.
+          {PLATFORM_DEFAULTS.orgName} is Indiana ETPL certified, DOL Registered, and RAPIDS-tracked.
           WorkOne case managers can refer participants directly — funding is authorized before
           training begins, outcomes are documented, and credentials are issued on-site.
         </p>
@@ -316,10 +317,10 @@ export default function AgenciesPage() {
               Contact Us <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center gap-2 border border-white/30 text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
             >
-              <Phone className="w-5 h-5" /> (317) 314-3757
+              <Phone className="w-5 h-5" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

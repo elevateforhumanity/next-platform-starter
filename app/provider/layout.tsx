@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { LayoutDashboard, BookOpen, ShieldCheck, Settings, Users, LogOut } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const NAV = [
   { href: '/provider/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -57,7 +58,7 @@ export default async function ProviderLayout({ children }: { children: React.Rea
               href="mailto:elevate4humanityedu@gmail.com"
               className="text-brand-blue-600 hover:underline"
             >
-              support@elevateforhumanity.org
+              {PLATFORM_DEFAULTS.supportEmail}
             </a>{' '}
             for assistance.
           </p>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Submitted | Peer Recovery Specialist',
@@ -27,8 +28,8 @@ export default function PeerRecoveryApplySuccessPage() {
         </p>
         <p className="mt-2 text-sm text-black">
           Questions? Call{' '}
-          <a href="tel:3173143757" className="underline">
-            317-314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">

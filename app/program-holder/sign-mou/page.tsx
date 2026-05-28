@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { SignMOUForm } from './SignMOUForm';
 import { FileText, Shield } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -194,7 +195,7 @@ export default async function SignMOUPage() {
             <p className="text-sm text-slate-600 mt-2">
               RAPIDS Program No.: <strong>2025-IN-132301</strong> &nbsp;|&nbsp; Sponsor:{' '}
               <strong>
-                2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)
+                2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgLegalName})
               </strong>
             </p>
           </div>
@@ -204,7 +205,7 @@ export default async function SignMOUPage() {
               This Memorandum of Understanding (<strong>&quot;MOU&quot;</strong>) is entered into
               between{' '}
               <strong>
-                2Exclusive LLC-S, doing business as Elevate for Humanity Technical and Career
+                2Exclusive LLC-S, doing business as {PLATFORM_DEFAULTS.orgName} Technical and Career
                 Institute
               </strong>{' '}
               (<strong>&quot;Sponsor&quot;</strong>), a DOL Registered Apprenticeship Sponsor
@@ -310,7 +311,7 @@ export default async function SignMOUPage() {
 
             <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-600">
               <p>
-                <strong>Sponsor:</strong> 2Exclusive LLC-S (DBA: Elevate for Humanity Technical and
+                <strong>Sponsor:</strong> 2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgName} Technical and
                 Career Institute)
               </p>
               <p className="mt-1">

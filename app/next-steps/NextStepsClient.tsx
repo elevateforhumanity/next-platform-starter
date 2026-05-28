@@ -5,6 +5,7 @@ import React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type Checklist = any;
 
@@ -136,7 +137,7 @@ export default function NextStepsPage({ programs = [] }: { programs?: Program[] 
 
           <ChecklistRow
             checked={!!data.inquiry_submitted}
-            title="Step 1: Submit your Elevate for Humanity Inquiry"
+            title="Step 1: Submit your {PLATFORM_DEFAULTS.orgName} Inquiry"
             note="This tells us your goal and program interest."
             onChange={(v) =>
               patch({
@@ -422,7 +423,7 @@ export default function NextStepsPage({ programs = [] }: { programs?: Program[] 
 
           <ChecklistRow
             checked={!!data.told_advisor_efh}
-            title='Step 4: Tell the advisor: "I&apos;m here for Elevate for Humanity."'
+            title='Step 4: Tell the advisor: "I&apos;m here for {PLATFORM_DEFAULTS.orgName}."'
             note="This connects your appointment to the right training pathway."
             onChange={(v) => patch({ told_advisor_efh: v })}
           />
@@ -546,7 +547,7 @@ export default function NextStepsPage({ programs = [] }: { programs?: Program[] 
                 className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
               >
                 <Phone className="w-4 h-4" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -24,7 +25,7 @@ export async function GET(request: NextRequest) {
   const error         = searchParams.get('error');
   const state         = searchParams.get('state');
 
-  const base    = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const base    = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const adminBase = base.replace('www.', 'admin.');
   const redirect  = (msg: string) =>
     NextResponse.redirect(`${adminBase}/admin/integrations/quickbooks?${msg}`);

@@ -5,9 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
 import { DEMO_HOURS_LOG } from '@/lib/demo/sandbox-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Hours | Learner Demo | Elevate for Humanity',
+  title: 'Hours | Learner Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

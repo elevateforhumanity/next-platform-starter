@@ -20,8 +20,9 @@ import { setAuditContext } from '@/lib/audit-context';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { resolveHvacCourseId, resolveHvacProgramId } from './resolvers';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.elevateforhumanity.org';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || PLATFORM_DEFAULTS.siteUrl;
 
 // Credential steps in order
 export const HVAC_CREDENTIAL_STEPS = [
@@ -63,13 +64,13 @@ function emailWrapper(content: string): string {
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 <tr><td style="background:#1e293b;padding:30px;text-align:center;">
-<h1 style="color:#fff;margin:0;font-size:24px;">Elevate for Humanity</h1>
+<h1 style="color:#fff;margin:0;font-size:24px;">${PLATFORM_DEFAULTS.orgName}</h1>
 <p style="color:#94a3b8;margin:8px 0 0;font-size:14px;">HVAC Technician Training Program</p>
 </td></tr>
 <tr><td style="padding:40px 30px;">${content}</td></tr>
 <tr><td style="padding:20px 30px;background:#f1f5f9;text-align:center;">
-<p style="color:#64748b;font-size:12px;margin:0;">Elevate for Humanity | ETPL #10004322</p>
-<p style="color:#64748b;font-size:12px;margin:4px 0 0;">info@elevateforhumanity.org</p>
+<p style="color:#64748b;font-size:12px;margin:0;">${PLATFORM_DEFAULTS.orgName} | ETPL #10004322</p>
+<p style="color:#64748b;font-size:12px;margin:4px 0 0;">info@${PLATFORM_DEFAULTS.canonicalDomain}</p>
 </td></tr>
 </table></td></tr></table></body></html>`;
 }
@@ -172,7 +173,7 @@ export async function sendEpa608SchedulingEmail(student: StudentInfo) {
     </div>
     <p style="color:#64748b;font-size:14px;line-height:1.6;">
       After passing, upload your EPA 608 certification card in your student portal to receive your
-      Certificate of Completion from Elevate for Humanity.
+      Certificate of Completion from ${PLATFORM_DEFAULTS.orgName}.
     </p>
   `);
 
@@ -200,7 +201,7 @@ export async function sendCompletionCertificateEmail(
     <h2 style="color:#1e293b;margin:0 0 16px;text-align:center;">Program Complete!</h2>
     <p style="color:#334155;font-size:16px;line-height:1.6;text-align:center;">
       ${student.firstName}, congratulations on completing the <strong>HVAC Technician Training Program</strong>
-      at Elevate for Humanity.
+      at ${PLATFORM_DEFAULTS.orgName}.
     </p>
     <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:20px;margin:24px 0;">
       <h3 style="color:#166534;margin:0 0 12px;">Credentials Earned:</h3>

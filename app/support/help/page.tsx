@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { getDb } from '@/lib/lms/api';
 import { Search, ArrowRight, HelpCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Help Center',
@@ -193,7 +194,7 @@ export default async function HelpCenterPage({
               href="/support"
               className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-slate-200 transition"
             >
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

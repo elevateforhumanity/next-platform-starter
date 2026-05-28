@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Platform',
-  description: 'Elevate for Humanity platform features and tools.',
+  description: '{PLATFORM_DEFAULTS.orgName} platform features and tools.',
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, Play, Pause, RotateCcw } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface GuideStep {
   title: string;
@@ -188,7 +189,7 @@ export default function AvatarCourseGuide({
 // Pre-built guide configurations
 export const ORIENTATION_STEPS: GuideStep[] = [
   {
-    title: 'Welcome to Elevate for Humanity!',
+    title: 'Welcome to ${PLATFORM_DEFAULTS.orgName}!',
     script:
       "Hi! I'm so excited you're here. I'm going to walk you through everything you need to know to get started with your training. Let's begin!",
   },

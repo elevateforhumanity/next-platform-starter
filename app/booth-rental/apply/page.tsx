@@ -6,6 +6,7 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Scissors, Sparkles, Flower2, Hand } from 'lucide-react';
 import { BOOTH_RENTAL_TIERS, type BoothRentalDiscipline } from '@/lib/programs/pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const DISCIPLINE_ICONS: Record<BoothRentalDiscipline, React.ReactNode> = {
   barber: <Scissors className="w-5 h-5" />,
@@ -93,7 +94,7 @@ function BoothRentalApplyInner() {
             <h1 className="text-lg font-bold text-slate-900">
               Booth &amp; Suite Rental Application
             </h1>
-            <p className="text-sm text-slate-500">Elevate for Humanity — Indianapolis, IN</p>
+            <p className="text-sm text-slate-500">{PLATFORM_DEFAULTS.orgName} — Indianapolis, IN</p>
           </div>
         </div>
       </div>
@@ -275,7 +276,7 @@ function BoothRentalApplyInner() {
             />
             <span className="text-sm text-slate-600">
               I agree to receive SMS notifications about my rental account, payment reminders, and
-              important notices from Elevate for Humanity. Message and data rates may apply. Reply
+              important notices from {PLATFORM_DEFAULTS.orgName}. Message and data rates may apply. Reply
               STOP to opt out.
             </span>
           </label>

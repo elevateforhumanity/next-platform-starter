@@ -21,6 +21,7 @@ import { logger } from '@/lib/logger';
 import { checkCertificationReadiness } from './readiness';
 import { sendStaffAuthNotification, sendCertificateIssuedEmail } from './emails';
 import type { InitiateResult, CertRequestStatus, CredentialDelivery } from './types';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export { checkCertificationReadiness } from './readiness';
 export type { ReadinessResult, CertificationRequest, InitiateResult } from './types';
@@ -600,7 +601,7 @@ export async function verifyUploadAndIssueCertificate(
     db.from('credential_registry').select('name').eq('id', req.credential_id).maybeSingle(),
   ]);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://${PLATFORM_DEFAULTS.canonicalDomain}';
   const downloadUrl = `${siteUrl}/learner/certifications/${cert.id}/download`;
 
   if (profileRes.data && programRes.data && credRes.data) {

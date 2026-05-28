@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useVideoProgress } from '@/hooks/useVideoProgress';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type VideoShellProps = {
   src: string;
@@ -95,7 +96,7 @@ export function VideoShell({
         <div className="pointer-events-none absolute inset-x-0 top-0 p-4">
           <div className="rounded-2xl     px-4 py-3 max-w-11/12">
             <p className="text-[0.65rem] tracking-[0.2em] text-brand-orange-300 uppercase mb-1">
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </p>
             <h2 className="text-slate-900 font-semibold text-sm sm:text-base leading-tight line-clamp-2">
               {title}

@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
 import { CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type Step = 'intake' | 'review' | 'agreement' | 'confirmation';
 
@@ -357,7 +358,7 @@ export default function HostShopEnrollmentPage() {
               <h2 className="text-xl font-bold mb-4">Host Barbershop Participation Agreement</h2>
               
               <div className="bg-gray-50 rounded-lg p-4 mb-6 max-h-96 overflow-y-auto text-sm text-gray-700 space-y-4">
-                <p className="font-medium">This agreement outlines the responsibilities and expectations for barbershops applying to serve as host locations for apprentices in the Barber Apprenticeship Program administered by Elevate for Humanity.</p>
+                <p className="font-medium">This agreement outlines the responsibilities and expectations for barbershops applying to serve as host locations for apprentices in the Barber Apprenticeship Program administered by {PLATFORM_DEFAULTS.orgName}.</p>
                 
                 <div>
                   <h3 className="font-bold text-gray-900">1. Role of the Host Barbershop</h3>
@@ -366,7 +367,7 @@ export default function HostShopEnrollmentPage() {
                   <ul className="list-disc ml-5 mt-1">
                     <li>Operate independently</li>
                     <li>Retain control over daily shop operations</li>
-                    <li>Are not employees or agents of Elevate for Humanity</li>
+                    <li>Are not employees or agents of {PLATFORM_DEFAULTS.orgName}</li>
                   </ul>
                 </div>
 
@@ -394,8 +395,8 @@ export default function HostShopEnrollmentPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-gray-900">4. Role of Elevate for Humanity</h3>
-                  <p>Elevate for Humanity serves as the program sponsor and administrator, providing:</p>
+                  <h3 className="font-bold text-gray-900">4. Role of {PLATFORM_DEFAULTS.orgName}</h3>
+                  <p>{PLATFORM_DEFAULTS.orgName} serves as the program sponsor and administrator, providing:</p>
                   <ul className="list-disc ml-5 mt-1">
                     <li>Apprenticeship structure</li>
                     <li>Program guidelines</li>

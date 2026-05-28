@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Globe, ExternalLink, RefreshCw, CheckCircle, AlertCircle, Clock } from 'lucide-react';
 import Link from 'next/link';
 import type { SitePreviewTarget } from './types';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   sites: SitePreviewTarget[];
@@ -37,15 +38,15 @@ async function checkSite(url: string): Promise<{ state: SiteStatusState; latency
 // Env-aware URLs — never hardcoded
 const DEFAULT_SITES = [
   {
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org',
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl,
     label: 'Public Site',
   },
   {
-    url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.elevateforhumanity.org',
+    url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}',
     label: 'Admin',
   },
   {
-    url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://lms.elevateforhumanity.org',
+    url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://lms.${PLATFORM_DEFAULTS.canonicalDomain}',
     label: 'LMS',
   },
 ];

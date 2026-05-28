@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   Award,
   DollarSign,
@@ -64,7 +65,7 @@ export default async function EmployersPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/for-employers-page-1.webp"
-          alt="Employer partner meeting with Elevate for Humanity team"
+          alt="Employer partner meeting with {PLATFORM_DEFAULTS.orgName} team"
           fill
           className="object-cover"
           priority

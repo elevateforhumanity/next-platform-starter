@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import CosmetologyHostShopClient from './CosmetologyHostShopClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Host a Cosmetology Apprenticeship | Elevate for Humanity',
+  title: 'Host a Cosmetology Apprenticeship | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Become a host salon for the Indiana Cosmetology Apprenticeship. Apply, complete onboarding, and host apprentices at your salon.',
   alternates: {

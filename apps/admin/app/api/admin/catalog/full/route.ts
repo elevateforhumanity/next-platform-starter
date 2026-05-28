@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function guardAdmin() {
   const supabase = await createClient();
@@ -221,8 +222,8 @@ function generateCatalogHtml(programList: any[]) {
     
     <div class="footer">
       <p><strong>Elevate For Humanity</strong></p>
-      <p>Indianapolis, Indiana | (317) 314-3757</p>
-      <p>www.elevateforhumanity.org</p>
+      <p>Indianapolis, Indiana | ${PLATFORM_DEFAULTS.supportPhone}</p>
+      <p>${PLATFORM_DEFAULTS.canonicalDomain}</p>
       <p style="margin-top: 10px; font-size: 12px;">
         This catalog is for informational purposes. Program details subject to change.
         Contact us for the most current information.

@@ -4,6 +4,7 @@ import { Phone, ExternalLink, MapPin } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Funding & Enrollment | Esthetician Apprenticeship',
@@ -116,11 +117,11 @@ export default function EstheticianEligibilityPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-lg font-medium hover:bg-slate-100 transition"
             >
               <Phone className="w-5 h-5" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a
               href="mailto:elevate4humanityedu@gmail.com"

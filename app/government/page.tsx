@@ -21,6 +21,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import LazyVideo from '@/components/ui/LazyVideo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   },
   title: 'Government & Agency Partners',
   description:
-    'Partner with Elevate for Humanity to deliver workforce development programs. WIOA-compliant, ETPL-approved training provider serving government agencies and workforce boards.',
+    'Partner with {PLATFORM_DEFAULTS.orgName} to deliver workforce development programs. WIOA-compliant, ETPL-approved training provider serving government agencies and workforce boards.',
 };
 
 export default async function GovernmentPage() {
@@ -417,7 +418,7 @@ export default async function GovernmentPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Why Partner With Elevate for Humanity
+              Why Partner With {PLATFORM_DEFAULTS.orgName}
             </h2>
             <p className="text-lg text-black max-w-3xl mx-auto">
               We understand the unique challenges government agencies face in workforce development.
@@ -626,7 +627,7 @@ export default async function GovernmentPage() {
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-brand-blue-600 rounded-lg font-bold hover:bg-white transition-colors"
             >
               <Phone className="w-5 h-5 mr-2" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a
               href="/contact"

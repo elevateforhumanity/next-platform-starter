@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Settings, BookOpen, ShoppingCart, Code, Shield } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Operational Controls | Governance | Elevate for Humanity',
+  title: 'Operational Controls | Governance | {PLATFORM_DEFAULTS.orgName}',
   description:
     'How quality, integrity, and risk controls are enforced across the platform including audits, CI gates, and deployment controls.',
   robots: {

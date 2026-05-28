@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger';
 import { createZoomMeeting } from '@/lib/integrations/zoom';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -118,7 +119,7 @@ async function _POST(request: Request) {
       subject: `Your Elevate Consultation is Confirmed — ${dateFormatted} at ${appointment_time}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
 // IMAGE-CONTRACT: allow raw img because legacy markup
-<img src="https://www.elevateforhumanity.org/logo.jpg" alt="Elevate" width="120" style="margin-bottom:20px"/>
+<img src="${PLATFORM_DEFAULTS.siteUrl}/logo.jpg" alt="Elevate" width="120" style="margin-bottom:20px"/>
 <h2 style="color:#111827">Hi ${name.split(' ')[0]},</h2>
 <p>Your consultation with our enrollment team is confirmed.</p>
 <table style="width:100%;border-collapse:collapse;margin:16px 0">
@@ -136,18 +137,18 @@ ${
 </div>`
     : `<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:16px;margin:16px 0">
 <strong style="color:#92400e">Our team will contact you to confirm meeting details.</strong><br/>
-<span style="color:#78350f;font-size:14px">Questions? Call <strong>(317) 314-3757</strong> or reply to this email.</span>
+<span style="color:#78350f;font-size:14px">Questions? Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.</span>
 </div>`
 }
 <h3 style="color:#111827">Before Your Meeting</h3>
 <ol style="line-height:1.8">
 <li>Register at <a href="https://indianacareerconnect.com" style="color:#dc2626">indianacareerconnect.com</a> if you haven't already</li>
-<li>Browse programs at <a href="https://www.elevateforhumanity.org/programs" style="color:#dc2626">elevateforhumanity.org/programs</a></li>
+<li>Browse programs at <a href="${PLATFORM_DEFAULTS.siteUrl}/programs" style="color:#dc2626">${PLATFORM_DEFAULTS.canonicalDomain}/programs</a></li>
 <li>Have your ID and any prior training records ready</li>
 </ol>
-<p>Need to reschedule? Reply to this email or call <strong>(317) 314-3757</strong>.</p>
+<p>Need to reschedule? Reply to this email or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0"/>
-<p style="color:#6b7280;font-size:12px">Elevate for Humanity &middot; Indianapolis, IN</p>
+<p style="color:#6b7280;font-size:12px">${PLATFORM_DEFAULTS.orgName} &middot; Indianapolis, IN</p>
 </div>`,
     }).catch((err) => {
       logger.error(

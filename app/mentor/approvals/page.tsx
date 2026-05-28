@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { generateMetadata } from '@/lib/seo/metadata';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = generateMetadata({
   title: 'Mentor Approvals',
   description:
-    'Mentor Approvals - Elevate for Humanity workforce training and career development programs in Indianapolis.',
+    'Mentor Approvals - {PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.',
   path: '/mentor/approvals',
 });
 
@@ -79,7 +80,7 @@ async function postJSON<T>(url: string, data: any): Promise<T> {
 
 async function actionServer(action: 'APPROVE' | 'REJECT' | 'LOCK', entry_id: string) {
   'use server';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   await postJSON(`${baseUrl}/api/time/approve`, { action, entry_id });
 }
 
@@ -117,7 +118,7 @@ export default async function MentorApprovalsPage({
   if (to) qs.set('to', to);
 
   // Use absolute URL for server-side fetch
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   let entries: Entry[] = [];
   try {
     const result = await fetchJSON<{ entries: Entry[] }>(

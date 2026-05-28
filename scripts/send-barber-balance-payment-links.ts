@@ -2,6 +2,7 @@
 
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -26,7 +27,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 
 const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2024-04-10' });
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Elevate for Humanity <info@elevateforhumanity.org>';
+const FROM_EMAIL = process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
 function parseFrom(value: string): { email: string; name?: string } {
@@ -136,7 +137,7 @@ async function main() {
   </div>
 
   <p>Please update your payment method and complete any past-due payment to prevent interruption.</p>
-  <p>If you need help, call <a href="tel:3173143757">(317) 314-3757</a>.</p>
+  <p>If you need help, call <a href="tel:3173143757">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
   <p>Elevate for Humanity</p>
 </div>`;
 

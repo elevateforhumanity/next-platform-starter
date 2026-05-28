@@ -8,9 +8,10 @@ import Image from 'next/image';
 import { Play, Shield, GraduationCap, Briefcase, BarChart3, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import DemoTabs from './DemoTabs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Platform Demos | Elevate for Humanity',
+  title: 'Platform Demos | {PLATFORM_DEFAULTS.orgName}',
   description: 'Watch guided video walkthroughs of the Elevate platform — admin dashboard, student portal, and employer tools. No signup required.',
 };
 

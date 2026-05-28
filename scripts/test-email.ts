@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Test Email Delivery
  *
@@ -7,7 +8,7 @@
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL =
-  process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
+  process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>';
 
 async function sendTestEmail(to: string) {
   if (!RESEND_API_KEY) {
@@ -29,7 +30,7 @@ async function sendTestEmail(to: string) {
       body: JSON.stringify({
         from: FROM_EMAIL,
         to,
-        subject: 'Elevate for Humanity - Email Test',
+        subject: '' + PLATFORM_DEFAULTS.orgName + ' - Email Test',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #1e40af;">Email Configuration Test</h1>

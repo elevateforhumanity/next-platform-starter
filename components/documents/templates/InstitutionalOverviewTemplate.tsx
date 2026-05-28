@@ -1,4 +1,5 @@
 import { DocumentPage, DocumentSection } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   date?: string;
@@ -33,7 +34,7 @@ export function InstitutionalOverviewTemplate({
   return (
     <DocumentPage
       documentType="Institutional Overview"
-      title="Elevate for Humanity"
+      title={PLATFORM_DEFAULTS.orgName}
       subtitle="Workforce Development and Career Training"
       date={date}
       version={version}

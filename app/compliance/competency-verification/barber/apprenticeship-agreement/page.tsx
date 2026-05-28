@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Barbering Apprenticeship Agreement',
@@ -44,7 +45,7 @@ export default function ApprenticeshipAgreementPage() {
       <div className="max-w-3xl mx-auto px-4 pb-12 print:px-8 print:pb-0 print:max-w-none">
         {/* Document header */}
         <div className="text-center border-b-2 border-slate-900 pb-6 mb-6 print:pb-4 print:mb-4">
-          <p className="text-xs uppercase tracking-widest text-slate-700 mb-2 print:text-[9px]">Elevate for Humanity Career & Technical Institute</p>
+          <p className="text-xs uppercase tracking-widest text-slate-700 mb-2 print:text-[9px]">{PLATFORM_DEFAULTS.orgName} Career & Technical Institute</p>
           <h2 className="text-2xl font-bold text-slate-900 print:text-xl">BARBERING APPRENTICESHIP AGREEMENT</h2>
           <p className="text-sm text-slate-700 mt-1 print:text-[10px]">Workplace-Based Apprenticeship Program</p>
           <p className="text-xs text-slate-700 mt-1 print:text-[9px]">RAPIDS Registration: 2025-IN-132301 | Occupation: Barber (DOT 330.371-010)</p>
@@ -58,7 +59,7 @@ export default function ApprenticeshipAgreementPage() {
           <div className="space-y-3 text-sm print:text-[10px] print:space-y-2">
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Sponsor / Program Administrator:</span>
-              <span>Elevate for Humanity Career & Technical Institute</span>
+              <span>{PLATFORM_DEFAULTS.orgName} Career & Technical Institute</span>
             </div>
             <div className="grid grid-cols-[200px_1fr] gap-2 print:grid-cols-[160px_1fr]">
               <span className="font-semibold text-slate-900">Apprentice:</span>
@@ -110,7 +111,7 @@ export default function ApprenticeshipAgreementPage() {
               <li>Related Technical Instruction (RTI) delivered by licensed credential partners and supervised curriculum modules through the institutional LMS</li>
               <li>On-the-Job Training (OJT) conducted at an approved licensed barbershop under the direct supervision of a licensed barber</li>
               <li>Competency tracking through the institutional LMS and standardized evaluation rubrics</li>
-              <li>Oversight by Program Holders (RTI Coordinators) and Sponsor (2Exclusive LLC-S, DBA Elevate for Humanity Career & Technical Institute)</li>
+              <li>Oversight by Program Holders (RTI Coordinators) and Sponsor (2Exclusive LLC-S, DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)</li>
             </ul>
           </section>
 
@@ -237,7 +238,7 @@ export default function ApprenticeshipAgreementPage() {
             <h3 className="font-bold text-slate-900 text-base mb-2 print:text-[11px] print:mb-1">9. ROLES AND RESPONSIBILITIES</h3>
             <div className="space-y-3 print:space-y-2">
               {[
-                { role: 'Sponsor (2Exclusive LLC-S, DBA Elevate for Humanity Career & Technical Institute)', duties: 'Program oversight, RAPIDS registration and documentation, LMS tracking, completion verification, credential coordination, funding navigation, career services' },
+                { role: 'Sponsor (2Exclusive LLC-S, DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)', duties: 'Program oversight, RAPIDS registration and documentation, LMS tracking, completion verification, credential coordination, funding navigation, career services' },
                 { role: 'Credential Partner (RTI Provider)', duties: 'Classroom and module-based instruction, academic evaluation, technical competency verification, state board exam preparation, RTI attendance documentation' },
                 { role: 'Employer (Licensed Barbershop)', duties: 'Hands-on workplace training, OJT supervision by licensed barber, monthly performance evaluations, safe training environment, OJT hour logging' },
                 { role: 'Program Holder (RTI Coordinator)', duties: 'RTI scheduling and coordination, progress monitoring, rubric completion enforcement, LMS documentation oversight, evaluation checkpoint management' },
@@ -310,7 +311,7 @@ export default function ApprenticeshipAgreementPage() {
                 { role: 'Licensed Supervisor Barber', fields: ['Print Name', 'Indiana Barber License #', 'Years Licensed', 'Signature', 'Date'] },
                 { role: 'Credential Partner Representative (RTI Provider)', fields: ['Print Name', 'Organization', 'License/Accreditation #', 'Signature', 'Date'] },
                 { role: 'Program Holder (RTI Coordinator)', fields: ['Print Name', 'Title', 'Signature', 'Date'] },
-                { role: 'Sponsor — 2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)', fields: ['Authorized Representative', 'Title', 'Signature', 'Date'] },
+                { role: 'Sponsor — 2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)', fields: ['Authorized Representative', 'Title', 'Signature', 'Date'] },
               ].map((signer, i) => (
                 <div key={i} className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400 print:break-inside-avoid">
                   <p className="font-bold text-slate-900 mb-3 print:text-[11px] print:mb-2">{signer.role}</p>
@@ -328,7 +329,7 @@ export default function ApprenticeshipAgreementPage() {
 
           {/* Document footer */}
           <div className="border-t-2 border-slate-900 pt-4 mt-8 text-center text-xs text-slate-700 print:text-[9px] print:pt-3 print:mt-4">
-            <p>Elevate for Humanity Career & Technical Institute</p>
+            <p>{PLATFORM_DEFAULTS.orgName} Career & Technical Institute</p>
             <p>RAPIDS Registration: 2025-IN-132301 | Indianapolis, Indiana</p>
             <p className="mt-1">This agreement is maintained in the apprentice compliance file and filed with RAPIDS documentation.</p>
           </div>

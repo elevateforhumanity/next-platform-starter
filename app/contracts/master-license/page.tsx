@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Download, Printer, ArrowLeft, Key } from 'lucide-react';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
@@ -44,7 +45,7 @@ export default function MasterLicensePage() {
           <div className="p-8 prose max-w-none">
             <h2>1. Grant of License</h2>
             <p>
-              Elevate for Humanity grants Licensee a non-exclusive, non-transferable license to use
+              {PLATFORM_DEFAULTS.orgName} grants Licensee a non-exclusive, non-transferable license to use
               the Elevate LMS platform and associated curriculum materials.
             </p>
             <h2>2. Scope of License</h2>

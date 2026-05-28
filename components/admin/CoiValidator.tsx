@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Upload,
   FileText,
   CheckCircle,
@@ -84,7 +85,7 @@ export function CoiValidator({
   applicationId,
   expectedBusinessName = '',
   expectedShopAddress = '',
-  expectedCertificateHolder = 'Elevate for Humanity',
+  expectedCertificateHolder = PLATFORM_DEFAULTS.orgName,
   workerRelationship: initialRelationship,
   onResult,
 }: CoiValidatorProps) {
@@ -213,7 +214,7 @@ export function CoiValidator({
                 type="text"
                 value={certHolder}
                 onChange={(e) => setCertHolder(e.target.value)}
-                placeholder="Elevate for Humanity"
+                placeholder={PLATFORM_DEFAULTS.orgName}
                 className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
               />
             </div>
@@ -356,7 +357,7 @@ function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: (
               Request a new COI (ACORD 25 form) from your insurance agent showing: Commercial
               General Liability ($1M per occurrence / $2M aggregate), Professional/Barber Services
               Liability ($1M per claim), active policy dates, your shop as Named Insured, and
-              &quot;Elevate for Humanity&quot; as Certificate Holder. Upload as a digital PDF.
+              &quot;${PLATFORM_DEFAULTS.orgName}&quot; as Certificate Holder. Upload as a digital PDF.
             </p>
           </div>
         </div>

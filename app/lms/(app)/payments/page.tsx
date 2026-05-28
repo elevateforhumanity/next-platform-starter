@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { CreditCard, CheckCircle, Clock, AlertCircle, DollarSign, ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Payments & Billing',
@@ -202,8 +203,8 @@ export default async function PaymentsPage() {
 
       <p className="mt-6 text-xs text-slate-400 text-center">
         Questions about a charge?{' '}
-        <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">
-          Call (317) 314-3757
+        <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">
+          Call {PLATFORM_DEFAULTS.supportPhone}
         </a>{' '}
         or{' '}
         <a href="mailto:info@elevateforhumanity.org" className="text-brand-blue-600 hover:underline">

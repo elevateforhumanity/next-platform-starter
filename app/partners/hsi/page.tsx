@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Health & Safety Institute (HSI) | Short-Term Courses',
@@ -173,7 +174,7 @@ export default function HSIPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Enroll in Health & Safety Institute (HSI) courses through Elevate for Humanity
+            Enroll in Health & Safety Institute (HSI) courses through {PLATFORM_DEFAULTS.orgName}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

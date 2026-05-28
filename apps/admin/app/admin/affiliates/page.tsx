@@ -13,12 +13,13 @@ import {
   MoreVertical,
 } from 'lucide-react';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Affiliate Management | Admin | Elevate for Humanity',
+  title: 'Affiliate Management | Admin | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage affiliate partners and track referral performance',
 };
 

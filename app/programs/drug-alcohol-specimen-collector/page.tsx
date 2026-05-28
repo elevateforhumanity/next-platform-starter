@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Drug & Alcohol Specimen Collector Certification | DOT Training | Indianapolis',
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 const CREDENTIALS = [
   { name: 'DOT Urine Specimen Collector Certification', issuer: 'U.S. Department of Transportation', description: 'Federal certification for collecting urine specimens under DOT-regulated testing programs.' },
   { name: 'DOT Breath Alcohol Technician (BAT)', issuer: 'U.S. Department of Transportation', description: 'Certification to operate evidential breath testing devices for DOT-regulated employers.' },
-  { name: 'Non-DOT Collection Certification', issuer: 'Elevate for Humanity', description: 'Certification for workplace drug testing programs not subject to DOT regulations.' },
+  { name: 'Non-DOT Collection Certification', issuer: PLATFORM_DEFAULTS.orgName, description: 'Certification for workplace drug testing programs not subject to DOT regulations.' },
 ];
 
 const FAQS = [

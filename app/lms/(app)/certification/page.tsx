@@ -15,6 +15,7 @@ import {
 import { getLearnerCredentialLifecycle } from '@/lib/services/credential-pipeline';
 import { getNextAction } from '@/lib/domain/credentials';
 import type { CredentialLifecycleState } from '@/lib/domain/credentials';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'My Credentials | LMS',
@@ -197,7 +198,7 @@ export default async function CertificationPage() {
                             <p className="text-sm font-medium text-slate-800">{action}</p>
                             {isSponsoredPending && (
                               <p className="text-xs text-orange-600 mt-0.5">
-                                Questions? Call (317) 314-3757.
+                                Questions? Call ${PLATFORM_DEFAULTS.supportPhone}.
                               </p>
                             )}
                             {isSponsoredApproved && state === 'payment_approved' && (
@@ -372,10 +373,10 @@ export default async function CertificationPage() {
               Questions about your exam, funding, or credentials?
             </p>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="block text-center bg-brand-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-brand-blue-700 transition"
             >
-              Call (317) 314-3757
+              Call {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

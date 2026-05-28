@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { submitProgramHolderApplication } from '../actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const BUSINESS_OWNER_TYPES = new Set(['business-owner', 'independent-contractor', 'sole-proprietor']);
 
@@ -40,7 +41,7 @@ export default function ProgramHolderForm() {
     try {
       result = await submitProgramHolderApplication(data);
     } catch (err) {
-      setError('Something went wrong submitting your application. Please try again or call (317) 314-3757.');
+      setError('Something went wrong submitting your application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setLoading(false);
       return;
     }
@@ -48,7 +49,7 @@ export default function ProgramHolderForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      setError(result.error || 'Submission failed. Please try again or call (317) 314-3757.');
+      setError(result.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setLoading(false);
     }
   }
@@ -71,7 +72,7 @@ export default function ProgramHolderForm() {
         <h2 className="text-base font-bold text-slate-900 mb-3">Who should apply here?</h2>
         <p className="text-sm text-slate-700 mb-4">
           A <strong>Program Holder</strong> is any business, organization, or individual that hosts
-          apprentices or trainees through Elevate for Humanity. This includes:
+          apprentices or trainees through {PLATFORM_DEFAULTS.orgName}. This includes:
         </p>
         <ul className="space-y-2 mb-4">
           {[

@@ -4,10 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Become a Host Barbershop | Barber Apprenticeship',
-  description: 'Partner with Elevate for Humanity as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.',
+  description: 'Partner with {PLATFORM_DEFAULTS.orgName} as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/host-shops',
   },

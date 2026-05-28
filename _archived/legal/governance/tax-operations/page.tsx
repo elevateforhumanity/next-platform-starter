@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FileText, Download, ChevronRight, Calculator, DollarSign, Shield, AlertTriangle, Users } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Tax Preparation and Refund Advance Operations | Elevate For Humanity',
   description: 'Supersonic Fast Cash tax preparation services, refund advance loans, IRS compliance, and operational procedures.',
@@ -84,7 +85,7 @@ export default async function TaxOperationsPage() {
           </ul>
           
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 Operating Entity</h3>
-          <p className="text-gray-700"><strong>Supersonic Fast Cash</strong> operates as a trade name of 2Exclusive LLC-S (d/b/a Elevate for Humanity), registered in Indiana. Tax preparation services are provided by licensed tax preparers with valid PTINs.</p>
+          <p className="text-gray-700"><strong>Supersonic Fast Cash</strong> operates as a trade name of 2Exclusive LLC-S (d/b/a {PLATFORM_DEFAULTS.orgName}), registered in Indiana. Tax preparation services are provided by licensed tax preparers with valid PTINs.</p>
         </section>
 
         <section id="services" className="mb-12">

@@ -7,6 +7,7 @@ import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -108,13 +109,13 @@ export async function POST(req: Request) {
     // Send welcome email
     try {
       await resend.emails.send({
-        from: process.env.EMAIL_FROM || 'noreply@elevateforhumanity.org',
+        from: process.env.EMAIL_FROM || PLATFORM_DEFAULTS.emailFromAddress,
         to: email,
-        subject: 'Shop Partner Application Received - Elevate for Humanity',
+        subject: 'Shop Partner Application Received - ' + PLATFORM_DEFAULTS.orgName + '',
         text: `
 Hello ${owner_name},
 
-Thank you for applying to become a shop partner with Elevate for Humanity!
+Thank you for applying to become a shop partner with ${PLATFORM_DEFAULTS.orgName}!
 
 We've received your application for ${shop_name} and will review it within 2-3 business days.
 
@@ -126,7 +127,7 @@ What happens next:
 
 If you have any questions, please don't hesitate to reach out.
 
-Welcome to the Elevate for Humanity network!
+Welcome to the ${PLATFORM_DEFAULTS.orgName} network!
 
 — Elevate for Humanity Team
         `,

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Alumni Network',
   description:
-    'Elevate for Humanity alumni network. Career support, continuing education, mentorship, and community for program graduates.',
+    '{PLATFORM_DEFAULTS.orgName} alumni network. Career support, continuing education, mentorship, and community for program graduates.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/alumni' },
 };
 
@@ -25,7 +26,7 @@ export default function AlumniPage() {
         intro: {
           heading: 'Your Career Does Not End at Graduation',
           paragraphs: [
-            'Elevate for Humanity alumni have access to ongoing career services, continuing education discounts, and a growing network of graduates working in healthcare, skilled trades, technology, and business across Indiana.',
+            '{PLATFORM_DEFAULTS.orgName} alumni have access to ongoing career services, continuing education discounts, and a growing network of graduates working in healthcare, skilled trades, technology, and business across Indiana.',
             'Whether you need a credential renewal, a job change, or just a connection to someone in your field — the alumni network is here.',
           ],
           image: '/images/pages/community-page-1.webp',
@@ -54,7 +55,7 @@ export default function AlumniPage() {
         },
         cta: {
           heading: 'Stay in Touch',
-          subtitle: 'Update your contact info, access career services, or explore what\'s next. Call (317) 314-3757.',
+          subtitle: 'Update your contact info, access career services, or explore what\'s next. Call {PLATFORM_DEFAULTS.supportPhone}.',
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'Success Stories',

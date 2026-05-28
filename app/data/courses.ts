@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Course Catalog Data
 // Professional certification courses with Stripe integration
 
@@ -602,7 +603,7 @@ export const COURSES: Course[] = [
     shortDescription: '6-week certification prep course with proctored exam access',
     description:
       'Complete EPA Section 608 Universal certification pathway. 6-week structured prep course covering Core, Type I, Type II, and Type III sections. Study kit provided at no cost. Practice exams included. Proctored on-site through both ESCO Group (Proctor ID: 358010) and Mainstream Engineering.',
-    provider: 'Elevate for Humanity Career & Technical Institute',
+    provider: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 199,
     wholesaleCost: 45,
@@ -632,7 +633,7 @@ export const COURSES: Course[] = [
     shortDescription: 'EPA 608 prep + exam + study kit — full certification pathway',
     description:
       'Everything you need to go from zero to EPA 608 Universal certified. Includes the 6-week certification prep course, study kit, practice exams, and proctored exam through EPA-approved certifying organizations. Designed for students in the Elevate HVAC Technician program or anyone preparing for EPA 608 certification independently.',
-    provider: 'Elevate for Humanity Career & Technical Institute',
+    provider: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 249,
     wholesaleCost: 55,
@@ -667,7 +668,7 @@ export const COURSES: Course[] = [
     shortDescription: 'License the full 640-hour HVAC Technician course for your organization',
     description:
       "License Elevate's complete HVAC Technician course for delivery at your workforce program, community college, or training center. Includes all 16 modules, 94 lessons, interactive diagrams, EPA 608 prep, OSHA 10, and CPR/AED content. Delivered through your branded Elevate LMS instance or integrated into your existing platform via SCORM/xAPI. Includes instructor guide, student workbooks, and assessment banks.",
-    provider: 'Elevate for Humanity Career & Technical Institute',
+    provider: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 4500,
     wholesaleCost: 0,

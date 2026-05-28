@@ -4,9 +4,10 @@
  */
 
 import { sendEmail } from '@/lib/email';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 interface ApplicationData {
   id: string;
@@ -117,8 +118,8 @@ export async function sendApplicationConfirmation(application: ApplicationData) 
                       <strong style="color: #111827;">Questions?</strong> We're here to help!
                     </p>
                     <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                      📞 Call us: <a href="tel:317-314-3757" style="color: #dc2626; text-decoration: none; font-weight: 600;">317-314-3757</a><br>
-                      📧 Email: <a href="mailto:info@elevateforhumanity.org" style="color: #dc2626; text-decoration: none; font-weight: 600;">info@elevateforhumanity.org</a>
+                      📞 Call us: <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #dc2626; text-decoration: none; font-weight: 600;">${PLATFORM_DEFAULTS.supportPhone}</a><br>
+                      📧 Email: <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #dc2626; text-decoration: none; font-weight: 600;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                     </p>
                   </div>
                 </td>
@@ -253,7 +254,7 @@ export async function sendAdminApplicationNotification(application: ApplicationD
   <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;padding:16px 32px;text-align:center;">
     <a href="${SITE_URL}/admin/applications" style="color:#6b7280;font-size:12px;text-decoration:none;">View All Applications</a>
     <span style="color:#d1d5db;margin:0 8px;">|</span>
-    <span style="color:#6b7280;font-size:12px;">Elevate for Humanity Admin</span>
+    <span style="color:#6b7280;font-size:12px;">${PLATFORM_DEFAULTS.orgName} Admin</span>
   </div>
 
 </div>`;
@@ -354,8 +355,8 @@ export async function sendEnrollmentLink(application: ApplicationData, enrollmen
                       <strong style="color: #111827;">Questions?</strong> We're here to help!
                     </p>
                     <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                      📞 <a href="tel:317-314-3757" style="color: #10b981; text-decoration: none; font-weight: 600;">317-314-3757</a><br>
-                      📧 <a href="mailto:info@elevateforhumanity.org" style="color: #10b981; text-decoration: none; font-weight: 600;">info@elevateforhumanity.org</a>
+                      📞 <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #10b981; text-decoration: none; font-weight: 600;">${PLATFORM_DEFAULTS.supportPhone}</a><br>
+                      📧 <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #10b981; text-decoration: none; font-weight: 600;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                     </p>
                   </div>
                 </td>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Professional Email Templates
  * Ready-to-use templates for all email scenarios
@@ -36,11 +37,11 @@ function emailLayout(content: string): string {
 </head>
 <body>
   <div class="container">
-    <div class="header"><h1>Elevate for Humanity</h1></div>
+    <div class="header"><h1>${PLATFORM_DEFAULTS.orgName}</h1></div>
     ${content}
     <div class="footer">
-      <p><strong>Elevate for Humanity</strong></p>
-      <p>Phone: <a href="tel:3173143757">317-314-3757</a> | Email: support@www.elevateforhumanity.org</p>
+      <p><strong>${PLATFORM_DEFAULTS.orgName}</strong></p>
+      <p>Phone: <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> | Email: support@${PLATFORM_DEFAULTS.canonicalDomain}</p>
       <p>© ${new Date().getFullYear()} Elevate for Humanity. All rights reserved.</p>
     </div>
   </div>

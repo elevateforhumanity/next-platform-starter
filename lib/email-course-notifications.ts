@@ -2,9 +2,10 @@
 // Elevate for Humanity Learning Management System
 
 import { sendEmail } from './email';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.elevateforhumanity.org';
-const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@elevateforhumanity.org';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || PLATFORM_DEFAULTS.siteUrl;
+const FROM_EMAIL = process.env.EMAIL_FROM || PLATFORM_DEFAULTS.emailFromAddress;
 
 interface CourseEnrollmentData {
   studentName: string;
@@ -67,7 +68,7 @@ export async function sendCourseEnrollmentEmail(data: CourseEnrollmentData) {
                 <td style="padding: 40px 30px;">
                   <h2 style="margin: 0 0 20px 0; color: #111827; font-size: 24px;">Hi ${studentName},</h2>
                   <p style="margin: 0 0 20px 0; color: #4b5563; font-size: 16px; line-height: 1.6;">
-                    Congratulations! You've successfully enrolled in <strong>${courseName}</strong> at Elevate for Humanity.
+                    Congratulations! You've successfully enrolled in <strong>${courseName}</strong> at ${PLATFORM_DEFAULTS.orgName}.
                   </p>
 
                   <!-- Course Details Box -->
@@ -151,7 +152,7 @@ export async function sendCourseEnrollmentEmail(data: CourseEnrollmentData) {
 
                   <!-- Support Info -->
                   <p style="margin: 30px 0 0 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                    Questions? Contact us at <a href="mailto:info@elevateforhumanity.org" style="color: #E63946;">info@elevateforhumanity.org</a>
+                    Questions? Contact us at <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #E63946;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                   </p>
                 </td>
               </tr>
@@ -163,7 +164,7 @@ export async function sendCourseEnrollmentEmail(data: CourseEnrollmentData) {
                     Innovate. Elevate. Reset.
                   </p>
                   <p style="margin: 0; color: #6b7280; font-size: 12px;">
-                    © ${new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+                    © ${new Date().getFullYear()} ${PLATFORM_DEFAULTS.orgName}. All rights reserved.
                   </p>
                 </td>
               </tr>
@@ -177,7 +178,7 @@ export async function sendCourseEnrollmentEmail(data: CourseEnrollmentData) {
 
   return sendEmail({
     to: studentEmail,
-    subject: `Welcome to ${courseName} - Elevate for Humanity`,
+    subject: `Welcome to ${courseName} - ${PLATFORM_DEFAULTS.orgName}`,
     html,
     from: FROM_EMAIL,
   });
@@ -253,7 +254,7 @@ export async function sendCourseStartReminderEmail(data: CourseEnrollmentData) {
                   </table>
 
                   <p style="margin: 30px 0 0 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                    We're excited to see you in class! Questions? Email <a href="mailto:info@elevateforhumanity.org" style="color: #3b82f6;">info@elevateforhumanity.org</a>
+                    We're excited to see you in class! Questions? Email <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #3b82f6;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
                   </p>
                 </td>
               </tr>
@@ -265,7 +266,7 @@ export async function sendCourseStartReminderEmail(data: CourseEnrollmentData) {
                     Innovate. Elevate. Reset.
                   </p>
                   <p style="margin: 0; color: #6b7280; font-size: 12px;">
-                    © ${new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+                    © ${new Date().getFullYear()} ${PLATFORM_DEFAULTS.orgName}. All rights reserved.
                   </p>
                 </td>
               </tr>
@@ -376,7 +377,7 @@ export async function sendLiveSessionReminderEmail(data: {
               <tr>
                 <td style="padding: 30px; background-color: #f9fafb; text-align: center; border-top: 1px solid #e5e7eb;">
                   <p style="margin: 0; color: #6b7280; font-size: 12px;">
-                    © ${new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+                    © ${new Date().getFullYear()} ${PLATFORM_DEFAULTS.orgName}. All rights reserved.
                   </p>
                 </td>
               </tr>

@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { Loader2, AlertCircle, CheckCircle, ArrowRight, Save } from 'lucide-react';
 import { useApplicationDraft } from '@/hooks/useApplicationDraft';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const WORKERS_COMP_OPTIONS = [
   { value: 'verified', label: "Yes — we carry Workers' Compensation insurance" },
@@ -554,7 +555,7 @@ export default function NailTechnicianSpaApplyPage() {
                   />
                   <span className="text-xs text-slate-700">
                     I understand that approved host sites will be required to sign a Memorandum of
-                    Understanding (MOU) with Elevate for Humanity outlining host site
+                    Understanding (MOU) with {PLATFORM_DEFAULTS.orgName} outlining host site
                     responsibilities, apprentice supervision requirements, and wage obligations.
                   </span>
                 </label>
@@ -566,7 +567,7 @@ export default function NailTechnicianSpaApplyPage() {
                     className="mt-0.5 accent-pink-600 flex-shrink-0"
                   />
                   <span className="text-xs text-slate-700">
-                    I consent to Elevate for Humanity contacting me regarding this application and
+                    I consent to {PLATFORM_DEFAULTS.orgName} contacting me regarding this application and
                     the nail technician apprenticeship program. I confirm the information provided is
                     accurate to the best of my knowledge.
                   </span>
@@ -598,8 +599,8 @@ export default function NailTechnicianSpaApplyPage() {
                   partners@elevateforhumanity.org
                 </a>{' '}
                 or call{' '}
-                <a href="tel:3173143757" className="text-pink-600 hover:underline">
-                  (317) 314-3757
+                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-pink-600 hover:underline">
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>
             </form>

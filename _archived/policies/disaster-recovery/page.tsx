@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Shield, Database, Clock } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Disaster Recovery Policy | Elevate for Humanity',
+  title: 'Disaster Recovery Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Disaster recovery procedures and business continuity practices for the Elevate platform.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/disaster-recovery',
@@ -35,14 +36,14 @@ export default async function DisasterRecoveryPage() {
         <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
         <p className="text-black mb-6">
           This policy describes the disaster recovery procedures and business continuity 
-          practices for the Elevate for Humanity platform. It outlines how we protect data, 
+          practices for the {PLATFORM_DEFAULTS.orgName} platform. It outlines how we protect data, 
           maintain service availability, and recover from potential disruptions.
         </p>
 
         <h2 className="text-2xl font-bold text-black mt-8 mb-4">Scope</h2>
         <p className="text-black mb-6">
           This policy applies to all platform infrastructure, databases, application services, 
-          and associated data managed by Elevate for Humanity.
+          and associated data managed by {PLATFORM_DEFAULTS.orgName}.
         </p>
 
         <h2 className="text-2xl font-bold text-black mt-8 mb-4">Recovery Objectives</h2>
@@ -198,7 +199,7 @@ export default async function DisasterRecoveryPage() {
         </p>
         <ul className="list-none mb-6 text-black space-y-2 p-0">
           <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-          <li><strong>Phone:</strong> (317) 314-3757</li>
+          <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
         </ul>
 
         <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

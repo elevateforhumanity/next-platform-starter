@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const TIME_SLOTS = [
   '9:00 AM',
@@ -107,7 +108,7 @@ export default function ScheduleConsultationPage() {
       if (!res.ok) throw new Error('Failed to book');
       setConfirmed(true);
     } catch {
-      setError('Something went wrong. Please try again or call us at (317) 314-3757.');
+      setError('Something went wrong. Please try again or call us at {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setSubmitting(false);
     }

@@ -8,13 +8,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { MonitoringReport } from '../../scripts/monitor-copycats';
 import { slackAlert, emailAlert, sendAlert } from '../../scripts/monitor-copycats';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 function makeReport(overrides: Partial<MonitoringReport> = {}): MonitoringReport {
   return {
     timestamp: '2024-01-01T00:00:00.000Z',
-    searchTerms: ['"Elevate for Humanity"'],
+    searchTerms: ['"' + PLATFORM_DEFAULTS.orgName + '"'],
     results: [],
     suspiciousCount: 0,
     ...overrides,

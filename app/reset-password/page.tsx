@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
 import { sendRecoveryEmail } from '@/app/forgot-password/actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');
@@ -65,7 +66,7 @@ export default function ResetPasswordPage() {
           <Link href="/">
             <Image
               src="/images/pages/reset-password-page-1.webp"
-              alt="Elevate for Humanity"
+              alt={PLATFORM_DEFAULTS.orgName}
               width={180}
               height={60}
               className="mx-auto mb-6" sizes="(max-width: 768px) 100vw, 50vw"

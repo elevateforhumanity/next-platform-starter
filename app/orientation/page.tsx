@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import OrientationFormClient from './OrientationFormClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation' },
@@ -80,8 +81,8 @@ export default async function OrientationPage() {
           </p>
           <p className="text-slate-500 text-sm">
             Questions? Call{' '}
-            <a href="tel:+13173143757" className="text-brand-blue-600 font-medium hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-medium hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>{' '}
             or visit our{' '}
             <Link href="/contact" className="text-brand-blue-600 font-medium hover:underline">

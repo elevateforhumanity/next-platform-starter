@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { FAQStructuredData, BreadcrumbStructuredData, ServiceStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'Indiana workforce agency referral partner. WorkOne referrals, FSSA IMPACT, ETPL-approved, WIOA-compliant. Outcome tracking and participant support services.',
     url: CANONICAL,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'Agency Referral Workforce Training Indiana' }],
     type: 'website',
   },
@@ -30,12 +31,12 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    question: 'How does a WorkOne office refer participants to Elevate for Humanity?',
+    question: 'How does a WorkOne office refer participants to {PLATFORM_DEFAULTS.orgName}?',
     answer:
-      'WorkOne career advisors issue Individual Training Accounts (ITAs) for ETPL-approved programs. Once an ITA is issued for an Elevate for Humanity program, the participant can enroll. Our admissions team works directly with case managers to coordinate enrollment, documentation, and start dates.',
+      'WorkOne career advisors issue Individual Training Accounts (ITAs) for ETPL-approved programs. Once an ITA is issued for an {PLATFORM_DEFAULTS.orgName} program, the participant can enroll. Our admissions team works directly with case managers to coordinate enrollment, documentation, and start dates.',
   },
   {
-    question: 'What documentation does Elevate for Humanity provide to agencies?',
+    question: 'What documentation does {PLATFORM_DEFAULTS.orgName} provide to agencies?',
     answer:
       'We provide enrollment confirmation, attendance records, progress updates, and completion documentation as required by the applicable program. Specific reporting formats can be coordinated with your agency\'s requirements. Contact our team to discuss your documentation needs.',
   },
@@ -45,12 +46,12 @@ const faqs = [
       'FSSA IMPACT participants are referred by their FSSA case worker for workforce training services. Once referred, our admissions team coordinates with the FSSA case worker and participant to complete enrollment. We support FSSA documentation and reporting requirements.',
   },
   {
-    question: 'Does Elevate for Humanity work with reentry and justice-involved participants?',
+    question: 'Does {PLATFORM_DEFAULTS.orgName} work with reentry and justice-involved participants?',
     answer:
       'Yes. We serve returning citizens and justice-involved individuals who are referred through reentry programs, Justice Reinvestment Initiative (JRI) partners, or other justice-focused workforce agencies. We do not have automatic barriers to enrollment based on justice history — contact us to discuss specific participant situations.',
   },
   {
-    question: 'What participant support services does Elevate for Humanity provide?',
+    question: 'What participant support services does {PLATFORM_DEFAULTS.orgName} provide?',
     answer:
       'We provide academic advising, career counseling, job placement support, and wrap-around referral services where available. Support services complement the training program and are designed to help participants complete training and transition to employment.',
   },
@@ -84,7 +85,7 @@ export default function AgencyReferralWorkforceTrainingIndianaPage() {
           tag: 'WorkOne · FSSA IMPACT · ETPL · WIOA · Indiana',
           heading: 'Agency Referral Workforce Training Partner',
           subtitle:
-            'Elevate for Humanity is an Indiana ETPL-approved, WIOA-compliant workforce training provider accepting referrals from WorkOne offices, FSSA IMPACT case workers, reentry programs, and other workforce agencies across Indiana.',
+            '{PLATFORM_DEFAULTS.orgName} is an Indiana ETPL-approved, WIOA-compliant workforce training provider accepting referrals from WorkOne offices, FSSA IMPACT case workers, reentry programs, and other workforce agencies across Indiana.',
           primaryCta: { label: 'Contact Us', href: '/contact' },
           secondaryCta: { label: 'Learn About Funding', href: '/wioa-funded-training-indiana' },
         }}
@@ -130,7 +131,7 @@ export default function AgencyReferralWorkforceTrainingIndianaPage() {
         funding={{
           heading: 'Funding & Eligibility Process',
           paragraphs: [
-            'Elevate for Humanity is listed on Indiana\'s Eligible Training Provider List (ETPL), which authorizes WorkOne career advisors to issue Individual Training Accounts (ITAs) for our approved programs.',
+            '{PLATFORM_DEFAULTS.orgName} is listed on Indiana\'s Eligible Training Provider List (ETPL), which authorizes WorkOne career advisors to issue Individual Training Accounts (ITAs) for our approved programs.',
             'Agencies refer participants based on their own eligibility criteria. We do not determine funding eligibility — that responsibility stays with your agency. Our role is to deliver high-quality training, maintain attendance and progress records, and support the participant through to credential attainment.',
           ],
           bullets: [
@@ -141,7 +142,7 @@ export default function AgencyReferralWorkforceTrainingIndianaPage() {
             'Self-pay enrollment for non-funded participants',
           ],
           eligibilityNote:
-            'Final funding eligibility and ITA approval are determined by the referring workforce agency or WorkOne office, not by Elevate for Humanity. Participant eligibility must be established before ITA issuance.',
+            'Final funding eligibility and ITA approval are determined by the referring workforce agency or WorkOne office, not by {PLATFORM_DEFAULTS.orgName}. Participant eligibility must be established before ITA issuance.',
         }}
         pathwaysHeading="Programs Available for Agency Referrals"
         pathways={[
@@ -173,7 +174,7 @@ export default function AgencyReferralWorkforceTrainingIndianaPage() {
         employer={{
           heading: 'Employer Connections for Referred Participants',
           paragraphs: [
-            'Agency partners benefit from Elevate for Humanity\'s employer network. We connect program graduates — including agency-referred participants — with Indianapolis and Indiana employers who are actively hiring.',
+            'Agency partners benefit from {PLATFORM_DEFAULTS.orgName}\'s employer network. We connect program graduates — including agency-referred participants — with Indianapolis and Indiana employers who are actively hiring.',
             'Our employer partnerships include OJT wage reimbursement opportunities, which may benefit participants referred through WIOA-funded pathways.',
           ],
           bullets: [
@@ -197,10 +198,10 @@ export default function AgencyReferralWorkforceTrainingIndianaPage() {
           { label: 'Contact Us', href: '/contact' },
         ]}
         complianceNotes={[
-          'Funding eligibility and ITA approval under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by Elevate for Humanity.',
-          'Elevate for Humanity is listed on Indiana\'s Eligible Training Provider List (ETPL). ETPL listing does not guarantee funding for all participants — eligibility must be determined by the referring agency.',
-          'Credentials and certifications are issued by independent third-party certifying bodies, not by Elevate for Humanity.',
-          'Elevate for Humanity is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
+          'Funding eligibility and ITA approval under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by {PLATFORM_DEFAULTS.orgName}.',
+          '{PLATFORM_DEFAULTS.orgName} is listed on Indiana\'s Eligible Training Provider List (ETPL). ETPL listing does not guarantee funding for all participants — eligibility must be determined by the referring agency.',
+          'Credentials and certifications are issued by independent third-party certifying bodies, not by {PLATFORM_DEFAULTS.orgName}.',
+          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
           'Employment and credential outcomes are not guaranteed. Results depend on individual participant performance and local market conditions.',
           'Content reviewed 2026. Program availability subject to change.',
         ]}

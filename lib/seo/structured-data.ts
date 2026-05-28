@@ -1,11 +1,12 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Structured Data (JSON-LD) for SEO
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOrganization',
-  name: 'Elevate for Humanity',
+  name: PLATFORM_DEFAULTS.orgName,
   alternateName: 'Elevate For Humanity Career & Technical Institute',
-  url: 'https://www.elevateforhumanity.org',
+  url: PLATFORM_DEFAULTS.siteUrl,
   logo: 'https://www.elevateforhumanity.org/images/logo.png',
   description:
     'Free career training in healthcare, skilled trades, and business. Get trained, get hired, get paid. No cost, no debt.',
@@ -31,8 +32,8 @@ export const organizationSchema = {
 export const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Elevate for Humanity',
-  url: 'https://www.elevateforhumanity.org',
+  name: PLATFORM_DEFAULTS.orgName,
+  url: PLATFORM_DEFAULTS.siteUrl,
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://www.elevateforhumanity.org/search?q={search_term_string}',
@@ -53,7 +54,7 @@ export const courseSchema = (course: {
   provider: {
     '@type': 'Organization',
     name: course.provider,
-    sameAs: 'https://www.elevateforhumanity.org',
+    sameAs: PLATFORM_DEFAULTS.siteUrl,
   },
   url: course.url,
   hasCourseInstance: {
@@ -108,7 +109,7 @@ export const eventSchema = (event: {
   url: event.url,
   organizer: {
     '@type': 'Organization',
-    name: 'Elevate for Humanity',
-    url: 'https://www.elevateforhumanity.org',
+    name: PLATFORM_DEFAULTS.orgName,
+    url: PLATFORM_DEFAULTS.siteUrl,
   },
 });

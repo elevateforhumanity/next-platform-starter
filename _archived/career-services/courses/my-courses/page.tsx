@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { Play, Clock, Lock, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'My Courses | Elevate for Humanity',
+  title: 'My Courses | {PLATFORM_DEFAULTS.orgName}',
   description: 'Access your purchased career courses.',
 };
 

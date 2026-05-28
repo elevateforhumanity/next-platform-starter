@@ -9,6 +9,7 @@ import {
   Loader2, AlertCircle, ArrowLeft,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // MOU content sections for display
 // IMPORTANT: This is a USDOL Registered Apprenticeship worksite agreement.
@@ -19,9 +20,9 @@ import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader'
 const MOU_SECTIONS = [
   {
     title: '1. Parties and Purpose',
-    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Sponsor") and the barbershop identified at execution ("Worksite Partner" or "Shop").
+    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute ("Sponsor") and the barbershop identified at execution ("Worksite Partner" or "Shop").
 
-This MOU establishes the terms under which the Shop will serve as a worksite for the Indiana Barbershop Apprenticeship Program, RAPIDS Program ID: 2025-IN-132301, a USDOL Registered Apprenticeship sponsored by Elevate for Humanity.
+This MOU establishes the terms under which the Shop will serve as a worksite for the Indiana Barbershop Apprenticeship Program, RAPIDS Program ID: 2025-IN-132301, a USDOL Registered Apprenticeship sponsored by ${PLATFORM_DEFAULTS.orgName}.
 
 WHAT THIS AGREEMENT IS: This is a worksite hosting agreement for a federally registered apprenticeship program. The Shop is hosting an apprentice employee and providing on-the-job training under federal Department of Labor oversight.
 
@@ -42,7 +43,7 @@ The Sponsor maintains sole authority over: RTI curriculum and delivery; competen
   },
   {
     title: '3. Sponsor Responsibilities',
-    content: `Elevate for Humanity agrees to:
+    content: `${PLATFORM_DEFAULTS.orgName} agrees to:
 
 • Maintain USDOL/RAPIDS registration and all required federal reporting
 • Develop, deliver, and update all Related Technical Instruction (RTI)
@@ -117,7 +118,7 @@ The Shop may not disclose apprentice PII (name, contact information, wage inform
 
 The Shop also receives access to Elevate's operational procedures, program materials, and business information through this collaboration. This information is confidential. The Shop may not disclose or use Elevate's confidential information for any purpose other than fulfilling its obligations under this MOU.
 
-A full Non-Disclosure Agreement is available at elevateforhumanity.org/legal/nda and is incorporated by reference into this MOU.`,
+A full Non-Disclosure Agreement is available at ${PLATFORM_DEFAULTS.canonicalDomain}/legal/nda and is incorporated by reference into this MOU.`,
   },
   {
     title: '8. Non-Compete and Non-Replication',
@@ -130,13 +131,13 @@ During the term of this MOU and for three (3) years following termination, the S
 
 These restrictions do not prevent the Shop from: operating as a barbershop, employing licensed barbers, hiring apprentices through other registered programs, or participating in training programs that are not substantially similar to the Elevate apprenticeship model.
 
-A full Non-Compete Agreement is available at elevateforhumanity.org/legal/non-compete and is incorporated by reference into this MOU.`,
+A full Non-Compete Agreement is available at ${PLATFORM_DEFAULTS.canonicalDomain}/legal/non-compete and is incorporated by reference into this MOU.`,
   },
   {
     title: '9. Partner Handbook — Required Reading',
     content: `The Worksite Partner Handbook is incorporated by reference into this MOU and forms part of this agreement. The Handbook details the day-to-day responsibilities, compensation requirements, hour tracking procedures, prohibited practices, and communication expectations that govern the worksite relationship.
 
-By signing this MOU, the Shop confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: elevateforhumanity.org/partners/barbershop-apprenticeship/handbook
+By signing this MOU, the Shop confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: ${PLATFORM_DEFAULTS.canonicalDomain}/partners/barbershop-apprenticeship/handbook
 
 Failure to comply with the standards set out in the Handbook constitutes a breach of this MOU and may result in immediate termination of the partnership and notification to USDOL.`,
   },
@@ -451,7 +452,7 @@ export default function SignMOUPage() {
               noDivider
             />
             <div className="text-sm text-black border-t border-slate-200 pt-4 mt-2">
-              <p><strong>Between:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute (&ldquo;Sponsor&rdquo;)</p>
+              <p><strong>Between:</strong> 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute (&ldquo;Sponsor&rdquo;)</p>
               <p><strong>And:</strong> Your barbershop (&ldquo;Shop&rdquo;)</p>
             </div>
           </div>
@@ -580,9 +581,9 @@ export default function SignMOUPage() {
               </div>
               <p className="text-xs text-black"><strong>Name:</strong> Elizabeth Greene</p>
               <p className="text-xs text-black"><strong>Title:</strong> Founder &amp; CEO</p>
-              <p className="text-xs text-black"><strong>Organization:</strong> 2Exclusive LLC-S DBA Elevate for Humanity Technical and Career Institute</p>
+              <p className="text-xs text-black"><strong>Organization:</strong> 2Exclusive LLC-S DBA ${PLATFORM_DEFAULTS.orgLegalName}</p>
               <p className="text-xs text-black"><strong>Date:</strong> {new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
-              <div className="mt-3 bg-brand-green-50 border border-brand-green-200 rounded px-3 py-1.5 text-xs text-brand-green-700 font-semibold text-center">✓ Signed by Elevate for Humanity</div>
+              <div className="mt-3 bg-brand-green-50 border border-brand-green-200 rounded px-3 py-1.5 text-xs text-brand-green-700 font-semibold text-center">✓ Signed by ${PLATFORM_DEFAULTS.orgName}</div>
             </div>
             {/* Employer — needs to sign */}
             <div className="border-2 border-dashed border-red-300 rounded-lg p-4 bg-red-50">

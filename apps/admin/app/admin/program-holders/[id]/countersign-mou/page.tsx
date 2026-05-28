@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { FileSignature, CheckCircle, XCircle, ArrowLeft, ExternalLink } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -219,7 +220,7 @@ export default async function CountersignMouPage({ params, searchParams }: Props
             <div className="flex items-center gap-2 text-green-700 bg-green-50 rounded-lg p-4">
               <CheckCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm font-medium">
-                MOU has already been countersigned by Elevate for Humanity.
+                MOU has already been countersigned by {PLATFORM_DEFAULTS.orgName}.
               </p>
             </div>
           ) : !holder.mou_signed ? (
@@ -230,7 +231,7 @@ export default async function CountersignMouPage({ params, searchParams }: Props
           ) : (
             <>
               <p className="text-sm text-slate-600 mb-4">
-                By clicking below, you confirm that Elevate for Humanity countersigns this MOU on
+                By clicking below, you confirm that {PLATFORM_DEFAULTS.orgName} countersigns this MOU on
                 behalf of the organization. This action is recorded and cannot be undone.
               </p>
               <form action={countersignMou}>

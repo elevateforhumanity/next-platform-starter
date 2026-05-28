@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -22,7 +23,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 const FROM_EMAIL =
   process.env.EMAIL_FROM ||
   process.env.MAIL_FROM ||
-  'Elevate for Humanity <info@elevateforhumanity.org>';
+  '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
 
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
@@ -121,7 +122,7 @@ async function main() {
     </ol>
   </div>
   ${paymentBlocked ? `<div style="border:1px solid #fecaca;background:#fef2f2;color:#991b1b;border-radius:8px;padding:16px;margin:16px 0"><strong>Payment issue detected.</strong><br/>Update payment now to avoid portal lockout: <a href="${billingUrl}">${billingUrl}</a></div>` : ''}
-  <p>If you need help, call <a href="tel:3173143757">(317) 314-3757</a> and we will complete this with you live.</p>
+  <p>If you need help, call <a href="tel:3173143757">" + PLATFORM_DEFAULTS.supportPhone + "</a> and we will complete this with you live.</p>
   <p style="margin-bottom:0">Elevate for Humanity</p>
 </div>`;
 

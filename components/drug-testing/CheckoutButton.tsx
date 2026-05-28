@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CheckoutButtonProps {
   productName: string;
@@ -44,12 +45,12 @@ export default function CheckoutButton({
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('Error creating checkout session. Please try again or call (317) 314-3757.');
+        alert('Error creating checkout session. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         setLoading(false);
       }
     } catch (error) {
       /* Error handled silently */
-      alert('Error creating checkout session. Please try again or call (317) 314-3757.');
+      alert('Error creating checkout session. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setLoading(false);
     }
   };

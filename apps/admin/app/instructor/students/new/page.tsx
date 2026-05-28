@@ -5,11 +5,12 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { enrollStudentAction } from './actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Add Student | Elevate for Humanity',
+  title: 'Add Student | {PLATFORM_DEFAULTS.orgName}',
   description: 'Enroll a new student in your course.',
 };
 

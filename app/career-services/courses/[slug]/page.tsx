@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { CourseDetailClient } from './CourseDetailClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,7 +42,7 @@ export async function generateMetadata({
   if (!course) return { title: 'Course Not Found' };
 
   return {
-    title: `${course.title} | Elevate for Humanity`,
+    title: `${course.title} | ${PLATFORM_DEFAULTS.orgName}`,
     description: course.description,
   };
 }

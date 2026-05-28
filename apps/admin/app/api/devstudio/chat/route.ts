@@ -660,6 +660,7 @@ function buildTemplate(args: Record<string, unknown>): string {
       filename: fileName,
       code: `import Link from 'next/link';
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -667,7 +668,7 @@ export const maxDuration = 60;
 
 
 export const metadata: Metadata = {
-  title: '${pageTitle} | Elevate for Humanity',
+  title: '${pageTitle} | ${PLATFORM_DEFAULTS.orgName}',
   description: '${pageTitle} for ${audience}.',
 };
 

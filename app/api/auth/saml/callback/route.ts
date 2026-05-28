@@ -18,6 +18,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'auth');
   if (rateLimited) return rateLimited;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const loginUrl = `${siteUrl}/login`;
 
   if (process.env.SAML_ENABLED !== 'true') {

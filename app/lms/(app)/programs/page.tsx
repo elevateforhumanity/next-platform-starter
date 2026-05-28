@@ -5,6 +5,7 @@ import { buildLoginRedirect } from '@/lib/lms/redirect';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, Award, BookOpen, ChevronRight, DollarSign } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Programs',
@@ -54,7 +55,7 @@ export default async function LmsProgramsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
               <Image sizes="100vw"
                 src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-                alt="Elevate for Humanity"
+                alt={PLATFORM_DEFAULTS.orgName}
                 width={120}
                 height={32}
                 className="h-8 w-auto" placeholder="empty"

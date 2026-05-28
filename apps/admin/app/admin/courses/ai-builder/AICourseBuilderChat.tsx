@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Program {
   id: string;
@@ -54,7 +55,7 @@ interface GeneratedCourse {
 
 type Stage = 'chat' | 'review' | 'saving' | 'saved';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
 const STARTER_PROMPTS = [
   'Build a cosmetology / esthetics course for Indiana state board exam prep',

@@ -6,6 +6,7 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { createClient } from '@/lib/supabase/client';
 import { Calendar, Building2, Award, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface EnrollmentData {
   id: string;
@@ -186,7 +187,7 @@ function EnrollmentConfirmedContent() {
               <div>
                 <p className="text-sm text-slate-700">Sponsor</p>
                 <p className="font-semibold text-slate-900">
-                  Elevate for Humanity (USDOL Registered)
+                  {PLATFORM_DEFAULTS.orgName} (USDOL Registered)
                 </p>
               </div>
             </div>

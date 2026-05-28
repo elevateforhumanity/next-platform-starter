@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { CheckCircle, CreditCard, Loader2 } from 'lucide-react';
 import { PAYMENT_LINKS } from '@/lib/stripe/price-map';
 import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type FundingType = 'wioa' | 'self_pay' | 'employer' | 'unsure';
 
@@ -117,7 +118,7 @@ export default function PeerRecoveryApplyPage() {
         `/programs/peer-recovery-specialist/apply/success${data.id ? `?id=${data.id}` : ''}`,
       );
     } catch {
-      setError('Unexpected error. Please call 317-314-3757.');
+      setError('Unexpected error. Please call ${PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setLoading(false);
     }

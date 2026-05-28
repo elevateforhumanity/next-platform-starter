@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { DollarSign, ExternalLink, Phone, MapPin, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface FundingInfoBlockProps {
   programName: string;
@@ -48,7 +49,7 @@ export default function FundingInfoBlock({
             </li>
             <li className="flex items-start gap-2">
               <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
-              <span>Search for &quot;Elevate for Humanity&quot; under training providers</span>
+              <span>Search for &quot;{PLATFORM_DEFAULTS.orgName}&quot; under training providers</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="bg-brand-green-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
@@ -72,11 +73,11 @@ export default function FundingInfoBlock({
             Indiana Career Connect
           </a>
           <a
-            href="tel:3173143757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
             className="inline-flex items-center gap-2 bg-white border border-brand-green-300 text-brand-green-800 text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-green-50 transition"
           >
             <Phone className="w-4 h-4" />
-            Call Us: (317) 314-3757
+            Call Us: {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </div>
       </div>

@@ -2,12 +2,13 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createAdminClient } from '@/lib/supabase/admin';
 import SiteStatsClient from './SiteStatsClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: `Site Stats | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
+  title: `Site Stats | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? PLATFORM_DEFAULTS.orgName}`,
   description: 'Edit public-facing site statistics shown on the homepage and program pages.',
   robots: { index: false, follow: false },
 };

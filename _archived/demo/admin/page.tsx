@@ -5,10 +5,11 @@ import { Metadata } from 'next';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
 import InteractiveDemoPlayer from '@/components/demo/InteractiveDemoPlayer';
 import { ADMIN_SCENES } from '@/lib/demo/scenes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
 export const metadata: Metadata = {
-  title: 'Admin Portal Demo | Elevate for Humanity',
+  title: 'Admin Portal Demo | {PLATFORM_DEFAULTS.orgName}',
   description: 'Interactive walkthrough of the Elevate admin portal — enrollment, WIOA compliance, funding, and outcomes.',
   robots: { index: false, follow: false },
 };

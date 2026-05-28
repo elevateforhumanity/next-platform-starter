@@ -18,6 +18,7 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   type FundingSource,
   type FundingDecision,
   type CredentialLifecycleState,
@@ -513,7 +514,7 @@ export async function issueCompletionCertificate(
   courseName: string,
   programName: string,
   hoursCompleted: number,
-  issuedBy: string = 'Elevate for Humanity',
+  issuedBy: string = PLATFORM_DEFAULTS.orgName,
 ): Promise<{ ok: boolean; certificateId?: string; error?: string }> {
   const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };

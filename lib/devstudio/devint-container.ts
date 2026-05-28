@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * AI Studio DevInt Container
  *
@@ -6,7 +7,7 @@
  */
 export const AI_STUDIO_DEVINT_CONTAINER = {
   platform: {
-    name: 'Elevate for Humanity',
+    name: PLATFORM_DEFAULTS.orgName,
     domains: [
       'LMS',
       'Workforce Development',
@@ -20,7 +21,7 @@ export const AI_STUDIO_DEVINT_CONTAINER = {
       'AI Operations',
     ],
     environments: {
-      production: 'https://www.elevateforhumanity.org',
+      production: PLATFORM_DEFAULTS.siteUrl,
       admin: 'https://admin.elevateforhumanity.org',
       local: process.env.NEXT_PUBLIC_SITE_URL || '',
     },

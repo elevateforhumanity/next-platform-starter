@@ -16,6 +16,7 @@ import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -24,7 +25,7 @@ export const runtime = 'nodejs';
 export const metadata: Metadata = {
   title: 'Admin Portal - Manage Programs & Operations',
   description:
-    'Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for Elevate for Humanity.',
+    'Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for {PLATFORM_DEFAULTS.orgName}.',
   keywords: [
     'admin portal',
     'program management',
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
   manifest: '/admin/manifest.webmanifest',
   openGraph: {
-    title: 'Admin Portal | Elevate for Humanity',
+    title: 'Admin Portal | {PLATFORM_DEFAULTS.orgName}',
     description: 'Manage programs, students, certificates, and workforce development operations.',
     images: ['/images/pages/comp-home-highlight-health.jpg'],
     type: 'website',

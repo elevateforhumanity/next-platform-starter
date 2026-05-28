@@ -17,6 +17,7 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -82,7 +83,7 @@ function buildInstruction(
   switch (mode) {
     case 'elevate_onsite':
       return (
-        `Your ${credentialName} exam is proctored at Elevate for Humanity. ` +
+        `Your ${credentialName} exam is proctored at ${PLATFORM_DEFAULTS.orgName}. ` +
         `Staff will contact you to schedule your exam date.`
       );
     case 'external_url':
@@ -148,11 +149,11 @@ export async function resolveSchedulingRoute(
       credentialId,
       credentialName: data.name,
       abbreviation: data.abbreviation,
-      providerName: 'Elevate for Humanity',
+      providerName: PLATFORM_DEFAULTS.orgName,
       providerType: 'elevate',
       mode: 'manual',
       schedulingUrl: null,
-      contactEmail: 'info@elevateforhumanity.org',
+      contactEmail: 'info@${PLATFORM_DEFAULTS.canonicalDomain}',
       instruction: `Contact Elevate staff to schedule your ${data.name} exam.`,
     };
   }

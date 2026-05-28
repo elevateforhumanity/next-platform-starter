@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkOneChecklist from '@/components/workone/WorkOneChecklist';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Complete WorkOne Intake',
@@ -49,7 +50,7 @@ const WORKONE_STEPS = [
     icon: <Calendar className="w-5 h-5 text-brand-blue-600" />,
     title: 'Complete your WorkOne intake appointment',
     description:
-      'Tell the WorkOne counselor you are enrolling in training with Elevate for Humanity and need a WIOA or Workforce Ready Grant eligibility determination. Bring a photo ID and proof of income.',
+      'Tell the WorkOne counselor you are enrolling in training with {PLATFORM_DEFAULTS.orgName} and need a WIOA or Workforce Ready Grant eligibility determination. Bring a photo ID and proof of income.',
     link: null,
     linkLabel: null,
     external: false,
@@ -68,8 +69,8 @@ const WORKONE_STEPS = [
     title: 'Contact Elevate to confirm and activate your enrollment',
     description:
       'Once you have your WorkOne approval, call or email us. We will update your application and activate your enrollment immediately.',
-    link: 'tel:3173143757',
-    linkLabel: 'Call (317) 314-3757',
+    link: 'tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}',
+    linkLabel: 'Call {PLATFORM_DEFAULTS.supportPhone}',
     external: false,
   },
 ];
@@ -79,7 +80,7 @@ const BRING_LIST = [
   'Proof of Indiana residency (utility bill, lease, or bank statement)',
   'Proof of income or unemployment (pay stubs, tax return, or termination letter)',
   'Social Security card or number',
-  'Your Elevate for Humanity program name and reference number',
+  'Your {PLATFORM_DEFAULTS.orgName} program name and reference number',
 ];
 
 export default function PendingWorkOnePage({
@@ -212,11 +213,11 @@ export default function PendingWorkOnePage({
           </h3>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="flex items-center gap-2 text-brand-blue-600 hover:underline text-sm font-medium"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </Link>
             <Link
               href="mailto:elevate4humanityedu@gmail.com"

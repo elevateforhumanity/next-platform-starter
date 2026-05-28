@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export type DocumentCategory =
   | 'dol-strategy'
   | 'wioa-wrg-jri'
@@ -119,7 +120,7 @@ export const documents: Document[] = [
   {
     id: 'doc-wrg-overview',
     category: 'wioa-wrg-jri',
-    title: 'WRG Employer Overview – Elevate for Humanity',
+    title: 'WRG Employer Overview – ' + PLATFORM_DEFAULTS.orgName + '',
     description: '1-page overview of how Workforce Ready Grant works with Elevate programs.',
     url: '/docs/funding/wrg-employer-overview.pdf',
     tags: ['WRG', 'Employer'],

@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'SNAP E&T Partner',
   description:
-    'Elevate for Humanity SNAP Employment & Training partner information for agencies and case managers.',
+    '{PLATFORM_DEFAULTS.orgName} SNAP Employment & Training partner information for agencies and case managers.',
   robots: { index: false, follow: false },
 };
 
@@ -18,7 +19,7 @@ export default function SnapEtPage() {
           </p>
           <h1 className="text-4xl font-extrabold mb-4">SNAP E&T Program Information</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            Elevate for Humanity participates in Indiana SNAP Employment & Training pathways and
+            {PLATFORM_DEFAULTS.orgName} participates in Indiana SNAP Employment & Training pathways and
             provides credential-focused workforce training and placement support.
           </p>
         </div>

@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { CheckCircle, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // FSSA DFR Third Party Provider (TPP) Questionnaire
 // Sections mirror the actual Indiana FSSA SNAP E&T TPP application
@@ -88,7 +89,7 @@ type SurveyData = {
 };
 
 const INITIAL: SurveyData = {
-  org_name: '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)',
+  org_name: '2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgLegalName})',
   org_type: 'nonprofit',
   ein: '',
   uei: 'VX2GK5S8SZH8',
@@ -99,7 +100,7 @@ const INITIAL: SurveyData = {
   contact_name: 'Elizabeth Greene',
   contact_title: 'Founder & Chief Executive Officer',
   contact_email: 'elevate4humanityedu@gmail.com',
-  contact_phone: '(317) 314-3757',
+  contact_phone: PLATFORM_DEFAULTS.supportPhone,
   program_name: 'SNAP E&T Workforce Credential Program',
   program_type: 'vocational_training',
   delivery_mode: 'hybrid',

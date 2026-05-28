@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, Building2, Shield, Scale, FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Governance Contact | Elevate for Humanity',
+  title: 'Governance Contact | {PLATFORM_DEFAULTS.orgName}',
   description: 'Contact information for governance, compliance, and diligence inquiries.',
   robots: {
     index: false,

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 const TEAMS_WEBHOOK_URL = process.env.TEAMS_WEBHOOK_URL;
 const SENDGRID_KEY = process.env.SENDGRID_KEY;
@@ -33,7 +34,7 @@ export async function notifySendgrid(subject: string, text: string) {
     },
     body: JSON.stringify({
       personalizations: [{ to: [{ email: ALERT_EMAIL_TO }] }],
-      from: { email: SENDGRID_FROM, name: 'Elevate for Humanity Alerts' },
+      from: { email: SENDGRID_FROM, name: '${PLATFORM_DEFAULTS.orgName} Alerts' },
       subject,
       content: [{ type: 'text/plain', value: text }],
     }),

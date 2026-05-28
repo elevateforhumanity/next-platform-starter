@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { generateMetadata } from '@/lib/seo/metadata';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = generateMetadata({
   title: 'Mentor Approvals',
-  description: 'Mentor Approvals - Elevate for Humanity workforce training and career development programs in Indianapolis.',
+  description: 'Mentor Approvals - {PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.',
   path: '/mentor/approvals',
 });
 

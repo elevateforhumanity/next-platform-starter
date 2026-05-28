@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface SMSTemplate {
   id: string;
@@ -141,7 +142,7 @@ export function SMSNotificationSystem() {
                         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                       >,
                     ) => setPhoneNumber(e.target.value)}
-                    placeholder="+1 (317) 314-3757"
+                    placeholder="+1 {PLATFORM_DEFAULTS.supportPhone}"
                     className="w-full px-4 py-2 border rounded-lg"
                   />
                 </div>

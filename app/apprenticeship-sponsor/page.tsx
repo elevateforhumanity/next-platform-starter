@@ -16,11 +16,12 @@ import {
 } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Registered Apprenticeship Sponsor',
   description:
-    'Elevate for Humanity Career & Technical Institute is a USDOL Registered Apprenticeship Sponsor providing RTI, apprenticeship governance, and coordination with licensed employer training sites.',
+    '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute is a USDOL Registered Apprenticeship Sponsor providing RTI, apprenticeship governance, and coordination with licensed employer training sites.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/apprenticeship-sponsor' },
 };
 
@@ -69,7 +70,7 @@ export default function ApprenticeshipSponsorPage() {
               <h2 className="text-2xl font-bold">Sponsor of Record</h2>
             </div>
             <p className="text-slate-600 text-lg leading-relaxed mb-6">
-              Elevate for Humanity Career &amp; Technical Institute, a program of 2Exclusive LLC-S,
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute, a program of 2Exclusive LLC-S,
               operates as a centralized workforce development and Registered Apprenticeship sponsor
               organization. The institute provides related technical instruction (RTI),
               apprenticeship sponsorship, workforce-funded career pathway enrollment, and
@@ -88,7 +89,7 @@ export default function ApprenticeshipSponsorPage() {
                   DBA
                 </dt>
                 <dd className="text-white font-medium mt-1">
-                  Elevate for Humanity Career &amp; Technical Institute
+                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
                 </dd>
               </div>
               <div>
@@ -171,7 +172,7 @@ export default function ApprenticeshipSponsorPage() {
                 Related Technical Instruction (RTI)
               </h3>
               <p className="text-brand-red-800 text-sm leading-relaxed">
-                Delivered by Elevate for Humanity Career &amp; Technical Institute through
+                Delivered by {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute through
                 structured curriculum, LMS-based coursework, and supervised instructional modules.
                 RTI covers theory, safety, regulatory knowledge, and technical competencies.
               </p>
@@ -277,7 +278,7 @@ export default function ApprenticeshipSponsorPage() {
               </span>
               <div>
                 <p className="font-bold">
-                  Elevate for Humanity Career &amp; Technical Institute — Training Division
+                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute — Training Division
                 </p>
                 <p className="text-white text-sm">
                   RTI delivery, curriculum, LMS, workforce enrollment

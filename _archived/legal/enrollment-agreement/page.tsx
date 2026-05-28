@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Enrollment Agreement | Elevate for Humanity',
+  title: 'Enrollment Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -16,19 +17,19 @@ export default function EnrollmentAgreementPage() {
       <DocumentPage
         documentType="Enrollment Agreement"
         title="Student Enrollment Agreement"
-        subtitle="Elevate for Humanity Career & Technical Institute"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
         date="2025-01-01"
         version="1.0"
       >
         <DocumentSection heading="Parties" number={1}>
           <p>
-            This Enrollment Agreement is entered into between <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong> ("Elevate"), located at 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240, and the student identified during enrollment ("Student").
+            This Enrollment Agreement is entered into between <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong> ("Elevate"), located at 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240, and the student identified during enrollment ("Student").
           </p>
         </DocumentSection>
 
         <DocumentSection heading="Program of Enrollment" number={2}>
           <p>
-            The Student is enrolling in a career training program offered by Elevate for Humanity. The specific program, start date, schedule, and total hours are confirmed at the time of enrollment and reflected in the Student's enrollment record.
+            The Student is enrolling in a career training program offered by {PLATFORM_DEFAULTS.orgName}. The specific program, start date, schedule, and total hours are confirmed at the time of enrollment and reflected in the Student's enrollment record.
           </p>
         </DocumentSection>
 
@@ -62,7 +63,7 @@ export default function EnrollmentAgreementPage() {
 
         <DocumentSection heading="Credentials and Certification" number={6}>
           <p>
-            Upon successful completion of the program and all required assessments, the Student will receive an Elevate for Humanity completion certificate. Industry certifications (EPA 608, CompTIA, PTCB, etc.) are issued by their respective certifying bodies upon passing the applicable exam. Elevate does not guarantee exam passage.
+            Upon successful completion of the program and all required assessments, the Student will receive an {PLATFORM_DEFAULTS.orgName} completion certificate. Industry certifications (EPA 608, CompTIA, PTCB, etc.) are issued by their respective certifying bodies upon passing the applicable exam. Elevate does not guarantee exam passage.
           </p>
         </DocumentSection>
 
@@ -101,9 +102,9 @@ export default function EnrollmentAgreementPage() {
 
         <DocumentSection heading="Contact" number={12}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

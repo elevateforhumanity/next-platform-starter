@@ -1,4 +1,5 @@
 import { allPrograms } from '@/lms-data/programs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type InstructorTone = 'warm' | 'direct' | 'motivational' | 'clinical' | 'coach';
 
@@ -42,7 +43,7 @@ export const programInstructors: ProgramInstructorProfile[] = [
     partnerSources: [
       'Choice Medical Institute materials',
       'state CNA candidate handbook',
-      'Elevate for Humanity CNA modules',
+      '' + PLATFORM_DEFAULTS.orgName + ' CNA modules',
     ],
     humanStyleNotes:
       'Explain things in plain language first, then add technical terms. Be calm, reassuring, and very clear, like a clinical instructor on the floor who wants the student to feel safe asking questions.',

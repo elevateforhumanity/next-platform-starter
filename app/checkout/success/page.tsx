@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 function SuccessContent({ searchParams }: { searchParams: { session_id?: string } }) {
@@ -22,7 +23,7 @@ function SuccessContent({ searchParams }: { searchParams: { session_id?: string 
           <h1 className="text-3xl font-bold text-black mb-4">Payment Successful!</h1>
 
           <p className="text-lg text-black mb-8">
-            Thank you for choosing Elevate for Humanity. Your platform license is being activated.
+            Thank you for choosing {PLATFORM_DEFAULTS.orgName}. Your platform license is being activated.
           </p>
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mb-8 text-left">
@@ -83,7 +84,7 @@ function SuccessContent({ searchParams }: { searchParams: { session_id?: string 
               </a>{' '}
               or call{' '}
               <a href="/support" className="text-brand-blue-600 hover:underline">
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
           </div>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // lib/notifySlack.ts
 // Slack notifications utility for critical errors and events
 
@@ -100,7 +101,7 @@ export async function notifyTeams(
     title: `${severity.toUpperCase()}: ${message}`,
     sections: [
       {
-        activityTitle: 'Elevate for Humanity',
+        activityTitle: PLATFORM_DEFAULTS.orgName,
         activitySubtitle: new Date().toISOString(),
         facts: opts?.context
           ? Object.entries(opts.context).map(([key, value]: any) => ({

@@ -18,8 +18,9 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 const LOGO_URL = `${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
 
 export const runtime = 'nodejs';
@@ -75,12 +76,12 @@ export async function POST(request: NextRequest) {
 
     await sendEmail({
       to: email,
-      subject: 'Your sign-in link — Elevate for Humanity',
+      subject: 'Your sign-in link — ${PLATFORM_DEFAULTS.orgName}',
       html: `
         <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">
           <div style="text-align:center;padding:32px 24px 24px">
             // IMAGE-CONTRACT: allow raw img because legacy markup
-            <img src="${LOGO_URL}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />
+            <img src="${LOGO_URL}" alt={PLATFORM_DEFAULTS.orgName} width="160" style="max-width:160px;height:auto" />
           </div>
           <div style="padding:0 32px 32px">
             <h2 style="font-weight:normal;font-size:22px;margin:0 0 20px">Your sign-in link</h2>
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
             </div>
             <p style="font-size:13px;color:#888;line-height:1.7">
               If you did not request this link, you can ignore this email.
-              Questions? Call <a href="tel:3173143757" style="color:#888">(317) 314-3757</a>.
+              Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#888">${PLATFORM_DEFAULTS.supportPhone}</a>.
             </p>
           </div>
         </div>`,

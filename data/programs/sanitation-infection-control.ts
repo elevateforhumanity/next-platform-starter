@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const SANITATION: ProgramSchema = {
   slug: 'sanitation-infection-control',
@@ -25,7 +26,7 @@ export const SANITATION: ProgramSchema = {
   credentials: [
     {
       name: 'Infection Control Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description:
         'Covers standard precautions, PPE, and disinfection protocols for healthcare and personal services.',
       validity: '2 years',

@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Clock, CheckCircle, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'CNA Waitlist',
-  description: 'Join the waitlist for the Certified Nursing Assistant program at Elevate for Humanity. Limited seats available. WIOA and WRG funding accepted.',
+  description: 'Join the waitlist for the Certified Nursing Assistant program at {PLATFORM_DEFAULTS.orgName}. Limited seats available. WIOA and WRG funding accepted.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/cna-waitlist' },
 };
 
@@ -53,7 +54,7 @@ export default function CnaWaitlistPage() {
             Apply Now <ArrowRight className="w-4 h-4" />
           </Link>
           <div className="mt-4 text-sm text-slate-500">
-            Questions? <Link href="/contact" className="text-brand-blue-600 hover:underline">Contact us</Link> or call <a href="tel:+13173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>.
+            Questions? <Link href="/contact" className="text-brand-blue-600 hover:underline">Contact us</Link> or call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </div>
         </div>
       </section>

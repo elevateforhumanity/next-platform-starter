@@ -4,6 +4,7 @@ import type Stripe from 'stripe';
 import { getStripe, stripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -84,7 +85,7 @@ async function _POST(request: Request) {
             // Send receipt email
             await supabase.from('email_queue').insert({
               to_email: donation.donor_email,
-              from_email: 'noreply@elevateforhumanity.org',
+              from_email: PLATFORM_DEFAULTS.emailFromAddress,
               subject: 'Thank you for your donation - Receipt',
               template_name: 'donation_receipt',
               template_data: {

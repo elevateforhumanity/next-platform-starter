@@ -4,11 +4,12 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Disclosures | Elevate for Humanity',
+  title: 'Disclosures | {PLATFORM_DEFAULTS.orgName}',
   description:
-    'Important disclosures and disclaimers for users of the Elevate for Humanity platform.',
+    'Important disclosures and disclaimers for users of the {PLATFORM_DEFAULTS.orgName} platform.',
 };
 
 
@@ -79,7 +80,7 @@ const SECTIONS = [
     title: 'What We Are',
     content: (
       <p className="text-slate-700 text-sm leading-relaxed">
-        Elevate for Humanity is a <strong>workforce development institute</strong> and <strong>DOL Registered Apprenticeship Sponsor</strong> providing funded career training to people facing barriers to employment. We deliver instruction, coordinate employer-based hands-on training, and connect participants with workforce funding. We are not a traditional campus-based institution.
+        {PLATFORM_DEFAULTS.orgName} is a <strong>workforce development institute</strong> and <strong>DOL Registered Apprenticeship Sponsor</strong> providing funded career training to people facing barriers to employment. We deliver instruction, coordinate employer-based hands-on training, and connect participants with workforce funding. We are not a traditional campus-based institution.
       </p>
     ),
   },
@@ -195,7 +196,7 @@ const SECTIONS = [
     title: 'No Partnership',
     content: (
       <p className="text-slate-700 text-sm leading-relaxed">
-        Using this platform does not make you a partner, affiliate, representative, or agent of Elevate for Humanity. You are a customer licensing software. Nothing more.
+        Using this platform does not make you a partner, affiliate, representative, or agent of {PLATFORM_DEFAULTS.orgName}. You are a customer licensing software. Nothing more.
       </p>
     ),
   },
@@ -238,7 +239,7 @@ export default async function DisclosuresPage() {
       <section className="py-8 px-4 border-b border-slate-100">
         <div className="max-w-4xl mx-auto">
           <p className="text-slate-600 text-sm leading-relaxed max-w-2xl">
-            These disclosures clarify what the Elevate for Humanity platform is and is not. Please read carefully before using the platform or purchasing a license.
+            These disclosures clarify what the {PLATFORM_DEFAULTS.orgName} platform is and is not. Please read carefully before using the platform or purchasing a license.
           </p>
         </div>
       </section>
@@ -265,7 +266,7 @@ export default async function DisclosuresPage() {
             <span className="w-6 h-6 rounded-full bg-brand-blue-600 inline-block flex-shrink-0 shrink-0 mt-0.5" aria-hidden="true" />
             <h2 className="text-xl font-bold text-slate-900">Acknowledgment</h2>
           </div>
-          <p className="text-slate-600 text-sm mb-5">By using the Elevate for Humanity platform, you acknowledge that:</p>
+          <p className="text-slate-600 text-sm mb-5">By using the {PLATFORM_DEFAULTS.orgName} platform, you acknowledge that:</p>
           <ul className="space-y-3 mb-8">
             {ACKNOWLEDGMENT_LIST.map((item) => (
               <li key={item} className="flex items-start gap-3 text-sm text-slate-700">

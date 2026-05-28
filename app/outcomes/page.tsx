@@ -3,9 +3,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { BarChart3, Users, Briefcase, Award, TrendingUp, AlertCircle, Calendar, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Outcomes & Reporting Standards | Elevate for Humanity',
+  title: 'Outcomes & Reporting Standards | {PLATFORM_DEFAULTS.orgName}',
   description: 'How we measure and report student outcomes, job placement rates, and program effectiveness.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/outcomes' },
 };
@@ -85,7 +86,7 @@ export default async function OutcomesPage() {
         <div className="max-w-4xl mx-auto flex items-start gap-4">
           <Award aria-label="award" className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
           <p className="text-slate-700 text-sm leading-relaxed">
-            Elevate for Humanity is committed to honest, verifiable reporting of student outcomes. Every metric on this page maps to a specific database source or survey instrument. See our{' '}
+            {PLATFORM_DEFAULTS.orgName} is committed to honest, verifiable reporting of student outcomes. Every metric on this page maps to a specific database source or survey instrument. See our{' '}
             <Link href="/impact/methodology" className="text-brand-blue-600 underline font-medium">Impact Methodology</Link>{' '}
             for exact definitions and formulas.
           </p>

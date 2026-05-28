@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Animated HTML slide templates for institutional-quality training videos.
  * 1920x1080 with large readable text, timed bullet reveals, and
@@ -39,7 +40,7 @@ function base(): string {
 }
 
 function hdr(): string {
-  return `<div class="hdr"><span>Elevate for Humanity <span class="a">|</span> HVAC Technician Training</span></div>`;
+  return `<div class="hdr"><span>" + PLATFORM_DEFAULTS.orgName + " <span class="a">|</span> HVAC Technician Training</span></div>`;
 }
 
 // ─── TITLE SLIDE ────────────────────────────────────────────────

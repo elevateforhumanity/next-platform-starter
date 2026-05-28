@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,7 @@ export default async function AcknowledgeHandbookPage() {
     conduct_policy_ack: true,
     safety_policy_ack: true,
     grievance_policy_ack: true,
-    acknowledgment_statement: 'I have read and understand the Elevate for Humanity Employee Handbook.',
+    acknowledgment_statement: 'I have read and understand the {PLATFORM_DEFAULTS.orgName} Employee Handbook.',
     is_immutable: false,
   }, { onConflict: 'user_id' });
 

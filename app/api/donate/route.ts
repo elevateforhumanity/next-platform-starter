@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // PUBLIC ROUTE: donation endpoint — no auth required, rate-limited
 export const dynamic = 'force-dynamic';
@@ -40,13 +41,13 @@ export async function POST(req: NextRequest) {
   }
 
 
-  const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+  const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl);
   const amountCents = Math.round(amount * 100);
 
   const metadata: Record<string, string> = {
     type: 'donation',
     organization: 'Sit Selfish Inc',
-    partner: 'Elevate for Humanity',
+    partner: PLATFORM_DEFAULTS.orgName,
     ...(donor_name && { donor_name }),
     ...(donor_email && { donor_email }),
     ...(dedication && { dedication }),
@@ -64,7 +65,7 @@ export async function POST(req: NextRequest) {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: 'Monthly Donation — Sit Selfish Inc / Elevate for Humanity',
+                name: 'Monthly Donation — Sit Selfish Inc / ' + PLATFORM_DEFAULTS.orgName + '',
                 description:
                   'Your monthly gift funds workforce training, credentials, and career placement for underserved communities.',
                 images: [`${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`],
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: 'Donation — Sit Selfish Inc / Elevate for Humanity',
+                name: 'Donation — Sit Selfish Inc / ${PLATFORM_DEFAULTS.orgName}',
                 description:
                   'Your gift funds workforce training, credentials, and career placement for underserved communities.',
                 images: [`${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`],

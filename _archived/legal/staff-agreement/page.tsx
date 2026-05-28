@@ -3,10 +3,11 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
 export const metadata: Metadata = {
-  title: 'Staff Agreement | Elevate for Humanity',
+  title: 'Staff Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -24,14 +25,14 @@ export default async function StaffAgreementPage() {
       <DocumentPage
         documentType="Staff Agreement"
         title="Staff & Contractor Agreement"
-        subtitle="Elevate for Humanity Career & Technical Institute"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
         date="2025-01-01"
         version="1.0"
         confidential
       >
         <DocumentSection heading="Parties" number={1}>
           <p>
-            This Staff Agreement is entered into between <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong> ("Elevate") and the staff member or contractor identified at the time of execution ("Staff Member").
+            This Staff Agreement is entered into between <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong> ("Elevate") and the staff member or contractor identified at the time of execution ("Staff Member").
           </p>
         </DocumentSection>
 
@@ -75,14 +76,14 @@ export default async function StaffAgreementPage() {
             <li>Maintain professional boundaries with students at all times</li>
             <li>Do not engage in personal relationships with current students</li>
             <li>Report any student safety concerns, abuse, or misconduct immediately</li>
-            <li>Represent Elevate for Humanity professionally in all public and partner interactions</li>
+            <li>Represent {PLATFORM_DEFAULTS.orgName} professionally in all public and partner interactions</li>
             <li>Comply with all applicable federal, state, and local laws in the performance of duties</li>
           </ul>
         </DocumentSection>
 
         <DocumentSection heading="Intellectual Property" number={7}>
           <p>
-            All curriculum, software, documentation, and other work product created by the Staff Member in the course of their duties is the sole property of Elevate for Humanity. The Staff Member assigns all rights, title, and interest in such work product to Elevate.
+            All curriculum, software, documentation, and other work product created by the Staff Member in the course of their duties is the sole property of {PLATFORM_DEFAULTS.orgName}. The Staff Member assigns all rights, title, and interest in such work product to Elevate.
           </p>
         </DocumentSection>
 
@@ -106,9 +107,9 @@ export default async function StaffAgreementPage() {
 
         <DocumentSection heading="Contact" number={11}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

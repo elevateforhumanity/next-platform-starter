@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const BOOKKEEPING: ProgramSchema = {
   slug: 'bookkeeping',
@@ -41,7 +42,7 @@ export const BOOKKEEPING: ProgramSchema = {
     },
     {
       name: 'Bookkeeping Fundamentals Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description: 'Institutional certificate verifying double-entry bookkeeping competency.',
       validity: 'Lifetime',
     },

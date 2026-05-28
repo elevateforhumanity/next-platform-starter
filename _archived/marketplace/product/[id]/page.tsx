@@ -4,7 +4,7 @@ import { generateMetadata } from '@/lib/seo/metadata';
 
 export const metadata: Metadata = generateMetadata({
   title: 'Marketplace Product',
-  description: 'Digital products and resources from Elevate for Humanity creators.',
+  description: 'Digital products and resources from {PLATFORM_DEFAULTS.orgName} creators.',
   path: '/marketplace',
 });
 
@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import ProductCheckoutButton from './ProductCheckoutButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export default async function ProductPage({

@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Policies',
-  description: 'Academic, enrollment, refund, conduct, and privacy policies for Elevate for Humanity programs.',
+  description: 'Academic, enrollment, refund, conduct, and privacy policies for {PLATFORM_DEFAULTS.orgName} programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies' },
 };
 
@@ -32,7 +33,7 @@ export default function PoliciesPage() {
       </div>
       <section className="bg-slate-900 text-white py-14 px-4 text-center">
         <h1 className="text-4xl font-black mb-3">Policies</h1>
-        <p className="text-slate-300 max-w-xl mx-auto">Academic, enrollment, conduct, and privacy policies governing Elevate for Humanity programs.</p>
+        <p className="text-slate-300 max-w-xl mx-auto">Academic, enrollment, conduct, and privacy policies governing {PLATFORM_DEFAULTS.orgName} programs.</p>
       </section>
       <section className="max-w-3xl mx-auto px-4 py-12">
         <div className="divide-y divide-slate-200 border border-slate-200 rounded-xl overflow-hidden">

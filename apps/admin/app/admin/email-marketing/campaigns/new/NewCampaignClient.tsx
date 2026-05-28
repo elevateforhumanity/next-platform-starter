@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 
 import { ArrowLeft, Send, Save, Eye, Users, Calendar, Mail } from 'lucide-react';
 import { emailTemplates, type EmailTemplateKey } from '@/lib/email-templates';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function NewCampaignPage() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function NewCampaignPage() {
   const [campaign, setCampaign] = useState({
     name: '',
     subject: '',
-    fromName: 'Elevate for Humanity',
+    fromName: PLATFORM_DEFAULTS.orgName,
     fromEmail: 'info@elevateforhumanity.org',
     replyTo: 'info@elevateforhumanity.org',
     template: '' as EmailTemplateKey | '',
@@ -234,7 +235,7 @@ export default function NewCampaignPage() {
                           HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                         >,
                       ) => setCampaign({ ...campaign, subject: e.target.value })}
-                      placeholder="e.g., Welcome to Elevate for Humanity!"
+                      placeholder="e.g., Welcome to ${PLATFORM_DEFAULTS.orgName}!"
                       className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                     <p className="mt-1 text-sm text-black">

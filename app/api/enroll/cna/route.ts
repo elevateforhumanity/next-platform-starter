@@ -6,6 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { requireDbWrite, success, failure } from '@/lib/api/safe-handler';
 import { checkFailureInjection } from '@/lib/api/failure-injection';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -85,7 +86,7 @@ async function _POST(request: NextRequest) {
         })
         .select()
         .maybeSingle(),
-      'Failed to create enrollment record. Please try again or call (317) 314-3757.',
+      'Failed to create enrollment record. Please try again or call ' + PLATFORM_DEFAULTS.supportPhone + '.',
     );
 
     return success({ enrollmentId: enrollment.id });

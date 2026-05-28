@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface VideoHeroBannerProps {
   videoSrc?: string;
@@ -18,7 +19,7 @@ export default function VideoHeroBanner({
   videoSrc = '/videos/hero-home.mp4',
   withAudio = false,
   voiceoverSrc,
-  headline = 'Elevate for Humanity',
+  headline = PLATFORM_DEFAULTS.orgName,
   subheadline = 'Free, Funded Workforce Training',
   primaryCTA = { text: 'Apply Now', href: '/apply' },
   secondaryCTA = { text: 'See Details', href: '/programs' },

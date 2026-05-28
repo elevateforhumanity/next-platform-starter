@@ -5,6 +5,7 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Clock, MapPin, ArrowRight, Circle } from 'lucide-react';
 import { CERTIPORT_EXAMS } from '@/lib/partners/certiport';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function SuccessContent() {
   const searchParams = useSafeSearchParams();
@@ -61,7 +62,7 @@ function SuccessContent() {
               <MapPin className="w-4 h-4" /> Testing Center
             </h3>
             <p className="text-brand-blue-800 text-sm">
-              Elevate for Humanity Career & Technical Institute
+              {PLATFORM_DEFAULTS.orgName} Career & Technical Institute
               <br />
               8888 Keystone Crossing, Suite 1300
               <br />

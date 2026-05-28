@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AuthorityStrip, CredentialPipeline } from '@/components/InstitutionalAuthority';
 import CohortWaitlist from '@/components/programs/CohortWaitlist';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CurriculumModule {
   week: string;
@@ -83,7 +84,7 @@ export default function TradesProgramPage({ data }: { data: TradesProgramData })
         />
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
-            Elevate for Humanity
+            {PLATFORM_DEFAULTS.orgName}
           </span>
         </div>
       </section>

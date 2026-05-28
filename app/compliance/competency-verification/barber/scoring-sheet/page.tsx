@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { BARBER_SECTIONS, BARBER_STATS } from '../barber-rubric-data';
 import { PrintButton } from '../PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Barber Apprenticeship Scoring Sheet',
@@ -35,7 +36,7 @@ export default function BarberScoringSheetPage() {
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Barber Apprenticeship — Competency Scoring Sheet</h1>
-            <p className="text-[10px] text-slate-700">Elevate for Humanity | RAPIDS ID: 2025-IN-132301 | Occupation: Barber (330.371-010)</p>
+            <p className="text-[10px] text-slate-700">{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301 | Occupation: Barber (330.371-010)</p>
           </div>
           <div className="text-right text-[10px] text-slate-700">
             <p>Total: 2,000 hours (144 RTI + 1,500 OJT)</p>
@@ -131,7 +132,7 @@ export default function BarberScoringSheetPage() {
               { role: 'RTI Instructor (Credential Partner)', scope: 'Sections 1–3, 5 — Technical & theoretical competencies' },
               { role: 'Employer Barbershop Supervisor', scope: 'Sections 4–6 — OJT performance & workplace readiness' },
               { role: 'Program Holder (RTI Coordinator)', scope: 'Rubric completion verification & LMS documentation' },
-              { role: 'Elevate for Humanity (Sponsor)', scope: 'Final completion validation & apprenticeship documentation' },
+              { role: '{PLATFORM_DEFAULTS.orgName} (Sponsor)', scope: 'Final completion validation & apprenticeship documentation' },
             ].map((signer, i) => (
               <div key={i} className="border rounded-lg p-4 print:p-2 print:border-slate-400">
                 <p className="font-semibold text-sm print:text-[10px]">{signer.role}</p>

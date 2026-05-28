@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Generate a unique verification code for a certificate
@@ -22,7 +23,7 @@ export function generateVerificationCode(): string {
  * Get the verification URL for a certificate
  */
 export function getVerificationUrl(code: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   return `${baseUrl}/verify/${code}`;
 }
 

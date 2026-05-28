@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const HOSPITALITY: ProgramSchema = {
   slug: 'hospitality',
@@ -27,7 +28,7 @@ export const HOSPITALITY: ProgramSchema = {
   credentials: [
     {
       name: 'Hospitality & Customer Service Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description:
         'Covers front desk operations, guest relations, food service, and event coordination.',
       validity: 'Lifetime',
@@ -182,7 +183,7 @@ export const HOSPITALITY: ProgramSchema = {
     {
       training: 'Hospitality & Customer Service (8 weeks)',
       certification: 'Hospitality Certificate + ServSafe',
-      certBody: 'Elevate for Humanity / NRA',
+      certBody: '' + PLATFORM_DEFAULTS.orgName + ' / NRA',
       jobRole: 'Front Desk Agent / Guest Services',
     },
   ],

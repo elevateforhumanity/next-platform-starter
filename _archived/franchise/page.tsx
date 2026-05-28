@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   DollarSign,
   TrendingUp,
   Users,
@@ -17,7 +18,7 @@ import {
 
 export const metadata: Metadata = {
   title:
-    'Franchise Opportunities | Start Your Own Training Center | Elevate for Humanity',
+    'Franchise Opportunities | Start Your Own Training Center | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Own your own workforce development training center. Full turnkey franchise with DOL approval, curriculum, marketing, and support. Low startup cost. High profit potential. Serving communities nationwide.',
   keywords: [
@@ -83,7 +84,7 @@ export default function FranchisePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Why Franchise With Elevate for Humanity?
+              Why Franchise With {PLATFORM_DEFAULTS.orgName}?
             </h2>
             <p className="text-xl text-black">
               Proven business model with government funding and high demand

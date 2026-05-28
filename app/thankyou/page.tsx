@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { ArrowRight, Phone, Mail, Calendar } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -117,7 +118,7 @@ export default async function ThankyouPage() {
               <Phone className="w-8 h-8 text-brand-blue-600" />
               <div>
                 <div className="font-semibold">Contact Us</div>
-                <div className="text-slate-700">(317) 314-3757</div>
+                <div className="text-slate-700">{PLATFORM_DEFAULTS.supportPhone}</div>
               </div>
             </a>
             <a

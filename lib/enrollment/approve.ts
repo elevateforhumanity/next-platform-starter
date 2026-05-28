@@ -16,6 +16,7 @@ import type { SupabaseClient } from '@/lib/supabase';
 import { attachPartnerRouting } from '@/lib/enrollment/partner-routing';
 import { resolveCourseId } from '@/lib/course-builder/schema';
 import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface ApproveApplicationInput {
   applicationId: string;
@@ -177,7 +178,7 @@ export async function approveApplication(
 
       // Generate a one-time recovery link so the student sets their own password.
       // Never email the tempPassword — it is only used as the initial auth credential.
-      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').trim();
+      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl).trim();
       const { data: linkData, error: linkError } = await db.auth.admin.generateLink({
         type: 'recovery',
         email,

@@ -2,6 +2,7 @@
 
 import { Printer, ClipboardCheck } from 'lucide-react';
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /* Checksheet Data */
 
@@ -430,7 +431,7 @@ function PrintableChecksheet({ sheet }: { sheet: Checksheet }) {
         <div className="flex justify-between items-start">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-black">
-              Elevate for Humanity — HVAC Technician Training Program
+              {PLATFORM_DEFAULTS.orgName} — HVAC Technician Training Program
             </p>
             <h2 className="text-xl font-bold text-slate-900 mt-1">
               Performance Checksheet: {sheet.title}

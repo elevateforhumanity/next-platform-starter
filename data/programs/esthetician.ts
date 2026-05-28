@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const ESTHETICIAN: ProgramSchema = {
   slug: 'esthetician',
@@ -29,7 +30,7 @@ export const ESTHETICIAN: ProgramSchema = {
   credentials: [
     {
       name: 'Esthetician & Client Services Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description:
         'Non-licensure certificate of completion for the 5-week Professional Esthetician & Client Services program. Recognized by employers for entry-level spa and salon roles.',
       validity: 'Lifetime',
@@ -42,7 +43,7 @@ export const ESTHETICIAN: ProgramSchema = {
     },
     {
       name: 'Bloodborne Pathogens & Infection Control Certificate',
-      issuer: 'Elevate for Humanity',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
       description:
         'Infection control and bloodborne pathogens training required for personal services professionals in Indiana.',
       validity: '1 year',

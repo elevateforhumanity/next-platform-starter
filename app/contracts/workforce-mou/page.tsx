@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 import { DocumentPage, DocumentSection } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function WorkforceMOUPage() {
   return (
@@ -40,13 +41,13 @@ export default function WorkforceMOUPage() {
 
         <DocumentSection heading="Purpose" number={1}>
           <p>
-            This Memorandum of Understanding establishes a partnership between Elevate for Humanity
+            This Memorandum of Understanding establishes a partnership between {PLATFORM_DEFAULTS.orgName}
             and the Workforce Development Board for the delivery of WIOA-funded training services.
           </p>
         </DocumentSection>
 
         <DocumentSection heading="Elevate Responsibilities" number={2}>
-          <p>Elevate for Humanity agrees to:</p>
+          <p>{PLATFORM_DEFAULTS.orgName} agrees to:</p>
           <ul>
             <li>Maintain ETPL-approved training programs</li>
             <li>Provide instruction meeting state standards</li>

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Elevate for Humanity',
+  title: 'Privacy Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'How we collect, use, protect, and share your personal information and educational records.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/privacy',
@@ -21,7 +22,7 @@ export default function PrivacyPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Introduction</h2>
             <p className="text-black mb-6">
-              Elevate for Humanity ("we," "us," "our") is committed to protecting your privacy. This Privacy Policy 
+              {PLATFORM_DEFAULTS.orgName} ("we," "us," "our") is committed to protecting your privacy. This Privacy Policy 
               explains how we collect, use, disclose, and safeguard your information when you use our website, 
               learning management system, and services. We comply with FERPA, GDPR, CCPA, and other applicable 
               privacy laws.
@@ -231,8 +232,8 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Privacy Officer:</strong> privacy@www.elevateforhumanity.org</li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Mail:</strong> Privacy Officer, Elevate for Humanity</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
+              <li><strong>Mail:</strong> Privacy Officer, {PLATFORM_DEFAULTS.orgName}</li>
               <li className="ml-6">123 Main Street</li>
               <li className="ml-6">Indianapolis, IN 46204</li>
             </ul>

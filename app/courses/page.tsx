@@ -5,11 +5,12 @@ import { Clock, Award, ExternalLink, ChevronRight, BookOpen } from 'lucide-react
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { PayNowButton } from '@/components/programs/PayNowButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Short Courses | Elevate for Humanity',
+  title: 'Short Courses | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Short-term, industry-recognized courses in CPR/First Aid, food safety, retail skills, and more. Enroll online — most complete in 4–8 hours.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/courses' },

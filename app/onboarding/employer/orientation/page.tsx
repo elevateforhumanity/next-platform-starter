@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   ArrowRight,
   Briefcase,
@@ -183,10 +184,10 @@ export default async function EmployerOrientationPage() {
               <div>
                 <p className="text-xs text-slate-500">Phone</p>
                 <a
-                  href="tel:3173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="text-sm font-semibold text-brand-blue-600 hover:underline"
                 >
-                  317-314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>

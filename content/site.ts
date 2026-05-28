@@ -1,9 +1,10 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const siteConfig = {
-  name: 'Elevate for Humanity',
+  name: '' + PLATFORM_DEFAULTS.orgName + '',
   url: 'https://www.elevateforhumanity.org',
   description: 'Career training, workforce pathways, and community-centered education programs.',
   learnUrl: 'https://www.elevateforhumanity.org',
-  phone: '(317) 314-3757',
+  phone: '' + PLATFORM_DEFAULTS.supportPhone + '',
   email: 'info@elevateforhumanity.org',
   address: 'Indianapolis, IN',
   hours: 'Mon–Fri 8am–6pm, Sat 9am–1pm EST',

@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Dr. Carlina Wilkes | Our Team | Elevate for Humanity',
-  description: 'Dr. Carlina Wilkes — Executive Director of Financial Operations & Organizational Compliance at Elevate for Humanity Career & Technical Institute.',
+  title: 'Dr. Carlina Wilkes | Our Team | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Dr. Carlina Wilkes — Executive Director of Financial Operations & Organizational Compliance at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -40,7 +41,7 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Dr. Carlina Wilkes</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Executive Director of Financial Operations & Organizational Compliance</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Dr. Wilkes brings over 24 years of federal experience with the Defense Finance and Accounting Service (DFAS), holding DoD Financial Management Certification Level II. She oversees financial operations and compliance at Elevate for Humanity.</p>
+                <p>Dr. Wilkes brings over 24 years of federal experience with the Defense Finance and Accounting Service (DFAS), holding DoD Financial Management Certification Level II. She oversees financial operations and compliance at {PLATFORM_DEFAULTS.orgName}.</p>
                 <p>Her extensive background in federal financial management, audit readiness, and regulatory compliance ensures that Elevate maintains the highest standards of fiscal accountability across all funded programs including WIOA, WRG, and Job Ready Indy.</p>
               </div>
             </div>

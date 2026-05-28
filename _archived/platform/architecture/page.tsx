@@ -6,11 +6,12 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = generateMetadata({
   title: 'Platform Architecture',
-  description: 'Platform Architecture - Elevate for Humanity workforce training and career development programs in Indianapolis.',
+  description: 'Platform Architecture - {PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.',
   path: '/platform/architecture',
 });
 
 import { ComplianceBar } from '@/components/ComplianceBar';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 

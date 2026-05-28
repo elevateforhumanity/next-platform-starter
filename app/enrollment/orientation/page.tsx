@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function EnrollmentOrientationPage() {
   const router = useRouter();
@@ -288,8 +289,8 @@ export default function EnrollmentOrientationPage() {
 
         <p className="text-center text-black text-xs">
           Questions? Call{' '}
-          <a href="tel:3173143757" className="text-brand-blue-600 font-semibold hover:underline">
-            (317) 314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-semibold hover:underline">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>
       </div>

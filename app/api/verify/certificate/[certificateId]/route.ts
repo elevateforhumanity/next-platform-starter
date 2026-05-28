@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -75,7 +76,7 @@ async function _GET(_req: NextRequest, { params }: Params) {
         courseName: course?.title || 'Unknown Course',
         courseDescription: course?.description || null,
         issuer: 'Elevate For Humanity',
-        issuerWebsite: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
+        issuerWebsite: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl,
       },
     };
 

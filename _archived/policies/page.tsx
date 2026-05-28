@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { policies } from '@/content/cf-policies';
 import { buildMetadata } from '@/lib/cf-seo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Policies',
-  description: 'Elevate for Humanity institutional policies covering admissions, attendance, academic integrity, privacy, and more.',
+  description: '{PLATFORM_DEFAULTS.orgName} institutional policies covering admissions, attendance, academic integrity, privacy, and more.',
   path: '/policies',
 });
 

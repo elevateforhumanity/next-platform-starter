@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Elevate for Humanity',
+  title: 'Terms of Service | {PLATFORM_DEFAULTS.orgName}',
   description: 'Legal terms for using our platform and services, user responsibilities, and limitations of liability.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/terms',
@@ -21,14 +22,14 @@ export default function TermsPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Acceptance of Terms</h2>
             <p className="text-black mb-6">
-              These Terms of Service ("Terms") govern your access to and use of Elevate for Humanity's website, 
+              These Terms of Service ("Terms") govern your access to and use of {PLATFORM_DEFAULTS.orgName}'s website, 
               learning management system, and related services (collectively, the "Platform"). By accessing or 
               using the Platform, you agree to be bound by these Terms. If you do not agree, do not use the Platform.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Definitions</h2>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
-              <li><strong>"We," "Us," "Our":</strong> Elevate for Humanity</li>
+              <li><strong>"We," "Us," "Our":</strong> {PLATFORM_DEFAULTS.orgName}</li>
               <li><strong>"You," "Your":</strong> The user of the Platform</li>
               <li><strong>"Platform":</strong> Our website, LMS, and all related services</li>
               <li><strong>"Content":</strong> All materials, information, and data on the Platform</li>
@@ -99,7 +100,7 @@ export default function TermsPage() {
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Our Content</h3>
             <p className="text-black mb-6">
               All Platform content, including text, graphics, logos, images, software, and course materials, 
-              is owned by or licensed to Elevate for Humanity and protected by copyright, trademark, and other 
+              is owned by or licensed to {PLATFORM_DEFAULTS.orgName} and protected by copyright, trademark, and other 
               intellectual property laws.
             </p>
 
@@ -202,7 +203,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Indemnification</h2>
             <p className="text-black mb-6">
-              You agree to indemnify, defend, and hold harmless Elevate for Humanity, its officers, directors, 
+              You agree to indemnify, defend, and hold harmless {PLATFORM_DEFAULTS.orgName}, its officers, directors, 
               employees, and agents from any claims, damages, losses, liabilities, and expenses (including 
               attorney fees) arising from your use of the Platform or violation of these Terms.
             </p>
@@ -247,7 +248,7 @@ export default function TermsPage() {
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Entire Agreement</h3>
             <p className="text-black mb-6">
               These Terms, together with our Privacy Policy and other referenced policies, constitute the entire 
-              agreement between you and Elevate for Humanity.
+              agreement between you and {PLATFORM_DEFAULTS.orgName}.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Contact Information</h2>
@@ -256,8 +257,8 @@ export default function TermsPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> legal@www.elevateforhumanity.org</li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Mail:</strong> Elevate for Humanity</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
+              <li><strong>Mail:</strong> {PLATFORM_DEFAULTS.orgName}</li>
               <li className="ml-6">123 Main Street</li>
               <li className="ml-6">Indianapolis, IN 46204</li>
             </ul>

@@ -3,11 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Become a Host Nail Salon | Nail Technician Apprenticeship',
   description:
-    'Partner with Elevate for Humanity as a host nail salon for our DOL-registered nail technician apprenticeship. Train the next generation of licensed nail technicians.',
+    'Partner with {PLATFORM_DEFAULTS.orgName} as a host nail salon for our DOL-registered nail technician apprenticeship. Train the next generation of licensed nail technicians.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/nail-technician-apprenticeship/host-shops',
   },

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { requireDemo } from '@/lib/demo/requireDemo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Platform Demo | Elevate for Humanity',
-  description: 'Interactive demo of the Elevate for Humanity platform.',
+  title: 'Platform Demo | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Interactive demo of the {PLATFORM_DEFAULTS.orgName} platform.',
   robots: { index: false, follow: false },
 };
 

@@ -4,12 +4,13 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Staff Portal | Elevate for Humanity',
+    default: 'Staff Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Staff Portal',
   },
   description: 'Manage students, track enrollments, and access administrative tools.',

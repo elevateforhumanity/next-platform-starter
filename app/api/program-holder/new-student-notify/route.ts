@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SENDGRID_KEY = process.env.SENDGRID_API_KEY ?? '';
 const FROM = 'onboarding@elevateforhumanity.org';
@@ -39,16 +40,16 @@ export async function POST(request: NextRequest) {
       ${studentPhone ? `<p style="margin:0;font-size:15px;"><strong>📞 Phone:</strong> ${studentPhone}</p>` : ''}
     </div>
     <div style="text-align:center;margin:24px 0;">
-      <a href="https://www.elevateforhumanity.org/program-holder/dashboard"
+      <a href="${PLATFORM_DEFAULTS.siteUrl}/program-holder/dashboard"
          style="display:inline-block;background:#1e3a5f;color:white;padding:12px 28px;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">
         View in My Portal →
       </a>
     </div>
-    <p style="font-size:14px;color:#6b7280;">Questions? Reply to this email or call (317) 314-3757.</p>
-    <p style="font-size:14px;">— <strong>Elevate for Humanity</strong></p>
+    <p style="font-size:14px;color:#6b7280;">Questions? Reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.</p>
+    <p style="font-size:14px;">— <strong>${PLATFORM_DEFAULTS.orgName}</strong></p>
   </div>
   <div style="text-align:center;padding:16px;color:#9ca3af;font-size:12px;">
-    <p style="margin:0;">Elevate for Humanity · Indianapolis, IN 46240</p>
+    <p style="margin:0;">${PLATFORM_DEFAULTS.orgName} · Indianapolis, IN 46240</p>
   </div>
 </div>
 </body></html>`;
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
     },
     body: JSON.stringify({
       personalizations: [{ to: [{ email: 'indyondemandservices@gmail.com', name: 'David Nazaire' }] }],
-      from: { email: FROM, name: 'Elevate for Humanity' },
+      from: { email: FROM, name: PLATFORM_DEFAULTS.orgName },
       reply_to: { email: 'elizabethpowell6262@gmail.com', name: 'Elizabeth Greene' },
       subject: `New HVAC Student: ${studentName ?? 'New Enrollment'}`,
       content: [{ type: 'text/html', value: html }],

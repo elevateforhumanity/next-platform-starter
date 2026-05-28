@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { CheckCircle, Phone, Mail, ArrowRight, Hash } from 'lucide-react';
 import ConfirmationTracking from './ConfirmationTracking';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,7 +78,7 @@ export default async function ConfirmationPage({
             )}
 
             <p className="text-lg text-black mb-8">
-              Thank you for applying to Elevate for Humanity. We've received your application and
+              Thank you for applying to {PLATFORM_DEFAULTS.orgName}. We've received your application and
               will review it within 1–2 business days.
               {refNumber && (
                 <> Save your reference number — you&apos;ll need it to track your application status.</>
@@ -114,11 +115,11 @@ export default async function ConfirmationPage({
               <p className="text-sm font-semibold text-black mb-4">Questions? Contact us:</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="tel:3173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="inline-flex items-center justify-center px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   <Phone className="w-4 h-4 mr-2" />
-                  317-314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 <a
                   href="mailto:elevate4humanityedu@gmail.com"

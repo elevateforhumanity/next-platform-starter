@@ -21,6 +21,7 @@ import {
 import { PrintButton } from './PrintButton';
 import { BARBER_SECTIONS, BARBER_STATS } from './barber-rubric-data';
 import type { RubricSection, RubricItem } from './barber-rubric-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Barber Apprenticeship Competency Rubric | Compliance',
@@ -167,7 +168,7 @@ export default function BarberCompetencyRubricPage() {
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Barber Apprenticeship — Competency Rubric</h1>
-        <p className="text-sm text-slate-700">Elevate for Humanity | RAPIDS ID: 2025-IN-132301</p>
+        <p className="text-sm text-slate-700">{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301</p>
         <p className="text-xs text-slate-700 mt-1">Occupation: Barber (330.371-010) | Total: 2,000 hours (144 RTI + 1,500 OJT)</p>
       </div>
 

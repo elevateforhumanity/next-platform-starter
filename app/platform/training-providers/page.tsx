@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   GraduationCap,
   DollarSign,
   Users,
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Training Provider Solutions',
     description: 'Grow your training business with our LMS and student management platform.',
     url: 'https://www.elevateforhumanity.org/platform/training-providers',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/hero-images/programs-hero.jpg',

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Trophy,
   Medal,
   Award,
@@ -44,7 +45,7 @@ export default async function LeaderboardPage() {
   if (!user) redirect('/login?redirect=/lms/leaderboard');
 
   // Fetch via /api/gamification/leaderboard — single consolidated query
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   let leaderboardData: LeaderboardEntry[] = [];
   try {
     const res = await fetch(`${siteUrl}/api/gamification/leaderboard?limit=50`, {

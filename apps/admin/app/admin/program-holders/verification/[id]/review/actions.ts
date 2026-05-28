@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_ROLES = ['admin', 'super_admin'];
 
@@ -106,27 +107,27 @@ export async function submitVerificationDecision(
 
     const subject =
       decision === 'approved'
-        ? 'Your Program Holder Application Has Been Approved — Elevate for Humanity'
-        : 'Update on Your Program Holder Application — Elevate for Humanity';
+        ? 'Your Program Holder Application Has Been Approved — ${PLATFORM_DEFAULTS.orgName}'
+        : 'Update on Your Program Holder Application — ${PLATFORM_DEFAULTS.orgName}';
 
     const html =
       decision === 'approved'
         ? `<p>Hi ${firstName},</p>
          <p>Congratulations! Your program holder application for <strong>${orgName}</strong> has been <strong>approved</strong> by Elevate for Humanity.</p>
          <p>You can now log in to your Program Holder Portal to get started:</p>
-         <p><a href="https://www.elevateforhumanity.org/program-holder/dashboard">Access Your Portal →</a></p>
-         <p>If you have any questions, reply to this email or contact us at <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>
+         <p><a href="${PLATFORM_DEFAULTS.siteUrl}/program-holder/dashboard">Access Your Portal →</a></p>
+         <p>If you have any questions, reply to this email or contact us at <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
          <br/><p>Warm regards,<br/>Elevate for Humanity Team</p>`
         : `<p>Hi ${firstName},</p>
-         <p>Thank you for applying to become a Program Holder with Elevate for Humanity.</p>
+         <p>Thank you for applying to become a Program Holder with ${PLATFORM_DEFAULTS.orgName}.</p>
          <p>After reviewing your application for <strong>${orgName}</strong>, we are unable to approve it at this time${notes ? ': ' + notes : '.'}</p>
-         <p>If you believe this decision was made in error or would like to discuss next steps, please contact us at <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>
-         <br/><p>Warm regards,<br/>Elevate for Humanity Team</p>`;
+         <p>If you believe this decision was made in error or would like to discuss next steps, please contact us at <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
+         <br/><p>Warm regards,<br/>${PLATFORM_DEFAULTS.orgName} Team</p>`;
 
     try {
       await sendEmail({
         to: [recipientEmail],
-        from: 'Elevate for Humanity <info@elevateforhumanity.org>',
+        from: '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>',
         subject,
         html,
       });

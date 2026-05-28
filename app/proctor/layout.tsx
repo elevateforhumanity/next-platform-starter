@@ -5,6 +5,7 @@ import { Shield, ClipboardList, Plus, ArrowLeft } from 'lucide-react';
 import { requireUser } from '@/lib/auth/require-user';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,7 +40,7 @@ export default async function ProctorLayout({ children }: { children: React.Reac
             <Shield className="w-6 h-6 text-brand-blue-400" />
             <div>
               <h1 className="text-lg font-bold leading-tight">Proctor Portal</h1>
-              <p className="text-xs text-slate-500">Elevate for Humanity Testing Center</p>
+              <p className="text-xs text-slate-500">{PLATFORM_DEFAULTS.orgName} Testing Center</p>
             </div>
           </div>
           <nav className="flex items-center gap-2">

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BookOpen,
   Video,
   MessageCircle,
@@ -321,10 +322,10 @@ export default async function HelpPage() {
                 Speak directly with a support specialist
               </p>
               <a
-                href="tel:+13173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-4 block"
               >
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <p className="text-sm text-gray-500">
                 Mon-Fri: 9am-5pm EST<br />

@@ -14,6 +14,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type MeetingType = 'virtual' | 'phone';
 
@@ -105,7 +106,7 @@ export default function ScheduleMeetingPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setSubmitError(data.error || 'Booking failed. Please call (317) 314-3757.');
+        setSubmitError(data.error || 'Booking failed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
         setIsSubmitting(false);
         return;
       }
@@ -118,7 +119,7 @@ export default function ScheduleMeetingPage() {
         setSubmitted(true);
       }
     } catch {
-      setSubmitError('Unable to submit. Please try again or call (317) 314-3757.');
+      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     }
 
     setIsSubmitting(false);
@@ -160,7 +161,7 @@ export default function ScheduleMeetingPage() {
               </>
             ) : (
               <>
-                Questions? Call us at <strong>(317) 314-3757</strong>
+                Questions? Call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>
               </>
             )}
           </p>

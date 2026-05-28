@@ -5,6 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
@@ -57,7 +58,7 @@ function fixPage(filePath: string): { fixed: boolean; action: string } {
         .replace(/\b\w/g, (l) => l.toUpperCase()) || 'Home';
     const metadata = `
 export const metadata: Metadata = {
-  title: '${routeName} | Elevate for Humanity',
+  title: '${routeName} | ' + PLATFORM_DEFAULTS.orgName + '',
   description: 'Elevate for Humanity - Career training and workforce development programs.',
   alternates: {
     canonical: '${SITE_URL}${route}',

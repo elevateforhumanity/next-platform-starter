@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Mail,
   Send,
   CheckCircle2,
@@ -35,7 +36,7 @@ interface Props {
 
 export default function SendGridSettingsClient({ config, stats }: Props) {
   const [testTo, setTestTo] = useState('elevate4humanityedu@gmail.com');
-  const [testSubject, setTestSubject] = useState('SendGrid Test — Elevate for Humanity');
+  const [testSubject, setTestSubject] = useState('SendGrid Test — {PLATFORM_DEFAULTS.orgName}');
   const [sending, setSending] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
 
@@ -216,7 +217,7 @@ export default function SendGridSettingsClient({ config, stats }: Props) {
           <div className="space-y-2 text-sm text-slate-600">
             <div className="flex items-center justify-between py-2 border-b border-slate-100">
               <span>Domain</span>
-              <span className="font-mono font-semibold text-slate-900">elevateforhumanity.org</span>
+              <span className="font-mono font-semibold text-slate-900">${PLATFORM_DEFAULTS.canonicalDomain}</span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-slate-100">
               <span>From address</span>

@@ -2,11 +2,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { teamMembers } from '@/content/cf-team';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Our Team',
   description:
-    'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
+    'Meet the {PLATFORM_DEFAULTS.orgName} team — educators, workforce specialists, and community advocates.',
 };
 
 export default function TeamPage() {

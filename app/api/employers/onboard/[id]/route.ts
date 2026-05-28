@@ -7,6 +7,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getTemplate } from '@/lib/notifications/templates';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -48,7 +49,7 @@ async function _PATCH(req: Request, { params }: { params: Params }) {
     }
 
     // Send decision email to employer when status changes to approved or rejected
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     if (current?.contact_email && (status === 'approved' || status === 'rejected')) {
       try {
         const template = getTemplate('employer_decision', {

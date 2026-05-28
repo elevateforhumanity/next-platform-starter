@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Calendar, Database, Clock, Shield } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Disaster Recovery Test Report | Elevate for Humanity',
+  title: 'Disaster Recovery Test Report | {PLATFORM_DEFAULTS.orgName}',
   description: 'Documentation of disaster recovery drill execution and results.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/dr-test-report',

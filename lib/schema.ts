@@ -4,6 +4,7 @@
  */
 
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Organization,
   WithContext,
   Course,
@@ -13,13 +14,13 @@ import {
   EducationalOrganization,
 } from 'schema-dts';
 
-const baseUrl = 'https://www.elevateforhumanity.org';
+const baseUrl = PLATFORM_DEFAULTS.siteUrl;
 
 // Organization Schema (Global)
 export const organizationSchema: WithContext<Organization> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Elevate for Humanity',
+  name: PLATFORM_DEFAULTS.orgName,
   url: baseUrl,
   logo: `${baseUrl}/images/logo.png`,
   description:
@@ -32,9 +33,9 @@ export const organizationSchema: WithContext<Organization> = {
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+1-317-314-3757',
+    telephone: '+1-${PLATFORM_DEFAULTS.supportPhone}',
     contactType: 'Admissions',
-    email: 'info@www.elevateforhumanity.org',
+    email: 'info@${PLATFORM_DEFAULTS.canonicalDomain}',
   },
   sameAs: [
     'https://www.facebook.com/share/1BUqvUAnCo/',
@@ -47,7 +48,7 @@ export const organizationSchema: WithContext<Organization> = {
 export const educationalOrganizationSchema: WithContext<EducationalOrganization> = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOrganization',
-  name: 'Elevate for Humanity',
+  name: PLATFORM_DEFAULTS.orgName,
   url: baseUrl,
   description: 'Workforce development and career training programs',
   address: {
@@ -114,7 +115,7 @@ export function generateArticleSchema(article: {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Elevate for Humanity',
+      name: PLATFORM_DEFAULTS.orgName,
       logo: {
         '@type': 'ImageObject',
         url: `${baseUrl}/images/logo.png`,

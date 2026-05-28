@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, BookOpen, ClipboardList, FileText, PenLine, Lock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
@@ -195,10 +196,10 @@ export default function CosmetologyHostShopClient({ isApproved = false }: Props)
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-100 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>
@@ -269,7 +270,7 @@ export default function CosmetologyHostShopClient({ isApproved = false }: Props)
               Log in to your host salon account
             </Link>{' '}
             to access these steps. Questions? Call{' '}
-            <a href="tel:3173143757" className="underline">(317) 314-3757</a>.
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </div>
       </section>

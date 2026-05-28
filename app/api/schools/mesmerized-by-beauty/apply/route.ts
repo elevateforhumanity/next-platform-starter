@@ -18,6 +18,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -25,7 +26,7 @@ export const runtime = 'nodejs';
 const PARTNER_ID = '8420fefa-3228-4ec7-9ea7-265b045aa93d';
 const SCHOOL_EMAIL = 'mesmerizedbybeautyl@yahoo.com';
 const ELEVATE_CC = 'info@elevateforhumanity.org';
-const ADMIN_REVIEW = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/admin/applications`;
+const ADMIN_REVIEW = `${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/admin/applications`;
 
 const PROGRAM_LABELS: Record<string, string> = {
   'cosmetology-apprenticeship': 'Cosmetology Apprenticeship',
@@ -131,7 +132,7 @@ export async function POST(request: NextRequest) {
 
     <!-- Header -->
     <div style="background:linear-gradient(135deg,#7c3aed 0%,#a855f7 100%);padding:40px 32px;text-align:center">
-      <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase">Sponsored by Elevate for Humanity</p>
+      <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase">Sponsored by ${PLATFORM_DEFAULTS.orgName}</p>
       <h1 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 4px">Mesmerized by Beauty</h1>
       <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0">Cosmetology Academy</p>
     </div>
@@ -180,7 +181,7 @@ export async function POST(request: NextRequest) {
       <p style="color:#64748b;font-size:13px;margin:0 0 4px"><strong>Mesmerized by Beauty Cosmetology Academy</strong></p>
       <p style="color:#94a3b8;font-size:12px;margin:0 0 4px">8325 Michigan Road · Indianapolis, IN 46268</p>
       <p style="color:#94a3b8;font-size:12px;margin:0">Questions? <a href="mailto:mesmerizedbybeautyl@yahoo.com" style="color:#7c3aed">mesmerizedbybeautyl@yahoo.com</a></p>
-      <p style="color:#cbd5e1;font-size:11px;margin:12px 0 0">Sponsored by <a href="https://www.elevateforhumanity.org" style="color:#7c3aed">Elevate for Humanity</a></p>
+      <p style="color:#cbd5e1;font-size:11px;margin:12px 0 0">Sponsored by <a href={PLATFORM_DEFAULTS.siteUrl} style="color:#7c3aed">${PLATFORM_DEFAULTS.orgName}</a></p>
     </div>
   </div>
 </body>
@@ -195,7 +196,7 @@ export async function POST(request: NextRequest) {
   <div style="max-width:600px;margin:0 auto;background:#ffffff;padding:32px">
     <div style="background:#7c3aed;padding:20px 24px;border-radius:10px;margin-bottom:24px">
       <h1 style="color:#fff;font-size:18px;font-weight:700;margin:0">New Application — Mesmerized by Beauty</h1>
-      <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:4px 0 0">Submitted via elevateforhumanity.org</p>
+      <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:4px 0 0">Submitted via ${PLATFORM_DEFAULTS.canonicalDomain}</p>
     </div>
 
     <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
@@ -216,7 +217,7 @@ export async function POST(request: NextRequest) {
     </div>
 
     <p style="color:#94a3b8;font-size:12px;text-align:center;margin:0">
-      This notification was sent to Mesmerized by Beauty and copied to Elevate for Humanity.<br>
+      This notification was sent to Mesmerized by Beauty and copied to ${PLATFORM_DEFAULTS.orgName}.<br>
       Reply directly to this email to contact the applicant.
     </p>
   </div>

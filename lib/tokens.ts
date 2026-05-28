@@ -16,6 +16,7 @@ import { logger } from '@/lib/logger';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import crypto from 'crypto';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type TokenPurpose = 'host_shop_hours' | 'school_transfer' | 'ce_submission';
 
@@ -130,7 +131,7 @@ export async function validateToken(
  * Generate a full token URL for a specific purpose
  */
 export function getTokenUrl(token: string, purpose: TokenPurpose): string {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   switch (purpose) {
     case 'host_shop_hours':

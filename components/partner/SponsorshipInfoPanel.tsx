@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Info, Building2, Users, DollarSign, FileCheck, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface SponsorshipInfo {
   sponsor_name: string;
@@ -23,7 +24,7 @@ interface Props {
 
 export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }: Props) {
   const [info, setInfo] = useState<SponsorshipInfo>({
-    sponsor_name: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)',
+    sponsor_name: '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)',
     curriculum_type: 'Partner-provided + required online components',
     enrollment_manager: 'Managed by EFH',
     funding_source: 'Coordinated through WorkOne',
@@ -168,7 +169,7 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
 export function SponsorshipTooltip({ info }: { info?: SponsorshipInfo }) {
   const sponsorName =
     info?.sponsor_name ||
-    '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)';
+    '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)';
 
   return (
     <div className="max-w-sm">

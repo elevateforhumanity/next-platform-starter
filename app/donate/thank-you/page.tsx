@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { CheckCircle, Heart, ArrowRight, Users, Award, Briefcase } from 'lucide-react';
 import { ConversionPixel } from '@/components/analytics/ConversionPixel';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Thank You for Your Donation | Sit Selfish Inc × Elevate for Humanity',
+  title: 'Thank You for Your Donation | Sit Selfish Inc × {PLATFORM_DEFAULTS.orgName}',
   description: 'Your gift is making a difference in the lives of workforce training participants.',
   robots: { index: false, follow: false },
 };
@@ -24,7 +25,7 @@ export default function DonateThankYouPage() {
 
         <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
           <Heart className="w-4 h-4 text-red-400" />
-          Sit Selfish Inc × Elevate for Humanity
+          Sit Selfish Inc × {PLATFORM_DEFAULTS.orgName}
         </div>
 
         <h1 className="text-4xl md:text-5xl font-black mb-4">

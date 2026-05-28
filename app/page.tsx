@@ -14,13 +14,14 @@ import { HomeEmployerStrip } from '@/components/home/HomeEmployerStrip';
 import { HomeSegmentedCTA } from '@/components/home/HomeSegmentedCTA';
 import { HomeFinalCTA } from '@/components/home/HomeFinalCTA';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Revalidate every 5 minutes — allows live enrollment stats to refresh
 // without a full rebuild.
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Elevate for Humanity | Workforce Training, Apprenticeships & Funding — Indianapolis',
+  title: '{PLATFORM_DEFAULTS.orgName} | Workforce Training, Apprenticeships & Funding — Indianapolis',
   description:
     'DOL-registered apprenticeship sponsor and WIOA-approved training provider. Funded training in healthcare, skilled trades, CDL, technology, and more — often at no cost. Apply today.',
   keywords: [
@@ -34,30 +35,30 @@ export const metadata: Metadata = {
     'CNA training Indianapolis',
     'CDL training Indiana',
     'free job training Marion County',
-    'Elevate for Humanity',
+    PLATFORM_DEFAULTS.orgName,
   ],
   alternates: {
-    canonical: 'https://www.elevateforhumanity.org',
+    canonical: PLATFORM_DEFAULTS.siteUrl,
   },
   openGraph: {
-    title: 'Elevate for Humanity | Workforce Training, Apprenticeships & Funding',
+    title: '{PLATFORM_DEFAULTS.orgName} | Workforce Training, Apprenticeships & Funding',
     description:
       'DOL-registered apprenticeship sponsor. Funded training in healthcare, skilled trades, CDL, and technology — often at no cost through WIOA or state funding.',
-    url: 'https://www.elevateforhumanity.org',
-    siteName: 'Elevate for Humanity',
+    url: PLATFORM_DEFAULTS.siteUrl,
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/images/pages/comp-home-hero.webp',
         width: 1200,
         height: 630,
-        alt: 'Elevate for Humanity workforce training',
+        alt: '{PLATFORM_DEFAULTS.orgName} workforce training',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Elevate for Humanity | Workforce Training & Apprenticeships',
+    title: '{PLATFORM_DEFAULTS.orgName} | Workforce Training & Apprenticeships',
     description:
       'Funded training, DOL-registered apprenticeships, and job placement — often at no cost.',
     images: ['/images/pages/comp-home-hero.webp'],

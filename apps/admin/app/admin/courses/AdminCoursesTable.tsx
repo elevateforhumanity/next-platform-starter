@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition, useMemo } from 'react';
 import type { AdminCourseOverview, AdminCourseStatus } from '@/lib/admin/course-admin-overview';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function StatusBadge({ status }: { status: AdminCourseStatus }) {
   const map: Record<AdminCourseStatus, { label: string; cls: string }> = {
@@ -166,7 +167,7 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
                       Live Builder
                     </Link>
                     <Link
-                      href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${course.id}`}
+                      href={`${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/lms/courses/${course.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded border px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"

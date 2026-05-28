@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { TEAM } from '@/data/team';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Our Team',
   description:
-    'Meet the educators, workforce specialists, and community advocates behind Elevate for Humanity.',
+    'Meet the educators, workforce specialists, and community advocates behind {PLATFORM_DEFAULTS.orgName}.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/team' },
 };
 
@@ -46,7 +47,7 @@ export default async function TeamPage() {
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
-            Elevate for Humanity
+            {PLATFORM_DEFAULTS.orgName}
           </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Our Team</h1>
           <p className="text-slate-300 text-lg max-w-2xl">

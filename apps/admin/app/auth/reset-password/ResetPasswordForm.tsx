@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function AdminResetPasswordForm() {
   const router = useRouter();
@@ -135,7 +136,7 @@ export default function AdminResetPasswordForm() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-6">
-          Elevate for Humanity · Admin Portal · Restricted Access
+          {PLATFORM_DEFAULTS.orgName} · Admin Portal · Restricted Access
         </p>
       </div>
     </div>

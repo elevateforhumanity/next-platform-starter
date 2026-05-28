@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const maxDuration = 60;
 
 async function _POST(request: NextRequest) {
@@ -31,7 +32,7 @@ async function _POST(request: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Donation to Elevate for Humanity',
+              name: 'Donation to ' + PLATFORM_DEFAULTS.orgName + '',
               description: 'Support free career training for underserved communities',
               images: ['https://www.elevateforhumanity.org/logo.jpg'],
             },

@@ -3,11 +3,12 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
 
 export const metadata: Metadata = {
-  title: 'Programs | Elevate for Humanity',
+  title: 'Programs | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs' },
@@ -134,10 +135,10 @@ export default async function ProgramsPage() {
       {/* Hero */}
       <section className="relative h-64 sm:h-80 w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="Elevate for Humanity programs" fill className="object-cover object-center" priority placeholder="empty" />
+        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="{PLATFORM_DEFAULTS.orgName} programs" fill className="object-cover object-center" priority placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 to-brand-blue-900/30" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">Elevate for Humanity</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">{PLATFORM_DEFAULTS.orgName}</p>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight">Career Training Programs</h1>
           <p className="mt-3 text-slate-200 text-sm sm:text-base max-w-xl">
             {programs.length} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available

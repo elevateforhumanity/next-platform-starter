@@ -1,4 +1,5 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const CONSTRUCTION_TRADES: ProgramSchema = {
   slug: 'construction-trades-certification',
@@ -39,7 +40,7 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
     },
     {
       name: 'Forklift Operator Certification',
-      issuer: 'Elevate for Humanity (OSHA-compliant)',
+      issuer: '' + PLATFORM_DEFAULTS.orgName + ' (OSHA-compliant)',
       description: 'OSHA-compliant powered industrial truck operator certification.',
       validity: '3 years',
     },

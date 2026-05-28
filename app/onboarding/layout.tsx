@@ -2,11 +2,12 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: 'Onboarding',
-  description: 'Complete your onboarding process for Elevate for Humanity.',
+  description: 'Complete your onboarding process for {PLATFORM_DEFAULTS.orgName}.',
 };
 
 // Force dynamic rendering for all onboarding pages

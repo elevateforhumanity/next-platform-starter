@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, User, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const timeSlots = [
   '9:00 AM',
@@ -81,13 +82,13 @@ export default function EnrollmentBookingPage({ programs = [] }: { programs?: Pr
       const data = await response.json();
 
       if (!response.ok || !data.success || !data.id) {
-        setSubmitError(data.error || 'Booking failed. Please call (317) 314-3757.');
+        setSubmitError(data.error || 'Booking failed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
         return;
       }
 
       setIsSubmitted(true);
     } catch {
-      setSubmitError('Unable to submit. Please try again or call (317) 314-3757.');
+      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setIsSubmitting(false);
     }

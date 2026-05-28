@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { safeError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,8 +20,8 @@ export const maxDuration = 10;
 
 // Allowlist — only check known Elevate domains
 const ALLOWED_HOSTS = [
-  'www.elevateforhumanity.org',
-  'elevateforhumanity.org',
+  PLATFORM_DEFAULTS.canonicalDomain,
+  PLATFORM_DEFAULTS.canonicalDomain,
   'admin.elevateforhumanity.org',
   'lms.elevateforhumanity.org',
 ];

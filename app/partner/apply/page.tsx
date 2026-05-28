@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Building2, ArrowRight, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { trackEvent } from '@/components/analytics/google-analytics';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PARTNER_TYPES = [
   {
@@ -348,7 +349,7 @@ export default function PartnerApplyPage() {
             </button>
 
             <p className="text-xs text-slate-500 text-center">
-              By submitting, you agree to be contacted by Elevate for Humanity regarding your
+              By submitting, you agree to be contacted by {PLATFORM_DEFAULTS.orgName} regarding your
               partnership application.
             </p>
           </form>

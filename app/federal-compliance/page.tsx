@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Scale, Users, FileText, ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Federal Compliance',
@@ -36,7 +37,7 @@ export default function FederalCompliancePage() {
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Federal Compliance</h1>
             <p className="text-xl text-slate-600 leading-relaxed">
-              Elevate for Humanity is committed to full compliance with all federal regulations
+              {PLATFORM_DEFAULTS.orgName} is committed to full compliance with all federal regulations
               governing workforce development, education, and equal opportunity. We maintain
               rigorous standards to protect participants and ensure program integrity.
             </p>
@@ -204,7 +205,7 @@ export default function FederalCompliancePage() {
             </div>
             <div className="bg-white rounded-xl p-8">
               <p className="text-black mb-6">
-                Elevate for Humanity is an equal opportunity provider and does not discriminate on
+                {PLATFORM_DEFAULTS.orgName} is an equal opportunity provider and does not discriminate on
                 the basis of:
               </p>
               <div className="grid md:grid-cols-2 gap-4">
@@ -264,7 +265,7 @@ export default function FederalCompliancePage() {
                 <strong>Email:</strong> our contact form
               </p>
               <p>
-                <strong>Phone:</strong> (317) 314-3757
+                <strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}
               </p>
               <p>
                 <strong>Address:</strong> Indianapolis, IN

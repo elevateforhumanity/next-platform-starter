@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { AcknowledgeRightsForm } from './AcknowledgeRightsForm';
 import { Shield, ShieldAlert, Info } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,7 +58,7 @@ export default async function ProgramHolderRightsPage() {
             <Shield size={48} />
             <div>
               <h1 className="text-4xl font-bold">Program Holder Rights & Responsibilities</h1>
-              <p className="text-white mt-2">Elevate for Humanity — Required Reading</p>
+              <p className="text-white mt-2">{PLATFORM_DEFAULTS.orgName} — Required Reading</p>
             </div>
           </div>
           <p className="text-brand-blue-300 text-sm mt-4 max-w-2xl">

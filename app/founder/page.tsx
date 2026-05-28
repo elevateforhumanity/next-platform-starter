@@ -5,12 +5,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/founder' },
   title: 'Elizabeth Greene - Founder',
   description:
-    'Elizabeth Greene is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent, licensed barber, and the founder of Elevate for Humanity Career & Technical Institute in Indianapolis.',
+    'Elizabeth Greene is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent, licensed barber, and the founder of {PLATFORM_DEFAULTS.orgName} Career & Technical Institute in Indianapolis.',
 };
 
 export default function FounderPage() {
@@ -25,7 +26,7 @@ export default function FounderPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/admin-audit-logs-hero.webp"
-          alt="Elevate for Humanity founder"
+          alt="{PLATFORM_DEFAULTS.orgName} founder"
           fill
           sizes="100vw"
           className="object-cover"
@@ -40,7 +41,7 @@ export default function FounderPage() {
               Elizabeth Greene
             </h1>
             <p className="text-slate-600 text-lg mt-2">
-              Elevate for Humanity Career &amp; Technical Institute
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
             </p>
           </div>
         </div>
@@ -53,7 +54,7 @@ export default function FounderPage() {
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/team/founder/elizabeth-greene-founder-hero-01.jpg"
-                alt="Elizabeth Greene, Founder and CEO of Elevate for Humanity"
+                alt="Elizabeth Greene, Founder and CEO of {PLATFORM_DEFAULTS.orgName}"
                 fill
                 className="object-cover object-top"
                 priority
@@ -70,13 +71,13 @@ export default function FounderPage() {
                 Founder & Chief Executive Officer
               </p>
               <p className="text-slate-500 text-sm mb-8">
-                Elevate for Humanity Career & Technical Institute · Indianapolis, IN
+                {PLATFORM_DEFAULTS.orgName} Career & Technical Institute · Indianapolis, IN
               </p>
 
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
                 <p>
                   Elizabeth Greene is a U.S. Army veteran (Unit Supply Specialist) and the founder
-                  of Elevate for Humanity Career & Technical Institute — a workforce development
+                  of {PLATFORM_DEFAULTS.orgName} Career & Technical Institute — a workforce development
                   organization in Indianapolis serving justice-involved individuals, low-income
                   families, veterans, and anyone facing barriers to employment.
                 </p>
@@ -257,7 +258,7 @@ export default function FounderPage() {
           <div className="grid sm:grid-cols-2 gap-6">
             {[
               {
-                name: 'Elevate for Humanity',
+                name: PLATFORM_DEFAULTS.orgName,
                 role: 'Career & Technical Institute',
                 desc: 'Workforce training, apprenticeship sponsorship, funding navigation, and employer partnerships. DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301), ETPL listed, WRG, WIOA, and Job Ready Indy approved.',
                 href: '/about',

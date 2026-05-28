@@ -14,6 +14,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                               */
@@ -239,7 +240,7 @@ export default function HeroVideo({
             {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
             <img
               src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-              alt="Elevate for Humanity"
+              alt={PLATFORM_DEFAULTS.orgName}
               className="h-7 w-auto opacity-90"
             />
           </div>

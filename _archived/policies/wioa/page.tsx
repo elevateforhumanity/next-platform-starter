@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'WIOA Eligibility Policy | Elevate for Humanity',
+  title: 'WIOA Eligibility Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Workforce Innovation and Opportunity Act eligibility requirements',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/wioa',
@@ -115,7 +116,7 @@ export default async function WIOAPage() {
       <p>
         <strong>WorkOne Career Center</strong><br />
         Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a><br />
-        Phone: (317) 314-3757
+        Phone: {PLATFORM_DEFAULTS.supportPhone}
       </p>
         </article>
       </div>

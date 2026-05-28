@@ -8,6 +8,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Subscription tiers available for upgrade
@@ -147,7 +148,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Create Checkout Session for subscription
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,

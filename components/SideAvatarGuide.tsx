@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Send,
   ChevronLeft,
   ChevronRight,
@@ -149,7 +150,7 @@ export default function SideAvatarGuide({
           ...prev,
           {
             role: 'assistant',
-            content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
+            content: "I'm sorry, I encountered an issue. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.",
           },
         ]);
       } else {

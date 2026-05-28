@@ -8,6 +8,7 @@ import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader'
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import { PrintButton } from '../PrintButton';
 import { COSMETOLOGY_SECTIONS } from '../cosmetology-rubric-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Cosmetology Apprenticeship Scoring Sheet',
@@ -33,7 +34,7 @@ export default function CosmetologyScoringSheetPage() {
         <InstitutionalHeader
           documentType="Competency Scoring Sheet"
           title="Cosmetology Apprenticeship — Competency Scoring Sheet"
-          subtitle="Elevate for Humanity | RAPIDS ID: 2025-IN-132302 | Occupation: Cosmetologist (332.271-010)"
+          subtitle="{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132302 | Occupation: Cosmetologist (332.271-010)"
         />
 
         <div className="grid grid-cols-3 gap-4 my-4 text-sm">

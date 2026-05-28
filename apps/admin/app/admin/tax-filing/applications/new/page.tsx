@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, FileText, User, DollarSign, Calendar, Save, Mail, Phone } from 'lucide-react';
 import { createTaxApplication } from '../actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'New Tax Filing Application | Admin',
@@ -82,7 +83,7 @@ export default async function NewTaxFilingApplicationPage() {
                 name="client_phone"
                 type="tel"
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="(317) 314-3757"
+                placeholder={PLATFORM_DEFAULTS.supportPhone}
               />
             </div>
           </div>

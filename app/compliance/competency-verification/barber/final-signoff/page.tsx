@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
 import { BARBER_SECTIONS, BARBER_STATS } from '../barber-rubric-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Final Competency Sign-Off — Barber Apprenticeship',
@@ -35,7 +36,7 @@ export default function FinalSignoffPage() {
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-lg font-bold">Final Competency Sign-Off — Barber Apprenticeship</h1>
-            <p className="text-[10px] text-slate-700">Elevate for Humanity | RAPIDS ID: 2025-IN-132301 | Occupation: Barber (330.371-010)</p>
+            <p className="text-[10px] text-slate-700">{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301 | Occupation: Barber (330.371-010)</p>
           </div>
           <div className="text-right text-[10px] text-slate-700">
             <p>Tri-Party Verification</p>
@@ -277,7 +278,7 @@ export default function FinalSignoffPage() {
 
             {/* Party 4: Sponsor */}
             <div className="border-2 border-slate-900 rounded-lg p-4 print:p-3">
-              <h3 className="font-bold text-sm mb-1 print:text-[11px]">4. Elevate for Humanity — Apprenticeship Sponsor</h3>
+              <h3 className="font-bold text-sm mb-1 print:text-[11px]">4. {PLATFORM_DEFAULTS.orgName} — Apprenticeship Sponsor</h3>
               <p className="text-xs text-slate-700 mb-3 print:text-[9px] print:mb-2">
                 As the registered apprenticeship sponsor (RAPIDS ID: 2025-IN-132301), I verify that all program requirements have been met, all tri-party verifications are complete, and the apprentice is approved for completion documentation and credential pursuit.
               </p>

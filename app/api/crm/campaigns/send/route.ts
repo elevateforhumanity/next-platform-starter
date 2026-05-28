@@ -7,6 +7,7 @@ import { resend } from '@/lib/resend';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
@@ -150,9 +151,9 @@ async function _POST(request: NextRequest) {
         const personalizedContent = html_content
           .replace(/\{\{student_name\}\}/g, recipient.full_name || 'Student')
           .replace(/\{\{user_name\}\}/g, recipient.full_name || 'User')
-          .replace(/\{\{organization_name\}\}/g, 'Elevate for Humanity')
+          .replace(/\{\{organization_name\}\}/g, PLATFORM_DEFAULTS.orgName)
           .replace(/\{\{dashboard_link\}\}/g, 'https://www.elevateforhumanity.org/dashboard')
-          .replace(/\{\{support_email\}\}/g, 'support@elevateforhumanity.org')
+          .replace(/\{\{support_email\}\}/g, PLATFORM_DEFAULTS.supportEmail)
           .replace(/\{\{support_phone\}\}/g, '(555) 123-4567');
 
         try {

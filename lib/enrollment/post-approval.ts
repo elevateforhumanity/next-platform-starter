@@ -8,6 +8,7 @@
 import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@/lib/supabase';
 import { sendTeamsMessage } from '@/lib/notifications/teams';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface PostApprovalInput {
   db: SupabaseClient;
@@ -81,7 +82,7 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
 
 
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const firstName = studentName?.split(' ')[0] || studentEmail.split('@')[0];
   const programTitle = (programSlug && PROGRAM_TITLES[programSlug]) || programSlug || 'your program';
   const fundingLabel = (fundingType && FUNDING_LABELS[fundingType]) || null;
@@ -95,12 +96,12 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
 
     await sendEmail({
       to: studentEmail,
-      subject: `You're Enrolled — ${programTitle} | Elevate for Humanity`,
+      subject: `You're Enrolled — ${programTitle} | ${PLATFORM_DEFAULTS.orgName}`,
       html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a;">
 
   <div style="background:#1e293b;padding:24px 32px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">Elevate for Humanity</p>
+    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">${PLATFORM_DEFAULTS.orgName}</p>
     <p style="margin:4px 0 0;color:#94a3b8;font-size:13px;">Career &amp; Technical Institute · Indianapolis, Indiana</p>
   </div>
 
@@ -175,9 +176,9 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;margin:28px 0 0;">
       <p style="margin:0 0 4px;font-weight:700;font-size:13px;color:#0f172a;">Questions? Contact your admissions advisor:</p>
       <p style="margin:0;font-size:13px;color:#475569;">
-        <a href="tel:3173143757" style="color:#ea580c;font-weight:700;text-decoration:none;">(317) 314-3757</a>
+        <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#ea580c;font-weight:700;text-decoration:none;">${PLATFORM_DEFAULTS.supportPhone}</a>
         &nbsp;·&nbsp;
-        <a href="mailto:info@elevateforhumanity.org" style="color:#ea580c;text-decoration:none;">info@elevateforhumanity.org</a>
+        <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#ea580c;text-decoration:none;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
         &nbsp;·&nbsp;
         <a href="${siteUrl}/booking" style="color:#2563eb;text-decoration:none;">Schedule a meeting</a>
       </p>
@@ -186,7 +187,7 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
   </div>
 
   <div style="padding:16px 32px;text-align:center;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
-    <p style="margin:0;color:#94a3b8;font-size:11px;">Elevate for Humanity Career &amp; Technical Institute · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
+    <p style="margin:0;color:#94a3b8;font-size:11px;">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
   </div>
 
 </div>`,

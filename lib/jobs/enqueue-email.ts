@@ -1,5 +1,6 @@
 import { enqueueJob } from './queue';
 import { EmailType } from './handlers/email-send';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * STEP 6B: Helper to enqueue emails asynchronously
@@ -8,7 +9,7 @@ import { EmailType } from './handlers/email-send';
  * ```
  * await enqueueEmail({
  *   emailType: 'license_activated',
- *   to: 'user@elevateforhumanity.org',
+ *   to: 'user@${PLATFORM_DEFAULTS.canonicalDomain}',
  *   correlationId: paymentIntentId,
  *   tenantId: tenant.id,
  *   templateData: { plan: 'professional', tenantName: 'Acme Corp' }

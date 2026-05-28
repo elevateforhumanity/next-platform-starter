@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Loader2, XCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Stripe redirects here after 3DS authentication with ?setup_intent=... and ?redirect_status=...
 function ConfirmInner() {
@@ -75,7 +76,7 @@ function ConfirmInner() {
           Try Again
         </button>
         <p className="mt-4 text-xs text-slate-500">
-          Need help? Call (317) 314-3757
+          Need help? Call {PLATFORM_DEFAULTS.supportPhone}
         </p>
       </div>
     </div>

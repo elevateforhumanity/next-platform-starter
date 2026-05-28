@@ -11,11 +11,12 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@elevateforhumanity.org';
 
 export async function POST(request: NextRequest) {
@@ -98,7 +99,7 @@ export async function POST(request: NextRequest) {
     // Send confirmation email to renter
     await sendEmail({
       to: renterEmail,
-      subject: 'Booth Rental Agreement Signed — Elevate for Humanity',
+      subject: 'Booth Rental Agreement Signed — ' + PLATFORM_DEFAULTS.orgName + '',
       html: `
         <h2>Welcome, ${signatureName.split(' ')[0]}!</h2>
         <p>Your Booth Rental Agreement has been signed and your rental is now active.</p>
@@ -106,10 +107,10 @@ export async function POST(request: NextRequest) {
         <ul>
           <li>Our team will contact you within 1 business day to schedule your move-in.</li>
           <li>Your weekly rent will be charged automatically every Friday.</li>
-          <li>A copy of your signed agreement is on file with Elevate for Humanity.</li>
+          <li>A copy of your signed agreement is on file with ${PLATFORM_DEFAULTS.orgName}.</li>
         </ul>
-        <p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a> or email <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>
-        <p>— Elevate for Humanity</p>
+        <p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> or email <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
+        <p>— ${PLATFORM_DEFAULTS.orgName}</p>
       `,
     }).catch(() => { /* non-fatal */ });
 

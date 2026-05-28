@@ -9,6 +9,7 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function getSupabaseAdmin() {
   return await getAdminClient();
@@ -51,7 +52,7 @@ async function sendWelcomeEmail(
   }
 
   await resend.emails.send({
-    from: 'Elevate LMS <noreply@elevateforhumanity.org>',
+    from: `${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>`,
     to: email,
     subject: `Welcome to Elevate LMS - ${orgName} is ready!`,
     html: `
@@ -66,7 +67,7 @@ async function sendWelcomeEmail(
         <li>Add your first course or program</li>
         <li>Invite your team members</li>
       </ol>
-      <p>Need help? Contact us at support@elevateforhumanity.org</p>
+      <p>Need help? Contact us at ${PLATFORM_DEFAULTS.supportEmail}</p>
     `,
   });
 }

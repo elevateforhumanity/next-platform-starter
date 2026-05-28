@@ -19,6 +19,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import SignatureCanvas from 'signature_pad';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const MOU_VERSION = '3.0';
 const AGREEMENT_TYPE = 'mou';
@@ -29,7 +30,7 @@ const MOU_SECTIONS = [
   {
     id: 'parties',
     title: '1. Parties',
-    content: `This Memorandum of Understanding ("Agreement") is entered into between 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Operating Company") and the collaborating organization identified at execution ("Collaborating Party").
+    content: `This Memorandum of Understanding ("Agreement") is entered into between 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute ("Operating Company") and the collaborating organization identified at execution ("Collaborating Party").
 
 Elevate is the sole Program Owner and primary training provider. The Collaborating Party is a delivery-site collaborator operating under one of the participation tiers defined in Section 5. This Agreement does not create a partnership, joint venture, or shared ownership of any kind.`,
   },
@@ -40,7 +41,7 @@ Elevate is the sole Program Owner and primary training provider. The Collaborati
 
 This Agreement does not create a partnership, joint venture, franchise, co-ownership arrangement, employment relationship, or shared governance structure. The Collaborating Party does not obtain ownership rights, governance authority, or decision-making authority over the training program, its curriculum, its credentials, its tuition structure, or its brand.
 
-The Collaborating Party may not represent itself as a co-owner, partner, co-founder, or governing authority of Elevate for Humanity in any public communication, grant application, funding proposal, or legal document.`,
+The Collaborating Party may not represent itself as a co-owner, partner, co-founder, or governing authority of ${PLATFORM_DEFAULTS.orgName} in any public communication, grant application, funding proposal, or legal document.`,
   },
   {
     id: 'network',
@@ -62,7 +63,7 @@ All programs delivered under this Agreement must comply with federal nondiscrimi
 • Tuition rates, financial policies, and student payment structures
 • Student enrollment, admissions criteria, and program eligibility
 • Instructor standards, qualifications, and quality control
-• Elevate for Humanity brand, trademarks, and public identity
+• ${PLATFORM_DEFAULTS.orgName} brand, trademarks, and public identity
 • Compliance reporting to DWD, federal workforce agencies, and credential bodies
 • Student outcome data collection and reporting
 • Program suspension, modification, or termination
@@ -93,7 +94,7 @@ Net revenue = gross tuition minus operational costs (credential exam fees, LMS, 
   {
     id: 'ip',
     title: '6. Intellectual Property and Non-Replication',
-    content: `All curriculum materials, instructional content, LMS systems, operational procedures, branding, credential alignments, and program methodologies are proprietary intellectual property owned exclusively by Elevate for Humanity.
+    content: `All curriculum materials, instructional content, LMS systems, operational procedures, branding, credential alignments, and program methodologies are proprietary intellectual property owned exclusively by ${PLATFORM_DEFAULTS.orgName}.
 
 The Collaborating Party receives limited, non-transferable authorization to support delivery of program components solely for approved cohorts under this Agreement. This authorization terminates automatically upon expiration or termination of this Agreement.
 

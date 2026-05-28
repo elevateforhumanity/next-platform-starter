@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Lightbulb, ArrowRight, TrendingUp, Briefcase, BarChart } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Industry Insights Mentorship | Elevate for Humanity',
+  title: 'Industry Insights Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Gain insider knowledge about your target industry from experienced professionals. Understand trends, opportunities, and challenges.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/industry-insights' },
 };

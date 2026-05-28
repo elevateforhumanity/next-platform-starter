@@ -22,6 +22,7 @@ import { logger } from '@/lib/logger';
 import { resolvePaymentAmount } from '@/lib/payments/resolve-amount';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 async function _POST(request: NextRequest) {
@@ -92,7 +93,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: resolution.error }, { status: resolution.status });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     // Use randomBytes — Math.random() has collision risk for concurrent checkouts.
     const orderId = `EFH-AFFIRM-${Date.now()}-${randomBytes(6).toString('hex')}`;
 

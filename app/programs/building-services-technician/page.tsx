@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Building Services Technician Apprenticeship | DOL Registered | Indianapolis',
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 const CREDENTIALS = [
   { name: 'DOL Journeyworker Certificate', issuer: 'U.S. Department of Labor', description: 'Nationally recognized credential upon completing 6,000 hours of on-the-job training.' },
   { name: 'OSHA 10/30 Safety Certification', issuer: 'U.S. Department of Labor', description: 'Industry-standard workplace safety certification for construction and maintenance.' },
-  { name: 'Competency Certificate', issuer: 'Elevate for Humanity / 2Exclusive LLC', description: 'Documentation of all skills and competencies mastered during the apprenticeship.' },
+  { name: 'Competency Certificate', issuer: '{PLATFORM_DEFAULTS.orgName} / 2Exclusive LLC', description: 'Documentation of all skills and competencies mastered during the apprenticeship.' },
 ];
 
 const FAQS = [

@@ -1,4 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CertificateData {
   studentName: string;
@@ -143,7 +144,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Blo
   });
 
   // Issuer
-  const issuer = 'Elevate for Humanity Career & Technical Institute';
+  const issuer = '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute';
   const issuerWidth = timesBold.widthOfTextAtSize(issuer, 16);
   page.drawText(issuer, {
     x: (width - issuerWidth) / 2,

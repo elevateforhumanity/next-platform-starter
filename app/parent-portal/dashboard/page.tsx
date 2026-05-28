@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   GraduationCap,
   ArrowRight,
   BookOpen,
@@ -131,10 +132,10 @@ export default async function ParentDashboardPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
-                href="tel:3173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors"
               >
-                <Phone className="w-4 h-4" /> (317) 314-3757
+                <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <a
                 href="mailto:info@elevateforhumanity.org"
@@ -238,7 +239,7 @@ export default async function ParentDashboardPage() {
           </div>
           <div className="flex gap-3">
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors"
             >
               <Phone className="w-4 h-4" /> Call

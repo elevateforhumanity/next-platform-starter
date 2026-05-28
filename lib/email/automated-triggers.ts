@@ -9,6 +9,7 @@ import { createClient } from '@/lib/supabase/server';
 import { sendEmail } from './email-service';
 import { studentEmailTemplates } from './templates/student-emails';
 import { appointmentEmailTemplates } from './templates/appointment-emails';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Send application received email
@@ -86,13 +87,13 @@ export async function sendRequirementReminderEmail(
         </a>
       </p>
 
-      <p>If you have questions or need assistance, call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+      <p>If you have questions or need assistance, call us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
 
       <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
       <p style="color: #666; font-size: 14px;">
-        <strong>Elevate for Humanity</strong><br />
-        Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+        <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+        Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
       </p>
     </div>
   `;
@@ -107,16 +108,16 @@ Due: ${dueDate}
 
 Complete it here: ${actionLink}
 
-If you have questions or need assistance, call us at (317) 314-3757.
+If you have questions or need assistance, call us at ${PLATFORM_DEFAULTS.supportPhone}.
 
 —
-Elevate for Humanity
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
   `;
 
   const result = await sendEmail({
     to: studentEmail,
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject,
     html,
     text,
@@ -157,15 +158,15 @@ export async function sendOverdueRequirementAlert(
         </a>
       </p>
 
-      <p>If you're experiencing challenges or need support, please reach out to your advisor or call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+      <p>If you're experiencing challenges or need support, please reach out to your advisor or call us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
 
       <p>We're here to help you succeed.</p>
 
       <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
       <p style="color: #666; font-size: 14px;">
-        <strong>Elevate for Humanity</strong><br />
-        Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+        <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+        Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
       </p>
     </div>
   `;
@@ -182,18 +183,18 @@ Please complete this requirement as soon as possible to stay on track with your 
 
 Complete it here: ${actionLink}
 
-If you're experiencing challenges or need support, please reach out to your advisor or call us at (317) 314-3757.
+If you're experiencing challenges or need support, please reach out to your advisor or call us at ${PLATFORM_DEFAULTS.supportPhone}.
 
 We're here to help you succeed.
 
 —
-Elevate for Humanity
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
   `;
 
   const result = await sendEmail({
     to: studentEmail,
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject,
     html,
     text,
@@ -317,7 +318,7 @@ export async function sendAtRiskAlertToAdvisor(
       <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
       <p style="color: #666; font-size: 14px;">
-        <strong>Elevate for Humanity</strong><br />
+        <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
         Automated Alert System
       </p>
     </div>
@@ -339,7 +340,7 @@ View student dashboard: ${dashboardLink}
 Please reach out to this student to provide support and address any barriers to success.
 
 —
-Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName}
 Automated Alert System
   `;
 

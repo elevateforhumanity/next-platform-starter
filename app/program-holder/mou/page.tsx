@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 import MOUSignClient from './MOUSignClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,13 +100,13 @@ export default async function ProgramHolderMOUPage() {
             <div className="bg-white rounded-xl border border-slate-200 p-8 mb-2 text-slate-700 text-sm leading-relaxed">
               <h2 className="text-lg font-bold text-slate-900 mb-1">Memorandum of Understanding</h2>
               <p className="text-xs text-slate-400 mb-6">
-                Elevate for Humanity Career &amp; Technical Institute · 8888 Keystone Crossing,
+                {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute · 8888 Keystone Crossing,
                 Suite 1300, Indianapolis, IN 46240
               </p>
 
               <p className="mb-4">
                 This Memorandum of Understanding (&ldquo;MOU&rdquo;) is entered into between{' '}
-                <strong>Elevate for Humanity Career &amp; Technical Institute</strong>{' '}
+                <strong>{PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</strong>{' '}
                 (&ldquo;Elevate&rdquo;) and <strong>{orgName}</strong> (&ldquo;Program
                 Holder&rdquo;).
               </p>
@@ -231,7 +232,7 @@ export default async function ProgramHolderMOUPage() {
                       <span className="font-bold text-slate-900">$3,735.00</span>
                     </div>
                     <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
-                      <span className="text-slate-700">50% to Elevate for Humanity</span>
+                      <span className="text-slate-700">50% to {PLATFORM_DEFAULTS.orgName}</span>
                       <span className="font-medium text-slate-900">$1,867.50</span>
                     </div>
                     <div className="flex justify-between items-center pt-1.5">
@@ -570,7 +571,7 @@ export default async function ProgramHolderMOUPage() {
                   </p>
 
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">IX. Responsibilities</h3>
-                  <p className="mb-2 font-medium text-slate-800">Elevate for Humanity</p>
+                  <p className="mb-2 font-medium text-slate-800">{PLATFORM_DEFAULTS.orgName}</p>
                   <ul className="list-disc pl-5 space-y-1 mb-3">
                     <li>Participant recruitment and enrollment</li>
                     <li>Program administration and coordination</li>
@@ -693,7 +694,7 @@ export default async function ProgramHolderMOUPage() {
                   <p className="mb-3">
                     All refund determinations, funding adjustments, attendance compliance
                     determinations, and participant eligibility decisions shall be administered
-                    solely by Elevate for Humanity in accordance with institutional policies and
+                    solely by {PLATFORM_DEFAULTS.orgName} in accordance with institutional policies and
                     workforce development guidelines. Payments to the Program Holder are tied to
                     verified student participation as follows:
                   </p>
@@ -807,7 +808,7 @@ export default async function ProgramHolderMOUPage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 mb-1 font-medium uppercase tracking-wide">
-                        Elevate for Humanity
+                        {PLATFORM_DEFAULTS.orgName}
                       </p>
                       <div className="border-b border-slate-400 h-8 mb-1" />
                       <p className="text-xs text-slate-500">Elizabeth Greene, Founder &amp; CEO</p>

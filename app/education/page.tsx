@@ -6,6 +6,7 @@ import Logo from '@/components/ui/Logo';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import { MapPin, ArrowRight, Clock, Menu, X, Phone, Mail, BookOpen, Users, Award, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const NAV = [
   { label: 'Programs', href: '/programs' },
@@ -87,7 +88,7 @@ export default function EducationLandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/education" className="flex items-center gap-2.5">
-              <Logo alt="Elevate for Humanity" width={140} height={40} className="h-9 w-auto" priority />
+              <Logo alt={PLATFORM_DEFAULTS.orgName} width={140} height={40} className="h-9 w-auto" priority />
               <span className="hidden sm:inline text-xs font-bold text-brand-red-600 bg-brand-red-50 px-2.5 py-1 rounded-full border border-brand-red-200">Education</span>
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
@@ -126,7 +127,7 @@ export default function EducationLandingPage() {
             { label: 'Apply Now', href: '/start', variant: 'secondary' },
             { label: 'Check Funding', href: '/funding', variant: 'secondary' },
           ]}
-          trustIndicators={['Elevate for Humanity Education', 'WIOA & WRG Eligible', 'Indianapolis, Indiana']}
+          trustIndicators={['{PLATFORM_DEFAULTS.orgName} Education', 'WIOA & WRG Eligible', 'Indianapolis, Indiana']}
         />
       </section>
 
@@ -227,7 +228,7 @@ export default function EducationLandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <Logo alt="Elevate for Humanity" width={120} height={36} className="h-8 w-auto brightness-0 invert mb-3" />
+              <Logo alt={PLATFORM_DEFAULTS.orgName} width={120} height={36} className="h-8 w-auto brightness-0 invert mb-3" />
               <div className="text-sm">8888 Keystone Crossing, Suite 1300</div>
               <div className="text-sm">Indianapolis, IN 46240</div>
               <div className="flex items-center gap-2 mt-3 text-sm"><Phone className="w-4 h-4" /><a href="tel:+13173550500" className="hover:text-slate-900">(317) 355-0500</a></div>
@@ -252,8 +253,8 @@ export default function EducationLandingPage() {
             </div>
           </div>
           <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
-            <div>&copy; {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</div>
-            <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">www.elevateforhumanity.org</Link>
+            <div>&copy; {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.</div>
+            <Link href={PLATFORM_DEFAULTS.siteUrl} className="hover:text-slate-900">www.elevateforhumanity.org</Link>
           </div>
         </div>
       </footer>

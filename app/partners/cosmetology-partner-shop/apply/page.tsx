@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { Loader2, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const WORKERS_COMP_OPTIONS = [
   { value: 'verified', label: "Yes — we carry Workers' Compensation insurance" },
@@ -518,8 +519,8 @@ export default function CosmetologySalonApplyPage() {
               Contact us
             </Link>{' '}
             or call{' '}
-            <a href="tel:3173143757" className="text-purple-600 hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-purple-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </form>

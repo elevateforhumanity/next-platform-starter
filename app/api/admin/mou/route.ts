@@ -10,6 +10,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { trySendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -99,19 +100,19 @@ export async function POST(request: NextRequest) {
     if (partner_email && mou) {
       await trySendEmail({
         to: partner_email,
-        subject: `MOU from Elevate for Humanity — ${mouTitle ?? 'Partnership Agreement'}`,
+        subject: `MOU from ${PLATFORM_DEFAULTS.orgName} — ${mouTitle ?? 'Partnership Agreement'}`,
         html: `
           <p>Dear ${partner_name ?? 'Partner'},</p>
-          <p>Elevate for Humanity has prepared a Memorandum of Understanding for your review.</p>
+          <p>${PLATFORM_DEFAULTS.orgName} has prepared a Memorandum of Understanding for your review.</p>
           <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:24px;margin:16px 0">
             ${mouContent}
           </div>
           <p>Please review and reply to this email to confirm your agreement, or contact us at
-          <a href="mailto:partnerships@elevateforhumanity.org">partnerships@elevateforhumanity.org</a>.</p>
-          <p>— Elevate for Humanity</p>
+          <a href="mailto:partnerships@${PLATFORM_DEFAULTS.canonicalDomain}">partnerships@${PLATFORM_DEFAULTS.canonicalDomain}</a>.</p>
+          <p>— ${PLATFORM_DEFAULTS.orgName}</p>
         `,
-        text: `MOU from Elevate for Humanity\n\n${mouContent?.replace(/<[^>]+>/g, ' ')}\n\nContact: partnerships@elevateforhumanity.org`,
-        replyTo: 'partnerships@elevateforhumanity.org',
+        text: `MOU from ${PLATFORM_DEFAULTS.orgName}\n\n${mouContent?.replace(/<[^>]+>/g, ' ')}\n\nContact: partnerships@${PLATFORM_DEFAULTS.canonicalDomain}`,
+        replyTo: 'partnerships@${PLATFORM_DEFAULTS.canonicalDomain}',
       });
 
       // Update status to sent
@@ -150,10 +151,10 @@ export async function POST(request: NextRequest) {
 
     await trySendEmail({
       to: partner_email,
-      subject: `MOU from Elevate for Humanity — ${mou.title ?? 'Partnership Agreement'}`,
-      html: `<p>Please review the attached MOU from Elevate for Humanity.</p><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:24px">${mou.content ?? ''}</div>`,
+      subject: `MOU from ${PLATFORM_DEFAULTS.orgName} — ${mou.title ?? 'Partnership Agreement'}`,
+      html: `<p>Please review the attached MOU from ${PLATFORM_DEFAULTS.orgName}.</p><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:24px">${mou.content ?? ''}</div>`,
       text: mou.content?.replace(/<[^>]+>/g, ' ') ?? '',
-      replyTo: 'partnerships@elevateforhumanity.org',
+      replyTo: 'partnerships@${PLATFORM_DEFAULTS.canonicalDomain}',
     });
 
     await supabase.from('partner_mous').update({ status: 'sent', sent_at: new Date().toISOString() }).eq('id', mou_id);

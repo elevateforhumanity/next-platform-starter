@@ -6,6 +6,7 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   Palette,
   BookOpen,
@@ -17,7 +18,7 @@ import {
   Settings,
 CheckCircle, } from 'lucide-react';
 
-const MASTER_STATEMENT = `All platform products are licensed access to systems operated by Elevate for Humanity. Ownership of software, infrastructure, and intellectual property is not transferred.`;
+const MASTER_STATEMENT = `All platform products are licensed access to systems operated by ${PLATFORM_DEFAULTS.orgName}. Ownership of software, infrastructure, and intellectual property is not transferred.`;
 
 const NEXT_STEPS = [
   {
@@ -131,7 +132,7 @@ function SuccessContent() {
             <div className="bg-white rounded-lg p-4">
               <div className="text-slate-600 text-sm mb-1">Platform URL</div>
               <div className="font-bold text-brand-blue-600">
-                {tenantData?.subdomain || 'yourorg'}.elevateforhumanity.org
+                {tenantData?.subdomain || 'yourorg'}.${PLATFORM_DEFAULTS.canonicalDomain}
               </div>
             </div>
             <div className="bg-white rounded-lg p-4">

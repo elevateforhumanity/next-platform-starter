@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, CheckCircle, Building2, FileText, Users, Shield, BarChart3 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Partner Operating Model',
-  description: 'How Elevate for Humanity partners with training providers, employers, workforce agencies, and government entities. Roles, responsibilities, and compliance requirements.',
+  description: 'How {PLATFORM_DEFAULTS.orgName} partners with training providers, employers, workforce agencies, and government entities. Roles, responsibilities, and compliance requirements.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partner-operating-model' },
 };
 

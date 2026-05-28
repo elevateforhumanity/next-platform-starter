@@ -31,6 +31,7 @@ import { buildProviderConstraintPrompt, getApprovedProvidersForCategory } from '
 import { getCertiportContextForCourse } from '@/lib/partners/certiport';
 import { buildWorkforceOutcomeContext } from './workforce-outcomes';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -235,7 +236,7 @@ export async function orchestratePathway(
   const contentContext = contentContexts.join('\n\n');
 
   // 2. Use reasoning model to assemble the pathway
-  const systemPrompt = `You are a workforce curriculum orchestration engine for Elevate for Humanity Career and Technical Institute.
+  const systemPrompt = `You are a workforce curriculum orchestration engine for ${PLATFORM_DEFAULTS.orgName} Career and Technical Institute.
 
 Your job is to assemble structured workforce training pathways from APPROVED content sources only.
 You do NOT generate proprietary lesson content. You orchestrate assembly from approved providers.
@@ -345,7 +346,7 @@ export async function suggestPathways(learnerGoal: string, currentPrograms: stri
     messages: [
       {
         role: 'system',
-        content: `You are a workforce pathway advisor for Elevate for Humanity.
+        content: `You are a workforce pathway advisor for ${PLATFORM_DEFAULTS.orgName}.
 Suggest 2-3 specific program sequences from our catalog that lead to the learner's goal.
 Available programs: ${currentPrograms.join(', ')}.
 Be specific. Include credential names and estimated timelines. Keep each suggestion to 2 sentences.`,

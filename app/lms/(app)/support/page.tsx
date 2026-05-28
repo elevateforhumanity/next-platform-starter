@@ -18,6 +18,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { SupportForm } from './SupportForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Support | Student Portal',
@@ -212,7 +213,7 @@ export default async function SupportPage() {
                   </div>
                   <div>
                     <div className="font-medium text-slate-900">Phone Support</div>
-                    <div className="text-sm">(317) 314-3757</div>
+                    <div className="text-sm">${PLATFORM_DEFAULTS.supportPhone}</div>
                   </div>
                 </a>
                 <a

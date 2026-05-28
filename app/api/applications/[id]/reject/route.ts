@@ -6,6 +6,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
@@ -68,10 +69,10 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
     // Send rejection email
     await sendEmail({
       to: application.email,
-      subject: 'Application Update - Elevate for Humanity',
+      subject: 'Application Update - ${PLATFORM_DEFAULTS.orgName}',
       html: `
         <h2>Hello ${application.first_name},</h2>
-        <p>Thank you for your interest in Elevate for Humanity.</p>
+        <p>Thank you for your interest in ${PLATFORM_DEFAULTS.orgName}.</p>
         <p>After reviewing your application, we are unable to offer you admission at this time.</p>
         ${reason ? `<p><strong>Reason:</strong> ${reason}</p>` : ''}
         <p>This decision does not reflect on your potential. We encourage you to:</p>
@@ -80,8 +81,8 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
           <li>Explore other training opportunities in your area</li>
           <li>Contact us if you have questions about this decision</li>
         </ul>
-        <p>Questions? Call us at <a href="tel:317-314-3757">317-314-3757</a></p>
-        <p>Best regards,<br>Elevate for Humanity Admissions Team</p>
+        <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a></p>
+        <p>Best regards,<br>${PLATFORM_DEFAULTS.orgName} Admissions Team</p>
       `,
     });
 

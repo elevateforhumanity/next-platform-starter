@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { CheckCircle, ChevronRight, Clock, AlertCircle, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // General-purpose competency questions for all Elevate staff roles
 const QUESTIONS = [
@@ -62,7 +63,7 @@ const QUESTIONS = [
   },
   {
     id: 'q5',
-    text: "Which of the following best describes Elevate for Humanity's primary mission?",
+    text: "Which of the following best describes {PLATFORM_DEFAULTS.orgName}'s primary mission?",
     options: [
       { id: 'a', text: 'Providing affordable tuition-based college prep programs' },
       {
@@ -243,7 +244,7 @@ function AssessmentContent() {
               <CheckCircle className="w-8 h-8 text-brand-blue-600" />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 mb-2">Competency Assessment</h1>
-            <p className="text-slate-500">{position} · Elevate for Humanity</p>
+            <p className="text-slate-500">{position} · {PLATFORM_DEFAULTS.orgName}</p>
           </div>
           <div className="space-y-3 mb-8">
             {[

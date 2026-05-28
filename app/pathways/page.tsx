@@ -5,18 +5,19 @@ import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import PathwayCTA from '@/components/pathways/PathwayCTA';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Career Pathways & Workforce Infrastructure',
   description:
-    'Elevate for Humanity operates a structured career pathway system: eligibility screening, credentialed training, apprenticeship, employer placement, and advancement tracking across healthcare, trades, CDL, barbering, and technology.',
+    '{PLATFORM_DEFAULTS.orgName} operates a structured career pathway system: eligibility screening, credentialed training, apprenticeship, employer placement, and advancement tracking across healthcare, trades, CDL, barbering, and technology.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways' },
   openGraph: {
     title: 'Career Pathways & Workforce Infrastructure',
     description:
       'Structured workforce pathways: screening, training, credentialing, apprenticeship, placement, and advancement.',
     url: 'https://www.elevateforhumanity.org/pathways',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/images/pages/career-counseling.jpg',
@@ -221,7 +222,7 @@ export default function PathwaysPage() {
           </h1>
           <div className="prose prose-lg max-w-none text-slate-700 space-y-4">
             <p>
-              Elevate for Humanity Career &amp; Technical Institute is a centralized apprenticeship
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is a centralized apprenticeship
               sponsor and workforce training provider based in Indianapolis, Indiana, operating
               under 2Exclusive LLC-S. The institute coordinates related technical instruction,
               apprenticeship sponsorship, and licensed employer training sites under a unified
@@ -404,7 +405,7 @@ export default function PathwaysPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">How Programs Are Delivered</h2>
           <div className="text-sm text-slate-700 space-y-3">
             <p>
-              Elevate for Humanity operates as a Hybrid Workforce Training Provider and Registered
+              {PLATFORM_DEFAULTS.orgName} operates as a Hybrid Workforce Training Provider and Registered
               Apprenticeship Sponsor. Training is delivered through licensed credential partners and
               approved program holders under centralized institutional oversight, with employer
               partners providing structured on-the-job training. Elevate manages enrollment, funding

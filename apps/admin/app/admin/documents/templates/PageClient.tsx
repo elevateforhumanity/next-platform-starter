@@ -20,6 +20,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   MOU_TEMPLATE_DEFAULT,
   generateMOUMarkdown,
   REPORT_TEMPLATE_DEFAULT,
@@ -38,9 +39,9 @@ function MOUBuilder() {
     ...MOU_TEMPLATE_DEFAULT,
     partnerOrganization: 'Partner Organization Name',
     purpose:
-      'This Memorandum of Understanding establishes a collaborative framework between Elevate for Humanity and [Partner] to deliver workforce training, credential preparation, and employment placement services.',
+      'This Memorandum of Understanding establishes a collaborative framework between {PLATFORM_DEFAULTS.orgName} and [Partner] to deliver workforce training, credential preparation, and employment placement services.',
     background:
-      'Elevate for Humanity is an ETPL-listed workforce development organization serving Indianapolis and surrounding communities. [Partner] provides [describe partner capabilities]. Together, both organizations seek to address the growing demand for skilled workers in [industry].',
+      '{PLATFORM_DEFAULTS.orgName} is an ETPL-listed workforce development organization serving Indianapolis and surrounding communities. [Partner] provides [describe partner capabilities]. Together, both organizations seek to address the growing demand for skilled workers in [industry].',
     scopeOfCollaboration:
       'This partnership covers the delivery of [program name] training, including classroom instruction, hands-on lab exercises, credential testing, and employment placement support.',
     elevateSigner: { name: 'Elizabeth Greene', title: 'Founder & CEO' },

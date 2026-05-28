@@ -5,9 +5,10 @@ import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { auditedMutation } from '@/lib/audit/transactional';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 /**
  * POST /api/enrollment/approve
@@ -61,7 +62,7 @@ async function _POST() {
       subject: `Enrollment Approved — Welcome to ${programLabel} [${refNumber}]`,
       html: [
         `<h2>Congratulations, ${application.first_name}!</h2>`,
-        `<p>Your enrollment for <strong>${programLabel}</strong> at Elevate for Humanity has been <strong>approved</strong>.</p>`,
+        `<p>Your enrollment for <strong>${programLabel}</strong> at ${PLATFORM_DEFAULTS.orgName} has been <strong>approved</strong>.</p>`,
         `<p>All requirements have been verified:</p>`,
         `<ul>`,
         `<li>✅ Profile complete</li>`,
@@ -82,7 +83,7 @@ async function _POST() {
         `</ol>`,
         `<p>Your reference number: <strong>${refNumber}</strong></p>`,
         `<p>Questions? Reply to this email or call us.</p>`,
-        `<p>— Elevate for Humanity</p>`,
+        `<p>— ${PLATFORM_DEFAULTS.orgName}</p>`,
       ].join(''),
     }).catch((err) => logger.error('Failed to send student approval email', err as Error));
 

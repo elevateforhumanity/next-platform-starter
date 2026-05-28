@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import ProgressSteps from '@/components/start/ProgressSteps';
 import StartForm from '@/components/start/StartForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Start Here',
@@ -129,10 +130,10 @@ export default function StartPage() {
               <p className="mt-1 text-sm text-slate-600">
                 Call{' '}
                 <a
-                  href="tel:+13173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="font-medium text-brand-blue-600 hover:underline"
                 >
-                  (317) 314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>{' '}
                 or email{' '}
                 <a
@@ -205,11 +206,11 @@ export default function StartPage() {
               Check Eligibility
             </a>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-4 font-bold text-white transition hover:bg-brand-blue-600"
             >
               <Phone className="h-5 w-5" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

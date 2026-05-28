@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Per-program OG image map.
  *
@@ -84,6 +85,6 @@ export function getProgramOgImage(slug: string): string {
 }
 
 /** Full absolute URL for use in metadata (requires site base URL) */
-export function getProgramOgImageUrl(slug: string, baseUrl = 'https://www.elevateforhumanity.org'): string {
+export function getProgramOgImageUrl(slug: string, baseUrl = PLATFORM_DEFAULTS.siteUrl): string {
   return `${baseUrl}${getProgramOgImage(slug)}`;
 }

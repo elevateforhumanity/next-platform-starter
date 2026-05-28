@@ -4,10 +4,11 @@ import { Star, Quote } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Testimonials',
-  description: 'Stories from Elevate for Humanity graduates and partners.',
+  description: 'Stories from {PLATFORM_DEFAULTS.orgName} graduates and partners.',
   path: '/testimonials',
 });
 
@@ -38,14 +39,14 @@ export default async function TestimonialsPage() {
     <section className="mx-auto max-w-5xl px-4 py-16">
       <h1 className="text-3xl font-bold text-slate-900">Testimonials</h1>
       <p className="mt-4 text-slate-600 text-lg">
-        Stories from Elevate for Humanity graduates and partners.
+        Stories from {PLATFORM_DEFAULTS.orgName} graduates and partners.
       </p>
 
       {testimonials.length === 0 ? (
         <div className="mt-12 text-center py-16 bg-slate-50 rounded-2xl">
           <Quote className="w-12 h-12 text-slate-300 mx-auto mb-4" />
           <p className="text-slate-500 text-lg mb-2">No published testimonials yet.</p>
-          <p className="text-slate-400 text-sm">Be the first to share your experience with Elevate for Humanity.</p>
+          <p className="text-slate-400 text-sm">Be the first to share your experience with {PLATFORM_DEFAULTS.orgName}.</p>
           <div className="mt-8 flex gap-4 justify-center">
             <Link href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-slate-800 transition">
               Apply Now

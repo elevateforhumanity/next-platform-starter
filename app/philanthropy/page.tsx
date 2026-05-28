@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -26,8 +27,8 @@ export default function PhilanthropyPage() {
         intro: {
           heading: 'Why Workforce Philanthropy Matters',
           paragraphs: [
-            'Most workforce training programs charge tuition that puts them out of reach for the people who need them most. Elevate for Humanity bridges that gap through WIOA funding, employer partnerships, and philanthropic support — but funding gaps remain for students who fall just outside eligibility thresholds.',
-            'Gifts to Elevate for Humanity directly fund training scholarships, tools and equipment, exam fees, and career placement services. Every dollar goes toward measurable outcomes: credentials earned, jobs secured, wages increased.',
+            'Most workforce training programs charge tuition that puts them out of reach for the people who need them most. {PLATFORM_DEFAULTS.orgName} bridges that gap through WIOA funding, employer partnerships, and philanthropic support — but funding gaps remain for students who fall just outside eligibility thresholds.',
+            'Gifts to {PLATFORM_DEFAULTS.orgName} directly fund training scholarships, tools and equipment, exam fees, and career placement services. Every dollar goes toward measurable outcomes: credentials earned, jobs secured, wages increased.',
           ],
           image: '/images/pages/community-page-2.webp',
         },
@@ -55,7 +56,7 @@ export default function PhilanthropyPage() {
         },
         cta: {
           heading: 'Make a Gift Today',
-          subtitle: 'Every contribution directly funds a student\'s path to a career. Call (317) 314-3757 or email info@elevateforhumanity.org.',
+          subtitle: 'Every contribution directly funds a student\'s path to a career. Call {PLATFORM_DEFAULTS.supportPhone} or email info@elevateforhumanity.org.',
           primaryLabel: 'Donate Now',
           primaryHref: '/donate',
           secondaryLabel: 'Contact Us',

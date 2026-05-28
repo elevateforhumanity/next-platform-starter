@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   HelpCircle,
   Book,
   MessageCircle,
@@ -157,7 +158,7 @@ export default async function HelpPage() {
               </div>
               <div>
                 <div className="font-semibold text-slate-900">Contact Us</div>
-                <div className="text-slate-700">(317) 314-3757</div>
+                <div className="text-slate-700">{PLATFORM_DEFAULTS.supportPhone}</div>
               </div>
             </a>
             <a

@@ -10,6 +10,7 @@ import {
   BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight, Upload,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const compensationModels = [
   { value: 'hourly', label: 'Hourly Wage' },
@@ -220,14 +221,14 @@ export default function BarbershopPartnerApplyPage() {
       }
 
       if (!result.applicationId) {
-        setError('Application could not be confirmed. Please call (317) 314-3757.');
+        setError('Application could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
         setLoading(false);
         return;
       }
 
       router.push('/partners/barbershop-apprenticeship/thank-you');
     } catch {
-      setError('Unable to submit. Please try again or call (317) 314-3757.');
+      setError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setLoading(false);
     }
   };

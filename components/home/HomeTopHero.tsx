@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function HomeTopHero() {
   return (
@@ -6,7 +7,7 @@ export function HomeTopHero() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image
         src="/images/pages/prog-hero-main-2.webp"
-        alt="Elevate for Humanity - Empowering Futures Through Innovation & Opportunity"
+        alt="{PLATFORM_DEFAULTS.orgName} - Empowering Futures Through Innovation & Opportunity"
         width={1920}
         height={800}
         priority

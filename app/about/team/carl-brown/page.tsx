@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Carl Brown | Our Team',
-  description: 'Carl Brown — CDL Instructor & Commercial Truck Driver at Elevate for Humanity Career & Technical Institute.',
+  description: 'Carl Brown — CDL Instructor & Commercial Truck Driver at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {

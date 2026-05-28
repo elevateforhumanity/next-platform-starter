@@ -24,6 +24,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Resolve a secret: env var first, then platform_secrets table fallback.
@@ -93,7 +94,7 @@ export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
   const adminUrl = getAdminUrl();
 
   const stream = new ReadableStream({

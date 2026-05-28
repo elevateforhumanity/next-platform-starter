@@ -1,6 +1,7 @@
 'use client';
 
 import { Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CertificateProps {
   studentName: string;
@@ -67,7 +68,7 @@ export function CertificateTemplate({
             <div className="border-t-2 border-slate-900 pt-2 px-8">
               <p className="font-bold text-black">{instructorName}</p>
               <p className="text-sm text-black">
-                Elevate for Humanity Career &amp; Technical Institute
+                {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
               </p>
             </div>
           </div>
@@ -119,12 +120,12 @@ export function CertificatePreview({
   };
 
   const shareOnLinkedIn = () => {
-    const url = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(courseName)}&organizationId=elevate-for-humanity&issueYear=${new Date(completionDate).getFullYear()}&issueMonth=${new Date(completionDate).getMonth() + 1}&certUrl=${encodeURIComponent(`https://www.elevateforhumanity.org/verify/${certificateNumber}`)}`;
+    const url = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(courseName)}&organizationId=elevate-for-humanity&issueYear=${new Date(completionDate).getFullYear()}&issueMonth=${new Date(completionDate).getMonth() + 1}&certUrl=${encodeURIComponent(`${PLATFORM_DEFAULTS.siteUrl}/verify/${certificateNumber}`)}`;
     window.open(url, '_blank');
   };
 
   const copyVerificationLink = () => {
-    const link = `https://www.elevateforhumanity.org/verify/${certificateNumber}`;
+    const link = `${PLATFORM_DEFAULTS.siteUrl}/verify/${certificateNumber}`;
     navigator.clipboard.writeText(link);
     alert('Verification link copied to clipboard!');
   };

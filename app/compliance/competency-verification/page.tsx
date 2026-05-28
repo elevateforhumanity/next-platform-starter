@@ -17,6 +17,7 @@ import {
 import { PrintButton } from './PrintButton';
 import { ALL_RUBRICS } from './rubric-data';
 import type { ProgramRubric, Competency } from './rubric-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Competency Verification Matrix | Compliance',
@@ -159,7 +160,7 @@ export default function CompetencyVerificationPage() {
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Competency Verification Matrix</h1>
         <p className="text-sm text-slate-700">
-          Elevate for Humanity — Assessment Rubric Documentation
+          {PLATFORM_DEFAULTS.orgName} — Assessment Rubric Documentation
         </p>
       </div>
 

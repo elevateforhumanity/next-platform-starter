@@ -5,9 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Privacy Notice | Elevate for Humanity',
-  description: 'Privacy notice for Elevate for Humanity learners, partners, and visitors. Learn how we collect, use, protect, and share your personal information.',
+  title: 'Privacy Notice | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Privacy notice for {PLATFORM_DEFAULTS.orgName} learners, partners, and visitors. Learn how we collect, use, protect, and share your personal information.',
   keywords: ['privacy notice', 'data collection', 'personal information', 'data protection', 'privacy rights', 'FERPA', 'GDPR', 'CCPA'],
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/privacy-notice',
@@ -29,7 +30,7 @@ export default async function PrivacyNoticePage() {
       <div className="bg-brand-blue-50 border-l-4 border-brand-blue-500 p-6 mb-8">
         <p className="text-lg font-semibold text-brand-blue-900 mb-2">Your Privacy Matters</p>
         <p className="text-brand-blue-800">
-          Elevate for Humanity is committed to protecting your privacy and handling your personal information 
+          {PLATFORM_DEFAULTS.orgName} is committed to protecting your privacy and handling your personal information 
           with care and transparency. This notice explains what information we collect, how we use it, and your rights.
         </p>
       </div>
@@ -37,7 +38,7 @@ export default async function PrivacyNoticePage() {
       <section className="mb-12">
         <h2>Purpose of This Notice</h2>
         <p>
-          This Privacy Notice describes how Elevate for Humanity ("we," "us," or "our") collects, uses, 
+          This Privacy Notice describes how {PLATFORM_DEFAULTS.orgName} ("we," "us," or "our") collects, uses, 
           discloses, and protects personal information from:
         </p>
         <ul>
@@ -447,7 +448,7 @@ export default async function PrivacyNoticePage() {
           </p>
           <p className="mb-2">
             <strong>Mail:</strong><br />
-            Elevate for Humanity<br />
+            {PLATFORM_DEFAULTS.orgName}<br />
             Privacy Office<br />
             [Address]<br />
             Indianapolis, IN [ZIP]

@@ -8,6 +8,7 @@ import { barberOnboardingEmail } from '@/lib/email/templates/barber-onboarding';
 import { logger } from '@/lib/logger';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_BCC = 'elevate4humanityedu@gmail.com';
 
@@ -24,7 +25,7 @@ const BARBER_PROGRAMS = [
 const SKIP_EMAILS = [
   'test.com',
   'test.elevateforhumanity.org',
-  'elevateforhumanity.org',
+  PLATFORM_DEFAULTS.canonicalDomain,
   'elizabethpowell6262', // Owner's test applications (deleted)
 ];
 

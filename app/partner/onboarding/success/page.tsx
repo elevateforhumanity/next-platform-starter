@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Mail, Clock, ArrowRight, CheckCircle, DollarSign } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function PartnerOnboardingSuccessPage() {
   // Auth guard — must be signed in to access onboarding
@@ -61,7 +62,7 @@ export default function PartnerOnboardingSuccessPage() {
 
             <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted!</h1>
             <p className="text-slate-600 mb-8">
-              Thank you for applying to become a Partner Shop with Elevate for Humanity.
+              Thank you for applying to become a Partner Shop with {PLATFORM_DEFAULTS.orgName}.
             </p>
 
             <div className="bg-white rounded-lg p-6 text-left space-y-4 mb-8">
@@ -141,7 +142,7 @@ export default function PartnerOnboardingSuccessPage() {
             <p className="mt-8 text-sm text-slate-500">
               Questions? Contact us at{' '}
               <a href="/support" className="text-brand-blue-600 hover:underline">
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
           </div>

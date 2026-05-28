@@ -6,8 +6,9 @@ import { ArrowRight, Play, CreditCard, Rocket, Settings, BarChart3 } from 'lucid
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'How the Platform Works | Elevate for Humanity',
+  title: 'How the Platform Works | {PLATFORM_DEFAULTS.orgName}',
   description:
     'From demo to live workspace in minutes. No calls, no scheduling — see how the Elevate Workforce OS works, then start using it.',
   alternates: {

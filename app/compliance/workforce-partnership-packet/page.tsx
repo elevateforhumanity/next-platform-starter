@@ -17,6 +17,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { PrintButton } from './PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Workforce Partnership Packet | Compliance',
@@ -144,7 +145,7 @@ export default function WorkforcePartnershipPacketPage() {
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
         <h1 className="text-2xl font-bold text-slate-900">Workforce Partnership Packet</h1>
-        <p className="text-sm text-slate-600">Elevate for Humanity — Partnership Documentation</p>
+        <p className="text-sm text-slate-600">{PLATFORM_DEFAULTS.orgName} — Partnership Documentation</p>
         <p className="text-xs text-slate-500 mt-1">
           RAPIDS ID: 2025-IN-132301 | INTraining Location ID: 10004621
         </p>
@@ -163,7 +164,7 @@ export default function WorkforcePartnershipPacketPage() {
                     Organization
                   </dt>
                   <dd className="text-slate-900 font-medium">
-                    Elevate for Humanity Career &amp; Technical Institute
+                    {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
                   </dd>
                 </div>
                 <div>
@@ -171,7 +172,7 @@ export default function WorkforcePartnershipPacketPage() {
                     Legal Entity
                   </dt>
                   <dd className="text-slate-900">
-                    2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)
+                    2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute)
                   </dd>
                 </div>
                 <div>

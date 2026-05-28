@@ -3,37 +3,38 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
-  title: 'Licensing & Partnerships | Elevate for Humanity',
+  title: 'Licensing & Partnerships | {PLATFORM_DEFAULTS.orgName}',
   description:
-    'Partner with Elevate for Humanity as a training provider, employer partner, or community organization. License the workforce platform or join our network.',
+    'Partner with {PLATFORM_DEFAULTS.orgName} as a training provider, employer partner, or community organization. License the workforce platform or join our network.',
   alternates: {
     canonical: `${SITE_URL}/store/licensing/partnerships`,
   },
   openGraph: {
-    title: 'Licensing & Partnerships | Elevate for Humanity',
+    title: 'Licensing & Partnerships | {PLATFORM_DEFAULTS.orgName}',
     description:
-      'Partner with Elevate for Humanity as a training provider, employer partner, or community organization. License the workforce platform or join our network.',
+      'Partner with {PLATFORM_DEFAULTS.orgName} as a training provider, employer partner, or community organization. License the workforce platform or join our network.',
     url: `${SITE_URL}/store/licensing/partnerships`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     images: [
       {
         url: `${SITE_URL}/images/pages/workforce-partnership-hero.jpg`,
         width: 1200,
         height: 630,
-        alt: 'Licensing and Partnerships — Elevate for Humanity',
+        alt: 'Licensing and Partnerships — {PLATFORM_DEFAULTS.orgName}',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Licensing & Partnerships | Elevate for Humanity',
+    title: 'Licensing & Partnerships | {PLATFORM_DEFAULTS.orgName}',
     description:
-      'Partner with Elevate for Humanity as a training provider, employer partner, or community organization.',
+      'Partner with {PLATFORM_DEFAULTS.orgName} as a training provider, employer partner, or community organization.',
     images: [`${SITE_URL}/images/pages/workforce-partnership-hero.jpg`],
   },
 };
@@ -150,7 +151,7 @@ export default function LicensingPartnershipsPage() {
         <div className="relative h-64 md:h-96 overflow-hidden">
           <Image
             src="/images/pages/workforce-partnership-hero.jpg"
-            alt="Workforce development partnerships — Elevate for Humanity"
+            alt="Workforce development partnerships — {PLATFORM_DEFAULTS.orgName}"
             fill
             className="object-cover"
             priority
@@ -380,10 +381,10 @@ export default function LicensingPartnershipsPage() {
               Apply to Partner
             </Link>
             <a
-              href="tel:317-314-3757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <p className="text-black text-sm mt-6">

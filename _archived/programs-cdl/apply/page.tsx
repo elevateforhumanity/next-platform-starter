@@ -2,9 +2,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, CheckCircle, Clock, DollarSign, Calendar } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Apply for CDL Training | Elevate for Humanity',
+  title: 'Apply for CDL Training | {PLATFORM_DEFAULTS.orgName}',
   description: 'Apply for our CDL Training program. Free training with WIOA funding available.',
 };
 

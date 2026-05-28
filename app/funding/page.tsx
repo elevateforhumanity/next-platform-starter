@@ -9,6 +9,7 @@ export const dynamic = 'force-dynamic';
 
 // EligibilityScreener uses browser APIs — imported via a 'use client' wrapper.
 import EligibilityScreener from '@/components/funding/EligibilityScreenerClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding' },
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     description:
       'WIOA, WRG, Job Ready Indy, payment plans, and more. Many students qualify for funded career training.',
     url: 'https://www.elevateforhumanity.org/funding',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/images/pages/funding-page-5.webp',

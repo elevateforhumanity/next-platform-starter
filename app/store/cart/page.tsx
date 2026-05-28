@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ShoppingCart,
   Trash2,
   Plus,
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 const CART_ERROR_MESSAGES: Record<string, string> = {
-  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
+  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call {PLATFORM_DEFAULTS.supportPhone}.',
   'checkout-failed': 'We could not start your checkout session. Please try again.',
 };
 

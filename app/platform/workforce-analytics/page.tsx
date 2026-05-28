@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BarChart,
   TrendingUp,
   Users,
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Workforce Analytics',
     description: 'Data-driven insights for workforce development decision making.',
     url: 'https://www.elevateforhumanity.org/platform/workforce-analytics',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
         url: '/hero-images/technology-hero.jpg',

@@ -3,6 +3,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
@@ -99,7 +100,7 @@ async function _POST(request: NextRequest) {
         alert_type: 'Stuck Partner Approvals',
         message: `${stuckPartners.length} partner(s) have been stuck in "approved_pending_user" state for over ${STUCK_THRESHOLD_HOURS} hours. These require manual intervention to complete the auth user linking.`,
         details: partnerList,
-        action_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/admin/partners?status=pending_user`,
+        action_url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/admin/partners?status=pending_user`,
         action_label: 'Review Stuck Approvals',
       },
       status: 'queued',

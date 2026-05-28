@@ -7,6 +7,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Calendar, CreditCard, Award } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -182,7 +183,7 @@ export default function IPLAExamSignup() {
                   value={studentInfo.phone}
                   onChange={(e) => setStudentInfo({ ...studentInfo, phone: e.target.value })}
                   className="w-full px-4 py-3 border rounded-lg"
-                  placeholder="(317) 314-3757"
+                  placeholder={PLATFORM_DEFAULTS.supportPhone}
                 />
               </div>
               <div>

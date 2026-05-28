@@ -5,9 +5,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, CheckCircle, FileText, ArrowRight, Users, Clock, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'WOTC — Work Opportunity Tax Credit | Elevate for Humanity',
+  title: 'WOTC — Work Opportunity Tax Credit | {PLATFORM_DEFAULTS.orgName}',
   description: 'Learn how employers can earn $2,400–$9,600 per eligible hire through the Work Opportunity Tax Credit (WOTC) program.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer-portal/wotc' },
 };
@@ -63,7 +64,7 @@ export default function WOTCPage() {
             The credit is calculated as a percentage of first-year wages paid to qualifying employees.
           </p>
           <p className="text-blue-100">
-            Many Elevate for Humanity graduates qualify under one or more WOTC target groups.
+            Many {PLATFORM_DEFAULTS.orgName} graduates qualify under one or more WOTC target groups.
             When you hire our graduates, you may be eligible for tax credits while gaining
             skilled, trained workers.
           </p>

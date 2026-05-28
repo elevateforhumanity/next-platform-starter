@@ -6,6 +6,7 @@ import { getStripe, stripe } from '@/lib/stripe/client';
 import { CERTIPORT_EXAMS } from '@/lib/partners/certiport';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -166,7 +167,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

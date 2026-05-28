@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CheckCircle, Truck, Phone, Clock, FileText, Users } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: "Application Received | CDL Training",
@@ -127,11 +128,11 @@ export default function CDLEnrollmentSuccessPage() {
             Mon–Fri 9am–5pm ET
           </p>
           <a
-            href="tel:317-314-3757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone}"
             className="text-amber-400 hover:underline text-sm flex items-center justify-center gap-1"
           >
             <Phone className="w-3 h-3" />
-            317-314-3757
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </div>
 

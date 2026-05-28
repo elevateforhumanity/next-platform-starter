@@ -10,6 +10,7 @@ import { sendEmail } from './sendgrid';
 import { workoneOnboardingEmail } from './templates/workone-onboarding';
 import { barberOnboardingEmail } from './templates/barber-onboarding';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const ADMIN_BCC = 'elevate4humanityedu@gmail.com';
 
@@ -72,7 +73,7 @@ export async function sendOnboardingEmail(params: SendOnboardingParams): Promise
 
     const result = await sendEmail({
       to: params.email,
-      subject: `Action Required: Schedule Your ${programName} Orientation - Elevate for Humanity`,
+      subject: `Action Required: Schedule Your ${programName} Orientation - ${PLATFORM_DEFAULTS.orgName}`,
       html: template.html,
       bcc: ADMIN_BCC,
     });

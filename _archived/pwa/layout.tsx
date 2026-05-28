@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Elevate Apps',
-  description: 'Mobile apps for Elevate for Humanity programs',
+  description: 'Mobile apps for {PLATFORM_DEFAULTS.orgName} programs',
 };
 
 export const viewport: Viewport = {

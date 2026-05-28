@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Elevate Admin',
     short_name: 'EFH Admin',
-    description: 'Elevate for Humanity — Admin Portal',
+    description: '' + PLATFORM_DEFAULTS.orgName + ' — Admin Portal',
     start_url: '/admin/dashboard',
     scope: '/admin',
     display: 'standalone',

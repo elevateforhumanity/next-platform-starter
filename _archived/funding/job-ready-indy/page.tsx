@@ -4,11 +4,12 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 import PageVideoHero from '@/components/ui/PageVideoHero';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Job Ready Indy | Elevate for Humanity',
+  title: 'Job Ready Indy | {PLATFORM_DEFAULTS.orgName}',
   description:
-    'Job Ready Indy is an Indianapolis workforce initiative connecting residents to funded career training, credentials, and employment. Elevate for Humanity is an approved Job Ready Indy training provider.',
+    'Job Ready Indy is an Indianapolis workforce initiative connecting residents to funded career training, credentials, and employment. {PLATFORM_DEFAULTS.orgName} is an approved Job Ready Indy training provider.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/job-ready-indy' },
 };
 
@@ -19,7 +20,7 @@ export default function JobReadyIndyPage() {
       <PageVideoHero
         videoSrc="/videos/training-providers-hero.mp4"
         posterSrc="/images/pages/funding-page-4.jpg"
-        posterAlt="Funding Job Ready Indy — Elevate for Humanity"
+        posterAlt="Funding Job Ready Indy — {PLATFORM_DEFAULTS.orgName}"
         size="marketing"
       />
       <div className="bg-slate-50 border-b">
@@ -49,7 +50,7 @@ export default function JobReadyIndyPage() {
                 <strong>Job Ready Indy</strong> is an Indianapolis-based workforce initiative that connects Marion County residents to funded career training, industry credentials, and employer placement. The program is designed to remove financial and logistical barriers so residents can access quality training and enter high-demand careers.
               </p>
               <p className="text-slate-700 leading-relaxed mb-6">
-                Elevate for Humanity is an approved Job Ready Indy training provider. Our credential pathway programs in healthcare, skilled trades, technology, and CDL are aligned with the employment outcomes Job Ready Indy is designed to achieve.
+                {PLATFORM_DEFAULTS.orgName} is an approved Job Ready Indy training provider. Our credential pathway programs in healthcare, skilled trades, technology, and CDL are aligned with the employment outcomes Job Ready Indy is designed to achieve.
               </p>
               <Link href="/start" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-4 rounded-full font-bold transition hover:scale-105 shadow-lg">
                 Apply Now <ArrowRight className="w-5 h-5" />
@@ -92,7 +93,7 @@ export default function JobReadyIndyPage() {
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">How to Get Started</h2>
           <div className="space-y-6">
             {[
-              { step: '1', title: 'Contact Elevate for Humanity', desc: 'Call (317) 314-3757 or apply online. Our enrollment team will confirm your eligibility and match you to the right program.' },
+              { step: '1', title: 'Contact {PLATFORM_DEFAULTS.orgName}', desc: 'Call {PLATFORM_DEFAULTS.supportPhone} or apply online. Our enrollment team will confirm your eligibility and match you to the right program.' },
               { step: '2', title: 'Choose Your Program', desc: 'Select from credential pathways in healthcare, skilled trades, technology, CDL, and more — all aligned with Marion County employer demand.' },
               { step: '3', title: 'Get Enrolled', desc: 'We handle the paperwork and coordinate with Job Ready Indy on your behalf. You focus on showing up and completing your training.' },
               { step: '4', title: 'Earn Your Credential', desc: 'Complete your program and earn a nationally recognized credential. Our career services team connects you with employer partners.' },

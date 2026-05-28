@@ -6,6 +6,7 @@ import { notifyApprenticeDecision } from '@/lib/notifications';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -293,7 +294,7 @@ async function _POST(req: NextRequest) {
           // Outbox failed (missing admin client, RPC, or table) — send directly
           logger.warn('Outbox enqueue failed, sending direct email', outboxErr);
           const { sendWelcomeEmail } = await import('@/lib/email/sendgrid');
-          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
           // Get program name for the email
           const { data: program } = await supabase

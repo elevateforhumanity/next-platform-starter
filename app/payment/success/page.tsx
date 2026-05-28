@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Payment Successful',
-  description: 'Your payment was successful. Welcome to Elevate for Humanity!',
+  description: 'Your payment was successful. Welcome to {PLATFORM_DEFAULTS.orgName}!',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment/success',
   },
@@ -29,7 +30,7 @@ export default async function PaymentSuccessPage() {
           </h1>
 
           <p className="text-base md:text-lg text-black mb-8">
-            Thank you for enrolling in Elevate for Humanity. Your payment has been processed
+            Thank you for enrolling in {PLATFORM_DEFAULTS.orgName}. Your payment has been processed
             successfully.
           </p>
 

@@ -5,27 +5,28 @@ import { FileText, Search, ChevronRight, Eye } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Help Center | Elevate for Humanity',
+  title: 'Help Center | {PLATFORM_DEFAULTS.orgName}',
   description: 'Find answers to your questions about enrollment, courses, funding, certifications, and more. Browse our help articles or contact support.',
   keywords: ['help center', 'FAQ', 'support', 'enrollment help', 'funding', 'course help'],
   alternates: {
     canonical: `${SITE_URL}/help/articles`,
   },
   openGraph: {
-    title: 'Help Center | Elevate for Humanity',
+    title: 'Help Center | {PLATFORM_DEFAULTS.orgName}',
     description: 'Find answers to your questions about enrollment, courses, funding, and more.',
     url: `${SITE_URL}/help/articles`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Help Center | Elevate for Humanity',
+    title: 'Help Center | {PLATFORM_DEFAULTS.orgName}',
     description: 'Find answers to your questions about enrollment, courses, and funding.',
   },
 };

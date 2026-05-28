@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Community Guidelines | Elevate for Humanity',
+  title: 'Community Guidelines | {PLATFORM_DEFAULTS.orgName}',
   description: 'Standards for respectful interaction, behavior expectations, and community participation guidelines.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/community-guidelines',
@@ -32,7 +33,7 @@ export default async function CommunityGuidelinesPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
               These Community Guidelines establish standards for respectful interaction and behavior within the 
-              Elevate for Humanity community. We are committed to creating a safe, inclusive, and supportive 
+              {PLATFORM_DEFAULTS.orgName} community. We are committed to creating a safe, inclusive, and supportive 
               environment where all members can learn, grow, and succeed together.
             </p>
 
@@ -200,7 +201,7 @@ export default async function CommunityGuidelinesPage() {
                     <h4 className="text-lg font-bold text-black mb-2">Use Reporting Channels</h4>
                     <p className="text-black">
                       Submit a report through the student portal, email our contact form, 
-                      or call (317) 314-3757.
+                      or call {PLATFORM_DEFAULTS.supportPhone}.
                     </p>
                   </div>
                 </div>
@@ -213,7 +214,7 @@ export default async function CommunityGuidelinesPage() {
                     <h4 className="text-lg font-bold text-black mb-2">Emergency Situations</h4>
                     <p className="text-black">
                       For immediate safety concerns, call 911 first, then notify campus security 
-                      at (317) 314-3757 ext. 911.
+                      at {PLATFORM_DEFAULTS.supportPhone} ext. 911.
                     </p>
                   </div>
                 </div>
@@ -308,10 +309,10 @@ export default async function CommunityGuidelinesPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
               <li><strong>Anonymous Reporting:</strong> Available through student portal</li>
-              <li><strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911</li>
+              <li><strong>Emergency:</strong> Call 911, then {PLATFORM_DEFAULTS.supportPhone} ext. 911</li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

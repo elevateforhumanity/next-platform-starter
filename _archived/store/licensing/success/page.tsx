@@ -5,6 +5,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   Palette,
   BookOpen,
@@ -16,7 +17,7 @@ import {
   Settings,
 CheckCircle, } from 'lucide-react';
 
-const MASTER_STATEMENT = `All platform products are licensed access to systems operated by Elevate for Humanity. Ownership of software, infrastructure, and intellectual property is not transferred.`;
+const MASTER_STATEMENT = `All platform products are licensed access to systems operated by {PLATFORM_DEFAULTS.orgName}. Ownership of software, infrastructure, and intellectual property is not transferred.`;
 
 const NEXT_STEPS = [
   {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, ArrowLeft, FileText, ExternalLink } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -97,7 +98,7 @@ export default async function ConfirmFundingPage({
         </p>
         {errorParam === 'save-failed' && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
-            Failed to save your funding selection. Please try again or call (317) 314-3757 for help.
+            Failed to save your funding selection. Please try again or call {PLATFORM_DEFAULTS.supportPhone} for help.
           </div>
         )}
         <form action={confirmFunding} className="space-y-4">

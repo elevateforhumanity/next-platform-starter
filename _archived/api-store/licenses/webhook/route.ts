@@ -14,6 +14,7 @@ import { logger } from '@/lib/logger';
 import { isEventProcessed, markEventProcessed } from '@/lib/store/idempotency';
 import { logProvisioningStep } from '@/lib/store/audit';
 import { provisionLicense } from '@/lib/store/provisioning';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -132,7 +133,7 @@ export async function POST(request: NextRequest) {
               const { subject, html, text } = generateLicenseWelcomeEmail(emailData);
 
               await resend.emails.send({
-                from: 'Elevate for Humanity <licenses@elevateforhumanity.org>',
+                from: '' + PLATFORM_DEFAULTS.orgName + ' <licenses@elevateforhumanity.org>',
                 to: purchase.contact_email,
                 subject,
                 html,

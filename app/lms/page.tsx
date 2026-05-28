@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Clock, Award, ChevronRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,7 +49,7 @@ export default async function LmsRootPage() {
     <div className="min-h-screen bg-white">
       <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Link href="/"><Image src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" width={120} height={32} className="h-8 w-auto" sizes="(max-width: 768px) 100vw, 50vw" /></Link>
+          <Link href="/"><Image src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} width={120} height={32} className="h-8 w-auto" sizes="(max-width: 768px) 100vw, 50vw" /></Link>
           <div className="flex items-center gap-3">
             <Link href="/lms/programs" className="text-sm text-slate-600 hover:text-slate-900 font-medium hidden sm:block">Browse Programs</Link>
             <Link href="/login" className="text-sm text-slate-600 hover:text-slate-900 font-medium border border-slate-200 px-3 py-1.5 rounded-lg">Sign In</Link>
@@ -59,7 +60,7 @@ export default async function LmsRootPage() {
 
       <section className="py-16 sm:py-24 border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest mb-4">Elevate for Humanity · Career Training</p>
+          <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest mb-4">${PLATFORM_DEFAULTS.orgName} · Career Training</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-5">Start Your Training.<br className="hidden sm:block" /> Build Your Career.</h1>
           <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10">Industry-recognized credentials. Workforce funding available. Real job outcomes.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Scale, Phone, Mail, AlertTriangle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/grievance' },
@@ -60,7 +61,7 @@ export default function GrievancePage() {
           <Scale className="w-10 h-10 mx-auto mb-4 text-slate-300" />
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Grievance Procedure</h1>
           <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Elevate for Humanity is committed to fair treatment of all participants. If you believe
+            {PLATFORM_DEFAULTS.orgName} is committed to fair treatment of all participants. If you believe
             you have been treated unfairly, denied services, or experienced discrimination, you have
             the right to file a grievance.
           </p>
@@ -152,8 +153,8 @@ export default function GrievancePage() {
               <p className="text-slate-600 text-sm mb-2">
                 Call to discuss your concern or request a grievance form:
               </p>
-              <a href="tel:+13173143757" className="text-brand-blue-600 font-medium">
-                (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-medium">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>
@@ -190,7 +191,7 @@ export default function GrievancePage() {
           <div className="bg-white border border-slate-200 rounded-xl p-6 text-sm text-slate-600">
             <p className="font-semibold text-slate-900 mb-2">Equal Opportunity Notice</p>
             <p>
-              Elevate for Humanity is an equal opportunity employer/program. Auxiliary aids and
+              {PLATFORM_DEFAULTS.orgName} is an equal opportunity employer/program. Auxiliary aids and
               services are available upon request to individuals with disabilities. TTY/TDD relay
               services are available by calling 711.
             </p>

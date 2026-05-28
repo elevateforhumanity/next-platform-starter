@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Building2 } from 'lucide-react';
 import { QUICK_STATS } from '../barber-program-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function BarberHero() {
   return (
@@ -78,7 +79,7 @@ export function BarberHero() {
               </p>
               <div className="bg-white border border-slate-200 rounded-xl p-6">
                 <p className="text-sm text-black leading-relaxed italic">
-                  INTraining Program ID: #10004637 &middot; Provider: 2Exclusive LLC-S &middot; Location: Elevate for Humanity Training Center, Indianapolis, Indiana (Marion County)
+                  INTraining Program ID: #10004637 &middot; Provider: 2Exclusive LLC-S &middot; Location: {PLATFORM_DEFAULTS.orgName} Training Center, Indianapolis, Indiana (Marion County)
                 </p>
               </div>
             </div>

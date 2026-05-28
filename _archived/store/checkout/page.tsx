@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ArrowLeft,
   CreditCard,
   ShieldCheck,
@@ -10,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Checkout | Elevate for Humanity',
+  title: 'Checkout | {PLATFORM_DEFAULTS.orgName}',
   description: 'Complete your purchase securely.',
 };
 

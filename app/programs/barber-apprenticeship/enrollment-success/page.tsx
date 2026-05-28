@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Shield } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -118,7 +119,7 @@ export default async function EnrollmentSuccessPage() {
               <span className="text-slate-600">Sponsor</span>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-brand-blue-600" />
-                <span className="font-bold text-slate-900">Elevate for Humanity</span>
+                <span className="font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>
               </div>
             </div>
             

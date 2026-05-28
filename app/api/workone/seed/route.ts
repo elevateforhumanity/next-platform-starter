@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -11,11 +12,11 @@ export const dynamic = 'force-dynamic';
 
 // Base steps every student goes through regardless of funding source
 const BASE_STEPS = [
-  { key: 'efh_inquiry', label: 'Submit Elevate for Humanity application' },
+  { key: 'efh_inquiry', label: 'Submit ' + PLATFORM_DEFAULTS.orgName + ' application' },
   { key: 'icc_account', label: 'Create IndianaCareerConnect account' },
   {
     key: 'workone_appt_booked',
-    label: "Book WorkOne appointment (tell them you're here for Elevate for Humanity)",
+    label: "Book WorkOne appointment (tell them you're here for ' + PLATFORM_DEFAULTS.orgName + ')",
   },
   { key: 'attend_appt', label: 'Attend WorkOne appointment' },
   { key: 'confirm_pathway', label: 'Confirm funding pathway with WorkOne counselor' },

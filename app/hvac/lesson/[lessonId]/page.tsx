@@ -29,6 +29,7 @@ function loadHvacQuizMap(): Record<string, any[]> {
   return d.HVAC_QUIZ_MAP ?? {};
 }
 import { EPA_608_LESSON_TAGS } from '@/lib/courses/hvac-epa-tags';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,7 +43,7 @@ export async function generateMetadata({
   const lesson = getHvacLesson(lessonId);
   if (!lesson) return { title: 'Lesson Not Found' };
   return {
-    title: `${lesson.lessonTitle} | HVAC Training | Elevate for Humanity`,
+    title: `${lesson.lessonTitle} | HVAC Training | ${PLATFORM_DEFAULTS.orgName}`,
     description: lesson.keyConcept,
   };
 }

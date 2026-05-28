@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Compass, ArrowRight } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Career Guidance Mentorship | Elevate for Humanity',
+  title: 'Career Guidance Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Get personalized career guidance from experienced mentors. Navigate your career path with expert advice and support.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/career-guidance' },
 };

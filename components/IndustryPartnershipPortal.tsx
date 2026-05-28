@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Partner {
   id: string;
@@ -42,7 +43,7 @@ export default function IndustryPartnershipPortal() {
       joinedDate: '2023-01',
       contactPerson: 'Sarah Johnson',
       email: 'sarah@techsolutions.com',
-      phone: '(317) 314-3757',
+      phone: PLATFORM_DEFAULTS.supportPhone,
     },
     {
       id: '2',

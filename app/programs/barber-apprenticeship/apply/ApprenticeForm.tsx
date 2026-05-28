@@ -19,6 +19,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
 import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -188,7 +189,7 @@ export default function ApprenticeForm({
           // If we found the existing application, continue to checkout
           if (!applicationId) {
             setError(
-              'You already have an application on file. Please call (317) 314-3757 or email info@elevateforhumanity.org to continue.',
+              'You already have an application on file. Please call ${PLATFORM_DEFAULTS.supportPhone} or email info@${PLATFORM_DEFAULTS.canonicalDomain} to continue.',
             );
             setErrorSeverity('info');
             setLoading(false);
@@ -200,8 +201,8 @@ export default function ApprenticeForm({
           const isBotError = apiError.toLowerCase().includes('bot') || apiError.toLowerCase().includes('verification');
           setError(
             isBotError
-              ? 'Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call (317) 314-3757.'
-              : apiError || 'Failed to save your application. Please try again or call (317) 314-3757.',
+              ? 'Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call ${PLATFORM_DEFAULTS.supportPhone}.'
+              : apiError || 'Failed to save your application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.',
           );
           setErrorSeverity('critical');
           setLoading(false);
@@ -580,7 +581,7 @@ export default function ApprenticeForm({
                     href="/support"
                     className="inline-block mt-2 text-brand-red-600 font-medium hover:underline"
                   >
-                    Need help? Call (317) 314-3757
+                    Need help? Call ${PLATFORM_DEFAULTS.supportPhone}
                   </a>
                 )}
               </div>
@@ -639,7 +640,7 @@ export default function ApprenticeForm({
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="(317) 314-3757"
+                    placeholder={PLATFORM_DEFAULTS.supportPhone}
                   />
                 </div>
 
@@ -653,7 +654,7 @@ export default function ApprenticeForm({
                     className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded"
                   />
                   <label htmlFor="smsConsent" className="text-sm text-black">
-                    I agree to receive text messages from Elevate for Humanity about my enrollment,
+                    I agree to receive text messages from ${PLATFORM_DEFAULTS.orgName} about my enrollment,
                     program updates, and important notices. Message and data rates may apply. Reply
                     STOP to opt out.
                   </label>

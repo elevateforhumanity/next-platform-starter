@@ -2,10 +2,11 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Activity, Clock, AlertTriangle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Platform Status',
-  description: 'Current operational status of Elevate for Humanity platform services.',
+  description: 'Current operational status of {PLATFORM_DEFAULTS.orgName} platform services.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/status',
   },

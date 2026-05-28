@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Internship Agreement Template',
@@ -50,7 +51,7 @@ export default function InternshipAgreementPage() {
               <div>
                 <p className="font-semibold text-slate-700 mb-1">Sponsor Organization</p>
                 <p className="text-slate-600">
-                  Elevate for Humanity Career &amp; Technical Institute
+                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
                   <br />A program of 2Exclusive LLC-S
                   <br />
                   Indianapolis, IN (Marion County)

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   GraduationCap,
   Building2,
@@ -17,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Instructor Credentials & RTI Provider Qualifications',
   description:
-    'Instructor qualification standards, credential partner requirements, and RTI provider documentation for Elevate for Humanity workforce training and registered apprenticeship programs.',
+    'Instructor qualification standards, credential partner requirements, and RTI provider documentation for {PLATFORM_DEFAULTS.orgName} workforce training and registered apprenticeship programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/instructor-credentials',
   },

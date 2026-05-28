@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Briefcase,
   MapPin,
   Clock,
@@ -17,7 +18,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Careers | Curvature Body Sculpting | Join Our Team',
-  description: 'Join Curvature Body Sculpting. We hire graduates from Elevate for Humanity esthetician and beauty programs. Start your career in body sculpting and wellness.',
+  description: 'Join Curvature Body Sculpting. We hire graduates from {PLATFORM_DEFAULTS.orgName} esthetician and beauty programs. Start your career in body sculpting and wellness.',
 };
 
 const openPositions = [
@@ -88,7 +89,7 @@ const openPositions = [
     type: 'Full-time',
     location: 'Indianapolis, IN',
     salary: '$14 - $16/hour during training',
-    description: 'Learn body sculpting and esthetics while earning. Perfect for Elevate for Humanity program graduates or current students.',
+    description: 'Learn body sculpting and esthetics while earning. Perfect for {PLATFORM_DEFAULTS.orgName} program graduates or current students.',
     requirements: [
       'Enrolled in or completed esthetician program',
       'Eager to learn',
@@ -131,7 +132,7 @@ export default function CurvatureCareersPage() {
           </h1>
           <p className="text-xl text-pink-100 max-w-2xl mx-auto mb-8">
             Start your career in body sculpting and wellness. We hire graduates from 
-            Elevate for Humanity's esthetician and beauty programs.
+            {PLATFORM_DEFAULTS.orgName}'s esthetician and beauty programs.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
@@ -196,9 +197,9 @@ export default function CurvatureCareersPage() {
                 <GraduationCap className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold mb-2">Elevate for Humanity Partnership</h2>
+                <h2 className="text-2xl font-bold mb-2">{PLATFORM_DEFAULTS.orgName} Partnership</h2>
                 <p className="text-gray-600 mb-4">
-                  We partner with Elevate for Humanity to hire graduates from their esthetician 
+                  We partner with {PLATFORM_DEFAULTS.orgName} to hire graduates from their esthetician 
                   and beauty programs. If you're looking to start a career in body sculpting, 
                   you can get trained for FREE through WIOA funding.
                 </p>
@@ -298,7 +299,7 @@ export default function CurvatureCareersPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Your Career?</h2>
           <p className="text-pink-100 mb-8">
-            Apply today or get trained first through our partner Elevate for Humanity.
+            Apply today or get trained first through our partner {PLATFORM_DEFAULTS.orgName}.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

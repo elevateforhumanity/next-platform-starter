@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * AI Instructor System
  *
@@ -133,7 +134,7 @@ export function getInstructorForCourse(courseName: string): AIInstructor {
  * Generate instructor introduction script
  */
 export function generateInstructorIntro(instructor: AIInstructor, courseName: string): string {
-  return `Hello, I'm ${instructor.name}, ${instructor.title} here at Elevate for Humanity. Welcome to ${courseName}. ${instructor.bio.split('.')[0]}. I'll be guiding you through this program, sharing practical knowledge and real-world experience to help you succeed in your career.`;
+  return `Hello, I'm ${instructor.name}, ${instructor.title} here at ${PLATFORM_DEFAULTS.orgName}. Welcome to ${courseName}. ${instructor.bio.split('.')[0]}. I'll be guiding you through this program, sharing practical knowledge and real-world experience to help you succeed in your career.`;
 }
 
 /**

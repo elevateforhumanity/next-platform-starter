@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink, FileText, Clock, Award, AlertCircle, Flower2, BookOpen, TrendingUp } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const NAV = [
   { href: '/pwa/esthetician', icon: Flower2, label: 'Home' },
@@ -66,7 +67,7 @@ export default function EstheticianStateBoardPage() {
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
             <p className="text-yellow-300 text-sm">
-              Do not schedule your exam until you receive your completion certificate from Elevate for Humanity. Your coordinator will notify you when you are eligible.
+              Do not schedule your exam until you receive your completion certificate from {PLATFORM_DEFAULTS.orgName}. Your coordinator will notify you when you are eligible.
             </p>
           </div>
         </div>

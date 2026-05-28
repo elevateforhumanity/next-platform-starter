@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Heart, ArrowRight, MessageSquare, Calendar, Shield } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Ongoing Support Mentorship | Elevate for Humanity',
+  title: 'Ongoing Support Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Receive continuous support throughout your career journey. Your mentor is there for you every step of the way.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/ongoing-support' },
 };

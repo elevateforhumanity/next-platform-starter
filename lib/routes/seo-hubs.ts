@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * SEO Authority Hub Route Registry
  *
@@ -43,7 +44,7 @@ export interface SeoHubConfig {
   agencyEligibilityDisclaimer: boolean;
 }
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const SEO_HUBS: SeoHubConfig[] = [
   // ──────────────────────────────────────────────────────────────────────
@@ -54,7 +55,7 @@ export const SEO_HUBS: SeoHubConfig[] = [
     title: 'Workforce Training Indianapolis | Funded Career Certifications | Elevate for Humanity',
     description:
       'Indianapolis workforce training provider. WIOA-funded, state-approved career certifications in healthcare, skilled trades, and IT. Serving Indianapolis and all of Indiana.',
-    ogTitle: 'Workforce Training Indianapolis | Elevate for Humanity',
+    ogTitle: 'Workforce Training Indianapolis | ' + PLATFORM_DEFAULTS.orgName + '',
     ogDescription:
       'WIOA-funded career training in healthcare, skilled trades, and IT. Indianapolis and Indiana-wide. Employer placement pipeline. Agency referrals accepted.',
     keywords: [
@@ -93,7 +94,7 @@ export const SEO_HUBS: SeoHubConfig[] = [
     title: 'WIOA Funded Training Indiana | Free Job Training Indianapolis | Elevate for Humanity',
     description:
       'Understand WIOA funding for career training in Indiana. Workforce Ready Grant, FSSA IMPACT, WorkOne referrals. Eligibility determined by your local workforce agency.',
-    ogTitle: 'WIOA Funded Training Indiana | Elevate for Humanity',
+    ogTitle: 'WIOA Funded Training Indiana | ' + PLATFORM_DEFAULTS.orgName + '',
     ogDescription:
       'WIOA-funded career training in Indiana. WorkOne referrals accepted. Workforce Ready Grant and FSSA IMPACT eligible programs. Eligibility determined by your agency.',
     keywords: [

@@ -15,6 +15,7 @@ import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -153,7 +154,7 @@ async function sendExpirationEmail(email: string, companyName: string): Promise<
         <h1>License Expired</h1>
         <p>Your Elevate LMS license for <strong>${companyName}</strong> has expired.</p>
         <p>Your platform access has been suspended. To continue using Elevate LMS:</p>
-        <p><a href="https://www.elevateforhumanity.org/store/licenses" style="background: #ea580c; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Renew Your License</a></p>
+        <p><a href="${PLATFORM_DEFAULTS.siteUrl}/store/licenses" style="background: #ea580c; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Renew Your License</a></p>
         <p>Your data is preserved and will be available when you renew.</p>
       `,
     });
@@ -177,7 +178,7 @@ async function sendExpiryWarningEmail(
         <h1>License Expiring Soon</h1>
         <p>Your Elevate LMS license for <strong>${companyName}</strong> will expire on <strong>${expiryDate}</strong>.</p>
         <p>Renew now to avoid any interruption in service:</p>
-        <p><a href="https://www.elevateforhumanity.org/store/licenses" style="background: #ea580c; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Renew Your License</a></p>
+        <p><a href="${PLATFORM_DEFAULTS.siteUrl}/store/licenses" style="background: #ea580c; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Renew Your License</a></p>
       `,
     });
   } catch (error) {

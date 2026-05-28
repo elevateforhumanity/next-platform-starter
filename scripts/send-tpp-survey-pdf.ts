@@ -6,6 +6,7 @@
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const envPath = path.join(process.cwd(), '.env.local');
 if (fs.existsSync(envPath)) {
@@ -27,7 +28,7 @@ async function generatePdf(): Promise<Buffer> {
 
   const data = {
     // ── Organization ──────────────────────────────────────────────
-    org_name:    'Elevate for Humanity Technical and Career Institute',
+    org_name:    '' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute',
     org_type:    '2Exclusive LLC-S (DBA)',
     ein:         '85-3832840',
     uei:         'VX2GK5S8SZH8',
@@ -38,10 +39,10 @@ async function generatePdf(): Promise<Buffer> {
     contact_name:  'Elizabeth Greene',
     contact_title: 'Founder & Chief Executive Officer',
     contact_email: 'elevate4humanityedu@gmail.com',
-    contact_phone: '(317) 314-3757',
+    contact_phone: '' + PLATFORM_DEFAULTS.supportPhone + '',
 
     // ── Program ───────────────────────────────────────────────────
-    program_name: 'Elevate for Humanity SNAP E&T Multi-Track Credential Program',
+    program_name: '' + PLATFORM_DEFAULTS.orgName + ' SNAP E&T Multi-Track Credential Program',
     program_type: 'vocational_training',
     delivery_mode: 'hybrid',
     counties_served: ['Marion', 'Hamilton', 'Hendricks', 'Johnson', 'Madison'],
@@ -234,7 +235,7 @@ function sendEmail(pdf: Buffer): Promise<void> {
 
   const payload = JSON.stringify({
     personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+    from: { email: 'noreply@elevateforhumanity.org', name: '' + PLATFORM_DEFAULTS.orgName + '' },
     reply_to: { email: 'elevate4humanityedu@gmail.com' },
     subject: `[DOCUMENT 2 OF 2] FSSA SNAP E&T TPP Application Questionnaire — Elevate for Humanity — ${TODAY}`,
     content: [{ type: 'text/html', value: html }],

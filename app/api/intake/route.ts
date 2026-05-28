@@ -11,6 +11,7 @@ import {
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { resolveZip } from '@/lib/intake/normalize-zip';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Auto-tag funding eligibility based on intake answers.
 // Priority: JRI > self-pay > WIOA categorical > WIOA income > WIOA workforce > pending-review
@@ -278,7 +279,7 @@ async function _POST(req: Request) {
       intakeEmail,
       {
         data: { full_name: (body.full_name as string).trim(), role: 'student' },
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/learner/dashboard`,
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl}/learner/dashboard`,
       },
     );
     if (inviteError) {

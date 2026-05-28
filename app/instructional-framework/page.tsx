@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   GraduationCap,
   Building2,
@@ -20,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: 'Instructional Delivery Framework',
   description:
-    'Official instructional architecture for Elevate for Humanity. RTI delivery, OJT structure, provider tiers, competency tracking, and LMS documentation for registered apprenticeship and workforce training programs.',
+    'Official instructional architecture for {PLATFORM_DEFAULTS.orgName}. RTI delivery, OJT structure, provider tiers, competency tracking, and LMS documentation for registered apprenticeship and workforce training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/instructional-framework',
   },
@@ -287,7 +288,7 @@ export default function InstructionalFrameworkPage() {
               Training (OJT) is conducted by approved employer partners in real work environments
               under documented work process schedules. All instruction is tracked through the
               institutional Learning Management System (LMS) under centralized program oversight by
-              Elevate for Humanity.
+              {PLATFORM_DEFAULTS.orgName}.
             </p>
           </div>
 
@@ -328,7 +329,7 @@ export default function InstructionalFrameworkPage() {
             {[
               {
                 role: 'Sponsor (Oversight & Compliance)',
-                entity: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)',
+                entity: '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)',
                 detail:
                   'Curriculum standards, enrollment, funding navigation, progress tracking, credential verification, RAPIDS registration, ETPL compliance, institutional accountability',
               },
@@ -712,7 +713,7 @@ export default function InstructionalFrameworkPage() {
               },
               {
                 type: 'Certificate of Completion',
-                issuer: 'Elevate for Humanity Career & Technical Institute',
+                issuer: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
                 color: 'bg-brand-green-50 border-brand-green-200',
                 examples:
                   'Program completion certificates, module completion records, workforce readiness certificates, RTI hour documentation',
@@ -753,7 +754,7 @@ export default function InstructionalFrameworkPage() {
               </p>
               <p className="font-semibold text-slate-900">RAPIDS ID: 2025-IN-132301</p>
               <p className="text-sm text-slate-600 mt-1">
-                Sponsor of Record: 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical
+                Sponsor of Record: 2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Technical
                 Institute)
               </p>
             </div>

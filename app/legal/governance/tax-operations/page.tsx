@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Tax Preparation and Refund Advance Operations',
   description:
@@ -152,7 +153,7 @@ export default async function TaxOperationsPage() {
           <h3 className="text-lg font-semibold mt-6 mb-3">1.3 Operating Entity</h3>
           <p className="text-slate-700">
             <strong>Tax Operations</strong> operates as a trade name of 2Exclusive LLC-S
-            (d/b/a Elevate for Humanity), registered in Indiana. Tax preparation services are
+            (d/b/a {PLATFORM_DEFAULTS.orgName}), registered in Indiana. Tax preparation services are
             provided by licensed tax preparers with valid PTINs.
           </p>
         </section>

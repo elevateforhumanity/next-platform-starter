@@ -1,13 +1,14 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Generate JSON-LD structured data for SEO
 
 export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
-    name: 'Elevate for Humanity',
+    name: PLATFORM_DEFAULTS.orgName,
     description:
       'WIOA, WRG, and JRI-funded workforce training programs in Marion County and Indianapolis, Indiana',
-    url: 'https://www.elevateforhumanity.org',
+    url: PLATFORM_DEFAULTS.siteUrl,
     logo: 'https://www.elevateforhumanity.org/logo.png',
     address: {
       '@type': 'PostalAddress',
@@ -92,7 +93,7 @@ export function generateJobPostingSchema(job: {
       : undefined,
     hiringOrganization: {
       '@type': 'Organization',
-      name: 'Elevate for Humanity',
+      name: PLATFORM_DEFAULTS.orgName,
     },
   };
 }

@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProgramConfig } from '@/lib/partners/program-config';
 import UniversalPartnerLanding from './UniversalPartnerLanding';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function generateMetadata({
   params,
@@ -15,15 +16,15 @@ export async function generateMetadata({
   if (!config) return { title: 'Program Not Found' };
 
   return {
-    title: `${config.shortName} Partner Program | Elevate for Humanity`,
+    title: `${config.shortName} Partner Program | ${PLATFORM_DEFAULTS.orgName}`,
     description: config.description,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/partners/programs/${program}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/partners/programs/${program}`,
     },
     openGraph: {
       title: `${config.shortName} Partner Program`,
       description: config.description,
-      url: `https://www.elevateforhumanity.org/partners/programs/${program}`,
+      url: `${PLATFORM_DEFAULTS.siteUrl}/partners/programs/${program}`,
     },
   };
 }

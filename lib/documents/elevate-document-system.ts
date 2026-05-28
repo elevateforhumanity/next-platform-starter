@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Elevate Master Document System
  *
@@ -12,9 +13,9 @@
 // ─── Organization Identity ───────────────────────────────────────
 
 export const ORG = {
-  name: 'Elevate for Humanity',
+  name: PLATFORM_DEFAULTS.orgName,
   operator: '2Exclusive LLC-S',
-  website: 'https://www.elevateforhumanity.org',
+  website: PLATFORM_DEFAULTS.siteUrl,
   email: 'info@elevateforhumanity.org',
   phone: '(317) 555-0100',
   address: 'Indianapolis, IN',
@@ -101,9 +102,9 @@ Compliance and Alignment
 Implementation
 Summary.`,
 
-  reformatEmail: `Reformat the following into a professional institutional email from Elevate for Humanity. Keep the tone professional but approachable. Include clear subject line, greeting, body with short paragraphs, and a professional signature block.`,
+  reformatEmail: `Reformat the following into a professional institutional email from ${PLATFORM_DEFAULTS.orgName}. Keep the tone professional but approachable. Include clear subject line, greeting, body with short paragraphs, and a professional signature block.`,
 
-  reformatMOU: `Reformat the following into a formal Memorandum of Understanding between Elevate for Humanity and the named partner. Use numbered sections, clear definitions, and standard legal formatting. Maintain all substantive terms.`,
+  reformatMOU: `Reformat the following into a formal Memorandum of Understanding between ${PLATFORM_DEFAULTS.orgName} and the named partner. Use numbered sections, clear definitions, and standard legal formatting. Maintain all substantive terms.`,
 } as const;
 
 // ─── Document Type Templates ─────────────────────────────────────

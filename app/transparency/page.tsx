@@ -3,9 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FileText, ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Transparency | Elevate for Humanity',
+  title: 'Transparency | {PLATFORM_DEFAULTS.orgName}',
   description: 'Our commitment to transparency — outcomes, financials, and impact data.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/transparency',
@@ -66,7 +67,7 @@ export default function TransparencyPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/transparency-page-1.webp"
-          alt="Elevate for Humanity transparency"
+          alt="{PLATFORM_DEFAULTS.orgName} transparency"
           fill
           className="object-cover"
           priority

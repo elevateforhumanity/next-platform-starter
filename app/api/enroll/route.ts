@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { completeEnrollment } from '@/lib/enrollment/complete-enrollment';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -116,7 +117,7 @@ async function _POST(req: NextRequest) {
   try {
     // Create Stripe checkout session
     const checkoutResponse = await fetch(
-      `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org')}/api/enroll/checkout`,
+      `${((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)}/api/enroll/checkout`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -15,6 +15,7 @@ import {
 } from '@/lib/admin/priority-score';
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
 import { getSystemHealth } from './dashboard/get-system-health';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 function toSafeNumber(value: unknown): number {
   const n = Number(value ?? 0);
@@ -1032,15 +1033,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const sitePreviewTargets = [
     {
       label: 'Public Site',
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
+      url: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl,
     },
     {
       label: 'Admin',
-      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org',
+      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}',
     },
     {
       label: 'LMS',
-      url: process.env.NEXT_PUBLIC_LMS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/lms`,
+      url: process.env.NEXT_PUBLIC_LMS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/lms`,
     },
   ];
 

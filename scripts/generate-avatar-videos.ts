@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Generate AI Avatar Videos for all sections
  * Run with: npx ts-node scripts/generate-avatar-videos.ts
@@ -19,7 +20,7 @@ const VIDEO_SCRIPTS: VideoScript[] = [
     id: 'welcome',
     avatarId: 'Annie_expressive5_public',
     voiceId: '1704ea0565c04c5188d9b67062b31a1a',
-    script: `Welcome to Elevate for Humanity! I'm here to help you start your career journey. 
+    script: `Welcome to ' + PLATFORM_DEFAULTS.orgName + '! I'm here to help you start your career journey. 
 We offer free training in healthcare, skilled trades, technology, and more. 
 Most students qualify for one hundred percent free tuition through WIOA funding. 
 Ready to change your life? Let's get started!`,

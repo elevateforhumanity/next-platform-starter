@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   ClipboardList,
   BarChart2,
@@ -108,7 +109,7 @@ export default async function StaffPortalLanding() {
               : 'Staff Portal'}
           </h1>
           <p className="text-slate-600 text-sm">
-            Elevate for Humanity · Staff &amp; Instructor Tools
+            ${PLATFORM_DEFAULTS.orgName} · Staff &amp; Instructor Tools
           </p>
         </div>
       </section>

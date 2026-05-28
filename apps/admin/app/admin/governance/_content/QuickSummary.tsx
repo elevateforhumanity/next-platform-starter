@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ExternalLink, FileText, Shield, Scale, Receipt } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface QuickSummaryProps {
   title: string;
@@ -10,7 +11,7 @@ interface QuickSummaryProps {
   elevateCanonicalPath: string;
 }
 
-const ELEVATE_BASE = 'https://www.elevateforhumanity.org';
+const ELEVATE_BASE = PLATFORM_DEFAULTS.siteUrl;
 
 export function QuickSummary({
   title,
@@ -37,7 +38,7 @@ export function QuickSummary({
       </ul>
 
       <p className="text-sm text-slate-600 mb-4 italic">
-        Tax operations governance is defined by the canonical Elevate for Humanity governance
+        Tax operations governance is defined by the canonical {PLATFORM_DEFAULTS.orgName} governance
         documents.
       </p>
 

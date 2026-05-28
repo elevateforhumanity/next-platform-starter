@@ -6,6 +6,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -123,18 +124,18 @@ async function _POST(request: NextRequest) {
 
     // Send confirmation email to applicant
     try {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
       await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: email,
-          subject: 'Partner Shop Application Received - Elevate for Humanity',
+          subject: 'Partner Shop Application Received - ${PLATFORM_DEFAULTS.orgName}',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #1e3a8a;">Partner Shop Application Received</h2>
               <p>Hi ${ownerName},</p>
-              <p>Thank you for applying to become a Partner Shop with Elevate for Humanity!</p>
+              <p>Thank you for applying to become a Partner Shop with ${PLATFORM_DEFAULTS.orgName}!</p>
               
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
                 <h3 style="margin-top: 0;">Application Details</h3>
@@ -150,7 +151,7 @@ async function _POST(request: NextRequest) {
                 <li>Once approved, you'll get a link to access your Partner Dashboard</li>
               </ol>
               
-              <p>Questions? Call us at <a href="tel:3173143757">(317) 314-3757</a></p>
+              <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a></p>
               
               <p>Best regards,<br><strong>Elevate for Humanity Team</strong></p>
             </div>
@@ -164,7 +165,7 @@ async function _POST(request: NextRequest) {
     // Send notification to admin
     try {
       const adminEmail = process.env.ADMIN_EMAIL || 'elevate4humanityedu@gmail.com';
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
       await internalFetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

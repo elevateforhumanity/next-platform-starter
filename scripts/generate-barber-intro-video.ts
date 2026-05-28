@@ -18,6 +18,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 import fs from 'fs/promises';
 import { lessonToScenes, cleanupSceneImages } from '../lib/autopilot/lesson-to-scenes';
 import { generateVideo } from '../server/video-generator-v2';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const OUTPUT = path.join(process.cwd(), 'public/videos/barber-lessons/barber-lesson-1.mp4');
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -26,7 +27,7 @@ const LESSON = {
   title: 'Welcome to the Barber Apprenticeship',
   lessonNumber: 1,
   moduleName: 'Sanitation & Infection Control',
-  courseName: 'Barber Apprenticeship — Elevate for Humanity',
+  courseName: 'Barber Apprenticeship — ' + PLATFORM_DEFAULTS.orgName + '',
   courseCategory: 'barber',
   instructorName: 'Marcus Johnson',
   instructorTitle: 'Barber Apprenticeship Instructor',

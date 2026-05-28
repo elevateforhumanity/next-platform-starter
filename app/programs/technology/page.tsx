@@ -5,6 +5,7 @@ import ProgramPageLayout from '@/components/programs/ProgramPageLayout';
 import type { ProgramPageConfig } from '@/components/programs/ProgramPageLayout';
 import { InView } from '@/components/ui/InView';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 export const revalidate = 86400;
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Technology Training Programs | Certified | Indianapolis',
     description: 'IT Help Desk, Cybersecurity, Web Development, Software Development, and more. Industry certifications with job placement.',
     url: 'https://www.elevateforhumanity.org/programs/technology',
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Technology Training Programs | Certified | Indianapolis' }],
     type: 'website',
   },

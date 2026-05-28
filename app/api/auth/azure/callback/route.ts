@@ -24,6 +24,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
 
   const rawNext = req.nextUrl.searchParams.get('next') ?? '';
   const next = validateRedirect(rawNext, '/learner/dashboard');
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -65,7 +66,7 @@ export async function POST(req: NextRequest) {
 
   if (process.env.AZURE_AD_ENABLED !== 'true') return DISABLED_RESPONSE();
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const loginUrl = `${siteUrl}/login`;
 
   const clientId     = process.env.AZURE_CLIENT_ID;

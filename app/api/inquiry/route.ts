@@ -6,6 +6,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
@@ -84,7 +85,7 @@ async function _POST(req: Request) {
     const isEtpl = ETPL_PROGRAMS.has(programSlug);
     const programLabel = (program || 'your selected program').replace(/-/g, ' ');
     const firstName = (name || '').split(' ')[0] || name;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const logoUrl = `${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
 
     const fundingBlock = isEtpl
@@ -101,13 +102,13 @@ async function _POST(req: Request) {
         <ol style="margin:0 0 20px;padding-left:20px;font-size:14px;color:#333;line-height:1.9">
           <li>Visit <a href="https://www.indianacareerconnect.com" style="color:#1a1a1a;font-weight:bold">IndianaCareerConnect.com</a> and create a free account</li>
           <li>Schedule an appointment at your nearest <strong>WorkOne</strong> office</li>
-          <li>Tell them you want to enroll in <strong>${programLabel}</strong> at Elevate for Humanity</li>
+          <li>Tell them you want to enroll in <strong>${programLabel}</strong> at ${PLATFORM_DEFAULTS.orgName}</li>
           <li>They will confirm your eligibility and issue a training voucher</li>
           <li>Once your voucher is confirmed, <a href="${siteUrl}/apply/student?program=${programSlug}" style="color:#1a1a1a;font-weight:bold">complete your enrollment application</a></li>
         </ol>
         <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 20px">
           Not sure if you qualify? Our admissions team can walk you through the eligibility checklist.
-          Call us at <a href="tel:3173143757" style="color:#1a1a1a">(317) 314-3757</a> or reply to this email.
+          Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1a1a1a">${PLATFORM_DEFAULTS.supportPhone}</a> or reply to this email.
         </p>`
       : `
         <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0">
@@ -126,7 +127,7 @@ async function _POST(req: Request) {
           <li>You'll receive your start date and orientation details by email</li>
         </ol>
         <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 20px">
-          Questions about cost or payment? Call us at <a href="tel:3173143757" style="color:#1a1a1a">(317) 314-3757</a>
+          Questions about cost or payment? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1a1a1a">${PLATFORM_DEFAULTS.supportPhone}</a>
           or reply to this email — we'll find a path that works for you.
         </p>`;
 
@@ -134,12 +135,12 @@ async function _POST(req: Request) {
       <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">
         <div style="text-align:center;padding:32px 24px 24px">
           // IMAGE-CONTRACT: allow raw img because legacy markup
-          <img src="${logoUrl}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />
+          <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="160" style="max-width:160px;height:auto" />
         </div>
         <div style="padding:0 32px 32px">
           <h2 style="font-weight:normal;font-size:22px;margin:0 0 20px;color:#1a1a1a">Hi ${firstName},</h2>
           <p style="font-size:15px;line-height:1.7;margin:0 0 16px">
-            Thanks for your interest in <strong>${programLabel}</strong> at Elevate for Humanity.
+            Thanks for your interest in <strong>${programLabel}</strong> at ${PLATFORM_DEFAULTS.orgName}.
             We received your inquiry and will be in touch shortly.
           </p>
           ${fundingBlock}
@@ -150,9 +151,9 @@ async function _POST(req: Request) {
             </a>
           </div>
           <div style="border-top:1px solid #e0e0e0;margin-top:32px;padding-top:20px;text-align:center;font-family:Arial,sans-serif;font-size:12px;color:#999">
-            <p style="margin:0 0 4px">Elevate for Humanity Career &amp; Technical Institute</p>
+            <p style="margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
             <p style="margin:0 0 4px">8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
-            <p style="margin:0"><a href="${siteUrl}" style="color:#999;text-decoration:underline">www.elevateforhumanity.org</a> &nbsp;|&nbsp; (317) 314-3757</p>
+            <p style="margin:0"><a href="${siteUrl}" style="color:#999;text-decoration:underline">${PLATFORM_DEFAULTS.canonicalDomain}</a> &nbsp;|&nbsp; ${PLATFORM_DEFAULTS.supportPhone}</p>
           </div>
         </div>
       </div>`;
@@ -160,7 +161,7 @@ async function _POST(req: Request) {
     // Send confirmation email to inquirer
     await sendEmail({
       to: email,
-      subject: `Your inquiry about ${programLabel} — Elevate for Humanity`,
+      subject: `Your inquiry about ${programLabel} — ${PLATFORM_DEFAULTS.orgName}`,
       html: confirmationHtml,
     });
 

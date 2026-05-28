@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DollarSign, FileCheck, GraduationCap, HelpCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/how-it-works' },
@@ -150,7 +151,7 @@ export default function FundingHowItWorksPage() {
             <p className="text-amber-800 text-sm">
               Funding availability depends on eligibility determination, program availability, and
               current funding levels. Not all applicants will qualify for every funding source.
-              Elevate for Humanity does not guarantee funding approval. All eligibility
+              {PLATFORM_DEFAULTS.orgName} does not guarantee funding approval. All eligibility
               determinations are made by the appropriate funding agency.
             </p>
           </div>

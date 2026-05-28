@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Eraser, Loader2, AlertCircle } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const MOU_SECTIONS = [
   {
     title: '1. Parties and Purpose',
-    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Sponsor") and the salon identified at execution ("Worksite Partner" or "Salon").
+    content: `This Memorandum of Understanding ("MOU") is entered into between 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute ("Sponsor") and the salon identified at execution ("Worksite Partner" or "Salon").
 
-This MOU establishes the terms under which the Salon will serve as a worksite for the Indiana Cosmetology Apprenticeship Program, RAPIDS Program ID: 2025-IN-132302, a USDOL Registered Apprenticeship sponsored by Elevate for Humanity.
+This MOU establishes the terms under which the Salon will serve as a worksite for the Indiana Cosmetology Apprenticeship Program, RAPIDS Program ID: 2025-IN-132302, a USDOL Registered Apprenticeship sponsored by ${PLATFORM_DEFAULTS.orgName}.
 
 WHAT THIS AGREEMENT IS: This is a worksite hosting agreement for a federally registered apprenticeship program. The Salon is hosting an apprentice employee and providing on-the-job training under federal Department of Labor oversight.
 
@@ -32,7 +33,7 @@ The Sponsor maintains sole authority over: RTI curriculum and delivery; competen
   },
   {
     title: '3. Sponsor Responsibilities',
-    content: `Elevate for Humanity agrees to:
+    content: `${PLATFORM_DEFAULTS.orgName} agrees to:
 
 • Maintain USDOL/RAPIDS registration and all required federal reporting
 • Develop, deliver, and update all Related Technical Instruction (RTI)
@@ -107,7 +108,7 @@ The Salon may not disclose apprentice PII (name, contact information, wage infor
 
 The Salon also receives access to Elevate's operational procedures, program materials, and business information through this collaboration. This information is confidential. The Salon may not disclose or use Elevate's confidential information for any purpose other than fulfilling its obligations under this MOU.
 
-A full Non-Disclosure Agreement is available at elevateforhumanity.org/legal/nda and is incorporated by reference into this MOU.`,
+A full Non-Disclosure Agreement is available at ${PLATFORM_DEFAULTS.canonicalDomain}/legal/nda and is incorporated by reference into this MOU.`,
   },
   {
     title: '8. Non-Compete and Non-Replication',
@@ -124,7 +125,7 @@ These restrictions do not prevent the Salon from: operating as a salon, employin
     title: '9. Partner Handbook — Required Reading',
     content: `The Worksite Partner Handbook is incorporated by reference into this MOU and forms part of this agreement. The Handbook details the day-to-day responsibilities, compensation requirements, hour tracking procedures, prohibited practices, and communication expectations that govern the worksite relationship.
 
-By signing this MOU, the Salon confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: elevateforhumanity.org/partners/cosmetology-partner-shop/handbook
+By signing this MOU, the Salon confirms that it has read and understood the Partner Handbook in full prior to signing. The Handbook is available at: ${PLATFORM_DEFAULTS.canonicalDomain}/partners/cosmetology-partner-shop/handbook
 
 Failure to comply with the standards set out in the Handbook constitutes a breach of this MOU and may result in immediate termination of the partnership and notification to USDOL.`,
   },
@@ -589,8 +590,8 @@ export default function CosmetologySignMOUPage() {
               Contact us
             </Link>{' '}
             or call{' '}
-            <a href="tel:3173143757" className="text-purple-600 hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-purple-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </form>

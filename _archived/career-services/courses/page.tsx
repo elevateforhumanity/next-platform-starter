@@ -12,9 +12,10 @@ import {
 } from 'lucide-react';
 import { CareerCoursesClient } from './CareerCoursesClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Career Success Courses | Elevate for Humanity',
+  title: 'Career Success Courses | {PLATFORM_DEFAULTS.orgName}',
   description: 'Professional video courses for resume writing, interview preparation, and job search strategies. Self-paced learning with lifetime access.',
 };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function TaxCredentialingSection() {
   return (
@@ -177,7 +178,7 @@ export function TaxCredentialingSection() {
       </div>
 
       <p className="mt-4 text-[11px] text-black">
-        Elevate for Humanity uses this pathway to help learners understand both community service
+        {PLATFORM_DEFAULTS.orgName} uses this pathway to help learners understand both community service
         through VITA and the steps into paid tax preparation work. Local site coordinators and
         partners will confirm the exact forms, certifications, and schedules required each tax
         season.

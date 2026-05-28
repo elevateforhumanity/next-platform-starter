@@ -12,6 +12,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { execSync } from 'child_process';
 import type { LessonSlide } from '../lib/autopilot/lesson-script-generator';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const IMAGE_CACHE_DIR = path.join(process.cwd(), 'public', 'videos', 'slide-image-cache');
 
@@ -395,7 +396,7 @@ async function renderSlideFrame(
   ctx.fillStyle = 'rgba(255,255,255,0.18)';
   ctx.font = 'bold 14px Arial';
   ctx.textAlign = 'right';
-  ctx.fillText('Elevate for Humanity', TXT_X + TXT_W - TXT_PAD, HEIGHT - 35);
+  ctx.fillText('' + PLATFORM_DEFAULTS.orgName + '', TXT_X + TXT_W - TXT_PAD, HEIGHT - 35);
 
   return canvas.toBuffer('image/png');
 }

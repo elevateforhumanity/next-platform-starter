@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createPublicClient } from '@/lib/supabase/public';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   AlertCircle,
   ArrowRight,
@@ -99,7 +100,7 @@ export default async function SnapEtPartnerPage() {
           </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">SNAP E&T Partner Agency</h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-6">
-            Elevate for Humanity is an ETPL-approved, DOL-registered training provider participating
+            {PLATFORM_DEFAULTS.orgName} is an ETPL-approved, DOL-registered training provider participating
             in Indiana's SNAP E&T program (IMPACT) through FSSA/DFR.
           </p>
           <div className="flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 max-w-2xl">
@@ -227,10 +228,10 @@ export default async function SnapEtPartnerPage() {
               <Mail className="w-4 h-4" /> Email Agency Liaison
             </a>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-600 px-6 py-3 font-semibold text-slate-300 hover:bg-white/5 transition"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

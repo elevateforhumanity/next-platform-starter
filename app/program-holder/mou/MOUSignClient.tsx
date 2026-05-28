@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Loader2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function MOUSignClient({ holderName }: { holderName: string }) {
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
 
       <div className="bg-slate-50 rounded-lg p-4 mb-5 text-sm text-slate-600 leading-relaxed">
         By signing below, <strong>{holderName}</strong> agrees to the terms of this Memorandum of
-        Understanding with Elevate for Humanity Career & Technical Institute, including program
+        Understanding with {PLATFORM_DEFAULTS.orgName} Career & Technical Institute, including program
         delivery standards, reporting requirements, and compliance obligations.
       </div>
 

@@ -10,6 +10,7 @@ export const metadata: Metadata = generateInternalMetadata({
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import OnboardingFlow from './OnboardingFlow';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,7 +38,7 @@ export default async function OnboardingStartPage() {
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
           <h1 className="text-2xl font-bold text-black mb-4">Role Not Assigned</h1>
           <p className="text-black mb-6">
-            Your account does not have a role assigned yet. Please contact Elevate for Humanity to
+            Your account does not have a role assigned yet. Please contact {PLATFORM_DEFAULTS.orgName} to
             complete your account setup.
           </p>
           <a

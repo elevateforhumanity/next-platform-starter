@@ -9,6 +9,7 @@ import { getActiveProgramsByCategory } from '@/lib/program-registry';
 import { trackEvent } from '@/components/analytics/google-analytics';
 import { XCircle, AlertCircle, CheckCircle, ChevronRight, Save } from 'lucide-react';
 import { useApplicationDraft } from '@/hooks/useApplicationDraft';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Step definitions ──────────────────────────────────────────────────────────
 const STEPS = [
@@ -658,10 +659,10 @@ export default function StudentApplicationForm({
                   team before submitting.
                 </p>
                 <a
-                  href="tel:3173143757"
+                  href="tel:${PLATFORM_DEFAULTS.supportPhone}"
                   className="inline-block mt-2 text-red-700 font-bold text-sm underline"
                 >
-                  (317) 314-3757
+                  ${PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>

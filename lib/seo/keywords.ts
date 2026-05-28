@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // SEO Keywords by Page Type
 export const SEO_KEYWORDS = {
   homepage: [
@@ -69,6 +70,6 @@ export function generateMetaDescription(
 
 // Generate canonical URL
 export function generateCanonicalUrl(path: string): string {
-  const baseUrl = 'https://www.elevateforhumanity.org';
+  const baseUrl = PLATFORM_DEFAULTS.siteUrl;
   return `${baseUrl}${path}`;
 }

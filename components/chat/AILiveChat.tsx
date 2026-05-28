@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send, Loader2, Bot, User, Minimize2 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   id: string;
@@ -128,7 +129,7 @@ export default function AILiveChat({ userId, userName, userEmail }: AILiveChatPr
         {
           id: Date.now().toString(),
           content:
-            'Sorry, I encountered an error. Please try again or contact support at 317-314-3757.',
+            'Sorry, I encountered an error. Please try again or contact support at ${PLATFORM_DEFAULTS.supportPhone}.',
           sender: 'bot',
           timestamp: new Date(),
         },

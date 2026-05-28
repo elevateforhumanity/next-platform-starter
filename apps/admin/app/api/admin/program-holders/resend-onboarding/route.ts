@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
   }
   const authEmail = authUser.user.email;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   // Generate a fresh magic link using the auth account email (canonical).
   const { data: linkData, error: linkError } = await adminDb.auth.admin.generateLink({
@@ -113,10 +114,10 @@ export async function POST(req: NextRequest) {
   }
 
   const emailPayload = {
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+    from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     personalizations: [{ to: [{ email: authEmail, name: holder.contact_name }] }],
-    subject: 'Your Onboarding Link — Elevate for Humanity',
+    subject: 'Your Onboarding Link — ${PLATFORM_DEFAULTS.orgName}',
     content: [
       {
         type: 'text/html',
@@ -128,7 +129,7 @@ export async function POST(req: NextRequest) {
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <tr><td style="background:linear-gradient(135deg,#ea580c 0%,#dc2626 100%);padding:30px;text-align:center">
           <h1 style="color:#fff;margin:0;font-size:22px">Complete Your Onboarding</h1>
-          <p style="color:#fecaca;margin:8px 0 0;font-size:14px">${holder.organization_name} — Elevate for Humanity</p>
+          <p style="color:#fecaca;margin:8px 0 0;font-size:14px">${holder.organization_name} — ${PLATFORM_DEFAULTS.orgName}</p>
         </td></tr>
         <tr><td style="padding:32px">
           <p style="color:#334155;font-size:15px;line-height:1.7;margin:0 0 16px">Hi ${holder.contact_name},</p>
@@ -145,8 +146,8 @@ export async function POST(req: NextRequest) {
           </table>
           <p style="color:#64748b;font-size:13px;line-height:1.7;margin:0">
             This link expires in 24 hours. If you need a new one, contact us at
-            <a href="mailto:info@elevateforhumanity.org" style="color:#dc2626">info@elevateforhumanity.org</a>
-            or call <a href="tel:3173143757" style="color:#dc2626">317-314-3757</a>.
+            <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#dc2626">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
+            or call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#dc2626">${PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </td></tr>
       </table>

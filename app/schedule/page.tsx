@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/pricing';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/elevate4humanityedu';
@@ -37,7 +38,7 @@ export default function SchedulePage() {
               href="/"
               className="text-lg font-bold text-slate-900 hover:text-brand-orange-600 transition"
             >
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </Link>
             <Link
               href={ROUTES.license}
@@ -126,7 +127,7 @@ export default function SchedulePage() {
       <footer className="bg-white border-t border-slate-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+            © {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.
           </p>
         </div>
       </footer>

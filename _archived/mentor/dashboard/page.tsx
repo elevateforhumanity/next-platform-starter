@@ -3,9 +3,10 @@ import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Users, Calendar, MessageSquare, ChevronRight, Clock, CheckCircle, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = { 
-  title: 'Mentor Dashboard | Elevate for Humanity',
+  title: 'Mentor Dashboard | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage your mentees, schedule sessions, and track your mentoring progress.',
 };
 

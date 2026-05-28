@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { StarRating } from './StarRating';
 import { ProgressBar } from './ProgressBar';
 import { Clock, Users } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type CourseCardProps = {
   slug: string;
@@ -51,7 +52,7 @@ export function CourseCard(props: CourseCardProps) {
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-accent-500">
-            {provider ?? 'Elevate for Humanity'}
+            {provider ?? PLATFORM_DEFAULTS.orgName}
           </p>
           <h3 className="line-clamp-2 text-base font-semibold text-black group-hover:text-brand-600 transition-colors">
             {title}

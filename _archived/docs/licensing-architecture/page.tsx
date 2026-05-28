@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Licensing Architecture v1 | Elevate for Humanity',
+  title: 'Licensing Architecture v1 | {PLATFORM_DEFAULTS.orgName}',
   description: 'Enterprise licensing system architecture documentation',
 };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function OrientationFormClient() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ export default function OrientationFormClient() {
           const data = await res.json();
 
           if (!res.ok) {
-            setError(data.error || 'Failed to schedule. Please call (317) 314-3757.');
+            setError(data.error || 'Failed to schedule. Please call {PLATFORM_DEFAULTS.supportPhone}.');
             return;
           }
 
@@ -45,11 +46,11 @@ export default function OrientationFormClient() {
           const endH = (parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0');
           const endDT = `${date.replace(/-/g, '')}T${endH}${time.split(':')[1]}00`;
           const details = `Orientation for ${name} (${email})%0A%0AZoom Link: ${zoomLink}`;
-          const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Elevate for Humanity — Orientation')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}&location=Zoom`;
+          const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('${PLATFORM_DEFAULTS.orgName} — Orientation')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}&location=Zoom`;
 
           window.open(calUrl, '_blank');
         } catch {
-          setError('Something went wrong. Please call (317) 314-3757.');
+          setError('Something went wrong. Please call {PLATFORM_DEFAULTS.supportPhone}.');
         } finally {
           setLoading(false);
         }

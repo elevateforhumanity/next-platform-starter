@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Required document types for employer onboarding activation.
@@ -221,7 +222,7 @@ export async function tryAutoActivate(db: SupabaseClient, employerId: string): P
       business_name: onboarding.business_name,
     });
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     await fetch(`${siteUrl}/api/email/send`, {
       method: 'POST',
       headers: {

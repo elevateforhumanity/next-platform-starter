@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ClipboardCheck,
   Clock,
   BookOpen,
@@ -160,10 +161,10 @@ export default function CompetencyTestPage() {
           <p className="text-white text-sm mt-6">
             Questions? Call{' '}
             <a
-              href="tel:3173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="text-white font-bold underline hover:text-slate-300"
             >
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

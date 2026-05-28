@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Sparkles, BookOpen, Clock, Phone, Shield } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cfg = getBeautyProgram(program);
   if (!cfg) return { robots: { index: false, follow: false } };
   return {
-    title: `Enrolled | ${cfg.title} | Elevate for Humanity`,
+    title: `Enrolled | ${cfg.title} | ${PLATFORM_DEFAULTS.orgName}`,
     description: `Your enrollment in the ${cfg.title} is confirmed.`,
     robots: { index: false, follow: false },
   };
@@ -116,7 +117,7 @@ export default async function BeautyEnrollmentSuccessPage({ params }: Props) {
                 ) : isSponsor ? (
                   <div className="flex items-center gap-2">
                     <Shield className={`w-4 h-4 ${c.text}`} />
-                    <span className="font-bold text-slate-900">Elevate for Humanity</span>
+                    <span className="font-bold text-slate-900">${PLATFORM_DEFAULTS.orgName}</span>
                   </div>
                 ) : (
                   <span className="font-bold text-slate-900">{value}</span>
@@ -163,11 +164,11 @@ export default async function BeautyEnrollmentSuccessPage({ params }: Props) {
             Questions? Mon–Fri 9am–5pm ET
           </p>
           <a
-            href="tel:317-314-3757"
+            href="tel:${PLATFORM_DEFAULTS.supportPhone}"
             className={`${c.text} hover:underline text-sm flex items-center justify-center gap-1`}
           >
             <Phone className="w-3 h-3" />
-            317-314-3757
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </div>
       </div>

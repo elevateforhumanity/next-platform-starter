@@ -8,6 +8,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowRight, Download, Phone, Mail, Clock } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Received | Barbershop Partner',
@@ -114,8 +115,8 @@ export default function ThankYouPage() {
           <div className="bg-white p-6 rounded-xl mb-8">
             <h3 className="font-semibold text-slate-900 mb-3">Questions?</h3>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+13173143757" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
-                <Phone className="w-4 h-4" /> (317) 314-3757
+              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
+                <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <a href="/contact" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
                 <Mail className="w-4 h-4" /> Contact Us

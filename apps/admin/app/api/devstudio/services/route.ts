@@ -20,6 +20,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { createHmac, createHash } from 'crypto';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -32,7 +33,7 @@ const SERVICES_CONFIG = [
     key: 'lms',
     label: 'LMS (Main Site)',
     ecsService: 'elevate-lms-service',
-    url: 'https://www.elevateforhumanity.org',
+    url: PLATFORM_DEFAULTS.siteUrl,
     healthPath: '/api/health',
     color: 'blue',
   },

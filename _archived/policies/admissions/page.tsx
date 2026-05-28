@@ -4,9 +4,10 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Admissions Policy | Elevate for Humanity',
-  description: 'Requirements, procedures, and guidelines for program enrollment and admission to Elevate for Humanity training programs.',
+  title: 'Admissions Policy | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Requirements, procedures, and guidelines for program enrollment and admission to {PLATFORM_DEFAULTS.orgName} training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/admissions',
   },
@@ -32,13 +33,13 @@ export default async function AdmissionsPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
               This Admissions Policy outlines the requirements, procedures, and guidelines for enrollment in 
-              Elevate for Humanity training programs. We are committed to providing equal access to education 
+              {PLATFORM_DEFAULTS.orgName} training programs. We are committed to providing equal access to education 
               while ensuring students are prepared for success in their chosen programs.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Non-Discrimination Statement</h2>
             <p className="text-black mb-6">
-              Elevate for Humanity does not discriminate on the basis of race, color, national origin, sex, 
+              {PLATFORM_DEFAULTS.orgName} does not discriminate on the basis of race, color, national origin, sex, 
               disability, age, religion, sexual orientation, gender identity, veteran status, or any other 
               protected characteristic. We provide equal access to programs, services, and employment opportunities.
             </p>
@@ -298,7 +299,7 @@ export default async function AdmissionsPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 8:00 AM - 6:00 PM EST</li>
               <li><strong>Location:</strong> 3737 N Meridian St, Suite 200, Indianapolis, IN 46208</li>
               <li><strong>Apply Online:</strong> <a href="/apply" className="text-brand-blue-600 hover:underline">www.elevateforhumanity.org/apply</a></li>

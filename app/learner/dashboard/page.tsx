@@ -31,6 +31,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Learner Dashboard | Elevate LMS',
@@ -159,12 +160,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
             <p className="text-sm text-slate-700 mb-6">
               Questions? Call{' '}
-              <a href="tel:3173143757" className="text-slate-900 font-semibold">
-                (317) 314-3757
+              <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="text-slate-900 font-semibold">
+                ${PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or email{' '}
-              <a href="mailto:info@elevateforhumanity.org" className="text-slate-900 font-semibold">
-                info@elevateforhumanity.org
+              <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" className="text-slate-900 font-semibold">
+                info@${PLATFORM_DEFAULTS.canonicalDomain}
               </a>
             </p>
             <div className="border-t pt-6 text-left">
@@ -903,7 +904,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'payment_failed' && (
                           <div className="flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded p-2">
                             <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                            Payment issue — contact Elevate at (317) 314-3757.
+                            Payment issue — contact Elevate at ${PLATFORM_DEFAULTS.supportPhone}.
                           </div>
                         )}
 
@@ -1117,7 +1118,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
           </div>
 
           <p className="text-xs text-slate-700 mt-4 text-center">
-            Provider: 2Exclusive LLC-S · Elevate for Humanity Training Center · Indianapolis,
+            Provider: 2Exclusive LLC-S · {PLATFORM_DEFAULTS.orgName} Training Center · Indianapolis,
             Indiana (Marion County) ·{' '}
             <a
               href="https://www.nextleveljobs.org"

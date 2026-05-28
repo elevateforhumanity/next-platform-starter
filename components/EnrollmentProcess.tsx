@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const steps = [
   {
@@ -36,15 +37,15 @@ const steps = [
   {
     num: 4,
     title: 'Meet with Your Advisor',
-    desc: 'Your career advisor will verify your eligibility, explain funding options, and help you select Elevate for Humanity as your training provider. They can also discuss supportive services like transportation and childcare assistance.',
-    note: 'Mention you want to train with Elevate for Humanity. We\u2019re an approved WIOA provider in Marion County.',
+    desc: 'Your career advisor will verify your eligibility, explain funding options, and help you select {PLATFORM_DEFAULTS.orgName} as your training provider. They can also discuss supportive services like transportation and childcare assistance.',
+    note: 'Mention you want to train with {PLATFORM_DEFAULTS.orgName}. We\u2019re an approved WIOA provider in Marion County.',
     image: '/images/pages/wioa-meeting.webp',
     alt: 'Workforce advisor reviewing training options',
   },
   {
     num: 5,
     title: 'Get Approved & Enroll',
-    desc: 'Once approved for WIOA funding, your advisor will issue a training voucher. Bring this to Elevate for Humanity to complete your enrollment. We handle all the paperwork and get you started.',
+    desc: 'Once approved for WIOA funding, your advisor will issue a training voucher. Bring this to {PLATFORM_DEFAULTS.orgName} to complete your enrollment. We handle all the paperwork and get you started.',
     cta: { label: 'Contact Us for Help', href: '/contact', external: false },
     image: '/images/pages/healthcare-grad.jpg',
     alt: 'Student celebrating enrollment approval',

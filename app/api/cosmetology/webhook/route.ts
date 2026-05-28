@@ -8,9 +8,10 @@ import { runCosmetologyPostPayment } from '@/lib/enrollment/cosmetology-post-pay
 import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TUITION_CENTS } from '@/lib/cosmetology/pricing';
 import { createOrUpdateEnrollment, linkOrphanedEnrollments } from '@/lib/enrollment-service';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const LMS_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org') + '/lms/courses';
+  (process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl) + '/lms/courses';
 
 function getWebhookSecrets(): string[] {
   return [
@@ -140,7 +141,7 @@ async function _POST(request: NextRequest) {
               ? `Paid in full: $${(amountPaidCents / 100).toLocaleString()}`
               : `Setup fee paid: $${(amountPaidCents / 100).toFixed(2)} — $${(weeklyPaymentCents / 100).toFixed(2)}/week for ~${weeksRemaining} weeks`;
 
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: customerEmail,
               subject: 'Payment Received — Complete Your Cosmetology Apprenticeship Application',
@@ -157,8 +158,8 @@ async function _POST(request: NextRequest) {
   <li><strong>Complete orientation</strong> — a short online module covering program expectations, hour logging, and your host shop assignment.</li>
   <li><strong>Access your dashboard</strong> — log hours, track progress, and access your coursework in the Elevate LMS once orientation is complete.</li>
 </ol>
-<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a> or reply to this email.</p>
-<p>— Elevate for Humanity</p>
+<p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> or reply to this email.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>`,
             });
 
@@ -169,7 +170,7 @@ async function _POST(request: NextRequest) {
 <p>Name: ${customerName}<br>Email: ${customerEmail}<br>Phone: ${customerPhone}<br>
 Payment: ${fullyPaid ? 'Paid in full' : 'Setup fee'}<br>
 Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
-<p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/admin/enrollments">View in Admin →</a></p>`,
+<p><a href="${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/admin/enrollments">View in Admin →</a></p>`,
             });
           } catch (emailErr) {
             logger.error('[cosmetology/webhook] Enrollment email error:', emailErr);
@@ -200,8 +201,8 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
 <p style="text-align:center;margin:24px 0;">
   <a href="${LMS_URL}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">Go to My Courses →</a>
 </p>
-<p>Questions? Call <a href="tel:3173143757">(317) 314-3757</a>.</p>
-<p>— Elevate for Humanity</p>
+<p>Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
+<p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </div>`,
               });
             } catch { /* non-fatal */ }
@@ -329,11 +330,11 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
 
           try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
             await sendEmail({
               to: sub.customer_email!,
               subject: '⚠️ Payment Failed — Action Required to Keep Your Enrollment',
-              html: `<div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif"><p style="font-size:18px;font-weight:bold;color:#dc2626">Your weekly tuition payment failed.</p><p>We were unable to charge your card for your Cosmetology Apprenticeship weekly payment.</p><p><strong>Update your payment method immediately:</strong></p><p style="margin:24px 0"><a href="${siteUrl}/learner/dashboard" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">Update Payment Method →</a></p><p style="color:#dc2626;font-weight:bold">If not resolved within 7 days, your account will be suspended from logging hours.</p><p>Call <a href="tel:3173143757">(317) 314-3757</a> if you need help.</p><p>— Elevate for Humanity</p></div>`,
+              html: `<div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif"><p style="font-size:18px;font-weight:bold;color:#dc2626">Your weekly tuition payment failed.</p><p>We were unable to charge your card for your Cosmetology Apprenticeship weekly payment.</p><p><strong>Update your payment method immediately:</strong></p><p style="margin:24px 0"><a href="${siteUrl}/learner/dashboard" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">Update Payment Method →</a></p><p style="color:#dc2626;font-weight:bold">If not resolved within 7 days, your account will be suspended from logging hours.</p><p>Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a> if you need help.</p><p>— ${PLATFORM_DEFAULTS.orgName}</p></div>`,
             });
           } catch { /* non-fatal */ }
         }

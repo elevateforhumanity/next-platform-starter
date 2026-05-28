@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { getDb } from '@/lib/lms/api';
 import { ArrowLeft, ThumbsUp, ThumbsDown, Eye } from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 600;
 
@@ -179,7 +180,7 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
                 href="/support"
                 className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white transition border border-gray-200"
               >
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * COMPLETE Program Data - All 15 ETPL Programs
  * Extracted from supabase/migrations/20241115_add_all_etpl_programs.sql
@@ -304,7 +305,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Personal wellness and self-care',
       'Includes Job Ready Indy (JRI) 6-badge series',
       'Nationally recognized credential',
-      'EmployIndy JRI Facilitator: Elevate for Humanity',
+      'EmployIndy JRI Facilitator: ' + PLATFORM_DEFAULTS.orgName + '',
       'Pathway to further training or employment',
     ],
     funding: ['WIOA', 'JRI'],

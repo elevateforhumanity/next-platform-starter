@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Key, Plus, Copy, Check, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const statusColors: Record<string, string> = {
   active: 'bg-brand-green-100 text-brand-green-800',
@@ -297,7 +298,7 @@ export function ApiKeysClient({ apiKeys: initialKeys, totalKeys, activeKeys }: P
         <h2 className="text-xl font-bold text-slate-900 mb-2">REST API v1 — Available Endpoints</h2>
         <p className="text-slate-500 text-sm mb-6">
           Authenticate with <code className="bg-slate-100 px-1 rounded">Authorization: Bearer &lt;api-key&gt;</code> on all requests.
-          Base URL: <code className="bg-slate-100 px-1 rounded">{typeof window !== 'undefined' ? window.location.origin : 'https://www.elevateforhumanity.org'}</code>
+          Base URL: <code className="bg-slate-100 px-1 rounded">{typeof window !== 'undefined' ? window.location.origin : PLATFORM_DEFAULTS.siteUrl}</code>
         </p>
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
           <table className="w-full text-sm">

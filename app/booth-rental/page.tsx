@@ -10,11 +10,12 @@ import {
   Phone,
 } from 'lucide-react';
 import { BOOTH_RENTAL_TIERS } from '@/lib/programs/pricing';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Booth & Suite Rentals | Elevate for Humanity — Indianapolis',
+  title: 'Booth & Suite Rentals | {PLATFORM_DEFAULTS.orgName} — Indianapolis',
   description:
-    'Rent a booth or suite at Elevate for Humanity in Indianapolis. Barber, cosmetology, esthetician, and nail tech spaces available. Weekly billing via Stripe. No long-term lease.',
+    'Rent a booth or suite at {PLATFORM_DEFAULTS.orgName} in Indianapolis. Barber, cosmetology, esthetician, and nail tech spaces available. Weekly billing via Stripe. No long-term lease.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/booth-rental' },
 };
 
@@ -93,8 +94,8 @@ export default function BoothRentalLandingPage() {
           </div>
           <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-brand-blue-600" />
-            <a href="tel:3173143757" className="font-semibold text-brand-blue-600 hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="font-semibold text-brand-blue-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

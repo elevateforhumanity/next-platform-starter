@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 /**
  * Generate metadata with canonical URL for any page
@@ -31,7 +32,7 @@ export function generateMetadata({
       title,
       description,
       url: canonicalUrl,
-      siteName: 'Elevate for Humanity',
+      siteName: PLATFORM_DEFAULTS.orgName,
       images: [
         {
           url: imageUrl,

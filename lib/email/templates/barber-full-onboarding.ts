@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Full Barber Apprenticeship Onboarding Email
  *
@@ -8,7 +9,7 @@
  * A confirmation notification is sent to admin when the applicant responds.
  */
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 const LOGO = `${SITE}/logo.png`;
 
 export interface BarberFullOnboardingData {
@@ -34,7 +35,7 @@ export function barberFullOnboardingEmail(data: BarberFullOnboardingData) {
 
   <!-- Header -->
   <div style="background:#1e293b;padding:28px 32px;border-radius:12px 12px 0 0;text-align:center;">
-    <h1 style="color:#fff;margin:0;font-size:22px;">Elevate for Humanity</h1>
+    <h1 style="color:#fff;margin:0;font-size:22px;">${PLATFORM_DEFAULTS.orgName}</h1>
     <p style="color:#94a3b8;margin:6px 0 0;font-size:13px;">Barber Apprenticeship Program — Onboarding</p>
   </div>
 
@@ -44,7 +45,7 @@ export function barberFullOnboardingEmail(data: BarberFullOnboardingData) {
     <p style="font-size:16px;color:#1e293b;">Hi ${firstName},</p>
 
     <p style="color:#334155;line-height:1.7;">
-      Congratulations — your application to the <strong>Barber Apprenticeship Program</strong> at Elevate for Humanity has been <strong style="color:#16a34a;">approved</strong>. Before we move forward with enrollment, please read through everything below so you know exactly what to expect.
+      Congratulations — your application to the <strong>Barber Apprenticeship Program</strong> at ${PLATFORM_DEFAULTS.orgName} has been <strong style="color:#16a34a;">approved</strong>. Before we move forward with enrollment, please read through everything below so you know exactly what to expect.
     </p>
 
     <!-- ═══ PROGRAM OVERVIEW ═══ -->
@@ -207,24 +208,24 @@ export function barberFullOnboardingEmail(data: BarberFullOnboardingData) {
     <div style="border-top:1px solid #e2e8f0;padding-top:20px;margin-top:24px;">
       <p style="font-size:14px;color:#334155;margin:0 0 8px;">Have questions before you decide? Contact us:</p>
       <ul style="margin:0;padding-left:20px;font-size:14px;color:#334155;line-height:1.8;">
-        <li>Phone: <strong>(317) 314-3757</strong></li>
-        <li>Email: <a href="mailto:info@elevateforhumanity.org" style="color:#ea580c;">info@elevateforhumanity.org</a></li>
-        <li>Text: (317) 314-3757</li>
+        <li>Phone: <strong>${PLATFORM_DEFAULTS.supportPhone}</strong></li>
+        <li>Email: <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#ea580c;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a></li>
+        <li>Text: ${PLATFORM_DEFAULTS.supportPhone}</li>
       </ul>
     </div>
 
     <!-- Signature -->
     <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e2e8f0;">
       <p style="margin:0;font-size:14px;color:#334155;font-weight:600;">Elizabeth Greene, CEO</p>
-      <p style="margin:4px 0 0;font-size:12px;color:#64748b;">Elevate for Humanity Career &amp; Technical Institute</p>
-      <p style="margin:2px 0 0;font-size:12px;color:#64748b;">info@elevateforhumanity.org | (317) 314-3757</p>
+      <p style="margin:4px 0 0;font-size:12px;color:#64748b;">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
+      <p style="margin:2px 0 0;font-size:12px;color:#64748b;">info@elevateforhumanity.org | " + PLATFORM_DEFAULTS.supportPhone + "</p>
     </div>
   </div>
 
   <!-- Footer -->
   <div style="background:#f1f5f9;border-radius:0 0 12px 12px;padding:16px 32px;border-top:1px solid #e2e8f0;text-align:center;">
     <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.5;">
-      Elevate for Humanity | Operated by 2Exclusive LLC-S<br>
+      ${PLATFORM_DEFAULTS.orgName} | Operated by 2Exclusive LLC-S<br>
       Indianapolis, IN | <a href="${SITE}" style="color:#64748b;">elevateforhumanityeducation.com</a>
     </p>
   </div>

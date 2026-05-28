@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * MeetingRoom Component - Jitsi Meet Integration
  * Provides video conferencing with screen sharing, recording, and chat
@@ -81,7 +82,7 @@ export function MeetingRoom({ meetingCode, userName, isModerator = false, onLeav
           DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
           APP_NAME: 'Elevate Meet',
           NATIVE_APP_NAME: 'Elevate Meet',
-          PROVIDER_NAME: 'Elevate for Humanity',
+          PROVIDER_NAME: PLATFORM_DEFAULTS.orgName,
           MOBILE_APP_PROMO: false,
         },
       };

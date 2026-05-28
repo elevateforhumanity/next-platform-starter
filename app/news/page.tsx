@@ -4,13 +4,14 @@ import Image from 'next/image';
 import { Calendar, Tag, ArrowRight, Newspaper } from 'lucide-react';
 import { getPublishedPosts, getFeaturedPost, getCategories, formatPostDate } from '@/lib/data/news';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'News & Updates',
   description:
-    'Latest news, program updates, success stories, and announcements from Elevate for Humanity.',
+    'Latest news, program updates, success stories, and announcements from {PLATFORM_DEFAULTS.orgName}.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/news' },
 };
 
@@ -31,7 +32,7 @@ export default async function NewsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/success-stories-hero.webp"
-          alt="Elevate for Humanity news and updates"
+          alt="{PLATFORM_DEFAULTS.orgName} news and updates"
           fill
           className="object-cover"
           priority
@@ -40,7 +41,7 @@ export default async function NewsPage() {
 
         <div className="absolute inset-x-0 bottom-0 max-w-6xl mx-auto px-4 pb-8">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-300 mb-1">
-            Elevate for Humanity
+            {PLATFORM_DEFAULTS.orgName}
           </p>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">News &amp; Updates</h1>
           <p className="text-slate-600 mt-1 text-sm max-w-xl">

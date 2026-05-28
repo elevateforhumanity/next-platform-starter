@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type ProgramPageShellProps = {
   title: string;
@@ -49,7 +50,7 @@ export function ProgramPageShell({
         <div className="container-padded grid gap-10 md:grid-cols-[minmax(0,1.4fr),minmax(0,1fr)] items-start">
           <div className="space-y-5">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-500">
-              Elevate for Humanity • Funded Program
+              {PLATFORM_DEFAULTS.orgName} • Funded Program
             </p>
             <h1>{title}</h1>
             <p className="text-sm md:text-base text-black">{subtitle}</p>

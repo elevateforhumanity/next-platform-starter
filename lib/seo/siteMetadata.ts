@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const SITE = {
-  name: 'Elevate for Humanity',
-  domain: 'www.elevateforhumanity.org',
-  url: 'https://www.elevateforhumanity.org',
+  name: PLATFORM_DEFAULTS.orgName,
+  domain: PLATFORM_DEFAULTS.canonicalDomain,
+  url: PLATFORM_DEFAULTS.siteUrl,
   ogImage: '/images/og-default.jpg',
   twitter: '@ElevateForHuman',
 };
@@ -24,7 +25,7 @@ function absoluteUrl(path = '/') {
 
 /**
  * Generates consistent Metadata for a page.
- * Title uses the root layout template ('%s | Elevate for Humanity')
+ * Title uses the root layout template ('%s | ' + PLATFORM_DEFAULTS.orgName + '')
  * so pass just the page-specific part.
  */
 export function siteMetadata(input: SiteMetadataInput): Metadata {

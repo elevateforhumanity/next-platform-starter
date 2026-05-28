@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Heart, Users, Award, Briefcase, CheckCircle, ArrowRight,
   RefreshCw, DollarSign, Star, Shield, Globe, ChevronDown,
 } from 'lucide-react';
@@ -111,7 +112,7 @@ export default function DonatePage() {
         <div className="relative max-w-6xl mx-auto px-4 py-24 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
             <Heart className="w-4 h-4 text-red-400" />
-            Sit Selfish Inc × Elevate for Humanity
+            Sit Selfish Inc × {PLATFORM_DEFAULTS.orgName}
           </div>
           <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
             Invest in a<br />
@@ -157,7 +158,7 @@ export default function DonatePage() {
             </h2>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
               <strong>Sit Selfish Inc</strong> is a 501(c)(3) nonprofit partnered with
-              <strong> Elevate for Humanity</strong> to deliver no-cost workforce training
+              <strong> ${PLATFORM_DEFAULTS.orgName}</strong> to deliver no-cost workforce training
               to individuals who face barriers to employment — including justice-involved
               individuals, WIOA-eligible participants, and underserved communities across Indiana.
             </p>

@@ -5,6 +5,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function POST(request: NextRequest, { params }: { params: { program: string } }) {
   const rateLimited = await applyRateLimit(request, 'contact');
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest, { params }: { params: { program
         ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
         ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
         ${fundingQuestion ? `<p><strong>Funding question:</strong> ${fundingQuestion}</p>` : ''}
-        <p><a href="https://www.elevateforhumanity.org/admin/applications/review/${application.id}">View in Admin</a></p>
+        <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/applications/review/${application.id}">View in Admin</a></p>
       `,
     });
   } catch (emailErr) {

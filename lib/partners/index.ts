@@ -1,5 +1,6 @@
 // lib/partners/index.ts
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BasePartnerAPI,
   PartnerAPIConfig,
   PartnerType,
@@ -33,7 +34,7 @@ class PendingPartnerAPI extends BasePartnerAPI {
     return {
       externalId: generatedId,
       username: student.email,
-      loginUrl: 'https://partner.elevateforhumanity.org/login',
+      loginUrl: 'https://partner.${PLATFORM_DEFAULTS.canonicalDomain}/login',
       passwordPlaintext: undefined,
     };
   }
@@ -47,7 +48,7 @@ class PendingPartnerAPI extends BasePartnerAPI {
       externalEnrollmentId: `${this.partner}_${accountExternalId}_${courseExternalCode}`,
       courseId: courseExternalCode,
       courseName: `Course ${courseExternalCode}`,
-      accessUrl: 'https://partner.elevateforhumanity.org/course/launch',
+      accessUrl: 'https://partner.${PLATFORM_DEFAULTS.canonicalDomain}/course/launch',
     };
   }
 
@@ -75,7 +76,7 @@ class PendingPartnerAPI extends BasePartnerAPI {
     returnTo?: string;
   }): Promise<string> {
     // In production: generate real SSO link
-    return `https://partner.elevateforhumanity.org/sso/launch?enrollment=${encodeURIComponent(
+    return `https://partner.${PLATFORM_DEFAULTS.canonicalDomain}/sso/launch?enrollment=${encodeURIComponent(
       params.externalEnrollmentId,
     )}`;
   }

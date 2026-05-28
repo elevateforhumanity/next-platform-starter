@@ -7,8 +7,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, Phone, Mail, DollarSign } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Workforce Ready Grant Policy | Elevate for Humanity',
+  title: 'Workforce Ready Grant Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Indiana Workforce Ready Grant provides up to $7,500/year for tuition in high-demand career training programs. Eligibility, covered programs, and application process.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies/wrg' },
 };
@@ -115,7 +116,7 @@ export default async function WRGPage() {
             <h2>Application Process</h2>
             <ol>
               <li>Complete the FAFSA (Free Application for Federal Student Aid)</li>
-              <li>Apply to Elevate for Humanity at <Link href="/apply" className="text-brand-blue-600">elevateforhumanity.org/apply</Link></li>
+              <li>Apply to {PLATFORM_DEFAULTS.orgName} at <Link href="/apply" className="text-brand-blue-600">elevateforhumanity.org/apply</Link></li>
               <li>Select an eligible certificate program</li>
               <li>Meet with a financial aid counselor to confirm WRG eligibility</li>
               <li>Enroll and begin training</li>

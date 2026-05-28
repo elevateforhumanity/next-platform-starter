@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Users, Circle, ArrowRight, Briefcase, MessageSquare, Globe } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Networking Mentorship | Elevate for Humanity',
+  title: 'Networking Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Build your professional network with mentor guidance. Learn networking strategies and make valuable connections.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/networking' },
 };

@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Central config for the Elevate Testing Center.
  * All contact info, location, and staff details live here.
@@ -5,9 +6,9 @@
  */
 
 export const TESTING_CENTER = {
-  name: 'Elevate for Humanity Testing Center',
+  name: '' + PLATFORM_DEFAULTS.orgName + ' Testing Center',
   address: '8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240',
-  phone: '(317) 314-3757',
+  phone: '' + PLATFORM_DEFAULTS.supportPhone + '',
   phoneTel: '+13173143757',
   email: 'testing@elevateforhumanity.org',
   contact: {

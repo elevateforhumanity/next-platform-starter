@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText, Download, Printer, ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
@@ -44,12 +45,12 @@ export default function BrandingAddendumPage() {
           <div className="p-8 prose max-w-none">
             <h2>1. Purpose</h2>
             <p>
-              This Branding Addendum establishes guidelines for the use of Elevate for Humanity
+              This Branding Addendum establishes guidelines for the use of {PLATFORM_DEFAULTS.orgName}
               branding materials, logos, and marketing assets by authorized partners.
             </p>
             <h2>2. Logo Usage</h2>
             <p>
-              Partners may use the Elevate for Humanity logo in accordance with the following
+              Partners may use the {PLATFORM_DEFAULTS.orgName} logo in accordance with the following
               guidelines:
             </p>
             <ul>

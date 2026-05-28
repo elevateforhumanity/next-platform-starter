@@ -4,11 +4,12 @@ import { ShoppingBag, DollarSign, Package, Users, BarChart3 } from 'lucide-react
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Shop Dashboard | Elevate for Humanity',
+  title: 'Shop Dashboard | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage your shop, track orders, and view sales analytics.',
 };
 

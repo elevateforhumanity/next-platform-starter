@@ -12,13 +12,14 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   title: 'Security & Data Protection Statement',
   description:
-    'How Elevate for Humanity collects, stores, protects, and handles participant data. Covers FERPA, WIOA, encryption, access controls, and your rights as a data subject.',
+    'How {PLATFORM_DEFAULTS.orgName} collects, stores, protects, and handles participant data. Covers FERPA, WIOA, encryption, access controls, and your rights as a data subject.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/security-and-data-protection',
   },
@@ -28,7 +29,7 @@ const SECTIONS = [
   {
     icon: Shield,
     title: 'Our Commitment',
-    content: `Elevate for Humanity is committed to protecting the privacy and security of all participant, employer, and partner data. As an ETPL-listed workforce training provider operating under WIOA, FERPA, and Indiana state law, we are legally and ethically obligated to handle personal information with care, transparency, and accountability.
+    content: `${PLATFORM_DEFAULTS.orgName} is committed to protecting the privacy and security of all participant, employer, and partner data. As an ETPL-listed workforce training provider operating under WIOA, FERPA, and Indiana state law, we are legally and ethically obligated to handle personal information with care, transparency, and accountability.
 
 This statement describes how we collect, use, store, protect, and share data — and what rights you have over your information.`,
   },
@@ -109,7 +110,7 @@ To exercise any of these rights, contact our Data Protection Officer at the addr
   {
     icon: AlertTriangle,
     title: 'Data Breach Response',
-    content: `In the event of a data breach affecting personal information, Elevate for Humanity will:
+    content: `In the event of a data breach affecting personal information, ${PLATFORM_DEFAULTS.orgName} will:
 
 1. Contain the breach and assess the scope within 24 hours of discovery
 2. Notify affected individuals within 72 hours as required by Indiana IC 24-4.9
@@ -155,7 +156,7 @@ export default function SecurityAndDataProtectionPage() {
             Security & Data Protection Statement
           </h1>
           <p className="text-slate-600 text-lg max-w-3xl">
-            How Elevate for Humanity collects, protects, and handles participant, employer, and
+            How ${PLATFORM_DEFAULTS.orgName} collects, protects, and handles participant, employer, and
             partner data. Effective January 1, 2025.
           </p>
           <p className="text-slate-500 text-sm mt-4">
@@ -249,7 +250,7 @@ export default function SecurityAndDataProtectionPage() {
             <p>
               <strong className="text-white">Elizabeth Greene</strong> — Data Protection Officer
             </p>
-            <p>Elevate for Humanity</p>
+            <p>{PLATFORM_DEFAULTS.orgName}</p>
             <p>Indianapolis, Indiana</p>
             <p>
               Email:{' '}

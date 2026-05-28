@@ -13,6 +13,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -94,7 +95,7 @@ export default function SecurityPage() {
 
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <p className="text-lg text-black leading-relaxed mb-6">
-              Elevate for Humanity takes data security and privacy seriously. Our platform is
+              {PLATFORM_DEFAULTS.orgName} takes data security and privacy seriously. Our platform is
               designed to protect personal, educational, and workforce-related information using
               industry-standard safeguards and access controls.
             </p>

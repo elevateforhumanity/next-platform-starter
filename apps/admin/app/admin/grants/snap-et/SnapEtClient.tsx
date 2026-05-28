@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Send, Loader2, CheckCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -76,7 +77,7 @@ interface FormState {
 }
 
 const DEFAULTS: FormState = {
-  legal_name: 'Elevate for Humanity Technical and Career Institute',
+  legal_name: PLATFORM_DEFAULTS.orgLegalName,
   org_type: '2Exclusive LLC-S (DBA)',
   address: '8888 Keystone Crossing, Suite 1300',
   city: 'Indianapolis',
@@ -86,9 +87,9 @@ const DEFAULTS: FormState = {
   uei: 'VX2GK5S8SZH8',
   rep_name: 'Elizabeth Greene',
   rep_title: 'Founder & Chief Executive Officer',
-  rep_phone: '(317) 314-3757',
+  rep_phone: PLATFORM_DEFAULTS.supportPhone,
   rep_email: 'elevate4humanityedu@gmail.com',
-  program_name: 'Elevate for Humanity SNAP E&T Multi-Track Credential Program',
+  program_name: '{PLATFORM_DEFAULTS.orgName} SNAP E&T Multi-Track Credential Program',
   program_type: 'Vocational training',
   delivery_mode: 'Hybrid',
   structured_hours: '20',
@@ -150,7 +151,7 @@ const DEFAULTS: FormState = {
   j_transport_narrative: 'Federal ($54,000): bus passes, mileage reimbursement, and rideshare support for 150 participants. Average $360/participant/year ($30/month). Required for all mandatory E&T participants per 7 CFR 273.7(d)(4). Documented via participant reimbursement request forms and receipts.',
   j_tuition_narrative: 'Federal ($16,000): credential exam registration and proctoring fees — NHA ($115), EPA 608 ($20), CompTIA A+ ($246), CDL skills test ($150), and state licensing fees. Covers approximately 64 participants at average $250/participant. Remaining participants\' exam fees covered by program holder agreements.',
   j_inkind_narrative: 'Non-Federal In-Kind ($5,000): volunteer instructor time documented via sign-in logs and time-and-effort records. Valued at $25/hour × 200 hours. Meets non-federal match requirement. No federal funds used for in-kind contributions.',
-  j_indirect_narrative: 'No indirect costs claimed. Elevate for Humanity does not have a Negotiated Indirect Cost Rate Agreement (NICRA) on file. All costs are direct and documented. This is consistent with the organization\'s current federal award structure.',
+  j_indirect_narrative: 'No indirect costs claimed. {PLATFORM_DEFAULTS.orgName} does not have a Negotiated Indirect Cost Rate Agreement (NICRA) on file. All costs are direct and documented. This is consistent with the organization\'s current federal award structure.',
   reimb_unduplicated: '150',
   reimb_monthly_dup: '60',
   reimb_annual_budget: '$70,000',
@@ -159,7 +160,7 @@ const DEFAULTS: FormState = {
   submission_date: 'April 28, 2026',
   signature_name: 'Elizabeth Greene',
   signature_title: 'Executive Director',
-  signature_org: '2exclusive llc-s dba Elevate for Humanity Career & Technical Institute',
+  signature_org: '2exclusive llc-s dba {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
   signature_date: '02/28/2026',
 };
 

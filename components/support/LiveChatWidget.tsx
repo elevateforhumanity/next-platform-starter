@@ -73,7 +73,7 @@ function FallbackChatWidget() {
         text:
           data.reply ||
           data.response ||
-          "I'm having trouble right now. Please call us at (317) 314-3757 for assistance.",
+          "I'm having trouble right now. Please call us at {PLATFORM_DEFAULTS.supportPhone} for assistance.",
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -82,7 +82,7 @@ function FallbackChatWidget() {
     } catch (error) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "I'm having trouble connecting. Please call us at (317) 314-3757 or visit elevateforhumanity.org/apply to get started!",
+        text: "I'm having trouble connecting. Please call us at {PLATFORM_DEFAULTS.supportPhone} or visit elevateforhumanity.org/apply to get started!",
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -244,6 +244,7 @@ export function LiveChatWidget() {
 
 // Wrapper that hides chat on store pages (store has its own GuidedDemoChat)
 import { usePathname } from 'next/navigation';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function ConditionalLiveChatWidget() {
   const pathname = usePathname();

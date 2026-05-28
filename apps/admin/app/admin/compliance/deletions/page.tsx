@@ -3,12 +3,13 @@ import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: `Data Deletion Requests | Admin Compliance | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
+  title: `Data Deletion Requests | Admin Compliance | ${process.env.NEXT_PUBLIC_ORG_NAME ?? PLATFORM_DEFAULTS.orgName}`,
   description:
     'Manage GDPR and CCPA data deletion requests. Review, approve, and process user data removal requests in compliance with privacy regulations.',
 };

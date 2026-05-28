@@ -5,6 +5,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type CredentialType =
   | 'Certificate'
@@ -23,7 +24,7 @@ export type CredentialProvider =
   | 'Microsoft'
   | 'QuickBooks/Intuit'
   | 'State of Indiana'
-  | 'Elevate for Humanity Career & Technical Institute'
+  | '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute'
   | 'National Association for Healthcare Quality (NAHQ)'
   | 'Indiana Commission on Peer Recovery (ICPR)'
   | 'Certiport'
@@ -459,7 +460,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     id: 'efh-completion-certificate',
     name: 'Certificate of Completion',
     type: 'Certificate',
-    provider: 'Elevate for Humanity Career & Technical Institute',
+    provider: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     description:
       'Elevate for Humanity Career & Technical Institute certificate of program completion.',
     externalId: 'EFH-CERT',

@@ -14,6 +14,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { HVAC_COURSE_ID } from '@/lib/courses/hvac-uuids';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /* Competency Framework Data */
 
@@ -428,7 +429,7 @@ export default function HVACStandardsContent({
             </div>
             <div>
               <p className="text-sm font-medium text-brand-blue-600 uppercase tracking-wide mb-1">
-                Elevate for Humanity
+                {PLATFORM_DEFAULTS.orgName}
               </p>
               <h1 className="text-3xl font-bold text-slate-900">
                 HVAC Technician Training Program
@@ -703,12 +704,12 @@ export default function HVACStandardsContent({
                 },
                 {
                   name: 'Residential HVAC Certification Level 1',
-                  issuer: 'Elevate for Humanity',
+                  issuer: PLATFORM_DEFAULTS.orgName,
                   type: 'Program',
                 },
                 {
                   name: 'Residential HVAC Certification Level 2',
-                  issuer: 'Elevate for Humanity',
+                  issuer: PLATFORM_DEFAULTS.orgName,
                   type: 'Program',
                 },
               ].map((cred) => (
@@ -766,11 +767,11 @@ export default function HVACStandardsContent({
         {/* Footer */}
         <div className="text-center text-xs text-black pb-8 space-y-1">
           <p>
-            Elevate for Humanity &middot; HVAC Technician Training Program &middot; Competency
+            {PLATFORM_DEFAULTS.orgName} &middot; HVAC Technician Training Program &middot; Competency
             Standards v1.0
           </p>
           <p>
-            This document is the intellectual property of Elevate for Humanity. Competency framework
+            This document is the intellectual property of {PLATFORM_DEFAULTS.orgName}. Competency framework
             developed independently and is not affiliated with or endorsed by NCCER, AHRI, or any
             third-party credentialing body.
           </p>

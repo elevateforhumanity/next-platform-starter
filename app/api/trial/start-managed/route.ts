@@ -8,6 +8,7 @@ import { strictRateLimit } from '@/lib/rate-limit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const TRIAL_DURATION_DAYS = 14;
 
@@ -71,7 +72,7 @@ async function sendTrialWelcomeEmail(
   }
 
   await resend.emails.send({
-    from: 'Elevate LMS <noreply@elevateforhumanity.org>',
+    from: 'Elevate LMS <${PLATFORM_DEFAULTS.emailFromAddress}>',
     to: email,
     subject: `Your 14-day trial is ready — ${orgName}`,
     headers: { 'X-Correlation-ID': correlationId },
@@ -88,7 +89,7 @@ async function sendTrialWelcomeEmail(
         <li>Invite your team</li>
       </ol>
       <p>Your trial runs for 14 days with full platform access. No credit card required.</p>
-      <p>Questions? Reply to this email or visit <a href="https://www.elevateforhumanity.org/contact">our contact page</a>.</p>
+      <p>Questions? Reply to this email or visit <a href="${PLATFORM_DEFAULTS.siteUrl}/contact">our contact page</a>.</p>
     `,
   });
 }

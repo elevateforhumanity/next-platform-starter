@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, DollarSign, ArrowRight } from 'lucide-react';
 import { ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Tuition & Fees',
   description:
-    'Tuition rates, payment options, and funding eligibility for Elevate for Humanity career training programs. Many programs are fully funded for eligible Indiana residents.',
+    'Tuition rates, payment options, and funding eligibility for {PLATFORM_DEFAULTS.orgName} career training programs. Many programs are fully funded for eligible Indiana residents.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/tuition' },
 };
 

@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Heart,
   Shield,
   TrendingUp,
@@ -67,7 +68,7 @@ export default async function JRIProgramsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/jri-hero.webp"
-          alt="Second chance career training — JRI programs at Elevate for Humanity"
+          alt="Second chance career training — JRI programs at {PLATFORM_DEFAULTS.orgName}"
           fill
           className="object-cover object-center"
           priority
@@ -527,12 +528,12 @@ export default async function JRIProgramsPage() {
                 </p>
                 <p>
                   Indiana Career Connect is the official state workforce portal where you can
-                  schedule appointments with approved training providers like Elevate for Humanity.
+                  schedule appointments with approved training providers like {PLATFORM_DEFAULTS.orgName}.
                 </p>
                 <p>
                   You can also call us directly at{' '}
-                  <a href="tel:3173143757" className="text-indigo-600 underline font-bold">
-                    317-314-3757
+                  <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-indigo-600 underline font-bold">
+                    {PLATFORM_DEFAULTS.supportPhone}
                   </a>{' '}
                   or visit our office at 8888 Keystone Xing, Suite 1300, Indianapolis, IN 46240.
                 </p>
@@ -541,7 +542,7 @@ export default async function JRIProgramsPage() {
 
             <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
-                What credentials and approvals does Elevate for Humanity have?
+                What credentials and approvals does {PLATFORM_DEFAULTS.orgName} have?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
                   ▼
                 </span>
@@ -715,8 +716,8 @@ export default async function JRIProgramsPage() {
                     Learn about employer partnerships →
                   </a>{' '}
                   or call{' '}
-                  <a href="tel:3173143757" className="text-indigo-600 underline font-bold">
-                    317-314-3757
+                  <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-indigo-600 underline font-bold">
+                    {PLATFORM_DEFAULTS.supportPhone}
                   </a>
                 </p>
               </div>
@@ -724,7 +725,7 @@ export default async function JRIProgramsPage() {
 
             <details className="group bg-slate-50 rounded-lg p-6 border border-slate-200">
               <summary className="font-bold text-lg text-black cursor-pointer list-none flex justify-between items-center">
-                What makes Elevate for Humanity different from other training providers?
+                What makes {PLATFORM_DEFAULTS.orgName} different from other training providers?
                 <span className="text-indigo-600 group-open:rotate-180 transition-transform">
                   ▼
                 </span>

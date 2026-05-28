@@ -5,9 +5,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
 import { DEMO_PROGRAMS } from '@/lib/demo/sandbox-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Outcomes | Admin Demo | Elevate for Humanity',
+  title: 'Outcomes | Admin Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

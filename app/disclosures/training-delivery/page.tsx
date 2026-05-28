@@ -4,13 +4,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Monitor, Wrench, HeartHandshake, Building2, MapPin, ShieldCheck } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const metadata: Metadata = {
-  title: 'Training Delivery Model Disclosure | Elevate for Humanity',
+  title: 'Training Delivery Model Disclosure | {PLATFORM_DEFAULTS.orgName}',
   description:
-    'How Elevate for Humanity delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
+    'How {PLATFORM_DEFAULTS.orgName} delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
   alternates: { canonical: `${SITE_URL}/disclosures/training-delivery` },
 };
 
@@ -56,7 +57,7 @@ const DELIVERY_COMPONENTS = [
     iconColor: 'text-purple-700',
     title: 'Administrative Office, Testing & Hands-On Training',
     body: [
-      'Elevate for Humanity maintains this location for administrative operations, enrollment support, scheduled meetings, authorized proctored testing, and approved hands-on training activities. Services at this site are available by appointment only. This is not a walk-in location.',
+      '${PLATFORM_DEFAULTS.orgName} maintains this location for administrative operations, enrollment support, scheduled meetings, authorized proctored testing, and approved hands-on training activities. Services at this site are available by appointment only. This is not a walk-in location.',
     ],
     address: '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240',
   },
@@ -104,7 +105,7 @@ export default function TrainingDeliveryDisclosure() {
           </p>
           <h1 className="text-4xl font-extrabold mb-4 leading-tight">Training Delivery Model</h1>
           <p className="text-brand-blue-100 text-lg max-w-2xl leading-relaxed">
-            How Elevate for Humanity delivers workforce training across all programs.
+            How ${PLATFORM_DEFAULTS.orgName} delivers workforce training across all programs.
           </p>
         </div>
       </section>
@@ -117,7 +118,7 @@ export default function TrainingDeliveryDisclosure() {
             <div>
               <p className="font-bold text-slate-900 text-sm mb-2">Institutional Disclosure</p>
               <p className="text-slate-700 text-sm leading-relaxed">
-                Elevate for Humanity (operating as 2Exclusive LLC-S, DBA Elevate for Humanity Career &amp; Training Institute) is a <strong>workforce training institute</strong> and <strong>DOL Registered Apprenticeship Sponsor</strong> (RAPIDS: 2025-IN-132301). We are an Indiana DWD-approved training provider listed on the Eligible Training Provider List (ETPL). Elevate is <strong>not a traditional campus-based institution</strong>. Training is delivered through a combination of online instruction and employer-based hands-on learning at approved partner sites.
+                {PLATFORM_DEFAULTS.orgName} (operating as 2Exclusive LLC-S, DBA {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute) is a <strong>workforce training institute</strong> and <strong>DOL Registered Apprenticeship Sponsor</strong> (RAPIDS: 2025-IN-132301). We are an Indiana DWD-approved training provider listed on the Eligible Training Provider List (ETPL). Elevate is <strong>not a traditional campus-based institution</strong>. Training is delivered through a combination of online instruction and employer-based hands-on learning at approved partner sites.
               </p>
             </div>
           </div>
@@ -177,7 +178,7 @@ export default function TrainingDeliveryDisclosure() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl font-bold text-slate-900 mb-3">Credential Issuance</h2>
           <p className="text-sm text-slate-600 mb-5 leading-relaxed">
-            Industry credentials and licenses are issued by recognized third-party certifying authorities — not by Elevate for Humanity. Elevate issues program completion certificates documenting hours completed, competencies achieved, and program requirements met.
+            Industry credentials and licenses are issued by recognized third-party certifying authorities — not by {PLATFORM_DEFAULTS.orgName}. Elevate issues program completion certificates documenting hours completed, competencies achieved, and program requirements met.
           </p>
           <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
             <div className="bg-slate-50 px-5 py-3 border-b border-slate-200">
@@ -215,7 +216,7 @@ export default function TrainingDeliveryDisclosure() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl font-bold text-slate-900 mb-3">Employer Partner Documentation</h2>
           <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-            All employer training sites operate under documented agreements with Elevate for Humanity. See our{' '}
+            All employer training sites operate under documented agreements with {PLATFORM_DEFAULTS.orgName}. See our{' '}
             <Link href="/partners/training-sites" className="text-brand-blue-600 underline font-semibold">Employer Partners &amp; Training Sites</Link>{' '}
             page for current partner listings. Training site documentation includes:
           </p>

@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { Bell, Mail, MessageSquare, Check, X } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface NotificationPreferences {
   email_enabled?: boolean;
@@ -127,7 +128,7 @@ export default function NotificationPreferencesForm({
             <div className="pl-8 space-y-2">
               <input
                 type="tel"
-                placeholder="+1 (317) 314-3757"
+                placeholder="+1 {PLATFORM_DEFAULTS.supportPhone}"
                 value={preferences.phone_e164 || ''}
                 onChange={(e) => setPreferences({ ...preferences, phone_e164: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"

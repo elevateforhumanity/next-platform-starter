@@ -4,8 +4,9 @@
  */
 
 import { sendEmail } from './sendgrid';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
 interface WorkOneHoldEmailParams {
   firstName: string;
@@ -34,7 +35,7 @@ export async function sendWorkOneHoldEmail(params: WorkOneHoldEmailParams) {
         <!-- Header -->
         <tr>
           <td style="background:#1e293b;padding:28px 32px">
-            <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700">Elevate for Humanity</p>
+            <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700">${PLATFORM_DEFAULTS.orgName}</p>
             <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Career &amp; Technical Institute</p>
           </td>
         </tr>
@@ -48,7 +49,7 @@ export async function sendWorkOneHoldEmail(params: WorkOneHoldEmailParams) {
               Hi ${firstName},
             </p>
             <p style="margin:0 0 16px;color:#475569;line-height:1.6">
-              Thank you for applying to <strong>${programName}</strong> at Elevate for Humanity.
+              Thank you for applying to <strong>${programName}</strong> at ${PLATFORM_DEFAULTS.orgName}.
               Based on your application, you may qualify for <strong>WorkOne / WIOA funding</strong>,
               which can cover your training costs at no charge to you.
             </p>
@@ -114,7 +115,7 @@ export async function sendWorkOneHoldEmail(params: WorkOneHoldEmailParams) {
         <tr>
           <td style="background:#f8fafc;padding:20px 32px;border-top:1px solid #e2e8f0">
             <p style="margin:0;color:#94a3b8;font-size:12px;line-height:1.6">
-              Questions? Call <strong>(317) 314-3757</strong> or reply to this email.<br>
+              Questions? Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.<br>
               Elizabeth Greene — Director, Elevate for Humanity Career &amp; Technical Institute<br>
               <a href="${SITE_URL}" style="color:#94a3b8">${SITE_URL}</a>
             </p>
@@ -129,7 +130,7 @@ export async function sendWorkOneHoldEmail(params: WorkOneHoldEmailParams) {
 
   const text = `Hi ${firstName} ${lastName},
 
-Thank you for applying to ${programName} at Elevate for Humanity.
+Thank you for applying to ${programName} at ${PLATFORM_DEFAULTS.orgName}.
 ${referenceNumber ? `Reference number: ${referenceNumber}\n` : ''}
 Based on your application, you may qualify for WorkOne / WIOA funding, which can cover your training costs.
 
@@ -143,7 +144,7 @@ WHAT TO BRING:
 - This email or your reference number
 
 WHAT TO SAY:
-"I applied to Elevate for Humanity's ${programName} program and I'd like to apply for WIOA Title I Adult or Dislocated Worker funding."
+"I applied to ${PLATFORM_DEFAULTS.orgName}'s ${programName} program and I'd like to apply for WIOA Title I Adult or Dislocated Worker funding."
 
 FIND WORKONE: https://www.in.gov/dwd/workone/
 Indianapolis: WorkOne Indy, 2955 N. Meridian St., Indianapolis, IN 46208
@@ -152,8 +153,8 @@ After WorkOne approves your funding, they will contact us and we will finalize y
 
 View your checklist: ${SITE_URL}/apply/pending-workone
 
-Questions? Call (317) 314-3757 or reply to this email.
-Elizabeth Greene — Director, Elevate for Humanity Career & Technical Institute`;
+Questions? Call ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
+Elizabeth Greene — Director, ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`;
 
   return sendEmail({
     to: email,

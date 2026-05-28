@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Calendar, Clock, Video, CheckCircle, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Schedule a Demo | Elevate LMS',
@@ -116,11 +117,11 @@ export default async function DemoPage() {
                 Contact us directly to discuss your needs.
               </p>
               <a
-                href="tel:3173143757"
+                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                 className="inline-flex items-center gap-2 text-orange-600 font-medium hover:underline"
               >
                 <Phone className="w-5 h-5" />
-                (317) 314-3757
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>
           </div>

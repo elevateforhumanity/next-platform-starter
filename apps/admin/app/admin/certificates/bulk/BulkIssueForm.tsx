@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Participant {
   id: string;
@@ -66,7 +67,7 @@ export default function BulkIssueForm({
           enrollmentIds: Array.from(selected),
           templateId,
           issueDate,
-          signedBy: signedBy || 'Elevate for Humanity Career & Technical Institute',
+          signedBy: signedBy || '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
         }),
       });
 

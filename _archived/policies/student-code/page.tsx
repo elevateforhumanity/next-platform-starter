@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Student Code of Conduct | Elevate for Humanity',
+  title: 'Student Code of Conduct | {PLATFORM_DEFAULTS.orgName}',
   description: 'Expected behaviors, prohibited conduct, and disciplinary procedures for students.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/student-code',
@@ -32,7 +33,7 @@ export default async function StudentCodePage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
               The Student Code of Conduct establishes behavioral expectations and standards for all students at 
-              Elevate for Humanity. This code promotes a safe, respectful, and productive learning environment 
+              {PLATFORM_DEFAULTS.orgName}. This code promotes a safe, respectful, and productive learning environment 
               where all community members can thrive. Violations may result in disciplinary action up to and 
               including dismissal from programs.
             </p>
@@ -181,7 +182,7 @@ export default async function StudentCodePage() {
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Students, staff, or instructors</li>
               <li>Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li>Phone: (317) 314-3757</li>
+              <li>Phone: {PLATFORM_DEFAULTS.supportPhone}</li>
               <li>In-person to any staff member</li>
               <li>Anonymous reporting through student portal</li>
             </ul>
@@ -327,9 +328,9 @@ export default async function StudentCodePage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
-              <li><strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911</li>
+              <li><strong>Emergency:</strong> Call 911, then {PLATFORM_DEFAULTS.supportPhone} ext. 911</li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

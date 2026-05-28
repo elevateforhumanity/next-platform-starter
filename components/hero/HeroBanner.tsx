@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Volume2, VolumeX } from 'lucide-react';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type HeroBannerProps = {
   title: string;
@@ -31,7 +32,7 @@ export default function HeroBanner({
   videoSrc = '/videos/homepage-hero-montage.mp4',
   posterSrc = '/images/pages/comp-home-hero-programs.jpg',
   heroImageSrc = '/images/pages/workforce-training.webp',
-  heroImageAlt = 'Elevate for Humanity',
+  heroImageAlt = PLATFORM_DEFAULTS.orgName,
   caption,
 }: HeroBannerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);

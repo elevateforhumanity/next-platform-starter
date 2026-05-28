@@ -2,10 +2,11 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Licensing',
-  description: 'License the Elevate for Humanity Workforce Operating System for your training program, apprenticeship, or workforce initiative. Structured tiers for approved partners.',
+  description: 'License the {PLATFORM_DEFAULTS.orgName} Workforce Operating System for your training program, apprenticeship, or workforce initiative. Structured tiers for approved partners.',
 };
 
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600; // 1 hour ISR cache
 
@@ -19,7 +20,7 @@ export default function LicensingPage() {
             Platform Licensing & Partnerships
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-zinc-700 leading-relaxed">
-            Elevate for Humanity offers its Workforce Operating System through a structured
+            {PLATFORM_DEFAULTS.orgName} offers its Workforce Operating System through a structured
             licensing model for organizations that need a proven, compliant workforce platform
             without building from scratch.
           </p>

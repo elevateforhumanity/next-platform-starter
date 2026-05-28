@@ -1,4 +1,5 @@
 import Image, { type ImageProps } from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type LogoImageProps = Omit<ImageProps, 'src' | 'alt'> & {
   alt?: string;
@@ -10,7 +11,7 @@ type LogoImageProps = Omit<ImageProps, 'src' | 'alt'> & {
  * server/client hydration mismatches from differing quality defaults.
  */
 export default function LogoImage({
-  alt = 'Elevate for Humanity',
+  alt = PLATFORM_DEFAULTS.orgName,
   quality = 85,
   ...props
 }: LogoImageProps) {

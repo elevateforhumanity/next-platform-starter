@@ -22,6 +22,7 @@ import { runBarberPostPayment } from '@/lib/enrollment/barber-post-payment';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const handleCheckoutSessionCompleted: StripeEventHandler = async (
   event,
@@ -110,7 +111,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
           const programTitle = (programSlug ?? '')
             .replace(/-/g, ' ')
             .replace(/\b\w/g, (c: string) => c.toUpperCase());
-          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
           const isDeposit = amountPaidCents < 500_000; // < $5,000 = deposit
 
           await fetch(`${siteUrl}/api/email/send`, {
@@ -318,7 +319,7 @@ function buildEnrollmentEmail({
   return `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1e293b">
   <div style="background:#1e293b;padding:24px 32px">
-    <p style="margin:0;color:#fff;font-size:18px;font-weight:700">Elevate for Humanity</p>
+    <p style="margin:0;color:#fff;font-size:18px;font-weight:700">${PLATFORM_DEFAULTS.orgName}</p>
     <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Career &amp; Technical Institute</p>
   </div>
   <div style="padding:32px">
@@ -351,8 +352,8 @@ function buildEnrollmentEmail({
       </ol>
     </div>
     <p style="margin:24px 0 0;color:#94a3b8;font-size:12px">
-      Questions? Call <strong>(317) 314-3757</strong> or reply to this email.<br>
-      Elizabeth Greene — Director, Elevate for Humanity Career &amp; Technical Institute
+      Questions? Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.<br>
+      Elizabeth Greene — Director, ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
     </p>
   </div>
 </div>`;

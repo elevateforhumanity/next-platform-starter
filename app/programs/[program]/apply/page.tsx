@@ -10,6 +10,7 @@ import { ArrowLeft, Loader2, CheckCircle, CreditCard } from 'lucide-react';
 import { PAYMENT_LINKS } from '@/lib/stripe/price-map';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
 import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Programs with dedicated enrollment flows — redirect away from this shared page.
 const DEDICATED_FLOWS: Record<string, string> = {
@@ -316,7 +317,7 @@ export default function BeautyApplyPage() {
 
             <p className="text-xs text-slate-400 text-center">
               Questions?{' '}
-              <a href="tel:3173143757" className={`${c.text} hover:underline`}>(317) 314-3757</a>
+              <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className={`${c.text} hover:underline`}>{PLATFORM_DEFAULTS.supportPhone}</a>
             </p>
           </form>
         </div>

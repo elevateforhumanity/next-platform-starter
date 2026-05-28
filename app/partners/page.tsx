@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   Briefcase,
   Building2,
@@ -17,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Partners',
   description:
-    'Partner with Elevate for Humanity. Workforce agencies, employers, training providers, barbershops, reentry organizations, and community partners.',
+    'Partner with {PLATFORM_DEFAULTS.orgName}. Workforce agencies, employers, training providers, barbershops, reentry organizations, and community partners.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners' },
 };
 
@@ -198,7 +199,7 @@ export default function PartnersIndexPage() {
               {
                 step: '3',
                 heading: 'Apply or call us',
-                body: 'Click the application button for your type, or call (317) 314-3757 to talk first.',
+                body: 'Click the application button for your type, or call {PLATFORM_DEFAULTS.supportPhone} to talk first.',
               },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center gap-2">
@@ -303,10 +304,10 @@ export default function PartnersIndexPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:317-314-3757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
               className="inline-flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3 rounded-lg font-bold transition-colors"
             >
-              <Phone className="w-4 h-4" /> (317) 314-3757
+              <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <Link
               href="/partners/apply"

@@ -28,6 +28,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CartItem {
   examType: string;
@@ -65,7 +66,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
 
 export async function POST(req: NextRequest) {
   await hydrateProcessEnv();
@@ -159,7 +160,7 @@ export async function POST(req: NextRequest) {
             unit_amount: feeCents,
             product_data: {
               name: `${displayName} — Exam Fee`,
-              description: `Proctored at Elevate for Humanity Testing Center, Indianapolis IN`,
+              description: `Proctored at ${PLATFORM_DEFAULTS.orgName} Testing Center, Indianapolis IN`,
             },
           },
           quantity: qty,

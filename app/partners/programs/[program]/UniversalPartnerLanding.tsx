@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { ProgramConfig } from '@/lib/partners/program-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
@@ -229,10 +230,10 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:+13173143757"
+              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors"
             >
-              <Phone className="w-5 h-5 mr-2" /> (317) 314-3757
+              <Phone className="w-5 h-5 mr-2" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

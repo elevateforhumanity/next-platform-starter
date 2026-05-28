@@ -8,6 +8,7 @@ import { paymentRateLimit } from '@/lib/rate-limit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { injectFailureRedirect } from '@/lib/api/failure-injection';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -17,7 +18,7 @@ export const dynamic = 'force-dynamic';
 async function handler(req: Request) {
   try {
 
-    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || 'https://www.elevateforhumanity.org');
+    const siteUrl = ((process.env.NEXT_PUBLIC_SITE_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl);
     const storeUrl = `${siteUrl}/store`;
 
     const injected = injectFailureRedirect(req, `${storeUrl}?error=checkout-failed`);

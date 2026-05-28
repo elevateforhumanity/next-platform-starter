@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -95,7 +96,7 @@ export default async function CMIDashboardPage() {
         </p>
         <h1 className="text-3xl font-bold text-slate-900">Choice Medical Institute (CMI)</h1>
         <p className="mt-1 text-slate-500">
-          IDOH Approved CNA Program · Sponsored by Elevate for Humanity
+          IDOH Approved CNA Program · Sponsored by ${PLATFORM_DEFAULTS.orgName}
         </p>
       </div>
 

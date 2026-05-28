@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Response Time SLA | Elevate for Humanity',
+  title: 'Response Time SLA | {PLATFORM_DEFAULTS.orgName}',
   description: 'Service level agreements for support and communication response times.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/response-sla',
@@ -187,7 +188,7 @@ export default async function ResponseSLAPage() {
               <li>Verify you provided correct contact information</li>
               <li>Follow up with the same department</li>
               <li>If no response after 2 follow-ups, escalate to supervisor</li>
-              <li>Contact main office: (317) 314-3757</li>
+              <li>Contact main office: {PLATFORM_DEFAULTS.supportPhone}</li>
             </ol>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Quality Standards</h2>
@@ -211,8 +212,8 @@ export default async function ResponseSLAPage() {
               <li><strong>Admissions:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
               <li><strong>Student Services:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
               <li><strong>IT Support:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Emergency:</strong> (317) 314-3757 ext. 911</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
+              <li><strong>Emergency:</strong> {PLATFORM_DEFAULTS.supportPhone} ext. 911</li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">

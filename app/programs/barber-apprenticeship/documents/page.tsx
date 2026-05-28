@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Upload, FileText, AlertCircle, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface UploadedFile {
   name: string;
@@ -149,14 +150,14 @@ export default function BarberDocumentsPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setSubmitError(data.error || 'Submission failed. Please try again or call (317) 314-3757.');
+        setSubmitError(data.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
         setSubmitting(false);
         return;
       }
 
       router.push('/apprentice');
     } catch {
-      setSubmitError('Unable to submit. Please try again or call (317) 314-3757.');
+      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
       setSubmitting(false);
     }
   };
@@ -205,7 +206,7 @@ export default function BarberDocumentsPage() {
                       <span className="text-sm text-brand-blue-600">Uploading...</span>
                     )}
                     {governmentId.status === 'error' && (
-                      <span className="text-sm text-red-600">Upload failed. Please try again or call (317) 314-3757.</span>
+                      <span className="text-sm text-red-600">Upload failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.</span>
                     )}
                     {governmentId.status === 'complete' && (
                       <button

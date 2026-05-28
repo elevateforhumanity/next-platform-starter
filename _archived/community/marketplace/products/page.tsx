@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
   FileText, Download, Star, Tag, Search, Package,
 } from 'lucide-react';
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Digital Products & Resources | Elevate for Humanity',
+  title: 'Digital Products & Resources | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Study guides, resume templates, career toolkits, and professional resources for workforce development students and graduates.',
   alternates: {

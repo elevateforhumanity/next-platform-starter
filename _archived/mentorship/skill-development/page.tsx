@@ -7,8 +7,9 @@ import Image from 'next/image';
 import { Wrench, ArrowRight, BookOpen, Target, Award } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Skill Development Mentorship | Elevate for Humanity',
+  title: 'Skill Development Mentorship | {PLATFORM_DEFAULTS.orgName}',
   description: 'Develop new skills with guidance from experienced mentors. Get hands-on coaching to accelerate your learning.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/mentorship/skill-development' },
 };

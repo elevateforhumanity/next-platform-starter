@@ -9,6 +9,7 @@
  */
 
 import * as https from 'https';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const API_KEY = process.env.SENDGRID_API_KEY ?? '';
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -155,7 +156,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
 
         <!-- Header -->
         <tr><td style="background:#0e3a7d;padding:32px 40px;">
-          <img src="${SITE_URL}/images/logo.png" alt="Elevate for Humanity" height="60" style="display:block;margin-bottom:12px;" />
+          <img src="${SITE_URL}/images/logo.png" alt="" + PLATFORM_DEFAULTS.orgName + "" height="60" style="display:block;margin-bottom:12px;" />
           <h1 style="margin:0;color:#ffffff;font-size:22px;">Partnership Agreement</h1>
           <p style="margin:6px 0 0;color:#93b4e8;font-size:14px;">Elevate for Humanity Technical and Career Institute</p>
         </td></tr>
@@ -210,7 +211,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
           <p style="font-size:11px;color:#888;margin:0;text-align:center;">
             Elevate for Humanity Technical and Career Institute &nbsp;|&nbsp;
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br>
-            (317) 314-3757 &nbsp;|&nbsp; elevate4humanityedu@gmail.com &nbsp;|&nbsp;
+            ${PLATFORM_DEFAULTS.supportPhone} &nbsp;|&nbsp; elevate4humanityedu@gmail.com &nbsp;|&nbsp;
             <a href="${SITE_URL}" style="color:#0e3a7d;">elevateforhumanity.org</a>
           </p>
         </td></tr>
@@ -235,7 +236,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
     `You can also sign electronically at: ${mouUrl}`,
     '',
     `Questions? Contact Elizabeth Greene:`,
-    `Phone: (317) 314-3757`,
+    `Phone: ' + PLATFORM_DEFAULTS.supportPhone + '`,
     `Email: elevate4humanityedu@gmail.com`,
     '',
     `Warm regards,`,
@@ -245,7 +246,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
 
   return JSON.stringify({
     personalizations: [{ to: [{ email: r.email, name: r.contact }] }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+    from: { email: 'noreply@elevateforhumanity.org', name: '' + PLATFORM_DEFAULTS.orgName + '' },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: `Partnership MOU — Elevate for Humanity x ${r.org}`,
     content: [

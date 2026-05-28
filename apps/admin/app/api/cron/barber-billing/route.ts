@@ -20,6 +20,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -28,7 +29,7 @@ export const maxDuration = 60;
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 export const GET = withRuntime({ cron: 'bearer' }, async () => {
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const db = await requireAdminClient();
   if (!db) {
@@ -128,8 +129,8 @@ function suspensionEmailHtml({ name, updateUrl }: { name: string; updateUrl: str
           Update Payment Method
         </a>
       </p>
-      <p>If you need help, call us at <strong>(317) 314-3757</strong> or reply to this email.</p>
-      <p>— Elevate for Humanity</p>
+      <p>If you need help, call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.</p>
+      <p>— ${PLATFORM_DEFAULTS.orgName}</p>
     </div>
   `;
 }

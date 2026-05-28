@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Master Program Host Agreement | Elevate for Humanity',
+  title: 'Master Program Host Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -19,7 +20,7 @@ export default function ProgramHostAgreementPage() {
       <DocumentPage
         documentType="Master Program Host Agreement"
         title="Master Program Host Agreement"
-        subtitle="Elevate for Humanity Training Network — Authorized Delivery Site Agreement"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Training Network — Authorized Delivery Site Agreement"
         date="2025-01-01"
         version="1.0"
         confidential
@@ -28,15 +29,15 @@ export default function ProgramHostAgreementPage() {
         <DocumentSection heading="Parties and Purpose" number={1}>
           <p>
             This Master Program Host Agreement ("Agreement") is entered into between{' '}
-            <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong>{' '}
+            <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong>{' '}
             ("Operating Company"), the training network operating entity, and the organization
             identified at execution ("Host Facility").
           </p>
           <p className="mt-3">
             The Operating Company delivers workforce training programs under the program authority
-            and curriculum standards of <strong>Elevate for Humanity</strong> ("Program Authority"),
+            and curriculum standards of <strong>{PLATFORM_DEFAULTS.orgName}</strong> ("Program Authority"),
             the nonprofit program owner. The Host Facility is authorized to serve as an approved
-            delivery site within the Elevate for Humanity Training Network solely under the terms
+            delivery site within the {PLATFORM_DEFAULTS.orgName} Training Network solely under the terms
             of this Agreement.
           </p>
           <p className="mt-3">
@@ -65,7 +66,7 @@ export default function ProgramHostAgreementPage() {
           </p>
           <p className="mt-3">
             The Host Facility may not represent itself as a co-owner, partner, co-founder, or
-            governing authority of Elevate for Humanity or the Operating Company in any public
+            governing authority of {PLATFORM_DEFAULTS.orgName} or the Operating Company in any public
             communication, grant application, funding proposal, or legal document.
           </p>
         </DocumentSection>
@@ -83,7 +84,7 @@ export default function ProgramHostAgreementPage() {
             <li>Tuition rates, financial policies, and student payment structures</li>
             <li>Student enrollment, admissions criteria, and program eligibility</li>
             <li>Instructor standards, qualifications, and quality control</li>
-            <li>Elevate for Humanity brand, trademarks, and public identity</li>
+            <li>{PLATFORM_DEFAULTS.orgName} brand, trademarks, and public identity</li>
             <li>Compliance reporting to workforce agencies and credential bodies</li>
             <li>Student outcome data and program performance records</li>
             <li>Approval, suspension, or termination of host site authorization</li>
@@ -188,7 +189,7 @@ export default function ProgramHostAgreementPage() {
 
         <DocumentSection heading="Student Enrollment and Ownership" number={5}>
           <p>
-            All students enrolled in Elevate programs are participants of the Elevate for Humanity
+            All students enrolled in Elevate programs are participants of the {PLATFORM_DEFAULTS.orgName}
             Training Network regardless of which facility delivers in-person components. Student
             records, enrollment data, credential progress, and outcome data are maintained
             exclusively by the Operating Company and Program Authority.
@@ -234,7 +235,7 @@ export default function ProgramHostAgreementPage() {
           <p>
             All curriculum materials, instructional content, LMS systems, operational procedures,
             branding, credential alignments, and program methodologies are proprietary intellectual
-            property owned exclusively by the Program Authority (Elevate for Humanity nonprofit).
+            property owned exclusively by the Program Authority ({PLATFORM_DEFAULTS.orgName} nonprofit).
           </p>
           <p className="mt-3">
             The Host Facility receives limited, non-transferable authorization to support delivery
@@ -330,9 +331,9 @@ export default function ProgramHostAgreementPage() {
 
         <DocumentSection heading="Operating Company Contact" number={12}>
           <p>
-            <strong>2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute</strong><br />
+            <strong>2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &amp; Training Institute</strong><br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

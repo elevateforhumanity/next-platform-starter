@@ -40,6 +40,7 @@ import {
 } from '@/lib/programs/program-schema';
 import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
 import { ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
   program: ProgramSchema;
@@ -251,10 +252,10 @@ export default function ProgramDetailPage({
                 {p.deliveredBy && (
                   <p className="mt-4 text-xs text-slate-500">
                     {p.deliveredBy === 'Elevate'
-                      ? 'Delivered directly by Elevate for Humanity.'
+                      ? 'Delivered directly by ${PLATFORM_DEFAULTS.orgName}.'
                       : p.deliveredBy === 'Partner'
                         ? 'Delivered by an approved training partner.'
-                        : 'Delivered by Elevate for Humanity or an approved training partner.'}
+                        : 'Delivered by ${PLATFORM_DEFAULTS.orgName} or an approved training partner.'}
                   </p>
                 )}
               </div>

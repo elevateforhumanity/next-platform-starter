@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Calendar,
   ArrowRight,
   Bell,
@@ -15,7 +16,7 @@ import {
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Updates & Announcements',
-  description: 'Latest news, program updates, and announcements from Elevate for Humanity',
+  description: 'Latest news, program updates, and announcements from {PLATFORM_DEFAULTS.orgName}',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/updates',
   },

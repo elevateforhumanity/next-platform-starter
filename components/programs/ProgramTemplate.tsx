@@ -9,6 +9,7 @@ import { EligibilityNotice } from '@/components/EligibilityNotice';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { WhatYouWillLearn } from '@/components/WhatYouWillLearn';
 import ProgramPaymentOptions from '@/components/ProgramPaymentOptions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Apprenticeship programs hide pricing until after application
 const APPRENTICESHIP_SLUGS = [
@@ -165,7 +166,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
                   <div>
                     <h4 className="font-bold text-slate-900">Certificate of Completion</h4>
                     <p className="text-sm text-slate-600">
-                      Issued by Elevate for Humanity upon successful program completion
+                      Issued by ${PLATFORM_DEFAULTS.orgName} upon successful program completion
                     </p>
                   </div>
                 </div>

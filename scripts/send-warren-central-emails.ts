@@ -10,10 +10,11 @@
 
 import fs from 'fs';
 import path from 'path';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const FROM_EMAIL = 'elevate4humanityedu@gmail.com';
-const FROM_NAME = 'Elizabeth Greene — Elevate for Humanity';
+const FROM_NAME = 'Elizabeth Greene — ' + PLATFORM_DEFAULTS.orgName + '';
 const REPLY_TO = 'elevate4humanityedu@gmail.com';
 
 const PRINCIPAL_EMAIL = 'mtaylor4@warren.k12.in.us';
@@ -58,7 +59,7 @@ function loadPdfBase64(filePath: string): string {
 
 const HEADER = `
 <div style="font-family:Arial,sans-serif;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:20px;">
-  <div style="font-size:15px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#111;">Elevate for Humanity</div>
+  <div style="font-size:15px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#111;">" + PLATFORM_DEFAULTS.orgName + "</div>
   <div style="font-size:10px;color:#444;margin-top:3px;">DOL Registered Apprenticeship Sponsor &nbsp;·&nbsp; ETPL Provider &nbsp;·&nbsp; WIOA / WRG / JRI Approved &nbsp;·&nbsp; EmployIndy Partner &nbsp;·&nbsp; WorkOne Partner</div>
   <div style="font-size:10px;color:#444;margin-top:1px;">SAM.gov CAGE: 0Q856 &nbsp;·&nbsp; IMM Certified &nbsp;·&nbsp; ByBlack Certified &nbsp;·&nbsp; www.elevateforhumanity.org</div>
 </div>`;

@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Blog & Success Stories',
   description:
-    'Read success stories from our graduates, workforce development insights, program updates, and career training tips from Elevate for Humanity.',
+    'Read success stories from our graduates, workforce development insights, program updates, and career training tips from {PLATFORM_DEFAULTS.orgName}.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog',
     types: {

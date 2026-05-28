@@ -7,6 +7,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -69,12 +70,12 @@ async function _POST(request: NextRequest) {
       // Auto-reply to submitter
       await sendEmail({
         to: data.email,
-        subject: 'We received your partner inquiry | Elevate for Humanity',
+        subject: 'We received your partner inquiry | ${PLATFORM_DEFAULTS.orgName}',
         html:
           `<p>Thank you for your inquiry.</p>` +
           `<p>We review requests through our structured process to protect participants and platform integrity. ` +
           `If there is alignment, our team will follow up with next steps.</p>` +
-          `<p>— Elevate for Humanity</p>`,
+          `<p>— ${PLATFORM_DEFAULTS.orgName}</p>`,
       });
     } catch (emailError) {
       logger.error(

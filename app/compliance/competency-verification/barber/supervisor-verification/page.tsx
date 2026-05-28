@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PrintButton } from '../PrintButton';
 import { ClaimAccountButton } from './ClaimAccountButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Supervisor Verification Form — Barber Apprenticeship',
@@ -45,7 +46,7 @@ export default function SupervisorVerificationPage() {
 
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-slate-900">
-        <p className="text-[9px] uppercase tracking-widest text-slate-700 mb-1">Elevate for Humanity Career & Technical Institute</p>
+        <p className="text-[9px] uppercase tracking-widest text-slate-700 mb-1">{PLATFORM_DEFAULTS.orgName} Career & Technical Institute</p>
         <h1 className="text-lg font-bold">LICENSED BARBER SUPERVISOR VERIFICATION FORM</h1>
         <p className="text-[10px] text-slate-700">Barbering Apprenticeship Program | RAPIDS ID: 2025-IN-132301</p>
       </div>
@@ -174,7 +175,7 @@ export default function SupervisorVerificationPage() {
             </div>
 
             <div className="border-2 rounded-lg p-4 print:p-3 print:border-slate-400">
-              <p className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">Elevate for Humanity (Sponsor Verification)</p>
+              <p className="font-bold text-sm mb-3 print:text-[11px] print:mb-2">{PLATFORM_DEFAULTS.orgName} (Sponsor Verification)</p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Verified By: ________________________________</div>
                 <div>Title: ________________________________</div>
@@ -190,7 +191,7 @@ export default function SupervisorVerificationPage() {
         {/* Footer */}
         <div className="border-t pt-4 mt-8 text-center text-xs text-slate-700 print:text-[9px] print:pt-3 print:mt-4">
           <p>This form must be completed before apprentice placement and maintained in the compliance file.</p>
-          <p>Elevate for Humanity | RAPIDS ID: 2025-IN-132301 | Indianapolis, Indiana</p>
+          <p>{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132301 | Indianapolis, Indiana</p>
         </div>
       </div>
 

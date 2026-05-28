@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   LayoutDashboard,
   Users,
   GraduationCap,
@@ -148,7 +149,7 @@ function PortalsDirectory() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Portals & Dashboards</h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Access all Elevate for Humanity services, training portals, and dashboards
+            Access all {PLATFORM_DEFAULTS.orgName} services, training portals, and dashboards
           </p>
         </div>
 

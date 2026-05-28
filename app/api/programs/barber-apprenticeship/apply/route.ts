@@ -9,6 +9,7 @@ import { RAPIDS_CONFIG, getRAPIDSEnrollmentData } from '@/lib/compliance/rapids-
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { sendOnboardingEmail } from '@/lib/email/send-onboarding';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 
@@ -102,7 +103,7 @@ export async function POST(req: Request) {
         email: validated.email,
       });
       return NextResponse.json(
-        { error: 'Failed to submit application. Please call 317-314-3757.' },
+        { error: 'Failed to submit application. Please call ${PLATFORM_DEFAULTS.supportPhone}.' },
         { status: 500 },
       );
     }

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Circle, AlertCircle, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface AcknowledgmentItem {
   key: string;
@@ -22,7 +23,7 @@ interface SponsorshipAcknowledgmentProps {
 const DEFAULT_ITEMS: AcknowledgmentItem[] = [
   {
     key: 'sponsor',
-    label: 'I understand Elevate for Humanity is the Program Sponsor',
+    label: 'I understand {PLATFORM_DEFAULTS.orgName} is the Program Sponsor',
     description:
       'EFH is responsible for program approval, workforce alignment, compliance, and reporting.',
     required: true,
@@ -43,7 +44,7 @@ const DEFAULT_ITEMS: AcknowledgmentItem[] = [
   },
   {
     key: 'enrollment',
-    label: 'I understand all funded enrollments flow through Elevate for Humanity',
+    label: 'I understand all funded enrollments flow through {PLATFORM_DEFAULTS.orgName}',
     description:
       'Partners do not independently enroll students into funded programs. All enrollments must be processed through EFH.',
     required: true,
@@ -286,7 +287,7 @@ export function SponsorshipAcknowledgment({
       <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
         <p className="text-xs text-slate-700">
           <strong>Legal Notice:</strong> These acknowledgments are legally binding. By checking each
-          box and signing, you agree to operate under Elevate for Humanity sponsorship and comply
+          box and signing, you agree to operate under {PLATFORM_DEFAULTS.orgName} sponsorship and comply
           with all requirements outlined in the partner agreement.
         </p>
       </div>

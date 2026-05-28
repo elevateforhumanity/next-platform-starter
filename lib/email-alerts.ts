@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Email alert system for admin notifications
  * Uses Resend API for reliable email delivery
@@ -24,7 +25,7 @@ export async function sendAdminAlert(alert: EmailAlert) {
       },
       body: JSON.stringify({
         personalizations: [{ to: [{ email: alert.to }] }],
-        from: { name: 'Elevate for Humanity', email: 'noreply@elevateforhumanity.org' },
+        from: { name: PLATFORM_DEFAULTS.orgName, email: PLATFORM_DEFAULTS.emailFromAddress },
         subject: alert.subject,
         content: [{ type: 'text/html', value: alert.html }],
       }),
@@ -44,7 +45,7 @@ export async function sendAdminAlert(alert: EmailAlert) {
 // Predefined alert templates
 export const AlertTemplates = {
   newApplication: (data: { name: string; email: string; program: string; id: string }) => ({
-    to: 'admissions@www.elevateforhumanity.org',
+    to: 'admissions@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: `New Application: ${data.name} - ${data.program}`,
     html: `
       <h2>New Application Received</h2>
@@ -52,14 +53,14 @@ export const AlertTemplates = {
       <p><strong>Email:</strong> ${data.email}</p>
       <p><strong>Program:</strong> ${data.program}</p>
       <p><strong>Application ID:</strong> ${data.id}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/applications/review/${data.id}">Review Application</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/applications/review/${data.id}">Review Application</a></p>
       <hr>
       <p><small>SLA: Respond within 48 hours</small></p>
     `,
   }),
 
   newContactMessage: (data: { name: string; email: string; message: string; id: string }) => ({
-    to: 'info@www.elevateforhumanity.org',
+    to: 'info@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: `New Contact Message: ${data.name}`,
     html: `
       <h2>New Contact Message</h2>
@@ -67,7 +68,7 @@ export const AlertTemplates = {
       <p><strong>Email:</strong> ${data.email}</p>
       <p><strong>Message:</strong></p>
       <p>${data.message}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/contact/${data.id}">View Message</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/contact/${data.id}">View Message</a></p>
       <hr>
       <p><small>SLA: Respond within 24 hours</small></p>
     `,
@@ -79,14 +80,14 @@ export const AlertTemplates = {
     fundingSource: string;
     id: string;
   }) => ({
-    to: 'registrar@www.elevateforhumanity.org',
+    to: 'registrar@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: `New Enrollment: ${data.studentName} - ${data.program}`,
     html: `
       <h2>New Enrollment Created</h2>
       <p><strong>Student:</strong> ${data.studentName}</p>
       <p><strong>Program:</strong> ${data.program}</p>
       <p><strong>Funding:</strong> ${data.fundingSource}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/enrollments/${data.id}">View Enrollment</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/enrollments/${data.id}">View Enrollment</a></p>
       <hr>
       <p><small>Action Required: Verify funding documentation</small></p>
     `,
@@ -98,28 +99,28 @@ export const AlertTemplates = {
     certificateNumber: string;
     id: string;
   }) => ({
-    to: 'registrar@www.elevateforhumanity.org',
+    to: 'registrar@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: `Certificate Issued: ${data.certificateNumber}`,
     html: `
       <h2>Certificate Issued</h2>
       <p><strong>Student:</strong> ${data.studentName}</p>
       <p><strong>Program:</strong> ${data.program}</p>
       <p><strong>Certificate #:</strong> ${data.certificateNumber}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/certificates/${data.id}">View Certificate</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/certificates/${data.id}">View Certificate</a></p>
       <hr>
       <p><small>Certificate has been generated and is ready for distribution</small></p>
     `,
   }),
 
   contentFlagged: (data: { postId: string; reason: string; flaggedBy: string }) => ({
-    to: 'community@www.elevateforhumanity.org',
+    to: 'community@${PLATFORM_DEFAULTS.canonicalDomain}',
     subject: `Content Flagged for Moderation`,
     html: `
       <h2>Content Flagged</h2>
       <p><strong>Post ID:</strong> ${data.postId}</p>
       <p><strong>Reason:</strong> ${data.reason}</p>
       <p><strong>Flagged By:</strong> ${data.flaggedBy}</p>
-      <p><a href="https://www.elevateforhumanity.org/admin/moderation">Review in Moderation Queue</a></p>
+      <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/moderation">Review in Moderation Queue</a></p>
       <hr>
       <p><small>SLA: Review within 24 hours</small></p>
     `,

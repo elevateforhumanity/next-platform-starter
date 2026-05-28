@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { DocumentUploadForm } from '@/components/documents/DocumentUploadForm';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,7 +45,7 @@ const PROGRAM_HOLDER_REQUIREMENTS = [
     id: 'employer_mou',
     document_type: 'employer_mou',
     description: 'Signed Memorandum of Understanding',
-    instructions: 'Upload the signed MOU between your program and Elevate for Humanity.',
+    instructions: 'Upload the signed MOU between your program and {PLATFORM_DEFAULTS.orgName}.',
     accepted_formats: ['pdf'],
     max_file_size: 10485760,
   },

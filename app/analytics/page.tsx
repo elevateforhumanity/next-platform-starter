@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Users,
   GraduationCap,
   TrendingUp,
@@ -21,7 +22,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Platform Analytics',
   description:
-    'Enrollment, completion, and outcome analytics for Elevate for Humanity workforce programs.',
+    'Enrollment, completion, and outcome analytics for {PLATFORM_DEFAULTS.orgName} workforce programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/analytics' },
   robots: { index: false, follow: false },
 };

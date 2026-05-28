@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { Play, Lock } from 'lucide-react';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
 import { DEMO_LEARNER_COURSES } from '@/lib/demo/sandbox-data';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Courses | Learner Demo | Elevate for Humanity',
+  title: 'Courses | Learner Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

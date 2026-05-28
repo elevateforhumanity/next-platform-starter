@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { Building2, DollarSign, Layout, Lock, ArrowRight, Phone, Grid } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Apps | Elevate for Humanity',
+  title: 'My Apps | {PLATFORM_DEFAULTS.orgName}',
   description: 'Access your purchased apps and tools.',
   robots: { index: false, follow: false },
 };

@@ -4,9 +4,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Analytics | Elevate for Humanity',
+  title: 'Analytics | {PLATFORM_DEFAULTS.orgName}',
   description: 'Course analytics and insights',
 };
 

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function _POST(request: NextRequest) {
   try {
@@ -95,7 +96,7 @@ async function _POST(request: NextRequest) {
     // Send notification email (non-blocking)
     try {
       await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+        `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/api/email/send`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -111,7 +112,7 @@ async function _POST(request: NextRequest) {
               <p><strong>Address:</strong> ${intake.address}, ${intake.city}, ${intake.state} ${intake.zip}</p>
               <p><strong>License #:</strong> ${intake.licenseNumber}</p>
               <p><strong>Agreement Signed:</strong> Yes (${agreement.key})</p>
-              <p><a href="https://www.elevateforhumanity.org/portal/admin/host-shops">View in Admin Portal</a></p>
+              <p><a href="${PLATFORM_DEFAULTS.siteUrl}/portal/admin/host-shops">View in Admin Portal</a></p>
             `,
           }),
         },

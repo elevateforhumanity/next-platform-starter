@@ -20,6 +20,7 @@
 
 import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface CredentialDeliveryRequest {
   enrollmentId: string;
@@ -223,7 +224,7 @@ async function deliverGeneric(
   const loginUrl =
     request.courseUrl ||
     PARTNER_ENROLLMENT_URLS[providerType] ||
-    `https://www.elevateforhumanity.org/courses/partners/${request.courseId}/access`;
+    `${PLATFORM_DEFAULTS.siteUrl}/courses/partners/${request.courseId}/access`;
 
   return {
     success: true,
@@ -239,7 +240,7 @@ async function sendCredentialEmail(
   request: CredentialDeliveryRequest,
   result: CredentialDeliveryResult,
 ): Promise<void> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   try {
     await fetch(`${siteUrl}/api/email/send`, {
@@ -250,7 +251,7 @@ async function sendCredentialEmail(
       },
       body: JSON.stringify({
         to: request.studentEmail,
-        subject: `Your ${request.courseName} Course Access — Elevate for Humanity`,
+        subject: `Your ${request.courseName} Course Access — ${PLATFORM_DEFAULTS.orgName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: #1e293b; padding: 24px; text-align: center;">
@@ -279,15 +280,15 @@ async function sendCredentialEmail(
                 <p style="margin: 0; font-size: 14px; color: #92400e;">
                   <strong>Next Steps:</strong> Click the button above to log in and start your course.
                   ${result.method === 'enrollment_link' ? 'You may need to create an account on the partner platform using the email address associated with your purchase.' : ''}
-                  If you have any issues accessing your course, contact us at (317) 314-3757 or reply to this email.
+                  If you have any issues accessing your course, contact us at ${PLATFORM_DEFAULTS.supportPhone} or reply to this email.
                 </p>
               </div>
             </div>
 
             <div style="background: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b;">
-              <p>Elevate for Humanity Career & Technical Institute</p>
+              <p>${PLATFORM_DEFAULTS.orgName} Career & Technical Institute</p>
               <p>8888 Keystone Crossing, Indianapolis, IN</p>
-              <p>(317) 314-3757 | info@elevateforhumanity.org</p>
+              <p>${PLATFORM_DEFAULTS.supportPhone} | info@${PLATFORM_DEFAULTS.canonicalDomain}</p>
             </div>
           </div>
         `,

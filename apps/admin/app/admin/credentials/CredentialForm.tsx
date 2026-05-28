@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Save, Loader2, AlertCircle, Shield } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface CredentialFormProps {
   initial?: Partial<CredentialRow>;
@@ -43,7 +44,7 @@ const BLANK: Omit<CredentialRow, 'id'> = {
   abbreviation: '',
   description: '',
   issuer_type: 'elevate_issued',
-  issuing_authority: 'Elevate for Humanity',
+  issuing_authority: PLATFORM_DEFAULTS.orgName,
   issuing_authority_url: '',
   proctor_authority: 'elevate',
   delivery: 'internal',
@@ -69,7 +70,7 @@ const BLANK: Omit<CredentialRow, 'id'> = {
 function deriveDefaults(issuer_type: string): Partial<typeof BLANK> {
   if (issuer_type === 'elevate_issued') {
     return {
-      issuing_authority: 'Elevate for Humanity',
+      issuing_authority: PLATFORM_DEFAULTS.orgName,
       proctor_authority: 'elevate',
       delivery: 'internal',
       verification_source: 'elevate',
@@ -304,7 +305,7 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <div className="grid sm:grid-cols-2 gap-4">
           {field('Issuing Authority', 'issuing_authority', {
             required: true,
-            placeholder: 'e.g. Elevate for Humanity, ACT Inc., EPA',
+            placeholder: 'e.g. {PLATFORM_DEFAULTS.orgName}, ACT Inc., EPA',
           })}
           {field('Issuing Authority URL', 'issuing_authority_url', { placeholder: 'https://...' })}
         </div>

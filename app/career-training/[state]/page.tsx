@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getStateConfig } from '@/config/states';
 import { StateCareerTrainingPage } from '@/components/templates';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,16 +15,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const state = getStateConfig(slug);
   if (!state) return {};
   return {
-    title: `${state.careerTraining.headline} | Elevate for Humanity`,
+    title: `${state.careerTraining.headline} | ${PLATFORM_DEFAULTS.orgName}`,
     description: state.careerTraining.description,
     alternates: {
-      canonical: `https://www.elevateforhumanity.org/career-training-${state.slug}`,
+      canonical: `${PLATFORM_DEFAULTS.siteUrl}/career-training-${state.slug}`,
     },
     openGraph: {
-      title: `${state.careerTraining.headline} | Elevate for Humanity`,
+      title: `${state.careerTraining.headline} | ${PLATFORM_DEFAULTS.orgName}`,
       description: state.careerTraining.description,
-      url: `https://www.elevateforhumanity.org/career-training-${state.slug}`,
-      siteName: 'Elevate for Humanity',
+      url: `${PLATFORM_DEFAULTS.siteUrl}/career-training-${state.slug}`,
+      siteName: PLATFORM_DEFAULTS.orgName,
       images: [
         { url: '/og-default.webp', width: 1200, height: 630, alt: `${state.name} Career Training` },
       ],
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${state.careerTraining.headline} | Elevate for Humanity`,
+      title: `${state.careerTraining.headline} | ${PLATFORM_DEFAULTS.orgName}`,
       description: state.careerTraining.description,
       images: ['/og-default.webp'],
     },

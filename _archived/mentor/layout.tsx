@@ -3,12 +3,13 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Mentor Portal | Elevate for Humanity',
+    default: 'Mentor Portal | {PLATFORM_DEFAULTS.orgName}',
     template: '%s | Mentor Portal',
   },
   description: 'Manage your mentees, schedule sessions, and track mentoring progress.',

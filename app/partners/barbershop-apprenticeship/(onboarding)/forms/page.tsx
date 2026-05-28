@@ -9,6 +9,7 @@ import {
   Download, Shield, Clock, BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface FormItem {
   id: string;
@@ -25,7 +26,7 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
-    description: 'Partnership agreement between your shop and Elevate for Humanity. Must be signed before hosting apprentices.',
+    description: 'Partnership agreement between your shop and {PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.',
     required: true,
     category: 'legal',
     action: 'sign',
@@ -323,7 +324,7 @@ export default function RequiredFormsPage() {
               <p className="text-sm text-amber-800">
                 If you have questions about any form or need assistance, contact our partnerships team
                 at <a href="mailto:apprenticeships@elevateforhumanity.org" className="underline font-medium">apprenticeships@elevateforhumanity.org</a> or
-                call <a href="tel:+13173143757" className="underline font-medium">(317) 314-3757</a>.
+                call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>.
               </p>
             </div>
           </div>

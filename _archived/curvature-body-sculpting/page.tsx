@@ -17,6 +17,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import Testimonials from './components/Testimonials';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Curvature Body Sculpting | Body Contouring & Meri-Go-Round Wellness Products | Indianapolis',
@@ -270,7 +271,7 @@ export default function CurvatureBodySculptingPage() {
               </div>
               <h2 className="text-3xl font-bold mb-4">Join Our Team</h2>
               <p className="text-slate-300 mb-6">
-                We hire graduates from Elevate for Humanity's esthetician and beauty programs. 
+                We hire graduates from {PLATFORM_DEFAULTS.orgName}'s esthetician and beauty programs. 
                 Start your career in body sculpting and wellness.
               </p>
               <ul className="space-y-3 mb-8">

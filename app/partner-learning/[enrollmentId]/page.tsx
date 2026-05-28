@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   ArrowLeft,
   ExternalLink,
   Mail,
@@ -140,7 +141,7 @@ export default async function PartnerLearningPage({ params }: Props) {
                 </p>
                 <p>
                   Once you receive your credentials, use the partner portal to complete your
-                  training. Your progress will be tracked and reported back to Elevate for Humanity.
+                  training. Your progress will be tracked and reported back to ${PLATFORM_DEFAULTS.orgName}.
                 </p>
               </div>
             </div>
@@ -204,7 +205,7 @@ export default async function PartnerLearningPage({ params }: Props) {
         {/* Elevate Support */}
         <div className="mt-8 text-center text-slate-700 text-sm">
           <p>
-            Having trouble? Contact Elevate for Humanity support at{' '}
+            Having trouble? Contact {PLATFORM_DEFAULTS.orgName} support at{' '}
             <a href="/support" className="text-brand-blue-600 hover:underline">
               support center
             </a>

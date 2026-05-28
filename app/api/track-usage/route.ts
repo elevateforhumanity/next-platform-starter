@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -58,13 +59,13 @@ export const dynamic = 'force-dynamic';
  */
 
 const getOfficialDomains = () => {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const domain = siteUrl.replace('https://', '').replace('http://', '').split('/')[0];
   return [
     domain,
     // Primary domain
-    'www.elevateforhumanity.org',
-    'elevateforhumanity.org',
+    PLATFORM_DEFAULTS.canonicalDomain,
+    PLATFORM_DEFAULTS.canonicalDomain,
     // Second owned domain
     'www.elevateforhumanityeducation.com',
     'elevateforhumanityeducation.com',
@@ -312,7 +313,7 @@ To Whom It May Concern:
 I am writing to report an instance of copyright infringement on a website hosted by your service.
 
 COPYRIGHTED WORK:
-The website located at https://www.elevateforhumanity.org, including all text, images, code, course content, and design elements, is the copyrighted property of Elevate for Humanity Career & Technical Institute.
+The website located at ${PLATFORM_DEFAULTS.siteUrl}, including all text, images, code, course content, and design elements, is the copyrighted property of ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.
 
 INFRINGING MATERIAL:
 An unauthorized copy of our website has been detected at:
@@ -332,12 +333,12 @@ ACCURACY STATEMENT:
 The information in this notification is accurate, and under penalty of perjury, I am authorized to act on behalf of the copyright owner.
 
 CONTACT INFORMATION:
-Elevate for Humanity Career & Technical Institute
+${PLATFORM_DEFAULTS.orgName} Career & Technical Institute
 8888 Keystone Crossing Suite 1300
 Indianapolis, IN 46240
 Email: elevate4humanityedu@gmail.com
-Phone: (317) 314-3757
-Website: https://www.elevateforhumanity.org
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Website: https://${PLATFORM_DEFAULTS.canonicalDomain}
 
 This notice is sent pursuant to the Digital Millennium Copyright Act (17 U.S.C. § 512(c)).
 
@@ -358,7 +359,7 @@ Elevate for Humanity Career & Technical Institute
   // Always send takedown to the abuse contact — known provider or RFC 2142 fallback
   const providerResult = await sendEmail({
     to: abuseEmail,
-    subject: `DMCA Takedown Notice — Unauthorized copy of elevateforhumanity.org on ${data.domain}`,
+    subject: `DMCA Takedown Notice — Unauthorized copy of ${PLATFORM_DEFAULTS.canonicalDomain} on ${data.domain}`,
     html: dmcaHtml,
     text: dmcaNotice,
   });

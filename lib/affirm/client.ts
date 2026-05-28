@@ -16,6 +16,7 @@
  */
 
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Read from consolidated API_KEYS_JSON first (reduces SSM parameter count),
 // then fall back to individual env vars.
@@ -286,7 +287,7 @@ export function getAffirmCheckoutConfig(options: {
       user_confirmation_url: options.successUrl,
       user_cancel_url: options.cancelUrl,
       user_confirmation_url_action: 'GET',
-      name: 'Elevate for Humanity',
+      name: PLATFORM_DEFAULTS.orgName,
     },
     shipping: {
       name: {
@@ -307,7 +308,7 @@ export function getAffirmCheckoutConfig(options: {
     currency: 'USD',
     total: options.amount,
     metadata: {
-      platform: 'Elevate for Humanity',
+      platform: PLATFORM_DEFAULTS.orgName,
       program: options.programName,
     },
   };

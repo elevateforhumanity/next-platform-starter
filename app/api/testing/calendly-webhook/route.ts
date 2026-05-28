@@ -25,6 +25,7 @@ import { TESTING_CENTER, CALENDLY_CONFIG } from '@/lib/testing/testing-config';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { ENV } from '@/lib/api/env-groups';
 import crypto from 'crypto';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -64,7 +65,7 @@ function confirmationEmailHtml(name: string, startTime: string, examQuestion: st
 <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
   <div style="background: #1e3a5f; padding: 24px; border-radius: 8px 8px 0 0;">
     <h1 style="color: white; margin: 0; font-size: 22px;">Testing Appointment Confirmed</h1>
-    <p style="color: #93c5fd; margin: 8px 0 0;">Elevate for Humanity Testing Center</p>
+    <p style="color: #93c5fd; margin: 8px 0 0;">${PLATFORM_DEFAULTS.orgName} Testing Center</p>
   </div>
   <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px;">
     <p>Hi ${name},</p>
@@ -120,7 +121,7 @@ function cancellationEmailHtml(name: string, startTime: string): string {
 <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
   <div style="background: #7f1d1d; padding: 24px; border-radius: 8px 8px 0 0;">
     <h1 style="color: white; margin: 0; font-size: 22px;">Testing Appointment Canceled</h1>
-    <p style="color: #fca5a5; margin: 8px 0 0;">Elevate for Humanity Testing Center</p>
+    <p style="color: #fca5a5; margin: 8px 0 0;">${PLATFORM_DEFAULTS.orgName} Testing Center</p>
   </div>
   <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px;">
     <p>Hi ${name},</p>
@@ -241,7 +242,7 @@ export const POST = withRuntime({ secrets: [...ENV.CALENDLY], rateLimit: 'api' }
         .send({
           from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
           to: inviteeEmail,
-          subject: 'Your Testing Appointment is Confirmed — Elevate for Humanity',
+          subject: 'Your Testing Appointment is Confirmed — ${PLATFORM_DEFAULTS.orgName}',
           html: confirmationEmailHtml(inviteeName, startTime, examAnswer),
         })
         .catch((err) => logger.error('Confirmation email failed', err));
@@ -320,7 +321,7 @@ export const POST = withRuntime({ secrets: [...ENV.CALENDLY], rateLimit: 'api' }
         .send({
           from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
           to: inviteeEmail,
-          subject: 'Testing Appointment Canceled — Elevate for Humanity',
+          subject: 'Testing Appointment Canceled — ${PLATFORM_DEFAULTS.orgName}',
           html: cancellationEmailHtml(inviteeName, startTime),
         })
         .catch((err) => logger.error('Cancellation email failed', err));

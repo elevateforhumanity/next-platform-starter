@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Data Sharing Consent | Elevate for Humanity',
+  title: 'Data Sharing Consent | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -16,13 +17,13 @@ export default function DataSharingPage() {
       <DocumentPage
         documentType="Data Sharing Consent"
         title="Data Sharing Consent Form"
-        subtitle="Elevate for Humanity Career & Technical Institute"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
         date="2025-01-01"
         version="1.0"
       >
         <DocumentSection heading="Purpose" number={1}>
           <p>
-            This consent authorizes Elevate for Humanity to share your personal and educational data with designated agencies and partners as required for program funding, compliance reporting, and workforce development services under WIOA, Job Ready Indy, the Workforce Ready Grant, and DOL Registered Apprenticeship programs.
+            This consent authorizes {PLATFORM_DEFAULTS.orgName} to share your personal and educational data with designated agencies and partners as required for program funding, compliance reporting, and workforce development services under WIOA, Job Ready Indy, the Workforce Ready Grant, and DOL Registered Apprenticeship programs.
           </p>
         </DocumentSection>
 
@@ -75,9 +76,9 @@ export default function DataSharingPage() {
 
         <DocumentSection heading="Contact" number={7}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

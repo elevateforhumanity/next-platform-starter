@@ -1,6 +1,7 @@
 'use client';
 
 import { Printer } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Competency {
   code: string;
@@ -70,7 +71,7 @@ export default function TranscriptContent({
               Official Student Transcript
             </p>
             <h1 className="text-2xl font-bold text-slate-900">
-              Elevate for Humanity Career &amp; Technical Institute
+              {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               8888 Keystone Crossing, Suite 1300 · Indianapolis, IN 46240
@@ -209,8 +210,8 @@ export default function TranscriptContent({
 
         <div className="mt-10 pt-6 border-t text-center print:mt-6">
           <p className="text-xs text-slate-400">
-            Generated {generatedAt} · Elevate for Humanity Career &amp; Technical Institute ·
-            info@elevateforhumanity.org · (317) 314-3757
+            Generated {generatedAt} · {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute ·
+            info@elevateforhumanity.org · {PLATFORM_DEFAULTS.supportPhone}
           </p>
           <p className="text-xs text-slate-400 mt-1">
             This transcript is an official record of competency mastery. Verify at

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Calendar, Video, MapPin } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type SessionType = 'virtual' | 'barbershop';
 
@@ -68,7 +69,7 @@ export default function OrientationScheduleClient() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Failed to schedule. Please call (317) 314-3757.');
+        setError(data.error || 'Failed to schedule. Please call ${PLATFORM_DEFAULTS.supportPhone}.');
         return;
       }
 
@@ -83,15 +84,15 @@ export default function OrientationScheduleClient() {
       const endDT = `${endDate.toISOString().slice(0, 10).replace(/-/g, '')}T${endDate.toTimeString().slice(0, 5).replace(':', '')}00`;
       const title =
         sessionType === 'barbershop'
-          ? 'Elevate for Humanity — Barbershop Walk-Through'
-          : 'Elevate for Humanity — Orientation';
+          ? '${PLATFORM_DEFAULTS.orgName} — Barbershop Walk-Through'
+          : '${PLATFORM_DEFAULTS.orgName} — Orientation';
       const details = `Session for ${name} (${email})%0A%0AZoom Link: ${meetingUrl}`;
       const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}`;
       window.open(calUrl, '_blank');
 
       setSuccess(true);
     } catch {
-      setError('Something went wrong. Please call (317) 314-3757.');
+      setError('Something went wrong. Please call ${PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setLoading(false);
     }
@@ -120,8 +121,8 @@ export default function OrientationScheduleClient() {
         )}
         <p className="text-black text-sm">
           Questions? Call{' '}
-          <a href="tel:3173143757" className="text-brand-blue-600 font-semibold hover:underline">
-            (317) 314-3757
+          <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="text-brand-blue-600 font-semibold hover:underline">
+            ${PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>
       </div>

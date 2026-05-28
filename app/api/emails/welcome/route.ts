@@ -8,6 +8,7 @@ import { sendEmail, emailTemplates } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -60,13 +61,13 @@ async function _POST(request: Request) {
 
     const studentName = profile?.full_name || profile?.email?.split('@')[0] || 'Student';
     const courseName = course?.title || 'Course';
-    const loginUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || 'https://www.elevateforhumanity.org')}/learner/dashboard`;
+    const loginUrl = `${((process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || '').trim() || PLATFORM_DEFAULTS.siteUrl)}/learner/dashboard`;
 
     const html = emailTemplates.welcome(studentName, courseName, loginUrl);
 
     await sendEmail({
       to: profile?.email || '',
-      subject: `Welcome to ${courseName} - Elevate for Humanity`,
+      subject: `Welcome to ${courseName} - ${PLATFORM_DEFAULTS.orgName}`,
       html,
     });
 

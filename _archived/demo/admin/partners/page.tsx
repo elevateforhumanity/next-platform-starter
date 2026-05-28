@@ -4,9 +4,10 @@ export const revalidate = 3600;
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { DemoPageShell } from '@/components/demo/DemoPageShell';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Partners | Admin Demo | Elevate for Humanity',
+  title: 'Partners | Admin Demo | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 

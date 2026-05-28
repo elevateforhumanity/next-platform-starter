@@ -1,6 +1,7 @@
 // Run with: npx tsx scripts/seed-blog-posts.ts
 
 import { createClient } from '@supabase/supabase-js';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -21,7 +22,7 @@ Marcus Thompson, 34, had spent 8 years climbing the ladder in retail management.
 
 ## Discovering a New Path
 
-Marcus's unemployment counselor at WorkOne Indianapolis suggested WIOA-funded training. That's when he found Elevate for Humanity's HVAC Technician program.
+Marcus's unemployment counselor at WorkOne Indianapolis suggested WIOA-funded training. That's when he found ' + PLATFORM_DEFAULTS.orgName + ''s HVAC Technician program.
 
 "When I saw the job outlook—95% placement rate, average starting salary of $45,000—I knew I had to try."
 
@@ -52,11 +53,11 @@ Today, Marcus has been promoted to Lead Technician earning $58,000 annually.
 
 "I went from unemployed and hopeless to having a real career with a future. Elevate for Humanity changed my life."
 
-Ready to start your own success story? Apply now at /apply or call (317) 314-3757.`,
+Ready to start your own success story? Apply now at /apply or call ${PLATFORM_DEFAULTS.supportPhone}.`,
     featured_image_url: '/images/blog/hvac-success.jpg',
     tags: ['HVAC', 'success story', 'career change', 'WIOA'],
     published: true,
-    author_name: 'Elevate for Humanity',
+    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
   },
   {
     title: 'Understanding WIOA Funding: Your Complete Guide to Free Career Training',
@@ -108,11 +109,11 @@ You may qualify if you meet ANY of these criteria:
 
 **Timeline: 2-4 weeks from application to training start**
 
-Check your eligibility at /wioa-eligibility or call (317) 314-3757.`,
+Check your eligibility at /wioa-eligibility or call ${PLATFORM_DEFAULTS.supportPhone}.`,
     featured_image_url: '/images/blog/wioa-guide.jpg',
     tags: ['WIOA', 'funding', 'financial aid', 'free training'],
     published: true,
-    author_name: 'Elevate for Humanity',
+    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
   },
   {
     title: '5 Highest-Paying Careers You Can Start in 6 Months or Less',
@@ -166,7 +167,7 @@ All five are available at Elevate for Humanity with WIOA funding. Apply at /appl
     featured_image_url: '/images/blog/careers.jpg',
     tags: ['careers', 'salary', 'training'],
     published: true,
-    author_name: 'Elevate for Humanity',
+    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
   },
   {
     title: 'CNA vs. Medical Assistant: Which Healthcare Career is Right for You?',
@@ -221,7 +222,7 @@ Both programs available at Elevate for Humanity with WIOA funding.`,
     featured_image_url: '/images/blog/healthcare-comparison.jpg',
     tags: ['CNA', 'medical assistant', 'healthcare'],
     published: true,
-    author_name: 'Elevate for Humanity',
+    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
   },
   {
     title: 'Elevate Partners with Indiana Career Connect for Faster Enrollment',
@@ -254,13 +255,13 @@ Visit us at 8888 Keystone Crossing, Suite 1300, Indianapolis
 - Tuesdays and Thursdays for on-site WIOA eligibility
 
 **Option 3: Call**
-(317) 314-3757
+${PLATFORM_DEFAULTS.supportPhone}
 
 Don't let paperwork stand between you and your new career.`,
     featured_image_url: '/images/blog/partnership.jpg',
     tags: ['partnership', 'Indiana Career Connect', 'WorkOne'],
     published: true,
-    author_name: 'Elevate for Humanity',
+    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
   },
 ];
 

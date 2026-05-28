@@ -12,6 +12,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -375,7 +376,7 @@ export default function CredentialsPage() {
             Certificates of Completion
           </h2>
           <p className="text-black text-sm mb-8 max-w-2xl">
-            Issued by Elevate for Humanity (2Exclusive LLC-S d/b/a Elevate for Humanity Career &
+            Issued by {PLATFORM_DEFAULTS.orgName} (2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career &
             Technical Institute). We design the curriculum, deliver training, assess learners, and
             issue the certificate.
           </p>
@@ -474,7 +475,7 @@ export default function CredentialsPage() {
           <p className="text-black text-sm mb-8 max-w-2xl">
             The highest-authority credentials. Require documented OJT hours with employer training
             sites, competency verification by supervising employers, and DOL sponsor oversight.
-            Elevate for Humanity is a DOL Registered Apprenticeship Sponsor (RAPIDS:
+            {PLATFORM_DEFAULTS.orgName} is a DOL Registered Apprenticeship Sponsor (RAPIDS:
             2025-IN-132301).
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -544,9 +545,9 @@ export default function CredentialsPage() {
       <section className="py-8 bg-amber-50 border-b border-amber-200">
         <div className="max-w-4xl mx-auto px-4">
           <p className="text-amber-800 text-sm leading-relaxed">
-            <strong>Credential Disclosure:</strong> Elevate for Humanity is not an accredited
+            <strong>Credential Disclosure:</strong> {PLATFORM_DEFAULTS.orgName} is not an accredited
             college or university. Certificates of completion are issued by 2Exclusive LLC-S d/b/a
-            Elevate for Humanity Career & Technical Institute. Industry certifications are issued by
+            {PLATFORM_DEFAULTS.orgName} Career & Technical Institute. Industry certifications are issued by
             their respective certifying bodies — Elevate provides exam preparation training.
             Registered Apprenticeship credentials require employer-validated OJT hours and are
             governed by DOL standards. Funding eligibility (WIOA, WRG, Job Ready Indy) is determined

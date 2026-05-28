@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -179,7 +180,7 @@ export default async function TrainingPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Help?</h2>
             <p className="text-base md:text-lg text-white mb-8">
-              Contact your Elevate coordinator or reach us directly at (317) 314-3757.
+              Contact your Elevate coordinator or reach us directly at {PLATFORM_DEFAULTS.supportPhone}.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

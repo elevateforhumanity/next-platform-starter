@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckCircle, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const AGENCY_TYPES = [
   'WorkOne / American Job Center',
@@ -63,7 +64,7 @@ export default function PartnerMeetingForm() {
       }
       setSubmitted(true);
     } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please call (317) 314-3757.');
+      setError(err.message || 'Something went wrong. Please call {PLATFORM_DEFAULTS.supportPhone}.');
     } finally {
       setSubmitting(false);
     }
@@ -81,8 +82,8 @@ export default function PartnerMeetingForm() {
         </p>
         <p className="text-slate-500 text-sm">
           Can&apos;t wait? Call or text{' '}
-          <a href="tel:3173143757" className="text-brand-red-600 font-bold">
-            (317) 314-3757
+          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-red-600 font-bold">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>
       </div>
@@ -205,8 +206,8 @@ export default function PartnerMeetingForm() {
 
       <p className="text-center text-xs text-slate-400">
         We respond within 24 hours. Call or text{' '}
-        <a href="tel:3173143757" className="text-slate-600 font-semibold">
-          (317) 314-3757
+        <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-slate-600 font-semibold">
+          {PLATFORM_DEFAULTS.supportPhone}
         </a>
       </p>
     </form>

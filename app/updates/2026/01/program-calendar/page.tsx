@@ -2,6 +2,7 @@ export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: '2026 Program Calendar & Funding Pathways',
@@ -27,7 +28,7 @@ export default function ProgramCalendar() {
 
       <div className="prose prose-lg max-w-none">
         <p className="text-black leading-relaxed mb-6">
-          Elevate for Humanity will offer workforce training cohorts across healthcare, skilled
+          {PLATFORM_DEFAULTS.orgName} will offer workforce training cohorts across healthcare, skilled
           trades, and technology sectors throughout 2026. Programs are designed to meet industry
           demand and prepare participants for immediate employment.
         </p>

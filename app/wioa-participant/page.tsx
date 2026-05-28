@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, ArrowRight, FileText, Phone, ShieldCheck } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'WIOA Participant — Funded Workforce Training',
-  description: 'Workforce Innovation and Opportunity Act (WIOA) funded training through Elevate for Humanity. Check eligibility, enroll in a program, and get placed into employment.',
+  description: 'Workforce Innovation and Opportunity Act (WIOA) funded training through {PLATFORM_DEFAULTS.orgName}. Check eligibility, enroll in a program, and get placed into employment.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/wioa-participant' },
 };
 

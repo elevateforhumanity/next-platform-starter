@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -100,13 +101,13 @@ async function _POST(req: Request) {
     try {
       // Confirmation to applicant
       await internalFetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+        `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/api/email/send`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             to: body.email,
-            subject: 'Inquiry Received - Elevate for Humanity',
+            subject: 'Inquiry Received - ${PLATFORM_DEFAULTS.orgName}',
             html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #ea580c;">Thank you for your inquiry!</h2>
@@ -120,11 +121,11 @@ async function _POST(req: Request) {
               </div>
 
               <div style="text-align: center; margin: 24px 0;">
-                <a href="https://www.elevateforhumanity.org/apply/track?id=${data.id}&email=${encodeURIComponent(body.email)}" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Track Application Status</a>
+                <a href="${PLATFORM_DEFAULTS.siteUrl}/apply/track?id=${data.id}&email=${encodeURIComponent(body.email)}" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Track Application Status</a>
               </div>
 
-              <p>Questions? Call us at <a href="tel:3173143757" style="color: #ea580c; font-weight: bold;">317-314-3757</a></p>
-              <p>Best regards,<br><strong>Elevate for Humanity Team</strong></p>
+              <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #ea580c; font-weight: bold;">${PLATFORM_DEFAULTS.supportPhone}</a></p>
+              <p>Best regards,<br><strong>${PLATFORM_DEFAULTS.orgName} Team</strong></p>
             </div>
           `,
           }),
@@ -133,7 +134,7 @@ async function _POST(req: Request) {
 
       // Notification to staff
       await internalFetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+        `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/api/email/send`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -147,7 +148,7 @@ async function _POST(req: Request) {
             <p><strong>Phone:</strong> ${body.phone || 'Not provided'}</p>
             ${body.program ? `<p><strong>Program Interest:</strong> ${body.program}</p>` : ''}
             ${body.message ? `<p><strong>Message:</strong><br>${body.message}</p>` : ''}
-            <p><a href="https://www.elevateforhumanity.org/admin/applications">View in Admin Portal</a></p>
+            <p><a href="${PLATFORM_DEFAULTS.siteUrl}/admin/applications">View in Admin Portal</a></p>
           `,
           }),
         },

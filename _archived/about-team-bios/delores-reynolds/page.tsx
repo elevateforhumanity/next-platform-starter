@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Delores Reynolds | Our Team | Elevate for Humanity',
-  description: 'Delores Reynolds — Social Media & Digital Engagement Coordinator at Elevate for Humanity Career & Technical Institute.',
+  title: 'Delores Reynolds | Our Team | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Delores Reynolds — Social Media & Digital Engagement Coordinator at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -40,7 +41,7 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Delores Reynolds</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Social Media & Digital Engagement Coordinator</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Delores manages digital communications for Elevate for Humanity, sharing student success stories and promoting program offerings to reach those who can benefit from funded training.</p>
+                <p>Delores manages digital communications for {PLATFORM_DEFAULTS.orgName}, sharing student success stories and promoting program offerings to reach those who can benefit from funded training.</p>
                 <p>She develops content strategies across social media platforms, manages the organization's digital presence, and creates compelling narratives that connect prospective students with training opportunities.</p>
               </div>
             </div>

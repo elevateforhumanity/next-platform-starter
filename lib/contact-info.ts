@@ -1,10 +1,11 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Central contact information for Elevate for Humanity
 // Update these values with your actual contact details
 
 export const CONTACT_INFO = {
   // Phone
   phone: {
-    display: '(317) 314-3757', // How it appears on the site
+    display: PLATFORM_DEFAULTS.supportPhone, // How it appears on the site
     tel: '+13173143757', // For tel: links (no spaces, dashes, or parentheses)
   },
 

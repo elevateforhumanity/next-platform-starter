@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -142,7 +143,7 @@ export default async function HireGraduatesPage() {
               },
               {
                 q: 'How do I request candidates?',
-                a: "Contact us through the form above or call (317) 314-3757. Tell us about your hiring needs and we'll match you with qualified candidates.",
+                a: "Contact us through the form above or call {PLATFORM_DEFAULTS.supportPhone}. Tell us about your hiring needs and we'll match you with qualified candidates.",
               },
               {
                 q: 'Can I interview candidates before hiring?',

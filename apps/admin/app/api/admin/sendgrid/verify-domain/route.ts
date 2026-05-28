@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/require-role';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeInternalError } from '@/lib/api/safe-error';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -33,21 +34,21 @@ export async function POST(request: NextRequest) {
     const domains: any[] = await res.json();
     const match = domains.find(
       (d: any) =>
-        d.domain === 'elevateforhumanity.org' ||
-        d.subdomain?.endsWith('elevateforhumanity.org'),
+        d.domain === PLATFORM_DEFAULTS.canonicalDomain ||
+        d.subdomain?.endsWith(PLATFORM_DEFAULTS.canonicalDomain),
     );
 
     if (!match) {
       return NextResponse.json({
         ok: false,
-        message: 'Domain elevateforhumanity.org not found in SendGrid. Add it under Settings → Sender Authentication.',
+        message: 'Domain ${PLATFORM_DEFAULTS.canonicalDomain} not found in SendGrid. Add it under Settings → Sender Authentication.',
       });
     }
 
     if (match.valid) {
       return NextResponse.json({
         ok: true,
-        message: 'Domain elevateforhumanity.org is fully verified in SendGrid.',
+        message: 'Domain ${PLATFORM_DEFAULTS.canonicalDomain} is fully verified in SendGrid.',
         domain: match,
       });
     }

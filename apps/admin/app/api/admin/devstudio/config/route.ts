@@ -4,6 +4,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -121,9 +122,9 @@ export async function GET(req: NextRequest) {
             { label: 'Local Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || process.env.DEVSTUDIO_PREVIEW_URL },
           ]
         : []),
-      { label: 'Public Homepage', url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org' },
-      { label: 'Programs', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/programs` },
-      { label: 'Apply', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/apply` },
+      { label: 'Public Homepage', url: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl },
+      { label: 'Programs', url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/programs` },
+      { label: 'Apply', url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/apply` },
       { label: 'Admin Dashboard', url: `${adminUrl}/admin` },
       { label: 'Admin Applications', url: `${adminUrl}/admin/applications` },
     ],

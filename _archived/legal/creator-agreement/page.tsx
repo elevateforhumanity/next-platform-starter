@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Legal Creator Agreement | Elevate For Humanity',
   description: 'Elevate For Humanity - Career training and workforce development',
@@ -26,7 +27,7 @@ export default async function CreatorAgreementPage() {
           <section>
             <h2 className="text-2xl font-bold mb-3">1. Agreement to Terms</h2>
             <p>
-              By applying to become a creator on the Elevate for Humanity
+              By applying to become a creator on the {PLATFORM_DEFAULTS.orgName}
               marketplace ("Platform"), you agree to be bound by this Creator
               Agreement. This agreement governs your relationship with Elevate
               for Humanity ("Platform Owner," "we," "us") as a seller of digital

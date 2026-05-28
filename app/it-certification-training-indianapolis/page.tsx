@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { FAQStructuredData, BreadcrumbStructuredData, ProgramStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'CompTIA, Microsoft, cybersecurity, and digital literacy training in Indianapolis. Industry certifications. WIOA funding may be available for qualifying residents.',
     url: CANONICAL,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'IT Certification Training Indianapolis' }],
     type: 'website',
   },
@@ -30,19 +31,19 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    question: 'What IT programs does Elevate for Humanity offer?',
+    question: 'What IT programs does {PLATFORM_DEFAULTS.orgName} offer?',
     answer:
       'We offer training in IT Help Desk / IT Support, Cybersecurity Analyst fundamentals, and digital literacy. Programs are designed to prepare participants for industry certifications from CompTIA and Microsoft. See our Programs page for the current catalog.',
   },
   {
     question: 'Who issues CompTIA and Microsoft certifications?',
     answer:
-      'CompTIA certifications (A+, Network+, Security+, etc.) are issued by CompTIA. Microsoft certifications are issued by Microsoft. These are independent third-party credentialing bodies. Elevate for Humanity prepares participants for the exams; the certifying organization issues the credential based on exam performance.',
+      'CompTIA certifications (A+, Network+, Security+, etc.) are issued by CompTIA. Microsoft certifications are issued by Microsoft. These are independent third-party credentialing bodies. {PLATFORM_DEFAULTS.orgName} prepares participants for the exams; the certifying organization issues the credential based on exam performance.',
   },
   {
     question: 'Can WIOA pay for IT certification training?',
     answer:
-      'IT certifications are typically listed among Indiana\'s high-demand occupations, which may make them eligible for WIOA funding. Eligibility is determined by your local WorkOne office, not by Elevate for Humanity. Contact WorkOne to begin the eligibility process.',
+      'IT certifications are typically listed among Indiana\'s high-demand occupations, which may make them eligible for WIOA funding. Eligibility is determined by your local WorkOne office, not by {PLATFORM_DEFAULTS.orgName}. Contact WorkOne to begin the eligibility process.',
   },
   {
     question: 'Is IT training available online or in-person?',
@@ -55,7 +56,7 @@ const faqs = [
       'Graduates of our IT Help Desk program are prepared for roles such as IT support specialist, help desk technician, desktop support, and tier-1 technical support. Cybersecurity training prepares participants for entry-level security analyst and security operations roles. Employment outcomes are not guaranteed.',
   },
   {
-    question: 'Do employers hire from Elevate for Humanity IT programs?',
+    question: 'Do employers hire from {PLATFORM_DEFAULTS.orgName} IT programs?',
     answer:
       'We work with Indianapolis technology employers to connect trained candidates with job opportunities. Employer placement support is available, though employment outcomes depend on individual performance, credential attainment, and local market conditions.',
   },
@@ -84,7 +85,7 @@ export default function ItCertificationTrainingIndianapolisPage() {
           tag: 'CompTIA · Microsoft · Cybersecurity · Indianapolis',
           heading: 'IT Certification Training in Indianapolis',
           subtitle:
-            'Launch your technology career with industry-recognized certifications. Elevate for Humanity prepares Indianapolis and Indiana residents for CompTIA, Microsoft, and cybersecurity credentials. WIOA funding may be available for eligible participants.',
+            'Launch your technology career with industry-recognized certifications. {PLATFORM_DEFAULTS.orgName} prepares Indianapolis and Indiana residents for CompTIA, Microsoft, and cybersecurity credentials. WIOA funding may be available for eligible participants.',
           primaryCta: { label: 'Apply Now', href: '/apply' },
           secondaryCta: { label: 'View IT Programs', href: '/programs/it-help-desk' },
         }}
@@ -131,7 +132,7 @@ export default function ItCertificationTrainingIndianapolisPage() {
           heading: 'Funding for IT Training',
           paragraphs: [
             'Technology occupations are consistently listed among Indiana\'s high-demand industries, which may increase eligibility for WIOA and Workforce Ready Grant funding.',
-            'As an ETPL-approved training provider, Elevate for Humanity can accept WIOA Individual Training Account referrals for eligible IT programs. Contact WorkOne or our admissions team to begin.',
+            'As an ETPL-approved training provider, {PLATFORM_DEFAULTS.orgName} can accept WIOA Individual Training Account referrals for eligible IT programs. Contact WorkOne or our admissions team to begin.',
           ],
           bullets: [
             'WIOA Individual Training Account (ITA) — ETPL-eligible IT programs',
@@ -141,7 +142,7 @@ export default function ItCertificationTrainingIndianapolisPage() {
             'Employer-sponsored training available for eligible employer partners',
           ],
           eligibilityNote:
-            'Funding eligibility is determined by your local WorkOne office or the applicable workforce agency — not by Elevate for Humanity. Contact us or WorkOne to start the eligibility process.',
+            'Funding eligibility is determined by your local WorkOne office or the applicable workforce agency — not by {PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the eligibility process.',
         }}
         pathwaysHeading="IT & Digital Skills Pathways"
         pathways={[
@@ -166,7 +167,7 @@ export default function ItCertificationTrainingIndianapolisPage() {
           {
             name: 'All Technology Programs',
             description:
-              'Browse the full catalog of IT and technology training programs at Elevate for Humanity.',
+              'Browse the full catalog of IT and technology training programs at {PLATFORM_DEFAULTS.orgName}.',
             href: '/programs',
           },
         ]}
@@ -196,9 +197,9 @@ export default function ItCertificationTrainingIndianapolisPage() {
           { label: 'Apply Now', href: '/apply' },
         ]}
         complianceNotes={[
-          'IT certifications (CompTIA A+, Network+, Security+, Microsoft certifications) are issued by independent third-party credentialing organizations, not by Elevate for Humanity. Passing the applicable certification examination is required to earn the credential.',
-          'Elevate for Humanity is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
-          'Funding eligibility under WIOA or any other program is determined by the applicable workforce agency, not by Elevate for Humanity.',
+          'IT certifications (CompTIA A+, Network+, Security+, Microsoft certifications) are issued by independent third-party credentialing organizations, not by {PLATFORM_DEFAULTS.orgName}. Passing the applicable certification examination is required to earn the credential.',
+          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
+          'Funding eligibility under WIOA or any other program is determined by the applicable workforce agency, not by {PLATFORM_DEFAULTS.orgName}.',
           'Employment outcomes are not guaranteed. Results depend on individual performance, credential attainment, and local market conditions.',
           'Content reviewed 2026. Program availability subject to change.',
         ]}

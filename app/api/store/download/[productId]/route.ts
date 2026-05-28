@@ -12,6 +12,7 @@ import {
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs'; // Changed from edge to support S3 SDK
 export const maxDuration = 60;
 
@@ -145,7 +146,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ produc
     }
 
     // Fallback: use public folder if file exists there
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     const publicUrl = getPublicFallbackUrl(productId, baseUrl);
     if (publicUrl) {
       return NextResponse.redirect(publicUrl);

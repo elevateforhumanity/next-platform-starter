@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Consumer Disclosures | Elevate for Humanity',
-  description: 'Consumer disclosures for Elevate for Humanity Career and Technical Institute.',
+  title: 'Consumer Disclosures | {PLATFORM_DEFAULTS.orgName}',
+  description: 'Consumer disclosures for {PLATFORM_DEFAULTS.orgName} Career and Technical Institute.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/consumer-disclosures' },
 };
 
@@ -16,7 +17,7 @@ export default function ConsumerDisclosuresPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Employment Disclosure</h2>
             <p className="text-neutral-700 leading-8">
-              Elevate for Humanity does not guarantee employment, job placement, wage outcomes,
+              {PLATFORM_DEFAULTS.orgName} does not guarantee employment, job placement, wage outcomes,
               externship placement, licensing approval, or certification issuance.
             </p>
           </section>
@@ -51,7 +52,7 @@ export default function ConsumerDisclosuresPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Institutional Status</h2>
             <p className="text-neutral-700 leading-8">
-              Elevate for Humanity Career and Technical Institute is a workforce development
+              {PLATFORM_DEFAULTS.orgName} Career and Technical Institute is a workforce development
               and technical training organization. It is not a degree-granting college or
               university. Participation in training does not guarantee employment, licensure,
               certification issuance, wage outcomes, or job placement.
@@ -62,7 +63,7 @@ export default function ConsumerDisclosuresPage() {
             <h2 className="text-2xl font-semibold mb-3">Program Availability</h2>
             <p className="text-neutral-700 leading-8">
               Program availability, cohort schedules, funding eligibility, and enrollment
-              capacity may vary. Elevate for Humanity reserves the right to modify, postpone,
+              capacity may vary. {PLATFORM_DEFAULTS.orgName} reserves the right to modify, postpone,
               or cancel programs based on enrollment, funding, or operational requirements.
             </p>
           </section>

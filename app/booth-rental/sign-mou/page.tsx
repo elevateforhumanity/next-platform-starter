@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { CheckCircle, Eraser, FileText, Loader2, ArrowLeft } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const MOU_SECTIONS = [
   {
     title: '1. Parties and Purpose',
-    content: `This Booth Rental Agreement ("Agreement") is entered into between 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Elevate") and the licensed professional identified at execution ("Renter").
+    content: `This Booth Rental Agreement ("Agreement") is entered into between 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute ("Elevate") and the licensed professional identified at execution ("Renter").
 
-This Agreement governs the rental of a booth, station, or suite at Elevate for Humanity's facility located in Indianapolis, Indiana. The Renter is an independent contractor operating their own business — not an employee of Elevate.`,
+This Agreement governs the rental of a booth, station, or suite at ${PLATFORM_DEFAULTS.orgName}'s facility located in Indianapolis, Indiana. The Renter is an independent contractor operating their own business — not an employee of Elevate.`,
   },
   {
     title: '2. Rental Terms',

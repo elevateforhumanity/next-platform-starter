@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { FileText, ArrowRight, ExternalLink, CheckCircle } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const FORMS = [
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
-    description: 'Worksite partnership agreement between your spa and Elevate for Humanity. Must be signed before hosting apprentices.',
+    description: 'Worksite partnership agreement between your spa and {PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.',
     required: true,
     action: 'sign' as const,
     href: '/partners/nail-technician-apprenticeship/sign-mou',

@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
 import { CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type Step = 'intake' | 'review' | 'agreement' | 'confirmation';
 
@@ -316,7 +317,7 @@ export default function ApprenticeEnrollmentPage() {
               <h2 className="text-xl font-bold mb-4">Apprentice Participation Agreement</h2>
               
               <div className="bg-gray-50 rounded-lg p-4 mb-6 max-h-96 overflow-y-auto text-sm text-gray-700 space-y-4">
-                <p className="font-medium">This agreement explains the terms for participating in the Barber Apprenticeship Program administered by Elevate for Humanity. Please read carefully before continuing.</p>
+                <p className="font-medium">This agreement explains the terms for participating in the Barber Apprenticeship Program administered by {PLATFORM_DEFAULTS.orgName}. Please read carefully before continuing.</p>
                 
                 <div>
                   <h3 className="font-bold text-gray-900">1. Program Overview</h3>
@@ -347,7 +348,7 @@ export default function ApprenticeEnrollmentPage() {
                   <ul className="list-disc ml-5 mt-1">
                     <li>Host shops must be approved before apprentice placement</li>
                     <li>Placement depends on shop availability and approval status</li>
-                    <li>Elevate for Humanity does not own or operate host shops</li>
+                    <li>{PLATFORM_DEFAULTS.orgName} does not own or operate host shops</li>
                   </ul>
                 </div>
 

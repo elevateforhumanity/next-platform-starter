@@ -10,13 +10,14 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { createCanvas, loadImage } from 'canvas';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // Video specs - audio files that need video versions
 const VIDEO_SPECS = [
   {
     audioFile: 'homepage-hero-new.mp3',
     videoFile: 'homepage-hero-new.mp4',
-    title: 'Elevate for Humanity',
+    title: '' + PLATFORM_DEFAULTS.orgName + '',
     subtitle: 'Build Your Future',
     bgColor: '#0f172a', // slate-900
     textColor: '#ffffff',
@@ -40,7 +41,7 @@ const VIDEO_SPECS = [
   {
     audioFile: 'elevate-overview-with-narration.mp3',
     videoFile: 'elevate-overview-with-narration.mp4',
-    title: 'Elevate for Humanity',
+    title: '' + PLATFORM_DEFAULTS.orgName + '',
     subtitle: 'Your Career Journey Starts Here',
     bgColor: '#0f172a',
     textColor: '#ffffff',

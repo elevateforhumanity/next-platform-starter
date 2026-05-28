@@ -1,6 +1,7 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 
-export const SITE_URL = 'https://www.elevateforhumanity.org';
+export const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const QUICK_STATS = [
   { val: '2,000', label: 'OJT Hours' },

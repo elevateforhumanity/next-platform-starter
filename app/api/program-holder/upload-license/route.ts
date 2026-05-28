@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -92,11 +93,11 @@ async function _POST(req: NextRequest) {
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' }],
+            to: [{ email: 'elevate4humanityedu@gmail.com', name: PLATFORM_DEFAULTS.orgName }],
             subject: `HVAC License Uploaded — ${holder?.organization_name || 'Program Holder'}`,
           },
         ],
-        from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
+        from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
         content: [
           {
             type: 'text/html',
@@ -111,7 +112,7 @@ async function _POST(req: NextRequest) {
               <tr><td style="padding:8px; border:1px solid #e2e8f0; font-weight:600;">Uploaded</td><td style="padding:8px; border:1px solid #e2e8f0;">${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET</td></tr>
             </table>
             <div style="text-align:center; margin:24px 0;">
-              <a href="https://elevateforhumanity.org/admin/program-holders/${phId}" style="background-color:#2563eb; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Review in Admin Dashboard</a>
+              <a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/admin/program-holders/${phId}" style="background-color:#2563eb; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Review in Admin Dashboard</a>
             </div>
           </body></html>`,
           },

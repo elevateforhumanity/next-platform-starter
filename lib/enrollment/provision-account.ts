@@ -13,6 +13,7 @@
 
 import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@/lib/supabase';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface ProvisionAccountInput {
   db: SupabaseClient;
@@ -34,7 +35,7 @@ export interface ProvisionAccountResult {
 }
 
 const SITE_URL = () =>
-  (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').trim();
+  (process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl).trim();
 
 export async function provisionAccount(
   input: ProvisionAccountInput,
@@ -65,9 +66,9 @@ export async function provisionAccount(
       const { sendEmail } = await import('@/lib/email/sendgrid');
       await sendEmail({
         to: normalizedEmail,
-        from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+        from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
         replyTo: 'elevate4humanityedu@gmail.com',
-        subject: `You're enrolled in ${programName} — Elevate for Humanity`,
+        subject: `You're enrolled in ${programName} — ${PLATFORM_DEFAULTS.orgName}`,
         html: buildWelcomeEmail({
           firstName,
           programName,
@@ -152,7 +153,7 @@ export async function provisionAccount(
     const { sendEmail } = await import('@/lib/email/sendgrid');
     await sendEmail({
       to: normalizedEmail,
-      from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
       replyTo: 'elevate4humanityedu@gmail.com',
       subject: `Welcome to ${programName} — Set your password to access your portal`,
       html: buildWelcomeEmail({
@@ -229,7 +230,7 @@ function buildWelcomeEmail(opts: {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a;">
   <div style="background:#1e293b;padding:24px 32px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">Elevate for Humanity</p>
+    <p style="margin:0;color:#fff;font-size:18px;font-weight:700;">${PLATFORM_DEFAULTS.orgName}</p>
     <p style="margin:4px 0 0;color:#94a3b8;font-size:13px;">${programName}</p>
   </div>
   <div style="padding:32px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;">
@@ -277,12 +278,12 @@ function buildWelcomeEmail(opts: {
     </div>
 
     <p style="color:#475569;font-size:14px;">
-      Questions? Call <a href="tel:3173143757" style="color:#ea580c;font-weight:700;">(317) 314-3757</a> or email
-      <a href="mailto:info@elevateforhumanity.org" style="color:#ea580c;">info@elevateforhumanity.org</a>
+      Questions? Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#ea580c;font-weight:700;">${PLATFORM_DEFAULTS.supportPhone}</a> or email
+      <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#ea580c;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a>
     </p>
     <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
     <p style="color:#94a3b8;font-size:12px;text-align:center;margin:0;">
-      Elevate for Humanity · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
+      ${PLATFORM_DEFAULTS.orgName} · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
     </p>
   </div>
 </div>`;

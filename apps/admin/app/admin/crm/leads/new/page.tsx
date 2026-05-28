@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { ArrowLeft, User, Mail, GraduationCap, Calendar } from 'lucide-react';
 import { createLeadAction } from './actions';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -68,7 +69,7 @@ export default async function NewLeadPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Phone</label>
-                <input type="tel" name="phone" placeholder="(317) 314-3757"
+                <input type="tel" name="phone" placeholder={PLATFORM_DEFAULTS.supportPhone}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500" />
               </div>
             </div>

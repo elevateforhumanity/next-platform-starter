@@ -8,6 +8,7 @@ import { logger } from '@/lib/logger';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -76,11 +77,11 @@ async function _POST(req: Request) {
     // Auto-reply to submitter
     await sendEmail({
       to: payload.email,
-      subject: 'We received your licensing request | Elevate for Humanity',
+      subject: 'We received your licensing request | ${PLATFORM_DEFAULTS.orgName}',
       html:
         `<p>Thank you for your licensing request.</p>` +
         `<p>We review access requests internally. If approved, you will receive onboarding and terms.</p>` +
-        `<p>— Elevate for Humanity</p>`,
+        `<p>— ${PLATFORM_DEFAULTS.orgName}</p>`,
     });
   } catch (emailError) {
     logger.error(

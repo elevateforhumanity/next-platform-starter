@@ -24,11 +24,12 @@ import {
   getStartingPrice 
 } from '@/lib/pricing';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'License the Elevate LMS + Workforce Hub | Elevate for Humanity',
+  title: 'License the Elevate LMS + Workforce Hub | {PLATFORM_DEFAULTS.orgName}',
   description: 'White-label LMS + Workforce Platform Licensing. Built for training providers, workforce boards, and employer partners. Starting at $4,999.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/license',

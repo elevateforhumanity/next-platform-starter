@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Received',
@@ -19,7 +20,7 @@ export default function ProgramHolderConfirmationPage() {
         <div className="text-center mb-8">
           <Image sizes="100vw"
             src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
-            alt="Elevate for Humanity"
+            alt={PLATFORM_DEFAULTS.orgName}
             width={140}
             height={48}
             className="mx-auto h-auto"
@@ -93,10 +94,10 @@ export default function ProgramHolderConfirmationPage() {
                 </a>
                 <span className="hidden sm:inline text-white">|</span>
                 <a
-                  href="tel:3173143757"
+                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
                   className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
                 >
-                  (317) 314-3757
+                  {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>
@@ -118,7 +119,7 @@ export default function ProgramHolderConfirmationPage() {
         </div>
 
         <p className="text-center text-xs text-slate-900 mt-6">
-          Elevate for Humanity · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
+          {PLATFORM_DEFAULTS.orgName} · 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240
         </p>
       </div>
     </div>

@@ -4,9 +4,10 @@
  */
 
 import Script from 'next/script';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-const ORG_NAME = 'Elevate for Humanity';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
+const ORG_NAME = PLATFORM_DEFAULTS.orgName;
 
 interface CourseStructuredDataProps {
   name: string;
@@ -194,8 +195,8 @@ export function OrganizationStructuredData() {
       postalCode: '46240',
       addressCountry: 'US',
     },
-    telephone: '+1-317-314-3757',
-    email: 'info@elevateforhumanity.org',
+    telephone: '+1-${PLATFORM_DEFAULTS.supportPhone}',
+    email: 'info@${PLATFORM_DEFAULTS.canonicalDomain}',
     sameAs: [
       'https://www.linkedin.com/company/elevate-for-humanity',
       'https://www.facebook.com/profile.php?id=61571046346179',

@@ -6,6 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -72,7 +73,7 @@ function buildPrefillText(payload: PrefillPayload) {
     awardCeiling: toDisplay(grant.awardCeiling),
     grantUrl: toDisplay(grant.url),
     grantDescription: toDisplay(grant.description),
-    legalName: toDisplay(org.legalName, 'Elevate for Humanity'),
+    legalName: toDisplay(org.legalName, PLATFORM_DEFAULTS.orgName),
     uei: toDisplay(org.uei),
     duns: toDisplay(org.duns),
     contactName: toDisplay(org.contactName),

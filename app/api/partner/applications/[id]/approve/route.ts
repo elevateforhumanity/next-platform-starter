@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -115,7 +116,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
     // PHASE 2: Auth User Creation
     // ========================================
     let authUserId: string | null = null;
-    let loginLink = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/login`;
+    let loginLink = `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/login`;
 
     // Check if user already exists
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
@@ -207,7 +208,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
     // ========================================
     // PHASE 3: Generate Magic Link & Send Email
     // ========================================
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
     const { data: magicLinkData } = await supabase.auth.admin.generateLink({
       type: 'magiclink',

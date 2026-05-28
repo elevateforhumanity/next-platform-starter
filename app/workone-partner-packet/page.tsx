@@ -19,6 +19,7 @@ import {
   Target,
 } from 'lucide-react';
 import { PrintButton } from './PrintButton';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'WorkOne Partner Packet',
@@ -138,7 +139,7 @@ export default function WorkOnePartnerPacketPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who We Are</h2>
               <div className="prose prose-lg max-w-none text-slate-700">
                 <p className="mb-4">
-                  Elevate for Humanity is a <strong>workforce training institute</strong> and
+                  {PLATFORM_DEFAULTS.orgName} is a <strong>workforce training institute</strong> and
                   registered apprenticeship sponsor and
                   <strong> ETPL-approved workforce intermediary</strong> that helps Indiana
                   employers implement earn-and-learn apprenticeship programs aligned with WIOA and
@@ -542,7 +543,7 @@ export default function WorkOnePartnerPacketPage() {
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-teal-600 rounded-lg font-bold hover:bg-white transition-colors"
             >
               <Phone className="w-5 h-5 mr-2" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a
               href="/contact"
@@ -553,7 +554,7 @@ export default function WorkOnePartnerPacketPage() {
             </a>
           </div>
           <p className="text-slate-500 text-sm mt-8">
-            Elevate for Humanity | 501(c)(3) Nonprofit | EIN: 93-3915599
+            {PLATFORM_DEFAULTS.orgName} | 501(c)(3) Nonprofit | EIN: 93-3915599
           </p>
         </div>
       </section>

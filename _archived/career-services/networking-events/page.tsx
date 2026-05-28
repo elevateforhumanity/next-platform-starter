@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { Calendar, Users, Briefcase, ArrowRight, CheckCircle, MapPin, Clock, Video, Coffee, Handshake, Building2, Award } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Networking Events | Career Services | Elevate for Humanity',
+  title: 'Networking Events | Career Services | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Connect with employers and industry professionals at our networking events. Monthly career fairs, industry mixers, alumni meetups, and virtual networking opportunities.',
   keywords: ['networking events', 'career fairs', 'job fairs', 'professional networking', 'employer events', 'alumni networking', 'industry meetups'],

@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Building2, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'School Partner Orientation',
@@ -35,7 +36,7 @@ const SECTIONS = [
   },
   {
     title: 'Getting help',
-    body: 'Your Elevate program coordinator is your primary contact for operational questions. For portal or technical issues, use the help desk at /program-holder/support. For compliance questions, email compliance@elevateforhumanity.org. For urgent student safety concerns, call (317) 314-3757.',
+    body: 'Your Elevate program coordinator is your primary contact for operational questions. For portal or technical issues, use the help desk at /program-holder/support. For compliance questions, email compliance@elevateforhumanity.org. For urgent student safety concerns, call {PLATFORM_DEFAULTS.supportPhone}.',
   },
 ];
 

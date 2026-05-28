@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FileText, Download, ChevronRight, Shield, Lock, Eye, AlertTriangle, Server, Users } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Security and Data Protection Statement | Elevate For Humanity',
   description: 'Comprehensive security practices, data handling, and protection measures for the Elevate For Humanity platform.',
@@ -241,7 +242,7 @@ export default async function SecurityStatementPage() {
             <p className="mb-2"><strong>Security Issues:</strong> our contact form</p>
             <p className="mb-2"><strong>Privacy Requests:</strong> our contact form</p>
             <p className="mb-2"><strong>Data Protection Officer:</strong> our contact form</p>
-            <p><strong>Phone:</strong> 317-314-3757</p>
+            <p><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</p>
           </div>
         </section>
 

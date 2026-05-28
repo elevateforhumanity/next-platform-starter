@@ -21,36 +21,56 @@
       ],
       "environment": [
         {
-          "name": "NODE_ENV",
-          "value": "production"
+          "name": "CHROMIUM_PATH",
+          "value": "/usr/bin/chromium"
         },
         {
           "name": "HOSTNAME",
           "value": "0.0.0.0"
         },
         {
-          "name": "PORT",
-          "value": "3000"
+          "name": "NEXT_PUBLIC_ADMIN_URL",
+          "value": "https://admin.elevateforhumanity.org"
         },
         {
-          "name": "SERVICE_ROLE",
-          "value": "lms"
+          "name": "NEXT_PUBLIC_CANONICAL_DOMAIN",
+          "value": "www.elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_CERT_HOLDER",
+          "value": "Elevate for Humanity"
+        },
+        {
+          "name": "NEXT_PUBLIC_EMAIL_FROM_ADDRESS",
+          "value": "noreply@elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_EMAIL_FROM_NAME",
+          "value": "Elevate for Humanity"
+        },
+        {
+          "name": "NEXT_PUBLIC_ORG_LEGAL_NAME",
+          "value": "Elevate for Humanity Technical and Career Institute"
+        },
+        {
+          "name": "NEXT_PUBLIC_ORG_NAME",
+          "value": "Elevate for Humanity"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPPORT_EMAIL",
+          "value": "support@elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPPORT_PHONE",
+          "value": "(317) 314-3757"
         },
         {
           "name": "NEXT_TELEMETRY_DISABLED",
           "value": "1"
         },
         {
-          "name": "PUPPETEER_EXECUTABLE_PATH",
-          "value": "/usr/bin/chromium"
-        },
-        {
-          "name": "CHROMIUM_PATH",
-          "value": "/usr/bin/chromium"
-        },
-        {
-          "name": "NEXT_PUBLIC_ADMIN_URL",
-          "value": "https://admin.elevateforhumanity.org"
+          "name": "NODE_ENV",
+          "value": "production"
         },
         {
           "name": "OTEL_EXPORTER_OTLP_ENDPOINT",
@@ -63,6 +83,18 @@
         {
           "name": "OTEL_SERVICE_NAME",
           "value": "elevate-lms"
+        },
+        {
+          "name": "PORT",
+          "value": "3000"
+        },
+        {
+          "name": "PUPPETEER_EXECUTABLE_PATH",
+          "value": "/usr/bin/chromium"
+        },
+        {
+          "name": "SERVICE_ROLE",
+          "value": "lms"
         },
         {
           "name": "SUPABASE_PROJECT_REF",

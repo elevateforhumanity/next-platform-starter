@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Credentials Policy | Elevate for Humanity',
+  title: 'Credentials Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Standards for issuing, verifying, and maintaining certificates, credentials, and certifications.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/credentials',
@@ -32,7 +33,7 @@ export default async function CredentialsPage() {
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
               This policy establishes standards for issuing, verifying, and maintaining credentials earned through 
-              Elevate for Humanity programs. We ensure credentials accurately represent student achievement and 
+              {PLATFORM_DEFAULTS.orgName} programs. We ensure credentials accurately represent student achievement and 
               maintain their value and integrity in the marketplace.
             </p>
 
@@ -236,7 +237,7 @@ export default async function CredentialsPage() {
               <li>Download verification report if needed</li>
             </ol>
             <p className="text-black mb-6">
-              Or contact our registrar office at our contact form or (317) 314-3757.
+              Or contact our registrar office at our contact form or {PLATFORM_DEFAULTS.supportPhone}.
             </p>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Verification Information Provided</h3>
@@ -310,7 +311,7 @@ export default async function CredentialsPage() {
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Credential Expiration</h3>
             <p className="text-black mb-6">
-              Most Elevate for Humanity certificates do not expire. However, industry certifications and 
+              Most {PLATFORM_DEFAULTS.orgName} certificates do not expire. However, industry certifications and 
               licenses may have expiration dates set by certifying bodies. You are responsible for maintaining 
               external certifications.
             </p>
@@ -334,7 +335,7 @@ export default async function CredentialsPage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>Verification Portal:</strong> www.elevateforhumanity.org/verify</li>
               <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
             </ul>

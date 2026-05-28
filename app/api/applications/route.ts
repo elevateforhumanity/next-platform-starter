@@ -12,6 +12,7 @@ import { provisionAccount } from '@/lib/enrollment/provision-account';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // approveApplication is called by /api/admin/applications/[id]/approve — not here
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -26,7 +27,7 @@ function getAllowedOrigins(): Set<string> {
 
   const defaults = [
     process.env.NEXT_PUBLIC_SITE_URL,
-    'https://www.elevateforhumanity.org',
+    PLATFORM_DEFAULTS.siteUrl,
     process.env.NEXT_PUBLIC_ADMIN_URL,
   ].filter(Boolean) as string[];
 
@@ -43,7 +44,7 @@ function isAllowedOrigin(origin: string, allowedOrigins: Set<string>): boolean {
 }
 
 function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
-  const fallback = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const fallback = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const allowOrigin = origin && allowedOrigins.has(origin) ? origin : fallback;
   return {
     'Access-Control-Allow-Origin': allowOrigin,
@@ -220,7 +221,7 @@ async function _POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.',
+            'Service temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.',
         },
         { status: 503, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -279,7 +280,7 @@ async function _POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            'An application for this program was already submitted with this email in the last 24 hours. Please call 317-314-3757 if you need to make changes.',
+            'An application for this program was already submitted with this email in the last 24 hours. Please call ${PLATFORM_DEFAULTS.supportPhone} if you need to make changes.',
         },
         { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -480,7 +481,7 @@ async function _POST(req: Request) {
       });
       return NextResponse.json(
         {
-          error: 'Failed to save application. Please call 317-314-3757 for immediate assistance.',
+          error: 'Failed to save application. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.',
           debug: process.env.NODE_ENV === 'development' ? (error as any)?.message : undefined,
         },
         { status: 500 },
@@ -543,7 +544,7 @@ async function _POST(req: Request) {
     });
 
     // Send email notifications — direct call, no self-fetch
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
     let emailStatus: { student: string; staff: string } = {
       student: 'not-attempted',
       staff: 'not-attempted',
@@ -622,7 +623,7 @@ async function _POST(req: Request) {
             <li>You receive your account setup link and onboarding instructions by email</li>
             <li>You begin training</li>
           </ol>
-          <p style="color:#166534;margin-bottom:0;"><strong>Questions?</strong> Call <a href="tel:3173143757" style="color:#ea580c;">(317) 314-3757</a> or email <a href="mailto:info@elevateforhumanity.org" style="color:#ea580c;">info@elevateforhumanity.org</a></p>
+          <p style="color:#166534;margin-bottom:0;"><strong>Questions?</strong> Call <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#ea580c;">${PLATFORM_DEFAULTS.supportPhone}</a> or email <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color:#ea580c;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
         </div>
       `;
 
@@ -630,7 +631,7 @@ async function _POST(req: Request) {
         ? `Action Required — Complete Indiana Career Connect to Enroll [Ref: ${referenceNumber}]`
         : isFunded
           ? `Application Received — Pending Review [Ref: ${referenceNumber}]`
-          : `Welcome to Elevate for Humanity — ${body.program} [Ref: ${referenceNumber}]`;
+          : `Welcome to ${PLATFORM_DEFAULTS.orgName} — ${body.program} [Ref: ${referenceNumber}]`;
 
       const studentEmailResult = await sendEmail({
         to: body.email,
@@ -638,7 +639,7 @@ async function _POST(req: Request) {
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="padding: 24px; text-align: center; border-radius: 8px 8px 0 0; border-bottom: 2px solid #e5e7eb;">
-              <h1 style="margin: 0; font-size: 24px;">${needsICC ? 'Next Step Required' : 'Welcome to Elevate for Humanity!'}</h1>
+              <h1 style="margin: 0; font-size: 24px;">${needsICC ? 'Next Step Required' : 'Welcome to ${PLATFORM_DEFAULTS.orgName}!'}</h1>
             </div>
             <div style="padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
               <p style="font-size: 16px;">Hi ${body.firstName},</p>
@@ -663,12 +664,12 @@ async function _POST(req: Request) {
                 <p style="margin: 8px 0 0 0; font-size: 12px; color: #64748b;">Application ID: ${data.id}</p>
               </div>
 
-              <p>Questions? Call us at <a href="tel:3173143757" style="color: #ea580c; font-weight: bold;">317-314-3757</a> or email <a href="mailto:info@elevateforhumanity.org" style="color: #ea580c;">info@elevateforhumanity.org</a></p>
+              <p>Questions? Call us at <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color: #ea580c; font-weight: bold;">${PLATFORM_DEFAULTS.supportPhone}</a> or email <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" style="color: #ea580c;">info@${PLATFORM_DEFAULTS.canonicalDomain}</a></p>
               <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
               <p style="color: #64748b; font-size: 13px; text-align: center;">
-                Elevate for Humanity Career &amp; Technical Institute<br />
+                ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute<br />
                 8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240<br />
-                <a href="${siteUrl}" style="color: #3b82f6;">www.elevateforhumanity.org</a>
+                <a href="${siteUrl}" style="color: #3b82f6;">${PLATFORM_DEFAULTS.canonicalDomain}</a>
               </p>
             </div>
           </div>
@@ -703,7 +704,7 @@ async function _POST(req: Request) {
           ${body.caseManagerAgency ? `<p><strong>Agency:</strong> ${body.caseManagerAgency}</p>` : ''}
           ${body.supportNeeds ? `<p><strong>Support Needs:</strong> ${body.supportNeeds}</p>` : ''}
           <div style="text-align:center;margin:24px 0;">
-            <a href="https://admin.elevateforhumanity.org/admin/applications/review/${data.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Review &amp; Enroll →</a>
+            <a href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/admin/applications/review/${data.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:14px 32px;text-decoration:none;border-radius:8px;font-weight:700;font-size:15px;">Review &amp; Enroll →</a>
           </div>
           <p style="font-size:12px;color:#6b7280;text-align:center;">Application ID: ${data.id}</p>
         `,

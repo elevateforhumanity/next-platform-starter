@@ -6,22 +6,23 @@ import { Store, Search, Filter, Star, Users, Clock, ChevronRight,
   Phone
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Course Marketplace | Elevate for Humanity',
+  title: 'Course Marketplace | {PLATFORM_DEFAULTS.orgName}',
   description: 'Discover courses from expert creators. Browse our marketplace of professional training courses in trades, healthcare, technology, and more.',
   keywords: ['course marketplace', 'online courses', 'professional training', 'skill development', 'career courses'],
   alternates: {
     canonical: `${SITE_URL}/marketplace`,
   },
   openGraph: {
-    title: 'Course Marketplace | Elevate for Humanity',
+    title: 'Course Marketplace | {PLATFORM_DEFAULTS.orgName}',
     description: 'Discover courses from expert creators. Browse professional training courses in trades, healthcare, technology, and more.',
     url: `${SITE_URL}/marketplace`,
-    siteName: 'Elevate for Humanity',
+    siteName: '{PLATFORM_DEFAULTS.orgName}',
     type: 'website',
     images: [
       {
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Course Marketplace | Elevate for Humanity',
+    title: 'Course Marketplace | {PLATFORM_DEFAULTS.orgName}',
     description: 'Discover courses from expert creators in trades, healthcare, technology, and more.',
   },
 };
@@ -147,7 +148,7 @@ export default async function MarketplacePage() {
               className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
             >
               <Phone className="w-4 h-4" />
-              (317) 314-3757
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

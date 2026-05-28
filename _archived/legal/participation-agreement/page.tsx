@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { DocumentPage, DocumentSection, DocumentSignatureBlock } from '@/components/documents';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Participation Agreement | Elevate for Humanity',
+  title: 'Participation Agreement | {PLATFORM_DEFAULTS.orgName}',
   robots: { index: false, follow: false },
 };
 
@@ -16,13 +17,13 @@ export default function ParticipationAgreementPage() {
       <DocumentPage
         documentType="Participation Agreement"
         title="Participation Agreement"
-        subtitle="Elevate for Humanity Career & Technical Institute"
+        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
         date="2025-01-01"
         version="1.0"
       >
         <DocumentSection heading="Purpose" number={1}>
           <p>
-            This Participation Agreement outlines the expectations and requirements for active participation in Elevate for Humanity career pathway programs. By signing, the Student agrees to meet these standards for the duration of their enrollment.
+            This Participation Agreement outlines the expectations and requirements for active participation in {PLATFORM_DEFAULTS.orgName} career pathway programs. By signing, the Student agrees to meet these standards for the duration of their enrollment.
           </p>
         </DocumentSection>
 
@@ -67,7 +68,7 @@ export default function ParticipationAgreementPage() {
         <DocumentSection heading="Employer Site Day Expectations" number={6}>
           <ul>
             <li>Follow all employer site rules and safety requirements</li>
-            <li>Represent Elevate for Humanity professionally at all times</li>
+            <li>Represent {PLATFORM_DEFAULTS.orgName} professionally at all times</li>
             <li>Complete all required site documentation before leaving</li>
             <li>Report any incidents or concerns to the program coordinator immediately</li>
           </ul>
@@ -92,9 +93,9 @@ export default function ParticipationAgreementPage() {
 
         <DocumentSection heading="Contact" number={9}>
           <p>
-            Elevate for Humanity — Program Director<br />
+            {PLATFORM_DEFAULTS.orgName} — Program Director<br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240<br />
-            Email: info@elevateforhumanity.org · Phone: (317) 314-3757
+            Email: info@elevateforhumanity.org · Phone: {PLATFORM_DEFAULTS.supportPhone}
           </p>
         </DocumentSection>
 

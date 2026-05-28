@@ -14,6 +14,7 @@ import {
   Users,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'School Partner Onboarding',
@@ -92,7 +93,7 @@ export default async function SchoolOnboardingPage() {
       id: 'mou',
       label: 'Sign Memorandum of Understanding',
       description:
-        'Review and sign the MOU that governs your partnership with Elevate for Humanity.',
+        'Review and sign the MOU that governs your partnership with {PLATFORM_DEFAULTS.orgName}.',
       href: '/onboarding/mou',
       icon: ClipboardCheck,
       done: mouSigned,

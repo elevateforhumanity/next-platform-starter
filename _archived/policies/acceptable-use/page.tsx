@@ -4,8 +4,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
-  title: 'Acceptable Use Policy | Elevate for Humanity',
+  title: 'Acceptable Use Policy | {PLATFORM_DEFAULTS.orgName}',
   description: 'Guidelines for appropriate use of technology, learning resources, and platform services.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/acceptable-use',
@@ -31,7 +32,7 @@ export default async function AcceptableUsePage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This Acceptable Use Policy establishes guidelines for appropriate use of Elevate for Humanity's 
+              This Acceptable Use Policy establishes guidelines for appropriate use of {PLATFORM_DEFAULTS.orgName}'s 
               technology resources, learning platforms, equipment, and services. These guidelines protect our 
               community, ensure system security, and maintain a productive learning environment for all users.
             </p>
@@ -177,7 +178,7 @@ export default async function AcceptableUsePage() {
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Monitoring and Privacy</h2>
             <p className="text-black mb-4">
-              Elevate for Humanity reserves the right to monitor use of technology resources to:
+              {PLATFORM_DEFAULTS.orgName} reserves the right to monitor use of technology resources to:
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Ensure compliance with this policy</li>
@@ -231,7 +232,7 @@ export default async function AcceptableUsePage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone}</li>
               <li><strong>In-Person:</strong> IT Help Desk or Administrative Office</li>
               <li><strong>Anonymous:</strong> Use the online reporting form in student portal</li>
             </ul>
@@ -242,7 +243,7 @@ export default async function AcceptableUsePage() {
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
               <li><strong>IT Help Desk:</strong> our contact form</li>
-              <li><strong>Phone:</strong> (317) 314-3757 ext. 2</li>
+              <li><strong>Phone:</strong> {PLATFORM_DEFAULTS.supportPhone} ext. 2</li>
               <li><strong>Hours:</strong> Monday-Friday, 8:00 AM - 6:00 PM EST</li>
               <li><strong>Location:</strong> Main Campus, Room 105</li>
             </ul>

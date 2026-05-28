@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Shield, Flower2, BookOpen, Clock, Phone } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -109,7 +110,7 @@ export default async function EnrollmentSuccessPage() {
               <span className="text-slate-600">Sponsor</span>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-teal-500" />
-                <span className="font-bold text-slate-900">Elevate for Humanity</span>
+                <span className="font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>
               </div>
             </div>
           </div>
@@ -168,11 +169,11 @@ export default async function EnrollmentSuccessPage() {
             Questions? Mon–Fri 9am–5pm ET
           </p>
           <a
-            href="tel:317-314-3757"
+            href="tel:{PLATFORM_DEFAULTS.supportPhone}"
             className="text-teal-400 hover:underline text-sm flex items-center justify-center gap-1"
           >
             <Phone className="w-3 h-3" />
-            317-314-3757
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </div>
       </div>

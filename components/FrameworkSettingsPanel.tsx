@@ -1,13 +1,14 @@
 'use client';
 
 /*
-  Copyright (c) 2025 Elevate for Humanity
+  Copyright (c) 2025 {PLATFORM_DEFAULTS.orgName}
   Commercial License. No resale, sublicensing, or redistribution allowed.
   See LICENSE file for details.
 */
 
 import React, { useState, useEffect } from 'react';
 import { frameworkSettings } from '../lib/frameworkSettings';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export function FrameworkSettingsPanel() {
   const [config] = useState(frameworkSettings.getConfig());

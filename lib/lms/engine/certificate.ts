@@ -19,6 +19,7 @@ import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { getCertificateIssuedEmail } from '@/lib/email/career-course-sequences';
 import { setAuditContext } from '@/lib/audit-context';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export async function issueCertificateIfEligible(
   userId: string,
@@ -160,7 +161,7 @@ export async function issueCertificateIfEligible(
         to: profile.email,
         subject: emailPayload.subject,
         html: emailPayload.html,
-        from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+        from: '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>',
         replyTo: 'elevate4humanityedu@gmail.com',
       });
       logger.info('[engine/certificate] Certificate email sent', { userId, certNumber });

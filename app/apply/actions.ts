@@ -7,6 +7,7 @@ import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 
 import { sendWorkOneHoldEmail } from '@/lib/email/workone-hold';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // info@elevateforhumanity.org removed — domain MX points to Resend/SES inbound
 // but no mailbox exists there, so emails bounce and get re-suppressed in a loop.
@@ -177,7 +178,7 @@ async function createStudentAccount(
           type: 'magiclink',
           email: normalizedEmail,
           options: {
-            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/auth/callback?redirect=${encodeURIComponent(onboardingPath)}`,
+            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/auth/callback?redirect=${encodeURIComponent(onboardingPath)}`,
           },
         })
         .catch((err: any) => {
@@ -373,7 +374,7 @@ async function insertApplication(payload: {
     }
   }
   const referenceNumber = generateReferenceNumber();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const programLabel = payload.programInterest.replace(/-/g, ' ');
 
   // Auto-enrollment: insert application, create account, enroll in courses, send onboarding email.
@@ -388,15 +389,15 @@ async function insertApplication(payload: {
       `<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#1a1a1a;background:#ffffff">`,
       `<div style="text-align:center;padding:32px 24px 24px">`,
       // IMAGE-CONTRACT: allow raw img because email HTML template (not JSX)
-      `<img src="${logoUrl}" alt="Elevate for Humanity" width="160" style="max-width:160px;height:auto" />`,
+      `<img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="160" style="max-width:160px;height:auto" />`,
       `</div>`,
       `<div style="padding:0 32px 32px">`,
     ].join('');
     const emailFooter = [
       `<div style="border-top:1px solid #e0e0e0;margin-top:32px;padding-top:20px;text-align:center;font-family:Arial,sans-serif;font-size:12px;color:#999">`,
-      `<p style="margin:0 0 4px">Elevate for Humanity Career & Technical Institute</p>`,
+      `<p style="margin:0 0 4px">${PLATFORM_DEFAULTS.orgName} Career & Technical Institute</p>`,
       `<p style="margin:0 0 4px">8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>`,
-      `<p style="margin:0"><a href="${siteUrl}" style="color:#999;text-decoration:underline">www.elevateforhumanity.org</a> &nbsp;|&nbsp; (317) 314-3757</p>`,
+      `<p style="margin:0"><a href="${siteUrl}" style="color:#999;text-decoration:underline">${PLATFORM_DEFAULTS.canonicalDomain}</a> &nbsp;|&nbsp; ${PLATFORM_DEFAULTS.supportPhone}</p>`,
       `</div>`,
       `</div></div>`,
     ].join('');
@@ -496,13 +497,13 @@ async function insertApplication(payload: {
     // Send student confirmation email
     await sendEmailDirect(
       payload.email,
-      `Welcome to Elevate for Humanity — ${programLabel} [${referenceNumber}]`,
+      `Welcome to ${PLATFORM_DEFAULTS.orgName} — ${programLabel} [${referenceNumber}]`,
       [
         emailHeader,
 
         `<h2 style="font-weight:normal;font-size:22px;margin:0 0 20px;color:#1a1a1a">Hi ${payload.firstName},</h2>`,
 
-        `<p style="font-size:15px;line-height:1.7;margin:0 0 16px">Thank you for your interest in <strong>${programLabel}</strong> at Elevate for Humanity. We received your inquiry and we'd love to help you take the next step.</p>`,
+        `<p style="font-size:15px;line-height:1.7;margin:0 0 16px">Thank you for your interest in <strong>${programLabel}</strong> at ${PLATFORM_DEFAULTS.orgName}. We received your inquiry and we'd love to help you take the next step.</p>`,
 
         `<p style="font-size:15px;line-height:1.7;margin:0 0 16px">We've created your account. You can log in using the email and password you provided on the application form.</p>`,
 
@@ -553,7 +554,7 @@ async function insertApplication(payload: {
         `<ol style="margin:0 0 16px;padding-left:20px;font-size:14px;color:#333;font-family:Arial,sans-serif;line-height:1.9">`,
         `<li>Visit <a href="https://www.indianacareerconnect.com" style="color:#1a1a1a;font-weight:bold">www.indianacareerconnect.com</a> and create an account</li>`,
         `<li>Schedule an appointment with your local WorkOne office</li>`,
-        `<li>Let them know you'd like to enroll in <strong>${programLabel}</strong> at Elevate for Humanity</li>`,
+        `<li>Let them know you'd like to enroll in <strong>${programLabel}</strong> at ${PLATFORM_DEFAULTS.orgName}</li>`,
         `<li>They'll confirm your eligibility and issue a training voucher</li>`,
         `</ol>`,
 
@@ -578,13 +579,13 @@ async function insertApplication(payload: {
         `<li><strong>Buy Now, Pay Later</strong> — split your tuition into monthly payments</li>`,
         `<li><strong>Deposit + Payment Plan</strong> — put down a deposit and pay the balance over time</li>`,
         `</ul>`,
-        `<p style="font-size:14px;line-height:1.7;margin:0 0 16px">To discuss which option works best for you, <a href="${siteUrl}/schedule-consultation" style="color:#1a1a1a;font-weight:bold">schedule a Zoom meeting</a> with our enrollment team or call us at <strong>(317) 314-3757</strong>.</p>`,
+        `<p style="font-size:14px;line-height:1.7;margin:0 0 16px">To discuss which option works best for you, <a href="${siteUrl}/schedule-consultation" style="color:#1a1a1a;font-weight:bold">schedule a Zoom meeting</a> with our enrollment team or call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>`,
 
         // Closing
         `<div style="border-top:1px solid #e0e0e0;margin:28px 0"></div>`,
-        `<p style="font-size:14px;line-height:1.7;margin:0 0 8px">If you have any questions at all, just reply to this email or give us a call at <strong>(317) 314-3757</strong>. We're here to help.</p>`,
+        `<p style="font-size:14px;line-height:1.7;margin:0 0 8px">If you have any questions at all, just reply to this email or give us a call at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>. We're here to help.</p>`,
         `<p style="font-size:14px;line-height:1.7;margin:0 0 4px">Looking forward to working with you,</p>`,
-        `<p style="font-size:14px;margin:0 0 4px"><strong>The Elevate for Humanity Team</strong></p>`,
+        `<p style="font-size:14px;margin:0 0 4px"><strong>The ${PLATFORM_DEFAULTS.orgName} Team</strong></p>`,
         `<p style="font-size:12px;color:#999;font-family:Arial,sans-serif;margin:16px 0 0">Ref: ${referenceNumber}</p>`,
 
         emailFooter,
@@ -778,7 +779,7 @@ async function insertApplication(payload: {
   return {
     success: false,
     error:
-      'We could not save your application right now. Please try again in a moment or call 317-314-3757 so we can assist immediately.',
+      'We could not save your application right now. Please try again in a moment or call ${PLATFORM_DEFAULTS.supportPhone} so we can assist immediately.',
   };
 }
 
@@ -1154,7 +1155,7 @@ async function sendProgramHolderWelcomeEmail(
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   // Generate a password setup link — recovery links work for both new and existing accounts
   // without requiring an invite-specific flow, while still forcing a password reset.
@@ -1195,13 +1196,13 @@ async function sendProgramHolderWelcomeEmail(
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <tr><td style="padding:28px 32px;text-align:center;border-bottom:1px solid #e2e8f0">
           // IMAGE-CONTRACT: allow raw img because legacy markup
-          <img src="${logoUrl}" alt="Elevate for Humanity" width="140" style="max-width:140px;height:auto" />
+          <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="140" style="max-width:140px;height:auto" />
         </td></tr>
         <tr><td style="padding:32px">
           <h2 style="color:#1a1a1a;font-size:20px;margin:0 0 16px">Hi ${opts.firstName} — set your password to begin onboarding</h2>
           <p style="color:#334155;font-size:15px;line-height:1.7;margin:0 0 16px">
             Your Program Holder account for <strong>${opts.organizationName}</strong> has been created with
-            <strong>Elevate for Humanity</strong>. Click below to set your password — you will need it to
+            <strong>${PLATFORM_DEFAULTS.orgName}</strong>. Click below to set your password — you will need it to
             log in and complete your onboarding steps.
           </p>
           <table width="100%" cellpadding="0" cellspacing="0">
@@ -1224,15 +1225,15 @@ async function sendProgramHolderWelcomeEmail(
             <strong>This link expires in 24 hours.</strong> If it expires, go to
             <a href="${siteUrl}/login" style="color:#1d4ed8">${siteUrl}/login</a> and use
             "Forgot Password" to get a new one. Questions? Call
-            <a href="tel:3173143757" style="color:#1d4ed8">(317) 314-3757</a> or email
+            <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" style="color:#1d4ed8">${PLATFORM_DEFAULTS.supportPhone}</a> or email
             <a href="mailto:elevate4humanityedu@gmail.com" style="color:#1d4ed8">elevate4humanityedu@gmail.com</a>.
           </p>
           <p style="color:#94a3b8;font-size:12px;margin:20px 0 0">Ref: ${opts.referenceNumber}</p>
         </td></tr>
         <tr><td style="background:#f8fafc;padding:20px 32px;text-align:center;border-top:1px solid #e2e8f0">
-          <p style="color:#94a3b8;font-size:12px;margin:0">Elevate for Humanity Career &amp; Technical Institute</p>
+          <p style="color:#94a3b8;font-size:12px;margin:0">${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute</p>
           <p style="color:#94a3b8;font-size:12px;margin:4px 0">8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240</p>
-          <p style="color:#94a3b8;font-size:12px;margin:4px 0">(317) 314-3757</p>
+          <p style="color:#94a3b8;font-size:12px;margin:4px 0">${PLATFORM_DEFAULTS.supportPhone}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -1244,8 +1245,8 @@ async function sendProgramHolderWelcomeEmail(
       method: 'POST',
       headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-        reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' },
+        from: { email: PLATFORM_DEFAULTS.emailFromAddress, name: PLATFORM_DEFAULTS.orgName },
+        reply_to: { email: 'elevate4humanityedu@gmail.com', name: PLATFORM_DEFAULTS.orgName },
         personalizations: [{ to: [{ email: opts.email, name: opts.firstName }] }],
         subject: `Welcome — Complete Your Program Holder Onboarding [${opts.referenceNumber}]`,
         content: [{ type: 'text/html', value: html }],

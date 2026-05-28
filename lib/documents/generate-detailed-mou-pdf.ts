@@ -6,6 +6,7 @@
  */
 
 import { PDFDocument, rgb, StandardFonts, PDFFont, PDFPage } from 'pdf-lib';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type ProgramTerm = {
   program_name: string;
@@ -33,11 +34,11 @@ export type DetailedMOUPDFData = {
   mou_version?: string;
 };
 
-const SPONSOR = '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute)';
+const SPONSOR = '2Exclusive LLC-S (DBA: ' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute)';
 const SPONSOR_SIGNER = 'Elizabeth Greene';
 const SPONSOR_TITLE = 'Founder & Chief Executive Officer';
 const ADDRESS = '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240';
-const PHONE = '(317) 314-3757';
+const PHONE = PLATFORM_DEFAULTS.supportPhone;
 const EMAIL = 'elevate4humanityedu@gmail.com';
 
 function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: number): string[] {

@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Clock, Award, ArrowRight } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .join(' ');
 
   return {
-    title: `Enroll in ${title} | Elevate for Humanity`,
+    title: `Enroll in ${title} | ${PLATFORM_DEFAULTS.orgName}`,
     description: `Start your enrollment in the ${title} program.`,
   };
 }

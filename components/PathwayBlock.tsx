@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface PathwayBlockProps {
   variant?: 'light' | 'dark';
@@ -96,7 +97,7 @@ export function PathwayBlock({ variant = 'light', className = '' }: PathwayBlock
 
         <p className={`text-center text-xs mt-8 ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>
           Third-party certifications and state licenses are issued by external credentialing bodies,
-          not by Elevate for Humanity.
+          not by {PLATFORM_DEFAULTS.orgName}.
         </p>
       </div>
     </div>

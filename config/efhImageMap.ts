@@ -1,8 +1,9 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const efhImageMap = {
   homeHeroTop: {
     label: 'Top homepage hero banner',
     src: '/images/hero/home-hero-top-gradient.jpg',
-    alt: 'Elevate for Humanity gradient hero banner',
+    alt: '' + PLATFORM_DEFAULTS.orgName + ' gradient hero banner',
   },
   homeHeroSecond: {
     label: '2nd hero banner – home page',

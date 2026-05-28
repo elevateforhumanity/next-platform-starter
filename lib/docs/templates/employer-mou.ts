@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Employer Partnership MOU Template
  *
@@ -29,8 +30,8 @@ MEMORANDUM OF UNDERSTANDING (MOU)
 
 This Memorandum of Understanding ("MOU") outlines the partnership between:
 
-Elevate for Humanity Career & Training Institute
-2Exclusive LLC-S d/b/a Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName} Career & Training Institute
+2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName}
 ("Institute")
 
 and
@@ -157,8 +158,8 @@ Date: ${data.date}
 
 INSTITUTE ACKNOWLEDGMENT
 
-Elevate for Humanity Career & Training Institute
-2Exclusive LLC-S d/b/a Elevate for Humanity
+${PLATFORM_DEFAULTS.orgName} Career & Training Institute
+2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName}
 
 Signature: ______________________________
 Name: Elizabeth Greene
@@ -168,6 +169,6 @@ Date: ${data.date}
 ---
 
 This MOU was generated on ${data.date} via the Elevate for Humanity Employer Portal.
-For questions or to request modifications, contact: admin@www.elevateforhumanity.org
+For questions or to request modifications, contact: admin@${PLATFORM_DEFAULTS.canonicalDomain}
 `;
 }

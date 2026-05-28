@@ -15,6 +15,7 @@
 import type { SupabaseClient } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface AutoEnrollInput {
   db: SupabaseClient;
@@ -56,7 +57,7 @@ export async function autoEnroll(input: AutoEnrollInput): Promise<AutoEnrollResu
   } = input;
 
   const normalizedEmail = email.toLowerCase().trim();
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').trim();
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl).trim();
 
   // ── Step 1: Provision account (find or create + send credentials email) ──
   const provision = await provisionAccount({

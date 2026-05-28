@@ -7,6 +7,7 @@ import { internalFetch } from '@/lib/api/internal-fetch';
 
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
   }
 
   // Forward to canonical applications endpoint
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
   const res = await internalFetch(`${siteUrl}/api/applications`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

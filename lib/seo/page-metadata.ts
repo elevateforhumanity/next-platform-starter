@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-const SITE_NAME = 'Elevate for Humanity';
+const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
+const SITE_NAME = PLATFORM_DEFAULTS.orgName;
 
 /**
  * Authoritative SEO Metadata Configuration
@@ -19,7 +20,7 @@ const SITE_NAME = 'Elevate for Humanity';
 export const DEFAULT_METADATA: Metadata = {
   title: {
     default: 'Tax Preparation & Workforce Training Platform | Elevate for Humanity',
-    template: '%s | Elevate for Humanity',
+    template: '%s | ' + PLATFORM_DEFAULTS.orgName + '',
   },
   description:
     'Professional tax preparation, workforce training, and learning services delivered through a secure, guided platform.',
@@ -158,7 +159,7 @@ export const PAGE_METADATA: Record<
   // Terms of Service
   terms: {
     title: 'Terms of Service',
-    description: 'Terms and conditions for using Elevate for Humanity services and platform.',
+    description: 'Terms and conditions for using ' + PLATFORM_DEFAULTS.orgName + ' services and platform.',
     path: '/legal',
   },
 

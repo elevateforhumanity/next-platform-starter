@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /*
   Copyright (c) 2025 Elevate for Humanity
   Commercial License. No resale, sublicensing, or redistribution allowed.
@@ -60,21 +61,21 @@ export class SocialMediaAutomation {
     this.accounts.set('facebook-page', {
       platform: 'facebook',
       accountId: 'elevateforhumanity',
-      accountName: 'Elevate for Humanity',
+      accountName: PLATFORM_DEFAULTS.orgName,
       active: true,
     });
     // Facebook Personal Profile
     this.accounts.set('facebook-personal', {
       platform: 'facebook',
       accountId: 'elevate-personal',
-      accountName: 'Elevate for Humanity (Personal)',
+      accountName: '' + PLATFORM_DEFAULTS.orgName + ' (Personal)',
       active: true,
     });
     // LinkedIn Company Page
     this.accounts.set('linkedin-company', {
       platform: 'linkedin',
       accountId: 'elevateforhumanity',
-      accountName: 'Elevate for Humanity',
+      accountName: PLATFORM_DEFAULTS.orgName,
       active: true,
     });
     // LinkedIn Personal Profile
@@ -88,7 +89,7 @@ export class SocialMediaAutomation {
     this.accounts.set('youtube', {
       platform: 'youtube',
       accountId: 'UCElevateForHumanity',
-      accountName: 'Elevate for Humanity',
+      accountName: PLATFORM_DEFAULTS.orgName,
       active: true,
     });
   }
@@ -125,7 +126,7 @@ export class SocialMediaAutomation {
   private generateContent(timeSlot: number): string {
     const contentTemplates = {
       morning: [
-        '🌅 Good morning! Start your career transformation today with Elevate for Humanity. Free training programs available through federal and state funding. #WorkforceDevelopment #CareerTraining',
+        '🌅 Good morning! Start your career transformation today with ${PLATFORM_DEFAULTS.orgName}. Free training programs available through federal and state funding. #WorkforceDevelopment #CareerTraining',
         '☕ Morning motivation: Your future starts with the right training. Explore our ETPL-approved programs and government-funded opportunities. Apply today! #Education #CareerGrowth',
         '🎓 New day, new opportunities! Join thousands who have transformed their careers through our programs. SAM.gov registered contractor. #GovernmentContracts #Training',
       ],

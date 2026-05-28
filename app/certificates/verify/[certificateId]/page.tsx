@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { CheckCircle, XCircle, Download, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -418,8 +419,8 @@ export default async function VerifyCertificatePage({
               Elevate4humanityedu@gmail.com
             </a>{' '}
             or call{' '}
-            <a href="tel:+13173143757" className="text-brand-blue-600 hover:underline">
-              (317) 314-3757
+            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>
         </div>

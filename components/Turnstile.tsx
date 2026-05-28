@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface TurnstileProps {
   onVerify: (token: string) => void;
@@ -115,10 +116,10 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
       <p className="text-[11px] text-slate-400 mt-1 text-center">
         Security check required before submitting.{' '}
         <a
-          href="tel:3173143757"
+          href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
           className="underline hover:text-slate-600 transition-colors"
         >
-          Need help? Call (317) 314-3757
+          Need help? Call {PLATFORM_DEFAULTS.supportPhone}
         </a>
       </p>
     </div>

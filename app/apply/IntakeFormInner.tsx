@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { ArrowRight, Upload, X, FileText, AlertCircle } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Validation helpers ────────────────────────────────────────────────────────
 
@@ -270,7 +271,7 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received</h1>
           <p className="text-lg text-black mb-2">
-            Thank you for your interest in Elevate for Humanity.
+            Thank you for your interest in ${PLATFORM_DEFAULTS.orgName}.
           </p>
           <p className="text-sm text-black mb-2">
             Check your email — we sent you a link to access your learner account and track your
@@ -937,7 +938,7 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
 
             {/* Disclaimer */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 text-sm text-black">
-              By submitting, you authorize Elevate for Humanity to review your intake for training
+              By submitting, you authorize {PLATFORM_DEFAULTS.orgName} to review your intake for training
               and funding pathways. Final funding decisions are made by workforce partners and are
               not guaranteed. See our{' '}
               <Link href="/legal/privacy" className="text-brand-red-600 underline">

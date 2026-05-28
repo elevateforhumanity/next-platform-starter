@@ -40,6 +40,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type FundingPath = 'fssa' | 'employer' | 'self_pay' | 'self_pay_out_of_state';
 
@@ -483,8 +484,8 @@ function SelfPayOptions({
           <p className="font-bold text-slate-800 mb-1">Questions?</p>
           <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-slate-400" />
-            <a href="tel:3173143757" className="hover:text-blue-600">
-              (317) 314-3757
+            <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="hover:text-blue-600">
+              ${PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
         </div>

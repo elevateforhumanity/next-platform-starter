@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Clients | Elevate for Humanity',
+  title: 'Clients | {PLATFORM_DEFAULTS.orgName}',
   description: 'Manage tax preparation clients.',
 };
 

@@ -2,13 +2,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Security and Data Protection',
   description:
-    'Security controls, data protection standards, incident response posture, and operational safeguards used across Elevate for Humanity systems.',
+    'Security controls, data protection standards, incident response posture, and operational safeguards used across {PLATFORM_DEFAULTS.orgName} systems.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/governance/security' },
 };
 
@@ -75,7 +76,7 @@ export default function GovernanceSecurityPage() {
             Security and Data Protection
           </h1>
           <p className="text-slate-700 mt-3 text-lg">
-            Elevate for Humanity maintains a layered control model to protect participant data,
+            {PLATFORM_DEFAULTS.orgName} maintains a layered control model to protect participant data,
             preserve system integrity, and support regulatory readiness.
           </p>
         </header>

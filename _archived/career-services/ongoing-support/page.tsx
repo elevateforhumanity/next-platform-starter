@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { 
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Heart, 
   MessageCircle, 
   TrendingUp, 
@@ -23,7 +24,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Ongoing Career Support | Career Services | Elevate for Humanity',
+  title: 'Ongoing Career Support | Career Services | {PLATFORM_DEFAULTS.orgName}',
   description:
     'Lifetime career support for all graduates. Career coaching, alumni networking, advancement opportunities, job search assistance, and professional development resources.',
   keywords: ['career support', 'alumni services', 'career coaching', 'professional development', 'career advancement', 'job search help', 'lifetime support'],

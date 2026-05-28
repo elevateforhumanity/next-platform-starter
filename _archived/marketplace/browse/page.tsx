@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { Star, ShoppingCart } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Browse Marketplace | Elevate For Humanity',
@@ -96,7 +97,7 @@ export default async function MarketplaceBrowsePage() {
                   <h3 className="font-semibold text-slate-900 mt-1 line-clamp-1">{item.title}</h3>
                   <p className="text-sm text-slate-700 mt-1 line-clamp-2">{item.description}</p>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-sm text-slate-700">{item.seller?.full_name || 'Elevate for Humanity'}</span>
+                    <span className="text-sm text-slate-700">{item.seller?.full_name || '{PLATFORM_DEFAULTS.orgName}'}</span>
                   </div>
                   {item.rating > 0 && (
                     <div className="flex items-center gap-1 mt-2">

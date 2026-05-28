@@ -4,13 +4,14 @@ import { Metadata } from 'next';
 import { Building2, Briefcase, GraduationCap, Handshake, Award } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createPublicClient } from '@/lib/supabase/server';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: 'Our Partners',
   description:
-    'Elevate for Humanity partners with workforce boards, employers, credential providers, and government agencies to deliver funded credential pathway programs in Indianapolis.',
+    '{PLATFORM_DEFAULTS.orgName} partners with workforce boards, employers, credential providers, and government agencies to deliver funded credential pathway programs in Indianapolis.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/about/partners',
   },

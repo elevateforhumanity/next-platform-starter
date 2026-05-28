@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { FAQStructuredData, BreadcrumbStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-static';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'WIOA-funded career training in Indiana. WorkOne referrals accepted. Workforce Ready Grant and FSSA IMPACT eligible programs. Eligibility determined by your agency.',
     url: CANONICAL,
-    siteName: 'Elevate for Humanity',
+    siteName: PLATFORM_DEFAULTS.orgName,
     images: [{ url: '/og-default.webp', width: 1200, height: 630, alt: 'WIOA Funded Training Indiana' }],
     type: 'website',
   },
@@ -32,12 +33,12 @@ const faqs = [
   {
     question: 'What is WIOA and how does it pay for training?',
     answer:
-      'The Workforce Innovation and Opportunity Act (WIOA) is a federal law that funds career training for eligible adults, dislocated workers, and youth. Eligible individuals are issued Individual Training Accounts (ITAs) through their local WorkOne office to pay for approved programs on Indiana\'s Eligible Training Provider List (ETPL). Elevate for Humanity is ETPL-approved.',
+      'The Workforce Innovation and Opportunity Act (WIOA) is a federal law that funds career training for eligible adults, dislocated workers, and youth. Eligible individuals are issued Individual Training Accounts (ITAs) through their local WorkOne office to pay for approved programs on Indiana\'s Eligible Training Provider List (ETPL). {PLATFORM_DEFAULTS.orgName} is ETPL-approved.',
   },
   {
     question: 'How do I find out if I qualify for WIOA funding?',
     answer:
-      'Contact your local WorkOne office or visit workone.in.gov. A career advisor will assess your eligibility based on income, employment status, and other factors. Elevate for Humanity does not determine WIOA eligibility — that is the responsibility of your local workforce agency.',
+      'Contact your local WorkOne office or visit workone.in.gov. A career advisor will assess your eligibility based on income, employment status, and other factors. {PLATFORM_DEFAULTS.orgName} does not determine WIOA eligibility — that is the responsibility of your local workforce agency.',
   },
   {
     question: 'What is the Workforce Ready Grant?',
@@ -47,7 +48,7 @@ const faqs = [
   {
     question: 'What is FSSA IMPACT?',
     answer:
-      'FSSA IMPACT is an Indiana program through the Family and Social Services Administration that connects public-assistance recipients with workforce training and employment services. Qualified participants may be referred to Elevate for Humanity programs through their FSSA case worker.',
+      'FSSA IMPACT is an Indiana program through the Family and Social Services Administration that connects public-assistance recipients with workforce training and employment services. Qualified participants may be referred to {PLATFORM_DEFAULTS.orgName} programs through their FSSA case worker.',
   },
   {
     question: 'Can I apply for training while waiting for funding approval?',
@@ -78,7 +79,7 @@ export default function WioaFundedTrainingIndianaPage() {
           tag: 'WIOA · Workforce Ready Grant · FSSA IMPACT',
           heading: 'Funded Career Training in Indiana',
           subtitle:
-            'Multiple state and federal programs may fund your training at Elevate for Humanity. We are ETPL-approved and WIOA-compliant. WorkOne referrals and FSSA IMPACT referrals are accepted.',
+            'Multiple state and federal programs may fund your training at {PLATFORM_DEFAULTS.orgName}. We are ETPL-approved and WIOA-compliant. WorkOne referrals and FSSA IMPACT referrals are accepted.',
           primaryCta: { label: 'Apply Now', href: '/apply' },
           secondaryCta: { label: 'Contact Us', href: '/contact' },
         }}
@@ -124,8 +125,8 @@ export default function WioaFundedTrainingIndianaPage() {
         funding={{
           heading: 'Indiana Workforce Funding Sources',
           paragraphs: [
-            'Indiana has several state and federal programs that fund career training at approved providers like Elevate for Humanity. The right funding source depends on your situation — income, employment history, and agency relationship.',
-            'Most participants work with a WorkOne career advisor or FSSA case worker to determine which funding applies to them. Elevate for Humanity works directly with funding agencies to support your enrollment.',
+            'Indiana has several state and federal programs that fund career training at approved providers like {PLATFORM_DEFAULTS.orgName}. The right funding source depends on your situation — income, employment history, and agency relationship.',
+            'Most participants work with a WorkOne career advisor or FSSA case worker to determine which funding applies to them. {PLATFORM_DEFAULTS.orgName} works directly with funding agencies to support your enrollment.',
           ],
           bullets: [
             'WIOA Title I — adults, dislocated workers, youth (federal)',
@@ -136,7 +137,7 @@ export default function WioaFundedTrainingIndianaPage() {
             'SNAP E&T — SNAP recipient employment and training',
           ],
           eligibilityNote:
-            'Important: Final funding eligibility is determined by your local WorkOne office, FSSA case worker, or the applicable funding agency — not by Elevate for Humanity. We do not approve or deny funding. Contact us or WorkOne to begin the eligibility process.',
+            'Important: Final funding eligibility is determined by your local WorkOne office, FSSA case worker, or the applicable funding agency — not by {PLATFORM_DEFAULTS.orgName}. We do not approve or deny funding. Contact us or WorkOne to begin the eligibility process.',
         }}
         pathwaysHeading="ETPL-Approved Program Areas"
         pathways={[
@@ -172,9 +173,9 @@ export default function WioaFundedTrainingIndianaPage() {
           { label: 'Contact Us', href: '/contact' },
         ]}
         complianceNotes={[
-          'Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by Elevate for Humanity. Approval is not guaranteed.',
-          'Elevate for Humanity is listed on Indiana\'s Eligible Training Provider List (ETPL). ETPL listing does not guarantee funding for all participants.',
-          'Elevate for Humanity is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
+          'Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency or WorkOne office, not by {PLATFORM_DEFAULTS.orgName}. Approval is not guaranteed.',
+          '{PLATFORM_DEFAULTS.orgName} is listed on Indiana\'s Eligible Training Provider List (ETPL). ETPL listing does not guarantee funding for all participants.',
+          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
           'Content reviewed 2026. Program availability, funding amounts, and eligibility requirements are subject to change. Verify current program details with DWD or your WorkOne office.',
         ]}
         ctaHeading="Ready to Start Funded Training?"

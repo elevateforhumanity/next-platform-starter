@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // xAPI (Experience API / Tin Can API) Client
 // Tracks learning activities and sends statements to Learning Record Store (LRS)
 export interface XAPIActor {
@@ -82,7 +83,7 @@ export class XAPIClient {
   // Helper method to create actor from user
   createActor(userId: string, userName: string): XAPIActor {
     return {
-      mbox: `mailto:${userId}@www.elevateforhumanity.org`,
+      mbox: `mailto:${userId}@${PLATFORM_DEFAULTS.canonicalDomain}`,
       name: userName,
       objectType: 'Agent',
     };
@@ -129,7 +130,7 @@ export class XAPIClient {
       actor: this.createActor(userId, userName),
       verb: XAPIClient.VERBS.INITIALIZED,
       object: {
-        id: `https://www.elevateforhumanity.org/courses/${courseId}`,
+        id: `${PLATFORM_DEFAULTS.siteUrl}/courses/${courseId}`,
         definition: {
           name: { 'en-US': courseName },
           type: 'http://adlnet.gov/expapi/activities/course',
@@ -166,7 +167,7 @@ export class XAPIClient {
       actor: this.createActor(userId, userName),
       verb: XAPIClient.VERBS.COMPLETED,
       object: {
-        id: `https://www.elevateforhumanity.org/lessons/${lessonId}`,
+        id: `${PLATFORM_DEFAULTS.siteUrl}/lessons/${lessonId}`,
         definition: {
           name: { 'en-US': lessonName },
           type: 'http://adlnet.gov/expapi/activities/lesson',
@@ -190,7 +191,7 @@ export class XAPIClient {
       actor: this.createActor(userId, userName),
       verb: passed ? XAPIClient.VERBS.PASSED : XAPIClient.VERBS.FAILED,
       object: {
-        id: `https://www.elevateforhumanity.org/quizzes/${quizId}`,
+        id: `${PLATFORM_DEFAULTS.siteUrl}/quizzes/${quizId}`,
         definition: {
           name: { 'en-US': quizName },
           type: 'http://adlnet.gov/expapi/activities/assessment',
@@ -223,7 +224,7 @@ export class XAPIClient {
       actor: this.createActor(userId, userName),
       verb: XAPIClient.VERBS.EXPERIENCED,
       object: {
-        id: `https://www.elevateforhumanity.org/videos/${videoId}`,
+        id: `${PLATFORM_DEFAULTS.siteUrl}/videos/${videoId}`,
         definition: {
           name: { 'en-US': videoName },
           type: 'https://w3id.org/xapi/video/activity-type/video',

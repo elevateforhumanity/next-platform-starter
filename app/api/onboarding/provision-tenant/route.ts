@@ -7,6 +7,7 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -117,11 +118,11 @@ async function _POST(request: NextRequest) {
     });
 
     // 6. Send welcome email
-    const loginUrl = `https://${slug}.www.elevateforhumanity.org/login`;
-    const adminUrl = `https://${slug}.www.elevateforhumanity.org/admin`;
+    const loginUrl = `https://${slug}.${PLATFORM_DEFAULTS.canonicalDomain}/login`;
+    const adminUrl = `https://${slug}.${PLATFORM_DEFAULTS.canonicalDomain}/admin`;
 
     await resend.emails.send({
-      from: 'Elevate for Humanity <onboarding@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: contactEmail,
       subject: '🎉 Your Platform is Ready!',
       html: generateWelcomeEmail({
@@ -139,7 +140,7 @@ async function _POST(request: NextRequest) {
     // 7. Send setup guide email immediately after welcome email.
     // setTimeout is not safe in serverless — the function is frozen after response.
     await resend.emails.send({
-      from: 'Elevate for Humanity <onboarding@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>',
       to: contactEmail,
       subject: '📚 Quick Start Guide - Set Up Your Platform',
       html: generateSetupGuideEmail({
@@ -308,8 +309,8 @@ function generateWelcomeEmail(data: any): string {
 
       <h3>📞 Need Help?</h3>
       <p>
-        • <strong>Documentation:</strong> <a href="https://www.elevateforhumanity.org/docs">docs.www.elevateforhumanity.org</a><br>
-        • <strong>Support:</strong> support@elevateforhumanity.org<br>
+        • <strong>Documentation:</strong> <a href="${PLATFORM_DEFAULTS.siteUrl}/docs">docs.${PLATFORM_DEFAULTS.canonicalDomain}</a><br>
+        • <strong>Support:</strong> ${PLATFORM_DEFAULTS.supportEmail}<br>
         • <strong>Live Chat:</strong> Available in your admin dashboard
       </p>
 
@@ -323,7 +324,7 @@ function generateWelcomeEmail(data: any): string {
 
     <div class="footer">
       <p>Elevate for Humanity | Workforce Training Platform</p>
-      <p>Questions? Reply to this email or visit our <a href="https://www.elevateforhumanity.org/support">support center</a></p>
+      <p>Questions? Reply to this email or visit our <a href="${PLATFORM_DEFAULTS.siteUrl}/support">support center</a></p>
     </div>
   </div>
 </body>
@@ -404,18 +405,18 @@ function generateSetupGuideEmail(data: any): string {
       <h3>🎥 Video Tutorials</h3>
       <p>Watch our quick video guides:</p>
       <ul>
-        <li><a href="https://www.elevateforhumanity.org/tutorials/branding">Platform Setup (5 min)</a></li>
-        <li><a href="https://www.elevateforhumanity.org/tutorials/programs">Creating Programs (8 min)</a></li>
-        <li><a href="https://www.elevateforhumanity.org/tutorials/enrollment">Student Enrollment (6 min)</a></li>
+        <li><a href="${PLATFORM_DEFAULTS.siteUrl}/tutorials/branding">Platform Setup (5 min)</a></li>
+        <li><a href="https://${PLATFORM_DEFAULTS.canonicalDomain}/tutorials/programs">Creating Programs (8 min)</a></li>
+        <li><a href="https://www.${PLATFORM_DEFAULTS.canonicalDomain}/tutorials/enrollment">Student Enrollment (6 min)</a></li>
       </ul>
 
       <h3>📞 Need Help?</h3>
       <p>We're here for you:</p>
       <ul>
         <li><strong>Live Chat:</strong> Click the chat icon in your dashboard</li>
-        <li><strong>Email:</strong> support@elevateforhumanity.org</li>
+        <li><strong>Email:</strong> ${PLATFORM_DEFAULTS.supportEmail}</li>
         <li><strong>Phone:</strong> (555) 123-4567</li>
-        <li><strong>Schedule Call:</strong> <a href="https://www.elevateforhumanity.org/book">Book a setup call</a></li>
+        <li><strong>Schedule Call:</strong> <a href="${PLATFORM_DEFAULTS.siteUrl}/book">Book a setup call</a></li>
       </ul>
 
       <p>You've got this! 💪</p>

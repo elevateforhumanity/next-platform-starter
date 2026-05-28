@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // force-dynamic: generated at request time — pulls live program slugs from DB.
 export const dynamic = 'force-dynamic';
 
-const ELEVATE_URL = 'https://www.elevateforhumanity.org';
+const ELEVATE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 const SEO_HUB_PREFIXES = [
   '/workforce-training-indianapolis',

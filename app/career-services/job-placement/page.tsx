@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PublicLandingPage from '@/components/marketing/PublicLandingPage';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const revalidate = 3600;
 
@@ -53,7 +54,7 @@ export default function JobPlacementPage() {
         },
         cta: {
           heading: 'Ready to Work?',
-          subtitle: 'Job placement support is free for all Elevate graduates. Call (317) 314-3757.',
+          subtitle: 'Job placement support is free for all Elevate graduates. Call {PLATFORM_DEFAULTS.supportPhone}.',
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'Hire Our Graduates',

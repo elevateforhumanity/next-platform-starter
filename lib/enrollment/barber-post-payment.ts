@@ -13,6 +13,7 @@ import type { SupabaseClient } from '@/lib/supabase';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 import { cachePortalTypeForEnrollment } from '@/lib/portal/router';
 import { BARBER_COURSE_ID } from '@/lib/barber/constants';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const BARBER_PROGRAM_SLUG = 'barber-apprenticeship';
 
@@ -36,7 +37,7 @@ export async function runBarberPostPayment(
 ): Promise<BarberPostPaymentResult> {
   const { db, applicationId, stripeSessionId, stripePaymentIntentId, amountPaidCents } = input;
   const steps: Record<string, 'ok' | 'skipped' | 'failed'> = {};
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
 
   // ── Step 1: Mark application paid (CRITICAL) ──────────────────────────────
   const { data: app, error: appErr } = await db
@@ -260,7 +261,7 @@ export async function runBarberPostPayment(
 
     await sendEmail({
       to: 'elevate4humanityedu@gmail.com',
-      from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
+      from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
       replyTo: 'elevate4humanityedu@gmail.com',
       subject: `New Enrollment: ${studentName} — Barber Apprenticeship`,
       html: `

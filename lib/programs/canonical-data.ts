@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * CANONICAL PROGRAM DATA - Single Source of Truth
  *
@@ -50,7 +51,7 @@ export const PROGRAMS: Record<string, ProgramData> = {
     durationMonths: { min: 15, max: 24 },
     credential: 'Indiana Barber License',
     credentialFull: 'Indiana Registered Barber License (State Board Certified)',
-    administrator: 'Elevate for Humanity Career & Technical Institute',
+    administrator: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     administratorStatement: ADMINISTRATOR_STATEMENT,
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'JRI', 'Employer Sponsorship', 'Self-Pay'],
     startingWage: '$10-12/hour + tips',
@@ -73,7 +74,7 @@ export const PROGRAMS: Record<string, ProgramData> = {
     durationMonths: { min: 12, max: 18 },
     credential: 'Indiana Cosmetology License',
     credentialFull: 'Indiana Cosmetologist License (State Board Certified)',
-    administrator: 'Elevate for Humanity Career & Technical Institute',
+    administrator: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     administratorStatement: ADMINISTRATOR_STATEMENT,
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Employer Sponsorship', 'Self-Pay'],
     startingWage: '$10-12/hour + tips',
@@ -96,7 +97,7 @@ export const PROGRAMS: Record<string, ProgramData> = {
     durationMonths: { min: 6, max: 12 },
     credential: 'Indiana Esthetician License',
     credentialFull: 'Indiana Licensed Esthetician (State Board Certified)',
-    administrator: 'Elevate for Humanity Career & Technical Institute',
+    administrator: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     administratorStatement: ADMINISTRATOR_STATEMENT,
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Self-Pay'],
     startingWage: '$12-14/hour',
@@ -118,7 +119,7 @@ export const PROGRAMS: Record<string, ProgramData> = {
     durationMonths: { min: 36, max: 48 },
     credential: 'HVAC Journeyman Certification',
     credentialFull: 'EPA 608 Certification + HVAC Journeyman',
-    administrator: 'Elevate for Humanity Career & Technical Institute',
+    administrator: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     administratorStatement: ADMINISTRATOR_STATEMENT,
     fundingOptions: ['WIOA', 'Apprenticeship Grant', 'Employer Sponsorship'],
     startingWage: '$15-18/hour',
@@ -140,7 +141,7 @@ export const PROGRAMS: Record<string, ProgramData> = {
     durationMonths: { min: 48, max: 60 },
     credential: 'Journeyman Electrician License',
     credentialFull: 'Indiana Journeyman Electrician License',
-    administrator: 'Elevate for Humanity Career & Technical Institute',
+    administrator: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
     administratorStatement: ADMINISTRATOR_STATEMENT,
     fundingOptions: ['WIOA', 'Apprenticeship Grant', 'Employer Sponsorship'],
     startingWage: '$16-20/hour',

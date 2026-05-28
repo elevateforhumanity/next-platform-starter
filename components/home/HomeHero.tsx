@@ -12,6 +12,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Volume2, VolumeX } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export default function HomeHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -77,7 +78,7 @@ export default function HomeHero() {
           {/* Micro-label — bottom-left only */}
           <div className="absolute bottom-3 left-3 z-10">
             <span className="text-white/80 text-xs font-semibold tracking-widest uppercase bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded">
-              Elevate for Humanity
+              {PLATFORM_DEFAULTS.orgName}
             </span>
           </div>
 

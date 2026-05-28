@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Navigation Configuration for Elevate for Humanity
  * Central source of truth for all navigation links
@@ -267,7 +268,7 @@ export const socialLinks = {
  */
 export const contactInfo = {
   phone: {
-    display: '(317) 314-3757',
+    display: PLATFORM_DEFAULTS.supportPhone,
     tel: '+13173143757',
   },
   email: {

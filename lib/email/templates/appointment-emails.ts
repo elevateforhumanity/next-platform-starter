@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Appointment Confirmation Email Templates
  * Phone + Zoom appointments for students, tax clients, and partners
@@ -8,8 +9,8 @@ export const appointmentEmailTemplates = {
    * Student Appointment Confirmation
    */
   studentAppointment: {
-    from: 'noreply@elevateforhumanity.org',
-    subject: 'Your appointment with Elevate for Humanity',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
+    subject: 'Your appointment with ' + PLATFORM_DEFAULTS.orgName + '',
     getHtml: (data: {
       firstName: string;
       date: string;
@@ -21,7 +22,7 @@ export const appointmentEmailTemplates = {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
 
-        <p>Your appointment with Elevate for Humanity is confirmed.</p>
+        <p>Your appointment with ${PLATFORM_DEFAULTS.orgName} is confirmed.</p>
 
         <div style="background-color: #f9fafb; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #e5e7eb;">
           <p style="margin: 0;">📅 <strong>Date:</strong> ${data.date}</p>
@@ -48,18 +49,18 @@ export const appointmentEmailTemplates = {
         ${
           data.rescheduleLink
             ? `
-          <p>If you need to reschedule, please use <a href="${data.rescheduleLink}">this link</a> or call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+          <p>If you need to reschedule, please use <a href="${data.rescheduleLink}">this link</a> or call us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
         `
             : `
-          <p>If you need to reschedule, please call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+          <p>If you need to reschedule, please call us at <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
         `
         }
 
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong><br />
-          Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+          Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
       </div>
     `,
@@ -73,7 +74,7 @@ export const appointmentEmailTemplates = {
     }) => `
 Hello ${data.firstName},
 
-Your appointment with Elevate for Humanity is confirmed.
+Your appointment with ${PLATFORM_DEFAULTS.orgName} is confirmed.
 
 📅 Date: ${data.date}
 ⏰ Time: ${data.time}
@@ -87,13 +88,13 @@ ${
 
 ${
   data.rescheduleLink
-    ? `If you need to reschedule, please use this link: ${data.rescheduleLink}\nOr call us at (317) 314-3757.`
-    : 'If you need to reschedule, please call us at (317) 314-3757.'
+    ? `If you need to reschedule, please use this link: ${data.rescheduleLink}\nOr call us at ${PLATFORM_DEFAULTS.supportPhone}.`
+    : 'If you need to reschedule, please call us at ${PLATFORM_DEFAULTS.supportPhone}.'
 }
 
 —
-Elevate for Humanity
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
     `,
   },
 
@@ -101,7 +102,7 @@ Phone: (317) 314-3757
    * Appointment Reminder (24 hours before)
    */
   appointmentReminder24h: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: 'Reminder: Your appointment tomorrow',
     getHtml: (data: {
       firstName: string;
@@ -135,7 +136,7 @@ Phone: (317) 314-3757
         ${
           data.rescheduleLink
             ? `
-          <p>Need to reschedule? <a href="${data.rescheduleLink}">Click here</a> or call <a href="tel:+13173143757">(317) 314-3757</a>.</p>
+          <p>Need to reschedule? <a href="${data.rescheduleLink}">Click here</a> or call <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>.</p>
         `
             : ''
         }
@@ -145,8 +146,8 @@ Phone: (317) 314-3757
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong><br />
-          Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+          Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
       </div>
     `,
@@ -166,11 +167,11 @@ This is a reminder about your appointment tomorrow.
 ⏰ Time: ${data.time}
 📞 Format: ${data.format === 'phone' ? 'Phone Call' : 'Zoom Video'}
 
-${data.format === 'zoom' && data.zoomLink ? `Join Zoom Meeting: ${data.zoomLink}\n\n` : ''}${data.rescheduleLink ? `Need to reschedule? ${data.rescheduleLink}\nOr call (317) 314-3757.\n\n` : ''}We look forward to speaking with you.
+${data.format === 'zoom' && data.zoomLink ? `Join Zoom Meeting: ${data.zoomLink}\n\n` : ''}${data.rescheduleLink ? `Need to reschedule? ${data.rescheduleLink}\nOr call ${PLATFORM_DEFAULTS.supportPhone}.\n\n` : ''}We look forward to speaking with you.
 
 —
-Elevate for Humanity
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
     `,
   },
 
@@ -178,7 +179,7 @@ Phone: (317) 314-3757
    * Appointment Reminder (1 hour before)
    */
   appointmentReminder1h: {
-    from: 'noreply@elevateforhumanity.org',
+    from: PLATFORM_DEFAULTS.emailFromAddress,
     subject: 'Starting soon: Your appointment in 1 hour',
     getHtml: (data: {
       firstName: string;
@@ -208,8 +209,8 @@ Phone: (317) 314-3757
         <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
         <p style="color: #666; font-size: 14px;">
-          <strong>Elevate for Humanity</strong><br />
-          Phone: <a href="tel:+13173143757">(317) 314-3757</a>
+          <strong>${PLATFORM_DEFAULTS.orgName}</strong><br />
+          Phone: <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}">${PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
       </div>
     `,
@@ -232,8 +233,8 @@ ${
 See you soon!
 
 —
-Elevate for Humanity
-Phone: (317) 314-3757
+${PLATFORM_DEFAULTS.orgName}
+Phone: ${PLATFORM_DEFAULTS.supportPhone}
     `,
   },
 };

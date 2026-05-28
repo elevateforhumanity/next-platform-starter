@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { requireDbWrite, success, failure } from '@/lib/api/safe-handler';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -52,7 +53,7 @@ async function _POST(req: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: email,
-          subject: `Enrollment Consultation Confirmed - ${program || 'Elevate for Humanity'}`,
+          subject: `Enrollment Consultation Confirmed - ${program || PLATFORM_DEFAULTS.orgName}`,
           template: 'enrollment-confirmation',
           data: { name: `${firstName} ${lastName}`, email, phone, program, date, time },
         }),

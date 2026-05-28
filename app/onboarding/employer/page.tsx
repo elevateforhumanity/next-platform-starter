@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Building,
   Briefcase,
   FileText,
@@ -254,7 +255,7 @@ export default async function EmployerOnboardingPage() {
               <p className="font-medium text-red-800">Application Not Approved</p>
               {onboarding.notes && <p className="text-sm text-red-700 mt-1">{onboarding.notes}</p>}
               <p className="text-sm text-red-700 mt-1">
-                Contact us at (317) 314-3757 if you have questions.
+                Contact us at ${PLATFORM_DEFAULTS.supportPhone} if you have questions.
               </p>
             </div>
           </div>

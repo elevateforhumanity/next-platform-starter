@@ -4,12 +4,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import DirectoryInfoClient from './DirectoryInfoClient';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Directory Information | Admin | Elevate for Humanity',
+  title: 'FERPA Directory Information | Admin | {PLATFORM_DEFAULTS.orgName}',
 };
 
 const DIRECTORY_FIELDS = [
