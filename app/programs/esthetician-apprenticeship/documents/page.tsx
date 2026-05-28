@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, FileText, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface UploadedFile {
   name: string;
@@ -16,6 +17,7 @@ export default function EstheticianDocumentsPage() {
   const [governmentId, setGovernmentId] = useState<UploadedFile | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [enrollmentId, setEnrollmentId] = useState<string | null>(null);
+  const [prefill, setPrefill] = useState<{ documentId: string; documentType: string } | null>(null);
 
   useEffect(() => {
     async function getEnrollment() {
@@ -55,6 +57,10 @@ export default function EstheticianDocumentsPage() {
 
       if (response.ok) {
         setGovernmentId({ name: file.name, type: 'government-id', status: 'complete' });
+        const result = await response.json().catch(() => ({}));
+        if (result.document?.id) {
+          setPrefill({ documentId: result.document.id, documentType: 'government_id' });
+        }
       } else {
         setGovernmentId({ name: file.name, type: 'government-id', status: 'error' });
       }
@@ -141,6 +147,15 @@ export default function EstheticianDocumentsPage() {
             </div>
           </div>
         </div>
+
+        {prefill && (
+          <DocumentAIPrefillPanel
+            documentId={prefill.documentId}
+            documentType={prefill.documentType}
+            onConfirmed={() => setPrefill(null)}
+            onDismiss={() => setPrefill(null)}
+          />
+        )}
 
         <button
           onClick={handleSubmit}

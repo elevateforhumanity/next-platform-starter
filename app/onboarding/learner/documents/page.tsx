@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { normalizeSsn, formatSsn, isValidSsn } from '@/lib/ssn';
 import { ArrowLeft, Upload, FileText, X, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface DocRequirement {
   type: string;
@@ -76,6 +77,7 @@ export default function DocumentsPage() {
   const [uploadedTypes, setUploadedTypes] = useState<Set<string>>(new Set());
   const [uploading, setUploading] = useState<string | null>(null);
   const [error, setError] = useState('');
+  const [prefill, setPrefill] = useState<{ documentId: string; documentType: string } | null>(null);
   const [ssnDisplay, setSsnDisplay] = useState('');
   const [ssnDigits, setSsnDigits] = useState('');
   const [ssnSaved, setSsnSaved] = useState(false);
@@ -113,17 +115,10 @@ export default function DocumentsPage() {
 
   const handleUpload = async (docType: string, file: File) => {
     if (!userId) return;
-    if (file.size > MAX_FILE_SIZE) {
-      setError('File too large. Maximum size is 10MB.');
-      return;
-    }
-    if (!ACCEPTED_TYPES.includes(file.type)) {
-      setError('Invalid file type. Please upload JPG, PNG, PDF, DOC, or DOCX.');
-      return;
-    }
 
     setUploading(docType);
     setError('');
+    setPrefill(null);
 
     try {
       const formData = new FormData();
@@ -145,7 +140,12 @@ export default function DocumentsPage() {
       const updated = new Set(uploadedTypes);
       updated.add(docType);
       setUploadedTypes(updated);
-    } catch (err) {
+
+      // Trigger AI prefill if we got a document ID back
+      if (result.document?.id) {
+        setPrefill({ documentId: result.document.id, documentType: docType });
+      }
+    } catch {
       setError('Upload failed. Please check your connection and try again.');
     } finally {
       setUploading(null);
@@ -314,6 +314,16 @@ export default function DocumentsPage() {
             </button>
           </div>
         </div>
+
+        {/* AI prefill panel — shown after each successful upload */}
+        {prefill && (
+          <DocumentAIPrefillPanel
+            documentId={prefill.documentId}
+            documentType={prefill.documentType}
+            onConfirmed={() => setPrefill(null)}
+            onDismiss={() => setPrefill(null)}
+          />
+        )}
 
         {requiredComplete && (
           <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6 flex flex-col sm:flex-row items-center gap-5">

@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Upload, FileText, AlertCircle, X, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getBeautyProgram, colorClasses } from '@/lib/programs/beauty-programs';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface UploadedFile {
   name: string;
@@ -24,6 +25,7 @@ export default function BeautyDocumentsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [enrollmentId, setEnrollmentId] = useState<string | null>(null);
+  const [prefill, setPrefill] = useState<{ documentId: string; documentType: string } | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -62,8 +64,14 @@ export default function BeautyDocumentsPage() {
 
       if (res.ok && result.success) {
         const done = { ...uploadedFile, status: 'complete' as const, url: result.document?.file_url };
-        if (docType === 'government-id') setGovernmentId(done);
-        else setAdditionalDocs(prev => prev.map(d => d.name === file.name ? done : d));
+        if (docType === 'government-id') {
+          setGovernmentId(done);
+          if (result.document?.id) {
+            setPrefill({ documentId: result.document.id, documentType: 'government_id' });
+          }
+        } else {
+          setAdditionalDocs(prev => prev.map(d => d.name === file.name ? done : d));
+        }
       } else {
         throw new Error(result.error || 'Upload failed');
       }
@@ -175,6 +183,15 @@ export default function BeautyDocumentsPage() {
             ))}
           </div>
         </div>
+
+        {prefill && (
+          <DocumentAIPrefillPanel
+            documentId={prefill.documentId}
+            documentType={prefill.documentType}
+            onConfirmed={() => setPrefill(null)}
+            onDismiss={() => setPrefill(null)}
+          />
+        )}
 
         {submitError && (
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 mb-4">

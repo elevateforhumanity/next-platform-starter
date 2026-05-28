@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Upload, FileText, AlertCircle, X } from 'lucide-react';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface RequiredDocument {
   id: string;
@@ -36,6 +37,7 @@ export default function DocumentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [prefill, setPrefill] = useState<{ documentId: string; documentType: string } | null>(null);
 
   useEffect(() => {
     async function checkEnrollment() {
@@ -116,6 +118,11 @@ export default function DocumentsPage() {
             : doc,
         ),
       );
+
+      // Trigger AI prefill if we got a document ID back
+      if (result.document?.id) {
+        setPrefill({ documentId: result.document.id, documentType: docId });
+      }
     } catch (err: any) {
       setError('An error occurred');
     } finally {
@@ -267,6 +274,16 @@ export default function DocumentsPage() {
             </div>
           ))}
         </div>
+
+        {/* AI prefill panel */}
+        {prefill && (
+          <DocumentAIPrefillPanel
+            documentId={prefill.documentId}
+            documentType={prefill.documentType}
+            onConfirmed={() => setPrefill(null)}
+            onDismiss={() => setPrefill(null)}
+          />
+        )}
 
         {/* Error Message */}
         {error && (

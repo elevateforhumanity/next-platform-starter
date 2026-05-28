@@ -89,7 +89,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
   const isApprenticeshipProgram =
     selectedProgram?.slug?.includes('barber') || selectedProgram?.slug?.includes('apprentice');
 
-  const handleDocumentUpload = async (documentType: string, file: File) => {
+  const handleDocumentUpload = async (documentType: string, file: File): Promise<string | void> => {
     const formDataUpload = new FormData();
     formDataUpload.append('file', file);
     formDataUpload.append('documentType', documentType);
@@ -114,6 +114,8 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
         status: 'pending',
       },
     ]);
+    // Return document ID so EnrollmentDocumentStep can trigger AI prefill
+    return data.document?.id;
   };
 
   const handleDocumentRemove = async (documentId: string) => {
