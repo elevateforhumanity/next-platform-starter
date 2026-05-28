@@ -2,7 +2,6 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { syncProgressEntryToHourEntries } from '@/lib/timeclock/sync-to-hour-entries';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { checkBarberSuspension } from '@/lib/barber/suspension';
