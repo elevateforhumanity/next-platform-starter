@@ -15,20 +15,19 @@ import {
   type GuardrailPolicy,
 } from '@/lib/compliance/guardrails';
 import ComplianceItemsPanel from './ComplianceItemsPanel';
+import { getPlatformConfig } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/admin/compliance',
-  },
-  title: 'Compliance Dashboard | Admin | Elevate For Humanity',
+  title: `Compliance Dashboard | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
   description:
     'Monitor and manage GDPR, CCPA, and regulatory compliance. Track data requests, audit logs, and privacy compliance metrics.',
 };
 
 export default async function CompliancePage() {
   await requireRole(['admin', 'super_admin']);
+  const cfg = await getPlatformConfig();
   // Use service-role client for compliance_items — RLS may block user-session reads
   const db = await requireAdminClient();
   // Keep user-session client for WIOA/other tables that need RLS context
@@ -274,7 +273,7 @@ export default async function CompliancePage() {
           <p className="text-slate-600 mb-6 text-sm">
             Upload and validate COI documents for employer and program holder onboarding.
           </p>
-          <CoiValidator expectedCertificateHolder="Elevate for Humanity" />
+          <CoiValidator expectedCertificateHolder={cfg.certificateHolder} />
         </div>
       </section>
     </div>

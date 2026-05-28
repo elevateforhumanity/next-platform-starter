@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
+import { getPlatformConfig } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -9,7 +10,7 @@ export const metadata: Metadata = { title: 'Email | Admin Settings' };
 
 export default async function EmailSettingsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await requireAdminClient();
+  const [db, cfg] = await Promise.all([requireAdminClient(), getPlatformConfig()]);
 
   const { data: rows } = await db
     .from('platform_settings')
@@ -40,7 +41,7 @@ export default async function EmailSettingsPage() {
               <p className="text-xs text-slate-500 mt-0.5">Display name on outbound emails</p>
             </div>
             <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
-              {settings['email_from_name'] || 'Elevate for Humanity'}
+              {settings['email_from_name'] || cfg.emailFromName}
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -49,7 +50,7 @@ export default async function EmailSettingsPage() {
               <p className="text-xs text-slate-500 mt-0.5">Sender email address</p>
             </div>
             <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
-              {settings['email_from_address'] || 'noreply@elevateforhumanity.org'}
+              {settings['email_from_address'] || cfg.emailFromAddress}
             </span>
           </div>
           <div className="flex items-center justify-between">

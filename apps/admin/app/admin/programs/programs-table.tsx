@@ -161,7 +161,7 @@ export function ProgramsTable({
                       </Link>
                       {programCourseMap[program.id] ? (
                         <Link
-                          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${programCourseMap[program.id]}`}
+                          href={`${process.env.NEXT_PUBLIC_SITE_URL}/lms/courses/${programCourseMap[program.id]}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-emerald-600 hover:text-emerald-800 font-medium"
@@ -171,7 +171,7 @@ export function ProgramsTable({
                         </Link>
                       ) : (
                         <Link
-                          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/programs/${program.slug}`}
+                          href={`${process.env.NEXT_PUBLIC_SITE_URL}/programs/${program.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-slate-500 hover:text-slate-700"

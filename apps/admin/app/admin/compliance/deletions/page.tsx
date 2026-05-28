@@ -8,10 +8,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/admin/compliance/deletions',
-  },
-  title: 'Data Deletion Requests | Admin Compliance | Elevate For Humanity',
+  title: `Data Deletion Requests | Admin Compliance | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
   description:
     'Manage GDPR and CCPA data deletion requests. Review, approve, and process user data removal requests in compliance with privacy regulations.',
 };

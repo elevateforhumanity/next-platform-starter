@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Site Stats | Admin | Elevate for Humanity',
+  title: `Site Stats | Admin | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
   description: 'Edit public-facing site statistics shown on the homepage and program pages.',
   robots: { index: false, follow: false },
 };

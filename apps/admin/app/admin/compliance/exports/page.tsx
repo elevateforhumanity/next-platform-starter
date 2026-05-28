@@ -8,10 +8,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/admin/compliance/exports',
-  },
-  title: 'Data Export Requests | Admin Compliance | Elevate For Humanity',
+  title: `Data Export Requests | Admin Compliance | ${process.env.NEXT_PUBLIC_ORG_NAME ?? 'Elevate for Humanity'}`,
   description:
     'Process user data export requests. Generate and deliver personal data packages in compliance with GDPR right to data portability.',
 };
