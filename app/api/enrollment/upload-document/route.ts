@@ -33,9 +33,50 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
+    const ALLOWED_DOCUMENT_MIME_TYPES = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'text/csv',
+      'text/plain',
+      'application/rtf',
+      'application/vnd.oasis.opendocument.text',
+      'application/vnd.oasis.opendocument.spreadsheet',
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/webp',
+      'image/heic',
+      'image/heif',
+      'image/tiff',
+      'image/gif',
+    ];
+
+    const ALLOWED_DOCUMENT_EXTENSIONS = new Set([
+      'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'rtf', 'odt', 'ods',
+      'jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'tif', 'tiff', 'gif',
+    ]);
+
+    const fileExt = file.name.split('.').pop()?.toLowerCase() ?? '';
+    const isMimeAllowed = ALLOWED_DOCUMENT_MIME_TYPES.includes(file.type);
+    const isExtensionAllowed = ALLOWED_DOCUMENT_EXTENSIONS.has(fileExt);
+
+    if (!isMimeAllowed && !isExtensionAllowed) {
+      return NextResponse.json(
+        {
+          error: 'Invalid file type. Allowed: PDF, Office docs, spreadsheets, text, and common images',
+          allowedMimeTypes: ALLOWED_DOCUMENT_MIME_TYPES,
+          allowedExtensions: Array.from(ALLOWED_DOCUMENT_EXTENSIONS),
+        },
+        { status: 400 },
+      );
+    }
+
     // Generate unique filename
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}/${enrollmentId}/${documentType}-${Date.now()}.${fileExt}`;
+    const normalizedExt = fileExt || 'bin';
+    const fileName = `${user.id}/${enrollmentId}/${documentType}-${Date.now()}.${normalizedExt}`;
 
     // Upload to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabase.storage

@@ -3634,8 +3634,30 @@ ENGINEERING
           } catch (aiErr) {
             const reason = aiErr instanceof Error ? aiErr.message : String(aiErr);
             logger.error('[devstudio/execute] AI call failed', undefined, { reason });
+
+            const normalized = command.toLowerCase();
+            const shouldRunSmoke =
+              normalized.includes('error free') ||
+              normalized.includes('site health') ||
+              normalized.includes('smoke test') ||
+              normalized.includes('health check') ||
+              normalized.includes('site status') ||
+              normalized.includes('website ok') ||
+              normalized.includes('is website ok') ||
+              normalized.includes('site status');
+
+            if (shouldRunSmoke) {
+              write(`\x1b[33m⚠  AI routing unavailable: ${reason}\x1b[0m`);
+              write('   Falling back to deterministic smoke_test...');
+              await executeAction('smoke_test', {}, baseUrl, cookieHeader, write);
+              write('');
+              write('\x1b[90m─────────────────────────────────────\x1b[0m');
+              return;
+            }
+
             write(`\x1b[31m✗  AI routing failed: ${reason}\x1b[0m`);
             write('   Add GROQ_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in Dev Studio → Secrets tab.');
+            write('   Tip: you can still run "smoke test" for non-AI health checks.');
             write('\x1b[90m─────────────────────────────────────\x1b[0m');
             return;
           }
