@@ -205,6 +205,10 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Referral Partners —', href: '/partners/referral', isHeader: true },
       { name: 'Referral Partner Program', href: '/partners/referral' },
       { name: 'Submit a Referral', href: '/apply/intake' },
+      // Beauty Apprenticeship Partnerships
+      { name: '— Beauty Partnerships —', href: '/partners/barbershop-apprenticeship', isHeader: true },
+      { name: 'Barbershop Partnership', href: '/partners/barbershop-apprenticeship' },
+      { name: 'Cosmetology Partnership', href: '/partners/cosmetology-apprenticeship' },
       // Training Providers & Program Holders
       { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
       { name: 'How It Works', href: '/for-providers' },

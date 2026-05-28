@@ -113,9 +113,10 @@ async function _POST(request: NextRequest) {
 
     logger.info(`Cosmetology salon application submitted: ${partner.id} — ${salonLegalName}`);
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+
     // Send emails — non-fatal
     const sgKey = process.env.SENDGRID_API_KEY;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
     const adminEmail = process.env.PARTNER_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com';
 
     if (sgKey) {
@@ -217,7 +218,6 @@ async function _POST(request: NextRequest) {
 
     // Create or invite the applicant's Supabase auth account so they can
     // log in and sign the MOU immediately after applying.
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
     const mouRedirect = `${siteUrl}/partners/cosmetology-partner-shop/sign-mou`;
 
     try {
