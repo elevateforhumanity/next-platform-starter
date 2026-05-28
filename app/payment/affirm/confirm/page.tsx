@@ -4,7 +4,7 @@ import React from 'react';
 
 export const dynamic = 'force-dynamic';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
@@ -17,7 +17,21 @@ function AffirmConfirmContent() {
   const [transactionId, setTransactionId] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const authorizeTransaction = useCallback(async (checkout_token: string) => {
+  useEffect(() => {
+    const checkout_token = searchParams.get('checkout_token');
+
+    if (!checkout_token) {
+      setStatus('error');
+      setErrorMessage('No checkout token provided');
+      return;
+    }
+
+    // Authorize the transaction
+    authorizeTransaction(checkout_token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const authorizeTransaction = async (checkout_token: string) => {
     try {
       const response = await fetch('/api/affirm/transactions', {
         method: 'POST',
@@ -46,19 +60,7 @@ function AffirmConfirmContent() {
       setStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Failed to process payment');
     }
-  }, [router]);
-
-  useEffect(() => {
-    const checkout_token = searchParams.get('checkout_token');
-
-    if (!checkout_token) {
-      setStatus('error');
-      setErrorMessage('No checkout token provided');
-      return;
-    }
-
-    authorizeTransaction(checkout_token);
-  }, [searchParams, authorizeTransaction]);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">

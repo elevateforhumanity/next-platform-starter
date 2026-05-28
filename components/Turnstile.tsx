@@ -44,20 +44,20 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
     });
   };
 
-  const handleVerify = (token: string) => {
+  const handleVerify = useCallback((token: string) => {
     logTurnstileEvent('verified', token);
     onVerify(token);
-  };
+  }, [onVerify]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleError = () => {
+  const handleError = useCallback(() => {
     logTurnstileEvent('error');
     onError?.();
-  };
+  }, [onError]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleExpire = () => {
+  const handleExpire = useCallback(() => {
     logTurnstileEvent('expired');
     onExpire?.();
-  };
+  }, [onExpire]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderWidget = useCallback(() => {
     if (!containerRef.current || !window.turnstile || !SITE_KEY) return;
@@ -74,7 +74,7 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
       'expired-callback': handleExpire,
       theme: 'light',
     });
-  }, [onVerify, onError, onExpire, handleError, handleExpire, handleVerify]);
+  }, [handleError, handleExpire, handleVerify]);
 
   useEffect(() => {
     // Skip if no site key configured

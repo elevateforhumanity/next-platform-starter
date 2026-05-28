@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -113,9 +114,9 @@ export function CopyrightFooter() {
     <div className="bg-slate-900 text-white py-3 px-4 text-center text-sm">
       <p className="mb-1">© {year} {PLATFORM_DEFAULTS.orgName}. All Rights Reserved.</p>
       <div className="flex justify-center gap-4 text-xs text-slate-400">
-        <a href="/legal" className="hover:text-white transition-colors">Terms</a>
+        <Link href="/legal" className="hover:text-white transition-colors">Terms</Link>
         <span>|</span>
-        <a href="/legal/privacy" className="hover:text-white transition-colors">Privacy</a>
+        <Link href="/legal/privacy" className="hover:text-white transition-colors">Privacy</Link>
         <span>|</span>
         <a href="/dmca" className="hover:text-white transition-colors">DMCA</a>
       </div>

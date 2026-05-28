@@ -79,6 +79,7 @@ export default function ChatAssistant({
         "👋 Hi! I'm your AI assistant. I can help you navigate the platform, answer questions, and guide you to the right resources. How can I help you today?",
     };
     return contextMessages[pageContext] || contextMessages.general;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getQuickActions = () => {

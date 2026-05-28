@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -52,7 +52,12 @@ export default function LegalOnboardingPage() {
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
 
-  const checkExistingAgreements = useCallback(async () => {
+  useEffect(() => {
+    checkExistingAgreements();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function checkExistingAgreements() {
     try {
       const supabase = createClient();
 
@@ -88,11 +93,7 @@ export default function LegalOnboardingPage() {
     } finally {
       setLoading(false);
     }
-  }, [router]);
-
-  useEffect(() => {
-    checkExistingAgreements();
-  }, [checkExistingAgreements]);
+  }
 
   async function signAgreement(agreement: Agreement) {
     if (!user) return;

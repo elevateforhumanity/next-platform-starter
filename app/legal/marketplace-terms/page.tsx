@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
@@ -179,9 +180,9 @@ export default async function MarketplaceTermsPage() {
             <h2 className="text-2xl font-bold mb-3">13. Privacy</h2>
             <p>
               Your purchase information is handled according to our{' '}
-              <a href="/legal/privacy" className="text-brand-blue-600 hover:underline">
+              <Link href="/legal/privacy" className="text-brand-blue-600 hover:underline">
                 Privacy Policy
-              </a>
+              </Link>
               . We collect:
             </p>
             <ul className="list-disc pl-6 space-y-2">
