@@ -68,56 +68,11 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   };
   const documentType = docTypeMap[rawDocumentType] || 'other';
 
-  // Validate file size (10MB max)
-  const maxSize = 10 * 1024 * 1024;
-  if (file.size > maxSize) {
-    throw APIErrors.badRequest('File size exceeds 10MB limit', { maxSize, actualSize: file.size });
-  }
-
-  const ALLOWED_DOCUMENT_MIME_TYPES = [
-    'application/pdf',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'text/csv',
-    'text/plain',
-    'application/rtf',
-    'application/vnd.oasis.opendocument.text',
-    'application/vnd.oasis.opendocument.spreadsheet',
-    'application/zip',
-    'application/x-zip-compressed',
-    'application/x-zip',
-    'multipart/x-zip',
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp',
-    'image/heic',
-    'image/heif',
-    'image/tiff',
-    'image/gif',
-  ];
-
-  const ALLOWED_DOCUMENT_EXTENSIONS = new Set([
-    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'rtf', 'odt', 'ods',
-    'zip',
-    'jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'tif', 'tiff', 'gif',
-  ]);
-
+  // No file size or type restrictions — accept any file
   const fileExt = file.name.split('.').pop()?.toLowerCase() ?? '';
-  const isMimeAllowed = ALLOWED_DOCUMENT_MIME_TYPES.includes(file.type);
-  const isExtensionAllowed = ALLOWED_DOCUMENT_EXTENSIONS.has(fileExt);
-
-  if (!isMimeAllowed && !isExtensionAllowed) {
-    throw APIErrors.badRequest(
-      'Invalid file type. Allowed: PDF, Office docs, spreadsheets, text, and common images',
-      { allowedMimeTypes: ALLOWED_DOCUMENT_MIME_TYPES, allowedExtensions: Array.from(ALLOWED_DOCUMENT_EXTENSIONS) },
-    );
-  }
+  const normalizedExt = fileExt || 'bin';
 
   // Generate unique file name
-  const normalizedExt = fileExt || 'bin';
   const fileName = `${user.id}/${documentType}/${Date.now()}.${normalizedExt}`;
 
   // Upload to Supabase Storage (use admin client to bypass RLS)
