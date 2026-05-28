@@ -7,6 +7,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
+import { randomBytes } from 'crypto';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -79,7 +80,7 @@ async function _POST(req: Request) {
       logger.info('User already exists', { userId });
     } else {
       // STEP 3: Create auth user
-      const tempPassword = Math.random().toString(36).slice(-12) + 'Aa1!';
+      const tempPassword = `EFH-${randomBytes(8).toString('hex')}-Temp!`;
       const { data: authData, error: authError } = await supabase.auth.admin.createUser({
         email: emailLower,
         password: tempPassword,

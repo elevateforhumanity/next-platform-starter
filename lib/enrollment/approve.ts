@@ -135,6 +135,7 @@ export async function approveApplication(
   let userId: string | null = null;
   let isNewUser = false;
   let tempPassword: string | null = null;
+  let passwordSetupLink: string | null = null;
 
   // Check profiles first (fast, indexed)
   const { data: existingProfile } = await db
@@ -173,6 +174,20 @@ export async function approveApplication(
       }
       userId = newUser.user.id;
       isNewUser = true;
+
+      // Generate a one-time recovery link so the student sets their own password.
+      // Never email the tempPassword — it is only used as the initial auth credential.
+      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').trim();
+      const { data: linkData, error: linkError } = await db.auth.admin.generateLink({
+        type: 'recovery',
+        email,
+        options: { redirectTo: `${siteUrl}/auth/callback?redirect=/onboarding/learner` },
+      });
+      if (!linkError && linkData?.properties?.action_link) {
+        passwordSetupLink = linkData.properties.action_link;
+      } else {
+        logger.warn('[approve] generateLink failed — student will use forgot-password flow', linkError ?? undefined);
+      }
     }
 
     // Ensure profile exists for newly created user
@@ -392,5 +407,5 @@ export async function approveApplication(
     isNewUser,
   });
 
-  return { success: true, userId: userId!, enrollmentId, tempPassword };
+  return { success: true, userId: userId!, enrollmentId, passwordSetupLink, tempPassword: null };
 }

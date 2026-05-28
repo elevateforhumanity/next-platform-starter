@@ -4,6 +4,7 @@
  * Authoritative enrollment activator for all payment rails.
  */
 
+import { randomBytes } from 'crypto';
 import { logger } from '@/lib/logger';
 
 import { logAuditEvent } from '@/lib/audit';
@@ -80,7 +81,7 @@ export async function createEnrollmentFromPayment(
         logger.info('[Enrollment] Found existing user', { email, userId: finalStudentId });
       } else {
         // Generate temporary password
-        tempPassword = `Elevate${Math.random().toString(36).slice(-8)}!`;
+        tempPassword = `EFH-${randomBytes(8).toString('hex')}-Temp!`;
 
         // Create new user account
         const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -287,16 +288,14 @@ async function sendEnrollmentWelcomeEmail(params: {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
     const loginSection =
-      isNewUser && tempPassword
+      isNewUser
         ? `
-          <div style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 8px; padding: 20px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #166534;">Your Account Has Been Created!</h3>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Temporary Password:</strong> ${tempPassword}</p>
-            <p style="color: #dc2626; font-weight: bold;">Please change your password after your first login.</p>
+          <div style="background:#fff7ed;border:1px solid #fdba74;border-radius:8px;padding:16px 20px;margin:20px 0;">
+            <p style="margin:0 0 4px;font-size:12px;color:#9a3412;font-weight:700;">SECURE ACCOUNT SETUP REQUIRED</p>
+            <p style="margin:0;font-size:13px;color:#7c2d12;">For security, we do not send passwords by email. Use the link below to set your password and access your student portal.</p>
           </div>
           <div style="text-align: center; margin: 24px 0;">
-            <a href="${siteUrl}/login" style="display: inline-block; background: #2563eb; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px;">Login to Student Portal</a>
+            <a href="${siteUrl}/login" style="display: inline-block; background: #2563eb; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px;">Set Password &amp; Log In</a>
           </div>
         `
         : `

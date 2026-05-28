@@ -84,7 +84,8 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
           studentPhone: app.phone ?? null,
           studentCity: app.city ?? null,
           fundingType: app.funding_type ?? (app.eligibility_data as Record<string,unknown>)?.funding_tag as string ?? null,
-          tempPassword: result.tempPassword ?? null,
+          passwordSetupLink: result.passwordSetupLink ?? null,
+          tempPassword: null,
           enrollmentId: result.enrollmentId ?? null,
         });
 

@@ -61,7 +61,8 @@ export async function updateApplicationStatus(
       studentPhone: app.phone ?? null,
       studentCity: app.city ?? null,
       fundingType: app.funding_type ?? null,
-      tempPassword: result.tempPassword ?? null,
+      passwordSetupLink: result.passwordSetupLink ?? null,
+      tempPassword: null,
       enrollmentId: result.enrollmentId ?? null,
     }).catch((err: unknown) =>
       logger.error('[admin/applicants] post-approval actions failed (non-fatal)', err as Error),
