@@ -27,25 +27,7 @@ export default function HomeHero() {
     v.play().catch(() => {});
   }, []);
 
-  // Start voiceover unmuted on first scroll
-  useEffect(() => {
-    if (started) return;
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const onScroll = () => {
-      if (started) return;
-      setStarted(true);
-      audio
-        .play()
-        .then(() => setPlaying(true))
-        .catch(() => {});
-      window.removeEventListener('scroll', onScroll);
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [started]);
+  // Voiceover is user-initiated only — sound button starts playback on demand.
 
   function toggleAudio() {
     const audio = audioRef.current;

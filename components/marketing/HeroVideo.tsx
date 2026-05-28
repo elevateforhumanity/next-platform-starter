@@ -159,35 +159,8 @@ export default function HeroVideo({
     };
   }, []);
 
-  // Start voiceover on first user interaction (browser autoplay policy)
-  useEffect(() => {
-    if (!hasVoiceNarration) return;
-
-    const tryPlay = () => {
-      if (!voiceoverSrc) {
-        startTtsNarration();
-        return;
-      }
-
-      const a = audioRef.current;
-      if (!a) return;
-      a.play()
-        .then(() => setMuted(false))
-        .catch(() => {
-          startTtsNarration();
-        });
-    };
-
-    window.addEventListener('click', tryPlay, { once: true });
-    window.addEventListener('scroll', tryPlay, { once: true, passive: true });
-    window.addEventListener('touchstart', tryPlay, { once: true, passive: true });
-
-    return () => {
-      window.removeEventListener('click', tryPlay);
-      window.removeEventListener('scroll', tryPlay);
-      window.removeEventListener('touchstart', tryPlay);
-    };
-  }, [hasVoiceNarration, startTtsNarration, voiceoverSrc]);
+  // Voiceover is user-initiated only — no auto-play on scroll/click.
+  // The sound button below lets users start narration on demand.
 
   function toggleMute() {
     if (!voiceoverSrc) {
