@@ -40,7 +40,7 @@ For organizations wanting full control:
 Let us handle everything:
 
 - **Your branding** on our infrastructure
-- **Custom subdomain** (yourorg.elevatelms.com) or your domain
+- **Custom subdomain** (yourorg.app.elevateforhumanity.org) or your own domain
 - **Zero DevOps** - we manage updates, security, scaling
 - **SLA guaranteed** uptime
 
