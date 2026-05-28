@@ -198,6 +198,7 @@ export default function SezzleCheckout({
     billingAddress,
     referenceId,
     useTokenization,
+    showVirtualCard,
     onComplete,
     onCancel,
     onFailure,
