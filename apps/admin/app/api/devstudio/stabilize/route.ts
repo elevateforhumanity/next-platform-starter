@@ -163,6 +163,15 @@ export async function POST(request: NextRequest) {
     const passed = results.filter((r) => r.status === 'passed');
     const skipped = results.filter((r) => r.status === 'skipped');
 
+    // Map known failure IDs to autofix playbooks
+    const AUTOFIX_MAP: Record<string, string> = {
+      'audit-auth-gaps':  'auth-gap',
+      'audit-env-vars':   'env-gap',
+    };
+    const suggestedFixes = failed
+      .filter((r) => AUTOFIX_MAP[r.id])
+      .map((r) => ({ step: r.id, playbook: AUTOFIX_MAP[r.id], endpoint: '/api/devstudio/autofix' }));
+
     return NextResponse.json({
       ok: failed.length === 0,
       summary: {
@@ -173,13 +182,14 @@ export async function POST(request: NextRequest) {
       },
       options: opts,
       results,
+      suggestedFixes,
       nextActions:
         failed.length === 0
           ? ['All stabilization checks passed', 'Safe to proceed with commit/PR']
           : [
-              'Review failed steps',
-              'Apply targeted fixes',
-              'Re-run /api/devstudio/stabilize',
+              'Review failed steps below',
+              ...suggestedFixes.map((f) => `POST ${f.endpoint} { "playbook": "${f.playbook}" } to auto-fix ${f.step}`),
+              'Re-run /api/devstudio/stabilize after fixes',
             ],
       timestamp: new Date().toISOString(),
     });
