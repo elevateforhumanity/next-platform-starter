@@ -1,18 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 
-export default function AuthResetPasswordPage() {
+function ResetPasswordForm() {
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get('redirect');
+
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [portal, setPortal] = useState('/learner/dashboard');
+  // If a ?redirect= was passed (e.g. from onboarding recovery link), use it.
+  // Otherwise fall back to role-based destination resolved after password set.
+  const [portal, setPortal] = useState(redirectParam || '/learner/dashboard');
   const [error, setError] = useState('');
   const [sessionReady, setSessionReady] = useState<boolean | null>(null);
 
@@ -86,17 +92,19 @@ export default function AuthResetPasswordPage() {
       if (updateError) {
         setError(updateError.message);
       } else {
-        // Read role before signing out so we can show the correct portal link
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .maybeSingle();
-          setPortal(getRoleDestination(profile?.role));
+        // If no explicit redirect, resolve role-based destination.
+        if (!redirectParam) {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          if (user) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', user.id)
+              .maybeSingle();
+            setPortal(getRoleDestination(profile?.role));
+          }
         }
         await supabase.auth.signOut();
         setSuccess(true);
@@ -246,3 +254,13 @@ export default function AuthResetPasswordPage() {
     </div>
   );
 }
+
+export default function AuthResetPasswordPage() {
+  return (
+    <Suspense>
+      <ResetPasswordForm />
+    </Suspense>
+  );
+}
+
+

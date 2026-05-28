@@ -33,7 +33,12 @@ export async function GET(request: Request) {
           new URL('/reset-password?error=link_expired', requestUrl.origin),
         );
       }
-      return NextResponse.redirect(new URL('/auth/reset-password', requestUrl.origin));
+      // Preserve ?redirect= so reset-password page can forward the user
+      // to onboarding (or any other destination) after they set their password.
+      const resetDest = redirectParam
+        ? `/auth/reset-password?redirect=${encodeURIComponent(redirectTarget)}`
+        : '/auth/reset-password';
+      return NextResponse.redirect(new URL(resetDest, requestUrl.origin));
     } catch (err) {
       logger.warn('[auth/callback] Recovery exchange threw:', err instanceof Error ? err.message : err);
       return NextResponse.redirect(new URL('/reset-password?error=link_expired', requestUrl.origin));
