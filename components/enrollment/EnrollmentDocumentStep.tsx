@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { Upload, FileText, AlertCircle, X, Loader2 } from 'lucide-react';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface UploadedDocument {
   id: string;
@@ -20,7 +21,8 @@ interface DocumentRequirement {
 interface Props {
   requirements: DocumentRequirement[];
   uploadedDocuments: UploadedDocument[];
-  onUpload: (documentType: string, file: File) => Promise<void>;
+  /** Called when a file is selected. Return the new document's DB id to enable AI prefill. */
+  onUpload: (documentType: string, file: File) => Promise<string | void>;
   onRemove?: (documentId: string) => Promise<void>;
 }
 
@@ -33,37 +35,24 @@ export default function EnrollmentDocumentStep({
   const [uploading, setUploading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState<string | null>(null);
+  // AI prefill state: { documentId, documentType } for the most recently uploaded doc
+  const [prefill, setPrefill] = useState<{ documentId: string; documentType: string } | null>(null);
 
   const getUploadedDoc = (type: string) => uploadedDocuments.find((d) => d.document_type === type);
 
   const handleFileSelect = useCallback(
     async (documentType: string, file: File) => {
-      // Validate file
-      const maxSize = 10 * 1024 * 1024; // 10MB
-      const allowedTypes = [
-        'application/pdf',
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-        'image/webp',
-      ];
-
-      if (file.size > maxSize) {
-        setError('File size must be less than 10MB');
-        return;
-      }
-
-      if (!allowedTypes.includes(file.type)) {
-        setError('Only PDF and image files are allowed');
-        return;
-      }
-
       setError(null);
       setUploading(documentType);
+      setPrefill(null);
 
       try {
-        await onUpload(documentType, file);
-      } catch (err: any) {
+        const result = await onUpload(documentType, file);
+        // If the parent returns a document ID, trigger AI prefill
+        if (typeof result === 'string' && result) {
+          setPrefill({ documentId: result, documentType });
+        }
+      } catch {
         setError('Failed to upload document');
       } finally {
         setUploading(null);
@@ -123,6 +112,16 @@ export default function EnrollmentDocumentStep({
             <X className="w-5 h-5" />
           </button>
         </div>
+      )}
+
+      {/* AI prefill panel — shown after each upload */}
+      {prefill && (
+        <DocumentAIPrefillPanel
+          documentId={prefill.documentId}
+          documentType={prefill.documentType}
+          onConfirmed={() => setPrefill(null)}
+          onDismiss={() => setPrefill(null)}
+        />
       )}
 
       {/* Progress indicator */}
@@ -226,7 +225,6 @@ export default function EnrollmentDocumentStep({
                       <input
                         type="file"
                         id={`file-${req.type}`}
-                        accept=".pdf,.jpg,.jpeg,.png,.webp"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) handleFileSelect(req.type, file);
@@ -254,7 +252,7 @@ export default function EnrollmentDocumentStep({
                           </>
                         )}
                       </label>
-                      <span className="ml-3 text-xs text-slate-700">PDF, JPG, PNG (max 10MB)</span>
+                      <span className="ml-3 text-xs text-slate-700">Any file type accepted</span>
                     </div>
                   )}
                 </div>

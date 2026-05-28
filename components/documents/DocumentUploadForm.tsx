@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, AlertCircle } from 'lucide-react';
+import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
 
 interface DocumentRequirement {
   id: string;
@@ -32,6 +33,9 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
   const [documentType, setDocumentType] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [uploadedDocs, setUploadedDocs] = useState<any[]>([]);
+  const [prefillDocumentId, setPrefillDocumentId] = useState<string | null>(null);
+  const [prefillDone, setPrefillDone] = useState(false);
+  const [pendingRedirect, setPendingRedirect] = useState('');
 
   // Load previously uploaded documents from DB
   useEffect(() => {
@@ -54,30 +58,14 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-
-      // Validate file size (10MB max)
-      if (selectedFile.size > 10 * 1024 * 1024) {
-        setError('File size must be less than 10MB');
-        return;
-      }
-
-      // Validate file type
-      const allowedTypes = [
-        'application/pdf',
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-        'image/webp',
-      ];
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setError('Only PDF and image files are allowed');
-        return;
-      }
-
-      setFile(selectedFile);
+      setFile(e.target.files[0]);
       setError('');
     }
+  };
+
+  // Redirect helper — called after prefill is done or skipped
+  const doRedirect = (dest: string) => {
+    setTimeout(() => router.push(dest), 800);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -114,7 +102,6 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
       // Determine redirect destination
       let dest = successRedirect ?? '';
       if (!dest) {
-        // Role-based fallback
         const {
           data: { user: currentUser },
         } = await supabase.auth.getUser();
@@ -135,9 +122,14 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
           }
         }
       }
-      setTimeout(() => {
-        router.push(dest);
-      }, 1500);
+
+      // If the upload returned a document ID, show the AI prefill panel before redirecting
+      if (data.document?.id) {
+        setPrefillDocumentId(data.document.id);
+        setPendingRedirect(dest);
+      } else {
+        setTimeout(() => router.push(dest), 1500);
+      }
     } catch (err: any) {
       setError(err?.message || 'Failed to upload document');
     } finally {
@@ -147,15 +139,38 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
 
   if (success) {
     return (
-      <div className="max-w-2xl mx-auto p-8 bg-brand-green-50 border-2 border-brand-green-600 rounded-lg">
-        <div className="flex items-center gap-4 mb-4">
-          <span className="text-slate-500 flex-shrink-0">•</span>
-          <div>
-            <h2 className="text-2xl font-bold text-brand-green-900">Document Uploaded!</h2>
-            <p className="text-brand-green-700">Your document has been submitted for review.</p>
+      <div className="max-w-2xl mx-auto space-y-4">
+        <div className="p-8 bg-brand-green-50 border-2 border-brand-green-600 rounded-lg">
+          <div className="flex items-center gap-4 mb-2">
+            <span className="text-slate-500 flex-shrink-0">•</span>
+            <div>
+              <h2 className="text-2xl font-bold text-brand-green-900">Document Uploaded!</h2>
+              <p className="text-brand-green-700">Your document has been submitted for review.</p>
+            </div>
           </div>
+          {!prefillDocumentId && (
+            <p className="text-brand-green-800">Redirecting to your documents page...</p>
+          )}
         </div>
-        <p className="text-brand-green-800">Redirecting to your documents page...</p>
+
+        {prefillDocumentId && !prefillDone && (
+          <DocumentAIPrefillPanel
+            documentId={prefillDocumentId}
+            documentType={documentType}
+            onConfirmed={() => {
+              setPrefillDone(true);
+              doRedirect(pendingRedirect);
+            }}
+            onDismiss={() => {
+              setPrefillDone(true);
+              doRedirect(pendingRedirect);
+            }}
+          />
+        )}
+
+        {prefillDone && (
+          <p className="text-sm text-slate-600 text-center">Redirecting…</p>
+        )}
       </div>
     );
   }
@@ -214,7 +229,6 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
             <Upload className="w-16 h-16 text-slate-400 mx-auto mb-4" />
             <input
               type="file"
-              accept=".pdf,.jpg,.jpeg,.png,.webp"
               onChange={handleFileChange}
               required
               className="hidden"
@@ -224,7 +238,7 @@ export function DocumentUploadForm({ requirements, apiEndpoint, successRedirect 
               <span className="text-brand-blue-600 font-semibold text-lg">Click to upload</span>
               <span className="text-black"> or drag and drop</span>
             </label>
-            <p className="text-sm text-slate-500 mt-2">PDF, JPG, PNG or WEBP (max 10MB)</p>
+            <p className="text-sm text-slate-500 mt-2">Any file type accepted</p>
             {file && (
               <div className="mt-4 p-3 bg-brand-green-50 border border-brand-green-200 rounded-lg">
                 <p className="text-sm text-brand-green-800 font-semibold">
