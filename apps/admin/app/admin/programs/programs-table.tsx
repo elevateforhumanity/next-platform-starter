@@ -22,7 +22,13 @@ interface Program {
   modules?: { count: number }[];
 }
 
-export function ProgramsTable({ programs }: { programs: Program[] }) {
+export function ProgramsTable({
+  programs,
+  programCourseMap = {},
+}: {
+  programs: Program[];
+  programCourseMap?: Record<string, string>;
+}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'unpublished'>('published');
 
@@ -153,14 +159,27 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                       >
                         Edit
                       </Link>
-                      <Link
-                        href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/programs/${program.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-black hover:text-black"
-                      >
-                        View
-                      </Link>
+                      {programCourseMap[program.id] ? (
+                        <Link
+                          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/lms/courses/${programCourseMap[program.id]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-600 hover:text-emerald-800 font-medium"
+                          title="View LMS course"
+                        >
+                          Course
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/programs/${program.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-slate-500 hover:text-slate-700"
+                          title="View public program page"
+                        >
+                          View
+                        </Link>
+                      )}
                     </div>
                   </td>
                 </tr>

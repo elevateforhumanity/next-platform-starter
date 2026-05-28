@@ -25,12 +25,23 @@ export default async function ProgramsPage() {
     { count: totalPrograms },
     { count: activePrograms },
     { count: featuredPrograms },
+    { data: courseRows },
   ] = await Promise.all([
     supabase.from('programs').select('*').eq('is_active', true).order('title', { ascending: true }),
     supabase.from('programs').select('*', { count: 'exact', head: true }),
     supabase.from('programs').select('*', { count: 'exact', head: true }).eq('is_active', true),
     supabase.from('programs').select('*', { count: 'exact', head: true }).eq('featured', true),
+    // Map program_id → course_id so the table can link to /lms/courses/[id]
+    supabase.from('courses').select('id, program_id').not('program_id', 'is', null),
   ]);
+
+  // Build lookup: program_id → course_id
+  const programCourseMap: Record<string, string> = {};
+  for (const c of courseRows ?? []) {
+    if (c.program_id && !programCourseMap[c.program_id]) {
+      programCourseMap[c.program_id] = c.id;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,7 +121,7 @@ export default async function ProgramsPage() {
         </Link>
 
         {/* Programs Table */}
-        <ProgramsTable programs={programs || []} />
+        <ProgramsTable programs={programs || []} programCourseMap={programCourseMap} />
 
         {/* Related sections */}
         <div className="mt-8 border-t border-slate-100 pt-6">
