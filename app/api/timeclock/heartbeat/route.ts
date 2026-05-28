@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { checkBarberSuspension } from '@/lib/barber/suspension';
+import { syncProgressEntryToHourEntries } from '@/lib/timeclock/sync-to-hour-entries';
 
 const MAX_ACCURACY_M = 50;
 
@@ -169,6 +170,15 @@ async function _POST(request: NextRequest) {
     // Compute within_geofence for response (haversine against loaded site)
     const distance = haversineDistance(lat, lng, site.latitude, site.longitude);
     const withinGeofence = distance <= site.radius_meters;
+
+    // If auto-clocked out this heartbeat, sync to hour_entries
+    if (updatedEntry?.auto_clocked_out && updatedEntry?.clock_out_at) {
+      requireAdminClient().then((adminDb) =>
+        syncProgressEntryToHourEntries(adminDb, progress_entry_id).catch((err) =>
+          logger.error('[Heartbeat] hour_entries sync failed', { progress_entry_id, err }),
+        ),
+      );
+    }
 
     return NextResponse.json({
       within_geofence: withinGeofence,

@@ -58,6 +58,7 @@ on:
           - testing-no-show
           - barber-reinstate
           - testing-lead-followup
+          - low-hours-pace
 
   # ── Daily jobs — 8 AM UTC ──────────────────────────────────────────────────
   schedule:
@@ -390,6 +391,7 @@ jobs:
             github.event.inputs.job == 'all-weekly'
          || github.event.inputs.job == 'weekly-reminders'
          || github.event.inputs.job == 'weekly-verdicts'
+         || github.event.inputs.job == 'low-hours-pace'
       ))
     steps:
       - name: Weekly reminders
@@ -403,6 +405,12 @@ jobs:
           curl -sf -X GET "$ADMIN_URL/api/cron/weekly-verdicts" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::weekly-verdicts failed"
+
+      - name: Low-hours pace check
+        run: |
+          curl -sf -X GET "$ADMIN_URL/api/cron/low-hours-pace" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 120 \
+            || echo "::warning::low-hours-pace failed"
 
       - name: Re-embed platform knowledge (RAG refresh)
         run: |

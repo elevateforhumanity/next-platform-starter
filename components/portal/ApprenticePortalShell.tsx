@@ -128,6 +128,8 @@ export const SLUG_TO_PORTAL: Record<string, string> = Object.fromEntries(
 interface Props {
   config: ApprenticePortalConfig;
   firstName: string;
+  fullName?: string;
+  shopName?: string | null;
   enrollment: {
     id: string;
     enrollment_state: string;
@@ -137,9 +139,11 @@ interface Props {
   } | null;
   hours: { ojl: number; rti: number };
   docs: { document_type: string; status: string; verification_status: string }[];
+  /** Ignored — present in loadApprenticePortalData return but not used by shell */
+  apprentice?: unknown;
 }
 
-export function ApprenticePortalShell({ config, firstName, enrollment, hours, docs }: Props) {
+export function ApprenticePortalShell({ config, firstName, shopName, enrollment, hours, docs }: Props) {
   const ProgramIcon = config.icon;
 
   const requiredOjl = config.requiredOjl;
@@ -215,6 +219,9 @@ export function ApprenticePortalShell({ config, firstName, enrollment, hours, do
             </div>
             <p className="text-white/80 text-sm mt-2">
               Welcome back, <strong>{firstName}</strong> · Week {weeksComplete + 1} of {weeksTotal}
+              {shopName && (
+                <span className="ml-2 text-white/60">· {config.shopLabel}: <span className="text-white/90 font-medium">{shopName}</span></span>
+              )}
             </p>
           </div>
         </div>

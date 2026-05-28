@@ -2,13 +2,12 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { syncProgressEntryToHourEntries } from '@/lib/timeclock/sync-to-hour-entries';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { checkBarberSuspension } from '@/lib/barber/suspension';
 import { sendEmail } from '@/lib/email/service';
 import { emitEvent } from '@/lib/events/emit';
-
-const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 const MAX_ACCURACY_M = 50;
 const LUNCH_DURATION_MINUTES = 60;
@@ -44,13 +43,26 @@ function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
   return R * c;
 }
 
+const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
+const FROM_EMAIL = 'noreply@elevateforhumanity.org';
+
 /**
  * Write an admin alert with full operational context in metadata.
  * The details object is stored verbatim — include apprentice_id, site_id,
  * distances, shift_id, hours, and any violation metadata so downstream
  * AI, investigations, and escalation workflows have the full picture.
+ *
+ * For missing_lunch and excessive_lunch, also emails the apprentice and admin.
+ * Geofence violation emails are sent inline at the call site (with emitEvent).
+ *
+ * @param userId - authenticated user id; used to look up profile for email
  */
-async function raiseAdminAlert(supabase: any, alertType: string, details: Record<string, any>) {
+async function raiseAdminAlert(
+  supabase: any,
+  alertType: string,
+  details: Record<string, any>,
+  userId?: string,
+) {
   try {
     const message = buildAlertMessage(alertType, details);
     await supabase.from('admin_alerts').insert({
@@ -66,6 +78,75 @@ async function raiseAdminAlert(supabase: any, alertType: string, details: Record
     });
   } catch (error) {
     logger.error('[Timeclock] Failed to raise admin alert:', error);
+  }
+
+  // Send escalation emails for lunch compliance violations.
+  // Geofence violations are emailed inline at the call site.
+  const lunchAlertTypes = new Set(['missing_lunch', 'excessive_lunch']);
+  if (!lunchAlertTypes.has(alertType) || !userId) return;
+
+  try {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name, email')
+      .eq('id', userId)
+      .maybeSingle();
+
+    const name = profile?.full_name || 'Apprentice';
+    const email = profile?.email || '';
+    const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
+
+    if (alertType === 'missing_lunch') {
+      const { shift_hours } = details;
+      if (email) {
+        await sendEmail({
+          to: email,
+          subject: 'Timeclock alert: no lunch break recorded',
+          html: `
+            <p>Hi ${name},</p>
+            <p>You clocked out after a <strong>${shift_hours}-hour shift</strong> without recording a lunch break.</p>
+            <p>Shifts of 6 hours or more require a meal break. Please speak with your supervisor to correct your timesheet if needed.</p>
+            <p>— Elevate for Humanity</p>
+          `,
+        }).catch((err) => logger.warn('[Timeclock] missing_lunch email failed', { userId, err }));
+      }
+      await sendEmail({
+        to: ADMIN_EMAIL,
+        subject: `[Admin] Missing lunch break — ${name}`,
+        html: `
+          <p><strong>${name}</strong> clocked out after a <strong>${shift_hours}-hour shift</strong> with no lunch break recorded.</p>
+          <p>User ID: ${userId}</p>
+          <p><a href="https://www.elevateforhumanity.org/admin/timeclock">Review in Admin →</a></p>
+        `,
+      }).catch((err) => logger.warn('[Timeclock] missing_lunch admin email failed', { err }));
+    }
+
+    if (alertType === 'excessive_lunch') {
+      const { lunch_minutes, standard_minutes } = details;
+      if (email) {
+        await sendEmail({
+          to: email,
+          subject: 'Timeclock alert: extended lunch break',
+          html: `
+            <p>Hi ${name},</p>
+            <p>Your lunch break today was <strong>${lunch_minutes} minutes</strong>, which exceeds the standard ${standard_minutes}-minute break.</p>
+            <p>Extended breaks may affect your logged hours. Please speak with your supervisor if you have questions.</p>
+            <p>— Elevate for Humanity</p>
+          `,
+        }).catch((err) => logger.warn('[Timeclock] excessive_lunch email failed', { userId, err }));
+      }
+      await sendEmail({
+        to: ADMIN_EMAIL,
+        subject: `[Admin] Extended lunch break — ${name}`,
+        html: `
+          <p><strong>${name}</strong> took a <strong>${lunch_minutes}-minute lunch break</strong> (standard: ${standard_minutes} min).</p>
+          <p>User ID: ${userId}</p>
+          <p><a href="https://www.elevateforhumanity.org/admin/timeclock">Review in Admin →</a></p>
+        `,
+      }).catch((err) => logger.warn('[Timeclock] excessive_lunch admin email failed', { err }));
+    }
+  } catch (err) {
+    logger.warn('[Timeclock] raiseAdminAlert email lookup failed', { alertType, userId, err });
   }
 }
 
@@ -547,7 +628,7 @@ async function _POST(request: NextRequest) {
             lunch_minutes: Math.round(lunchMinutes),
             standard_minutes: LUNCH_DURATION_MINUTES,
             timestamp: serverNow,
-          });
+          }, user.id);
         }
 
         return NextResponse.json({
@@ -595,7 +676,7 @@ async function _POST(request: NextRequest) {
             progress_entry_id,
             shift_hours: Math.round(shiftHours * 10) / 10,
             timestamp: serverNow,
-          });
+          }, user.id);
         }
 
         // DB trigger will derive hours_worked and enforce weekly cap

@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import IndustryPortalPage from '../_components/IndustryPortalPage';
+import { getApprovedHoursByType } from '@/lib/hours/get-approved-hours';
 import { PORTAL_CONFIGS, VALID_PORTAL_KEYS } from './portal-config';
 
 export const dynamic = 'force-dynamic';
@@ -87,7 +88,7 @@ export default async function IndustryPortalPageRoute({
         totalLessons,
         completedLessons,
         certificatesEarned,
-        hoursLogged: 0,
+        hoursLogged: await getApprovedHoursByType(supabase, user.id).then((h) => h.ojl + h.rti).catch(() => 0),
       }}
     />
   );
