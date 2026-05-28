@@ -96,7 +96,7 @@ export function HomeEmployerStrip() {
             </div>
           </div>
 
-          <div className="relative h-64 lg:h-72 rounded-2xl overflow-hidden">
+          <div className="relative h-52 lg:h-60 rounded-2xl overflow-hidden">
             <Image
               src="/images/pages/for-employers-page-1.webp"
               alt="Employer partner meeting with Elevate for Humanity team"

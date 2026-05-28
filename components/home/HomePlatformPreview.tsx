@@ -73,7 +73,7 @@ export function HomePlatformPreview() {
               href={cap.href}
               className="group flex flex-col rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-slate-600 transition-all hover:-translate-y-0.5"
             >
-              <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-800">
+              <div className="relative w-full aspect-[16/9] max-h-48 overflow-hidden bg-slate-800">
                 <Image
                   src={cap.img}
                   alt={`${cap.label} screenshot`}

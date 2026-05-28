@@ -129,7 +129,7 @@ export function HomeApprenticeshipInfra() {
 
         {/* Photo + copy strip */}
         <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
-          <div className="relative h-56 sm:h-72 w-full">
+          <div className="relative h-48 sm:h-56 w-full">
             <Image
               src="/images/pages/apprenticeships-page-1.webp"
               alt="Apprentice working on-site with employer supervisor"

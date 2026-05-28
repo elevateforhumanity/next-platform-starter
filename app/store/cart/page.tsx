@@ -130,17 +130,16 @@ export default async function CartPage({
                   <div className="flex gap-4">
                     <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0 relative">
                       {item.product?.image_url ? (
-                        <Image alt="Product image" 
-                          src={item.product.image_url} 
-                          alt={item.product.name} 
+                        <Image
+                          src={item.product.image_url}
+                          alt={item.product?.name || 'Store product'}
                           fill
-                          className="object-cover" 
-                          sizes="80px" placeholder="empty"
+                          className="object-cover object-top"
+                          sizes="80px"
+                          placeholder="empty"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <ShoppingCart className="w-6 h-6 text-slate-700" />
-                        </div>
+                        <div className="w-full h-full bg-slate-100 rounded-lg" aria-hidden="true" />
                       )}
                     </div>
                     <div className="flex-1">
