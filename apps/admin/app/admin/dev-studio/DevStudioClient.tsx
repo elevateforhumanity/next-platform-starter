@@ -7,7 +7,7 @@ import {
   Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
   Send, Loader2, RefreshCw, ExternalLink, Save, Bot,
   ChevronRight, File, Folder, Play, X, Circle,
-  PanelRightClose, PanelRightOpen, AlertTriangle, Key,
+  PanelRightClose, PanelRightOpen, AlertTriangle, Key, ShieldCheck,
   Server, GitBranch,
 } from 'lucide-react';
 
@@ -628,6 +628,8 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   const [input, setInput]       = useState('');
   const [lines, setLines]       = useState<LogLine[]>([]);
   const [loading, setLoading]   = useState(false);
+  const [stabilizing, setStabilizing] = useState(false);
+  const [stabilizeResult, setStabilizeResult] = useState<{ ok: boolean; summary: { passed: number; failed: number; skipped: number }; nextActions: string[] } | null>(null);
   const [jobId, setJobId]       = useState<string | null>(null);
   const [jobs, setJobs]         = useState<Job[]>([]);
   const [activeJob, setActiveJob] = useState<Job | null>(null);
@@ -658,6 +660,29 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
   // quickCommands comes from /api/admin/devstudio/config (platform_settings DB row).
   // The config API owns the fallback list — no duplicate here.
   const QUICK = quickCommands ?? [];
+
+  const runStabilize = useCallback(async () => {
+    if (stabilizing) return;
+    setStabilizing(true);
+    setStabilizeResult(null);
+    try {
+      const res = await fetch('/api/devstudio/stabilize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quick: true, includeTests: true, includeSmoke: false, maxOutputKb: 256 }),
+      });
+      const data = await res.json();
+      setStabilizeResult({
+        ok: data.ok,
+        summary: data.summary,
+        nextActions: data.nextActions ?? [],
+      });
+    } catch {
+      setStabilizeResult({ ok: false, summary: { passed: 0, failed: 1, skipped: 0 }, nextActions: ['Stabilize request failed — check network'] });
+    } finally {
+      setStabilizing(false);
+    }
+  }, [stabilizing]);
 
   async function run(cmd: string) {
     if (!cmd.trim() || loading) return;
@@ -859,7 +884,26 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
                 {label}
               </button>
             ))}
+            {/* Stabilize button */}
+            <button
+              onClick={runStabilize}
+              disabled={stabilizing || loading}
+              className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 text-[11px] rounded border disabled:opacity-40 transition-colors whitespace-nowrap ml-2"
+              style={{ background: stabilizeResult ? (stabilizeResult.ok ? '#14532d' : '#450a0a') : '#1a1a2e', borderColor: stabilizeResult ? (stabilizeResult.ok ? '#16a34a' : '#dc2626') : '#7c3aed', color: stabilizeResult ? (stabilizeResult.ok ? '#86efac' : '#fca5a5') : '#a78bfa' }}
+              title="Run audits + tests and get a unified pass/fail result"
+            >
+              <ShieldCheck className="w-3 h-3" />
+              {stabilizing ? 'Stabilizing…' : stabilizeResult ? (stabilizeResult.ok ? `✅ ${stabilizeResult.summary.passed}p` : `❌ ${stabilizeResult.summary.failed}f`) : 'Stabilize'}
+            </button>
           </div>
+          {/* Stabilize result banner */}
+          {stabilizeResult && (
+            <div className="px-3 py-2 text-[11px] border-t" style={{ background: stabilizeResult.ok ? 'rgba(20,83,45,0.4)' : 'rgba(69,10,10,0.4)', borderColor: '#3c3c3c', color: stabilizeResult.ok ? '#86efac' : '#fca5a5' }}>
+              {stabilizeResult.ok
+                ? `✅ All checks passed (${stabilizeResult.summary.passed} passed, ${stabilizeResult.summary.skipped} skipped)`
+                : `❌ ${stabilizeResult.summary.failed} check(s) failed — ${stabilizeResult.nextActions[0]}`}
+            </div>
+          )}
         </div>
 
         {/* Log output — live streaming */}
