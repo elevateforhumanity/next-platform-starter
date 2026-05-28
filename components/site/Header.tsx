@@ -55,7 +55,7 @@ export default function Header() {
         <HeaderDesktopNav items={NAV_ITEMS} />
 
         {/* CTA Buttons */}
-        <div className="hidden xl:flex items-center gap-1.5 shrink-0">
+        <div className="hidden lg:flex items-center gap-1.5 shrink-0">
           <SearchModal />
           <LanguageSwitcher />
           <Link

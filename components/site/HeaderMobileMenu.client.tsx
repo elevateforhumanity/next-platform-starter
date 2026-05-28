@@ -56,7 +56,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
   return (
     <>
       {/* Mobile icon row — search + language + hamburger — hidden on desktop */}
-      <div className="xl:hidden flex items-center gap-1">
+      <div className="lg:hidden flex items-center gap-1">
         <SearchModal />
         <LanguageSwitcher />
         <button
@@ -80,14 +80,14 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-[9998] xl:hidden"
+          className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Mobile Menu Panel */}
       <div
-        className="fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] xl:hidden transform transition-transform duration-300 overflow-y-auto shadow-2xl"
+        className="fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] lg:hidden transform transition-transform duration-300 overflow-y-auto shadow-2xl"
         style={{ transform: isOpen ? 'translateX(0)' : 'translateX(100%)' }}
       >
         <nav className="p-4" aria-label="Mobile navigation">

@@ -300,25 +300,31 @@ export default function FederalCompliancePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16">
+      <section className="py-16 bg-brand-blue-700">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Questions About Compliance?</h2>
-          <p className="text-xl text-white mb-8">
-            Contact our compliance team for more information about our policies and procedures.
+          <h2 className="text-3xl font-bold text-white mb-4">Ready to Enroll?</h2>
+          <p className="text-lg text-brand-blue-100 mb-8">
+            Our programs are ETPL-approved and WIOA-eligible. Check your eligibility or apply today — most students qualify for no-cost training.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-white transition"
+              href="/check-eligibility"
+              className="inline-flex items-center gap-2 bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-50 transition"
             >
-              Contact Us <ArrowRight className="w-5 h-5" />
+              Check Eligibility <ArrowRight className="w-5 h-5" />
             </Link>
-            <a
-              href="/support"
-              className="inline-flex items-center gap-2 bg-brand-blue-700 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-800 transition border border-white/30"
+            <Link
+              href="/apply"
+              className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-red-700 transition"
             >
-              <Phone className="w-5 h-5" /> (317) 314-3757
-            </a>
+              Apply Now
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-900 transition border border-white/20"
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>

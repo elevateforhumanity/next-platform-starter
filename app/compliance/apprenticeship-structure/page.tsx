@@ -703,6 +703,32 @@ export default function ApprenticeshipStructurePage() {
           </div>
         </div>
       </section>
+
+      {/* Apply CTA */}
+      <section className="bg-brand-red-600 py-12 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl font-extrabold text-white mb-3">
+            DOL-Registered. RAPIDS-Tracked. Ready for You.
+          </h2>
+          <p className="text-brand-red-100 text-sm mb-6">
+            Our apprenticeships are registered with the U.S. Department of Labor and tracked in RAPIDS. Check eligibility or apply now.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/check-eligibility"
+              className="bg-white text-brand-red-700 font-bold px-7 py-3.5 rounded-lg hover:bg-brand-red-50 transition-colors text-sm"
+            >
+              Check Eligibility
+            </Link>
+            <Link
+              href="/apply"
+              className="bg-brand-red-800 text-white font-bold px-7 py-3.5 rounded-lg hover:bg-brand-red-900 transition-colors text-sm border border-white/20"
+            >
+              Apply Now
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -95,16 +95,22 @@ export default function WorkforcePartnersPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/contact"
+              href="/check-eligibility"
               className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
             >
-              Contact Us
+              Check Eligibility
             </Link>
             <Link
-              href="/agencies"
+              href="/apply"
+              className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
+            >
+              Apply Now
+            </Link>
+            <Link
+              href="/contact"
               className="border border-slate-300 text-slate-700 hover:bg-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
             >
-              Agency Resources
+              Contact Us
             </Link>
           </div>
         </div>
