@@ -10,7 +10,6 @@ import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PROGRAM_INFO = {
   barber: 'DOL Registered Apprenticeship. 2,000 hours for barber, 1,500 for cosmetology. Earn while learning. State-licensed. WIOA-fundable.',
@@ -66,7 +65,7 @@ async function _POST(req: Request) {
     }
 
     const programInfo = PROGRAM_INFO[program as keyof typeof PROGRAM_INFO] || PROGRAM_INFO.all;
-    const prompt = `Create ${count} engaging social media posts for ${PLATFORM_DEFAULTS.orgName}, a workforce training organization in Indianapolis.\n\nProgram Focus: ${program === 'all' ? 'All Programs' : program}\nProgram Details: ${programInfo}\n\nRequirements:\n- Mix of post types: success stories, program highlights, WIOA eligibility info, career outcomes, application CTAs\n- Include relevant hashtags (#WorkforceDevelopment #Indianapolis #WIOA #CareerTraining)\n- Emphasize "Funded" and "earn while you learn"\n- Include call-to-action (Apply now, Learn more, Call us)\n- Vary tone: inspirational, informational, urgent\n- Mention Indianapolis/Indiana when relevant\n- Focus on career outcomes and earning potential\n\nReturn ONLY a JSON array of ${count} posts, no other text.`;
+    const prompt = `Create ${count} engaging social media posts for Elevate for Humanity, a workforce training organization in Indianapolis.\n\nProgram Focus: ${program === 'all' ? 'All Programs' : program}\nProgram Details: ${programInfo}\n\nRequirements:\n- Mix of post types: success stories, program highlights, WIOA eligibility info, career outcomes, application CTAs\n- Include relevant hashtags (#WorkforceDevelopment #Indianapolis #WIOA #CareerTraining)\n- Emphasize "Funded" and "earn while you learn"\n- Include call-to-action (Apply now, Learn more, Call us)\n- Vary tone: inspirational, informational, urgent\n- Mention Indianapolis/Indiana when relevant\n- Focus on career outcomes and earning potential\n\nReturn ONLY a JSON array of ${count} posts, no other text.`;
 
     const completion = await aiChat({
       model: 'gpt-4.1-mini',

@@ -2,7 +2,6 @@
 // Automated Welcome Packet System
 
 import { createClient } from '@/lib/supabase/server';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export interface WelcomePacketData {
   studentId: string;
@@ -172,7 +171,7 @@ export async function sendWelcomePacketEmail(
   const supabase = await createClient();
 
   const emailContent = `
-    <h1>Welcome to ${PLATFORM_DEFAULTS.orgName}, ${data.studentName}!</h1>
+    <h1>Welcome to Elevate for Humanity, ${data.studentName}!</h1>
 
     <p>We're thrilled to have you join our ${data.programName} program starting on ${new Date(data.startDate).toLocaleDateString()}.</p>
 
@@ -200,15 +199,15 @@ export async function sendWelcomePacketEmail(
     <h2>Need Help?</h2>
     <p>Our student services team is here to support you:</p>
     <ul>
-      <li>Phone: ${PLATFORM_DEFAULTS.supportPhone}</li>
-      <li>Email: support@${PLATFORM_DEFAULTS.canonicalDomain}</li>
+      <li>Phone: 317-314-3757</li>
+      <li>Email: support@www.elevateforhumanity.org</li>
       <li>Hours: Monday-Friday, 8am-5pm EST</li>
     </ul>
 
     <p>We look forward to seeing you soon!</p>
 
     <p>Best regards,<br>
-    The ${PLATFORM_DEFAULTS.orgName} Team</p>
+    The Elevate for Humanity Team</p>
   `;
 
   // Send email via Supabase Edge Function or email service
@@ -316,7 +315,7 @@ async function sendWelcomePacketCompletionEmail(
     <p>See you soon!</p>
 
     <p>Best regards,<br>
-    The ${PLATFORM_DEFAULTS.orgName} Team</p>
+    The Elevate for Humanity Team</p>
   `;
 
   await supabase.functions.invoke('send-email', {
@@ -426,10 +425,10 @@ export async function sendWelcomePacketReminder(packetId: string): Promise<void>
 
     <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/lms/welcome-packet/${packetId}" style="display: inline-block; padding: 12px 24px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Complete Welcome Packet</a></p>
 
-    <p>Need help? Contact us at support@${PLATFORM_DEFAULTS.canonicalDomain} or ${PLATFORM_DEFAULTS.supportPhone}.</p>
+    <p>Need help? Contact us at support@www.elevateforhumanity.org or 317-314-3757.</p>
 
     <p>Best regards,<br>
-    The ${PLATFORM_DEFAULTS.orgName} Team</p>
+    The Elevate for Humanity Team</p>
   `;
 
   await supabase.functions.invoke('send-email', {

@@ -10,7 +10,6 @@
  */
 
 import { Shield } from 'lucide-react';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface PathwayDisclosureProps {
   variant?: 'full' | 'compact' | 'inline';
@@ -18,10 +17,10 @@ interface PathwayDisclosureProps {
 }
 
 // Full disclosure text - do not edit
-const FULL_DISCLOSURE = `${PLATFORM_DEFAULTS.orgName} delivers all training through a structured career pathway. Participants begin with an eligibility and career alignment phase, where funding eligibility is determined and program selection occurs. Once eligibility is confirmed, participants enter occupational training with structured on-the-job learning aligned to a specific career pathway. Training is followed by an employer-hosted internship or work-based placement designed to support transition into employment. Program enrollment, training, and placement are contingent upon eligibility, funding availability, and employer participation.`;
+const FULL_DISCLOSURE = `Elevate for Humanity delivers all training through a structured career pathway. Participants begin with an eligibility and career alignment phase, where funding eligibility is determined and program selection occurs. Once eligibility is confirmed, participants enter occupational training with structured on-the-job learning aligned to a specific career pathway. Training is followed by an employer-hosted internship or work-based placement designed to support transition into employment. Program enrollment, training, and placement are contingent upon eligibility, funding availability, and employer participation.`;
 
 // Compact version for program pages
-const COMPACT_DISCLOSURE = `This program is part of the ${PLATFORM_DEFAULTS.orgName} Career Pathway and begins after eligibility determination. Enrollment is contingent upon eligibility, funding availability, and employer participation.`;
+const COMPACT_DISCLOSURE = `This program is part of the Elevate for Humanity Career Pathway and begins after eligibility determination. Enrollment is contingent upon eligibility, funding availability, and employer participation.`;
 
 // Inline version for headers/banners
 const INLINE_DISCLOSURE = `All programs require eligibility screening before enrollment.`;

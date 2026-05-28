@@ -1,4 +1,3 @@
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * AUTOMATED COMPLIANCE GUARDRAILS
  *
@@ -415,7 +414,7 @@ export const EMAIL_TEMPLATES = {
     body: `
 Dear {{program_holder_name}},
 
-This email serves as immediate notice that your access to the ${PLATFORM_DEFAULTS.orgName} Program Holder Network has been SUSPENDED effective immediately.
+This email serves as immediate notice that your access to the Elevate for Humanity Program Holder Network has been SUSPENDED effective immediately.
 
 REASON: Fraudulent activity detected
 
@@ -439,10 +438,10 @@ NEXT STEPS:
 This is a serious violation that jeopardizes our master credentials and all program holders in our network.
 
 If you believe this is an error, contact us immediately at:
-Email: compliance@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: compliance@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Compliance Team
+Elevate for Humanity Compliance Team
     `,
   },
 
@@ -474,10 +473,10 @@ CONSEQUENCES IF NOT RESOLVED:
 - Possible legal action
 
 Contact compliance team immediately:
-Email: compliance@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: compliance@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Compliance Team
+Elevate for Humanity Compliance Team
     `,
   },
 
@@ -486,7 +485,7 @@ ${PLATFORM_DEFAULTS.orgName} Compliance Team
     body: `
 Dear {{program_holder_name}},
 
-Your Memorandum of Understanding (MOU) with ${PLATFORM_DEFAULTS.orgName} is hereby TERMINATED effective immediately.
+Your Memorandum of Understanding (MOU) with Elevate for Humanity is hereby TERMINATED effective immediately.
 
 REASON: Misuse of Master Credentials
 
@@ -508,10 +507,10 @@ Continued use of our credentials after termination may result in legal action.
 This decision is FINAL and NOT APPEALABLE per MOU Section 8.2(b).
 
 For data transfer procedures, contact:
-Email: compliance@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: compliance@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Legal & Compliance Team
+Elevate for Humanity Legal & Compliance Team
     `,
   },
 
@@ -549,10 +548,10 @@ REINSTATEMENT POSSIBLE:
 - Pass compliance review
 
 To appeal, contact:
-Email: appeals@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: appeals@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Compliance Team
+Elevate for Humanity Compliance Team
     `,
   },
 
@@ -591,10 +590,10 @@ HOW TO IMPROVE:
 Access will be automatically restored when quality score reaches 70+.
 
 Questions? Contact:
-Email: support@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: support@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Compliance Team
+Elevate for Humanity Compliance Team
     `,
   },
 
@@ -632,10 +631,10 @@ CONSEQUENCES IF NOT SUBMITTED:
 Submit now at: {{dashboard_link}}
 
 Questions? Contact:
-Email: support@${PLATFORM_DEFAULTS.canonicalDomain}
-Phone: ${PLATFORM_DEFAULTS.supportPhone}
+Email: support@www.elevateforhumanity.org
+Phone: (317) 314-3757
 
-${PLATFORM_DEFAULTS.orgName} Compliance Team
+Elevate for Humanity Compliance Team
     `,
   },
 };

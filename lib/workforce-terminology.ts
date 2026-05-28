@@ -1,4 +1,3 @@
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Workforce Development Terminology
  *
@@ -145,7 +144,7 @@ export function generateMonthlyReportText(stats: {
   atRisk: number;
   needingSupport: number;
 }): string {
-  return `During this reporting period, ${PLATFORM_DEFAULTS.orgName} served ${stats.totalParticipants} participants across ${stats.programCount} funded training programs (WRG, WIOA, JRI, EmployIndy, and other aligned initiatives).
+  return `During this reporting period, Elevate for Humanity served ${stats.totalParticipants} participants across ${stats.programCount} funded training programs (WRG, WIOA, JRI, EmployIndy, and other aligned initiatives).
 
 ${stats.activeParticipants} participants actively engaged in training and logged LMS activity during the month.
 
@@ -155,5 +154,5 @@ ${stats.atRisk} participants were flagged as At Risk (Behind) based on log-in an
 
 ${stats.needingSupport} participants required additional support (schedule, transportation, or technology barriers) and are being monitored through weekly caseload reports and case notes in the Elevate system.
 
-All participation, case notes, and follow-up actions are recorded in the ${PLATFORM_DEFAULTS.orgName} LMS and can be exported for state and federal workforce reporting, including WRG, WIOA, JRI, and local workforce board documentation.`;
+All participation, case notes, and follow-up actions are recorded in the Elevate for Humanity LMS and can be exported for state and federal workforce reporting, including WRG, WIOA, JRI, and local workforce board documentation.`;
 }

@@ -8,7 +8,6 @@ import { createClient } from '@/lib/supabase/client';
 import { recordHandbookAcknowledgment } from '@/lib/compliance/enforcement';
 import { ArrowLeft, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const HANDBOOK_VERSION = '2025.1';
 
@@ -129,7 +128,7 @@ Step 1 — Informal Resolution:
 Talk to your instructor or advisor. Most issues can be resolved through direct conversation. Your instructor will document the discussion and any agreed-upon resolution.
 
 Step 2 — Written Grievance:
-If the issue is not resolved informally, submit a written grievance through the student portal at ${PLATFORM_DEFAULTS.canonicalDomain}/support/grievance or by emailing info@${PLATFORM_DEFAULTS.canonicalDomain}. Include:
+If the issue is not resolved informally, submit a written grievance through the student portal at elevateforhumanity.org/support/grievance or by emailing info@elevateforhumanity.org. Include:
 - Your name and contact information
 - Date and description of the incident
 - Names of any witnesses

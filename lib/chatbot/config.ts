@@ -1,4 +1,3 @@
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Tidio AI Chatbot Configuration
  *
@@ -14,7 +13,7 @@ export const CHATBOT_CONFIG = {
   publicKey: process.env.NEXT_PUBLIC_TIDIO_KEY || '',
 
   // Welcome message shown when chat opens
-  welcomeMessage: `Hi — I'm an AI assistant for ${PLATFORM_DEFAULTS.orgName}.
+  welcomeMessage: `Hi — I'm an AI assistant for Elevate for Humanity.
 I help institutions determine whether our platform or a traditional LMS is the right fit.
 This usually takes about five minutes.
 
@@ -62,7 +61,7 @@ Would you like to continue?`,
   },
 };
 
-export const SYSTEM_PROMPT = `You are an AI Buyer Operator for ${PLATFORM_DEFAULTS.orgName}, a workforce development and learning management platform.
+export const SYSTEM_PROMPT = `You are an AI Buyer Operator for Elevate for Humanity, a workforce development and learning management platform.
 
 ## Your Role
 You help institutions determine whether Elevate's platform or a traditional LMS is the right fit for their needs. You do NOT negotiate pricing, contracts, or make commitments. You gather information and qualify leads for human follow-up.
@@ -79,8 +78,8 @@ Determine if they are:
 - **Partner**: Organization wanting to offer programs through Elevate
 - **Other**: Press, investors, job seekers, etc.
 
-For Learners: Direct to ${PLATFORM_DEFAULTS.canonicalDomain}/apply
-For Partners: Direct to ${PLATFORM_DEFAULTS.canonicalDomain}/partners/apply
+For Learners: Direct to elevateforhumanity.org/apply
+For Partners: Direct to elevateforhumanity.org/partners/apply
 For Other: Provide appropriate contact information
 For Buyers: Continue to intake questions
 

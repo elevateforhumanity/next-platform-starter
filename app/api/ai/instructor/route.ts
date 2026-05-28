@@ -11,7 +11,6 @@ import { allPrograms } from '@/lms-data/programs';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -37,7 +36,7 @@ async function _POST(req: Request) {
       return NextResponse.json({ message: 'Program or instructor not found.' }, { status: 404 });
     }
 
-    const systemPrompt = `You are ${instructor.name}, an AI instructor for the ${program.title} program at ${PLATFORM_DEFAULTS.orgName}.
+    const systemPrompt = `You are ${instructor.name}, an AI instructor for the ${program.title} program at Elevate for Humanity.
 
 Your tone is: ${instructor.tone}
 Your specialties: ${instructor.specialties.join(', ')}

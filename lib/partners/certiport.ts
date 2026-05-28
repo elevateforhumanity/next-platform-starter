@@ -1,4 +1,3 @@
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // lib/partners/certiport.ts
 // Certiport (Pearson VUE) — Portal/Link-Based Integration
 //
@@ -219,7 +218,7 @@ This course should prepare learners for the ${exam.name} certification exam.
 - Exam category: ${exam.category}
 - Passing score: ${exam.passingScore} / 1000
 - Administered by: Certiport (Pearson VUE) at authorized testing centers
-- ${PLATFORM_DEFAULTS.orgName} is a registered CATC — students can test on-site
+- Elevate for Humanity is a registered CATC — students can test on-site
 
 Ensure all lesson content, quiz questions, and learning objectives align with
 the official ${exam.name} exam objectives. Use practical, hands-on examples

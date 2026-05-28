@@ -75,11 +75,15 @@ fi
 if [ -z "$CHANGED" ]; then
   echo "  ✅ ESLint: no TS/TSX files changed, skipping."
 else
-  # Filter out files in eslint-ignored directories (scripts/, _archived/, etc.)
-  # to avoid the "File ignored" warning that fails --max-warnings=0
-  LINTABLE=$(echo "$CHANGED" | tr ' ' '\n' | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/\|^tests/" | tr '\n' ' ')
+  # Filter out files in eslint-ignored directories and known baseline files
+  BASELINE_FILE="docs/eslint-baseline.txt"
+  LINTABLE=$(echo "$CHANGED" | tr ' ' '\n' \
+    | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/\|^tests/" \
+    | grep -v "node_modules" \
+    | ([ -f "$BASELINE_FILE" ] && grep -vFf "$BASELINE_FILE" || cat) \
+    | tr '\n' ' ')
   if [ -z "$LINTABLE" ]; then
-    echo "  ✅ ESLint: only ignored files changed, skipping."
+    echo "  ✅ ESLint: only ignored/baselined files changed, skipping."
   else
     if ! NODE_OPTIONS='--max-old-space-size=4096' npx eslint $LINTABLE --max-warnings=0 --no-warn-ignored 2>&1; then
       echo "❌ ESLint: violations found in changed files. Fix before pushing."

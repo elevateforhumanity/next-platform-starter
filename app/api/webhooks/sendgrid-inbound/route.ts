@@ -5,7 +5,6 @@ import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { claimWebhookEvent, finalizeWebhookEvent } from '@/lib/webhooks/event-tracker';
 import { parseInboundEmail, resolveForwardTarget } from '@/lib/email/sendgrid-inbound';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
@@ -63,7 +62,7 @@ async function _POST(request: NextRequest) {
 
     const result = await sendEmail({
       to: forwardTo,
-      from: `Elevate Forwarding <${PLATFORM_DEFAULTS.emailFromAddress}>`,
+      from: 'Elevate Forwarding <noreply@elevateforhumanity.org>',
       replyTo: replyTo || from,
       subject: `Fwd: ${subject}`,
       html: html || `<p><strong>From:</strong> ${from}</p><p>${text || '(no body)'}</p>`,

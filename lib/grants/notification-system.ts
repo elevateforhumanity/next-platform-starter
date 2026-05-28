@@ -7,7 +7,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { EmailService } from '@/lib/notifications/email';
 import { SMSService } from '@/lib/notifications/sms';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 async function getDb() {
   return requireAdminClient();
@@ -143,7 +142,7 @@ async function sendEmailNotification(
       </a>
 
       <div class="footer">
-        <p>${PLATFORM_DEFAULTS.orgName} Grant Autopilot System</p>
+        <p>Elevate for Humanity Grant Autopilot System</p>
         <p>You're receiving this because you're a grant administrator.</p>
         <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/settings/notifications">Manage Notification Preferences</a></p>
       </div>

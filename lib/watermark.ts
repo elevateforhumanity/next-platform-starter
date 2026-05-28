@@ -1,5 +1,4 @@
 import { notifySendgrid } from './notify';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export interface WatermarkData {
   userId: string;
   userEmail: string;
@@ -62,7 +61,7 @@ Content: ${data.contentType} - ${data.contentId}
 Time: ${data.timestamp.toISOString()}
 IP Address: ${data.ipAddress}
 User Agent: ${data.userAgent}
-This is an automated notification from your ${PLATFORM_DEFAULTS.orgName} LMS platform.
+This is an automated notification from your Elevate for Humanity LMS platform.
   `.trim();
   try {
     await notifySendgrid(subject, message);
@@ -101,7 +100,7 @@ Deployed To: ${deployedTo}
 Timestamp: ${timestamp.toISOString()}
 This build has been watermarked and is being tracked.
 Any unauthorized use will be detected and reported.
-Platform: ${PLATFORM_DEFAULTS.orgName} LMS
+Platform: Elevate for Humanity LMS
 Value: $2.5M - $8M
   `.trim();
   try {

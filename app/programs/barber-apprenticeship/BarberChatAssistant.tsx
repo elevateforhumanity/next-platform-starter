@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Minimize2, Maximize2, Scissors } from 'lucide-react';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -86,7 +85,7 @@ Already have a shop in mind? They can apply to become a partner training site.`,
 
 Payment is collected after your enrollment is approved.
 
-Questions? Contact us: ${PLATFORM_DEFAULTS.supportPhone}`,
+Questions? Contact us: (317) 314-3757`,
 
   'schedule|hours per week|part time|full time': `You choose your schedule with your host shop:
 
@@ -165,7 +164,7 @@ export default function BarberChatAssistant() {
       if (data.error) {
         setMessages(prev => [...prev, {
           role: 'assistant',
-          content: "I'm not sure about that. For specific questions, please contact us at ${PLATFORM_DEFAULTS.supportPhone} or email our contact form.",
+          content: "I'm not sure about that. For specific questions, please contact us at (317) 314-3757 or email our contact form.",
         }]);
       } else {
         setMessages(prev => [...prev, {
@@ -176,7 +175,7 @@ export default function BarberChatAssistant() {
     } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having trouble connecting. Please try again or contact us at ${PLATFORM_DEFAULTS.supportPhone}.",
+        content: "I'm having trouble connecting. Please try again or contact us at (317) 314-3757.",
       }]);
     } finally {
       setIsLoading(false);

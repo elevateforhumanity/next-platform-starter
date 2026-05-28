@@ -18,7 +18,6 @@ import { sendSMS } from '@/lib/notifications/sms';
 import { logger } from '@/lib/logger';
 import { TESTING_CENTER } from '@/lib/testing/testing-config';
 import { withRuntime } from '@/lib/api/withRuntime';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -103,7 +102,7 @@ export const POST = withRuntime({ cron: true }, async () => {
 <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
   <div style="background: #1e3a5f; padding: 24px; border-radius: 8px 8px 0 0;">
     <h1 style="color: white; margin: 0; font-size: 20px;">Testing Appointment Reminder</h1>
-    <p style="color: #93c5fd; margin: 8px 0 0;">${PLATFORM_DEFAULTS.orgName} Testing Center</p>
+    <p style="color: #93c5fd; margin: 8px 0 0;">Elevate for Humanity Testing Center</p>
   </div>
   <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px;">
     <p>Hi ${invitee_name},</p>

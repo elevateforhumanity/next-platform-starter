@@ -30,7 +30,6 @@ import { hydrateProcessEnv } from '@/lib/secrets';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -216,7 +215,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ ok: false, message: 'Nothing to commit — working tree clean' });
       }
 
-      git(`commit -m ${JSON.stringify(msg)} --author="Admin Studio <admin@${PLATFORM_DEFAULTS.canonicalDomain}>"`);
+      git(`commit -m ${JSON.stringify(msg)} --author="Admin Studio <admin@elevateforhumanity.org>"`);
       const hash = git('rev-parse --short HEAD');
       return NextResponse.json({ ok: true, hash, message: msg });
     }

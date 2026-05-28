@@ -8,7 +8,6 @@ import { ProgramTutorCTA } from '@/components/ProgramTutorCTA';
 import { PROGRAMS } from '@/lib/ai/programRegistry';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import { Check, Clock, Award, DollarSign, MapPin, ArrowRight } from 'lucide-react';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface VisualProgramTemplateProps {
   program: Program;
@@ -98,7 +97,7 @@ const DEFAULT_MEDIA = {
   audio: '/audio/heroes/programs.mp3',
   poster: '/images/pages/programs-hero.webp',
   microLabel: 'Career Training',
-  script: `${PLATFORM_DEFAULTS.orgName} offers short-term career training programs in healthcare, skilled trades, technology, and business. Most programs run 4 to 16 weeks. Funding is available for eligible Indiana residents. Every program ends with a nationally recognized credential and direct employer introductions. Apply today.`,
+  script: `Elevate for Humanity offers short-term career training programs in healthcare, skilled trades, technology, and business. Most programs run 4 to 16 weeks. Funding is available for eligible Indiana residents. Every program ends with a nationally recognized credential and direct employer introductions. Apply today.`,
 };
 
 export function VisualProgramTemplate({ program, slug }: VisualProgramTemplateProps) {
