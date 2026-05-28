@@ -17,9 +17,10 @@ async function _POST(request: NextRequest) {
 
     if (!stripe) return safeError('Payment processing is not configured', 503);
 
-    const { items } = (await request.json()) as { items?: { id: string; quantity: number }[] };
+    const body = await request.json().catch(() => ({})) as { items?: { id: string; quantity: number }[] };
+    const items = Array.isArray(body?.items) ? body.items : [];
 
-    if (!Array.isArray(items) || items.length === 0) {
+    if (items.length === 0) {
       return safeError('Invalid items', 400);
     }
 
