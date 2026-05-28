@@ -35,6 +35,7 @@ phases:
       - export NEXTAUTH_SECRET=$(aws ssm get-parameter --name /elevate/NEXTAUTH_SECRET --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export CRON_SECRET=$(aws ssm get-parameter --name /elevate/CRON_SECRET --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export GITHUB_TOKEN=$(aws ssm get-parameter --name /elevate/GITHUB_TOKEN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
+      - export DEVSTUDIO_DEVCONTAINER_MODE=$(aws ssm get-parameter --name /elevate/DEVSTUDIO_DEVCONTAINER_MODE --query Parameter.Value --output text 2>/dev/null || echo "auto")
       - export TWILIO_AUTH_TOKEN=$(aws ssm get-parameter --name /elevate/TWILIO_AUTH_TOKEN --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export AFFIRM_PUBLIC_KEY=$(aws ssm get-parameter --name /elevate/AFFIRM_PUBLIC_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")
       - export AFFIRM_PRIVATE_KEY=$(aws ssm get-parameter --name /elevate/AFFIRM_PRIVATE_KEY --with-decryption --query Parameter.Value --output text 2>/dev/null || echo "")

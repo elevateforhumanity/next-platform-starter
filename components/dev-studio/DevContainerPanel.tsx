@@ -187,12 +187,18 @@ export default function DevContainerPanel() {
       setWritable(data.writable !== false);
       setSource(data.source ?? 'unknown');
       if (data.writable === false) {
+        const mode = data.mode ? `Mode: ${data.mode}. ` : '';
         setStatus({
           type: 'error',
           message:
             data.source === 'github-readonly'
-              ? 'Read-only source (GitHub public fallback). Run in a writable workspace checkout or set GITHUB_TOKEN to commit via GitHub API.'
-              : 'Read-only mode: current devcontainer source is not writable from this environment.',
+              ? `${mode}Read-only source (GitHub public fallback). Set GITHUB_TOKEN to unify writes through GitHub API.`
+              : `${mode}Read-only mode: current devcontainer source is not writable from this environment.`,
+        });
+      } else if (data.mode === 'github-only' && data.source === 'github') {
+        setStatus({
+          type: 'success',
+          message: 'Unified mode active: all DevContainer edits are committed through GitHub API.',
         });
       }
     } catch (e) {
