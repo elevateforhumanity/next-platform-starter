@@ -144,7 +144,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { mfaRequired, sessionTimeoutMs } = await getSecuritySettings();
   if (mfaRequired) {
     const reqHeaders = await headers();
-    const currentPath = reqHeaders.get('x-invoke-path') ?? reqHeaders.get('x-pathname') ?? '';
+    // x-pathname is set by apps/admin/middleware.ts on every protected request.
+    const currentPath = reqHeaders.get('x-pathname') ?? '';
     const isMfaExempt =
       currentPath.startsWith('/admin/settings/security') ||
       currentPath.startsWith('/admin/settings/general');

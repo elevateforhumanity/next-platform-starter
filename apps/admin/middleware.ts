@@ -54,6 +54,12 @@ export async function middleware(req: NextRequest) {
   const ipBlocked = await checkAdminIPAsync(req);
   if (ipBlocked) return ipBlocked;
 
+  // Forward pathname to server components via request header so the admin
+  // layout can read the current path without relying on unreliable Next.js
+  // internal headers (x-invoke-path is not guaranteed).
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-pathname', pathname);
+
   // Cookie presence check — no Supabase client, no DB round-trip on every request.
   // Role enforcement happens in the admin layout (requireAdmin) and API guards (apiRequireAdmin).
   //
@@ -72,7 +78,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
