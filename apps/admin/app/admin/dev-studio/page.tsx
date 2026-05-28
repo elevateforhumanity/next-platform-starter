@@ -1,4 +1,5 @@
 import { requireRole } from '@/lib/auth/require-role';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import DevStudioClient from './DevStudioClient';
@@ -7,14 +8,15 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Dev Studio | Admin | Elevate For Humanity',
+  title: `Dev Studio | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 export default async function DevStudioPage() {
-  await requireRole(['admin', 'super_admin']);
+  const auth = await requireRole(['admin', 'super_admin']);
+  const isSuperAdmin = auth.effectiveRoles.includes('super_admin');
   return (
     <Suspense fallback={null}>
-      <DevStudioClient />
+      <DevStudioClient isSuperAdmin={isSuperAdmin} />
     </Suspense>
   );
 }

@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Key, Eye, EyeOff, Save, Trash2, RefreshCw,
   CheckCircle, XCircle, AlertCircle, Plus, ChevronDown, ChevronRight,
+  Lock,
 } from 'lucide-react';
 
 interface PlatformSecret {
@@ -322,11 +323,15 @@ export default function SecretsPanel() {
       </div>
 
       {/* Warning banner */}
-      <div className="px-4 py-2 bg-amber-900/30 border-b border-amber-700/40 shrink-0">
-        <p className="text-xs text-amber-300">
-          <strong>Super Admin only.</strong> Values are stored encrypted. They override missing env vars at runtime.
-          Never share this panel with untrusted users.
-        </p>
+      <div className="px-4 py-2.5 bg-red-950/60 border-b border-red-700/50 shrink-0">
+        <div className="flex items-start gap-2">
+          <Lock className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
+          <p className="text-xs text-red-300 leading-relaxed">
+            <strong className="text-red-200">Super Admin only.</strong>{' '}
+            Values are stored encrypted and override missing env vars at runtime.{' '}
+            <strong className="text-red-200">Never share this panel with untrusted users.</strong>
+          </p>
+        </div>
       </div>
 
       {/* Add new key form */}

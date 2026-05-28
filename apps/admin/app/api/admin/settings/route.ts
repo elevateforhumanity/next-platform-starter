@@ -59,12 +59,36 @@ async function _POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const allowed = ['site_name', 'support_email', 'email_notifications', 'system_alerts'];
-  const updates = Object.entries(body)
-    .filter(([k]) => allowed.includes(k))
+
+  // Accept both payload shapes:
+  //   { settings: Record<string, string> }  — canonical (used by SettingsFormClient)
+  //   { entries: {key,value}[] }            — legacy (used by GeneralSettingsClient)
+  //   flat object                           — legacy fallback
+  let rawPairs: [string, string][] = [];
+  if (body.settings && typeof body.settings === 'object') {
+    rawPairs = Object.entries(body.settings).map(([k, v]) => [k, String(v)]);
+  } else if (Array.isArray(body.entries)) {
+    rawPairs = body.entries
+      .filter((e: any) => e?.key)
+      .map((e: any) => [String(e.key), String(e.value ?? '')]);
+  } else {
+    rawPairs = Object.entries(body).map(([k, v]) => [k, String(v)]);
+  }
+
+  const allowed = [
+    'site_name', 'support_email', 'contact_phone', 'timezone',
+    'email_notifications', 'system_alerts',
+    'sms_notifications', 'slack_webhook',
+    'stripe_mode', 'currency', 'payment_methods',
+    'email_from_name', 'email_from_address', 'email_provider',
+    'mfa_required', 'session_timeout', 'ip_allowlist',
+  ];
+
+  const updates = rawPairs
+    .filter(([k]) => allowed.includes(k.trim()))
     .map(([key, value]) => ({
-      key,
-      value: String(value),
+      key: key.trim(),
+      value,
       updated_at: new Date().toISOString(),
       updated_by: user.id,
     }));

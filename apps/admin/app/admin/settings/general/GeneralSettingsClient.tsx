@@ -18,11 +18,10 @@ export function GeneralSettingsClient({ initialSettings }: Props) {
     setSaving(true);
     setError(null);
     try {
-      const entries = Object.entries(form).map(([key, value]) => ({ key, value }));
       const res = await fetch('/api/admin/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ entries }),
+        body: JSON.stringify({ settings: form }),
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));

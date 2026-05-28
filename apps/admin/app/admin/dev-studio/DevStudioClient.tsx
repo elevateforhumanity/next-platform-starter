@@ -8,7 +8,7 @@ import {
   Send, Loader2, RefreshCw, ExternalLink, Save, Bot,
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key, ShieldCheck,
-  Server, GitBranch,
+  Server, GitBranch, Lock,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -178,12 +178,13 @@ function IframePreview({
   );
 }
 
-export default function DevStudioClient() {
+export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
   const valid: Tab[] = ['command','terminal','files','container','chat','ellie','documents','secrets','git','services'];
-  const init: Tab = raw && valid.includes(raw) ? raw : (initialCommand ? 'command' : 'command');
+  // Non-super_admin users cannot land on the secrets tab — redirect to command
+  const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
@@ -329,7 +330,7 @@ export default function DevStudioClient() {
           { label: 'Files',     id: 'files'     },
           { label: 'Container', id: 'container' },
           { label: 'Docs',      id: 'documents' },
-          { label: 'Secrets',   id: 'secrets'   },
+          ...(isSuperAdmin ? [{ label: 'Secrets', id: 'secrets' as Tab }] : []),
         ] as { label: string; id: Tab }[]).map(({ label, id }) => (
           <span
             key={id}
@@ -433,7 +434,7 @@ export default function DevStudioClient() {
           className={`flex-shrink-0 flex ${isCompactLayout ? 'flex-row w-full px-1 py-1 gap-0.5 overflow-x-auto border-b' : 'flex-col items-center py-2 gap-0.5 w-12 border-r'}`}
           style={{ background: '#333333', borderColor: '#3c3c3c' }}
         >
-          {TABS.map(({ id, Icon, label }) => {
+          {TABS.filter(({ id }) => id !== 'secrets' || isSuperAdmin).map(({ id, Icon, label }) => {
             const active = tab === id;
             // Phone: 44×44 touch target (WCAG 2.5.5); tablet: 36×36; desktop: 40×40
             const btnSize = isPhone ? 'w-11 h-11 flex-shrink-0' : isCompactLayout ? 'w-9 h-9 flex-shrink-0' : 'w-10 h-10';
@@ -466,7 +467,19 @@ export default function DevStudioClient() {
           {tab === 'files'     && <FilesTab />}
           {tab === 'container' && <ContainerTab />}
           {tab === 'documents' && <DocumentsPanel />}
-          {tab === 'secrets'   && <SecretsPanel />}
+          {tab === 'secrets'   && (
+            isSuperAdmin
+              ? <SecretsPanel />
+              : (
+                <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-6">
+                  <Lock className="w-10 h-10" style={{ color: '#555' }} />
+                  <p className="text-sm font-medium" style={{ color: '#cccccc' }}>Super Admin only</p>
+                  <p className="text-xs" style={{ color: '#858585' }}>
+                    Platform secrets are restricted to super_admin accounts.
+                  </p>
+                </div>
+              )
+          )}
         </div>
 
         {/* Drag-to-resize handle — desktop only, preview is always visible there */}
