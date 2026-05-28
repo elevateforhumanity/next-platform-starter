@@ -611,7 +611,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                   ]);
 
                   try {
-                    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                    const res = await fetch('/api/devstudio/upload', { method: 'POST', body: formData });
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.error ?? 'Upload failed');
 
@@ -620,13 +620,14 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                       const updated = [...prev];
                       updated[updated.length - 1] = {
                         role: 'user',
-                        content: `[Uploaded: ${file.name}]${data.document_id ? `\n\nPlease analyze this document (ID: ${data.document_id}) and summarize what you find.` : ''}`,
+                        content: `[Uploaded: ${file.name}]${(data.document_id ?? data.id) ? `\n\nPlease analyze this document (ID: ${data.document_id ?? data.id}) and summarize what you find.` : ''}`,
                       };
                       return updated;
                     });
 
-                    // If we got a document_id, auto-send the analyze request
-                    if (data.document_id) {
+                    // If we got a document_id (admin/upload) or id (devstudio/upload), auto-send the analyze request
+                    const docId = data.document_id ?? data.id;
+                    if (docId) {
                       setIsLoading(true);
                       try {
                         const chatRes = await fetch('/api/devstudio/chat', {
@@ -635,7 +636,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                           body: JSON.stringify({
                             messages: [
                               ...messages.map((m) => ({ role: m.role, content: m.content })),
-                              { role: 'user', content: `Analyze document ID: ${data.document_id} (file: ${file.name})` },
+                              { role: 'user', content: `Analyze document ID: ${docId} (file: ${file.name})` },
                             ],
                             provider: selectedProvider,
                             model: selectedModel,

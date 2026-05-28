@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
+type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 
 interface DevStudioConfigResponse {
   quickCommands: string[];
@@ -46,7 +46,7 @@ function isStringArray(v: unknown): v is string[] {
 function isWorkflowButtons(
   v: unknown,
 ): v is { key: WorkflowKey; label: string; description: string }[] {
-  const validKeys: WorkflowKey[] = ['deploy-lms', 'deploy-admin', 'ci', 'lint'];
+  const validKeys: WorkflowKey[] = ['deploy-lms', 'deploy-admin', 'deploy-studio', 'ci', 'lint'];
   return (
     Array.isArray(v) &&
     v.every(
@@ -104,10 +104,11 @@ export async function GET(req: NextRequest) {
       'Build full premium course (blueprint + seed + assessments + queued videos)',
     ],
     workflowButtons: [
-      { key: 'deploy-lms', label: 'Deploy LMS', description: 'Build + push LMS to ECS' },
-      { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build + push Admin to ECS' },
-      { key: 'ci', label: 'Run CI', description: 'Full CI pipeline' },
-      { key: 'lint', label: 'Lint', description: 'Run pnpm lint' },
+      { key: 'deploy-lms',    label: 'Deploy LMS',    description: 'Build + push LMS to ECS' },
+      { key: 'deploy-admin',  label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
+      { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build + push Studio shell to ECS' },
+      { key: 'ci',            label: 'Run CI',        description: 'Full CI pipeline' },
+      { key: 'lint',          label: 'Lint',          description: 'Run pnpm lint' },
     ],
     // Default preview target is the public LMS homepage — no auth required,
     // no X-Frame-Options block, renders immediately without login redirect.

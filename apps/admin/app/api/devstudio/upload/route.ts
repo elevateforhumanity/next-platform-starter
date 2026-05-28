@@ -116,8 +116,8 @@ export async function POST(request: NextRequest) {
         .createSignedUrl(storagePath, 7 * 24 * 3600);
 
       signedUrl = signed?.signedUrl ?? urlData?.publicUrl ?? '';
-      // Update key to match actual storage path
-      key.replace(key, storagePath);
+      // Reassign key to match actual Supabase storage path
+      key = storagePath;
     }
 
     // Record in DB
