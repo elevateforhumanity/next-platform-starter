@@ -50,6 +50,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { claimWebhookEvent, finalizeWebhookEvent } from '@/lib/webhooks/event-tracker';
 import { flagCertificatesOnRefund } from '@/lib/certificates/flag-on-refund';
 import * as Sentry from '@sentry/nextjs';
+import { sendEmail } from '@/lib/email/service';
 import {
   ProgramEnrollmentMeta,
   LmsSubscriptionMeta,
@@ -582,7 +583,32 @@ async function _POST(request: NextRequest) {
               );
             }
           } else {
-            logger.info('Payment failed:', { id: failedPayment.id });
+            // Non-enrollment payment failure — write admin alert and notify
+            const customerEmail = (failedPayment as any).receipt_email ?? null;
+            const errorMsg = failedPayment.last_payment_error?.message ?? 'Payment failed';
+            const amount = failedPayment.amount ? `$${(failedPayment.amount / 100).toFixed(2)}` : 'unknown amount';
+
+            supabase?.from('admin_alerts').insert({
+              alert_type: 'payment_failed',
+              severity: 'high',
+              message: `Payment failed: ${amount} — ${errorMsg}`,
+              metadata: { stripe_event_id: event.id, payment_intent_id: failedPayment.id, customer_email: customerEmail },
+              details: { error: errorMsg, amount: failedPayment.amount, currency: failedPayment.currency },
+            }).then(undefined, (err) => logger.error('[Stripe] Failed to insert payment_failed admin alert', { error: String(err) }));
+
+            sendEmail({
+              to: 'elevate4humanityedu@gmail.com',
+              subject: `Payment Failed: ${amount}`,
+              html: `<p>A payment of ${amount} failed.</p><p>Error: ${errorMsg}</p><p>Stripe PaymentIntent: ${failedPayment.id}</p>`,
+            }).catch((err) => logger.error('[Stripe] Failed to send payment_failed admin email', { error: String(err) }));
+
+            if (customerEmail) {
+              sendEmail({
+                to: customerEmail,
+                subject: 'Your payment could not be processed',
+                html: `<p>We were unable to process your payment of ${amount}.</p><p>Reason: ${errorMsg}</p><p>Please update your payment method or contact support.</p>`,
+              }).catch((err) => logger.error('[Stripe] Failed to send payment_failed customer email', { customerEmail, error: String(err) }));
+            }
           }
           break;
         }
@@ -747,6 +773,33 @@ async function _POST(request: NextRequest) {
               await enforceSubscriptionStatus((invoice as any).subscription);
             } catch (err) {
               logger.error('Error enforcing subscription status:', err);
+            }
+          }
+
+          // Admin alert for all invoice payment failures
+          {
+            const customerEmail = (invoice as any).customer_email ?? null;
+            const amount = invoice.amount_due ? `$${(invoice.amount_due / 100).toFixed(2)}` : 'unknown amount';
+            supabase?.from('admin_alerts').insert({
+              alert_type: 'invoice_payment_failed',
+              severity: 'high',
+              message: `Invoice payment failed: ${amount}`,
+              metadata: { stripe_event_id: event.id, invoice_id: invoice.id, subscription_id: (invoice as any).subscription ?? null, customer_email: customerEmail },
+              details: { amount: invoice.amount_due, currency: invoice.currency },
+            }).then(undefined, (err) => logger.error('[Stripe] Failed to insert invoice_payment_failed admin alert', { error: String(err) }));
+
+            sendEmail({
+              to: 'elevate4humanityedu@gmail.com',
+              subject: `Invoice Payment Failed: ${amount}`,
+              html: `<p>Invoice payment of ${amount} failed.</p><p>Invoice ID: ${invoice.id}</p><p>Customer: ${customerEmail ?? 'unknown'}</p>`,
+            }).catch((err) => logger.error('[Stripe] Failed to send invoice_payment_failed admin email', { error: String(err) }));
+
+            if (customerEmail) {
+              sendEmail({
+                to: customerEmail,
+                subject: 'Your invoice payment failed',
+                html: `<p>We were unable to collect your payment of ${amount}.</p><p>Please update your payment method or contact support.</p>`,
+              }).catch((err) => logger.error('[Stripe] Failed to send invoice_payment_failed customer email', { customerEmail, error: String(err) }));
             }
           }
 

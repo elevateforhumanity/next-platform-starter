@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
 
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
@@ -23,7 +24,7 @@ function getSessionCookieName(): string {
 }
 const SESSION_COOKIE = getSessionCookieName();
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const host = req.headers.get('host')?.toLowerCase().split(':')[0] ?? '';
 
@@ -47,6 +48,11 @@ export function middleware(req: NextRequest) {
     pathname.startsWith('/api/admin');
 
   if (!isProtected) return NextResponse.next();
+
+  // IP allowlist — reads from env var (ADMIN_IP_ALLOWLIST) with DB fallback
+  // (platform_settings.ip_allowlist). No-op when neither is set.
+  const ipBlocked = await checkAdminIPAsync(req);
+  if (ipBlocked) return ipBlocked;
 
   // Cookie presence check — no Supabase client, no DB round-trip on every request.
   // Role enforcement happens in the admin layout (requireAdmin) and API guards (apiRequireAdmin).

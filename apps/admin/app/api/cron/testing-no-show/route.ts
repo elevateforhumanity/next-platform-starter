@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 
   const { data: missed, error } = await db
     .from('exam_bookings')
-    .select('id, email, first_name, last_name, exam_name, preferred_date, preferred_time, user_id')
+    .select('id, email, first_name, last_name, exam_name, preferred_date, preferred_time, user_id, slot_id')
     .eq('status', 'confirmed')
     .is('exam_result', null)
     .lte('preferred_date', yesterdayStr);
@@ -86,6 +86,19 @@ export async function GET(req: NextRequest) {
         updated_at: new Date().toISOString(),
       })
       .eq('id', booking.id);
+
+    // Release the slot seat so it can be re-booked
+    if (booking.slot_id) {
+      await db
+        .rpc('decrement_slot_booked_count', { slot_id: booking.slot_id })
+        .then(undefined, (err) =>
+          logger.warn('[cron/no-show] Failed to decrement slot booked_count', {
+            bookingId: booking.id,
+            slotId: booking.slot_id,
+            err: String(err),
+          }),
+        );
+    }
 
     // Create enforcement hold
     await db.from('testing_enforcement').insert({

@@ -18,7 +18,7 @@ const FEATURES = [
   {
     icon: Globe,
     title: 'Custom Domain',
-    description: 'Use your own domain (training.yourorg.com) or get a subdomain (yourorg.elevatelms.com).',
+    description: 'Use your own domain (training.yourorg.com) or get a hosted portal (app.elevateforhumanity.org/admin?org=yourorg).',
   },
   {
     icon: Shield,
@@ -127,7 +127,7 @@ export default function WhiteLabelPage() {
           {/* Subdomain Checker */}
           <div className="max-w-md mx-auto bg-white/10 backdrop-blur rounded-xl p-6">
             <label className="block text-left text-sm font-medium mb-2">
-              Check your subdomain availability
+              Check your organization ID availability
             </label>
             <div className="flex gap-2">
               <div className="flex-1 flex items-center bg-white/10 rounded-lg overflow-hidden">
@@ -141,7 +141,7 @@ export default function WhiteLabelPage() {
                   placeholder="yourorg"
                   className="flex-1 bg-transparent px-4 py-3 text-white placeholder-slate-400 outline-none"
                 />
-                <span className="text-slate-400 pr-4">.elevatelms.com</span>
+                <span className="text-slate-400 pr-4 text-xs">app.elevateforhumanity.org/admin?org=</span>
               </div>
               <button
                 onClick={checkSubdomain}

@@ -20,12 +20,13 @@ import { getGroqClient } from '@/lib/ai/groq-client';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { refreshSecrets } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
-const SYSTEM_PROMPT = `You are an expert instructional designer for Elevate for Humanity, a workforce development LMS.
+const SYSTEM_PROMPT = `You are an expert instructional designer for ${PLATFORM_DEFAULTS.orgName}, a workforce development LMS.
 Your job is to help admins build professional courses through conversation.
 
 WORKFLOW:

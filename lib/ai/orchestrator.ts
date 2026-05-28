@@ -40,6 +40,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   getCertiportContextForProgram,
   getCertiportExamsForProgram,
 } from '@/lib/partners/certiport';
+import { requireAdminClient } from '@/lib/supabase/admin';
 export type { Plan, PlanStep } from '@/lib/platform/planner';
 
 // ─── Task types ───────────────────────────────────────────────────────────────
@@ -196,6 +197,44 @@ function moderateInput(text: string): { blocked: boolean; reason?: string } {
     }
   }
   return { blocked: false };
+}
+
+// ─── Operational memory ───────────────────────────────────────────────────────
+// Results for diagnostics, deployment_analysis, and knowledge_graph_query are
+// persisted to ai_operational_memory so they can be recalled without re-running
+// expensive LLM calls. TTL is 90 days (set in the migration).
+
+const OPERATIONAL_TASKS: AITask[] = [
+  'diagnostics',
+  'deployment_analysis',
+  'knowledge_graph_query',
+];
+
+async function persistOperationalResult(
+  task: AITask,
+  contextKey: string,
+  prompt: string,
+  result: AITaskResult,
+  userId?: string,
+): Promise<void> {
+  try {
+    const db = await requireAdminClient();
+    const { error } = await db.from('ai_operational_memory').insert({
+      task_type: task,
+      context_key: contextKey,
+      prompt,
+      result: result.content,
+      provider: result.provider,
+      tokens_used: result.tokensUsed ?? null,
+      created_by: userId ?? null,
+    });
+    if (error) {
+      logger.warn('[ai-orchestrator] Failed to persist operational memory', { task, error: error.message });
+    }
+  } catch (err) {
+    // Non-fatal — persistence failure must never break the caller
+    logger.warn('[ai-orchestrator] Operational memory persist threw', { task, err });
+  }
 }
 
 // ─── Main orchestrator ────────────────────────────────────────────────────────
@@ -357,12 +396,20 @@ export async function runAITask(input: AITaskInput): Promise<AITaskResult> {
       tokens: result.usage?.totalTokens,
     });
 
-    return {
+    const taskResult: AITaskResult = {
       content: result.content ?? '',
       provider: result.provider ?? 'unknown',
       task,
       tokensUsed: result.usage?.totalTokens,
     };
+
+    // Persist results for operational tasks (fire-and-forget, non-blocking)
+    if (OPERATIONAL_TASKS.includes(task)) {
+      const contextKey = context.sessionId ?? context.userId ?? task;
+      void persistOperationalResult(task, contextKey, prompt, taskResult, context.userId);
+    }
+
+    return taskResult;
   } catch (err) {
     logger.error('[ai-orchestrator] Task failed', undefined, { task, err });
     throw err;

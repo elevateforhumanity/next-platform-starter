@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -8,9 +9,11 @@ import { AdminLicenseWrapper } from '@/components/licensing/AdminLicenseWrapper'
 import { getLicenseAccessMode } from '@/lib/licensing/billing-authority';
 import { reconcileTrialOnboarding } from '@/lib/trial/reconcile-onboarding';
 import { withTimeout } from '@/lib/utils/withTimeout';
-import AdminNav from '@/components/admin/AdminNav';
+import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
+import { unstable_cache } from 'next/cache';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
+import { getSecuritySettings } from '@/lib/admin/security-settings';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
@@ -18,6 +21,8 @@ import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
+// force-dynamic is required — layout reads auth cookies on every request.
+// revalidate has no effect when force-dynamic is set and was removed.
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 export const runtime = 'nodejs';
@@ -42,6 +47,32 @@ export const metadata: Metadata = {
     type: 'website',
   },
 };
+
+// Nav config changes rarely — cache for 60s, tag for on-demand revalidation.
+// unstable_cache keys on the function arguments; no per-user variation needed
+// since nav sections are global platform settings.
+const getCachedNavSections = unstable_cache(
+  async (supabaseUrl: string): Promise<NavSection[]> => {
+    const { createClient: createAdminClient } = await import('@/lib/supabase/admin');
+    const db = createAdminClient();
+    const { data } = await db
+      .from('platform_settings')
+      .select('value')
+      .eq('key', 'ADMIN_NAV_SECTIONS_JSON')
+      .maybeSingle();
+    if (data?.value) {
+      try {
+        const parsed = JSON.parse(data.value);
+        if (isNavSections(parsed)) return parsed;
+      } catch {
+        /* fall through */
+      }
+    }
+    return DEFAULT_NAV;
+  },
+  ['admin-nav-sections'],
+  { revalidate: 60, tags: ['admin-nav-sections'] },
+);
 
 async function getLicenseContext(userId: string, db: Awaited<ReturnType<typeof getAdminClient>>) {
   if (!db) return null;
@@ -87,136 +118,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const db = await getAdminClient();
   const effectiveDb = db ?? (supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>);
 
-  // Role check runs in parallel with license context, header data, and nav config.
-  // Previously it was a sequential round-trip before the Promise.all — one extra
-  // DB call on every admin page load.
-  const [roleCheckRes, context, headerData, navSections] = await Promise.all([
+  // Role check runs in parallel with license context and nav config.
+  // Header data (notification counts, user name) is no longer fetched here —
+  // AdminNavShell fetches it client-side via /api/admin/header-data so it
+  // never blocks the server render.
+  const [roleCheckRes, context, navSections] = await Promise.all([
     effectiveDb.from('profiles').select('role').eq('id', user.id).maybeSingle(),
     withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(
       () => null,
     ),
-    withTimeout(
-      (async () => {
-        try {
-          const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] =
-            await Promise.all([
-              effectiveDb
-                .from('profiles')
-                .select('full_name, first_name')
-                .eq('id', user.id)
-                .maybeSingle(),
-              effectiveDb
-                .from('applications')
-                .select('id', { count: 'exact', head: true })
-                .in('status', ['submitted', 'in_review']),
-              effectiveDb
-                .from('documents')
-                .select('id', { count: 'exact', head: true })
-                .eq('status', 'pending'),
-              effectiveDb
-                .from('compliance_alerts')
-                .select('id', { count: 'exact', head: true })
-                .not('status', 'eq', 'resolved'),
-              effectiveDb
-                .from('wioa_documents')
-                .select('id', { count: 'exact', head: true })
-                .eq('status', 'pending'),
-              effectiveDb
-                .from('leads')
-                .select('id', { count: 'exact', head: true })
-                .lt('updated_at', new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString())
-                .not('status', 'in', '("closed_won","closed_lost","Closed Won","Closed Lost")'),
-            ]);
-          // Header notification counts are non-critical — log failures but don't throw
-          if (appsRes.error)
-            logger.warn('[AdminLayout] applications count failed', {
-              message: appsRes.error.message,
-            });
-          if (docsRes.error)
-            logger.warn('[AdminLayout] documents count failed', { message: docsRes.error.message });
-
-          const name =
-            profileRes.data?.first_name || profileRes.data?.full_name?.split(' ')[0] || 'Admin';
-          const notifs: import('@/components/admin/AdminNav').AdminNavNotif[] = [];
-
-          if ((appsRes.count ?? 0) > 0) {
-            notifs.push({
-              id: 'apps',
-              unread: true,
-              href: '/admin/applications?status=submitted',
-              title: `${appsRes.count} application${appsRes.count !== 1 ? 's' : ''} pending review`,
-              time: 'Pending action',
-            });
-          }
-          if ((docsRes.count ?? 0) > 0) {
-            notifs.push({
-              id: 'docs',
-              unread: true,
-              href: '/admin/documents/review',
-              title: `${docsRes.count} document${docsRes.count !== 1 ? 's' : ''} need review`,
-              time: 'Compliance required',
-            });
-          }
-          if ((alertsRes.count ?? 0) > 0) {
-            notifs.push({
-              id: 'compliance',
-              unread: true,
-              href: '/admin/compliance',
-              title: `${alertsRes.count} unresolved compliance alert${alertsRes.count !== 1 ? 's' : ''}`,
-              time: 'Needs attention',
-            });
-          }
-          if ((wioaDocsRes.count ?? 0) > 0) {
-            notifs.push({
-              id: 'wioa',
-              unread: true,
-              href: '/admin/wioa/documents',
-              title: `${wioaDocsRes.count} WIOA document${wioaDocsRes.count !== 1 ? 's' : ''} awaiting review`,
-              time: 'WIOA queue',
-            });
-          }
-          if ((staleLeadsRes.count ?? 0) > 0) {
-            notifs.push({
-              id: 'leads',
-              unread: true,
-              href: '/admin/crm/leads',
-              title: `${staleLeadsRes.count} CRM lead${staleLeadsRes.count !== 1 ? 's' : ''} with no activity in 5+ days`,
-              time: 'Follow-up needed',
-            });
-          }
-
-          return { userName: name, notifs };
-        } catch {
-          return { userName: 'Admin', notifs: [] };
-        }
-      })(),
-      3000,
-      'adminHeaderData',
-    ).catch(() => ({
-      userName: 'Admin',
-      notifs: [] as import('@/components/admin/AdminNav').AdminNavNotif[],
-    })),
-    // Nav config — non-critical, 1s timeout, falls back to DEFAULT_NAV
-    withTimeout(
-      (async (): Promise<NavSection[]> => {
-        const { data } = await effectiveDb
-          .from('platform_settings')
-          .select('value')
-          .eq('key', 'ADMIN_NAV_SECTIONS_JSON')
-          .maybeSingle();
-        if (data?.value) {
-          try {
-            const parsed = JSON.parse(data.value);
-            if (isNavSections(parsed)) return parsed;
-          } catch {
-            /* fall through */
-          }
-        }
-        return DEFAULT_NAV;
-      })(),
-      1000,
-      'adminNavConfig',
-    ).catch(() => DEFAULT_NAV),
+    // Nav config — served from cache (60s TTL), falls back to DEFAULT_NAV on miss or error
+    getCachedNavSections(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').catch(() => DEFAULT_NAV),
   ]);
 
   // Role enforcement — runs on the result fetched in parallel above.
@@ -225,6 +137,30 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
   if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
+
+  // MFA enforcement — if mfa_required is enabled in platform_settings,
+  // redirect admins who haven't set up MFA to the security settings page.
+  // Exempt the security settings page itself to avoid a redirect loop.
+  const { mfaRequired, sessionTimeoutMs } = await getSecuritySettings();
+  if (mfaRequired) {
+    const reqHeaders = await headers();
+    const currentPath = reqHeaders.get('x-invoke-path') ?? reqHeaders.get('x-pathname') ?? '';
+    const isMfaExempt =
+      currentPath.startsWith('/admin/settings/security') ||
+      currentPath.startsWith('/admin/settings/general');
+
+    if (!isMfaExempt) {
+      const { data: mfaRow } = await effectiveDb
+        .from('two_factor_auth')
+        .select('enabled')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (mfaRow?.enabled !== true) {
+        redirect('/admin/settings/security?mfa_required=1');
+      }
+    }
+  }
 
   // Reconcile trial onboarding — fire and forget
   if (context?.tenantId) {
@@ -246,12 +182,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   const content = (
     <div className="min-h-screen bg-white text-slate-900">
-      <AdminNav
-        userName={headerData.userName}
-        notifs={headerData.notifs}
-        navSections={navSections}
-      />
-      <IdleTimeoutGuard />
+      <AdminNavShell navSections={navSections} />
+      <IdleTimeoutGuard timeoutMs={sessionTimeoutMs} />
       <PWAManager />
       <UpdatePrompt />
       <AdminInstallPrompt />

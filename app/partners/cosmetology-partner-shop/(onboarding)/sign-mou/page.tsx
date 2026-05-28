@@ -169,7 +169,7 @@ export default function CosmetologySignMOUPage() {
         if (data.supervisor_license_number) setSupervisorLicense(data.supervisor_license_number);
         if (data.compensation_model) setCompensationModel(data.compensation_model);
       })
-      .catch(() => {});
+      .catch((err) => console.warn('[sign-mou] prefill fetch failed', err));
   }, []);
 
   useEffect(() => {

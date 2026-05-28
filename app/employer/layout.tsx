@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
+import { EmployerNav } from './EmployerNav';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,47 +87,9 @@ export default async function EmployerLayout({ children }: { children: React.Rea
   const isActive = onboarding?.status === 'active';
   const isApprovedOnboarding = onboarding?.status === 'approved';
 
-  const navLinks = [
-    { href: '/employer/dashboard', label: 'Dashboard' },
-    { href: '/employer/candidates', label: 'Candidates' },
-    { href: '/employer/jobs', label: 'Jobs' },
-    { href: '/employer/post-job', label: 'Post a Job' },
-    { href: '/employer/apprenticeships', label: 'Apprenticeships' },
-    { href: '/employer/placements', label: 'Placements' },
-    { href: '/employer/hours', label: 'Hours' },
-    { href: '/employer/compliance', label: 'Compliance' },
-    { href: '/employer/analytics', label: 'Analytics' },
-    { href: '/employer/reports', label: 'Reports' },
-    { href: '/employer/settings', label: 'Settings' },
-  ];
-
   const shell = (content: React.ReactNode) => (
     <div className="min-h-screen bg-white">
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
-        <div className="max-w-screen-xl mx-auto px-4 flex items-center gap-6 h-14 overflow-x-auto">
-          <a
-            href="/employer/dashboard"
-            className="font-black text-brand-blue-700 whitespace-nowrap shrink-0"
-          >
-            Employer Portal
-          </a>
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-slate-700 hover:text-brand-blue-700 whitespace-nowrap transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="/api/auth/signout"
-            className="ml-auto text-sm text-slate-700 hover:text-slate-900 whitespace-nowrap shrink-0"
-          >
-            Sign out
-          </a>
-        </div>
-      </nav>
+      <EmployerNav />
       <main>{content}</main>
     </div>
   );

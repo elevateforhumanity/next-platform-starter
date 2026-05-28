@@ -131,7 +131,11 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
   const [clockIns, setClockIns] = useState<ClockInEntry[]>([]);
   const [alerts, setAlerts] = useState<PlatformAlert[]>([]);
   const [lessonActivity, setLessonActivity] = useState<LessonActivity[]>([]);
-  const [liveOpsSummary, setLiveOpsSummary] = useState<{ activeClockIns: number; unresolvedAlerts: number; lessonCompletions24h: number } | null>(null);
+  const [liveOpsSummary, setLiveOpsSummary] = useState<{ activeClockIns: number; unresolvedAlerts: number; lessonCompletions24h: number; adminAlertCount: number; lowHourCount: number; stripeFailureCount: number; rapidsMissingCount: number } | null>(null);
+  const [adminAlerts, setAdminAlerts] = useState<any[]>([]);
+  const [lowHourAlerts, setLowHourAlerts] = useState<any[]>([]);
+  const [stripeFailures, setStripeFailures] = useState<any[]>([]);
+  const [rapidsMissing, setRapidsMissing] = useState<any[]>([]);
 
   // ── Platform health + recent activity + live ops polling (30s) ───────────
   const fetchLiveStatus = useCallback(async () => {
@@ -169,6 +173,10 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       setClockIns(liveOps.clockIns ?? []);
       setAlerts(liveOps.alerts ?? []);
       setLessonActivity(liveOps.recentLessonActivity ?? []);
+      setAdminAlerts(liveOps.adminAlerts ?? []);
+      setLowHourAlerts(liveOps.lowHourAlerts ?? []);
+      setStripeFailures(liveOps.stripeFailures ?? []);
+      setRapidsMissing(liveOps.rapidsMissing ?? []);
       setLiveOpsSummary(liveOps.summary ?? null);
     }
 
@@ -189,7 +197,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
 
     const sb = createClient(url, key);
 
-    const channel = sb.channel('mission-control-counts')
+    const countChannel = sb.channel('mission-control-counts')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, () => {
         setCounts(c => ({ ...c, students: c.students + 1 }));
       })
@@ -197,7 +205,6 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
         setCounts(c => ({ ...c, activeEnrollments: c.activeEnrollments + 1 }));
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'program_enrollments' }, (payload) => {
-        // If status changed away from active, decrement
         if (payload.old?.status === 'active' && payload.new?.status !== 'active') {
           setCounts(c => ({ ...c, activeEnrollments: Math.max(0, c.activeEnrollments - 1) }));
         } else if (payload.old?.status !== 'active' && payload.new?.status === 'active') {
@@ -228,7 +235,71 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       })
       .subscribe();
 
-    return () => { sb.removeChannel(channel); };
+    // Live platform_events feed — new alerts appear instantly without polling
+    const alertsChannel = sb.channel('mission-control-alerts')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'platform_events' },
+        (payload) => {
+          const ev = payload.new as PlatformAlert;
+          setAlerts(prev => [ev, ...prev].slice(0, 20));
+          setLiveOpsSummary(s => s ? { ...s, unresolvedAlerts: s.unresolvedAlerts + 1 } : s);
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'platform_events' },
+        (payload) => {
+          if (payload.new?.resolved && !payload.old?.resolved) {
+            setAlerts(prev => prev.map(a => a.id === payload.new.id ? { ...a, resolved: true } : a));
+            setLiveOpsSummary(s => s ? { ...s, unresolvedAlerts: Math.max(0, s.unresolvedAlerts - 1) } : s);
+          }
+        },
+      )
+      .subscribe();
+
+    // Live timeclock feed — active clock-ins update in real time
+    const clockChannel = sb.channel('mission-control-clockins')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'progress_entries' },
+        (payload) => {
+          if (!payload.new?.clock_out_at) {
+            // New open shift — add to active list
+            const entry: ClockInEntry = {
+              id: payload.new.id,
+              apprentice_id: payload.new.apprentice_id,
+              student_name: 'Loading…',
+              clock_in_at: payload.new.clock_in_at,
+              clock_out_at: null,
+              is_active: true,
+              duration_min: null,
+              program_id: payload.new.program_id ?? null,
+              work_date: payload.new.work_date ?? null,
+            };
+            setClockIns(prev => [entry, ...prev]);
+            setLiveOpsSummary(s => s ? { ...s, activeClockIns: s.activeClockIns + 1 } : s);
+          }
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'progress_entries' },
+        (payload) => {
+          if (payload.new?.clock_out_at && !payload.old?.clock_out_at) {
+            // Shift closed — remove from active list
+            setClockIns(prev => prev.filter(c => c.id !== payload.new.id));
+            setLiveOpsSummary(s => s ? { ...s, activeClockIns: Math.max(0, s.activeClockIns - 1) } : s);
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      sb.removeChannel(countChannel);
+      sb.removeChannel(alertsChannel);
+      sb.removeChannel(clockChannel);
+    };
   }, []);
 
   const handleRefresh = async () => {
@@ -633,6 +704,150 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
               <div className="py-6 text-center">
                 <BookOpen className="w-8 h-8 text-slate-700 mx-auto mb-2" />
                 <p className="text-slate-500 text-sm">No completions in last 24h</p>
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* ── Operational Intelligence Row ──────────────────────────────────── */}
+        <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+
+          {/* Low-Hour Apprentices */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-amber-500" />
+                Low Hours
+                {(liveOpsSummary?.lowHourCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-900/60 text-amber-300 border border-amber-800">
+                    {liveOpsSummary!.lowHourCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/apprentices?filter=low-hours" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {lowHourAlerts.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {lowHourAlerts.slice(0, 8).map((a: any) => (
+                  <div key={a.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <p className="text-slate-300 text-xs truncate">{a.message}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">{formatRelative(a.created_at)}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">All apprentices on pace</p>
+              </div>
+            )}
+          </div>
+
+          {/* Stripe Payment Failures */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <XCircle className="w-4 h-4 text-red-500" />
+                Payment Failures
+                {(liveOpsSummary?.stripeFailureCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-red-900/60 text-red-300 border border-red-800">
+                    {liveOpsSummary!.stripeFailureCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/billing" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {stripeFailures.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {stripeFailures.slice(0, 8).map((s: any) => (
+                  <div key={s.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-slate-300 text-xs truncate">{s.full_name}</p>
+                      <span className={`text-xs flex-shrink-0 ${s.payment_status === 'suspended' ? 'text-red-400' : 'text-amber-400'}`}>
+                        {s.payment_status}
+                      </span>
+                    </div>
+                    {s.failed_payment_at && (
+                      <p className="text-slate-500 text-xs mt-0.5">{formatRelative(s.failed_payment_at)}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">No payment failures</p>
+              </div>
+            )}
+          </div>
+
+          {/* RAPIDS Missing */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                RAPIDS Missing
+                {(liveOpsSummary?.rapidsMissingCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-amber-900/60 text-amber-300 border border-amber-800">
+                    {liveOpsSummary!.rapidsMissingCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/rapids" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {rapidsMissing.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {rapidsMissing.slice(0, 8).map((r: any) => (
+                  <div key={r.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <p className="text-slate-300 text-xs truncate">{r.full_name}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">Enrolled {formatRelative(r.created_at)}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">All enrollments registered</p>
+              </div>
+            )}
+          </div>
+
+          {/* Operational Alerts (admin_alerts) */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-slate-500" />
+                Ops Alerts
+                {(liveOpsSummary?.adminAlertCount ?? 0) > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-xs bg-red-900/60 text-red-300 border border-red-800">
+                    {liveOpsSummary!.adminAlertCount}
+                  </span>
+                )}
+              </h2>
+              <Link href="/admin/alerts" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">View →</Link>
+            </div>
+            {adminAlerts.length > 0 ? (
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {adminAlerts.slice(0, 8).map((a: any) => (
+                  <div key={a.id} className="py-1.5 border-b border-slate-800 last:border-0">
+                    <div className="flex items-start gap-1.5">
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5 ${
+                        a.severity === 'high' ? 'bg-red-400' :
+                        a.severity === 'warning' ? 'bg-amber-400' : 'bg-slate-500'
+                      }`} />
+                      <div className="min-w-0">
+                        <p className="text-slate-300 text-xs truncate">{a.message}</p>
+                        <p className="text-slate-500 text-xs mt-0.5">{a.alert_type} · {formatRelative(a.created_at)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-6 h-6 text-green-700 mx-auto mb-1" />
+                <p className="text-slate-500 text-xs">No active ops alerts</p>
               </div>
             )}
           </div>

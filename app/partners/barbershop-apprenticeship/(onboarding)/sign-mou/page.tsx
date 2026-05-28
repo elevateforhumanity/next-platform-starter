@@ -181,7 +181,7 @@ export default function SignMOUPage() {
         if (data.owner_name)  setSignerName(data.owner_name);
         if (data.contact_email || data.email) { /* email display only */ }
       })
-      .catch(() => {});
+      .catch((err) => console.warn('[sign-mou] prefill fetch failed', err));
   }, []);
 
   // Canvas setup — use ResizeObserver so canvas is sized after layout

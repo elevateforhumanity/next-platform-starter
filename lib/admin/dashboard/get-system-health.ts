@@ -26,6 +26,39 @@ const REQUIRED_ENV = [
   'RESEND_API_KEY',
 ];
 
+// In-process cache for the Stripe Issuing check — avoids a live outbound HTTP
+// call on every dashboard render. TTL: 5 minutes.
+let _stripeIssuingCache: { result: { enabled: boolean; reason: string | null }; expiresAt: number } | null = null;
+
+async function getCachedStripeIssuingStatus(): Promise<{ enabled: boolean; reason: string | null }> {
+  const now = Date.now();
+  if (_stripeIssuingCache && now < _stripeIssuingCache.expiresAt) {
+    return _stripeIssuingCache.result;
+  }
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    const result = { enabled: false, reason: 'no_key' };
+    _stripeIssuingCache = { result, expiresAt: now + 5 * 60 * 1000 };
+    return result;
+  }
+  try {
+    const res = await fetch('https://api.stripe.com/v1/issuing/cardholders?limit=1', {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    const result =
+      res.status === 200 ? { enabled: true, reason: null } :
+      res.status === 403 ? { enabled: false, reason: 'not_approved' } :
+      { enabled: false, reason: `stripe_${res.status}` };
+    _stripeIssuingCache = { result, expiresAt: now + 5 * 60 * 1000 };
+    return result;
+  } catch {
+    const result = { enabled: false, reason: 'fetch_error' };
+    // Cache failures for 1 minute only — retry sooner on transient errors
+    _stripeIssuingCache = { result, expiresAt: now + 60 * 1000 };
+    return result;
+  }
+}
+
 export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSystemHealth> {
   const alerts: SystemHealthAlert[] = [];
 
@@ -44,22 +77,9 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
     // Check Stripe webhook status via app_secrets or a known sentinel
     db.from('app_secrets').select('value').eq('key', 'STRIPE_WEBHOOK_SECRET').maybeSingle(),
 
-    // Check Stripe Issuing — attempt to list cardholders (returns empty on live accounts
-    // that haven't been approved yet, throws on missing key or restricted access)
-    (async () => {
-      const key = process.env.STRIPE_SECRET_KEY;
-      if (!key) return { enabled: false, reason: 'no_key' };
-      try {
-        const res = await fetch('https://api.stripe.com/v1/issuing/cardholders?limit=1', {
-          headers: { Authorization: `Bearer ${key}` },
-        });
-        if (res.status === 200) return { enabled: true, reason: null };
-        if (res.status === 403) return { enabled: false, reason: 'not_approved' };
-        return { enabled: false, reason: `stripe_${res.status}` };
-      } catch {
-        return { enabled: false, reason: 'fetch_error' };
-      }
-    })(),
+    // Check Stripe Issuing — cached for 5 minutes to avoid blocking every dashboard load.
+    // A live outbound fetch on every render adds 200-800ms of latency.
+    getCachedStripeIssuingStatus(),
 
     // Stale jobs stuck in processing > 30 min
     db

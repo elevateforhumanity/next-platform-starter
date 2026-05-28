@@ -56,6 +56,7 @@ function slugify(name: string): string {
     .slice(0, 30);
 }
 
+
 async function sendTrialWelcomeEmail(
   email: string,
   orgName: string,
@@ -79,8 +80,7 @@ async function sendTrialWelcomeEmail(
     html: `
       <h1>Your trial is live.</h1>
       <p>Organization: <strong>${orgName}</strong></p>
-      <p>Dashboard: <a href="${dashboardUrl}">${dashboardUrl}</a></p>
-      <p>Subdomain: ${subdomain}.elevatelms.com</p>
+      <p><a href="${dashboardUrl}" style="display:inline-block;padding:12px 24px;background:#dc2626;color:#fff;font-weight:bold;text-decoration:none;border-radius:6px;">Open Your Dashboard</a></p>
       <h2>What to do now:</h2>
       <ol>
         <li>Log in at the link above</li>
@@ -165,7 +165,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'A trial already exists for this email address',
-          tenantUrl: `https://${existingOrg.slug}.elevatelms.com/admin`,
+          tenantUrl: `https://${existingOrg.slug}.app.elevateforhumanity.org/admin`,
           subdomain: existingOrg.slug,
         },
         { status: 409 },
@@ -211,7 +211,7 @@ async function _POST(request: NextRequest) {
         status: 'active',
         contact_name: adminName.trim(),
         contact_email: email,
-        domain: `${subdomain}.elevatelms.com`,
+        domain: `${subdomain}.app.elevateforhumanity.org`,
       })
       .select()
       .maybeSingle();
@@ -275,8 +275,12 @@ async function _POST(request: NextRequest) {
       })
       .then(()=>{}, ()=>{}); // Non-critical
 
+    // Dashboard URL: the real admin app, with org slug so it can load the right context.
+    // The subdomain (e.g. acme-training) is a display label and future routing identifier —
+    // it does not correspond to a live subdomain deployment today.
+    const dashboardUrl = `https://${subdomain}.app.elevateforhumanity.org/admin`;
+
     // Send welcome email
-    const dashboardUrl = `https://${subdomain}.elevatelms.com/admin`;
     try {
       await sendTrialWelcomeEmail(email, orgName.trim(), subdomain, dashboardUrl, correlationId);
     } catch (emailError) {

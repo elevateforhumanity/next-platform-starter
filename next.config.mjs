@@ -156,6 +156,8 @@ const nextConfig = {
         'www.elevateforhumanity.org',
         'elevateforhumanity.org',
         'admin.elevateforhumanity.org',
+        'app.elevateforhumanity.org',
+        '*.app.elevateforhumanity.org',
       ],
     },
     optimizeCss: false,

@@ -6,6 +6,7 @@ import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { appendSessionEvent } from '@/lib/proctor/session-events';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { issueCertificateIfEligible } from '@/lib/lms/engine/certificate';
 
 const ALLOWED_ROLES = ['admin', 'super_admin', 'staff', 'instructor'];
 
@@ -170,6 +171,77 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
         result: body.result,
         score: body.score ?? null,
       });
+
+      // ── Pass: attempt certificate issuance ──────────────────────────────
+      if (body.result === 'pass') {
+        try {
+          const { data: session } = await db
+            .from('exam_sessions')
+            .select('student_id, course_id, enrollment_id')
+            .eq('id', id)
+            .maybeSingle();
+
+          if (session?.student_id && session?.course_id) {
+            const certNumber = await issueCertificateIfEligible(
+              session.student_id,
+              session.course_id,
+              session.enrollment_id ?? null,
+            );
+            if (certNumber) {
+              logger.info('[Proctor] Certificate issued on exam pass', { sessionId: id, certNumber });
+              await appendSessionEvent(db, id, 'certificate_issued', profile.id, profile.role, {
+                certificate_number: certNumber,
+              });
+            }
+          }
+        } catch (certErr) {
+          // Non-blocking — certificate failure must not block result recording
+          logger.error('[Proctor] Certificate issuance failed (non-blocking)', certErr as Error);
+        }
+      }
+
+      // ── Fail: create retake enforcement hold ────────────────────────────
+      if (body.result === 'fail') {
+        try {
+          const { data: session } = await db
+            .from('exam_sessions')
+            .select('student_id, course_id, enrollment_id, exam_type')
+            .eq('id', id)
+            .maybeSingle();
+
+          if (session?.student_id) {
+            // Write enforcement hold — blocks retake until hold is cleared
+            await db.from('exam_enforcement_holds').insert({
+              student_id: session.student_id,
+              course_id: session.course_id ?? null,
+              enrollment_id: session.enrollment_id ?? null,
+              exam_session_id: id,
+              hold_type: 'retake_cooldown',
+              reason: `Failed exam session ${id}. Score: ${body.score ?? 'N/A'}`,
+              hold_until: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24h default
+              created_by: profile.id,
+            }).then(undefined, (err) =>
+              logger.warn('[Proctor] Failed to create retake hold', { sessionId: id, err: String(err) }),
+            );
+
+            // In-app notification to student
+            await db.from('notifications').insert({
+              user_id: session.student_id,
+              type: 'exam_failed',
+              title: 'Exam result recorded',
+              message: `Your exam result has been recorded. Please review your preparation and contact your instructor before retaking.`,
+              action_label: 'View courses',
+              action_url: '/lms/courses',
+              link: '/lms/courses',
+              read: false,
+            }).then(undefined, (err) =>
+              logger.error('[Proctor] Failed to create exam fail notification', { sessionId: id, error: String(err) }),
+            );
+          }
+        } catch (holdErr) {
+          logger.error('[Proctor] Retake hold creation failed (non-blocking)', holdErr as Error);
+        }
+      }
     }
     if (body.status === 'voided' && current.status !== 'voided') {
       await appendSessionEvent(db, id, 'session_voided', profile.id, profile.role, {

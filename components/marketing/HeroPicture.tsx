@@ -182,7 +182,7 @@ export default function HeroPicture({
               className="flex items-center gap-2 text-slate-500 text-xs font-semibold hover:text-slate-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red-500 rounded"
             >
               <span>{transcriptOpen ? '▲' : '▼'}</span>
-              Image description
+              Image transcript
             </button>
             {transcriptOpen && (
               <p

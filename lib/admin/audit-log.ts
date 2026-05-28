@@ -153,6 +153,14 @@ export const AdminAction = {
   // Internal review
   INBOX_STATUS_UPDATED: 'inbox.status_updated',
   PARTNER_INQUIRY_REVIEWED: 'partner_inquiry.reviewed',
+
+  // Workflow engine
+  WORKFLOW_CREATED: 'workflow.created',
+  WORKFLOW_UPDATED: 'workflow.updated',
+  WORKFLOW_DELETED: 'workflow.deleted',
+  WORKFLOW_RUN: 'workflow.run',
+  WORKFLOW_STEP_ADDED: 'workflow.step_added',
+  WORKFLOW_TRIGGER_ADDED: 'workflow.trigger_added',
 } as const;
 
 export type AdminActionType = (typeof AdminAction)[keyof typeof AdminAction];

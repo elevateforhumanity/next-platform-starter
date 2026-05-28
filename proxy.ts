@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { randomUUID } from 'crypto';
+import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
+import { getSecuritySettings } from '@/lib/admin/security-settings';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -312,6 +315,11 @@ export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   const requestHeaders = new Headers(request.headers);
+
+  // Propagate or generate a trace_id for every request.
+  // Downstream handlers read x-trace-id from headers() for structured logging.
+  const traceId = request.headers.get('x-trace-id') ?? randomUUID();
+  requestHeaders.set('x-trace-id', traceId);
   requestHeaders.set('x-pathname', pathname);
 
   function nextWithPathname() {
@@ -494,8 +502,11 @@ export async function middleware(request: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
 
-      // For admin API routes, verify admin/super_admin/staff role
+      // For admin API routes, verify admin/super_admin/staff role + IP allowlist
       if (pathname.startsWith('/api/admin/')) {
+        const ipBlocked = await checkAdminIPAsync(request);
+        if (ipBlocked) return ipBlocked;
+
         const { data: apiProfile } = await apiSupabase
           .from('profiles')
           .select('role')
@@ -565,9 +576,52 @@ export async function middleware(request: NextRequest) {
   // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
   // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
   // traffic never gets served under the wrong host.
+  // app.elevateforhumanity.org — tenant portal entry point (query-param form).
+  // e.g. app.elevateforhumanity.org/admin?org=elizabeth-greene
+  if (hostWithoutPort === 'app.elevateforhumanity.org') {
+    const tenantSlug = request.nextUrl.searchParams.get('org') || '';
+    const requestHeadersWithTenant = new Headers(requestHeaders);
+    if (tenantSlug) requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
+    requestHeadersWithTenant.set('x-pathname', pathname);
+
+    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
+      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = adminPath;
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeadersWithTenant },
+      });
+    }
+
+    return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
+  }
+
+  // {subdomain}.app.elevateforhumanity.org — tenant portal subdomain form.
+  // e.g. elizabeth-greene-kkx3.app.elevateforhumanity.org/admin
+  // Tenant slug is extracted from the subdomain prefix.
+  if (hostWithoutPort.endsWith('.app.elevateforhumanity.org')) {
+    const tenantSlug = hostWithoutPort.replace('.app.elevateforhumanity.org', '');
+    const requestHeadersWithTenant = new Headers(requestHeaders);
+    requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
+    requestHeadersWithTenant.set('x-pathname', pathname);
+
+    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
+      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = adminPath;
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeadersWithTenant },
+      });
+    }
+
+    return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
+  }
+
   const isCanonicalHost =
     hostWithoutPort === 'www.elevateforhumanity.org' ||
-    hostWithoutPort === canonicalAdminHost;
+    hostWithoutPort === canonicalAdminHost ||
+    hostWithoutPort === 'app.elevateforhumanity.org' ||
+    hostWithoutPort.endsWith('.app.elevateforhumanity.org');
   if (
     hostWithoutPort &&
     !isCanonicalHost &&
@@ -679,10 +733,11 @@ export async function middleware(request: NextRequest) {
 
   // ============================================
   // SERVER-SIDE IDLE TIMEOUT (NIST 800-63B)
-  // Signs out users after 30 minutes of inactivity.
-  // Uses a cookie to track last activity timestamp.
+  // Timeout value read from platform_settings (session_timeout key, in minutes).
+  // Env var SESSION_TIMEOUT_MINUTES overrides the DB value.
+  // Falls back to 30 minutes if neither is set.
   // ============================================
-  const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+  const { sessionTimeoutMs: IDLE_TIMEOUT_MS } = await getSecuritySettings();
   const ACTIVITY_COOKIE = 'efh_last_activity';
   const now = Date.now();
   const lastActivity = request.cookies.get(ACTIVITY_COOKIE)?.value;
@@ -844,6 +899,7 @@ export async function middleware(request: NextRequest) {
   }
   response.headers.set('x-user-id', user.id);
   response.headers.set('x-user-role', userRole);
+  response.headers.set('x-trace-id', traceId);
 
   // ============================================
   // NOINDEX FOR INTERNAL PAGES

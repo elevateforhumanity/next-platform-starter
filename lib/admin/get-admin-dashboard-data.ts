@@ -15,7 +15,7 @@ import {
 } from '@/lib/admin/priority-score';
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
 import { getSystemHealth } from './dashboard/get-system-health';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { withTimeout } from '@/lib/utils/withTimeout';
 
 function toSafeNumber(value: unknown): number {
   const n = Number(value ?? 0);
@@ -323,8 +323,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('id', { ascending: true })
       .limit(10),
 
-    // System health — runs in parallel with all other queries
-    getSystemHealth(db).catch(() => ({
+    // System health — 4s timeout so a slow Stripe API never blocks the dashboard.
+    withTimeout(getSystemHealth(db), 4000, 'getSystemHealth').catch(() => ({
       stripeWebhookOk: false,
       stripeIssuingOk: false,
       buildEnvOk: false,
@@ -1033,15 +1033,15 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const sitePreviewTargets = [
     {
       label: 'Public Site',
-      url: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl,
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
     },
     {
       label: 'Admin',
-      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}',
+      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org',
     },
     {
       label: 'LMS',
-      url: process.env.NEXT_PUBLIC_LMS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/lms`,
+      url: process.env.NEXT_PUBLIC_LMS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/lms`,
     },
   ];
 

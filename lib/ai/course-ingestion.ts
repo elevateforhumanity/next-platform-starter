@@ -17,6 +17,7 @@
 import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { compileAllLessons } from '@/lib/ai/lesson-compiler';
 import type { CompiledLesson } from '@/lib/ai/lesson-compiler';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export type SourceType = 'prompt' | 'syllabus' | 'script' | 'transcript' | 'document';
 
@@ -90,7 +91,7 @@ HOUSE RULES (always apply):
 - Tone: professional, direct, accessible — no jargon without explanation
 - Every module must have at least 2 lessons
 - Quiz: 5-10 questions per course, multiple choice preferred
-- Certificate language: "Certificate of Completion — [Course Title] — Elevate for Humanity"
+- Certificate language: "Certificate of Completion — [Course Title] — ${PLATFORM_DEFAULTS.orgName}"
 - Accessibility: lesson descriptions must be screen-reader friendly (no "click here")
 - Naming: Title Case for course/module/lesson titles
 - Compliance: tag workforce-development courses with relevant funding streams (WIOA, DOL, JRI) where applicable
@@ -116,7 +117,7 @@ ${text.slice(0, 2000)}
 
 const EXTRACTION_PROMPT = (sourceType: SourceType, text: string) =>
   `
-You are an AI course compiler for Elevate for Humanity, a workforce development training platform.
+You are an AI course compiler for ${PLATFORM_DEFAULTS.orgName}, a workforce development training platform.
 
 ${HOUSE_RULES}
 
@@ -173,7 +174,7 @@ Return ONLY valid JSON (no markdown, no trailing commas):
     }
   ],
   "certificate_enabled": true,
-  "certificate_title": "Certificate of Completion — [Course Title] — Elevate for Humanity",
+  "certificate_title": "Certificate of Completion — [Course Title] — ${PLATFORM_DEFAULTS.orgName}",
   "passing_score": 70,
   "completion_criteria": "Complete all lessons and pass the final assessment with 70% or higher",
   "warnings": []
@@ -369,7 +370,7 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
 
   // Apply house rule defaults
   if (!blueprint.certificate_title || blueprint.certificate_title.includes('[Course Title]')) {
-    blueprint.certificate_title = `Certificate of Completion — ${blueprint.title} — Elevate for Humanity`;
+    blueprint.certificate_title = `Certificate of Completion — ${blueprint.title} — ${PLATFORM_DEFAULTS.orgName}`;
   }
   if (!blueprint.passing_score) blueprint.passing_score = 70;
   if (!blueprint.quiz_passing_score) blueprint.quiz_passing_score = 70;

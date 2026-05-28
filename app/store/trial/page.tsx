@@ -99,8 +99,8 @@ export default function TrialPage() {
                 <span className="font-semibold text-slate-900">{orgName}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-slate-600">Subdomain</span>
-                <span className="font-semibold text-slate-900">{result.subdomain}.elevatelms.com</span>
+                <span className="text-slate-600">Dashboard URL</span>
+                <span className="font-semibold text-slate-900">{result.subdomain}.app.elevateforhumanity.org/admin</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600">Trial ends</span>

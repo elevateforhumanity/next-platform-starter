@@ -3,9 +3,10 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import {
   Zap, Play, Plus, CheckCircle, XCircle, Clock, Pause,
-  AlertTriangle, ChevronRight, RefreshCw, Activity,
+  AlertTriangle, ChevronRight, RefreshCw, Activity, RotateCcw,
 } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -93,6 +94,7 @@ export default function WorkflowsClient({
   const [newCategory, setNewCategory] = useState('system');
   const [creating, setCreating] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [replayingRunId, setReplayingRunId] = useState<string | null>(null);
 
   const active   = workflows.filter(w => w.status === 'active').length;
   const totalRuns = workflows.reduce((s, w) => s + (w.run_count ?? 0), 0);
@@ -122,6 +124,24 @@ export default function WorkflowsClient({
       setRunResult({ id: workflowId, ok: false, msg: err.message });
     } finally {
       setRunningId(null);
+      startTransition(() => router.refresh());
+    }
+  }
+
+  async function handleReplay(runId: string) {
+    setReplayingRunId(runId);
+    try {
+      const res = await fetch(`/api/admin/workflows/runs/${runId}/replay`, { method: 'POST' });
+      const data = await res.json();
+      if (res.ok && data.status !== 'failed') {
+        toast.success(`Replayed — new run ${data.newRunId?.slice(0, 8) ?? ''} ${data.status}`);
+      } else {
+        toast.error(data.error ?? `Replay failed: ${data.status}`);
+      }
+    } catch (err: any) {
+      toast.error(err.message ?? 'Replay request failed');
+    } finally {
+      setReplayingRunId(null);
       startTransition(() => router.refresh());
     }
   }
@@ -387,7 +407,21 @@ export default function WorkflowsClient({
                       <p className="text-xs text-red-500 mt-0.5 truncate">{run.error_message}</p>
                     )}
                   </div>
-                  <span className="text-xs text-slate-400 flex-shrink-0">{formatRelative(run.created_at)}</span>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-xs text-slate-400">{formatRelative(run.created_at)}</span>
+                    {(run.status === 'failed' || run.status === 'cancelled') && (
+                      <button
+                        onClick={() => handleReplay(run.id)}
+                        disabled={replayingRunId === run.id}
+                        title="Replay this run"
+                        className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-amber-600 transition-colors disabled:opacity-50"
+                      >
+                        {replayingRunId === run.id
+                          ? <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          : <RotateCcw className="w-3.5 h-3.5" />}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             )) : (

@@ -8,6 +8,37 @@ function safeEnv(key: string): string {
   return process.env[key] || '';
 }
 
+/**
+ * requireEnv — fail-fast guard for required variables.
+ * Use in API routes after hydrateProcessEnv(), never at module level.
+ */
+export function requireEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(
+      `Missing required environment variable: ${key}. ` +
+      `Ensure it is set in AWS SSM Parameter Store (production) or .env.local (development).`,
+    );
+  }
+  return value;
+}
+
+/**
+ * getEnv — optional env accessor with fallback.
+ */
+export function getEnv(key: string, fallback = ''): string {
+  return process.env[key] ?? fallback;
+}
+
+/**
+ * assertEnvPresent — check multiple keys at once, returns all missing.
+ * Use in startup health checks and /api/internal/system-health.
+ */
+export function assertEnvPresent(keys: string[]): { ok: boolean; missing: string[] } {
+  const missing = keys.filter(k => !process.env[k]);
+  return { ok: missing.length === 0, missing };
+}
+
 export const env = {
   // Supabase
   NEXT_PUBLIC_SUPABASE_URL: safeEnv('NEXT_PUBLIC_SUPABASE_URL'),

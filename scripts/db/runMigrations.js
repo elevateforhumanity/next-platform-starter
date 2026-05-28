@@ -13,8 +13,9 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required');
-  process.exit(1);
+  console.warn('⚠️  NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set — skipping automated migration run.');
+  console.warn('   Apply migrations manually via the Supabase Dashboard SQL Editor.');
+  process.exit(0);
 }
 
 const BASE_HEADERS = {

@@ -129,3 +129,4 @@ jobs:
             --output text
           echo "Rollback initiated. Monitor ECS console for completion."
           exit 1
+# Deploy trigger: 2026-05-27T13:47Z

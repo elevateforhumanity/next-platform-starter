@@ -12,8 +12,8 @@ import Link from 'next/link';
 import { safeFormatDate } from '@/lib/format-utils';
 import { getEmployerState } from '@/lib/orchestration/state-machine';
 import { StateAwareDashboard, SectionCard } from '@/components/dashboards/StateAwareDashboard';
-import { Briefcase, Users, FileText, Shield, Building2, TrendingUp, BarChart3 } from 'lucide-react';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { Briefcase, Users, FileText, Shield, Building2, TrendingUp } from 'lucide-react';
+import WorkforceLiveWidget from '@/components/employer/WorkforceLiveWidget';
 
 export const dynamic = 'force-dynamic';
 
@@ -72,10 +72,10 @@ export default async function EmployerDashboardOrchestrated() {
               Learn About Employer Partnership
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href="tel:3173143757"
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition"
             >
-              Call {PLATFORM_DEFAULTS.supportPhone}
+              Call (317) 314-3757
             </a>
           </div>
         </div>
@@ -361,7 +361,7 @@ export default async function EmployerDashboardOrchestrated() {
               href="/support"
               className="block w-full text-center px-4 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition"
             >
-              Call {PLATFORM_DEFAULTS.supportPhone}
+              Call (317) 314-3757
             </a>
           </div>
 
@@ -421,28 +421,8 @@ export default async function EmployerDashboardOrchestrated() {
             </div>
           </div>
 
-          {/* Workforce Summary */}
-          <div className="mt-8 bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <BarChart3 className="w-5 h-5 text-brand-blue-600" />
-              <h3 className="text-lg font-bold text-black">Hiring Summary</h3>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-white rounded-lg">
-                <p className="text-2xl font-bold text-black">{postings?.length || 0}</p>
-                <p className="text-sm text-black">Active Postings</p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <p className="text-2xl font-bold text-black">{applications?.length || 0}</p>
-                <p className="text-sm text-black">Pending Applications</p>
-              </div>
-            </div>
-            {!profile.verified && (
-              <p className="text-xs text-slate-700 mt-4">
-                Complete verification to access full workforce analytics.
-              </p>
-            )}
-          </div>
+          {/* Live Workforce Widget */}
+          {profile.verified && <WorkforceLiveWidget />}
         </div>
       </div>
     </StateAwareDashboard>

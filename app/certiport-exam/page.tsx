@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Award, Lock, ArrowRight, Shield, MapPin, Clock } from 'lucide-react';
 import { CERTIPORT_EXAMS } from '@/lib/partners/certiport';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 type FundingStatus = 'funded' | 'self_pay' | 'loading';
 type CourseStatus = 'complete' | 'incomplete' | 'loading';
@@ -151,7 +152,7 @@ function CertiportExamContent() {
                 <MapPin className="w-4 h-4" /> Testing Center
               </h3>
               <p className="text-brand-blue-800 text-sm">
-                Elevate for Humanity Career &amp; Technical Institute
+                ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
                 <br />
                 8888 Keystone Crossing, Suite 1300
                 <br />

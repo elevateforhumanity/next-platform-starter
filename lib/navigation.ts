@@ -201,6 +201,10 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'FSSA / SNAP E&T', href: '/fssa' },
       { name: 'Apprenticeship Sponsor', href: '/apprenticeship-sponsor' },
       { name: 'Workforce Boards', href: '/platform/workforce-boards' },
+      // Referral Partners
+      { name: '— Referral Partners —', href: '/partners/referral', isHeader: true },
+      { name: 'Referral Partner Program', href: '/partners/referral' },
+      { name: 'Submit a Referral', href: '/apply/intake' },
       // Training Providers & Program Holders
       { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
       { name: 'How It Works', href: '/for-providers' },

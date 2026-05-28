@@ -5,6 +5,8 @@ import { LMSSidebar } from '@/components/lms/LMSSidebar';
 import { AIInstructorWidget } from '@/components/AIInstructorWidget';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import { VoiceAssistant } from '@/components/VoiceAssistant';
+import { NotificationProvider } from '@/components/notifications/NotificationProvider';
+import { PushRegistration } from '@/components/notifications/PushRegistration';
 
 interface LmsAppShellProps {
   user: { id: string; email?: string; user_metadata?: Record<string, any> };
@@ -16,6 +18,8 @@ export function LmsAppShell({ user, profile, children }: LmsAppShellProps) {
   return (
     <div className="min-h-screen bg-white">
       <IdleTimeoutGuard />
+      <NotificationProvider />
+      <PushRegistration />
       <LMSSidebar user={user} profile={profile} />
 
       {/* Main content — offset by sidebar width on desktop, below mobile header on mobile */}

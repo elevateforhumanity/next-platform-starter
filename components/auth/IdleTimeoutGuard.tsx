@@ -5,10 +5,11 @@ import { createBrowserClient } from '@supabase/ssr';
 import { initIdleTimeout } from '@/lib/auth/idle-timeout';
 
 /**
- * Monitors user activity and signs out after 30 minutes of inactivity.
- * Place this component in layouts for authenticated routes.
+ * Monitors user activity and signs out after the configured idle timeout.
+ * Timeout is read from platform_settings (session_timeout key, in minutes)
+ * and passed from the server layout. Defaults to 30 minutes.
  */
-export function IdleTimeoutGuard() {
+export function IdleTimeoutGuard({ timeoutMs = 30 * 60 * 1000 }: { timeoutMs?: number }) {
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,10 +19,10 @@ export function IdleTimeoutGuard() {
     const cleanup = initIdleTimeout(async () => {
       await supabase.auth.signOut();
       window.location.href = '/login?reason=idle';
-    });
+    }, timeoutMs);
 
     return cleanup;
-  }, []);
+  }, [timeoutMs]);
 
   return null;
 }

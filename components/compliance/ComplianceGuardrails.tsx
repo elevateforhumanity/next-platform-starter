@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { AlertTriangle, Info, Shield, Calendar } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 /**
  * Compliance Guardrails Components
@@ -47,7 +48,7 @@ export function FundingDisclaimer({ className = '' }: DisclaimerProps) {
           <p className="font-semibold mb-1">Funding Eligibility</p>
           <p>
             Eligibility for WIOA, WRG, or other funding programs is determined by WorkOne / Indiana
-            Career Connect, not by Elevate for Humanity. Submitting an application does not
+            Career Connect, not by ${PLATFORM_DEFAULTS.orgName}. Submitting an application does not
             guarantee funding approval.
           </p>
           <Link
@@ -225,7 +226,7 @@ export function ComplianceFooterLinks({ className = '' }: DisclaimerProps) {
         </Link>
       </div>
       <p className="mt-2">
-        © {new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+        © {new Date().getFullYear()} ${PLATFORM_DEFAULTS.orgName}. All rights reserved.
       </p>
     </div>
   );

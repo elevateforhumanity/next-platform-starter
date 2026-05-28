@@ -29,29 +29,68 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
+  let auth: Awaited<ReturnType<typeof apiRequireAdmin>>;
   try {
-    await apiRequireAdmin(request);
+    auth = await apiRequireAdmin(request);
   } catch (e) {
     return e instanceof Response
       ? e
       : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  if (auth.error) return auth.error;
+
   const db = await requireAdminClient();
   const body = await request.json().catch(() => null);
   if (!body?.name) {
     return NextResponse.json({ error: 'name is required' }, { status: 400 });
   }
-  const { data, error } = await db
+
+  // 1. Create the workflow row
+  const { data: workflow, error: wfErr } = await db
     .from('workflows')
     .insert({
       name: body.name,
+      description: body.description ?? null,
       workflow_key: body.workflow_key ?? null,
+      webhook_key: body.webhook_key ?? null,
       category: body.category ?? 'operations',
       status: body.status ?? 'inactive',
       metadata: body.metadata ?? {},
     })
     .select()
     .maybeSingle();
-  if (error) return safeDbError(error, 'Failed to create workflow');
-  return NextResponse.json({ data }, { status: 201 });
+  if (wfErr) return safeDbError(wfErr, 'Failed to create workflow');
+
+  const workflowId = workflow!.id;
+
+  // 2. Persist trigger
+  const trigger = body.trigger ?? body.trigger_type;
+  if (trigger && trigger !== 'manual') {
+    const isCron = trigger === 'schedule' || trigger.startsWith('cron:');
+    const cronExpr = isCron ? (body.cron_expr ?? null) : null;
+    await db.from('workflow_triggers').insert({
+      workflow_id: workflowId,
+      trigger_type: isCron ? 'schedule' : 'event',
+      event_filter: isCron ? {} : { event: trigger, program_filter: body.program_filter ?? null },
+      cron_expr: cronExpr,
+    });
+  }
+
+  // 3. Persist steps
+  const steps: Array<{ action: string; config: unknown }> = Array.isArray(body.steps)
+    ? body.steps
+    : [];
+  if (steps.length > 0) {
+    const stepRows = steps.map((s, idx) => ({
+      workflow_id: workflowId,
+      action_type: s.action,
+      action_config: typeof s.config === 'string'
+        ? (() => { try { return JSON.parse(s.config); } catch { return { raw: s.config }; } })()
+        : (s.config ?? {}),
+      step_order: idx,
+    }));
+    await db.from('workflow_steps').insert(stepRows);
+  }
+
+  return NextResponse.json({ data: workflow }, { status: 201 });
 }

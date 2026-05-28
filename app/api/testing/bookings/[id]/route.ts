@@ -63,6 +63,13 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
   if (adminNotes !== undefined) updates.admin_notes = adminNotes;
   if (status === 'cancelled') updates.cancelled_at = new Date().toISOString();
 
+  // Load the booking first so we can decrement the slot on cancellation
+  const { data: existingBooking } = await db
+    .from('exam_bookings')
+    .select('slot_id, status')
+    .eq('id', id)
+    .maybeSingle();
+
   const { data: booking, error } = await db
     .from('exam_bookings')
     .update(updates)
@@ -73,6 +80,23 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
   if (error) {
     logger.error('[Testing] Failed to update booking:', error.message);
     return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+  }
+
+  // Release the slot seat when a booking is cancelled (was not already cancelled)
+  if (
+    status === 'cancelled' &&
+    existingBooking?.slot_id &&
+    existingBooking?.status !== 'cancelled'
+  ) {
+    await db
+      .rpc('decrement_slot_booked_count', { slot_id: existingBooking.slot_id })
+      .then(undefined, (err) =>
+        logger.warn('[Testing] Failed to decrement slot booked_count on cancellation', {
+          slotId: existingBooking.slot_id,
+          bookingId: id,
+          err: String(err),
+        }),
+      );
   }
 
   // Send confirmation email when status changes to 'confirmed'

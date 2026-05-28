@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * TUITION FINANCING POLICY
  * Elevate for Humanity Career and Training Institute
@@ -18,7 +19,7 @@ export const TUITION_FINANCING_POLICY = {
    * POLICY STATEMENT
    */
   policyStatement: `
-Elevate for Humanity Career and Training Institute offers multiple pathways for students 
+${PLATFORM_DEFAULTS.orgName} Career and Training Institute offers multiple pathways for students 
 to pay tuition for non-funded programs. This policy establishes clear, consistent rules 
 for tuition collection that protect both students and the institution.
 

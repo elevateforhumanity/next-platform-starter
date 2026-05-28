@@ -1,3 +1,4 @@
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export type ProgramFacts = {
   slug: string;
   name: string;
@@ -213,7 +214,7 @@ export function buildSystemPrompt(slug: string): string {
     .join('\n');
 
   return [
-    `You are the Elevate AI Tutor for the ${p.name} program at Elevate for Humanity.`,
+    `You are the Elevate AI Tutor for the ${p.name} program at ${PLATFORM_DEFAULTS.orgName}.`,
     '',
     'RULES:',
     `- ONLY answer questions about the ${p.name} program using the facts below.`,

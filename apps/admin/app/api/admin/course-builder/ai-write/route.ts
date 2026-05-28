@@ -16,6 +16,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { aiChat, isAIAvailable } from '@/lib/ai/ai-service';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
   const { lessonTitle, courseTitle, moduleTitle, existingContent, instruction } = parsed.data;
 
   const isExpand = !!existingContent?.trim();
-  const systemPrompt = `You are an expert instructional designer for Elevate for Humanity, a workforce development LMS.
+  const systemPrompt = `You are an expert instructional designer for ${PLATFORM_DEFAULTS.orgName}, a workforce development LMS.
 Write practical, specific lesson content for adult learners. Use clear markdown formatting.
 
 Rules:

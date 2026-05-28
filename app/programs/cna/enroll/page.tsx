@@ -102,7 +102,7 @@ export default function CNAEnrollPage() {
             <ArrowLeft className="w-4 h-4" /> Back to CNA Program
           </Link>
           <h1 className="text-3xl font-bold text-white">{PROGRAM.name}</h1>
-          <p className="text-slate-300 mt-2">Indiana state certification in 6 weeks · Clinical rotations included</p>
+          <p className="text-slate-300 mt-2">Indiana state certification in 4 weeks · Clinical rotations included</p>
           <div className="flex items-baseline gap-3 mt-3">
             <span className="text-2xl font-bold text-white">${PROGRAM.price.toLocaleString()}</span>
             <span className="text-lg line-through text-slate-500">${PROGRAM.regularPrice.toLocaleString()}</span>

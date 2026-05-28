@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent } from '@/lib/audit';
 import { sendInternalEmail } from '@/lib/email/send-internal';
 import { logger } from '@/lib/logger';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Auth guard ────────────────────────────────────────────────────────────────
 async function requireAdminAction() {
@@ -202,7 +203,7 @@ export async function sendEnrollmentApprovalEmail(payload: {
           style="background:#1E3A5F;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold">
           Go to Dashboard
         </a></p>
-        <p style="color:#64748b;font-size:12px;margin-top:24px">Elevate for Humanity · Indianapolis, IN</p>
+        <p style="color:#64748b;font-size:12px;margin-top:24px">${PLATFORM_DEFAULTS.orgName} · Indianapolis, IN</p>
       </div>`,
   });
 }

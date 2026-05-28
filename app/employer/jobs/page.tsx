@@ -16,6 +16,13 @@ export default async function EmployerJobsPage() {
   const { user } = await requireRole(['employer', 'admin', 'super_admin']);
   const supabase = await createClient();
 
+  // Fetch profile — required for verified gating in JSX
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, full_name, role, verified, employer_id')
+    .eq('id', user.id)
+    .maybeSingle();
+
   // Get job postings
   const { data: jobs } = await supabase
     .from('job_postings')
