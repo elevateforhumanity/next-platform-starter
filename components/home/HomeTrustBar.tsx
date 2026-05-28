@@ -6,26 +6,25 @@
  */
 
 import Image from 'next/image';
-import { Shield, Award, Users, FileCheck } from 'lucide-react';
 
 const TRUST_ITEMS = [
   {
-    icon: Shield,
+    img: '/images/partners/usdol.webp',
     label: 'DOL Registered',
     sub: 'Apprenticeship Sponsor',
   },
   {
-    icon: FileCheck,
+    img: '/images/partners/dwd.webp',
     label: 'WIOA & ETPL',
     sub: 'Approved Provider',
   },
   {
-    icon: Award,
+    img: '/images/partners/nextleveljobs.webp',
     label: 'RAPIDS Compatible',
     sub: 'Apprenticeship Tracking',
   },
   {
-    icon: Users,
+    img: '/images/partners/workone.webp',
     label: 'WorkOne Partner',
     sub: 'Indiana DWD Aligned',
   },
@@ -48,13 +47,19 @@ export function HomeTrustBar() {
       {/* Credential badges */}
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {TRUST_ITEMS.map(({ icon: Icon, label, sub }) => (
+          {TRUST_ITEMS.map(({ img, label, sub }) => (
             <div
               key={label}
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100"
             >
-              <div className="w-9 h-9 rounded-lg bg-brand-red-50 flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-brand-red-600" aria-hidden="true" />
+              <div className="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                <Image
+                  src={img}
+                  alt={label}
+                  width={36}
+                  height={36}
+                  className="object-contain w-full h-full"
+                />
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-900 leading-tight">{label}</p>

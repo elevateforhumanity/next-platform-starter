@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { ArrowRight, Quote } from 'lucide-react';
 import { SITE_STATS } from '@/lib/site-stats';
 import { createPublicClient } from '@/lib/supabase/public';
-import { getAdminClient } from '@/lib/supabase/admin';
 
 const FALLBACK_STORIES = [
   {
@@ -64,20 +63,7 @@ async function fetchTestimonials(): Promise<Testimonial[]> {
   }
 }
 
-async function fetchActiveStudentCount(): Promise<number | null> {
-  try {
-    const db = await getAdminClient();
-    if (!db) return null;
-    const { count, error } = await db
-      .from('program_enrollments')
-      .select('id', { count: 'exact', head: true })
-      .eq('enrollment_state', 'active');
-    if (error) return null;
-    return count ?? null;
-  } catch {
-    return null;
-  }
-}
+
 
 function StoryCard({ story }: { story: Testimonial }) {
   return (
@@ -108,13 +94,7 @@ function StoryCard({ story }: { story: Testimonial }) {
 }
 
 export async function HomeOutcomes() {
-  const [stories, activeCount] = await Promise.all([
-    fetchTestimonials(),
-    fetchActiveStudentCount(),
-  ]);
-
-  const activeDisplay =
-    activeCount && activeCount > 0 ? activeCount.toLocaleString() : 'Active';
+  const stories = await fetchTestimonials();
 
   return (
     <section className="bg-slate-900 py-16 px-4" aria-labelledby="outcomes-heading">
@@ -128,9 +108,9 @@ export async function HomeOutcomes() {
               note: 'Among completers',
             },
             {
-              stat: activeDisplay,
-              label: 'Learners currently enrolled',
-              note: activeCount ? 'Live count' : 'Growing daily',
+              stat: '500+',
+              label: 'Learners trained annually',
+              note: 'Growing every cohort',
             },
             {
               stat: '$0',

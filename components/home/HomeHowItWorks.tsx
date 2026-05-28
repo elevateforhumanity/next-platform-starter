@@ -3,74 +3,67 @@
  *
  * Operational continuity flow: Apply → Funding → Training →
  * Apprenticeship → Credential → Employment.
- * Communicates the full pipeline, not just "take a class."
+ * Photo cards replace icon badges — each step has a real image.
  */
 
 import Link from 'next/link';
-import {
-  ClipboardList,
-  DollarSign,
-  BookOpen,
-  HardHat,
-  Award,
-  Briefcase,
-  ArrowRight,
-} from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 const STEPS = [
   {
     n: '01',
-    icon: ClipboardList,
     label: 'Apply',
     detail: 'Complete a short application. No cost, no commitment.',
     href: '/apply',
-    color: 'text-brand-red-500',
-    bg: 'bg-brand-red-50',
+    img: '/images/pages/apply-page-1.jpg',
+    imgAlt: 'Student completing application',
+    accent: 'border-brand-red-500',
   },
   {
     n: '02',
-    icon: DollarSign,
     label: 'Funding Review',
     detail: 'We check WIOA, Workforce Ready Grant, and other sources. Most qualify.',
     href: '/check-eligibility',
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
+    img: '/images/pages/funding-impact-1.webp',
+    imgAlt: 'Funding advisor reviewing eligibility with student',
+    accent: 'border-amber-500',
   },
   {
     n: '03',
-    icon: BookOpen,
     label: 'Training',
     detail: 'Instructor-led, credential-aligned coursework with AI-powered support.',
     href: '/programs',
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
+    img: '/images/pages/comp-pathway-classroom.webp',
+    imgAlt: 'Students in workforce training classroom',
+    accent: 'border-blue-500',
   },
   {
     n: '04',
-    icon: HardHat,
     label: 'Apprenticeship',
     detail: 'DOL-registered OJT with employer partners. Hours tracked, wages paid.',
     href: '/apprenticeships',
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
+    img: '/images/pages/apprenticeships-page-1.webp',
+    imgAlt: 'Apprentice working on-site with employer supervisor',
+    accent: 'border-emerald-500',
   },
   {
     n: '05',
-    icon: Award,
     label: 'Credential',
     detail: 'Industry-recognized certification. Publicly verifiable on our platform.',
     href: '/verify',
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
+    img: '/images/pages/certifications-page-1.webp',
+    imgAlt: 'Graduate receiving industry credential certificate',
+    accent: 'border-purple-500',
   },
   {
     n: '06',
-    icon: Briefcase,
     label: 'Employment',
     detail: 'Job placement support, employer connections, and career advancement.',
     href: '/employment-support',
-    color: 'text-brand-green-600',
-    bg: 'bg-brand-green-50',
+    img: '/images/pages/employment-support-page-1.webp',
+    imgAlt: 'Graduate starting new career with employer',
+    accent: 'border-brand-green-500',
   },
 ];
 
@@ -99,42 +92,50 @@ export function HomeHowItWorks() {
 
         {/* Step grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
-          {STEPS.map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <Link
-                key={step.n}
-                href={step.href}
-                className="group relative flex flex-col items-center text-center gap-3 p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition-all hover:-translate-y-0.5"
-              >
-                {/* Connector line (desktop only) */}
-                {i < STEPS.length - 1 && (
-                  <span
-                    className="hidden lg:block absolute top-8 -right-1.5 z-10 text-slate-700"
-                    aria-hidden="true"
-                  >
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                )}
+          {STEPS.map((step, i) => (
+            <Link
+              key={step.n}
+              href={step.href}
+              className={`group relative flex flex-col rounded-2xl overflow-hidden bg-slate-900 border-t-4 ${step.accent} hover:ring-1 hover:ring-slate-600 transition-all hover:-translate-y-0.5`}
+            >
+              {/* Photo */}
+              <div className="relative w-full aspect-[3/2] overflow-hidden">
+                <Image
+                  src={step.img}
+                  alt={step.imgAlt}
+                  fill
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                  placeholder="empty"
+                />
+                <div className="absolute inset-0 bg-slate-900/30" />
+                <span className="absolute top-2 left-2 text-[10px] font-black text-white bg-slate-900/60 px-1.5 py-0.5 rounded-md">
+                  {step.n}
+                </span>
+              </div>
 
-                <div
-                  className={`w-10 h-10 rounded-xl ${step.bg} flex items-center justify-center`}
+              {/* Label */}
+              <div className="p-3">
+                <p className="text-xs font-extrabold text-white leading-tight mb-1">
+                  {step.label}
+                </p>
+                <p className="text-[11px] text-slate-400 leading-snug hidden sm:block">
+                  {step.detail}
+                </p>
+              </div>
+
+              {/* Connector arrow (desktop only) */}
+              {i < STEPS.length - 1 && (
+                <span
+                  className="hidden lg:flex absolute -right-2 top-1/3 z-10 w-4 h-4 items-center justify-center rounded-full bg-slate-800 border border-slate-700"
+                  aria-hidden="true"
                 >
-                  <Icon className={`w-5 h-5 ${step.color}`} aria-hidden="true" />
-                </div>
-
-                <div>
-                  <p className="text-[10px] font-bold text-slate-500 mb-0.5">{step.n}</p>
-                  <p className="text-xs font-extrabold text-white leading-tight mb-1">
-                    {step.label}
-                  </p>
-                  <p className="text-[11px] text-slate-500 leading-snug hidden sm:block">
-                    {step.detail}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
+                  <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
+                </span>
+              )}
+            </Link>
+          ))}
         </div>
 
         <div className="text-center">

@@ -118,9 +118,10 @@ export default function ServerFooter() {
             <span className="text-lg font-bold text-white">Elevate for Humanity</span>
           </div>
           <p className="text-sm text-white max-w-2xl leading-relaxed">
-            Indiana&apos;s workforce training platform connecting technical instruction, funding
-            pathways, industry credentials, and employer placement. Programs aligned with EPA,
-            CompTIA, PTCB, Microsoft, and OSHA certifications.
+            Elevate for Humanity is an AI-powered workforce operating system — not just a training
+            provider. We handle credentialing, compliance tracking, employer placement,
+            apprenticeship coordination, and funding documentation so agencies and participants can
+            focus on outcomes.
           </p>
           <div className="flex flex-wrap gap-4 mt-4 text-xs text-white">
             <span>DOL Registered Apprenticeship Sponsor</span>

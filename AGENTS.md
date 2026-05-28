@@ -853,3 +853,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+

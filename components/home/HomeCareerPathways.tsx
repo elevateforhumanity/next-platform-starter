@@ -57,7 +57,7 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
           src={prog.heroImage}
           alt={prog.heroImageAlt || prog.title}
           fill
-          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           loading="lazy"
           placeholder="empty"

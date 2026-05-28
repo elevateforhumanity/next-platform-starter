@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { CheckCircle, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const EMPLOYER_CAPABILITIES = [
   'DOL-registered apprenticeship sponsorship',
@@ -57,63 +57,75 @@ export function HomeApprenticeshipInfra() {
         {/* Two-column: learner + employer */}
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Learner side */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                <span className="text-lg" aria-hidden="true">🎓</span>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">For Learners</p>
-                <h3 className="text-base font-extrabold text-slate-900">Earn while you learn</h3>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div className="relative h-40 w-full">
+              <Image
+                src="/images/learners/coaching-session.webp"
+                alt="Learner in apprenticeship training session"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
+                placeholder="empty"
+              />
+              <div className="absolute inset-0 bg-slate-900/40" />
+              <div className="absolute bottom-3 left-4">
+                <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider">For Learners</p>
+                <h3 className="text-base font-extrabold text-white">Earn while you learn</h3>
               </div>
             </div>
-            <ul className="space-y-2.5" role="list">
-              {LEARNER_CAPABILITIES.map((item) => (
-                <li key={item} className="flex items-start gap-2.5">
-                  <CheckCircle
-                    className="w-4 h-4 text-brand-green-600 mt-0.5 shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm text-slate-700">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/apprenticeships"
-              className="inline-flex items-center gap-1.5 mt-6 text-sm font-bold text-brand-red-600 hover:text-brand-red-700 transition-colors"
-            >
-              Explore apprenticeship programs <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="p-6">
+              <ul className="space-y-2" role="list">
+                {LEARNER_CAPABILITIES.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0" aria-hidden="true" />
+                    <span className="text-sm text-slate-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/apprenticeships"
+                className="inline-flex items-center gap-1.5 mt-6 text-sm font-bold text-brand-red-600 hover:text-brand-red-700 transition-colors"
+              >
+                Explore apprenticeship programs <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
 
           {/* Employer side */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                <span className="text-lg" aria-hidden="true">🏢</span>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">For Employers</p>
-                <h3 className="text-base font-extrabold text-slate-900">Hire, train, retain</h3>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div className="relative h-40 w-full">
+              <Image
+                src="/images/pages/about-employer-partners.webp"
+                alt="Employer partner working with Elevate team"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
+                placeholder="empty"
+              />
+              <div className="absolute inset-0 bg-slate-900/40" />
+              <div className="absolute bottom-3 left-4">
+                <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider">For Employers</p>
+                <h3 className="text-base font-extrabold text-white">Hire, train, retain</h3>
               </div>
             </div>
-            <ul className="space-y-2.5" role="list">
-              {EMPLOYER_CAPABILITIES.map((item) => (
-                <li key={item} className="flex items-start gap-2.5">
-                  <CheckCircle
-                    className="w-4 h-4 text-blue-600 mt-0.5 shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm text-slate-700">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/for-employers"
-              className="inline-flex items-center gap-1.5 mt-6 text-sm font-bold text-brand-red-600 hover:text-brand-red-700 transition-colors"
-            >
-              Employer partnership info <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="p-6">
+              <ul className="space-y-2" role="list">
+                {EMPLOYER_CAPABILITIES.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" aria-hidden="true" />
+                    <span className="text-sm text-slate-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/for-employers"
+                className="inline-flex items-center gap-1.5 mt-6 text-sm font-bold text-brand-red-600 hover:text-brand-red-700 transition-colors"
+              >
+                Employer partnership info <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -124,7 +136,7 @@ export function HomeApprenticeshipInfra() {
               src="/images/pages/apprenticeships-page-1.webp"
               alt="Apprentice working on-site with employer supervisor"
               fill
-              className="object-cover object-center"
+              className="object-cover object-top"
               sizes="(max-width: 1280px) 100vw, 1152px"
               loading="lazy"
               placeholder="empty"

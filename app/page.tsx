@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
+import MarqueeBanner from '@/components/MarqueeBanner';
 import { HomeTrustBar } from '@/components/home/HomeTrustBar';
 import { HomeHowItWorks } from '@/components/home/HomeHowItWorks';
 import { HomeCareerPathways } from '@/components/home/HomeCareerPathways';
@@ -9,6 +10,7 @@ import { HomeApprenticeshipInfra } from '@/components/home/HomeApprenticeshipInf
 import { HomeFunding } from '@/components/home/HomeFunding';
 import { HomeOutcomes } from '@/components/home/HomeOutcomes';
 import { HomePlatformPreview } from '@/components/home/HomePlatformPreview';
+import { HomeEmployerStrip } from '@/components/home/HomeEmployerStrip';
 import { HomeSegmentedCTA } from '@/components/home/HomeSegmentedCTA';
 import { HomeFinalCTA } from '@/components/home/HomeFinalCTA';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -102,11 +104,10 @@ export default async function HomePage() {
   return (
     <>
       {/* ── 1. HERO ─────────────────────────────────────────────────────── */}
-      {/* Video hero with below-fold headline, subheadline, and CTAs.
-          Headline: "Workforce Infrastructure. Apprenticeships. Funding. Placement."
-          Primary CTA: Explore Career Pathways → /programs
-          Secondary CTA: For Employers → /for-employers */}
       <HomeHeroVideo banner={banner} />
+
+      {/* ── 1b. ROTATING MARQUEE BANNER ─────────────────────────────────── */}
+      <MarqueeBanner />
 
       {/* ── 2. TRUST BAR ────────────────────────────────────────────────── */}
       {/* DOL registration, WIOA/ETPL approval, RAPIDS capability, partner logos */}
@@ -144,6 +145,9 @@ export default async function HomePage() {
       {/* Learner portal, employer dashboard, workforce analytics screenshots.
           System capabilities listed — framed as "supporting student success." */}
       <HomePlatformPreview />
+
+      {/* ── 8b. EMPLOYER STRIP ──────────────────────────────────────────── */}
+      <HomeEmployerStrip />
 
       {/* ── 9. SEGMENTED CTA ────────────────────────────────────────────── */}
       {/* Separate entry funnels: Learners / Employers / Workforce Agencies /

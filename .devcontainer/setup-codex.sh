@@ -66,7 +66,22 @@ else
   echo "  ✅ ~/.codex/config.json already exists"
 fi
 
-# ── 4. Print usage ────────────────────────────────────────────────────────────
+# ── 4. Wire playbook as Codex instructions ───────────────────────────────────
+# Codex reads ~/.codex/instructions.md as persistent system context.
+# Symlink the repo playbook so it stays in sync with the codebase.
+PLAYBOOK="$(dirname "$0")/../docs/CODEX_PLAYBOOK.md"
+INSTRUCTIONS="${CODEX_DIR}/instructions.md"
+
+if [ -f "$PLAYBOOK" ]; then
+  # Remove stale symlink or file before re-linking
+  rm -f "$INSTRUCTIONS"
+  ln -s "$(realpath "$PLAYBOOK")" "$INSTRUCTIONS"
+  echo "  ✅ ~/.codex/instructions.md → docs/CODEX_PLAYBOOK.md"
+else
+  echo "  ⚠️  docs/CODEX_PLAYBOOK.md not found — instructions.md not wired"
+fi
+
+# ── 5. Print usage ────────────────────────────────────────────────────────────
 echo ""
 echo "  Codex CLI ready. Usage:"
 echo "    codex                          # interactive mode (suggest)"
