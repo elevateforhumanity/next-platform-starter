@@ -472,6 +472,19 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
+    label: 'Organization Identity',
+    keys: [
+      'NEXT_PUBLIC_ORG_NAME',
+      'NEXT_PUBLIC_ORG_LEGAL_NAME',
+      'NEXT_PUBLIC_SUPPORT_EMAIL',
+      'NEXT_PUBLIC_SUPPORT_PHONE',
+      'NEXT_PUBLIC_EMAIL_FROM_NAME',
+      'NEXT_PUBLIC_EMAIL_FROM_ADDRESS',
+      'NEXT_PUBLIC_CERT_HOLDER',
+      'NEXT_PUBLIC_CANONICAL_DOMAIN',
+    ],
+  },
+  {
     label: 'Site / App',
     keys: [
       'NEXT_PUBLIC_SITE_URL',
