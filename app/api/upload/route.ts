@@ -151,7 +151,7 @@ async function _DELETE(request: Request) {
     const { error } = await supabase.storage.from('documents').remove([storagePath]);
     if (error) return safeInternalError(error, 'Failed to delete file');
 
-    await supabase.from('documents').delete().eq('storage_path', storagePath);
+    await supabase.from('documents').delete().eq('file_path', storagePath);
 
     return NextResponse.json({ success: true });
   } catch (error) {

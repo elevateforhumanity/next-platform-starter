@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { safeInternalError } from '@/lib/api/safe-error';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -105,7 +105,7 @@ async function _POST(req: NextRequest) {
 
     if (error) {
       logger.error('Upload error:', error);
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error, 'Failed to upload file');
     }
 
     // Get public URL
@@ -130,10 +130,7 @@ async function _POST(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Upload error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to upload file', message: toErrorMessage(error) },
-      { status: 500 },
-    );
+    return safeInternalError(error as Error, 'Failed to upload file');
   }
 }
 export const POST = withApiAudit('/api/media/upload', _POST);
