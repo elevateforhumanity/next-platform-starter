@@ -85,6 +85,10 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     'application/rtf',
     'application/vnd.oasis.opendocument.text',
     'application/vnd.oasis.opendocument.spreadsheet',
+    'application/zip',
+    'application/x-zip-compressed',
+    'application/x-zip',
+    'multipart/x-zip',
     'image/jpeg',
     'image/jpg',
     'image/png',
@@ -97,6 +101,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
   const ALLOWED_DOCUMENT_EXTENSIONS = new Set([
     'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'rtf', 'odt', 'ods',
+    'zip',
     'jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'tif', 'tiff', 'gif',
   ]);
 

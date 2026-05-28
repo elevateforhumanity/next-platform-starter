@@ -44,6 +44,10 @@ async function _POST(req: Request) {
       'application/rtf',
       'application/vnd.oasis.opendocument.text',
       'application/vnd.oasis.opendocument.spreadsheet',
+      'application/zip',
+      'application/x-zip-compressed',
+      'application/x-zip',
+      'multipart/x-zip',
       'image/jpeg',
       'image/jpg',
       'image/png',
@@ -56,6 +60,7 @@ async function _POST(req: Request) {
 
     const ALLOWED_DOCUMENT_EXTENSIONS = new Set([
       'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'rtf', 'odt', 'ods',
+      'zip',
       'jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'tif', 'tiff', 'gif',
     ]);
 
