@@ -172,6 +172,7 @@ export interface LearnerDashboardData {
   onboardingDone: boolean;
   accessGranted: boolean;
   latestEnrollment: EnrollmentDTO | null;
+  binder: { id: string; status: string; enrollment_id: string | null } | null;
   /** Non-fatal warnings from optional query failures — for diagnostics only. */
   warnings: string[];
 }
@@ -589,7 +590,21 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
     }
   }
 
-  // ── 20. DERIVED STATS ─────────────────────────────────────────────
+  // ── 20. DIGITAL BINDER ────────────────────────────────────────────
+  const { data: binderRow, error: binderErr } = await supabase
+    .from('digital_binders')
+    .select('id, status, enrollment_id')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (binderErr) {
+    warnings.push('digital_binders query failed');
+    logger.warn('loadLearnerDashboard: digital_binders query failed', binderErr);
+  }
+
+  // ── 21. DERIVED STATS ─────────────────────────────────────────────
   const activeEnrollments = enrollments.filter(
     (e) =>
       ACCESS_STATES.includes(e.status ?? '') ||
@@ -633,6 +648,13 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
     onboardingDone: !!profile?.onboarding_completed,
     accessGranted: !!(programEnrollments ?? []).find((e: any) => e.access_granted_at),
     latestEnrollment: enrollments[0] ?? null,
+    binder: binderRow
+      ? {
+          id: binderRow.id,
+          status: binderRow.status ?? 'unknown',
+          enrollment_id: binderRow.enrollment_id ?? null,
+        }
+      : null,
     warnings,
   };
 }

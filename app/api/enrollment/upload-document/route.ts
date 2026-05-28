@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { ensureDigitalBinder } from '@/lib/enrollment/ensure-digital-binder';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -33,6 +34,29 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
+    if (!enrollmentId) {
+      return NextResponse.json({ error: 'enrollmentId is required' }, { status: 400 });
+    }
+
+    // Verify enrollment belongs to this user
+    const { data: enrollment } = await supabase
+      .from('program_enrollments')
+      .select('id')
+      .eq('id', enrollmentId)
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (!enrollment) {
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
+    }
+
+    // Ensure a digital binder exists for this enrollment (idempotent)
+    const { binderId } = await ensureDigitalBinder({
+      db: supabase as any,
+      userId: user.id,
+      enrollmentId: enrollment.id,
+    });
+
     // No file size or type restrictions — accept any file
     const fileExt = file.name.split('.').pop()?.toLowerCase() ?? '';
     const normalizedExt = fileExt || 'bin';
@@ -41,7 +65,7 @@ async function _POST(req: Request) {
     const fileName = `${user.id}/${enrollmentId}/${documentType}-${Date.now()}.${normalizedExt}`;
 
     // Upload to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('documents')
       .upload(fileName, file, {
         cacheControl: '3600',
@@ -56,12 +80,13 @@ async function _POST(req: Request) {
     // Get public URL
     const { data: urlData } = supabase.storage.from('documents').getPublicUrl(fileName);
 
-    // Create document record in database
+    // Create document record — linked to enrollment and binder
     const { data: document, error: dbError } = await supabase
       .from('documents')
       .insert({
         user_id: user.id,
-        enrollment_id: enrollmentId || null,
+        enrollment_id: enrollmentId,
+        digital_binder_id: binderId,
         file_name: file.name,
         document_type: documentType,
         file_url: urlData.publicUrl,
@@ -78,16 +103,47 @@ async function _POST(req: Request) {
       // Don't fail — file is uploaded, just log the error
     }
 
-    // Trigger OCR processing asynchronously — fire-and-forget.
-    // Only runs when the DB record was created successfully (we have a document.id).
+    // OCR — save directly for image uploads, fire-and-forget for others
     if (document?.id) {
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXTAUTH_URL ?? '';
-      if (baseUrl) {
-        fetch(`${baseUrl}/api/automation/process-document`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-internal-trigger': '1' },
-          body: JSON.stringify({ document_id: document.id }),
-        }).catch((err) => logger.warn('OCR trigger failed (non-fatal)', err));
+      if (file.type.startsWith('image/')) {
+        try {
+          const siteUrl =
+            process.env.NEXT_PUBLIC_SITE_URL ||
+            process.env.URL ||
+            process.env.NEXTAUTH_URL ||
+            '';
+          if (siteUrl) {
+            const ocrForm = new FormData();
+            ocrForm.append('file', file);
+            ocrForm.append('documentType', documentType);
+            ocrForm.append('programContext', 'learner');
+
+            const ocrRes = await internalFetch(`${siteUrl}/api/ocr/extract`, {
+              method: 'POST',
+              body: ocrForm,
+            });
+
+            if (ocrRes.ok) {
+              const ocrData = await ocrRes.json();
+              await supabase
+                .from('documents')
+                .update({ ocr_text: ocrData.rawText || null })
+                .eq('id', document.id);
+            }
+          }
+        } catch (err) {
+          logger.warn('OCR extraction/update failed (non-fatal)', err as Error);
+        }
+      } else {
+        // Non-image: async automation trigger (fire-and-forget)
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXTAUTH_URL ?? '';
+        if (baseUrl) {
+          fetch(`${baseUrl}/api/automation/process-document`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-internal-trigger': '1' },
+            body: JSON.stringify({ document_id: document.id }),
+          }).catch((err) => logger.warn('OCR trigger failed (non-fatal)', err));
+        }
       }
     }
 
