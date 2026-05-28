@@ -678,7 +678,7 @@ const nextConfig = {
         destination: '/programs/hvac-technician',
         permanent: false,
       },
-      { source: '/credentials/:path*', destination: '/programs', permanent: false },
+      { source: '/credentials/:path+', destination: '/programs', permanent: false },
       // /careers, /donate, /philanthropy — real pages, no redirect
       // /tuition-fees → /tuition
       // /faq, /how-it-works — real pages, no redirect

@@ -51,7 +51,7 @@ const STEPS = [
     n: '05',
     label: 'Credential',
     detail: 'Industry-recognized certification. Publicly verifiable on our platform.',
-    href: '/verify',
+    href: '/credentials',
     img: '/images/pages/certifications-page-1.webp',
     imgAlt: 'Graduate receiving industry credential certificate',
     accent: 'border-purple-500',

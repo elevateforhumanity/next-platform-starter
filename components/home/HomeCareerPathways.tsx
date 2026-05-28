@@ -117,7 +117,7 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
             href={prog.cta?.applyHref || `/apply?program=${prog.slug}`}
             className="flex-1 text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
           >
-            Apply
+            Apply Free
           </Link>
           <Link
             href={`/programs/${prog.slug}`}
