@@ -83,7 +83,7 @@ export function HomePlatformPreview() {
                   loading="lazy"
                   placeholder="empty"
                 />
-                <div className="absolute inset-0 bg-slate-900/20" />
+
               </div>
               <div className="p-4">
                 <p className="text-sm font-extrabold text-white mb-1">{cap.label}</p>

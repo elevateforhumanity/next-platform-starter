@@ -109,7 +109,6 @@ export function HomeHowItWorks() {
                   loading={i < 3 ? 'eager' : 'lazy'}
                   placeholder="empty"
                 />
-                <div className="absolute inset-0 bg-slate-900/30" />
                 <span className="absolute top-2 left-2 text-[10px] font-black text-white bg-slate-900/60 px-1.5 py-0.5 rounded-md">
                   {step.n}
                 </span>

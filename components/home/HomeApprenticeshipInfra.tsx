@@ -58,7 +58,7 @@ export function HomeApprenticeshipInfra() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Learner side */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="relative h-40 w-full">
+            <div className="relative h-48 w-full">
               <Image
                 src="/images/learners/coaching-session.webp"
                 alt="Learner in apprenticeship training session"
@@ -68,11 +68,10 @@ export function HomeApprenticeshipInfra() {
                 loading="lazy"
                 placeholder="empty"
               />
-              <div className="absolute inset-0 bg-slate-900/40" />
-              <div className="absolute bottom-3 left-4">
-                <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider">For Learners</p>
-                <h3 className="text-base font-extrabold text-white">Earn while you learn</h3>
-              </div>
+            </div>
+            <div className="px-6 pt-4 pb-1 border-b border-slate-100">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">For Learners</p>
+              <h3 className="text-base font-extrabold text-slate-900">Earn while you learn</h3>
             </div>
             <div className="p-6">
               <ul className="space-y-2" role="list">
@@ -94,7 +93,7 @@ export function HomeApprenticeshipInfra() {
 
           {/* Employer side */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="relative h-40 w-full">
+            <div className="relative h-48 w-full">
               <Image
                 src="/images/pages/about-employer-partners.webp"
                 alt="Employer partner working with Elevate team"
@@ -104,11 +103,10 @@ export function HomeApprenticeshipInfra() {
                 loading="lazy"
                 placeholder="empty"
               />
-              <div className="absolute inset-0 bg-slate-900/40" />
-              <div className="absolute bottom-3 left-4">
-                <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider">For Employers</p>
-                <h3 className="text-base font-extrabold text-white">Hire, train, retain</h3>
-              </div>
+            </div>
+            <div className="px-6 pt-4 pb-1 border-b border-slate-100">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">For Employers</p>
+              <h3 className="text-base font-extrabold text-slate-900">Hire, train, retain</h3>
             </div>
             <div className="p-6">
               <ul className="space-y-2" role="list">
@@ -129,8 +127,8 @@ export function HomeApprenticeshipInfra() {
           </div>
         </div>
 
-        {/* Photo + stat strip */}
-        <div className="relative rounded-2xl overflow-hidden">
+        {/* Photo + copy strip */}
+        <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
           <div className="relative h-56 sm:h-72 w-full">
             <Image
               src="/images/pages/apprenticeships-page-1.webp"
@@ -141,26 +139,23 @@ export function HomeApprenticeshipInfra() {
               loading="lazy"
               placeholder="empty"
             />
-            <div className="absolute inset-0 bg-slate-900/55" />
           </div>
-          <div className="absolute inset-0 flex items-center px-8 sm:px-12">
+          <div className="px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="max-w-lg">
-              <p className="text-white text-lg sm:text-2xl font-extrabold leading-snug mb-3">
-                Apprenticeship isn&apos;t a program add-on.
-                <br />
-                It&apos;s the pathway.
+              <p className="text-slate-900 text-lg sm:text-xl font-extrabold leading-snug mb-1">
+                Apprenticeship isn&apos;t a program add-on. It&apos;s the pathway.
               </p>
-              <p className="text-slate-300 text-sm leading-relaxed mb-5">
+              <p className="text-slate-500 text-sm leading-relaxed">
                 Structured OJT, employer coordination, and RAPIDS-compatible reporting — built
                 into every eligible program from day one.
               </p>
-              <Link
-                href="/apprenticeship-sponsor"
-                className="inline-flex items-center gap-2 bg-white text-slate-900 font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-slate-100 transition-colors"
-              >
-                About our apprenticeship program <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
+            <Link
+              href="/apprenticeship-sponsor"
+              className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-5 py-2.5 rounded-lg transition-colors shrink-0"
+            >
+              About our apprenticeship program <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useState } from 'react';
+import Link from 'next/link';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
 import {
   CreditCard,
@@ -320,19 +321,19 @@ export default function UnifiedPaymentFlow({
       <div className="mt-6 text-center text-sm text-black">
         <p>
           By proceeding, you agree to our{' '}
-          <a href="/legal" className="text-brand-blue-600 hover:underline">
+          <Link href="/legal" className="text-brand-blue-600 hover:underline">
             Terms of Service
-          </a>{' '}
+          </Link>{' '}
           and{' '}
-          <a href="/legal/privacy" className="text-brand-blue-600 hover:underline">
+          <Link href="/legal/privacy" className="text-brand-blue-600 hover:underline">
             Privacy Policy
-          </a>
+          </Link>
         </p>
         <p className="mt-2">
           Need help? Call us at{' '}
-          <a href="/support" className="text-brand-blue-600 hover:underline font-semibold">
+          <Link href="/support" className="text-brand-blue-600 hover:underline font-semibold">
             support center
-          </a>
+          </Link>
         </p>
       </div>
     </div>

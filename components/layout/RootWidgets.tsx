@@ -2,6 +2,7 @@
 
 import dynamicImport from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import SpeechCanceller from '@/components/ui/SpeechCanceller';
 
 const GlobalAvatar = dynamicImport(() => import('@/components/GlobalAvatar'), {
   ssr: false,
@@ -43,6 +44,7 @@ export default function RootWidgets() {
 
   return (
     <>
+      <SpeechCanceller />
       <GlobalAvatar />
       <FacebookPixel />
       <ConditionalAIBubble />
