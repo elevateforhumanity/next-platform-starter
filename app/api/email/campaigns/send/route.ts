@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -132,7 +133,7 @@ async function _POST(req: NextRequest) {
       'Error sending campaign:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 

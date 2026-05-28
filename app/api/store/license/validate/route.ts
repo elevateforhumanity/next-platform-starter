@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { hashLicenseKey, isValidLicenseKeyFormat } from '@/lib/store/license';
 
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -134,7 +135,7 @@ async function _POST(req: Request) {
       'License validation error:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return Response.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/store/license/validate', _POST);

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -30,7 +31,7 @@ async function _GET(request: Request) {
     .select('id,name')
     .order('name');
 
-  if (error) return new Response(toErrorMessage(error), { status: 500 });
+  if (error) return safeInternalError(error as Error, 'Internal server error');
   return Response.json(data || []);
 }
 export const GET = withApiAudit('/api/delegates/holders', _GET);

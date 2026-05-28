@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { generateLicenseKey, hashLicenseKey } from '@/lib/store/license';
 
 import { logger } from '@/lib/logger';
-import { toErrorMessage } from '@/lib/safe';
+import { safeInternalError } from '@/lib/api/safe-error';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -82,7 +82,7 @@ function getProductTier(productSlug: string): {
 
 async function _POST(req: Request) {
   try {
-    const rateLimited = await applyRateLimit(req, 'contact');
+    const rateLimited = await applyRateLimit(req, 'payment');
     if (rateLimited) return rateLimited;
 
     // Rate limiting - strict limit for license generation
@@ -211,7 +211,7 @@ async function _POST(req: Request) {
       'License generation error:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return Response.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Failed to generate license');
   }
 }
 export const POST = withApiAudit('/api/store/license/generate', _POST);

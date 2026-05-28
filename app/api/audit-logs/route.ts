@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -57,7 +58,7 @@ async function _GET(request: Request) {
   const { data: logs, error, count } = await query;
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json({ logs, total: count });

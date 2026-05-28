@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { internalFetch } from '@/lib/api/internal-fetch';
 import { NextResponse } from 'next/server';
 
@@ -272,7 +273,7 @@ async function _POST(req: Request) {
       },
     });
   } catch (err: unknown) {
-    return NextResponse.json({ error: toErrorMessage(err) || 'Upload failed' }, { status: 500 });
+    return safeInternalError(err as Error, 'Upload failed');
   }
 }
 export const POST = withApiAudit('/api/program-holder/documents/upload', _POST);

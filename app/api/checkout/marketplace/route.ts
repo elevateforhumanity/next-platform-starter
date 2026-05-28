@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getStripe } from '@/lib/stripe/client';
@@ -78,7 +79,7 @@ async function _POST(req: NextRequest) {
 
     return NextResponse.json({ sessionId: session.id });
   } catch (err: unknown) {
-    return NextResponse.json({ error: toErrorMessage(err) }, { status: 500 });
+    return safeInternalError(err as Error, 'Internal server error');
   }
 }
 export const POST = withRuntime(withApiAudit('/api/checkout/marketplace', _POST));

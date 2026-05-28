@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -34,7 +35,7 @@ async function _GET(req: NextRequest) {
       'Error fetching campaigns:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 
@@ -71,7 +72,7 @@ async function _POST(req: Request) {
       'Error creating campaign:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const GET = withApiAudit('/api/email/campaigns', _GET);

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -27,7 +28,7 @@ async function _DELETE(request: NextRequest, { params }: { params: Promise<{ id:
     const { error } = await supabase.from('notes').delete().eq('id', id).eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ success: true });

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 
 import { parseBody } from '@/lib/api-helpers';
@@ -45,12 +46,12 @@ async function _GET(request: Request) {
       .order('started_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ enrollments });
   } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 
@@ -100,12 +101,12 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json(enrollment, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const GET = withApiAudit('/api/enrollments', _GET);

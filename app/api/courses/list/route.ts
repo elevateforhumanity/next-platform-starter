@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // PUBLIC ROUTE: public course list for catalog browsing
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -61,7 +62,7 @@ async function _GET(request: NextRequest) {
 
     if (error) {
       logger.error('Courses fetch error:', error);
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
+      return safeInternalError(error as Error, 'Bad request');
     }
 
     return NextResponse.json({ courses });

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { parseBody } from '@/lib/api-helpers';
@@ -32,7 +33,7 @@ async function _GET(request: NextRequest) {
     .order('created_at', { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json(emails);
@@ -71,7 +72,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json(data);
@@ -86,7 +87,7 @@ async function _POST(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ success: true });
@@ -101,7 +102,7 @@ async function _POST(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ success: true });
@@ -116,7 +117,7 @@ async function _POST(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ success: true });

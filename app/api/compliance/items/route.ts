@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
@@ -26,7 +27,7 @@ async function _GET(request: NextRequest) {
     .order('title', { ascending: true });
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json({ items });
@@ -57,7 +58,7 @@ async function _PATCH(request: NextRequest) {
     .eq('id', id);
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   await supabase.from('audit_logs').insert({

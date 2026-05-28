@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -67,7 +68,7 @@ async function _POST(req: Request) {
     });
   } catch (error) {
     logger.error('Sync error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: toErrorMessage(error) || 'Sync failed' }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/offline/sync', _POST);

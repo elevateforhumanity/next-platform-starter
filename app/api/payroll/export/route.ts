@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // app/api/payroll/export/route.ts
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -49,7 +50,7 @@ async function _GET(request: Request) {
     .lte('worked_at', periodEnd);
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   // Hydrate profiles separately (time_entries.user_id has no FK to profiles)

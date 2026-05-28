@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { cloneRepoForCustomer } from '@/lib/store/github-clone';
 import { hashLicenseKey } from '@/lib/store/license';
 
@@ -128,7 +129,7 @@ async function _POST(req: Request) {
     });
   } catch (error) {
     logger.error('Clone error:', error instanceof Error ? error : new Error(String(error)));
-    return Response.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/store/clone', _POST);

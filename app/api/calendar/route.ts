@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -39,7 +40,7 @@ async function _GET(request: NextRequest) {
   const { data: events, error } = await query;
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json(events);
@@ -83,7 +84,7 @@ async function _POST(request: NextRequest) {
     .maybeSingle();
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json(data);
@@ -113,7 +114,7 @@ async function _PUT(request: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json(data);
@@ -144,7 +145,7 @@ async function _DELETE(request: NextRequest) {
     .eq('user_id', user.id);
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json({ success: true });

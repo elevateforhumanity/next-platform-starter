@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -45,7 +46,7 @@ async function _GET(request: NextRequest) {
     const { data: notes, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ notes });
@@ -90,7 +91,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ note });

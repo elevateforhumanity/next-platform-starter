@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // PUBLIC ROUTE: public featured programs list
 
 // app/api/programs/featured/route.ts
@@ -48,7 +49,7 @@ async function _GET(req: NextRequest) {
     .limit(12);
 
   if (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   // Cache for 5 minutes

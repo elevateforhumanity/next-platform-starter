@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { logger } from '@/lib/logger';
@@ -102,7 +103,7 @@ async function _POST(request: NextRequest) {
       'Text-to-speech error:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/text-to-speech', _POST);

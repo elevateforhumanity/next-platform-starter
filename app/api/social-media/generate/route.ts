@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
@@ -85,7 +86,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ success: true, posts });
   } catch (error) {
     logger.error('Social media generation error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/social-media/generate', _POST);

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // PUBLIC ROUTE: public course index for catalog browsing
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -25,7 +26,7 @@ async function _GET(req: NextRequest) {
 
     if (error) {
       logger.error('Supabase error:', error);
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
+      return safeInternalError(error as Error, 'Bad request');
     }
 
     return NextResponse.json(data || []);

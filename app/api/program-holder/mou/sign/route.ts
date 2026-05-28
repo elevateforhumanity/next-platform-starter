@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
@@ -88,7 +89,7 @@ async function _POST(req: NextRequest) {
 
   if (error) {
     logger.error('Update error:', error);
-    return new Response(toErrorMessage(error), { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   // Notify admin that MOU was signed

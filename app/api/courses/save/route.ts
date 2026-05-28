@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -58,7 +59,7 @@ async function _POST(req: NextRequest) {
 
     if (error) {
       logger.error('Supabase error:', error);
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
+      return safeInternalError(error as Error, 'Bad request');
     }
 
     return NextResponse.json({ ok: true, course: data });

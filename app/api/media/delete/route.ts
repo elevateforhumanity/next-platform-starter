@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { createClient } from '@/lib/supabase/server';
 
 import { toErrorMessage } from '@/lib/safe';
@@ -67,7 +68,7 @@ export async function POST(req: Request) {
 
     if (error) {
       logger.error('Delete error:', error);
-      return Response.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     // Audit: log file deletion

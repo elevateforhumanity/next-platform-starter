@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -234,7 +235,7 @@ async function _GET(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Scheduler error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 

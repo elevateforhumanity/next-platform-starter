@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // CRON ROUTE: processes triggered email workflows — called every 5 min by cron
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -91,7 +92,7 @@ async function _GET(req: Request) {
       'Workflow processor error:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -41,7 +42,7 @@ async function _GET(request: Request) {
     )
     .order('created_at', { ascending: false });
 
-  if (error) return new Response(toErrorMessage(error), { status: 500 });
+  if (error) return safeInternalError(error as Error, 'Internal server error');
 
   const mapped = (delegates || []).map((r: Record<string, any>) => ({
     id: r.id,

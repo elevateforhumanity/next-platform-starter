@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -105,7 +106,7 @@ async function _PATCH(request: NextRequest, { params }: { params: Promise<{ cour
       .single();
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
+      return safeInternalError(error as Error, 'Bad request');
     }
 
     return NextResponse.json({ course });
@@ -157,7 +158,7 @@ async function _DELETE(
     const { error } = await supabase.from('courses').delete().eq('id', courseId);
 
     if (error) {
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
+      return safeInternalError(error as Error, 'Bad request');
     }
 
     return NextResponse.json({ success: true });

@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -72,7 +73,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json({ err: toErrorMessage(err) || 'Upload failed' }, { status: 500 });
+    return safeInternalError(err as Error, 'Internal server error');
   }
 }
 export const POST = withApiAudit('/api/shop/documents/upload', _POST);

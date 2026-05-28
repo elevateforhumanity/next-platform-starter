@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -55,7 +56,7 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ mode, output: parsedOutput, raw: output, success: true });
   } catch (error) {
     logger.error('AI generation error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: 'Failed to generate content', message: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Failed to generate content');
   }
 }
 export const POST = withApiAudit('/api/ai/generate-course', _POST);

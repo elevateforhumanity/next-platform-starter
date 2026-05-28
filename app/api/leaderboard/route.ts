@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 import { getCurrentUser, createServerSupabaseClient } from '@/lib/auth';
 import { toErrorMessage } from '@/lib/safe';
@@ -89,7 +90,7 @@ async function _GET(request: Request) {
       timeframe,
     });
   } catch (error) {
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const GET = withApiAudit('/api/leaderboard', _GET);

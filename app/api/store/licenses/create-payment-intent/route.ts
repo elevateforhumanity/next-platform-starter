@@ -27,7 +27,7 @@ const licensePaymentSchema = z.object({
 
 async function _POST(request: NextRequest) {
   try {
-    const rateLimited = await applyRateLimit(request, 'contact');
+    const rateLimited = await applyRateLimit(request, 'payment');
     if (rateLimited) return rateLimited;
 
     const auth = await apiAuthGuard();

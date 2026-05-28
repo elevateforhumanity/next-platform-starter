@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // PUBLIC ROUTE: security scan event reporting — no auth possible
 import { NextResponse } from 'next/server';
 import { detectAIBot, isRateLimited, logRequest } from '@/lib/security/ai-protection';
@@ -40,7 +41,7 @@ async function _POST(req: Request) {
 
   if (error) {
     logger.error('Failed to insert security scan event:', error);
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 
   return NextResponse.json({ ok: true });

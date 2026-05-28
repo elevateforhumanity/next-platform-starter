@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 // PUBLIC ROUTE: public social media campaigns display
 import { NextResponse } from 'next/server';
 
@@ -31,7 +32,7 @@ async function _GET(req: Request) {
       'Error fetching campaigns:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 
@@ -67,7 +68,7 @@ async function _POST(req: Request) {
       'Error creating campaign:',
       error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const GET = withApiAudit('/api/social-media/campaigns', _GET);

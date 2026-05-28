@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { NextResponse } from 'next/server';
 
@@ -34,7 +35,7 @@ async function _POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     return NextResponse.json({ success: true });

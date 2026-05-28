@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -177,7 +178,7 @@ async function _GET(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Analytics error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
+    return safeInternalError(error as Error, 'Internal server error');
   }
 }
 export const GET = withApiAudit('/api/email/analytics', _GET);

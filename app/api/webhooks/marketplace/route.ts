@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+      return safeInternalError(error as Error, 'Internal server error');
     }
 
     // Audit log

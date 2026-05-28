@@ -1,3 +1,4 @@
+import { safeInternalError } from '@/lib/api/safe-error';
 
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -24,7 +25,7 @@ async function _GET(request: Request) {
   if (!['admin', 'partner'].includes(prof?.role)) return new Response('Forbidden', { status: 403 });
 
   const { data, error }: any = await supabase.from('cert_revocation_log').select('*');
-  if (error) return new Response(toErrorMessage(error), { status: 500 });
+  if (error) return safeInternalError(error as Error, 'Internal server error');
   const header =
     'serial,learner_email,course_title,issued_at,expires_at,revoked_at,revoked_reason\n';
   const csv = (data || [])
