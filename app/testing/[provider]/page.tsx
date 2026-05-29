@@ -115,7 +115,7 @@ export default async function ProviderPage({ params }: Props) {
       {/* HERO */}
       <section
         className="relative flex items-end overflow-hidden"
-        style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
+        style={{ minHeight: 'clamp(260px, 45vw, 520px)' }}
       >
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
@@ -129,7 +129,7 @@ export default async function ProviderPage({ params }: Props) {
         <div
           className={`absolute inset-0 bg-gradient-to-t ${accent} via-transparent to-transparent opacity-90`}
         />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 pb-12 w-full">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12 w-full">
           {/* Breadcrumb */}
           <nav className="text-sm text-white/60 mb-4">
             <Link href="/testing" className="hover:text-white transition-colors">
@@ -151,7 +151,7 @@ export default async function ProviderPage({ params }: Props) {
             />
             {isActive ? 'Authorized Testing Site' : 'Available Through Partner'}
           </span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-3">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
             {provider.name}
           </h1>
           <div className="flex items-center gap-2 text-white/70 text-sm">
@@ -162,7 +162,7 @@ export default async function ProviderPage({ params }: Props) {
       </section>
 
       {/* BODY */}
-      <div className="max-w-5xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 grid lg:grid-cols-3 gap-8 lg:gap-10">
         {/* Left — description + exams */}
         <div className="lg:col-span-2 space-y-10">
           {/* About */}
@@ -385,7 +385,7 @@ export default async function ProviderPage({ params }: Props) {
       </div>
 
       {/* BOTTOM CTA */}
-      <section className="bg-slate-900 py-16 px-6 text-center">
+      <section className="bg-slate-900 py-12 sm:py-16 px-4 sm:px-6 text-center">
         <h2 className="text-3xl font-extrabold text-white mb-3">Ready to Get Certified?</h2>
         <p className="text-slate-300 mb-8 max-w-xl mx-auto">
           All exams are by appointment only. Walk-ins are not accepted. Same-day appointments may be

@@ -95,8 +95,7 @@ async function _POST(req: NextRequest) {
         programSlug: programId === 'prog-barber' ? 'barber-apprenticeship' : programId,
         ...metadata,
       },
-      // Let Stripe dynamically show eligible payment methods based on customer location and cart
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card'],
     };
 
     // Add customer email if provided

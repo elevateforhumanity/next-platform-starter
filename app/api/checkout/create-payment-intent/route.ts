@@ -56,7 +56,7 @@ async function _POST(req: NextRequest) {
         userId: user.id,
         courseTitle: course.title,
       },
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card'],
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });

@@ -51,7 +51,7 @@ async function _POST(request: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalCents,
       currency: 'usd',
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card'],
       metadata: { items: JSON.stringify(normalized) },
     });
 

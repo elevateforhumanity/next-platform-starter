@@ -207,7 +207,7 @@ function TestingCartBar() {
 
       {/* Main bar */}
       <div className="bg-slate-900 text-white">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
+        <div className="max-w-3xl mx-auto px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-3">
           {/* Toggle expand */}
           <button
             onClick={() => setExpanded((v) => !v)}
@@ -219,8 +219,11 @@ function TestingCartBar() {
                 {items.length}
               </span>
             </div>
-            <span className="text-sm font-medium truncate">
+            <span className="text-sm font-medium truncate hidden sm:block">
               {items.length === 1 ? items[0].examName : `${items.length} exams selected`}
+            </span>
+            <span className="text-sm font-medium truncate sm:hidden">
+              {items.length} exam{items.length !== 1 ? 's' : ''}
             </span>
             {expanded ? (
               <ChevronDown className="w-4 h-4 flex-shrink-0 text-slate-400" />
@@ -230,7 +233,7 @@ function TestingCartBar() {
           </button>
 
           {/* Total */}
-          <span className="text-lg font-extrabold flex-shrink-0">${totalDollars}</span>
+          <span className="text-base sm:text-lg font-extrabold flex-shrink-0">${totalDollars}</span>
 
           {/* Clear */}
           <button
@@ -245,15 +248,18 @@ function TestingCartBar() {
           <button
             onClick={handleCheckout}
             disabled={loading}
-            className="flex-shrink-0 flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold px-5 py-2.5 rounded-lg transition-colors text-sm"
+            className="flex-shrink-0 flex items-center gap-1.5 bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold px-3 sm:px-5 py-2.5 rounded-lg transition-colors text-sm whitespace-nowrap"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Processing…
+                <span className="hidden sm:inline">Processing…</span>
               </>
             ) : (
-              'Pay & Book'
+              <>
+                <span className="hidden sm:inline">Pay & Book</span>
+                <span className="sm:hidden">Pay</span>
+              </>
             )}
           </button>
         </div>

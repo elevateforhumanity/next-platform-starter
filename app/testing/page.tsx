@@ -269,11 +269,11 @@ export default function TestingPage() {
                     })()}
 
                     {/* Actions */}
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-2">
                       {provider.status === 'active' && (
                         <Link
                           href={`/testing/book?exam=${provider.key}`}
-                          className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors"
+                          className="inline-flex items-center gap-1.5 bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors"
                         >
                           <CreditCard className="w-4 h-4" />
                           {provider.fees && provider.fees.length > 0
@@ -283,34 +283,24 @@ export default function TestingPage() {
                       )}
                       <Link
                         href={TESTING_APPLY_LINKS[provider.key] || '/apply/student'}
-                        className="inline-flex items-center gap-2 border border-brand-blue-300 text-brand-blue-700 hover:border-brand-blue-400 text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 border border-brand-blue-300 text-brand-blue-700 hover:border-brand-blue-400 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                       >
                         Apply for Training →
                       </Link>
                       {provider.key === 'certiport' && provider.status === 'active' && (
                         <Link
                           href="/certiport-exam"
-                          className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors"
+                          className="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors"
                         >
-                          Request Exam Voucher →
+                          Request Voucher →
                         </Link>
                       )}
                       <Link
                         href={`/testing/${provider.key}`}
-                        className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 hover:border-slate-400 text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 border border-slate-300 text-slate-700 hover:border-slate-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                       >
                         View Details →
                       </Link>
-                      {provider.verifyUrl && (
-                        <a
-                          href={provider.verifyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 hover:border-slate-400 text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
-                        >
-                          Provider Site →
-                        </a>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -320,7 +310,7 @@ export default function TestingPage() {
         </div>
       </section>
 
-      {/* FEE SUMMARY TABLE */}
+      {/* FEE SUMMARY — card list on mobile, table on md+ */}
       <section className="py-14 bg-slate-50 border-t border-slate-100">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-3">
@@ -330,7 +320,30 @@ export default function TestingPage() {
           <p className="text-slate-500 mb-8 text-sm max-w-2xl">
             All fees include the exam and proctoring. {TESTING_CENTER.policy.workforceFunding}
           </p>
-          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+
+          {/* Mobile card list */}
+          <div className="md:hidden space-y-3">
+            {ACTIVE_PROVIDERS.filter((p) => p.fees && p.fees.length > 0).flatMap((p) =>
+              p.fees!.map((fee, i) => (
+                <div key={`${p.key}-${i}`} className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    {i === 0 && <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5">{p.name}</p>}
+                    <p className="text-sm font-semibold text-slate-800 leading-snug">{fee.label}</p>
+                    {fee.note && <p className="text-xs text-slate-500 mt-0.5">{fee.note}</p>}
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="font-black text-brand-red-600 text-lg">${fee.amount}</span>
+                    <Link href={`/testing/book?exam=${p.key}`} className="bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap">
+                      Book →
+                    </Link>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white rounded-2xl border border-slate-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
@@ -350,19 +363,14 @@ export default function TestingPage() {
                       <td className="px-5 py-3 text-slate-800 font-medium align-middle">
                         {fee.label}
                         {fee.note && (
-                          <span className="block text-xs text-slate-600 font-normal">
-                            {fee.note}
-                          </span>
+                          <span className="block text-xs text-slate-600 font-normal">{fee.note}</span>
                         )}
                       </td>
                       <td className="px-5 py-3 text-right font-black text-brand-red-600 text-base align-middle whitespace-nowrap">
                         ${fee.amount}
                       </td>
                       <td className="px-5 py-3 text-right align-middle">
-                        <Link
-                          href={`/testing/book?exam=${p.key}`}
-                          className="inline-flex items-center gap-1 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
-                        >
+                        <Link href={`/testing/book?exam=${p.key}`} className="inline-flex items-center gap-1 bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap">
                           Book →
                         </Link>
                       </td>
