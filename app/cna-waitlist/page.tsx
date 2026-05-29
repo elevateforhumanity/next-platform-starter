@@ -54,7 +54,7 @@ export default function CnaWaitlistPage() {
             Apply Now <ArrowRight className="w-4 h-4" />
           </Link>
           <div className="mt-4 text-sm text-slate-500">
-            Questions? <Link href="/contact" className="text-brand-blue-600 hover:underline">Contact us</Link> or call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
+            Questions? <Link href="/contact" className="text-brand-blue-600 hover:underline">Contact us</Link> or call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </div>
         </div>
       </section>

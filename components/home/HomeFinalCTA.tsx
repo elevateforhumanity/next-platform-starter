@@ -52,7 +52,7 @@ export function HomeFinalCTA() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-red-200 text-xs">
           <a
-            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+            href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
             className="inline-flex items-center gap-1.5 text-white font-bold hover:text-red-100 transition-colors"
           >
             <Phone className="w-3.5 h-3.5" aria-hidden="true" />

@@ -149,7 +149,7 @@ export default function EstheticianPartnerPageClient({ isApproved = false }: Pro
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Esthetician Apprenticeship program and start developing talent for your spa or salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/partners/esthetician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-pink-600 text-white rounded-xl font-extrabold text-base hover:bg-pink-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">{PLATFORM_DEFAULTS.supportPhone}</a>
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">{PLATFORM_DEFAULTS.supportPhone}</a>
           </div>
         </div>
       </section>

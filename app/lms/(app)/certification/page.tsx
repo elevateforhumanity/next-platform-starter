@@ -373,7 +373,7 @@ export default async function CertificationPage() {
               Questions about your exam, funding, or credentials?
             </p>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="block text-center bg-brand-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-brand-blue-700 transition"
             >
               Call {PLATFORM_DEFAULTS.supportPhone}

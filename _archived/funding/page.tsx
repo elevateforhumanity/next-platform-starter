@@ -598,7 +598,7 @@ export default function FundingPage() {
             </a>{' '}
             or call{' '}
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="text-green-600 hover:underline font-semibold"
             >
               {PLATFORM_DEFAULTS.supportPhone}

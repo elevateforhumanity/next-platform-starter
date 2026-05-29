@@ -482,7 +482,7 @@ function ProgramPage({
           </div>
           <p className="mt-8 text-red-100 text-xs">
             Questions? Call or text{' '}
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-white font-bold underline">
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-white font-bold underline">
               {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>

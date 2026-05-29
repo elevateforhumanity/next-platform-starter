@@ -339,7 +339,7 @@ export default function CosmetologyRequiredFormsPage() {
                   apprenticeships@elevateforhumanity.org
                 </a>{' '}
                 or call{' '}
-                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline font-medium">
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline font-medium">
                   {PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 .

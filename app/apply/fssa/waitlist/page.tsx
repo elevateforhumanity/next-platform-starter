@@ -134,7 +134,7 @@ export default function FssaWaitlistPage() {
           </div>
           <div className="flex flex-wrap gap-4 text-sm">
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="flex items-center gap-1.5 text-blue-700 hover:text-blue-900 font-medium"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}

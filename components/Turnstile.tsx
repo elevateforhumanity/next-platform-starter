@@ -116,7 +116,7 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
       <p className="text-[11px] text-slate-400 mt-1 text-center">
         Security check required before submitting.{' '}
         <a
-          href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+          href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
           className="underline hover:text-slate-600 transition-colors"
         >
           Need help? Call {PLATFORM_DEFAULTS.supportPhone}

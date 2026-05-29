@@ -289,7 +289,7 @@ export default function EnrollmentOrientationPage() {
 
         <p className="text-center text-black text-xs">
           Questions? Call{' '}
-          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-semibold hover:underline">
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 font-semibold hover:underline">
             {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>

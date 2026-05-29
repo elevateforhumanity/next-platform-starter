@@ -317,7 +317,7 @@ export default function AgenciesPage() {
               Contact Us <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center justify-center gap-2 border border-white/30 text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
             >
               <Phone className="w-5 h-5" /> {PLATFORM_DEFAULTS.supportPhone}

@@ -76,7 +76,7 @@ export default function JriPage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
                 className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
               >
                 <Phone className="w-5 h-5" />
@@ -402,7 +402,7 @@ export default function JriPage() {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
               className="inline-flex items-center gap-2 bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-800 transition-all border border-white/30"
             >
               <Phone className="w-5 h-5" />

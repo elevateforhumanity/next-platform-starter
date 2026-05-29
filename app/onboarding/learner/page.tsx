@@ -706,7 +706,7 @@ export default async function LearnerOnboardingPage({
                         Contact Support
                       </Link>
                       <a
-                        href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                        href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-slate-900 rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
                       >
                         <Phone className="w-4 h-4" />

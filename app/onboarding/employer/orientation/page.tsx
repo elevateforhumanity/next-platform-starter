@@ -184,7 +184,7 @@ export default async function EmployerOrientationPage() {
               <div>
                 <p className="text-xs text-slate-500">Phone</p>
                 <a
-                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                  href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                   className="text-sm font-semibold text-brand-blue-600 hover:underline"
                 >
                   {PLATFORM_DEFAULTS.supportPhone}

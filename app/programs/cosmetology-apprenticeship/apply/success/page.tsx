@@ -37,7 +37,7 @@ export default function CosmetologyApplySuccessPage() {
           </div>
 
           <p className="text-sm text-slate-500 mb-6">
-            Questions? Contact us at <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a> or call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
+            Questions? Contact us at <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a> or call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
           </p>
 
           <div className="space-y-3">

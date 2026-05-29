@@ -196,7 +196,7 @@ export default function CosmetologyHostShopClient({ isApproved = false }: Props)
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-100 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
               {PLATFORM_DEFAULTS.supportPhone}
@@ -270,7 +270,7 @@ export default function CosmetologyHostShopClient({ isApproved = false }: Props)
               Log in to your host salon account
             </Link>{' '}
             to access these steps. Questions? Call{' '}
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </div>
       </section>

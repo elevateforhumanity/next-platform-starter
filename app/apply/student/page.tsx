@@ -337,7 +337,7 @@ export default async function StudentApplicationPage({
               Takes about 5 minutes. We will follow up within one business day to schedule your
               orientation. Call us at{' '}
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="text-brand-red-600 font-semibold hover:underline"
               >
                 {PLATFORM_DEFAULTS.supportPhone}

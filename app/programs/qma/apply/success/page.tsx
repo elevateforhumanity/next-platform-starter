@@ -48,7 +48,7 @@ export default function QMAApplySuccessPage() {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+            href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
             className="rounded-xl bg-brand-blue-700 px-6 py-3.5 font-semibold text-white hover:bg-brand-blue-800 transition-colors"
           >
             Call — {PLATFORM_DEFAULTS.supportPhone}

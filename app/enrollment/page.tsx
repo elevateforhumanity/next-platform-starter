@@ -190,7 +190,7 @@ export default async function EnrollmentPage() {
               Check Funding Eligibility
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="border-2 border-black text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors text-base flex items-center gap-2"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
@@ -406,7 +406,7 @@ export default async function EnrollmentPage() {
               Apply Now
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="border-2 border-white text-slate-900 font-bold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-lg flex items-center gap-2"
             >
               <Phone className="w-5 h-5" /> Call Us

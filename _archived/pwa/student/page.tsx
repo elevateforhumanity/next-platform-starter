@@ -127,7 +127,7 @@ function SignedOutView() {
           <Link href="/login" className="block w-full bg-brand-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-brand-blue-700 transition-colors">
             Sign In
           </Link>
-          <p className="text-xs text-slate-500 mt-4">Need help? Call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600">{PLATFORM_DEFAULTS.supportPhone}</a></p>
+          <p className="text-xs text-slate-500 mt-4">Need help? Call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600">{PLATFORM_DEFAULTS.supportPhone}</a></p>
         </div>
       </div>
     </div>
@@ -379,7 +379,7 @@ export default async function StudentPWAPage() {
 
       {/* Footer */}
       <div className="px-4 mt-8 pb-8 text-center">
-        <p className="text-xs text-slate-500">Need help? Call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600">{PLATFORM_DEFAULTS.supportPhone}</a></p>
+        <p className="text-xs text-slate-500">Need help? Call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600">{PLATFORM_DEFAULTS.supportPhone}</a></p>
       </div>
     </div>
   );

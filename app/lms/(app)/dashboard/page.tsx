@@ -1022,7 +1022,7 @@ export default async function StudentDashboard() {
                 Your advisor is here every step of the way.
               </p>
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="block w-full text-center bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-bold py-2.5 rounded-xl transition"
               >
                 Call {PLATFORM_DEFAULTS.supportPhone}

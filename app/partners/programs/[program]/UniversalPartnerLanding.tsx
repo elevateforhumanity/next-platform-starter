@@ -230,7 +230,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors"
             >
               <Phone className="w-5 h-5 mr-2" /> {PLATFORM_DEFAULTS.supportPhone}

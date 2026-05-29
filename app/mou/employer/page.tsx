@@ -78,7 +78,7 @@ export default async function EmployerMOUPage() {
 
         <p className="text-center text-xs text-slate-400 mt-6">
           Questions? Call Elizabeth Greene directly at{' '}
-          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
           {' '}or email{' '}
           <a href="mailto:elevate4humanityedu@gmail.com" className="text-blue-600 hover:underline">
             elevate4humanityedu@gmail.com

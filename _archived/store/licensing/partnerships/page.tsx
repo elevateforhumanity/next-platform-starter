@@ -381,7 +381,7 @@ export default function LicensingPartnershipsPage() {
               Apply to Partner
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}

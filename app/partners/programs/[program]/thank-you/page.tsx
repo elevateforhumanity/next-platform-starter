@@ -116,7 +116,7 @@ export default async function ThankYouPage({ params }: { params: Promise<{ progr
           <h3 className="font-semibold text-slate-900 mb-3">Questions?</h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}

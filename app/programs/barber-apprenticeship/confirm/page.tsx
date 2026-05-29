@@ -103,7 +103,7 @@ function ConfirmContent() {
             <div className="border-t border-slate-200 pt-5">
               <p className="text-sm text-slate-500 text-center mb-3">Questions? Contact us:</p>
               <div className="flex justify-center gap-6 text-sm">
-                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600">
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600">
                   <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
                 </a>
                 <a href="mailto:info@elevateforhumanity.org" className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600">

@@ -384,7 +384,7 @@ export default async function ForAgenciesPage() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-slate-300">
                 <Phone className="w-4 h-4 text-brand-red-400 shrink-0" />
-                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="hover:text-white">
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="hover:text-white">
                   {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </li>

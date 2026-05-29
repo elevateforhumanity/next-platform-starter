@@ -169,7 +169,7 @@ export default async function EnrollmentSuccessPage() {
             Questions? Mon–Fri 9am–5pm ET
           </p>
           <a
-            href="tel:{PLATFORM_DEFAULTS.supportPhone}"
+            href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
             className="text-teal-400 hover:underline text-sm flex items-center justify-center gap-1"
           >
             <Phone className="w-3 h-3" />

@@ -66,7 +66,7 @@ export default function EstheticianThankYouPage() {
             <div className="bg-slate-50 rounded-xl p-4 text-center">
               <Phone className="w-6 h-6 text-slate-500 mx-auto mb-2" />
               <p className="text-sm font-semibold text-slate-900">Phone</p>
-              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-xs text-pink-600 hover:underline">
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-xs text-pink-600 hover:underline">
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>

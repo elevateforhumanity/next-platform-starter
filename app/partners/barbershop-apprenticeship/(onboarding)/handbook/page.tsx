@@ -267,7 +267,7 @@ export default function PartnerHandbookPage() {
             policy violations, contact us immediately:
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="inline-flex items-center gap-2 text-red-700 font-semibold">
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center gap-2 text-red-700 font-semibold">
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
             </a>
             <a href="mailto:apprenticeships@elevateforhumanity.org" className="inline-flex items-center gap-2 text-red-700 font-semibold">

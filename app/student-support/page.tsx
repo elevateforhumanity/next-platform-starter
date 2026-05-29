@@ -187,14 +187,14 @@ export default function StudentSupportPage() {
               <Phone className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
               <h3 className="font-bold text-slate-900 mb-1">Phone Support</h3>
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="text-brand-green-600 font-semibold hover:underline"
               >
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>
               <p className="text-sm text-slate-500 mt-1">Mon–Fri 8am–6pm EST</p>
               <Link
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="inline-flex items-center gap-2 mt-4 bg-brand-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-green-700 transition"
               >
                 Call Now

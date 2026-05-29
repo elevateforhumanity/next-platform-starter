@@ -179,7 +179,7 @@ export default function AccreditationPage() {
             <h2 className="text-xl font-bold text-white mb-2">Partnership &amp; Compliance Inquiries</h2>
             <p className="text-slate-500 text-sm">For funding, partnership, or compliance questions, contact our team directly.</p>
           </div>
-          <Link href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
+          <Link href={`mailto:${PLATFORM_DEFAULTS.supportEmail}`} className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
             <Mail className="w-4 h-4" />Contact Us
           </Link>
         </div>

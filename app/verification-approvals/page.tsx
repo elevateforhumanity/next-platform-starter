@@ -71,7 +71,7 @@ export default function TransparencyPage() {
               </div>
             ))}
           </div>
-          <p className="text-slate-500 text-sm mt-6">To submit a verification request, contact: <a href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="text-brand-red-600 font-semibold hover:underline">{PLATFORM_DEFAULTS.supportEmail}</a></p>
+          <p className="text-slate-500 text-sm mt-6">To submit a verification request, contact: <a href={`mailto:${PLATFORM_DEFAULTS.supportEmail}`} className="text-brand-red-600 font-semibold hover:underline">{PLATFORM_DEFAULTS.supportEmail}</a></p>
         </div>
       </section>
 
@@ -99,7 +99,7 @@ export default function TransparencyPage() {
             <h2 className="text-xl font-bold text-white mb-2">Funders, Employers &amp; Agency Partners</h2>
             <p className="text-slate-500 text-sm">If you are seeking verification or partnership information, contact us directly.</p>
           </div>
-          <Link href="mailto:{PLATFORM_DEFAULTS.supportEmail}" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
+          <Link href={`mailto:${PLATFORM_DEFAULTS.supportEmail}`} className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">
             <Mail className="w-4 h-4" />Contact Us
           </Link>
         </div>

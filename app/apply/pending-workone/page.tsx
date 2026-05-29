@@ -213,7 +213,7 @@ export default function PendingWorkOnePage({
           </h3>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="flex items-center gap-2 text-brand-blue-600 hover:underline text-sm font-medium"
             >
               <Phone className="w-4 h-4" />

@@ -291,7 +291,7 @@ export default function FssaPage() {
               <Mail className="w-4 h-4" /> agencies@elevateforhumanity.org
             </a>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50 transition"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}

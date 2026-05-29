@@ -482,7 +482,7 @@ function LoginForm() {
           <div className="mt-6 text-center text-sm text-black">
             <p>
               Need help?{' '}
-              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 font-semibold">
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 font-semibold">
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or{' '}

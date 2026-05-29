@@ -45,7 +45,7 @@ export default function BoothRentalConfirmedPage() {
           <p className="font-semibold mb-1">Questions?</p>
           <p className="flex items-center justify-center gap-2">
             <Phone className="w-4 h-4" />
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>
             <span>·</span>
             <Mail className="w-4 h-4" />
             <a href="mailto:info@elevateforhumanity.org" className="underline">

@@ -324,7 +324,7 @@ export default function RequiredFormsPage() {
               <p className="text-sm text-amber-800">
                 If you have questions about any form or need assistance, contact our partnerships team
                 at <a href="mailto:apprenticeships@elevateforhumanity.org" className="underline font-medium">apprenticeships@elevateforhumanity.org</a> or
-                call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>.
+                call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>.
               </p>
             </div>
           </div>

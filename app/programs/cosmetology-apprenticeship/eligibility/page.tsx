@@ -60,7 +60,7 @@ export default function CosmetologyEligibilityPage() {
               Contact Us
             </a>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center gap-2 px-6 py-3 border border-brand-blue-600 text-brand-blue-600 rounded-lg hover:bg-blue-50 transition font-semibold"
             >
               <ExternalLink className="w-4 h-4" />

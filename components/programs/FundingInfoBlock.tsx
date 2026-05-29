@@ -73,7 +73,7 @@ export default function FundingInfoBlock({
             Indiana Career Connect
           </a>
           <a
-            href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+            href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
             className="inline-flex items-center gap-2 bg-white border border-brand-green-300 text-brand-green-800 text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-green-50 transition"
           >
             <Phone className="w-4 h-4" />

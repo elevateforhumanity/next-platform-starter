@@ -290,7 +290,7 @@ export default function TppSurveyClient() {
         </p>
         <p className="text-slate-500 mb-6 max-w-md mx-auto text-sm">
           Need help submitting? Call Elizabeth at{' '}
-          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-blue-600 font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-blue-600 font-medium">{PLATFORM_DEFAULTS.supportPhone}</a>
         </p>
         <button
           onClick={() => { setSubmitted(false); setStep(0); }}

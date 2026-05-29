@@ -600,7 +600,7 @@ export default function EstheticianSpaApplyPage() {
                   partners@elevateforhumanity.org
                 </a>{' '}
                 or call{' '}
-                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-pink-600 hover:underline">
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-pink-600 hover:underline">
                   {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>

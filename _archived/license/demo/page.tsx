@@ -117,7 +117,7 @@ export default async function DemoPage() {
                 Contact us directly to discuss your needs.
               </p>
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="inline-flex items-center gap-2 text-orange-600 font-medium hover:underline"
               >
                 <Phone className="w-5 h-5" />

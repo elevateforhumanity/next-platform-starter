@@ -305,7 +305,7 @@ export default function PartnersIndexPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
               className="inline-flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3 rounded-lg font-bold transition-colors"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}

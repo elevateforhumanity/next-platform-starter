@@ -519,7 +519,7 @@ export default function CosmetologySalonApplyPage() {
               Contact us
             </Link>{' '}
             or call{' '}
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-purple-600 hover:underline">
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-purple-600 hover:underline">
               {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </p>

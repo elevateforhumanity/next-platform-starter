@@ -95,7 +95,7 @@ export default function BoothRentalLandingPage() {
           </div>
           <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-brand-blue-600" />
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="font-semibold text-brand-blue-600 hover:underline">
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="font-semibold text-brand-blue-600 hover:underline">
               {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>

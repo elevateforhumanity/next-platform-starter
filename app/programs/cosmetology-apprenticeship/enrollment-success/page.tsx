@@ -102,7 +102,7 @@ export default async function EnrollmentSuccessPage() {
             <p className="text-sm text-slate-600 mb-2">Questions? We're here to help.</p>
             <p className="text-sm text-slate-900">
               <strong>Email:</strong> <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">elevate4humanityedu@gmail.com</a><br />
-              <strong>Phone:</strong> <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
+              <strong>Phone:</strong> <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 hover:underline">{PLATFORM_DEFAULTS.supportPhone}</a>
             </p>
           </div>
 

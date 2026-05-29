@@ -322,7 +322,7 @@ export default async function HelpPage() {
                 Speak directly with a support specialist
               </p>
               <a
-                href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                 className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-4 block"
               >
                 {PLATFORM_DEFAULTS.supportPhone}

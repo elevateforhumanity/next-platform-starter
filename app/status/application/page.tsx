@@ -213,7 +213,7 @@ function StatusContent() {
         <p className="font-medium text-slate-900">Questions about your application?</p>
         <p className="mt-1 text-sm text-slate-700">
           Call{' '}
-          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="font-medium text-brand-blue-600 hover:underline">
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="font-medium text-brand-blue-600 hover:underline">
             {PLATFORM_DEFAULTS.supportPhone}
           </a>{' '}
           or email{' '}

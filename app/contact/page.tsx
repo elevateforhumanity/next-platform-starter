@@ -477,7 +477,7 @@ function ContactPageInner() {
               <p className="text-black text-sm">
                 Questions? Call{' '}
                 <a
-                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                  href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                   className="text-brand-blue-600 font-medium hover:underline"
                 >
                   {PLATFORM_DEFAULTS.supportPhone}

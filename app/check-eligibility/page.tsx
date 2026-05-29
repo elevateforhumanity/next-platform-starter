@@ -572,7 +572,7 @@ export default function CheckEligibilityPage() {
               </button>
               <p className="text-center text-xs text-slate-400">
                 Questions? Call or text{' '}
-                <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-slate-600 font-semibold">
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-slate-600 font-semibold">
                   {PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </p>
@@ -614,7 +614,7 @@ export default function CheckEligibilityPage() {
 
             <p className="text-slate-500 text-sm mb-8">
               Can&apos;t wait? Call or text:{' '}
-              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-brand-red-600 font-bold">
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-red-600 font-bold">
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>

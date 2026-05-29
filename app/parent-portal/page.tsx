@@ -135,7 +135,7 @@ export default async function ParentPortalPage() {
               Access Portal
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="border-2 border-black text-black font-bold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-2"
             >
               <Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}
@@ -249,7 +249,7 @@ export default async function ParentPortalPage() {
                   Request Access
                 </Link>
                 <a
-                  href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+                  href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
                   className="border-2 border-black text-black font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors flex items-center gap-2"
                 >
                   <Phone className="w-4 h-4" /> Call Us

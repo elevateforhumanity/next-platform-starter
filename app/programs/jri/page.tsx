@@ -532,7 +532,7 @@ export default async function JRIProgramsPage() {
                 </p>
                 <p>
                   You can also call us directly at{' '}
-                  <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-indigo-600 underline font-bold">
+                  <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-indigo-600 underline font-bold">
                     {PLATFORM_DEFAULTS.supportPhone}
                   </a>{' '}
                   or visit our office at 8888 Keystone Xing, Suite 1300, Indianapolis, IN 46240.
@@ -716,7 +716,7 @@ export default async function JRIProgramsPage() {
                     Learn about employer partnerships →
                   </a>{' '}
                   or call{' '}
-                  <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-indigo-600 underline font-bold">
+                  <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-indigo-600 underline font-bold">
                     {PLATFORM_DEFAULTS.supportPhone}
                   </a>
                 </p>

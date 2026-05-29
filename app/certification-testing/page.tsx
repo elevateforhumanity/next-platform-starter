@@ -318,7 +318,7 @@ export default function CertificationTestingPage() {
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" />
-              <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="hover:text-white transition-colors">
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="hover:text-white transition-colors">
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </div>

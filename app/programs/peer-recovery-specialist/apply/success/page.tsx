@@ -29,7 +29,7 @@ export default function PeerRecoveryApplySuccessPage() {
         </p>
         <p className="mt-2 text-sm text-black">
           Questions? Call{' '}
-          <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">
             {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>

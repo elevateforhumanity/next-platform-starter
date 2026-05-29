@@ -162,7 +162,7 @@ export default function CompetencyTestPage() {
           <p className="text-white text-sm mt-6">
             Questions? Call{' '}
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="text-white font-bold underline hover:text-slate-300"
             >
               {PLATFORM_DEFAULTS.supportPhone}

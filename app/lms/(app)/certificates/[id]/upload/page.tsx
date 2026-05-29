@@ -200,7 +200,7 @@ export default function CertificateUploadPage() {
 
           <p className="mt-6 text-center text-xs text-slate-400">
             Questions? Call{' '}
-            <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="text-slate-600 font-medium">
+            <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-slate-600 font-medium">
               {PLATFORM_DEFAULTS.supportPhone}
             </a>{' '}
             or email{' '}

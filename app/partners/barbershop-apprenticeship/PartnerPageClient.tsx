@@ -239,7 +239,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
               className="inline-flex items-center justify-center px-10 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-colors"
             >
               {PLATFORM_DEFAULTS.supportPhone}
@@ -355,7 +355,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </div>
 
           <p className="mt-6 text-xs text-black text-center">
-            Already approved? <Link href="/login?redirect=/partners/barbershop-apprenticeship/forms" className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href="tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}" className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
+            Already approved? <Link href="/login?redirect=/partners/barbershop-apprenticeship/forms" className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </div>
       </section>
