@@ -18,6 +18,8 @@ interface CheckoutRequest {
   paymentType?: 'full' | 'plan';
   preferredMethod?: string;
   couponCode?: string;
+  /** Pre-existing enrollment record to update on payment — prevents double-record creation */
+  existingEnrollmentId?: string;
 }
 
 async function _POST(request: NextRequest) {
@@ -60,7 +62,7 @@ async function _POST(request: NextRequest) {
 
     // Parse request body
     const body: CheckoutRequest = await request.json();
-    const { programId, paymentType = 'full', preferredMethod, couponCode } = body;
+    const { programId, paymentType = 'full', preferredMethod, couponCode, existingEnrollmentId } = body;
 
     // Validate required fields
     if (!programId) {
@@ -190,6 +192,9 @@ async function _POST(request: NextRequest) {
         user_email: profile?.email || '',
         // application_id enables reconciliation — present when application exists
         ...(application?.id ? { application_id: application.id } : {}),
+        // existing_enrollment_id — when set, webhook updates this row instead of
+        // creating a new one (prevents double-record on CNA and similar flows)
+        ...(existingEnrollmentId ? { existing_enrollment_id: existingEnrollmentId } : {}),
       },
       allow_promotion_codes: true,
       billing_address_collection: 'required',

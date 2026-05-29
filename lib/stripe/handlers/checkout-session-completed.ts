@@ -53,8 +53,11 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const fundingSource = session.metadata?.funding_source ?? 'self_pay';
       const amountPaidCents = session.amount_total ?? 0;
       const customerEmail = session.customer_email ?? session.customer_details?.email ?? undefined;
+      // Set by create-session when a pre-existing enrollment record exists (e.g. CNA public form).
+      // When present, update that row directly instead of creating a second record.
+      const existingEnrollmentId = session.metadata?.existing_enrollment_id ?? null;
 
-      if (!userId || !programId) {
+      if (!programId) {
         logger.error('[webhook/checkout] program_enrollment missing required metadata', undefined, {
           userId,
           programId,
@@ -63,16 +66,66 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         return;
       }
 
-      const result = await createOrUpdateEnrollment(supabase, {
-        userId,
-        programId,
-        programSlug,
-        courseId,
-        fundingSource,
-        amountPaidCents,
-        stripeCheckoutSessionId: session.id,
-        email: customerEmail,
-      });
+      let result: { id: string; action: 'created' | 'updated' | 'already_active'; error?: string };
+
+      if (existingEnrollmentId) {
+        // Update the pre-existing enrollment row created by the public enroll form
+        const now = new Date().toISOString();
+        const { data: updated, error: updateErr } = await supabase
+          .from('program_enrollments')
+          .update({
+            status: 'active',
+            payment_status: 'paid',
+            enrollment_state: 'confirmed',
+            enrollment_confirmed_at: now,
+            stripe_checkout_session_id: session.id,
+            amount_paid_cents: amountPaidCents,
+            updated_at: now,
+            ...(customerEmail ? { email: customerEmail } : {}),
+            ...(userId ? { user_id: userId } : {}),
+          })
+          .eq('id', existingEnrollmentId)
+          .select('id')
+          .maybeSingle();
+
+        if (updateErr || !updated) {
+          logger.error('[webhook/checkout] Failed to update existing enrollment', undefined, {
+            existingEnrollmentId,
+            error: updateErr?.message,
+          });
+          // Fall through to createOrUpdateEnrollment as safety net
+          result = await createOrUpdateEnrollment(supabase, {
+            userId: userId ?? '',
+            programId,
+            programSlug,
+            courseId,
+            fundingSource,
+            amountPaidCents,
+            stripeCheckoutSessionId: session.id,
+            email: customerEmail,
+          });
+        } else {
+          result = { id: updated.id, action: 'updated' };
+        }
+      } else {
+        if (!userId) {
+          logger.error('[webhook/checkout] program_enrollment missing userId and no existingEnrollmentId', undefined, {
+            programId,
+            programSlug,
+          });
+          return;
+        }
+        result = await createOrUpdateEnrollment(supabase, {
+          userId,
+          programId,
+          programSlug,
+          courseId,
+          fundingSource,
+          amountPaidCents,
+          stripeCheckoutSessionId: session.id,
+          email: customerEmail,
+        });
+      }
 
       if (result.error) {
         logger.error('[webhook/checkout] createOrUpdateEnrollment failed', undefined, { error: result.error });

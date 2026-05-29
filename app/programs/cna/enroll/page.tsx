@@ -93,6 +93,7 @@ export default function CNAEnrollPage() {
           programId: 'cna',
           paymentType: 'full',
           preferredMethod,
+          existingEnrollmentId: data.enrollmentId,
         }),
       });
       const checkoutData = await checkoutRes.json();
