@@ -20,10 +20,10 @@ export default async function RecordAttendancePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/partner/login');
+  if (!user) redirect('/login');
 
   const db = await requireAdminClient();
-  if (!db) redirect('/partner/login');
+  if (!db) redirect('/login');
 
   // Resolve role
   const { data: profile } = await db

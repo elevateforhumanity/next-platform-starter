@@ -192,17 +192,22 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save document' }, { status: 500 });
     }
 
-    // Check if partner should be activated
-    const { data: allDocsComplete } = await supabaseAdmin.rpc('check_partner_document_completion', {
-      p_partner_id: partnerUser.partner_id,
-    });
+    // Check if partner should be activated — non-fatal if RPC fails
+    let allDocsComplete = false;
+    try {
+      const { data: rpcResult } = await supabaseAdmin.rpc('check_partner_document_completion', {
+        p_partner_id: partnerUser.partner_id,
+      });
+      allDocsComplete = !!rpcResult;
 
-    if (allDocsComplete) {
-      // Activate partner
-      await supabaseAdmin
-        .from('partners')
-        .update({ account_status: 'active', updated_at: new Date().toISOString() })
-        .eq('id', partnerUser.partner_id);
+      if (allDocsComplete) {
+        await supabaseAdmin
+          .from('partners')
+          .update({ account_status: 'active', updated_at: new Date().toISOString() })
+          .eq('id', partnerUser.partner_id);
+      }
+    } catch {
+      // Non-fatal — document upload succeeded, activation check deferred
     }
 
     return NextResponse.json({

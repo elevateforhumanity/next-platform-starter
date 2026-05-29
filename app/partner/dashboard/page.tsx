@@ -25,13 +25,13 @@ export default async function PartnerDashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/partner/login');
+  if (!user) redirect('/login');
 
   let db: Awaited<ReturnType<typeof requireAdminClient>>;
   try {
     db = await requireAdminClient();
   } catch {
-    redirect('/partner/login');
+    redirect('/login');
   }
 
   const { data: profile } = await db

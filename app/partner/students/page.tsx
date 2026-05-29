@@ -26,7 +26,7 @@ export default async function PartnerStudentsPage() {
 
   const ctx = await getMyPartnerContext();
   if (!ctx) {
-    redirect('/partner/login');
+    redirect('/login');
   }
 
   const shopIds = ctx.shops.map((s) => s.shop_id).filter(Boolean);
