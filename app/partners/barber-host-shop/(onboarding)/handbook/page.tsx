@@ -278,33 +278,17 @@ export default function PartnerHandbookPage() {
 
         {/* Next Steps */}
         <section className="bg-brand-blue-50 rounded-xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Ready to Get Started?</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Ready to continue?</h2>
           <p className="text-black mb-6">
-            Review and sign the MOU, complete the required forms, then submit your application.
+            After reading this handbook, proceed to complete the required forms.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/partners/barber-host-shop/apply"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
-            >
-              Apply Now
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/partners/barber-host-shop/sign-mou"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
-            >
-              <FileText className="w-5 h-5" />
-              Sign the MOU
-            </Link>
-            <Link
-              href="/partners/barber-host-shop/forms"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
-            >
-              Required Forms
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <Link
+            href="/partners/barber-host-shop/forms"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
+          >
+            Continue to Required Forms
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </section>
 
         {/* Onboarding next step */}

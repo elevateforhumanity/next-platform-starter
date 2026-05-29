@@ -323,22 +323,8 @@ export default function PolicyAcknowledgmentPage() {
         {/* Next Steps */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <h3 className="font-bold text-slate-900">Next: Submit Your Application</h3>
-            <p className="text-sm text-black">After acknowledging policies, complete the partner application.</p>
-          </div>
-          <div className="flex gap-3">
-            <Link
-              href="/partners/barber-host-shop/sign-mou"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
-            >
-              Sign MOU
-            </Link>
-            <Link
-              href="/partners/barber-host-shop/apply"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 text-sm whitespace-nowrap"
-            >
-              Apply Now
-            </Link>
+            <h3 className="font-bold text-slate-900">Last step</h3>
+            <p className="text-sm text-black">Submit all acknowledgments to complete your onboarding.</p>
           </div>
         </div>
       </form>

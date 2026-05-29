@@ -334,13 +334,13 @@ export default function RequiredFormsPage() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">All forms ready?</h3>
-            <p className="text-sm text-black">Submit your partner application to get started.</p>
+            <p className="text-sm text-black">Upload your compliance documents to continue.</p>
           </div>
           <Link
-            href="/partners/barber-host-shop/sign-mou"
+            href="/partners/barber-host-shop/documents"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 whitespace-nowrap"
           >
-            Sign MOU <ArrowRight className="w-4 h-4" />
+            Continue to Documents <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

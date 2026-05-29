@@ -371,7 +371,7 @@ export default function SignMOUPage() {
               href="/partners/barber-host-shop/handbook"
               className="block w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
             >
-              Continue to Review Handbook
+              Continue to Partner Handbook
             </Link>
             <Link
               href="/partners/barber-host-shop"
@@ -700,23 +700,15 @@ export default function SignMOUPage() {
         {/* Next Steps */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <h3 className="font-bold text-slate-900">Next: Submit Your Application</h3>
-            <p className="text-sm text-black">After signing the MOU, complete the partner application form.</p>
+            <h3 className="font-bold text-slate-900">Next: Partner Handbook</h3>
+            <p className="text-sm text-black">After signing the MOU, review the partner handbook.</p>
           </div>
-          <div className="flex gap-3">
-            <Link
-              href="/partners/barber-host-shop/forms"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white text-sm whitespace-nowrap"
-            >
-              Required Forms
-            </Link>
-            <Link
-              href="/partners/barber-host-shop/apply"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 text-sm whitespace-nowrap"
-            >
-              Apply Now
-            </Link>
-          </div>
+          <Link
+            href="/partners/barber-host-shop/handbook"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 text-sm whitespace-nowrap"
+          >
+            Partner Handbook
+          </Link>
         </div>
       </form>
     </div>

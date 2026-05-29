@@ -336,17 +336,11 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
 
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <h3 className="font-bold text-slate-900">Next: Sign the MOU</h3>
+            <h3 className="font-bold text-slate-900">Last step</h3>
             <p className="text-sm text-black">
-              After acknowledging policies, sign the Memorandum of Understanding.
+              Submit all acknowledgments to complete your onboarding.
             </p>
           </div>
-          <Link
-            href="/partners/cosmetology-host-shop/sign-mou"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 text-sm whitespace-nowrap"
-          >
-            Sign MOU
-          </Link>
         </div>
       </form>
     </div>

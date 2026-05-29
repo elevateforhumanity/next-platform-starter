@@ -342,7 +342,7 @@ export default function CosmetologySignMOUPage() {
               href="/partners/cosmetology-host-shop/handbook"
               className="block w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700"
             >
-              Continue to Required Documents
+              Continue to Partner Handbook
             </Link>
             <Link
               href="/partners/cosmetology-host-shop"
