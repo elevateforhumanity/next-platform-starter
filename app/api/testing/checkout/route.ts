@@ -148,10 +148,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      // automatic_payment_methods lets Stripe show card + BNPL (Klarna, Afterpay,
-      // CashApp) based on what's enabled in the Stripe Dashboard — no extra
-      // redirect pages, no hardcoded list to maintain.
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card'],
       customer_email: email ?? undefined,
       line_items: [
         {

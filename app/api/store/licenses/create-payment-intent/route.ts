@@ -84,7 +84,7 @@ async function _POST(request: NextRequest) {
       amount: product.price,
       currency: 'usd',
       customer: customer.id,
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card'],
       metadata: {
         productId: product.id,
         productSlug: product.slug,

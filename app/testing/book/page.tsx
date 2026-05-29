@@ -495,14 +495,14 @@ function BookingForm() {
     <main className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-brand-blue-700 text-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <Link
             href="/testing"
-            className="text-xs text-slate-400 hover:text-white mb-4 inline-flex items-center gap-1"
+            className="text-xs text-slate-300 hover:text-white mb-3 inline-flex items-center gap-1"
           >
             ← Testing Center
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+          <h1 className="text-xl sm:text-3xl font-extrabold text-white mb-2">
             Book a Testing Session
           </h1>
           <p className="text-white/80 text-sm">
@@ -559,7 +559,7 @@ function BookingForm() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Calendly quick-schedule option */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
@@ -591,18 +591,18 @@ function BookingForm() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Step 1 — Select exam */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6">
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
             <h2 className="font-extrabold text-slate-900 mb-1">1. Which exam do you need?</h2>
             <p className="text-xs text-slate-500 mb-4">
               Select a certification provider. Available proctoring modes will update automatically.
             </p>
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {ALL_PROVIDERS.map((provider) => (
                 <button
                   key={provider.key}
                   type="button"
                   onClick={() => setSelectedProvider(provider)}
-                  className={`text-left p-4 rounded-xl border-2 transition-all ${
+                  className={`text-left p-3 sm:p-4 rounded-xl border-2 transition-all ${
                     selectedProvider?.key === provider.key
                       ? 'border-brand-blue-500 bg-brand-blue-50'
                       : 'border-slate-200 hover:border-slate-300 bg-white'

@@ -55,8 +55,23 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   return (
     <>
-      {/* Mobile icon row — search + language + hamburger — hidden on desktop */}
+      {/* Mobile/tablet icon row — hidden on desktop (lg+) */}
       <div className="lg:hidden flex items-center gap-1">
+        {/* Compact CTAs visible on md screens where desktop nav isn't shown */}
+        <Link
+          href="/login"
+          prefetch={false}
+          className="hidden md:lg:hidden text-slate-600 font-semibold text-[13px] hover:text-slate-900 px-2 py-1.5 rounded-md hover:bg-slate-50 transition-colors"
+        >
+          Sign In
+        </Link>
+        <Link
+          href="/for-students"
+          prefetch={false}
+          className="hidden md:inline-flex lg:hidden items-center bg-brand-red-600 text-white px-3 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
+        >
+          Get Started
+        </Link>
         <SearchModal />
         <LanguageSwitcher />
         <button
