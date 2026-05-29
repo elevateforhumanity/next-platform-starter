@@ -242,22 +242,6 @@ async function syncShiftToHourEntries(
   return hourEntry.id;
 }
 
-/**
- * Sync a completed progress_entries shift to hour_entries (OJL timeclock bucket).
- * Idempotent: skips if hour_entry_id is already set on the progress entry.
- *
- * This is the authoritative bridge between the GPS timeclock and the
- * apprenticeship hours pipeline. Without this, clock-out events never
- * reach OJL totals, dashboards, or RAPIDS.
-  params: {
-    progressEntryId: string;
-    apprenticeId: string;   // apprentices.id (UUID)
-    programId: string;
-    workDate: string;
-    hoursWorked: number;
-    siteId: string | null;
-  },
-): Promise<string | null> {
   const { progressEntryId, apprenticeId, programId, workDate, hoursWorked, siteId } = params;
 
   // Skip if already synced
