@@ -1202,13 +1202,14 @@ async function _POST(req: NextRequest) {
     }
 
     const providerPreference = normalizeProvider(rawProvider);
-
-    // Retrieve relevant platform knowledge via RAG before answering
     const lastUserMessage = messages.findLast((m: { role: string }) => m.role === 'user')?.content ?? '';
-    const ragContext = await getRAGContext(lastUserMessage);
-    const toolCalls: ToolCallRecord[] = [];
-    const automaticEvidence = await collectAutomaticEvidence(lastUserMessage);
-    toolCalls.push(...automaticEvidence);
+
+    // RAG + evidence run in parallel — no reason to serialize these
+    const [ragContext, automaticEvidence] = await Promise.all([
+      getRAGContext(lastUserMessage),
+      collectAutomaticEvidence(lastUserMessage),
+    ]);
+    const toolCalls: ToolCallRecord[] = [...automaticEvidence];
 
     const systemPrompt = buildAdminAiSystemPrompt({
       ragContext: `## DevInt Operating Container\n${getDevIntPromptContext()}\n\n${ragContext || ''}`,
@@ -1452,42 +1453,62 @@ async function _POST(req: NextRequest) {
 
     assistantMessage = enforceEvidenceBoundary(assistantMessage, lastUserMessage, toolCalls);
 
-    try {
-      const supabase = await createClient();
-      const db = await requireAdminClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      const userMessage = messages[messages.length - 1]?.content || '';
-      const { error: logError } = await db
-        .from('devstudio_chat_log')
-        .insert({
+    // Fire-and-forget DB log — do not block the response
+    (async () => {
+      try {
+        const supabase = await createClient();
+        const db = await requireAdminClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        const { error: logError } = await db.from('devstudio_chat_log').insert({
           user_id: user?.id || null,
-          user_message: userMessage,
+          user_message: messages[messages.length - 1]?.content || '',
           assistant_response: assistantMessage,
           file_context: fileContext || null,
           provider,
           model,
         });
-      if (logError) {
-        logger.warn('[devstudio/chat] DB log insert failed', { reason: logError.message });
+        if (logError) logger.warn('[devstudio/chat] DB log insert failed', { reason: logError.message });
+      } catch (err) {
+        logger.warn('[devstudio/chat] DB log failed', err);
       }
-    } catch (err) {
-      logger.warn('[devstudio/chat] DB log failed', err);
-    }
+    })();
 
-    return NextResponse.json({
-      message: assistantMessage,
-      provider,
-      model,
-      providerPreference,
-      availableProviders: {
-        groq: isGroqConfigured(),
-        openai: isOpenAIConfigured(),
-        anthropic: isAnthropicConfigured(),
-        gemini: isGeminiConfigured(),
+    // Stream the response as SSE so the client sees tokens immediately.
+    // Format: each chunk is a JSON line prefixed with "data: " followed by "\n\n".
+    // Final chunk carries metadata (provider, model, toolCalls) with done:true.
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      start(controller) {
+        // Stream the message word-by-word so the UI feels responsive.
+        // Split on spaces but preserve them so reassembly is lossless.
+        const words = (assistantMessage ?? '').split(/(?<= )/);
+        for (const word of words) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token: word })}\n\n`));
+        }
+        // Final frame carries metadata
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+          done: true,
+          provider,
+          model,
+          providerPreference,
+          availableProviders: {
+            groq: isGroqConfigured(),
+            openai: isOpenAIConfigured(),
+            anthropic: isAnthropicConfigured(),
+            gemini: isGeminiConfigured(),
+          },
+          toolCalls,
+        })}\n\n`));
+        controller.close();
       },
-      toolCalls,
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
+      },
     });
   } catch (error) {
     logger.error('[devstudio/chat] error', error);

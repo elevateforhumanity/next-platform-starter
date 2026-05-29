@@ -359,28 +359,71 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           model: selectedModel,
         }),
       });
-      const data = await res.json();
-      if (data.error) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${data.error}` }]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content: data.message,
-            toolCalls: data.toolCalls ?? [],
-            provider: data.provider,
-            model: data.model,
-          },
-        ]);
-        if (data.provider) {
-          setAiStatus('ready');
-          setAiProvider(data.model ? `${data.provider} · ${data.model}` : data.provider);
-        }
-        if (data.availableProviders) {
-          setAvailableProviders((prev) => ({ ...prev, ...data.availableProviders, auto: true }));
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${data.error ?? 'Request failed'}` }]);
+        return;
+      }
+
+      // SSE streaming — add a placeholder message and update it token by token
+      const placeholderIdx = newMessages.length; // index in the messages array
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n\n');
+          buffer = lines.pop() ?? '';
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            try {
+              const chunk = JSON.parse(line.slice(6));
+              if (chunk.token !== undefined) {
+                // Append token to the last assistant message
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  const last = updated[updated.length - 1];
+                  if (last?.role === 'assistant') {
+                    updated[updated.length - 1] = { ...last, content: last.content + chunk.token };
+                  }
+                  return updated;
+                });
+              }
+              if (chunk.done) {
+                // Final frame — attach metadata
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  const last = updated[updated.length - 1];
+                  if (last?.role === 'assistant') {
+                    updated[updated.length - 1] = {
+                      ...last,
+                      toolCalls: chunk.toolCalls ?? [],
+                      provider: chunk.provider,
+                      model: chunk.model,
+                    };
+                  }
+                  return updated;
+                });
+                if (chunk.provider) {
+                  setAiStatus('ready');
+                  setAiProvider(chunk.model ? `${chunk.provider} · ${chunk.model}` : chunk.provider);
+                }
+                if (chunk.availableProviders) {
+                  setAvailableProviders((prev) => ({ ...prev, ...chunk.availableProviders, auto: true }));
+                }
+              }
+            } catch { /* malformed chunk — skip */ }
+          }
         }
       }
+      void placeholderIdx; // suppress unused warning
     } catch (err) {
       const reason = err instanceof Error ? err.message : 'Unknown error';
       setMessages((prev) => [...prev, { role: 'assistant', content: `Failed to connect: ${reason}` }]);

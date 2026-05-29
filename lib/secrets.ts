@@ -2,6 +2,15 @@ import { logger } from '@/lib/logger';
 /**
  * Runtime secrets fetched from Supabase and merged into process.env.
  *
+ * Cold-start note: ECS injects each SSM secret as a sequential API call at
+ * container boot. With 195 secrets that is 10–20 seconds of startup latency.
+ * hydrateProcessEnv() is called per-request (cached 5 min) so it does NOT
+ * add per-request latency after the first call — but the first request after
+ * a cold start pays the full cost. The ECS secret count should be reduced to
+ * only the secrets the container actually needs at boot (STRIPE_SECRET_KEY,
+ * SUPABASE_SERVICE_ROLE_KEY, etc.). All other secrets can be loaded lazily
+ * via hydrateProcessEnv() from the DB.
+ *
  * Architecture (AWS ECS / Fargate):
  *   - Primary source: AWS SSM Parameter Store — injected into the ECS task
  *     environment at container start via the task definition `secrets` array.
