@@ -242,64 +242,6 @@ async function syncShiftToHourEntries(
   return hourEntry.id;
 }
 
-  const { progressEntryId, apprenticeId, programId, workDate, hoursWorked, siteId } = params;
-
-  // Skip if already synced
-  const { data: existing } = await supabase
-    .from('progress_entries')
-    .select('hour_entry_id')
-    .eq('id', progressEntryId)
-    .maybeSingle();
-
-  if (existing?.hour_entry_id) {
-    return existing.hour_entry_id;
-  }
-
-  // Resolve user_id from apprentices table
-  const { data: apprentice } = await supabase
-    .from('apprentices')
-    .select('user_id, program_id')
-    .eq('id', apprenticeId)
-    .maybeSingle();
-
-  if (!apprentice?.user_id) {
-    logger.warn('[Timeclock] syncShiftToHourEntries: no user_id for apprentice', { apprenticeId });
-    return null;
-  }
-
-  // Insert into hour_entries as a timeclock OJL entry (pending approval)
-  const { data: hourEntry, error: insertError } = await supabase
-    .from('hour_entries')
-    .insert({
-      user_id: apprentice.user_id,
-      source_type: 'timeclock',
-      work_date: workDate,
-      hours_claimed: hoursWorked,
-      status: 'pending',
-      entered_by_email: apprentice.user_id,
-      entered_at: new Date().toISOString(),
-      program_slug: programId,
-      notes: `Auto-synced from timeclock shift ${progressEntryId}`,
-      legacy_source: 'progress_entries',
-      legacy_id: progressEntryId,
-    })
-    .select('id')
-    .maybeSingle();
-
-  if (insertError) {
-    logger.error('[Timeclock] syncShiftToHourEntries insert failed:', insertError);
-    return null;
-  }
-
-  // Back-link the hour_entry_id onto the progress entry for idempotency
-  await supabase
-    .from('progress_entries')
-    .update({ hour_entry_id: hourEntry.id })
-    .eq('id', progressEntryId);
-
-  return hourEntry.id;
-}
-
 async function notifyClockIn(
   supabase: any,
   params: {
