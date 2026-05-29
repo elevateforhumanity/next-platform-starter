@@ -50,10 +50,8 @@ export const DEFAULT_NAV: NavSection[] = [
     items: [
       { label: 'Risk Dashboard', href: '/admin/intelligence' },
       { label: 'Completion Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'AI Console', href: '/admin/ai-console' },
-      { label: 'Copilot', href: '/admin/copilot' },
-      { label: 'Copilot — Deploy', href: '/admin/copilot/deploy' },
       { label: 'Dev Studio', href: '/admin/dev-studio' },
+      { label: 'AI Chat', href: '/admin/dev-studio?tab=chat' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'Automation', href: '/admin/automation' },
       { label: 'System Health', href: '/admin/system-health' },

@@ -1,7 +1,7 @@
 // POST /api/admin/ai-assistant  — Ellie, the admin AI operations assistant
 // DELETE /api/admin/ai-assistant — clear session history
 //
-// Wired to the AI console at /admin/ai-console.
+// Wired to Dev Studio chat at /admin/dev-studio?tab=chat.
 // Uses runAITask() → aiChat() with RAG context + knowledge graph injection.
 // Conversation history is stored in ai_conversation_memory (keyed by sessionId).
 

@@ -11,8 +11,10 @@ import { useCourse } from '../CourseProvider';
 import { Video } from 'lucide-react';
 import { PanelHeader, PanelSkeleton } from './BlueprintPanel';
 
+// VideoManagerClient was consolidated into the Studio media tab.
+// Inline a lightweight video list here; full management is at /admin/studio.
 const VideoManagerClient = dynamic(
-  () => import('@/apps/admin/app/admin/video-manager/VideoManagerClient').then(m => ({ default: m.default ?? m })),
+  () => import('@/components/admin/AdvancedVideoUploader').then(m => ({ default: m.default ?? m })),
   { ssr: false, loading: () => <PanelSkeleton label="Media" /> }
 );
 

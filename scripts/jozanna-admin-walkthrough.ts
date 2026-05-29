@@ -175,7 +175,7 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
     pages: [
       { label: 'All Students', path: '/admin/students' },
       { label: 'Applications', path: '/admin/applications' },
-      { label: 'Applicants', path: '/admin/applicants' },
+      { label: 'Applicants', path: '/admin/applications' },
       { label: 'Enrollments', path: '/admin/enrollments' },
       { label: 'Completions', path: '/admin/completions' },
       { label: 'Outcomes', path: '/admin/outcomes' },
@@ -235,7 +235,7 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
   {
     section: 'AI',
     pages: [
-      { label: 'AI Console', path: '/admin/ai-console' },
+      { label: 'AI Console', path: '/admin/dev-studio?tab=chat' },
       { label: 'Copilot', path: '/admin/studio' },
       { label: 'Automation', path: '/admin/automation' },
       { label: 'Workflows', path: '/admin/workflows' },

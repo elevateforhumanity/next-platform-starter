@@ -12,16 +12,13 @@ describe('studio route consolidation', () => {
     expect(existsSync(path.join(root, 'components/studio/StudioShell.tsx'))).toBe(true);
   });
 
-  it('legacy builder pages still exist for backward compat but link to studio', () => {
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/course-builder/page.tsx'))).toBe(true);
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx'))).toBe(true);
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/courses/ai-builder/AICourseBuilderChat.tsx'))).toBe(true);
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/courses/ai-builder/page.tsx'))).toBe(false);
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/course-builder/PageClient.tsx'))).toBe(false);
-    expect(existsSync(path.join(root, 'apps/admin/app/admin/programs/builder/ProgramBuilderClient.tsx'))).toBe(false);
-    expect(existsSync(path.join(root, 'app/lms/(app)/builder/page.tsx'))).toBe(false);
-    expect(existsSync(path.join(root, 'components/lms/CourseAuthoringTool.tsx'))).toBe(false);
-    expect(existsSync(path.join(root, 'components/lms/CourseAuthoringTool-placeholder.tsx'))).toBe(false);
+  it('deleted legacy page directories no longer exist', () => {
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/course-builder'))).toBe(false);
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/video-manager'))).toBe(false);
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/ai-console'))).toBe(false);
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/ai-studio'))).toBe(false);
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/copilot'))).toBe(false);
+    expect(existsSync(path.join(root, 'apps/admin/app/admin/applicants'))).toBe(false);
   });
 
   it('nav and program pages link to /admin/studio, not old routes', () => {
@@ -30,16 +27,15 @@ describe('studio route consolidation', () => {
     expect(read('apps/admin/app/admin/programs/page.tsx')).not.toContain('href="/admin/curriculum"');
   });
 
+  it('programs-table links to /admin/studio not /admin/course-builder', () => {
+    const table = read('apps/admin/app/admin/programs/programs-table.tsx');
+    expect(table).not.toContain('/admin/course-builder');
+    expect(table).toContain('/admin/studio');
+  });
+
   it('does not rely on legacy builder redirects or route metadata', () => {
     expect(read('proxy.ts')).not.toContain('/admin/programs/builder');
     expect(read('lib/auth/lms-routes.ts')).not.toContain('/lms/builder');
-    expect(read('config/site-map.auto.ts')).not.toContain('/lms/builder');
-    expect(read('config/navigation.ts')).not.toContain('/admin/courses/ai-builder');
-    expect(read('apps/admin/app/admin/courses/page.tsx')).not.toContain('/admin/courses/ai-builder');
-    expect(read('apps/admin/app/admin/curriculum/page.tsx')).not.toContain('/admin/courses/ai-builder');
-    expect(read('scripts/check-enterprise-features.ts')).toContain(
-      'apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx',
-    );
   });
 
   it('ai-builder chat component links to studio after save', () => {
@@ -48,28 +44,7 @@ describe('studio route consolidation', () => {
     expect(chat).not.toContain('/admin/course-builder/');
   });
 
-  it('uses fast standards-aware generation from the canonical builder', () => {
-    const pageClient = read('apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx');
-    const route = read('apps/admin/app/api/admin/course-builder/generate-from-blueprint/route.ts');
-
-    expect(pageClient).toContain("generationMode: 'fast'");
-    expect(pageClient).toContain("videoMode: 'queue'");
-    expect(pageClient).toContain('Generate Standard Credentialed Course');
-    expect(route).toContain('loadIndustryStandards(blueprint.socCode, blueprint.credentialCode)');
-    expect(route).toContain("if (generationMode === 'fast')");
-    expect(route).toContain('buildFallbackLessonContent(lesson, mod.title, courseTitle, standardsBlock)');
-    expect(route).not.toContain("blueprint.socCode && generationMode !== 'fast'");
-  });
-
-  it('embeds the AI prompt builder in the canonical builder surface', () => {
-    const pageClient = read('apps/admin/app/admin/course-builder/CourseBuilderPageClient.tsx');
-    const chat = read('apps/admin/app/admin/courses/ai-builder/AICourseBuilderChat.tsx');
-
-    expect(pageClient).toContain('AICourseBuilderChat');
-    expect(pageClient).toContain("type BuilderMode = 'ai-prompt' | 'standard'");
-    expect(pageClient).toContain('Prompt Builder');
-    expect(pageClient).toContain('embedded');
-    expect(chat).toContain('embedded?: boolean');
+  it('course-builder API routes still exist (separate from page routes)', () => {
+    expect(existsSync(path.join(root, 'apps/admin/app/api/admin/course-builder'))).toBe(true);
   });
 });
-

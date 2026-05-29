@@ -407,7 +407,7 @@ export default async function StaffDashboard() {
               </Link>
 
               <Link
-                href="https://admin.elevateforhumanity.org/admin/applicants"
+                href="https://admin.elevateforhumanity.org/admin/applications"
                 className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">

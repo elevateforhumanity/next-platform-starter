@@ -45,7 +45,11 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
   // ── Media consolidation ──────────────────────────────────────────────────
-  '/admin/ai-studio':   '/admin/studio',
+  '/admin/ai-studio':            '/admin/dev-studio',
+  '/admin/ai-console':           '/admin/dev-studio?tab=chat',
+  '/admin/copilot':              '/admin/studio',
+  '/admin/video-manager':        '/admin/studio',
+  '/admin/course-builder':       '/admin/studio',
 };
 
 // Webhook paths bypass auth — Stripe signature verification handles security.

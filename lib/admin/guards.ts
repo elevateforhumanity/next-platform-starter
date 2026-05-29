@@ -109,7 +109,7 @@ export const DEV_TOOL_ROUTES = [
   '/admin/test-funding',
   '/admin/test-payments',
   '/admin/test-webhook',
-  '/admin/ai-console',
+  '/admin/dev-studio',
   '/admin/autopilot',
   '/admin/autopilots',
   '/admin/automation',

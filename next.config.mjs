@@ -517,7 +517,7 @@ const nextConfig = {
         permanent: true,
       },
       { source: '/admin/blog/new', destination: '/admin/blog', permanent: true },
-      { source: '/admin/course-studio', destination: '/admin/course-builder/templates', permanent: true },
+      { source: '/admin/course-studio', destination: '/admin/studio', permanent: true },
       { source: '/admin/dight', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/dight/:path*', destination: '/admin/dashboard/:path*', permanent: true },
       { source: '/admin/users/invite', destination: '/admin/staff', permanent: true },

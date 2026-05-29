@@ -1344,7 +1344,7 @@ async function executeAction(
           if (data.jobId) write(`   Job ID: ${data.jobId}`);
           if (data.videoId) write(`   Video ID: ${data.videoId}`);
           if (data.status) write(`   Status: ${data.status}`);
-          write('   View at: /admin/video-manager');
+          write('   View at: /admin/studio');
         } else {
           write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
           if (data.details) write(`   ${data.details}`);

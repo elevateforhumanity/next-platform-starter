@@ -92,7 +92,7 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Risk dashboard', href: '/admin/intelligence' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'AI Console', href: '/admin/ai-console' },
+      { label: 'AI Console', href: '/admin/dev-studio?tab=chat' },
     ],
   },
   {
