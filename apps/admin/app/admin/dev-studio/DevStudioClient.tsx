@@ -16,7 +16,7 @@ import type { default as CodeEditorType } from '@/components/dev-studio/CodeEdit
 
 // AiConsoleClient removed — merged into AIChat (Ellie tab)
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
-const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
+
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
 const EcsStatusPanel    = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'),    { ssr: false });
 const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree'),          { ssr: false });
@@ -30,7 +30,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git' | 'health' | 'automation';
+type Tab = 'command' | 'terminal' | 'files' | 'ellie' | 'secrets' | 'services' | 'git' | 'health';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -50,25 +50,20 @@ interface DevStudioHealth {
 }
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
-  { id: 'command',   Icon: Sparkles,      label: 'Command'   },
   { id: 'ellie',     Icon: Bot,           label: 'Ellie'     },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
+  { id: 'command',   Icon: Sparkles,      label: 'Commands'  },
   { id: 'git',       Icon: GitBranch,     label: 'Git'       },
   { id: 'services',  Icon: Server,        label: 'Services'  },
-  { id: 'files',     Icon: FolderOpen,    label: 'Explorer'  },
-  { id: 'container', Icon: Box,           label: 'Container' },
-  { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
+  { id: 'files',     Icon: FolderOpen,    label: 'Files'     },
   { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
   { id: 'health',    Icon: Activity,      label: 'Health'    },
-  { id: 'automation', Icon: Zap,          label: 'Automation' },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
-  command: 'command.sh', terminal: 'terminal.sh',
-  files: 'explorer', container: 'devcontainer.json',
-  documents: 'documents', secrets: 'platform-secrets',
+  ellie: 'ellie', terminal: 'terminal.sh', command: 'command.sh',
+  files: 'explorer', secrets: 'platform-secrets',
   git: 'git', services: 'services', health: 'system-health',
-  ellie: 'ellie', automation: 'automation',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -485,9 +480,9 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','container','ellie','documents','secrets','git','services','health','automation'];
-  // Non-super_admin users cannot land on the secrets tab — redirect to command
-  const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'command');
+  const valid: Tab[] = ['command','terminal','files','ellie','secrets','git','services','health'];
+  // Non-super_admin users cannot land on the secrets tab — redirect to ellie
+  const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'ellie');
   const [tab, setTab] = useState<Tab>(init);
   const [openTabs, setOpenTabs] = useState<Tab[]>([init]);
   const [studioConfig, setStudioConfig] = useState<DevStudioConfig | null>(null);
@@ -625,14 +620,13 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
         {/* Menu items — mirrors TABS order exactly */}
         {([
-          { label: 'Command',   id: 'command'   },
           { label: 'Ellie',     id: 'ellie'     },
           { label: 'Terminal',  id: 'terminal'  },
+          { label: 'Commands',  id: 'command'   },
           { label: 'Git',       id: 'git'       },
           { label: 'Services',  id: 'services'  },
           { label: 'Files',     id: 'files'     },
-          { label: 'Container', id: 'container' },
-          { label: 'Docs',      id: 'documents' },
+          { label: 'Health',    id: 'health'    },
           ...(isSuperAdmin ? [{ label: 'Secrets', id: 'secrets' as Tab }] : []),
         ] as { label: string; id: Tab }[]).map(({ label, id }) => (
           <span
@@ -761,14 +755,12 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
 
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
-          {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
           {tab === 'ellie'     && <AIChat ellieMode={true} />}
           {tab === 'terminal'  && <XTerminal />}
+          {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
           {tab === 'git'       && <GitPanel />}
           {tab === 'services'  && <ServicesPanel />}
           {tab === 'files'     && <FilesTab />}
-          {tab === 'container' && <ContainerTab />}
-          {tab === 'documents' && <DocumentsPanel />}
           {tab === 'secrets'   && (
             isSuperAdmin
               ? <SecretsPanel />
@@ -782,8 +774,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
                 </div>
               )
           )}
-          {tab === 'health'      && <SystemHealthPanel />}
-          {tab === 'automation'  && <AutomationPanel />}
+          {tab === 'health'    && <SystemHealthPanel />}
         </div>
 
         {/* Drag-to-resize handle — desktop only, preview is always visible there */}
