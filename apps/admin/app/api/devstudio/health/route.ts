@@ -46,12 +46,27 @@ export async function GET(req: NextRequest) {
     }
   } catch { /* non-fatal — fall back to process.env only */ }
 
+  // Shell diagnostics — boolean only, never expose values
+  const shellWsUrl    = process.env.STUDIO_SHELL_WS_URL ?? '';
+  const shellSecret   = process.env.STUDIO_SHELL_SECRET ?? '';
+  const tokenSecret   = process.env.STUDIO_TOKEN_SECRET ?? '';
+  const shellWsPublic = process.env.STUDIO_SHELL_WS_URL_PUBLIC ?? '';
+
+  const shell = {
+    STUDIO_SHELL_WS_URL:        shellWsUrl    ? 'configured' : 'MISSING',
+    STUDIO_SHELL_SECRET:        shellSecret   ? 'configured' : 'MISSING',
+    STUDIO_TOKEN_SECRET:        tokenSecret   ? 'configured' : 'MISSING',
+    STUDIO_SHELL_WS_URL_PUBLIC: shellWsPublic ? 'configured' : 'MISSING',
+    ready: !!(shellWsUrl && shellSecret && tokenSecret),
+  };
+
   return NextResponse.json({
     hasGroq:      isGroqConfigured()          || dbGroq,
     hasGemini:    isGeminiConfigured()         || dbGemini,
     hasOpenAI:    !!process.env.OPENAI_API_KEY || dbOpenAI,
     hasAnthropic: !!process.env.ANTHROPIC_API_KEY || dbAnthropic,
     hasGitHub:    !!process.env.GITHUB_TOKEN   || dbGitHub,
+    shell,
     runtime:      'nodejs',
     service:      'admin',
     nodeEnv:      process.env.NODE_ENV ?? 'unknown',

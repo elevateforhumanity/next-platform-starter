@@ -281,6 +281,36 @@ function SystemHealthPanel() {
         </div>
       </div>
 
+      {/* Shell / PTY */}
+      {(() => {
+        const shell = (data as Record<string, unknown>)?.shell as Record<string, unknown> | undefined;
+        if (!shell) return null;
+        const ready = shell.ready as boolean;
+        return (
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <p className="text-[10px] uppercase tracking-widest" style={{ color: '#555' }}>Dev Studio Shell (PTY)</p>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${ready ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}`}>
+                {ready ? 'READY' : 'NOT READY'}
+              </span>
+            </div>
+            <div className="rounded-lg overflow-hidden border border-[#2d2d2d]" style={{ background: '#252526' }}>
+              <div className="px-3">
+                <HealthRow label="STUDIO_SHELL_WS_URL"        value={shell.STUDIO_SHELL_WS_URL as string}        ok={shell.STUDIO_SHELL_WS_URL === 'configured'} />
+                <HealthRow label="STUDIO_SHELL_SECRET"        value={shell.STUDIO_SHELL_SECRET as string}        ok={shell.STUDIO_SHELL_SECRET === 'configured'} />
+                <HealthRow label="STUDIO_TOKEN_SECRET"        value={shell.STUDIO_TOKEN_SECRET as string}        ok={shell.STUDIO_TOKEN_SECRET === 'configured'} />
+                <HealthRow label="STUDIO_SHELL_WS_URL_PUBLIC" value={shell.STUDIO_SHELL_WS_URL_PUBLIC as string} ok={shell.STUDIO_SHELL_WS_URL_PUBLIC === 'configured'} />
+              </div>
+            </div>
+            {!ready && (
+              <p className="text-[10px] mt-1.5 px-1" style={{ color: '#858585' }}>
+                Set missing SSM parameters in AWS → Systems Manager → Parameter Store, then force-redeploy <code style={{ color: '#4ec9b0' }}>elevate-admin-service</code>.
+              </p>
+            )}
+          </div>
+        );
+      })()}
+
       {/* Deploy */}
       <div className="mb-4">
         <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>Deploy</p>
