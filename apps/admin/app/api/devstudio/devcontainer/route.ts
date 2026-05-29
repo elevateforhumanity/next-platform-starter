@@ -9,6 +9,8 @@
  * Env:
  * - DEVSTUDIO_DEVCONTAINER_MODE=github-only|local-only|auto
  * - GITHUB_TOKEN (required for github-only and GitHub writes)
+ * - GITHUB_REPO  (optional, defaults to elevate-for-humanity/Elevate-lms)
+ * - GITHUB_BRANCH (optional, defaults to main)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -19,8 +21,8 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-const REPO = 'elevateforhumanity/Elevate-lms';
-const BRANCH = 'main';
+const DEFAULT_REPO = 'elevate-for-humanity/Elevate-lms';
+const DEFAULT_BRANCH = 'main';
 const GH_API = 'https://api.github.com';
 const DEVCONTAINER_GH = '.devcontainer/devcontainer.json';
 const MAX_CONTENT_BYTES = 64 * 1024; // 64 KB
@@ -29,6 +31,16 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 type DevcontainerMode = 'auto' | 'github-only' | 'local-only';
+
+function getRepo(): string {
+  const repo = (process.env.GITHUB_REPO ?? DEFAULT_REPO).trim();
+  return repo || DEFAULT_REPO;
+}
+
+function getBranch(): string {
+  const branch = (process.env.GITHUB_BRANCH ?? process.env.BRANCH ?? DEFAULT_BRANCH).trim();
+  return branch || DEFAULT_BRANCH;
+}
 
 function getDevcontainerMode(): DevcontainerMode {
   const raw = (process.env.DEVSTUDIO_DEVCONTAINER_MODE ?? 'auto').toLowerCase().trim();
@@ -155,7 +167,7 @@ function ghHeaders(): HeadersInit {
 
 async function readGitHubDevcontainer(authenticated: boolean) {
   const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
-  const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`, {
+  const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodedPath}?ref=${getBranch()}`, {
     headers: authenticated
       ? ghHeaders()
       : {
@@ -183,6 +195,8 @@ export async function GET(request: NextRequest) {
   try {
     const mode = getDevcontainerMode();
     const githubConfigured = hasGitHubToken();
+    const repo = getRepo();
+    const branch = getBranch();
 
     if (mode === 'github-only' && !githubConfigured) {
       return safeError('DevContainer is configured for github-only mode but GITHUB_TOKEN is missing', 503);
@@ -198,6 +212,8 @@ export async function GET(request: NextRequest) {
           source: 'local',
           writable: true,
           mode,
+          repo,
+          branch,
           capabilities: {
             githubConfigured,
             localWritable: true,
@@ -223,6 +239,8 @@ export async function GET(request: NextRequest) {
         source: 'github',
         writable: true,
         mode,
+        repo,
+        branch,
         capabilities: {
           githubConfigured,
           localWritable: false,
@@ -240,6 +258,8 @@ export async function GET(request: NextRequest) {
         source: 'local',
         writable: true,
         mode,
+        repo,
+        branch,
         capabilities: {
           githubConfigured,
           localWritable: true,
@@ -260,6 +280,8 @@ export async function GET(request: NextRequest) {
         source: 'github-readonly',
         writable: false,
         mode,
+        repo,
+        branch,
         capabilities: {
           githubConfigured,
           localWritable: false,
@@ -314,14 +336,14 @@ export async function PUT(request: NextRequest) {
     const encoded = Buffer.from(content, 'utf-8').toString('base64');
     const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
 
-    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
+    const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodedPath}`, {
       method: 'PUT',
       headers: ghHeaders(),
       body: JSON.stringify({
         message: message ?? 'chore: update devcontainer.json via Dev Studio',
         content: encoded,
         sha,
-        branch: BRANCH,
+        branch: getBranch(),
       }),
     });
 
