@@ -1,28 +1,20 @@
 /**
  * /api/devstudio/shell
  *
- * Dispatches GitHub Actions workflow runs instead of spawning local bash.
- * Works in production (ECS) where the container has no source files.
+ * Dispatches GitHub Actions workflow runs. Works in ECS (no local source).
  * Admin-only.
  *
- * POST { workflow: string, inputs?: Record<string, string> }
- *   → triggers workflow_dispatch on the given workflow file
- *   → returns { ok, runUrl } immediately (fire-and-forget)
- *
+ * GET ?action=list
+ *   → returns all workflow_dispatch-capable workflows from the repo
  * GET ?run_id=<id>
- *   → polls a workflow run for status + logs
+ *   → polls a workflow run for status + jobs
  *
- * Supported workflows (workflow field values):
- *   'deploy-lms'    → .github/workflows/deploy-lms.yml
- *   'deploy-admin'  → .github/workflows/deploy-admin.yml
- *   'ci'            → .github/workflows/ci-cd.yml
- *   'lint'          → .github/workflows/lint.yml
+ * POST { workflow: string, inputs?: Record<string, string> }
+ *   → triggers workflow_dispatch on any workflow that supports it
+ *   → falls back to Contents API bump if token lacks workflow scope
  *
- * Security:
- *  - Requires admin role on every request.
- *  - Only whitelisted workflows can be dispatched.
- *  - Uses GITHUB_TOKEN from environment (SSM-injected in ECS).
- *  - Rate-limited to strict tier (3 req / 5 min).
+ * No hardcoded workflow allowlist — any workflow with workflow_dispatch
+ * trigger in the repo can be dispatched. Repo and branch are read from env.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -34,18 +26,9 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const REPO   = 'elevate-for-humanity/Elevate-lms';
-const BRANCH = 'main';
+function repo()   { return process.env.GITHUB_REPO   ?? 'elevate-for-humanity/Elevate-lms'; }
+function branch() { return process.env.GITHUB_BRANCH ?? 'main'; }
 const GH_API = 'https://api.github.com';
-
-// Only these workflow files can be dispatched
-const ALLOWED_WORKFLOWS: Record<string, string> = {
-  'deploy-lms':    'deploy-lms.yml',
-  'deploy-admin':  'deploy-admin.yml',
-  'deploy-studio': 'deploy-studio.yml',
-  'ci':            'ci-cd.yml',
-  'lint':          'lint.yml',
-};
 
 function ghHeaders(): HeadersInit {
   const token = process.env.GITHUB_TOKEN;
@@ -56,6 +39,38 @@ function ghHeaders(): HeadersInit {
     'X-GitHub-Api-Version': '2022-11-28',
     'Content-Type': 'application/json',
   };
+}
+
+// ── Workflow discovery ────────────────────────────────────────────────────────
+
+interface GHWorkflow {
+  id: number;
+  name: string;
+  path: string;   // e.g. ".github/workflows/deploy-lms.yml"
+  state: string;  // "active" | "disabled_manually" | etc.
+}
+
+/**
+ * Fetch all active workflows from the repo that have a workflow_dispatch trigger.
+ * Uses the GitHub Actions API — no local file access needed.
+ * Results are not cached server-side; the client caches via SWR/state.
+ */
+async function listDispatchableWorkflows(): Promise<GHWorkflow[]> {
+  const all: GHWorkflow[] = [];
+  let page = 1;
+  while (true) {
+    const res = await fetch(
+      `${GH_API}/repos/${repo()}/actions/workflows?per_page=100&page=${page}`,
+      { headers: ghHeaders() },
+    );
+    if (!res.ok) throw new Error(`GitHub API ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    const data = await res.json() as { workflows: GHWorkflow[]; total_count: number };
+    all.push(...data.workflows);
+    if (all.length >= data.total_count) break;
+    page++;
+  }
+  // Return only active workflows — disabled ones can't be dispatched
+  return all.filter(w => w.state === 'active');
 }
 
 /**
@@ -71,25 +86,18 @@ async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: st
   const token = process.env.GITHUB_TOKEN;
   if (!token) throw new Error('GITHUB_TOKEN is not configured');
 
-  const path = `.github/workflows/${workflowFile}`;
-  const apiBase = `${GH_API}/repos/${REPO}/contents/${path}`;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',
-  };
+  const filePath = `.github/workflows/${workflowFile}`;
+  const apiBase  = `${GH_API}/repos/${repo()}/contents/${filePath}`;
+  const headers  = ghHeaders();
 
-  // Fetch current file
-  const getRes = await fetch(`${apiBase}?ref=${BRANCH}`, { headers });
-  if (!getRes.ok) throw new Error(`Could not read ${path}: ${getRes.status}`);
+  const getRes = await fetch(`${apiBase}?ref=${branch()}`, { headers });
+  if (!getRes.ok) throw new Error(`Could not read ${filePath}: ${getRes.status}`);
   const { sha, content: b64 } = await getRes.json() as { sha: string; content: string };
 
-  // Decode, bump marker, re-encode
-  const current = Buffer.from(b64.replace(/\n/g, ''), 'base64').toString('utf8');
-  const ts = new Date().toISOString().slice(0, 16) + 'Z';
+  const current  = Buffer.from(b64.replace(/\n/g, ''), 'base64').toString('utf8');
+  const ts       = new Date().toISOString().slice(0, 16) + 'Z';
   const markerRe = /(#\s*Retry trigger marker:\s*)\S+/;
-  const updated = markerRe.test(current)
+  const updated  = markerRe.test(current)
     ? current.replace(markerRe, `$1${ts}`)
     : current + `\n# Retry trigger marker: ${ts}\n`;
 
@@ -97,10 +105,10 @@ async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: st
     method: 'PUT',
     headers,
     body: JSON.stringify({
-      message: `Trigger ${workflowFile.replace('.yml', '')} deploy`,
+      message: `chore: trigger ${workflowFile.replace('.yml', '')}`,
       content: Buffer.from(updated).toString('base64'),
       sha,
-      branch: BRANCH,
+      branch: branch(),
     }),
   });
 
@@ -109,13 +117,13 @@ async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: st
     throw new Error(`Contents API PUT failed: ${err.message ?? putRes.status}`);
   }
 
-  return { runUrl: `https://github.com/${REPO}/actions` };
+  return { runUrl: `https://github.com/${repo()}/actions` };
 }
 
 // ── POST — dispatch a workflow ────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
-  await hydrateProcessEnv(); // ensure GITHUB_TOKEN from platform_secrets is available
+  await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -123,37 +131,48 @@ export async function POST(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await request.json().catch(() => null);
-  const workflowKey: string = body?.workflow ?? '';
+  // Accept either a workflow filename (e.g. "deploy-lms.yml") or bare name ("deploy-lms")
+  const workflowRaw: string = body?.workflow ?? '';
   const inputs: Record<string, string> = body?.inputs ?? {};
 
-  if (!workflowKey) {
-    return safeError('workflow is required', 400);
-  }
+  if (!workflowRaw) return safeError('workflow is required', 400);
 
-  const workflowFile = ALLOWED_WORKFLOWS[workflowKey];
-  if (!workflowFile) {
-    return safeError(
-      `Unknown workflow "${workflowKey}". Allowed: ${Object.keys(ALLOWED_WORKFLOWS).join(', ')}`,
-      400,
-    );
+  // Normalise to filename
+  const workflowFile = workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`;
+
+  // Validate the workflow exists and is active in the repo
+  try {
+    const workflows = await listDispatchableWorkflows();
+    const match = workflows.find(w => w.path === `.github/workflows/${workflowFile}`);
+    if (!match) {
+      const available = workflows.map(w => w.path.replace('.github/workflows/', '')).join(', ');
+      return safeError(
+        `Workflow "${workflowFile}" not found or not active. Available: ${available}`,
+        400,
+      );
+    }
+  } catch (err) {
+    // If we can't list workflows (e.g. no token), allow the dispatch attempt anyway
+    // and let GitHub return the error.
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('[shell] Could not validate workflow list:', err);
+    }
   }
 
   try {
     const dispatchRes = await fetch(
-      `${GH_API}/repos/${REPO}/actions/workflows/${workflowFile}/dispatches`,
+      `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/dispatches`,
       {
         method: 'POST',
         headers: ghHeaders(),
-        body: JSON.stringify({ ref: BRANCH, inputs }),
+        body: JSON.stringify({ ref: branch(), inputs }),
       },
     );
 
-    // 204 = accepted by workflow_dispatch
     if (dispatchRes.status === 204) {
-      // Brief wait for GH to register the run
       await new Promise((r) => setTimeout(r, 1500));
       const runsRes = await fetch(
-        `${GH_API}/repos/${REPO}/actions/workflows/${workflowFile}/runs?per_page=1&branch=${BRANCH}`,
+        `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/runs?per_page=1&branch=${branch()}`,
         { headers: ghHeaders() },
       );
       const runsData = runsRes.ok ? await runsRes.json() : null;
@@ -161,21 +180,19 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         ok: true,
-        workflow: workflowKey,
+        workflow: workflowFile,
         method: 'dispatch',
         runId: latestRun?.id ?? null,
-        runUrl: latestRun?.html_url ?? `https://github.com/${REPO}/actions`,
+        runUrl: latestRun?.html_url ?? `https://github.com/${repo()}/actions`,
         status: latestRun?.status ?? 'queued',
       });
     }
 
-    // workflow_dispatch failed (403/404 = token lacks workflow scope or no dispatch trigger).
-    // Fall back to bumping the retry marker via the Contents API — this triggers the
-    // workflow through its path filter on push to main, same as a normal commit.
+    // Fallback: bump retry marker via Contents API
     const fallback = await triggerViaContentsApi(workflowFile);
     return NextResponse.json({
       ok: true,
-      workflow: workflowKey,
+      workflow: workflowFile,
       method: 'contents-api',
       runId: null,
       runUrl: fallback.runUrl,
@@ -186,23 +203,47 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// ── GET — poll a workflow run ─────────────────────────────────────────────────
+// ── GET ───────────────────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
-  await hydrateProcessEnv(); // ensure GITHUB_TOKEN from platform_secrets is available
+  await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const runId = request.nextUrl.searchParams.get('run_id');
-  if (!runId) return safeError('run_id is required', 400);
+  const { searchParams } = request.nextUrl;
+  const action = searchParams.get('action');
+  const runId  = searchParams.get('run_id');
+
+  // ── List all dispatchable workflows ──────────────────────────────────────
+  if (action === 'list') {
+    try {
+      const workflows = await listDispatchableWorkflows();
+      return NextResponse.json({
+        workflows: workflows.map(w => ({
+          id:    w.id,
+          name:  w.name,
+          file:  w.path.replace('.github/workflows/', ''),
+          path:  w.path,
+          state: w.state,
+        })),
+        repo:   repo(),
+        branch: branch(),
+      });
+    } catch (err) {
+      return safeInternalError(err, 'Failed to list workflows');
+    }
+  }
+
+  // ── Poll a specific run ───────────────────────────────────────────────────
+  if (!runId) return safeError('run_id or action=list is required', 400);
 
   try {
     const [runRes, jobsRes] = await Promise.all([
-      fetch(`${GH_API}/repos/${REPO}/actions/runs/${runId}`, { headers: ghHeaders() }),
-      fetch(`${GH_API}/repos/${REPO}/actions/runs/${runId}/jobs`, { headers: ghHeaders() }),
+      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}`, { headers: ghHeaders() }),
+      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}/jobs`, { headers: ghHeaders() }),
     ]);
 
     if (!runRes.ok) {
@@ -210,22 +251,23 @@ export async function GET(request: NextRequest) {
       return safeError('GitHub API error', runRes.status);
     }
 
-    const run = await runRes.json();
+    const run  = await runRes.json();
     const jobs = jobsRes.ok ? (await jobsRes.json()).jobs ?? [] : [];
 
     return NextResponse.json({
-      id: run.id,
-      status: run.status,       // queued | in_progress | completed
-      conclusion: run.conclusion, // success | failure | cancelled | null
-      url: run.html_url,
-      createdAt: run.created_at,
-      updatedAt: run.updated_at,
+      id:         run.id,
+      name:       run.name,
+      status:     run.status,
+      conclusion: run.conclusion,
+      url:        run.html_url,
+      createdAt:  run.created_at,
+      updatedAt:  run.updated_at,
       jobs: jobs.map((j: { id: number; name: string; status: string; conclusion: string | null; html_url: string }) => ({
-        id: j.id,
-        name: j.name,
-        status: j.status,
+        id:         j.id,
+        name:       j.name,
+        status:     j.status,
         conclusion: j.conclusion,
-        url: j.html_url,
+        url:        j.html_url,
       })),
     });
   } catch (err) {
