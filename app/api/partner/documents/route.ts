@@ -157,10 +157,10 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
     }
 
-    // Get public URL
-    const { data: urlData } = supabaseAdmin.storage
+    // Get signed URL (bucket is private — public URL won't work)
+    const { data: urlData } = await supabaseAdmin.storage
       .from('partner_documents')
-      .getPublicUrl(fileName);
+      .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1-year expiry
 
     // Delete any existing document of this type
     await supabaseAdmin
@@ -177,7 +177,7 @@ async function _POST(request: NextRequest) {
         document_type: documentType,
         program_id: programId,
         file_name: file.name,
-        file_url: urlData.publicUrl,
+        file_url: urlData?.signedUrl ?? uploadData.path,
         file_size: file.size,
         file_type: file.type,
         status: 'accepted', // Auto-accept on valid upload

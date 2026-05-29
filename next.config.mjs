@@ -633,35 +633,20 @@ const nextConfig = {
       // Partner consolidation
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
 
-      // apply/barber — dedicated partner application flow (was a redirect-only page.tsx, moved here)
-      {
-        source: '/apply/barber',
-        destination: '/partners/barbershop-apprenticeship/apply',
-        permanent: true,
-      },
+      // apply/barber → barber host shop apply
+      { source: '/apply/barber', destination: '/partners/barber-host-shop/apply', permanent: true },
 
-      // Partner onboarding flows — auth-gated Railway pages.
-      // Unauthenticated hits get sent to login; Railway serves the page post-auth.
-      {
-        source: '/partners/barbershop-apprenticeship/forms',
-        destination: '/login?redirect=/partners/barbershop-apprenticeship/forms',
-        permanent: false,
-      },
-      {
-        source: '/partners/barbershop-apprenticeship/handbook',
-        destination: '/login?redirect=/partners/barbershop-apprenticeship/handbook',
-        permanent: false,
-      },
-      {
-        source: '/partners/barbershop-apprenticeship/sign-mou',
-        destination: '/login?redirect=/partners/barbershop-apprenticeship/sign-mou',
-        permanent: false,
-      },
-      {
-        source: '/partners/barbershop-apprenticeship/policy-acknowledgment',
-        destination: '/login?redirect=/partners/barbershop-apprenticeship/policy-acknowledgment',
-        permanent: false,
-      },
+      // Old barbershop-apprenticeship URLs → barber-host-shop
+      { source: '/partners/barbershop-apprenticeship/:path*', destination: '/partners/barber-host-shop/:path*', permanent: true },
+
+      // Old cosmetology-partner-shop URLs → cosmetology-host-shop
+      { source: '/partners/cosmetology-partner-shop/:path*', destination: '/partners/cosmetology-host-shop/:path*', permanent: true },
+
+      // Old cosmetology-apprenticeship partner URLs → cosmetology-host-shop
+      { source: '/partners/cosmetology-apprenticeship/:path*', destination: '/partners/cosmetology-host-shop/:path*', permanent: true },
+
+      // apply/cosmetology → cosmetology host shop apply
+      { source: '/apply/cosmetology', destination: '/partners/cosmetology-host-shop/apply', permanent: true },
 
       { source: '/partner-courses/:path*', destination: '/partners/:path*', permanent: true },
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
@@ -975,7 +960,7 @@ const nextConfig = {
       { source: '/partners/join', destination: '/partners/apply', permanent: true },
       { source: '/partners/training', destination: '/for-providers', permanent: true },
       { source: '/partners/training-provider', destination: '/for-providers', permanent: true },
-      { source: '/partners/barbershop-apprenticeship/onboarding', destination: '/login?redirect=/partners/barbershop-apprenticeship/forms', permanent: true },
+      { source: '/partners/barber-host-shop/onboarding', destination: '/login?redirect=/partners/barber-host-shop/forms', permanent: true },
       // /partner/programs/barber covered by existing /partner/:path* wildcard
       { source: '/pathways/partners', destination: '/for-providers', permanent: true },
       { source: '/platform/partners', destination: '/for-providers', permanent: true },
