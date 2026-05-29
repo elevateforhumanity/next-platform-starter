@@ -8,6 +8,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { aiChat } from '@/lib/ai/ai-service';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { ELLIE_ACTION_REGISTRY, type EllieActionType } from '@/lib/ellie/actions';
 
@@ -688,6 +689,10 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
+  // Load AI keys from platform_secrets / app_secrets into process.env.
+  // Must run before any provider resolution so DB-stored keys are visible.
+  await hydrateProcessEnv();
+
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -765,7 +770,7 @@ export async function POST(request: NextRequest) {
         reply = result.content ?? '';
       } catch {
         const errMsg = primaryErr instanceof Error ? primaryErr.message : String(primaryErr);
-        reply = `AI service unavailable (${errMsg}). Live data:\n\n${dataSnapshot}\n\nCheck /admin/api-keys to verify your OpenAI and Groq keys are active.`;
+        reply = `AI service unavailable (${errMsg}). Live data:\n\n${dataSnapshot}\n\nTo enable AI: go to Admin → Integrations → Environment Manager and add GROQ_API_KEY (free at console.groq.com) or OPENAI_API_KEY.`;
       }
     }
   }
