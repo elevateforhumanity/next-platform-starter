@@ -1,18 +1,18 @@
 services:
-  lms-dev:
-    name: LMS Dev Server (port 3000)
-    description: Next.js LMS app with Turbopack hot reload
-    commands:
-      start: bash .devcontainer/setup-env.sh 2>/dev/null && pnpm dev
-      ready: curl -sf http://localhost:3000 > /dev/null
-    triggeredBy:
-      - postEnvironmentStart
-
   admin-dev:
-    name: Admin Dev Server (port 3001)
-    description: Next.js Admin app with hot reload
+    name: Admin Dev Server
+    description: Next.js Admin dashboard — primary working preview
     commands:
       start: bash .devcontainer/setup-env.sh 2>/dev/null && pnpm dev:admin
       ready: curl -sf http://localhost:3001 > /dev/null
+    triggeredBy:
+      - postEnvironmentStart
+
+  lms-dev:
+    name: LMS Dev Server
+    description: Next.js LMS app
+    commands:
+      start: bash .devcontainer/setup-env.sh 2>/dev/null && pnpm dev
+      ready: curl -sf http://localhost:3000 > /dev/null
     triggeredBy:
       - postEnvironmentStart

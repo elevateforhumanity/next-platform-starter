@@ -6,11 +6,7 @@
     "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
   ],
 
-  "forwardPorts": [3000, 3001],
-  "portsAttributes": {
-    "3000": { "label": "LMS (port 3000)", "onAutoForward": "notify" },
-    "3001": { "label": "Admin (port 3001)", "onAutoForward": "notify" }
-  },
+
 
   "features": {
     "ghcr.io/devcontainers/features/aws-cli:1": {},
