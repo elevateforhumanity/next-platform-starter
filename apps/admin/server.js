@@ -104,6 +104,11 @@ function attachWsProxy(server) {
         });
 
         shellWs.on('open', () => {
+          // Tell the browser the shell is ready — XTerminal waits for this
+          // before setting status to 'connected' and firing onReady.
+          if (browserWs.readyState === WebSocket.OPEN) {
+            browserWs.send(JSON.stringify({ type: 'ready' }));
+          }
           browserWs.on('message', (d) => { if (shellWs.readyState === WebSocket.OPEN) shellWs.send(d); });
           shellWs.on('message',  (d) => { if (browserWs.readyState === WebSocket.OPEN) browserWs.send(d); });
           browserWs.on('close', () => shellWs.close());

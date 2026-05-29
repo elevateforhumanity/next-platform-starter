@@ -8,7 +8,7 @@ import {
   Send, Loader2, RefreshCw, ExternalLink, Save, Bot,
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key, ShieldCheck,
-  Server, GitBranch, Lock,
+  Server, GitBranch, Lock, Activity, CheckCircle2, XCircle,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -29,7 +29,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git' | 'health';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -59,13 +59,15 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'container', Icon: Box,           label: 'Container' },
   { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
   { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
+  { id: 'health',    Icon: Activity,      label: 'Health'    },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
   command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
   files: 'explorer', container: 'devcontainer.json',
   documents: 'documents', secrets: 'platform-secrets',
-  git: 'git', services: 'services',
+  git: 'git', services: 'services', health: 'system-health',
+  ellie: 'ellie',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -174,6 +176,127 @@ function IframePreview({
         onLoad={() => setLoading(false)}
         title={title}
       />
+    </div>
+  );
+}
+
+// ── System Health Panel ───────────────────────────────────────────────────────
+function HealthRow({ label, value, ok }: { label: string; value: string; ok?: boolean }) {
+  return (
+    <div className="flex items-center justify-between py-2 border-b border-[#2d2d2d] last:border-0">
+      <span className="text-xs text-[#858585]">{label}</span>
+      <span className="flex items-center gap-1.5 text-xs font-mono">
+        {ok === true  && <CheckCircle2 className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />}
+        {ok === false && <XCircle      className="w-3.5 h-3.5 text-red-400   flex-shrink-0" />}
+        {ok === undefined && <span className="w-3.5 h-3.5 flex-shrink-0" />}
+        <span style={{ color: ok === false ? '#f87171' : ok === true ? '#4ade80' : '#cccccc' }}>{value}</span>
+      </span>
+    </div>
+  );
+}
+
+function SystemHealthPanel() {
+  const [data, setData] = React.useState<Record<string, unknown> | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const load = React.useCallback(() => {
+    setLoading(true);
+    setError(null);
+    fetch('/api/devstudio/health')
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => { setData(d); setLoading(false); })
+      .catch(e => { setError(`Failed to load health data (${e})`); setLoading(false); });
+  }, []);
+
+  React.useEffect(() => { load(); }, [load]);
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-full gap-2" style={{ color: '#858585' }}>
+      <Loader2 className="w-4 h-4 animate-spin" />
+      <span className="text-xs">Loading health data…</span>
+    </div>
+  );
+
+  if (error) return (
+    <div className="flex flex-col items-center justify-center h-full gap-3 px-6 text-center">
+      <AlertTriangle className="w-8 h-8 text-red-400" />
+      <p className="text-xs text-red-400">{error}</p>
+      <button onClick={load} className="text-xs px-3 py-1.5 rounded bg-[#2d2d2d] text-[#cccccc] hover:bg-[#3c3c3c]">Retry</button>
+    </div>
+  );
+
+  const h = data as {
+    devcontainerMode?: boolean;
+    githubTokenPresent?: boolean;
+    devcontainerJsonFound?: boolean;
+    stripeKeyPresent?: boolean;
+    supabaseUrlPresent?: boolean;
+    supabaseServiceKeyPresent?: boolean;
+    openaiKeyPresent?: boolean;
+    awsIdentityHint?: string;
+    ecsCluster?: string;
+    nodeVersion?: string;
+    nextVersion?: string;
+    timestamp?: string;
+  } | null;
+
+  return (
+    <div className="h-full overflow-y-auto p-4" style={{ background: '#1e1e1e' }}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Activity className="w-4 h-4 text-green-400" />
+          <span className="text-sm font-semibold" style={{ color: '#cccccc' }}>System Health</span>
+        </div>
+        <button onClick={load} className="flex items-center gap-1 text-xs px-2 py-1 rounded hover:bg-[#2d2d2d] transition-colors" style={{ color: '#858585' }}>
+          <RefreshCw className="w-3 h-3" /> Refresh
+        </button>
+      </div>
+
+      {/* Runtime */}
+      <div className="mb-4">
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>Runtime</p>
+        <div className="rounded-lg overflow-hidden border border-[#2d2d2d]" style={{ background: '#252526' }}>
+          <div className="px-3">
+            <HealthRow label="Node.js"          value={h?.nodeVersion  || 'unknown'} />
+            <HealthRow label="Next.js"          value={h?.nextVersion  || 'unknown'} />
+            <HealthRow label="DevContainer mode" value={h?.devcontainerMode ? 'active' : 'inactive'} ok={h?.devcontainerMode} />
+            <HealthRow label="devcontainer.json" value={h?.devcontainerJsonFound ? 'found' : 'missing'} ok={h?.devcontainerJsonFound} />
+          </div>
+        </div>
+      </div>
+
+      {/* Secrets */}
+      <div className="mb-4">
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>Secrets</p>
+        <div className="rounded-lg overflow-hidden border border-[#2d2d2d]" style={{ background: '#252526' }}>
+          <div className="px-3">
+            <HealthRow label="SUPABASE_URL"          value={h?.supabaseUrlPresent        ? 'present' : 'missing'} ok={h?.supabaseUrlPresent} />
+            <HealthRow label="SUPABASE_SERVICE_KEY"  value={h?.supabaseServiceKeyPresent ? 'present' : 'missing'} ok={h?.supabaseServiceKeyPresent} />
+            <HealthRow label="STRIPE_SECRET_KEY"     value={h?.stripeKeyPresent          ? 'present' : 'missing'} ok={h?.stripeKeyPresent} />
+            <HealthRow label="OPENAI_API_KEY"        value={h?.openaiKeyPresent          ? 'present' : 'missing'} ok={h?.openaiKeyPresent} />
+            <HealthRow label="GITHUB_TOKEN"          value={h?.githubTokenPresent        ? 'present' : 'missing'} ok={h?.githubTokenPresent} />
+          </div>
+        </div>
+      </div>
+
+      {/* Deploy */}
+      <div className="mb-4">
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>Deploy</p>
+        <div className="rounded-lg overflow-hidden border border-[#2d2d2d]" style={{ background: '#252526' }}>
+          <div className="px-3">
+            <HealthRow label="AWS identity" value={h?.awsIdentityHint || 'not detected'} ok={!!h?.awsIdentityHint} />
+            <HealthRow label="ECS cluster"  value={h?.ecsCluster      || 'not detected'} ok={!!h?.ecsCluster} />
+          </div>
+        </div>
+      </div>
+
+      {h?.timestamp && (
+        <p className="text-[10px] text-center mt-2" style={{ color: '#555' }}>
+          Last checked {new Date(h.timestamp as string).toLocaleTimeString()}
+        </p>
+      )}
     </div>
   );
 }
@@ -480,6 +603,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
                 </div>
               )
           )}
+          {tab === 'health' && <SystemHealthPanel />}
         </div>
 
         {/* Drag-to-resize handle — desktop only, preview is always visible there */}

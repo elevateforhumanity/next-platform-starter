@@ -100,36 +100,93 @@ jobs:
           cluster:          ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
 
-      - name: Update public IP in SSM
-        # After a redeploy the Fargate task gets a new public IP.
-        # Write it to SSM so local dev .env.local can be updated manually,
-        # and print it to the job summary for visibility.
+      - name: Set SSM params and update public IP
+        # Sets the three SSM params the admin ECS task reads at startup:
+        #   STUDIO_SHELL_WS_URL     — internal Cloud Map URL (admin → studio)
+        #   STUDIO_SHELL_SECRET     — shared secret (generated once, stable)
+        #   STUDIO_TOKEN_SECRET     — HMAC secret for shell-token route
+        # Also writes the public IP for local dev use.
         run: |
+          INTERNAL_URL="ws://elevate-studio.elevate.local:8888"
+
+          # Generate a stable secret if one doesn't already exist
+          EXISTING_SECRET=$(aws ssm get-parameter \
+            --name /elevate/STUDIO_SHELL_SECRET \
+            --with-decryption \
+            --query Parameter.Value \
+            --output text 2>/dev/null || echo "")
+
+          if [ -z "$EXISTING_SECRET" ]; then
+            SHELL_SECRET=$(openssl rand -hex 32)
+            aws ssm put-parameter \
+              --name /elevate/STUDIO_SHELL_SECRET \
+              --value "$SHELL_SECRET" \
+              --type SecureString \
+              --overwrite
+            echo "Generated new STUDIO_SHELL_SECRET"
+          else
+            SHELL_SECRET="$EXISTING_SECRET"
+            echo "STUDIO_SHELL_SECRET already set"
+          fi
+
+          # STUDIO_TOKEN_SECRET — reuse shell secret if not separately set
+          EXISTING_TOKEN_SECRET=$(aws ssm get-parameter \
+            --name /elevate/STUDIO_TOKEN_SECRET \
+            --with-decryption \
+            --query Parameter.Value \
+            --output text 2>/dev/null || echo "")
+
+          if [ -z "$EXISTING_TOKEN_SECRET" ]; then
+            TOKEN_SECRET=$(openssl rand -hex 32)
+            aws ssm put-parameter \
+              --name /elevate/STUDIO_TOKEN_SECRET \
+              --value "$TOKEN_SECRET" \
+              --type SecureString \
+              --overwrite
+            echo "Generated new STUDIO_TOKEN_SECRET"
+          else
+            echo "STUDIO_TOKEN_SECRET already set"
+          fi
+
+          # Internal URL — always update to Cloud Map DNS
+          aws ssm put-parameter \
+            --name /elevate/STUDIO_SHELL_WS_URL \
+            --value "$INTERNAL_URL" \
+            --type String \
+            --overwrite
+          echo "Set STUDIO_SHELL_WS_URL = $INTERNAL_URL"
+
+          # Public IP for local dev
           TASK_ARN=$(aws ecs list-tasks \
             --cluster $ECS_CLUSTER \
             --service-name $ECS_SERVICE \
-            --query 'taskArns[0]' --output text)
+            --query 'taskArns[0]' --output text 2>/dev/null || echo "")
 
-          ENI=$(aws ecs describe-tasks \
-            --cluster $ECS_CLUSTER --tasks "$TASK_ARN" \
-            --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
-            --output text)
+          if [ -n "$TASK_ARN" ] && [ "$TASK_ARN" != "None" ]; then
+            ENI=$(aws ecs describe-tasks \
+              --cluster $ECS_CLUSTER --tasks "$TASK_ARN" \
+              --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
+              --output text 2>/dev/null || echo "")
 
-          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
-            --network-interface-ids "$ENI" \
-            --query 'NetworkInterfaces[0].Association.PublicIp' \
-            --output text)
+            if [ -n "$ENI" ] && [ "$ENI" != "None" ]; then
+              PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+                --network-interface-ids "$ENI" \
+                --query 'NetworkInterfaces[0].Association.PublicIp' \
+                --output text 2>/dev/null || echo "")
 
-          echo "Studio public IP: $PUBLIC_IP"
-
-          aws ssm put-parameter \
-            --name /elevate/STUDIO_SHELL_WS_URL_PUBLIC \
-            --value "ws://${PUBLIC_IP}:8888" \
-            --type String \
-            --overwrite
+              if [ -n "$PUBLIC_IP" ] && [ "$PUBLIC_IP" != "None" ]; then
+                aws ssm put-parameter \
+                  --name /elevate/STUDIO_SHELL_WS_URL_PUBLIC \
+                  --value "ws://${PUBLIC_IP}:8888" \
+                  --type String \
+                  --overwrite
+                echo "Set STUDIO_SHELL_WS_URL_PUBLIC = ws://${PUBLIC_IP}:8888"
+              fi
+            fi
+          fi
 
           echo "### Studio Shell deployed" >> $GITHUB_STEP_SUMMARY
-          echo "- **Internal (ECS):** ws://elevate-studio.elevate.local:8888" >> $GITHUB_STEP_SUMMARY
-          echo "- **Public (local dev):** ws://${PUBLIC_IP}:8888" >> $GITHUB_STEP_SUMMARY
+          echo "- **Internal (ECS):** $INTERNAL_URL" >> $GITHUB_STEP_SUMMARY
+          echo "- **SSM params set:** STUDIO_SHELL_WS_URL, STUDIO_SHELL_SECRET, STUDIO_TOKEN_SECRET" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Update \`STUDIO_SHELL_WS_URL\` in \`.env.local\` to \`ws://${PUBLIC_IP}:8888\`" >> $GITHUB_STEP_SUMMARY

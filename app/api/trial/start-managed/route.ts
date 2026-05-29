@@ -111,7 +111,7 @@ async function _POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { orgName, adminName, adminEmail } = body;
+    const { orgName, adminName, adminEmail, websiteMode, existingUrl, programs } = body;
 
     // Validate required fields
     if (!orgName || !adminName || !adminEmail) {
@@ -258,6 +258,10 @@ async function _POST(request: NextRequest) {
       );
     }
 
+    // Resolve connection mode from websiteMode field
+    const connectionMode: 'new_site' | 'existing_site' | 'api_embed' =
+      websiteMode === 'existing' ? 'existing_site' : 'new_site';
+
     // Log provisioning event
     await supabase
       .from('license_events')
@@ -271,14 +275,27 @@ async function _POST(request: NextRequest) {
           subdomain,
           admin_email: email,
           source: 'public_trial_form',
+          connection_mode: connectionMode,
+          existing_url: existingUrl || null,
+          programs: programs || null,
         },
       })
       .then(()=>{}, ()=>{}); // Non-critical
 
-    // Dashboard URL: the real admin app, with org slug so it can load the right context.
-    // The subdomain (e.g. acme-training) is a display label and future routing identifier —
-    // it does not correspond to a live subdomain deployment today.
+    // Store extra intake fields on the org record if columns exist (best-effort)
+    if (existingUrl || programs) {
+      await supabase
+        .from('organizations')
+        .update({
+          ...(existingUrl ? { website_url: existingUrl } : {}),
+          ...(programs ? { notes: `Programs: ${programs}` } : {}),
+        })
+        .eq('id', org.id)
+        .then(()=>{}, ()=>{});
+    }
+
     const dashboardUrl = `https://${subdomain}.app.elevateforhumanity.org/admin`;
+    const publicPreviewUrl = `https://${subdomain}.app.elevateforhumanity.org`;
 
     // Send welcome email
     try {
@@ -291,9 +308,11 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({
       ok: true,
       tenantUrl: dashboardUrl,
+      publicPreviewUrl,
       subdomain,
       trialEndsAt: trialEndsAt.toISOString(),
       correlationId,
+      connectionMode,
       message: `Trial created. Check ${email} for login instructions.`,
     });
   } catch (error) {

@@ -188,5 +188,7 @@ process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT',  () => shutdown('SIGINT'));
 
 httpServer.listen(PORT, '0.0.0.0', () => {
-  console.info(`[studio-shell] listening on :${PORT} — workdir: ${WORKDIR} — shell: ${SHELL}`);
+  console.info(
+    `[studio-shell] listening on :${PORT} — workdir: ${WORKDIR} — shell: ${SHELL} — max sessions: ${MAX_SESSIONS}`,
+  );
 });
