@@ -683,8 +683,12 @@ export default function AIChat({ fileContext, onApplyCode, ellieMode = false }: 
         <div className="flex-shrink-0 flex items-start gap-2 bg-amber-50 border-b border-amber-200 px-4 py-2.5">
           <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-800 leading-snug">
-            <strong>AI not configured.</strong> Add <code className="bg-amber-100 px-1 rounded">GROQ_API_KEY</code> to{' '}
-            <code className="bg-amber-100 px-1 rounded">.env.local</code> and restart the dev server.
+            <strong>AI not configured.</strong>{' '}
+            {ellieMode ? (
+              <>Add <code className="bg-amber-100 px-1 rounded">GROQ_API_KEY</code> or <code className="bg-amber-100 px-1 rounded">OPENAI_API_KEY</code> in <Link href="/admin/integrations/env-manager" className="underline font-medium">Admin → Integrations → Environment Manager</Link>.</>
+            ) : (
+              <>Add <code className="bg-amber-100 px-1 rounded">GROQ_API_KEY</code> to <code className="bg-amber-100 px-1 rounded">.env.local</code> and restart the dev server.</>
+            )}
           </p>
         </div>
       )}
