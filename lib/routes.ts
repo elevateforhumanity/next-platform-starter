@@ -44,5 +44,5 @@ export const ROUTES = {
   applyForProgram: (slug: string) => `/apply?program=${slug}`,
 
   // ── Partner / shop apply ──────────────────────────────────────────────────
-  PARTNER_BARBERSHOP_APPLY: '/partners/barbershop-apprenticeship/apply',
+  PARTNER_BARBERSHOP_APPLY: '/partners/barber-host-shop/apply',
 } as const;
