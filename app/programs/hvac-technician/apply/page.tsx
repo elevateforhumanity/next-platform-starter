@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
 import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
-import FundingEligibilityFlow, {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
 
