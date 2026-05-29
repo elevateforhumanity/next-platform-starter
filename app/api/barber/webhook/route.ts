@@ -1131,8 +1131,10 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
     return NextResponse.json({ received: true });
   } catch (error) {
+    // Return 200 so Stripe does not disable the endpoint. The event is logged
+    // and can be replayed from the Stripe dashboard once the bug is fixed.
     logger.error('Webhook processing error:', error);
-    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 });
+    return NextResponse.json({ received: true, warning: 'handler_error' }, { status: 200 });
   }
 }
 

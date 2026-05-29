@@ -32,13 +32,14 @@ export default function CNAEnrollPage() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [paymentOption, setPaymentOption] = useState('payment-plan');
+  const [paymentOption, setPaymentOption] = useState<
+    'payment-plan' | 'full-payment' | 'klarna' | 'afterpay' | 'cashapp'
+  >('payment-plan');
   const [customDown, setCustomDown] = useState(PROGRAM.minDown);
   const [customWeeks, setCustomWeeks] = useState(20);
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '',
     dateOfBirth: '', address: '', city: '', state: 'IN', zip: '',
-    paymentOption: 'payment-plan',
   });
 
   const remaining = Math.max(0, PROGRAM.price - customDown);
@@ -52,13 +53,16 @@ export default function CNAEnrollPage() {
     setIsSubmitting(true);
     setError('');
     try {
+      // Step 1: Create enrollment record
       const res = await fetch('/api/enroll/cna', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           paymentOption,
-          paymentPlan: paymentOption === 'payment-plan' ? { downPayment: customDown, weeklyPayment, weeks: customWeeks } : null,
+          paymentPlan: paymentOption === 'payment-plan'
+            ? { downPayment: customDown, weeklyPayment, weeks: customWeeks }
+            : null,
         }),
       });
       const data = await res.json();
@@ -66,34 +70,62 @@ export default function CNAEnrollPage() {
 
       const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!data.enrollmentId || !uuidPattern.test(data.enrollmentId)) {
-        throw new Error('Enrollment could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+        throw new Error(`Enrollment could not be confirmed. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
       }
 
-      if (paymentOption === 'affirm') {
-        const r = await fetch('/api/affirm/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: PROGRAM.price * 100, programId: 'cna', programSlug: 'cna', programName: PROGRAM.name, enrollmentId: data.enrollmentId, email: formData.email, firstName: formData.firstName, lastName: formData.lastName }) });
-        const d = await r.json();
-        if (d.url) { window.location.href = d.url; return; }
-      } else if (paymentOption === 'sezzle') {
-        const r = await fetch('/api/sezzle/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: PROGRAM.price * 100, programId: 'cna', programSlug: 'cna', programName: PROGRAM.name, enrollmentId: data.enrollmentId, email: formData.email, name: `${formData.firstName} ${formData.lastName}` }) });
-        const d = await r.json();
-        if (d.url || d.checkout_url) { window.location.href = d.url || d.checkout_url; return; }
-      }
-
+      // Step 2: Route to payment
       if (paymentOption === 'payment-plan') {
         window.location.href = `/lms/payments/checkout?program=cna&amount=${customDown}&type=down-payment&enrollment=${data.enrollmentId}`;
-      } else {
-        window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM.price}&type=full-payment&enrollment=${data.enrollmentId}`;
+        return;
       }
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong. Call ${PLATFORM_DEFAULTS.supportPhone}.');
+
+      // Stripe-hosted checkout for full payment and all BNPL options
+      const preferredMethod =
+        paymentOption === 'klarna'   ? 'klarna' :
+        paymentOption === 'afterpay' ? 'afterpay_clearpay' :
+        paymentOption === 'cashapp'  ? 'cashapp' :
+        'card';
+
+      const checkoutRes = await fetch('/api/payments/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          programId: 'cna',
+          paymentType: 'full',
+          preferredMethod,
+        }),
+      });
+      const checkoutData = await checkoutRes.json();
+      if (!checkoutRes.ok) throw new Error(checkoutData.error || 'Failed to create checkout session');
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      } else {
+        throw new Error('No checkout URL returned. Please try again or call ' + PLATFORM_DEFAULTS.supportPhone);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : `Something went wrong. Call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setIsSubmitting(false);
+    }
+  };
+
+  const submitLabel = () => {
+    if (isSubmitting) return 'Processing...';
+    switch (paymentOption) {
+      case 'klarna':   return 'Continue with Klarna';
+      case 'afterpay': return 'Continue with Afterpay';
+      case 'cashapp':  return 'Continue with Cash App Pay';
+      default:         return 'Continue to Payment';
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'CNA', href: canonicalRoutes.programs.certifiedNursingAssistant }, { label: 'Enroll' }]} />
+        <Breadcrumbs items={[
+          { label: 'Programs', href: '/programs' },
+          { label: 'CNA', href: canonicalRoutes.programs.certifiedNursingAssistant },
+          { label: 'Enroll' },
+        ]} />
       </div>
 
       <div className="bg-slate-900 py-8">
@@ -106,7 +138,7 @@ export default function CNAEnrollPage() {
           <div className="flex items-baseline gap-3 mt-3">
             <span className="text-2xl font-bold text-white">${PROGRAM.price.toLocaleString()}</span>
             <span className="text-lg line-through text-slate-500">${PROGRAM.regularPrice.toLocaleString()}</span>
-            <span className="bg-brand-red-600 text-white px-2 py-0.5 rounded text-xs font-bold">SALE</span>
+            <span className="bg-red-600 text-white px-2 py-0.5 rounded text-xs font-bold">SALE</span>
           </div>
         </div>
       </div>
@@ -117,7 +149,6 @@ export default function CNAEnrollPage() {
         )}
 
         <div className="grid lg:grid-cols-5 gap-8">
-          {/* Left: Form + Funding */}
           <div className="lg:col-span-3 space-y-6">
             {step === 1 && (
               <>
@@ -127,7 +158,6 @@ export default function CNAEnrollPage() {
                   selfPayPrice={PROGRAM.price}
                   regularPrice={PROGRAM.regularPrice}
                 />
-
                 <div className="bg-white rounded-2xl border border-slate-200 p-6">
                   <h2 className="text-xl font-bold mb-4">Ready to Enroll? Start Here</h2>
                   <div className="space-y-4">
@@ -151,7 +181,11 @@ export default function CNAEnrollPage() {
                         <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
                       </div>
                     </div>
-                    <button onClick={() => setStep(2)} disabled={!formData.firstName || !formData.email} className="w-full bg-brand-blue-600 text-white py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:opacity-50 transition">
+                    <button
+                      onClick={() => setStep(2)}
+                      disabled={!formData.firstName || !formData.email}
+                      className="w-full bg-brand-blue-600 text-white py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:opacity-50 transition"
+                    >
                       Continue to Payment Options
                     </button>
                   </div>
@@ -169,16 +203,17 @@ export default function CNAEnrollPage() {
                 </p>
 
                 <div className="space-y-3">
-                  {/* Custom Payment Plan */}
+                  {/* Payment Plan */}
                   <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'payment-plan' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
                     <input type="radio" name="po" value="payment-plan" checked={paymentOption === 'payment-plan'} onChange={() => setPaymentOption('payment-plan')} className="sr-only" />
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-lg">Payment Plan</span>
-                        <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs font-medium">Most Popular</span>
+                        <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium">Most Popular</span>
                       </div>
                       {paymentOption === 'payment-plan' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
                     </div>
+                    <p className="text-slate-500 text-sm mb-2">Choose your down payment and weekly amount</p>
                     {paymentOption === 'payment-plan' && (
                       <div className="space-y-3 mt-3">
                         <div>
@@ -209,59 +244,85 @@ export default function CNAEnrollPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <span className="font-bold text-lg">Pay in Full</span>
-                        <p className="text-slate-700 mt-1"><span className="text-xl font-bold">${PROGRAM.price.toLocaleString()}</span> <span className="line-through text-slate-400">${PROGRAM.regularPrice.toLocaleString()}</span></p>
+                        <p className="text-slate-700 mt-1">
+                          <span className="text-xl font-bold">${PROGRAM.price.toLocaleString()}</span>{' '}
+                          <span className="line-through text-slate-400">${PROGRAM.regularPrice.toLocaleString()}</span>
+                        </p>
                       </div>
                       {paymentOption === 'full-payment' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
                     </div>
                   </label>
 
-                  {/* Affirm */}
-                  <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'affirm' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                    <input type="radio" name="po" value="affirm" checked={paymentOption === 'affirm'} onChange={() => setPaymentOption('affirm')} className="sr-only" />
+                  {/* Klarna */}
+                  <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'klarna' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                    <input type="radio" name="po" value="klarna" checked={paymentOption === 'klarna'} onChange={() => setPaymentOption('klarna')} className="sr-only" />
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-lg">Affirm</span>
-                          <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">BNPL</span>
+                          <span className="font-bold text-lg">Klarna</span>
+                          <span className="bg-pink-100 text-pink-700 px-2 py-0.5 rounded text-xs font-medium">Buy Now, Pay Later</span>
                         </div>
-                        <p className="text-slate-700 mt-1">As low as <strong>${Math.round(PROGRAM.price / 12)}/mo</strong> × 12 months · 0% APR available</p>
+                        <p className="text-slate-600 text-sm mt-1">Pay in 4 interest-free installments or monthly financing — instant decision</p>
                       </div>
-                      {paymentOption === 'affirm' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
+                      {paymentOption === 'klarna' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
                     </div>
                   </label>
 
-                  {/* Sezzle */}
-                  <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'sezzle' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                    <input type="radio" name="po" value="sezzle" checked={paymentOption === 'sezzle'} onChange={() => setPaymentOption('sezzle')} className="sr-only" />
+                  {/* Afterpay */}
+                  <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'afterpay' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                    <input type="radio" name="po" value="afterpay" checked={paymentOption === 'afterpay'} onChange={() => setPaymentOption('afterpay')} className="sr-only" />
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-lg">Sezzle</span>
-                          <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-medium">BNPL</span>
+                          <span className="font-bold text-lg">Afterpay</span>
+                          <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium">Buy Now, Pay Later</span>
                         </div>
-                        <p className="text-slate-700 mt-1">4 interest-free payments of <strong>${(PROGRAM.price / 4).toFixed(2)}</strong> every 2 weeks</p>
+                        <p className="text-slate-600 text-sm mt-1">
+                          4 interest-free payments of <strong>${(PROGRAM.price / 4).toFixed(2)}</strong> every 2 weeks
+                        </p>
                       </div>
-                      {paymentOption === 'sezzle' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
+                      {paymentOption === 'afterpay' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
+                    </div>
+                  </label>
+
+                  {/* Cash App Pay */}
+                  <label className={`block p-5 border-2 rounded-xl cursor-pointer transition ${paymentOption === 'cashapp' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}>
+                    <input type="radio" name="po" value="cashapp" checked={paymentOption === 'cashapp'} onChange={() => setPaymentOption('cashapp')} className="sr-only" />
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-lg">Cash App Pay</span>
+                          <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-medium">Instant</span>
+                        </div>
+                        <p className="text-slate-600 text-sm mt-1">Pay instantly from your Cash App balance</p>
+                      </div>
+                      {paymentOption === 'cashapp' && <CheckCircle className="w-5 h-5 text-brand-blue-600" />}
                     </div>
                   </label>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <Shield className="w-4 h-4" />
-                  <span>All payments secure & encrypted · Call {PLATFORM_DEFAULTS.supportPhone} for help</span>
+                  <span>All payments processed securely by Stripe · Call {PLATFORM_DEFAULTS.supportPhone} for help</span>
                 </div>
 
                 <div className="flex gap-3">
-                  <button onClick={() => setStep(1)} className="px-6 py-3 border border-slate-300 rounded-lg font-semibold hover:bg-slate-50">Back</button>
-                  <button onClick={handleSubmit} disabled={isSubmitting} className="flex-1 bg-brand-blue-600 text-white py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:opacity-50">
-                    {isSubmitting ? 'Processing...' : paymentOption === 'affirm' ? 'Continue with Affirm' : paymentOption === 'sezzle' ? 'Continue with Sezzle' : 'Continue to Payment'}
+                  <button onClick={() => setStep(1)} className="px-6 py-3 border border-slate-300 rounded-lg font-semibold hover:bg-slate-50">
+                    Back
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="flex-1 bg-brand-blue-600 text-white py-3 rounded-lg font-bold hover:bg-brand-blue-700 disabled:opacity-50 transition"
+                  >
+                    {submitLabel()}
                   </button>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Right sidebar: Calculator */}
+          {/* Right sidebar */}
           <div className="lg:col-span-2">
             <div className="sticky top-4 space-y-4">
               <TuitionCalculator

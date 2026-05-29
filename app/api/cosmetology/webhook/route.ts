@@ -3,6 +3,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { runCosmetologyPostPayment } from '@/lib/enrollment/cosmetology-post-payment';
 import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TUITION_CENTS } from '@/lib/cosmetology/pricing';
@@ -48,6 +49,13 @@ function constructStripeEventWithAnySecret(
  * 2. Run post-payment pipeline (emails, CRM, admin notification)
  */
 async function _POST(request: NextRequest) {
+  // Hydrate secrets from SSM/app_secrets before reading any STRIPE_* env vars.
+  try {
+    await hydrateProcessEnv();
+  } catch (err) {
+    logger.error('[cosmetology/webhook] hydrateProcessEnv failed — continuing with process.env as-is', err as Error);
+  }
+
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 
@@ -57,8 +65,9 @@ async function _POST(request: NextRequest) {
 
   const stripe = getStripe();
   if (!stripe) {
+    // Return 200 — misconfiguration, retrying won't help and 503 causes Stripe to disable the endpoint.
     logger.error('[cosmetology/webhook] Stripe client unavailable — STRIPE_SECRET_KEY missing or invalid');
-    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+    return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
   }
 
   const webhookSecrets = getWebhookSecrets();
@@ -347,8 +356,10 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
         logger.info(`[cosmetology/webhook] Unhandled event type: ${event.type}`);
     }
   } catch (err) {
+    // Return 200 so Stripe does not disable the endpoint. Event is logged and
+    // can be replayed from the Stripe dashboard once the bug is fixed.
     logger.error('[cosmetology/webhook] Handler error:', err);
-    return NextResponse.json({ error: 'Webhook handler error' }, { status: 500 });
+    return NextResponse.json({ received: true, warning: 'handler_error' }, { status: 200 });
   }
 
   return NextResponse.json({ received: true });

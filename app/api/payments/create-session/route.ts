@@ -144,9 +144,12 @@ async function _POST(request: NextRequest) {
     ];
 
     // Add BNPL options based on amount
-    // Using Klarna, Afterpay, Zip for BNPL
-    if (price >= 35 && price <= 1000) {
-      paymentMethodTypes.push('klarna', 'afterpay_clearpay');
+    // Klarna supports up to $10,000; Afterpay up to $2,000 — both cover CNA at $1,850
+    if (price >= 35 && price <= 10000) {
+      paymentMethodTypes.push('klarna');
+    }
+    if (price >= 35 && price <= 2000) {
+      paymentMethodTypes.push('afterpay_clearpay');
     }
     if (price <= 7500) {
       paymentMethodTypes.push('cashapp');

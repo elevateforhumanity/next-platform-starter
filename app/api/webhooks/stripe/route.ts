@@ -204,7 +204,12 @@ async function _POST(request: NextRequest) {
   // Resolve per-request AFTER hydration — secrets are now in process.env.
   const supabase = await getSupabase();
   const stripeClient = getStripe();
-  if (!stripeClient) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
+  if (!stripeClient) {
+    // Return 200 — misconfiguration, not a bad request. Retrying won't help and
+    // returning 503 causes Stripe to disable the endpoint after repeated failures.
+    logger.error('[webhook] Stripe client not initialized — STRIPE_SECRET_KEY missing after hydration');
+    return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
+  }
 
   // Read secret at request time — module-level init would freeze a missing value permanently.
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -232,17 +237,6 @@ async function _POST(request: NextRequest) {
       },
     );
     return NextResponse.json({ received: true, warning: 'misconfigured' }, { status: 200 });
-  }
-
-  if (!stripeClient) {
-    logger.error(
-      '[webhook] Stripe client not initialized — STRIPE_SECRET_KEY missing after hydration',
-    );
-    Sentry.captureException(new Error('Stripe client not initialized in webhook handler'), {
-      tags: { subsystem: 'stripe_webhook', failure: 'missing_stripe_client' },
-    });
-    // Return 200 — misconfiguration, not a bad request. Retrying won't help.
-    return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
   }
 
   if (!supabase) {
