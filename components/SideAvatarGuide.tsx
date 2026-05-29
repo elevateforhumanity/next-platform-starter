@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Send,
   ChevronLeft,
   ChevronRight,

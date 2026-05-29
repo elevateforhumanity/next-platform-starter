@@ -9,8 +9,8 @@ import React from 'react';
 */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   MessageCircle,
   X,
   Send,
