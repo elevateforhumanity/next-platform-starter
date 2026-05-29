@@ -77,29 +77,15 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
     const ws = new WebSocket(wsUrl, ['studio-shell']);
     ws.binaryType = 'arraybuffer';
 
-    // Attach token before upgrade fires (custom header via subprotocol trick)
-    // The server.js proxy reads X-Studio-Token from the upgrade request headers.
-    // Since browser WebSocket API doesn't support custom headers, we send the
-    // token as the first message immediately after open.
+    // Browser WebSocket API doesn't support custom headers — send token as
+    // first frame. server.js validates it before opening the PTY shell and
+    // sends back { type: 'ready' } once the ECS shell is open.
     wsRef.current = ws;
 
     ws.onopen = () => {
-      // Send token as first frame — server.js validates before forwarding
       ws.send(JSON.stringify({ type: 'auth', token }));
-      setStatus('connected');
-      onConnect?.();
 
-      // Expose send function to parent — fired once per component lifetime
-      if (onReady && !onReadyFiredRef.current) {
-        onReadyFiredRef.current = true;
-        onReady((cmd: string) => {
-          if (wsRef.current?.readyState === WebSocket.OPEN) {
-            wsRef.current.send(JSON.stringify({ type: 'input', data: cmd + '\r' }));
-          }
-        });
-      }
-
-      // Keepalive ping every 30s
+      // Keepalive ping every 30s (starts immediately, before ready)
       pingRef.current = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(JSON.stringify({ type: 'ping' }));
@@ -107,18 +93,52 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
       }, 30_000);
     };
 
-    ws.onclose = () => {
+    ws.onmessage = (event) => {
+      if (typeof event.data !== 'string') return;
+      let msg: { type?: string; message?: string; code?: number };
+      try { msg = JSON.parse(event.data); } catch { return; }
+
+      if (msg.type === 'ready') {
+        // Shell PTY is open — now safe to show as connected
+        setStatus('connected');
+        onConnect?.();
+        if (onReady && !onReadyFiredRef.current) {
+          onReadyFiredRef.current = true;
+          onReady((cmd: string) => {
+            if (wsRef.current?.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify({ type: 'input', data: cmd + '\r' }));
+            }
+          });
+        }
+      } else if (msg.type === 'error') {
+        setStatus('error');
+        setErrorMsg(msg.message || 'Shell error');
+        if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
+      }
+    };
+
+    ws.onclose = (event) => {
+      if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
+      if (event.code === 4003) {
+        setStatus('error');
+        setErrorMsg('Shell auth token rejected — refresh and try again.');
+        return;
+      }
+      if (event.code === 1011) {
+        setStatus('error');
+        setErrorMsg(event.reason || 'Shell proxy could not reach the studio container.');
+        return;
+      }
       setStatus('disconnected');
-      if (pingRef.current) clearInterval(pingRef.current);
       onDisconnect?.();
     };
 
     ws.onerror = () => {
       setStatus('error');
       setErrorMsg('WebSocket connection failed');
-      if (pingRef.current) clearInterval(pingRef.current);
+      if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
     };
-  }, [onConnect, onDisconnect]);
+  }, [onConnect, onDisconnect, onReady]);
 
   useEffect(() => {
     connect();
