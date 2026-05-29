@@ -319,14 +319,14 @@ export default function CosmetologyPartnerDocumentsPage() {
           <div>
             <h3 className="font-bold text-slate-900">All documents uploaded?</h3>
             <p className="text-sm text-black">
-              Your onboarding is complete. Go to your partner dashboard.
+              Continue to the final step — policy acknowledgment.
             </p>
           </div>
           <Link
-            href="/partners/cosmetology-host-shop"
+            href="/partners/cosmetology-host-shop/policy-acknowledgment"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 whitespace-nowrap"
           >
-            Go to Partner Dashboard
+            Continue to Policy Acknowledgment
           </Link>
         </div>
       </div>

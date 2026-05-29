@@ -307,6 +307,22 @@ export default function PartnerHandbookPage() {
           </div>
         </section>
 
+        {/* Onboarding next step */}
+        <div className="max-w-6xl mx-auto px-4 mt-6">
+          <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="font-bold text-slate-900">Handbook reviewed?</h3>
+              <p className="text-sm text-black">Continue to complete the required forms.</p>
+            </div>
+            <Link
+              href="/partners/barber-host-shop/forms"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 whitespace-nowrap"
+            >
+              Continue to Forms <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+
         {/* Institutional Footer */}
         <div className="max-w-6xl mx-auto px-4 pb-8">
           <DocumentFooter confidential notice="This handbook is provided to approved worksite partners only. Content is subject to revision." />

@@ -158,10 +158,10 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
             sent to your email.
           </p>
           <Link
-            href="/partners/cosmetology-host-shop/documents"
+            href="/partners/cosmetology-host-shop/thank-you"
             className="block w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 text-center"
           >
-            Continue to Document Upload
+            Complete Application
           </Link>
         </div>
       </div>

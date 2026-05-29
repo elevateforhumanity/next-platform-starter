@@ -352,13 +352,13 @@ export default function CosmetologyRequiredFormsPage() {
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">All forms ready?</h3>
-            <p className="text-sm text-black">Sign the MOU to finalize your partnership.</p>
+            <p className="text-sm text-black">Continue to upload your required documents.</p>
           </div>
           <Link
-            href="/partners/cosmetology-host-shop/sign-mou"
+            href="/partners/cosmetology-host-shop/documents"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 whitespace-nowrap"
           >
-            Sign MOU <ArrowRight className="w-4 h-4" />
+            Upload Documents <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

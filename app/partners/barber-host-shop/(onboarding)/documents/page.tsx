@@ -297,13 +297,13 @@ export default function PartnerDocumentsPage() {
         <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900">All documents uploaded?</h3>
-            <p className="text-sm text-black">Return to the forms checklist to complete remaining steps.</p>
+            <p className="text-sm text-black">Continue to the final step — policy acknowledgment.</p>
           </div>
           <Link
-            href="/partners/barber-host-shop/forms"
+            href="/partners/barber-host-shop/policy-acknowledgment"
             className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 whitespace-nowrap"
           >
-            Back to Checklist
+            Continue to Policy Acknowledgment
           </Link>
         </div>
       </div>

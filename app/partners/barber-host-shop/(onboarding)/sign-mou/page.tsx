@@ -368,10 +368,10 @@ export default function SignMOUPage() {
           </p>
           <div className="space-y-3">
             <Link
-              href="/partners/barber-host-shop/forms"
+              href="/partners/barber-host-shop/handbook"
               className="block w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
             >
-              Continue to Required Forms
+              Continue to Review Handbook
             </Link>
             <Link
               href="/partners/barber-host-shop"

@@ -158,10 +158,10 @@ export default function PolicyAcknowledgmentPage() {
           </p>
           <div className="space-y-3">
             <Link
-              href="/partners/barber-host-shop/forms"
+              href="/partners/barber-host-shop/thank-you"
               className="block w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
             >
-              Back to Required Forms
+              Complete Application
             </Link>
           </div>
         </div>

@@ -225,7 +225,7 @@ export default function CosmetologyPartnerHandbookPage() {
             After reading this handbook, proceed to sign the MOU and complete your onboarding.
           </p>
           <Link
-            href="/partners/cosmetology-host-shop/sign-mou"
+            href="/partners/cosmetology-host-shop/forms"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
           >
             Continue to MOU <ArrowRight className="w-4 h-4" />
