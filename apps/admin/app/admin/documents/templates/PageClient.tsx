@@ -19,8 +19,8 @@ import {
   Save,
   Loader2,
 } from 'lucide-react';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   MOU_TEMPLATE_DEFAULT,
   generateMOUMarkdown,
   REPORT_TEMPLATE_DEFAULT,

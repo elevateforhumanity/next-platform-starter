@@ -17,7 +17,6 @@ import {
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const dynamic = 'force-dynamic';
 
 interface NotificationSettings {
   email: {

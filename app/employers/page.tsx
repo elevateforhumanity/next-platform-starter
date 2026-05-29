@@ -3,8 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Users,
   Award,
   DollarSign,

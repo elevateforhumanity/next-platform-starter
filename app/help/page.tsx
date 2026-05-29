@@ -1,8 +1,8 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   BookOpen,
   Video,
   MessageCircle,
@@ -21,6 +21,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Award,
   Rocket,
 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {

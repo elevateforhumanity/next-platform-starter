@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // Canonical privacy policy lives at /legal/privacy — redirect permanently.
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';

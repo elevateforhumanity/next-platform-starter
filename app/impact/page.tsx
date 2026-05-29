@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Users, Award, Briefcase, BookOpen, Clock, TrendingUp,
   Heart, ArrowRight, CheckCircle, MapPin, Star, Globe,
 } from 'lucide-react';

@@ -6,8 +6,8 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Heart,
   Shield,
   TrendingUp,

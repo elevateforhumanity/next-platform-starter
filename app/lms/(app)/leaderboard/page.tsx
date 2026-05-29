@@ -4,8 +4,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Trophy,
   Medal,
   Award,

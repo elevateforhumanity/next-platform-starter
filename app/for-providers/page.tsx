@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Building2, ClipboardCheck, Users, BookOpen,
   ShieldCheck, ArrowRight, CheckCircle, FileText,
 } from 'lucide-react';

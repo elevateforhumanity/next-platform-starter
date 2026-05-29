@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import type { Metadata } from 'next';

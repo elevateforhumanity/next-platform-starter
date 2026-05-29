@@ -3,13 +3,12 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Heart, Users, Award, Briefcase, CheckCircle, ArrowRight,
   RefreshCw, DollarSign, Star, Shield, Globe, ChevronDown,
 } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
 
 const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 

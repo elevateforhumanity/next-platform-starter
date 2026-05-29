@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { FileText, ArrowRight, ExternalLink, CheckCircle } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';

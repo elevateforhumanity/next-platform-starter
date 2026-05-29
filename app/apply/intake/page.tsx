@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
 

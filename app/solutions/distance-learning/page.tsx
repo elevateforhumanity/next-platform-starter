@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Monitor, Globe, Clock, CheckCircle, Wifi, Award, Users } from 'lucide-react';

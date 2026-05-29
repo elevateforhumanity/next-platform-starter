@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   ArrowLeft,
   ExternalLink,
   Mail,

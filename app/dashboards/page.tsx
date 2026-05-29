@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   LayoutDashboard,
   Users,
   GraduationCap,

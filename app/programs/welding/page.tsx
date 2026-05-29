@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import { WELDING } from '@/data/programs/welding';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';

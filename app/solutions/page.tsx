@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   GraduationCap,
   Building2,
   Users,

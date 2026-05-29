@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import { PEER_RECOVERY } from '@/data/programs/peer-recovery-specialist';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';

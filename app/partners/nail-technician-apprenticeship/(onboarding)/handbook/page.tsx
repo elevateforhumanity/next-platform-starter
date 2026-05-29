@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Shield, Clock, Users, AlertTriangle, Phone, FileText, Scale, ArrowRight } from 'lucide-react';

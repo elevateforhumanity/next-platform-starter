@@ -1,7 +1,8 @@
+export const dynamic = 'force-dynamic';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   AlertTriangle,
   ArrowRight,
   Building2,

@@ -6,8 +6,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   User,
   Mail,
   Phone,

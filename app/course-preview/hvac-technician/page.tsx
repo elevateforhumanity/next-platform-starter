@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 /**
  * Server component — loads all HVAC static data from JSON files
  * and passes to the client component. Keeps static data arrays

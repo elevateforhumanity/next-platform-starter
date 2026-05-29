@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Play, LayoutGrid, Users, FileBarChart, Eye, Award, Clock } from 'lucide-react';

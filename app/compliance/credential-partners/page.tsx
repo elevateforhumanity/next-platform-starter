@@ -1,9 +1,9 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Shield,
   GraduationCap,
   Building2,
@@ -12,6 +12,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   AlertTriangle,
 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Credential Partner Registry | Compliance',

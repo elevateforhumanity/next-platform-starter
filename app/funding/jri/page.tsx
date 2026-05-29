@@ -1,9 +1,9 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   ArrowRight,
   Heart,
@@ -17,6 +17,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   DollarSign,
   MapPin,
 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {

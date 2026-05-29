@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import { CDL_TRAINING } from '@/data/programs/cdl-training';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';

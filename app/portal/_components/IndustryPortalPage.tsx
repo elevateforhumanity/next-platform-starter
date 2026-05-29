@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   BookOpen,
   Award,
   Clock,

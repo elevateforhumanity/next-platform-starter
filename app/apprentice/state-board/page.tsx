@@ -14,8 +14,8 @@ import {
 } from 'lucide-react';
 import { IPLA_EXAM_INFO, IPLA_EXAM_FEES } from '@/lib/payment-config';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   APPRENTICESHIP_REQUIRED_HOURS,
   getApprenticeshipRequiredHours,
 } from '@/lib/compliance/apprenticeship';

@@ -1,8 +1,8 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
 import {
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   CheckCircle,
   Shield,
   Clock,
@@ -11,6 +11,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
   Phone,
   ChevronRight,
 } from 'lucide-react';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Schedule Your NHA Certification Exam',

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { redirect } from 'next/navigation';
 
 // /store/licenses/checkout is canonical. This path is a legacy alias.

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { careerTrainingAreas } from '@/content/cf-career-training';
 import { buildMetadata } from '@/lib/cf-seo';

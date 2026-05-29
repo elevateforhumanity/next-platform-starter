@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Play, Building2, DollarSign, Briefcase, FileSearch, Bot, Download, Clock } from 'lucide-react';

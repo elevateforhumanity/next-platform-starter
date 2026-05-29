@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // PUBLIC ROUTE: Admin PWA install page.
 // No auth required — install prompt must work on fresh devices before login.
 // Not linked from any navigation. Access via direct URL only.

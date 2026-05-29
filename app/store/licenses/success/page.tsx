@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Users,
   Palette,
   BookOpen,

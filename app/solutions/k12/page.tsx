@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { SITE_STATS, statLabel } from '@/lib/site-stats';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   GraduationCap,
   Award,
   Users,

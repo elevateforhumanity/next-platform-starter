@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { redirect } from 'next/navigation';
 
 // /store/demos is canonical. All inbound links updated — this redirect

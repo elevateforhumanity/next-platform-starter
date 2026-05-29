@@ -3,8 +3,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   HelpCircle,
   Book,
   MessageCircle,

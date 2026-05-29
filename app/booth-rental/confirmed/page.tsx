@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { CheckCircle, Phone, Mail, Calendar } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';

@@ -18,7 +18,6 @@ import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
 
-export const dynamic = 'force-dynamic';
 
 interface PaymentMethod {
   id: string;

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // Canonical terms page lives at /terms — redirect permanently.
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';

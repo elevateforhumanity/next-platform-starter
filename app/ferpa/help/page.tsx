@@ -3,8 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   ChevronRight,
   HelpCircle,
   Book,
