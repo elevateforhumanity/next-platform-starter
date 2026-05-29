@@ -77,7 +77,8 @@ async function loadSecrets(): Promise<Record<string, string>> {
     const result = await client.from('app_secrets').select('key, value').eq('scope', 'runtime');
     if (!result.error) {
       for (const row of result.data ?? []) {
-        if (row.key && row.value) secrets[row.key] = row.value;
+        // Skip blank values — they must not shadow SSM-injected env vars
+        if (row.key && row.value && row.value.trim().length > 0) secrets[row.key] = row.value;
       }
     } else {
       logger.error('Failed to load from app_secrets', result.error);
@@ -92,7 +93,8 @@ async function loadSecrets(): Promise<Record<string, string>> {
     const result = await client.from('platform_secrets').select('key, value_enc');
     if (!result.error) {
       for (const row of result.data ?? []) {
-        if (row.key && row.value_enc) secrets[row.key] = row.value_enc;
+        // Skip blank values — they must not shadow SSM-injected env vars
+        if (row.key && row.value_enc && row.value_enc.trim().length > 0) secrets[row.key] = row.value_enc;
       }
     } else {
       logger.error('Failed to load from platform_secrets', result.error);
@@ -123,9 +125,14 @@ export async function hydrateProcessEnv(): Promise<void> {
 
   const secrets = await loadSecrets();
   for (const [key, value] of Object.entries(secrets)) {
-    // platform_secrets and app_secrets always override the ambient environment.
-    // This ensures keys rotated via the admin UI take effect immediately.
-    process.env[key] = value;
+    // Only write to process.env when the DB value is non-empty.
+    // An empty string in platform_secrets / app_secrets must NOT overwrite a
+    // valid SSM value that was injected by the ECS task definition at boot.
+    // This was the root cause of chat/git/shell failures: a blank row saved via
+    // the admin Secrets UI would silently shadow the correct SSM value.
+    if (value && value.trim().length > 0) {
+      process.env[key] = value;
+    }
   }
   hydrated = true;
 }
