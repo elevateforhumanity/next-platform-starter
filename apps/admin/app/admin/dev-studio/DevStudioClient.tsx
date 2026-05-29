@@ -4,12 +4,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import {
-  Sparkles, MessageSquare, Terminal, FolderOpen, Globe, Box,
+  Sparkles, MessageSquare, FolderOpen, Globe, Box,
   Send, Loader2, RefreshCw, ExternalLink, Save, Bot,
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key, ShieldCheck,
-  Server, GitBranch, Lock, Activity, CheckCircle2, XCircle,
-  Zap, Mail, Bell, Users, Clock,
+  Server, Lock, Activity, CheckCircle2, XCircle,
+  Zap, Mail, Bell, Users, Clock, Rocket,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
@@ -23,23 +23,24 @@ const FileTree          = dynamic(() => import('@/components/dev-studio/FileTree
 // PreviewPanel removed — preview is now the unified right pane (IframePreview)
 const SecretsPanel      = dynamic(() => import('@/components/dev-studio/SecretsPanel'),      { ssr: false });
 const ServicesPanel     = dynamic(() => import('@/components/dev-studio/ServicesPanel'),     { ssr: false });
-const GitPanel          = dynamic(() => import('@/components/dev-studio/GitPanel'),          { ssr: false });
-const XTerminal         = dynamic(() => import('@/components/dev-studio/XTerminal'),         { ssr: false });
+const DeployPanel       = dynamic(() => import('@/components/dev-studio/DeployPanel'),       { ssr: false });
 const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   () => import('@/components/dev-studio/CodeEditor'),
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'ellie' | 'secrets' | 'services' | 'git' | 'health';
+type Tab = 'command' | 'deploy' | 'files' | 'ellie' | 'secrets' | 'services' | 'health';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
+
+interface WorkflowButton { key: string; label: string; description: string; }
 interface DevStudioConfig {
   quickCommands?: string[];
-  workflowButtons?: { key: WorkflowKey; label: string; description: string }[];
+  workflowButtons?: WorkflowButton[];
   defaultPreviewUrl?: string;
   previewTargets?: { label: string; url: string }[];
   tabFiles?: Partial<Record<Tab, string>>;
 }
+
 
 interface DevStudioHealth {
   hasGroq: boolean;
@@ -50,20 +51,19 @@ interface DevStudioHealth {
 }
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
-  { id: 'ellie',     Icon: Bot,           label: 'Ellie'     },
-  { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
-  { id: 'command',   Icon: Sparkles,      label: 'Commands'  },
-  { id: 'git',       Icon: GitBranch,     label: 'Git'       },
-  { id: 'services',  Icon: Server,        label: 'Services'  },
-  { id: 'files',     Icon: FolderOpen,    label: 'Files'     },
-  { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
-  { id: 'health',    Icon: Activity,      label: 'Health'    },
+  { id: 'ellie',    Icon: Bot,        label: 'Ellie'    },
+  { id: 'deploy',   Icon: Rocket,     label: 'Deploy'   },
+  { id: 'command',  Icon: Sparkles,   label: 'Commands' },
+  { id: 'services', Icon: Server,     label: 'Services' },
+  { id: 'files',    Icon: FolderOpen, label: 'Files'    },
+  { id: 'secrets',  Icon: Key,        label: 'Secrets'  },
+  { id: 'health',   Icon: Activity,   label: 'Health'   },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
-  ellie: 'ellie', terminal: 'terminal.sh', command: 'command.sh',
+  ellie: 'ellie', deploy: 'deploy', command: 'command.sh',
   files: 'explorer', secrets: 'platform-secrets',
-  git: 'git', services: 'services', health: 'system-health',
+  services: 'services', health: 'system-health',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -480,7 +480,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','ellie','secrets','git','services','health'];
+  const valid: Tab[] = ['command','deploy','files','ellie','secrets','services','health'];
   // Non-super_admin users cannot land on the secrets tab — redirect to ellie
   const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'ellie');
   const [tab, setTab] = useState<Tab>(init);
@@ -620,13 +620,12 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         <span className="font-bold text-white mr-2 text-[11px]">Dev Studio</span>
         {/* Menu items — mirrors TABS order exactly */}
         {([
-          { label: 'Ellie',     id: 'ellie'     },
-          { label: 'Terminal',  id: 'terminal'  },
-          { label: 'Commands',  id: 'command'   },
-          { label: 'Git',       id: 'git'       },
-          { label: 'Services',  id: 'services'  },
-          { label: 'Files',     id: 'files'     },
-          { label: 'Health',    id: 'health'    },
+          { label: 'Ellie',    id: 'ellie'    },
+          { label: 'Deploy',   id: 'deploy'   },
+          { label: 'Commands', id: 'command'  },
+          { label: 'Services', id: 'services' },
+          { label: 'Files',    id: 'files'    },
+          { label: 'Health',   id: 'health'   },
           ...(isSuperAdmin ? [{ label: 'Secrets', id: 'secrets' as Tab }] : []),
         ] as { label: string; id: Tab }[]).map(({ label, id }) => (
           <span
@@ -756,9 +755,9 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'ellie'     && <AIChat ellieMode={true} />}
-          {tab === 'terminal'  && <XTerminal />}
+          {tab === 'deploy'    && <DeployPanel workflowButtons={studioConfig?.workflowButtons} />}
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
-          {tab === 'git'       && <GitPanel />}
+
           {tab === 'services'  && <ServicesPanel />}
           {tab === 'files'     && <FilesTab />}
           {tab === 'secrets'   && (
@@ -1340,168 +1339,6 @@ function CommandTab({ quickCommands, initialCommand }: { quickCommands?: string[
             </button>
           </div>
           <p className="text-[10px] mt-1.5" style={{ color: '#555' }}>Enter to run · Output persists across page reloads</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-// ── Terminal Tab ─────────────────────────────────────────────────────────────
-
-interface RunStatus {
-  id: number;
-  status: string;
-  conclusion: string | null;
-  url: string;
-}
-
-const WORKFLOW_BUTTONS: { key: WorkflowKey; label: string; description: string }[] = [
-  { key: 'deploy-lms',    label: 'Deploy LMS',    description: 'Build + push LMS to ECS' },
-  { key: 'deploy-admin',  label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
-  { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build + push Studio shell to ECS' },
-  { key: 'ci',           label: 'Run CI',        description: 'Full CI pipeline' },
-  { key: 'lint',         label: 'Lint',          description: 'Run pnpm lint' },
-];
-
-function TerminalTab({
-  workflowButtons,
-}: {
-  workflowButtons?: { key: WorkflowKey; label: string; description: string }[];
-}) {
-  const [lines, setLines] = useState<string[]>([
-    'Dev Studio — GitHub Actions runner',
-    'Click a workflow button to trigger a deployment or CI run.',
-    'Changes committed via the Explorer tab will trigger auto-deploy on push to main.',
-    '',
-  ]);
-  const [loading, setLoading] = useState<WorkflowKey | null>(null);
-  const [activeRun, setActiveRun] = useState<RunStatus | null>(null);
-  // Track the poll timeout so we can cancel it on unmount or new dispatch
-  const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mountedRef = useRef(true);
-
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-      if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
-    };
-  }, []);
-
-  function schedulePoll(runId: number, attempt = 0) {
-    const MAX_ATTEMPTS = 60; // ~8 min at 8s intervals
-    if (attempt >= MAX_ATTEMPTS) {
-      if (mountedRef.current) {
-        setLines((p) => [...p, `⚠ Polling timed out for run #${runId}`, '']);
-      }
-      return;
-    }
-    pollTimerRef.current = setTimeout(async () => {
-      if (!mountedRef.current) return;
-      try {
-        const res = await fetch(`/api/devstudio/shell?run_id=${runId}`);
-        if (!mountedRef.current) return;
-        if (!res.ok) {
-          // Retry on transient errors
-          schedulePoll(runId, attempt + 1);
-          return;
-        }
-        const d: RunStatus = await res.json();
-        setActiveRun(d);
-        if (d.status === 'completed') {
-          setLines((p) => [...p,
-            `Run #${runId} completed — ${d.conclusion ?? 'unknown'}`,
-            `   ${d.url}`,
-            '',
-          ]);
-        } else {
-          schedulePoll(runId, attempt + 1);
-        }
-      } catch {
-        // Retry on network errors
-        if (mountedRef.current) schedulePoll(runId, attempt + 1);
-      }
-    }, 8000);
-  }
-
-  async function dispatch(workflow: WorkflowKey) {
-    // Cancel any in-flight poll before starting a new dispatch
-    if (pollTimerRef.current) {
-      clearTimeout(pollTimerRef.current);
-      pollTimerRef.current = null;
-    }
-    setLoading(workflow);
-    setLines((p) => [...p, `▶ Dispatching ${workflow}…`]);
-    try {
-      const res = await fetch('/api/devstudio/shell', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ workflow }),
-      });
-      const d = await res.json();
-      if (!res.ok) {
-        setLines((p) => [...p, `❌ ${d.error ?? 'Dispatch failed'}`]);
-      } else {
-        setLines((p) => [...p,
-          `✅ Workflow queued — run #${d.runId ?? '?'}`,
-          `   Status: ${d.status}`,
-          `   URL: ${d.runUrl}`,
-          '',
-        ]);
-        if (d.runId) {
-          setActiveRun({ id: d.runId, status: d.status, conclusion: null, url: d.runUrl });
-          schedulePoll(d.runId);
-        }
-      }
-    } catch {
-      setLines((p) => [...p, '❌ Request failed']);
-    } finally {
-      setLoading(null);
-    }
-  }
-
-  return (
-    <div className="flex flex-col h-full" style={{ background: '#1e1e1e' }}>
-      {/* Workflow buttons */}
-      <div className="flex-shrink-0 flex flex-wrap gap-2 px-4 py-3 border-b" style={{ background: '#2d2d2d', borderColor: '#3c3c3c' }}>
-        {(workflowButtons && workflowButtons.length > 0 ? workflowButtons : WORKFLOW_BUTTONS).map(({ key, label, description }) => (
-          <button key={key} onClick={() => dispatch(key)} disabled={!!loading}
-            title={description}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md border disabled:opacity-50 transition-colors"
-            style={{ background: '#3c3c3c', borderColor: '#555', color: '#cccccc' }}
-            onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = '#4a4a4a'; e.currentTarget.style.borderColor = '#0078d4'; e.currentTarget.style.color = '#ffffff'; } }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#3c3c3c'; e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#cccccc'; }}>
-            {loading === key ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
-            {label}
-          </button>
-        ))}
-        {activeRun && (
-          <a href={activeRun.url} target="_blank" rel="noopener noreferrer"
-            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-[11px] rounded-md transition-colors"
-            style={{ background: '#3c3c3c', color: '#858585' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#cccccc')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#858585')}>
-            <ExternalLink className="w-3 h-3" />
-            {activeRun.status === 'completed'
-              ? `${activeRun.conclusion ?? 'done'}`
-              : activeRun.status}
-          </a>
-        )}
-      </div>
-      {/* Shell info — WebSocket PTY requires a dedicated studio-shell ECS task.
-         Until that task is deployed, the workflow buttons above are the shell. */}
-      <div className="flex-1 min-h-0 overflow-y-auto p-4" style={{ background: '#1e1e1e' }}>
-        <div className="font-mono text-[11px] space-y-1" style={{ color: '#858585' }}>
-          <p style={{ color: '#4ec9b0' }}>// Dev Studio — GitHub Actions shell</p>
-          <p>// Use the workflow buttons above to trigger deployments and CI.</p>
-          <p>// A real PTY terminal requires the studio-shell ECS task to be running.</p>
-          <p></p>
-          <p style={{ color: '#858585' }}>// To enable the PTY terminal:</p>
-          <p>// 1. Deploy the studio-shell ECS task (aws/ecs-task-studio.json)</p>
-          <p>// 2. Set STUDIO_SHELL_WS_URL in Admin → Integrations → Env Manager</p>
-          <p>// 3. Set STUDIO_SHELL_SECRET in the same place</p>
-          <p>// 4. Redeploy the admin service to pick up the new secrets</p>
-          <p></p>
-          <p style={{ color: '#858585' }}>// Until then, use the Command tab for AI-driven operations</p>
-          <p>// or the workflow buttons above to trigger GitHub Actions directly.</p>
         </div>
       </div>
     </div>
