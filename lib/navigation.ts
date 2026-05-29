@@ -103,15 +103,15 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
       { name: 'Skilled Trades Apprenticeships', href: '/programs/skilled-trades' },
       // Host a site
-      { name: '— Host a Site —', href: '/partners/barbershop-apprenticeship', isHeader: true },
-      { name: 'Host a Barbershop Apprenticeship', href: '/partners/barbershop-apprenticeship' },
-      { name: 'Host a Cosmetology Apprenticeship', href: '/partners/cosmetology-apprenticeship' },
+      { name: '— Host a Site —', href: '/partners/barber-host-shop', isHeader: true },
+      { name: 'Host a Barbershop Apprenticeship', href: '/partners/barber-host-shop' },
+      { name: 'Host a Cosmetology Apprenticeship', href: '/partners/cosmetology-host-shop' },
       { name: 'Apprenticeship Sponsorship', href: '/employer/apprenticeships' },
       { name: 'How It Works →', href: '/apprenticeships', isSectionLink: true },
     ],
   },
 
-  // ── 3. Testing ───────────────────────────────────────────────────────────────
+  // ── 3. Testing ────────────────────────────────────────────────────────────────
   {
     id: 'testing',
     name: 'Testing',
@@ -153,7 +153,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 4. Funding ───────────────────────────────────────────────────────────────
+  // ── 4. Funding ──────────────────────────────────────────────────────────────
   {
     id: 'funding',
     name: 'Funding',
@@ -180,7 +180,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 5. Partners ──────────────────────────────────────────────────────────────
+  // ── 5. Partners ─────────────────────────────────────────────────────────────
   {
     id: 'partners',
     name: 'Partners',
@@ -206,9 +206,9 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Referral Partner Program', href: '/partners/referral' },
       { name: 'Submit a Referral', href: '/apply/intake' },
       // Beauty Apprenticeship Partnerships
-      { name: '— Beauty Partnerships —', href: '/partners/barbershop-apprenticeship', isHeader: true },
-      { name: 'Barbershop Partnership', href: '/partners/barbershop-apprenticeship' },
-      { name: 'Cosmetology Partnership', href: '/partners/cosmetology-apprenticeship' },
+      { name: '— Beauty Partnerships —', href: '/partners/barber-host-shop', isHeader: true },
+      { name: 'Barbershop Partnership', href: '/partners/barber-host-shop' },
+      { name: 'Cosmetology Partnership', href: '/partners/cosmetology-host-shop' },
       // Training Providers & Program Holders
       { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
       { name: 'How It Works', href: '/for-providers' },
@@ -219,7 +219,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 6. About ─────────────────────────────────────────────────────────────────
+  // ── 6. About ────────────────────────────────────────────────────────────────
   {
     id: 'about',
     name: 'About',
@@ -273,8 +273,8 @@ export const NAV_ITEMS: NavItem[] = [
       // Training Providers & Program Holders
       { name: '— Program Holders & Providers —', href: '/apply/program-holder', isHeader: true },
       { name: 'Program Holder Application', href: '/apply/program-holder' },
-      { name: 'Barbershop Apprenticeship Host', href: '/partners/barbershop-apprenticeship/apply' },
-      { name: 'Cosmetology Partner Shop', href: '/partners/cosmetology-partner-shop/apply' },
+      { name: 'Barbershop Apprenticeship Host', href: '/partners/barber-host-shop/apply' },
+      { name: 'Cosmetology Partner Shop', href: '/partners/cosmetology-host-shop/apply' },
       { name: 'Booth Rental Application', href: '/booth-rental/apply' },
       { name: 'Create a Program', href: '/partners/create-program' },
 
