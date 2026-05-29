@@ -13,7 +13,7 @@ import {
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
-const AiConsoleClient   = dynamic(() => import('../ai-console/AiConsoleClient'),             { ssr: false });
+// AiConsoleClient removed — consolidated into Chat tab (/api/devstudio/chat)
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
@@ -29,7 +29,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git' | 'health';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets' | 'services' | 'git' | 'health';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -50,7 +50,7 @@ interface DevStudioHealth {
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
-  { id: 'ellie',     Icon: Bot,           label: 'Ellie'     },
+
   { id: 'chat',      Icon: MessageSquare, label: 'Code AI'   },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
   { id: 'git',       Icon: GitBranch,     label: 'Git'       },
@@ -67,7 +67,6 @@ const DEFAULT_TAB_FILES: Record<Tab, string> = {
   files: 'explorer', container: 'devcontainer.json',
   documents: 'documents', secrets: 'platform-secrets',
   git: 'git', services: 'services', health: 'system-health',
-  ellie: 'ellie',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -335,7 +334,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','container','chat','ellie','documents','secrets','git','services'];
+  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets','git','services'];
   // Non-super_admin users cannot land on the secrets tab — redirect to command
   const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
@@ -612,7 +611,6 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
-          {tab === 'ellie'     && <AiConsoleClient />}
           {tab === 'chat'      && <AIChat />}
           {tab === 'terminal'  && <XTerminal />}
           {tab === 'git'       && <GitPanel />}

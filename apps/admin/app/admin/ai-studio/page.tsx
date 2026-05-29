@@ -15,7 +15,7 @@ const AI_TOOLS = [
   {
     title: 'AI Chat Console',
     description: 'Multi-provider chat with GPT-4, Claude, Gemini, and Groq. Switch models mid-conversation.',
-    href: '/admin/ai-console',
+    href: '/admin/dev-studio?tab=chat',
     icon: MessageSquare,
     color: 'bg-purple-50 text-purple-600',
   },
@@ -29,7 +29,7 @@ const AI_TOOLS = [
   {
     title: 'Content Generator',
     description: 'Generate blog posts, program descriptions, email copy, and marketing content.',
-    href: '/admin/ai-console?mode=content',
+    href: '/admin/dev-studio?tab=chat',
     icon: FileText,
     color: 'bg-green-50 text-green-600',
   },
