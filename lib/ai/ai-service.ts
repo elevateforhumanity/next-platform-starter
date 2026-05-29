@@ -32,25 +32,18 @@ const imageProviders: Record<string, () => AIImageProvider> = {
   stability: () => new StabilityProvider(),
 };
 
-// -- Singleton cache --
-
-let _chatProvider: AIProvider | null = null;
-let _imageProvider: AIImageProvider | null = null;
-
 // -- Provider Resolution --
+// No singleton cache — process.env may be hydrated from the DB mid-request
+// (via hydrateProcessEnv), so we resolve fresh each call. Provider instances
+// are cheap to construct; the real cost is the network call, not instantiation.
 
 function resolveChatProvider(): AIProvider {
-  if (_chatProvider) return _chatProvider;
-
   const preferred = (process.env.AI_PROVIDER || 'openai') as AIProviderName;
 
   // Try preferred first
   if (preferred !== 'none' && chatProviders[preferred]) {
     const provider = chatProviders[preferred]();
-    if (provider.isAvailable()) {
-      _chatProvider = provider;
-      return provider;
-    }
+    if (provider.isAvailable()) return provider;
     logger.warn(`AI provider "${preferred}" not available, trying fallbacks`);
   }
 
@@ -60,7 +53,6 @@ function resolveChatProvider(): AIProvider {
     const provider = chatProviders[name]();
     if (provider.isAvailable()) {
       logger.info(`AI: using fallback provider "${name}"`);
-      _chatProvider = provider;
       return provider;
     }
   }
@@ -71,26 +63,18 @@ function resolveChatProvider(): AIProvider {
 }
 
 function resolveImageProvider(): AIImageProvider {
-  if (_imageProvider) return _imageProvider;
-
   const preferred = (process.env.AI_IMAGE_PROVIDER || 'dalle') as AIImageProviderName;
 
   if (preferred !== 'none' && imageProviders[preferred]) {
     const provider = imageProviders[preferred]();
-    if (provider.isAvailable()) {
-      _imageProvider = provider;
-      return provider;
-    }
+    if (provider.isAvailable()) return provider;
   }
 
   // Fallback: dalle → stability → azure
   for (const name of ['dalle', 'stability', 'azure']) {
     if (name === preferred) continue;
     const provider = imageProviders[name]();
-    if (provider.isAvailable()) {
-      _imageProvider = provider;
-      return provider;
-    }
+    if (provider.isAvailable()) return provider;
   }
 
   throw new Error('No AI image provider available. Set OPENAI_API_KEY or STABILITY_API_KEY.');
@@ -100,11 +84,17 @@ function resolveImageProvider(): AIImageProvider {
 
 /**
  * Send a chat completion request through the configured AI provider.
- * Provider is selected via AI_PROVIDER env var (default: openai).
+ * Provider is selected via options.provider, then AI_PROVIDER env var (default: openai).
  * Falls back automatically if the preferred provider is unavailable.
  */
 export async function aiChat(options: ChatCompletionOptions): Promise<ChatCompletionResult> {
-  const provider = resolveChatProvider();
+  let provider;
+  if (options.provider && options.provider !== 'none' && chatProviders[options.provider]) {
+    const explicit = chatProviders[options.provider]();
+    provider = explicit.isAvailable() ? explicit : resolveChatProvider();
+  } else {
+    provider = resolveChatProvider();
+  }
   return withResilience(() => provider.chat(options), {
     circuitBreaker: breakers.openai,
     attempts: 2,
@@ -253,26 +243,22 @@ export function isAIAvailable(): boolean {
 }
 
 /**
- * Reset cached providers (useful for testing or config changes).
+ * No-op kept for API compatibility. Provider resolution no longer caches,
+ * so there is nothing to reset.
  */
 export function resetProviders(): void {
-  _chatProvider = null;
-  _imageProvider = null;
+  // intentional no-op
 }
 
 // ── Reasoning model ───────────────────────────────────────────────────────────
 
-let _reasoningProvider: AzureProvider | null = null;
-
 function resolveReasoningProvider(): AzureProvider {
-  if (_reasoningProvider) return _reasoningProvider;
   const p = new AzureProvider();
   if (!p.isAvailable()) {
     throw new Error(
       'No reasoning provider available. Set AZURE_OPENAI_ENDPOINT + AZURE_OPENAI_API_KEY + AZURE_REASONING_DEPLOYMENT.',
     );
   }
-  _reasoningProvider = p;
   return p;
 }
 
