@@ -253,7 +253,6 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
       { label: 'JRI', path: '/admin/jri' },
       { label: 'JRI — Participants', path: '/admin/jri/participants' },
       { label: 'Incentives', path: '/admin/incentives' },
-      { label: 'Cash Advances', path: '/admin/cash-advances' },
       { label: 'Payout Queue', path: '/admin/payout-queue' },
       { label: 'Payroll', path: '/admin/payroll' },
       { label: 'Tax Filing', path: '/admin/tax-filing' },
