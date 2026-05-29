@@ -22,6 +22,7 @@ export default function AcceptInvitePage({ params }: { params: { token: string }
 
   useEffect(() => {
     loadInvite();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.token]);
 
   async function loadInvite() {
