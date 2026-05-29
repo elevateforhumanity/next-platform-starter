@@ -109,11 +109,11 @@ export const mainNavigation: NavItem[] = [
   },
   {
     label: 'Partner With Us',
-    href: '/partners/barbershop-apprenticeship',
+    href: '/partners/barber-host-shop',
     description: 'Host apprentices and grow your team',
     subItems: [
-      { label: 'Barbershop Partner Program', href: '/partners/barbershop-apprenticeship' },
-      { label: 'Apply as Host Shop', href: '/partners/barbershop-apprenticeship/apply' },
+      { label: 'Barbershop Partner Program', href: '/partners/barber-host-shop' },
+      { label: 'Apply as Host Shop', href: '/partners/barber-host-shop/apply' },
       { label: 'Partner Login', href: '/partner/login' },
       { label: 'Platform Licensing', href: '/partners/licensing' },
     ],
