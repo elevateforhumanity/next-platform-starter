@@ -15,6 +15,8 @@ export interface ChatMessage {
 
 export interface ChatCompletionOptions {
   model?: string;
+  /** Force a specific provider instead of using the auto-resolved one. */
+  provider?: AIProviderName;
   messages: ChatMessage[];
   temperature?: number;
   maxTokens?: number;
