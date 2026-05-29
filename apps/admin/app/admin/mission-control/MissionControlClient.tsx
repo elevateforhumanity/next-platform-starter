@@ -16,17 +16,29 @@ import {
 type Snapshot = {
   students: number;
   activeEnrollments: number;
+  completedEnrollments: number;
   pendingApplications: number;
   openAtRisk: number;
   publishedPrograms: number;
   activeCourses: number;
   pendingDocuments: number;
+  activeWioa: number;
+  activeGrants: number;
+  activeContracts: number;
+  jobPlacements: number;
+  revenueCents: number;
   fetchedAt: string;
 };
 
 type AIStatus = {
   activeProvider: string | null;
   providers: { name: string; configured: boolean }[];
+};
+
+type DevStudioStatus = {
+  shell: 'READY' | 'NOT READY' | null;
+  git: boolean;
+  container: boolean;
 };
 
 type SystemStatus = {
@@ -125,6 +137,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
   const [snapshots, setSnapshots] = useState<SnapshotRow[]>([]);
   const [aiStatus, setAiStatus] = useState<AIStatus | null>(null);
   const [sysStatus, setSysStatus] = useState<SystemStatus | null>(null);
+  const [devStudio, setDevStudio] = useState<DevStudioStatus | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [lastRefresh, setLastRefresh] = useState(new Date(snapshot.fetchedAt));
   // Live ops state
@@ -139,10 +152,11 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
 
   // ── Platform health + recent activity + live ops polling (30s) ───────────
   const fetchLiveStatus = useCallback(async () => {
-    const [healthRes, activityRes, liveOpsRes] = await Promise.all([
+    const [healthRes, activityRes, liveOpsRes, studioRes] = await Promise.all([
       fetch('/api/admin/platform-health').catch(() => null),
       fetch('/api/admin/mission-control/activity').catch(() => null),
       fetch('/api/admin/mission-control/live-ops').catch(() => null),
+      fetch('/api/devstudio/health').catch(() => null),
     ]);
 
     if (healthRes?.ok) {
@@ -178,6 +192,15 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
       setStripeFailures(liveOps.stripeFailures ?? []);
       setRapidsMissing(liveOps.rapidsMissing ?? []);
       setLiveOpsSummary(liveOps.summary ?? null);
+    }
+
+    if (studioRes?.ok) {
+      const studio = await studioRes.json();
+      setDevStudio({
+        shell: studio.shell?.status === 'READY' ? 'READY' : 'NOT READY',
+        git: studio.git?.configured === true,
+        container: studio.container?.status === 'running',
+      });
     }
 
     setLastRefresh(new Date());
@@ -364,6 +387,41 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
           <StatCard label="DB Status" value={dbConnected ? 'Connected' : 'Error'} icon={Database} color={dbConnected ? "bg-green-900/50 text-green-400" : "bg-red-900/50 text-red-400"} />
         </div>
 
+        {/* ── Workforce Row ──────────────────────────────────────────────────── */}
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <h2 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+            <Users className="w-4 h-4 text-slate-500" />
+            Workforce
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <StatCard label="Total Students" value={counts.students} icon={Users} color="bg-blue-900/50 text-blue-400" href="/admin/students" />
+            <StatCard label="Active Enrollments" value={counts.activeEnrollments} icon={TrendingUp} color="bg-green-900/50 text-green-400" href="/admin/enrollments" />
+            <StatCard label="Completions" value={counts.completedEnrollments} icon={CheckCircle} color="bg-emerald-900/50 text-emerald-400" href="/admin/enrollments?status=completed" />
+            <StatCard label="Applications" value={counts.pendingApplications} icon={AlertTriangle} color={counts.pendingApplications > 0 ? "bg-amber-900/50 text-amber-400" : "bg-slate-800 text-slate-400"} href="/admin/applications" />
+            <StatCard label="Job Placements" value={counts.jobPlacements} icon={Activity} color="bg-purple-900/50 text-purple-400" href="/admin/jobs" />
+          </div>
+        </div>
+
+        {/* ── Funding Row ────────────────────────────────────────────────────── */}
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <h2 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-slate-500" />
+            Funding
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <StatCard label="WIOA Participants" value={counts.activeWioa} icon={Users} color="bg-blue-900/50 text-blue-400" href="/admin/wioa" />
+            <StatCard label="Active Grants" value={counts.activeGrants} icon={Activity} color="bg-green-900/50 text-green-400" href="/admin/grants" />
+            <StatCard label="Active Contracts" value={counts.activeContracts} icon={BookOpen} color="bg-purple-900/50 text-purple-400" href="/admin/contracts" />
+            <StatCard
+              label="Total Revenue"
+              value={'$' + (counts.revenueCents / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              icon={TrendingUp}
+              color="bg-emerald-900/50 text-emerald-400"
+              href="/admin/reports/financial"
+            />
+          </div>
+        </div>
+
         {/* Main grid */}
         <div className="grid lg:grid-cols-3 gap-6">
 
@@ -414,6 +472,40 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
                         <StatusDot ok={p.configured} />
                         <span className={`text-xs ${p.configured ? 'text-green-400' : 'text-slate-500'}`}>
                           {p.configured ? (aiStatus.activeProvider === p.name ? 'Active' : 'Configured') : 'Not set'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-slate-500 text-sm py-2">Loading…</p>
+              )}
+            </div>
+
+            {/* Dev Studio status */}
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-slate-500" />
+                  Dev Studio
+                </h2>
+                <Link href="/admin/dev-studio" className="text-xs text-brand-blue-400 hover:text-brand-blue-300">
+                  Open →
+                </Link>
+              </div>
+              {devStudio ? (
+                <div className="space-y-2">
+                  {[
+                    { label: 'Shell (PTY)', ok: devStudio.shell === 'READY' },
+                    { label: 'Git', ok: devStudio.git },
+                    { label: 'Container', ok: devStudio.container },
+                  ].map(({ label, ok }) => (
+                    <div key={label} className="flex items-center justify-between py-1">
+                      <span className="text-slate-300 text-sm">{label}</span>
+                      <div className="flex items-center gap-1.5">
+                        <StatusDot ok={ok} />
+                        <span className={`text-xs ${ok ? 'text-green-400' : 'text-amber-400'}`}>
+                          {ok ? 'Ready' : 'Not ready'}
                         </span>
                       </div>
                     </div>
