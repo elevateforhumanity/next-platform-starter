@@ -30,6 +30,13 @@
     "NEXT_TELEMETRY_DISABLED": "1"
   },
 
+  "containerEnv": {
+    "ELEVATE_DEVINT_CONTAINER": "true",
+    "ELEVATE_REPO_ROOT": "/workspaces/Elevate-lms",
+    "ELEVATE_ADMIN_URL": "http://localhost:3001",
+    "ELEVATE_LMS_URL": "http://localhost:3000"
+  },
+
   "customizations": {
     "vscode": {
       "extensions": [
