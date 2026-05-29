@@ -12,13 +12,13 @@
  *
  * For every such table, one of these must be true or CI fails:
  *   A. Table is in ALL_REGISTERED_TABLES (lib/pre-auth-tables.ts)
- *   B. Route file contains: // pre-auth-registry: exempt — <reason>
+ *   B. Route file contains: // pre-auth-registry: exempt - <reason>
  *
  * FAIL POSTURE: ambiguous cases fail closed.
  *
  * EXIT CODES
- *   0 — all pre-auth inserts are registered or exempted
- *   1 — unregistered pre-auth insert found (blocks merge)
+ *   0 - all pre-auth inserts are registered or exempted
+ *   1 - unregistered pre-auth insert found (blocks merge)
  */
 
 'use strict';
@@ -42,7 +42,7 @@ if (registeredTables.size === 0) {
   process.exit(1);
 }
 
-// 2. Auth guard patterns — presence of ANY = route has auth
+// 2. Auth guard patterns - presence of ANY = route has auth
 const AUTH_PATTERNS = [
   /\.getUser\s*\(/,
   /\.getSession\s*\(/,
@@ -56,6 +56,7 @@ const AUTH_PATTERNS = [
   /requireRole\s*\(/,
   /requireApiAuth\s*\(/,
   /withAuth\s*\(/,
+  /withRuntime\s*\(\s*\{\s*cron\s*:\s*true/,
   /CRON_SECRET/,
   /x-cron-secret/i,
   /constructEvent\s*\(/,
@@ -164,12 +165,12 @@ for (const { file, table } of issues) {
   console.error(`  Detected pre-auth insert into "${table}"`);
   console.error(`  File: ${file}`);
   console.error('');
-  console.error('  Fix — choose one:');
+  console.error('  Fix - choose one:');
   console.error(
     `    A. Register: add { table: '${table}', mode: 'reconcile'|'anonymous', ... } to lib/pre-auth-tables.ts`,
   );
   console.error(
-    `    B. Exempt:   add // pre-auth-registry: exempt — <reason>  to the top of the route file`,
+    `    B. Exempt:   add // pre-auth-registry: exempt - <reason>  to the top of the route file`,
   );
   console.error('');
 }
