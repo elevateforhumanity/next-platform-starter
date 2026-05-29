@@ -96,7 +96,7 @@ export function SystemHealthPanel({ health }: Props) {
               label: "Stale Jobs",
               ok: health.staleJobs === 0,
               value: health.staleJobs > 0 ? `${health.staleJobs} stuck` : "Clear",
-              href: "/admin/automation",
+              href: "/admin/dev-studio?tab=automation",
             },
             {
               label: "Missing Docs",

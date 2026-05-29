@@ -112,7 +112,6 @@ export const DEV_TOOL_ROUTES = [
   '/admin/dev-studio',
   '/admin/autopilot',
   '/admin/autopilots',
-  '/admin/automation',
 ] as const;
 
 /**

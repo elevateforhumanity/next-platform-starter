@@ -598,7 +598,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
 
             {/* Automation summary */}
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-              <SectionHeader title="Automation" href="/admin/automation" icon={Zap} />
+              <SectionHeader title="Automation" href="/admin/dev-studio?tab=automation" icon={Zap} />
               <div className="space-y-2">
                 {[
                   { label: 'Nudge Emails', schedule: 'Daily 9:00 AM', active: true },

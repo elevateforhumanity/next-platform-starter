@@ -9,11 +9,12 @@ import {
   ChevronRight, File, Folder, Play, X, Circle,
   PanelRightClose, PanelRightOpen, AlertTriangle, Key, ShieldCheck,
   Server, GitBranch, Lock, Activity, CheckCircle2, XCircle,
+  Zap, Mail, Bell, Users, Clock,
 } from 'lucide-react';
 
 import type { default as CodeEditorType } from '@/components/dev-studio/CodeEditor';
 
-// AiConsoleClient removed — consolidated into Chat tab (/api/devstudio/chat)
+// AiConsoleClient removed — merged into AIChat (Ellie tab)
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const DocumentsPanel    = dynamic(() => import('@/components/dev-studio/DocumentsPanel'),    { ssr: false });
 const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat'),            { ssr: false });
@@ -29,7 +30,7 @@ const CodeEditor        = dynamic<React.ComponentProps<typeof CodeEditorType>>(
   { ssr: false },
 );
 
-type Tab = 'command' | 'terminal' | 'files' | 'container' | 'chat' | 'documents' | 'secrets' | 'services' | 'git' | 'health';
+type Tab = 'command' | 'terminal' | 'files' | 'container' | 'ellie' | 'documents' | 'secrets' | 'services' | 'git' | 'health' | 'automation';
 interface FileNode { name: string; path: string; type: 'file' | 'directory' | 'dir'; children?: FileNode[]; }
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint';
 interface DevStudioConfig {
@@ -50,8 +51,7 @@ interface DevStudioHealth {
 
 const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
-
-  { id: 'chat',      Icon: MessageSquare, label: 'Code AI'   },
+  { id: 'ellie',     Icon: Bot,           label: 'Ellie'     },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },
   { id: 'git',       Icon: GitBranch,     label: 'Git'       },
   { id: 'services',  Icon: Server,        label: 'Services'  },
@@ -60,13 +60,15 @@ const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: s
   { id: 'documents', Icon: FolderOpen,    label: 'Documents' },
   { id: 'secrets',   Icon: Key,           label: 'Secrets'   },
   { id: 'health',    Icon: Activity,      label: 'Health'    },
+  { id: 'automation', Icon: Zap,          label: 'Automation' },
 ];
 
 const DEFAULT_TAB_FILES: Record<Tab, string> = {
-  command: 'command.sh', chat: 'ai-chat.md', terminal: 'terminal.sh',
+  command: 'command.sh', terminal: 'terminal.sh',
   files: 'explorer', container: 'devcontainer.json',
   documents: 'documents', secrets: 'platform-secrets',
   git: 'git', services: 'services', health: 'system-health',
+  ellie: 'ellie', automation: 'automation',
 };
 
 // ── Embed-check hook ─────────────────────────────────────────────────────────
@@ -175,6 +177,155 @@ function IframePreview({
         onLoad={() => setLoading(false)}
         title={title}
       />
+    </div>
+  );
+}
+
+// ── Automation Panel ─────────────────────────────────────────────────────────
+interface AutomationData {
+  deliveryLogs: { id: string; channel: string; status: string; template_name: string; recipient: string; created_at: string }[];
+  notifications: { id: string; title: string; created_at: string }[];
+  enrollments: { id: string; user_name: string; program_name: string; created_at: string }[];
+}
+
+function timeAgo(dateStr: string) {
+  const ms = Date.now() - new Date(dateStr).getTime();
+  const m = Math.floor(ms / 60000);
+  const h = Math.floor(ms / 3600000);
+  const d = Math.floor(ms / 86400000);
+  if (m < 1) return 'just now';
+  if (m < 60) return `${m}m ago`;
+  if (h < 24) return `${h}h ago`;
+  return `${d}d ago`;
+}
+
+const CRON_JOBS = [
+  { label: 'Nudge Emails',       desc: 'Inactivity reminders',     schedule: 'Daily 9:00 AM' },
+  { label: 'Missed Check-ins',   desc: 'OJT check-in alerts',      schedule: 'Daily 6:00 PM' },
+  { label: 'End of Day Summary', desc: 'Daily progress summaries',  schedule: 'Daily 8:00 PM' },
+];
+
+function AutomationPanel() {
+  const [data, setData] = React.useState<AutomationData | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const load = React.useCallback(() => {
+    setLoading(true);
+    setError(null);
+    fetch('/api/admin/automation-log')
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => { setData(d); setLoading(false); })
+      .catch(e => { setError(`Failed to load (${e})`); setLoading(false); });
+  }, []);
+
+  React.useEffect(() => { load(); }, [load]);
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-full gap-2" style={{ color: '#858585' }}>
+      <Loader2 className="w-4 h-4 animate-spin" /><span className="text-xs">Loading…</span>
+    </div>
+  );
+
+  if (error) return (
+    <div className="flex flex-col items-center justify-center h-full gap-3 px-6 text-center">
+      <AlertTriangle className="w-8 h-8 text-red-400" />
+      <p className="text-xs text-red-400">{error}</p>
+      <button onClick={load} className="text-xs px-3 py-1.5 rounded bg-[#2d2d2d] text-[#cccccc] hover:bg-[#3c3c3c]">Retry</button>
+    </div>
+  );
+
+  const emailsSent   = data?.deliveryLogs.filter(l => l.channel === 'email' && l.status === 'sent').length ?? 0;
+  const emailsFailed = data?.deliveryLogs.filter(l => l.channel === 'email' && l.status === 'failed').length ?? 0;
+  const smsSent      = data?.deliveryLogs.filter(l => l.channel === 'sms'   && l.status === 'sent').length ?? 0;
+
+  return (
+    <div className="h-full overflow-y-auto p-4" style={{ background: '#1e1e1e' }}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Zap className="w-4 h-4 text-amber-400" />
+          <span className="text-sm font-semibold" style={{ color: '#cccccc' }}>Automation</span>
+        </div>
+        <button onClick={load} className="flex items-center gap-1 text-xs px-2 py-1 rounded hover:bg-[#2d2d2d]" style={{ color: '#858585' }}>
+          <RefreshCw className="w-3 h-3" /> Refresh
+        </button>
+      </div>
+
+      {/* Stats strip */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {[
+          { label: 'Emails sent',   value: emailsSent,   icon: Mail,    ok: true },
+          { label: 'Emails failed', value: emailsFailed, icon: XCircle, ok: emailsFailed === 0 },
+          { label: 'SMS sent',      value: smsSent,      icon: Bell,    ok: true },
+        ].map(s => (
+          <div key={s.label} className="rounded-lg px-3 py-2 flex flex-col gap-0.5" style={{ background: '#252526', border: '1px solid #2d2d2d' }}>
+            <span className="text-lg font-bold" style={{ color: s.ok ? '#4ade80' : '#f87171' }}>{s.value}</span>
+            <span className="text-[10px]" style={{ color: '#858585' }}>{s.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Delivery log */}
+      <div className="mb-4">
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>
+          Delivery Log <span style={{ color: '#3c3c3c' }}>({data?.deliveryLogs.length ?? 0})</span>
+        </p>
+        <div className="rounded-lg overflow-hidden" style={{ border: '1px solid #2d2d2d' }}>
+          {(data?.deliveryLogs ?? []).slice(0, 15).map((log, i) => (
+            <div key={log.id} className="flex items-center justify-between px-3 py-2" style={{ background: i % 2 === 0 ? '#252526' : '#1e1e1e', borderBottom: '1px solid #2d2d2d' }}>
+              <div className="flex items-center gap-2 min-w-0">
+                <Mail className="w-3 h-3 flex-shrink-0" style={{ color: log.status === 'sent' ? '#4ade80' : '#f87171' }} />
+                <span className="text-xs truncate" style={{ color: '#cccccc' }}>{log.template_name || log.channel}</span>
+                <span className="text-[10px] truncate" style={{ color: '#858585' }}>{log.recipient}</span>
+              </div>
+              <span className="text-[10px] flex-shrink-0 ml-2" style={{ color: '#555' }}>{timeAgo(log.created_at)}</span>
+            </div>
+          ))}
+          {(data?.deliveryLogs ?? []).length === 0 && (
+            <div className="px-3 py-4 text-center text-xs" style={{ color: '#555' }}>No delivery logs</div>
+          )}
+        </div>
+      </div>
+
+      {/* Enrollment triggers */}
+      <div className="mb-4">
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>
+          Enrollment Triggers <span style={{ color: '#3c3c3c' }}>({data?.enrollments.length ?? 0})</span>
+        </p>
+        <div className="rounded-lg overflow-hidden" style={{ border: '1px solid #2d2d2d' }}>
+          {(data?.enrollments ?? []).slice(0, 10).map((e, i) => (
+            <div key={e.id} className="flex items-center justify-between px-3 py-2" style={{ background: i % 2 === 0 ? '#252526' : '#1e1e1e', borderBottom: '1px solid #2d2d2d' }}>
+              <div className="flex items-center gap-2 min-w-0">
+                <Users className="w-3 h-3 flex-shrink-0 text-green-400" />
+                <span className="text-xs truncate" style={{ color: '#cccccc' }}>{e.user_name}</span>
+                <span className="text-[10px] truncate" style={{ color: '#858585' }}>→ {e.program_name}</span>
+              </div>
+              <span className="text-[10px] flex-shrink-0 ml-2" style={{ color: '#555' }}>{timeAgo(e.created_at)}</span>
+            </div>
+          ))}
+          {(data?.enrollments ?? []).length === 0 && (
+            <div className="px-3 py-4 text-center text-xs" style={{ color: '#555' }}>No recent enrollments</div>
+          )}
+        </div>
+      </div>
+
+      {/* Cron jobs */}
+      <div>
+        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: '#555' }}>Scheduled Jobs</p>
+        <div className="space-y-1">
+          {CRON_JOBS.map(job => (
+            <div key={job.label} className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ background: '#252526', border: '1px solid #2d2d2d' }}>
+              <div className="flex items-center gap-2">
+                <Clock className="w-3 h-3 text-amber-400" />
+                <span className="text-xs font-medium" style={{ color: '#cccccc' }}>{job.label}</span>
+                <span className="text-[10px]" style={{ color: '#858585' }}>{job.desc}</span>
+              </div>
+              <span className="text-[10px]" style={{ color: '#4ade80' }}>{job.schedule}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -334,7 +485,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
   const searchParams = useSearchParams();
   const raw = searchParams.get('tab') as Tab | null;
   const initialCommand = searchParams.get('command') ?? '';
-  const valid: Tab[] = ['command','terminal','files','container','chat','documents','secrets','git','services'];
+  const valid: Tab[] = ['command','terminal','files','container','ellie','documents','secrets','git','services','health','automation'];
   // Non-super_admin users cannot land on the secrets tab — redirect to command
   const init: Tab = raw && valid.includes(raw) && (raw !== 'secrets' || isSuperAdmin) ? raw : (initialCommand ? 'command' : 'command');
   const [tab, setTab] = useState<Tab>(init);
@@ -475,7 +626,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         {/* Menu items — mirrors TABS order exactly */}
         {([
           { label: 'Command',   id: 'command'   },
-          { label: 'Chat',      id: 'chat'      },
+          { label: 'Ellie',     id: 'ellie'     },
           { label: 'Terminal',  id: 'terminal'  },
           { label: 'Git',       id: 'git'       },
           { label: 'Services',  id: 'services'  },
@@ -611,7 +762,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
-          {tab === 'chat'      && <AIChat />}
+          {tab === 'ellie'     && <AIChat />}
           {tab === 'terminal'  && <XTerminal />}
           {tab === 'git'       && <GitPanel />}
           {tab === 'services'  && <ServicesPanel />}
@@ -631,7 +782,8 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
                 </div>
               )
           )}
-          {tab === 'health' && <SystemHealthPanel />}
+          {tab === 'health'      && <SystemHealthPanel />}
+          {tab === 'automation'  && <AutomationPanel />}
         </div>
 
         {/* Drag-to-resize handle — desktop only, preview is always visible there */}

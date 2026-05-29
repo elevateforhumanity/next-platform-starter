@@ -168,7 +168,6 @@ export const SYSTEMS: SystemNode[] = [
       '/admin/payroll',
       '/admin/reports',
       '/admin/analytics',
-      '/admin/dev-studio?tab=chat',
       '/admin/dev-studio',
       '/admin/monitoring',
       '/admin/audit-logs',
@@ -297,10 +296,10 @@ export const SYSTEMS: SystemNode[] = [
     status: 'active',
   },
   {
-    id: 'ai-console',
-    name: 'AI Operator Console',
+    id: 'ellie',
+    name: 'Ellie — AI Ops',
     description: 'Platform AI operator — tool-calling, SSE execution, Q&A, platform state',
-    routes: ['/admin/dev-studio?tab=chat'],
+    routes: ['/admin/dev-studio?tab=ellie'],
     apis: [
       '/api/devstudio/execute',
       '/api/devstudio/chat',
@@ -394,10 +393,10 @@ export const ROUTE_DEPENDENCIES: Record<string, { tables: string[]; apis: string
     apis: ['/api/apply'],
     components: ['IntakeForm'],
   },
-  '/admin/dev-studio?tab=chat': {
+  '/admin/dev-studio': {
     tables: ['ai_audit_log'],
     apis: ['/api/devstudio/execute', '/api/devstudio/chat', '/api/devstudio/platform-state'],
-    components: ['AiConsoleClient'],
+    components: ['AIChat', 'XTerminal', 'DevStudioClient'],
   },
 };
 
