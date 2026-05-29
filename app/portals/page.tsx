@@ -115,7 +115,7 @@ const portals = [
     title: 'Staff Portal',
     description:
       'Manage students, record attendance, flag at-risk learners, run reports, and coordinate daily operations.',
-    href: '/login?redirect=/staff-portal/dashboard',
+    href: '/login?redirect=/admin/staff-portal/dashboard',
     color: 'teal',
     features: ['Student Management', 'Attendance Tracking', 'At-Risk Flags', 'Reports'],
   },
@@ -168,7 +168,7 @@ const ROLE_DASHBOARD: Record<string, string> = {
   instructor: '/instructor/dashboard',
   partner: '/partner/dashboard',
   program_holder: '/program-holder/dashboard',
-  staff: '/staff-portal/dashboard',
+  staff: '/admin/staff-portal/dashboard',
   mentor: '/mentor/dashboard',
   case_manager: '/case-manager/dashboard',
   org_admin: '/partner/dashboard',
@@ -315,7 +315,7 @@ export default async function PortalsPage() {
               <span className="font-semibold">Employer Sign In</span>
             </Link>
             <Link
-              href="/login?redirect=/staff-portal/dashboard"
+              href="/login?redirect=/admin/staff-portal/dashboard"
               className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors"
             >
               <Briefcase className="w-6 h-6 text-teal-400" />

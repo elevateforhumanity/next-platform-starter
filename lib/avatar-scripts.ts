@@ -216,7 +216,7 @@ export const PAGE_SCRIPTS: Record<
     nextAction: `Open 'Programs' or 'Roster' to get started.`,
   },
 
-  '/staff-portal': {
+  '/admin/staff-portal': {
     opening: `Staff administration portal. Role-based access. Manage enrollments, review applications, process documents, generate reports.`,
     nextAction: `Select a task from sidebar or check pending items.`,
   },

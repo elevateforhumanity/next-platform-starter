@@ -102,9 +102,6 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/program-holder/analytics': ['program_holder', 'admin', 'super_admin'],
   '/program-holder/onboarding':['program_holder', 'admin', 'super_admin'],
   '/program-holder/verification':['program_holder', 'admin', 'super_admin'],
-  // staff-portal/ requires staff role — was missing role gate (any auth user could reach it)
-  '/staff-portal/':            ['staff', 'admin', 'super_admin'],
-
   // ── Program holders ───────────────────────────────────────────────────────
   '/program-holder/':          ['program_holder', 'admin', 'super_admin'],
 
@@ -179,7 +176,6 @@ const AUTH_REQUIRED_ROUTES = [
   '/workforce-board/',
   '/provider/',
   '/creator/',
-  '/staff-portal/',
   '/dashboard/tax-intake',
   // Routes that were manually guarding with redirect('/login') in page components
   '/tax',
@@ -231,7 +227,6 @@ const PARTNER_ONBOARDING_ROUTES = [
 // NOTE: /employer-portal and /partner-portal removed — those paths redirect to
 // canonical dashboards at the next.config.mjs layer; no middleware bypass needed.
 const PUBLIC_DASHBOARD_LANDINGS = [
-  '/staff-portal',
   '/instructor',
   '/program-holder',
   '/workforce-board',
@@ -242,7 +237,6 @@ const PUBLIC_DASHBOARD_LANDINGS = [
 // Paths that get X-Robots-Tag: noindex, nofollow.
 const NOINDEX_PREFIXES = [
   '/admin',
-  '/staff-portal',
   '/instructor',
   '/program-holder',
   '/workforce-board',

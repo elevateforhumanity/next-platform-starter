@@ -32,7 +32,7 @@ filesToUpdate.forEach((filePath, index) => {
     // Determine the portal type from path
     const isStudent = filePath.includes('/student/');
     const isAdmin = filePath.includes('/admin/');
-    const isStaff = filePath.includes('/staff-portal/');
+    const isStaff = filePath.includes('/admin/staff-portal/');
     const isPartner = filePath.includes('/partner/');
     const isEmployer = filePath.includes('/employer/');
 

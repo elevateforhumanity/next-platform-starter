@@ -195,7 +195,7 @@ export const PROTECTED_ROUTES: Record<string, UserRole[]> = {
   '/learner/dashboard': ['student'],
   '/program-holder': ['program_holder'],
   '/employer': ['employer'],
-  '/staff-portal': ['staff', 'admin', 'super_admin'],
+  '/admin/staff-portal': ['staff', 'admin', 'super_admin'],
   '/admin': ['admin', 'super_admin'],
   '/partner/dashboard': ['partner'],
 };

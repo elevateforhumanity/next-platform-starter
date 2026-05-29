@@ -120,7 +120,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
   ],
   workforce: [
     { label: 'Case Manager Portal', href: '/case-manager/dashboard' },
-    { label: 'Staff Portal', href: '/staff-portal/dashboard' },
+    { label: 'Staff Portal', href: '/admin/staff-portal/dashboard' },
     { label: 'Workforce Board', href: '/workforce-board/dashboard' },
     { label: 'Employer Portal', href: '/employer/dashboard' },
     { label: 'WorkOne Appointment', href: 'https://www.indianacareerconnect.com' },
@@ -697,7 +697,7 @@ export default function MyDashboard({
                 },
                 {
                   label: 'Staff Portal',
-                  href: '/staff-portal/dashboard',
+                  href: '/admin/staff-portal/dashboard',
                   roles: ['staff', 'admin', 'super_admin'],
                 },
                 {

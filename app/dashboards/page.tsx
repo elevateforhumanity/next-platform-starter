@@ -58,7 +58,7 @@ const portals = [
   {
     name: 'Staff Portal',
     description: 'Manage students, attendance, and reports',
-    href: '/staff-portal',
+    href: '/admin/staff-portal',
     icon: Users,
     color: 'bg-orange-500',
     public: false,
@@ -114,7 +114,7 @@ const ROLE_DASHBOARD: Record<string, string> = {
   instructor: '/instructor/dashboard',
   partner: '/partner/dashboard',
   program_holder: '/program-holder/dashboard',
-  staff: '/staff-portal/dashboard',
+  staff: '/admin/staff-portal/dashboard',
   mentor: '/mentor/dashboard',
   case_manager: '/case-manager/dashboard',
   org_admin: '/partner/dashboard',

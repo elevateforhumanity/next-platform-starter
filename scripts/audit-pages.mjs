@@ -74,7 +74,7 @@ function determinePageType(route, content) {
   if (route.includes('/dashboard')) return 'dashboard';
   if (route.includes('/program-holder')) return 'dashboard';
   if (route.includes('/employer')) return 'dashboard';
-  if (route.includes('/staff-portal')) return 'dashboard';
+  if (route.includes('/admin/staff-portal')) return 'dashboard';
   if (route.includes('/instructor')) return 'dashboard';
   if (route.includes('/programs/')) return 'program';
   if (route.includes('/courses/')) return 'program';

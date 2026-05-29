@@ -48,7 +48,7 @@ const PAGES_TO_AUDIT = [
   '/student-portal',
   '/employer-portal',
   '/partner-portal',
-  '/staff-portal',
+  '/admin/staff-portal',
   '/instructor',
   '/employers',
   '/training-providers',

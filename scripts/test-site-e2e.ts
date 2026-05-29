@@ -184,7 +184,7 @@ async function main() {
   console.log('\n🚪 TESTING PORTAL LANDING PAGES...\n');
 
   await testPage('Admin Portal', '/admin');
-  await testPage('Staff Portal', '/staff-portal');
+  await testPage('Staff Portal', '/admin/staff-portal');
   await testPage('Student Portal', '/student-portal');
   await testPage('Employer Portal', '/employer-portal');
   await testPage('Partner Portal', '/partner');

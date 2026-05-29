@@ -36,7 +36,7 @@ const BLOCKED_PATTERNS = [
   '/verify',
   '/instructor',
   '/creator',
-  '/staff-portal',
+  '/admin/staff-portal',
   '/program-holder',
   '/workforce-board',
   '/lms/dashboard',

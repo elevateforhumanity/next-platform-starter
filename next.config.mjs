@@ -455,7 +455,7 @@ const nextConfig = {
       // Portal — exact match before wildcard
       {
         source: '/portal/staff/dashboard',
-        destination: '/staff-portal/dashboard',
+        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
         permanent: true,
       },
 
@@ -496,7 +496,7 @@ const nextConfig = {
         permanent: true,
       },
 
-      // /staff-portal/processes — real Supabase page with staff_processes query, no redirect
+      // /admin/staff-portal/processes — real Supabase page with staff_processes query, no redirect
 
       // Student portal
       // /student-portal/messages and /student-portal/settings — real pages with db queries, no redirect
@@ -717,7 +717,7 @@ const nextConfig = {
       // /workone-partner-packet → /snap-et-partner
       // Portal redirects:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
-      //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
+      //   /instructor/:path*, /admin/staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
       // Portal redirects:
       // /dashboard (55 lines, db=5) and /my-dashboard (251 lines, db=21) — real pages, no redirect
       { source: '/employer', destination: '/employer/dashboard', permanent: false },
@@ -789,7 +789,7 @@ const nextConfig = {
       // /alumni/page.tsx exists (182 lines) — do not redirect away from it
       // { source: '/alumni/:path*', destination: '/about', permanent: true },
       // /board → /admin and /delegate → /admin are internal routes.
-      { source: '/receptionist/:path*', destination: '/staff-portal/:path*', permanent: true },
+      { source: '/receptionist/:path*', destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/:path*', permanent: true },
       { source: '/forum/:path*', destination: '/blog', permanent: true },
       // /news/page.tsx exists (137 lines) — do not redirect away from it
       // { source: '/news/:path*', destination: '/blog/:path*', permanent: true },

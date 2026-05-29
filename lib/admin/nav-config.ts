@@ -59,6 +59,23 @@ export const DEFAULT_NAV: NavSection[] = [
     ],
   },
   {
+    label: 'Staff Portal',
+    href: '/admin/staff-portal/dashboard',
+    items: [
+      { label: 'Dashboard', href: '/admin/staff-portal/dashboard' },
+      { label: 'Students', href: '/admin/staff-portal/students' },
+      { label: 'Cases', href: '/admin/staff-portal/cases' },
+      { label: 'Attendance', href: '/admin/staff-portal/attendance' },
+      { label: 'Courses', href: '/admin/staff-portal/courses' },
+      { label: 'Campaigns', href: '/admin/staff-portal/campaigns' },
+      { label: 'Booth Renters', href: '/admin/staff-portal/booth-renters' },
+      { label: 'Training', href: '/admin/staff-portal/training' },
+      { label: 'Skills', href: '/admin/staff-portal/skills' },
+      { label: 'QA Checklist', href: '/admin/staff-portal/qa-checklist' },
+      { label: 'Customer Service', href: '/admin/staff-portal/customer-service' },
+    ],
+  },
+  {
     label: 'Students',
     href: '/admin/students',
     items: [

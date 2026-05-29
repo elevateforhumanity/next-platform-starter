@@ -45,7 +45,7 @@ const CANONICAL_PORTALS = {
   '/partner/dashboard':        ['partner', 'admin', 'super_admin'],
   '/admin/dashboard':          ['admin', 'super_admin'],
   '/instructor/dashboard':     ['instructor', 'admin', 'super_admin'],
-  '/staff-portal/dashboard':   ['staff', 'admin', 'super_admin'],
+  '/admin/staff-portal/dashboard':   ['staff', 'admin', 'super_admin'],
   '/mentor/dashboard':         ['mentor', 'admin', 'super_admin'],
   '/program-holder/dashboard': ['program_holder', 'admin', 'super_admin'],
 };

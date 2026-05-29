@@ -187,7 +187,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '12',
     name: 'Staff Portal',
-    href: '/staff-portal/dashboard',
+    href: '/admin/staff-portal/dashboard',
     icon: 'Users',
     description: 'Students, attendance, ops',
     color: 'text-brand-green-600',

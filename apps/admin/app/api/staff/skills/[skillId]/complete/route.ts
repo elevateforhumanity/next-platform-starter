@@ -34,7 +34,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ skillId: 
   );
 
   // Redirect back to skills page (form POST)
-  return NextResponse.redirect(new URL('/staff-portal/skills', req.url));
+  return NextResponse.redirect(new URL('/admin/staff-portal/skills', req.url));
 }
 
 export const POST = withApiAudit('/api/staff/skills/[skillId]/complete', _POST);

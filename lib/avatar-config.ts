@@ -377,7 +377,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
     maxMessages: 1,
   },
 
-  '/staff-portal': {
+  '/admin/staff-portal': {
     enabled: true,
     speakOnLoad: true,
     role: 'assistant',

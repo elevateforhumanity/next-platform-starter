@@ -52,7 +52,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   org_admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
 
   // ── Internal Elevate staff ────────────────────────────────────────
-  staff: '/staff-portal/dashboard',
+  staff: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
 
   // ── Education staff ───────────────────────────────────────────────
   instructor: '/instructor/dashboard',

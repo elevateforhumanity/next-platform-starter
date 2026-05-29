@@ -190,12 +190,12 @@ export const SYSTEMS: SystemNode[] = [
     name: 'Staff Portal',
     description: 'Case management, applications review, enrollment management',
     routes: [
-      '/staff-portal',
-      '/staff-portal/applications',
-      '/staff-portal/applications/[id]',
-      '/staff-portal/enrollments',
-      '/staff-portal/students',
-      '/staff-portal/reports',
+      '/admin/staff-portal',
+      '/admin/staff-portal/applications',
+      '/admin/staff-portal/applications/[id]',
+      '/admin/staff-portal/enrollments',
+      '/admin/staff-portal/students',
+      '/admin/staff-portal/reports',
     ],
     apis: [
       '/api/staff/*',

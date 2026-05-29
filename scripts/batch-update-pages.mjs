@@ -55,7 +55,7 @@ filesToUpdate.forEach((filePath) => {
 
   // Determine portal and update accordingly
   const isStudent = filePath.includes('/student/');
-  const isStaff = filePath.includes('/staff-portal/');
+  const isStaff = filePath.includes('/admin/staff-portal/');
   const isPartner = filePath.includes('/partner/');
   const isEmployer = filePath.includes('/employer/');
 

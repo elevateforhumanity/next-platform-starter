@@ -7,7 +7,7 @@ export const DASHBOARD_ROUTES: Record<UserRole, string> = {
   org_admin: '/admin/dashboard',
 
   // Staff / operations
-  staff: '/staff-portal/dashboard',
+  staff: '/admin/staff-portal/dashboard',
   instructor: '/instructor/dashboard',
 
   // Program holders / delegates

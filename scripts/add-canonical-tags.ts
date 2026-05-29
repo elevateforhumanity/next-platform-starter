@@ -13,7 +13,7 @@ const BASE_URL = 'https://www.elevateforhumanity.org';
 // Pages that should be noindex (admin, internal, etc.)
 const NOINDEX_PATTERNS = [
   '/admin',
-  '/staff-portal',
+  '/admin/staff-portal',
   '/lms/',
   '/api/',
   '/auth/',

@@ -452,7 +452,7 @@ function LoginForm() {
                   { label: 'Instructor', dest: '/instructor/dashboard' },
                   { label: 'Employer', dest: '/employer/dashboard' },
                   { label: 'Partner Portal', dest: '/partner/dashboard' },
-                  { label: 'Staff Portal', dest: '/staff-portal/dashboard' },
+                  { label: 'Staff Portal', dest: '/admin/staff-portal/dashboard' },
                   { label: 'Mentor', dest: '/mentor/dashboard' },
                   { label: 'Case Manager', dest: '/case-manager/dashboard' },
                   { label: 'Workforce Board', dest: '/workforce-board/dashboard' },

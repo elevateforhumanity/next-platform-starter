@@ -14,7 +14,7 @@
  *              getUser() | getSession() | auth.uid() | createClient() from server
  *              AND is in an authenticated path segment
  *   DYNAMIC  if path contains: /admin/ /learner/ /student-portal/ /partner-portal/
- *              /employer-portal/ /staff-portal/ /mentor/ /instructor/ /program-holder/
+ *              /employer-portal/ /admin/staff-portal/ /mentor/ /instructor/ /program-holder/
  *              /apprentice/ /lms/(app)/ /pwa/ /profile/ /cart/ /checkout/ /payment/
  *   ISR      if path is public-facing program/marketing content
  *   STATIC   if path is fully static (no DB reads at all)
@@ -56,7 +56,7 @@ const ALWAYS_DYNAMIC_PATHS = [
   '/student-portal/',
   '/partner-portal/',
   '/employer-portal/',
-  '/staff-portal/',
+  '/admin/staff-portal/',
   '/mentor/',
   '/instructor/',
   '/program-holder/',

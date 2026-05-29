@@ -25,7 +25,7 @@ const ROLE_PORTAL: Record<string, { label: string; href: string }> = {
   super_admin:     { label: 'Admin Dashboard',        href: 'https://admin.elevateforhumanity.org/admin/dashboard' },
   admin:           { label: 'Admin Dashboard',        href: 'https://admin.elevateforhumanity.org/admin/dashboard' },
   org_admin:       { label: 'Admin Dashboard',        href: 'https://admin.elevateforhumanity.org/admin/dashboard' },
-  staff:           { label: 'Staff Portal',           href: '/staff-portal/dashboard' },
+  staff:           { label: 'Staff Portal',           href: '/admin/staff-portal/dashboard' },
   instructor:      { label: 'Instructor Portal',      href: 'https://admin.elevateforhumanity.org/instructor' },
   mentor:          { label: 'Mentor Portal',          href: '/mentor/dashboard' },
   creator:         { label: 'Creator Portal',         href: '/creator/products' },

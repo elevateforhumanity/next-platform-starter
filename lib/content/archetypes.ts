@@ -67,12 +67,12 @@ export function getDashboardContent(role: string): PageContent {
       actions: [
         {
           label: 'Process Applications',
-          href: '/staff-portal/applications',
+          href: '/admin/staff-portal/applications',
           variant: 'primary',
         },
         {
           label: 'Manage Students',
-          href: '/staff-portal/students',
+          href: '/admin/staff-portal/students',
           variant: 'secondary',
         },
       ],

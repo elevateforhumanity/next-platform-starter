@@ -57,7 +57,7 @@ const SPEAKING_PATTERNS = [
   { pattern: /^\/student-portal\/progress/, pageType: 'progress' },
   { pattern: /^\/student-portal\/hours/, pageType: 'progress' },
   { pattern: /^\/instructor/, pageType: 'dashboard' },
-  { pattern: /^\/staff-portal/, pageType: 'dashboard' },
+  { pattern: /^\/admin\/staff-portal/, pageType: 'dashboard' },
   { pattern: /^\/store\/licenses/, pageType: 'licensing' },
   { pattern: /^\/government/, pageType: 'licensing' },
   { pattern: /^\/store\/checkout/, pageType: 'enroll' },

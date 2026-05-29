@@ -32,7 +32,7 @@ const ROLE_DESTINATIONS: Record<string, { label: string; href: string }> = {
   employer: { label: 'Go to Employer Portal', href: '/employer/dashboard' },
   partner: { label: 'Go to Partner Portal', href: '/partner/dashboard' },
   program_holder: { label: 'Go to Program Holder Dashboard', href: '/program-holder/dashboard' },
-  case_manager: { label: 'Go to Staff Portal', href: '/staff-portal/dashboard' },
+  case_manager: { label: 'Go to Staff Portal', href: '/admin/staff-portal/dashboard' },
 };
 
 const UNAUTHENTICATED_PRIMARY = {

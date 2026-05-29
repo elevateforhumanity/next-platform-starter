@@ -69,7 +69,7 @@ export default async function OnboardingStartPage() {
       program_holder: '/program-holder/dashboard',
       worksite_only: '/partner/dashboard',
       site_coordinator: '/partner/dashboard',
-      staff: '/staff-portal/dashboard',
+      staff: '/admin/staff-portal/dashboard',
       instructor: '/instructor/dashboard',
       employer: '/employer/dashboard',
       admin: '/admin/dashboard',

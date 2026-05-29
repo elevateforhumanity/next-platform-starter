@@ -11,7 +11,7 @@ import { describe, it, expect } from 'vitest';
 describe('Protected Route Configuration', () => {
   const PROTECTED_ROUTES: Record<string, string[]> = {
     '/admin': ['admin', 'super_admin'],
-    '/staff-portal': ['staff', 'admin', 'super_admin', 'advisor'],
+    '/admin/staff-portal': ['staff', 'admin', 'super_admin', 'advisor'],
     '/instructor': ['instructor', 'admin', 'super_admin'],
     '/program-holder': ['program_holder', 'admin', 'super_admin'],
     '/workforce-board': ['workforce_board', 'admin', 'super_admin'],
@@ -26,9 +26,9 @@ describe('Protected Route Configuration', () => {
   });
 
   it('should have correct role mappings for staff-portal', () => {
-    expect(PROTECTED_ROUTES['/staff-portal']).toContain('staff');
-    expect(PROTECTED_ROUTES['/staff-portal']).toContain('advisor');
-    expect(PROTECTED_ROUTES['/staff-portal']).not.toContain('student');
+    expect(PROTECTED_ROUTES['/admin/staff-portal']).toContain('staff');
+    expect(PROTECTED_ROUTES['/admin/staff-portal']).toContain('advisor');
+    expect(PROTECTED_ROUTES['/admin/staff-portal']).not.toContain('student');
   });
 
   it('should have correct role mappings for instructor routes', () => {
@@ -89,7 +89,7 @@ describe('Auth Redirect Expected Behavior', () => {
     const publicRoutes = ['/', '/about', '/programs', '/apply', '/blog', '/contact'];
     // All should return 200 without requiring auth
     publicRoutes.forEach((route) => {
-      expect(route).not.toMatch(/^\/admin|^\/staff-portal|^\/instructor/);
+      expect(route).not.toMatch(/^\/admin|^\/admin\/staff-portal|^\/instructor/);
     });
   });
 });
