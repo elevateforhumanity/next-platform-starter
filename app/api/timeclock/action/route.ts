@@ -73,7 +73,6 @@ async function raiseAdminAlert(
       message,
       metadata: details,
       created_at: new Date().toISOString(),
-      resolved: false,
     });
   } catch (error) {
     logger.error('[Timeclock] Failed to raise admin alert:', error);
@@ -147,6 +146,100 @@ async function raiseAdminAlert(
   } catch (err) {
     logger.warn('[Timeclock] raiseAdminAlert email lookup failed', { alertType, userId, err });
   }
+}
+
+function buildAlertMessage(alertType: string, d: Record<string, any>): string {
+  switch (alertType) {
+    case 'geofence_violation':
+      return `Geofence violation: ${d.distance_m}m from ${d.site_name ?? 'site'} (allowed ${d.radius_m}m) during ${d.action}`;
+    case 'excessive_lunch':
+      return `Lunch exceeded standard: ${d.lunch_minutes}min (standard ${d.standard_minutes}min)`;
+    case 'missing_lunch':
+      return `No lunch break recorded for ${d.shift_hours}h shift`;
+    case 'missed_clock_out':
+      return `Auto-closed shift after ${d.open_hours}h without clock-out`;
+    case 'low_hours_pace':
+      return `Behind OJL pace: ${d.completed_hours}h completed, need ${d.required_pace_hours}h/week to finish on time`;
+    default:
+      return alertType.replace(/_/g, ' ');
+  }
+}
+
+/**
+ * Sync a completed progress_entries shift to hour_entries (OJL timeclock bucket).
+ * Idempotent: skips if hour_entry_id is already set on the progress entry.
+ *
+ * This is the authoritative bridge between the GPS timeclock and the
+ * apprenticeship hours pipeline. Without this, clock-out events never
+ * reach OJL totals, dashboards, or RAPIDS.
+ */
+async function syncShiftToHourEntries(
+  supabase: any,
+  params: {
+    progressEntryId: string;
+    apprenticeId: string;   // apprentices.id (UUID)
+    programId: string;
+    workDate: string;
+    hoursWorked: number;
+    siteId: string | null;
+  },
+): Promise<string | null> {
+  const { progressEntryId, apprenticeId, programId, workDate, hoursWorked, siteId } = params;
+
+  // Skip if already synced
+  const { data: existing } = await supabase
+    .from('progress_entries')
+    .select('hour_entry_id')
+    .eq('id', progressEntryId)
+    .maybeSingle();
+
+  if (existing?.hour_entry_id) {
+    return existing.hour_entry_id;
+  }
+
+  // Resolve user_id from apprentices table
+  const { data: apprentice } = await supabase
+    .from('apprentices')
+    .select('user_id, program_id')
+    .eq('id', apprenticeId)
+    .maybeSingle();
+
+  if (!apprentice?.user_id) {
+    logger.warn('[Timeclock] syncShiftToHourEntries: no user_id for apprentice', { apprenticeId });
+    return null;
+  }
+
+  // Insert into hour_entries as a timeclock OJL entry (pending approval)
+  const { data: hourEntry, error: insertError } = await supabase
+    .from('hour_entries')
+    .insert({
+      user_id: apprentice.user_id,
+      source_type: 'timeclock',
+      work_date: workDate,
+      hours_claimed: hoursWorked,
+      status: 'pending',
+      entered_by_email: apprentice.user_id,
+      entered_at: new Date().toISOString(),
+      program_slug: programId,
+      notes: `Auto-synced from timeclock shift ${progressEntryId}`,
+      legacy_source: 'progress_entries',
+      legacy_id: progressEntryId,
+    })
+    .select('id')
+    .maybeSingle();
+
+  if (insertError) {
+    logger.error('[Timeclock] syncShiftToHourEntries insert failed:', insertError);
+    return null;
+  }
+
+  // Back-link the hour_entry_id onto the progress entry for idempotency
+  await supabase
+    .from('progress_entries')
+    .update({ hour_entry_id: hourEntry.id })
+    .eq('id', progressEntryId);
+
+  return hourEntry.id;
 }
 
 function buildAlertMessage(alertType: string, d: Record<string, any>): string {
