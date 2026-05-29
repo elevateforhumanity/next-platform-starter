@@ -733,25 +733,40 @@ export async function POST(request: NextRequest) {
   let reply = '';
 
   try {
+    // Primary: gpt-4o-mini (widely available, fast)
     const result = await aiChat({
-      model: preferredModel ?? 'gpt-4.1-mini',
+      model: preferredModel ?? 'gpt-4o-mini',
       provider: preferredProvider !== 'auto' ? preferredProvider : undefined,
       messages: [{ role: 'system', content: systemPrompt }, ...messages],
       temperature: 0.4,
       maxTokens: 1000,
     });
     reply = result.content ?? '';
-  } catch {
+  } catch (primaryErr) {
     try {
+      // Fallback 1: gpt-4.1-mini
       const result = await aiChat({
-        model: preferredModel ?? 'llama-3.3-70b-versatile',
+        model: 'gpt-4.1-mini',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         temperature: 0.4,
         maxTokens: 1000,
       });
       reply = result.content ?? '';
     } catch {
-      reply = `AI service unavailable right now. Here is the live data:\n\n${dataSnapshot}\n\nCheck /admin/api-keys to verify your OpenAI and Groq keys are active.`;
+      try {
+        // Fallback 2: Groq llama
+        const result = await aiChat({
+          model: 'llama-3.3-70b-versatile',
+          provider: 'groq',
+          messages: [{ role: 'system', content: systemPrompt }, ...messages],
+          temperature: 0.4,
+          maxTokens: 1000,
+        });
+        reply = result.content ?? '';
+      } catch {
+        const errMsg = primaryErr instanceof Error ? primaryErr.message : String(primaryErr);
+        reply = `AI service unavailable (${errMsg}). Live data:\n\n${dataSnapshot}\n\nCheck /admin/api-keys to verify your OpenAI and Groq keys are active.`;
+      }
     }
   }
 

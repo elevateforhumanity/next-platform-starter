@@ -29,13 +29,9 @@ function InstallPrompt({ appName, appDescription, themeColor = '#7c3aed' }: Inst
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(iOS);
 
-    // Check if dismissed recently
+    // Only show once — if dismissed at any point, never show again
     const dismissed = localStorage.getItem('pwa_install_dismissed');
-    if (dismissed) {
-      const dismissedTime = parseInt(dismissed);
-      const daysSinceDismissed = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
-      if (daysSinceDismissed < 7) return; // Don't show for 7 days after dismissal
-    }
+    if (dismissed) return;
 
     // Listen for install prompt
     const handleBeforeInstall = (e: Event) => {

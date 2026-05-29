@@ -762,7 +762,7 @@ export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin
         {/* Editor area */}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ background: '#1e1e1e' }}>
           {tab === 'command'   && <CommandTab quickCommands={studioConfig?.quickCommands} initialCommand={initialCommand} />}
-          {tab === 'ellie'     && <AIChat />}
+          {tab === 'ellie'     && <AIChat ellieMode={true} />}
           {tab === 'terminal'  && <XTerminal />}
           {tab === 'git'       && <GitPanel />}
           {tab === 'services'  && <ServicesPanel />}
