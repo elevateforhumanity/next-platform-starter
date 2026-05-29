@@ -63,7 +63,7 @@ const footerLinks = {
     { name: 'Workforce Partners', href: '/partners/workforce' },
     { name: 'Reentry Organizations', href: '/partners/reentry' },
     { name: 'Job Ready Indy', href: '/partners/jri' },
-    { name: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
+    { name: 'Barbershop Partners', href: '/partners/barber-host-shop' },
     { name: 'Program Holders', href: '/program-holder' },
     { name: 'LMS Licensing', href: '/partners/sales' },
     { name: 'Technology Partners', href: '/partners/technology' },
@@ -159,7 +159,7 @@ export default function ServerFooter() {
               Apply for Training
             </Link>
             <Link
-              href="/partnerships"
+              href="/partners"
               className="border border-slate-600 text-white hover:text-white hover:border-slate-400 font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
             >
               Partner With Us
