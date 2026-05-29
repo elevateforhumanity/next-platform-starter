@@ -2,23 +2,8 @@
  * /api/devstudio/git
  *
  * Git operations for Dev Studio.
- *
- * Runtime detection:
- *   LOCAL (.git present) — runs git commands via execSync
- *   ECS   (no .git)      — falls back to GitHub REST API for reads;
- *                          single-file commits via GitHub Contents API;
- *                          push/pull/checkout require the studio-shell container
- *
- * GET  ?action=status   → branch, changed files, recent commits
- * GET  ?action=diff&file=path
- * GET  ?action=log
- * GET  ?action=branches
- * POST { action: 'commit', message, files?, path?, content? }
- * POST { action: 'push' }
- * POST { action: 'checkout', branch }
- * POST { action: 'pull' }
- *
- * Admin-only.
+ * The admin UI is only the control surface; operations target the full
+ * Elevate-lms repo checkout when available, or the configured GitHub repo/branch.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -35,20 +20,32 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const REPO = process.env.GITHUB_REPO ?? 'elevate-for-humanity/Elevate-lms';
+const DEFAULT_REPO = 'elevate-for-humanity/Elevate-lms';
+const DEFAULT_BRANCH = 'main';
 const GH_API = 'https://api.github.com';
 
-// LOCAL: .git present (Gitpod / dev). ECS: no .git — use GitHub API.
+function getRepo(): string {
+  const repo = (process.env.GITHUB_REPO ?? DEFAULT_REPO).trim();
+  return repo || DEFAULT_REPO;
+}
+
+function getBranch(): string {
+  const branch = (process.env.GITHUB_BRANCH ?? process.env.BRANCH ?? DEFAULT_BRANCH).trim();
+  return branch || DEFAULT_BRANCH;
+}
+
+function encodePath(filePath: string): string {
+  return encodeURIComponent(filePath).replace(/%2F/g, '/');
+}
+
 const REPO_DIR = (() => {
-  const candidates = ['/workspaces/Elevate-lms', '/app', process.cwd()];
-  return candidates.find(p => existsSync(`${p}/.git`)) ?? null;
+  const candidates = [process.env.WORKDIR, '/repo', '/workspaces/Elevate-lms', '/app', process.cwd()].filter(Boolean) as string[];
+  return candidates.find((p) => existsSync(`${p}/.git`)) ?? null;
 })();
 const HAS_GIT = REPO_DIR !== null;
 
-// ── Local git helper ──────────────────────────────────────────────────────────
-
 function git(cmd: string, opts?: { timeout?: number }): string {
-  if (!HAS_GIT) throw new Error('No local .git — ECS mode uses GitHub API');
+  if (!HAS_GIT) throw new Error('No local .git - ECS mode uses GitHub API or studio-shell');
   const token = process.env.GITHUB_TOKEN ?? '';
   const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0', GIT_ASKPASS: 'echo' };
   if (token) {
@@ -59,24 +56,21 @@ function git(cmd: string, opts?: { timeout?: number }): string {
   return execSync(`git -C ${REPO_DIR} ${cmd}`, { timeout: opts?.timeout ?? 15000, encoding: 'utf8', env }).trim();
 }
 
-// ── GitHub API helper (ECS fallback) ─────────────────────────────────────────
-
 async function ghFetch(path: string, opts?: RequestInit) {
   const token = process.env.GITHUB_TOKEN ?? '';
   const res = await fetch(`${GH_API}${path}`, {
     ...opts,
+    cache: 'no-store',
     headers: {
       Accept: 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(opts?.headers as Record<string, string> ?? {}),
+      ...((opts?.headers as Record<string, string>) ?? {}),
     },
   });
   if (!res.ok) throw new Error(`GitHub API ${res.status}: ${(await res.text()).slice(0, 200)}`);
   return res.json();
 }
-
-// ── GET ───────────────────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
   await hydrateProcessEnv();
@@ -86,44 +80,43 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const action = request.nextUrl.searchParams.get('action') ?? 'status';
-  const file   = request.nextUrl.searchParams.get('file') ?? '';
+  const file = request.nextUrl.searchParams.get('file') ?? '';
+  const repo = getRepo();
+  const branchRef = getBranch();
 
   try {
     if (action === 'status') {
       if (HAS_GIT) {
-        const branch  = git('rev-parse --abbrev-ref HEAD');
-        const status  = git('status --porcelain');
-        const ahead   = (() => { try { return git('rev-list --count @{u}..HEAD'); } catch { return '0'; } })();
-        const behind  = (() => { try { return git('rev-list --count HEAD..@{u}'); } catch { return '0'; } })();
-        const log     = git('log --oneline -10 --pretty=format:"%h|%s|%an|%ar"');
+        const branch = git('rev-parse --abbrev-ref HEAD');
+        const status = git('status --porcelain');
+        const ahead = (() => { try { return git('rev-list --count @{u}..HEAD'); } catch { return '0'; } })();
+        const behind = (() => { try { return git('rev-list --count HEAD..@{u}'); } catch { return '0'; } })();
+        const log = git('log --oneline -10 --pretty=format:"%h|%s|%an|%ar"');
         const changed = status.split('\n').filter(Boolean).map(line => ({ status: line.slice(0, 2).trim(), file: line.slice(3) }));
         const commits = log.split('\n').filter(Boolean).map(line => {
           const [hash, subject, author, when] = line.split('|');
           return { hash, subject, author, when };
         });
-        return NextResponse.json({ branch, changed, commits, ahead: +ahead, behind: +behind, mode: 'local' });
+        return NextResponse.json({ branch, changed, commits, ahead: +ahead, behind: +behind, mode: 'local', repo, workdir: REPO_DIR });
       }
-      // ECS: GitHub API
+
       const [branchData, commitsData] = await Promise.all([
-        ghFetch(`/repos/${REPO}/branches/main`),
-        ghFetch(`/repos/${REPO}/commits?per_page=10`),
+        ghFetch(`/repos/${repo}/branches/${encodeURIComponent(branchRef)}`),
+        ghFetch(`/repos/${repo}/commits?sha=${encodeURIComponent(branchRef)}&per_page=10`),
       ]) as [{ commit: { sha: string } }, Array<{ sha: string; commit: { message: string; author: { name: string; date: string } } }>];
-      const commits = commitsData.map(c => ({
-        hash: c.sha.slice(0, 7), subject: c.commit.message.split('\n')[0],
-        author: c.commit.author.name, when: new Date(c.commit.author.date).toLocaleString(),
-      }));
-      return NextResponse.json({ branch: 'main', changed: [], commits, ahead: 0, behind: 0, mode: 'github-api', latestCommit: branchData.commit.sha.slice(0, 7) });
+      const commits = commitsData.map(c => ({ hash: c.sha.slice(0, 7), subject: c.commit.message.split('\n')[0], author: c.commit.author.name, when: new Date(c.commit.author.date).toLocaleString() }));
+      return NextResponse.json({ branch: branchRef, changed: [], commits, ahead: 0, behind: 0, mode: 'github-api', repo, latestCommit: branchData.commit.sha.slice(0, 7) });
     }
 
     if (action === 'diff') {
       if (HAS_GIT) {
         const diff = git(`diff HEAD ${file ? `-- ${file}` : ''}`, { timeout: 10000 });
-        return NextResponse.json({ diff, mode: 'local' });
+        return NextResponse.json({ diff, mode: 'local', repo, workdir: REPO_DIR });
       }
-      if (!file) return NextResponse.json({ diff: '', note: 'Specify ?file= for diff in ECS mode', mode: 'github-api' });
-      const data = await ghFetch(`/repos/${REPO}/contents/${encodeURIComponent(file)}?ref=main`) as { content?: string };
+      if (!file) return NextResponse.json({ diff: '', note: 'Specify ?file= for diff in GitHub API mode', mode: 'github-api', repo, branch: branchRef });
+      const data = await ghFetch(`/repos/${repo}/contents/${encodePath(file)}?ref=${encodeURIComponent(branchRef)}`) as { content?: string };
       const content = data.content ? Buffer.from(data.content, 'base64').toString('utf8') : '';
-      return NextResponse.json({ diff: content, mode: 'github-api', note: 'Showing file content (no local diff in ECS)' });
+      return NextResponse.json({ diff: content, mode: 'github-api', repo, branch: branchRef, note: 'Showing file content; use the Terminal tab for local diff.' });
     }
 
     if (action === 'log') {
@@ -133,23 +126,23 @@ export async function GET(request: NextRequest) {
           const [hash, subject, author, when, refs] = line.split('|');
           return { hash, subject, author, when, refs };
         });
-        return NextResponse.json({ commits, mode: 'local' });
+        return NextResponse.json({ commits, mode: 'local', repo, workdir: REPO_DIR });
       }
-      const data = await ghFetch(`/repos/${REPO}/commits?per_page=30`) as Array<{ sha: string; commit: { message: string; author: { name: string; date: string } } }>;
+      const data = await ghFetch(`/repos/${repo}/commits?sha=${encodeURIComponent(branchRef)}&per_page=30`) as Array<{ sha: string; commit: { message: string; author: { name: string; date: string } } }>;
       const commits = data.map(c => ({ hash: c.sha.slice(0, 7), subject: c.commit.message.split('\n')[0], author: c.commit.author.name, when: new Date(c.commit.author.date).toLocaleString(), refs: '' }));
-      return NextResponse.json({ commits, mode: 'github-api' });
+      return NextResponse.json({ commits, mode: 'github-api', repo, branch: branchRef });
     }
 
     if (action === 'branches') {
       if (HAS_GIT) {
-        const local   = git('branch --format="%(refname:short)"').split('\n').filter(Boolean);
-        const remote  = (() => { try { return git('branch -r --format="%(refname:short)"').split('\n').filter(Boolean); } catch { return []; } })();
+        const local = git('branch --format="%(refname:short)"').split('\n').filter(Boolean);
+        const remote = (() => { try { return git('branch -r --format="%(refname:short)"').split('\n').filter(Boolean); } catch { return []; } })();
         const current = git('rev-parse --abbrev-ref HEAD');
-        return NextResponse.json({ local, remote, current, mode: 'local' });
+        return NextResponse.json({ local, remote, current, mode: 'local', repo, workdir: REPO_DIR });
       }
-      const data = await ghFetch(`/repos/${REPO}/branches?per_page=50`) as Array<{ name: string }>;
+      const data = await ghFetch(`/repos/${repo}/branches?per_page=50`) as Array<{ name: string }>;
       const branches = data.map(b => b.name);
-      return NextResponse.json({ local: branches, remote: branches.map(b => `origin/${b}`), current: 'main', mode: 'github-api' });
+      return NextResponse.json({ local: branches, remote: branches.map(b => `origin/${b}`), current: branchRef, mode: 'github-api', repo });
     }
 
     return safeError(`Unknown action: ${action}`, 400);
@@ -159,8 +152,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// ── POST ──────────────────────────────────────────────────────────────────────
-
 export async function POST(request: NextRequest) {
   await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -168,117 +159,84 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string; path?: string; content?: string };
+  let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string; path?: string; content?: string; sha?: string };
   try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
 
   const { action } = body;
+  const repo = getRepo();
+  const branchRef = getBranch();
 
-  // ECS: no local git — single-file commits via GitHub API; everything else needs shell
   if (!HAS_GIT) {
     if (action === 'commit') {
       const { path: filePath, content, message } = body;
-      if (!filePath || !content || !message) return safeError('path, content, and message required in ECS mode', 400);
-      const current = await ghFetch(`/repos/${REPO}/contents/${encodeURIComponent(filePath)}?ref=main`) as { sha: string };
+      if (!filePath || !content || !message) return safeError('path, content, and message required in GitHub API mode', 400);
+      const current = await ghFetch(`/repos/${repo}/contents/${encodePath(filePath)}?ref=${encodeURIComponent(branchRef)}`) as { sha: string };
       const token = process.env.GITHUB_TOKEN ?? '';
-      const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodeURIComponent(filePath)}`, {
+      const res = await fetch(`${GH_API}/repos/${repo}/contents/${encodePath(filePath)}`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
-        body: JSON.stringify({ message, content: Buffer.from(content).toString('base64'), sha: current.sha, branch: 'main' }),
+        body: JSON.stringify({ message, content: Buffer.from(content).toString('base64'), sha: body.sha ?? current.sha, branch: branchRef }),
       });
       if (!res.ok) return safeError(`GitHub commit failed: ${res.status}`, 502);
       const data = await res.json() as { commit: { sha: string } };
-      return NextResponse.json({ ok: true, hash: data.commit.sha.slice(0, 7), mode: 'github-api' });
+      return NextResponse.json({ ok: true, hash: data.commit.sha.slice(0, 7), mode: 'github-api', repo, branch: branchRef });
     }
-    return NextResponse.json({
-      ok: false,
-      error: `"${action}" requires local git. Use the Terminal tab (studio-shell) to run git commands in ECS.`,
-      mode: 'github-api',
-    }, { status: 422 });
+    return NextResponse.json({ ok: false, error: `"${action}" requires local git. Use the Terminal tab (studio-shell) in /repo for full-repo git commands.`, mode: 'github-api', repo, branch: branchRef }, { status: 422 });
   }
 
   try {
     if (action === 'commit') {
       const msg = (body.message ?? '').trim();
       if (!msg) return safeError('commit message required', 400);
-
-      // Stage specified files or all changes
       if (body.files?.length) {
-        for (const f of body.files) {
-          git(`add -- ${f}`);
-        }
+        for (const f of body.files) git(`add -- ${f}`);
       } else {
         git('add -A');
       }
-
-      // Check if there's anything to commit
       const staged = git('diff --cached --name-only');
-      if (!staged.trim()) {
-        return NextResponse.json({ ok: false, message: 'Nothing to commit — working tree clean' });
-      }
-
+      if (!staged.trim()) return NextResponse.json({ ok: false, message: 'Nothing to commit - working tree clean', repo, workdir: REPO_DIR });
       git(`commit -m ${JSON.stringify(msg)} --author="Admin Studio <admin@${PLATFORM_DEFAULTS.canonicalDomain}>"`);
       const hash = git('rev-parse --short HEAD');
-      return NextResponse.json({ ok: true, hash, message: msg });
+      return NextResponse.json({ ok: true, hash, message: msg, repo, workdir: REPO_DIR });
     }
 
     if (action === 'push') {
       const branch = git('rev-parse --abbrev-ref HEAD');
-
-      // Block direct push to main/master — production deploys go through
-      // GitHub Actions on PR merge, not browser-triggered git push.
       if (branch === 'main' || branch === 'master') {
-        return NextResponse.json({
-          ok: false,
-          error: `Direct push to "${branch}" is blocked. Create a feature branch, then open a PR to merge.`,
-          blocked: true,
-        }, { status: 403 });
+        return NextResponse.json({ ok: false, error: `Direct push to "${branch}" is blocked. Create a feature branch, then open a PR to merge.`, blocked: true }, { status: 403 });
       }
-
-      // Require typed confirmation for all pushes — prevents accidental or
-      // AI-triggered pushes without explicit human intent.
       const confirm = requireTypedConfirmation(body.confirmation, 'git_push');
       if (!confirm.ok) {
-        return NextResponse.json(
-          { ok: false, error: `Type "${confirm.required}" to confirm push to ${branch}`, requiresConfirmation: true, required: confirm.required },
-          { status: 422 },
-        );
+        return NextResponse.json({ ok: false, error: `Type "${confirm.required}" to confirm push to ${branch}`, requiresConfirmation: true, required: confirm.required }, { status: 422 });
       }
-
       const ghToken = process.env.GITHUB_TOKEN ?? '';
       if (ghToken) {
-        try {
-          git(`remote set-url origin https://${ghToken}@github.com/elevate-for-humanity/Elevate-lms.git`);
-        } catch { /* non-fatal */ }
+        try { git(`remote set-url origin https://${ghToken}@github.com/${repo}.git`); } catch { /* non-fatal */ }
       }
       const out = git(`push origin ${branch}`, { timeout: 30000 });
-      return NextResponse.json({ ok: true, branch, output: out });
+      return NextResponse.json({ ok: true, branch, output: out, repo, workdir: REPO_DIR });
     }
 
     if (action === 'pull') {
       const out = git('pull --rebase', { timeout: 30000 });
-      return NextResponse.json({ ok: true, output: out });
+      return NextResponse.json({ ok: true, output: out, repo, workdir: REPO_DIR });
     }
 
     if (action === 'checkout') {
       const branch = (body.branch ?? '').trim();
       if (!branch) return safeError('branch name required', 400);
-      // Create if doesn't exist
-      try {
-        git(`checkout ${branch}`);
-      } catch {
-        git(`checkout -b ${branch}`);
-      }
-      return NextResponse.json({ ok: true, branch });
+      try { git(`checkout ${branch}`); } catch { git(`checkout -b ${branch}`); }
+      return NextResponse.json({ ok: true, branch, repo, workdir: REPO_DIR });
     }
 
     if (action === 'stash') {
       git('stash');
-      return NextResponse.json({ ok: true });
+      return NextResponse.json({ ok: true, repo, workdir: REPO_DIR });
     }
 
     if (action === 'stash-pop') {
       git('stash pop');
-      return NextResponse.json({ ok: true });
+      return NextResponse.json({ ok: true, repo, workdir: REPO_DIR });
     }
 
     return safeError(`Unknown action: ${action}`, 400);
