@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Job Postings | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Job Postings | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Manage job postings and employer partnerships',
 };
 

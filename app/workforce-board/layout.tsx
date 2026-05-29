@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Workforce Board | {PLATFORM_DEFAULTS.orgName}',
+    default: `Workforce Board | ${PLATFORM_DEFAULTS.orgName}`,
     template: '%s | Workforce Board',
   },
   description: 'Workforce board dashboard and reporting.',

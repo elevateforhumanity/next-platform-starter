@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'SEO & Indexing Governance | {PLATFORM_DEFAULTS.orgName}',
+  title: `SEO & Indexing Governance | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'How search engine indexing is controlled and enforced to protect platform credibility and prevent accidental exposure.',
   robots: {

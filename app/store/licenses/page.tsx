@@ -20,9 +20,9 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Platform Licenses | {PLATFORM_DEFAULTS.orgName} Store',
+  title: `Platform Licenses | ${PLATFORM_DEFAULTS.orgName} Store`,
   description:
-    'License the complete {PLATFORM_DEFAULTS.orgName} workforce training platform. White-label solutions for schools, training providers, and workforce agencies.',
+    `License the complete ${PLATFORM_DEFAULTS.orgName} workforce training platform. White-label solutions for schools, training providers, and workforce agencies.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/licenses',
   },

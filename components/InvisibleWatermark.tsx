@@ -25,7 +25,7 @@ interface WatermarkProps {
   timestamp?: string;
 }
 export function InvisibleWatermark({
-  owner = 'Elizabeth L. Greene / {PLATFORM_DEFAULTS.orgName}',
+  owner = `Elizabeth L. Greene / ${PLATFORM_DEFAULTS.orgName}`,
   siteId = 'EFH-ORIGINAL-2024',
   timestamp,
 }: WatermarkProps) {

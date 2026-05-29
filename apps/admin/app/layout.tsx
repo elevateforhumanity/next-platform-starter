@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     default: 'Elevate Admin',
     template: '%s | Elevate Admin',
   },
-  description: '{PLATFORM_DEFAULTS.orgName} — Admin Portal',
+  description: `${PLATFORM_DEFAULTS.orgName} — Admin Portal`,
   robots: { index: false, follow: false },
   icons: {
     icon: '/favicon.ico',

@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: SITE_URL,
     siteName: PLATFORM_DEFAULTS.orgName,
-    title: '{PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
+    title: `${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants`,
     description:
       'Learn job-ready skills through career training programs in healthcare, skilled trades, CDL, and technology. Training at no cost to eligible Indiana residents through WIOA and state funding.',
     images: [
@@ -90,14 +90,14 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: '{PLATFORM_DEFAULTS.orgName} — workforce training programs in Indianapolis',
+        alt: `${PLATFORM_DEFAULTS.orgName} — workforce training programs in Indianapolis`,
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: '{PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
+    title: `${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants`,
     description:
       'Learn job-ready skills through career training programs in healthcare, skilled trades, CDL, and technology. Training at no cost to eligible Indiana residents through WIOA and state funding.',
     images: ['/images/og-image.jpg'],

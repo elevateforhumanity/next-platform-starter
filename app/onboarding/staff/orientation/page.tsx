@@ -36,7 +36,7 @@ const SECTIONS = [
   },
   {
     title: 'Getting help',
-    body: 'Your supervisor is your first point of contact for operational questions. For HR or payroll questions, contact hr@elevateforhumanity.org. For technical issues, use the staff help desk. For compliance questions, contact compliance@elevateforhumanity.org. For urgent matters, call {PLATFORM_DEFAULTS.supportPhone}.',
+    body: `Your supervisor is your first point of contact for operational questions. For HR or payroll questions, contact hr@elevateforhumanity.org. For technical issues, use the staff help desk. For compliance questions, contact compliance@elevateforhumanity.org. For urgent matters, call ${PLATFORM_DEFAULTS.supportPhone}.`,
   },
 ];
 

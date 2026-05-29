@@ -22,7 +22,7 @@ import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TOTAL_HOURS_REQUIRED } f
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Welcome to Your Cosmetology Apprenticeship | {PLATFORM_DEFAULTS.orgName}',
+  title: `Welcome to Your Cosmetology Apprenticeship | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'Your orientation guide for the Elevate cosmetology apprenticeship program. Everything you need to start your first week.',
   robots: { index: false, follow: false },

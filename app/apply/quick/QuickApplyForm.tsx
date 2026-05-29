@@ -34,13 +34,13 @@ export default function QuickApplyForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        setError(data.error || `Something went wrong. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         return;
       }
 
       router.push('/apply/confirmation');
     } catch {
-      setError('Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Something went wrong. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setSubmitting(false);
     }

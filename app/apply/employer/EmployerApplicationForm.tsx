@@ -53,7 +53,7 @@ export default function EmployerApplicationForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      setError(result.error ?? 'Something went wrong. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(result.error ?? `Something went wrong. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
     }
   }

@@ -22,7 +22,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Instructional Delivery Framework',
   description:
-    'Official instructional architecture for {PLATFORM_DEFAULTS.orgName}. RTI delivery, OJT structure, provider tiers, competency tracking, and LMS documentation for registered apprenticeship and workforce training programs.',
+    `Official instructional architecture for ${PLATFORM_DEFAULTS.orgName}. RTI delivery, OJT structure, provider tiers, competency tracking, and LMS documentation for registered apprenticeship and workforce training programs.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/instructional-framework',
   },
@@ -330,7 +330,7 @@ export default function InstructionalFrameworkPage() {
             {[
               {
                 role: 'Sponsor (Oversight & Compliance)',
-                entity: '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)',
+                entity: `2Exclusive LLC-S (DBA ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute)`,
                 detail:
                   'Curriculum standards, enrollment, funding navigation, progress tracking, credential verification, RAPIDS registration, ETPL compliance, institutional accountability',
               },
@@ -714,7 +714,7 @@ export default function InstructionalFrameworkPage() {
               },
               {
                 type: 'Certificate of Completion',
-                issuer: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+                issuer: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                 color: 'bg-brand-green-50 border-brand-green-200',
                 examples:
                   'Program completion certificates, module completion records, workforce readiness certificates, RTI hour documentation',

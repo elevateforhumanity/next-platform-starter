@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 const MASTER_STATEMENT =
-  'All platform products are licensed access to systems operated by {PLATFORM_DEFAULTS.orgName}. Ownership of software, infrastructure, and intellectual property is not transferred.';
+  `All platform products are licensed access to systems operated by ${PLATFORM_DEFAULTS.orgName}. Ownership of software, infrastructure, and intellectual property is not transferred.`;
 
 const STEPS = [
   {

@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Apply — Nail Technician Apprenticeship',
   description:
-    'Apply to the {PLATFORM_DEFAULTS.orgName} DOL-registered nail technician apprenticeship — as an apprentice or as a partner nail salon.',
+    `Apply to the ${PLATFORM_DEFAULTS.orgName} DOL-registered nail technician apprenticeship — as an apprentice or as a partner nail salon.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/nail-technician-apprenticeship/apply' },
 };
 

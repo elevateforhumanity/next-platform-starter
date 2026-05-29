@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Tuition & Fees',
   description:
-    'Complete tuition and fee schedule for all programs at {PLATFORM_DEFAULTS.orgName}. Transparent pricing with no hidden costs.',
+    `Complete tuition and fee schedule for all programs at ${PLATFORM_DEFAULTS.orgName}. Transparent pricing with no hidden costs.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/tuition-fees',
   },

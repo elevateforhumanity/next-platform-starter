@@ -1252,9 +1252,31 @@ const nextConfig = {
           { key: 'X-Build-ID', value: process.env.COMMIT_REF?.slice(0, 7) || 'dev' },
         ],
       },
-      // 1) Never allow HTML / app routes to be cached for a year
+      // 1a) Public marketing pages — short CDN cache (60s) with stale-while-revalidate.
+      //     These pages have no auth, no user-specific data, and change only on deploy.
+      //     ALB/CloudFront will serve stale for up to 5 min while revalidating in background.
       {
-        source: '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|studio).*)',
+        source: '/(|about|about/mission|about/team|about/partners|blog|careers|contact|credentials|dmca|donate|eligibility|faq|for-employers|for-students|how-it-works|jri|news|partners|press|resources|scholarships|services|site-map|training|transparency|tuition|verify|workkeys|mobile-app|install-app|career-training-indiana|certification-testing|check-eligibility|call-now|career-assessment|career-counseling|workforce-training-indianapolis|healthcare-training-indianapolis|skilled-trades-training-indiana|it-certification-training-indianapolis|employer-workforce-partnerships-indiana|agency-referral-workforce-training-indiana|wioa-eligibility)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=60, stale-while-revalidate=300' },
+          { key: 'X-Build-ID', value: process.env.COMMIT_REF?.slice(0, 7) || 'dev' },
+          { key: 'X-Deployment-ID', value: process.env.DEPLOY_ID || 'local' },
+          ...securityHeaders,
+        ],
+      },
+      // 1b) Program landing pages — same short cache
+      {
+        source: '/programs/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=60, stale-while-revalidate=300' },
+          { key: 'X-Build-ID', value: process.env.COMMIT_REF?.slice(0, 7) || 'dev' },
+          { key: 'X-Deployment-ID', value: process.env.DEPLOY_ID || 'local' },
+          ...securityHeaders,
+        ],
+      },
+      // 1c) All other app routes — no-store (auth pages, portals, API, LMS)
+      {
+        source: '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|studio|programs).*)',
         headers: [
           { key: 'Cache-Control', value: 'no-store, max-age=0' },
           { key: 'Pragma', value: 'no-cache' },

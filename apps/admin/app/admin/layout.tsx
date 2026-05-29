@@ -30,7 +30,7 @@ export const runtime = 'nodejs';
 export const metadata: Metadata = {
   title: 'Admin Portal - Manage Programs & Operations',
   description:
-    'Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for {PLATFORM_DEFAULTS.orgName}.',
+    `Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for ${PLATFORM_DEFAULTS.orgName}.`,
   keywords: [
     'admin portal',
     'program management',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
   manifest: '/admin/manifest.webmanifest',
   openGraph: {
-    title: 'Admin Portal | {PLATFORM_DEFAULTS.orgName}',
+    title: `Admin Portal | ${PLATFORM_DEFAULTS.orgName}`,
     description: 'Manage programs, students, certificates, and workforce development operations.',
     images: ['/images/pages/comp-home-highlight-health.jpg'],
     type: 'website',

@@ -17,7 +17,7 @@ const contactInfo = [
     title: 'Phone',
     value: PLATFORM_DEFAULTS.supportPhone,
     subtitle: 'Mon-Fri 8am-6pm EST',
-    href: 'tel:{PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}',
+    href: `tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g,"")}`,
   },
   {
     icon: Mail,
@@ -348,7 +348,7 @@ function ContactPageInner() {
 
                     window.open(calUrl, '_blank');
                   } catch {
-                    alert('Failed to schedule meeting. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+                    alert(`Failed to schedule meeting. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
                   }
                 }}
                 className="space-y-4"
@@ -509,7 +509,7 @@ function ContactPageInner() {
             },
             {
               q: 'How quickly will I get a response?',
-              a: 'We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at {PLATFORM_DEFAULTS.supportPhone}.',
+              a: `We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at ${PLATFORM_DEFAULTS.supportPhone}.`,
             },
             {
               q: 'Can I visit your office in person?',

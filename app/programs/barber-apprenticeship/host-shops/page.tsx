@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Become a Host Barbershop | Barber Apprenticeship',
-  description: 'Partner with {PLATFORM_DEFAULTS.orgName} as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.',
+  description: `Partner with ${PLATFORM_DEFAULTS.orgName} as a host barbershop for our USDOL Registered Barber Apprenticeship program. Train the next generation of barbers.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/host-shops',
   },

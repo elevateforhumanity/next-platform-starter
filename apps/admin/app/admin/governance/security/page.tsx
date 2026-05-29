@@ -10,8 +10,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Security & Data Protection Statement | {PLATFORM_DEFAULTS.orgName}',
-  description: 'How 2Exclusive LLC-S (d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute) protects personal, educational, and operational data.',
+  title: `Security & Data Protection Statement | ${PLATFORM_DEFAULTS.orgName}`,
+  description: `How 2Exclusive LLC-S (d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute) protects personal, educational, and operational data.`,
   robots: {
     index: false,
     follow: false,

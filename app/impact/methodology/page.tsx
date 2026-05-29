@@ -6,9 +6,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Impact Methodology | {PLATFORM_DEFAULTS.orgName}',
+  title: `Impact Methodology | ${PLATFORM_DEFAULTS.orgName}`,
   description:
-    'How {PLATFORM_DEFAULTS.orgName} defines, measures, and reports workforce outcomes — enrollment, completion, credential attainment, and employment placement.',
+    `How ${PLATFORM_DEFAULTS.orgName} defines, measures, and reports workforce outcomes — enrollment, completion, credential attainment, and employment placement.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/impact/methodology' },
 };
 

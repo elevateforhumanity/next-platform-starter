@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Suboffice Onboarding | Partner with {PLATFORM_DEFAULTS.orgName}',
+  title: `Suboffice Onboarding | Partner with ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'Open a tax preparation suboffice. Complete onboarding, upload PTIN/EFIN, pass compliance test, and start earning revenue share.',
   alternates: {

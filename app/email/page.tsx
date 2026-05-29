@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/email',
   },
   title: 'Email',
-  description: 'Manage your {PLATFORM_DEFAULTS.orgName} inbox — program updates, instructor messages, and credential notifications.',
+  description: `Manage your ${PLATFORM_DEFAULTS.orgName} inbox — program updates, instructor messages, and credential notifications.`,
 };
 
 export default async function EmailPage() {

@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Our Team',
   description:
-    'Meet the educators, workforce specialists, and community advocates behind {PLATFORM_DEFAULTS.orgName}.',
+    `Meet the educators, workforce specialists, and community advocates behind ${PLATFORM_DEFAULTS.orgName}.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/team' },
 };
 

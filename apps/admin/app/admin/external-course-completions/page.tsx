@@ -8,7 +8,7 @@ import CompletionApprovalCard from './CompletionApprovalCard';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'External Course Approvals | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `External Course Approvals | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 export const dynamic = 'force-dynamic';

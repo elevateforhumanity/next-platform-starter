@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Carl Brown | Our Team',
-  description: 'Carl Brown — CDL Instructor & Commercial Truck Driver at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Carl Brown — CDL Instructor & Commercial Truck Driver at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

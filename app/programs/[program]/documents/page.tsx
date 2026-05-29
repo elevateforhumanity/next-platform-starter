@@ -95,7 +95,7 @@ export default function BeautyDocumentsPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setSubmitError(data.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        setSubmitError(data.error || `Submission failed. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         setSubmitting(false);
         return;
       }

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/careers',
   },
   openGraph: {
-    title: 'Careers at {PLATFORM_DEFAULTS.orgName}',
+    title: `Careers at ${PLATFORM_DEFAULTS.orgName}`,
     description:
       'Join our mission to provide career training at no cost to eligible participants and workforce development.',
     url: 'https://www.elevateforhumanity.org/careers',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Careers at {PLATFORM_DEFAULTS.orgName}',
+    title: `Careers at ${PLATFORM_DEFAULTS.orgName}`,
     description: 'Join our mission to provide career training at no cost to eligible participants.',
     images: ['/og-default.webp'],
   },

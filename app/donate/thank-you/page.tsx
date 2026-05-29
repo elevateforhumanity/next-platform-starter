@@ -5,7 +5,7 @@ import { ConversionPixel } from '@/components/analytics/ConversionPixel';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Thank You for Your Donation | Sit Selfish Inc × {PLATFORM_DEFAULTS.orgName}',
+  title: `Thank You for Your Donation | Sit Selfish Inc × ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Your gift is making a difference in the lives of workforce training participants.',
   robots: { index: false, follow: false },
 };

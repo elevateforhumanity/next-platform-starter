@@ -54,7 +54,7 @@ export default function ResumeBuildingPage() {
         },
         cta: {
           heading: 'Get Your Resume Built',
-          subtitle: 'Free for all enrolled students and graduates. Call {PLATFORM_DEFAULTS.supportPhone} to get started.',
+          subtitle: `Free for all enrolled students and graduates. Call ${PLATFORM_DEFAULTS.supportPhone} to get started.`,
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',

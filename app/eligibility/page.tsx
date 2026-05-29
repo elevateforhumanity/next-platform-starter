@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Eligibility | Funded Career Training',
   description:
-    'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at {PLATFORM_DEFAULTS.orgName}. Most participants qualify for no-cost training.',
+    `Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at ${PLATFORM_DEFAULTS.orgName}. Most participants qualify for no-cost training.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/eligibility' },
 };
 

@@ -48,7 +48,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     href: '/profile/edit',
     icon: User,
     image: '/images/pages/career-services-page-2.jpg',
-    imageAlt: 'Student completing profile at {PLATFORM_DEFAULTS.orgName}',
+    imageAlt: `Student completing profile at ${PLATFORM_DEFAULTS.orgName}`,
     required: true,
   },
   {

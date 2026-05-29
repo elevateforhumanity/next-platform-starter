@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Access Requests | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `FERPA Access Requests | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 async function getAccessRequests() {

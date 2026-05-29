@@ -13,7 +13,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Locations',
   description:
-    'Visit {PLATFORM_DEFAULTS.orgName} at our Indianapolis locations. Find directions, hours, and contact information.',
+    `Visit ${PLATFORM_DEFAULTS.orgName} at our Indianapolis locations. Find directions, hours, and contact information.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/locations',
   },

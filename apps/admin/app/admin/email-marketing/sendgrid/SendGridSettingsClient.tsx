@@ -36,7 +36,7 @@ interface Props {
 
 export default function SendGridSettingsClient({ config, stats }: Props) {
   const [testTo, setTestTo] = useState('elevate4humanityedu@gmail.com');
-  const [testSubject, setTestSubject] = useState('SendGrid Test — {PLATFORM_DEFAULTS.orgName}');
+  const [testSubject, setTestSubject] = useState(`SendGrid Test — ${PLATFORM_DEFAULTS.orgName}`);
   const [sending, setSending] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
 

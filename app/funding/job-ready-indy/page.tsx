@@ -10,7 +10,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Job Ready Indy',
   description:
-    'Job Ready Indy is an Indianapolis workforce initiative connecting residents to funded career training, credentials, and employment. {PLATFORM_DEFAULTS.orgName} is an approved Job Ready Indy training provider.',
+    `Job Ready Indy is an Indianapolis workforce initiative connecting residents to funded career training, credentials, and employment. ${PLATFORM_DEFAULTS.orgName} is an approved Job Ready Indy training provider.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding/job-ready-indy' },
 };
 
@@ -131,8 +131,8 @@ export default function JobReadyIndyPage() {
             {[
               {
                 step: '1',
-                title: 'Contact {PLATFORM_DEFAULTS.orgName}',
-                desc: 'Call {PLATFORM_DEFAULTS.supportPhone} or apply online. Our enrollment team will confirm your eligibility and match you to the right program.',
+                title: `Contact ${PLATFORM_DEFAULTS.orgName}`,
+                desc: `Call ${PLATFORM_DEFAULTS.supportPhone} or apply online. Our enrollment team will confirm your eligibility and match you to the right program.`,
               },
               {
                 step: '2',

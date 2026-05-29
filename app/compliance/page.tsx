@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Compliance & Credentials',
   description:
-    'Compliance posture, credential disclosure, and program-to-credential mapping for {PLATFORM_DEFAULTS.orgName} workforce programs.',
+    `Compliance posture, credential disclosure, and program-to-credential mapping for ${PLATFORM_DEFAULTS.orgName} workforce programs.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/compliance',
   },

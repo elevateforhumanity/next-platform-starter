@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Payment Successful',
-  description: 'Your payment was successful. Welcome to {PLATFORM_DEFAULTS.orgName}!',
+  description: `Your payment was successful. Welcome to ${PLATFORM_DEFAULTS.orgName}!`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/payment/success',
   },

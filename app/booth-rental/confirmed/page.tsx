@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CheckCircle, Phone, Mail, Calendar } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-export const metadata = { title: 'Rental Confirmed — {PLATFORM_DEFAULTS.orgName}' };
+export const metadata = { title: `Rental Confirmed — ${PLATFORM_DEFAULTS.orgName}` };
 
 export default function BoothRentalConfirmedPage() {
   return (

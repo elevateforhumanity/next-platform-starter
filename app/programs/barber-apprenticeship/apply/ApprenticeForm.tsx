@@ -202,7 +202,7 @@ export default function ApprenticeForm({
           setError(
             isBotError
               ? 'Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call ${PLATFORM_DEFAULTS.supportPhone}.'
-              : apiError || 'Failed to save your application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.',
+              : apiError || `Failed to save your application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`,
           );
           setErrorSeverity('critical');
           setLoading(false);

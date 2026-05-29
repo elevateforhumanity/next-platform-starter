@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/share' },
   title: 'Share Elevate',
   description:
-    'Help someone you know access career training at no cost. Share {PLATFORM_DEFAULTS.orgName} with friends, family, or community members.',
+    `Help someone you know access career training at no cost. Share ${PLATFORM_DEFAULTS.orgName} with friends, family, or community members.`,
 };
 
 const SHARE_OPTIONS = [
@@ -32,7 +32,7 @@ const SHARE_OPTIONS = [
     title: 'Email Our Programs Page',
     desc: 'Send a direct link to our programs page so someone can browse available training options.',
     icon: Mail,
-    href: 'mailto:?subject=Check out {PLATFORM_DEFAULTS.orgName}&body=I thought you might be interested in free career training programs: https://www.elevateforhumanity.org/programs',
+    href: `mailto:?subject=Check out ${PLATFORM_DEFAULTS.orgName}&body=I thought you might be interested in free career training programs: https://www.elevateforhumanity.org/programs`,
     cta: 'Send via Email',
   },
 ];

@@ -423,7 +423,7 @@ export default function NextStepsPage({ programs = [] }: { programs?: Program[] 
 
           <ChecklistRow
             checked={!!data.told_advisor_efh}
-            title='Step 4: Tell the advisor: "I&apos;m here for {PLATFORM_DEFAULTS.orgName}."'
+            title={`Step 4: Tell the advisor: "I'm here for ${PLATFORM_DEFAULTS.orgName}."`}
             note="This connects your appointment to the right training pathway."
             onChange={(v) => patch({ told_advisor_efh: v })}
           />

@@ -7,9 +7,9 @@ import { AlertCircle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Disclosures | {PLATFORM_DEFAULTS.orgName}',
+  title: `Disclosures | ${PLATFORM_DEFAULTS.orgName}`,
   description:
-    'Important disclosures and disclaimers for users of the {PLATFORM_DEFAULTS.orgName} platform.',
+    `Important disclosures and disclaimers for users of the ${PLATFORM_DEFAULTS.orgName} platform.`,
 };
 
 

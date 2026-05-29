@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Tuition & Fees',
   description:
-    'Tuition rates, payment options, and funding eligibility for {PLATFORM_DEFAULTS.orgName} career training programs. Many programs are fully funded for eligible Indiana residents.',
+    `Tuition rates, payment options, and funding eligibility for ${PLATFORM_DEFAULTS.orgName} career training programs. Many programs are fully funded for eligible Indiana residents.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/tuition' },
 };
 

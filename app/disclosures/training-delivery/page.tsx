@@ -9,9 +9,9 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
 export const metadata: Metadata = {
-  title: 'Training Delivery Model Disclosure | {PLATFORM_DEFAULTS.orgName}',
+  title: `Training Delivery Model Disclosure | ${PLATFORM_DEFAULTS.orgName}`,
   description:
-    'How {PLATFORM_DEFAULTS.orgName} delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
+    `How ${PLATFORM_DEFAULTS.orgName} delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.`,
   alternates: { canonical: `${SITE_URL}/disclosures/training-delivery` },
 };
 

@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Clystjah Woodley | Our Team',
-  description: 'Clystjah Woodley — Program Coordinator at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Clystjah Woodley — Program Coordinator at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

@@ -4,7 +4,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Login',
   description:
-    'Sign in to your {PLATFORM_DEFAULTS.orgName} account to access your training programs and career services.',
+    `Sign in to your ${PLATFORM_DEFAULTS.orgName} account to access your training programs and career services.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/login',
   },

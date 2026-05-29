@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/accessibility',
   },
   title: 'Accessibility Statement',
-  description: 'Accessibility commitment and support for {PLATFORM_DEFAULTS.orgName} services.',
+  description: `Accessibility commitment and support for ${PLATFORM_DEFAULTS.orgName} services.`,
 };
 
 export default function AccessibilityPage() {

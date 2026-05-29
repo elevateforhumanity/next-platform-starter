@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: 'Partners',
   description:
-    'Partner with {PLATFORM_DEFAULTS.orgName}. Workforce agencies, employers, training providers, barbershops, reentry organizations, and community partners.',
+    `Partner with ${PLATFORM_DEFAULTS.orgName}. Workforce agencies, employers, training providers, barbershops, reentry organizations, and community partners.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners' },
 };
 
@@ -200,7 +200,7 @@ export default function PartnersIndexPage() {
               {
                 step: '3',
                 heading: 'Apply or call us',
-                body: 'Click the application button for your type, or call {PLATFORM_DEFAULTS.supportPhone} to talk first.',
+                body: `Click the application button for your type, or call ${PLATFORM_DEFAULTS.supportPhone} to talk first.`,
               },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center gap-2">

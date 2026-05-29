@@ -7,7 +7,7 @@ import MesmerizedApplyForm from './MesmerizedApplyForm';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Mesmerized by Beauty Cosmetology Academy | {PLATFORM_DEFAULTS.orgName}',
+  title: `Mesmerized by Beauty Cosmetology Academy | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Apply to Cosmetology, Esthetician, or Nail Technician apprenticeship programs at Mesmerized by Beauty Cosmetology Academy in Indianapolis, IN. WIOA funding available.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/schools/mesmerized-by-beauty' },
   robots: { index: true, follow: true },

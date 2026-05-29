@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Compliance & Disclosure Framework | Governance | {PLATFORM_DEFAULTS.orgName}',
+  title: `Compliance & Disclosure Framework | Governance | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'How legal, financial, and eligibility disclosures are presented and how compliance alignment is maintained across the platform.',
   robots: {

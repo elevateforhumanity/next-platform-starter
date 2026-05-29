@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Attendance Policy',
   description:
-    'Attendance requirements for hybrid programs at {PLATFORM_DEFAULTS.orgName}. Understand expectations for online and in-person components.',
+    `Attendance requirements for hybrid programs at ${PLATFORM_DEFAULTS.orgName}. Understand expectations for online and in-person components.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/attendance-policy',
   },

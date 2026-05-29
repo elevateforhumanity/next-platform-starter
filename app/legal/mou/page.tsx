@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Memorandum of Understanding',
-  description: 'Memorandum of Understanding for {PLATFORM_DEFAULTS.orgName} partnerships.',
+  description: `Memorandum of Understanding for ${PLATFORM_DEFAULTS.orgName} partnerships.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/legal/mou',
   },

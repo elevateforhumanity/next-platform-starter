@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Submissions OS | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Submissions OS | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'External Submissions Operating System — grants, contracts, bids, vendor registrations.',
 };

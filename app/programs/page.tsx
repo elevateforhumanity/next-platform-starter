@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
 
 export const metadata: Metadata = {
-  title: 'Programs | {PLATFORM_DEFAULTS.orgName}',
+  title: `Programs | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs' },

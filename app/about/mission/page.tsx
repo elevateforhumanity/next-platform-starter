@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Our Mission',
   description:
-    '{PLATFORM_DEFAULTS.orgName} creates accessible career pathways, credential-bearing workforce training, and community support for underserved populations across Indiana and the Midwest.',
+    `${PLATFORM_DEFAULTS.orgName} creates accessible career pathways, credential-bearing workforce training, and community support for underserved populations across Indiana and the Midwest.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/about/mission' },
   openGraph: {
     title: 'Our Mission',

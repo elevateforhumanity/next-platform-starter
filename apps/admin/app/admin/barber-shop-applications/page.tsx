@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Partner Barbershop Applications | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Partner Barbershop Applications | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 type Application = {

@@ -6,8 +6,8 @@ import { Shield, CheckCircle, Building2, Users, TrendingUp, Mail } from 'lucide-
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Institutional Status | {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
-  description: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute is a workforce training provider delivering industry-recognized certifications and career pathways.',
+  title: `Institutional Status | ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
+  description: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute is a workforce training provider delivering industry-recognized certifications and career pathways.`,
   robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/accreditation' },
 };

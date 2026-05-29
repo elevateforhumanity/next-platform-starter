@@ -21,7 +21,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 export const metadata: Metadata = {
-  title: 'Authoritative Documents | Governance | {PLATFORM_DEFAULTS.orgName}',
+  title: `Authoritative Documents | Governance | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'The seven governing documents that define platform operations for website, LMS, Store, and tax services.',
   robots: {

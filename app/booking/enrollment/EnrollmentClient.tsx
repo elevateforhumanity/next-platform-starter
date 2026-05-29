@@ -82,13 +82,13 @@ export default function EnrollmentBookingPage({ programs = [] }: { programs?: Pr
       const data = await response.json();
 
       if (!response.ok || !data.success || !data.id) {
-        setSubmitError(data.error || 'Booking failed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+        setSubmitError(data.error || `Booking failed. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
         return;
       }
 
       setIsSubmitted(true);
     } catch {
-      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setSubmitError(`Unable to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setIsSubmitting(false);
     }

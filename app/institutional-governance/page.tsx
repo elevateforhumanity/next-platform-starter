@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Institutional Governance & Compliance',
   description:
-    'Governance framework, legal structure, and compliance posture of 2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+    `Governance framework, legal structure, and compliance posture of 2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/institutional-governance' },
 };
 
@@ -264,25 +264,25 @@ export default function InstitutionalGovernancePage() {
                     },
                     {
                       occ: 'Barber',
-                      provider: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+                      provider: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                       hours: '260',
                       method: 'Classroom / Web-Based',
                     },
                     {
                       occ: 'Esthetician',
-                      provider: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+                      provider: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                       hours: '300',
                       method: 'Classroom / Web-Based',
                     },
                     {
                       occ: 'Nail Tech',
-                      provider: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+                      provider: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                       hours: '200',
                       method: 'Classroom / Web-Based',
                     },
                     {
                       occ: 'Youth Culinary',
-                      provider: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+                      provider: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
                       hours: '144',
                       method: 'Classroom / Web-Based',
                     },

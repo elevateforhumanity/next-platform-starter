@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Satisfactory Academic Progress (SAP) Policy',
   description:
-    'Academic progress requirements for students at {PLATFORM_DEFAULTS.orgName}. Understand pace, completion, and standing requirements.',
+    `Academic progress requirements for students at ${PLATFORM_DEFAULTS.orgName}. Understand pace, completion, and standing requirements.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/satisfactory-academic-progress',
   },

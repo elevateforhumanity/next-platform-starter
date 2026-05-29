@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Directory Information | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `FERPA Directory Information | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 const DIRECTORY_FIELDS = [

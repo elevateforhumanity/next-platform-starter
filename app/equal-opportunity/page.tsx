@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Equal Opportunity Employer',
   description:
-    '{PLATFORM_DEFAULTS.orgName} is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
+    `${PLATFORM_DEFAULTS.orgName} is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/equal-opportunity',
   },

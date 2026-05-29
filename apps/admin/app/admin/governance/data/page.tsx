@@ -13,7 +13,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Data Governance | {PLATFORM_DEFAULTS.orgName}',
+  title: `Data Governance | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Data retention, deletion policies, and governance framework for the Elevate Workforce Operating System.',
   robots: {
     index: false,

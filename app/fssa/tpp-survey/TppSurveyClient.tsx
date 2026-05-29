@@ -85,7 +85,7 @@ type SurveyData = {
 };
 
 const INITIAL: SurveyData = {
-  org_name: '2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgLegalName})',
+  org_name: `2Exclusive LLC-S (DBA: ${PLATFORM_DEFAULTS.orgLegalName})`,
   org_type: 'nonprofit',
   ein: '',
   uei: 'VX2GK5S8SZH8',
@@ -261,7 +261,7 @@ export default function TppSurveyClient() {
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error ?? 'Failed to generate PDF. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        setError(d.error ?? `Failed to generate PDF. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         return;
       }
       const blob = await res.blob();

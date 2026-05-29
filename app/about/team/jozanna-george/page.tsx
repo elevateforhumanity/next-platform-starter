@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Jozanna George | Our Team',
-  description: 'Jozanna George — Director of Enrollment & Beauty Industry Programs at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Jozanna George — Director of Enrollment & Beauty Industry Programs at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

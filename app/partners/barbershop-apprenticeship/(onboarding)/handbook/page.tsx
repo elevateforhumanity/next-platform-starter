@@ -115,7 +115,7 @@ const sections = [
     icon: Phone,
     title: 'Communication & Reporting',
     content: [
-      'Open communication with the Sponsor ({PLATFORM_DEFAULTS.orgName}) is essential for program success.',
+      `Open communication with the Sponsor (${PLATFORM_DEFAULTS.orgName}) is essential for program success.`,
     ],
     items: [
       'Respond to Sponsor inquiries within 2 business days',

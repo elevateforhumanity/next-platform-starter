@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Employer Proposal | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Employer Proposal | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'View and manage employer partnership proposals.',
 };
 

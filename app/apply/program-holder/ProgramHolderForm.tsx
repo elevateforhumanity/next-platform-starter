@@ -41,7 +41,7 @@ export default function ProgramHolderForm() {
     try {
       result = await submitProgramHolderApplication(data);
     } catch (err) {
-      setError('Something went wrong submitting your application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Something went wrong submitting your application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
       return;
     }
@@ -49,7 +49,7 @@ export default function ProgramHolderForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      setError(result.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(result.error || `Submission failed. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
     }
   }

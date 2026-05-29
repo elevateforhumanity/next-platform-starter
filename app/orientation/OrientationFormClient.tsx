@@ -35,7 +35,7 @@ export default function OrientationFormClient() {
           const data = await res.json();
 
           if (!res.ok) {
-            setError(data.error || 'Failed to schedule. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+            setError(data.error || `Failed to schedule. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
             return;
           }
 
@@ -50,7 +50,7 @@ export default function OrientationFormClient() {
 
           window.open(calUrl, '_blank');
         } catch {
-          setError('Something went wrong. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+          setError(`Something went wrong. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
         } finally {
           setLoading(false);
         }

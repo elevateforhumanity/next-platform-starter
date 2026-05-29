@@ -100,7 +100,7 @@ export default async function OrientationCompletePage() {
                   and create a free account
                 </>,
                 'Schedule an appointment with your local WorkOne office',
-                'Tell them you are enrolling in training at {PLATFORM_DEFAULTS.orgName}',
+                `Tell them you are enrolling in training at ${PLATFORM_DEFAULTS.orgName}`,
                 'They will confirm your eligibility and issue a training voucher',
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-amber-800">

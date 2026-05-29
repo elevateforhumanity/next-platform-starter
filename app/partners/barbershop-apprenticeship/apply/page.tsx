@@ -221,14 +221,14 @@ export default function BarbershopPartnerApplyPage() {
       }
 
       if (!result.applicationId) {
-        setError('Application could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+        setError(`Application could not be confirmed. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
         setLoading(false);
         return;
       }
 
       router.push('/partners/barbershop-apprenticeship/thank-you');
     } catch {
-      setError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Unable to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
     }
   };

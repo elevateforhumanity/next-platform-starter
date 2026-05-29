@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Career Training Programs | {PLATFORM_DEFAULTS.orgName} Education',
+  title: `Career Training Programs | ${PLATFORM_DEFAULTS.orgName} Education`,
   description:
     'Browse career training programs in healthcare, skilled trades, technology, CDL, barbering, and business. No-cost training for eligible participants through WIOA and state workforce funding.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/education' },

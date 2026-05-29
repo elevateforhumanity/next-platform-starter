@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Replace the metadata and content sections below
 
 export const metadata: Metadata = {
-  title: 'Program Name | {PLATFORM_DEFAULTS.orgName}',
+  title: `Program Name | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Program description for SEO',
 };
 

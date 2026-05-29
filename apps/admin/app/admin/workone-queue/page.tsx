@@ -9,7 +9,7 @@ import WorkOneApproveButton from './WorkOneApproveButton';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'WorkOne Queue | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `WorkOne Queue | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 export const dynamic = 'force-dynamic';

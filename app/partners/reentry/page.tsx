@@ -8,7 +8,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: 'Reentry Organization Partners',
   description:
-    '{PLATFORM_DEFAULTS.orgName} partners with reentry organizations to provide workforce training for justice-involved individuals. Learn how to refer clients.',
+    `${PLATFORM_DEFAULTS.orgName} partners with reentry organizations to provide workforce training for justice-involved individuals. Learn how to refer clients.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/reentry' },
 };
 

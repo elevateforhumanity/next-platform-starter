@@ -17,7 +17,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Credential Partner Registry | Compliance',
   description:
-    'Formal registry of credential partners, license status, program assignments, credential issuance, and MOU status for {PLATFORM_DEFAULTS.orgName} workforce training programs.',
+    `Formal registry of credential partners, license status, program assignments, credential issuance, and MOU status for ${PLATFORM_DEFAULTS.orgName} workforce training programs.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/compliance/credential-partners',
   },

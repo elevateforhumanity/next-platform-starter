@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: {
-    default: 'Mentor Portal | {PLATFORM_DEFAULTS.orgName}',
+    default: `Mentor Portal | ${PLATFORM_DEFAULTS.orgName}`,
     template: '%s | Mentor Portal',
   },
   description: 'Manage your mentees, schedule sessions, and track mentoring progress.',

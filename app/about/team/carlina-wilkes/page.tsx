@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Dr. Carlina Wilkes | Our Team',
-  description: 'Dr. Carlina Wilkes — Executive Director of Financial Operations & Organizational Compliance at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Dr. Carlina Wilkes — Executive Director of Financial Operations & Organizational Compliance at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

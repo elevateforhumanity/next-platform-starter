@@ -18,7 +18,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Governance | {PLATFORM_DEFAULTS.orgName}',
+  title: `Governance | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
   robots: {

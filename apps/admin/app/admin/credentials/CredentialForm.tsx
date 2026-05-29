@@ -305,7 +305,7 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <div className="grid sm:grid-cols-2 gap-4">
           {field('Issuing Authority', 'issuing_authority', {
             required: true,
-            placeholder: 'e.g. {PLATFORM_DEFAULTS.orgName}, ACT Inc., EPA',
+            placeholder: `e.g. ${PLATFORM_DEFAULTS.orgName}, ACT Inc., EPA`,
           })}
           {field('Issuing Authority URL', 'issuing_authority_url', { placeholder: 'https://...' })}
         </div>

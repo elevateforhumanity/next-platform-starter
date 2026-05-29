@@ -8,7 +8,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: 'Job Ready Indy (JRI)',
   description:
-    '{PLATFORM_DEFAULTS.orgName} is a Job Ready Indy approved training provider. JRI funding covers tuition for eligible Marion County residents.',
+    `${PLATFORM_DEFAULTS.orgName} is a Job Ready Indy approved training provider. JRI funding covers tuition for eligible Marion County residents.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/jri' },
 };
 

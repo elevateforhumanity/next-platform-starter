@@ -80,7 +80,7 @@ export function ApplicationForm() {
       }
 
       if (!result.referenceNumber) {
-        throw new Error('Application could not be confirmed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+        throw new Error(`Application could not be confirmed. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
       }
 
       setApplicationId(result.referenceNumber);

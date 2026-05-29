@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Platform Analytics',
   description:
-    'Enrollment, completion, and outcome analytics for {PLATFORM_DEFAULTS.orgName} workforce programs.',
+    `Enrollment, completion, and outcome analytics for ${PLATFORM_DEFAULTS.orgName} workforce programs.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/analytics' },
   robots: { index: false, follow: false },
 };

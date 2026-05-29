@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Transparency | {PLATFORM_DEFAULTS.orgName}',
+  title: `Transparency | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Our commitment to transparency — outcomes, financials, and impact data.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/transparency',

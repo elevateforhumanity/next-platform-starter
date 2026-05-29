@@ -10,8 +10,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Legal & Entity Information | {PLATFORM_DEFAULTS.orgName}',
-  description: 'Corporate structure, entity relationships, and governance documents for {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  title: `Legal & Entity Information | ${PLATFORM_DEFAULTS.orgName}`,
+  description: `Corporate structure, entity relationships, and governance documents for ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
   robots: {
     index: false,
     follow: false,

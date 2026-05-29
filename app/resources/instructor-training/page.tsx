@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Instructor Training',
   description:
-    'Training resources and requirements for {PLATFORM_DEFAULTS.orgName} instructors. Covers pedagogy, compliance, platform usage, and professional development.',
+    `Training resources and requirements for ${PLATFORM_DEFAULTS.orgName} instructors. Covers pedagogy, compliance, platform usage, and professional development.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/resources/instructor-training' },
 };
 

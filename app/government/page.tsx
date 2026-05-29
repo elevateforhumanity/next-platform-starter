@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   title: 'Government & Agency Partners',
   description:
-    'Partner with {PLATFORM_DEFAULTS.orgName} to deliver workforce development programs. WIOA-compliant, ETPL-approved training provider serving government agencies and workforce boards.',
+    `Partner with ${PLATFORM_DEFAULTS.orgName} to deliver workforce development programs. WIOA-compliant, ETPL-approved training provider serving government agencies and workforce boards.`,
 };
 
 export default async function GovernmentPage() {

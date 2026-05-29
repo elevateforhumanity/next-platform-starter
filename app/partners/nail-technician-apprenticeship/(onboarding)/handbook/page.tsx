@@ -88,9 +88,9 @@ const sections = [
     content: ['Elevate provides ongoing support throughout the apprenticeship. Contact us for any questions or concerns.'],
     items: [
       'Partner Support: partners@elevateforhumanity.org',
-      'Phone: {PLATFORM_DEFAULTS.supportPhone}',
+      `Phone: ${PLATFORM_DEFAULTS.supportPhone}`,
       'Compliance issues: compliance@elevateforhumanity.org',
-      'Emergency: Call {PLATFORM_DEFAULTS.supportPhone} and select option 2',
+      `Emergency: Call ${PLATFORM_DEFAULTS.supportPhone} and select option 2`,
     ],
   },
 ];

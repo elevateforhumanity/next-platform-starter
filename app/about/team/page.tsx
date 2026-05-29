@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Our Team',
   description:
-    'Meet the {PLATFORM_DEFAULTS.orgName} team — educators, workforce specialists, and community advocates.',
+    `Meet the ${PLATFORM_DEFAULTS.orgName} team — educators, workforce specialists, and community advocates.`,
 };
 
 export default function TeamPage() {

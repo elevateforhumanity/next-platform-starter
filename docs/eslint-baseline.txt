@@ -111,6 +111,7 @@ app/reels/page.tsx
 apps/admin/app/admin/documents/templates/PageClient.tsx
 apps/admin/app/admin/email-marketing/sendgrid/SendGridSettingsClient.tsx
 apps/admin/app/admin/governance/data/page.tsx
+apps/admin/app/admin/grants/snap-et/SnapEtClient.tsx
 apps/admin/app/admin/program-holders/[id]/page.tsx
 apps/admin/app/admin/programs/[code]/manage/ProgramManagerClient.tsx
 apps/admin/app/admin/submissions/page.tsx

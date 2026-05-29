@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = generateMetadata({
   title: 'Mentor Approvals',
   description:
-    'Mentor Approvals - {PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.',
+    `Mentor Approvals - ${PLATFORM_DEFAULTS.orgName} workforce training and career development programs in Indianapolis.`,
   path: '/mentor/approvals',
 });
 

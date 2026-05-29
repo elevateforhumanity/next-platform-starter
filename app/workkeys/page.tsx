@@ -6,9 +6,9 @@ import { ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'ACT WorkKeys / NCRC | {PLATFORM_DEFAULTS.orgName} — Indianapolis',
+  title: `ACT WorkKeys / NCRC | ${PLATFORM_DEFAULTS.orgName} — Indianapolis`,
   description:
-    'Take the ACT WorkKeys assessment and earn the National Career Readiness Certificate (NCRC) at {PLATFORM_DEFAULTS.orgName} in Indianapolis. Proctored on-site.',
+    `Take the ACT WorkKeys assessment and earn the National Career Readiness Certificate (NCRC) at ${PLATFORM_DEFAULTS.orgName} in Indianapolis. Proctored on-site.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/workkeys' },
 };
 

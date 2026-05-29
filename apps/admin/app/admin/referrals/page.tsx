@@ -18,7 +18,7 @@ import ReferralConfirmButton from './ReferralConfirmButton';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Agency Referrals | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Agency Referrals | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 export const dynamic = 'force-dynamic';

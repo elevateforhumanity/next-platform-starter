@@ -7,8 +7,8 @@ import { CheckCircle, Users, TrendingUp, Briefcase, Mail, Award } from 'lucide-r
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Transparency & Outcomes | {PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
-  description: '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute is committed to transparency in how we deliver training and track outcomes.',
+  title: `Transparency & Outcomes | ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
+  description: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute is committed to transparency in how we deliver training and track outcomes.`,
   robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/verification-approvals' },
 };

@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'News & Updates',
   description:
-    'Latest news, program updates, success stories, and announcements from {PLATFORM_DEFAULTS.orgName}.',
+    `Latest news, program updates, success stories, and announcements from ${PLATFORM_DEFAULTS.orgName}.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/news' },
 };
 

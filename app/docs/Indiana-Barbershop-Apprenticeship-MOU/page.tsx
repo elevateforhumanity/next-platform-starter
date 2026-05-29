@@ -82,7 +82,7 @@ export default function MOUPage() {
 
       setSubmitted(true);
     } catch {
-      setError('Failed to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Failed to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setSubmitting(false);
     }

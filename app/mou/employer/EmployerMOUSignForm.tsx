@@ -74,7 +74,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
 
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error ?? 'Failed to generate MOU. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        setError(d.error ?? `Failed to generate MOU. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         return;
       }
 
@@ -84,7 +84,7 @@ export default function EmployerMOUSignForm({ programs }: { programs: string[] }
       setPdfUrl(url);
       setStep('done');
     } catch {
-      setError('Network error. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Network error. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setLoading(false);
     }

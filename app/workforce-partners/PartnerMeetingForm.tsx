@@ -64,7 +64,7 @@ export default function PartnerMeetingForm() {
       }
       setSubmitted(true);
     } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(err.message || `Something went wrong. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setSubmitting(false);
     }

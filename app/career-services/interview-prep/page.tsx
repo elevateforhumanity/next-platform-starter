@@ -54,7 +54,7 @@ export default function InterviewPrepPage() {
         },
         cta: {
           heading: 'Book Interview Prep',
-          subtitle: 'Free for all enrolled students and graduates. Call {PLATFORM_DEFAULTS.supportPhone} to book.',
+          subtitle: `Free for all enrolled students and graduates. Call ${PLATFORM_DEFAULTS.supportPhone} to book.`,
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',

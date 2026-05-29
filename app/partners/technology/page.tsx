@@ -7,7 +7,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Technology Partnership',
   description:
-    'Technology integration partnerships with {PLATFORM_DEFAULTS.orgName}. LMS integrations, API access, and workforce data interoperability for workforce development systems.',
+    `Technology integration partnerships with ${PLATFORM_DEFAULTS.orgName}. LMS integrations, API access, and workforce data interoperability for workforce development systems.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/technology' },
 };
 
@@ -27,7 +27,7 @@ export default function TechnologyPartnerPage() {
         intro: {
           heading: 'Workforce Technology Integration',
           paragraphs: [
-            '{PLATFORM_DEFAULTS.orgName} partners with technology providers to improve data interoperability across workforce systems. Our platform integrates with case management systems, job boards, credential verification services, and state workforce databases.',
+            `${PLATFORM_DEFAULTS.orgName} partners with technology providers to improve data interoperability across workforce systems. Our platform integrates with case management systems, job boards, credential verification services, and state workforce databases.`,
             'If you build tools for workforce development, career services, training delivery, or employer hiring — we want to explore how our systems can work together to serve more participants more effectively.',
           ],
           image: '/images/pages/cybersecurity-screen.jpg',

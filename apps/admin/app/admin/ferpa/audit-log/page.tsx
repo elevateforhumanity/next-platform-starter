@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'FERPA Audit Log | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `FERPA Audit Log | Admin | ${PLATFORM_DEFAULTS.orgName}`,
 };
 
 const FERPA_ACTIONS = [

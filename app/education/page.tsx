@@ -127,7 +127,7 @@ export default function EducationLandingPage() {
             { label: 'Apply Now', href: '/start', variant: 'secondary' },
             { label: 'Check Funding', href: '/funding', variant: 'secondary' },
           ]}
-          trustIndicators={['{PLATFORM_DEFAULTS.orgName} Education', 'WIOA & WRG Eligible', 'Indianapolis, Indiana']}
+          trustIndicators={[`${PLATFORM_DEFAULTS.orgName} Education`, 'WIOA & WRG Eligible', 'Indianapolis, Indiana']}
         />
       </section>
 

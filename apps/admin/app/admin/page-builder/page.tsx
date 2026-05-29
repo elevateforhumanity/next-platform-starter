@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Page Builder | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `Page Builder | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Create and edit public-facing pages without code changes.',
   robots: { index: false, follow: false },
 };

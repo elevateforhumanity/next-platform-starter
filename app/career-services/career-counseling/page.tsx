@@ -54,7 +54,7 @@ export default function CareerCounselingPage() {
         },
         cta: {
           heading: 'Schedule a Session',
-          subtitle: 'Free for all enrolled students and graduates. Call {PLATFORM_DEFAULTS.supportPhone} to schedule.',
+          subtitle: `Free for all enrolled students and graduates. Call ${PLATFORM_DEFAULTS.supportPhone} to schedule.`,
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'All Career Services',

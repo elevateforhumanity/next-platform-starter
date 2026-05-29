@@ -36,7 +36,7 @@ export default function StaffApplicationForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      setError(result.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(result.error || `Submission failed. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
     }
   }

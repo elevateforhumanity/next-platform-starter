@@ -391,7 +391,7 @@ export default function JriPage() {
               {
                 step: 1,
                 title: 'Apply Online or Call Us',
-                desc: 'Fill out a short application (10 minutes) or call {PLATFORM_DEFAULTS.supportPhone}. Tell us about yourself and what career interests you.',
+                desc: `Fill out a short application (10 minutes) or call ${PLATFORM_DEFAULTS.supportPhone}. Tell us about yourself and what career interests you.`,
               },
               {
                 step: 2,

@@ -7,7 +7,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: 'WorkOne / WIOA Referrals | Workforce Agency Partners',
   description:
-    '{PLATFORM_DEFAULTS.orgName} is an approved WIOA training provider. WorkOne case managers can refer clients directly to our programs.',
+    `${PLATFORM_DEFAULTS.orgName} is an approved WIOA training provider. WorkOne case managers can refer clients directly to our programs.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/workforce' },
 };
 

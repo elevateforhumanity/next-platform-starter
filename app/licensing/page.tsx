@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Licensing',
-  description: 'License the {PLATFORM_DEFAULTS.orgName} Workforce Operating System for your training program, apprenticeship, or workforce initiative. Structured tiers for approved partners.',
+  description: `License the ${PLATFORM_DEFAULTS.orgName} Workforce Operating System for your training program, apprenticeship, or workforce initiative. Structured tiers for approved partners.`,
 };
 
 import Link from 'next/link';

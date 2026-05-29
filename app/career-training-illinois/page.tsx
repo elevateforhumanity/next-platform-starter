@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-training-illinois' },
-  title: 'Career Training Illinois | {PLATFORM_DEFAULTS.orgName} - Workforce Development Programs',
+  title: `Career Training Illinois | ${PLATFORM_DEFAULTS.orgName} - Workforce Development Programs`,
   description:
     'Workforce development and career training programs in Illinois. Structured learning platforms ensuring consistency and accountability across programs spanning multiple regions.',
 };

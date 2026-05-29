@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const CREDENTIALS = [
   { name: 'DOL Journeyworker Certificate', issuer: 'U.S. Department of Labor', description: 'Nationally recognized credential upon completing 6,000 hours of on-the-job training.' },
   { name: 'OSHA 10/30 Safety Certification', issuer: 'U.S. Department of Labor', description: 'Industry-standard workplace safety certification for construction and maintenance.' },
-  { name: 'Competency Certificate', issuer: '{PLATFORM_DEFAULTS.orgName} / 2Exclusive LLC', description: 'Documentation of all skills and competencies mastered during the apprenticeship.' },
+  { name: 'Competency Certificate', issuer: `${PLATFORM_DEFAULTS.orgName} / 2Exclusive LLC`, description: 'Documentation of all skills and competencies mastered during the apprenticeship.' },
 ];
 
 const FAQS = [

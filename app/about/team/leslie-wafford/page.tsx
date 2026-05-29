@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Leslie Wafford | Our Team',
-  description: 'Leslie Wafford — Director of Community Services at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Leslie Wafford — Director of Community Services at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'System Health | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `System Health | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Platform service status, connectivity checks, and active alerts.',
 };
 

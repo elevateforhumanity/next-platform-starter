@@ -14,9 +14,9 @@ import { BOOTH_RENTAL_TIERS } from '@/lib/programs/pricing';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Booth & Suite Rentals | {PLATFORM_DEFAULTS.orgName} — Indianapolis',
+  title: `Booth & Suite Rentals | ${PLATFORM_DEFAULTS.orgName} — Indianapolis`,
   description:
-    'Rent a booth or suite at {PLATFORM_DEFAULTS.orgName} in Indianapolis. Barber, cosmetology, esthetician, and nail tech spaces available. Weekly billing via Stripe. No long-term lease.',
+    `Rent a booth or suite at ${PLATFORM_DEFAULTS.orgName} in Indianapolis. Barber, cosmetology, esthetician, and nail tech spaces available. Weekly billing via Stripe. No long-term lease.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/booth-rental' },
 };
 

@@ -4,7 +4,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 
 export const metadata: Metadata = {
   title: 'Metrics',
-  description: 'Live enrollment, completion, and certification metrics for {PLATFORM_DEFAULTS.orgName} workforce training programs.',
+  description: `Live enrollment, completion, and certification metrics for ${PLATFORM_DEFAULTS.orgName} workforce training programs.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/metrics',
   },

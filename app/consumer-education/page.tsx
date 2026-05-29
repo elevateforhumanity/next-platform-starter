@@ -26,7 +26,7 @@ export default function ConsumerEducationPage() {
         intro: {
           heading: 'Financial Literacy for Working Adults',
           paragraphs: [
-            '{PLATFORM_DEFAULTS.orgName} provides free consumer education resources to help Indiana residents make informed financial decisions, access benefits they qualify for, and protect themselves from predatory practices.',
+            `${PLATFORM_DEFAULTS.orgName} provides free consumer education resources to help Indiana residents make informed financial decisions, access benefits they qualify for, and protect themselves from predatory practices.`,
             'Our VITA-certified volunteers prepare free federal and state tax returns for households earning under $67,000. We also offer workshops on budgeting, credit building, and navigating public benefits.',
           ],
           image: '/images/pages/community-page-4.webp',
@@ -55,7 +55,7 @@ export default function ConsumerEducationPage() {
         },
         cta: {
           heading: 'Schedule a Free Session',
-          subtitle: 'Tax prep, financial coaching, and benefits screening — all free for qualifying Indiana residents. Call {PLATFORM_DEFAULTS.supportPhone} to schedule.',
+          subtitle: `Tax prep, financial coaching, and benefits screening — all free for qualifying Indiana residents. Call ${PLATFORM_DEFAULTS.supportPhone} to schedule.`,
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'Community Services',

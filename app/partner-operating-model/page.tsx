@@ -8,7 +8,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Partner Operating Model',
-  description: 'How {PLATFORM_DEFAULTS.orgName} partners with training providers, employers, workforce agencies, and government entities. Roles, responsibilities, and compliance requirements.',
+  description: `How ${PLATFORM_DEFAULTS.orgName} partners with training providers, employers, workforce agencies, and government entities. Roles, responsibilities, and compliance requirements.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/partner-operating-model' },
 };
 

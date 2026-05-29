@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'Outcomes & Reporting Standards | {PLATFORM_DEFAULTS.orgName}',
+  title: `Outcomes & Reporting Standards | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'How we measure and report student outcomes, job placement rates, and program effectiveness.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/outcomes' },
 };

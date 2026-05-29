@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Elizabeth Greene | Our Team',
-  description: 'Elizabeth Greene — Founder & Chief Executive Officer at {PLATFORM_DEFAULTS.orgName} Career & Technical Institute.',
+  description: `Elizabeth Greene — Founder & Chief Executive Officer at ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute.`,
 };
 
 export default function Page() {

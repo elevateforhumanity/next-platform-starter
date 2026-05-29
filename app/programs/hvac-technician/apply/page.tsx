@@ -128,7 +128,7 @@ export default function HvacApplyPage() {
       try {
         appData = await appResponse.json();
       } catch {
-        setError('Server error — please call {PLATFORM_DEFAULTS.supportPhone} or try again in a moment.');
+        setError(`Server error — please call ${PLATFORM_DEFAULTS.supportPhone} or try again in a moment.`);
         setErrorSeverity('critical');
         setLoading(false);
         return;
@@ -138,10 +138,10 @@ export default function HvacApplyPage() {
       if (!appResponse.ok) {
         const msg =
           appResponse.status === 503
-            ? 'Our system is temporarily unavailable. Please call {PLATFORM_DEFAULTS.supportPhone} — we can take your application by phone.'
+            ? `Our system is temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} — we can take your application by phone.`
             : appResponse.status === 409
-              ? appData.error || 'A duplicate application was found. Please call {PLATFORM_DEFAULTS.supportPhone}.'
-              : appData.error || 'Failed to submit application. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.';
+              ? appData.error || `A duplicate application was found. Please call ${PLATFORM_DEFAULTS.supportPhone}.`
+              : appData.error || `Failed to submit application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`;
         setError(msg);
         setErrorSeverity('critical');
         setLoading(false);

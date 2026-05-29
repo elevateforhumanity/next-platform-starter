@@ -12,7 +12,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Run a Program with Elevate | Training Providers & Program Holders',
   description:
-    'Partner with {PLATFORM_DEFAULTS.orgName} to deliver workforce training. Whether you run a barbershop, cosmetology school, employer training site, or community org — here is how to get started.',
+    `Partner with ${PLATFORM_DEFAULTS.orgName} to deliver workforce training. Whether you run a barbershop, cosmetology school, employer training site, or community org — here is how to get started.`,
 };
 
 // ── Two distinct roles ────────────────────────────────────────────────────────

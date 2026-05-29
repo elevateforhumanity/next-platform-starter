@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'My Courses | {PLATFORM_DEFAULTS.orgName}',
+  title: `My Courses | ${PLATFORM_DEFAULTS.orgName}`,
   description: 'Manage your courses',
 };
 

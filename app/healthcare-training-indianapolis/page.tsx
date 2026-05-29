@@ -31,14 +31,14 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    question: 'What healthcare programs does {PLATFORM_DEFAULTS.orgName} offer?',
+    question: `What healthcare programs does ${PLATFORM_DEFAULTS.orgName} offer?`,
     answer:
       'We offer training programs in Certified Nursing Assistant (CNA), Home Health Aide (HHA), Medical Assisting, Patient Care Technology, and related healthcare support roles. Program availability may vary — see our Programs page for the current catalog.',
   },
   {
     question: 'Are your healthcare programs approved by the state of Indiana?',
     answer:
-      'Our CNA training program follows Indiana State Department of Health (ISDH) training hour requirements. Graduates are eligible to sit for the Indiana Nurse Aide Competency Evaluation. Final certification is issued by the Indiana State Department of Health through the testing and registry process, not by {PLATFORM_DEFAULTS.orgName}.',
+      `Our CNA training program follows Indiana State Department of Health (ISDH) training hour requirements. Graduates are eligible to sit for the Indiana Nurse Aide Competency Evaluation. Final certification is issued by the Indiana State Department of Health through the testing and registry process, not by ${PLATFORM_DEFAULTS.orgName}.`,
   },
   {
     question: 'Does the program include clinical or on-the-job training?',
@@ -48,12 +48,12 @@ const faqs = [
   {
     question: 'Can WIOA pay for healthcare training?',
     answer:
-      'Many participants have received WIOA funding for healthcare training at {PLATFORM_DEFAULTS.orgName}. However, WIOA eligibility is determined by your local WorkOne office, not by us. Contact WorkOne or our admissions team to begin the eligibility process.',
+      `Many participants have received WIOA funding for healthcare training at ${PLATFORM_DEFAULTS.orgName}. However, WIOA eligibility is determined by your local WorkOne office, not by us. Contact WorkOne or our admissions team to begin the eligibility process.`,
   },
   {
     question: 'What does "third-party credentialing" mean?',
     answer:
-      'Credentials like CNA, HHA, or Medical Assistant certifications are issued by independent certifying bodies or state agencies — not by {PLATFORM_DEFAULTS.orgName}. We prepare you for the examination; the certifying organization determines pass/fail and issues the credential.',
+      `Credentials like CNA, HHA, or Medical Assistant certifications are issued by independent certifying bodies or state agencies — not by ${PLATFORM_DEFAULTS.orgName}. We prepare you for the examination; the certifying organization determines pass/fail and issues the credential.`,
   },
   {
     question: 'Do you help place graduates with healthcare employers?',
@@ -85,7 +85,7 @@ export default function HealthcareTrainingIndianapolisPage() {
           tag: 'CNA · HHA · Medical Assistant · Indianapolis',
           heading: 'Healthcare Career Training in Indianapolis',
           subtitle:
-            'Train for a career in Indiana\'s growing healthcare industry. {PLATFORM_DEFAULTS.orgName} offers state-supervised CNA, HHA, Medical Assistant, and Patient Care Technician programs in Indianapolis. WIOA funding may be available for eligible residents.',
+            `Train for a career in Indiana's growing healthcare industry. ${PLATFORM_DEFAULTS.orgName} offers state-supervised CNA, HHA, Medical Assistant, and Patient Care Technician programs in Indianapolis. WIOA funding may be available for eligible residents.`,
           primaryCta: { label: 'Apply Now', href: '/apply' },
           secondaryCta: { label: 'View Programs', href: '/programs/healthcare' },
         }}
@@ -131,7 +131,7 @@ export default function HealthcareTrainingIndianapolisPage() {
         funding={{
           heading: 'Funding for Healthcare Training',
           paragraphs: [
-            'Healthcare programs at {PLATFORM_DEFAULTS.orgName} are ETPL-approved, which means eligible Indiana residents may fund their training through WIOA, Workforce Ready Grant, or FSSA IMPACT.',
+            `Healthcare programs at ${PLATFORM_DEFAULTS.orgName} are ETPL-approved, which means eligible Indiana residents may fund their training through WIOA, Workforce Ready Grant, or FSSA IMPACT.`,
             'Healthcare is consistently listed among Indiana\'s high-demand occupation sectors, which may increase funding eligibility for some programs. Your WorkOne advisor can confirm your specific options.',
           ],
           bullets: [
@@ -142,7 +142,7 @@ export default function HealthcareTrainingIndianapolisPage() {
             'Self-pay and payment plan options available',
           ],
           eligibilityNote:
-            'Funding eligibility is determined by your local WorkOne office, FSSA case worker, or the applicable agency — not by {PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the process.',
+            `Funding eligibility is determined by your local WorkOne office, FSSA case worker, or the applicable agency — not by ${PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the process.`,
         }}
         pathwaysHeading="Healthcare Training Pathways"
         pathways={[
@@ -167,7 +167,7 @@ export default function HealthcareTrainingIndianapolisPage() {
           {
             name: 'All Healthcare Programs',
             description:
-              'See the full catalog of healthcare training programs at {PLATFORM_DEFAULTS.orgName}.',
+              `See the full catalog of healthcare training programs at ${PLATFORM_DEFAULTS.orgName}.`,
             href: '/programs/healthcare',
           },
         ]}
@@ -175,7 +175,7 @@ export default function HealthcareTrainingIndianapolisPage() {
           heading: 'Healthcare Employer Placement',
           paragraphs: [
             'We work with Indianapolis and Indiana healthcare employers — hospitals, long-term care facilities, home health agencies, and physician practices — to connect trained graduates with job opportunities.',
-            'Employers can partner with {PLATFORM_DEFAULTS.orgName} to build a trained candidate pipeline, coordinate OJT reimbursement, and participate in registered apprenticeship pathways.',
+            `Employers can partner with ${PLATFORM_DEFAULTS.orgName} to build a trained candidate pipeline, coordinate OJT reimbursement, and participate in registered apprenticeship pathways.`,
           ],
           bullets: [
             'Pre-screened, credentialed healthcare candidates',
@@ -197,10 +197,10 @@ export default function HealthcareTrainingIndianapolisPage() {
           { label: 'Contact Us', href: '/contact' },
         ]}
         complianceNotes={[
-          'Healthcare certifications (CNA, HHA, Medical Assistant, Phlebotomy) are issued by independent state agencies or third-party certifying bodies, not by {PLATFORM_DEFAULTS.orgName}. Passing the credentialing examination is required to earn the credential.',
-          'CNA training at {PLATFORM_DEFAULTS.orgName} follows Indiana State Department of Health (ISDH) training requirements. State registry is maintained by ISDH, not by {PLATFORM_DEFAULTS.orgName}.',
-          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
-          'Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency, not by {PLATFORM_DEFAULTS.orgName}.',
+          `Healthcare certifications (CNA, HHA, Medical Assistant, Phlebotomy) are issued by independent state agencies or third-party certifying bodies, not by ${PLATFORM_DEFAULTS.orgName}. Passing the credentialing examination is required to earn the credential.`,
+          `CNA training at ${PLATFORM_DEFAULTS.orgName} follows Indiana State Department of Health (ISDH) training requirements. State registry is maintained by ISDH, not by ${PLATFORM_DEFAULTS.orgName}.`,
+          `${PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.`,
+          `Funding eligibility under WIOA, Workforce Ready Grant, FSSA IMPACT, or any other program is determined by the applicable workforce agency, not by ${PLATFORM_DEFAULTS.orgName}.`,
           'Employment outcomes are not guaranteed. Results depend on individual performance, credential attainment, and local market conditions. Content reviewed 2026.',
         ]}
         ctaHeading="Start Your Healthcare Career in Indianapolis"

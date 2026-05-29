@@ -15,14 +15,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Find Programs & Resources',
     description:
-      'Search workforce training programs, career certifications, and funding options at {PLATFORM_DEFAULTS.orgName}.',
+      `Search workforce training programs, career certifications, and funding options at ${PLATFORM_DEFAULTS.orgName}.`,
     url: 'https://www.elevateforhumanity.org/search',
     images: [
       {
         url: '/images/pages/healthcare-grad.jpg',
         width: 1200,
         height: 630,
-        alt: '{PLATFORM_DEFAULTS.orgName} — Workforce Training Programs',
+        alt: `${PLATFORM_DEFAULTS.orgName} — Workforce Training Programs`,
       },
     ],
   },

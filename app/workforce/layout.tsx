@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Workforce Portal | {PLATFORM_DEFAULTS.orgName}',
+    default: `Workforce Portal | ${PLATFORM_DEFAULTS.orgName}`,
     template: '%s | Workforce Portal',
   },
   description: 'Participant management, placements, compliance, and workforce outcomes.',

@@ -34,7 +34,7 @@ const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 export const metadata: Metadata = {
   title: 'Employer Partners & Training Sites',
   description:
-    'Approved employer training sites where {PLATFORM_DEFAULTS.orgName} students complete hands-on training, OJT hours, clinical rotations, and apprenticeship placements across Indiana.',
+    `Approved employer training sites where ${PLATFORM_DEFAULTS.orgName} students complete hands-on training, OJT hours, clinical rotations, and apprenticeship placements across Indiana.`,
   alternates: { canonical: `${SITE_URL}/partners/training-sites` },
 };
 

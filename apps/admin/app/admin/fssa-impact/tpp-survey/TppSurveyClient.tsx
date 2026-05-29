@@ -89,7 +89,7 @@ type SurveyData = {
 };
 
 const INITIAL: SurveyData = {
-  org_name: '2Exclusive LLC-S (DBA: {PLATFORM_DEFAULTS.orgLegalName})',
+  org_name: `2Exclusive LLC-S (DBA: ${PLATFORM_DEFAULTS.orgLegalName})`,
   org_type: 'nonprofit',
   ein: '',
   uei: 'VX2GK5S8SZH8',

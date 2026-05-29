@@ -54,7 +54,7 @@ export default function JobPlacementPage() {
         },
         cta: {
           heading: 'Ready to Work?',
-          subtitle: 'Job placement support is free for all Elevate graduates. Call {PLATFORM_DEFAULTS.supportPhone}.',
+          subtitle: `Job placement support is free for all Elevate graduates. Call ${PLATFORM_DEFAULTS.supportPhone}.`,
           primaryLabel: 'Contact Career Services',
           primaryHref: '/contact',
           secondaryLabel: 'Hire Our Graduates',

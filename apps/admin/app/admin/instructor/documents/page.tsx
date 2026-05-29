@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructor Documents | {PLATFORM_DEFAULTS.orgName}',
+  title: `Instructor Documents | ${PLATFORM_DEFAULTS.orgName}`,
   robots: { index: false, follow: false },
 };
 

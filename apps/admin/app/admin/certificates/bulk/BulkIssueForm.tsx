@@ -67,7 +67,7 @@ export default function BulkIssueForm({
           enrollmentIds: Array.from(selected),
           templateId,
           issueDate,
-          signedBy: signedBy || '{PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+          signedBy: signedBy || `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
         }),
       });
 

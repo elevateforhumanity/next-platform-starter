@@ -45,7 +45,7 @@ const PROGRAM_HOLDER_REQUIREMENTS = [
     id: 'employer_mou',
     document_type: 'employer_mou',
     description: 'Signed Memorandum of Understanding',
-    instructions: 'Upload the signed MOU between your program and {PLATFORM_DEFAULTS.orgName}.',
+    instructions: `Upload the signed MOU between your program and ${PLATFORM_DEFAULTS.orgName}.`,
     accepted_formats: ['pdf'],
     max_file_size: 10485760,
   },

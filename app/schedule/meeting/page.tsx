@@ -106,7 +106,7 @@ export default function ScheduleMeetingPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setSubmitError(data.error || 'Booking failed. Please call {PLATFORM_DEFAULTS.supportPhone}.');
+        setSubmitError(data.error || `Booking failed. Please call ${PLATFORM_DEFAULTS.supportPhone}.`);
         setIsSubmitting(false);
         return;
       }
@@ -119,7 +119,7 @@ export default function ScheduleMeetingPage() {
         setSubmitted(true);
       }
     } catch {
-      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setSubmitError(`Unable to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
     }
 
     setIsSubmitting(false);

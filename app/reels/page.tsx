@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Reels',
   description:
-    'Short-form videos about career training, success stories, and workforce development from {PLATFORM_DEFAULTS.orgName}.',
+    `Short-form videos about career training, success stories, and workforce development from ${PLATFORM_DEFAULTS.orgName}.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/reels' },
 };
 

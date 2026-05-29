@@ -8,7 +8,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata = buildMetadata({
   title: 'Testimonials',
-  description: 'Stories from {PLATFORM_DEFAULTS.orgName} graduates and partners.',
+  description: `Stories from ${PLATFORM_DEFAULTS.orgName} graduates and partners.`,
   path: '/testimonials',
 });
 

@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'SNAP E&T Partner',
   description:
-    '{PLATFORM_DEFAULTS.orgName} SNAP Employment & Training partner information for agencies and case managers.',
+    `${PLATFORM_DEFAULTS.orgName} SNAP Employment & Training partner information for agencies and case managers.`,
   robots: { index: false, follow: false },
 };
 

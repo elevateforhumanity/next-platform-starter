@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Employer Partnership MOU',
   description:
-    'Sign your Memorandum of Understanding with {PLATFORM_DEFAULTS.orgName} to become an official employer hiring partner.',
+    `Sign your Memorandum of Understanding with ${PLATFORM_DEFAULTS.orgName} to become an official employer hiring partner.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/mou/employer' },
 };
 

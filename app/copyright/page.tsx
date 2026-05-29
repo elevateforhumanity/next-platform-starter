@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
   title: 'Copyright & Intellectual Property',
   description:
-    'Copyright and intellectual property information for {PLATFORM_DEFAULTS.orgName} platform and content.',
+    `Copyright and intellectual property information for ${PLATFORM_DEFAULTS.orgName} platform and content.`,
 };
 
 export default function CopyrightPage() {

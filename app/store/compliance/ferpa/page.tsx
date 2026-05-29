@@ -10,7 +10,7 @@ import AvatarGuide from '@/components/AvatarGuide';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: 'FERPA Compliance Tools | {PLATFORM_DEFAULTS.orgName} Store',
+  title: `FERPA Compliance Tools | ${PLATFORM_DEFAULTS.orgName} Store`,
   description: 'Complete FERPA compliance toolkit with data encryption, access controls, audit logging, and consent management.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/store/compliance/ferpa',

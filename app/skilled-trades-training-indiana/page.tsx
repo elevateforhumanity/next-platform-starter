@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    question: 'What skilled trades programs does {PLATFORM_DEFAULTS.orgName} offer?',
+    question: `What skilled trades programs does ${PLATFORM_DEFAULTS.orgName} offer?`,
     answer:
       'We offer training in HVAC (including EPA 608 refrigerant handling certification), electrical systems, construction fundamentals, and OSHA safety certifications. Program availability may vary — see our Programs page for the current catalog.',
   },
@@ -41,9 +41,9 @@ const faqs = [
       'EPA Section 608 certification is federally required for technicians who purchase or handle regulated refrigerants. HVAC technicians must be EPA 608 certified to legally service refrigeration and air conditioning equipment containing regulated refrigerants.',
   },
   {
-    question: 'Is {PLATFORM_DEFAULTS.orgName} a DOL-registered apprenticeship sponsor?',
+    question: `Is ${PLATFORM_DEFAULTS.orgName} a DOL-registered apprenticeship sponsor?`,
     answer:
-      'Yes. {PLATFORM_DEFAULTS.orgName} holds DOL-registered apprenticeship sponsorship. Registered apprenticeships combine paid on-the-job training with structured related technical instruction and lead to industry-recognized credentials.',
+      `Yes. ${PLATFORM_DEFAULTS.orgName} holds DOL-registered apprenticeship sponsorship. Registered apprenticeships combine paid on-the-job training with structured related technical instruction and lead to industry-recognized credentials.`,
   },
   {
     question: 'What is OJT (on-the-job training) and how does it work?',
@@ -53,12 +53,12 @@ const faqs = [
   {
     question: 'Can WIOA fund skilled trades training?',
     answer:
-      'WIOA Individual Training Accounts can be used at ETPL-approved programs, which may include skilled trades programs at {PLATFORM_DEFAULTS.orgName}. WIOA eligibility is determined by your local WorkOne office. Contact WorkOne or our admissions team to begin the process.',
+      `WIOA Individual Training Accounts can be used at ETPL-approved programs, which may include skilled trades programs at ${PLATFORM_DEFAULTS.orgName}. WIOA eligibility is determined by your local WorkOne office. Contact WorkOne or our admissions team to begin the process.`,
   },
   {
     question: 'What credentials will I earn?',
     answer:
-      'Credentials vary by program and are issued by independent third-party certifying organizations, not by {PLATFORM_DEFAULTS.orgName}. For example, EPA 608 certification is issued by an EPA-recognized certifying organization. OSHA cards are issued by OSHA Training Institute Education Centers. We prepare you for the relevant examination.',
+      `Credentials vary by program and are issued by independent third-party certifying organizations, not by ${PLATFORM_DEFAULTS.orgName}. For example, EPA 608 certification is issued by an EPA-recognized certifying organization. OSHA cards are issued by OSHA Training Institute Education Centers. We prepare you for the relevant examination.`,
   },
 ];
 
@@ -85,7 +85,7 @@ export default function SkilledTradesTrainingIndianaPage() {
           tag: 'HVAC · Electrical · Construction · Apprenticeships · Indiana',
           heading: 'Skilled Trades Training & Apprenticeships in Indiana',
           subtitle:
-            'Build a career in the trades. {PLATFORM_DEFAULTS.orgName} is a DOL-registered apprenticeship sponsor and Indiana ETPL-approved training provider for HVAC, electrical, construction, OSHA safety, and EPA 608 certification. WIOA funding may be available.',
+            `Build a career in the trades. ${PLATFORM_DEFAULTS.orgName} is a DOL-registered apprenticeship sponsor and Indiana ETPL-approved training provider for HVAC, electrical, construction, OSHA safety, and EPA 608 certification. WIOA funding may be available.`,
           primaryCta: { label: 'Apply Now', href: '/apply' },
           secondaryCta: { label: 'View Programs', href: '/programs/hvac-technician' },
         }}
@@ -131,7 +131,7 @@ export default function SkilledTradesTrainingIndianaPage() {
         funding={{
           heading: 'Funding for Skilled Trades Training',
           paragraphs: [
-            'Skilled trades are consistently designated as high-demand occupations in Indiana, which makes them strong candidates for WIOA and other workforce funding. As an ETPL-approved provider, {PLATFORM_DEFAULTS.orgName} is authorized to receive referrals from WorkOne offices.',
+            `Skilled trades are consistently designated as high-demand occupations in Indiana, which makes them strong candidates for WIOA and other workforce funding. As an ETPL-approved provider, ${PLATFORM_DEFAULTS.orgName} is authorized to receive referrals from WorkOne offices.`,
             'Apprenticeship participants may also benefit from earn-as-you-learn models where the employer pays wages during the training period, reducing or eliminating out-of-pocket training costs.',
           ],
           bullets: [
@@ -143,7 +143,7 @@ export default function SkilledTradesTrainingIndianaPage() {
             'Self-pay and payment plan options available',
           ],
           eligibilityNote:
-            'Funding eligibility is determined by your local WorkOne office or the applicable workforce agency — not by {PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the process.',
+            `Funding eligibility is determined by your local WorkOne office or the applicable workforce agency — not by ${PLATFORM_DEFAULTS.orgName}. Contact us or WorkOne to start the process.`,
         }}
         pathwaysHeading="Skilled Trades Training Pathways"
         pathways={[
@@ -175,7 +175,7 @@ export default function SkilledTradesTrainingIndianaPage() {
         employer={{
           heading: 'Employer & OJT Pathway',
           paragraphs: [
-            'Indiana construction, HVAC, and electrical employers can partner with {PLATFORM_DEFAULTS.orgName} to build trained workforce pipelines and establish registered apprenticeship programs.',
+            `Indiana construction, HVAC, and electrical employers can partner with ${PLATFORM_DEFAULTS.orgName} to build trained workforce pipelines and establish registered apprenticeship programs.`,
             'Eligible employer partners may access OJT wage reimbursement through WIOA, reducing the cost of training new hires in skilled trades roles.',
           ],
           bullets: [
@@ -198,11 +198,11 @@ export default function SkilledTradesTrainingIndianaPage() {
           { label: 'Apply Now', href: '/apply' },
         ]}
         complianceNotes={[
-          'Credentials and certifications (EPA 608, OSHA, electrical) are issued by independent third-party certifying bodies or regulatory authorities, not by {PLATFORM_DEFAULTS.orgName}. Passing the applicable examination is required to earn the credential.',
+          `Credentials and certifications (EPA 608, OSHA, electrical) are issued by independent third-party certifying bodies or regulatory authorities, not by ${PLATFORM_DEFAULTS.orgName}. Passing the applicable examination is required to earn the credential.`,
           'EPA Section 608 certification is required by federal regulation for technicians who purchase or handle regulated refrigerants. Regulatory requirements are set by the U.S. Environmental Protection Agency.',
-          'OSHA training cards are issued through OSHA-authorized training programs. {PLATFORM_DEFAULTS.orgName} is a workforce training provider, not an OSHA-authorized Education Center. Verify current authorization status on the OSHA website.',
-          '{PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.',
-          'Funding eligibility under WIOA or any other program is determined by the applicable workforce agency, not by {PLATFORM_DEFAULTS.orgName}. OJT reimbursement eligibility is determined by the applicable program administrator.',
+          `OSHA training cards are issued through OSHA-authorized training programs. ${PLATFORM_DEFAULTS.orgName} is a workforce training provider, not an OSHA-authorized Education Center. Verify current authorization status on the OSHA website.`,
+          `${PLATFORM_DEFAULTS.orgName} is a workforce training provider. We do not grant degrees and do not hold regional academic accreditation.`,
+          `Funding eligibility under WIOA or any other program is determined by the applicable workforce agency, not by ${PLATFORM_DEFAULTS.orgName}. OJT reimbursement eligibility is determined by the applicable program administrator.`,
           'Employment outcomes are not guaranteed. Content reviewed 2026.',
         ]}
         ctaHeading="Build a Trades Career in Indiana"

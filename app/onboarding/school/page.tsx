@@ -93,7 +93,7 @@ export default async function SchoolOnboardingPage() {
       id: 'mou',
       label: 'Sign Memorandum of Understanding',
       description:
-        'Review and sign the MOU that governs your partnership with {PLATFORM_DEFAULTS.orgName}.',
+        `Review and sign the MOU that governs your partnership with ${PLATFORM_DEFAULTS.orgName}.`,
       href: '/onboarding/mou',
       icon: ClipboardCheck,
       done: mouSigned,

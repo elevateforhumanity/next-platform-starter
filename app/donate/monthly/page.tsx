@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Monthly Giving | Sustain Workforce Development',
   description:
-    'Become a monthly donor and provide sustained support for career training, certifications, and job placement at {PLATFORM_DEFAULTS.orgName}.',
+    `Become a monthly donor and provide sustained support for career training, certifications, and job placement at ${PLATFORM_DEFAULTS.orgName}.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/donate/monthly' },
 };
 

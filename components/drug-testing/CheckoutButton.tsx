@@ -45,12 +45,12 @@ export default function CheckoutButton({
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('Error creating checkout session. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        alert(`Error creating checkout session. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         setLoading(false);
       }
     } catch (error) {
       /* Error handled silently */
-      alert('Error creating checkout session. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      alert(`Error creating checkout session. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setLoading(false);
     }
   };

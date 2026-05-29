@@ -19,7 +19,7 @@ export const dynamic = 'force-static';
 export const metadata: Metadata = {
   title: 'Security & Data Protection Statement',
   description:
-    'How {PLATFORM_DEFAULTS.orgName} collects, stores, protects, and handles participant data. Covers FERPA, WIOA, encryption, access controls, and your rights as a data subject.',
+    `How ${PLATFORM_DEFAULTS.orgName} collects, stores, protects, and handles participant data. Covers FERPA, WIOA, encryption, access controls, and your rights as a data subject.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/security-and-data-protection',
   },

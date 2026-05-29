@@ -26,7 +26,7 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
-    description: 'Partnership agreement between your shop and {PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.',
+    description: `Partnership agreement between your shop and ${PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.`,
     required: true,
     category: 'legal',
     action: 'sign',

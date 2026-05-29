@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Become a Host Nail Salon | Nail Technician Apprenticeship',
   description:
-    'Partner with {PLATFORM_DEFAULTS.orgName} as a host nail salon for our DOL-registered nail technician apprenticeship. Train the next generation of licensed nail technicians.',
+    `Partner with ${PLATFORM_DEFAULTS.orgName} as a host nail salon for our DOL-registered nail technician apprenticeship. Train the next generation of licensed nail technicians.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/nail-technician-apprenticeship/host-shops',
   },

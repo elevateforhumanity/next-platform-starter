@@ -223,7 +223,7 @@ export default function AvatarChatBar() {
         ...prev,
         {
           role: 'assistant',
-          content: 'Connection issue. Please call {PLATFORM_DEFAULTS.supportPhone} for immediate help.',
+          content: `Connection issue. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate help.`,
         },
       ]);
     } finally {

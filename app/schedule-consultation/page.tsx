@@ -108,7 +108,7 @@ export default function ScheduleConsultationPage() {
       if (!res.ok) throw new Error('Failed to book');
       setConfirmed(true);
     } catch {
-      setError('Something went wrong. Please try again or call us at {PLATFORM_DEFAULTS.supportPhone}.');
+      setError(`Something went wrong. Please try again or call us at ${PLATFORM_DEFAULTS.supportPhone}.`);
     } finally {
       setSubmitting(false);
     }

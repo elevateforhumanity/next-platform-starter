@@ -8,7 +8,7 @@ const FORMS = [
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
-    description: 'Worksite partnership agreement between your spa and {PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.',
+    description: `Worksite partnership agreement between your spa and ${PLATFORM_DEFAULTS.orgName}. Must be signed before hosting apprentices.`,
     required: true,
     action: 'sign' as const,
     href: '/partners/esthetician-apprenticeship/sign-mou',

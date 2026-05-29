@@ -8,10 +8,10 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: {
-    default: 'Host Site Portal | {PLATFORM_DEFAULTS.orgName}',
+    default: `Host Site Portal | ${PLATFORM_DEFAULTS.orgName}`,
     template: '%s | Host Site Portal',
   },
-  description: 'Manage your host site partnership with {PLATFORM_DEFAULTS.orgName}.',
+  description: `Manage your host site partnership with ${PLATFORM_DEFAULTS.orgName}.`,
 };
 
 const PORTAL_ROLES = ['partner', 'program_holder', 'admin', 'super_admin', 'staff', 'org_admin'];

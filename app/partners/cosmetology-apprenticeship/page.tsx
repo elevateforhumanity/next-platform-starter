@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Host a Cosmetology Apprenticeship | {PLATFORM_DEFAULTS.orgName}',
+  title: `Host a Cosmetology Apprenticeship | ${PLATFORM_DEFAULTS.orgName}`,
   description:
     'Become a host salon for the Indiana Cosmetology Apprenticeship. Apply, complete onboarding, and host apprentices at your salon.',
   alternates: {

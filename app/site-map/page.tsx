@@ -6,7 +6,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Sitemap',
-  description: 'Complete directory of all pages on {PLATFORM_DEFAULTS.orgName}.',
+  description: `Complete directory of all pages on ${PLATFORM_DEFAULTS.orgName}.`,
 };
 
 export default function SitemapPage() {

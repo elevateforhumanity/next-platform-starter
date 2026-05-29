@@ -74,7 +74,7 @@ const CFG = {
     note: 'The Workforce Ready Grant covers full tuition for approved programs. HVAC is on the approved list. Apply entirely online — no in-person visit required.',
     steps: [
       'Go to IndianaCareerConnect.com and create a free account',
-      'Search for "HVAC" and select {PLATFORM_DEFAULTS.orgName} as your provider',
+      `Search for "HVAC" and select ${PLATFORM_DEFAULTS.orgName} as your provider`,
       'Complete the Workforce Ready Grant application online',
       'Receive approval notification (typically 5–10 business days)',
       'Bring your WRG approval letter to Elevate for enrollment',

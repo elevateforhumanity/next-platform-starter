@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Apply — Barber Apprenticeship',
   description:
-    'Apply to the {PLATFORM_DEFAULTS.orgName} DOL-registered barber apprenticeship — as an apprentice or as a partner barbershop.',
+    `Apply to the ${PLATFORM_DEFAULTS.orgName} DOL-registered barber apprenticeship — as an apprentice or as a partner barbershop.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship/apply' },
 };
 

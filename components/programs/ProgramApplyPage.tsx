@@ -183,7 +183,7 @@ export default function ProgramApplyPage({ program }: Props) {
             ? 'Our system is temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone}.'
             : appRes.status === 409
               ? appData.error || 'A duplicate application was found. Please call ${PLATFORM_DEFAULTS.supportPhone}.'
-              : appData.error || 'Failed to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.';
+              : appData.error || `Failed to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`;
         setError(msg);
         setErrorSeverity('critical');
         setLoading(false);

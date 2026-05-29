@@ -26,7 +26,7 @@ export default function CommunityServicesPage() {
         intro: {
           heading: 'Beyond Training',
           paragraphs: [
-            '{PLATFORM_DEFAULTS.orgName} provides free community services that address the barriers keeping Indiana residents from economic stability. Training is one piece — but stable housing, accurate tax filing, and financial literacy are equally critical.',
+            `${PLATFORM_DEFAULTS.orgName} provides free community services that address the barriers keeping Indiana residents from economic stability. Training is one piece — but stable housing, accurate tax filing, and financial literacy are equally critical.`,
             'Our community services are available to all Indiana residents, not just enrolled students. No referral required.',
           ],
           image: '/images/pages/community-page-2.webp',
@@ -55,7 +55,7 @@ export default function CommunityServicesPage() {
         },
         cta: {
           heading: 'Get Help Today',
-          subtitle: 'Free community services for all Indiana residents. No referral required. Call {PLATFORM_DEFAULTS.supportPhone}.',
+          subtitle: `Free community services for all Indiana residents. No referral required. Call ${PLATFORM_DEFAULTS.supportPhone}.`,
           primaryLabel: 'Contact Us',
           primaryHref: '/contact',
           secondaryLabel: 'Consumer Education',

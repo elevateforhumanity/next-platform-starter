@@ -7,7 +7,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Platform Licensing',
   description:
-    'Operate your organization on enterprise platforms built and managed by {PLATFORM_DEFAULTS.orgName}. Managed LMS and restricted source-use licensing.',
+    `Operate your organization on enterprise platforms built and managed by ${PLATFORM_DEFAULTS.orgName}. Managed LMS and restricted source-use licensing.`,
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/licenses',
   },

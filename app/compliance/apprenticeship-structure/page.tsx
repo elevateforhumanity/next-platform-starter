@@ -208,7 +208,7 @@ export default function ApprenticeshipStructurePage() {
               {
                 level: 1,
                 role: 'Sponsor (Oversight & Compliance)',
-                entity: '2Exclusive LLC-S (DBA {PLATFORM_DEFAULTS.orgName} Career & Technical Institute)',
+                entity: `2Exclusive LLC-S (DBA ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute)`,
                 icon: Shield,
                 scope:
                   'RAPIDS registration, ETPL compliance, curriculum standards, enrollment management, funding navigation, progress tracking, credential verification, institutional accountability. Final authority on all program decisions.',

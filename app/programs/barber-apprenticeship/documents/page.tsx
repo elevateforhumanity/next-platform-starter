@@ -150,14 +150,14 @@ export default function BarberDocumentsPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setSubmitError(data.error || 'Submission failed. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+        setSubmitError(data.error || `Submission failed. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
         setSubmitting(false);
         return;
       }
 
       router.push('/apprentice');
     } catch {
-      setSubmitError('Unable to submit. Please try again or call {PLATFORM_DEFAULTS.supportPhone}.');
+      setSubmitError(`Unable to submit. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`);
       setSubmitting(false);
     }
   };

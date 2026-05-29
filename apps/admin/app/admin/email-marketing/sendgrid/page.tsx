@@ -7,7 +7,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'SendGrid Settings | Admin | {PLATFORM_DEFAULTS.orgName}',
+  title: `SendGrid Settings | Admin | ${PLATFORM_DEFAULTS.orgName}`,
   robots: { index: false, follow: false },
 };
 

@@ -12,14 +12,14 @@ export const revalidate = 3600; // re-fetch team from DB hourly
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: '{PLATFORM_DEFAULTS.orgName} is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
+  description: `${PLATFORM_DEFAULTS.orgName} is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.`,
   alternates: { canonical: 'https://www.elevateforhumanity.org/about' },
   openGraph: {
-    title: 'About {PLATFORM_DEFAULTS.orgName}',
+    title: `About ${PLATFORM_DEFAULTS.orgName}`,
     description: 'A workforce development institute providing funded career training in Indianapolis, Indiana. Founded by Elizabeth Greene.',
     url: 'https://www.elevateforhumanity.org/about',
     siteName: PLATFORM_DEFAULTS.orgName,
-    images: [{ url: '/images/team/elizabeth-greene-headshot.webp', width: 800, height: 1080, alt: 'Elizabeth Greene, Founder of {PLATFORM_DEFAULTS.orgName}' }],
+    images: [{ url: '/images/team/elizabeth-greene-headshot.webp', width: 800, height: 1080, alt: `Elizabeth Greene, Founder of ${PLATFORM_DEFAULTS.orgName}` }],
     type: 'website',
   },
 };
