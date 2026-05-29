@@ -61,7 +61,7 @@ describe('GovernmentPage', () => {
     });
 
     it('should have valid contact information format', () => {
-      const phone = '{PLATFORM_DEFAULTS.supportPhone}';
+      const phone = PLATFORM_DEFAULTS.supportPhone;
       const email = 'elevate4humanityedu@gmail.com';
 
       // Phone format validation
