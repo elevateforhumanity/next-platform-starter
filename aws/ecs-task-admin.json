@@ -103,6 +103,10 @@
         {
           "name": "SUPABASE_PROJECT_REF",
           "value": "cuxzzpsyufcewtmicszk"
+        },
+        {
+          "name": "NODE_OPTIONS",
+          "value": "--max-old-space-size=4096"
         }
       ],
       "secrets": [
@@ -247,7 +251,9 @@
           "softLimit": 65536,
           "hardLimit": 65536
         }
-      ]
+      ],
+      "memory": 6144,
+      "memoryReservation": 3072
     }
   ]
 }
