@@ -28,7 +28,7 @@ export const HOSPITALITY: ProgramSchema = {
   credentials: [
     {
       name: 'Hospitality & Customer Service Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description:
         'Covers front desk operations, guest relations, food service, and event coordination.',
       validity: 'Lifetime',
@@ -183,7 +183,7 @@ export const HOSPITALITY: ProgramSchema = {
     {
       training: 'Hospitality & Customer Service (8 weeks)',
       certification: 'Hospitality Certificate + ServSafe',
-      certBody: '' + PLATFORM_DEFAULTS.orgName + ' / NRA',
+      certBody: 'Elevate for Humanity / NRA',
       jobRole: 'Front Desk Agent / Guest Services',
     },
   ],

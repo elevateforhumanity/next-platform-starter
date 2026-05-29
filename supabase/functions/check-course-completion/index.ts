@@ -103,7 +103,7 @@ serve(async (req) => {
           course_id: courseId,
           certification_name: course.certification_name,
           certification_issuer:
-            course.certification_issuer || '' + PLATFORM_DEFAULTS.orgName + '',
+            course.certification_issuer || 'Elevate for Humanity',
           verify_code: verifyCode,
           issued_at: new Date().toISOString(),
         });

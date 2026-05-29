@@ -29,7 +29,7 @@ export interface MobileAppConfig {
 }
 
 export const mobileAppConfig: MobileAppConfig = {
-  appName: '' + PLATFORM_DEFAULTS.orgName + '',
+  appName: 'Elevate for Humanity',
   bundleIdAndroid: 'org.elevateforhumanity.app',
   bundleIdIos: 'org.elevateforhumanity.app',
   minVersion: '1.0.0',

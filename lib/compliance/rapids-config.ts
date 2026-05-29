@@ -10,7 +10,7 @@ export const RAPIDS_CONFIG = {
   // Sponsor Information
   // RAPIDS registered sponsor is the legal entity; brand is the program name
   sponsorOfRecord: '2Exclusive LLC-S', // Legal entity on RAPIDS registration
-  programBrand: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute', // DBA of 2Exclusive LLC-S
+  programBrand: 'Elevate for Humanity Career & Technical Institute', // DBA of 2Exclusive LLC-S
 
   // Registration Details
   registrationId: process.env.RAPIDS_REGISTRATION_ID || '2025-IN-132301',

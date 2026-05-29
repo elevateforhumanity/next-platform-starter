@@ -78,7 +78,7 @@ async function _GET(request: NextRequest) {
       generatedAt: new Date().toISOString(),
       generatedBy: user.id,
       institution: {
-        name: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
+        name: 'Elevate for Humanity Career & Technical Institute',
         legalEntity: '2Exclusive LLC-S',
         type: 'Workforce Training Provider',
         etplStatus: 'Approved',

@@ -15,7 +15,7 @@ const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const SG_KEY        = process.env.SENDGRID_API_KEY!;
 const FROM_EMAIL    = 'noreply@elevateforhumanity.org';
-const FROM_NAME     = '' + PLATFORM_DEFAULTS.orgName + '';
+const FROM_NAME     = 'Elevate for Humanity';
 const SITE_URL      = 'https://www.elevateforhumanity.org';
 const CALLBACK_URL  = `${SITE_URL}/auth/callback`;
 const ELEVATE_CC    = ['elevate4humanityedu@gmail.com'];
@@ -66,7 +66,7 @@ function partnerEmail(firstName: string, role: string, resetLink: string): strin
   const portalLabel = role === 'partner' ? 'Partner Portal' : 'Program Holder Dashboard';
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Your Portal Access Link — Updated</h2>
   <p>Dear ${firstName},</p>
   <p>We are resending your portal link with a correction — the previous link had a redirect issue. Please use the button below to set your password and log in.</p>
@@ -90,7 +90,7 @@ function partnerEmail(firstName: string, role: string, resetLink: string): strin
 function studentEmail(firstName: string, resetLink: string, program: string): string {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Updated Login Link — ${program}</h2>
   <p>Dear ${firstName},</p>
   <p>We are resending your login link with a correction — the previous link had a redirect issue that sent you to the home page. This link will take you directly to the password setup page.</p>

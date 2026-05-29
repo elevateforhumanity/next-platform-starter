@@ -40,7 +40,7 @@ export const CONSTRUCTION_TRADES: ProgramSchema = {
     },
     {
       name: 'Forklift Operator Certification',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + ' (OSHA-compliant)',
+      issuer: 'Elevate for Humanity (OSHA-compliant)',
       description: 'OSHA-compliant powered industrial truck operator certification.',
       validity: '3 years',
     },

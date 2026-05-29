@@ -14,7 +14,7 @@ const SG_KEY       = process.env.SENDGRID_API_KEY!;
 const SITE_URL     = 'https://www.elevateforhumanity.org';
 const CALLBACK_URL = `${SITE_URL}/auth/callback`;
 const FROM_EMAIL   = 'noreply@elevateforhumanity.org';
-const FROM_NAME    = '' + PLATFORM_DEFAULTS.orgName + '';
+const FROM_NAME    = 'Elevate for Humanity';
 
 // ── 1. Audit: find all elevated roles ────────────────────────────────────────
 const { data: elevated } = await db
@@ -68,7 +68,7 @@ if (linkErr) console.error('generateLink error:', linkErr.message);
 
 const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Your Super Admin Access — Elevate for Humanity</h2>
   <p>Dear Elizabeth,</p>
   <p>Your account has been configured as the <strong>Super Administrator</strong> for the Elevate for Humanity platform. Use the button below to set your password and log in.</p>

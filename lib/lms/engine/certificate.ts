@@ -161,7 +161,7 @@ export async function issueCertificateIfEligible(
         to: profile.email,
         subject: emailPayload.subject,
         html: emailPayload.html,
-        from: '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>',
+        from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
         replyTo: 'elevate4humanityedu@gmail.com',
       });
       logger.info('[engine/certificate] Certificate email sent', { userId, certNumber });

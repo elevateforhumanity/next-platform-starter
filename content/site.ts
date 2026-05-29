@@ -1,6 +1,6 @@
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const siteConfig = {
-  name: '' + PLATFORM_DEFAULTS.orgName + '',
+  name: 'Elevate for Humanity',
   url: 'https://www.elevateforhumanity.org',
   description: 'Career training, workforce pathways, and community-centered education programs.',
   learnUrl: 'https://www.elevateforhumanity.org',

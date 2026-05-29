@@ -65,7 +65,7 @@ export const siteConfig = {
   // SEO defaults
   seo: {
     titleTemplate: '%s | ' + PLATFORM_DEFAULTS.orgName + '',
-    defaultTitle: '' + PLATFORM_DEFAULTS.orgName + ' | Workforce Infrastructure',
+    defaultTitle: 'Elevate for Humanity | Workforce Infrastructure',
     defaultDescription:
       'Free workforce training programs in healthcare, skilled trades, and technology. WIOA-funded career pathways in Indianapolis.',
     defaultImage: '/og-default.webp',

@@ -56,7 +56,7 @@ export const OFFICE_ADMINISTRATION: ProgramSchema = {
     },
     {
       name: 'Business Communication Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description:
         'Institutional certificate verifying professional writing and communication competency.',
       validity: 'Lifetime',

@@ -39,7 +39,7 @@ export const PROGRAMS: Program[] = [
     price: 4980,
     duration: '15 months',
     durationDays: 450,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       { name: 'Rise Up Certificate', type: 'Certificate' },
@@ -67,7 +67,7 @@ export const PROGRAMS: Program[] = [
     price: 4550,
     duration: '5 weeks',
     durationDays: 35,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       {
@@ -104,7 +104,7 @@ export const PROGRAMS: Program[] = [
     price: 575,
     duration: '1 day',
     durationDays: 1,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [{ name: 'CPR', type: 'Industry-Recognized Certification' }],
     description:
@@ -129,7 +129,7 @@ export const PROGRAMS: Program[] = [
     price: 4950,
     duration: '4 weeks',
     durationDays: 28,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       { name: 'CPR', type: 'Industry-Recognized Certification' },
@@ -163,7 +163,7 @@ export const PROGRAMS: Program[] = [
     price: 4700,
     duration: '4 weeks',
     durationDays: 28,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       {
@@ -192,7 +192,7 @@ export const PROGRAMS: Program[] = [
     price: 5000,
     duration: '60 days',
     durationDays: 60,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       { name: 'Residential HVAC Certification 1', type: 'Industry-Recognized Certification' },
@@ -228,7 +228,7 @@ export const PROGRAMS: Program[] = [
     price: 4325,
     duration: '21 days',
     durationDays: 21,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       {
@@ -262,7 +262,7 @@ export const PROGRAMS: Program[] = [
     price: 4575,
     duration: '5 weeks',
     durationDays: 35,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       {
@@ -299,7 +299,7 @@ export const PROGRAMS: Program[] = [
     price: 4750,
     duration: '45 days',
     durationDays: 45,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       { name: 'Rise Up Certificate', type: 'Certificate' },
@@ -339,7 +339,7 @@ export const PROGRAMS: Program[] = [
     price: 4950,
     duration: '10 weeks',
     durationDays: 70,
-    location: '' + PLATFORM_DEFAULTS.orgName + ' Training Center, Indianapolis, Indiana',
+    location: 'Elevate for Humanity Training Center, Indianapolis, Indiana',
     county: 'Marion County',
     credentials: [
       { name: 'Rise Up Certificate', type: 'Certificate' },

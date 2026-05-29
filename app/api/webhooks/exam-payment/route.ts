@@ -159,7 +159,7 @@ export async function POST(req: NextRequest) {
       if (profile?.email && credential) {
         const { resend } = await import('@/lib/resend');
         await resend.emails.send({
-          from: process.env.EMAIL_FROM ?? '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>',
+          from: process.env.EMAIL_FROM ?? 'Elevate for Humanity <noreply@elevateforhumanity.org>',
           to: profile.email,
           subject: `Exam fee confirmed — schedule your ${credential.name} exam`,
           html: `

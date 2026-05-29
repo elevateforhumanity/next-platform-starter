@@ -3,7 +3,7 @@ export const efhImageMap = {
   homeHeroTop: {
     label: 'Top homepage hero banner',
     src: '/images/hero/home-hero-top-gradient.jpg',
-    alt: '' + PLATFORM_DEFAULTS.orgName + ' gradient hero banner',
+    alt: 'Elevate for Humanity gradient hero banner',
   },
   homeHeroSecond: {
     label: '2nd hero banner – home page',

@@ -97,7 +97,7 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
 
   if (sendgridApiKey) {
     const fromRaw =
-      process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>';
+      process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
     const fromMatch = fromRaw.match(/^(.+?)\s*<(.+?)>$/);
     const from = fromMatch
       ? { name: fromMatch[1].trim(), email: fromMatch[2].trim() }

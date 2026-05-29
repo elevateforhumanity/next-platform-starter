@@ -2620,7 +2620,7 @@ export const programs: Program[] = [
     schedule: '200 hours',
     delivery: 'in-person',
     credential: 'ServSafe Food Handler',
-    approvals: ['' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute'],
+    approvals: ['Elevate for Humanity Career & Technical Institute'],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '8 weeks program',

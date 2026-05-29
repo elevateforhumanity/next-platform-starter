@@ -26,7 +26,7 @@ export const SANITATION: ProgramSchema = {
   credentials: [
     {
       name: 'Infection Control Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description:
         'Covers standard precautions, PPE, and disinfection protocols for healthcare and personal services.',
       validity: '2 years',

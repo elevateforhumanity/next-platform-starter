@@ -414,7 +414,7 @@ const partnerCourses = {
       name: 'VITA Site Coordinator Training',
       basePrice: 50,
       price: 70,
-      provider: '' + PLATFORM_DEFAULTS.orgName + '',
+      provider: 'Elevate for Humanity',
       category: 'Tax Preparation',
       description: 'Annual certification',
     },

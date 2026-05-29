@@ -396,7 +396,7 @@ async function renderSlideFrame(
   ctx.fillStyle = 'rgba(255,255,255,0.18)';
   ctx.font = 'bold 14px Arial';
   ctx.textAlign = 'right';
-  ctx.fillText('' + PLATFORM_DEFAULTS.orgName + '', TXT_X + TXT_W - TXT_PAD, HEIGHT - 35);
+  ctx.fillText('Elevate for Humanity', TXT_X + TXT_W - TXT_PAD, HEIGHT - 35);
 
   return canvas.toBuffer('image/png');
 }

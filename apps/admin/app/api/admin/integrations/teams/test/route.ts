@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     await sendTeamsMessage(
       'Elevate LMS — Test Notification',
       'Teams integration is working correctly.',
-      { 'Sent by': 'Admin integration test', Platform: '' + PLATFORM_DEFAULTS.orgName + ' LMS' },
+      { 'Sent by': 'Admin integration test', Platform: 'Elevate for Humanity LMS' },
     );
     return NextResponse.json({ ok: true });
   } catch (err) {

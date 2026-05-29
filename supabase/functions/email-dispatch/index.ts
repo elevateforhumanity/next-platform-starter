@@ -60,7 +60,7 @@ class SendGridProvider implements EmailProvider {
           })),
           from: {
             email: request.from || 'noreply@www.elevateforhumanity.org',
-            name: '' + PLATFORM_DEFAULTS.orgName + '',
+            name: 'Elevate for Humanity',
           },
           reply_to: request.replyTo ? { email: request.replyTo } : undefined,
           subject: request.subject,

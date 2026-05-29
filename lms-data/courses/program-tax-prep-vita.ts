@@ -47,7 +47,7 @@ export const taxPrepVitaCourse: Course = {
       id: 'elevate-cert',
       name: 'Certificate of Completion',
       type: 'certificate',
-      provider: '' + PLATFORM_DEFAULTS.orgName + '',
+      provider: 'Elevate for Humanity',
       testRequired: false,
       obtainedInProgram: true,
     },

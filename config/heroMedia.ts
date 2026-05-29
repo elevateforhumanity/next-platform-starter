@@ -19,7 +19,7 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   home: {
     video: '/videos/hero-home.mp4',
     poster: '/images/pages/home-hero.jpg',
-    alt: '' + PLATFORM_DEFAULTS.orgName + ' — workforce training in Indianapolis',
+    alt: 'Elevate for Humanity — workforce training in Indianapolis',
     audio: '/audio/heroes/home.mp3',
     size: 'primary',
   },

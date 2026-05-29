@@ -13,7 +13,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const TO_EMAIL = 'elevate4humanityedu@gmail.com';
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
-const FROM_NAME = '' + PLATFORM_DEFAULTS.orgName + '';
+const FROM_NAME = 'Elevate for Humanity';
 
 if (!SENDGRID_API_KEY) {
   console.error('❌ SENDGRID_API_KEY is not set in .env.local');

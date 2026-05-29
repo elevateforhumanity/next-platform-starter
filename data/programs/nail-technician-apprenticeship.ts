@@ -33,7 +33,7 @@ export const NAIL_TECH: ProgramSchema = {
     },
     {
       name: 'Infection Control Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description: 'Sanitation and infection control for personal services.',
       validity: '2 years',
     },

@@ -15,7 +15,7 @@ import type { CredentialDelivery } from './types';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const STAFF_EMAIL = 'elevate4humanityedu@gmail.com';
-const FROM = '' + PLATFORM_DEFAULTS.orgName + ' <noreply@elevateforhumanity.org>';
+const FROM = 'Elevate for Humanity <noreply@elevateforhumanity.org>';
 const BRAND_RED = '#DC2626';
 const BRAND_DARK = '#1E293B';
 

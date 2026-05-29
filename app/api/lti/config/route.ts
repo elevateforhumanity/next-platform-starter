@@ -15,7 +15,7 @@ async function _GET(request: Request) {
   const toolUrl = process.env.LTI_TOOL_URL || PLATFORM_DEFAULTS.siteUrl;
 
   const config = {
-    title: '' + PLATFORM_DEFAULTS.orgName + ' LMS',
+    title: 'Elevate for Humanity LMS',
     description: 'Workforce & apprenticeship training LMS by Elevate for Humanity',
     jwks_uri: `${toolUrl}/api/lti/jwks`,
     initiate_login_uri: `${toolUrl}/api/lti/login`,

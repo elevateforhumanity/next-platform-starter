@@ -13,7 +13,7 @@ export interface VideoData {
 export const videos: VideoData[] = [
   {
     id: 'hero-home',
-    title: '' + PLATFORM_DEFAULTS.orgName + ' - Free Career Training Programs',
+    title: 'Elevate for Humanity - Free Career Training Programs',
     description:
       'Discover 100% free, funded workforce training programs in Indianapolis. WIOA-funded programs in healthcare, skilled trades, technology, and business. No tuition, no debt, real careers.',
     videoUrl: '/videos/hero-home.mp4',

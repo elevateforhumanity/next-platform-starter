@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Issuer
-    page.drawText('' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute', {
+    page.drawText('Elevate for Humanity Career & Technical Institute', {
       x: width / 2 - 175, y: 60,
       size: 11, font: boldFont,
       color: rgb(0.16, 0.5, 0.73),

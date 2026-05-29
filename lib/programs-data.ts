@@ -341,7 +341,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
       {
         name: 'Program Completion Certificate',
-        issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
+        issuingBody: 'Elevate for Humanity Career & Technical Institute',
         examFeeIncluded: true,
       },
     ],
@@ -393,7 +393,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
       {
         name: 'Program Completion Certificate',
-        issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
+        issuingBody: 'Elevate for Humanity Career & Technical Institute',
         examFeeIncluded: true,
       },
     ],

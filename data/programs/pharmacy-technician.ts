@@ -55,7 +55,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     },
     {
       name: 'Sterile Compounding Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description:
         'Competency-based assessment covering USP 797 sterile compounding procedures and aseptic technique.',
     },
@@ -68,7 +68,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     },
     {
       name: 'HIPAA Compliance Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description:
         'Training in patient privacy, PHI handling, and HIPAA regulations for pharmacy settings.',
     },
@@ -363,7 +363,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     {
       training: 'Sterile compounding module (Week 5)',
       certification: 'Sterile Compounding Certificate',
-      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
+      certBody: 'Elevate for Humanity',
       jobRole: 'Hospital / IV Pharmacy Technician',
     },
   ],

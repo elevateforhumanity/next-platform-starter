@@ -184,7 +184,7 @@ export const ELECTRICAL_DATA: TradesProgramData = {
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
     {
       name: 'Program Completion Certificate',
-      issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
+      issuingBody: 'Elevate for Humanity Career & Technical Institute',
     },
   ],
   curriculum: [
@@ -312,7 +312,7 @@ export const PLUMBING_DATA: TradesProgramData = {
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
     {
       name: 'Program Completion Certificate',
-      issuingBody: '' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute',
+      issuingBody: 'Elevate for Humanity Career & Technical Institute',
     },
   ],
   curriculum: [

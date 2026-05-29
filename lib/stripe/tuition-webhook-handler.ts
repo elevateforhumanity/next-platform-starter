@@ -64,7 +64,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     // EMAIL 1: MIKADY - Payment Confirmation
     // ============================================
     await resend.emails.send({
-      from: '' + PLATFORM_DEFAULTS.orgName + ' <billing@elevateforhumanity.org>',
+      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
       to: student.email,
       subject: `Payment Confirmed - ${programName}`,
       html: `

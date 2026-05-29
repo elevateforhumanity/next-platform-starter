@@ -127,7 +127,7 @@ export async function submitVerificationDecision(
     try {
       await sendEmail({
         to: [recipientEmail],
-        from: '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>',
+        from: 'Elevate for Humanity <info@elevateforhumanity.org>',
         subject,
         html,
       });

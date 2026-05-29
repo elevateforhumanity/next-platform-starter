@@ -156,7 +156,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
 
         <!-- Header -->
         <tr><td style="background:#0e3a7d;padding:32px 40px;">
-          <img src="${SITE_URL}/images/logo.png" alt="" + PLATFORM_DEFAULTS.orgName + "" height="60" style="display:block;margin-bottom:12px;" />
+          <img src="${SITE_URL}/images/logo.png" alt="Elevate for Humanity" height="60" style="display:block;margin-bottom:12px;" />
           <h1 style="margin:0;color:#ffffff;font-size:22px;">Partnership Agreement</h1>
           <p style="margin:6px 0 0;color:#93b4e8;font-size:14px;">Elevate for Humanity Technical and Career Institute</p>
         </td></tr>
@@ -246,7 +246,7 @@ function buildEmail(r: typeof ALL_RECIPIENTS[0], pdfB64: string): string {
 
   return JSON.stringify({
     personalizations: [{ to: [{ email: r.email, name: r.contact }] }],
-    from: { email: 'noreply@elevateforhumanity.org', name: '' + PLATFORM_DEFAULTS.orgName + '' },
+    from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: `Partnership MOU — Elevate for Humanity x ${r.org}`,
     content: [

@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
               const { subject, html, text } = generateLicenseWelcomeEmail(emailData);
 
               await resend.emails.send({
-                from: '' + PLATFORM_DEFAULTS.orgName + ' <licenses@elevateforhumanity.org>',
+                from: 'Elevate for Humanity <licenses@elevateforhumanity.org>',
                 to: purchase.contact_email,
                 subject,
                 html,

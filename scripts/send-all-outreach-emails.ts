@@ -9,7 +9,7 @@ const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const SG_KEY        = process.env.SENDGRID_API_KEY!;
 const FROM_EMAIL    = 'noreply@elevateforhumanity.org';
-const FROM_NAME     = '' + PLATFORM_DEFAULTS.orgName + '';
+const FROM_NAME     = 'Elevate for Humanity';
 const SITE_URL      = 'https://www.elevateforhumanity.org';
 const ELEVATE_CC    = ['elevate4humanityedu@gmail.com'];
 
@@ -62,7 +62,7 @@ function sendEmail(to: string, toName: string, subject: string, html: string, cc
 function applicantEmail(firstName: string): string {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Important Update About Your Application</h2>
   <p>Dear ${firstName},</p>
   <p>We want to sincerely apologize — we are currently experiencing <strong>technical difficulties with our enrollment system</strong> and your application may have been affected. We are actively working to resolve this and want to make sure you don't lose your spot.</p>
@@ -94,7 +94,7 @@ function partnerOnboardingEmail(firstName: string, role: string, resetLink: stri
   const portalLabel = role === 'partner' ? 'Partner Portal' : 'Program Holder Dashboard';
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Your New Portal Access Link — Action Required</h2>
   <p>Dear ${firstName},</p>
   <p>We are updating our partner portal and sending you a fresh onboarding link. Please use the button below to set your password and complete your account setup.</p>
@@ -124,7 +124,7 @@ function partnerOnboardingEmail(firstName: string, role: string, resetLink: stri
 function studentResetEmail(firstName: string, resetLink: string, program: string): string {
   return `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
-  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="" + PLATFORM_DEFAULTS.orgName + "" style="height:60px;margin-bottom:24px"/>
+  <img src="${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="Elevate for Humanity" style="height:60px;margin-bottom:24px"/>
   <h2 style="color:#dc2626">Welcome Back — Set Your New Password</h2>
   <p>Dear ${firstName},</p>
   <p>Your ${program} account has been refreshed. Please click the button below to set your own password and access your student dashboard.</p>

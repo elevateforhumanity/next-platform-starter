@@ -27,7 +27,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 
 const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2024-04-10' });
 
-const FROM_EMAIL = process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Elevate for Humanity <info@elevateforhumanity.org>';
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
 function parseFrom(value: string): { email: string; name?: string } {

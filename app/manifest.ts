@@ -33,7 +33,7 @@ export default function manifest(): MetadataRoute.Manifest {
         // @ts-expect-error — form_factor is valid per spec, not yet in Next.js types
         form_factor: 'narrow',
         type: 'image/jpeg',
-        label: '' + PLATFORM_DEFAULTS.orgName + ' — career training programs',
+        label: 'Elevate for Humanity — career training programs',
       },
       {
         src: '/screenshots/home-wide.jpg',
@@ -41,7 +41,7 @@ export default function manifest(): MetadataRoute.Manifest {
         // @ts-expect-error — form_factor is valid per spec, not yet in Next.js types
         form_factor: 'wide',
         type: 'image/jpeg',
-        label: '' + PLATFORM_DEFAULTS.orgName + ' — employer partners and job placement',
+        label: 'Elevate for Humanity — employer partners and job placement',
       },
     ],
   };

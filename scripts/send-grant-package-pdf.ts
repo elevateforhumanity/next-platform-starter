@@ -13,7 +13,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const TO_EMAIL = 'elevate4humanityedu@gmail.com';
 const FROM_EMAIL = 'noreply@elevateforhumanity.org';
-const FROM_NAME = '' + PLATFORM_DEFAULTS.orgName + '';
+const FROM_NAME = 'Elevate for Humanity';
 
 if (!SENDGRID_API_KEY) {
   console.error('❌ SENDGRID_API_KEY not set');
@@ -136,7 +136,7 @@ function mdToBody(md: string): string {
 
 function buildHtml(md: string, title: string, num: number, total: number): string {
   const body = mdToBody(md);
-  const logoTag = LOGO_B64 ? `<img src="${LOGO_B64}" class="logo" alt="" + PLATFORM_DEFAULTS.orgName + "">` : '';
+  const logoTag = LOGO_B64 ? `<img src="${LOGO_B64}" class="logo" alt="Elevate for Humanity">` : '';
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#111;line-height:1.6;background:white}

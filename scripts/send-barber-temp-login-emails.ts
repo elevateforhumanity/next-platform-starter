@@ -37,7 +37,7 @@ const recipients: Recipient[] = [
   { name: 'Natalia Roa', email: 'natataroa@gmail.com' },
 ];
 
-const FROM_EMAIL = process.env.EMAIL_FROM || '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Elevate for Humanity <info@elevateforhumanity.org>';
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
 function parseFrom(value: string): { email: string; name?: string } {

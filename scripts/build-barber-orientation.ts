@@ -39,7 +39,7 @@ const SCENES: SceneDef[] = [
   {
     heading: 'Welcome to the Program',
     keyword: 'barbershop interior professional atmosphere',
-    tagline: '' + PLATFORM_DEFAULTS.orgName + ' - Indiana Barber Apprenticeship',
+    tagline: 'Elevate for Humanity - Indiana Barber Apprenticeship',
     narration:
       'Welcome to the Elevate for Humanity Barber Apprenticeship Program. This orientation gives you the full picture before your first day: how the apprenticeship works, what is expected of you, and how to succeed.',
   },

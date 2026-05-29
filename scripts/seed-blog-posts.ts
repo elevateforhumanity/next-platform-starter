@@ -57,7 +57,7 @@ Ready to start your own success story? Apply now at /apply or call ${PLATFORM_DE
     featured_image_url: '/images/blog/hvac-success.jpg',
     tags: ['HVAC', 'success story', 'career change', 'WIOA'],
     published: true,
-    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
+    author_name: 'Elevate for Humanity',
   },
   {
     title: 'Understanding WIOA Funding: Your Complete Guide to Free Career Training',
@@ -113,7 +113,7 @@ Check your eligibility at /wioa-eligibility or call ${PLATFORM_DEFAULTS.supportP
     featured_image_url: '/images/blog/wioa-guide.jpg',
     tags: ['WIOA', 'funding', 'financial aid', 'free training'],
     published: true,
-    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
+    author_name: 'Elevate for Humanity',
   },
   {
     title: '5 Highest-Paying Careers You Can Start in 6 Months or Less',
@@ -167,7 +167,7 @@ All five are available at Elevate for Humanity with WIOA funding. Apply at /appl
     featured_image_url: '/images/blog/careers.jpg',
     tags: ['careers', 'salary', 'training'],
     published: true,
-    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
+    author_name: 'Elevate for Humanity',
   },
   {
     title: 'CNA vs. Medical Assistant: Which Healthcare Career is Right for You?',
@@ -222,7 +222,7 @@ Both programs available at Elevate for Humanity with WIOA funding.`,
     featured_image_url: '/images/blog/healthcare-comparison.jpg',
     tags: ['CNA', 'medical assistant', 'healthcare'],
     published: true,
-    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
+    author_name: 'Elevate for Humanity',
   },
   {
     title: 'Elevate Partners with Indiana Career Connect for Faster Enrollment',
@@ -261,7 +261,7 @@ Don't let paperwork stand between you and your new career.`,
     featured_image_url: '/images/blog/partnership.jpg',
     tags: ['partnership', 'Indiana Career Connect', 'WorkOne'],
     published: true,
-    author_name: '' + PLATFORM_DEFAULTS.orgName + '',
+    author_name: 'Elevate for Humanity',
   },
 ];
 

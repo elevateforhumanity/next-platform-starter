@@ -42,7 +42,7 @@ export const BOOKKEEPING: ProgramSchema = {
     },
     {
       name: 'Bookkeeping Fundamentals Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description: 'Institutional certificate verifying double-entry bookkeeping competency.',
       validity: 'Lifetime',
     },

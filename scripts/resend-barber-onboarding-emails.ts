@@ -23,7 +23,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 const FROM_EMAIL =
   process.env.EMAIL_FROM ||
   process.env.MAIL_FROM ||
-  '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
+  'Elevate for Humanity <info@elevateforhumanity.org>';
 
 const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 

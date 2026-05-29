@@ -68,7 +68,7 @@ export class SocialMediaAutomation {
     this.accounts.set('facebook-personal', {
       platform: 'facebook',
       accountId: 'elevate-personal',
-      accountName: '' + PLATFORM_DEFAULTS.orgName + ' (Personal)',
+      accountName: 'Elevate for Humanity (Personal)',
       active: true,
     });
     // LinkedIn Company Page

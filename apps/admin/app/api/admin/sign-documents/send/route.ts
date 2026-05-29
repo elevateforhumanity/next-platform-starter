@@ -27,7 +27,7 @@ async function buildW9(sigPngBytes: Uint8Array): Promise<Uint8Array> {
     .setText('2Exclusive LLC-S DBA ' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute');
   form
     .getTextField('topmostSubform[0].Page1[0].f1_02[0]')
-    .setText('' + PLATFORM_DEFAULTS.orgName + ' Career & Technical Institute');
+    .setText('Elevate for Humanity Career & Technical Institute');
   form.getCheckBox('topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[5]').check();
   form.getTextField('topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].f1_03[0]').setText('S');
   form

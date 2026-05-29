@@ -52,7 +52,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     },
     {
       name: 'Barbershop Business Management Certificate',
-      issuer: '' + PLATFORM_DEFAULTS.orgName + '',
+      issuer: 'Elevate for Humanity',
       description: 'Business fundamentals for barbers: client management, booking systems, pricing strategy, and shop operations.',
     },
   ],
@@ -202,13 +202,13 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     {
       training: 'Sanitation/infection control (Weeks 1–8)',
       certification: 'Sanitation & Infection Control Certificate',
-      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
+      certBody: 'Elevate for Humanity',
       jobRole: 'Barber / Personal Care Professional',
     },
     {
       training: 'Business fundamentals (Weeks 27–40)',
       certification: 'Barbershop Business Certificate',
-      certBody: '' + PLATFORM_DEFAULTS.orgName + '',
+      certBody: 'Elevate for Humanity',
       jobRole: 'Barbershop Manager / Owner',
     },
   ],

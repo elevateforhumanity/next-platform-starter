@@ -136,7 +136,7 @@ function buildPlainText(recipient: (typeof RECIPIENTS)[0]): string {
     '',
     'Elizabeth Greene',
     'Founder & CEO',
-    '' + PLATFORM_DEFAULTS.orgName + ' Technical and Career Institute',
+    'Elevate for Humanity Technical and Career Institute',
     '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240',
     'elevate4humanityedu@gmail.com',
     '' + PLATFORM_DEFAULTS.supportPhone + '',

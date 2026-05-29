@@ -84,7 +84,7 @@ export const POST = withRuntime(
               unit_amount: hold.fee_cents,
               product_data: {
                 name: label,
-                description: '' + PLATFORM_DEFAULTS.orgName + ' Testing Center — Indianapolis, IN',
+                description: 'Elevate for Humanity Testing Center — Indianapolis, IN',
               },
             },
             quantity: 1,

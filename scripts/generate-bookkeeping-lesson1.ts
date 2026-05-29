@@ -61,7 +61,7 @@ const SCENES: LessonScene[] = [
     id: 'title',
     slideTitle: 'Welcome to Bookkeeping & QuickBooks',
     slideText:
-      '' + PLATFORM_DEFAULTS.orgName + '\n\n' +
+      'Elevate for Humanity\n\n' +
       'Bookkeeping & QuickBooks Certified User Program\n\n' +
       '5-Week Certiport-Aligned Program\n' +
       '• QuickBooks Certified User (QBCU)\n' +

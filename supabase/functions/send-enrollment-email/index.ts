@@ -103,7 +103,7 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: '' + PLATFORM_DEFAULTS.orgName + ' <noreply@www.elevateforhumanity.org>',
+        from: 'Elevate for Humanity <noreply@www.elevateforhumanity.org>',
         to: [enrollment.student_email],
         subject,
         html: htmlContent,

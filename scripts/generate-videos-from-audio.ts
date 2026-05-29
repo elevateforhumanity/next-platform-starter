@@ -17,7 +17,7 @@ const VIDEO_SPECS = [
   {
     audioFile: 'homepage-hero-new.mp3',
     videoFile: 'homepage-hero-new.mp4',
-    title: '' + PLATFORM_DEFAULTS.orgName + '',
+    title: 'Elevate for Humanity',
     subtitle: 'Build Your Future',
     bgColor: '#0f172a', // slate-900
     textColor: '#ffffff',
@@ -41,7 +41,7 @@ const VIDEO_SPECS = [
   {
     audioFile: 'elevate-overview-with-narration.mp3',
     videoFile: 'elevate-overview-with-narration.mp4',
-    title: '' + PLATFORM_DEFAULTS.orgName + '',
+    title: 'Elevate for Humanity',
     subtitle: 'Your Career Journey Starts Here',
     bgColor: '#0f172a',
     textColor: '#ffffff',

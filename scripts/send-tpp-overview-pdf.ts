@@ -54,7 +54,7 @@ function sendEmail(pdf: Buffer): Promise<void> {
 
   const payload = JSON.stringify({
     personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
-    from: { email: 'noreply@elevateforhumanity.org', name: '' + PLATFORM_DEFAULTS.orgName + '' },
+    from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
     reply_to: { email: 'elevate4humanityedu@gmail.com' },
     subject: `[DOCUMENT 1 OF 2] FSSA SNAP E&T Program Overview & Capability Statement — Elevate for Humanity — ${TODAY}`,
     content: [{ type: 'text/html', value: html }],

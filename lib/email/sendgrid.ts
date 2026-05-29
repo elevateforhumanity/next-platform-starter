@@ -32,7 +32,7 @@ export async function sendEmail(options: EmailOptions) {
   const FROM_EMAIL =
     process.env.EMAIL_FROM ||
     process.env.MAIL_FROM ||
-    '' + PLATFORM_DEFAULTS.orgName + ' <info@elevateforhumanity.org>';
+    'Elevate for Humanity <info@elevateforhumanity.org>';
   const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'elevate4humanityedu@gmail.com';
 
   const from = options.from || FROM_EMAIL;

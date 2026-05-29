@@ -156,7 +156,7 @@ export const APPROVED_PROVIDERS: Record<string, ApprovedProvider> = {
   // ── Elevate Proprietary Content ────────────────────────────────────────────
   'elevate-proprietary': {
     id: 'elevate-proprietary',
-    name: '' + PLATFORM_DEFAULTS.orgName + ' (Proprietary)',
+    name: 'Elevate for Humanity (Proprietary)',
     url: PLATFORM_DEFAULTS.siteUrl,
     description: 'Elevate-authored curriculum: HVAC, Barber, CNA, PRS, and other proprietary programs.',
     fetchStrategy: 'static_catalog',
