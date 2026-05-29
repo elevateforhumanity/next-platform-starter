@@ -11,7 +11,8 @@
 # Falls back to .env.example when AWS credentials are absent.
 # No dependency on Gitpod, Ona, Codespaces, or any CI platform.
 
-set -euo pipefail
+# Do not use set -e here — errors must not kill the calling shell session
+set -uo pipefail
 cd "$(dirname "$0")/.."
 
 REGION="${AWS_DEFAULT_REGION:-us-east-1}"
@@ -28,14 +29,14 @@ pull_from_ssm() {
 
   while true; do
     if [ -n "$NEXT_TOKEN" ]; then
-      RESULT=$(aws ssm get-parameters-by-path \
+      RESULT=$(timeout 15 aws ssm get-parameters-by-path \
         --path "$SSM_PATH" \
         --with-decryption \
         --region "$REGION" \
         --next-token "$NEXT_TOKEN" \
         --output json 2>&1)
     else
-      RESULT=$(aws ssm get-parameters-by-path \
+      RESULT=$(timeout 15 aws ssm get-parameters-by-path \
         --path "$SSM_PATH" \
         --with-decryption \
         --region "$REGION" \
@@ -43,7 +44,7 @@ pull_from_ssm() {
     fi
 
     if [ $? -ne 0 ]; then
-      echo "  SSM fetch failed: $RESULT"
+      echo "  SSM fetch failed or timed out: $RESULT"
       rm -f "$TMP"
       return 1
     fi

@@ -6,7 +6,7 @@
 #
 # Safe to re-run — skips install if codex is already present.
 
-set -euo pipefail
+set -uo pipefail
 
 echo "── Codex CLI setup ──"
 
