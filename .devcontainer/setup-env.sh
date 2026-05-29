@@ -11,8 +11,7 @@
 # Falls back to .env.example when AWS credentials are absent.
 # No dependency on Gitpod, Ona, Codespaces, or any CI platform.
 
-# Do not use set -e here — errors must not kill the calling shell session
-set -uo pipefail
+# No strict mode — errors must not kill the calling shell session
 cd "$(dirname "$0")/.."
 
 REGION="${AWS_DEFAULT_REGION:-us-east-1}"

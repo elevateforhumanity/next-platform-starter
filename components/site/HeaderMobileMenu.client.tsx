@@ -61,7 +61,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
         <Link
           href="/login"
           prefetch={false}
-          className="hidden md:lg:hidden text-slate-600 font-semibold text-[13px] hover:text-slate-900 px-2 py-1.5 rounded-md hover:bg-slate-50 transition-colors"
+          className="hidden md:block lg:hidden text-slate-600 font-semibold text-[13px] hover:text-slate-900 px-2 py-1.5 rounded-md hover:bg-slate-50 transition-colors"
         >
           Sign In
         </Link>
