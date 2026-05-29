@@ -192,6 +192,168 @@ async function navigate(params: Params): Promise<ExecuteResult> {
   return { success: true, message: `Navigate to ${params.url}`, data: { url: params.url as string } };
 }
 
+async function assignCaseManager(params: Params, db: SupabaseClient): Promise<ExecuteResult> {
+  const { enrollmentId, caseManagerId, studentName, caseManagerName } = params as {
+    enrollmentId?: string;
+    caseManagerId: string;
+    studentName?: string;
+    caseManagerName?: string;
+  };
+
+  if (!caseManagerId) return { success: false, message: 'No case manager ID provided.' };
+
+  // Verify the case manager exists
+  const { data: cm } = await db
+    .from('case_managers')
+    .select('id, name, email')
+    .eq('id', caseManagerId)
+    .single();
+
+  if (!cm) return { success: false, message: `Case manager ${caseManagerId} not found.` };
+
+  if (enrollmentId) {
+    // Assign via program_enrollments.assigned_staff_id
+    const { error } = await db
+      .from('program_enrollments')
+      .update({ assigned_staff_id: caseManagerId })
+      .eq('id', enrollmentId);
+
+    if (error) throw new Error(`Failed to assign case manager: ${error.message}`);
+
+    // Also upsert a case_manager_assignments row if there's a linked application
+    const { data: enrollment } = await db
+      .from('program_enrollments')
+      .select('id, user_id')
+      .eq('id', enrollmentId)
+      .single();
+
+    if (enrollment) {
+      const { data: app } = await db
+        .from('applications')
+        .select('id')
+        .eq('user_id', enrollment.user_id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (app) {
+        await db.from('case_manager_assignments').upsert(
+          { application_id: app.id, case_manager_id: caseManagerId },
+          { onConflict: 'application_id' },
+        ).then(() => {}, () => {});
+      }
+    }
+
+    return {
+      success: true,
+      message: `${caseManagerName ?? cm.name} assigned to ${studentName ?? enrollmentId}.`,
+      data: { caseManagerName: cm.name, caseManagerEmail: cm.email },
+    };
+  }
+
+  return { success: false, message: 'No enrollment ID provided — cannot assign case manager.' };
+}
+
+async function scheduleExam(params: Params, db: SupabaseClient): Promise<ExecuteResult> {
+  const {
+    userId, firstName, lastName, email, examType, examName,
+    preferredDate, preferredTime, notes,
+  } = params as {
+    userId?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    examType: string;
+    examName?: string;
+    preferredDate: string;
+    preferredTime?: string;
+    notes?: string;
+  };
+
+  if (!firstName || !lastName || !email) {
+    return { success: false, message: 'firstName, lastName, and email are required to schedule an exam.' };
+  }
+  if (!examType) return { success: false, message: 'examType is required.' };
+  if (!preferredDate) return { success: false, message: 'preferredDate is required (YYYY-MM-DD).' };
+
+  const { data, error } = await db
+    .from('exam_bookings')
+    .insert({
+      user_id: userId ?? null,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      exam_type: examType,
+      exam_name: examName ?? examType,
+      preferred_date: preferredDate,
+      preferred_time: preferredTime ?? null,
+      notes: notes ?? 'Scheduled via Ellie',
+      status: 'pending',
+      payment_status: 'unpaid',
+      booking_type: 'individual',
+    })
+    .select('id, confirmation_code')
+    .single();
+
+  if (error) throw new Error(`Failed to create exam booking: ${error.message}`);
+
+  return {
+    success: true,
+    message: `Exam booking created for ${firstName} ${lastName} — ${examName ?? examType} on ${preferredDate}.`,
+    data: { bookingId: data?.id, confirmationCode: data?.confirmation_code },
+  };
+}
+
+async function cancelExam(params: Params, db: SupabaseClient): Promise<ExecuteResult> {
+  const { bookingId, reason } = params as { bookingId: string; reason?: string };
+
+  if (!bookingId) return { success: false, message: 'No booking ID provided.' };
+
+  // Load the booking first to confirm it exists and is cancellable
+  const { data: booking } = await db
+    .from('exam_bookings')
+    .select('id, first_name, last_name, email, exam_name, exam_type, status')
+    .eq('id', bookingId)
+    .single();
+
+  if (!booking) return { success: false, message: `Exam booking ${bookingId} not found.` };
+
+  if (booking.status === 'cancelled') {
+    return { success: false, message: `Booking for ${booking.first_name} ${booking.last_name} is already cancelled.` };
+  }
+
+  const { error } = await db
+    .from('exam_bookings')
+    .update({
+      status: 'cancelled',
+      cancelled_at: new Date().toISOString(),
+      cancelled_reason: reason ?? 'Cancelled via Ellie',
+    })
+    .eq('id', bookingId);
+
+  if (error) throw new Error(`Failed to cancel exam booking: ${error.message}`);
+
+  // Queue a cancellation notification
+  await db.from('delivery_logs').insert({
+    channel: 'email',
+    template_name: 'exam_booking_cancelled',
+    recipient: booking.email,
+    recipient_name: `${booking.first_name} ${booking.last_name}`,
+    status: 'queued',
+    metadata: {
+      triggered_by: 'ellie',
+      booking_id: bookingId,
+      exam_name: booking.exam_name ?? booking.exam_type,
+      reason: reason ?? 'Cancelled by administrator',
+    },
+  }).then(() => {}, () => {});
+
+  return {
+    success: true,
+    message: `Exam booking for ${booking.first_name} ${booking.last_name} (${booking.exam_name ?? booking.exam_type}) cancelled. Notification queued.`,
+  };
+}
+
 // ── Dispatch table ────────────────────────────────────────────────────────────
 
 const HANDLERS: Record<EllieActionType, (params: Params, db: SupabaseClient) => Promise<ExecuteResult>> = {
@@ -204,9 +366,9 @@ const HANDLERS: Record<EllieActionType, (params: Params, db: SupabaseClient) => 
   reject_program_holder:  rejectProgramHolder,
   issue_certificate:      issueCertificate,
   send_magic_link:        sendMagicLink,
-  assign_case_manager:    async () => ({ success: false, message: 'assign_case_manager not yet implemented.' }),
-  schedule_exam:          async () => ({ success: false, message: 'schedule_exam not yet implemented.' }),
-  cancel_exam:            async () => ({ success: false, message: 'cancel_exam not yet implemented.' }),
+  assign_case_manager:    assignCaseManager,
+  schedule_exam:          scheduleExam,
+  cancel_exam:            cancelExam,
   run_workflow:           runWorkflow,
   navigate,
 };

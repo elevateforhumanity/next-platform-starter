@@ -147,6 +147,9 @@ Supported action types and required params:
 - reject_program_holder  — { programHolderId: string, orgName?: string, reason?: string }
 - issue_certificate      — { enrollmentId: string, studentName?: string }
 - send_magic_link        — { email: string, name?: string }
+- assign_case_manager    — { enrollmentId: string, caseManagerId: string, studentName?: string, caseManagerName?: string }
+- schedule_exam          — { firstName: string, lastName: string, email: string, examType: string, examName?: string, preferredDate: string, preferredTime?: string, userId?: string, notes?: string }
+- cancel_exam            — { bookingId: string, reason?: string }
 - run_workflow           — { workflowId: string, workflowName?: string }
 - navigate               — { url: string }
 
