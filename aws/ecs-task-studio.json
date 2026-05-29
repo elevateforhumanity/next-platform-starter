@@ -25,6 +25,10 @@
           "value": "main"
         },
         {
+          "name": "GITHUB_REPO",
+          "value": "elevate-for-humanity/Elevate-lms"
+        },
+        {
           "name": "MAX_SESSIONS",
           "value": "10"
         },
@@ -87,10 +91,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_TOKEN"
         },
         {
-          "name": "GITHUB_REPO",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
-        },
-        {
           "name": "SHELL_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
         }
@@ -111,7 +111,7 @@
         "interval": 30,
         "timeout": 10,
         "retries": 3,
-        "startPeriod": 15
+        "startPeriod": 180
       },
       "ulimits": [
         {
