@@ -3,8 +3,8 @@
  * Generates JSON-LD for rich results
  */
 
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   Organization,
   WithContext,
   Course,

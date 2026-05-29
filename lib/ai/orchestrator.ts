@@ -34,8 +34,8 @@ import { getRAGContext } from '@/lib/platform/rag';
 import { getKnowledgeGraphContext } from '@/lib/platform/knowledge-graph';
 import { decomposePlan } from '@/lib/platform/planner';
 import { buildMSLearnContext } from '@/lib/ai/microsoft-learn';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   getCertiportContextForCourse,
   getCertiportContextForProgram,
   getCertiportExamsForProgram,

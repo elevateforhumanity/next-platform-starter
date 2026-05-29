@@ -13,8 +13,8 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   CRITICAL_GUARDRAILS,
   MAJOR_GUARDRAILS,
   MINOR_GUARDRAILS,

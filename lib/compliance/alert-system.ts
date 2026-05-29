@@ -12,8 +12,8 @@
  * - Workforce Ready Grant requirements
  */
 
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   INDIANA_REPORTING_SCHEDULES,
   INDIANA_ALERT_TRIGGERS,
   INDIANA_EMAIL_TEMPLATES,

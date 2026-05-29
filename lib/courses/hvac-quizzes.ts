@@ -8184,8 +8184,8 @@ export const HVAC_FINAL_EXAM: QuizQuestion[] = [
 // ── Master Quiz Map ─────────────────────────────────────────────────────
 // Maps lesson IDs from definitions.ts to their quiz question arrays
 
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   QUIZ_01_01,
   QUIZ_01_02,
   QUIZ_01_03,

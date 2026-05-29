@@ -1,6 +1,6 @@
 // lib/partners/index.ts
-import {
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
   BasePartnerAPI,
   PartnerAPIConfig,
   PartnerType,
