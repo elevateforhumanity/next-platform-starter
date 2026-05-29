@@ -242,23 +242,6 @@ async function syncShiftToHourEntries(
   return hourEntry.id;
 }
 
-function buildAlertMessage(alertType: string, d: Record<string, any>): string {
-  switch (alertType) {
-    case 'geofence_violation':
-      return `Geofence violation: ${d.distance_m}m from ${d.site_name ?? 'site'} (allowed ${d.radius_m}m) during ${d.action}`;
-    case 'excessive_lunch':
-      return `Lunch exceeded standard: ${d.lunch_minutes}min (standard ${d.standard_minutes}min)`;
-    case 'missing_lunch':
-      return `No lunch break recorded for ${d.shift_hours}h shift`;
-    case 'missed_clock_out':
-      return `Auto-closed shift after ${d.open_hours}h without clock-out`;
-    case 'low_hours_pace':
-      return `Behind OJL pace: ${d.completed_hours}h completed, need ${d.required_pace_hours}h/week to finish on time`;
-    default:
-      return alertType.replace(/_/g, ' ');
-  }
-}
-
 /**
  * Sync a completed progress_entries shift to hour_entries (OJL timeclock bucket).
  * Idempotent: skips if hour_entry_id is already set on the progress entry.
@@ -266,9 +249,6 @@ function buildAlertMessage(alertType: string, d: Record<string, any>): string {
  * This is the authoritative bridge between the GPS timeclock and the
  * apprenticeship hours pipeline. Without this, clock-out events never
  * reach OJL totals, dashboards, or RAPIDS.
- */
-async function syncShiftToHourEntries(
-  supabase: any,
   params: {
     progressEntryId: string;
     apprenticeId: string;   // apprentices.id (UUID)
