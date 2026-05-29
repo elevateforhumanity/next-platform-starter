@@ -41,16 +41,17 @@ if grep -q '"apps/admin/\*\*"' "$LMS_WF"; then
 fi
 pass "Deploy workflow split looks correct"
 
-# 3) Single canonical admin landing entry.
+# 3) Keep one canonical admin dashboard entry.
 ADMIN_LANDING="apps/admin/app/admin/page.tsx"
 ADMIN_DASH_ENH="apps/admin/app/admin/dashboard-enhanced/page.tsx"
 ADMIN_LMS_DASH="apps/admin/app/admin/lms-dashboard/page.tsx"
 
-for f in "$ADMIN_LANDING" "$ADMIN_DASH_ENH" "$ADMIN_LMS_DASH"; do
-  [[ -f "$f" ]] || fail "$f missing"
-  grep -q "redirect('/admin/dashboard')" "$f" || fail "$f must redirect to /admin/dashboard"
+[[ -f "$ADMIN_LANDING" ]] || fail "$ADMIN_LANDING missing"
+grep -q "redirect('/admin/dashboard')" "$ADMIN_LANDING" || fail "$ADMIN_LANDING must redirect to /admin/dashboard"
+for f in "$ADMIN_DASH_ENH" "$ADMIN_LMS_DASH"; do
+  [[ ! -f "$f" ]] || fail "$f should be removed; use /admin/dashboard directly"
 done
-pass "Admin landing aliases redirect to canonical dashboard"
+pass "Admin dashboard route tree is consolidated"
 
 # 4) Legacy admin applicants nav entry should not exist.
 if grep -q "href: '/admin/applicants'" components/admin/AdminNav.tsx; then
