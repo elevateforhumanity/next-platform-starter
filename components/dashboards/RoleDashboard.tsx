@@ -38,8 +38,8 @@ const roleConfig = {
   instructor: {
     title: 'Instructor Dashboard',
     description: 'Manage your classes, assignments, and student progress',
-    primaryAction: { label: 'My Classes', href: '/instructor/classes' },
-    secondaryAction: { label: 'Assignments', href: '/instructor/assignments' },
+    primaryAction: { label: 'My Classes', href: 'https://admin.elevateforhumanity.org/admin/instructor/classes' },
+    secondaryAction: { label: 'Assignments', href: 'https://admin.elevateforhumanity.org/admin/instructor/assignments' },
     stats: [
       { label: 'Active Students', value: '120' },
       { label: 'Classes', value: '5' },

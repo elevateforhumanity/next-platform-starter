@@ -140,7 +140,7 @@ export default function GlobalAvatar() {
     !pathname.startsWith('/lms') &&
     !pathname.startsWith('/learner') &&
     !pathname.startsWith('/student-portal') &&
-    !pathname.startsWith('/instructor') &&
+    !pathname.startsWith('/admin/instructor') &&
     !pathname.startsWith('/admin/staff-portal') &&
     !pathname.startsWith('/partner/dashboard') &&
     !pathname.startsWith('/program-holder') &&

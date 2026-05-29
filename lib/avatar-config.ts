@@ -368,7 +368,7 @@ export const PAGE_AVATAR_CONFIGS: Record<string, AvatarContext> = {
   // INSTRUCTOR / STAFF PORTALS
   // ============================================
 
-  '/instructor': {
+  '/admin/instructor': {
     enabled: true,
     speakOnLoad: true,
     role: 'assistant',
@@ -704,7 +704,7 @@ export function detectAudience(pathname: string): AvatarAudience {
   if (
     pathname.startsWith('/admin') ||
     pathname.startsWith('/staff') ||
-    pathname.startsWith('/instructor')
+    pathname.startsWith('/admin/instructor')
   ) {
     return 'admin';
   }

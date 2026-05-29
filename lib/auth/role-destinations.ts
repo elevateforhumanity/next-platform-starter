@@ -55,7 +55,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   staff: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
 
   // ── Education staff ───────────────────────────────────────────────
-  instructor: '/instructor/dashboard',
+  instructor: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard',
   mentor: '/mentor/dashboard',
   creator: '/creator/products',
 

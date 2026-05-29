@@ -220,7 +220,7 @@ export function getAvatarContextForRoute(route: string): RouteAvatarContext {
   }
 
   // Instructor / Staff portals
-  if (normalizedRoute.startsWith('/instructor') || normalizedRoute.startsWith('/admin/staff-portal')) {
+  if (normalizedRoute.startsWith('/admin/instructor') || normalizedRoute.startsWith('/admin/staff-portal')) {
     return {
       enabled: true,
       speakOnLoad: true,
@@ -294,7 +294,7 @@ export function getAvatarEnabledRoutes(): string[] {
     '/student-portal',
     '/student-portal/progress',
     '/student-portal/hours',
-    '/instructor',
+    '/admin/instructor',
     '/admin/staff-portal',
     '/store/licenses/*',
     '/government',

@@ -65,7 +65,7 @@ export const headerNav: NavSection[] = [
       { label: '👥 Staff Portal', href: '/admin/staff-portal/dashboard' },
       { label: '📊 Board Dashboard', href: '/workforce-board/dashboard' },
       { label: '💈 Shop Dashboard', href: '/partner/dashboard' },
-      { label: '👨‍🏫 Instructor Dashboard', href: '/instructor/dashboard' },
+      { label: '👨‍🏫 Instructor Dashboard', href: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
       { label: '🏭 Employer Dashboard', href: '/employer/dashboard' },
       { label: '✨ Creator Dashboard', href: '/creator/products' },
       { label: '🔄 Delegate Dashboard', href: '/my-dashboard' },

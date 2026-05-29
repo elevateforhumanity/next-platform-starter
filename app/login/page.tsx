@@ -449,7 +449,7 @@ function LoginForm() {
                   { label: 'Apprentice Portal', dest: '/portal/apprentice', highlight: true },
                   { label: 'Student Portal', dest: '/learner/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
-                  { label: 'Instructor', dest: '/instructor/dashboard' },
+                  { label: 'Instructor', dest: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
                   { label: 'Employer', dest: '/employer/dashboard' },
                   { label: 'Partner Portal', dest: '/partner/dashboard' },
                   { label: 'Staff Portal', dest: '/admin/staff-portal/dashboard' },

@@ -12,7 +12,7 @@ const APP_ROUTE_PREFIXES = [
   '/lms',
   '/admin',
   '/learner',
-  '/instructor',
+  '/admin/instructor',
   '/employer',
   '/partner',
   '/admin/staff-portal',

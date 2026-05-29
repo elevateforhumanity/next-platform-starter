@@ -44,7 +44,6 @@ export async function middleware(req: NextRequest) {
   const isProtected =
     pathname === '/' ||
     pathname.startsWith('/admin') ||
-    pathname.startsWith('/instructor') ||
     pathname.startsWith('/api/admin');
 
   if (!isProtected) return NextResponse.next();

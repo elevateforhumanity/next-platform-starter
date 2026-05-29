@@ -14,7 +14,7 @@ export const APP_ROUTE_PREFIXES = [
   '/lms',
   '/learner',
   '/admin',
-  '/instructor',
+  '/admin/instructor',
   '/employer',
 
   '/partner',

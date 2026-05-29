@@ -59,6 +59,22 @@ export const DEFAULT_NAV: NavSection[] = [
     ],
   },
   {
+    label: 'Instructor',
+    href: '/admin/instructor/dashboard',
+    items: [
+      { label: 'Dashboard', href: '/admin/instructor/dashboard' },
+      { label: 'Courses', href: '/admin/instructor/courses' },
+      { label: 'Students', href: '/admin/instructor/students' },
+      { label: 'Gradebook', href: '/admin/instructor/gradebook' },
+      { label: 'Submissions', href: '/admin/instructor/submissions' },
+      { label: 'Attendance', href: '/admin/instructor/attendance' },
+      { label: 'Announcements', href: '/admin/instructor/announcements' },
+      { label: 'Analytics', href: '/admin/instructor/analytics' },
+      { label: 'Programs', href: '/admin/instructor/programs' },
+      { label: 'Settings', href: '/admin/instructor/settings' },
+    ],
+  },
+  {
     label: 'Staff Portal',
     href: '/admin/staff-portal/dashboard',
     items: [

@@ -24,7 +24,7 @@ interface PathwayCTAProps {
 const ROLE_DESTINATIONS: Record<string, { label: string; href: string }> = {
   student: { label: 'Go to My Dashboard', href: '/learner/dashboard' },
   learner: { label: 'Go to My Dashboard', href: '/learner/dashboard' },
-  instructor: { label: 'Go to Instructor Portal', href: '/instructor/dashboard' },
+  instructor: { label: 'Go to Instructor Portal', href: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
   admin: { label: 'Go to Admin Dashboard', href: '/admin/dashboard' },
   super_admin: { label: 'Go to Admin Dashboard', href: '/admin/dashboard' },
   staff: { label: 'Go to Admin Dashboard', href: '/admin/dashboard' },

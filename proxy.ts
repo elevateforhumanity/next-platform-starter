@@ -160,8 +160,6 @@ const AUTH_REQUIRED_ROUTES = [
   '/learner/',
   '/apprentice',
   '/portal/',
-  '/instructor/',
-  '/instructor',
   '/case-manager/',
   '/case-manager',
   '/account/',
@@ -227,7 +225,6 @@ const PARTNER_ONBOARDING_ROUTES = [
 // NOTE: /employer-portal and /partner-portal removed — those paths redirect to
 // canonical dashboards at the next.config.mjs layer; no middleware bypass needed.
 const PUBLIC_DASHBOARD_LANDINGS = [
-  '/instructor',
   '/program-holder',
   '/workforce-board',
   '/employer',
@@ -237,7 +234,7 @@ const PUBLIC_DASHBOARD_LANDINGS = [
 // Paths that get X-Robots-Tag: noindex, nofollow.
 const NOINDEX_PREFIXES = [
   '/admin',
-  '/instructor',
+
   '/program-holder',
   '/workforce-board',
   '/employer',
