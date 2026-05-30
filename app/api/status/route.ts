@@ -18,7 +18,6 @@ export async function GET() {
     },
     integrations: {
       certiport: 'pending',
-      vita: 'pending',
       careersafe: 'pending',
       rise_up: 'active',
       dol_dwd: 'pending',
