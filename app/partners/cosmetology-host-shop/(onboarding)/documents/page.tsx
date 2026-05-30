@@ -34,8 +34,8 @@ const DOC_SLOTS: DocSlot[] = [
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'If you cannot locate your CP 575, request a 147C letter from the IRS at 1-800-829-4933.',
     externalLink: {
-      label: 'How to get a 147C (IRS)',
-      href: 'https://www.irs.gov/businesses/small-businesses-self-employed/lost-or-misplaced-your-ein',
+      label: 'Contact Elevate for EIN letter help',
+      href: '/contact',
     },
   },
   {
@@ -45,10 +45,10 @@ const DOC_SLOTS: DocSlot[] = [
       'IRS Form W-9 completed and signed. Required for all worksite partners for tax reporting.',
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
-    hint: 'PDF preferred. Download a blank W-9 from the IRS if needed.',
+    hint: 'PDF preferred. Download a blank W-9 if needed.',
     externalLink: {
-      label: 'Download blank W-9 (IRS)',
-      href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
+      label: 'Download blank W-9',
+      href: PUBLIC_FORMS.w9,
     },
   },
   {

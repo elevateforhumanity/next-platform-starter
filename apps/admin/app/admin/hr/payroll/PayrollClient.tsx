@@ -23,7 +23,7 @@ import {
 // ── Canonical resource links ──────────────────────────────────────────────────
 const RESOURCES = [
   {
-    category: 'IRS Tax Forms',
+    category: 'Payroll Forms',
     icon: FileText,
     color: 'text-blue-600',
     bg: 'bg-blue-50',
@@ -31,18 +31,8 @@ const RESOURCES = [
     items: [
       {
         label: 'W-9 — Request for Taxpayer ID (contractors)',
-        url: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
+        url: '/forms/w9.pdf',
         desc: 'Required before first payment to any contractor or vendor',
-      },
-      {
-        label: 'W-4 — Employee Withholding Certificate',
-        url: 'https://www.irs.gov/pub/irs-pdf/fw4.pdf',
-        desc: 'New hire federal tax withholding election',
-      },
-      {
-        label: 'W-4P — Withholding for Periodic Payments',
-        url: 'https://www.irs.gov/pub/irs-pdf/fw4p.pdf',
-        desc: 'For pension / annuity recipients',
       },
       {
         label: 'I-9 — Employment Eligibility Verification',
@@ -50,9 +40,9 @@ const RESOURCES = [
         desc: 'Required for all new employees within 3 days of hire',
       },
       {
-        label: '1099-NEC — Nonemployee Compensation',
-        url: 'https://www.irs.gov/pub/irs-pdf/f1099nec.pdf',
-        desc: 'Issue to contractors paid $600+ in a calendar year',
+        label: 'Federal withholding & 1099 forms',
+        url: '/contact',
+        desc: 'Contact HR for W-4, W-4P, and year-end contractor reporting forms',
       },
     ],
   },

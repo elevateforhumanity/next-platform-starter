@@ -19,7 +19,7 @@ const FORMS = [
     description: 'Required for OJT wage reimbursement processing through WorkOne.',
     required: true,
     action: 'download' as const,
-    href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
+    href: '/forms/w9.pdf',
   },
   {
     id: 'ojt_agreement',

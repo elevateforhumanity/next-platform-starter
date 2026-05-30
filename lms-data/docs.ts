@@ -196,26 +196,6 @@ export const documents: Document[] = [
     tags: ['HSI', 'CareerSafe', 'OSHA'],
   },
 
-  // IRS VITA
-  {
-    id: 'doc-irs-vita-cert',
-    category: 'irs-vita',
-    title: 'IRS VITA Certification Requirements',
-    description: 'Official IRS requirements for VITA volunteer certification and site setup.',
-    url: 'https://www.irs.gov/individuals/irs-tax-volunteers',
-    tags: ['IRS', 'VITA', 'Certification'],
-    isExternal: true,
-  },
-  {
-    id: 'doc-link-learn-tax',
-    category: 'irs-vita',
-    title: 'Link & Learn Taxes – Training Portal',
-    description: 'Access guide for IRS Link & Learn Taxes online training system.',
-    url: 'https://www.irs.gov/individuals/link-learn-taxes',
-    tags: ['IRS', 'VITA', 'Training'],
-    isExternal: true,
-  },
-
   // Intake Forms
   {
     id: 'doc-student-intake',

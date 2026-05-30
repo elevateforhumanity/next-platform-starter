@@ -13,7 +13,6 @@ const DOC_SLOTS = [
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'If you cannot locate your CP 575, request a 147C letter from the IRS at 1-800-829-4933.',
-    externalLink: { label: 'How to get a 147C (IRS)', href: 'https://www.irs.gov/businesses/small-businesses-self-employed/lost-or-misplaced-your-ein' },
   },
   {
     id: 'salon_license',

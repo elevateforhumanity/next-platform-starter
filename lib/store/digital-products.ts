@@ -515,7 +515,7 @@ Ready to continue?`,
     message: `**Getting an EIN (Employer Identification Number):**
 
 If you don't have an EIN:
-1. Go to **irs.gov**
+1. Obtain a federal EIN for your business entity
 2. Search for "EIN application"
 3. Click **"Apply for an EIN Online"**
 4. Complete the application (free, takes 10 minutes)
@@ -949,7 +949,7 @@ Set a calendar reminder NOW!`,
 🔗 **Grants.gov** - grants.gov (find & apply for grants)
 🔗 **Login.gov** - login.gov (manage your login)
 🔗 **NAICS Codes** - census.gov/naics
-🔗 **EIN** - irs.gov (apply for EIN)
+🔗 **EIN** — apply through your CPA or Secretary of State filing
 
 **Remember:**
 - Renew SAM.gov annually

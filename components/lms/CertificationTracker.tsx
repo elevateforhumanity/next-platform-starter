@@ -37,7 +37,7 @@ const PARTNER_LINKS: Record<string, string> = {
   HSI: 'https://www.hsi.com',
   'NRF Foundation': 'https://nrffoundation.org/riseup',
   Certiport: 'https://certiport.pearsonvue.com',
-  IRS: 'https://www.irs.gov/individuals/link-learn-taxes',
+  IRS: '/community-services',
   'Elevate LMS': '/lms/courses',
   'National Drug Screening': 'https://www.mydrugtraining.com',
   EmployIndy: '/lms/courses/jri',

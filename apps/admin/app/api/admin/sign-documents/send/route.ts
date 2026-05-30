@@ -17,8 +17,8 @@ const FROM_EMAIL = 'info@elevateforhumanity.org';
 // ── W-9 ─────────────────────────────────────────────────────────────────────
 
 async function buildW9(sigPngBytes: Uint8Array): Promise<Uint8Array> {
-  const irsRes = await fetch('https://www.irs.gov/pub/irs-pdf/fw9.pdf');
-  const irsBytes = await irsRes.arrayBuffer();
+  const w9Path = path.join(process.cwd(), 'public/forms/w9.pdf');
+  const irsBytes = await readFile(w9Path);
   const pdfDoc = await PDFDocument.load(irsBytes, { ignoreEncryption: true });
   const form = pdfDoc.getForm();
 

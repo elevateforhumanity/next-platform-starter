@@ -441,7 +441,7 @@ export default function SubofficeApplyPage() {
                 <p className="mt-1 text-xs text-slate-500">
                   Format: P followed by 8 digits.{' '}
                   <a
-                    href="https://www.irs.gov/tax-professionals/ptin-requirements-for-tax-return-preparers"
+                    href="/contact"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-blue-600 underline"
@@ -465,15 +465,8 @@ export default function SubofficeApplyPage() {
                   maxLength={6}
                 />
                 <p className="mt-1 text-xs text-slate-500">
-                  6-digit number issued by the IRS.{' '}
-                  <a
-                    href="https://www.irs.gov/e-file-providers/become-an-authorized-e-file-provider"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-brand-blue-600 underline"
-                  >
-                    Apply for EFIN
-                  </a>
+                  6-digit electronic filing identification number issued to authorized e-file
+                  providers. Enter the EFIN already assigned to your organization.
                 </p>
                 <FieldError msg={errors.efin} />
               </div>

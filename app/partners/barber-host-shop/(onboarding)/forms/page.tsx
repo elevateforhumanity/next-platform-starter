@@ -50,7 +50,7 @@ const REQUIRED_FORMS: FormItem[] = [
     category: 'legal',
     action: 'upload',
     href: '/partners/barber-host-shop/documents',
-    downloadHref: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
+    downloadHref: '/forms/w9.pdf',
   },
   {
     id: 'business-license',

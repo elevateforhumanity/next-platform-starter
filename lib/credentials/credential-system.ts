@@ -88,7 +88,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     description:
       'IRS Volunteer Income Tax Assistance / Tax Counseling for the Elderly certification. Qualifies holder to prepare federal tax returns at IRS-approved VITA sites.',
     externalId: 'IRS-VITA-TCE',
-    verificationUrl: 'https://apps.irs.gov/app/vita/',
+    verificationUrl: '/community-services',
     expirationMonths: 12, // Annual recertification required
     requiresRenewal: true,
     stackable: true,

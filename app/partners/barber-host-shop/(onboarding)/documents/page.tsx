@@ -8,6 +8,7 @@ import {
   Loader2, ArrowLeft, ExternalLink, X,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PUBLIC_FORMS } from '@/lib/forms/public-forms';
 
 interface DocSlot {
   id: string;
@@ -27,7 +28,7 @@ const DOC_SLOTS: DocSlot[] = [
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'If you cannot locate your CP 575, request a 147C letter from the IRS at 1-800-829-4933.',
-    externalLink: { label: 'How to get a 147C (IRS)', href: 'https://www.irs.gov/businesses/small-businesses-self-employed/lost-or-misplaced-your-ein' },
+    externalLink: { label: 'Contact Elevate for EIN letter help', href: '/contact' },
   },
   {
     id: 'w9',
@@ -36,7 +37,7 @@ const DOC_SLOTS: DocSlot[] = [
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'PDF preferred. Download a blank W-9 from the IRS if needed.',
-    externalLink: { label: 'Download blank W-9 (IRS)', href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf' },
+    externalLink: { label: 'Download blank W-9', href: '/forms/w9.pdf' },
   },
   {
     id: 'barbershop_license',

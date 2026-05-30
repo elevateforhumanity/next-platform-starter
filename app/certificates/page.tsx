@@ -17,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: 'Certificates & Credentials',
   description:
-    'Earn industry-recognized certificates and credentials. Verify certificates through government partners including SSA, IRS, DOL, and state licensing boards.',
+    'Earn industry-recognized certificates and credentials. Verify certificates on Elevate and through workforce and licensing partners.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/certificates',
   },
