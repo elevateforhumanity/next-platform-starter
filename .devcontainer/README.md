@@ -2,6 +2,8 @@
 
 Standalone dev container. No dependency on Gitpod, Ona, Codespaces, or any CI platform.
 
+**Cursor Cloud Agents** run on `/workspace` and do **not** use this devcontainer automatically — they use the VM update script + `AGENTS.md` Cloud instructions instead. Use this devcontainer for **VS Code / Dev Containers: Reopen in Container** only.
+
 ---
 
 ## Quick start

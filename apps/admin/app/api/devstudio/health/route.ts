@@ -106,6 +106,11 @@ export async function GET(req: NextRequest) {
   const tokenSecret = process.env.STUDIO_TOKEN_SECRET ?? '';
   const shellWsPublic = process.env.STUDIO_SHELL_WS_URL_PUBLIC ?? '';
   const shellProbe = await probeShell(shellWsUrl);
+  const devcontainerJsonFound = await devcontainerJsonExists();
+  const devcontainerMode = process.env.ELEVATE_DEVINT_CONTAINER === 'true';
+  const devcontainerStudioMode = (
+    process.env.DEVSTUDIO_DEVCONTAINER_MODE ?? 'auto'
+  ).toLowerCase();
 
   const shell = {
     STUDIO_SHELL_WS_URL: shellWsUrl ? 'configured' : 'MISSING',
