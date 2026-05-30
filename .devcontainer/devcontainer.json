@@ -1,5 +1,5 @@
 {
-  "name": "Elevate LMS",
+  "name": "Elevate Platform Control Container",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
 
   "mounts": [
@@ -10,10 +10,11 @@
 
   "features": {
     "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/node:1": { "version": "20" }
   },
 
-  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/* && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && bash .devcontainer/setup-env.sh && bash .devcontainer/setup-codex.sh",
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends git jq postgresql-client ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/* && git --version && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && bash .devcontainer/setup-env.sh && bash .devcontainer/setup-codex.sh",
 
   "postStartCommand": "bash .devcontainer/setup-env.sh 2>/dev/null || true",
 
