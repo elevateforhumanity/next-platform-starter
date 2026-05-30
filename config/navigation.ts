@@ -145,7 +145,7 @@ export const headerNav: NavSection[] = [
       { label: 'Book Appointment', href: '/booking' },
       { label: 'Career Services', href: '/career-services' },
       { label: 'Mentorship', href: '/mentorship' },
-      { label: 'Community Services (VITA)', href: '/community-services' },
+      { label: 'Tax Services', href: '/tax-services' },
     ],
   },
   {
@@ -232,10 +232,10 @@ export const headerNav: NavSection[] = [
   },
   {
     label: 'Community Services',
-    href: '/tax',
+    href: '/community-services',
     items: [
-      { label: 'Tax Services', href: '/tax' },
-      { label: 'Book Appointment', href: '/tax/appointments' },
+      { label: 'Community Services', href: '/community-services' },
+      { label: 'Book Appointment', href: '/vita/appointments' },
       { label: 'Volunteer Portal', href: '/vita/volunteer-portal' },
       { label: 'VITA Resources', href: '/vita/resources' },
       { label: 'Contact', href: '/contact' },
