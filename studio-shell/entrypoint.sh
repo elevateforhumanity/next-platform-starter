@@ -25,6 +25,7 @@ SERVER_PID=$!
   echo "checking tools" > "$STATUS_FILE"
   command -v git >/dev/null
   command -v pnpm >/dev/null
+  command -v psql >/dev/null
 
   if [ -z "${GITHUB_TOKEN:-}" ]; then
     echo "missing GITHUB_TOKEN" > "$STATUS_FILE"
