@@ -122,7 +122,7 @@ export default function MOUPage() {
               Continue to Partner Onboarding →
             </Link>
             <Link
-              href="/partners/barbershop-apprenticeship"
+              href="/partners/barber-host-shop"
               className="px-6 py-3 border border-slate-300 rounded-lg font-medium hover:bg-slate-50"
             >
               Back to Partner Info
@@ -147,7 +147,7 @@ export default function MOUPage() {
       <div className="print:hidden bg-slate-100 py-4 border-b">
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
           <Link
-            href="/partners/barbershop-apprenticeship"
+            href="/partners/barber-host-shop"
             className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Partner Info
