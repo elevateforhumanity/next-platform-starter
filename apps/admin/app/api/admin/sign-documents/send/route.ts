@@ -1,7 +1,10 @@
+import { readFile } from 'fs/promises';
+import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeInternalError } from '@/lib/api/safe-error';
+import { PUBLIC_FORMS } from '@/lib/forms/public-forms';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import PDFKit from 'pdfkit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -16,9 +19,19 @@ const FROM_EMAIL = 'info@elevateforhumanity.org';
 
 // ── W-9 ─────────────────────────────────────────────────────────────────────
 
+async function loadIrsFormW9Bytes(): Promise<Uint8Array> {
+  const localPath = path.join(process.cwd(), 'public/forms/w9.pdf');
+  try {
+    return await readFile(localPath);
+  } catch {
+    const irsRes = await fetch(PUBLIC_FORMS.w9Irs);
+    if (!irsRes.ok) throw new Error('Failed to load IRS Form W-9');
+    return new Uint8Array(await irsRes.arrayBuffer());
+  }
+}
+
 async function buildW9(sigPngBytes: Uint8Array): Promise<Uint8Array> {
-  const irsRes = await fetch('https://www.irs.gov/pub/irs-pdf/fw9.pdf');
-  const irsBytes = await irsRes.arrayBuffer();
+  const irsBytes = await loadIrsFormW9Bytes();
   const pdfDoc = await PDFDocument.load(irsBytes, { ignoreEncryption: true });
   const form = pdfDoc.getForm();
 

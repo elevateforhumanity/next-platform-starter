@@ -57,6 +57,10 @@ const footerLinks = {
   // Column 3 — Partners & Employers
   partners: [
     { name: 'Partner Overview', href: '/partners' },
+    { name: 'Partner Application', href: '/partners/apply' },
+    { name: 'Booth Rental', href: '/booth-rental' },
+    { name: 'Staff Application', href: '/apply/staff' },
+    { name: 'Employers', href: '/employers' },
     { name: 'Hire Our Graduates', href: '/for-employers' },
     { name: 'Workforce Agencies', href: '/for-agencies' },
     { name: 'Workforce Partners', href: '/partners/workforce' },

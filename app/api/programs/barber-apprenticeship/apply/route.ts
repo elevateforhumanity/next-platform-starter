@@ -103,7 +103,7 @@ export async function POST(req: Request) {
         email: validated.email,
       });
       return NextResponse.json(
-        { error: 'Failed to submit application. Please call ${PLATFORM_DEFAULTS.supportPhone}.' },
+        { error: `Failed to submit application. Please call ${PLATFORM_DEFAULTS.supportPhone}.` },
         { status: 500 },
       );
     }

@@ -109,17 +109,6 @@ export const NAV: NavItem[] = [
     showInHeader: false,
   },
 
-  // Tax Services
-  {
-    group: 'Tax',
-    label: 'Tax Services',
-    href: '/tax',
-    showInHeader: true,
-    description: 'Free and paid tax preparation',
-  },
-
-
-
   // Ecosystem (for funders/partners - not primary nav)
   {
     group: 'Ecosystem',

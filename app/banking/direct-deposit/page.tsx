@@ -292,8 +292,8 @@ export default function DirectDepositPage() {
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="font-bold text-slate-900 mb-2">Can I track my refund status?</h3>
               <p className="text-slate-700">
-                Yes! Use the IRS Where is My Refund tool at irs.gov or the IRS2Go mobile app. You
-                will need your Social Security number, filing status, and exact refund amount.
+                Refund timing depends on how your return was filed and your financial institution.
+                Contact your tax preparer or bank for status updates on a direct deposit.
               </p>
             </div>
 

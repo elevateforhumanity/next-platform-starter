@@ -247,7 +247,7 @@ async function processPendingEmails(supabase: any, workflow: any, now: Date) {
 
       // Send email
       await resend.emails.send({
-        from: '${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>',
+        from: `${PLATFORM_DEFAULTS.orgName} <${PLATFORM_DEFAULTS.emailFromAddress}>`,
         to: enrollment.user_email,
         subject,
         html,

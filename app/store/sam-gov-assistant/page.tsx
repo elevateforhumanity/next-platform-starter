@@ -283,7 +283,7 @@ Come back anytime if you need help!`,
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm mb-1">EIN Number</h3>
                 <p className="text-xs text-slate-600">
-                  Tax ID from IRS (free at irs.gov)
+                  Federal tax ID (EIN) for your business entity
                 </p>
               </div>
               <div className="bg-slate-50 rounded-xl p-4 text-center">

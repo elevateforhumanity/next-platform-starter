@@ -17,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: 'Certificates & Credentials',
   description:
-    'Earn industry-recognized certificates and credentials. Verify certificates through government partners including SSA, IRS, DOL, and state licensing boards.',
+    'Earn industry-recognized certificates and credentials. Verify certificates on Elevate and through workforce and licensing partners.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/certificates',
   },
@@ -69,45 +69,11 @@ export default function CertificatesPage() {
             </div>
             <div className="mt-8 pt-8 border-t border-slate-200">
               <p className="text-sm text-black mb-4">
-                <strong>Official Verification Portals:</strong>
+                <strong>Verify on Elevate:</strong>{' '}
+                <Link href="/verify" className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold">
+                  Certificate lookup
+                </Link>
               </p>
-              <div className="flex flex-wrap justify-center gap-4 text-sm">
-                <a
-                  href="https://www.ssa.gov"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
-                >
-                  SSA.gov
-                </a>
-                <span className="text-black">•</span>
-                <a
-                  href="https://www.irs.gov/tax-professionals"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
-                >
-                  IRS.gov
-                </a>
-                <span className="text-black">•</span>
-                <a
-                  href="https://www.dol.gov"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
-                >
-                  DOL.gov
-                </a>
-                <span className="text-black">•</span>
-                <a
-                  href="https://www.in.gov/pla"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
-                >
-                  Indiana PLA
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -225,18 +191,16 @@ export default function CertificatesPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6">
               <FileCheck className="h-12 w-12 text-brand-green-600 mb-4" />
-              <h3 className="text-lg font-bold text-black mb-2">IRS</h3>
+              <h3 className="text-lg font-bold text-black mb-2">Community Services</h3>
               <p className="text-sm text-black mb-3">
-                Internal Revenue Service - Tax Preparer Credentials
+                Free VITA tax preparation and financial literacy for qualifying residents
               </p>
-              <a
-                href="https://www.irs.gov/tax-professionals/enrolled-agents"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/community-services"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
               >
-                irs.gov →
-              </a>
+                Learn more →
+              </Link>
             </div>
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6">

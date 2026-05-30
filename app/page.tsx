@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
-        url: '/images/pages/comp-home-hero.webp',
+        url: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4',
         width: 1200,
         height: 630,
-        alt: `${PLATFORM_DEFAULTS.orgName} workforce training`,
+        alt: `${PLATFORM_DEFAULTS.orgName} workforce training video`,
       },
     ],
     type: 'website',
@@ -110,6 +110,10 @@ export default async function HomePage() {
       {/* ── 1b. ROTATING MARQUEE BANNER ─────────────────────────────────── */}
       <MarqueeBanner />
 
+      {/* ── 2. TRUST BAR ────────────────────────────────────────────────── */}
+      {/* DOL registration, WIOA/ETPL approval, RAPIDS capability, partner logos */}
+      <HomeTrustBar />
+
       {/* ── 3. HOW ELEVATE WORKS ────────────────────────────────────────── */}
       {/* 6-step operational pipeline: Apply → Funding → Training →
           Apprenticeship → Credential → Employment */}
@@ -155,11 +159,6 @@ export default async function HomePage() {
       {/* "From where you are to where you want to be."
           Apply Now + Check Eligibility + phone number. */}
       <HomeFinalCTA />
-
-      {/* ── 11. CREDENTIALS & APPROVALS ─────────────────────────────────── */}
-      {/* DOL registration, WIOA/ETPL approval, RAPIDS, JRI, WorkOne badges
-          + partner logo strip. Placed at bottom — trust signal, not hero. */}
-      <HomeTrustBar />
     </>
   );
 }

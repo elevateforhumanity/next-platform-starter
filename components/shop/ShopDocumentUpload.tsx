@@ -255,7 +255,7 @@ export function ShopDocumentUpload({
                   className="inline-flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
                 >
                   <FileText className="w-4 h-4" />
-                  Download from IRS
+                  Download IRS Form W-9 (blank)
                 </a>
               </div>
             </div>

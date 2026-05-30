@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Support Services',
-  description: 'Tax services, career counseling, job placement, and comprehensive support.',
+  description: 'Community services, career counseling, job placement, and comprehensive support.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/services',
   },
@@ -14,16 +14,10 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    title: 'Tax Services',
-    description: 'Professional tax preparation and maximum refund guarantee',
-    href: '/tax-self-prep',
+    title: 'Community Services (VITA)',
+    description: 'Free tax preparation and financial literacy for qualifying Indiana residents',
+    href: '/community-services',
     image: '/images/pages/career-services.jpg',
-  },
-  {
-    title: 'Tax Operations',
-    description: 'Professional filing support and refund advance options',
-    href: '/programs/tax-preparation',
-    image: '/images/pages/apply-employer-hero.webp',
   },
   {
     title: 'Career Services',

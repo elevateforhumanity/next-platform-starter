@@ -159,7 +159,7 @@ async function _POST(request: NextRequest) {
     if (resend) {
       try {
         await resend.emails.send({
-          from: 'Elevate AI Assistant <${PLATFORM_DEFAULTS.emailFromAddress}>',
+          from: `Elevate AI Assistant <${PLATFORM_DEFAULTS.emailFromAddress}>`,
           to: INTERNAL_EMAIL,
           subject: `AI Buyer Summary — ${data.organization || data.name || 'Unknown'}`,
           text: summary,

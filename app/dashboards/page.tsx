@@ -74,7 +74,7 @@ const portals = [
   {
     name: 'VITA Tax Services',
     description: 'Free tax preparation for eligible individuals',
-    href: '/tax-self-prep',
+    href: '/community-services',
     icon: DollarSign,
     color: 'bg-emerald-500',
     public: true,
@@ -82,7 +82,7 @@ const portals = [
   {
     name: 'Tax Filing Services',
     description: 'Paid tax services and refund advances',
-    href: '/tax-self-prep',
+    href: '/community-services',
     icon: Zap,
     color: 'bg-yellow-500',
     public: true,

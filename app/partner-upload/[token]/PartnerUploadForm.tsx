@@ -14,7 +14,7 @@ const DOCS = [
   {
     type: 'w9',
     label: 'W-9 Form',
-    description: 'IRS W-9 — download blank at irs.gov/pub/irs-pdf/fw9.pdf',
+    description: 'IRS W-9 — download blank IRS Form W-9 (https://www.irs.gov/pub/irs-pdf/fw9.pdf)',
     accept: '.pdf,.jpg,.jpeg,.png',
   },
   {

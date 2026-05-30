@@ -1,7 +1,7 @@
 /**
  * Static program data registry.
  *
- * Maps slug → ProgramSchema for all programs that have a static data file.
+ * Maps slug -> ProgramSchema for all programs that have a static data file.
  * Used by app/programs/[slug]/page.tsx to serve these programs without
  * a separate page.tsx per program (reduces webpack entry points by 22).
  */
@@ -45,9 +45,10 @@ import { PHLEBOTOMY } from './phlebotomy';
 import { HOSPITALITY } from './hospitality';
 import { TECHNOLOGY } from './technology';
 import { QMA } from './qma';
+import { BEAUTY_CAREER_EDUCATOR } from './beauty-career-educator';
 
 const STATIC_PROGRAMS: ProgramSchema[] = [
-  // Programs with dedicated page.tsx — registered here for [slug] fallback and sitemap
+  // Programs with dedicated page.tsx - registered here for [slug] fallback and sitemap
   BARBER_APPRENTICESHIP,
   HVAC_TECHNICIAN,
   WELDING,
@@ -87,7 +88,7 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   PROJECT_MANAGEMENT,
   SOFTWARE_DEV,
   WEB_DEVELOPMENT,
-  QMA,
+  BEAUTY_CAREER_EDUCATOR,
 ];
 
 /** Slug-keyed map for O(1) lookup. */

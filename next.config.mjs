@@ -900,9 +900,11 @@ const nextConfig = {
       ...canonicalAliasRedirects,
 
       // ── Stub page consolidation (2026-06) ────────────────────────────────────
-      // External tax platform
-      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
-      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
+      // Legacy tax URLs → community services (VITA); same-site only
+      { source: '/tax', destination: '/community-services', permanent: true },
+      { source: '/tax/:path*', destination: '/community-services', permanent: true },
+      { source: '/tax-self-prep', destination: '/community-services', permanent: true },
+      { source: '/tax-self-prep/:path*', destination: '/community-services', permanent: true },
 
       // programs/admin/* → program-holder/*
       { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
@@ -981,7 +983,7 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
       // /mentor → /mentor/dashboard already covered above
       { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
+      { source: '/rise', destination: '/community-services', permanent: true },
       { source: '/snap', destination: '/snap/snap-et', permanent: true },
       { source: '/training-providers', destination: '/for-providers', permanent: true },
       { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },

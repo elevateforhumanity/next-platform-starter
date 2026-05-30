@@ -495,6 +495,11 @@ function ProgramPage({
 export default async function ProgramDetailPage({ params }: { params: Promise<{ program: string }> }) {
   const { program } = await params;
 
+  const legacyDestination = legacyAliasLookup.get(`/programs/${program}`);
+  if (legacyDestination) {
+    redirect(legacyDestination);
+  }
+
   // Static ProgramSchema — richest renderer, always preferred when available.
   // Overlay DB title/description if the program also exists in the DB.
   const sp = getStaticProgram(program);

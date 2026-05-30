@@ -213,9 +213,30 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Program Holders & Providers —', href: '/for-providers', isHeader: true },
       { name: 'How It Works', href: '/for-providers' },
       { name: 'Program Holder Portal', href: '/program-holder/dashboard' },
-      { name: 'Booth Rental', href: '/booth-rental' },
       { name: 'Sponsors & Funders', href: '/platform/sponsors' },
-      { name: 'Apply to Partner →', href: '/partners/apply', isSectionLink: true },
+      { name: 'All Partner Applications →', href: '/apply', isSectionLink: true },
+    ],
+  },
+
+  // ── 5b. Portals (sign-in + workforce tools) ─────────────────────────────────
+  {
+    id: 'portals',
+    name: 'Portals',
+    href: '/portals',
+    subItems: [
+      { name: '— Sign In —', href: '/portals', isHeader: true },
+      { name: 'Portal Hub', href: '/portals' },
+      { name: 'Student / Learner', href: '/login?redirect=/learner/dashboard' },
+      { name: 'Employer Portal', href: '/login?redirect=/employer/dashboard' },
+      { name: 'Staff Portal', href: '/login?redirect=/admin/staff-portal/dashboard' },
+      { name: 'Instructor Portal', href: '/login?redirect=/instructor/dashboard' },
+      { name: 'Partner Portal', href: '/login?redirect=/partner/dashboard' },
+      { name: 'Program Holder', href: '/login?redirect=/program-holder/dashboard' },
+      { name: '— Workforce Tools —', href: '/career-services', isHeader: true },
+      { name: 'Career Services', href: '/career-services' },
+      { name: 'Employment Support', href: '/employment-support' },
+      { name: 'Job Board', href: '/jobs' },
+      { name: 'How It Works', href: '/how-it-works' },
     ],
   },
 
