@@ -56,6 +56,7 @@ function getReadiness() {
   const readyFile = existsSync(READY_FILE);
   const gitVersion = safeVersion('git');
   const pnpmVersion = safeVersion('pnpm');
+  const psqlVersion = safeVersion('psql');
   const ready = Boolean(readyFile && hasGitDir && gitVersion && pnpmVersion);
 
   return {
@@ -67,6 +68,7 @@ function getReadiness() {
     readyFile,
     gitVersion,
     pnpmVersion,
+    psqlVersion,
     nodeVersion: process.version,
     sessions: sessions.size,
     uptime: process.uptime(),
