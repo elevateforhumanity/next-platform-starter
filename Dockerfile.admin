@@ -45,10 +45,8 @@ COPY public ./apps/admin/public
 # terminate /api/devstudio/shell-ws upgrades and proxy them to studio-shell.
 COPY apps/admin/server.js ./apps/admin/server.js
 
-# The custom server requires ws at runtime. Copy it next to server.js so
-# Node resolves it without traversing up to /app/node_modules (which may
-# have a package.json from the sharp install that breaks resolution).
-COPY apps/admin/node_modules/ws ./apps/admin/node_modules/ws
+# ws is a direct dependency of apps/admin and is included in the standalone
+# output trace. No explicit copy needed.
 
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
