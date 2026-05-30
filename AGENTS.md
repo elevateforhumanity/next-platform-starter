@@ -804,16 +804,21 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
 - **pnpm 10.28.2** is the package manager — `corepack enable` activates it.
-- **No local database** — the app connects to hosted Supabase. A `.env.local` with placeholder keys is enough to start the dev server; DB-dependent features fail gracefully at runtime.
-- Minimum `.env.local` for dev server startup:
+- **No local database** — the app connects to hosted Supabase. Create `.env.local` before the first `pnpm dev`.
+- **Cloud Agent VMs** may inject `SUPABASE_SERVICE_ROLE_KEY` (valid for hosted DB) but sometimes set `NEXT_PUBLIC_SUPABASE_URL` to a JWT instead of the project URL, which crashes `instrumentation.ts` → `hydrateProcessEnv()`. Export the URL before `pnpm dev`:
+  ```bash
+  export NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
+  ```
+  Do not set `SUPABASE_SERVICE_ROLE_KEY=placeholder` when a real service-role key is already in the environment.
+- Minimum `.env.local` when no secrets are injected:
   ```
   NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder
-  SUPABASE_SERVICE_ROLE_KEY=placeholder
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-jwt-or-placeholder>
   NEXTAUTH_SECRET=dev-secret
   NEXT_TELEMETRY_DISABLED=1
   SKIP_ENV_VALIDATION=true
   ```
+  Omit `SUPABASE_SERVICE_ROLE_KEY` unless you have a valid key (server routes and secret hydration).
 
 ### Running services
 
