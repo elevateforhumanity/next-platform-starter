@@ -35,15 +35,20 @@ const ALLOWED_PATHS = [
   /devstudio[\\/]chat[\\/]route\./,
 ];
 
-function isAllowed(filename) {
-  // Normalise to forward slashes, then strip any absolute prefix so we always
-  // test against a repo-relative path (works in local dev, CI, and CodeBuild
-  // where the zip is extracted to an arbitrary directory without Elevate-lms/).
+function toRepoRelativePath(filename) {
   const norm = filename.replace(/\\/g, '/');
-  // Try stripping up to and including the repo root dir name
   const afterRepo = norm.replace(/^.*\/Elevate-lms\//, '');
-  // If that didn't strip anything (no Elevate-lms/ in path), strip up to /src/
-  const rel = afterRepo !== norm ? afterRepo : norm.replace(/^.*\/src\//, '');
+  if (afterRepo !== norm) return afterRepo;
+  const afterSrc = norm.replace(/^.*\/src\//, '');
+  if (afterSrc !== norm) return afterSrc;
+  const libIdx = norm.indexOf('/lib/');
+  if (libIdx >= 0) return norm.slice(libIdx + 1);
+  if (norm.startsWith('lib/')) return norm;
+  return norm;
+}
+
+function isAllowed(filename) {
+  const rel = toRepoRelativePath(filename);
   return ALLOWED_PATHS.some((pattern) => pattern.test(rel));
 }
 

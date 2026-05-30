@@ -18,6 +18,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { hasLmsAccess, resolveLatestEnrollment } from '@/lib/enrollment/resolver';
 
 const HAS_CREDENTIALS =
+  process.env.LIVE_DB_INTEGRATION === '1' &&
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
   !!process.env.SUPABASE_SERVICE_ROLE_KEY &&
   process.env.NEXT_PUBLIC_SUPABASE_URL.startsWith('https://');

@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-  Check,
-  CreditCard,
-  Shield,
-  Clock,
-  ArrowRight,
-  Calendar,
-} from 'lucide-react';
+import { Check, Shield, Clock, Calendar, AlertCircle } from 'lucide-react';
 
 const LICENSE = {
   name: 'Elevate LMS Starter License',
@@ -28,8 +21,10 @@ const LICENSE = {
 export default function StarterTrialPage() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [orgName, setOrgName] = useState('');
   const [company, setCompany] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const trialEndDate = new Date();
   trialEndDate.setDate(trialEndDate.getDate() + LICENSE.trialDays);
@@ -37,30 +32,64 @@ export default function StarterTrialPage() {
   const handleStartTrial = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // This would integrate with Stripe to create a subscription with trial
-    // For now, redirect to Stripe checkout with trial period
-    window.location.href = `/api/checkout/trial?license=${LICENSE.slug}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
+    setError(null);
+
+    try {
+      const res = await fetch('/api/trial/start-managed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orgName: orgName.trim() || company.trim() || name.trim(),
+          adminName: name.trim(),
+          adminEmail: email.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const message =
+          res.status === 409 && data.tenantUrl
+            ? `A trial already exists for this email. Open your dashboard: ${data.tenantUrl}`
+            : data.error || 'Could not start trial. Please try again.';
+        setError(message);
+        return;
+      }
+
+      if (data.tenantUrl) {
+        window.location.href = data.tenantUrl;
+        return;
+      }
+
+      setError('Trial started but no dashboard URL was returned. Check your email.');
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePurchaseLicense = () => {
+    window.location.href = `/store/licenses/checkout/${LICENSE.slug}`;
   };
 
   return (
     <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-3xl font-black text-slate-900 mb-3">
-            Start Your {LICENSE.trialDays}-Day Free Trial
+            Start Your {LICENSE.trialDays}-Day Platform Trial
           </h1>
           <p className="text-lg text-slate-600">
-            Try {LICENSE.name} free for {LICENSE.trialDays} days. Cancel anytime before the trial ends.
+            Full Elevate LMS access for {LICENSE.trialDays} days — no credit card. Evaluate the
+            codebase license separately when you are ready.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Trial Info */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <h2 className="text-xl font-bold text-slate-900 mb-6">How it works</h2>
-            
+
             <div className="space-y-6">
               <div className="flex gap-4">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -69,7 +98,7 @@ export default function StarterTrialPage() {
                 <div>
                   <h3 className="font-bold text-slate-900">Start free today</h3>
                   <p className="text-slate-600 text-sm">
-                    Get instant access to the full platform. No charge until trial ends.
+                    Provision your organization and admin dashboard instantly.
                   </p>
                 </div>
               </div>
@@ -81,7 +110,7 @@ export default function StarterTrialPage() {
                 <div>
                   <h3 className="font-bold text-slate-900">Explore everything</h3>
                   <p className="text-slate-600 text-sm">
-                    Full access to all features, deploy your site, test with real users.
+                    Programs, enrollments, payments, and team tools — full platform access.
                   </p>
                 </div>
               </div>
@@ -91,9 +120,10 @@ export default function StarterTrialPage() {
                   <span className="text-blue-600 font-bold">3</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900">Keep using or cancel</h3>
+                  <h3 className="font-bold text-slate-900">Buy the license when ready</h3>
                   <p className="text-slate-600 text-sm">
-                    After {LICENSE.trialDays} days, you'll be charged ${LICENSE.price} to continue. Cancel anytime before.
+                    Starter license is ${LICENSE.price} one-time via secure checkout (sign-in
+                    required).
                   </p>
                 </div>
               </div>
@@ -104,17 +134,22 @@ export default function StarterTrialPage() {
                 <Calendar className="w-5 h-5 text-amber-600 mt-0.5" />
                 <div>
                   <p className="font-medium text-amber-900">
-                    Trial ends {trialEndDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    Trial ends{' '}
+                    {trialEndDate.toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                   <p className="text-sm text-amber-700">
-                    We'll remind you 3 days before your trial ends.
+                    Platform trial does not include the downloadable codebase license.
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="mt-6 pt-6 border-t">
-              <h3 className="font-bold text-slate-900 mb-4">What's included:</h3>
+              <h3 className="font-bold text-slate-900 mb-4">License includes:</h3>
               <ul className="space-y-2">
                 {LICENSE.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-slate-700">
@@ -126,21 +161,25 @@ export default function StarterTrialPage() {
             </div>
           </div>
 
-          {/* Signup Form */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-slate-900">Start your trial</h2>
+              <h2 className="text-xl font-bold text-slate-900">Start platform trial</h2>
               <div className="text-right">
-                <div className="text-2xl font-black text-slate-900">${LICENSE.price}</div>
-                <div className="text-sm text-slate-500">after trial</div>
+                <div className="text-2xl font-black text-slate-900">$0</div>
+                <div className="text-sm text-slate-500">for {LICENSE.trialDays} days</div>
               </div>
             </div>
 
+            {error && (
+              <div className="mb-4 flex gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+                <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <form onSubmit={handleStartTrial} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Full Name
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Full name</label>
                 <input
                   type="text"
                   required
@@ -153,7 +192,7 @@ export default function StarterTrialPage() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Email Address
+                  Email address
                 </label>
                 <input
                   type="email"
@@ -215,7 +254,8 @@ export default function StarterTrialPage() {
               </button>
 
               <p className="text-xs text-slate-500 text-center">
-                Platform trial does not require a card. License purchase uses secure Stripe checkout (sign-in required).
+                Platform trial does not require a card. License purchase uses secure Stripe checkout
+                (sign-in required).
               </p>
             </form>
 
@@ -234,9 +274,9 @@ export default function StarterTrialPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-slate-600">
-                Don't want a trial?{' '}
-                <Link href={`/store/licenses/checkout/${LICENSE.slug}`} className="text-blue-600 font-medium hover:underline">
-                  Purchase now for ${LICENSE.price}
+                Need the full managed trial wizard?{' '}
+                <Link href="/store/trial" className="text-blue-600 font-medium hover:underline">
+                  Use /store/trial
                 </Link>
               </p>
             </div>
