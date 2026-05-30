@@ -125,7 +125,7 @@ export default function CosmetologyPolicyAcknowledgmentPage() {
     }
     setSubmitting(true);
     try {
-      const res = await fetch('/api/partners/cosmetology-apprenticeship/policy-acknowledgment', {
+      const res = await fetch('/api/partners/cosmetology-host-shop/policy-acknowledgment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
