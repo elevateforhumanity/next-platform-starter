@@ -30,8 +30,8 @@ const RESOURCES = [
     border: 'border-blue-200',
     items: [
       {
-        label: 'W-9 — Request for Taxpayer ID (contractors)',
-        url: '/forms/w9.pdf',
+        label: 'IRS Form W-9 — Request for Taxpayer ID (contractors)',
+        url: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf',
         desc: 'Required before first payment to any contractor or vendor',
       },
       {

@@ -439,15 +439,8 @@ export default function SubofficeApplyPage() {
                   maxLength={9}
                 />
                 <p className="mt-1 text-xs text-slate-500">
-                  Format: P followed by 8 digits.{' '}
-                  <a
-                    href="/contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-brand-blue-600 underline"
-                  >
-                    Get a PTIN
-                  </a>
+                  Format: P followed by 8 digits. Obtain a PTIN through your preparer registration
+                  before submitting this application.
                 </p>
                 <FieldError msg={errors.ptin} />
               </div>
