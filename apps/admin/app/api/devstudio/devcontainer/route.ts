@@ -118,11 +118,11 @@ function computeSha(content: string): string {
 async function resolveLocalDevcontainerPath(): Promise<string> {
   const repoRoot = process.env.ELEVATE_REPO_ROOT?.trim();
   const candidates = [
-    repoRoot ? path.resolve(repoRoot, DEVCONTAINER_GH) : '',
+    ...(repoRoot ? [path.resolve(repoRoot, DEVCONTAINER_GH)] : []),
     path.resolve(process.cwd(), DEVCONTAINER_GH),
     path.resolve(process.cwd(), '..', '..', DEVCONTAINER_GH),
     '/workspace/.devcontainer/devcontainer.json',
-  ].filter(Boolean);
+  ];
 
   for (const candidate of candidates) {
     try {

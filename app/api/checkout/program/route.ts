@@ -49,6 +49,13 @@ async function _POST(request: NextRequest) {
     );
   }
 
+  if (!isSameOriginPath(successUrl, request) || !isSameOriginPath(cancelUrl, request)) {
+    return NextResponse.json(
+      { error: 'successUrl and cancelUrl must be same-origin paths.' },
+      { status: 400 },
+    );
+  }
+
   const supabase = await getAdminClient();
   if (!supabase) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
