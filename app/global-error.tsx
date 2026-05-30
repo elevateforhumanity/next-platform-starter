@@ -1,7 +1,7 @@
 'use client';
-import { logger } from '@/lib/logger';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import * as Sentry from '@sentry/nextjs';
 
@@ -35,11 +35,11 @@ export default function GlobalError({
     Sentry.captureException(error);
 
     // Log error to console for debugging
-    logger.error('=== GLOBAL ERROR CAUGHT ===');
-    logger.error('Error message:', error.message);
-    logger.error('Error stack:', error.stack);
-    logger.error('Error digest:', error.digest);
-    logger.error('========================');
+    console.error('=== GLOBAL ERROR CAUGHT ===');
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    console.error('Error digest:', error.digest);
+    console.error('========================');
 
     // Send to Sentry if configured
     if (typeof window !== 'undefined' && window.Sentry) {
