@@ -138,12 +138,12 @@
       "healthCheck": {
         "command": [
           "CMD-SHELL",
-          "curl -sf http://localhost:8888/health || exit 1"
+          "curl -sf http://localhost:8888/live || exit 1"
         ],
         "interval": 30,
         "timeout": 10,
         "retries": 3,
-        "startPeriod": 180
+        "startPeriod": 60
       },
       "ulimits": [
         {
