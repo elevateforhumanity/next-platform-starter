@@ -121,7 +121,7 @@ async function _POST(request: NextRequest) {
 
     if (sgKey) {
       const applicantName = contactName || ownerName || 'Partner';
-      const mouLink = `${siteUrl}/login?redirect=/partners/cosmetology-partner-shop/sign-mou`;
+      const mouLink = `${siteUrl}/login?redirect=/partners/cosmetology-host-shop/sign-mou`;
 
       // 1. Confirmation to applicant
       const applicantHtml = `<!DOCTYPE html>
@@ -218,7 +218,7 @@ async function _POST(request: NextRequest) {
 
     // Create or invite the applicant's Supabase auth account so they can
     // log in and sign the MOU immediately after applying.
-    const mouRedirect = `${siteUrl}/partners/cosmetology-partner-shop/sign-mou`;
+    const mouRedirect = `${siteUrl}/partners/cosmetology-host-shop/sign-mou`;
 
     try {
       // Check if user already exists
