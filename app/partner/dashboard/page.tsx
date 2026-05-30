@@ -81,14 +81,9 @@ export default async function PartnerDashboardPage() {
   }
 
   // Approved barber/training-site partners: route by onboarding step.
-  // Check both the legacy partners table and the canonical barbershop_partner_applications
-  // table — the new flow writes mou_signed_at to barbershop_partner_applications, not
-  // partners.mou_signed, so we must check both to avoid looping approved partners back
-  // to the old onboarding page.
   const isTrainingSite =
     partner.partner_type === 'training_site' || partner.partner_type === 'barber';
   if (isTrainingSite || !partner.onboarding_completed) {
-    // Check new-flow MOU status via barbershop_partner_applications
     const { data: bpa } = await db
       .from('barbershop_partner_applications')
       .select('mou_signed_at, status')
@@ -100,13 +95,10 @@ export default async function PartnerDashboardPage() {
     const mouSigned = partner.mou_signed || !!bpa?.mou_signed_at;
 
     if (!mouSigned) {
-      redirect('/partners/barbershop-apprenticeship/sign-mou');
+      redirect('/partners/barber-host-shop/sign-mou');
     }
     if (!partner.onboarding_completed) {
-      // New flow: send to forms step (canonical post-MOU step)
-      // Old flow used /partners/barbershop-apprenticeship/onboarding — kept for
-      // partners who started there and haven't completed yet
-      redirect('/partners/barbershop-apprenticeship/forms');
+      redirect('/partners/barber-host-shop/forms');
     }
   }
 
