@@ -37,6 +37,14 @@
           "value": "www.elevateforhumanity.org"
         },
         {
+          "name": "NEXT_PUBLIC_PUBLIC_SITE_URL",
+          "value": "https://www.elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "value": "https://www.elevateforhumanity.org"
+        },
+        {
           "name": "NEXT_PUBLIC_CERT_HOLDER",
           "value": "Elevate for Humanity"
         },
@@ -93,6 +101,30 @@
         {
           "name": "SHELL_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
+        },
+        {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
+        },
+        {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GROQ_API_KEY"
         }
       ],
       "logConfiguration": {
