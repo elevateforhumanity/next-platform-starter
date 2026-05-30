@@ -30,8 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # node-pty needs a C++ build toolchain
     && rm -rf /var/lib/apt/lists/*
 
-# pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# pnpm must match the workspace packageManager so frozen installs are stable.
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 # Non-root user
 RUN useradd -m -s /bin/bash studio
@@ -43,7 +43,7 @@ COPY studio-shell/src ./studio-shell/src/
 
 RUN cd studio-shell && npm install --production=false && npm run build
 
-# Entrypoint: clone repo then start shell server
+# Entrypoint: start shell server, clone repo, then install dependencies
 COPY studio-shell/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
@@ -59,7 +59,7 @@ ENV NODE_ENV=production
 
 EXPOSE 8888
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=180s --retries=3 \
-  CMD curl -f http://localhost:8888/health || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8888/live || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]
