@@ -57,7 +57,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await expect(page).toHaveURL(/\/apply/);
 
     // Step 2.2: Verify apply landing page content
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
 
     // Step 2.3: Verify the canonical intake form and program path are presented
     const formSection = page.locator('#application, form, [id*="form"]');
@@ -215,7 +215,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
 
     // Application Landing
     await page.goto('/apply');
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
     journeySteps.push('✓ Apply landing page displayed');
 
     // Intake Form
