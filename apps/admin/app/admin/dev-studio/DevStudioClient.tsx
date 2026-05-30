@@ -373,8 +373,9 @@ function SystemHealthPanel() {
 
   const h = data as {
     devcontainerMode?: boolean;
-    githubTokenPresent?: boolean;
     devcontainerJsonFound?: boolean;
+    devcontainerStudioMode?: string;
+    githubTokenPresent?: boolean;
     stripeKeyPresent?: boolean;
     supabaseUrlPresent?: boolean;
     supabaseServiceKeyPresent?: boolean;
@@ -408,6 +409,7 @@ function SystemHealthPanel() {
             <HealthRow label="Next.js"          value={h?.nextVersion  || 'unknown'} />
             <HealthRow label="DevContainer mode" value={h?.devcontainerMode ? 'active' : 'inactive'} ok={h?.devcontainerMode} />
             <HealthRow label="devcontainer.json" value={h?.devcontainerJsonFound ? 'found' : 'missing'} ok={h?.devcontainerJsonFound} />
+            <HealthRow label="Studio mode" value={h?.devcontainerStudioMode || 'unknown'} ok={!!h?.devcontainerStudioMode && h.devcontainerStudioMode !== 'github-readonly'} />
           </div>
         </div>
       </div>
