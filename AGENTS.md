@@ -832,7 +832,9 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 ### Gotchas
 
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
-- Dev server logs `Failed to load from app_secrets` and `Failed to load from platform_secrets` with placeholder Supabase keys — this is expected and does not block the server.
+- **tmux** — use a named session for long-running dev servers, e.g. `tmux -f /exec-daemon/tmux.portal.conf new-session -d -s lms-dev-server -c /workspace`, then `send-keys` to run `pnpm dev` with the Supabase URL export above.
+- Dev server logs `Failed to load from app_secrets` / `platform_secrets` or `401` on Supabase reads when the anon key is missing or invalid — marketing pages still render; authenticated LMS and `/api/programs` need real keys.
+- `pnpm lint` currently reports 7 pre-existing `elevate-lms/no-direct-ai-providers` errors under `lib/ai/*` (plus hook warnings); unit tests (`pnpm test`) are the reliable CI signal for agents.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
