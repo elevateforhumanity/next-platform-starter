@@ -104,14 +104,14 @@ export function ModuleListForProgram({
 
   // Toggle publish status
   const togglePublish = async (moduleId: string) => {
-    const module = modules.find((m) => m.id === moduleId);
-    if (!module) return;
+    const moduleRow = modules.find((m) => m.id === moduleId);
+    if (!moduleRow) return;
 
     setSaving(moduleId);
     const supabase = createClient();
 
     try {
-      const newStatus = !module.is_published;
+      const newStatus = !moduleRow.is_published;
 
       const { error: updateError } = await supabase
         .from('program_modules')
@@ -124,7 +124,7 @@ export function ModuleListForProgram({
       if (updateError) throw updateError;
 
       // Update local state
-      const updatedModule = { ...module, is_published: newStatus };
+      const updatedModule = { ...moduleRow, is_published: newStatus };
       setModules((prev) => prev.map((m) => (m.id === moduleId ? updatedModule : m)));
       onModuleUpdate?.(updatedModule);
 
@@ -140,12 +140,12 @@ export function ModuleListForProgram({
             action: newStatus ? 'module_published' : 'module_unpublished',
             entity_type: 'program_module',
             entity_id: moduleId,
-            metadata: { program_id: programId, module_title: module.title },
+            metadata: { program_id: programId, module_title: moduleRow.title },
           })
           .catch(() => {});
       }
     } catch (err: any) {
-      console.error('Error updating module:', err);
+      logger.error('Error updating module:', err);
       setError('Failed to update module');
     } finally {
       setSaving(null);
