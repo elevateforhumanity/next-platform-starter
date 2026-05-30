@@ -160,6 +160,15 @@ http.createServer = function (...args) {
 
 const { startServer } = require('next/dist/server/lib/start-server');
 
+process.on('uncaughtException', (err) => {
+  console.error('[admin] uncaughtException:', err?.stack || err);
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[admin] unhandledRejection:', reason?.stack || reason);
+  process.exit(1);
+});
+
 startServer({
   dir,
   isDev: false,
@@ -167,6 +176,6 @@ startServer({
   port,
   allowRetry: false,
 }).catch((err) => {
-  console.error('[admin] startup error:', err);
+  console.error('[admin] startup error:', err?.stack || err);
   process.exit(1);
 });
