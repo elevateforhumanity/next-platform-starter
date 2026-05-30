@@ -6,9 +6,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Banking Services - Powered by EPS Financial',
+  title: 'Banking Services - Elevate for Humanity',
   description:
-    'Fast refund advances, direct deposit, and prepaid card services. FDIC-insured banking powered by EPS Financial.',
+    'Direct deposit, prepaid card, and payment access support for Elevate for Humanity learners and partners.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/banking',
   },
@@ -21,87 +21,84 @@ export default function BankingPage() {
         <Breadcrumbs items={[{ label: 'Banking' }]} />
       </div>
 
-      {/* Hero */}
       <section className="relative h-64 md:h-80 overflow-hidden">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/banking-page-2.webp"
-          alt="Tax preparation and banking services"
+          alt="Banking services for Elevate for Humanity learners and partners"
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw"
+          placeholder="empty"
         />
       </section>
 
-      {/* Headline — below the image */}
       <section className="pt-8 pb-4">
         <div className="max-w-7xl mx-auto px-6">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Banking Services</h1>
           <p className="text-slate-600 text-lg max-w-xl">
-            Refund advances, direct deposit, and prepaid cards — powered by EPS Financial, Member
-            FDIC.
+            Payment access, direct deposit, and prepaid card support for learners, partners, and
+            program operations.
           </p>
         </div>
       </section>
 
-      {/* Trust strip */}
       <section className="py-5 border-b">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-wrap justify-center items-center gap-8 text-sm font-semibold text-slate-700">
-            <span>FDIC Insured</span>
+            <span>FDIC Insured Partner Options</span>
             <span className="text-slate-300">|</span>
-            <span>IRS Approved E-File Provider</span>
+            <span>Direct Deposit Support</span>
             <span className="text-slate-300">|</span>
-            <span>Same-Day Funding Available</span>
+            <span>Prepaid Card Access</span>
             <span className="text-slate-300">|</span>
-            <span>No Credit Check Required</span>
+            <span>Program Payment Guidance</span>
           </div>
         </div>
       </section>
 
-      {/* Products */}
       <section className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-3">
             Banking Products
           </h2>
           <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-            Three ways to receive your tax refund. Choose what works best for your situation.
+            Clear payment options for program participants who need reliable access to funds.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white border-2 border-brand-blue-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
-                  src="/images/pages/tax-prep-desk.webp"
-                  alt="Tax preparer reviewing refund advance options with a client"
+                  src="/images/pages/banking-page-2.webp"
+                  alt="Program payment access support"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  placeholder="empty"
                 />
               </div>
               <div className="p-7">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Refund Advance</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Payment Access</h3>
                 <p className="text-slate-600 mb-5">
-                  Get your refund faster with an advance loan. No credit check required.
+                  Get help choosing a payment option that fits your program status and banking needs.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    Up to $6,000 advance
+                    Learner and partner payment guidance
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    No credit check
+                    Direct deposit setup support
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    Same-day funding available
+                    Prepaid card options when available
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    Repaid from IRS refund
+                    Clear next steps before activation
                   </li>
                 </ul>
                 <Link
@@ -114,35 +111,35 @@ export default function BankingPage() {
             <div className="bg-white border-2 border-brand-green-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
-                  src="/images/pages/tax-preparation.webp"
-                  alt="Direct deposit tax refund processing"
+                  src="/images/pages/pathways-page-7.webp"
+                  alt="Direct deposit support"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  placeholder="empty"
                 />
               </div>
               <div className="p-7">
                 <h3 className="text-xl font-bold text-slate-900 mb-3">Direct Deposit</h3>
                 <p className="text-slate-600 mb-5">
-                  Get your refund deposited directly to your bank account — the fastest method
-                  available.
+                  Set up deposits to an existing bank account for straightforward program payments.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
-                    Fastest refund method
+                    Bank account setup guidance
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
-                    Secure and reliable
+                    Secure payment delivery
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
-                    No check cashing fees
+                    No check-cashing step
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
-                    Track your refund status
+                    Works with most personal accounts
                   </li>
                 </ul>
                 <Link
@@ -156,16 +153,17 @@ export default function BankingPage() {
               <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                 <Image
                   src="/images/pages/pathways-page-6.webp"
-                  alt="Prepaid debit card for tax refund disbursement"
+                  alt="Prepaid debit card support"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  placeholder="empty"
                 />
               </div>
               <div className="p-7">
                 <h3 className="text-xl font-bold text-slate-900 mb-3">Prepaid Card</h3>
                 <p className="text-slate-600 mb-5">
-                  Receive your refund on a prepaid Visa debit card. No bank account needed.
+                  Use prepaid card access when a traditional bank account is not the right fit.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
                   <li className="flex items-start gap-2">
@@ -174,15 +172,15 @@ export default function BankingPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    Use anywhere Visa is accepted
+                    Everyday debit card use
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    ATM access nationwide
+                    ATM access when supported
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
-                    FDIC insured
+                    FDIC-insured partner options
                   </li>
                 </ul>
                 <Link
@@ -195,7 +193,6 @@ export default function BankingPage() {
         </div>
       </section>
 
-      {/* How It Works */}
       <section className="py-16 sm:py-20 border-t border-slate-100">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">
@@ -205,23 +202,23 @@ export default function BankingPage() {
             {[
               {
                 num: '1',
-                title: 'File Your Taxes',
-                desc: 'Complete your tax return with our professional preparers.',
+                title: 'Confirm Eligibility',
+                desc: 'Review program status and payment access needs.',
               },
               {
                 num: '2',
-                title: 'Choose Your Option',
-                desc: 'Select refund advance, direct deposit, or prepaid card.',
+                title: 'Choose An Option',
+                desc: 'Select direct deposit, prepaid card, or support from the team.',
               },
               {
                 num: '3',
-                title: 'Get Approved',
-                desc: 'Quick approval process, usually within minutes.',
+                title: 'Verify Details',
+                desc: 'Confirm account or card information before activation.',
               },
               {
                 num: '4',
-                title: 'Receive Funds',
-                desc: 'Get your money fast — same day or next day available.',
+                title: 'Receive Support',
+                desc: 'Use the selected banking option for program-related payments.',
               },
             ].map((step) => (
               <div key={step.num} className="text-center">
@@ -236,7 +233,6 @@ export default function BankingPage() {
         </div>
       </section>
 
-      {/* EPS Financial Partner */}
       <section className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10 items-center">
@@ -246,23 +242,24 @@ export default function BankingPage() {
             >
               <Image
                 src="/images/pages/pathways-page-7.webp"
-                alt="Professional tax preparation services powered by EPS Financial"
+                alt="Banking partner support for program payments"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                placeholder="empty"
               />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Powered by EPS Financial</h2>
               <p className="text-slate-600 mb-6">
-                All banking products are provided by EPS Financial, Member FDIC, with professional
-                tax software integration. Your deposits are protected and your data is secure.
+                Banking products are provided through EPS Financial, Member FDIC, with secure
+                payment access options for eligible participants.
               </p>
               <div className="space-y-3 mb-6">
                 {[
-                  'FDIC insured — your deposits are protected',
-                  'IRS-approved authorized e-file provider',
-                  'Fast processing with same-day funding options',
+                  'FDIC-insured partner options',
+                  'Direct deposit and prepaid card support',
+                  'Clear activation steps for eligible participants',
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 text-sm text-slate-700">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
@@ -276,14 +273,13 @@ export default function BankingPage() {
                 rel="noopener noreferrer"
                 className="text-brand-blue-600 hover:text-brand-blue-800 font-semibold text-sm underline"
               >
-                Learn more about EPS Financial →
+                Learn more about EPS Financial
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Fees & Disclosures */}
       <section className="py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">
@@ -291,62 +287,56 @@ export default function BankingPage() {
           </h2>
           <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-6">
             <div>
-              <h3 className="font-bold text-slate-900 mb-3">Refund Advance</h3>
+              <h3 className="font-bold text-slate-900 mb-3">Payment Access</h3>
               <ul className="space-y-1.5 text-sm text-slate-600">
-                <li>• No application fee</li>
-                <li>• No credit check</li>
-                <li>• Interest rates vary by loan amount</li>
-                <li>• Repaid automatically from IRS refund</li>
+                <li>Service availability depends on program status and partner eligibility.</li>
+                <li>Fees, timing, and activation terms may vary by selected product.</li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-slate-900 mb-3">Direct Deposit</h3>
               <ul className="space-y-1.5 text-sm text-slate-600">
-                <li>• No fees for direct deposit</li>
-                <li>• Fastest refund method available</li>
+                <li>Requires a valid personal bank account.</li>
+                <li>Processing timelines depend on the sending program and bank.</li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-slate-900 mb-3">Prepaid Card</h3>
               <ul className="space-y-1.5 text-sm text-slate-600">
-                <li>• No monthly maintenance fee</li>
-                <li>• Free ATM withdrawals at network ATMs</li>
-                <li>• $2.50 fee for out-of-network ATMs</li>
-                <li>• No overdraft fees</li>
+                <li>Card terms and network access are provided by the issuing partner.</li>
+                <li>Out-of-network ATM and replacement card fees may apply.</li>
               </ul>
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <p className="text-sm text-slate-700">
-                <strong>Important:</strong> All banking products are provided by EPS Financial,
-                Member FDIC. Refund advances are loans and must be repaid. Terms and conditions
-                apply. See your tax professional for complete details.
+                <strong>Important:</strong> Banking products are provided through third-party
+                financial partners. Terms, conditions, timing, and eligibility requirements apply.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-16 sm:py-20 border-t border-slate-100">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
-            Ready to Get Started?
+            Need Help Choosing An Option?
           </h2>
           <p className="text-slate-600 mb-8">
-            File your taxes and choose the banking option that works best for you.
+            The team can help confirm which banking path is available for your program.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/start"
+              href="/contact"
               className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg font-bold transition-colors"
             >
-              File Your Taxes
+              Contact Support
             </Link>
             <Link
-              href="/contact"
+              href="/programs"
               className="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
             >
-              Contact Us
+              View Programs
             </Link>
           </div>
         </div>
