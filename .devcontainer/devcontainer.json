@@ -3,7 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
 
   "mounts": [
-    "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
+    "source=elevate-lms-next-cache,target=${containerWorkspaceFolder}/.next/cache,type=volume"
   ],
 
 
@@ -29,7 +29,7 @@
 
   "containerEnv": {
     "ELEVATE_DEVINT_CONTAINER": "true",
-    "ELEVATE_REPO_ROOT": "${containerWorkspaceFolder}",
+    "ELEVATE_REPO_ROOT": "/workspaces/Elevate-lms",
     "ELEVATE_ADMIN_URL": "http://localhost:3001",
     "ELEVATE_LMS_URL": "http://localhost:3000"
   },
