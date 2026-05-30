@@ -84,9 +84,16 @@ export default async function ApplyPage({
             Takes 3–5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and
             Job Ready Indy funding — most eligible Indiana residents pay $0.
           </p>
-          {programTitle && (
+          {programTitle ? (
             <p className="mt-3 text-sm text-slate-400">
               Not the right program?{' '}
+              <Link href="/programs" className="text-brand-red-400 hover:text-brand-red-300 underline underline-offset-2">
+                Browse all programs
+              </Link>
+            </p>
+          ) : (
+            <p className="mt-3 text-sm text-slate-400">
+              Still deciding?{' '}
               <Link href="/programs" className="text-brand-red-400 hover:text-brand-red-300 underline underline-offset-2">
                 Browse all programs
               </Link>
