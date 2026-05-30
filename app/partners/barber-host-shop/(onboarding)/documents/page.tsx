@@ -37,7 +37,7 @@ const DOC_SLOTS: DocSlot[] = [
     required: true,
     accept: '.pdf,.jpg,.jpeg,.png',
     hint: 'PDF preferred. Download a blank W-9 from the IRS if needed.',
-    externalLink: { label: 'Download blank W-9', href: '/forms/w9.pdf' },
+    externalLink: { label: 'Download IRS Form W-9 (blank)', href: 'https://www.irs.gov/pub/irs-pdf/fw9.pdf' },
   },
   {
     id: 'barbershop_license',

@@ -438,12 +438,12 @@ export default function PayrollSetupForm({ user, profile, rateConfigs, existingP
                     Request for Taxpayer Identification Number
                   </p>
                   <a
-                    href="/forms/w9.pdf"
+                    href="https://www.irs.gov/pub/irs-pdf/fw9.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 mt-2 text-sm text-brand-blue-600 hover:underline font-medium"
                   >
-                    <Upload className="w-3.5 h-3.5" /> Download blank W-9
+                    <Upload className="w-3.5 h-3.5" /> Download IRS Form W-9 (blank)
                   </a>
                 </div>
               </div>

@@ -249,13 +249,13 @@ export function ShopDocumentUpload({
                 <div className="font-semibold text-black mb-1">W-9 Form</div>
                 <p className="text-sm text-black mb-3">IRS tax form for vendor/payroll setup</p>
                 <a
-                  href="/forms/w9.pdf"
+                  href="https://www.irs.gov/pub/irs-pdf/fw9.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
                 >
                   <FileText className="w-4 h-4" />
-                  Download blank W-9
+                  Download IRS Form W-9 (blank)
                 </a>
               </div>
             </div>
