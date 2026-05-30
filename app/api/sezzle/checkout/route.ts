@@ -285,11 +285,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     const technicalMessage = error instanceof Error ? error.message : String(error);
-    logger.error(
-      '[Sezzle] Checkout session creation failed',
-      error instanceof Error ? error : new Error(technicalMessage),
-      { technicalMessage },
-    );
+    logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage, error });
     return NextResponse.json(
       {
         error:
@@ -344,7 +340,10 @@ async function _GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'Provide order_uuid or session_uuid' }, { status: 400 });
   } catch (error) {
-    logger.error('Sezzle status check error:', error);
+    logger.error(
+      'Sezzle status check error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     const message = 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
