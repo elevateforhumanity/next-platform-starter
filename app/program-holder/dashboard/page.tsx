@@ -512,7 +512,7 @@ export default async function ProgramHolderDashboardPage() {
           <div className="space-y-4">
 
             {/* Pending Hour Approvals */}
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div id="pending-hours" className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
                 <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
                   <Clock className="w-4 h-4 text-amber-500" />
@@ -523,7 +523,7 @@ export default async function ProgramHolderDashboardPage() {
                     </span>
                   )}
                 </h2>
-                <Link href="/program-holder/hours" className="text-xs text-brand-blue-600 hover:underline font-medium">
+                <Link href="/program-holder/dashboard#pending-hours" className="text-xs text-brand-blue-600 hover:underline font-medium">
                   Review →
                 </Link>
               </div>
@@ -547,7 +547,7 @@ export default async function ProgramHolderDashboardPage() {
                   ))}
                   {pendingHours.length > 5 && (
                     <div className="px-4 py-2 text-center">
-                      <Link href="/program-holder/hours" className="text-xs text-brand-blue-600 hover:underline">
+                      <Link href="/program-holder/dashboard#pending-hours" className="text-xs text-brand-blue-600 hover:underline">
                         +{pendingHours.length - 5} more →
                       </Link>
                     </div>
