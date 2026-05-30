@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { BookOpen, ExternalLink, Loader2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -64,7 +65,7 @@ export default function DevStudioCourseDock() {
               <span className="truncate text-sm font-semibold text-slate-900">AI Course Builder</span>
             </div>
             <div className="flex items-center gap-1">
-              <a
+              <Link
                 href="/admin/courses/create"
                 target="_blank"
                 rel="noreferrer"
@@ -72,7 +73,7 @@ export default function DevStudioCourseDock() {
                 title="Open full course builder"
               >
                 <ExternalLink className="h-4 w-4" />
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
