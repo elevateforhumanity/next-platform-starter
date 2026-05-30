@@ -65,7 +65,7 @@ jobs:
             aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
               --region us-east-1 \
-              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts}}' \
+              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds,contexts:contexts}}' \
               --output json || true
             echo "::endgroup::"
 
@@ -126,6 +126,7 @@ jobs:
           done
 
       - name: Wait for ECS service stability
+        id: ecs_stability
         run: |
           echo "Waiting for ECS service to stabilize..."
           aws ecs wait services-stable \
@@ -133,6 +134,77 @@ jobs:
             --services elevate-admin-service \
             --region us-east-1
           echo "ECS service stable."
+
+      - name: Diagnose Admin ECS stability failure
+        if: failure() && steps.ecs_stability.outcome == 'failure'
+        run: |
+          set +e
+          echo "### Admin ECS diagnostics" >> "$GITHUB_STEP_SUMMARY"
+          echo "Admin CodeBuild succeeded, but ECS did not report a stable service. Recent service events, task status, and CloudWatch logs follow in this job." >> "$GITHUB_STEP_SUMMARY"
+
+          echo "::group::ECS service events"
+          aws ecs describe-services \
+            --cluster elevate-cluster \
+            --services elevate-admin-service \
+            --region us-east-1 \
+            --query 'services[0].events[0:20].[createdAt,message]' \
+            --output table
+          echo "::endgroup::"
+
+          RUNNING_TASKS=$(aws ecs list-tasks \
+            --cluster elevate-cluster \
+            --service-name elevate-admin-service \
+            --desired-status RUNNING \
+            --region us-east-1 \
+            --query 'taskArns[]' \
+            --output text 2>/dev/null)
+          STOPPED_TASKS=$(aws ecs list-tasks \
+            --cluster elevate-cluster \
+            --service-name elevate-admin-service \
+            --desired-status STOPPED \
+            --region us-east-1 \
+            --query 'taskArns[]' \
+            --output text 2>/dev/null)
+          TASKS=$(echo "$RUNNING_TASKS $STOPPED_TASKS" | xargs 2>/dev/null || true)
+
+          if [ -n "$TASKS" ]; then
+            echo "::group::ECS task details"
+            aws ecs describe-tasks \
+              --cluster elevate-cluster \
+              --tasks $TASKS \
+              --region us-east-1 \
+              --query 'tasks[].{taskArn:taskArn,lastStatus:lastStatus,desiredStatus:desiredStatus,healthStatus:healthStatus,stoppedReason:stoppedReason,containers:containers[].{name:name,lastStatus:lastStatus,healthStatus:healthStatus,exitCode:exitCode,reason:reason}}' \
+              --output json
+            echo "::endgroup::"
+          else
+            echo "No running or stopped Admin tasks found."
+          fi
+
+          LOG_GROUP="/ecs/elevate-admin"
+          LOG_STREAMS=$(aws logs describe-log-streams \
+            --log-group-name "$LOG_GROUP" \
+            --order-by LastEventTime \
+            --descending \
+            --max-items 5 \
+            --region us-east-1 \
+            --query 'logStreams[].logStreamName' \
+            --output text 2>/dev/null)
+
+          if [ -n "$LOG_STREAMS" ]; then
+            for stream in $LOG_STREAMS; do
+              echo "::group::CloudWatch logs: $stream"
+              aws logs get-log-events \
+                --log-group-name "$LOG_GROUP" \
+                --log-stream-name "$stream" \
+                --limit 120 \
+                --region us-east-1 \
+                --query 'events[].message' \
+                --output text
+              echo "::endgroup::"
+            done
+          else
+            echo "No CloudWatch log streams found for $LOG_GROUP."
+          fi
 
       - name: Health check - Admin
         id: health_check
