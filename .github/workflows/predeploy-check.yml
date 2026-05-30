@@ -91,6 +91,6 @@ jobs:
             console.log('::error::CRITICAL issues must be fixed on all branches.');
           }
           if ((c.STRICT || 0) > 0) {
-            console.log('::warning::STRICT issues block on main/strict mode and should be fixed before merge to main.');
+            console.log('::warning::STRICT issues are report-only unless PLATFORM_DOCTOR_ENFORCE_STRICT or PLATFORM_DOCTOR_BLOCK_STRICT_ON_MAIN is enabled.');
           }
           NODE
