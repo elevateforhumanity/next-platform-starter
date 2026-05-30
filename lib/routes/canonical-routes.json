@@ -285,6 +285,11 @@
       "permanent": true
     },
     {
+      "source": "/programs/construction-trades",
+      "destination": "/programs/construction-trades-certification",
+      "permanent": true
+    },
+    {
       "source": "/programs/osha",
       "destination": "/programs/emergency-health-safety",
       "permanent": true

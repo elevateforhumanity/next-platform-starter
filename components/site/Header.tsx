@@ -67,11 +67,11 @@ export default function Header() {
             Sign In
           </Link>
           <Link
-            href="/for-students"
+            href="/apply"
             prefetch={false}
             className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
           >
-            Get Started
+            Apply Now
           </Link>
         </div>
 

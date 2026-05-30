@@ -39,7 +39,7 @@ export default function ApprenticeshipsPage() {
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-8">Registered apprenticeship pathways connecting individuals to structured, paid training in barbering, cosmetology, skilled trades, and other licensed professions.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/apply" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">Apply for Apprenticeship</Link>
-            <Link href="/for-employers" className="border-2 border-white/40 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Host an Apprentice</Link>
+            <Link href="/for-employers" className="border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">Host an Apprentice</Link>
           </div>
         </div>
       </section>
