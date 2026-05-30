@@ -38,7 +38,6 @@ const footerLinks = {
     { name: 'Plumbing', href: '/programs/plumbing' },
     { name: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
     { name: 'Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
-    { name: 'Tax Preparation', href: '/programs/tax-preparation' },
     { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
     { name: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
   ],
