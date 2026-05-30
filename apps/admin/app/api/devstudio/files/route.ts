@@ -39,6 +39,14 @@ function encodePath(filePath: string): string {
   return encodeURIComponent(filePath).replace(/%2F/g, '/');
 }
 
+function normalizePath(filePath: string): string {
+  return filePath
+    .replace(/\\/g, '/')
+    .replace(/^\/+/, '')
+    .replace(/\/{2,}/g, '/')
+    .trim();
+}
+
 function isBlocked(filePath: string): boolean {
   if (filePath.includes('..')) return true;
   return BLOCKED_PATTERNS.some((p) => p.test(filePath));
@@ -180,6 +188,7 @@ export async function PUT(request: NextRequest) {
 
   const body = await request.json().catch(() => null);
   if (!body?.path || typeof body.content !== 'string') return safeError('path and content are required', 400);
+  body.path = normalizePath(String(body.path));
   if (!body.sha) return safeError('sha is required to update a file (fetch the file first)', 400);
   if (isBlocked(body.path)) return safeError('Path not allowed', 403);
 
@@ -209,6 +218,41 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+interface CreateFileBody {
+  path: string;
+  content: string;
+  message?: string;
+}
+
+async function readCreateBody(request: NextRequest): Promise<CreateFileBody | null> {
+  const contentType = request.headers.get('content-type') ?? '';
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await request.formData();
+    const upload = form.get('file');
+    if (!upload || typeof upload === 'string' || typeof upload.arrayBuffer !== 'function') {
+      return null;
+    }
+
+    const filename = 'name' in upload && typeof upload.name === 'string' ? upload.name : 'upload.txt';
+    const path = String(form.get('path') || `devstudio-uploads/${filename}`);
+    const buffer = Buffer.from(await upload.arrayBuffer());
+    return {
+      path,
+      content: buffer.toString('utf-8'),
+      message: String(form.get('message') || `chore: create ${path} via Dev Studio`),
+    };
+  }
+
+  const body = await request.json().catch(() => null);
+  if (!body) return null;
+  return {
+    path: String(body.path ?? ''),
+    content: typeof body.content === 'string' ? body.content : '',
+    message: typeof body.message === 'string' ? body.message : undefined,
+  };
+}
+
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
@@ -216,12 +260,18 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const body = await request.json().catch(() => null);
+  const body = await readCreateBody(request);
   if (!body?.path) return safeError('path is required', 400);
+  body.path = normalizePath(body.path);
   if (isBlocked(body.path)) return safeError('Path not allowed', 403);
+  if (typeof body.content !== 'string') return safeError('content must be a string', 400);
+
+  if (Buffer.byteLength(body.content, 'utf-8') > MAX_FILE_BYTES) {
+    return safeError(`Content exceeds ${MAX_FILE_BYTES / 1024} KB write limit`, 413);
+  }
 
   const message = body.message ?? `chore: create ${body.path} via Dev Studio`;
-  const encoded = Buffer.from(body.content ?? '', 'utf-8').toString('base64');
+  const encoded = Buffer.from(body.content, 'utf-8').toString('base64');
 
   try {
     const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodePath(body.path)}`, {
