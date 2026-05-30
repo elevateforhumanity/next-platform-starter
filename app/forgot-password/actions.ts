@@ -64,7 +64,7 @@ export async function sendRecoveryEmail(
 
     const result = await sendEmail({
       to: email,
-      subject: 'Reset Your Password — ${PLATFORM_DEFAULTS.orgName}',
+      subject: `Reset Your Password — ${PLATFORM_DEFAULTS.orgName}`,
       html: `
 <!DOCTYPE html>
 <html>

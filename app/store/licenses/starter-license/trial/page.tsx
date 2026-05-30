@@ -167,14 +167,27 @@ export default function StarterTrialPage() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Company / Organization (optional)
+                  Organization name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={orgName}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Acme Training Inc."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Company (optional)
                 </label>
                 <input
                   type="text"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Acme Training Inc."
                 />
               </div>
 
@@ -182,21 +195,27 @@ export default function StarterTrialPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-blue-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full bg-brand-red-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-red-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {isLoading ? (
-                    'Loading...'
-                  ) : (
+                  {isLoading ? 'Starting trial…' : (
                     <>
-                      <CreditCard className="w-5 h-5" />
-                      Continue to Payment
+                      <Clock className="w-5 h-5" />
+                      Start {LICENSE.trialDays}-day free trial
                     </>
                   )}
                 </button>
               </div>
 
+              <button
+                type="button"
+                onClick={handlePurchaseLicense}
+                className="w-full mt-3 border-2 border-slate-300 text-slate-800 py-3 rounded-lg font-semibold hover:bg-slate-50"
+              >
+                Buy license now (${LICENSE.price} one-time)
+              </button>
+
               <p className="text-xs text-slate-500 text-center">
-                You'll enter payment details on the next page. You won't be charged until your trial ends.
+                Platform trial does not require a card. License purchase uses secure Stripe checkout (sign-in required).
               </p>
             </form>
 

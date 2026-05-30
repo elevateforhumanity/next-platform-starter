@@ -6,7 +6,8 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-// Codebase license configurations (one-time purchase, not trial)
+// Codebase license checkout (one-time purchase). Requires auth.
+// For the 14-day managed platform trial, use POST /api/trial/start-managed and /store/trial.
 const LICENSES: Record<
   string,
   {
