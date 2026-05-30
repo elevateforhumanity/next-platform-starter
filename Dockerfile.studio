@@ -1,47 +1,49 @@
 # Dockerfile.studio
 #
-# Elevate Dev Studio — PTY shell container
+# Elevate Dev Studio - PTY shell container
 #
 # Runs the studio-shell WebSocket server alongside a live clone of the
 # Elevate-lms repo. Admin users connect via the Next.js proxy at
 # /api/devstudio/shell-ws and get a real bash session with pnpm, git,
-# and the full repo available.
+# database tooling, and the full repo available.
 #
 # Build (from repo root):
 #   docker build -f Dockerfile.studio -t elevate-studio:latest \
 #     --build-arg GITHUB_TOKEN=<pat> .
 #
 # The container clones the repo at startup via entrypoint.sh so the
-# image itself contains no source code — only the shell server and
+# image itself contains no source code - only the shell server and
 # runtime dependencies.
 
 FROM public.ecr.aws/docker/library/node:20-bookworm-slim
 
-# ── System dependencies ───────────────────────────────────────────────────────
+# System dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     ca-certificates \
+    jq \
+    postgresql-client \
     python3 \
     make \
     g++ \
     # node-pty needs a C++ build toolchain
     && rm -rf /var/lib/apt/lists/*
 
-# ── pnpm ─────────────────────────────────────────────────────────────────────
+# pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# ── Non-root user ─────────────────────────────────────────────────────────────
+# Non-root user
 RUN useradd -m -s /bin/bash studio
 WORKDIR /home/studio
 
-# ── Studio shell server ───────────────────────────────────────────────────────
+# Studio shell server
 COPY studio-shell/package.json studio-shell/tsconfig.json ./studio-shell/
 COPY studio-shell/src ./studio-shell/src/
 
 RUN cd studio-shell && npm install --production=false && npm run build
 
-# ── Entrypoint: clone repo then start shell server ────────────────────────────
+# Entrypoint: clone repo then start shell server
 COPY studio-shell/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
@@ -57,7 +59,7 @@ ENV NODE_ENV=production
 
 EXPOSE 8888
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=180s --retries=3 \
   CMD curl -f http://localhost:8888/health || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]
