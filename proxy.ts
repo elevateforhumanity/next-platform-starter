@@ -12,9 +12,6 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/applicants': '/admin/applications',
   '/admin/leads': '/admin/crm/leads',
   '/admin/leads/new': '/admin/crm/leads/new',
-  // ── Admin dashboard aliases ──────────────────────────────────────────────
-  '/admin/dashboard-enhanced':   '/admin/dashboard',
-  '/admin/lms-dashboard':        '/admin/dashboard',
   // ── Course / curriculum consolidation ────────────────────────────────────
   '/admin/course-generator':     '/admin/studio',
   '/admin/syllabus-generator':   '/admin/studio',
@@ -26,11 +23,9 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/external-courses':     '/admin/courses',
   // ── Enrollment / student consolidation ───────────────────────────────────
   '/admin/enrollment':           '/admin/students',
-  '/admin/applicants':           '/admin/applications',
   // ── User / staff consolidation ───────────────────────────────────────────
   '/admin/users':                '/admin/staff',
   // ── CRM consolidation ────────────────────────────────────────────────────
-  '/admin/leads':                '/admin/crm/leads',
   '/admin/contacts':             '/admin/crm/contacts',
   '/admin/campaigns':            '/admin/crm/campaigns',
   '/admin/email-marketing':      '/admin/crm/campaigns',
@@ -126,9 +121,6 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/provider/':                ['provider_admin', 'admin', 'super_admin'],
   '/creator/':                 ['creator', 'admin', 'super_admin'],
 
-  // ── Tax / VITA ────────────────────────────────────────────────────────────
-  '/dashboard/tax-intake':     ['vita_staff', 'admin', 'super_admin', 'staff'],
-
   // ── Learner portals ───────────────────────────────────────────────────────
   '/learner/':                 ['student', 'admin', 'super_admin', 'staff', 'instructor'],
 
@@ -174,14 +166,11 @@ const AUTH_REQUIRED_ROUTES = [
   '/workforce-board/',
   '/provider/',
   '/creator/',
-  '/dashboard/tax-intake',
   // Routes that were manually guarding with redirect('/login') in page components
-  '/tax',
   '/documents',
   '/license/onboarding',
   '/schedule/select',
   '/program-holder/',
-  '/partners/barbershop-apprenticeship/onboarding',
   '/partner-learning/',
 ];
 
@@ -446,7 +435,6 @@ export async function middleware(request: NextRequest) {
       '/api/identity/',
       '/api/documents/',
       '/api/verification/',
-      '/api/tax/',
       '/api/franchise/',
       '/api/wotc/',
       '/api/apprentice/documents',
