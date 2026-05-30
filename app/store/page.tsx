@@ -36,7 +36,7 @@ export default function StorePage() {
         belowHeroSubheadline={hero.belowHeroSubheadline}
         ctas={[
           { label: 'Start 14-Day Free Trial', href: '/store/trial' },
-          { label: 'Try Full Demo — No Signup', href: '/demo/admin', variant: 'secondary' },
+          { label: 'Try Full Demo - No Signup', href: '/store/demo/admin', variant: 'secondary' },
         ]}
         trustIndicators={hero.trustIndicators}
       />
@@ -65,12 +65,12 @@ export default function StorePage() {
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-3">What the license includes</h2>
           <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-            Every license includes the full platform — three portals, all compliance tools, automated reporting, and white-label branding. Nothing is extra.
+            Every license includes the full platform - three portals, all compliance tools, automated reporting, and white-label branding. Nothing is extra.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { icon: Users, title: 'Automated Enrollment', desc: 'Online applications, automatic eligibility checks, document collection, and approval workflows. No paper. No re-keying.' },
-              { icon: FileCheck, title: 'WIOA & Grant Compliance', desc: 'PIRL reporting, ITA tracking, eligibility documentation, and quarterly performance metrics — generated from enrollment data.' },
+              { icon: FileCheck, title: 'WIOA & Grant Compliance', desc: 'PIRL reporting, ITA tracking, eligibility documentation, and quarterly performance metrics - generated from enrollment data.' },
               { icon: GraduationCap, title: 'Credential Issuance', desc: 'When a student completes a program, credentials are issued automatically. Employers verify them with a link.' },
               { icon: Building2, title: 'Employer Portal', desc: 'Partners browse pre-screened candidates, track apprenticeship hours, manage OJT reimbursements, and sign MOUs.' },
               { icon: BarChart3, title: 'Automated Reporting', desc: 'WIOA performance, grant utilization, enrollment trends, outcome data. Generated on demand. No manual assembly.' },
@@ -97,9 +97,9 @@ export default function StorePage() {
           </div>
           <div className="grid sm:grid-cols-3 gap-5 mb-8">
             {[
-              { label: 'Admin Dashboard', href: '/demo/admin', desc: 'Enrollment, compliance, reporting' },
-              { label: 'Employer Portal', href: '/demo/employer', desc: 'Candidates, apprenticeships, incentives' },
-              { label: 'Student Portal', href: '/demo/learner', desc: 'Courses, progress, credentials' },
+              { label: 'Admin Dashboard', href: '/store/demo/admin', desc: 'Enrollment, compliance, reporting' },
+              { label: 'Employer Portal', href: '/store/demo/employer', desc: 'Candidates, apprenticeships, incentives' },
+              { label: 'Student Portal', href: '/store/demo/student', desc: 'Courses, progress, credentials' },
             ].map(d => (
               <Link key={d.href} href={d.href} className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-6 transition">
                 <h3 className="text-white font-bold mb-1">{d.label}</h3>
@@ -175,7 +175,7 @@ export default function StorePage() {
       <section className="py-14 sm:py-20 bg-slate-900">
         <div className="max-w-5xl mx-auto px-6">
           <p className="text-brand-red-400 font-bold text-xs uppercase tracking-widest mb-2 text-center">Licensable Course Content</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-3">HVAC Technician — Full Course License</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-3">HVAC Technician - Full Course License</h2>
           <p className="text-slate-400 text-center mb-10 max-w-2xl mx-auto">
             License our complete 640-hour HVAC Technician course for your workforce program, community college, or training center. Includes all 16 modules, interactive diagrams, EPA 608 prep, OSHA 10, and CPR/AED.
           </p>
@@ -183,7 +183,7 @@ export default function StorePage() {
             {/* Video preview */}
             <div>
               <StoreDemoVideo />
-              <p className="text-slate-500 text-xs text-center mt-2">Module 1, Lesson 1 — live sample from the course</p>
+              <p className="text-slate-500 text-xs text-center mt-2">Module 1, Lesson 1 - live sample from the course</p>
             </div>
             {/* Course details + CTA */}
             <div className="bg-white rounded-2xl p-8">
