@@ -804,21 +804,16 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
 - **pnpm 10.28.2** is the package manager — `corepack enable` activates it.
-- **No local database** — the app connects to hosted Supabase. Create `.env.local` before the first `pnpm dev`.
-- **Cloud Agent VMs** may inject `SUPABASE_SERVICE_ROLE_KEY` (valid for hosted DB) but sometimes set `NEXT_PUBLIC_SUPABASE_URL` to a JWT instead of the project URL, which crashes `instrumentation.ts` → `hydrateProcessEnv()`. Export the URL before `pnpm dev`:
-  ```bash
-  export NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
-  ```
-  Do not set `SUPABASE_SERVICE_ROLE_KEY=placeholder` when a real service-role key is already in the environment.
-- Minimum `.env.local` when no secrets are injected:
+- **No local database** — the app connects to hosted Supabase. A `.env.local` with placeholder keys is enough to start the dev server; DB-dependent features fail gracefully at runtime.
+- Minimum `.env.local` for dev server startup:
   ```
   NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-jwt-or-placeholder>
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder
+  SUPABASE_SERVICE_ROLE_KEY=placeholder
   NEXTAUTH_SECRET=dev-secret
   NEXT_TELEMETRY_DISABLED=1
   SKIP_ENV_VALIDATION=true
   ```
-  Omit `SUPABASE_SERVICE_ROLE_KEY` unless you have a valid key (server routes and secret hydration).
 
 ### Running services
 
@@ -837,9 +832,7 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 ### Gotchas
 
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
-- **tmux** — use a named session for long-running dev servers, e.g. `tmux -f /exec-daemon/tmux.portal.conf new-session -d -s lms-dev-server -c /workspace`, then `send-keys` to run `pnpm dev` with the Supabase URL export above.
-- Dev server logs `Failed to load from app_secrets` / `platform_secrets` or `401` on Supabase reads when the anon key is missing or invalid — marketing pages still render; authenticated LMS and `/api/programs` need real keys.
-- `pnpm lint` currently reports 7 pre-existing `elevate-lms/no-direct-ai-providers` errors under `lib/ai/*` (plus hook warnings); unit tests (`pnpm test`) are the reliable CI signal for agents.
+- Dev server logs `Failed to load from app_secrets` and `Failed to load from platform_secrets` with placeholder Supabase keys — this is expected and does not block the server.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
@@ -860,4 +853,8 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+
+### Merging to `main`
+
+`main` is branch-protected on GitHub — `git push origin main` is rejected. Ship fixes via a feature branch (`cursor/<name>-c4c6`) and merge the PR after required CI checks pass.
 
