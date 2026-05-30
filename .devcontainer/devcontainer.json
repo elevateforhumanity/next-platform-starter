@@ -3,7 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
 
   "mounts": [
-    "source=elevate-lms-next-cache,target=/workspaces/Elevate-lms/.next/cache,type=volume"
+    "source=elevate-lms-next-cache,target=${containerWorkspaceFolder}/.next/cache,type=volume"
   ],
 
 
