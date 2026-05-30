@@ -15,6 +15,7 @@ const JSON_MODE = args.has('--json');
 const QUIET = args.has('--quiet');
 const IS_MAIN = process.env.GITHUB_REF_NAME === 'main' || process.env.GITHUB_REF === 'refs/heads/main';
 const ENFORCE_STRICT = process.env.PLATFORM_DOCTOR_ENFORCE_STRICT === 'true';
+const BLOCK_STRICT_ON_MAIN = process.env.PLATFORM_DOCTOR_BLOCK_STRICT_ON_MAIN === 'true';
 
 const findings = [];
 const checkSummaries = [];
@@ -271,12 +272,12 @@ function main() {
   runCmd('Unit Tests', 'pnpm test', 'STRICT');
 
   const summary = summarize();
-  const strictBlocks = IS_MAIN || ENFORCE_STRICT;
+  const strictBlocks = ENFORCE_STRICT || (IS_MAIN && BLOCK_STRICT_ON_MAIN);
   const blocked = summary.counts.CRITICAL > 0 || (strictBlocks && summary.counts.STRICT > 0);
   const report = {
     tool: 'platform-doctor-v2',
     timestamp: new Date().toISOString(),
-    mode: { strict: STRICT_MODE, fix: FIX_MODE, isMainBranch: IS_MAIN, enforceStrict: ENFORCE_STRICT, strictBlocks },
+    mode: { strict: STRICT_MODE, fix: FIX_MODE, isMainBranch: IS_MAIN, enforceStrict: ENFORCE_STRICT, blockStrictOnMain: BLOCK_STRICT_ON_MAIN, strictBlocks },
     checks: checkSummaries,
     countsBySeverity: summary.counts,
     topFiles: summary.topFiles,
@@ -297,7 +298,7 @@ function main() {
     for (const t of summary.topFiles) console.log(` - ${t.file} (${t.count})`);
     console.log(`Auto-fix: ${report.autoFixCommand}`);
     console.log(`Report: ${path.relative(ROOT, out)}`);
-    if (summary.counts.STRICT > 0 && !strictBlocks) console.log('\nStrict findings are reported but do not block PR deploy validation. Set PLATFORM_DOCTOR_ENFORCE_STRICT=true to enforce them outside main.');
+    if (summary.counts.STRICT > 0 && !strictBlocks) console.log('\nStrict findings are reported but do not block deployment. Set PLATFORM_DOCTOR_ENFORCE_STRICT=true to enforce them.');
     console.log(`\n${report.status}`);
   }
 
