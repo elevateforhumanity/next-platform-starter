@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -123,7 +124,7 @@ export default function LearningAnalyticsDashboard() {
               ],
         );
       } catch (err) {
-        console.error('Error loading analytics:', err);
+        logger.error('Error loading analytics:', err);
       } finally {
         setLoading(false);
       }

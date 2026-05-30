@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 // Offline queue for PWA hour submissions
 // Uses IndexedDB to store pending requests when offline
 
@@ -161,7 +162,7 @@ export function useOfflineQueue() {
         });
         return response.ok;
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     }
 

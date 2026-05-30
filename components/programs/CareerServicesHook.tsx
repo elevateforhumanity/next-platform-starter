@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -83,7 +84,7 @@ Notes: ${formData.get('notes') || 'None'}
       });
 
       if (insertError) {
-        console.error('Failed to submit request:', insertError);
+        logger.error('Failed to submit request:', insertError);
         setError('Failed to submit request. Please try again or contact us directly.');
         setSubmitting(false);
         return;
@@ -96,7 +97,7 @@ Notes: ${formData.get('notes') || 'None'}
         setSelectedService(null);
       }, 2000);
     } catch (err) {
-      console.error('Error submitting request:', err);
+      logger.error('Error submitting request:', err);
       setError('An error occurred. Please try again.');
     }
 

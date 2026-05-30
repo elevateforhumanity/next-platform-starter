@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
@@ -51,7 +52,7 @@ export default async function NotificationsPage() {
       unreadCount = notifications.filter((n) => !n.read_at).length;
     }
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 
   const getIcon = (type: string) => {

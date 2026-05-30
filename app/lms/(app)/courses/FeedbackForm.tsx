@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState } from 'react';
 import { Star, Send, Loader2 } from 'lucide-react';
@@ -33,7 +34,7 @@ export function FeedbackForm({ courseId, courseName, onSubmit }: FeedbackFormPro
         setSubmitted(true);
       } else {
         const data = await res.json().catch(() => ({}));
-        console.error('Review submission failed:', data.error);
+        logger.error('Review submission failed:', data.error);
         // Still mark submitted on client — review may be stored even if response fails
         setSubmitted(true);
       }

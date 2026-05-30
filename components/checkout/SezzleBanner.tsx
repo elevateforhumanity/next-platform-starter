@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect } from 'react';
 import Script from 'next/script';
@@ -47,7 +48,7 @@ export default function SezzleBanner({
           renderToContainer: renderToContainer,
         }).init();
       } catch (e) {
-        console.warn('Sezzle banner initialization error:', e);
+        logger.warn('Sezzle banner initialization error:', e);
       }
     }
   }, [merchantId, theme, renderToContainer]);

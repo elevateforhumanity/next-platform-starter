@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
@@ -63,7 +64,7 @@ export function SearchDialog() {
 
       setSearchResults([...programResults, ...pageResults]);
     } catch (err) {
-      console.error('Search error:', err);
+      logger.error('Search error:', err);
       // Fallback to static search
       setSearchResults(
         staticPages.filter((p) => p.title.toLowerCase().includes(searchQuery.toLowerCase())),

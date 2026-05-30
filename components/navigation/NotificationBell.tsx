@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -87,7 +88,7 @@ export function NotificationBell() {
           setNotifs(formatted);
         }
       } catch (err) {
-        console.error('Error fetching notifications:', err);
+        logger.error('Error fetching notifications:', err);
       } finally {
         setLoading(false);
       }

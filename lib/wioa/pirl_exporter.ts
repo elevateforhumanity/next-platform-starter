@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 /**
  * PIRL Exporter — Schema-driven quarterly WIOA reporting
  *
@@ -622,7 +623,7 @@ async function main() {
   }
 
   if (cmd !== 'export') {
-    console.error(
+    logger.error(
       [
         'Usage:',
         '  npx tsx tools/wioa/pirl_exporter.ts init-schema [outPath]',
@@ -640,7 +641,7 @@ async function main() {
   const positionalArgs = args.filter((a) => !a.startsWith('--'));
   const [schemaPath, quarter, outDir, filePrefix] = positionalArgs;
   if (!schemaPath || !quarter || !outDir || !filePrefix) {
-    console.error('Missing required args: schemaPath quarter outDir filePrefix');
+    logger.error('Missing required args: schemaPath quarter outDir filePrefix');
     process.exit(2);
   }
 
@@ -701,7 +702,7 @@ const isMainModule =
 
 if (isMainModule) {
   main().catch((e) => {
-    console.error(e);
+    logger.error(e);
     process.exit(1);
   });
 }

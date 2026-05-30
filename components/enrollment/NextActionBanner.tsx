@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -37,7 +38,7 @@ export function NextActionBanner() {
           }
         }
       } catch (err) {
-        console.error('Failed to fetch next action:', err);
+        logger.error('Failed to fetch next action:', err);
       } finally {
         setLoading(false);
       }

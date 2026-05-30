@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -56,7 +57,7 @@ export function CourseReviewsSection({ courseId }: { courseId: string }) {
         const json = await res.json();
         setReviews(json.reviews || []);
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       } finally {
         setLoading(false);
       }
@@ -83,7 +84,7 @@ export function CourseReviewsSection({ courseId }: { courseId: string }) {
         // Error logged
       }
     } catch (e) {
-      console.error('Error:', e);
+      logger.error('Error:', e);
     } finally {
       setSubmitting(false);
     }

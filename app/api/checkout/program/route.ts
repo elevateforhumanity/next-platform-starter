@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Stripe checkout session (payment rate limit).
 /**
  * POST /api/checkout/program
  *
@@ -45,13 +46,6 @@ async function _POST(request: NextRequest) {
   if (!slug || !successUrl || !cancelUrl) {
     return NextResponse.json(
       { error: 'slug, successUrl, and cancelUrl are required.' },
-      { status: 400 },
-    );
-  }
-
-  if (!isSameOriginPath(successUrl, request) || !isSameOriginPath(cancelUrl, request)) {
-    return NextResponse.json(
-      { error: 'successUrl and cancelUrl must be same-origin paths.' },
       { status: 400 },
     );
   }

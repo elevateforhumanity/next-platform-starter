@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 import {
@@ -99,7 +100,7 @@ export function LiveOutcomesDashboard({ initialData }: { initialData?: Partial<O
           setLastUpdated(new Date().toLocaleTimeString());
         }
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     };
 

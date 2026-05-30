@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 /**
  * Apply flow context management
  * Persists pathway selection across page navigations
@@ -29,7 +30,7 @@ export function setApplyPathwayContext(ctx: ApplyPathwayContext): void {
   try {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(ctx));
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 }
 
@@ -39,6 +40,6 @@ export function clearApplyPathwayContext(): void {
   try {
     sessionStorage.removeItem(STORAGE_KEY);
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 }

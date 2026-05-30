@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -193,7 +194,7 @@ export function AdminReportingDashboard() {
       // Monthly data from real enrollments would go here
       setMonthlyData([]);
     } catch (err) {
-      console.error('Error fetching dashboard data:', err);
+      logger.error('Error fetching dashboard data:', err);
       setError('Failed to load reporting data. Please refresh.');
     } finally {
       setLoading(false);

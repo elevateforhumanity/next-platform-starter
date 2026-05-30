@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -55,7 +56,7 @@ export default function AIPageBuilder() {
         setTemplates(data.templates);
       }
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
     }
   }
 

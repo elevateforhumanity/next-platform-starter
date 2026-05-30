@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -217,7 +218,7 @@ export default function SiteSearch() {
 
       setResults([...programResults, ...eventResults, ...staticResults].slice(0, 10));
     } catch (err) {
-      console.error('Search error:', err);
+      logger.error('Search error:', err);
       // Fallback to static search
       setResults(
         searchableContent

@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
@@ -72,7 +73,7 @@ export default async function MessagesPage() {
       unreadCount = conversations.reduce((sum, c) => sum + c.unread, 0);
     }
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 
   const formatTime = (dateString: string) => {

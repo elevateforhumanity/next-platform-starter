@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -101,7 +102,7 @@ export function QuizBuilder() {
 
       alert('Quiz saved successfully!');
     } catch (err) {
-      console.error('Error saving quiz:', err);
+      logger.error('Error saving quiz:', err);
       alert('Failed to save quiz');
     } finally {
       setSaving(false);

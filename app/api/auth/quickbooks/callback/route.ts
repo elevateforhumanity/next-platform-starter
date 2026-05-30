@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
 
     if (!tokenRes.ok) {
       const err = await tokenRes.text();
-      console.error('[QB callback] token exchange failed:', err);
+      logger.error('[QB callback] token exchange failed:', err);
       return redirect('error=token_failed');
     }
 
@@ -89,7 +90,7 @@ export async function GET(request: NextRequest) {
       `${adminBase}/admin/integrations/quickbooks?success=connected&company=${realm}`,
     );
   } catch (err) {
-    console.error('[QB callback] unexpected error:', err);
+    logger.error('[QB callback] unexpected error:', err);
     return redirect('error=unexpected');
   }
 }
@@ -109,7 +110,7 @@ async function persistToSupabase(params: Record<string, string>) {
       ),
     );
   } catch (err) {
-    console.error('[QB callback] Supabase persist failed:', err);
+    logger.error('[QB callback] Supabase persist failed:', err);
   }
 }
 
@@ -132,6 +133,6 @@ async function persistToSSM(params: Record<string, string>) {
     );
   } catch (err) {
     // Non-fatal — tokens still work for this request, next restart will re-auth
-    console.error('[QB callback] SSM persist failed:', err);
+    logger.error('[QB callback] SSM persist failed:', err);
   }
 }

@@ -727,8 +727,8 @@ There are two distinct quiz systems. They serve different purposes and must not 
 - `console.log` calls remain in some non-runtime areas — prefer `import { logger } from '@/lib/logger'` for new code
 - 8 certificate-related tables have no migration source — verify in Supabase Dashboard
 - One migration requires superuser application: `20260417000013_documents_bucket_policies.sql` (`storage.objects` ownership)
-- ~60 files still read `training_courses` directly — should migrate to `lms_courses` view incrementally
-- `training_courses` write path in `lib/db/courses.ts` `createCourseFromBlueprint()` still targets `training_courses` for the course row (lesson rows now fixed) — migrate to `courses` table when ready
+- Enrollment reads in `lib/db/courses.ts` and `lib/enrollments/getUserEnrollments.ts` use `lms_courses` via `attachLmsCoursesToEnrollments` (not `training_courses` embed)
+- Remaining `training_courses` reads: mostly `_archived/`, program admin joins, and legacy pages — migrate incrementally to `lms_courses`
 
 ---
 
@@ -853,8 +853,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-### Merging to `main`
-
-`main` is branch-protected on GitHub — `git push origin main` is rejected. Ship fixes via a feature branch (`cursor/<name>-c4c6`) and merge the PR after required CI checks pass.
 

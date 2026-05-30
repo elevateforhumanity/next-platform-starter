@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useCallback, useEffect, useRef } from 'react';
 import { logExamEvent } from '@/lib/exams/log-event';
@@ -30,7 +31,7 @@ export function useExamMonitoring({
       try {
         await logExamEvent({ examSessionId, eventType, metadata });
       } catch (error) {
-        console.error('Exam event logging failed:', error);
+        logger.error('Exam event logging failed:', error);
       }
     },
     [examSessionId],
@@ -44,7 +45,7 @@ export function useExamMonitoring({
         await el.requestFullscreen();
         await safeLog('fullscreen_enter');
       } catch (error) {
-        console.warn('Fullscreen request failed:', error);
+        logger.warn('Fullscreen request failed:', error);
       }
     }
   }, [enableFullscreen, safeLog]);

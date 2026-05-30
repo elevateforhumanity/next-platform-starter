@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import { Copy, Check, CreditCard, Eye, EyeOff, Shield } from 'lucide-react';
@@ -81,7 +82,7 @@ export default function SezzleVirtualCard({
       setCopiedField(field);
       setTimeout(() => setCopiedField(null), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      logger.error('Failed to copy:', err);
     }
   };
 

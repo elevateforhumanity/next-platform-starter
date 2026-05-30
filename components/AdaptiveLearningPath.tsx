@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -152,7 +153,7 @@ export function AdaptiveLearningPath() {
           setLearningPaths(defaultPaths);
         }
       } catch (err) {
-        console.error('Error loading paths:', err);
+        logger.error('Error loading paths:', err);
         setLearningPaths(defaultPaths);
       } finally {
         setLoading(false);

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -47,7 +48,7 @@ export function ProfessionalVideoPlayer({
           videoRef.current.currentTime = last_position_seconds;
         }
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
 
@@ -127,7 +128,7 @@ export function ProfessionalVideoPlayer({
         }
       }
     } catch (e) {
-      console.error('Error:', e);
+      logger.error('Error:', e);
     }
   };
 

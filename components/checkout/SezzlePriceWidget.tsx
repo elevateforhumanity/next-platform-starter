@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect } from 'react';
 import Script from 'next/script';
@@ -136,7 +137,7 @@ export default function SezzlePriceWidget({
   }, [config, targetSelector, theme, alignment, language, minPrice, maxPrice]);
 
   if (!sezzleMerchantId) {
-    console.warn('SezzlePriceWidget: Missing NEXT_PUBLIC_SEZZLE_MERCHANT_ID');
+    logger.warn('SezzlePriceWidget: Missing NEXT_PUBLIC_SEZZLE_MERCHANT_ID');
     return null;
   }
 

@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
@@ -107,7 +108,7 @@ export default async function SupportPage() {
       tickets = ticketData;
     }
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 
   return (

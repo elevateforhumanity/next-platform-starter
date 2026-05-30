@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -58,7 +59,7 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
       router.push('/');
       router.refresh();
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
     }
   };
 

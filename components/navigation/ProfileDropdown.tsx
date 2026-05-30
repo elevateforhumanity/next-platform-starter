@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -109,7 +110,7 @@ export function ProfileDropdown({ className }: Props) {
 
         setNotifications({ unread: count || 0 });
       } catch (err) {
-        console.error('Error fetching user data:', err);
+        logger.error('Error fetching user data:', err);
       } finally {
         setLoading(false);
       }
@@ -186,7 +187,7 @@ export function ProfileDropdown({ className }: Props) {
       router.push('/');
       router.refresh();
     } catch (err) {
-      console.error('Sign out error:', err);
+      logger.error('Sign out error:', err);
     } finally {
       setSigningOut(false);
     }

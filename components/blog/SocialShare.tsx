@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { Facebook, Twitter, Linkedin, Link2, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -30,7 +31,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      logger.error('Failed to copy:', err);
     }
   };
 

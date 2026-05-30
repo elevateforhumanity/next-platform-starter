@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
@@ -145,7 +146,7 @@ export default async function ProgressPage() {
       }
     }
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
   }
 
   // Calculate overall progress percentage

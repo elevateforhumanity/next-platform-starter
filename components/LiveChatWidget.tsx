@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
@@ -73,7 +74,7 @@ export function LiveChatWidget({ forceShow = false }: Props) {
           setTimeout(() => setShouldShow(true), 2000);
         }
       } catch (err) {
-        console.error('Error fetching chat config:', err);
+        logger.error('Error fetching chat config:', err);
         // Fallback to default
         setConfig({
           provider: 'tawk',
@@ -105,7 +106,7 @@ export function LiveChatWidget({ forceShow = false }: Props) {
               userId: user.id,
             },
             function (error: any) {
-              if (error) console.error('Tawk setAttributes error:', error);
+              if (error) logger.error('Tawk setAttributes error:', error);
             },
           );
         };

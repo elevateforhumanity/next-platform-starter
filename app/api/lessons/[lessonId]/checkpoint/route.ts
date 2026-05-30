@@ -100,6 +100,7 @@ export async function POST(
       score,
       passingScore,
       answers ?? {},
+      { supabase },
     );
 
     logger.info('[checkpoint] Attempt recorded', {

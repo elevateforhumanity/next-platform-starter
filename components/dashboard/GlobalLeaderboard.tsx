@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -26,7 +27,7 @@ export function GlobalLeaderboard() {
         const json = await res.json();
         if (!cancelled) setRows(json.leaderboard || []);
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       } finally {
         if (!cancelled) setLoading(false);
       }

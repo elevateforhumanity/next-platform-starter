@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
+import { attachLmsCoursesToEnrollments } from '@/lib/db/enrollment-course-join';
 import {
   resolveDeliveryMode,
   getContinueLearningUrl,

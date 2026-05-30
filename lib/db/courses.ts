@@ -299,10 +299,12 @@ export async function createEnrollment(input: EnrollmentCreate) {
       at_risk: input.at_risk ?? false,
       enrolled_at: new Date().toISOString(),
     })
-    .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+    .select('*, student:profiles(id, full_name, email)')
     .maybeSingle();
   if (error) throw new Error('Database operation failed');
-  return data;
+  if (!data) return data;
+  const [enriched] = await attachLmsCoursesToEnrollments(supabase, [data]);
+  return enriched;
 }
 
 export async function listEnrollments(filters?: {
@@ -313,7 +315,7 @@ export async function listEnrollments(filters?: {
   const supabase = await getSupabase();
   let query = supabase
     .from('program_enrollments')
-    .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+    .select('*, student:profiles(id, full_name, email)')
     .order('enrolled_at', { ascending: false });
 
   if (filters?.courseId) query = query.eq('course_id', filters.courseId);
@@ -322,19 +324,21 @@ export async function listEnrollments(filters?: {
 
   const { data, error } = await query;
   if (error) throw new Error('Database operation failed');
-  return data || [];
+  return attachLmsCoursesToEnrollments(supabase, data || []);
 }
 
 export async function getEnrollment(id: string) {
   const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('program_enrollments')
-    .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+    .select('*, student:profiles(id, full_name, email)')
     .eq('id', id)
     .maybeSingle();
   if (error?.code === 'PGRST116') return null;
   if (error) throw new Error('Database operation failed');
-  return data;
+  if (!data) return data;
+  const [enriched] = await attachLmsCoursesToEnrollments(supabase, [data]);
+  return enriched;
 }
 
 export async function updateEnrollment(id: string, patch: EnrollmentUpdate) {
@@ -346,11 +350,13 @@ export async function updateEnrollment(id: string, patch: EnrollmentUpdate) {
     .from('program_enrollments')
     .update(updateData)
     .eq('id', id)
-    .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
+    .select('*, student:profiles(id, full_name, email)')
     .single();
   if (error?.code === 'PGRST116') return null;
   if (error) throw new Error('Database operation failed');
-  return data;
+  if (!data) return null;
+  const [enriched] = await attachLmsCoursesToEnrollments(supabase, [data]);
+  return enriched;
 }
 
 export async function deleteEnrollment(id: string) {

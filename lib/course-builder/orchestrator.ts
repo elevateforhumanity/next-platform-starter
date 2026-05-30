@@ -21,7 +21,7 @@
  *     topic: 'HVAC refrigerant handling and EPA regulations',
  *     difficulty: 'intermediate',
  *     programId: 'uuid',
- *     onProgress: (stage, message) => console.log(stage, message),
+ *     onProgress: (stage, message) => logger.info(stage, message),
  *   });
  */
 

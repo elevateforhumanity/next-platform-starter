@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Tombstone 410 — no data access.
 /**
  * TOMBSTONE — cash-advance application management belongs in the finance repo.
  * The admin portal reads cash_advances directly from Supabase.

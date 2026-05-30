@@ -14,6 +14,7 @@ import {
   GraduationCap,
   Sparkles,
 } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 // Types for search results
 interface SearchItem {

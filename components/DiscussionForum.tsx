@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import Image from 'next/image';
@@ -51,7 +52,7 @@ export function DiscussionForum({ courseId, posts = [] }: DiscussionForumProps) 
         setForumPosts(formatted);
       }
     } catch (err) {
-      console.error('Error fetching posts:', err);
+      logger.error('Error fetching posts:', err);
     } finally {
       setLoading(false);
     }

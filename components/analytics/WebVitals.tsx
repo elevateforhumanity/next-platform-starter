@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useReportWebVitals } from 'next/web-vitals';
 import { useEffect } from 'react';
@@ -49,7 +50,7 @@ export function WebVitals() {
 
     // Log poor metrics for debugging
     if (rating === 'poor' && process.env.NODE_ENV === 'development') {
-      console.warn(`[Web Vitals] Poor ${metric.name}:`, {
+      logger.warn(`[Web Vitals] Poor ${metric.name}:`, {
         value: metric.value,
         rating,
         threshold: THRESHOLDS[metric.name as keyof typeof THRESHOLDS],

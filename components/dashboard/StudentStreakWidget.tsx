@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -27,7 +28,7 @@ export function StudentStreakWidget() {
         setData(json);
         setGoalInput(String(json.dailyMinutes ?? 20));
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
     load();

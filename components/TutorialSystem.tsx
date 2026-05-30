@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import Image from 'next/image';
@@ -39,7 +40,7 @@ export function TutorialSystem({ tutorial, userId, onComplete, onClose }: Tutori
           }
         }
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     }
     loadProgress();

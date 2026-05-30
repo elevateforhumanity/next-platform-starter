@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import { useEffect } from 'react';
@@ -32,7 +33,7 @@ export function PerformanceMonitor() {
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
     // FID - First Input Delay
@@ -50,7 +51,7 @@ export function PerformanceMonitor() {
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
     // CLS - Cumulative Layout Shift
@@ -71,7 +72,7 @@ export function PerformanceMonitor() {
         });
         clsObserver.observe({ entryTypes: ['layout-shift'] });
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
   }, []);

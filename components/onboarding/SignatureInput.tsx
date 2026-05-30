@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Type, Pen, RotateCcw, Check, AlertCircle, Loader2 } from 'lucide-react';
@@ -205,7 +206,7 @@ export function SignatureInput({
       setSaved(true);
       onSignatureSaved?.(signature.id);
     } catch (err: any) {
-      console.error('Error saving signature:', err);
+      logger.error('Error saving signature:', err);
       setError('Failed to save signature');
     } finally {
       setSaving(false);

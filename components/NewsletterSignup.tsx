@@ -124,9 +124,9 @@ export default function NewsletterSignup() {
 
           <p className="text-xs text-white mt-4">
             We respect your privacy. Unsubscribe anytime. View our{' '}
-            <a href="/legal/privacy" className="underline hover:text-brand-red-300">
+            <Link href="/legal/privacy" className="underline hover:text-brand-red-300">
               Privacy Policy
-            </a>
+            </Link>
           </p>
         </div>
       </div>
