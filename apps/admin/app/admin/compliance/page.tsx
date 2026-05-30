@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import WIOAComplianceDashboard, {
   type WIOADashboardProps,
 } from '@/components/admin/WIOAComplianceDashboard';
