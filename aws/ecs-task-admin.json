@@ -61,6 +61,10 @@
           "value": "https://admin.elevateforhumanity.org"
         },
         {
+          "name": "NEXT_PUBLIC_PUBLIC_SITE_URL",
+          "value": "https://www.elevateforhumanity.org"
+        },
+        {
           "name": "NEXT_PUBLIC_SUPPORT_EMAIL",
           "value": "support@elevateforhumanity.org"
         },

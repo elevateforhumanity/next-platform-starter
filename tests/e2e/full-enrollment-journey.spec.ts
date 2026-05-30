@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 /**
  * Full Enrollment Journey E2E Test
@@ -6,10 +6,8 @@ import { test, expect, Page } from '@playwright/test';
  * Tests the complete user flow: Apply → Auth → Checkout → Enrollment
  * This is the primary conversion funnel for the LMS platform.
  *
- * Flow: Homepage → Programs → Apply Landing → Inquiry Form → Auth → LMS
+ * Flow: Homepage → Programs → Apply Landing → Intake Form → Auth → LMS
  */
-
-const baseURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 // Test data
 const testUser = {
@@ -51,7 +49,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
   });
 
   /**
-   * Phase 2: Application Landing - User reaches apply page and chooses path
+   * Phase 2: Application Landing - User reaches the canonical apply page
    */
   test('Phase 2: Application Landing Page', async ({ page }) => {
     // Step 2.1: Navigate to apply page
@@ -61,11 +59,11 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     // Step 2.2: Verify apply landing page content
     await expect(page.locator('h1')).toBeVisible();
 
-    // Step 2.3: Verify two enrollment paths are presented
-    const inquiryLink = page.locator('a[href*="/inquiry"]');
+    // Step 2.3: Verify the canonical intake form and program path are presented
+    const formSection = page.locator('#application, form, [id*="form"]');
     const programsLink = page.locator('a[href*="/programs"]');
 
-    await expect(inquiryLink.first()).toBeVisible();
+    await expect(formSection.first()).toBeVisible();
     await expect(programsLink.first()).toBeVisible();
 
     // Step 2.4: Verify eligibility notice is shown
@@ -74,12 +72,12 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
   });
 
   /**
-   * Phase 3: Inquiry Form - User submits inquiry
+   * Phase 3: Intake Form - User submits application interest
    */
-  test('Phase 3: Inquiry Form Submission', async ({ page }) => {
-    // Step 3.1: Navigate to inquiry page
-    await page.goto('/inquiry');
-    await expect(page).toHaveURL(/\/inquiry/);
+  test('Phase 3: Intake Form Submission', async ({ page }) => {
+    // Step 3.1: Navigate to canonical apply page
+    await page.goto('/apply');
+    await expect(page).toHaveURL(/\/apply/);
 
     // Step 3.2: Verify form section exists
     const formSection = page.locator('#application, form, [id*="form"]');
@@ -145,6 +143,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     // Step 5.2: Look for pricing or funding information
     const pricingText = page.locator('text=/\\$[0-9,]+|FREE|WIOA/i');
     const hasPricingInfo = (await pricingText.count()) > 0;
+    expect(hasPricingInfo).toBeTruthy();
 
     // Step 5.3: Look for enrollment/apply buttons
     const actionButton = page
@@ -203,7 +202,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
   /**
    * Complete Journey Test - All phases in sequence
    */
-  test('Complete Journey: Discovery → Apply → Inquiry → Auth → Funding → LMS', async ({ page }) => {
+  test('Complete Journey: Discovery → Apply → Intake → Auth → Funding → LMS', async ({ page }) => {
     const journeySteps: string[] = [];
 
     // Discovery
@@ -219,10 +218,10 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await expect(page.locator('h1')).toBeVisible();
     journeySteps.push('✓ Apply landing page displayed');
 
-    // Inquiry Form
-    await page.goto('/inquiry');
+    // Intake Form
+    await page.goto('/apply');
     await expect(page.locator('input[type="email"]').first()).toBeVisible();
-    journeySteps.push('✓ Inquiry form accessible');
+    journeySteps.push('✓ Intake form accessible');
 
     // Authentication
     await page.goto('/login');
@@ -256,8 +255,8 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
  * Error Handling Tests for Enrollment Journey
  */
 test.describe('Enrollment Journey Error Handling', () => {
-  test('handles invalid inquiry data gracefully', async ({ page }) => {
-    await page.goto('/inquiry');
+  test('handles invalid intake data gracefully', async ({ page }) => {
+    await page.goto('/apply');
 
     // Try to submit with invalid email
     const emailInput = page.locator('input[type="email"]').first();
@@ -271,7 +270,7 @@ test.describe('Enrollment Journey Error Handling', () => {
         // Should show validation error or stay on page
         await page.waitForTimeout(500);
         const url = page.url();
-        expect(url).toContain('/inquiry');
+        expect(url).toContain('/apply');
       }
     }
   });
@@ -306,8 +305,8 @@ test.describe('Enrollment Journey Error Handling', () => {
  * Accessibility Tests for Enrollment Journey
  */
 test.describe('Enrollment Journey Accessibility', () => {
-  test('inquiry form is keyboard navigable', async ({ page }) => {
-    await page.goto('/inquiry');
+  test('intake form is keyboard navigable', async ({ page }) => {
+    await page.goto('/apply');
 
     // Tab through form elements
     await page.keyboard.press('Tab');
@@ -328,7 +327,7 @@ test.describe('Enrollment Journey Accessibility', () => {
   });
 
   test('form inputs have proper labels', async ({ page }) => {
-    await page.goto('/inquiry');
+    await page.goto('/apply');
 
     // Wait for page to fully load
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 });
@@ -384,8 +383,8 @@ test.describe('Enrollment Journey Accessibility', () => {
 test.describe('Enrollment Journey Mobile Experience', () => {
   test.use({ viewport: { width: 375, height: 667 } }); // iPhone SE
 
-  test('inquiry form is usable on mobile', async ({ page }) => {
-    await page.goto('/inquiry');
+  test('intake form is usable on mobile', async ({ page }) => {
+    await page.goto('/apply');
 
     // Form section should be visible
     const formSection = page.locator('#application, form, main');
@@ -412,7 +411,7 @@ test.describe('Enrollment Journey Mobile Experience', () => {
   });
 
   test('no horizontal scroll on enrollment pages', async ({ page }) => {
-    const pages = ['/apply', '/inquiry', '/login', '/register', '/funding'];
+    const pages = ['/apply', '/login', '/register', '/funding'];
 
     for (const url of pages) {
       await page.goto(url);
@@ -431,8 +430,8 @@ test.describe('Enrollment Journey Mobile Experience', () => {
  * API Endpoint Tests for Enrollment Journey
  */
 test.describe('Enrollment Journey API Endpoints', () => {
-  test('inquiry API endpoint exists', async ({ page }) => {
-    const response = await page.request.post('/api/inquiry', {
+  test('intake API endpoint exists', async ({ page }) => {
+    const response = await page.request.post('/api/intake', {
       data: {},
       failOnStatusCode: false,
     });

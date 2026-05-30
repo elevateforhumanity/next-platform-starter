@@ -102,7 +102,7 @@ export default function EstheticianSignMouPage() {
     try {
       const canvas = canvasRef.current;
       const sigDataUrl = canvas?.toDataURL('image/png') ?? '';
-      const res = await fetch('/api/partners/cosmetology-apprenticeship/sign-mou', {
+      const res = await fetch('/api/partners/cosmetology-host-shop/sign-mou', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

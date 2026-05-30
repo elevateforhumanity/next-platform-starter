@@ -10,7 +10,7 @@ import DemoTabs from './DemoTabs';
 
 export const metadata: Metadata = {
   title: 'Platform Demos',
-  description: 'Watch guided video walkthroughs of the Elevate platform — admin dashboard, student portal, and employer tools. No signup required.',
+  description: 'Watch guided video walkthroughs of the Elevate platform - admin dashboard, student portal, and employer tools. No signup required.',
   robots: { index: false, follow: false },
 };
 
@@ -21,7 +21,7 @@ const demos = [
     icon: Shield,
     image: '/images/pages/career-counseling.jpg',
     alt: 'Training program administrator reviewing enrollment data',
-    href: '/demo/admin',
+    href: '/store/demo/admin',
     description: 'This is what your staff sees every day. Watch how enrollment tracking, compliance reporting, and application management work inside the admin portal.',
     highlights: ['Enrollment and completion tracking', 'Compliance reporting for workforce boards', 'Application and intake pipeline management', 'WIOA documentation and audit tools'],
   },
@@ -31,8 +31,8 @@ const demos = [
     icon: Briefcase,
     image: '/images/pages/employer-handshake.webp',
     alt: 'Employer reviewing candidate profiles from training programs',
-    href: '/demo/employer',
-    description: 'See what your employer partners see — how they track apprentices, view hiring incentives, and manage OJT contracts inside their portal.',
+    href: '/store/demo/employer',
+    description: 'See what your employer partners see - how they track apprentices, view hiring incentives, and manage OJT contracts inside their portal.',
     highlights: ['Apprenticeship hour and wage progression tracking', 'OJT contract and incentive management', 'MOU and compliance document signing', 'WOTC credit visibility'],
   },
   {
@@ -41,7 +41,7 @@ const demos = [
     icon: GraduationCap,
     image: '/images/pages/wioa-meeting.webp',
     alt: 'Students in a training classroom working on coursework',
-    href: '/demo/learner',
+    href: '/store/demo/student',
     description: 'What your students see when they log in. Their courses, progress bars, apprenticeship hours logged, and certificates earned. This is the experience that keeps them showing up.',
     highlights: ['Course modules with progress tracking', 'Log apprenticeship hours from their phone', 'View earned certificates and credentials', 'Access career services and job placement tools'],
   },
@@ -51,7 +51,7 @@ const demos = [
     icon: BarChart3,
     image: '/images/pages/wioa-meeting.webp',
     alt: 'Workforce board staff reviewing program outcomes and funding data',
-    href: '/demo/admin/wioa',
+    href: '/store/demo/admin',
     description: 'Built for workforce boards and state agencies. WIOA eligibility, ITA tracking, PIRL reporting, and partner network management. The same admin dashboard, filtered for what matters to you.',
     highlights: ['WIOA eligibility screening with document verification', 'Track WIOA, state, employer, and grant funding together', 'Automated PIRL reporting and quarterly performance', 'Manage your network of training providers and employers'],
   },
@@ -116,7 +116,7 @@ export default function StoreDemosPage() {
                   <ul className="space-y-2 mb-6">
                     {demo.highlights.map((h) => (
                       <li key={h} className="flex items-start gap-2 text-slate-700 text-sm">
-                        <span className="text-slate-400 flex-shrink-0">•</span>
+                        <span className="text-slate-400 flex-shrink-0">&#8226;</span>
                         {h}
                       </li>
                     ))}
@@ -144,7 +144,7 @@ export default function StoreDemosPage() {
             </Link>
             <div className="flex gap-4 text-sm text-slate-500">
               <Link href="/store/licenses" className="hover:underline">Compare licenses</Link>
-              <span>·</span>
+              <span>&#183;</span>
               <Link href="/contact" className="hover:underline">Questions?</Link>
             </div>
           </div>

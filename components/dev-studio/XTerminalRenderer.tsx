@@ -1,15 +1,15 @@
 'use client';
 
 /**
- * XTerminalRenderer — mounts xterm.js and wires it to the WebSocket.
+ * XTerminalRenderer - mounts xterm.js and wires it to the WebSocket.
  *
  * Loaded via dynamic import (ssr: false) from XTerminal.tsx.
  * Handles:
  *   - xterm.js Terminal + FitAddon lifecycle
- *   - Resize observer → sends { type: 'resize', cols, rows } to shell
- *   - Keyboard input → sends { type: 'input', data } to shell
- *   - Incoming { type: 'output', data } → writes to terminal
- *   - Incoming { type: 'exit', code } → prints exit message
+ *   - Resize observer -> sends { type: 'resize', cols, rows } to shell
+ *   - Keyboard input -> sends { type: 'input', data } to shell
+ *   - Incoming { type: 'output', data } -> writes to terminal
+ *   - Incoming { type: 'exit', code } -> prints exit message
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -17,7 +17,7 @@ import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 // xterm.css is served from /public/xterm.css (copied from node_modules at build time)
-// to avoid running through the PostCSS/Tailwind pipeline — Tailwind's blocklist
+// to avoid running through the PostCSS/Tailwind pipeline - Tailwind's blocklist
 // check crashes on third-party CSS it doesn't own.
 // This component is always loaded via dynamic({ ssr: false }) so document is safe.
 if (typeof document !== 'undefined' && !document.getElementById('xterm-css')) {
@@ -38,7 +38,11 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const termRef      = useRef<Terminal | null>(null);
   const fitRef       = useRef<FitAddon | null>(null);
-  const roRef        = useRef<ResizeObserver | null>(null);
+  const wsRef        = useRef<WebSocket | null>(ws);
+
+  useEffect(() => {
+    wsRef.current = ws;
+  }, [ws]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -79,20 +83,19 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
     termRef.current = term;
     fitRef.current  = fit;
 
-    // Resize observer — refit and notify shell
     const ro = new ResizeObserver(() => {
       fit.fit();
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'resize', cols: term.cols, rows: term.rows }));
+      const currentWs = wsRef.current;
+      if (currentWs?.readyState === WebSocket.OPEN) {
+        currentWs.send(JSON.stringify({ type: 'resize', cols: term.cols, rows: term.rows }));
       }
     });
     ro.observe(containerRef.current);
-    roRef.current = ro;
 
-    // Keyboard input → shell
     term.onData((data) => {
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'input', data }));
+      const currentWs = wsRef.current;
+      if (currentWs?.readyState === WebSocket.OPEN) {
+        currentWs.send(JSON.stringify({ type: 'input', data }));
       }
     });
 
@@ -102,8 +105,7 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
       termRef.current = null;
       fitRef.current  = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // mount once — ws is read via closure, intentionally not a dep
+  }, []); // mount once; current websocket is read from wsRef
 
   // Wire incoming WebSocket messages to the terminal
   useEffect(() => {
@@ -125,10 +127,10 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
           case 'error':
             term.write(`\r\n\x1b[31m[error: ${msg.message}]\x1b[0m\r\n`);
             break;
-          // pong — no-op
+          // pong - no-op
         }
       } catch {
-        // binary frame or malformed JSON — write raw
+        // binary frame or malformed JSON - write raw
         if (typeof event.data === 'string') {
           term.write(event.data);
         }
@@ -137,7 +139,7 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
 
     ws.addEventListener('message', onMessage);
     return () => ws.removeEventListener('message', onMessage);
-  }, [ws]);
+  }, [onOutput, ws]);
 
   // Send initial resize once connected
   useEffect(() => {
@@ -151,7 +153,7 @@ export default function XTerminalRenderer({ ws, connecting, onOutput }: Props) {
     <div className="relative w-full h-full overflow-hidden bg-[#0d1117]">
       {connecting && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0d1117] z-10">
-          <span className="text-xs font-mono text-slate-500 animate-pulse">Connecting to shell…</span>
+          <span className="text-xs font-mono text-slate-500 animate-pulse">Connecting to shell...</span>
         </div>
       )}
       {/* overflow:hidden prevents xterm canvas from escaping the flex container */}

@@ -1,6 +1,7 @@
 'use client';
 
 import dynamicImport from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import SpeechCanceller from '@/components/ui/SpeechCanceller';
 
@@ -19,7 +20,7 @@ const ConditionalAIBubble = dynamicImport(() => import('@/components/Conditional
   loading: () => null,
 });
 
-// Deferred — cookie banner shows after 1s delay anyway, no reason to block
+// Deferred - cookie banner shows after 1s delay anyway, no reason to block
 // the critical bundle. Moved here from app/layout.tsx synchronous import.
 const CookieConsent = dynamicImport(() => import('@/components/CookieConsent'), {
   ssr: false,
@@ -27,6 +28,9 @@ const CookieConsent = dynamicImport(() => import('@/components/CookieConsent'), 
 });
 
 export default function RootWidgets() {
+  const pathname = usePathname();
+  const isStoreRoute = pathname?.startsWith('/store') ?? false;
+
   // Mount non-critical widgets only after the browser is idle.
   // This keeps the main thread free during first paint and hydration.
   const [idle, setIdle] = useState(false);
@@ -45,9 +49,9 @@ export default function RootWidgets() {
   return (
     <>
       <SpeechCanceller />
-      <GlobalAvatar />
+      {!isStoreRoute && <GlobalAvatar />}
       <FacebookPixel />
-      <ConditionalAIBubble />
+      {!isStoreRoute && <ConditionalAIBubble />}
       <CookieConsent />
     </>
   );

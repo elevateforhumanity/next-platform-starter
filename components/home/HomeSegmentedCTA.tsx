@@ -89,7 +89,7 @@ export function HomeSegmentedCTA() {
           >
             Find your path in 10 seconds.
           </h2>
-          <p className="text-slate-500 text-sm max-w-lg mx-auto">
+          <p className="text-slate-600 text-sm max-w-lg mx-auto">
             Tell us where you are and we&apos;ll show you exactly what to do next.
           </p>
         </div>
@@ -122,13 +122,13 @@ export function HomeSegmentedCTA() {
 
               {/* Content */}
               <div className="flex flex-col flex-1 p-4 gap-3">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">
                   {seg.audience}
                 </p>
                 <h3 className="font-extrabold text-slate-900 text-sm leading-snug">
                   {seg.headline}
                 </h3>
-                <p className="text-xs text-slate-500 leading-relaxed flex-1">{seg.desc}</p>
+                <p className="text-xs text-slate-600 leading-relaxed flex-1">{seg.desc}</p>
 
                 <div className="flex flex-col gap-2 mt-1">
                   <Link
@@ -139,7 +139,7 @@ export function HomeSegmentedCTA() {
                   </Link>
                   <Link
                     href={seg.secondaryHref}
-                    className="flex items-center justify-center py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors"
+                    className="flex items-center justify-center py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors"
                   >
                     {seg.secondaryCta}
                   </Link>

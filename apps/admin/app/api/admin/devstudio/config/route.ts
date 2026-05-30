@@ -92,50 +92,67 @@ export async function GET(req: NextRequest) {
   if (auth.error) return auth.error;
 
   const adminUrl = getAdminUrl();
+  const publicSiteUrl = process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
+  const configuredPreviewUrl = process.env.DEVSTUDIO_DEFAULT_PREVIEW_URL || process.env.DEVSTUDIO_PREVIEW_URL;
 
   const fallback: DevStudioConfigResponse = {
     quickCommands: [
       'Show git status',
-      'List recent files changed',
-      'Run pnpm lint',
+      'Show recent file changes',
+      'Check Dev Studio health',
       'Show build errors',
       'List open ports',
-      'Show loaded secrets (key names only)',
-      'Build full premium course (blueprint + seed + assessments + queued videos)',
+      'Show loaded secret names only',
+      'Open AI course builder',
+      'Run platform stabilize check',
     ],
     workflowButtons: [
-      { key: 'deploy-lms',    label: 'Deploy LMS',    description: 'Build + push LMS to ECS' },
-      { key: 'deploy-admin',  label: 'Deploy Admin',  description: 'Build + push Admin to ECS' },
-      { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build + push Studio shell to ECS' },
-      { key: 'ci',            label: 'Run CI',        description: 'Full CI pipeline' },
-      { key: 'lint',          label: 'Lint',          description: 'Run pnpm lint' },
+      { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to ECS' },
+      { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin service to ECS' },
+      { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build and push the Dev Studio shell service to ECS' },
+      { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
+      { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],
-    // Default preview target is the public LMS homepage — no auth required,
-    // no X-Frame-Options block, renders immediately without login redirect.
-    // Admin pages require session cookies which iframes don't forward, so
-    // they always redirect to /login inside the preview pane.
-    defaultPreviewUrl:
-      process.env.DEVSTUDIO_PREVIEW_URL || process.env.NEXT_PUBLIC_SITE_URL,
+    defaultPreviewUrl: configuredPreviewUrl || publicSiteUrl,
     previewTargets: [
       ...(process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_SITE_URL
         ? [
-            { label: 'Local LMS', url: process.env.NEXT_PUBLIC_SITE_URL },
-            { label: 'Local Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || process.env.DEVSTUDIO_PREVIEW_URL },
+            { label: 'Local Website', url: process.env.NEXT_PUBLIC_SITE_URL },
+            { label: 'Local Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || adminUrl },
           ]
         : []),
-      { label: 'Public Homepage', url: process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl },
-      { label: 'Programs', url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/programs` },
-      { label: 'Apply', url: `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/apply` },
+      { label: 'Full Website', url: publicSiteUrl },
+      { label: 'Homepage', url: `${publicSiteUrl}/` },
+      { label: 'Programs', url: `${publicSiteUrl}/programs` },
+      { label: 'CNA Program', url: `${publicSiteUrl}/programs/cna` },
+      { label: 'Store', url: `${publicSiteUrl}/store` },
+      { label: 'Apply', url: `${publicSiteUrl}/apply` },
       { label: 'Admin Dashboard', url: `${adminUrl}/admin` },
+      { label: 'Course Builder', url: `${adminUrl}/admin/courses/create` },
       { label: 'Admin Applications', url: `${adminUrl}/admin/applications` },
+      { label: 'Dev Studio', url: `${adminUrl}/admin/dev-studio` },
     ],
     tabFiles: {
-      command: 'command.sh',
-      chat: 'ai-chat.md',
-      terminal: 'terminal.sh',
-      files: 'explorer',
-      website: 'preview.html',
-      container: 'devcontainer.json',
+      studio: 'Studio',
+      command: 'Studio',
+      chat: 'Studio',
+      ellie: 'Studio',
+      deploy: 'Deploy',
+      terminal: 'Studio',
+      git: 'Files',
+      services: 'Services',
+      files: 'Files',
+      explorer: 'Explorer',
+      environments: 'Environments',
+      website: 'Preview',
+      preview: 'Preview',
+      courses: 'Studio',
+      course: 'Studio',
+      container: 'Environments',
+      docs: 'Files',
+      documents: 'Files',
+      secrets: 'Secrets',
+      health: 'Health',
     },
   };
 

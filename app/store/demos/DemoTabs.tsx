@@ -14,7 +14,7 @@ const DEMOS = [
     label: 'Admin Dashboard',
     icon: Shield,
     video: '/videos/dashboard-admin-narrated.mp4',
-    liveHref: '/demo/admin',
+    liveHref: '/store/demo/admin',
     description: 'Search students, review applications, track compliance, generate WIOA reports.',
     features: [
       'Enrollment pipeline with real-time status',
@@ -29,7 +29,7 @@ const DEMOS = [
     label: 'Employer Portal',
     icon: Briefcase,
     video: '/videos/dashboard-employer-narrated.mp4',
-    liveHref: '/demo/employer',
+    liveHref: '/store/demo/employer',
     description: 'Find trained candidates, track apprentices, manage OJT reimbursements and WOTC credits.',
     features: [
       'Browse pre-screened candidates with credentials',
@@ -44,7 +44,7 @@ const DEMOS = [
     label: 'Student Portal',
     icon: GraduationCap,
     video: '/videos/dashboard-student-narrated.mp4',
-    liveHref: '/demo/learner',
+    liveHref: '/store/demo/student',
     description: 'Course modules, progress tracking, apprenticeship hours, certificates earned.',
     features: [
       'Course modules with video lessons and quizzes',
@@ -59,7 +59,7 @@ const DEMOS = [
     label: 'Workforce Board',
     icon: BarChart3,
     video: '/videos/dashboard-analytics-narrated.mp4',
-    liveHref: '/demo/admin/wioa',
+    liveHref: '/store/demo/admin',
     description: 'WIOA eligibility, ITA tracking, PIRL reporting, provider network management.',
     features: [
       'WIOA eligibility screening with document verification',
@@ -132,7 +132,7 @@ export default function DemoTabs() {
 
       {/* Video + info */}
       <div className="grid lg:grid-cols-5 gap-6">
-        {/* Video player — 3 cols */}
+        {/* Video player - 3 cols */}
         <div className="lg:col-span-3">
           <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-video shadow-xl">
             <video
@@ -191,7 +191,7 @@ export default function DemoTabs() {
           </div>
         </div>
 
-        {/* Info panel — 2 cols */}
+        {/* Info panel - 2 cols */}
         <div className="lg:col-span-2 flex flex-col">
           <h2 className="text-xl font-bold text-slate-900 mb-2">{active.label}</h2>
           <p className="text-slate-600 mb-4">{active.description}</p>

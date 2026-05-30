@@ -29,8 +29,8 @@ fi
 # Paths updated to match current repo structure (post-dashboard-consolidation).
 # Original paths: app/portal/staff/dashboard, app/programs/admin/dashboard
 # Canonical paths per AGENTS.md:
-#   Staff  → /staff-portal/dashboard
-#   Admin  → /admin/dashboard (programs sub-pages under /admin/programs/[code]/dashboard)
+#   Staff  -> /staff-portal/dashboard
+#   Admin  -> /admin/dashboard (programs sub-pages under /admin/programs/[code]/dashboard)
 REQUIRED_REDIRECT_FILES=(
   "app/partner/dashboard/page.tsx"
   "app/staff-portal/dashboard/page.tsx"
@@ -61,7 +61,18 @@ if [[ -f package.json ]]; then
     echo "NOTE: No lint script detected."
   fi
 
-  if node -e "const p=require('./package.json'); process.exit(p.scripts&&p.scripts.typecheck?0:1)"; then
+  if [[ "${AUTOPILOT_STRICT_TYPECHECK:-false}" == "true" ]]; then
+    if node -e "const p=require('./package.json'); process.exit(p.scripts&&p.scripts.typecheck?0:1)"; then
+      echo "Running strict full-repo TypeScript check."
+      pnpm run typecheck
+    else
+      echo "NOTE: No typecheck script detected."
+    fi
+  elif node -e "const p=require('./package.json'); process.exit(p.scripts&&p.scripts['typecheck:changed']?0:1)"; then
+    echo "Running TypeScript baseline gate."
+    pnpm run typecheck:changed
+  elif node -e "const p=require('./package.json'); process.exit(p.scripts&&p.scripts.typecheck?0:1)"; then
+    echo "NOTE: typecheck:changed not found; falling back to full typecheck."
     pnpm run typecheck
   else
     echo "NOTE: No typecheck script detected."

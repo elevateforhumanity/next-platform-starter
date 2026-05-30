@@ -2,19 +2,11 @@
  * /api/devstudio/files
  *
  * Read and write repo files via the GitHub Contents API.
- * All reads/writes target the `main` branch. Admin-only.
+ * Admin-only. Targets the full Elevate-lms repository, not only admin routes.
  *
- * GET  ?path=app/page.tsx          → file content + sha
- * GET  ?path=app&tree=1            → directory listing (2 levels deep)
- * GET  (no path)                   → repo root tree
- * PUT  { path, content, sha, message? } → commit updated file to main
- * POST { path, content?, message? }     → create new file on main
- * DELETE { path, sha, message? }        → delete file via commit
- *
- * Security:
- *  - Requires admin role on every request.
- *  - .env* files and node_modules are blocked.
- *  - Uses GITHUB_TOKEN from environment (SSM-injected in ECS).
+ * Env:
+ * - GITHUB_REPO optional, defaults to elevate-for-humanity/Elevate-lms
+ * - GITHUB_BRANCH or BRANCH optional, defaults to main
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -26,30 +18,46 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const REPO   = 'elevateforhumanity/Elevate-lms';
-const BRANCH = 'main';
+const DEFAULT_REPO = 'elevate-for-humanity/Elevate-lms';
+const DEFAULT_BRANCH = 'main';
 const GH_API = 'https://api.github.com';
 const MAX_FILE_BYTES = 512 * 1024; // 512 KB
 
 const BLOCKED_PATTERNS = [/^\.env/, /node_modules/, /\.git\//, /\.next\//];
 
+function getRepo(): string {
+  const repo = (process.env.GITHUB_REPO ?? DEFAULT_REPO).trim();
+  return repo || DEFAULT_REPO;
+}
+
+function getBranch(): string {
+  const branch = (process.env.GITHUB_BRANCH ?? process.env.BRANCH ?? DEFAULT_BRANCH).trim();
+  return branch || DEFAULT_BRANCH;
+}
+
+function encodePath(filePath: string): string {
+  return encodeURIComponent(filePath).replace(/%2F/g, '/');
+}
+
+function normalizePath(filePath: string): string {
+  return filePath
+    .replace(/\\/g, '/')
+    .replace(/^\/+/, '')
+    .replace(/\/{2,}/g, '/')
+    .trim();
+}
+
 function isBlocked(filePath: string): boolean {
-  // Reject path traversal sequences before pattern matching
   if (filePath.includes('..')) return true;
   return BLOCKED_PATTERNS.some((p) => p.test(filePath));
 }
 
-// Cache the token in-process for 5 min to avoid a DB round-trip on every request.
-let _ghTokenCache: { token: string; expiresAt: number } | null = null;
+let ghTokenCache: { token: string; expiresAt: number } | null = null;
 
 async function getGhToken(): Promise<string> {
-  // 1. process.env (ECS SSM-injected or local .env.local)
   if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  if (ghTokenCache && ghTokenCache.expiresAt > Date.now()) return ghTokenCache.token;
 
-  // 2. In-process cache
-  if (_ghTokenCache && _ghTokenCache.expiresAt > Date.now()) return _ghTokenCache.token;
-
-  // 3. platform_secrets table (set via Admin → Dev Studio → Secrets)
   try {
     const db = await requireAdminClient();
     const { data } = await db
@@ -59,12 +67,14 @@ async function getGhToken(): Promise<string> {
       .single();
     const token = data?.value_enc;
     if (token && token.length > 10) {
-      _ghTokenCache = { token, expiresAt: Date.now() + 5 * 60 * 1000 };
+      ghTokenCache = { token, expiresAt: Date.now() + 5 * 60 * 1000 };
       return token;
     }
-  } catch { /* fall through */ }
+  } catch {
+    // fall through
+  }
 
-  throw new Error('GITHUB_TOKEN is not configured. Add it in Dev Studio → Secrets tab.');
+  throw new Error('GITHUB_TOKEN is not configured. Add it in Dev Studio > Secrets tab.');
 }
 
 async function ghHeaders(): Promise<HeadersInit> {
@@ -93,9 +103,11 @@ interface TreeNode {
 }
 
 async function fetchTree(dirPath: string, depth: number): Promise<TreeNode[]> {
-  const encodedPath = dirPath ? encodeURIComponent(dirPath).replace(/%2F/g, '/') : '';
-  const url = `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`;
-  const res = await fetch(url, { headers: await ghHeaders() });
+  const urlPath = dirPath ? encodePath(dirPath) : '';
+  const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${urlPath}?ref=${getBranch()}`, {
+    headers: await ghHeaders(),
+    cache: 'no-store',
+  });
   if (!res.ok) return [];
 
   const entries: GHEntry[] = await res.json();
@@ -103,7 +115,7 @@ async function fetchTree(dirPath: string, depth: number): Promise<TreeNode[]> {
 
   for (const entry of entries) {
     if (isBlocked(entry.path)) continue;
-    if (entry.name.startsWith('.') && entry.name !== '.devcontainer') continue;
+    if (entry.name.startsWith('.') && entry.name !== '.devcontainer' && entry.name !== '.github') continue;
 
     if (entry.type === 'dir') {
       const children = depth > 0 ? await fetchTree(entry.path, depth - 1) : [];
@@ -119,8 +131,6 @@ async function fetchTree(dirPath: string, depth: number): Promise<TreeNode[]> {
   });
 }
 
-// ── GET ──────────────────────────────────────────────────────────────────────
-
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -135,14 +145,15 @@ export async function GET(request: NextRequest) {
   try {
     if (!filePath) {
       const nodes = await fetchTree('', 2);
-      return NextResponse.json({ tree: nodes });
+      return NextResponse.json({ tree: nodes, repo: getRepo(), branch: getBranch() });
     }
 
     if (isBlocked(filePath)) return safeError('Path not allowed', 403);
 
-    const encodedPath = encodeURIComponent(filePath).replace(/%2F/g, '/');
-    const url = `${GH_API}/repos/${REPO}/contents/${encodedPath}?ref=${BRANCH}`;
-    const res = await fetch(url, { headers: await ghHeaders() });
+    const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodePath(filePath)}?ref=${getBranch()}`, {
+      headers: await ghHeaders(),
+      cache: 'no-store',
+    });
 
     if (!res.ok) {
       if (res.status === 404) return safeError('File not found', 404);
@@ -151,26 +162,22 @@ export async function GET(request: NextRequest) {
 
     const data = await res.json();
 
-    // Directory
     if (Array.isArray(data) || tree) {
       const nodes = await fetchTree(filePath, 2);
-      return NextResponse.json({ path: filePath, type: 'directory', children: nodes });
+      return NextResponse.json({ path: filePath, type: 'directory', children: nodes, repo: getRepo(), branch: getBranch() });
     }
 
-    // File
     if (data.size > MAX_FILE_BYTES) {
       return safeError(`File exceeds ${MAX_FILE_BYTES / 1024} KB read limit`, 413);
     }
 
     const content = Buffer.from(data.content, 'base64').toString('utf-8');
     const ext = filePath.split('.').pop() ?? '';
-    return NextResponse.json({ path: filePath, content, size: data.size, ext, sha: data.sha });
+    return NextResponse.json({ path: filePath, content, size: data.size, ext, sha: data.sha, repo: getRepo(), branch: getBranch() });
   } catch (err) {
     return safeInternalError(err, 'Failed to read file');
   }
 }
-
-// ── PUT (update existing file) ────────────────────────────────────────────────
 
 export async function PUT(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -180,12 +187,9 @@ export async function PUT(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await request.json().catch(() => null);
-  if (!body?.path || typeof body.content !== 'string') {
-    return safeError('path and content are required', 400);
-  }
-  if (!body.sha) {
-    return safeError('sha is required to update a file (fetch the file first)', 400);
-  }
+  if (!body?.path || typeof body.content !== 'string') return safeError('path and content are required', 400);
+  body.path = normalizePath(String(body.path));
+  if (!body.sha) return safeError('sha is required to update a file (fetch the file first)', 400);
   if (isBlocked(body.path)) return safeError('Path not allowed', 403);
 
   if (Buffer.byteLength(body.content, 'utf-8') > MAX_FILE_BYTES) {
@@ -194,33 +198,60 @@ export async function PUT(request: NextRequest) {
 
   const message = body.message ?? `chore: update ${body.path} via Dev Studio`;
   const encoded = Buffer.from(body.content, 'utf-8').toString('base64');
-  const encodedPath = encodeURIComponent(body.path).replace(/%2F/g, '/');
 
   try {
-    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
+    const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodePath(body.path)}`, {
       method: 'PUT',
       headers: await ghHeaders(),
-      body: JSON.stringify({ message, content: encoded, sha: body.sha, branch: BRANCH }),
+      body: JSON.stringify({ message, content: encoded, sha: body.sha, branch: getBranch() }),
     });
 
     if (!res.ok) {
-      await res.json().catch(() => ({})); // consume body; detail logged server-side only
+      await res.json().catch(() => ({}));
       return safeError('GitHub API error', res.status);
     }
 
     const result = await res.json();
-    return NextResponse.json({
-      ok: true,
-      path: body.path,
-      sha: result.content?.sha,
-      commit: result.commit?.html_url,
-    });
+    return NextResponse.json({ ok: true, path: body.path, sha: result.content?.sha, commit: result.commit?.html_url, repo: getRepo(), branch: getBranch() });
   } catch (err) {
     return safeInternalError(err, 'Failed to commit file');
   }
 }
 
-// ── POST (create new file) ────────────────────────────────────────────────────
+interface CreateFileBody {
+  path: string;
+  content: string;
+  message?: string;
+}
+
+async function readCreateBody(request: NextRequest): Promise<CreateFileBody | null> {
+  const contentType = request.headers.get('content-type') ?? '';
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await request.formData();
+    const upload = form.get('file');
+    if (!upload || typeof upload === 'string' || typeof upload.arrayBuffer !== 'function') {
+      return null;
+    }
+
+    const filename = 'name' in upload && typeof upload.name === 'string' ? upload.name : 'upload.txt';
+    const path = String(form.get('path') || `devstudio-uploads/${filename}`);
+    const buffer = Buffer.from(await upload.arrayBuffer());
+    return {
+      path,
+      content: buffer.toString('utf-8'),
+      message: String(form.get('message') || `chore: create ${path} via Dev Studio`),
+    };
+  }
+
+  const body = await request.json().catch(() => null);
+  if (!body) return null;
+  return {
+    path: String(body.path ?? ''),
+    content: typeof body.content === 'string' ? body.content : '',
+    message: typeof body.message === 'string' ? body.message : undefined,
+  };
+}
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -229,41 +260,38 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const body = await request.json().catch(() => null);
+  const body = await readCreateBody(request);
   if (!body?.path) return safeError('path is required', 400);
+  body.path = normalizePath(body.path);
   if (isBlocked(body.path)) return safeError('Path not allowed', 403);
+  if (typeof body.content !== 'string') return safeError('content must be a string', 400);
+
+  if (Buffer.byteLength(body.content, 'utf-8') > MAX_FILE_BYTES) {
+    return safeError(`Content exceeds ${MAX_FILE_BYTES / 1024} KB write limit`, 413);
+  }
 
   const message = body.message ?? `chore: create ${body.path} via Dev Studio`;
-  const encoded = Buffer.from(body.content ?? '', 'utf-8').toString('base64');
-  const encodedPath = encodeURIComponent(body.path).replace(/%2F/g, '/');
+  const encoded = Buffer.from(body.content, 'utf-8').toString('base64');
 
   try {
-    // No sha = create; GitHub returns 422 if file already exists
-    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
+    const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodePath(body.path)}`, {
       method: 'PUT',
       headers: await ghHeaders(),
-      body: JSON.stringify({ message, content: encoded, branch: BRANCH }),
+      body: JSON.stringify({ message, content: encoded, branch: getBranch() }),
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
+      await res.json().catch(() => ({}));
       if (res.status === 422) return safeError('File already exists', 409);
       return safeError('GitHub API error', res.status);
     }
 
     const result = await res.json();
-    return NextResponse.json({
-      ok: true,
-      path: body.path,
-      sha: result.content?.sha,
-      commit: result.commit?.html_url,
-    });
+    return NextResponse.json({ ok: true, path: body.path, sha: result.content?.sha, commit: result.commit?.html_url, repo: getRepo(), branch: getBranch() });
   } catch (err) {
     return safeInternalError(err, 'Failed to create file');
   }
 }
-
-// ── DELETE ────────────────────────────────────────────────────────────────────
 
 export async function DELETE(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -274,26 +302,25 @@ export async function DELETE(request: NextRequest) {
 
   const body = await request.json().catch(() => null);
   if (!body?.path) return safeError('path is required', 400);
-  if (!body?.sha)  return safeError('sha is required to delete a file', 400);
+  if (!body?.sha) return safeError('sha is required to delete a file', 400);
   if (isBlocked(body.path)) return safeError('Path not allowed', 403);
 
   const message = body.message ?? `chore: delete ${body.path} via Dev Studio`;
-  const encodedPath = encodeURIComponent(body.path).replace(/%2F/g, '/');
 
   try {
-    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${encodedPath}`, {
+    const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodePath(body.path)}`, {
       method: 'DELETE',
       headers: await ghHeaders(),
-      body: JSON.stringify({ message, sha: body.sha, branch: BRANCH }),
+      body: JSON.stringify({ message, sha: body.sha, branch: getBranch() }),
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
+      await res.json().catch(() => ({}));
       if (res.status === 404) return safeError('File not found', 404);
       return safeError('GitHub API error', res.status);
     }
 
-    return NextResponse.json({ ok: true, path: body.path });
+    return NextResponse.json({ ok: true, path: body.path, repo: getRepo(), branch: getBranch() });
   } catch (err) {
     return safeInternalError(err, 'Failed to delete file');
   }

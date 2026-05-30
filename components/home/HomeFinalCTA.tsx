@@ -16,10 +16,8 @@ export function HomeFinalCTA() {
       className="relative bg-brand-red-700 py-16 px-4 overflow-hidden"
       aria-labelledby="final-cta-heading"
     >
-
-
       <div className="relative max-w-3xl mx-auto text-center">
-        <p className="text-red-200 text-xs font-bold uppercase tracking-widest mb-4">
+        <p className="text-white text-xs font-bold uppercase tracking-widest mb-4">
           Ready to start?
         </p>
         <h2
@@ -30,7 +28,7 @@ export function HomeFinalCTA() {
           <br />
           to where you want to be.
         </h2>
-        <p className="text-red-100 text-sm sm:text-base leading-relaxed mb-8 max-w-xl mx-auto">
+        <p className="text-red-50 text-sm sm:text-base leading-relaxed mb-8 max-w-xl mx-auto">
           Apply once. Get connected to training, funding, apprenticeship, certification,
           and employment — all in one system.
         </p>
@@ -44,24 +42,24 @@ export function HomeFinalCTA() {
           </Link>
           <Link
             href="/check-eligibility"
-            className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
+            className="inline-flex items-center justify-center gap-2 border-2 border-white/70 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
           >
             Check Eligibility
           </Link>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-red-200 text-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-white text-xs">
           <a
             href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`}
-            className="inline-flex items-center gap-1.5 text-white font-bold hover:text-red-100 transition-colors"
+            className="inline-flex items-center gap-1.5 text-white font-bold hover:text-red-50 transition-colors"
           >
             <Phone className="w-3.5 h-3.5" aria-hidden="true" />
             {PLATFORM_DEFAULTS.supportPhone}
           </a>
-          <span className="hidden sm:block text-red-400" aria-hidden="true">·</span>
+          <span className="hidden sm:block text-red-100" aria-hidden="true">·</span>
           <span>Call or text — Mon–Fri, 9am–5pm ET</span>
-          <span className="hidden sm:block text-red-400" aria-hidden="true">·</span>
-          <Link href="/contact" className="hover:text-white transition-colors">
+          <span className="hidden sm:block text-red-100" aria-hidden="true">·</span>
+          <Link href="/contact" className="text-white font-semibold underline underline-offset-2 hover:text-red-50 transition-colors">
             Send a message
           </Link>
         </div>

@@ -1,17 +1,17 @@
 'use client';
 
 /**
- * XTerminal — real xterm.js terminal connected to the studio-shell ECS container.
+ * XTerminal - real xterm.js terminal connected to the studio-shell ECS container.
  *
  * Connection flow:
- *   1. POST /api/devstudio/shell-token  → short-lived HMAC token (60s TTL)
- *   2. WebSocket upgrade to /api/devstudio/shell-ws with X-Studio-Token header
+ *   1. POST /api/devstudio/shell-token -> short-lived HMAC token (60s TTL)
+ *   2. WebSocket upgrade to /api/devstudio/shell-ws with token in the first frame
  *      (custom Next.js server apps/admin/server.js proxies to ECS container)
  *   3. Bidirectional PTY frames:
- *        browser → shell: { type: 'input', data: string }
+ *        browser -> shell: { type: 'input', data: string }
  *                         { type: 'resize', cols: number, rows: number }
  *                         { type: 'ping' }
- *        shell → browser: { type: 'output', data: string }
+ *        shell -> browser: { type: 'output', data: string }
  *                         { type: 'exit', code: number }
  *                         { type: 'pong' }
  *                         { type: 'error', message: string }
@@ -28,7 +28,7 @@ const TerminalRenderer = dynamic(() => import('./XTerminalRenderer'), { ssr: fal
 export interface XTerminalProps {
   onConnect?: () => void;
   onDisconnect?: () => void;
-  /** Called with each chunk of text output from the shell — use to detect URLs */
+  /** Called with each chunk of text output from the shell - use to detect URLs */
   onOutput?: (text: string) => void;
   /**
    * Called once on mount with a `send` function the parent can store.
@@ -46,40 +46,46 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
   const wsRef = useRef<WebSocket | null>(null);
   const pingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const onReadyFiredRef = useRef(false);
+  const statusRef = useRef<Status>('connecting');
+
+  const updateStatus = useCallback((next: Status) => {
+    statusRef.current = next;
+    setStatus(next);
+  }, []);
 
   const connect = useCallback(async () => {
-    setStatus('connecting');
+    updateStatus('connecting');
     setErrorMsg('');
+    onReadyFiredRef.current = false;
 
-    // Step 1 — get short-lived token
+    // Step 1 - get short-lived token
     let token: string;
     try {
       const res = await fetch('/api/devstudio/shell-token', { method: 'POST' });
       if (res.status === 503) {
-        setStatus('unconfigured');
+        updateStatus('unconfigured');
         return;
       }
       if (!res.ok) {
-        setStatus('error');
+        updateStatus('error');
         setErrorMsg(`Auth failed (${res.status})`);
         return;
       }
       const data = await res.json();
       token = data.token;
-    } catch (e) {
-      setStatus('error');
+    } catch {
+      updateStatus('error');
       setErrorMsg('Could not reach auth endpoint');
       return;
     }
 
-    // Step 2 — open WebSocket
+    // Step 2 - open WebSocket
     const wsUrl = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/devstudio/shell-ws`;
     const ws = new WebSocket(wsUrl, ['studio-shell']);
     ws.binaryType = 'arraybuffer';
 
-    // Browser WebSocket API doesn't support custom headers — send token as
-    // first frame. server.js validates it before opening the PTY shell and
-    // sends back { type: 'ready' } once the ECS shell is open.
+    // Browser WebSocket API doesn't support custom headers. Send token as
+    // first frame; server.js validates it before opening the PTY shell.
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -99,8 +105,7 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
       try { msg = JSON.parse(event.data); } catch { return; }
 
       if (msg.type === 'ready') {
-        // Shell PTY is open — now safe to show as connected
-        setStatus('connected');
+        updateStatus('connected');
         onConnect?.();
         if (onReady && !onReadyFiredRef.current) {
           onReadyFiredRef.current = true;
@@ -111,7 +116,7 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
           });
         }
       } else if (msg.type === 'error') {
-        setStatus('error');
+        updateStatus('error');
         setErrorMsg(msg.message || 'Shell error');
         if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
       }
@@ -119,26 +124,34 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
 
     ws.onclose = (event) => {
       if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
+      if (statusRef.current === 'error' || statusRef.current === 'unconfigured') {
+        return;
+      }
       if (event.code === 4003) {
-        setStatus('error');
-        setErrorMsg('Shell auth token rejected — refresh and try again.');
+        updateStatus('error');
+        setErrorMsg('Shell auth token rejected. Refresh and try again.');
         return;
       }
       if (event.code === 1011) {
-        setStatus('error');
+        updateStatus('error');
         setErrorMsg(event.reason || 'Shell proxy could not reach the studio container.');
         return;
       }
-      setStatus('disconnected');
+      if (event.reason) {
+        updateStatus('error');
+        setErrorMsg(event.reason);
+        return;
+      }
+      updateStatus('disconnected');
       onDisconnect?.();
     };
 
     ws.onerror = () => {
-      setStatus('error');
+      updateStatus('error');
       setErrorMsg('WebSocket connection failed');
       if (pingRef.current) { clearInterval(pingRef.current); pingRef.current = null; }
     };
-  }, [onConnect, onDisconnect, onReady]);
+  }, [onConnect, onDisconnect, onReady, updateStatus]);
 
   useEffect(() => {
     connect();

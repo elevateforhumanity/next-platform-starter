@@ -70,7 +70,7 @@ export default function CosmetologySalonApplyPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/partners/cosmetology-apprenticeship/apply', {
+      const res = await fetch('/api/partners/cosmetology-host-shop/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, programType: 'cosmetology' }),

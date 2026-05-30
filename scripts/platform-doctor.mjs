@@ -14,6 +14,7 @@ const STRICT_MODE = args.has('--strict');
 const JSON_MODE = args.has('--json');
 const QUIET = args.has('--quiet');
 const IS_MAIN = process.env.GITHUB_REF_NAME === 'main' || process.env.GITHUB_REF === 'refs/heads/main';
+const ENFORCE_STRICT = process.env.PLATFORM_DOCTOR_ENFORCE_STRICT === 'true';
 
 const findings = [];
 const checkSummaries = [];
@@ -51,43 +52,33 @@ function lineNumber(content, index) {
 }
 
 function runCmd(name, cmd, severity = 'CRITICAL') {
-  log(`\n▶ ${name}`);
-  const result = spawnSync('bash', ['-lc', `cd "${ROOT}" && ${cmd}`], { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 });
+  log(`\n> ${name}`);
+  const result = spawnSync('bash', ['-lc', `cd "${ROOT}" && ${cmd}`], {
+    encoding: 'utf8',
+    maxBuffer: 20 * 1024 * 1024,
+  });
   const ok = result.status === 0;
   const output = `${result.stdout || ''}${result.stderr || ''}`.trim();
-
   addCheck(name, ok ? 'pass' : 'fail', ok ? 'ok' : output.split('\n').slice(-12).join('\n'));
-
-  if (!ok) {
-    addFinding(severity, `COMMAND_${name.toUpperCase().replace(/\s+/g, '_')}`, '.', 1, `${name} failed`);
-  }
+  if (!ok) addFinding(severity, `COMMAND_${name.toUpperCase().replace(/\s+/g, '_')}`, '.', 1, `${name} failed`);
   return { ok, output };
 }
 
-/**
- * Like runCmd but with a millisecond timeout.
- * A timeout is treated as a pass — the check is skipped rather than failing the deploy.
- * Use for slow checks (e.g. tsc on large repos) that should not block CI indefinitely.
- */
 function runCmdWithTimeout(name, cmd, timeoutMs, severity = 'CRITICAL') {
-  log(`\n▶ ${name}`);
+  log(`\n> ${name}`);
   const result = spawnSync('bash', ['-lc', `cd "${ROOT}" && ${cmd}`], {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
     timeout: timeoutMs,
   });
-
   if (result.signal === 'SIGTERM' || result.error?.code === 'ETIMEDOUT') {
-    addCheck(name, 'pass', `skipped — timed out after ${timeoutMs / 1000}s (treated as pass)`);
+    addCheck(name, 'pass', `skipped - timed out after ${timeoutMs / 1000}s (treated as pass)`);
     return { ok: true, output: 'timeout' };
   }
-
   const ok = result.status === 0;
   const output = `${result.stdout || ''}${result.stderr || ''}`.trim();
   addCheck(name, ok ? 'pass' : 'fail', ok ? 'ok' : output.split('\n').slice(-12).join('\n'));
-  if (!ok) {
-    addFinding(severity, `COMMAND_${name.toUpperCase().replace(/\s+/g, '_')}`, '.', 1, `${name} failed`);
-  }
+  if (!ok) addFinding(severity, `COMMAND_${name.toUpperCase().replace(/\s+/g, '_')}`, '.', 1, `${name} failed`);
   return { ok, output };
 }
 
@@ -100,40 +91,24 @@ function readJson(filePath) {
   }
 }
 
-// ---- Existing checks (preserved/refactored) ----
-
 function checkAdminGuards() {
   const adminApiDir = path.join(ROOT, 'app', 'api', 'admin');
   if (!fs.existsSync(adminApiDir)) {
     addCheck('adminGuards', 'pass', 'no app/api/admin directory');
     return;
   }
-
   let missing = 0;
   for (const file of walk(adminApiDir)) {
     if (!/route\.(t|j)sx?$/.test(file)) continue;
     const content = fs.readFileSync(file, 'utf8');
-    const hasCanonicalGuard =
-      content.includes('apiRequireAdmin') ||
-      content.includes('apiAuthGuard') ||
-      content.includes('apiRequireInstructor');
-    const hasLegacyGuard =
-      content.includes('withAuth') ||
-      content.includes('getCurrentUser') ||
-      content.includes('auth.getUser') ||
-      content.includes('requireAdmin') ||
-      content.includes('requireInstructor') ||
-      content.includes('withApiAudit') ||
-      content.includes('guard(') ||
-      /\bguard\b.*=.*await/.test(content);
+    const hasCanonicalGuard = content.includes('apiRequireAdmin') || content.includes('apiAuthGuard') || content.includes('apiRequireInstructor');
+    const hasLegacyGuard = content.includes('withAuth') || content.includes('getCurrentUser') || content.includes('auth.getUser') || content.includes('requireAdmin') || content.includes('requireInstructor') || content.includes('withApiAudit') || content.includes('guard(') || /\bguard\b.*=.*await/.test(content);
     const publicRoute = content.includes('// PUBLIC ROUTE:');
-
     if (!hasCanonicalGuard && !hasLegacyGuard && !publicRoute) {
       missing += 1;
       addFinding('CRITICAL', 'AUTH_GUARD_MISSING', rel(file), 1, 'Admin API route may be missing auth guard');
     }
   }
-
   addCheck('adminGuards', missing ? 'fail' : 'pass', missing ? `${missing} route(s) missing guard` : 'all routes guarded');
 }
 
@@ -141,7 +116,6 @@ function checkUnsafeServerAnonWrites() {
   const dirs = [path.join(ROOT, 'app', 'api', 'admin'), path.join(ROOT, 'lib', 'admin')].filter((d) => fs.existsSync(d));
   const anonImport = [/from ['"]@\/lib\/supabase\/client['"]/, /createBrowserClient\(/, /createClientComponentClient\(/];
   const writeOps = /\.(insert|update|upsert|delete)\(/;
-
   let count = 0;
   for (const dir of dirs) {
     for (const file of walk(dir)) {
@@ -160,7 +134,6 @@ function collectAppRoutes() {
   const appDir = path.join(ROOT, 'app');
   const routes = new Set(['/']);
   if (!fs.existsSync(appDir)) return routes;
-
   function traverse(dir, prefix = '') {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (entry.name.startsWith('_') || entry.name.startsWith('.')) continue;
@@ -173,7 +146,6 @@ function collectAppRoutes() {
       }
     }
   }
-
   traverse(appDir, '');
   return routes;
 }
@@ -182,40 +154,31 @@ function checkBrokenInternalRoutes() {
   const files = [...walk(path.join(ROOT, 'app')), ...walk(path.join(ROOT, 'components'))];
   const routes = collectAppRoutes();
   let broken = 0;
-
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf8');
     const hrefRe = /href=["'](\/[^"'#?\s]*)["']/g;
     for (const m of content.matchAll(hrefRe)) {
       const p = m[1];
-      // Skip API routes, dynamic param segments, root, and static asset paths (have file extensions)
       if (p.startsWith('/api') || p.includes('[') || p === '/') continue;
       const lastSeg = p.split('/').pop() || '';
-      if (lastSeg.includes('.')) continue; // static asset (e.g., .pdf, .ico, .png, .md)
-      const exists = routes.has(p) || routes.has(`${p}/`) ||
-        [...routes].some((r) => {
-          if (!r.includes('[')) return false;
-          const prefix = r.split('[')[0];
-          return p.startsWith(prefix) || p === prefix.replace(/\/$/, '');
-        });
+      if (lastSeg.includes('.')) continue;
+      const exists = routes.has(p) || routes.has(`${p}/`) || [...routes].some((r) => {
+        if (!r.includes('[')) return false;
+        const prefix = r.split('[')[0];
+        return p.startsWith(prefix) || p === prefix.replace(/\/$/, '');
+      });
       if (!exists) {
         broken += 1;
         addFinding('CRITICAL', 'BROKEN_INTERNAL_ROUTE', rel(file), lineNumber(content, m.index), `Internal href points to route not found: ${p}`);
       }
     }
   }
-
   addCheck('brokenInternalRoutes', broken ? 'fail' : 'pass', broken ? `${broken} broken route href(s)` : 'no obvious broken internal hrefs');
 }
 
 function checkFakeStats() {
   const files = [...walk(path.join(ROOT, 'app')), ...walk(path.join(ROOT, 'components'))];
-  const patterns = [
-    /\b10,000\+?\s+students\b/gi,
-    /\b\d{1,3},\d{3}\+\s+(students|graduates|learners)\b/gi,
-    /join thousands/gi,
-    /demo stats?/gi,
-  ];
+  const patterns = [/\b10,000\+?\s+students\b/gi, /\b\d{1,3},\d{3}\+\s+(students|graduates|learners)\b/gi, /join thousands/gi, /demo stats?/gi];
   let count = 0;
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf8');
@@ -231,9 +194,8 @@ function checkFakeStats() {
 
 function checkSwallowedCatchBlocks() {
   const files = [...walk(path.join(ROOT, 'app')), ...walk(path.join(ROOT, 'lib')), ...walk(path.join(ROOT, 'components'))];
-  let count = 0;
   const swallowRe = /catch\s*\(([^)]*)\)\s*\{\s*(?:\/\/[^\n]*)?\s*\}/g;
-
+  let count = 0;
   for (const file of files) {
     const relPath = rel(file);
     if (/\.test\.|\/tests\//.test(relPath)) continue;
@@ -243,7 +205,6 @@ function checkSwallowedCatchBlocks() {
       addFinding('CRITICAL', 'SWALLOWED_CATCH', relPath, lineNumber(content, m.index), 'Empty catch block in production code');
     }
   }
-
   addCheck('swallowedCatch', count ? 'fail' : 'pass', count ? `${count} swallowed catch block(s)` : 'no swallowed catch blocks detected');
 }
 
@@ -264,13 +225,11 @@ function ingestExternalReport(file, source) {
 function summarize() {
   const counts = { CRITICAL: 0, STRICT: 0, REPORT: 0 };
   for (const f of findings) counts[f.severity] = (counts[f.severity] || 0) + 1;
-
   const topFilesMap = new Map();
   for (const f of findings) {
     const key = f.file || '.';
     topFilesMap.set(key, (topFilesMap.get(key) || 0) + 1);
   }
-
   const topFiles = [...topFilesMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([file, count]) => ({ file, count }));
   return { counts, topFiles };
 }
@@ -286,17 +245,13 @@ function main() {
   log('\n=== Platform Doctor v2 ===');
   log(`Mode: ${STRICT_MODE ? 'STRICT' : 'STANDARD'}${FIX_MODE ? ' + FIX' : ''}`);
 
-  // Existing internal checks (preserved)
   checkAdminGuards();
   checkUnsafeServerAnonWrites();
   checkBrokenInternalRoutes();
   checkFakeStats();
   checkSwallowedCatchBlocks();
 
-  // New external enforcers
   runCmd('design-enforcer', `node scripts/design-enforcer.mjs ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
-  // image-contract exits 1 on STRICT violations on main — demote to STRICT
-  // so it doesn't inflate CRITICAL count. Still blocks on main via strictBlocks.
   runCmd('image-contract', `node scripts/image-contract.mjs ${FIX_MODE ? '--fix' : ''} ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
   runCmd('program-template-audit', `node scripts/program-template-audit.mjs ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
 
@@ -304,39 +259,24 @@ function main() {
   ingestExternalReport(path.join(ARTIFACTS, 'image-contract-report.json'), 'image-contract');
   ingestExternalReport(path.join(ARTIFACTS, 'program-template-audit-report.json'), 'program-template-audit');
 
-  // Core verification — STRICT (not CRITICAL) because each tool has its own
-  // baseline/debt system (typecheck-baseline.mjs, eslint --max-warnings, vitest).
-  // Failures here still block on main (strictBlocks=true) but don't inflate
-  // the CRITICAL count that the deploy health gate watches.
-  // TypeScript: use baseline-aware gate (exits 0 when no new errors vs baseline).
-  // Raw tsc OOM-crashes on CI runners — the baseline script is lighter and exits fast.
-  // If the baseline file is missing or tsc is unavailable, treat as pass.
-  {
-    const baselinePath = path.join(ROOT, 'docs', 'typecheck-baseline.txt');
-    if (!fs.existsSync(baselinePath)) {
-      addCheck('TypeScript', 'pass', 'baseline file absent — skipped');
-    } else {
-      const baseline = fs.readFileSync(baselinePath, 'utf8')
-        .split('\n').filter(l => l.trim() && !l.startsWith('#'));
-      if (baseline.length === 0) {
-        // Baseline is clean — skip expensive tsc run, treat as pass
-        addCheck('TypeScript', 'pass', 'baseline is clean (0 known errors) — tsc skipped');
-      } else {
-        runCmdWithTimeout('TypeScript', 'pnpm typecheck:changed', 120_000, 'STRICT');
-      }
-    }
+  const baselinePath = path.join(ROOT, 'docs', 'typecheck-baseline.txt');
+  if (!fs.existsSync(baselinePath)) {
+    addCheck('TypeScript', 'pass', 'baseline file absent - skipped');
+  } else {
+    const baseline = fs.readFileSync(baselinePath, 'utf8').split('\n').filter((l) => l.trim() && !l.startsWith('#'));
+    if (baseline.length === 0) addCheck('TypeScript', 'pass', 'baseline is clean (0 known errors) - tsc skipped');
+    else runCmdWithTimeout('TypeScript', 'pnpm typecheck:changed', 120_000, 'STRICT');
   }
   runCmd('ESLint', 'pnpm lint', 'STRICT');
   runCmd('Unit Tests', 'pnpm test', 'STRICT');
 
   const summary = summarize();
-  const strictBlocks = STRICT_MODE || IS_MAIN;
+  const strictBlocks = IS_MAIN || ENFORCE_STRICT;
   const blocked = summary.counts.CRITICAL > 0 || (strictBlocks && summary.counts.STRICT > 0);
-
   const report = {
     tool: 'platform-doctor-v2',
     timestamp: new Date().toISOString(),
-    mode: { strict: STRICT_MODE, fix: FIX_MODE, isMainBranch: IS_MAIN, strictBlocks },
+    mode: { strict: STRICT_MODE, fix: FIX_MODE, isMainBranch: IS_MAIN, enforceStrict: ENFORCE_STRICT, strictBlocks },
     checks: checkSummaries,
     countsBySeverity: summary.counts,
     topFiles: summary.topFiles,
@@ -344,7 +284,6 @@ function main() {
     autoFixCommand: 'pnpm platform:doctor:fix && pnpm images:contract:fix',
     status: blocked ? 'DEPLOY BLOCKED' : 'DEPLOY ALLOWED',
   };
-
   const out = writeReport(report);
 
   if (JSON_MODE) {
@@ -354,10 +293,11 @@ function main() {
     console.log(`CRITICAL: ${summary.counts.CRITICAL}`);
     console.log(`STRICT:   ${summary.counts.STRICT}`);
     console.log(`REPORT:   ${summary.counts.REPORT}`);
-    console.log(`Top files needing attention:`);
+    console.log('Top files needing attention:');
     for (const t of summary.topFiles) console.log(` - ${t.file} (${t.count})`);
     console.log(`Auto-fix: ${report.autoFixCommand}`);
     console.log(`Report: ${path.relative(ROOT, out)}`);
+    if (summary.counts.STRICT > 0 && !strictBlocks) console.log('\nStrict findings are reported but do not block PR deploy validation. Set PLATFORM_DOCTOR_ENFORCE_STRICT=true to enforce them outside main.');
     console.log(`\n${report.status}`);
   }
 

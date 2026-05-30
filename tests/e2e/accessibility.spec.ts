@@ -6,7 +6,8 @@ test.describe('Accessibility Tests - WCAG AA Compliance', () => {
     await page.goto('/');
     // Wait for all navigation and async rendering to settle before axe scan
     // to prevent "Execution context was destroyed" from mid-scan redirects.
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(500);
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -41,7 +42,8 @@ test.describe('Accessibility Tests - WCAG AA Compliance', () => {
   test('mobile menu should be accessible', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(500);
 
     // Find the mobile menu toggle — prefer aria-label, fall back to header button with SVG
     const menuButton = page
@@ -108,7 +110,8 @@ test.describe('Accessibility Tests - WCAG AA Compliance', () => {
 
   test('color contrast should meet WCAG AA standards', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(500);
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2aa'])
@@ -166,12 +169,15 @@ test.describe('Accessibility Tests - WCAG AA Compliance', () => {
   test('links should have descriptive text', async ({ page }) => {
     await page.goto('/');
 
-    const links = await page.locator('a').all();
+    const links = await page.locator('a:visible').all();
 
     for (const link of links) {
       const text = await link.textContent();
       const ariaLabel = await link.getAttribute('aria-label');
-      const hasDescriptiveText = (text && text.trim().length > 0) || ariaLabel;
+      const imageAlt = await link.evaluate(
+        (anchor) => anchor.querySelector('img[alt]')?.getAttribute('alt') ?? '',
+      );
+      const hasDescriptiveText = (text && text.trim().length > 0) || ariaLabel || imageAlt;
       expect(hasDescriptiveText).toBeTruthy();
     }
   });

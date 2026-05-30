@@ -112,13 +112,6 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
   },
   {
-    slug: 'tax-prep',
-    name: 'Tax Preparation Program',
-    category: 'Business & Financial',
-    formType: 'apply',
-    active: true,
-  },
-  {
     slug: 'business-startup',
     name: 'Business Start-up & Marketing',
     category: 'Business & Financial',
@@ -385,13 +378,6 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
   },
   {
-    slug: 'tax-preparation',
-    name: 'Tax Preparation',
-    category: 'Business & Financial',
-    formType: 'apply',
-    active: true,
-  },
-  {
     slug: 'technology',
     name: 'Technology Career Training',
     category: 'Technology',
@@ -561,9 +547,6 @@ const SLUG_ALIASES: Record<string, string> = {
   'esthetician-apprenticeship': 'esthetician',
   'professional-esthetician': 'esthetician',
   'phlebotomy-technician': 'phlebotomy',
-  'tax-prep': 'tax-preparation',
-  'tax-entrepreneurship': 'tax-preparation',
-  'tax-prep-financial-services': 'tax-preparation',
   'building-maintenance': 'building-maintenance-wrg',
   'building-maintenance-tech': 'building-maintenance-wrg',
   'building-services-technician': 'building-maintenance-wrg',

@@ -26,7 +26,6 @@ import { ESTHETICIAN } from './esthetician';
 import { CULINARY } from './culinary-apprenticeship';
 import { CPR_FIRST_AID } from './cpr-first-aid';
 import { SANITATION } from './sanitation-infection-control';
-import { TAX_PREPARATION } from './tax-preparation';
 import { BUSINESS_ADMIN } from './business-administration';
 import { ENTREPRENEURSHIP } from './entrepreneurship';
 import { PROJECT_MANAGEMENT } from './project-management';
@@ -36,7 +35,7 @@ import { CAD_DRAFTING } from './cad-drafting';
 import { NETWORK_ADMIN } from './network-administration';
 
 /**
- * Program Catalog — All programs grouped by sector.
+ * Program Catalog - All programs grouped by sector.
  * Add new programs here. The catalog page renders from this array.
  */
 export const ALL_PROGRAMS: ProgramSchema[] = [
@@ -45,7 +44,7 @@ export const ALL_PROGRAMS: ProgramSchema[] = [
   MEDICAL_ASSISTANT,
   PHLEBOTOMY,
   PHARMACY_TECHNICIAN,
-  // PEER_RECOVERY — DB-driven, no static file (lib/programs/get-program.ts)
+  // PEER_RECOVERY - DB-driven, no static file (lib/programs/get-program.ts)
   CPR_FIRST_AID,
   SANITATION,
   EMERGENCY_HEALTH_SAFETY,
@@ -78,7 +77,6 @@ export const ALL_PROGRAMS: ProgramSchema[] = [
   // Business
   BOOKKEEPING,
   OFFICE_ADMINISTRATION,
-  TAX_PREPARATION,
   BUSINESS_ADMIN,
   ENTREPRENEURSHIP,
   PROJECT_MANAGEMENT,

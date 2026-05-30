@@ -25,12 +25,24 @@
           "value": "main"
         },
         {
+          "name": "GITHUB_REPO",
+          "value": "elevate-for-humanity/Elevate-lms"
+        },
+        {
           "name": "MAX_SESSIONS",
           "value": "10"
         },
         {
           "name": "NEXT_PUBLIC_CANONICAL_DOMAIN",
           "value": "www.elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_PUBLIC_SITE_URL",
+          "value": "https://www.elevateforhumanity.org"
+        },
+        {
+          "name": "NEXT_PUBLIC_SITE_URL",
+          "value": "https://www.elevateforhumanity.org"
         },
         {
           "name": "NEXT_PUBLIC_CERT_HOLDER",
@@ -87,12 +99,32 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_TOKEN"
         },
         {
-          "name": "GITHUB_REPO",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
-        },
-        {
           "name": "SHELL_SECRET",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/NEXT_PUBLIC_SUPABASE_URL"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_SERVICE_ROLE_KEY"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/OPENAI_API_KEY"
+        },
+        {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GEMINI_API_KEY"
+        },
+        {
+          "name": "GROQ_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GROQ_API_KEY"
         }
       ],
       "logConfiguration": {
@@ -111,7 +143,7 @@
         "interval": 30,
         "timeout": 10,
         "retries": 3,
-        "startPeriod": 15
+        "startPeriod": 180
       },
       "ulimits": [
         {
