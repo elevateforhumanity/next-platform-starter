@@ -64,7 +64,7 @@ export function HomeTrustBar() {
     >
       {/* Credential badges — 2 cols mobile, 3 cols sm, 6 cols lg */}
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <p className="text-center text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-4">
+        <p className="text-center text-[11px] font-semibold text-slate-600 uppercase tracking-widest mb-4">
           Accreditations &amp; Approvals
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -85,7 +85,7 @@ export function HomeTrustBar() {
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-900 leading-tight group-hover:text-brand-blue-700">{label}</p>
-                <p className="text-[10px] text-slate-500 leading-tight mt-0.5">{sub}</p>
+                <p className="text-[10px] text-slate-600 leading-tight mt-0.5">{sub}</p>
               </div>
             </Link>
           ))}
@@ -95,7 +95,7 @@ export function HomeTrustBar() {
       {/* Partner logos */}
       <div className="border-t border-slate-100 py-5 px-4">
         <div className="max-w-6xl mx-auto">
-          <p className="text-center text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-4">
+          <p className="text-center text-[11px] font-semibold text-slate-600 uppercase tracking-widest mb-4">
             Aligned with workforce development partners
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
