@@ -174,7 +174,9 @@ test.describe('Accessibility Tests - WCAG AA Compliance', () => {
     for (const link of links) {
       const text = await link.textContent();
       const ariaLabel = await link.getAttribute('aria-label');
-      const imageAlt = await link.locator('img[alt]').first().getAttribute('alt').catch(() => null);
+      const imageAlt = await link.evaluate(
+        (anchor) => anchor.querySelector('img[alt]')?.getAttribute('alt') ?? '',
+      );
       const hasDescriptiveText = (text && text.trim().length > 0) || ariaLabel || imageAlt;
       expect(hasDescriptiveText).toBeTruthy();
     }
