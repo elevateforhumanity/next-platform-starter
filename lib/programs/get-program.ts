@@ -54,7 +54,6 @@ const PROGRAM_REGISTRY: Record<string, () => Promise<ProgramModuleShape>> = {
   plumbing: () => import('@/data/programs/plumbing'),
   'project-management': () => import('@/data/programs/project-management'),
   'software-development': () => import('@/data/programs/software-development'),
-  'tax-preparation': () => import('@/data/programs/tax-preparation'),
   'web-development': () => import('@/data/programs/web-development'),
   welding: () => import('@/data/programs/welding'),
 };
