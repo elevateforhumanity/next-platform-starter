@@ -1,4 +1,3 @@
-import { logger } from '@/lib/logger';
 // Centralized logging utility
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
@@ -48,11 +47,17 @@ class Logger {
       return output;
     }
 
-    // JSON format for production (easier to parse by log aggregators)
-    return JSON.stringify({
-      ...entry,
-      error: serializeError(error),
-    });
+    // JSON format for production (cap size — avoid RangeError during next build)
+    try {
+      const payload = JSON.stringify({
+        ...entry,
+        error: serializeError(error),
+      });
+      const max = 16_000;
+      return payload.length > max ? `${payload.slice(0, max)}…[truncated]` : payload;
+    } catch {
+      return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
+    }
   }
 
   private log(level: LogLevel, message: string, context?: Record<string, any>, error?: Error) {
@@ -81,10 +86,10 @@ class Logger {
         console.info(formatted);
         break;
       case 'warn':
-        logger.warn(formatted);
+        console.warn(formatted);
         break;
       case 'error':
-        logger.error(formatted);
+        console.error(formatted);
         break;
     }
 
