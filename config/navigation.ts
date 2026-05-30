@@ -145,7 +145,7 @@ export const headerNav: NavSection[] = [
       { label: 'Book Appointment', href: '/booking' },
       { label: 'Career Services', href: '/career-services' },
       { label: 'Mentorship', href: '/mentorship' },
-      { label: 'Tax Services', href: '/tax-services' },
+      { label: 'Community Services (VITA)', href: '/community-services' },
     ],
   },
   {
