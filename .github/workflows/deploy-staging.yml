@@ -45,7 +45,7 @@ env:
 
 jobs:
   deploy-lms-staging:
-    name: Deploy LMS -> staging
+    name: Deploy LMS → staging
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'
@@ -124,7 +124,7 @@ jobs:
           exit 1
 
   deploy-admin-staging:
-    name: Deploy Admin -> staging
+    name: Deploy Admin → staging
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'
