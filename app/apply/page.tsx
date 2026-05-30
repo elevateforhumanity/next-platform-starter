@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
-import { requireAdminClient } from '@/lib/supabase/admin';
-import { getStaticProgram } from '@/data/programs/index';
+import { getAdminClient } from '@/lib/supabase/admin';
+import { getStaticProgram, STATIC_PROGRAM_MAP } from '@/data/programs/index';
 
-// No static revalidation — use admin client so all published programs are
-// always returned regardless of RLS policy state on the anon key.
+// No static revalidation; use the admin client when it is available so all
+// published programs are returned, but keep the intake page usable in CI/local
+// environments where the service-role key is intentionally absent.
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -18,6 +19,14 @@ export const metadata: Metadata = {
   },
 };
 
+const staticProgramOptions = Array.from(STATIC_PROGRAM_MAP.values())
+  .map((program) => ({
+    id: program.slug,
+    title: program.title,
+    slug: program.slug,
+  }))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
 export default async function ApplyPage({
   searchParams,
 }: {
@@ -27,7 +36,7 @@ export default async function ApplyPage({
   // by next.config.mjs before this page renders. No barber-specific branch needed here.
   const programSlug = normalizeProgramInterest(searchParams?.program) ?? '';
 
-  // Resolve a human-readable program name for the hero — try static catalog first,
+  // Resolve a human-readable program name for the hero: try static catalog first,
   // then fall back to slug-to-title formatting so the hero is never blank.
   const staticProg = programSlug ? getStaticProgram(programSlug) : null;
   const programTitle = staticProg?.title
@@ -35,18 +44,24 @@ export default async function ApplyPage({
       ? programSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
       : '');
 
-  // Use admin client to bypass RLS — programs table public_read policy
-  // historically only matched status='active' but published programs use
-  // status='published', so the anon key returns an incomplete list.
-  const db = await requireAdminClient();
-  const { data: programs } = db
-    ? await db
-        .from('programs')
-        .select('id, title, slug')
-        .in('status', ['active', 'published'])
-        .eq('published', true)
-        .order('title')
-    : { data: [] };
+  let programs = staticProgramOptions;
+
+  // Use admin client to bypass RLS when available. CI and local preview jobs often
+  // do not have SUPABASE_SERVICE_ROLE_KEY, so fall back to the static catalog
+  // instead of crashing the entire intake page.
+  const db = await getAdminClient();
+  if (db) {
+    const { data, error } = await db
+      .from('programs')
+      .select('id, title, slug')
+      .in('status', ['active', 'published'])
+      .eq('published', true)
+      .order('title');
+
+    if (!error && data?.length) {
+      programs = data;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -81,8 +96,8 @@ export default async function ApplyPage({
             </h1>
           )}
           <p className="text-slate-300 text-base max-w-xl">
-            Takes 3–5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and
-            Job Ready Indy funding — most eligible Indiana residents pay $0.
+            Takes 3-5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and
+            Job Ready Indy funding - most eligible Indiana residents pay $0.
           </p>
           {programTitle ? (
             <p className="mt-3 text-sm text-slate-400">
@@ -105,7 +120,7 @@ export default async function ApplyPage({
       {/* Form */}
       <section id="application" className="py-10" aria-label="Application form">
         <div className="max-w-2xl mx-auto px-4">
-          <IntakeFormInner programs={programs ?? []} />
+          <IntakeFormInner programs={programs} />
         </div>
       </section>
     </div>
