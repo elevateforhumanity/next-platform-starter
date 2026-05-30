@@ -45,10 +45,10 @@ COPY public ./apps/admin/public
 # terminate /api/devstudio/shell-ws upgrades and proxy them to studio-shell.
 COPY apps/admin/server.js ./apps/admin/server.js
 
-# The custom server requires ws directly at runtime. Next output tracing may not
-# include dependencies only used by the server wrapper, so install it explicitly.
-RUN npm install ws@8.18.0 --no-save --legacy-peer-deps 2>/dev/null || \
-    npm install ws@8.18.0 --no-save --force
+# The custom server requires ws at runtime. Copy it from the pnpm-installed
+# apps/admin/node_modules (present in the build context after pnpm install).
+# Avoids npm install inside Docker which fails on npm v10 slim images.
+COPY apps/admin/node_modules/ws ./node_modules/ws
 
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
