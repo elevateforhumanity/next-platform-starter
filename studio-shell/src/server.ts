@@ -75,13 +75,28 @@ function getReadiness() {
   };
 }
 
+function sendJson(res: http.ServerResponse, statusCode: number, payload: unknown) {
+  res.writeHead(statusCode, {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-store',
+  });
+  res.end(JSON.stringify(payload));
+}
+
 const httpServer = http.createServer((req, res) => {
-  if (req.url === '/health') {
-    const health = getReadiness();
-    res.writeHead(health.ready ? 200 : 503, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(health));
+  const pathname = (req.url ?? '/').split('?')[0];
+
+  if (pathname === '/live') {
+    sendJson(res, 200, { alive: true, ...getReadiness() });
     return;
   }
+
+  if (pathname === '/health') {
+    const health = getReadiness();
+    sendJson(res, health.ready ? 200 : 503, health);
+    return;
+  }
+
   res.writeHead(404);
   res.end();
 });
