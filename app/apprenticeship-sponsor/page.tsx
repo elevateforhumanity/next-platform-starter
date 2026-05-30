@@ -239,13 +239,13 @@ export default function ApprenticeshipSponsorPage() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/partners/barbershop-apprenticeship"
+                href="/partners/barber-host-shop"
                 className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors inline-flex items-center gap-2"
               >
                 Barbershop Partner Program <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/partners/barbershop-apprenticeship/apply"
+                href="/partners/barber-host-shop/apply"
                 className="bg-white hover:bg-slate-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors"
               >
                 Apply as Partner Site
@@ -266,7 +266,7 @@ export default function ApprenticeshipSponsorPage() {
                 1
               </span>
               <div>
-                <p className="font-bold">2Exclusive LLC-S — Sponsor &amp; Governing Entity</p>
+                <p className="font-bold">2Exclusive LLC-S - Sponsor &amp; Governing Entity</p>
                 <p className="text-slate-500 text-sm">
                   Standards, compliance, apprentice registration, oversight
                 </p>
@@ -278,7 +278,7 @@ export default function ApprenticeshipSponsorPage() {
               </span>
               <div>
                 <p className="font-bold">
-                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute — Training Division
+                  {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute - Training Division
                 </p>
                 <p className="text-white text-sm">
                   RTI delivery, curriculum, LMS, workforce enrollment
@@ -291,7 +291,7 @@ export default function ApprenticeshipSponsorPage() {
               </span>
               <div>
                 <p className="font-bold text-slate-900">
-                  Licensed Partner Training Sites — Employer Locations
+                  Licensed Partner Training Sites - Employer Locations
                 </p>
                 <p className="text-slate-600 text-sm">
                   Supervised OJT under formal training agreements
