@@ -48,10 +48,13 @@ class Logger {
     }
 
     // JSON format for production (easier to parse by log aggregators)
-    return JSON.stringify({
+    // Cap at 16 KB to prevent RangeError when error objects contain large payloads.
+    const MAX_BYTES = 16 * 1024;
+    const raw = JSON.stringify({
       ...entry,
       error: serializeError(error),
     });
+    return raw.length > MAX_BYTES ? raw.slice(0, MAX_BYTES) + '…[truncated]' : raw;
   }
 
   private log(level: LogLevel, message: string, context?: Record<string, any>, error?: Error) {
