@@ -27,7 +27,6 @@ import { PHARMACY_TECHNICIAN } from './pharmacy-technician';
 import { PROJECT_MANAGEMENT } from './project-management';
 import { SOFTWARE_DEV } from './software-development';
 import { WEB_DEVELOPMENT } from './web-development';
-import { TAX_PREPARATION } from './tax-preparation';
 import { WELDING } from './welding';
 import { PLUMBING } from './plumbing';
 import { ELECTRICAL } from './electrical';
@@ -88,7 +87,6 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   PROJECT_MANAGEMENT,
   SOFTWARE_DEV,
   WEB_DEVELOPMENT,
-  TAX_PREPARATION,
   QMA,
 ];
 
