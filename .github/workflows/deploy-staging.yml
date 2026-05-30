@@ -5,9 +5,9 @@ name: Deploy Staging
 # parameter paths (/elevate-staging/*), and a dedicated CloudWatch log group.
 #
 # Required GitHub secrets (in addition to the production set):
-#   STAGING_URL          — base URL of the staging LMS (e.g. https://staging.elevateforhumanity.org)
-#   STAGING_ADMIN_URL    — base URL of the staging Admin app
-#   STAGING_CRON_SECRET  — separate cron secret for staging cron endpoints
+#   STAGING_URL          - base URL of the staging LMS (e.g. https://staging.elevateforhumanity.org)
+#   STAGING_ADMIN_URL    - base URL of the staging Admin app
+#   STAGING_CRON_SECRET  - separate cron secret for staging cron endpoints
 #
 # AWS resources that must exist before this workflow runs:
 #   ECS cluster:  elevate-cluster-staging
@@ -35,7 +35,7 @@ on:
 permissions:
   contents: read
 
-# Only one staging deploy at a time — queue, don't cancel
+# Only one staging deploy at a time - queue, don't cancel.
 concurrency:
   group: deploy-staging
   cancel-in-progress: false
@@ -44,10 +44,8 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  # ── LMS staging deploy ─────────────────────────────────────────────────────
   deploy-lms-staging:
     name: Deploy LMS → staging
-    # Job name must match branch protection required status check: "Deploy LMS → staging"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'
@@ -92,37 +90,41 @@ jobs:
               --query 'builds[0].buildStatus' --output text)
             echo "  Status: $STATUS"
             case "$STATUS" in
-              SUCCEEDED) echo "✅ LMS staging build succeeded."; break ;;
+              SUCCEEDED) echo "LMS staging build succeeded."; break ;;
               FAILED|FAULT|TIMED_OUT|STOPPED)
-                echo "❌ LMS staging build failed: $STATUS"; exit 1 ;;
+                echo "LMS staging build failed: $STATUS"; exit 1 ;;
             esac
             sleep 30
           done
 
-      - name: Smoke test — LMS staging health
-        if: ${{ vars.STAGING_URL != '' || secrets.STAGING_URL != '' }}
+      - name: Smoke test - LMS staging health
         env:
           STAGING_URL: ${{ secrets.STAGING_URL }}
+          STAGING_URL_VAR: ${{ vars.STAGING_URL }}
         run: |
+          TARGET_URL="${STAGING_URL:-$STAGING_URL_VAR}"
+          if [ -z "$TARGET_URL" ]; then
+            echo "STAGING_URL not set - skipping LMS staging health check."
+            exit 0
+          fi
+
           echo "Waiting 60s for ECS service to stabilize..."
           sleep 60
           for i in 1 2 3; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-              --max-time 15 "${STAGING_URL}/api/health" || echo "000")
+              --max-time 15 "${TARGET_URL}/api/health" || echo "000")
             echo "  Attempt $i: HTTP $STATUS"
             if [ "$STATUS" = "200" ]; then
-              echo "✅ LMS staging health check passed."
+              echo "LMS staging health check passed."
               exit 0
             fi
             sleep 20
           done
-          echo "⚠️ LMS staging health check did not return 200 — deploy may need investigation."
+          echo "LMS staging health check did not return 200 - deploy may need investigation."
           exit 1
 
-  # ── Admin staging deploy ───────────────────────────────────────────────────
   deploy-admin-staging:
     name: Deploy Admin → staging
-    # Job name must match branch protection required status check: "Deploy Admin → staging"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push'
@@ -167,29 +169,35 @@ jobs:
               --query 'builds[0].buildStatus' --output text)
             echo "  Status: $STATUS"
             case "$STATUS" in
-              SUCCEEDED) echo "✅ Admin staging build succeeded."; break ;;
+              SUCCEEDED) echo "Admin staging build succeeded."; break ;;
               FAILED|FAULT|TIMED_OUT|STOPPED)
-                echo "❌ Admin staging build failed: $STATUS"; exit 1 ;;
+                echo "Admin staging build failed: $STATUS"; exit 1 ;;
             esac
             sleep 30
           done
 
-      - name: Smoke test — Admin staging health
-        if: ${{ secrets.STAGING_ADMIN_URL != '' }}
+      - name: Smoke test - Admin staging health
         env:
           STAGING_ADMIN_URL: ${{ secrets.STAGING_ADMIN_URL }}
+          STAGING_ADMIN_URL_VAR: ${{ vars.STAGING_ADMIN_URL }}
         run: |
+          TARGET_URL="${STAGING_ADMIN_URL:-$STAGING_ADMIN_URL_VAR}"
+          if [ -z "$TARGET_URL" ]; then
+            echo "STAGING_ADMIN_URL not set - skipping Admin staging health check."
+            exit 0
+          fi
+
           echo "Waiting 60s for ECS service to stabilize..."
           sleep 60
           for i in 1 2 3; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-              --max-time 15 "${STAGING_ADMIN_URL}/api/health" || echo "000")
+              --max-time 15 "${TARGET_URL}/api/health" || echo "000")
             echo "  Attempt $i: HTTP $STATUS"
             if [ "$STATUS" = "200" ]; then
-              echo "✅ Admin staging health check passed."
+              echo "Admin staging health check passed."
               exit 0
             fi
             sleep 20
           done
-          echo "⚠️ Admin staging health check did not return 200."
+          echo "Admin staging health check did not return 200."
           exit 1

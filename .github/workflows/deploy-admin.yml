@@ -58,6 +58,43 @@ jobs:
 
       - name: Start Admin CodeBuild and wait for completion
         run: |
+          set -euo pipefail
+
+          dump_build_details() {
+            echo "::group::CodeBuild failure details"
+            aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region us-east-1 \
+              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts}}' \
+              --output json || true
+            echo "::endgroup::"
+
+            LOG_GROUP=$(aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region us-east-1 \
+              --query 'builds[0].logs.groupName' \
+              --output text 2>/dev/null || true)
+            LOG_STREAM=$(aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region us-east-1 \
+              --query 'builds[0].logs.streamName' \
+              --output text 2>/dev/null || true)
+
+            if [ -n "$LOG_GROUP" ] && [ "$LOG_GROUP" != "None" ] && [ -n "$LOG_STREAM" ] && [ "$LOG_STREAM" != "None" ]; then
+              echo "::group::Last 200 CodeBuild log events"
+              aws logs get-log-events \
+                --log-group-name "$LOG_GROUP" \
+                --log-stream-name "$LOG_STREAM" \
+                --region us-east-1 \
+                --limit 200 \
+                --query 'events[].message' \
+                --output json || true
+              echo "::endgroup::"
+            else
+              echo "CodeBuild log stream was not available yet. Build ID: $BUILD_ID"
+            fi
+          }
+
           echo "Starting Admin CodeBuild..."
           BUILD_ID=$(aws codebuild start-build \
             --project-name elevate-admin-build \
@@ -76,11 +113,12 @@ jobs:
             echo "  Status: $STATUS"
             case "$STATUS" in
               SUCCEEDED)
-                echo "✅ Admin build succeeded."
+                echo "Admin build succeeded."
                 exit 0
                 ;;
               FAILED|FAULT|TIMED_OUT|STOPPED)
-                echo "❌ Admin build failed with status: $STATUS"
+                echo "Admin build failed with status: $STATUS"
+                dump_build_details
                 exit 1
                 ;;
             esac
@@ -94,9 +132,9 @@ jobs:
             --cluster elevate-cluster \
             --services elevate-admin-service \
             --region us-east-1
-          echo "✅ ECS service stable."
+          echo "ECS service stable."
 
-      - name: Health check — Admin
+      - name: Health check - Admin
         id: health_check
         run: |
           echo "Running post-deploy health check..."
@@ -106,20 +144,20 @@ jobs:
             HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
               --max-time 10 \
               "https://admin.elevateforhumanity.org/api/ping" 2>/dev/null || echo "000")
-            echo "  Attempt $i/$MAX_ATTEMPTS — HTTP $HTTP_CODE"
+            echo "  Attempt $i/$MAX_ATTEMPTS - HTTP $HTTP_CODE"
             if [ "$HTTP_CODE" = "200" ]; then
-              echo "✅ Health check passed."
+              echo "Health check passed."
               exit 0
             fi
             sleep $DELAY
           done
-          echo "❌ Health check failed after $MAX_ATTEMPTS attempts."
+          echo "Health check failed after $MAX_ATTEMPTS attempts."
           exit 1
 
       - name: Rollback on health failure
         if: failure() && steps.health_check.outcome == 'failure'
         run: |
-          echo "⚠️  Health check failed — rolling back Admin service to previous task definition..."
+          echo "Health check failed - rolling back Admin service to previous task definition..."
           aws ecs update-service \
             --cluster elevate-cluster \
             --service elevate-admin-service \
