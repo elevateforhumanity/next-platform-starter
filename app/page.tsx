@@ -110,10 +110,6 @@ export default async function HomePage() {
       {/* ── 1b. ROTATING MARQUEE BANNER ─────────────────────────────────── */}
       <MarqueeBanner />
 
-      {/* ── 2. TRUST BAR ────────────────────────────────────────────────── */}
-      {/* DOL registration, WIOA/ETPL approval, RAPIDS capability, partner logos */}
-      <HomeTrustBar />
-
       {/* ── 3. HOW ELEVATE WORKS ────────────────────────────────────────── */}
       {/* 6-step operational pipeline: Apply → Funding → Training →
           Apprenticeship → Credential → Employment */}
@@ -159,6 +155,11 @@ export default async function HomePage() {
       {/* "From where you are to where you want to be."
           Apply Now + Check Eligibility + phone number. */}
       <HomeFinalCTA />
+
+      {/* ── 11. CREDENTIALS & APPROVALS ─────────────────────────────────── */}
+      {/* DOL registration, WIOA/ETPL approval, RAPIDS, JRI, WorkOne badges
+          + partner logo strip. Placed at bottom — trust signal, not hero. */}
+      <HomeTrustBar />
     </>
   );
 }
