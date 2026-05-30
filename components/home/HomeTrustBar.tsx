@@ -100,7 +100,12 @@ export function HomeTrustBar() {
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
             {PARTNER_LOGOS.map((logo) => (
-              <Link key={logo.src} href={logo.href} className="relative h-8 w-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <Link
+                key={logo.src}
+                href={logo.href}
+                aria-label={logo.alt}
+                className="relative h-8 w-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+              >
                 <Image
                   src={logo.src}
                   alt={logo.alt}
