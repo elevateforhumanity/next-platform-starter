@@ -1,11 +1,8 @@
 // Full-bleed layout for Dev Studio.
 //
-// The admin layout wraps all pages in <main class="pt-16"> which is an
-// unconstrained block - height:100% on children resolves to nothing.
-// Using position:fixed escapes the layout flow entirely so the studio
-// can own the full viewport from the nav baseline (top:64px) down.
-import DevStudioCourseDock from './DevStudioCourseDock';
-
+// The admin layout wraps all pages in <main className="pt-16"> which is an
+// unconstrained block. Using position: fixed lets the studio own the viewport
+// from the nav baseline down without overlapping the admin nav.
 export default function DevStudioLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
@@ -13,7 +10,7 @@ export default function DevStudioLayout({ children }: { children: React.ReactNod
       style={{
         position: 'fixed',
         inset: 0,
-        top: 64, // nav height - sit flush below the AdminNav bar
+        top: 64,
         overflow: 'hidden',
         zIndex: 10,
       }}
@@ -37,7 +34,6 @@ export default function DevStudioLayout({ children }: { children: React.ReactNod
         }
       `}</style>
       {children}
-      <DevStudioCourseDock />
     </div>
   );
 }
