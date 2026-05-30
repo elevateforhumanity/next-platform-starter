@@ -12,9 +12,8 @@
 --       checkpoints in the course have passing scores.
 --
 -- Apply manually via Supabase Dashboard SQL Editor.
+-- Note: no BEGIN/COMMIT wrapper — exec_sql runs inside its own transaction.
 -- =============================================================================
-
-BEGIN;
 
 -- ─── record_checkpoint_attempt ───────────────────────────────────────────────
 
@@ -115,5 +114,3 @@ REVOKE EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, uuid, in
   FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, uuid, integer, integer, jsonb)
   TO authenticated, service_role;
-
-COMMIT;
