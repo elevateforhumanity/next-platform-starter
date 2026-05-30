@@ -87,7 +87,7 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   PROJECT_MANAGEMENT,
   SOFTWARE_DEV,
   WEB_DEVELOPMENT,
-  QMA,
+  BEAUTY_CAREER_EDUCATOR,
 ];
 
 /** Slug-keyed map for O(1) lookup. */

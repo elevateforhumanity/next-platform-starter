@@ -18,7 +18,6 @@ export const routes = {
   contact: '/contact',
   funding: '/funding',
   enrollment: '/enrollment',
-  // Handoff to learn.${PLATFORM_DEFAULTS.canonicalDomain}
   apply: siteConfig.handoff.apply,
   login: siteConfig.handoff.login,
   checkout: siteConfig.handoff.checkout,

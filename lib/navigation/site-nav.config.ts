@@ -512,14 +512,6 @@ export const footerNavigation = {
       { label: 'Training Certifications', href: '/training/certifications' },
     ],
   },
-  tax: {
-    title: 'Tax Services',
-    links: [
-      { label: 'Free Tax Filing', href: '/tax/free' },
-      { label: 'Professional Tax', href: '/tax/professional' },
-      { label: 'Self Prep', href: '/tax-self-prep/start' },
-    ],
-  },
   platform: {
     title: 'Platform',
     links: [

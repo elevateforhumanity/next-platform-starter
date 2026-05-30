@@ -181,12 +181,22 @@
     },
     {
       "source": "/programs/tax-prep",
-      "destination": "/programs/tax-preparation",
+      "destination": "/programs/business-administration",
       "permanent": true
     },
     {
       "source": "/programs/tax-prep-financial-services",
-      "destination": "/programs/tax-preparation",
+      "destination": "/programs/business-administration",
+      "permanent": true
+    },
+    {
+      "source": "/programs/tax-preparation",
+      "destination": "/programs/business-administration",
+      "permanent": true
+    },
+    {
+      "source": "/programs/tax-preparation/:path*",
+      "destination": "/programs/business-administration",
       "permanent": true
     },
     {
@@ -281,11 +291,6 @@
     },
     {
       "source": "/programs/construction",
-      "destination": "/programs/construction-trades-certification",
-      "permanent": true
-    },
-    {
-      "source": "/programs/construction-trades",
       "destination": "/programs/construction-trades-certification",
       "permanent": true
     },
