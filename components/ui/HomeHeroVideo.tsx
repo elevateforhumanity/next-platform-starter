@@ -10,6 +10,9 @@ interface HomeHeroVideoProps {
 export default function HomeHeroVideo({ banner }: HomeHeroVideoProps) {
   return (
     <>
+      {banner.posterImage && (
+        <link rel="preload" as="image" href={banner.posterImage} />
+      )}
       <link
         rel="preload"
         as="video"

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -15,27 +16,28 @@ export const metadata: Metadata = {
 export default function JriPage() {
   return (
     <div className="min-h-screen bg-white">
-      <section className="bg-slate-900 text-white py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-3">
-            Marion County Funding
+      <section className="relative bg-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/pages/wioa-meeting.webp"
+            alt="Job Ready Indy approved training"
+            fill
+            className="object-cover opacity-30"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-3">Job Ready Indy · Marion County</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">Marion County pays for your training.</h1>
+          <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+            Job Ready Indy (JRI) covers full tuition for eligible Marion County residents. No loans, no repayment. We're an approved JRI provider — our team handles the application with you.
           </p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">Job Ready Indy (JRI)</h1>
-          <p className="text-slate-300 text-lg max-w-2xl">
-            Job Ready Indy is a Marion County workforce initiative that funds training for
-            high-demand careers. {PLATFORM_DEFAULTS.orgName} is an approved JRI training provider.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-8">
-            <Link
-              href="/check-eligibility"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
-            >
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/eligibility" className="text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">
               Check Eligibility
             </Link>
-            <Link
-              href="/apply"
-              className="border-2 border-white/40 text-slate-900 font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
-            >
+            <Link href="/apply" className="text-center border border-white/30 text-white font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
               Apply Now
             </Link>
           </div>

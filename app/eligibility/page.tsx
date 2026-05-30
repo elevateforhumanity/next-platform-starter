@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -92,22 +93,26 @@ export default async function EligibilityPage() {
       </div>
 
       {/* Hero */}
-      <section className="bg-slate-900 py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
-            Funded Career Training
+      <section className="relative bg-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/pages/hp-wioa-real.webp"
+            alt="Funded career training"
+            fill
+            className="object-cover opacity-30"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-3">Most students pay $0</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">Do you qualify for free training?</h1>
+          <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mb-6">
+            WIOA, Workforce Ready Grant, FSSA, and Job Ready Indy can cover your full tuition. Answer a few quick questions to find out what you qualify for.
           </p>
-          <h1 className="text-4xl font-extrabold text-white mb-4">Check Your Eligibility</h1>
-          <p className="text-slate-300 text-lg max-w-2xl mb-4">
-            Most participants qualify for no-cost or low-cost training through WIOA, WRG, or FSSA
-            funding. Find out which programs you're eligible for.
-          </p>
-          <div className="flex items-center gap-2 text-slate-300 text-sm">
-            <Users className="w-4 h-4 text-brand-red-400" />
-            <span>
-              {activeEnrollments ?? 'Hundreds of'} participants currently enrolled in funded
-              programs
-            </span>
+          <div className="flex items-center gap-2 text-slate-400 text-sm">
+            <Users className="w-4 h-4 text-brand-red-400 shrink-0" />
+            <span>{activeEnrollments ?? 'Hundreds of'} participants currently enrolled in funded programs</span>
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Scale, Users, FileText, ArrowRight, Phone } from 'lucide-react';
@@ -28,19 +29,30 @@ export default function FederalCompliancePage() {
       </div>
 
       {/* Hero */}
-      <section className="bg-brand-blue-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-6">
-              <Shield className="w-10 h-10 text-brand-blue-400" />
-              <span className="text-brand-blue-400 font-medium">Regulatory Compliance</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Federal Compliance</h1>
-            <p className="text-xl text-slate-600 leading-relaxed">
-              {PLATFORM_DEFAULTS.orgName} is committed to full compliance with all federal regulations
-              governing workforce development, education, and equal opportunity. We maintain
-              rigorous standards to protect participants and ensure program integrity.
-            </p>
+      <section className="relative bg-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/pages/compliance-page-1.webp"
+            alt="Federal compliance"
+            fill
+            className="object-cover opacity-30"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+          <p className="text-brand-blue-300 text-xs font-bold uppercase tracking-widest mb-3">ETPL Approved · WIOA Aligned</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">Your training is federally approved.</h1>
+          <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+            We're on Indiana's Eligible Training Provider List (ETPL) — which means WIOA funding can cover your tuition. Most students pay nothing out of pocket.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/eligibility" className="text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">
+              Check If You Qualify
+            </Link>
+            <Link href="/programs" className="text-center border border-white/30 text-white font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+              Browse Programs
+            </Link>
           </div>
         </div>
       </section>

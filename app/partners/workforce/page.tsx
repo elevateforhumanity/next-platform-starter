@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -14,29 +15,29 @@ export const metadata: Metadata = {
 export default function WorkforcePartnersPage() {
   return (
     <div className="min-h-screen bg-white">
-      <section className="bg-slate-900 text-white py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-3">
-            Workforce Agency Partners
+      <section className="relative bg-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/pages/workforce-partners-page-1.webp"
+            alt="WorkOne workforce partner"
+            fill
+            className="object-cover opacity-30"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-3">WorkOne · Indiana DWD</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">WorkOne can send you here — for free.</h1>
+          <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+            We're an approved WIOA training provider on Indiana's ETPL. If you're working with a WorkOne case manager, they can refer you directly and WIOA covers your tuition.
           </p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">WorkOne / WIOA Referrals</h1>
-          <p className="text-slate-300 text-lg max-w-2xl">
-            {PLATFORM_DEFAULTS.orgName} is an approved WIOA training provider on Indiana's ETPL. WorkOne
-            case managers can refer clients directly — we handle enrollment, progress tracking, and
-            reporting.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-8">
-            <Link
-              href="/contact"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
-            >
-              Contact Our Team
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/eligibility" className="text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">
+              Check Eligibility
             </Link>
-            <Link
-              href="/agencies"
-              className="border-2 border-white/40 text-slate-900 font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm"
-            >
-              Agency Overview
+            <Link href="/contact" className="text-center border border-white/30 text-white font-bold px-7 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm">
+              Contact Our Team
             </Link>
           </div>
         </div>

@@ -136,12 +136,12 @@ export default function ApprenticeshipStructurePage() {
         <HeroVideo
           videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4"
           posterImage="/images/pages/apprenticeship-structure.webp"
-          microLabel="Compliance"
-          belowHeroHeadline="Apprenticeship & RTI Structure"
-          belowHeroSubheadline="Master operating structure for apprenticeship hierarchy, instructional authority, mapped training hours, and credential accountability."
+          microLabel="DOL Registered Apprenticeship"
+          belowHeroHeadline="We're registered with the U.S. Department of Labor."
+          belowHeroSubheadline="That means your training hours count toward a federally recognized credential — and employers know it. Every program we run meets DOL standards for wages, hours, and outcomes."
           ctas={[
-            { label: 'Instructional Framework', href: '/instructional-framework' },
-            { label: 'Partnership Packet', href: '/compliance/workforce-partnership-packet', variant: 'secondary' },
+            { label: 'See Our Programs', href: '/programs' },
+            { label: 'Check Eligibility', href: '/eligibility', variant: 'secondary' },
           ]}
           analyticsName="Apprenticeship Structure"
         />

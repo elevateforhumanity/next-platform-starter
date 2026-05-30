@@ -18,7 +18,8 @@
     },
     "trustIndicators": [],
     "transcript": "Elevate for Humanity is an AI-powered workforce operating system \u2014 not just a training provider. We handle credentialing, compliance tracking, employer placement, apprenticeship coordination, and funding documentation so agencies and participants can focus on outcomes.",
-    "analyticsName": "home"
+    "analyticsName": "home",
+    "posterImage": "/images/pages/comp-home-hero.webp"
   },
   "about": {
     "pageKey": "about",

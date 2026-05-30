@@ -24,31 +24,59 @@ function InstallPrompt({ appName, appDescription, themeColor = '#7c3aed' }: Inst
     // Check if already installed
     const standalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsStandalone(standalone);
+    if (standalone) return;
 
     // Check if iOS
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(iOS);
 
-    // Only show once — if dismissed at any point, never show again
+    // Only show once — if dismissed, respect it
     const dismissed = localStorage.getItem('pwa_install_dismissed');
     if (dismissed) return;
 
-    // Listen for install prompt
+    let promptReady = false;
+    let scrolledEnough = false;
+    let timerFired = false;
+
+    const maybeShow = () => {
+      if (scrolledEnough && timerFired && promptReady) {
+        setShowPrompt(true);
+      }
+    };
+
+    // Listen for native install prompt (Android/Chrome)
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowPrompt(true);
+      promptReady = true;
+      maybeShow();
     };
-
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
-    // Show iOS prompt after delay
-    if (iOS && !standalone) {
-      setTimeout(() => setShowPrompt(true), 3000);
-    }
+    // For iOS, mark prompt ready immediately (we show manual instructions)
+    if (iOS) promptReady = true;
+
+    // Only show after user has scrolled at least 40% of the page
+    const handleScroll = () => {
+      const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      if (scrolled >= 0.4) {
+        scrolledEnough = true;
+        window.removeEventListener('scroll', handleScroll);
+        maybeShow();
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // And at least 10 seconds on page
+    const timer = setTimeout(() => {
+      timerFired = true;
+      maybeShow();
+    }, 10000);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
     };
   }, []);
 
