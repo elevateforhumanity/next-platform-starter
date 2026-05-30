@@ -285,7 +285,11 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     const technicalMessage = error instanceof Error ? error.message : String(error);
-    logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage, error });
+    logger.error(
+      '[Sezzle] Checkout session creation failed',
+      error instanceof Error ? error : new Error(technicalMessage),
+      { technicalMessage },
+    );
     return NextResponse.json(
       {
         error:

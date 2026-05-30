@@ -63,3 +63,5 @@ export function createPublicClient(): SupabaseClient<any> {
     global: { fetch: timedFetch },
   });
 }
+
+export { createPublicClient as createClient };
