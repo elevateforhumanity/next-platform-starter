@@ -215,6 +215,14 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
         },
         {
+          "name": "DEVSTUDIO_DEVCONTAINER_MODE",
+          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DEVSTUDIO_DEVCONTAINER_MODE"
+        },
+        {
+          "name": "GITHUB_BRANCH",
+          "value": "main"
+        },
+        {
           "name": "INTERNAL_API_KEY",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/INTERNAL_API_KEY"
         },
