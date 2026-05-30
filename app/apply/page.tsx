@@ -103,7 +103,7 @@ export default async function ApplyPage({
       </section>
 
       {/* Form */}
-      <section className="py-10">
+      <section id="application" className="py-10" aria-label="Application form">
         <div className="max-w-2xl mx-auto px-4">
           <IntakeFormInner programs={programs ?? []} />
         </div>
