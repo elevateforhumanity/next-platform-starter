@@ -4,35 +4,71 @@
  * Wraps the Next.js standalone startServer with a WebSocket proxy for
  * the Dev Studio terminal tab (/api/devstudio/shell-ws).
  *
- * IMPORTANT: Must mirror the standalone-generated server.js preamble exactly:
- * set __NEXT_PRIVATE_STANDALONE_CONFIG and call require('next') before
- * startServer, otherwise Next.js cannot resolve its own webpack bundle inside
- * the standalone image.
+ * IMPORTANT: The generated standalone server.js embeds `nextConfig` inline.
+ * This file replaces that generated entrypoint, so we MUST load the same config
+ * from `.next/required-server-files.json` and pass `config` into startServer.
+ * Using `__NEXT_PRIVATE_STANDALONE_CONFIG = '{}'` alone causes startup crashes
+ * (path.join with undefined) inside Next's config watcher / router.
  */
 
 'use strict';
 
-const path   = require('path');
-const http   = require('http');
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
 const crypto = require('crypto');
 
-const dir  = path.join(__dirname);
+const dir = path.join(__dirname);
 const port = parseInt(process.env.PORT ?? '3000', 10);
 const host = process.env.HOSTNAME ?? '0.0.0.0';
 
 process.env.NODE_ENV = 'production';
 process.chdir(dir);
 
-// Required by the standalone runtime; primes Next.js module resolution so
-// webpack and other bundled deps resolve correctly inside the image.
-// This must happen before require('next/dist/server/lib/start-server').
-process.env.__NEXT_PRIVATE_STANDALONE_CONFIG = process.env.__NEXT_PRIVATE_STANDALONE_CONFIG || '{}';
+function loadStandaloneNextConfig() {
+  if (process.env.__NEXT_PRIVATE_STANDALONE_CONFIG) {
+    try {
+      const parsed = JSON.parse(process.env.__NEXT_PRIVATE_STANDALONE_CONFIG);
+      if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+        return parsed;
+      }
+    } catch (err) {
+      console.warn('[admin] Failed to parse __NEXT_PRIVATE_STANDALONE_CONFIG:', err.message);
+    }
+  }
+
+  const manifestPath = path.join(dir, '.next', 'required-server-files.json');
+  if (!fs.existsSync(manifestPath)) {
+    throw new Error(
+      `[admin] Missing ${manifestPath}. Rebuild admin with "pnpm next build" in apps/admin.`,
+    );
+  }
+
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  if (!manifest?.config) {
+    throw new Error(`[admin] ${manifestPath} has no config field`);
+  }
+  return manifest.config;
+}
+
+let nextConfig;
+try {
+  nextConfig = loadStandaloneNextConfig();
+  process.env.__NEXT_PRIVATE_STANDALONE_CONFIG = JSON.stringify(nextConfig);
+} catch (err) {
+  console.error('[admin] Failed to load Next.js standalone config');
+  console.error(err);
+  if (err?.stack) console.error(err.stack);
+  process.exit(1);
+}
+
+// Required by the standalone runtime; primes Next.js module resolution.
 require('next');
 
 const SHELL_WS_URL = process.env.STUDIO_SHELL_WS_URL ?? '';
 const SHELL_SECRET = process.env.STUDIO_SHELL_SECRET ?? '';
 const TOKEN_SECRET = process.env.STUDIO_TOKEN_SECRET ?? SHELL_SECRET;
-const WS_PATH      = '/api/devstudio/shell-ws';
+const WS_PATH = '/api/devstudio/shell-ws';
 
 function toWebSocketUrl(rawUrl) {
   if (!rawUrl) return '';
@@ -79,8 +115,8 @@ function attachWsProxy(server) {
   let WebSocket, WebSocketServer;
   try {
     ({ WebSocket, WebSocketServer } = require('ws'));
-  } catch {
-    console.warn('[admin] ws module not available - shell-ws proxy disabled');
+  } catch (err) {
+    console.warn('[admin] ws module not available - shell-ws proxy disabled:', err.message);
     return;
   }
 
@@ -88,7 +124,10 @@ function attachWsProxy(server) {
 
   server.on('upgrade', (req, socket, head) => {
     const url = new URL(req.url ?? '/', `http://${req.headers.host}`);
-    if (url.pathname !== WS_PATH) { socket.destroy(); return; }
+    if (url.pathname !== WS_PATH) {
+      socket.destroy();
+      return;
+    }
 
     if (!SHELL_WS_TARGET) {
       socket.write('HTTP/1.1 503 Service Unavailable\r\n\r\n');
@@ -108,20 +147,25 @@ function attachWsProxy(server) {
           return;
         }
 
-        if (!isValidToken(token)) { browserWs.close(4003, 'Invalid or expired token'); return; }
+        if (!isValidToken(token)) {
+          browserWs.close(4003, 'Invalid or expired token');
+          return;
+        }
 
         const shellWs = new WebSocket(SHELL_WS_TARGET, {
           headers: { 'x-studio-secret': SHELL_SECRET, 'x-user-id': getUserIdFromToken(token) },
         });
 
         shellWs.on('open', () => {
-          // Tell the browser the proxy reached the shell endpoint. The shell may
-          // still report a readiness error, which is forwarded below.
           if (browserWs.readyState === WebSocket.OPEN) {
             browserWs.send(JSON.stringify({ type: 'ready' }));
           }
-          browserWs.on('message', (d) => { if (shellWs.readyState === WebSocket.OPEN) shellWs.send(d); });
-          shellWs.on('message',  (d) => { if (browserWs.readyState === WebSocket.OPEN) browserWs.send(d); });
+          browserWs.on('message', (d) => {
+            if (shellWs.readyState === WebSocket.OPEN) shellWs.send(d);
+          });
+          shellWs.on('message', (d) => {
+            if (browserWs.readyState === WebSocket.OPEN) browserWs.send(d);
+          });
           browserWs.on('close', () => shellWs.close());
           browserWs.on('error', () => shellWs.close());
         });
@@ -148,8 +192,6 @@ function attachWsProxy(server) {
   });
 }
 
-// Intercept http.createServer once to grab the server instance and attach
-// the WebSocket proxy before Next.js starts listening.
 const _createServer = http.createServer.bind(http);
 http.createServer = function (...args) {
   const server = _createServer(...args);
@@ -158,15 +200,31 @@ http.createServer = function (...args) {
   return server;
 };
 
+process.on('uncaughtException', (err) => {
+  console.error('[admin] uncaughtException:', err);
+  if (err?.stack) console.error(err.stack);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[admin] unhandledRejection:', reason);
+  if (reason instanceof Error && reason.stack) console.error(reason.stack);
+  process.exit(1);
+});
+
 const { startServer } = require('next/dist/server/lib/start-server');
+
+console.info('[admin] starting', { dir, port, host, distDir: nextConfig?.distDir });
 
 startServer({
   dir,
   isDev: false,
+  config: nextConfig,
   hostname: host,
   port,
   allowRetry: false,
 }).catch((err) => {
   console.error('[admin] startup error:', err);
+  if (err?.stack) console.error(err.stack);
   process.exit(1);
 });

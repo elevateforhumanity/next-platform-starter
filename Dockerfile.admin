@@ -34,9 +34,13 @@ RUN npm install --os=linux --cpu=x64 sharp@0.33.5 --no-save 2>/dev/null || \
 
 # Copy standalone server output produced by `next build` in apps/admin/
 COPY apps/admin/.next/standalone ./
+# Server manifests (LMS image copies .next/server — admin needs the same for monorepo layout)
+COPY apps/admin/.next/server ./apps/admin/.next/server
 # Static assets — must be at apps/admin/.next/static/ relative to the standalone
 # root so server.js (at apps/admin/server.js) can serve /_next/static/ correctly.
 COPY apps/admin/.next/static ./apps/admin/.next/static
+# Required-server-files.json is needed by custom server.js (replaces generated server.js)
+COPY apps/admin/.next/required-server-files.json ./apps/admin/.next/required-server-files.json
 # Public assets — standalone server.js resolves public/ relative to its own
 # __dirname (apps/admin/), so copy root public/ to that location.
 COPY public ./apps/admin/public
@@ -45,9 +49,7 @@ COPY public ./apps/admin/public
 # terminate /api/devstudio/shell-ws upgrades and proxy them to studio-shell.
 COPY apps/admin/server.js ./apps/admin/server.js
 
-# The custom server requires ws at runtime. Copy it next to server.js so
-# Node resolves it without traversing up to /app/node_modules (which may
-# have a package.json from the sharp install that breaks resolution).
+# ws is serverExternalPackages + only required by custom server.js — not always traced.
 COPY apps/admin/node_modules/ws ./apps/admin/node_modules/ws
 
 RUN addgroup --gid 1001 nodejs && \
