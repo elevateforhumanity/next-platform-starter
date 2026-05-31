@@ -837,6 +837,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
+### Public program catalog (canonical)
+
+- **Read path:** `lib/programs/load-program-catalog.ts` — queries live `programs` (`published`, `is_active`, `status != archived`).
+- **Do not** select legacy `program_catalog_index` columns (`program_id`, `wioa_eligible`, `search_vector`, `provider_slug`) — the live object is a VIEW with `id`, `wioa_approved`, `credential_name`, etc.
+- **Credential display:** use `credential_name ?? credential_type` (`resolveCredentialLabel` in `lib/programs/category-normalize.ts`).
+- **WIOA flag:** `wioa_approved` (not `wioa_eligible`) on `programs`.
+- **Static content:** `data/programs/*.ts` is for rich detail pages only; public counts/listings come from DB.
+
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
@@ -853,11 +861,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-### Platform hardening / security audits
-
-- `docs/platform-hardening-audit-2026-05-31.md` — Stripe/BNPL, images, admin route buckets, migrations
-- `docs/platform-security-operations-audit-2026-05-31.md` — tenant domains, cache, cron, email/SMS, uploads, audit logs, Sentry tags
-- `pnpm platform:doctor` · `pnpm integrity:stripe` · `pnpm audit:admin` · `node scripts/audit-route-auth-strategy.mjs`
-- **Sentry:** `@sentry/nextjs` + `lib/observability/sentry.ts` (alert on `dead_letter`, `tenant_id`, webhook tags)
 
