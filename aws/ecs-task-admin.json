@@ -58,7 +58,7 @@
         },
         {
           "name": "NEXT_PUBLIC_SITE_URL",
-          "value": "https://admin.elevateforhumanity.org"
+          "value": "https://www.elevateforhumanity.org"
         },
         {
           "name": "NEXT_PUBLIC_PUBLIC_SITE_URL",
@@ -213,10 +213,6 @@
         {
           "name": "GITHUB_REPO",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
-        },
-        {
-          "name": "DEVSTUDIO_DEVCONTAINER_MODE",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/DEVSTUDIO_DEVCONTAINER_MODE"
         },
         {
           "name": "INTERNAL_API_KEY",
