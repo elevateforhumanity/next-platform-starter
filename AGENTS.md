@@ -829,20 +829,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm typecheck` — TypeScript type check (requires `--max-old-space-size=8192`)
 - `pnpm build` — Full production build (requires `--max-old-space-size=6144`, 2600+ pages)
 
-### Public catalog SSR (hydration / Google)
-
-- **`/programs`** must use `getPublicProgramsPageData()` from `lib/programs/public-programs-page.ts` (same loader for `generateMetadata()`). Do not duplicate inline `programs` queries on the page.
-- Canonical DB reads: `loadPublishedProgramsListing` / `loadProgramCatalog` in `lib/programs/load-program-catalog.ts`. Static fallback from `data/programs/catalog.ts` when the public anon client returns zero rows.
-- After each production deploy, call `GET /api/cron/revalidate-public` with `Authorization: Bearer $CRON_SECRET` to revalidate `/`, `/programs`, `/programs/catalog`, `/impact`.
-
-
-### Public catalog SSR (hydration / Google)
-
-- **Single catalog source** — import from `@/lib/programs` (see `lib/programs/index.ts`).
-- **SEO** — `buildSiteMetadata()` from `lib/seo/build-site-metadata.ts`; no hardcoded canonical URLs in pages.
-- After deploy: `GET /api/cron/revalidate-public` with Bearer `CRON_SECRET`.
-- Audit: `node scripts/audit-public-html.mjs`
-
 ### Gotchas
 
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
@@ -867,4 +853,10 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+
+### Platform E2E audit (May 2026)
+
+- Full checklist: `docs/platform-e2e-audit-2026-05.md`
+- API admin guard scan: `bash scripts/audit-api-auth-guards.sh` (fails until all `apiRequireAdmin` callers check `auth.error`)
+- Public HTML / catalog: `node scripts/audit-public-html.mjs`
 

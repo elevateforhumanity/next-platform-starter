@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   let body: GenerateAndPublishRequest;
   try {

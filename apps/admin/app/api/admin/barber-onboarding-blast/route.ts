@@ -26,12 +26,8 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   try {
     const body = await request.json().catch(() => ({}));

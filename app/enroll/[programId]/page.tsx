@@ -201,6 +201,11 @@ export default function EnrollPage() {
           window.location.href = data.url;
           return;
         }
+
+        throw new Error(
+          data.error ||
+            'Enrollment checkout did not return a redirect URL. Please try again or contact support.',
+        );
       }
     } catch (error: any) {
       setMessage(`Error: ${error.message}`);
