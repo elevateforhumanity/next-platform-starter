@@ -1,28 +1,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
-<<<<<<< HEAD
-=======
 import type { Metadata } from 'next';
->>>>>>> origin/cursor/platform-e2e-audit-c4c6
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
   buildProgramsListingMetadata,
   getPublicProgramsPageData,
   resolvePublicProgramCount,
-<<<<<<< HEAD
   type ProgramsPageRow,
-=======
->>>>>>> origin/cursor/platform-e2e-audit-c4c6
 } from '@/lib/programs/public-programs-page';
 
 export const revalidate = 0;
 
-<<<<<<< HEAD
-export async function generateMetadata() {
-=======
 export async function generateMetadata(): Promise<Metadata> {
->>>>>>> origin/cursor/platform-e2e-audit-c4c6
   return buildProgramsListingMetadata();
 }
 
@@ -106,23 +96,11 @@ const CATEGORY_META: Record<string,{label:string;color:string;order:number}> = {
   special:          {label:'Workforce Readiness',  color:'bg-slate-600',   order:9},
 };
 
-<<<<<<< HEAD
 export default async function ProgramsPage() {
-  const { programs } = await getPublicProgramsPageData();
-  const displayCount = resolvePublicProgramCount(programs.length);
+  const { programs, programCount, catalogSource } = await getPublicProgramsPageData();
+  const displayCount = resolvePublicProgramCount(programCount);
 
   const grouped: Record<string, ProgramsPageRow[]> = {};
-=======
-type Prog = {slug:string;title:string;description:string|null;category:string;duration:string|null;credential:string|null;funding_eligible:boolean};
-
-export default async function ProgramsPage() {
-  const { programs: listingRows, programCount, catalogSource } =
-    await getPublicProgramsPageData();
-  const displayCount = resolvePublicProgramCount(programCount);
-  const programs: Prog[] = listingRows;
-
-  const grouped:Record<string,Prog[]>={};
->>>>>>> origin/cursor/platform-e2e-audit-c4c6
   programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
   const cats=Object.keys(grouped).sort((a,b)=>(CATEGORY_META[a]?.order??99)-(CATEGORY_META[b]?.order??99));
 
