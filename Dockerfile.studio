@@ -1,54 +1,41 @@
-# Dockerfile.studio
-#
-# Elevate Dev Studio - PTY shell container
-#
-# Runs the studio-shell WebSocket server alongside a live clone of the
-# Elevate-lms repo. Admin users connect via the Next.js proxy at
-# /api/devstudio/shell-ws and get a real bash session with pnpm, git,
-# database tooling, and the full repo available.
-#
-# Build (from repo root):
-#   docker build -f Dockerfile.studio -t elevate-studio:latest \
-#     --build-arg GITHUB_TOKEN=<pat> .
-#
-# The container clones the repo at startup via entrypoint.sh so the
-# image itself contains no source code - only the shell server and
-# runtime dependencies.
+# Dockerfile.studio — Dev Studio Runtime (elevate-studio)
+# pnpm install runs at IMAGE BUILD (CI), not on every ECS cold start.
+
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS repo-install
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git ca-certificates python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
+
+WORKDIR /repo
+COPY . /repo
+
+ENV NODE_OPTIONS=--max-old-space-size=6144
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV SKIP_ENV_VALIDATION=true
+
+RUN pnpm install --frozen-lockfile
 
 FROM public.ecr.aws/docker/library/node:20-bookworm-slim
 
-# System dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    ca-certificates \
-    jq \
-    postgresql-client \
-    python3 \
-    make \
-    g++ \
-    # node-pty needs a C++ build toolchain
+    git curl ca-certificates jq postgresql-client python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# pnpm must match the workspace packageManager so frozen installs are stable.
 RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
-
-# Non-root user
 RUN useradd -m -s /bin/bash studio
+
 WORKDIR /home/studio
 
-# Studio shell server
 COPY studio-shell/package.json studio-shell/tsconfig.json ./studio-shell/
 COPY studio-shell/src ./studio-shell/src/
-
 RUN cd studio-shell && npm install --production=false && npm run build
 
-# Entrypoint: start shell server, clone repo, then install dependencies
+COPY --from=repo-install --chown=studio:studio /repo /repo
 COPY studio-shell/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# Repo will be cloned here at startup
-RUN mkdir -p /repo && chown studio:studio /repo
 
 USER studio
 
@@ -56,10 +43,12 @@ ENV SHELL_PORT=8888
 ENV WORKDIR=/repo
 ENV SHELL_BIN=/bin/bash
 ENV NODE_ENV=production
+ENV STUDIO_READY_FILE=/tmp/studio-ready
+ENV STUDIO_STATUS_FILE=/tmp/studio-setup-status
 
 EXPOSE 8888
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:8888/live || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=5 \
+  CMD curl -sf http://localhost:8888/health || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]

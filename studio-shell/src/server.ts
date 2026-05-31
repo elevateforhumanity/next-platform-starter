@@ -57,7 +57,8 @@ function getReadiness() {
   const gitVersion = safeVersion('git');
   const pnpmVersion = safeVersion('pnpm');
   const psqlVersion = safeVersion('psql');
-  const ready = Boolean(readyFile && hasGitDir && gitVersion && pnpmVersion);
+  const hasNodeModules = existsSync(`${WORKDIR}/node_modules`);
+  const ready = Boolean(readyFile && gitVersion && pnpmVersion && (hasGitDir || hasNodeModules));
 
   return {
     ready,
@@ -93,7 +94,7 @@ wss.on('connection', (ws: WebSocket, req: http.IncomingMessage) => {
   if (!readiness.ready) {
     ws.send(JSON.stringify({
       type: 'error',
-      message: `Dev Studio Runtime is not ready: ${readiness.setupStatus}`,
+      message: `Studio shell is not ready: ${readiness.setupStatus}`,
     }));
     ws.close(1013, 'Studio shell not ready');
     return;

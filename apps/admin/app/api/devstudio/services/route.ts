@@ -47,7 +47,7 @@ const SERVICES_CONFIG = [
   },
   {
     key: 'studio',
-    label: 'Dev Studio Shell',
+    label: 'Dev Studio Runtime',
     ecsService: 'elevate-studio',
     url: null,
     healthPath: null,
@@ -127,7 +127,6 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const hasAws = !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
-  const studioShellProbe = await probeStudioShell(process.env.STUDIO_SHELL_WS_URL ?? '');
 
   // Fetch ECS status + health checks in parallel
   const [ecsData, ...healthResults] = await Promise.allSettled([
