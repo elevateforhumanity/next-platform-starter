@@ -31,4 +31,29 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
+if (SERVICE === 'admin') {
+  const site = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
+  const admin = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
+  if (site && admin) {
+    try {
+      const siteHost = new URL(site).host.toLowerCase();
+      const adminHost = new URL(admin).host.toLowerCase();
+      if (siteHost === adminHost) {
+        console.error(
+          '[validate-env] FAILED — admin build: NEXT_PUBLIC_SITE_URL must be the public LMS host (www), not the admin host. Use NEXT_PUBLIC_ADMIN_URL for admin.',
+        );
+        process.exit(1);
+      }
+      if (!adminHost.startsWith('admin.')) {
+        console.warn(
+          `[validate-env] WARN — NEXT_PUBLIC_ADMIN_URL host is "${adminHost}" (expected admin.* subdomain)`,
+        );
+      }
+    } catch {
+      console.error('[validate-env] FAILED — invalid NEXT_PUBLIC_SITE_URL or NEXT_PUBLIC_ADMIN_URL URL');
+      process.exit(1);
+    }
+  }
+}
+
 console.log(`[validate-env] OK — all required env vars present for ${SERVICE}`);

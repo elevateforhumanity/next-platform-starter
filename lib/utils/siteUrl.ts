@@ -17,7 +17,14 @@ function requireUrl(name: string): string {
   return val.replace(/\/$/, '');
 }
 
-/** LMS app base URL — ${PLATFORM_DEFAULTS.siteUrl} */
+/** Public LMS / marketing site base URL (www). Prefer NEXT_PUBLIC_PUBLIC_SITE_URL on admin. */
+export function getPublicSiteUrl(): string {
+  const publicUrl = (process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || '').trim();
+  if (publicUrl) return publicUrl.replace(/\/$/, '');
+  return getSiteUrl();
+}
+
+/** LMS app base URL — canonical public site (www), not the admin subdomain */
 export function getSiteUrl(): string {
   return requireUrl('NEXT_PUBLIC_SITE_URL');
 }

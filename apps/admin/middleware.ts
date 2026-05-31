@@ -27,6 +27,23 @@ const SESSION_COOKIE = getSessionCookieName();
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const host = req.headers.get('host')?.toLowerCase().split(':')[0] ?? '';
+  const canonicalAdminHost = resolveCanonicalAdminHost();
+  const isLocalHost =
+    host === 'localhost' || host === '127.0.0.1' || host === '::1';
+
+  // Requests that hit the admin service on www/apex (misrouted DNS or ALB) → admin host.
+  if (
+    host &&
+    host !== canonicalAdminHost &&
+    !(process.env.NODE_ENV === 'development' && isLocalHost) &&
+    !host.endsWith('.elb.amazonaws.com')
+  ) {
+    const adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || `https://${CANONICAL_ADMIN_HOST}`).replace(
+      /\/+$/,
+      '',
+    );
+    return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
+  }
 
   // Always allow public paths, Next.js internals, and static files
   if (

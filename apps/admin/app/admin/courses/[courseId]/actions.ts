@@ -52,7 +52,7 @@ export async function startCourseGeneration(formData: FormData) {
   });
 
   // Fire-and-forget — generation runs async in the API route
-  fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/admin/courses/${courseId}/generate`, {
+  fetch(`${getAdminUrl()}/api/admin/courses/${courseId}/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt }),
@@ -109,7 +109,7 @@ export async function resumeCourseGeneration(formData: FormData) {
     metadata: { operation: 'resume_generation' },
   });
 
-  fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/admin/courses/${courseId}/generate`, {
+  fetch(`${getAdminUrl()}/api/admin/courses/${courseId}/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt: course?.generator_prompt ?? '' }),

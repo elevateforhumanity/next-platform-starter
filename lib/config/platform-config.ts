@@ -29,7 +29,9 @@ export const PLATFORM_DEFAULTS = {
     process.env.NEXT_PUBLIC_ORG_LEGAL_NAME ??
     'Elevate for Humanity Technical and Career Institute',
   siteUrl:
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org',
+    process.env.NEXT_PUBLIC_PUBLIC_SITE_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    'https://www.elevateforhumanity.org',
   supportEmail:
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? 'support@elevateforhumanity.org',
   supportPhone:
