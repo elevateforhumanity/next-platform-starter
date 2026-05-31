@@ -1,5 +1,5 @@
 /**
- * HTTP health probe for the studio-shell ECS service (PTY + /repo workspace).
+ * Probe the elevate-studio ECS shell (PTY + repo clone) via its HTTP /health endpoint.
  */
 
 export type ShellProbe = {
@@ -15,9 +15,9 @@ export type ShellProbe = {
 };
 
 export function shellHealthUrl(wsUrl: string): string | null {
-  if (!wsUrl?.trim()) return null;
+  if (!wsUrl) return null;
   try {
-    const url = new URL(wsUrl.trim());
+    const url = new URL(wsUrl);
     url.protocol = url.protocol === 'wss:' ? 'https:' : 'http:';
     url.pathname = '/health';
     url.search = '';
@@ -27,11 +27,10 @@ export function shellHealthUrl(wsUrl: string): string | null {
   }
 }
 
-export async function probeStudioShell(wsUrl?: string): Promise<ShellProbe> {
-  const url = wsUrl ?? process.env.STUDIO_SHELL_WS_URL ?? '';
-  const healthUrl = shellHealthUrl(url);
+export async function probeStudioShell(wsUrl: string): Promise<ShellProbe> {
+  const healthUrl = shellHealthUrl(wsUrl);
   if (!healthUrl) {
-    return { reachable: false, ready: false, status: 'missing-url', setupStatus: 'STUDIO_SHELL_WS_URL not set' };
+    return { reachable: false, ready: false, status: 'missing-url' };
   }
 
   const controller = new AbortController();
@@ -44,7 +43,7 @@ export async function probeStudioShell(wsUrl?: string): Promise<ShellProbe> {
       reachable: true,
       ready: res.ok && body.ready === true,
       status: String(body.status ?? (res.ok ? 'ok' : 'not-ready')),
-      setupStatus: typeof body.setupStatus === 'string' ? body.setupStatus : undefined,
+      setupStatus: body.setupStatus != null ? String(body.setupStatus) : undefined,
       hasGitDir: body.hasGitDir === true,
       gitVersion: (body.gitVersion as string | null) ?? null,
       pnpmVersion: (body.pnpmVersion as string | null) ?? null,
@@ -55,8 +54,7 @@ export async function probeStudioShell(wsUrl?: string): Promise<ShellProbe> {
       reachable: false,
       ready: false,
       status: 'unreachable',
-      setupStatus: 'Cannot reach studio-shell (check VPC / service discovery / STUDIO_SHELL_WS_URL)',
-      error: err instanceof Error ? err.message : 'unknown',
+      error: err instanceof Error ? err.name : 'unknown',
     };
   } finally {
     clearTimeout(timeout);

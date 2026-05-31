@@ -345,14 +345,7 @@ function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknow
   );
 }
 
-export default function AIChat({
-  fileContext,
-  onApplyCode,
-  ellieMode = false,
-  unifiedEllieMode = false,
-  embedded = false,
-}: AIChatProps) {
-  const showEllieApprovals = ellieMode || unifiedEllieMode;
+export default function AIChat({ fileContext, onApplyCode, ellieMode = false }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -375,22 +368,41 @@ export default function AIChat({
   useEffect(() => {
     async function checkAi() {
       try {
-        const res = await fetch('/api/devstudio/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: [{ role: 'user', content: 'ping' }] }),
-        });
-        const data = await res.json();
-        if (res.status === 503 || data?.debug) {
+        const res = await fetch('/api/devstudio/health');
+        if (!res.ok) {
           setAiStatus('unconfigured');
-        } else {
-          setAiStatus('ready');
-          if (data?.provider) setAiProvider(data.provider);
-          if (data?.availableProviders) {
-            setAvailableProviders((prev) => ({ ...prev, ...data.availableProviders, auto: true }));
-          }
+          return;
         }
-      } catch { setAiStatus('unconfigured'); }
+        const data = await res.json();
+        const providers = {
+          auto: true,
+          groq: Boolean(data?.hasGroq ?? data?.availableProviders?.groq),
+          openai: Boolean(data?.hasOpenAI ?? data?.availableProviders?.openai),
+          anthropic: Boolean(data?.hasAnthropic ?? data?.availableProviders?.anthropic),
+          gemini: Boolean(data?.hasGemini ?? data?.availableProviders?.gemini),
+        };
+        setAvailableProviders((prev) => ({ ...prev, ...providers }));
+        const configured =
+          data?.aiConfigured === true ||
+          providers.groq ||
+          providers.openai ||
+          providers.anthropic ||
+          providers.gemini;
+        if (configured) {
+          setAiStatus('ready');
+          const names = [
+            providers.groq && 'Groq',
+            providers.openai && 'OpenAI',
+            providers.anthropic && 'Anthropic',
+            providers.gemini && 'Gemini',
+          ].filter(Boolean);
+          setAiProvider(names.join(' / ') || 'AI');
+        } else {
+          setAiStatus('unconfigured');
+        }
+      } catch {
+        setAiStatus('unconfigured');
+      }
     }
     checkAi();
   }, []);

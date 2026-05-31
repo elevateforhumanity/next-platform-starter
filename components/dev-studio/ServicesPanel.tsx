@@ -42,7 +42,6 @@ interface Service {
   healthy: boolean | null;
   hasAws: boolean;
   reason?: string;
-  shell?: StudioShellInfo | null;
 }
 
 interface ServicesData {
@@ -177,7 +176,13 @@ export default function ServicesPanel() {
                   <p className="text-sm font-semibold text-white">{svc.label}</p>
                   <StatusDot running={svc.running} healthy={svc.healthy} />
                 </div>
-                <StatusLabel running={svc.running} healthy={svc.healthy} ecs={svc.ecs} />
+                <StatusLabel
+                  running={svc.running}
+                  healthy={svc.healthy}
+                  ecs={svc.ecs}
+                  shellSetupStatus={svc.shellSetupStatus}
+                  shellProbe={svc.shellProbe}
+                />
               </div>
               {svc.url && (
                 <a

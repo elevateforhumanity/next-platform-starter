@@ -158,45 +158,23 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const shellProbe = studioShell.status === 'fulfilled' ? studioShell.value : null;
-
-  const services = SERVICES_CONFIG.map((cfg) => {
+  const services = SERVICES_CONFIG.map((cfg, i) => {
     const ecs = ecsServices[cfg.ecsService] ?? null;
-
-    let health: { ok: boolean; latencyMs: number; status: number | null } | null = null;
-    let shell: {
-      reachable: boolean;
-      ready: boolean;
-      setupStatus?: string;
-      status: string;
-    } | null = null;
-
-    if (cfg.key === 'lms' && lmsHealth.status === 'fulfilled') {
-      health = lmsHealth.value;
-    } else if (cfg.key === 'admin' && adminHealth.status === 'fulfilled') {
-      health = adminHealth.value;
-    } else if (cfg.key === 'studio' && shellProbe) {
-      shell = {
-        reachable: shellProbe.reachable,
-        ready: shellProbe.ready,
-        setupStatus: shellProbe.setupStatus,
-        status: shellProbe.status,
-      };
-      health = {
-        ok: shellProbe.ready,
-        latencyMs: 0,
-        status: shellProbe.ready ? 200 : shellProbe.reachable ? 503 : null,
-      };
-    }
+    const health = healthResults[i].status === 'fulfilled' ? healthResults[i].value : null;
 
     const running = ecs ? ecs.runningCount > 0 : null;
-    const healthy = health === null ? null : health.ok;
+    let healthy: boolean | null = health ? (health as { ok: boolean }).ok : null;
+    let shellSetupStatus: string | undefined;
 
-    let reason: string | undefined;
-    if (cfg.key === 'studio' && running && shell && !shell.ready) {
-      reason = shell.reachable
-        ? `Initializing: ${shell.setupStatus ?? shell.status} (Terminal/Run needs repo ready — can take 3–5 min after restart)`
-        : 'Admin cannot reach studio-shell — verify STUDIO_SHELL_WS_URL in SSM and security groups';
+    if (cfg.key === 'studio') {
+      shellSetupStatus = studioShellProbe.setupStatus;
+      if (running) {
+        healthy = studioShellProbe.ready;
+      } else if (running === false) {
+        healthy = false;
+      } else {
+        healthy = null;
+      }
     }
 
     return {
@@ -206,12 +184,12 @@ export async function GET(request: NextRequest) {
       url: cfg.url,
       color: cfg.color,
       ecs,
-      health,
-      shell,
+      health: cfg.key === 'studio' ? null : health,
       running,
       healthy,
+      shellProbe: cfg.key === 'studio' ? studioShellProbe : undefined,
+      shellSetupStatus,
       hasAws,
-      reason,
     };
   });
 

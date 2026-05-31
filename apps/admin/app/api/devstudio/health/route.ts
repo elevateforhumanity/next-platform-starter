@@ -8,72 +8,16 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { refreshSecrets } from '@/lib/secrets';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
+import { isOpenAIConfigured } from '@/lib/ai/openai-client';
+import { isAnthropicConfigured } from '@/lib/ai/anthropic-client';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { probeStudioShell } from '@/lib/devstudio/shell-probe';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-type ShellProbe = {
-  reachable: boolean;
-  ready: boolean;
-  status: string;
-  setupStatus?: string;
-  hasGitDir?: boolean;
-  gitVersion?: string | null;
-  pnpmVersion?: string | null;
-  nodeVersion?: string | null;
-  error?: string;
-};
-
-function shellHealthUrl(wsUrl: string): string | null {
-  if (!wsUrl) return null;
-  try {
-    const url = new URL(wsUrl);
-    url.protocol = url.protocol === 'wss:' ? 'https:' : 'http:';
-    url.pathname = '/health';
-    url.search = '';
-    return url.toString();
-  } catch {
-    return null;
-  }
-}
-
-async function probeShell(wsUrl: string): Promise<ShellProbe> {
-  const healthUrl = shellHealthUrl(wsUrl);
-  if (!healthUrl) {
-    return { reachable: false, ready: false, status: 'missing-url' };
-  }
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 3000);
-
-  try {
-    const res = await fetch(healthUrl, { cache: 'no-store', signal: controller.signal });
-    const body = await res.json().catch(() => ({}));
-    return {
-      reachable: true,
-      ready: res.ok && body.ready === true,
-      status: body.status ?? (res.ok ? 'ok' : 'not-ready'),
-      setupStatus: body.setupStatus,
-      hasGitDir: body.hasGitDir,
-      gitVersion: body.gitVersion ?? null,
-      pnpmVersion: body.pnpmVersion ?? null,
-      nodeVersion: body.nodeVersion ?? null,
-    };
-  } catch (err) {
-    return {
-      reachable: false,
-      ready: false,
-      status: 'unreachable',
-      error: err instanceof Error ? err.name : 'unknown',
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
-}
 
 export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
@@ -105,7 +49,7 @@ export async function GET(req: NextRequest) {
   const shellSecret = process.env.STUDIO_SHELL_SECRET ?? '';
   const tokenSecret = process.env.STUDIO_TOKEN_SECRET ?? '';
   const shellWsPublic = process.env.STUDIO_SHELL_WS_URL_PUBLIC ?? '';
-  const shellProbe = await probeStudioShell(shellWsUrl);
+  const shellProbe = await probeShell(shellWsUrl);
 
   const shell = {
     STUDIO_SHELL_WS_URL: shellWsUrl ? 'configured' : 'MISSING',

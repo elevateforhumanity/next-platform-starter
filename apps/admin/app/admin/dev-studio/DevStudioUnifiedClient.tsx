@@ -2,8 +2,7 @@
 
 import { type ElementType, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { resolvePublicSiteUrl } from '@/lib/devstudio/preview-config';
+import { useSearchParams } from 'next/navigation';
 import {
   Activity,
   Bot,
@@ -36,8 +35,6 @@ interface StudioConfig {
   workflowButtons?: WorkflowButton[];
   defaultPreviewUrl?: string;
   previewTargets?: { label: string; url: string }[];
-  publicSiteUrl?: string;
-  adminSiteUrl?: string;
 }
 
 interface CourseProgram {
@@ -60,7 +57,6 @@ const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'),
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
-const PreviewPane = dynamic(() => import('./panels/PreviewPane'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
@@ -92,28 +88,12 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'services') return { workspace: 'services', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
-  if (tab === 'command' || tab === 'terminal' || tab === 'run') return { workspace: 'studio', mode: 'run' };
+  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
-  if (tab === 'ellie' || tab === 'chat' || tab === 'studio' || tab === 'preview' || tab === 'website') {
-    return { workspace: 'studio', mode: 'ask' };
-  }
   return { workspace: 'studio', mode: 'ask' };
 }
 
-function tabParamForWorkspace(workspace: Workspace, mode: StudioMode): string {
-  if (workspace === 'deploy') return 'deploy';
-  if (workspace === 'files') return 'files';
-  if (workspace === 'environments') return 'environments';
-  if (workspace === 'services') return 'services';
-  if (workspace === 'health') return 'health';
-  if (workspace === 'secrets') return 'secrets';
-  if (workspace === 'studio' && mode === 'run') return 'command';
-  if (workspace === 'studio' && mode === 'courses') return 'courses';
-  return 'ellie';
-}
-
 export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(searchParams.get('tab'));
   const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'studio' : initial.workspace);
@@ -122,11 +102,26 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [livePreviewUrl, setLivePreviewUrl] = useState('');
-  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [programs, setPrograms] = useState<CourseProgram[]>([]);
   const [programsLoading, setProgramsLoading] = useState(false);
 
-  const refreshHealth = useCallback(() => {
+  useEffect(() => {
+    fetch('/api/admin/devstudio/config')
+      .then((r) => r.json())
+      .then((data: StudioConfig) => {
+        setConfig(data);
+        const nextPreview = data.defaultPreviewUrl || window.location.origin;
+        setPreviewUrl((current) => current || nextPreview);
+        setLivePreviewUrl((current) => current || nextPreview);
+      })
+      .catch(() => {
+        setConfig(null);
+        setPreviewUrl((current) => current || window.location.origin);
+        setLivePreviewUrl((current) => current || window.location.origin);
+      });
+  }, []);
+
+  useEffect(() => {
     fetch('/api/devstudio/health')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => setHealth(data))
@@ -134,64 +129,20 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   }, []);
 
   useEffect(() => {
-    fetch('/api/admin/devstudio/config')
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`config HTTP ${r.status}`);
-        return r.json() as Promise<StudioConfig>;
-      })
-      .then((data) => {
-        setConfig(data);
-        const nextPreview =
-          data.defaultPreviewUrl || data.adminSiteUrl || resolvePublicSiteUrl();
-        setPreviewUrl((current) => current || nextPreview);
-        setLivePreviewUrl((current) => current || nextPreview);
-      })
-      .catch(() => {
-        setConfig(null);
-        const fallback = `${window.location.origin}/admin/dashboard`;
-        setPreviewUrl((current) => current || fallback);
-        setLivePreviewUrl((current) => current || fallback);
-      });
-  }, []);
-
-  useEffect(() => {
-    refreshHealth();
-  }, [refreshHealth]);
-
-  useEffect(() => {
-    const next = normalizeWorkspace(searchParams.get('tab'));
-    const safeWorkspace = next.workspace === 'secrets' && !isSuperAdmin ? 'studio' : next.workspace;
-    setWorkspace(safeWorkspace);
-    setStudioMode(next.mode);
-  }, [searchParams, isSuperAdmin]);
-
-  useEffect(() => {
     setProgramsLoading(true);
-    fetch('/api/admin/programs')
+    fetch('/api/admin/programs?status=active')
       .then((r) => (r.ok ? r.json() : { data: [] }))
       .then((payload) => {
         const rows = Array.isArray(payload?.data) ? payload.data : [];
-        setPrograms(
-          rows
-            .filter((program: { is_active?: boolean }) => program.is_active !== false)
-            .map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
-              id: program.id,
-              title: program.title ?? program.name ?? program.code ?? 'Untitled program',
-              slug: program.slug ?? program.code ?? program.id,
-            })),
-        );
+        setPrograms(rows.map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
+          id: program.id,
+          title: program.title ?? program.name ?? program.code ?? 'Untitled program',
+          slug: program.slug ?? program.code ?? program.id,
+        })));
       })
       .catch(() => setPrograms([]))
       .finally(() => setProgramsLoading(false));
   }, []);
-
-  const syncTabUrl = useCallback(
-    (nextWorkspace: Workspace, nextMode: StudioMode) => {
-      const tab = tabParamForWorkspace(nextWorkspace, nextMode);
-      router.replace(`/admin/dev-studio?tab=${tab}`, { scroll: false });
-    },
-    [router],
-  );
 
   const activeProviders = useMemo(() => {
     if (!health) return 'checking';
@@ -205,17 +156,10 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
 
   function openWorkspace(next: Workspace) {
     if (next === 'secrets' && !isSuperAdmin) {
-      setWorkspace('studio');
-      syncTabUrl('studio', studioMode);
+      setWorkspace('health');
       return;
     }
     setWorkspace(next);
-    syncTabUrl(next, studioMode);
-  }
-
-  function openStudioMode(next: StudioMode) {
-    setStudioMode(next);
-    syncTabUrl('studio', next);
   }
 
   return (
@@ -273,7 +217,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             {workspace === 'studio' && (
               <StudioPanel
                 mode={studioMode}
-                onModeChange={openStudioMode}
+                onModeChange={setStudioMode}
                 programs={programs}
                 programsLoading={programsLoading}
               />
@@ -282,39 +226,54 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             {workspace === 'files' && <FilesPanel />}
             {workspace === 'environments' && <EnvironmentPanel />}
             {workspace === 'services' && <ServicesPanel />}
-            {workspace === 'health' && <HealthPanel health={health} onRefresh={refreshHealth} />}
-            {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={refreshHealth} />)}
+            {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
+            {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
           </main>
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
-            <PreviewPane
-              inputUrl={previewUrl}
-              liveUrl={livePreviewUrl || previewUrl}
-              device={previewDevice}
-              previewTargets={config?.previewTargets}
-              onInputChange={setPreviewUrl}
-              onGo={() => setLivePreviewUrl(previewUrl)}
-              onRefresh={() => {
-                const base = livePreviewUrl || previewUrl;
-                if (!base) return;
-                const busted = base + (base.includes('?') ? '&_r=' : '?_r=') + Date.now();
-                setLivePreviewUrl(busted);
-              }}
-              onDeviceChange={setPreviewDevice}
-            />
+            <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#3c3c3c] bg-[#2d2d2d] px-2">
+              <button
+                type="button"
+                onClick={() => setLivePreviewUrl(previewUrl)}
+                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
+                title="Refresh preview"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </button>
+              <form
+                className="flex min-w-0 flex-1 items-center rounded border border-[#555] bg-[#3c3c3c] px-2"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setLivePreviewUrl(previewUrl);
+                }}
+              >
+                <Globe className="mr-1.5 h-3.5 w-3.5 shrink-0 text-[#4ec9b0]" />
+                <input
+                  value={previewUrl}
+                  onChange={(event) => setPreviewUrl(event.target.value)}
+                  className="h-7 min-w-0 flex-1 bg-transparent text-[11px] text-[#cccccc] outline-none"
+                  spellCheck={false}
+                />
+              </form>
+              <a
+                href={livePreviewUrl || previewUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
+                title="Open preview"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+            <iframe title="Live Preview" src={livePreviewUrl || previewUrl} className="min-h-0 flex-1 border-0 bg-white" />
           </section>
         </div>
       </div>
 
-      <footer className="flex h-6 shrink-0 items-center justify-between gap-2 bg-[#0078d4] px-3 text-[11px] text-white">
-        <span className="truncate">main</span>
-        <span className="hidden min-w-0 truncate sm:inline" title={config?.publicSiteUrl}>
-          Public: {config?.publicSiteUrl ?? '…'}
-        </span>
-        <span className="hidden min-w-0 truncate md:inline" title={config?.adminSiteUrl}>
-          Admin: {config?.adminSiteUrl ?? '…'}
-        </span>
-        <span className="shrink-0">AWS / Supabase</span>
+      <footer className="flex h-6 shrink-0 items-center justify-between bg-[#0078d4] px-3 text-[11px] text-white">
+        <span>main</span>
+        <span className="hidden sm:inline">AWS / Supabase / GitHub Actions</span>
+        <span>TypeScript</span>
       </footer>
     </div>
   );
@@ -413,7 +372,7 @@ function RunPanel() {
     if (!trimmed || loading) return;
     setInput('');
     setLoading(true);
-    setLines((current) => [...current, { type: 'user', text: trimmed }]);
+    setLines([{ type: 'user', text: trimmed }]);
 
     try {
       const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
@@ -758,17 +717,31 @@ function EnvironmentPanel() {
 }
 
 function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | null; onRefresh: () => void }) {
-  const shell = health?.shell as Record<string, unknown> | undefined;
+  const shell = health?.shell as {
+    configured?: boolean;
+    ready?: boolean;
+    probe?: { status?: string; setupStatus?: string; reachable?: boolean };
+  } | undefined;
+
   const rows = [
+    ['AI (any provider)', health?.aiConfigured ? 'configured' : 'missing — add keys in Secrets'],
     ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
     ['Gemini', health?.hasGemini ? 'configured' : 'missing'],
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
     ['Anthropic', health?.hasAnthropic ? 'configured' : 'missing'],
-    ['Runtime', String(health?.runtime ?? 'unknown')],
-    ['Node env', String(health?.nodeEnv ?? 'unknown')],
-    ['Studio shell', shell?.ready ? 'ready' : shell?.configured ? 'configured' : 'missing'],
-    ['Shell probe', String((shell?.probe as { status?: string } | undefined)?.status ?? 'n/a')],
+    [
+      'Studio shell (ECS)',
+      shell?.ready
+        ? 'ready'
+        : shell?.configured
+          ? `not ready${shell?.probe?.setupStatus ? ` · ${shell.probe.setupStatus}` : ''}`
+          : 'STUDIO_SHELL_* env missing on admin task',
+    ],
+    ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
+    ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
+    ['Node', String(health?.nodeVersion ?? 'unknown')],
+    ['Next', String(health?.nextVersion ?? 'unknown')],
   ];
 
   return (
