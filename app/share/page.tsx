@@ -51,7 +51,7 @@ export default function SharePage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/share-page-1.webp"
-            alt="Share {PLATFORM_DEFAULTS.orgName}"
+            alt={`Share ${PLATFORM_DEFAULTS.orgName}`}
             fill
             className="object-cover"
             priority

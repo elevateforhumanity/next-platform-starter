@@ -64,11 +64,9 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          SKIP_ENV_VALIDATION: 'true'
 
       - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 120000
+        run: npx wait-on http://localhost:3000 --timeout 60000
 
       - name: Run E2E enrollment tests
         run: npx playwright test tests/e2e/full-enrollment-journey.spec.ts
@@ -117,6 +115,9 @@ jobs:
 
       - name: Run accessibility tests
         run: npx playwright test tests/e2e/accessibility.spec.ts
+
+      - name: Homepage config leak smoke
+        run: npx playwright test tests/e2e/home-config-leaks.spec.ts
 
       - name: Upload test results
         if: failure()

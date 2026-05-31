@@ -43,7 +43,7 @@ export default async function OnboardingPage() {
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
         <Image
           src="/images/pages/onboarding-page-2.webp"
-          alt="Welcome to {PLATFORM_DEFAULTS.orgName}"
+          alt={`Welcome to ${PLATFORM_DEFAULTS.orgName}`}
           fill
           className="object-cover"
           priority

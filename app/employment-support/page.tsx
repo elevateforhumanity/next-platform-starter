@@ -27,7 +27,7 @@ export default function EmploymentSupportPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/employment-support-page-1.webp"
-          alt="Employment support services at {PLATFORM_DEFAULTS.orgName}"
+          alt={`Employment support services at ${PLATFORM_DEFAULTS.orgName}`}
           fill
           sizes="100vw"
           className="object-cover"

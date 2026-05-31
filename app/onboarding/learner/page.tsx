@@ -683,7 +683,7 @@ export default async function LearnerOnboardingPage({
                   <div className="absolute inset-0">
                     <Image
                       src="/images/pages/onboarding.webp"
-                      alt="Contact {PLATFORM_DEFAULTS.orgName} support"
+                      alt={`Contact ${PLATFORM_DEFAULTS.orgName} support`}
                       fill
                       className="object-cover opacity-20"
                       sizes="100vw"

@@ -100,7 +100,7 @@ export function HomeEmployerStrip() {
           <div className="relative h-52 lg:h-60 rounded-2xl overflow-hidden">
             <Image
               src="/images/pages/for-employers-page-1.webp"
-              alt="Employer partner meeting with {PLATFORM_DEFAULTS.orgName} team"
+              alt={`Employer partner meeting with ${PLATFORM_DEFAULTS.orgName} team`}
               fill
               className="object-cover object-top"
               sizes="(max-width: 1024px) 100vw, 50vw"

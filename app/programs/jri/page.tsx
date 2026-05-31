@@ -68,7 +68,7 @@ export default async function JRIProgramsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/jri-hero.webp"
-          alt="Second chance career training — JRI programs at {PLATFORM_DEFAULTS.orgName}"
+          alt={`Second chance career training — JRI programs at ${PLATFORM_DEFAULTS.orgName}`}
           fill
           className="object-cover object-center"
           priority

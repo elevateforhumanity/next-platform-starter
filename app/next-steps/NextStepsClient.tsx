@@ -137,7 +137,7 @@ export default function NextStepsPage({ programs = [] }: { programs?: Program[] 
 
           <ChecklistRow
             checked={!!data.inquiry_submitted}
-            title="Step 1: Submit your {PLATFORM_DEFAULTS.orgName} Inquiry"
+            title={`Step 1: Submit your ${PLATFORM_DEFAULTS.orgName} Inquiry`}
             note="This tells us your goal and program interest."
             onChange={(v) =>
               patch({

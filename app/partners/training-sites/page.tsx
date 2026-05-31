@@ -398,7 +398,7 @@ export default async function TrainingSitesPage() {
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
               <Image
                 src="/images/pages/employer-handshake.webp"
-                alt="Employer partnership with {PLATFORM_DEFAULTS.orgName}"
+                alt={`Employer partnership with ${PLATFORM_DEFAULTS.orgName}`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
