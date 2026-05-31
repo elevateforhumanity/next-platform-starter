@@ -25,22 +25,19 @@ if [[ -n "${NEW_DOCS}" ]]; then
   done <<< "${NEW_DOCS}"
 fi
 
-# 2) Verify canonical portal routes exist
-# Paths updated to match current repo structure (post-dashboard-consolidation).
-# Original paths: app/portal/staff/dashboard, app/programs/admin/dashboard
-# Canonical paths per AGENTS.md:
-#   Staff  -> /staff-portal/dashboard
-#   Admin  -> /admin/dashboard (programs sub-pages under /admin/programs/[code]/dashboard)
-REQUIRED_REDIRECT_FILES=(
+# 2) Verify canonical portal route implementations exist.
+# Keep these pointed at the real route owners so the gate does not require
+# legacy redirect shims just to pass.
+REQUIRED_CANONICAL_ROUTE_FILES=(
   "app/partner/dashboard/page.tsx"
-  "app/staff-portal/dashboard/page.tsx"
+  "apps/admin/app/admin/staff-portal/dashboard/page.tsx"
   "app/admin/dashboard/page.tsx"
 )
 
 missing=0
-for f in "${REQUIRED_REDIRECT_FILES[@]}"; do
+for f in "${REQUIRED_CANONICAL_ROUTE_FILES[@]}"; do
   if [[ ! -f "$f" ]]; then
-    echo "WARN: Expected redirect file missing: $f"
+    echo "WARN: Expected canonical route file missing: $f"
     missing=1
   fi
 done
@@ -83,7 +80,7 @@ else
 fi
 
 if [[ $missing -eq 1 ]]; then
-  echo "FAIL: Missing required redirect files. Implement redirects before passing Autopilot."
+  echo "FAIL: Missing required canonical route files. Restore canonical routes before passing Autopilot."
   exit 1
 fi
 
