@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
-import { loadPublishedProgramsListing } from '@/lib/programs/load-program-catalog';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -111,19 +110,20 @@ type Prog = {slug:string;title:string;description:string|null;category:string;du
 
 export default async function ProgramsPage() {
   const db = createPublicClient();
-  const { programs: listing } = await loadPublishedProgramsListing(db, {
-    suppressSlugs: SUPPRESSED,
-  });
+  let programs: Prog[] = [];
 
-  const programs: Prog[] = listing.map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    description: p.description,
-    category: p.sectionKey,
-    duration: p.duration,
-    credential: p.credential,
-    funding_eligible: p.funding_eligible,
-  }));
+  {
+    const {data} = await db.from('programs')
+      .select('slug,title,short_description,description,category,duration,credential_type,wioa_eligible')
+      .eq('is_active',true).eq('published',true).neq('status','archived').order('title');
+    if (data?.length) {
+      programs = data.filter(p=>!SUPPRESSED.has(p.slug)).map(p=>{
+        let desc:string|null = p.short_description||p.description||null;
+        if(desc&&!/[.!?]$/.test(desc.trim())){const l=Math.max(desc.lastIndexOf('.'),desc.lastIndexOf('!'),desc.lastIndexOf('?'));desc=l>20?desc.slice(0,l+1):null;}
+        return {slug:p.slug,title:p.title,description:desc,category:p.category||'other',duration:p.duration??null,credential:p.credential_type??null,funding_eligible:p.wioa_eligible??false};
+      });
+    }
+  }
 
   const grouped:Record<string,Prog[]>={};
   programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
@@ -135,7 +135,7 @@ export default async function ProgramsPage() {
       {/* Hero */}
       <section className="relative h-64 sm:h-80 w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt={`${PLATFORM_DEFAULTS.orgName} programs`} fill className="object-cover object-center" priority placeholder="empty" />
+        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="{PLATFORM_DEFAULTS.orgName} programs" fill className="object-cover object-center" priority placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 to-brand-blue-900/30" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">{PLATFORM_DEFAULTS.orgName}</p>
@@ -158,7 +158,7 @@ export default async function ProgramsPage() {
       <nav className="sticky top-0 z-20 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 overflow-x-auto">
           <ul className="flex gap-1 py-2 whitespace-nowrap">
-            <li><a href="#top" className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">All ({programs.length})</a></li>
+            <li><a href="#top" className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">All ({displayCount})</a></li>
             {cats.map(cat=>(
               <li key={cat}><a href={`#cat-${cat}`} className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
                 {CATEGORY_META[cat]?.label??cat} ({grouped[cat].length})

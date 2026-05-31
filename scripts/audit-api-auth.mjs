@@ -51,6 +51,8 @@ const AUTH_PATTERNS = [
   /supabase\.auth\.getUser/,
   /getCurrentUser/,
   /getServerSession/,
+  /withRuntime\(\{\s*cron/,
+  /cron:\s*['"]bearer['"]/,
 ];
 
 function walk(dir) {

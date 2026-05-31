@@ -69,8 +69,8 @@ jobs:
       - name: Migration lint
         run: node scripts/lint-migrations.cjs
 
-      - name: API admin guard check
-        run: bash scripts/audit-api-auth-guards.sh
+      - name: Production readiness gate (auth + scripts)
+        run: SKIP_BUILD_GATE=1 bash scripts/production-readiness-gate.sh
 
       # Integrity checks - each fails the build if issues found
       - name: Link integrity check

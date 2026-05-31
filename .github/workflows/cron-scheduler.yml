@@ -307,6 +307,13 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::webhook-health-check failed"
 
+      - name: Revalidate public catalog (LMS)
+        run: |
+          SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://www.elevateforhumanity.org}"
+          curl -sf -X GET "$SITE_URL/api/cron/revalidate-public" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
+            || echo "::warning::revalidate-public failed"
+
       - name: Trial lifecycle
         run: |
           curl -sf -X GET "$ADMIN_URL/api/cron/trial-lifecycle" \
