@@ -5,7 +5,7 @@ import { timedFetch } from '@/lib/supabase/timed-fetch';
  * Returns a mock client when Supabase is unavailable — never throws, never returns null.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 
@@ -44,9 +44,6 @@ const mockClient = {
   rpc: () => Promise.resolve({ data: null, error: null }),
 } as unknown as SupabaseClient<any>;
 
-/** Alias so callers can `import { createClient } from '@/lib/supabase/public'` */
-export const createClient = createPublicClient;
-
 export function createPublicClient(): SupabaseClient<any> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -58,7 +55,7 @@ export function createPublicClient(): SupabaseClient<any> {
     );
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey, {
+  return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
