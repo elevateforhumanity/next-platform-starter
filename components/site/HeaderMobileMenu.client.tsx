@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import SearchModal from '@/components/site/SearchModal.client';
+import LanguageSwitcher from '@/components/site/LanguageSwitcher.client';
 
 interface NavItem {
   id?: string;
@@ -52,7 +54,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   return (
     <>
-      {/* Mobile/tablet icon row — hidden on desktop (lg+) */}
+      {/* Mobile/tablet icon row - hidden on desktop (lg+) */}
       <div className="lg:hidden flex items-center gap-1">
         {/* Compact CTAs visible on md screens where desktop nav isn't shown */}
         <Link
