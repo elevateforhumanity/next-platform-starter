@@ -230,7 +230,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
           </main>
 
-          <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
+          <section className="hidden w-[38vw] min-w-[260px] max-w-[600px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] md:flex">
             <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#3c3c3c] bg-[#2d2d2d] px-2">
               <button
                 type="button"
