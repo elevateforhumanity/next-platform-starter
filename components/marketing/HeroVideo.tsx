@@ -84,13 +84,16 @@ export default function HeroVideo({
   const transcriptId = useId();
   // Resolve the correct src synchronously on first render so there is no
   // desktop→mobile src swap after hydration that causes a poster flash.
-  const [videoSrc, setVideoSrc] = useState(() => {
-    if (typeof window !== 'undefined' && videoSrcMobile && window.innerWidth < 768) {
-      return videoSrcMobile;
-    }
-    return videoSrcDesktop;
-  });
+  // Always start with desktop src to match SSR — swap to mobile in useEffect
+  // after hydration to avoid server/client mismatch.
+  const [videoSrc, setVideoSrc] = useState(videoSrcDesktop);
   const [ttsSupported, setTtsSupported] = useState(false);
+
+  useEffect(() => {
+    if (videoSrcMobile && window.innerWidth < 768) {
+      setVideoSrc(videoSrcMobile);
+    }
+  }, [videoSrcMobile]);
 
   const ttsText = useMemo(() => {
     const fallback = [belowHeroHeadline, belowHeroSubheadline].filter(Boolean).join(' ');
@@ -201,7 +204,6 @@ export default function HeroVideo({
         className="relative w-full overflow-hidden"
         style={{
           height: 'clamp(400px, 56vw, 780px)',
-          backgroundColor: posterImage ? undefined : 'transparent',
           ...(posterImage ? {
             backgroundImage: `url(${posterImage})`,
             backgroundSize: 'cover',
