@@ -1,9 +1,9 @@
 // PUBLIC ROUTE: public program catalog
 
 // GET /api/catalog
-// Public, rate-limited. Returns paginated, filtered results from published `programs`.
+// Public, rate-limited. Returns paginated, filtered results from canonical `programs` table.
 // Query params:
-//   q           — text search (title, slug, credential, description)
+//   q           — full-text search
 //   category    — program category
 //   wioa        — 'true' to filter WIOA-eligible only
 //   state       — state code (default IN)
@@ -12,13 +12,12 @@
 //   per_page    — max 50 (default 20)
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
+import { loadProgramCatalog } from '@/lib/programs/load-program-catalog';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeInternalError } from '@/lib/api/safe-error';
-import { loadProgramCatalog } from '@/lib/programs/load-program-catalog';
 
 export const runtime = 'nodejs';
-
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
@@ -35,13 +34,13 @@ export async function GET(request: NextRequest) {
   const perPage = Math.min(50, Math.max(1, parseInt(searchParams.get('per_page') ?? '20', 10)));
 
   try {
-    const supabase = await createClient();
-    const result = await loadProgramCatalog(supabase, {
-      q,
-      category,
+    const db = createPublicClient();
+    const result = await loadProgramCatalog(db, {
+      q: q || undefined,
+      category: category || undefined,
       wioaOnly,
-      state,
-      providerSlug,
+      state: state || undefined,
+      providerSlug: providerSlug || undefined,
       page,
       perPage,
     });
@@ -55,14 +54,15 @@ export async function GET(request: NextRequest) {
         programs: result.programs,
         total: result.total,
         page: result.page,
-        perPage: result.perPage,
-        totalPages: result.totalPages,
+        per_page: result.perPage,
+        total_pages: result.totalPages,
+        source: 'programs',
       },
       {
-        headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' },
+        headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
       },
     );
-  } catch (err) {
-    return safeInternalError(err, 'Failed to fetch catalog');
+  } catch (error) {
+    return safeInternalError(error, 'Failed to fetch catalog');
   }
 }

@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import SkillsGapAnalysis from '@/components/SkillsGapAnalysis';
 import VirtualCareerFair from '@/components/VirtualCareerFair';
-import { StudentSuccessCoaching } from '@/components/StudentSuccessCoaching';
 import WorkOneLocator from '@/components/WorkOneLocator';
 
 export const dynamic = 'force-static';

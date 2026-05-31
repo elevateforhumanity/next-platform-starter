@@ -800,8 +800,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ## Cursor Cloud specific instructions
 
-**VS Code Dev Container (`.devcontainer/`)** is a separate path: Docker image, AWS SSM → `.env.local`, ports 3000/3001. GitHub “Unified DevContainer” UI edits that JSON only; it does **not** configure Cloud Agent VMs. See `.devcontainer/README.md`.
-
 ### Environment setup
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
@@ -831,6 +829,12 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm typecheck` — TypeScript type check (requires `--max-old-space-size=8192`)
 - `pnpm build` — Full production build (requires `--max-old-space-size=6144`, 2600+ pages)
 
+### Public catalog SSR (hydration / Google)
+
+- **`/programs`** must use `getPublicProgramsPageData()` from `lib/programs/public-programs-page.ts` (same loader for `generateMetadata()`). Do not duplicate inline `programs` queries on the page.
+- Canonical DB reads: `loadPublishedProgramsListing` / `loadProgramCatalog` in `lib/programs/load-program-catalog.ts`. Static fallback from `data/programs/catalog.ts` when the public anon client returns zero rows.
+- After each production deploy, call `GET /api/cron/revalidate-public` with `Authorization: Bearer $CRON_SECRET` to revalidate `/`, `/programs`, `/programs/catalog`, `/impact`.
+
 ### Gotchas
 
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
@@ -855,6 +859,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-**Dev Studio Runtime** (ECS `elevate-studio`, env prefix `STUDIO_SHELL_*`) is the AWS worker that clones the repo and runs `pnpm install` for terminal/git commands. User-facing name is **not** "shell". Completion checklist: `GET /api/devstudio/health` → `studioRuntime.steps`. Finish order: admin SSM wiring → start `elevate-studio` → `GITHUB_TOKEN` on runtime task → wait for `/health` `ready: true` → AI keys in Secrets.
 

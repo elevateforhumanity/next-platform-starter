@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { loadProgramCatalog, type CatalogProgram } from '@/lib/programs/load-program-catalog';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
@@ -87,7 +86,7 @@ export default async function ProgramCatalogPage({
     }
   }
 
-  const totalPages = Math.ceil((count ?? 0) / perPage);
+  const totalPages = catalog.totalPages;
 
   // URL helpers for server-rendered pagination links (not passed to client components)
   function pageUrl(p: number) {
