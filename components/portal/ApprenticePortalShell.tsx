@@ -134,6 +134,7 @@ interface Props {
     id: string;
     enrollment_state: string;
     orientation_completed_at?: string | null;
+    docs_verified?: boolean | null;
     stripe_subscription_id?: string | null;
     stripe_subscription_status?: string | null;
   } | null;

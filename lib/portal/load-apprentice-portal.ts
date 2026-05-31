@@ -28,7 +28,9 @@ export async function loadApprenticePortalData(programSlug: string) {
     supabase.from('profiles').select('full_name').eq('id', user.id).maybeSingle(),
     supabase
       .from('program_enrollments')
-      .select('id, program_id, program_slug, enrollment_state, orientation_completed_at, stripe_subscription_id, stripe_subscription_status, docs_verified')
+      .select(
+        'id, program_id, program_slug, enrollment_state, orientation_completed_at, docs_verified, stripe_subscription_id, stripe_subscription_status',
+      )
       .eq('user_id', user.id)
       .eq('program_slug', programSlug)
       .order('created_at', { ascending: false })

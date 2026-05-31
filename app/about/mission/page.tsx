@@ -116,7 +116,7 @@ export default function MissionPage() {
           <div className="relative rounded-2xl overflow-hidden h-80">
             <Image
               src="/images/pages/mission-page-1.webp"
-              alt={`${PLATFORM_DEFAULTS.orgName} training`}
+              alt={`\${PLATFORM_DEFAULTS.orgName} training`}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
