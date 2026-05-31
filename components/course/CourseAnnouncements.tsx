@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -23,7 +24,7 @@ export function CourseAnnouncements({ courseId }: { courseId: string }) {
         const json = await res.json();
         setItems(json.announcements || []);
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       } finally {
         setLoading(false);
       }

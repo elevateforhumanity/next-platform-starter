@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
@@ -69,7 +70,7 @@ export default function UnifiedChatAssistant({
 
     if (!loadedScript) {
       setScriptError(`Assistant script "${assistantId}" not found or inactive`);
-      console.error(`Failed to load assistant script: ${assistantId}`);
+      logger.error(`Failed to load assistant script: ${assistantId}`);
       return;
     }
 
@@ -195,7 +196,7 @@ export default function UnifiedChatAssistant({
         playSound();
         onMessage?.(assistantMessage);
       } catch (error) {
-        console.error('Chat error:', error);
+        logger.error('Chat error:', error);
 
         const errorMessage: Message = {
           id: `error_${Date.now()}`,
@@ -236,7 +237,7 @@ export default function UnifiedChatAssistant({
 
   // Error state - don't render if script failed to load
   if (scriptError) {
-    console.error(scriptError);
+    logger.error(scriptError);
     return null; // Silent fail in production
   }
 

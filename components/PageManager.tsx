@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -59,7 +60,7 @@ export default function PageManager() {
       if (error) throw error;
       setPages(data || []);
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
     } finally {
       setLoading(false);
     }
@@ -76,7 +77,7 @@ export default function PageManager() {
       if (error) throw error;
       setVersions(data || []);
     } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
     }
   }
 

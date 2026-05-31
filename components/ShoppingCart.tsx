@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -57,7 +58,7 @@ export function ShoppingCart() {
         setCartItems(items);
       }
     } catch (err) {
-      console.error('Error fetching cart:', err);
+      logger.error('Error fetching cart:', err);
     } finally {
       setLoading(false);
     }

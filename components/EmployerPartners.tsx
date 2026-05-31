@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -160,7 +161,7 @@ export default function EmployerPartners({
           }));
         }
       } catch (err) {
-        console.error('Error fetching employer data:', err);
+        logger.error('Error fetching employer data:', err);
       } finally {
         setLoading(false);
       }

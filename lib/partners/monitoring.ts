@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 // lib/partners/monitoring.ts
 // Monitoring and alerting for partner integrations
 
@@ -131,7 +132,7 @@ class PartnerMonitoring {
           }),
         });
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     }
   }

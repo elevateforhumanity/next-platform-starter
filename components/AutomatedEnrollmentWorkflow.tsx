@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -226,7 +227,7 @@ export default function AutomatedEnrollmentWorkflow({
       const derivedWorkflow = deriveWorkflowFromStatus(enrollmentData.status);
       setWorkflow(derivedWorkflow);
     } catch (err: any) {
-      console.error('Error fetching enrollment:', err);
+      logger.error('Error fetching enrollment:', err);
       setError('Failed to load enrollment');
       setWorkflow(DEFAULT_WORKFLOW_STEPS.map((s, i) => ({ ...s, id: `step-${i}` })));
     }
@@ -284,7 +285,7 @@ export default function AutomatedEnrollmentWorkflow({
         failedCount: failedCount || 0,
       });
     } catch (err) {
-      console.error('Error fetching stats:', err);
+      logger.error('Error fetching stats:', err);
     }
   }, [showStats, supabase]);
 
@@ -335,7 +336,7 @@ export default function AutomatedEnrollmentWorkflow({
         onWorkflowComplete(enrollment);
       }
     } catch (err) {
-      console.error('Error processing step:', err);
+      logger.error('Error processing step:', err);
     } finally {
       setProcessingStep(null);
     }

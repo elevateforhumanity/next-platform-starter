@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 /**
  * ProgramDetailPage — Institutional Program Detail Template v1
@@ -61,8 +62,8 @@ export default function ProgramDetailPage({
   if (process.env.NODE_ENV === 'development') {
     const errors = validateProgram(p);
     if (errors.length > 0) {
-      console.warn(`[ProgramDetailPage] Validation errors for "${p.slug}":`);
-      errors.forEach((e) => console.warn(`  ${e.field}: ${e.message}`));
+      logger.warn(`[ProgramDetailPage] Validation errors for "${p.slug}":`);
+      errors.forEach((e) => logger.warn(`  ${e.field}: ${e.message}`));
     }
   }
 

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { Award, Lock } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -52,7 +53,7 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
           );
         }
       } catch (error) {
-        console.error('Failed to fetch badges:', error);
+        logger.error('Failed to fetch badges:', error);
       } finally {
         setLoading(false);
       }

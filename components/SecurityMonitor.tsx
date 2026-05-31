@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -99,7 +100,7 @@ export function SecurityMonitor() {
         try {
           window.top!.location = window.self.location;
         } catch (e) {
-          console.error('Error:', e);
+          logger.error('Error:', e);
         }
       }
     };

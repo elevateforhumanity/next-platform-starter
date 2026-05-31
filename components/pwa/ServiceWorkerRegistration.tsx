@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect } from 'react';
 
@@ -43,7 +44,7 @@ export function ServiceWorkerRegistration({ onUpdate, onSuccess }: ServiceWorker
           window.location.reload();
         });
       } catch (error) {
-        console.error('[PWA] Service Worker registration failed:', error);
+        logger.error('[PWA] Service Worker registration failed:', error);
       }
     };
 

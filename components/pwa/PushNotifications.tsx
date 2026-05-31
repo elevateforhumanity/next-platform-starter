@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Bell, BellOff, X } from 'lucide-react';
@@ -51,7 +52,7 @@ export function usePushNotifications() {
         const subscription = await registration.pushManager.getSubscription();
         subscribed = !!subscription;
       } catch (error) {
-        console.error('[Push] Error checking subscription:', error);
+        logger.error('[Push] Error checking subscription:', error);
       }
 
       setState({
@@ -105,7 +106,7 @@ export function usePushNotifications() {
 
       return true;
     } catch (error) {
-      console.error('[Push] Subscription failed:', error);
+      logger.error('[Push] Subscription failed:', error);
       setState((prev) => ({ ...prev, loading: false }));
       return false;
     }
@@ -132,7 +133,7 @@ export function usePushNotifications() {
       setState((prev) => ({ ...prev, subscribed: false, loading: false }));
       return true;
     } catch (error) {
-      console.error('[Push] Unsubscribe failed:', error);
+      logger.error('[Push] Unsubscribe failed:', error);
       setState((prev) => ({ ...prev, loading: false }));
       return false;
     }

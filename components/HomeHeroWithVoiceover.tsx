@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 // useHeroVideo
 
 import { useRef, useState, useEffect } from 'react';
@@ -77,7 +78,7 @@ export function HomeHeroWithVoiceover({
           }));
         }
       } catch (err) {
-        console.error('Error:', err);
+        logger.error('Error:', err);
       }
     }
 

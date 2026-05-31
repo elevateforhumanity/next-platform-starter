@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
@@ -81,7 +82,7 @@ export function OnboardingTour({
         setLoading(false);
       }
     } catch (err) {
-      console.error('Error checking tour status:', err);
+      logger.error('Error checking tour status:', err);
       setLoading(false);
     }
   }, [tourKey, autoStart, delay]);
@@ -120,7 +121,7 @@ export function OnboardingTour({
         localStorage.setItem(`tour_${tourKey}_completed`, 'true');
       }
     } catch (err) {
-      console.error('Error saving tour completion:', err);
+      logger.error('Error saving tour completion:', err);
       // Fallback to localStorage
       localStorage.setItem(`tour_${tourKey}_completed`, 'true');
     }

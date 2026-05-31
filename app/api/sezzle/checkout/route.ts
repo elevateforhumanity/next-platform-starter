@@ -340,7 +340,10 @@ async function _GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'Provide order_uuid or session_uuid' }, { status: 400 });
   } catch (error) {
-    logger.error('Sezzle status check error:', error);
+    logger.error(
+      'Sezzle status check error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     const message = 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { Trophy, TrendingUp, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -51,7 +52,7 @@ export function PointsDisplay({
           setPointsToNextLevel(data.points_to_next_level || 1000);
         }
       } catch (error) {
-        console.error('Failed to fetch points:', error);
+        logger.error('Failed to fetch points:', error);
       } finally {
         setLoading(false);
       }

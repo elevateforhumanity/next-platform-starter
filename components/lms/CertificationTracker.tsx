@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -64,7 +65,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
         setProgram(data);
       }
     } catch (error) {
-      console.error('Failed to fetch certifications:', error);
+      logger.error('Failed to fetch certifications:', error);
     } finally {
       setLoading(false);
     }
@@ -92,7 +93,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
         await fetchCertifications();
       }
     } catch (error) {
-      console.error('Upload failed:', error);
+      logger.error('Upload failed:', error);
     } finally {
       setUploadingCert(null);
     }

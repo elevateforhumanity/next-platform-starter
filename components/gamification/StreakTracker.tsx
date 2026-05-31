@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { Flame, Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -52,7 +53,7 @@ export function StreakTracker({
           setLastActivityDate(data.last_activity_date || new Date().toISOString());
         }
       } catch (error) {
-        console.error('Failed to fetch streak:', error);
+        logger.error('Failed to fetch streak:', error);
       } finally {
         setLoading(false);
       }

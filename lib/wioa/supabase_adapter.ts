@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 /**
  * Supabase PIRL Data Adapter — Real Data Version
  *
@@ -101,7 +102,7 @@ export async function createSupabaseAdapter(): Promise<PirlDataAdapter> {
       }
 
       if (!data || data.length === 0) {
-        console.warn(`No participants found for quarter ${quarter} (${start} to ${end})`);
+        logger.warn(`No participants found for quarter ${quarter} (${start} to ${end})`);
         return [];
       }
 

@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Tombstone 410 — no data access.
 /**
  * TOMBSTONE — see /api/cash-advances/applications/route.ts
  */

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -274,7 +275,7 @@ export function DashboardDropdown({ className }: Props) {
           setDashboards(dbDashboards);
         }
       } catch (err) {
-        console.error('Error fetching dashboard data:', err);
+        logger.error('Error fetching dashboard data:', err);
       } finally {
         setLoading(false);
       }

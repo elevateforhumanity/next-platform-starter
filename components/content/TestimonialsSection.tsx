@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -48,7 +49,7 @@ export default function TestimonialsSection({
           setTestimonials(data.testimonials || []);
         }
       } catch (error) {
-        console.error('Error fetching testimonials:', error);
+        logger.error('Error fetching testimonials:', error);
       } finally {
         setLoading(false);
       }

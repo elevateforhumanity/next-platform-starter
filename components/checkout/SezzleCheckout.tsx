@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
@@ -159,7 +160,7 @@ export default function SezzleCheckout({
                 order_id: referenceId,
               });
             } catch (e) {
-              console.warn('Failed to set order reference ID:', e);
+              logger.warn('Failed to set order reference ID:', e);
             }
           }
 
@@ -180,7 +181,7 @@ export default function SezzleCheckout({
       // Render the Sezzle button
       checkoutRef.current.renderSezzleButton('sezzle-smart-button-container');
     } catch (error) {
-      console.error('Failed to initialize Sezzle SDK:', error);
+      logger.error('Failed to initialize Sezzle SDK:', error);
       onFailure('Failed to initialize Sezzle checkout');
     }
   }, [

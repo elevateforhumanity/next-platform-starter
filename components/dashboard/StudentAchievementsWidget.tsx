@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -40,7 +41,7 @@ export function StudentAchievementsWidget() {
         const json: ApiResponse = await res.json();
         setAchievements(json.achievements || []);
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       } finally {
         setLoading(false);
       }

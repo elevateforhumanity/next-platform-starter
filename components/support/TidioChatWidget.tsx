@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect } from 'react';
 import Script from 'next/script';
@@ -69,7 +70,7 @@ export function TidioChatWidget({
 
   // Don't render if no key is configured
   if (!tidioKey) {
-    console.warn(
+    logger.warn(
       '[Tidio] No public key configured. Set NEXT_PUBLIC_TIDIO_KEY environment variable.',
     );
     return null;
@@ -81,7 +82,7 @@ export function TidioChatWidget({
       strategy="lazyOnload"
       onLoad={() => {}}
       onError={() => {
-        console.error('[Tidio] Failed to load script');
+        logger.error('[Tidio] Failed to load script');
       }}
     />
   );

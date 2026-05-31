@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -110,7 +111,7 @@ export default function ContentLibrary({
 
       if (error) {
         // Table might not exist, use fallback data
-        console.error('Error fetching content:', error);
+        logger.error('Error fetching content:', error);
         setContent(getFallbackContent());
       } else if (data && data.length > 0) {
         setContent(data);
@@ -124,7 +125,7 @@ export default function ContentLibrary({
         setContent(getFallbackContent());
       }
     } catch (err) {
-      console.error('Error:', err);
+      logger.error('Error:', err);
       setContent(getFallbackContent());
     } finally {
       setLoading(false);

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -153,7 +154,7 @@ export function StudentPortfolio() {
           );
         }
       } catch (err) {
-        console.error('Error loading portfolio:', err);
+        logger.error('Error loading portfolio:', err);
       } finally {
         setLoading(false);
       }

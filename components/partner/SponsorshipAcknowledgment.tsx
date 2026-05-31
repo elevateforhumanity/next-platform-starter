@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect } from 'react';
 import { Circle, AlertCircle, Loader2 } from 'lucide-react';
@@ -129,7 +130,7 @@ export function SponsorshipAcknowledgment({
           setAcknowledgments((prev) => ({ ...prev, ...ackMap }));
         }
       } catch (err) {
-        console.error('Error fetching acknowledgments:', err);
+        logger.error('Error fetching acknowledgments:', err);
       } finally {
         setLoading(false);
       }
@@ -197,7 +198,7 @@ export function SponsorshipAcknowledgment({
 
         onSave?.(newAcknowledgments);
       } catch (err) {
-        console.error('Error saving acknowledgment:', err);
+        logger.error('Error saving acknowledgment:', err);
         // Revert on error
         setAcknowledgments(acknowledgments);
       } finally {

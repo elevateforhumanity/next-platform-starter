@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -36,7 +37,7 @@ export default function ComplianceReportPage() {
       // Proceed to success state regardless — compliance reports must not block on API errors
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        console.error('Compliance report submission error:', data.error);
+        logger.error('Compliance report submission error:', data.error);
       }
     } catch {
       // Fail silently — user sees success state either way

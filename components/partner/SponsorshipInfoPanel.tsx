@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import { Info, Building2, Users, DollarSign, FileCheck, Loader2 } from 'lucide-react';
@@ -65,7 +66,7 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
           setInfo(data);
         }
       } catch (err) {
-        console.error('Error fetching sponsorship info:', err);
+        logger.error('Error fetching sponsorship info:', err);
       } finally {
         setLoading(false);
       }

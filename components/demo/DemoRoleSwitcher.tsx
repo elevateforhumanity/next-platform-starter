@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState } from 'react';
 import { User, Copy, Check, X, ChevronDown } from 'lucide-react';
@@ -22,7 +23,7 @@ export function DemoRoleSwitcher({ currentRole, isDemoTenant = true }: DemoRoleS
       setCopiedEmail(email);
       setTimeout(() => setCopiedEmail(null), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      logger.error('Failed to copy:', err);
     }
   };
 

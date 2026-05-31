@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -169,7 +170,7 @@ export default function CosmetologySignMOUPage() {
         if (data.supervisor_license_number) setSupervisorLicense(data.supervisor_license_number);
         if (data.compensation_model) setCompensationModel(data.compensation_model);
       })
-      .catch((err) => console.warn('[sign-mou] prefill fetch failed', err));
+      .catch((err) => logger.warn('[sign-mou] prefill fetch failed', err));
   }, []);
 
   useEffect(() => {

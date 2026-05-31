@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -108,7 +109,7 @@ export function SMSNotificationSystem() {
       setMessage('');
       fetchTemplates();
     } catch (err) {
-      console.error('SMS error:', err);
+      logger.error('SMS error:', err);
       alert('Failed to send SMS');
     } finally {
       setSending(false);

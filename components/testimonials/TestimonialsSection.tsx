@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 
@@ -28,7 +29,7 @@ export default function TestimonialsSection() {
           setTestimonials(data.testimonials || []);
         }
       } catch (err) {
-        console.error('Failed to fetch testimonials:', err);
+        logger.error('Failed to fetch testimonials:', err);
       } finally {
         setLoading(false);
       }

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -66,7 +67,7 @@ export default function GoogleClassroomSync() {
         });
       }
     } catch (err) {
-      console.error('Sync error:', err);
+      logger.error('Sync error:', err);
     } finally {
       setSyncing(false);
     }

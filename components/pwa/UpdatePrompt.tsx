@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import { RefreshCw, X } from 'lucide-react';
@@ -76,7 +77,7 @@ export function UpdatePrompt({ onUpdate }: UpdatePromptProps) {
         window.location.reload();
       }, 500);
     } catch (error) {
-      console.error('Update failed:', error);
+      logger.error('Update failed:', error);
       setUpdating(false);
     }
   };
@@ -136,7 +137,7 @@ export function useAppVersion() {
           }
         }
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     };
 

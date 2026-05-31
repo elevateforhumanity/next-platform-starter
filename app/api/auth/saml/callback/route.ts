@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: SAML assertion consumer (IdP POST callback).
 /**
  * POST /api/auth/saml/callback
  *

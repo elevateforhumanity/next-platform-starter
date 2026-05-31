@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -38,7 +39,7 @@ export default function CookieConsentBanner() {
         setPreferences(saved);
         applyCookiePreferences(saved);
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
   }, []);

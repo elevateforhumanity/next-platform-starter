@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 // components/TenantCustomStyles.tsx
 // NOTE: This component runs in root layout which may be edge context.
 // DO NOT import @supabase/supabase-js here - it breaks edge middleware.
@@ -50,7 +51,7 @@ export async function TenantCustomStyles() {
         styles = JSON.parse(siteStyles.value);
       }
     } catch (err) {
-      console.error('Error:', err);
+      logger.error('Error:', err);
     }
   }
 

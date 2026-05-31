@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import Image from 'next/image';
@@ -55,7 +56,7 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
         setReviews(formatted);
       }
     } catch (err) {
-      console.error('Error fetching reviews:', err);
+      logger.error('Error fetching reviews:', err);
       // Fallback data
       setReviews([
         {

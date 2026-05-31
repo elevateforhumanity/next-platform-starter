@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useRef, useState } from 'react';
 import { logExamEvent } from '@/lib/exams/log-event';
@@ -24,7 +25,7 @@ export default function ExamCamera({ examSessionId, showPreview = true }: Props)
           recorderRef.current.stop();
         }
       } catch (error) {
-        console.warn('Recorder stop failed:', error);
+        logger.warn('Recorder stop failed:', error);
       }
 
       if (streamRef.current) {
@@ -98,7 +99,7 @@ export default function ExamCamera({ examSessionId, showPreview = true }: Props)
           try {
             await videoRef.current.play();
           } catch (error) {
-            console.warn('Preview play failed:', error);
+            logger.warn('Preview play failed:', error);
           }
         }
 
@@ -129,7 +130,7 @@ export default function ExamCamera({ examSessionId, showPreview = true }: Props)
         recorder.start(5000);
         setStatus('recording');
       } catch (error) {
-        console.error('Camera start failed:', error);
+        logger.error('Camera start failed:', error);
         setStatus('failed');
         await logExamEvent({
           examSessionId,

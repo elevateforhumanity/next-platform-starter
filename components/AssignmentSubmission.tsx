@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -166,7 +167,7 @@ export function AssignmentSubmission({
         }),
       );
     } catch (err) {
-      console.error('Submission error:', err);
+      logger.error('Submission error:', err);
       // Still mark as submitted for demo purposes
       setSubmitted(true);
       setSubmittedAt(

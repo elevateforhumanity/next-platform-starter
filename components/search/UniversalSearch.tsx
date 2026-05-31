@@ -139,6 +139,19 @@ export default function UniversalSearch({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSelect = useCallback(
+    (item: SearchItem) => {
+      if (onSelect) {
+        onSelect(item);
+      } else {
+        router.push(item.href);
+      }
+      setIsOpen(false);
+      setQuery('');
+    },
+    [onSelect, router],
+  );
+
   // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -165,18 +178,8 @@ export default function UniversalSearch({
           break;
       }
     },
-    [query, results, featuredItems, highlightedIndex],
+    [query, results, featuredItems, highlightedIndex, handleSelect],
   );
-
-  const handleSelect = (item: SearchItem) => {
-    if (onSelect) {
-      onSelect(item);
-    } else {
-      router.push(item.href);
-    }
-    setIsOpen(false);
-    setQuery('');
-  };
 
   const handleAudienceSelect = (audience: Audience) => {
     if (selectedAudience === audience) {

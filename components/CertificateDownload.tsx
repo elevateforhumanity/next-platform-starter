@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useState, useEffect } from 'react';
 import { Download, Share2, Printer, Loader2, ExternalLink, Copy } from 'lucide-react';
@@ -105,7 +106,7 @@ export default function CertificateDownload({
           grade: undefined,
         });
       } catch (err: any) {
-        console.error('Error fetching certificate:', err);
+        logger.error('Error fetching certificate:', err);
         setError('Failed to load certificate');
       } finally {
         setLoading(false);
@@ -221,7 +222,7 @@ export default function CertificateDownload({
 
       onDownload?.();
     } catch (err) {
-      console.error('Download error:', err);
+      logger.error('Download error:', err);
     } finally {
       setDownloading(false);
     }
@@ -257,7 +258,7 @@ export default function CertificateDownload({
       };
       img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
     } catch (err) {
-      console.error('PNG download error:', err);
+      logger.error('PNG download error:', err);
       setDownloading(false);
     }
   };

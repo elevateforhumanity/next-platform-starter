@@ -214,11 +214,55 @@ export async function recordCheckpointAttempt(
   score: number,
   passingScore: number,
   answers: Record<string, number> = {},
+  options?: { supabase?: SupabaseClient | null },
 ): Promise<CheckpointAttemptResult> {
-  const db = await requireAdminClient();
+  let resolvedModuleOrder = moduleOrder;
+  const db = options?.supabase ?? (await requireAdminClient());
 
-  // Determine next attempt number
-  const { data: prior } = await db
+  if (!resolvedModuleOrder) {
+    const { data: lessonRow } = await db
+      .from('course_lessons')
+      .select('course_modules(order_index)')
+      .eq('id', lessonId)
+      .maybeSingle();
+    resolvedModuleOrder = (lessonRow as any)?.course_modules?.order_index ?? 1;
+  }
+
+  // Learner path: SECURITY DEFINER RPC (auth.uid() must match session user).
+  if (options?.supabase) {
+    const { data, error } = await options.supabase.rpc('record_checkpoint_attempt', {
+      p_lesson_id: lessonId,
+      p_course_id: courseId,
+      p_module_order: resolvedModuleOrder,
+      p_score: score,
+      p_passing_score: passingScore,
+      p_answers: answers,
+    });
+
+    if (error) {
+      throw new Error(`recordCheckpointAttempt: ${error.message}`);
+    }
+
+    const row = data as {
+      lessonId?: string;
+      score?: number;
+      passed?: boolean;
+      passingScore?: number;
+      attemptNumber?: number;
+    } | null;
+
+    return {
+      lessonId: row?.lessonId ?? lessonId,
+      score: row?.score ?? score,
+      passed: row?.passed ?? score >= passingScore,
+      passingScore: row?.passingScore ?? passingScore,
+      attemptNumber: row?.attemptNumber ?? 1,
+    };
+  }
+
+  const admin = await requireAdminClient();
+
+  const { data: prior } = await admin
     .from('checkpoint_scores')
     .select('attempt_number')
     .eq('user_id', userId)
@@ -230,21 +274,7 @@ export async function recordCheckpointAttempt(
   const attemptNumber = (prior?.attempt_number ?? 0) + 1;
   const passed = score >= passingScore;
 
-  // Resolve module_order from course_modules if not provided or zero.
-  // module_order is required (NOT NULL) on checkpoint_scores.
-  let resolvedModuleOrder = moduleOrder;
-  if (!resolvedModuleOrder) {
-    const { data: lessonRow } = await db
-      .from('course_lessons')
-      .select('course_modules(order_index)')
-      .eq('id', lessonId)
-      .maybeSingle();
-    resolvedModuleOrder = (lessonRow as any)?.course_modules?.order_index ?? 1;
-  }
-
-  // NOTE: checkpoint_scores.passed is a generated column (score >= passing_score).
-  // Do NOT include it in the insert — Postgres computes it automatically.
-  const { error } = await db.from('checkpoint_scores').insert({
+  const { error } = await admin.from('checkpoint_scores').insert({
     user_id: userId,
     lesson_id: lessonId,
     course_id: courseId,

@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -45,7 +46,7 @@ export function OptimizedVideo({
         }
         setIsPlaying(true);
       } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
       }
     };
 

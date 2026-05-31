@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 
@@ -200,7 +201,7 @@ export default function ComprehensiveEnrollmentWizard({
         const data = JSON.parse(saved);
         setFormData((prev) => ({ ...prev, ...data }));
       } catch (e) {
-        console.error('Error:', e);
+        logger.error('Error:', e);
       }
     }
   }, [programId]);
@@ -226,7 +227,7 @@ export default function ComprehensiveEnrollmentWizard({
         body: JSON.stringify({ programId, data: formData, step: currentStep }),
       });
     } catch (e) {
-      console.error('Error:', e);
+      logger.error('Error:', e);
     } finally {
       setSaving(false);
     }

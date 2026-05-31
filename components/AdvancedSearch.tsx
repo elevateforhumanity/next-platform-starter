@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React from 'react';
 import Image from 'next/image';
@@ -104,7 +105,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
 
       setResults(searchResults);
     } catch (err) {
-      console.error('Search error:', err);
+      logger.error('Search error:', err);
       setResults([]);
     } finally {
       setLoading(false);

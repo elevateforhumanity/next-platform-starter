@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -90,7 +91,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
 
       if (error) {
         // Use fallback data
-        console.error('Error fetching placements:', error);
+        logger.error('Error fetching placements:', error);
         setFallbackData();
         return;
       }
@@ -116,7 +117,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
       calculateMetrics(formattedPlacements);
       calculatePipeline(formattedPlacements);
     } catch (err) {
-      console.error('Error:', err);
+      logger.error('Error:', err);
       setPlacements([]);
     } finally {
       setLoading(false);

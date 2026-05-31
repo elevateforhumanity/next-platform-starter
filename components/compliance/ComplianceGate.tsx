@@ -1,4 +1,5 @@
 'use client';
+import { logger } from '@/lib/logger';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -62,7 +63,7 @@ export function ComplianceGate({
         onComplianceCheck?.(complianceStatus);
       } catch (err) {
         // If compliance check fails (tables don't exist), allow access
-        console.warn('Compliance check failed:', err);
+        logger.warn('Compliance check failed:', err);
         setStatus({
           canAccess: true,
           onboardingComplete: true,
