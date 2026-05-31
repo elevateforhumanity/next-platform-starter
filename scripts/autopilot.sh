@@ -10,7 +10,7 @@ echo "== Autopilot (Builder Mode) =="
 # - dashboard-consolidation-verification.md
 # - autopilot-run-log.md
 # Modifications to existing docs are allowed; only brand-new files are checked.
-ALLOWED_DOCS_REGEX='^(docs/(dashboard-inventory\.md|dashboard-canonical-architecture\.md|dashboard-crossed-analysis\.md|dashboard-schema-verification\.md|dashboard-orphans-disposition\.md|dashboard-consolidation-verification\.md|autopilot-run-log\.md|dashboard-consolidation-baseline\.md|SECURITY\.md))$'
+ALLOWED_DOCS_REGEX='^(docs/(dashboard-inventory\.md|dashboard-canonical-architecture\.md|dashboard-crossed-analysis\.md|dashboard-schema-verification\.md|dashboard-orphans-disposition\.md|dashboard-consolidation-verification\.md|autopilot-run-log\.md|dashboard-consolidation-baseline\.md|SECURITY\.md|platform-e2e-audit-2026-05\.md|production-activation-2026-05\.md|LOCAL_DEVELOPMENT\.md))$'
 
 NEW_DOCS=$(git diff --name-only --diff-filter=ACR origin/main...HEAD 2>/dev/null | grep '^docs/.*\.md$' || true)
 
@@ -25,19 +25,22 @@ if [[ -n "${NEW_DOCS}" ]]; then
   done <<< "${NEW_DOCS}"
 fi
 
-# 2) Verify canonical portal route files exist.
-# The staff and admin dashboards now live in the admin app. Check the real
-# source-of-truth routes instead of requiring extra public redirect stubs.
-REQUIRED_PORTAL_ROUTE_FILES=(
+# 2) Verify canonical portal routes exist
+# Paths updated to match current repo structure (post-dashboard-consolidation).
+# Original paths: app/portal/staff/dashboard, app/programs/admin/dashboard
+# Canonical paths per AGENTS.md:
+#   Staff  -> /staff-portal/dashboard
+#   Admin  -> /admin/dashboard (programs sub-pages under /admin/programs/[code]/dashboard)
+REQUIRED_REDIRECT_FILES=(
   "app/partner/dashboard/page.tsx"
-  "apps/admin/app/admin/staff-portal/dashboard/page.tsx"
-  "apps/admin/app/admin/dashboard/page.tsx"
+  "app/staff-portal/dashboard/page.tsx"
+  "app/admin/dashboard/page.tsx"
 )
 
 missing=0
-for f in "${REQUIRED_PORTAL_ROUTE_FILES[@]}"; do
+for f in "${REQUIRED_REDIRECT_FILES[@]}"; do
   if [[ ! -f "$f" ]]; then
-    echo "WARN: Expected portal route file missing: $f"
+    echo "WARN: Expected redirect file missing: $f"
     missing=1
   fi
 done
@@ -80,7 +83,7 @@ else
 fi
 
 if [[ $missing -eq 1 ]]; then
-  echo "FAIL: Missing required portal route files. Implement canonical routes before passing Autopilot."
+  echo "FAIL: Missing required redirect files. Implement redirects before passing Autopilot."
   exit 1
 fi
 
