@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 import {
   GraduationCap,
   DollarSign,
@@ -273,6 +274,9 @@ export default function TrainingProvidersPage() {
           </div>
         </div>
       </section>
+      <div className="max-w-4xl mx-auto px-4 pb-12">
+        <InstitutionalLegalNotice />
+      </div>
     </div>
   );
 }

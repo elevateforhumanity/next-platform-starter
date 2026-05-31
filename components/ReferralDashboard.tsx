@@ -36,7 +36,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
       }
 
       // Fetch referrals
-      const referralsRes = await fetch('/api/referrals?action=my-referrals');
+      const referralsRes = await fetch('/api/referrals?action=my-referrals`);
       const referralsData = await referralsRes.json();
       setReferrals(referralsData.referrals || []);
     } catch (error) {
@@ -60,7 +60,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Join ${PLATFORM_DEFAULTS.orgName}',
+          title: `Join ${PLATFORM_DEFAULTS.orgName}',
           text: shareText,
           url: shareUrl,
         });

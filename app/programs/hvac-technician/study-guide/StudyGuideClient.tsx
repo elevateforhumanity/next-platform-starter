@@ -341,7 +341,7 @@ function StudyGuideContent() {
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="font-bold text-slate-900">EPA 608 Study Guide</h1>
-            <p className="text-xs text-black">${PLATFORM_DEFAULTS.orgName} · HVAC Technician</p>
+            <p className="text-xs text-black">{`${PLATFORM_DEFAULTS.orgName} · HVAC Technician}`}</p>
           </div>
           <div className="flex gap-2">
             <button

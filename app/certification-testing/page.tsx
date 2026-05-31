@@ -12,6 +12,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 
 export const metadata: Metadata = {
   title: 'Schedule Your NHA Certification Exam',

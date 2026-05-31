@@ -109,7 +109,7 @@ export default async function AboutPage() {
               individuals with disabilities, and anyone facing barriers to employment.
             </p>
             <p>
-              We are operated by 2Exclusive LLC-S in partnership with Rise Forward Foundation.
+              We are operated by 2Exclusive LLC-S d/b/a Elevate for Humanity LLC, in partnership with Selfish Inc. d/b/a Rise Forward Foundation.
               Founded in 2019 by Elizabeth Greene, we have grown from a single training program
               into a structured career pathway system covering healthcare, skilled trades, CDL
               trucking, technology, and barbering.

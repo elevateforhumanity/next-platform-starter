@@ -350,7 +350,7 @@ export default async function CosmetologyOrientationPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Call Us</p>
-                <p className="text-slate-600 text-sm">${PLATFORM_DEFAULTS.supportPhone}</p>
+                <p className="text-slate-600 text-sm">{`${PLATFORM_DEFAULTS.supportPhone}}`}</p>
               </div>
             </a>
             <a
