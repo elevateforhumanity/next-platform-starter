@@ -1,14 +1,15 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
+import { checkAdminIP } from '@/lib/api/admin-ip-guard';
 
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
+/** Canonical admin hostname for redirects (env NEXT_PUBLIC_ADMIN_URL, not ELB). */
 function resolveCanonicalAdminHost(): string {
   const fromEnv = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
   if (fromEnv) {
     try {
-      const host = new URL(fromEnv).host.toLowerCase();
-      if (!host.endsWith('.elb.amazonaws.com')) return host;
+      const parsedHost = new URL(fromEnv).host.toLowerCase();
+      if (!parsedHost.endsWith('.elb.amazonaws.com')) return parsedHost;
     } catch {
       /* fall through */
     }
@@ -21,6 +22,7 @@ const PUBLIC_PATHS = [
   '/login',
   '/unauthorized',
   '/api/health',
+  '/api/ping',
   // Password reset flow — Supabase redirects here with a code before a session exists
   '/auth/confirm',
   '/auth/reset-password',
@@ -40,6 +42,22 @@ const SESSION_COOKIE = getSessionCookieName();
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const host = req.headers.get('host')?.toLowerCase().split(':')[0] ?? '';
+  const canonicalAdminHost = resolveCanonicalAdminHost();
+  const isLocalHost =
+    host === 'localhost' || host === '127.0.0.1' || host === '::1';
+
+  // Misrouted www/apex → canonical admin host (ALB/DNS mistakes).
+  if (
+    host &&
+    host !== canonicalAdminHost &&
+    !(process.env.NODE_ENV === 'development' && isLocalHost) &&
+    !host.endsWith('.elb.amazonaws.com')
+  ) {
+    const adminBase = (
+      process.env.NEXT_PUBLIC_ADMIN_URL || `https://${CANONICAL_ADMIN_HOST}`
+    ).replace(/\/+$/, '');
+    return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
+  }
 
   // Always allow public paths, Next.js internals, and static files
   if (
@@ -52,8 +70,6 @@ export async function middleware(req: NextRequest) {
   }
 
   // Only gate protected namespaces.
-  // Root / is included because app/page.tsx redirects to /admin — gate it here
-  // so unauthenticated users go straight to /login without hitting the layout.
   const isProtected =
     pathname === '/' ||
     pathname.startsWith('/admin') ||
@@ -61,22 +77,13 @@ export async function middleware(req: NextRequest) {
 
   if (!isProtected) return NextResponse.next();
 
-  // IP allowlist — reads from env var (ADMIN_IP_ALLOWLIST) with DB fallback
-  // (platform_settings.ip_allowlist). No-op when neither is set.
-  const ipBlocked = await checkAdminIPAsync(req);
+  // Edge middleware: env-only IP allowlist (no DB — avoids Supabase in middleware bundle).
+  const ipBlocked = checkAdminIP(req);
   if (ipBlocked) return ipBlocked;
 
-  // Forward pathname to server components via request header so the admin
-  // layout can read the current path without relying on unreliable Next.js
-  // internal headers (x-invoke-path is not guaranteed).
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set('x-pathname', pathname);
 
-  // Cookie presence check — no Supabase client, no DB round-trip on every request.
-  // Role enforcement happens in the admin layout (requireAdmin) and API guards (apiRequireAdmin).
-  //
-  // @supabase/ssr chunks large tokens across multiple cookies named
-  // `<base>.0`, `<base>.1`, etc. Check for the base name OR any chunk.
   const allCookies = req.cookies.getAll();
   const hasSession = allCookies.some(
     (c) => c.name === SESSION_COOKIE || c.name.startsWith(`${SESSION_COOKIE}.`),

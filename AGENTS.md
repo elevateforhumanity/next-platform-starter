@@ -837,18 +837,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
-### Admin vs public URL env vars (do not swap)
-
-| Variable | Admin ECS / build | LMS |
-|----------|-------------------|-----|
-| `NEXT_PUBLIC_SITE_URL` | `https://www.elevateforhumanity.org` (public LMS) | Same (from SSM) |
-| `NEXT_PUBLIC_PUBLIC_SITE_URL` | Same as `SITE_URL` on admin | Optional |
-| `NEXT_PUBLIC_ADMIN_URL` | `https://admin.elevateforhumanity.org` | Set for `/admin/*` redirects in `proxy.ts` |
-
-Admin-only API callbacks and `/admin/*` email links must use `getAdminUrl()` from `lib/utils/siteUrl.ts`. Learner/LMS links use `getPublicSiteUrl()` or `PLATFORM_DEFAULTS.siteUrl`. Never point `NEXT_PUBLIC_SITE_URL` at the admin host on the admin task definition — `scripts/validate-env.js` and `scripts/check-ecs-container-env.sh` enforce this on deploy.
-
-DNS: `admin.elevateforhumanity.org` → **elevate-admin-alb** only (not CloudFront/www). Run `.github/workflows/fix-alb-redirects.yml` if HTTP redirects use raw `*.elb.amazonaws.com` hostnames.
-
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
@@ -865,4 +853,13 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+
+### Admin ECS container (deploy gotchas)
+
+- **Middleware** must define `resolveCanonicalAdminHost()` if host redirects are enabled; `main` once shipped a redirect without the helper (ReferenceError on every request).
+- **Middleware IP guard**: use sync `checkAdminIP` (env `ADMIN_IP_ALLOWLIST` only). DB-backed allowlist belongs in API routes via `checkAdminIPAsync`, not Edge middleware.
+- **Custom server** (`apps/admin/server.js`) must load `apps/admin/.next/required-server-files.json` and pass `config` to `startServer`. `Dockerfile.admin` must copy `.next/server`, `required-server-files.json`, and `apps/admin/node_modules/ws`.
+- **ECS env**: `NEXT_PUBLIC_SITE_URL` = `https://www.elevateforhumanity.org` (public LMS); `NEXT_PUBLIC_ADMIN_URL` = admin host. ALB health checks should hit `/api/ping` or `/api/health` (both public in middleware).
+- **Diagnostics**: `bash scripts/diagnose-admin-container.sh` (needs AWS CLI + optional `ADMIN_URL`).
+- **Chromium**: `CHROMIUM_PATH` in `ecs-task-admin.json` is unused on `bookworm-slim` unless Chromium is installed in the image; PDF routes may need a separate image layer.
 

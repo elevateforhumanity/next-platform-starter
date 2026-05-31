@@ -85,7 +85,8 @@ async function fetchFromDb(): Promise<SecuritySettings> {
 
     return { ipAllowlist, mfaRequired, sessionTimeoutMs, maxLoginAttempts, lockoutDurationMs };
   } catch (err) {
-    logger.warn('[security-settings] DB fetch failed, using defaults', err instanceof Error ? err.message : err);
+    const detail = err instanceof Error ? err.message : String(err);
+    logger.warn('[security-settings] DB fetch failed, using defaults', { detail });
     return {
       ...DEFAULT,
       // Still apply env var even if DB fails
