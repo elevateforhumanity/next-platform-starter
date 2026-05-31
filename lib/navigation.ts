@@ -267,10 +267,10 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // ── 7. Apply — full application funnel by audience ───────────────────────────
+  // ── 7. Applications — full application funnel by audience ────────────────────
   {
     id: 'apply',
-    name: 'Apply',
+    name: 'Applications',
     href: '/apply',
     subItems: [
       // Students / Participants

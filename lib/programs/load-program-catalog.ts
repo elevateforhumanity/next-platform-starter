@@ -4,11 +4,40 @@
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { logger } from '@/lib/logger';
 import { normalizeProgramSectionKey, resolveCredentialLabel } from './category-normalize';
 
 const ELEVATE_PROVIDER_SLUG = 'elevate';
+
+const STATIC_SECTOR_SECTION: Record<string, string> = {
+  healthcare: 'healthcare',
+  'skilled-trades': 'trades',
+  'personal-services': 'beauty',
+  technology: 'technology',
+  business: 'business',
+};
+
+/** SSR/Google-safe listing when public Supabase returns no published rows (RLS/env). */
+function listingFromStaticCatalog(suppressed: Set<string>): ProgramsListingItem[] {
+  return ALL_PROGRAMS.filter((p) => p.slug && !suppressed.has(p.slug)).map((p) => {
+    const sectionKey =
+      STATIC_SECTOR_SECTION[p.sector] ?? normalizeProgramSectionKey(p.category);
+    const weeks = p.durationWeeks;
+    return {
+      slug: p.slug,
+      title: p.title,
+      description: p.subtitle?.trim() || null,
+      category: p.category,
+      sectionKey,
+      duration: weeks > 0 ? `${weeks} weeks` : null,
+      credential: p.credentials?.[0]?.name ?? null,
+      funding_eligible: !p.isSelfPay,
+    };
+  });
+}
+
 
 /** Columns that exist on live `programs` (PostgREST). */
 export const PUBLIC_PROGRAM_COLUMNS =
@@ -249,13 +278,20 @@ export async function loadPublishedProgramsListing(
 
   if (error) {
     logger.error('[loadPublishedProgramsListing] query failed', { message: error.message });
-    return { programs: [], error: error.message };
   }
 
   const suppressed = options?.suppressSlugs ?? new Set<string>();
-  const programs = ((data ?? []) as ProgramsRow[])
+  let programs = ((data ?? []) as ProgramsRow[])
     .filter((row) => row.slug && !suppressed.has(row.slug))
     .map(mapProgramsRowToListing);
 
-  return { programs };
+  if (programs.length === 0) {
+    logger.warn(
+      '[loadPublishedProgramsListing] DB returned 0 published programs — using static catalog fallback',
+      error ? { dbError: error.message } : undefined,
+    );
+    programs = listingFromStaticCatalog(suppressed);
+  }
+
+  return { programs, error: error?.message };
 }

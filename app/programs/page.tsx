@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
+import { loadPublishedProgramsListing } from '@/lib/programs/load-program-catalog';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -134,7 +135,7 @@ export default async function ProgramsPage() {
       {/* Hero */}
       <section className="relative h-64 sm:h-80 w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="{PLATFORM_DEFAULTS.orgName} programs" fill className="object-cover object-center" priority placeholder="empty" />
+        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt={`${PLATFORM_DEFAULTS.orgName} programs`} fill className="object-cover object-center" priority placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 to-brand-blue-900/30" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">{PLATFORM_DEFAULTS.orgName}</p>
