@@ -197,7 +197,7 @@ export default async function TrainingSitesPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apprenticeship-hero.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} training sites and employer partners"
+          alt={`${PLATFORM_DEFAULTS.orgName} training sites and employer partners`}
           fill
           className="object-cover object-center"
           priority

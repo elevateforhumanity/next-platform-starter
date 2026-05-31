@@ -38,7 +38,7 @@ const OUTCOMES = [
 ];
 
 const AGGREGATE_STATS = [
-  { value: 85, suffix: '%', label: 'Job placement within 90 days', icon: TrendingUp },
+  { value: 85, suffix: '%', label: 'Career services engagement', icon: TrendingUp },
   { value: 12, suffix: ' weeks', label: 'Average time to credential', icon: Clock },
   { value: 42, prefix: '$', suffix: 'K', label: 'Average starting salary', icon: DollarSign },
   { value: 100, suffix: '%', label: 'Tuition covered for eligible students', icon: Award },

@@ -68,7 +68,7 @@ export default function TransparencyPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/transparency-page-1.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} transparency"
+          alt={`${PLATFORM_DEFAULTS.orgName} transparency`}
           fill
           className="object-cover"
           priority
