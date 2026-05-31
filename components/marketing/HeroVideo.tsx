@@ -201,7 +201,7 @@ export default function HeroVideo({
         className="relative w-full overflow-hidden"
         style={{
           height: 'clamp(400px, 56vw, 780px)',
-          backgroundColor: '#0f172a',
+          backgroundColor: posterImage ? undefined : 'transparent',
           ...(posterImage ? {
             backgroundImage: `url(${posterImage})`,
             backgroundSize: 'cover',

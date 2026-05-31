@@ -209,7 +209,7 @@ export default function CanonicalVideo({
   // Reduced-motion or error: render poster only (or transparent placeholder so layout doesn't collapse)
   if (reducedMotion || failed) {
     if (!poster)
-      return <div className={className} style={{ background: '#0f172a' }} aria-hidden="true" />;
+      return <div className={className} aria-hidden="true" />;
     // IMAGE-CONTRACT: allow raw img because poster element requires native img for object-fit
     return (
       <img
