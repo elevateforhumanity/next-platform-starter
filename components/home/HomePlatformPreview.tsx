@@ -98,7 +98,7 @@ export function HomePlatformPreview() {
 
         {/* System features grid */}
         <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6">
-          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-5">
+          <p className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-5">
             What runs under the hood
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -107,19 +107,19 @@ export function HomePlatformPreview() {
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-1.5 shrink-0" aria-hidden="true" />
                 <div>
                   <p className="text-xs font-bold text-white">{f.label}</p>
-                  <p className="text-[11px] text-slate-500 leading-snug mt-0.5">{f.detail}</p>
+                  <p className="text-[11px] text-slate-400 leading-snug mt-0.5">{f.detail}</p>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-6 pt-5 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="text-xs text-slate-500 max-w-md">
+            <p className="text-xs text-slate-400 max-w-md">
               Built for workforce agencies, employers, and training providers who need
               institutional-grade infrastructure — not consumer software.
             </p>
             <Link
               href="/platform"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors shrink-0"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white transition-colors shrink-0"
             >
               Platform overview <ArrowRight className="w-3 h-3" />
             </Link>
