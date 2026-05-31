@@ -155,7 +155,7 @@ export default async function HomePage() {
           Training Partners. Each routes to its own journey. */}
       <HomeSegmentedCTA />
 
-      {/* ── 9b. ACCREDITATIONS & PARTNER LOGOS ──────────────────────────── */}
+      {/* ── 9b. ACCREDITATIONS & PARTNER LOGOS (before final CTA) ───────── */}
       <HomeTrustBar />
 
       {/* ── 10. FINAL CTA ───────────────────────────────────────────────── */}
