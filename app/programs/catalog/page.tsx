@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { loadProgramCatalog } from '@/lib/programs/program-catalog-query';
+import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -44,13 +44,17 @@ export default async function ProgramCatalogPage({
   const page = Math.max(1, parseInt(params.page ?? '1', 10));
   const perPage = 18;
 
-  const { programs, total: count, source: catalogSource } = await loadProgramCatalog({
+  const supabase = await createClient();
+  const catalog = await loadProgramCatalog(supabase, {
     q,
     category,
     wioaOnly,
+    providerSlug,
     page,
     perPage,
   });
+  const programs = catalog.programs;
+  const count = catalog.total;
 
   // Fetch partner_courses stripe data for any slugs in the result set
   // so catalog cards can show a "Pay & Enroll" button when a price is configured.
@@ -100,7 +104,7 @@ export default async function ProgramCatalogPage({
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Program Catalog</h1>
           <p className="text-slate-600 text-sm">
-{count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers{catalogSource === 'static-catalog' ? ' (published catalog)' : ''}
+            {count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers
             {wioaOnly ? ' · WIOA eligible' : ''}
             {category ? ` · ${category}` : ''}
             {providerSlug ? ` · ${providerSlug}` : ''}
