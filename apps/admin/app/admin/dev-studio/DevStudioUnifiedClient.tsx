@@ -35,6 +35,8 @@ interface StudioConfig {
   workflowButtons?: WorkflowButton[];
   defaultPreviewUrl?: string;
   previewTargets?: { label: string; url: string }[];
+  publicSiteUrl?: string;
+  adminSiteUrl?: string;
 }
 
 interface CourseProgram {
@@ -57,6 +59,7 @@ const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'),
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
+const PreviewPane = dynamic(() => import('./panels/PreviewPane'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
@@ -82,18 +85,15 @@ const QUICK_ACTIONS = [
 ];
 
 function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
-  if (tab === 'deploy') return { workspace: 'deploy', mode: 'ellie' };
-  if (tab === 'git') return { workspace: 'git', mode: 'ellie' };
-  if (tab === 'files' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ellie' };
-  if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ellie' };
-  if (tab === 'services') return { workspace: 'services', mode: 'ellie' };
-  if (tab === 'health') return { workspace: 'health', mode: 'ellie' };
-  if (tab === 'secrets') return { workspace: 'secrets', mode: 'ellie' };
-  if (tab === 'automation' || tab === 'workflows') return { workspace: 'workflows', mode: 'ellie' };
-  if (tab === 'command' || tab === 'terminal' || tab === 'run') return { workspace: 'terminal', mode: 'ellie' };
+  if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
+  if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
+  if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ask' };
+  if (tab === 'services') return { workspace: 'services', mode: 'ask' };
+  if (tab === 'health') return { workspace: 'health', mode: 'ask' };
+  if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
+  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
-  if (tab === 'ellie' || tab === 'chat') return { workspace: 'studio', mode: 'ellie' };
-  return { workspace: 'studio', mode: 'ellie' };
+  return { workspace: 'studio', mode: 'ask' };
 }
 
 export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
@@ -234,49 +234,34 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
           </main>
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
-            <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#3c3c3c] bg-[#2d2d2d] px-2">
-              <button
-                type="button"
-                onClick={() => setLivePreviewUrl(previewUrl)}
-                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
-                title="Refresh preview"
-              >
-                <RefreshCw className="h-3.5 w-3.5" />
-              </button>
-              <form
-                className="flex min-w-0 flex-1 items-center rounded border border-[#555] bg-[#3c3c3c] px-2"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setLivePreviewUrl(previewUrl);
-                }}
-              >
-                <Globe className="mr-1.5 h-3.5 w-3.5 shrink-0 text-[#4ec9b0]" />
-                <input
-                  value={previewUrl}
-                  onChange={(event) => setPreviewUrl(event.target.value)}
-                  className="h-7 min-w-0 flex-1 bg-transparent text-[11px] text-[#cccccc] outline-none"
-                  spellCheck={false}
-                />
-              </form>
-              <a
-                href={livePreviewUrl || previewUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
-                title="Open preview"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </div>
-            <iframe title="Live Preview" src={livePreviewUrl || previewUrl} className="min-h-0 flex-1 border-0 bg-white" />
+            <PreviewPane
+              inputUrl={previewUrl}
+              liveUrl={livePreviewUrl || previewUrl}
+              device={previewDevice}
+              previewTargets={config?.previewTargets}
+              onInputChange={setPreviewUrl}
+              onGo={() => setLivePreviewUrl(previewUrl)}
+              onRefresh={() => {
+                const base = livePreviewUrl || previewUrl;
+                if (!base) return;
+                const busted = base + (base.includes('?') ? '&_r=' : '?_r=') + Date.now();
+                setLivePreviewUrl(busted);
+              }}
+              onDeviceChange={setPreviewDevice}
+            />
           </section>
         </div>
       </div>
 
-      <footer className="flex h-6 shrink-0 items-center justify-between bg-[#0078d4] px-3 text-[11px] text-white">
-        <span>main</span>
-        <span className="hidden sm:inline">AWS / Supabase / GitHub Actions</span>
-        <span>TypeScript</span>
+      <footer className="flex h-6 shrink-0 items-center justify-between gap-2 bg-[#0078d4] px-3 text-[11px] text-white">
+        <span className="truncate">main</span>
+        <span className="hidden min-w-0 truncate sm:inline" title={config?.publicSiteUrl}>
+          Public: {config?.publicSiteUrl ?? '…'}
+        </span>
+        <span className="hidden min-w-0 truncate md:inline" title={config?.adminSiteUrl}>
+          Admin: {config?.adminSiteUrl ?? '…'}
+        </span>
+        <span className="shrink-0">AWS / Supabase</span>
       </footer>
     </div>
   );

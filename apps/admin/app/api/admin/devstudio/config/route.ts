@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
       { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to ECS' },
       { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin service to ECS' },
       { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build and push the Dev Studio shell service to ECS' },
-      { key: 'ci-cd', label: 'Run CI', description: 'Run the full validation pipeline (ci-cd.yml)' },
+      { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],
     defaultPreviewUrl: configuredPreviewUrl || publicSiteUrl,
@@ -173,6 +173,9 @@ export async function GET(req: NextRequest) {
 
     const settings = new Map<string, string>((data ?? []).map((r) => [r.key, r.value ?? '']));
 
+    const publicSiteUrl = resolvePublicSiteUrl();
+    const adminSiteUrl = resolveAdminSiteUrl();
+
     const response: DevStudioConfigResponse = {
       quickCommands: parseJsonSetting<string[]>(
         settings.get('DEVSTUDIO_QUICK_COMMANDS_JSON'),
@@ -186,13 +189,17 @@ export async function GET(req: NextRequest) {
         'DEVSTUDIO_WORKFLOW_BUTTONS_JSON',
         isWorkflowButtons,
       ),
-      defaultPreviewUrl: settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') || fallback.defaultPreviewUrl,
+      defaultPreviewUrl:
+        settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') ||
+        resolveDefaultPreviewUrl({ requestHost, publicSiteUrl, adminSiteUrl }),
       previewTargets: parseJsonSetting<DevStudioConfigResponse['previewTargets']>(
         settings.get('DEVSTUDIO_PREVIEW_TARGETS_JSON'),
-        fallback.previewTargets,
+        buildDevStudioPreviewTargets({ publicSiteUrl, adminSiteUrl }),
         'DEVSTUDIO_PREVIEW_TARGETS_JSON',
         isPreviewTargets,
       ),
+      publicSiteUrl,
+      adminSiteUrl,
       tabFiles: parseJsonSetting<Record<string, string>>(
         settings.get('DEVSTUDIO_TAB_FILES_JSON'),
         fallback.tabFiles,

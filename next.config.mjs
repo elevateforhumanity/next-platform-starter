@@ -1184,10 +1184,10 @@ const nextConfig = {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self' https://js.stripe.com",
-          // Production: allow admin portal to embed LMS for Dev Studio preview.
+          // Production: same-origin + admin app (Dev Studio live preview). Dev: same-origin only.
           isProduction
-            ? "frame-ancestors 'self' https://admin.elevateforhumanity.org"
-            : "frame-ancestors 'self' http://localhost:3001",
+            ? `frame-ancestors 'self' ${devStudioAdminOrigin}`
+            : "frame-ancestors 'self'",
           'upgrade-insecure-requests',
           // CSP violation reporting endpoint
           'report-uri /api/csp-report',
