@@ -19,7 +19,6 @@ import {
   RefreshCw,
   Rocket,
   Save,
-  Send,
   Server,
   Sparkles,
   Upload,
@@ -57,6 +56,7 @@ const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'),
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
+const RunWorkspace = dynamic(() => import('@/components/dev-studio/RunWorkspace'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
@@ -72,15 +72,6 @@ const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?
   { id: 'secrets', label: 'Secrets', Icon: Key },
 ];
 
-const QUICK_ACTIONS = [
-  { label: 'Website deploy', command: 'Deploy the LMS service' },
-  { label: 'Admin deploy', command: 'Deploy the admin service' },
-  { label: 'Studio deploy', command: 'Deploy the studio service' },
-  { label: 'Smoke test', command: 'Run smoke test' },
-  { label: 'Build course', command: 'Generate a new course' },
-  { label: 'System health', command: 'Check system health' },
-];
-
 function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
   if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
   if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
@@ -88,6 +79,7 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'services') return { workspace: 'services', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
+  if (tab === 'ellie' || tab === 'automation' || tab === 'ai') return { workspace: 'studio', mode: 'ask' };
   if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
   return { workspace: 'studio', mode: 'ask' };
@@ -121,12 +113,27 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
       });
   }, []);
 
-  useEffect(() => {
+  const refreshHealth = useCallback(() => {
     fetch('/api/devstudio/health')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => setHealth(data))
       .catch(() => setHealth(null));
   }, []);
+
+  useEffect(() => {
+    refreshHealth();
+  }, [refreshHealth]);
+
+  const studioRuntime = useMemo(
+    () => health?.studioRuntime as StudioRuntimeCompletion | undefined,
+    [health],
+  );
+
+  useEffect(() => {
+    if (studioRuntime?.phase !== 'booting') return;
+    const timer = window.setInterval(refreshHealth, 8000);
+    return () => window.clearInterval(timer);
+  }, [studioRuntime?.phase, refreshHealth]);
 
   useEffect(() => {
     setProgramsLoading(true);
@@ -146,12 +153,13 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
 
   const activeProviders = useMemo(() => {
     if (!health) return 'checking';
+    if (health.aiConfigured === false) return 'not configured';
     return [
       health.hasGroq && 'Groq',
       health.hasGemini && 'Gemini',
       health.hasOpenAI && 'OpenAI',
       health.hasAnthropic && 'Anthropic',
-    ].filter(Boolean).join(' / ') || 'no AI keys';
+    ].filter(Boolean).join(' / ') || 'configured';
   }, [health]);
 
   function openWorkspace(next: Workspace) {
@@ -220,14 +228,23 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                 onModeChange={setStudioMode}
                 programs={programs}
                 programsLoading={programsLoading}
+                studioRuntime={studioRuntime}
               />
             )}
             {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
             {workspace === 'files' && <FilesPanel />}
             {workspace === 'environments' && <EnvironmentPanel />}
             {workspace === 'services' && <ServicesPanel />}
-            {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
-            {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
+            {workspace === 'health' && (
+              <HealthPanel health={health} studioRuntime={studioRuntime} onRefresh={refreshHealth} />
+            )}
+            {workspace === 'secrets' && (
+              isSuperAdmin ? (
+                <SecretsPanel />
+              ) : (
+                <HealthPanel health={health} studioRuntime={studioRuntime} onRefresh={refreshHealth} />
+              )
+            )}
           </main>
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
@@ -311,11 +328,13 @@ function StudioPanel({
   onModeChange,
   programs,
   programsLoading,
+  studioRuntime,
 }: {
   mode: StudioMode;
   onModeChange: (mode: StudioMode) => void;
   programs: CourseProgram[];
   programsLoading: boolean;
+  studioRuntime?: StudioRuntimeCompletion;
 }) {
   const modes: { id: StudioMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
     { id: 'ask', label: 'Ask', Icon: MessageSquare },
@@ -341,7 +360,7 @@ function StudioPanel({
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
         {mode === 'ask' && <AIChat ellieMode={true} />}
-        {mode === 'run' && <RunPanel />}
+        {mode === 'run' && <RunWorkspace studioRuntime={studioRuntime} />}
         {mode === 'courses' && (
           programsLoading ? (
             <div className="flex h-full items-center justify-center gap-2 text-slate-500">
@@ -357,129 +376,6 @@ function StudioPanel({
   );
 }
 
-function RunPanel() {
-  const [input, setInput] = useState('');
-  const [lines, setLines] = useState<{ type: 'user' | 'output' | 'error'; text: string }[]>([]);
-  const [loading, setLoading] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [lines]);
-
-  async function run(command: string) {
-    const trimmed = command.trim();
-    if (!trimmed || loading) return;
-    setInput('');
-    setLoading(true);
-    setLines([{ type: 'user', text: trimmed }]);
-
-    try {
-      const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
-      const res = await fetch(
-        isSmoke ? '/api/devstudio/smoke-test' : '/api/devstudio/execute',
-        isSmoke ? undefined : {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ command: trimmed }),
-        },
-      );
-
-      if (!res.ok || !res.body) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || `Request failed with HTTP ${res.status}`);
-      }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const chunks = buffer.split('\n');
-        buffer = chunks.pop() ?? '';
-        for (const chunk of chunks) {
-          if (!chunk.startsWith('data: ')) continue;
-          const raw = chunk.slice(6).trim();
-          if (!raw || raw === '[DONE]') continue;
-          let text = raw;
-          try {
-            const parsed = JSON.parse(raw);
-            text = parsed.line ?? parsed.text ?? parsed.output ?? raw;
-          } catch {
-            text = raw;
-          }
-          setLines((current) => [...current, { type: 'output', text }]);
-        }
-      }
-    } catch (error) {
-      setLines((current) => [...current, { type: 'error', text: error instanceof Error ? error.message : 'Command failed' }]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <div className="flex h-full flex-col overflow-hidden bg-[#1e1e1e]">
-      <div className="flex shrink-0 gap-1.5 overflow-x-auto border-b border-[#3c3c3c] bg-[#2d2d2d] px-2 py-2">
-        {QUICK_ACTIONS.map((item) => (
-          <button
-            key={item.label}
-            type="button"
-            onClick={() => run(item.command)}
-            disabled={loading}
-            className="shrink-0 rounded border border-[#555] bg-[#3c3c3c] px-2.5 py-1 text-[11px] text-[#cccccc] disabled:opacity-50"
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-      <div className="min-h-0 flex-1 overflow-y-auto p-3 font-mono text-xs">
-        {lines.length === 0 && <p className="text-[#555]">Ready.</p>}
-        {lines.map((line, index) => (
-          <div
-            key={`${line.type}-${index}`}
-            className="whitespace-pre-wrap break-words"
-            style={{ color: line.type === 'user' ? '#f97316' : line.type === 'error' ? '#f87171' : '#cccccc' }}
-          >
-            {line.type === 'user' ? `$ ${line.text}` : line.text}
-          </div>
-        ))}
-        {loading && (
-          <div className="mt-2 flex items-center gap-2 text-[#f97316]">
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            Running
-          </div>
-        )}
-        <div ref={bottomRef} />
-      </div>
-      <form
-        className="flex shrink-0 items-center gap-2 border-t border-[#3c3c3c] bg-[#252526] p-3"
-        onSubmit={(event) => {
-          event.preventDefault();
-          run(input);
-        }}
-      >
-        <span className="font-mono text-sm font-bold text-[#f97316]">$</span>
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          className="h-10 min-w-0 flex-1 rounded border border-[#555] bg-[#3c3c3c] px-3 font-mono text-sm text-[#cccccc] outline-none"
-          placeholder="Tell Studio what to run"
-          disabled={loading}
-        />
-        <button
-          type="submit"
-          disabled={loading || !input.trim()}
-          className="inline-flex h-10 w-10 items-center justify-center rounded bg-[#f97316] text-white disabled:opacity-50"
-        >
-          <Send className="h-4 w-4" />
-        </button>
-      </form>
-    </div>
-  );
-}
 
 const MAX_UPLOAD_BYTES = 512 * 1024;
 const TEXT_UPLOAD_EXTENSIONS = new Set([
