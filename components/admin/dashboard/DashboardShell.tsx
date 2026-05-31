@@ -16,7 +16,7 @@ import { LearnerActionButtons } from "./LearnerActionButtons";
 import { LeadActionButtons } from "./LeadActionButtons";
 import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
 import { SystemHealthPanel } from "./SystemHealthPanel";
-import { KpiGrid } from "./KpiGrid";
+import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
 import { JobBoardPanel } from "./JobBoardPanel";
@@ -489,15 +489,13 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
-        <AdminCategoryLanding />
-
         {/* ── Stats overview bar ───────────────────────────────────────── */}
         <StatsOverviewBar data={data} />
 
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
           <div className="mb-6">
-            <RealtimeKpiGrid kpis={data.kpis} />
+            <KpiGrid kpis={data.kpis} />
           </div>
         )}
 
@@ -505,7 +503,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         <OperationalAlerts data={data} />
 
         {/* ── Scored priority list ─────────────────────────────────────── */}
-        <TodaysPriorities data={data} />
+        {(data.priorities?.length ?? 0) > 0 && <TodaysPriorities data={data} />}
 
         {/* ── Main operational grid ────────────────────────────────────── */}
         {/* Left (2/3): action queues — learners, review queues, CRM       */}

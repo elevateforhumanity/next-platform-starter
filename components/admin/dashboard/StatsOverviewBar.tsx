@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Users, BookOpen, DollarSign, BadgeCheck, FileText, TrendingUp } from 'lucide-react';
 import type { AdminDashboardData } from './types';
+import { formatCentsCompact } from '@/lib/admin/dashboard/format-metrics';
 
 interface Props {
   data: AdminDashboardData;
@@ -39,7 +40,11 @@ function StatCard({ icon, label, value, sub, href, urgent }: StatCardProps) {
   );
 }
 
-const fmt = formatCentsCompact;
+function fmt(cents: number) {
+  if (cents >= 100_000_00) return `$${(cents / 100_000_00).toFixed(1)}M`;
+  if (cents >= 1_000_00)   return `$${(cents / 1_000_00).toFixed(1)}k`;
+  return `$${(cents / 100).toLocaleString('en-US')}`;
+}
 
 export function StatsOverviewBar({ data }: Props) {
   const { counts, totalStudents, revenueAllTimeCents, operational } = data;
