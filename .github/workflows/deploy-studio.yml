@@ -1,4 +1,4 @@
-name: Deploy Studio Shell
+name: Deploy Dev Studio Runtime
 # Retry trigger marker: 2026-05-22T10:36Z
 
 on:
@@ -100,7 +100,6 @@ jobs:
         run: |
           docker build \
             -f Dockerfile.studio \
-            --ignorefile docker/studio.dockerignore \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
             .

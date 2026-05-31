@@ -19,7 +19,6 @@ import {
   RefreshCw,
   Rocket,
   Save,
-  Send,
   Server,
   Sparkles,
   Upload,
@@ -710,39 +709,27 @@ function FilesPanel() {
 
 function EnvironmentPanel() {
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-white">
-      <div className="shrink-0 border-b border-slate-200 bg-amber-50 px-4 py-2 text-[11px] text-amber-900">
-        Local VS Code only — not the AWS Dev Studio Runtime. Use <strong>Health</strong> and{' '}
-        <strong>Services</strong> for runtime status.
-      </div>
-      <div className="min-h-0 flex-1 overflow-hidden">
-        <DevContainerPanel />
-      </div>
+    <div className="h-full overflow-hidden bg-white">
+      <DevContainerPanel />
     </div>
   );
 }
 
-function HealthPanel({
-  health,
-  studioRuntime,
-  onRefresh,
-}: {
-  health: Record<string, unknown> | null;
-  studioRuntime?: StudioRuntimeCompletion;
-  onRefresh: () => void;
-}) {
+function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | null; onRefresh: () => void }) {
   const rows = [
-    ['AI', health?.aiConfigured ? 'configured' : 'missing'],
     ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
     ['Gemini', health?.hasGemini ? 'configured' : 'missing'],
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
-    ['Anthropic', health?.hasAnthropic ? 'configured' : 'missing'],
+    ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
+    ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
+    ['Node', String(health?.nodeVersion ?? 'unknown')],
+    ['Next', String(health?.nextVersion ?? 'unknown')],
   ];
 
   return (
-    <div className="h-full overflow-y-auto bg-[#1e1e1e] p-4 space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="h-full overflow-y-auto bg-[#1e1e1e] p-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Activity className="h-4 w-4 text-[#4ec9b0]" />
           <h2 className="text-sm font-semibold text-white">Health</h2>
@@ -752,7 +739,6 @@ function HealthPanel({
           Refresh
         </button>
       </div>
-      <DevStudioRuntimeStatus runtime={studioRuntime} />
       <div className="rounded border border-[#3c3c3c] bg-[#252526]">
         {rows.map(([label, value]) => (
           <div key={label} className="flex items-center justify-between border-b border-[#2d2d2d] px-3 py-2 text-xs last:border-0">
