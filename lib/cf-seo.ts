@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { siteConfig } from '@/content/cf-site';
+import { buildSiteMetadata } from '@/lib/seo/build-site-metadata';
 
+/** @deprecated Use buildSiteMetadata from @/lib/seo/build-site-metadata */
 export function buildMetadata({
   title,
   description,
@@ -10,18 +11,6 @@ export function buildMetadata({
   description: string;
   path?: string;
 }): Metadata {
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `${siteConfig.url}${path}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `${siteConfig.url}${path}`,
-      siteName: siteConfig.name,
-      type: 'website',
-    },
-  };
+  const normalized = path.startsWith('/') ? path : path ? `/${path}` : '/';
+  return buildSiteMetadata({ title, description, path: normalized });
 }

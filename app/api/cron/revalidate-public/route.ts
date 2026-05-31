@@ -1,4 +1,4 @@
-// PUBLIC ROUTE (cron): purge Next.js cache for public catalog and marketing pages after deploy
+// PUBLIC ROUTE (cron): purge Next.js cache for public marketing pages after deploy
 
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
@@ -7,12 +7,22 @@ import { logger } from '@/lib/logger';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const PUBLIC_PATHS = [
+/** All public marketing routes that must not serve stale program counts or SEO. */
+export const PUBLIC_REVALIDATE_PATHS = [
   '/',
   '/programs',
   '/programs/catalog',
-  '/impact',
+  '/programs/healthcare',
+  '/programs/skilled-trades',
+  '/programs/technology',
+  '/education',
   '/career-training',
+  '/impact',
+  '/funding',
+  '/apply',
+  '/enrollment',
+  '/about',
+  '/contact',
 ] as const;
 
 async function _GET(request: NextRequest) {
@@ -22,15 +32,17 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  for (const path of PUBLIC_PATHS) {
+  for (const path of PUBLIC_REVALIDATE_PATHS) {
     revalidatePath(path);
   }
 
-  logger.info('[cron/revalidate-public] revalidated paths', { paths: PUBLIC_PATHS });
+  logger.info('[cron/revalidate-public] revalidated paths', {
+    paths: PUBLIC_REVALIDATE_PATHS,
+  });
 
   return NextResponse.json({
     ok: true,
-    revalidated: PUBLIC_PATHS,
+    revalidated: PUBLIC_REVALIDATE_PATHS,
     at: new Date().toISOString(),
   });
 }

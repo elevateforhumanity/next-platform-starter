@@ -1,16 +1,5 @@
 // PUBLIC ROUTE: public program catalog
 
-// GET /api/catalog
-// Public, rate-limited. Returns paginated, filtered results from canonical `programs` table.
-// Query params:
-//   q           — full-text search
-//   category    — program category
-//   wioa        — 'true' to filter WIOA-eligible only
-//   state       — state code (default IN)
-//   provider    — tenant slug
-//   page        — 1-based (default 1)
-//   per_page    — max 50 (default 20)
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createPublicClient } from '@/lib/supabase/public';
 import { loadProgramCatalog } from '@/lib/programs/load-program-catalog';

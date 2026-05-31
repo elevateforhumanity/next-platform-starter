@@ -835,6 +835,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - Canonical DB reads: `loadPublishedProgramsListing` / `loadProgramCatalog` in `lib/programs/load-program-catalog.ts`. Static fallback from `data/programs/catalog.ts` when the public anon client returns zero rows.
 - After each production deploy, call `GET /api/cron/revalidate-public` with `Authorization: Bearer $CRON_SECRET` to revalidate `/`, `/programs`, `/programs/catalog`, `/impact`.
 
+
+### Public catalog SSR (hydration / Google)
+
+- **Single catalog source** — import from `@/lib/programs` (see `lib/programs/index.ts`).
+- **SEO** — `buildSiteMetadata()` from `lib/seo/build-site-metadata.ts`; no hardcoded canonical URLs in pages.
+- After deploy: `GET /api/cron/revalidate-public` with Bearer `CRON_SECRET`.
+- Audit: `node scripts/audit-public-html.mjs`
+
 ### Gotchas
 
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.

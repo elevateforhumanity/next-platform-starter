@@ -1,5 +1,7 @@
-import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
+import { createPublicClient } from '@/lib/supabase/public';
+import { loadProgramCatalog } from '@/lib/programs/load-program-catalog';
+import { buildSiteMetadata } from '@/lib/seo/build-site-metadata';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -7,13 +9,18 @@ import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
 import CatalogFilters from './CatalogFilters';
 import { PayNowButton } from '@/components/programs/PayNowButton';
 
-export const metadata: Metadata = {
-  title: 'Program Catalog',
-  description: 'Browse workforce training programs from approved providers. Filter by funding eligibility, credential type, location, and start date.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/catalog' },
-};
+export const revalidate = 0;
 
-export const revalidate = 60;
+export async function generateMetadata(): Promise<Metadata> {
+  const db = createPublicClient();
+  const { total } = await loadProgramCatalog(db, { perPage: 1, page: 1 });
+  const countLabel = total > 0 ? `${total}` : '30+';
+  return buildSiteMetadata({
+    title: 'Program Catalog',
+    description: `Browse ${countLabel} workforce training programs. Filter by funding eligibility, credential type, and delivery mode.`,
+    path: '/programs/catalog',
+  });
+}
 
 const CATEGORIES = [
   'HVAC / Refrigeration', 'Electrical', 'Plumbing', 'Welding',
@@ -44,26 +51,18 @@ export default async function ProgramCatalogPage({
   const page = Math.max(1, parseInt(params.page ?? '1', 10));
   const perPage = 18;
 
-  const supabase = await createClient();
+  const db = createPublicClient();
+  const catalog = await loadProgramCatalog(db, {
+    q: q || undefined,
+    category: category || undefined,
+    wioaOnly,
+    providerSlug: providerSlug || undefined,
+    page,
+    perPage,
+  });
 
-  let query = supabase
-    .from('program_catalog_index')
-    .select(
-      'program_id, provider_name, provider_slug, title, slug, category, ' +
-      'wioa_eligible, funding_tags, credential_name, duration_weeks, ' +
-      'next_start_date, seats_available, delivery_mode, city, state, ' +
-      'completion_rate, placement_rate',
-      { count: 'exact' }
-    )
-    .range((page - 1) * perPage, page * perPage - 1)
-    .order('next_start_date', { ascending: true, nullsFirst: false });
-
-  if (q) query = query.textSearch('search_vector', q, { type: 'websearch' });
-  if (category) query = query.eq('category', category);
-  if (wioaOnly) query = query.eq('wioa_eligible', true);
-  if (providerSlug) query = query.eq('provider_slug', providerSlug);
-
-  const { data: programs, count } = await query;
+  const programs = catalog.programs;
+  const count = catalog.total;
 
   // Fetch partner_courses stripe data for any slugs in the result set
   // so catalog cards can show a "Pay & Enroll" button when a price is configured.

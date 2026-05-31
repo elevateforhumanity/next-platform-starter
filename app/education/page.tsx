@@ -1,123 +1,56 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
-import Logo from '@/components/ui/Logo';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import { MapPin, ArrowRight, Clock, Menu, X, Phone, Mail, BookOpen, Users, Award, CheckCircle } from 'lucide-react';
+import { EducationHeader } from '@/components/education/EducationHeader.client';
+import { ArrowRight, MapPin, Clock, Phone, Mail, BookOpen, Users, Award, CheckCircle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { SITE_STATS } from '@/lib/site-stats';
+import { getMarketingProgramSectors } from '@/lib/programs/catalog-sectors';
+import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
+import Logo from '@/components/ui/Logo';
 
-const NAV = [
-  { label: 'Programs', href: '/programs' },
-  { label: 'Healthcare', href: '/programs/healthcare' },
-  { label: 'Skilled Trades', href: '/programs/skilled-trades' },
-  { label: 'Technology', href: '/programs/technology' },
-  { label: 'CDL', href: '/programs/cdl-training' },
-  { label: 'Funding', href: '/funding' },
-  { label: 'Locations', href: '/locations' },
-];
-
-const PROGRAMS = [
-  {
-    title: 'Healthcare',
-    href: '/programs/healthcare',
-    image: '/images/pages/cna-patient-care.jpg',
-    desc: 'CNA, Medical Assistant, Phlebotomy, and more. Hands-on clinical training for in-demand healthcare careers.',
-    tags: ['CNA', 'Medical Assistant', 'Phlebotomy', 'CPR & First Aid'],
-  },
-  {
-    title: 'Skilled Trades',
-    href: '/programs/skilled-trades',
-    image: '/images/pages/hvac-technician.webp',
-    desc: 'HVAC, Electrical, Welding, Plumbing, and Construction. Earn industry certifications and start working.',
-    tags: ['HVAC', 'Electrical', 'Welding', 'Plumbing'],
-  },
-  {
-    title: 'Technology',
-    href: '/programs/technology',
-    image: '/images/pages/cybersecurity.webp',
-    desc: 'Cybersecurity, IT Support, Software Development, and Networking. Launch a career in tech.',
-    tags: ['Cybersecurity', 'IT Help Desk', 'Software Dev'],
-  },
-  {
-    title: 'CDL & Transportation',
-    href: '/programs/cdl-training',
-    image: '/images/pages/cdl-truck-highway.webp',
-    desc: 'Commercial Driving License training with job placement. Class A and Class B CDL programs.',
-    tags: ['CDL Class A', 'CDL Class B', 'Diesel Mechanic'],
-  },
-  {
-    title: 'Barber Apprenticeship',
-    href: '/programs/barber-apprenticeship',
-    image: '/images/pages/barber-apprenticeship.webp',
-    desc: 'Barber apprenticeships and cosmetology training. Learn from licensed professionals in real shop settings.',
-    tags: ['Barber Apprenticeship', 'Cosmetology', 'Nail Tech'],
-  },
-  {
-    title: 'Business & Finance',
-    href: '/programs/business-administration',
-    image: '/images/pages/tax-preparation.webp',
-    desc: 'Bookkeeping, Office Administration, Tax Preparation, and Entrepreneurship programs.',
-    tags: ['Bookkeeping', 'Tax Prep', 'Entrepreneurship'],
-  },
-];
+export const revalidate = 0;
 
 const LOCATIONS = [
-  { state: 'Indiana', href: '/career-training-indiana', cities: ['Indianapolis', 'Fort Wayne', 'Evansville'], image: '/images/pages/about-career-training.webp', desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.' },
-  { state: 'Illinois', href: '/career-training-illinois', cities: ['Chicago', 'Aurora', 'Naperville'], image: '/images/pages/workforce-training.webp', desc: 'Workforce programs across the Chicago metro and statewide.' },
-  { state: 'Ohio', href: '/career-training-ohio', cities: ['Columbus', 'Cleveland', 'Cincinnati'], image: '/images/pages/welding-sparks.webp', desc: 'Career training aligned with Ohio industry demand.' },
-  { state: 'Tennessee', href: '/career-training-tennessee', cities: ['Nashville', 'Memphis', 'Knoxville'], image: '/images/pages/electrical.webp', desc: 'Expanding workforce development across Tennessee.' },
-  { state: 'Texas', href: '/career-training-texas', cities: ['Houston', 'Dallas', 'San Antonio'], image: '/images/pages/business-sector.webp', desc: 'Trade, healthcare, and technology programs for Texas.' },
-];
-
-const STATS = [
-  { Icon: BookOpen, value: SITE_STATS.programsOfferedDisplay, label: 'Training Programs' },
-  { Icon: Users, value: String(SITE_STATS.statesServed), label: 'States with hub pages' },
-  { Icon: Award, value: '15+', label: 'Industry Certifications' },
   {
-    Icon: CheckCircle,
-    value: `${SITE_STATS.careerServicesSupportRate}%`,
-    label: 'Placement support offered',
+    state: 'Indiana',
+    href: '/career-training-indiana',
+    cities: ['Indianapolis', 'Fort Wayne', 'Evansville'],
+    image: '/images/pages/about-career-training.webp',
+    desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.',
+  },
+  {
+    state: 'Illinois',
+    href: '/career-training-illinois',
+    cities: ['Chicago', 'Aurora', 'Naperville'],
+    image: '/images/pages/workforce-training.webp',
+    desc: 'Workforce programs across the Chicago metro and statewide.',
+  },
+  {
+    state: 'Ohio',
+    href: '/career-training-ohio',
+    cities: ['Columbus', 'Cleveland', 'Cincinnati'],
+    image: '/images/pages/welding-sparks.webp',
+    desc: 'Career training aligned with Ohio industry demand.',
   },
 ];
 
-export default function EducationLandingPage() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default async function EducationLandingPage() {
+  const [{ sectors, totalProgramCount, catalogSource }, verified] = await Promise.all([
+    getMarketingProgramSectors(),
+    loadVerifiedPublicStats(),
+  ]);
+
+  const stats = [
+    { Icon: BookOpen, value: verified.programsDisplay, label: 'Training Programs' },
+    { Icon: Users, value: verified.studentsDisplay, label: 'Learners Served' },
+    { Icon: Award, value: verified.placementDisplay, label: 'Credential attainment' },
+    { Icon: CheckCircle, value: '$0', label: 'Eligible Student Cost' },
+  ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* NAV */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/education" className="flex items-center gap-2.5">
-              <Logo alt={PLATFORM_DEFAULTS.orgName} width={140} height={40} className="h-9 w-auto" priority />
-              <span className="hidden sm:inline text-xs font-bold text-brand-red-600 bg-brand-red-50 px-2.5 py-1 rounded-full border border-brand-red-200">Education</span>
-            </Link>
-            <nav className="hidden lg:flex items-center gap-1">
-              {NAV.map((n) => (
-                <Link key={n.label} href={n.href} className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-brand-red-600 hover:bg-white rounded-lg transition-colors">{n.label}</Link>
-              ))}
-              <Link href="/start" className="ml-1 px-5 py-2.5 text-sm font-bold bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 rounded-lg transition-colors">Apply Now</Link>
-              <Link href="/login" className="ml-1 px-4 py-2.5 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200 hover:bg-brand-blue-50 rounded-lg transition-colors">Sign In</Link>
-            </nav>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-white" aria-label="Menu">
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-          {mobileOpen && (
-            <div className="lg:hidden border-t py-3 space-y-1">
-              {NAV.map((n) => <Link key={n.label} href={n.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-white rounded-lg">{n.label}</Link>)}
-              <Link href="/start" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-bold text-brand-red-600">Apply Now</Link>
-              <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-brand-blue-600">Sign In</Link>
-            </div>
-          )}
-        </div>
-      </header>
+    <div className="min-h-screen bg-white" data-catalog-source={catalogSource}>
+      <EducationHeader />
 
-      {/* VIDEO HERO */}
       <section className="pt-16">
         <HeroVideo
           videoSrcDesktop="/videos/lms-learning.mp4"
@@ -126,20 +59,23 @@ export default function EducationLandingPage() {
           microLabel="Career Training"
           analyticsName="education"
           belowHeroHeadline="Career Training That Changes Lives"
-          belowHeroSubheadline="No-cost career training for eligible participants. Choose your program, pick your location, and build a career in healthcare, skilled trades, technology, and more."
+          belowHeroSubheadline={`${totalProgramCount} credential-bearing programs. No-cost training for eligible participants through WIOA and state workforce funding.`}
           ctas={[
             { label: 'Browse All Programs', href: '/programs', variant: 'primary' },
-            { label: 'Apply Now', href: '/start', variant: 'secondary' },
+            { label: 'Apply', href: '/apply', variant: 'secondary' },
             { label: 'Check Funding', href: '/funding', variant: 'secondary' },
           ]}
-          trustIndicators={[`${PLATFORM_DEFAULTS.orgName} Education`, 'WIOA & WRG Eligible', 'Indianapolis, Indiana']}
+          trustIndicators={[
+            `${PLATFORM_DEFAULTS.orgName} Education`,
+            'WIOA & WRG Eligible',
+            'Indianapolis, Indiana',
+          ]}
         />
       </section>
 
-      {/* STATS */}
       <section className="py-8 border-b">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {STATS.map((s) => (
+          {stats.map((s) => (
             <div key={s.label} className="flex items-center gap-3 justify-center">
               <s.Icon className="w-9 h-9 text-brand-red-600 flex-shrink-0" />
               <div>
@@ -151,27 +87,48 @@ export default function EducationLandingPage() {
         </div>
       </section>
 
-      {/* PROGRAMS */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Choose Your Career Path</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Industry-recognized certifications and hands-on training. Many programs are fully funded through WIOA and state workforce grants.</p>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Same program catalog as{' '}
+              <Link href="/programs" className="text-brand-red-600 font-semibold hover:underline">
+                /programs
+              </Link>
+              — industry-recognized credentials and hands-on training.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PROGRAMS.map((p) => (
-              <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100">
-                <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                  <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty" />
+            {sectors.map((p) => (
+              <div
+                key={p.sectionKey}
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-slate-100"
+              >
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={p.image}
+                    alt={`${p.title} training`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-lg font-bold text-slate-900 mb-3">{p.title}</h3>
-                  <p className="text-slate-600 text-sm mb-3">{p.desc}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">{p.title}</h3>
+                  <p className="text-xs text-slate-500 mb-2">{p.programCount} programs</p>
+                  <p className="text-slate-600 text-sm mb-3">{p.description}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {p.tags.map((t) => <span key={t} className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full">{t}</span>)}
+                    {p.tags.map((t) => (
+                      <span key={t} className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                  <Link href={p.href} className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors">
+                  <Link
+                    href={p.href}
+                    className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                  >
                     View Programs <ArrowRight className="w-4 h-4 inline ml-1" />
                   </Link>
                 </div>
@@ -181,18 +138,28 @@ export default function EducationLandingPage() {
         </div>
       </section>
 
-      {/* LOCATIONS */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Pick Your Location</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Training across five states. Select a location to see programs, schedules, and enrollment near you.</p>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Training across multiple states. Select a location for schedules and enrollment near you.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {LOCATIONS.map((loc) => (
-              <div key={loc.state} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-100">
-                <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-                  <Image src={loc.image} alt={`Training in ${loc.state}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty" />
+              <div
+                key={loc.state}
+                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-100"
+              >
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={loc.image}
+                    alt={`Training in ${loc.state}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">
@@ -200,10 +167,10 @@ export default function EducationLandingPage() {
                     <h3 className="text-lg font-bold text-slate-900">{loc.state}</h3>
                   </div>
                   <p className="text-slate-600 text-sm mb-3">{loc.desc}</p>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {loc.cities.map((c) => <span key={c} className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded">{c}</span>)}
-                  </div>
-                  <Link href={loc.href} className="block w-full text-center bg-slate-800 hover:bg-slate-900 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors">
+                  <Link
+                    href={loc.href}
+                    className="block w-full text-center bg-slate-800 hover:bg-slate-900 text-white py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                  >
                     Explore {loc.state} <ArrowRight className="w-4 h-4 inline ml-1" />
                   </Link>
                 </div>
@@ -213,53 +180,96 @@ export default function EducationLandingPage() {
         </div>
       </section>
 
-      {/* FUNDING CTA */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-brand-green-100 text-brand-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
             <Clock className="w-4 h-4" /> Now Enrolling
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Training Funding Available</h2>
-          <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">Many programs are available at no cost through WIOA, state workforce grants, DOL Registered Apprenticeships, and other funding. Self-pay options also available.</p>
+          <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+            Many programs are available at no cost through WIOA, state workforce grants, and DOL Registered
+            Apprenticeships.
+          </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/funding" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Check Funding Eligibility</Link>
-            <Link href="/start" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Start Your Application</Link>
+            <Link
+              href="/funding"
+              className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-7 py-3.5 rounded-lg font-bold transition-colors"
+            >
+              Check Funding Eligibility
+            </Link>
+            <Link
+              href="/apply"
+              className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-7 py-3.5 rounded-lg font-bold transition-colors"
+            >
+              Start Your Application
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-slate-900 text-slate-500 py-10 px-6">
+      <footer className="bg-slate-900 text-slate-400 py-10 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <Logo alt={PLATFORM_DEFAULTS.orgName} width={120} height={36} className="h-8 w-auto brightness-0 invert mb-3" />
+              <Logo
+                alt={PLATFORM_DEFAULTS.orgName}
+                width={120}
+                height={36}
+                className="h-8 w-auto brightness-0 invert mb-3"
+              />
               <div className="text-sm">8888 Keystone Crossing, Suite 1300</div>
               <div className="text-sm">Indianapolis, IN 46240</div>
-              <div className="flex items-center gap-2 mt-3 text-sm"><Phone className="w-4 h-4" /><a href="tel:+13173550500" className="hover:text-slate-900">(317) 355-0500</a></div>
-              <div className="flex items-center gap-2 mt-1 text-sm"><Mail className="w-4 h-4" /><a href="mailto:info@elevateforhumanity.org" className="hover:text-slate-900">info@elevateforhumanity.org</a></div>
-            </div>
-            <div>
-              <div className="text-slate-900 font-semibold mb-3">Programs</div>
-              <div className="space-y-2 text-sm">
-                {PROGRAMS.map((p) => <Link key={p.title} href={p.href} className="block hover:text-slate-900">{p.title}</Link>)}
+              <div className="flex items-center gap-2 mt-3 text-sm">
+                <Phone className="w-4 h-4" />
+                <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/\D/g, '')}`} className="hover:text-white">
+                  {PLATFORM_DEFAULTS.supportPhone}
+                </a>
+              </div>
+              <div className="flex items-center gap-2 mt-1 text-sm">
+                <Mail className="w-4 h-4" />
+                <a href={`mailto:${PLATFORM_DEFAULTS.supportEmail}`} className="hover:text-white">
+                  {PLATFORM_DEFAULTS.supportEmail}
+                </a>
               </div>
             </div>
             <div>
-              <div className="text-slate-900 font-semibold mb-3">Quick Links</div>
+              <div className="text-white font-semibold mb-3">Programs</div>
               <div className="space-y-2 text-sm">
-                <Link href="/start" className="block hover:text-slate-900">Apply Now</Link>
-                <Link href="/funding" className="block hover:text-slate-900">Funding & Financial Aid</Link>
-                <Link href="/locations" className="block hover:text-slate-900">Locations</Link>
-                <Link href="/about" className="block hover:text-slate-900">About Us</Link>
-                <Link href="/contact" className="block hover:text-slate-900">Contact</Link>
-                <Link href="/legal/privacy" className="block hover:text-slate-900">Privacy Policy</Link>
+                {sectors.map((p) => (
+                  <Link key={p.sectionKey} href={p.href} className="block hover:text-white">
+                    {p.title}
+                  </Link>
+                ))}
+                <Link href="/programs" className="block hover:text-white font-semibold">
+                  All programs →
+                </Link>
+              </div>
+            </div>
+            <div>
+              <div className="text-white font-semibold mb-3">Quick Links</div>
+              <div className="space-y-2 text-sm">
+                <Link href="/apply" className="block hover:text-white">
+                  Apply
+                </Link>
+                <Link href="/programs/catalog" className="block hover:text-white">
+                  Program catalog
+                </Link>
+                <Link href="/enrollment" className="block hover:text-white">
+                  Enrollment
+                </Link>
+                <Link href="/funding" className="block hover:text-white">
+                  Funding
+                </Link>
               </div>
             </div>
           </div>
           <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
-            <div>&copy; {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.</div>
-            <Link href={PLATFORM_DEFAULTS.siteUrl} className="hover:text-slate-900">www.elevateforhumanity.org</Link>
+            <div>
+              &copy; {new Date().getFullYear()} {PLATFORM_DEFAULTS.orgName}. All rights reserved.
+            </div>
+            <Link href={PLATFORM_DEFAULTS.siteUrl} className="hover:text-white">
+              {PLATFORM_DEFAULTS.canonicalDomain}
+            </Link>
           </div>
         </div>
       </footer>

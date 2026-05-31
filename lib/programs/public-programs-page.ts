@@ -6,6 +6,7 @@
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { buildSiteMetadata } from '@/lib/seo/build-site-metadata';
 import { SITE_STATS } from '@/lib/site-stats';
 import {
   loadPublishedProgramsListing,
@@ -103,18 +104,9 @@ export function resolvePublicProgramCount(programCount: number): number {
 export async function buildProgramsListingMetadata(): Promise<Metadata> {
   const { programCount } = await getPublicProgramsPageData();
   const count = resolvePublicProgramCount(programCount);
-  const org = PLATFORM_DEFAULTS.orgName;
-
-  return {
-    title: `Programs | ${org}`,
+  return buildSiteMetadata({
+    title: 'Career Training Programs',
     description: `${count} credential-bearing career training programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.`,
-    alternates: { canonical: `${PLATFORM_DEFAULTS.siteUrl}/programs` },
-    openGraph: {
-      title: `Career Training Programs | ${org}`,
-      description: `${count} credential-bearing programs · WIOA & WRG funding available.`,
-      url: `${PLATFORM_DEFAULTS.siteUrl}/programs`,
-      siteName: org,
-      type: 'website',
-    },
-  };
+    path: '/programs',
+  });
 }

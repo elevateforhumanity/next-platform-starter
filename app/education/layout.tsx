@@ -1,22 +1,18 @@
 import type { Metadata } from 'next';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { buildSiteMetadata } from '@/lib/seo/build-site-metadata';
+import { getMarketingProgramSectors } from '@/lib/programs/catalog-sectors';
 
-export const metadata: Metadata = {
-  title: `Career Training Programs | ${PLATFORM_DEFAULTS.orgName} Education`,
-  description:
-    'Browse career training programs in healthcare, skilled trades, technology, CDL, barbering, and business. No-cost training for eligible participants through WIOA and state workforce funding.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/education' },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-    shortcut: '/favicon.ico',
-  },
-};
+export const revalidate = 0;
 
-// Standalone layout — this page renders its own nav and footer
+export async function generateMetadata(): Promise<Metadata> {
+  const { totalProgramCount } = await getMarketingProgramSectors();
+  return buildSiteMetadata({
+    title: 'Career Training Programs — Education',
+    description: `${totalProgramCount} credential-bearing career training programs in healthcare, skilled trades, technology, CDL, barbering, and business. WIOA and state workforce funding available.`,
+    path: '/education',
+  });
+}
+
 export default function EducationLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
