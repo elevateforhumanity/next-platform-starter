@@ -121,13 +121,21 @@ phases:
           --cli-input-json "$NEW_TASK_DEF" \
           --query 'taskDefinition.taskDefinitionArn' --output text)
         echo "Registered: $NEW_TASK_ARN"
-        aws ecs update-service \
+        UPDATED_TD=$(aws ecs update-service \
           --cluster elevate-cluster \
           --service elevate-lms-service \
           --task-definition "$NEW_TASK_ARN" \
-          --region $AWS_DEFAULT_REGION \
-          --query 'service.taskDefinition' --output text
-        echo "Service updated."
+          --force-new-deployment \
+          --region "$AWS_DEFAULT_REGION" \
+          --query 'service.taskDefinition' --output text)
+        echo "ECS update-service OK — service task definition: $UPDATED_TD"
+        aws ecs describe-services \
+          --cluster elevate-cluster \
+          --services elevate-lms-service \
+          --region "$AWS_DEFAULT_REGION" \
+          --query 'services[0].deployments[*].{status:status,taskDef:taskDefinition,rollout:rolloutState,running:runningCount,desired:desiredCount,pending:pendingCount,failed:failedTasks}' \
+          --output table
+        echo "ECS deployment triggered."
       - printf '[{"name":"elevate-lms","imageUri":"%s"}]' $IMAGE_URI:$COMMIT_HASH > imagedefinitions.json
 
 cache:

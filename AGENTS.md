@@ -815,6 +815,21 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
   SKIP_ENV_VALIDATION=true
   ```
 
+### AWS production deploy (not the same as CI)
+
+GitHub **CI/CD Pipeline** (`ci-cd.yml`) runs tests and `pnpm build` on GitHub runners only — it does **not** push images to ECR or update ECS.
+
+Production deploys use separate workflows that call **AWS CodeBuild**:
+
+| Workflow | CodeBuild project | ECS service |
+|----------|-------------------|-------------|
+| **Deploy Admin** (`deploy-admin.yml`) | `elevate-admin-build` | `elevate-admin-service` |
+| **Deploy LMS** (`deploy-lms.yml`) | `elevate-lms-build` | `elevate-lms-service` |
+
+Triggers: push to **`main`** with path filters, or **workflow_dispatch** (Actions → Deploy Admin / Deploy LMS → Run workflow).
+
+If a merge shows a green CI check but production is unchanged, open **Deploy Admin** / **Deploy LMS** — that is the job that reaches AWS. Both workflows pass `--source-version` = the triggering commit SHA so CodeBuild builds the same revision as the GitHub push.
+
 ### Running services
 
 | Service | Command | Port |
@@ -836,18 +851,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
-
-### Admin vs public URL env vars (do not swap)
-
-| Variable | Admin ECS / build | LMS |
-|----------|-------------------|-----|
-| `NEXT_PUBLIC_SITE_URL` | `https://www.elevateforhumanity.org` (public LMS) | Same (from SSM) |
-| `NEXT_PUBLIC_PUBLIC_SITE_URL` | Same as `SITE_URL` on admin | Optional |
-| `NEXT_PUBLIC_ADMIN_URL` | `https://admin.elevateforhumanity.org` | Set for `/admin/*` redirects in `proxy.ts` |
-
-Admin-only API callbacks and `/admin/*` email links must use `getAdminUrl()` from `lib/utils/siteUrl.ts`. Learner/LMS links use `getPublicSiteUrl()` or `PLATFORM_DEFAULTS.siteUrl`. Never point `NEXT_PUBLIC_SITE_URL` at the admin host on the admin task definition — `scripts/validate-env.js` and `scripts/check-ecs-container-env.sh` enforce this on deploy.
-
-DNS: `admin.elevateforhumanity.org` → **elevate-admin-alb** only (not CloudFront/www). Run `.github/workflows/fix-alb-redirects.yml` if HTTP redirects use raw `*.elb.amazonaws.com` hostnames.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 

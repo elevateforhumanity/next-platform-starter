@@ -65,7 +65,7 @@ jobs:
             aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
               --region us-east-1 \
-              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds,contexts:contexts}}' \
+              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts}}' \
               --output json || true
             echo "::endgroup::"
 
@@ -95,9 +95,11 @@ jobs:
             fi
           }
 
-          echo "Starting Admin CodeBuild..."
+          SOURCE_VERSION="${GITHUB_SHA:?Missing GITHUB_SHA}"
+          echo "Starting Admin CodeBuild for commit ${SOURCE_VERSION}..."
           BUILD_ID=$(aws codebuild start-build \
             --project-name elevate-admin-build \
+            --source-version "$SOURCE_VERSION" \
             --buildspec-override aws/buildspec-admin.yml \
             --region us-east-1 \
             --query 'build.id' --output text)
@@ -125,14 +127,40 @@ jobs:
             sleep 30
           done
 
+      - name: Confirm ECS deployment was triggered
+        run: |
+          set -euo pipefail
+          echo "Verifying CodeBuild triggered ECS on elevate-admin-service..."
+          aws ecs describe-services \
+            --cluster elevate-cluster \
+            --services elevate-admin-service \
+            --region us-east-1 \
+            --query 'services[0].{taskDef:taskDefinition,deployments:deployments[*].{status:status,taskDef:taskDefinition,rollout:rolloutState,running:runningCount,desired:desiredCount,failed:failedTasks},events:events[0:5].[createdAt,message]}' \
+            --output json
+          PRIMARY=$(aws ecs describe-services \
+            --cluster elevate-cluster \
+            --services elevate-admin-service \
+            --region us-east-1 \
+            --query 'services[0].deployments[?status==`PRIMARY`].taskDefinition' \
+            --output text)
+          if [ -z "$PRIMARY" ] || [ "$PRIMARY" = "None" ]; then
+            echo "::error::No PRIMARY ECS deployment — CodeBuild post_build may not have called update-service."
+            exit 1
+          fi
+          echo "PRIMARY task definition: $PRIMARY"
+
       - name: Wait for ECS service stability
         id: ecs_stability
         run: |
-          echo "Waiting for ECS service to stabilize..."
-          aws ecs wait services-stable \
+          set -euo pipefail
+          echo "Waiting for ECS service to stabilize (max 40 minutes)..."
+          if ! timeout 2400 aws ecs wait services-stable \
             --cluster elevate-cluster \
             --services elevate-admin-service \
-            --region us-east-1
+            --region us-east-1; then
+            echo "::error::ECS did not stabilize in time — new tasks may be crash-looping."
+            exit 1
+          fi
           echo "ECS service stable."
 
       - name: Diagnose Admin ECS stability failure
