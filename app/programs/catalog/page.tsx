@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { loadProgramCatalog } from '@/lib/programs/program-catalog-query';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -44,26 +44,13 @@ export default async function ProgramCatalogPage({
   const page = Math.max(1, parseInt(params.page ?? '1', 10));
   const perPage = 18;
 
-  const supabase = await createClient();
-
-  let query = supabase
-    .from('program_catalog_index')
-    .select(
-      'program_id, provider_name, provider_slug, title, slug, category, ' +
-      'wioa_eligible, funding_tags, credential_name, duration_weeks, ' +
-      'next_start_date, seats_available, delivery_mode, city, state, ' +
-      'completion_rate, placement_rate',
-      { count: 'exact' }
-    )
-    .range((page - 1) * perPage, page * perPage - 1)
-    .order('next_start_date', { ascending: true, nullsFirst: false });
-
-  if (q) query = query.textSearch('search_vector', q, { type: 'websearch' });
-  if (category) query = query.eq('category', category);
-  if (wioaOnly) query = query.eq('wioa_eligible', true);
-  if (providerSlug) query = query.eq('provider_slug', providerSlug);
-
-  const { data: programs, count } = await query;
+  const { programs, total: count, source: catalogSource } = await loadProgramCatalog({
+    q,
+    category,
+    wioaOnly,
+    page,
+    perPage,
+  });
 
   // Fetch partner_courses stripe data for any slugs in the result set
   // so catalog cards can show a "Pay & Enroll" button when a price is configured.
@@ -113,7 +100,7 @@ export default async function ProgramCatalogPage({
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Program Catalog</h1>
           <p className="text-slate-600 text-sm">
-            {count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers
+{count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers{catalogSource === 'static-catalog' ? ' (published catalog)' : ''}
             {wioaOnly ? ' · WIOA eligible' : ''}
             {category ? ` · ${category}` : ''}
             {providerSlug ? ` · ${providerSlug}` : ''}

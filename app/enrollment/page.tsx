@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -19,6 +18,7 @@ import {
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { loadPublicProgramList } from '@/lib/programs/public-program-list';
 
 export const dynamic = 'force-dynamic';
 
@@ -145,17 +145,8 @@ const FUNDING = [
 ];
 
 export default async function EnrollmentPage() {
-  const supabase = await createClient();
-  let livePrograms: any[] = [];
-  if (supabase) {
-    const { data } = await supabase
-      .from('programs')
-      .select('id, title, slug, status, description')
-      .eq('status', 'active')
-      .order('title')
-      .limit(20);
-    livePrograms = data ?? [];
-  }
+  const { programs: catalogPrograms } = await loadPublicProgramList();
+  const liveProgramCount = catalogPrograms.length;
 
   return (
     <div className="min-h-screen bg-white">
@@ -292,13 +283,13 @@ export default async function EnrollmentPage() {
           </div>
 
           {/* Live programs from DB */}
-          {livePrograms.length > 0 && (
+          {liveProgramCount > 0 && (
             <div className="mt-10 text-center">
               <Link
                 href="/programs"
                 className="inline-flex items-center gap-2 border-2 border-black text-black font-bold px-8 py-3.5 rounded-xl hover:bg-slate-50 transition-colors"
               >
-                View All {livePrograms.length} Programs <ArrowRight className="w-4 h-4" />
+                View All {liveProgramCount} Programs <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           )}
