@@ -345,7 +345,14 @@ function ToolCallBlock({ tc }: { tc: { tool: string; args: Record<string, unknow
   );
 }
 
-export default function AIChat({ fileContext, onApplyCode, ellieMode = false }: AIChatProps) {
+export default function AIChat({
+  fileContext,
+  onApplyCode,
+  ellieMode = false,
+  unifiedEllieMode = false,
+  embedded = false,
+}: AIChatProps) {
+  const showEllieApprovals = ellieMode || unifiedEllieMode;
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);

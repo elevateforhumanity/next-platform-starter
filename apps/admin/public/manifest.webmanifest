@@ -54,6 +54,19 @@
   ],
   "shortcuts": [
     {
+      "name": "Ellie (Dev Studio)",
+      "short_name": "Ellie",
+      "description": "AI assistant for deploys, ops, and platform fixes",
+      "url": "/admin/dev-studio?tab=ellie",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "32x32",
+          "type": "image/x-icon"
+        }
+      ]
+    },
+    {
       "name": "Applications",
       "short_name": "Applications",
       "description": "Review pending applications",

@@ -53,7 +53,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Dev Studio', href: '/admin/dev-studio' },
       { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
       { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'Automation Log', href: '/admin/dev-studio?tab=automation' },
+      { label: 'Automation Log', href: '/admin/dev-studio?tab=workflows' },
       { label: 'System Health', href: '/admin/dev-studio?tab=health' },
       { label: 'Snapshots', href: '/admin/snapshots' },
     ],

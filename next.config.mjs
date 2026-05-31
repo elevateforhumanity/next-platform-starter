@@ -1132,14 +1132,6 @@ const nextConfig = {
       process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
     const host = process.env.URL || '';
 
-    let adminPreviewOrigin = 'https://admin.elevateforhumanity.org';
-    try {
-      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || adminPreviewOrigin;
-      adminPreviewOrigin = new URL(adminUrl).origin;
-    } catch {
-      /* keep default */
-    }
-
     // No special handling needed - single canonical domain: www.elevateforhumanity.org
     const robotsHeaders = [];
 
@@ -1154,8 +1146,11 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=63072000; includeSubDomains; preload',
       },
-      // Clickjacking: use CSP frame-ancestors (not X-Frame-Options DENY — that blocks
-      // Dev Studio on admin.elevateforhumanity.org from embedding www in the preview pane).
+      // X-Frame-Options: DENY in production to prevent clickjacking.
+      // Omitted in dev so Dev Studio's iframe preview can load same-origin pages.
+      ...(isProduction
+        ? [{ key: 'X-Frame-Options', value: 'DENY' }]
+        : []),
       {
         key: 'X-Content-Type-Options',
         value: 'nosniff',
@@ -1189,8 +1184,10 @@ const nextConfig = {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self' https://js.stripe.com",
-          // Production: no framing allowed. Dev: allow same-origin for Dev Studio iframe.
-          isProduction ? "frame-ancestors 'none'" : "frame-ancestors 'self'",
+          // Production: allow admin portal to embed LMS for Dev Studio preview.
+          isProduction
+            ? "frame-ancestors 'self' https://admin.elevateforhumanity.org"
+            : "frame-ancestors 'self' http://localhost:3001",
           'upgrade-insecure-requests',
           // CSP violation reporting endpoint
           'report-uri /api/csp-report',

@@ -2,7 +2,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import DevStudioUnifiedClient from './DevStudioUnifiedClient';
+import DevStudioControlPlaneClient from './DevStudioControlPlaneClient';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;

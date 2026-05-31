@@ -82,18 +82,18 @@ const QUICK_ACTIONS = [
 ];
 
 function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
-  if (tab === 'ellie' || tab === 'ask' || tab === 'command' || tab === 'terminal') {
-    return { workspace: 'studio', mode: 'ask' };
-  }
-  if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
-  if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
-  if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ask' };
-  if (tab === 'services') return { workspace: 'services', mode: 'ask' };
-  if (tab === 'health') return { workspace: 'health', mode: 'ask' };
-  if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
-  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
+  if (tab === 'deploy') return { workspace: 'deploy', mode: 'ellie' };
+  if (tab === 'git') return { workspace: 'git', mode: 'ellie' };
+  if (tab === 'files' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ellie' };
+  if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ellie' };
+  if (tab === 'services') return { workspace: 'services', mode: 'ellie' };
+  if (tab === 'health') return { workspace: 'health', mode: 'ellie' };
+  if (tab === 'secrets') return { workspace: 'secrets', mode: 'ellie' };
+  if (tab === 'automation' || tab === 'workflows') return { workspace: 'workflows', mode: 'ellie' };
+  if (tab === 'command' || tab === 'terminal' || tab === 'run') return { workspace: 'terminal', mode: 'ellie' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
-  return { workspace: 'studio', mode: 'ask' };
+  if (tab === 'ellie' || tab === 'chat') return { workspace: 'studio', mode: 'ellie' };
+  return { workspace: 'studio', mode: 'ellie' };
 }
 
 export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {

@@ -34,7 +34,7 @@ const DEFAULT_WORKFLOWS: WorkflowButton[] = [
   { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to AWS ECS' },
   { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin dashboard service to AWS ECS' },
   { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build and push the Dev Studio shell service to AWS ECS' },
-  { key: 'ci', label: 'Run CI', description: 'Run the validation pipeline before deployment' },
+  { key: 'ci-cd', label: 'Run CI', description: 'Run the validation pipeline (ci-cd.yml)' },
   { key: 'lint', label: 'Run Lint', description: 'Run lint checks against the repository' },
 ];
 

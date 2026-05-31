@@ -217,6 +217,51 @@ export async function GET(request: NextRequest) {
   const action = searchParams.get('action');
   const runId  = searchParams.get('run_id');
 
+  // ── Recent deploy workflow runs (for re-run from Dev Studio) ─────────────
+  if (action === 'recent_deploys') {
+    const deployFiles = ['deploy-lms.yml', 'deploy-admin.yml', 'deploy-studio.yml'];
+    try {
+      const runs: Array<{
+        workflow: string;
+        id: number;
+        status: string;
+        conclusion: string | null;
+        url: string;
+        createdAt: string;
+      }> = [];
+      for (const workflowFile of deployFiles) {
+        const res = await fetch(
+          `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/runs?per_page=3&branch=${branch()}`,
+          { headers: ghHeaders() },
+        );
+        if (!res.ok) continue;
+        const data = (await res.json()) as {
+          workflow_runs?: Array<{
+            id: number;
+            status: string;
+            conclusion: string | null;
+            html_url: string;
+            created_at: string;
+          }>;
+        };
+        for (const run of data.workflow_runs ?? []) {
+          runs.push({
+            workflow: workflowFile.replace('.yml', ''),
+            id: run.id,
+            status: run.status,
+            conclusion: run.conclusion,
+            url: run.html_url,
+            createdAt: run.created_at,
+          });
+        }
+      }
+      runs.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+      return NextResponse.json({ runs: runs.slice(0, 12) });
+    } catch (err) {
+      return safeInternalError(err, 'Failed to list recent deploy runs');
+    }
+  }
+
   // ── List all dispatchable workflows ──────────────────────────────────────
   if (action === 'list') {
     try {
