@@ -87,14 +87,14 @@ export default async function ApplyPage({
           {programTitle ? (
             <>
               <p className="text-slate-400 text-sm mb-1">Applying for:</p>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
                 {programTitle}
-              </h1>
+              </h2>
             </>
           ) : (
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
               Check Your Eligibility
-            </h1>
+            </h2>
           )}
           <p className="text-slate-300 text-base max-w-xl">
             Takes 3-5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and
