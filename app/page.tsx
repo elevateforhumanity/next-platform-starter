@@ -110,11 +110,7 @@ export default async function HomePage() {
       {/* ── 1b. ROTATING MARQUEE BANNER ─────────────────────────────────── */}
       <MarqueeBanner />
 
-      {/* ── 2. TRUST BAR ────────────────────────────────────────────────── */}
-      {/* DOL registration, WIOA/ETPL approval, RAPIDS capability, partner logos */}
-      <HomeTrustBar />
-
-      {/* ── 3. HOW ELEVATE WORKS ────────────────────────────────────────── */}
+      {/* ── 2. HOW ELEVATE WORKS ────────────────────────────────────────── */}
       {/* 6-step operational pipeline: Apply → Funding → Training →
           Apprenticeship → Credential → Employment */}
       <HomeHowItWorks />
@@ -154,10 +150,6 @@ export default async function HomePage() {
       {/* Separate entry funnels: Learners / Employers / Workforce Agencies /
           Training Partners. Each routes to its own journey. */}
       <HomeSegmentedCTA />
-
-      {/* ── 9b. ACCREDITATIONS & PARTNER LOGOS ──────────────────────────── */}
-      {/* Institutional credentials — placed near footer, not under hero */}
-      <HomeTrustBar />
 
       {/* ── 10. FINAL CTA ───────────────────────────────────────────────── */}
       {/* "From where you are to where you want to be."

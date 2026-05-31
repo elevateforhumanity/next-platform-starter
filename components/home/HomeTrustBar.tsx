@@ -41,7 +41,7 @@ const TRUST_ITEMS = [
     href: '/partners/workforce',
   },
   {
-    img: '/images/pages/wioa-meeting.webp',
+    img: '/images/pages/jri-hero.webp',
     label: 'JRI Approved',
     sub: 'Marion County free tuition',
     href: '/partners/jri',
