@@ -13,7 +13,7 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 async function _POST(req: NextRequest) {
   try {
 
-    const body = await req.json().then(()=>null, ()=>null);
+    const body = await req.json().catch(() => null);
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
