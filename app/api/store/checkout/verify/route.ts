@@ -1,4 +1,4 @@
-// AUTH: Intentionally public — no authentication required
+// PUBLIC ROUTE: Stripe checkout return — session_id verified with Stripe API
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';

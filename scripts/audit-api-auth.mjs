@@ -51,6 +51,10 @@ const AUTH_PATTERNS = [
   /supabase\.auth\.getUser/,
   /getCurrentUser/,
   /getServerSession/,
+  /applyRateLimit/,
+  /requireOrgAdmin/,
+  /getTenantContext/,
+  /getMyPartnerContext/,
   /withRuntime\(\{\s*cron/,
   /cron:\s*['"]bearer['"]/,
 ];

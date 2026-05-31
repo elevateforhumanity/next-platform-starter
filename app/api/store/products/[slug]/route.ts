@@ -1,4 +1,4 @@
-// AUTH: Intentionally public — no authentication required
+// PUBLIC ROUTE: Store catalog product detail for checkout flow
 import { NextRequest, NextResponse } from 'next/server';
 import { getCatalogProduct } from '@/lib/store/db';
 import { withApiAudit } from '@/lib/audit/withApiAudit';

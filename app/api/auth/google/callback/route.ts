@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: OAuth initiation — rate-limited; Supabase handles token exchange at /auth/callback
 /**
  * GET /api/auth/google/callback
  *
