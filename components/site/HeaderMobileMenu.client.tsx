@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import SearchModal from '@/components/site/SearchModal.client';
+import LanguageSwitcher from '@/components/site/LanguageSwitcher.client';
 
 interface NavItem {
   id?: string;
