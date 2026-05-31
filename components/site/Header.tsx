@@ -55,28 +55,32 @@ export default function Header() {
         {/* Desktop Navigation — horizontal row, visible lg+ */}
         <HeaderDesktopNav items={NAV_ITEMS} />
 
-        {/* Desktop CTAs — sign in + apply now (lg+ only; tablet/mobile use drawer) */}
-        <div className="hidden lg:flex items-center gap-1.5 shrink-0">
+        {/* Header utilities + CTAs — search/lang mounted once (all breakpoints) */}
+        <div className="flex items-center gap-1 shrink-0">
           <SearchModal />
           <LanguageSwitcher />
-          <Link
-            href="/login"
-            prefetch={false}
-            className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/apply"
-            prefetch={false}
-            className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
-          >
-            Apply Now
-          </Link>
-        </div>
 
-        {/* Mobile/tablet: search + hamburger */}
-        <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
+          {/* Desktop CTAs — sign in + get started, visible lg+ */}
+          <div className="hidden lg:flex items-center gap-1.5">
+            <Link
+              href="/login"
+              prefetch={false}
+              className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/for-students"
+              prefetch={false}
+              className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
+            >
+              Get Started
+            </Link>
+          </div>
+
+          {/* Mobile/tablet: compact CTAs + hamburger only */}
+          <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
+        </div>
       </div>
     </header>
   );

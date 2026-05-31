@@ -55,6 +55,15 @@ test.describe('Header Accessibility Audit (WCAG AA/AAA)', () => {
     }
   });
 
+  test('Search and language controls are not duplicated in header', async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForLoadState('domcontentloaded');
+
+    const header = page.locator('header[role="banner"]');
+    await expect(header.getByRole('button', { name: /Search programs and pages/i })).toHaveCount(1);
+    await expect(header.getByRole('button', { name: /Language:/i })).toHaveCount(1);
+  });
+
   test('Navigation has proper ARIA labels', async ({ page }) => {
     await page.goto(baseURL);
 
