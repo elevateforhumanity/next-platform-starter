@@ -51,9 +51,9 @@ const SEGMENTS = [
     img: '/images/pages/workforce-board-page-1.webp',
     alt: 'Workforce agency case manager with participant',
     badge: 'WIOA aligned',
-    badgeColor: 'bg-emerald-600 text-white',
+    badgeColor: 'bg-emerald-700 text-white',
     accent: 'border-emerald-200 hover:border-emerald-400',
-    ctaStyle: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    ctaStyle: 'bg-emerald-700 hover:bg-emerald-800 text-white',
   },
   {
     audience: 'Training Partners',
