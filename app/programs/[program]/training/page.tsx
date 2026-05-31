@@ -14,7 +14,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
-import { getDb } from '@/lib/lms/api';
+import { createPublicClient } from '@/lib/supabase/public';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
   BookOpen,
@@ -34,7 +34,7 @@ export async function generateMetadata({
   params: Promise<{ program: string }>;
 }): Promise<Metadata> {
   const { program: slug } = await params;
-  const db = await getDb();
+  const db = createPublicClient();
   const { data: program } = await db
     .from('programs')
     .select('title, description')
@@ -144,7 +144,6 @@ export default async function ProgramTrainingPage({
   const { program: slug } = await params;
 
   const supabase = await createClient();
-  const db = await getDb();
 
   const {
     data: { user },
