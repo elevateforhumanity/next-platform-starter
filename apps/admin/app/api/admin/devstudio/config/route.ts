@@ -3,8 +3,13 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
-import { getAdminUrl } from '@/lib/utils/siteUrl';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  buildDevStudioPreviewConfig,
+  buildDevStudioPreviewTargets,
+  resolveAdminSiteUrl,
+  resolveDefaultPreviewUrl,
+  resolvePublicSiteUrl,
+} from '@/lib/devstudio/preview-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -16,6 +21,8 @@ interface DevStudioConfigResponse {
   workflowButtons: { key: WorkflowKey; label: string; description: string }[];
   defaultPreviewUrl: string;
   previewTargets: { label: string; url: string }[];
+  publicSiteUrl: string;
+  adminSiteUrl: string;
   tabFiles: Record<string, string>;
 }
 
@@ -91,9 +98,13 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const adminUrl = getAdminUrl();
-  const publicSiteUrl = process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
-  const configuredPreviewUrl = process.env.DEVSTUDIO_DEFAULT_PREVIEW_URL || process.env.DEVSTUDIO_PREVIEW_URL;
+  const requestHost =
+    req.headers.get('x-forwarded-host')?.split(',')[0]?.trim() ||
+    req.headers.get('host') ||
+    null;
+  const previewBase = buildDevStudioPreviewConfig({ requestHost });
+  const publicSiteUrl = previewBase.publicSiteUrl;
+  const adminUrl = previewBase.adminSiteUrl;
 
   const fallback: DevStudioConfigResponse = {
     quickCommands: [
@@ -113,25 +124,10 @@ export async function GET(req: NextRequest) {
       { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],
-    defaultPreviewUrl: configuredPreviewUrl || publicSiteUrl,
-    previewTargets: [
-      ...(process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_SITE_URL
-        ? [
-            { label: 'Local Website', url: process.env.NEXT_PUBLIC_SITE_URL },
-            { label: 'Local Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL || adminUrl },
-          ]
-        : []),
-      { label: 'Full Website', url: publicSiteUrl },
-      { label: 'Homepage', url: `${publicSiteUrl}/` },
-      { label: 'Programs', url: `${publicSiteUrl}/programs` },
-      { label: 'CNA Program', url: `${publicSiteUrl}/programs/cna` },
-      { label: 'Store', url: `${publicSiteUrl}/store` },
-      { label: 'Apply', url: `${publicSiteUrl}/apply` },
-      { label: 'Admin Dashboard', url: `${adminUrl}/admin` },
-      { label: 'Course Builder', url: `${adminUrl}/admin/courses/create` },
-      { label: 'Admin Applications', url: `${adminUrl}/admin/applications` },
-      { label: 'Dev Studio', url: `${adminUrl}/admin/dev-studio` },
-    ],
+    defaultPreviewUrl: previewBase.defaultPreviewUrl,
+    previewTargets: previewBase.previewTargets,
+    publicSiteUrl,
+    adminSiteUrl: adminUrl,
     tabFiles: {
       studio: 'Studio',
       command: 'Studio',
@@ -173,9 +169,6 @@ export async function GET(req: NextRequest) {
 
     const settings = new Map<string, string>((data ?? []).map((r) => [r.key, r.value ?? '']));
 
-    const publicSiteUrl = resolvePublicSiteUrl();
-    const adminSiteUrl = resolveAdminSiteUrl();
-
     const response: DevStudioConfigResponse = {
       quickCommands: parseJsonSetting<string[]>(
         settings.get('DEVSTUDIO_QUICK_COMMANDS_JSON'),
@@ -191,15 +184,15 @@ export async function GET(req: NextRequest) {
       ),
       defaultPreviewUrl:
         settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') ||
-        resolveDefaultPreviewUrl({ requestHost, publicSiteUrl, adminSiteUrl }),
+        resolveDefaultPreviewUrl({ requestHost, publicSiteUrl, adminSiteUrl: adminUrl }),
       previewTargets: parseJsonSetting<DevStudioConfigResponse['previewTargets']>(
         settings.get('DEVSTUDIO_PREVIEW_TARGETS_JSON'),
-        buildDevStudioPreviewTargets({ publicSiteUrl, adminSiteUrl }),
+        buildDevStudioPreviewTargets({ publicSiteUrl, adminSiteUrl: adminUrl }),
         'DEVSTUDIO_PREVIEW_TARGETS_JSON',
         isPreviewTargets,
       ),
       publicSiteUrl,
-      adminSiteUrl,
+      adminSiteUrl: adminUrl,
       tabFiles: parseJsonSetting<Record<string, string>>(
         settings.get('DEVSTUDIO_TAB_FILES_JSON'),
         fallback.tabFiles,

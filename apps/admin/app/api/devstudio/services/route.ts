@@ -20,7 +20,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { createHmac, createHash } from 'crypto';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { resolveAdminSiteUrl, resolvePublicSiteUrl } from '@/lib/devstudio/preview-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';

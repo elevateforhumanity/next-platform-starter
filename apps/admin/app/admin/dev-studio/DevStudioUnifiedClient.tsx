@@ -2,7 +2,8 @@
 
 import { type ElementType, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { resolvePublicSiteUrl } from '@/lib/devstudio/preview-config';
 import {
   Activity,
   Bot,
@@ -91,12 +92,28 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'services') return { workspace: 'services', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
-  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
+  if (tab === 'command' || tab === 'terminal' || tab === 'run') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
+  if (tab === 'ellie' || tab === 'chat' || tab === 'studio' || tab === 'preview' || tab === 'website') {
+    return { workspace: 'studio', mode: 'ask' };
+  }
   return { workspace: 'studio', mode: 'ask' };
 }
 
+function tabParamForWorkspace(workspace: Workspace, mode: StudioMode): string {
+  if (workspace === 'deploy') return 'deploy';
+  if (workspace === 'files') return 'files';
+  if (workspace === 'environments') return 'environments';
+  if (workspace === 'services') return 'services';
+  if (workspace === 'health') return 'health';
+  if (workspace === 'secrets') return 'secrets';
+  if (workspace === 'studio' && mode === 'run') return 'command';
+  if (workspace === 'studio' && mode === 'courses') return 'courses';
+  return 'ellie';
+}
+
 export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(searchParams.get('tab'));
   const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'studio' : initial.workspace);
@@ -105,26 +122,11 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [livePreviewUrl, setLivePreviewUrl] = useState('');
+  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [programs, setPrograms] = useState<CourseProgram[]>([]);
   const [programsLoading, setProgramsLoading] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/admin/devstudio/config')
-      .then((r) => r.json())
-      .then((data: StudioConfig) => {
-        setConfig(data);
-        const nextPreview = data.defaultPreviewUrl || window.location.origin;
-        setPreviewUrl((current) => current || nextPreview);
-        setLivePreviewUrl((current) => current || nextPreview);
-      })
-      .catch(() => {
-        setConfig(null);
-        setPreviewUrl((current) => current || window.location.origin);
-        setLivePreviewUrl((current) => current || window.location.origin);
-      });
-  }, []);
-
-  useEffect(() => {
+  const refreshHealth = useCallback(() => {
     fetch('/api/devstudio/health')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => setHealth(data))
@@ -132,20 +134,64 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   }, []);
 
   useEffect(() => {
+    fetch('/api/admin/devstudio/config')
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`config HTTP ${r.status}`);
+        return r.json() as Promise<StudioConfig>;
+      })
+      .then((data) => {
+        setConfig(data);
+        const nextPreview =
+          data.defaultPreviewUrl || data.adminSiteUrl || resolvePublicSiteUrl();
+        setPreviewUrl((current) => current || nextPreview);
+        setLivePreviewUrl((current) => current || nextPreview);
+      })
+      .catch(() => {
+        setConfig(null);
+        const fallback = `${window.location.origin}/admin/dashboard`;
+        setPreviewUrl((current) => current || fallback);
+        setLivePreviewUrl((current) => current || fallback);
+      });
+  }, []);
+
+  useEffect(() => {
+    refreshHealth();
+  }, [refreshHealth]);
+
+  useEffect(() => {
+    const next = normalizeWorkspace(searchParams.get('tab'));
+    const safeWorkspace = next.workspace === 'secrets' && !isSuperAdmin ? 'studio' : next.workspace;
+    setWorkspace(safeWorkspace);
+    setStudioMode(next.mode);
+  }, [searchParams, isSuperAdmin]);
+
+  useEffect(() => {
     setProgramsLoading(true);
-    fetch('/api/admin/programs?status=active')
+    fetch('/api/admin/programs')
       .then((r) => (r.ok ? r.json() : { data: [] }))
       .then((payload) => {
         const rows = Array.isArray(payload?.data) ? payload.data : [];
-        setPrograms(rows.map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
-          id: program.id,
-          title: program.title ?? program.name ?? program.code ?? 'Untitled program',
-          slug: program.slug ?? program.code ?? program.id,
-        })));
+        setPrograms(
+          rows
+            .filter((program: { is_active?: boolean }) => program.is_active !== false)
+            .map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
+              id: program.id,
+              title: program.title ?? program.name ?? program.code ?? 'Untitled program',
+              slug: program.slug ?? program.code ?? program.id,
+            })),
+        );
       })
       .catch(() => setPrograms([]))
       .finally(() => setProgramsLoading(false));
   }, []);
+
+  const syncTabUrl = useCallback(
+    (nextWorkspace: Workspace, nextMode: StudioMode) => {
+      const tab = tabParamForWorkspace(nextWorkspace, nextMode);
+      router.replace(`/admin/dev-studio?tab=${tab}`, { scroll: false });
+    },
+    [router],
+  );
 
   const activeProviders = useMemo(() => {
     if (!health) return 'checking';
@@ -159,10 +205,17 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
 
   function openWorkspace(next: Workspace) {
     if (next === 'secrets' && !isSuperAdmin) {
-      setWorkspace('health');
+      setWorkspace('studio');
+      syncTabUrl('studio', studioMode);
       return;
     }
     setWorkspace(next);
+    syncTabUrl(next, studioMode);
+  }
+
+  function openStudioMode(next: StudioMode) {
+    setStudioMode(next);
+    syncTabUrl('studio', next);
   }
 
   return (
@@ -220,7 +273,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             {workspace === 'studio' && (
               <StudioPanel
                 mode={studioMode}
-                onModeChange={setStudioMode}
+                onModeChange={openStudioMode}
                 programs={programs}
                 programsLoading={programsLoading}
               />
@@ -229,8 +282,8 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             {workspace === 'files' && <FilesPanel />}
             {workspace === 'environments' && <EnvironmentPanel />}
             {workspace === 'services' && <ServicesPanel />}
-            {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
-            {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
+            {workspace === 'health' && <HealthPanel health={health} onRefresh={refreshHealth} />}
+            {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={refreshHealth} />)}
           </main>
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
@@ -360,7 +413,7 @@ function RunPanel() {
     if (!trimmed || loading) return;
     setInput('');
     setLoading(true);
-    setLines([{ type: 'user', text: trimmed }]);
+    setLines((current) => [...current, { type: 'user', text: trimmed }]);
 
     try {
       const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
@@ -705,15 +758,17 @@ function EnvironmentPanel() {
 }
 
 function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | null; onRefresh: () => void }) {
+  const shell = health?.shell as Record<string, unknown> | undefined;
   const rows = [
     ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
     ['Gemini', health?.hasGemini ? 'configured' : 'missing'],
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
-    ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
-    ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
-    ['Node', String(health?.nodeVersion ?? 'unknown')],
-    ['Next', String(health?.nextVersion ?? 'unknown')],
+    ['Anthropic', health?.hasAnthropic ? 'configured' : 'missing'],
+    ['Runtime', String(health?.runtime ?? 'unknown')],
+    ['Node env', String(health?.nodeEnv ?? 'unknown')],
+    ['Studio shell', shell?.ready ? 'ready' : shell?.configured ? 'configured' : 'missing'],
+    ['Shell probe', String((shell?.probe as { status?: string } | undefined)?.status ?? 'n/a')],
   ];
 
   return (
