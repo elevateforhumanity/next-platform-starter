@@ -2,16 +2,17 @@
 
 import { type ElementType, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
   Activity,
   Bot,
   BookOpen,
   Box,
-  Circle,
   ExternalLink,
   FileText,
   FolderOpen,
+  GitBranch,
   Globe,
   Key,
   Loader2,
@@ -19,10 +20,15 @@ import {
   RefreshCw,
   Rocket,
   Save,
+  Send,
   Server,
   Sparkles,
+  Terminal,
   Upload,
+  Workflow,
 } from 'lucide-react';
+import type { StudioRuntimeCompletion } from '@/lib/devstudio/studio-runtime';
+import DevStudioRuntimeStatus from '@/components/dev-studio/DevStudioRuntimeStatus';
 
 interface WorkflowButton {
   key: string;
@@ -48,7 +54,16 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'deploy' | 'files' | 'environments' | 'services' | 'health' | 'secrets';
+type Workspace =
+  | 'ellie'
+  | 'deploy'
+  | 'files'
+  | 'git'
+  | 'terminal'
+  | 'environments'
+  | 'services'
+  | 'health'
+  | 'secrets';
 type StudioMode = 'ask' | 'run' | 'courses';
 
 const AIChat = dynamic(() => import('@/components/dev-studio/AIChat'), { ssr: false });
@@ -56,46 +71,76 @@ const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'),
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
+const GitPanel = dynamic(() => import('@/components/dev-studio/GitPanel'), { ssr: false });
+const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
 const RunWorkspace = dynamic(() => import('@/components/dev-studio/RunWorkspace'), { ssr: false });
+const EcsStatusPanel = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'), { ssr: false });
+const ColoredLivePreviewFrame = dynamic(
+  () => import('@/components/admin/dashboard/ColoredLivePreviewFrame').then((m) => m.ColoredLivePreviewFrame),
+  { ssr: false },
+);
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
 );
 
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
-  { id: 'studio', label: 'Studio', Icon: Bot },
+  { id: 'ellie', label: 'Ellie', Icon: Bot },
   { id: 'deploy', label: 'Deploy', Icon: Rocket },
   { id: 'files', label: 'Files', Icon: FolderOpen },
-  { id: 'environments', label: 'Environments', Icon: Box },
+  { id: 'git', label: 'Git', Icon: GitBranch },
+  { id: 'terminal', label: 'Terminal', Icon: Terminal },
+  { id: 'environments', label: 'Container', Icon: Box },
   { id: 'services', label: 'Services', Icon: Server },
   { id: 'health', label: 'Health', Icon: Activity },
   { id: 'secrets', label: 'Secrets', Icon: Key },
 ];
 
+const QUICK_ACTIONS = [
+  { label: 'Deploy LMS', command: 'Deploy the LMS service' },
+  { label: 'Deploy admin', command: 'Deploy the admin service' },
+  { label: 'Smoke test', command: 'Run smoke test' },
+  { label: 'System health', command: 'Check system health' },
+];
+
 function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
   if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
-  if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
+  if (tab === 'files' || tab === 'explorer' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
+  if (tab === 'git') return { workspace: 'git', mode: 'ask' };
+  if (tab === 'terminal' || tab === 'command') return { workspace: 'terminal', mode: 'ask' };
   if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ask' };
   if (tab === 'services') return { workspace: 'services', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
-  if (tab === 'ellie' || tab === 'automation' || tab === 'ai') return { workspace: 'studio', mode: 'ask' };
-  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
-  if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
-  return { workspace: 'studio', mode: 'ask' };
+  if (tab === 'studio' || tab === 'chat' || tab === 'ellie' || tab === 'automation') return { workspace: 'ellie', mode: 'ask' };
+  if (tab === 'courses' || tab === 'course') return { workspace: 'ellie', mode: 'courses' };
+  if (tab === 'run') return { workspace: 'ellie', mode: 'run' };
+  return { workspace: 'ellie', mode: 'ask' };
 }
 
-export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
+export default function DevStudioClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(searchParams.get('tab'));
-  const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'studio' : initial.workspace);
+  const [workspace, setWorkspace] = useState<Workspace>(
+    initial.workspace === 'secrets' && !isSuperAdmin ? 'ellie' : initial.workspace,
+  );
   const [studioMode, setStudioMode] = useState<StudioMode>(initial.mode);
   const [config, setConfig] = useState<StudioConfig | null>(null);
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
+  const [healthLoading, setHealthLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState('');
   const [livePreviewUrl, setLivePreviewUrl] = useState('');
   const [programs, setPrograms] = useState<CourseProgram[]>([]);
   const [programsLoading, setProgramsLoading] = useState(false);
+
+  const refreshHealth = useCallback(() => {
+    setHealthLoading(true);
+    fetch('/api/devstudio/health')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setHealth(data))
+      .catch(() => setHealth(null))
+      .finally(() => setHealthLoading(false));
+  }, []);
 
   useEffect(() => {
     fetch('/api/admin/devstudio/config')
@@ -113,17 +158,6 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
       });
   }, []);
 
-  const refreshHealth = useCallback(() => {
-    fetch('/api/devstudio/health')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => setHealth(data))
-      .catch(() => setHealth(null));
-  }, []);
-
-  useEffect(() => {
-    refreshHealth();
-  }, [refreshHealth]);
-
   const studioRuntime = useMemo(
     () => health?.studioRuntime as StudioRuntimeCompletion | undefined,
     [health],
@@ -136,30 +170,40 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   }, [studioRuntime?.phase, refreshHealth]);
 
   useEffect(() => {
+    refreshHealth();
+  }, [refreshHealth]);
+
+  useEffect(() => {
     setProgramsLoading(true);
     fetch('/api/admin/programs?status=active')
       .then((r) => (r.ok ? r.json() : { data: [] }))
       .then((payload) => {
         const rows = Array.isArray(payload?.data) ? payload.data : [];
-        setPrograms(rows.map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
-          id: program.id,
-          title: program.title ?? program.name ?? program.code ?? 'Untitled program',
-          slug: program.slug ?? program.code ?? program.id,
-        })));
+        setPrograms(
+          rows.map((program: { id: string; title?: string; name?: string; slug?: string; code?: string }) => ({
+            id: program.id,
+            title: program.title ?? program.name ?? program.code ?? 'Untitled program',
+            slug: program.slug ?? program.code ?? program.id,
+          })),
+        );
       })
       .catch(() => setPrograms([]))
       .finally(() => setProgramsLoading(false));
   }, []);
 
   const activeProviders = useMemo(() => {
-    if (!health) return 'checking';
+    if (!health) return 'checking…';
     if (health.aiConfigured === false) return 'not configured';
-    return [
-      health.hasGroq && 'Groq',
-      health.hasGemini && 'Gemini',
-      health.hasOpenAI && 'OpenAI',
-      health.hasAnthropic && 'Anthropic',
-    ].filter(Boolean).join(' / ') || 'configured';
+    return (
+      [
+        health.hasGroq && 'Groq',
+        health.hasGemini && 'Gemini',
+        health.hasOpenAI && 'OpenAI',
+        health.hasAnthropic && 'Anthropic',
+      ]
+        .filter(Boolean)
+        .join(' · ') || 'no AI keys in env'
+    );
   }, [health]);
 
   function openWorkspace(next: Workspace) {
@@ -171,25 +215,28 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden bg-[#1e1e1e] text-[#cccccc]">
-      <header className="flex min-h-11 shrink-0 flex-wrap items-center gap-2 border-b border-[#3c3c3c] bg-[#2d2d2d] px-3">
+    <div className="flex h-[calc(100dvh-3.5rem)] min-h-0 w-full flex-col overflow-hidden bg-slate-50 text-slate-800">
+      <header className="flex min-h-12 shrink-0 flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-4 py-2">
         <div className="flex min-w-0 items-center gap-2">
-          <Bot className="h-4 w-4 text-[#4ec9b0]" />
-          <span className="text-sm font-semibold text-white">Dev Studio</span>
-          <span className="hidden text-[11px] text-[#858585] sm:inline">Codex workspace</span>
+          <Bot className="h-5 w-5 text-brand-blue-600" />
+          <div>
+            <span className="text-sm font-semibold text-slate-900">Dev Studio</span>
+            <p className="text-[11px] text-slate-500">Operations control plane — live deploys, env, and Ellie</p>
+          </div>
         </div>
-        <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2 text-[11px]">
-          <span className="inline-flex items-center gap-1 text-[#4ec9b0]">
-            <Circle className="h-2 w-2 fill-current" />
-            Unified
-          </span>
-          <span className="rounded border border-[#3c3c3c] px-1.5 py-0.5 text-[#9ca3af]">
-            AI: {activeProviders}
-          </span>
+        <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2 text-xs">
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600">AI: {activeProviders}</span>
+          <Link
+            href="/admin/workflows"
+            className="inline-flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 text-slate-700 hover:bg-slate-50"
+          >
+            <Workflow className="h-3.5 w-3.5" />
+            Platform workflows
+          </Link>
           <button
             type="button"
-            onClick={() => setWorkspace('deploy')}
-            className="inline-flex h-7 items-center gap-1 rounded bg-[#0078d4] px-2 text-white"
+            onClick={() => openWorkspace('deploy')}
+            className="inline-flex h-8 items-center gap-1 rounded-lg bg-brand-blue-600 px-3 text-sm font-medium text-white hover:bg-brand-blue-700"
           >
             <Rocket className="h-3.5 w-3.5" />
             Deploy
@@ -198,9 +245,9 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
       </header>
 
       <div className="flex min-h-0 flex-1">
-        <aside className="hidden w-48 shrink-0 flex-col border-r border-[#3c3c3c] bg-[#252526] p-2 md:flex">
-          <div className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Environments</div>
-          <div className="space-y-1">
+        <aside className="hidden w-52 shrink-0 flex-col border-r border-slate-200 bg-white p-2 md:flex">
+          <p className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Workspaces</p>
+          <nav className="space-y-0.5">
             {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => {
               const active = workspace === id;
               return (
@@ -208,21 +255,25 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                   key={id}
                   type="button"
                   onClick={() => openWorkspace(id)}
-                  className="flex h-9 w-full items-center gap-2 rounded px-2 text-left text-[12px] transition"
-                  style={{ background: active ? '#094771' : 'transparent', color: active ? '#ffffff' : '#cccccc' }}
+                  className={`flex h-9 w-full items-center gap-2 rounded-lg px-2 text-left text-sm transition ${
+                    active ? 'bg-brand-blue-50 font-medium text-brand-blue-800' : 'text-slate-600 hover:bg-slate-50'
+                  }`}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
                   <span className="truncate">{label}</span>
                 </button>
               );
             })}
+          </nav>
+          <div className="mt-auto border-t border-slate-100 pt-2 px-2 text-[10px] text-slate-400">
+            Secrets: platform_secrets → app_secrets → process.env
           </div>
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col md:flex-row">
+        <div className="flex min-w-0 flex-1 flex-col lg:flex-row">
           <main className="min-h-0 min-w-0 flex-1 overflow-hidden">
             <MobileTabs workspace={workspace} isSuperAdmin={isSuperAdmin} onChange={openWorkspace} />
-            {workspace === 'studio' && (
+            {workspace === 'ellie' && (
               <StudioPanel
                 mode={studioMode}
                 onModeChange={setStudioMode}
@@ -231,67 +282,67 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                 studioRuntime={studioRuntime}
               />
             )}
-            {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
+            {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} variant="admin" />}
             {workspace === 'files' && <FilesPanel />}
-            {workspace === 'environments' && <EnvironmentPanel />}
-            {workspace === 'services' && <ServicesPanel />}
+            {workspace === 'git' && (
+              <div className="h-full overflow-hidden bg-white">
+                <GitPanel />
+              </div>
+            )}
+            {workspace === 'terminal' && (
+              <div className="flex h-full flex-col bg-slate-900">
+                <div className="border-b border-slate-700 px-3 py-2 text-xs text-slate-300">
+                  Dev Studio Runtime when <code className="text-slate-100">STUDIO_SHELL_WS_URL</code> is configured on admin; otherwise
+                  use Deploy or Run commands.
+                </div>
+                <div className="min-h-0 flex-1">
+                  <XTerminal />
+                </div>
+              </div>
+            )}
+            {workspace === 'environments' && (
+              <div className="h-full overflow-auto bg-white">
+                <DevContainerPanel />
+              </div>
+            )}
+            {workspace === 'services' && (
+              <div className="h-full overflow-auto bg-white p-4">
+                <ServicesPanel />
+              </div>
+            )}
             {workspace === 'health' && (
-              <HealthPanel health={health} studioRuntime={studioRuntime} onRefresh={refreshHealth} />
+              <HealthWorkspace
+                health={health}
+                loading={healthLoading}
+                studioRuntime={studioRuntime}
+                onRefresh={refreshHealth}
+              />
             )}
-            {workspace === 'secrets' && (
-              isSuperAdmin ? (
-                <SecretsPanel />
+            {workspace === 'secrets' &&
+              (isSuperAdmin ? (
+                <div className="h-full overflow-auto bg-white">
+                  <SecretsPanel />
+                </div>
               ) : (
-                <HealthPanel health={health} studioRuntime={studioRuntime} onRefresh={refreshHealth} />
-              )
-            )}
+                <HealthWorkspace
+                  health={health}
+                  loading={healthLoading}
+                  studioRuntime={studioRuntime}
+                  onRefresh={refreshHealth}
+                />
+              ))}
           </main>
 
-          <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
-            <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#3c3c3c] bg-[#2d2d2d] px-2">
-              <button
-                type="button"
-                onClick={() => setLivePreviewUrl(previewUrl)}
-                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
-                title="Refresh preview"
-              >
-                <RefreshCw className="h-3.5 w-3.5" />
-              </button>
-              <form
-                className="flex min-w-0 flex-1 items-center rounded border border-[#555] bg-[#3c3c3c] px-2"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setLivePreviewUrl(previewUrl);
-                }}
-              >
-                <Globe className="mr-1.5 h-3.5 w-3.5 shrink-0 text-[#4ec9b0]" />
-                <input
-                  value={previewUrl}
-                  onChange={(event) => setPreviewUrl(event.target.value)}
-                  className="h-7 min-w-0 flex-1 bg-transparent text-[11px] text-[#cccccc] outline-none"
-                  spellCheck={false}
-                />
-              </form>
-              <a
-                href={livePreviewUrl || previewUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-7 w-7 items-center justify-center rounded text-[#858585] hover:text-white"
-                title="Open preview"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </div>
-            <iframe title="Live Preview" src={livePreviewUrl || previewUrl} className="min-h-0 flex-1 border-0 bg-white" />
+          <section className="hidden min-h-0 w-[min(42vw,520px)] shrink-0 p-2 lg:flex lg:flex-col">
+            <ColoredLivePreviewFrame
+              className="h-full min-h-0 flex-1"
+              minHeight={400}
+              targets={(config?.previewTargets ?? []).map((t) => ({ label: t.label, url: t.url }))}
+              defaultUrl={previewUrl}
+            />
           </section>
         </div>
       </div>
-
-      <footer className="flex h-6 shrink-0 items-center justify-between bg-[#0078d4] px-3 text-[11px] text-white">
-        <span>main</span>
-        <span className="hidden sm:inline">AWS / Supabase / GitHub Actions</span>
-        <span>TypeScript</span>
-      </footer>
     </div>
   );
 }
@@ -306,17 +357,19 @@ function MobileTabs({
   onChange: (workspace: Workspace) => void;
 }) {
   return (
-    <div className="flex shrink-0 gap-1 overflow-x-auto border-b border-[#3c3c3c] bg-[#252526] p-1 md:hidden">
+    <div className="flex shrink-0 gap-1 overflow-x-auto border-b border-slate-200 bg-white p-1 md:hidden">
       {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => (
         <button
           key={id}
           type="button"
           onClick={() => onChange(id)}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded"
-          style={{ background: workspace === id ? '#094771' : 'transparent', color: workspace === id ? '#ffffff' : '#cccccc' }}
+          className={`inline-flex h-10 shrink-0 items-center gap-1 rounded-lg px-2 text-xs ${
+            workspace === id ? 'bg-brand-blue-50 text-brand-blue-800' : 'text-slate-600'
+          }`}
           title={label}
         >
-          <Icon className="h-5 w-5" />
+          <Icon className="h-4 w-4" />
+          <span className="max-w-[4.5rem] truncate">{label}</span>
         </button>
       ))}
     </div>
@@ -337,21 +390,22 @@ function StudioPanel({
   studioRuntime?: StudioRuntimeCompletion;
 }) {
   const modes: { id: StudioMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
-    { id: 'ask', label: 'Ask', Icon: MessageSquare },
+    { id: 'ask', label: 'Ellie', Icon: MessageSquare },
     { id: 'run', label: 'Run', Icon: Sparkles },
-    { id: 'courses', label: 'Courses', Icon: BookOpen },
+    { id: 'courses', label: 'Course builder', Icon: BookOpen },
   ];
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
-      <div className="flex h-11 shrink-0 items-center gap-1 border-b border-[#3c3c3c] bg-[#252526] px-2">
+    <div className="flex h-full flex-col overflow-hidden bg-white">
+      <div className="flex h-11 shrink-0 items-center gap-1 border-b border-slate-200 px-2">
         {modes.map(({ id, label, Icon }) => (
           <button
             key={id}
             type="button"
             onClick={() => onModeChange(id)}
-            className="inline-flex h-8 items-center gap-1.5 rounded border px-2.5 text-[11px]"
-            style={{ borderColor: mode === id ? '#0078d4' : '#3c3c3c', background: mode === id ? '#094771' : 'transparent', color: '#ffffff' }}
+            className={`inline-flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-medium ${
+              mode === id ? 'bg-brand-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100'
+            }`}
           >
             <Icon className="h-3.5 w-3.5" />
             {label}
@@ -359,59 +413,26 @@ function StudioPanel({
         ))}
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
-        {mode === 'ask' && <AIChat ellieMode={true} />}
+        {mode === 'ask' && (
+          <div className="h-full">
+            <AIChat ellieMode />
+          </div>
+        )}
         {mode === 'run' && <RunWorkspace studioRuntime={studioRuntime} />}
-        {mode === 'courses' && (
-          programsLoading ? (
+        {mode === 'courses' &&
+          (programsLoading ? (
             <div className="flex h-full items-center justify-center gap-2 text-slate-500">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-xs font-medium">Loading active programs...</span>
+              <span className="text-sm">Loading active programs…</span>
             </div>
           ) : (
             <AICourseBuilderChat programs={programs} embedded />
-          )
-        )}
+          ))}
       </div>
     </div>
   );
 }
 
-
-const MAX_UPLOAD_BYTES = 512 * 1024;
-const TEXT_UPLOAD_EXTENSIONS = new Set([
-  'css',
-  'csv',
-  'html',
-  'js',
-  'jsx',
-  'json',
-  'md',
-  'mdx',
-  'mjs',
-  'sql',
-  'svg',
-  'ts',
-  'tsx',
-  'txt',
-  'xml',
-  'yml',
-  'yaml',
-]);
-
-function sanitizeUploadPath(path: string): string {
-  return path
-    .replace(/\\/g, '/')
-    .replace(/^\/+/, '')
-    .replace(/\/{2,}/g, '/')
-    .trim();
-}
-
-function isEditableUpload(file: File): boolean {
-  const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
-  if (TEXT_UPLOAD_EXTENSIONS.has(ext)) return true;
-  if (file.type.startsWith('text/')) return true;
-  return ['application/json', 'application/xml', 'image/svg+xml'].includes(file.type);
-}
 
 function FilesPanel() {
   const [files, setFiles] = useState<string[]>([]);
@@ -439,7 +460,7 @@ function FilesPanel() {
       walk(data.tree ?? []);
       setFiles(flat);
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : 'File tree unavailable');
+      setStatus(error instanceof Error ? error.message : 'File tree unavailable (needs GITHUB_TOKEN)');
     }
   }, []);
 
@@ -450,27 +471,23 @@ function FilesPanel() {
   async function handleUpload(file: File | undefined) {
     if (!file) return;
     setStatus('');
-
     if (file.size > MAX_UPLOAD_BYTES) {
-      setStatus(`Upload exceeds ${MAX_UPLOAD_BYTES / 1024} KB edit limit`);
+      setStatus(`Upload exceeds ${MAX_UPLOAD_BYTES / 1024} KB limit`);
       return;
     }
-
     if (!isEditableUpload(file)) {
-      setStatus('Upload is not a text/code file');
+      setStatus('Upload must be a text/code file');
       return;
     }
-
     try {
       const nextPath = sanitizeUploadPath(uploadPath || `devstudio-uploads/${file.name}`);
-      if (!nextPath) throw new Error('Upload path is required');
       const text = await file.text();
       setSelected(nextPath);
       setUploadPath(nextPath);
       setContent(text);
       setSha('');
       setMessage(`chore: add ${nextPath} via Dev Studio`);
-      setStatus('Ready to commit upload');
+      setStatus('Ready to commit');
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Could not read upload');
     }
@@ -486,7 +503,6 @@ function FilesPanel() {
       if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
       setContent(data.content ?? '');
       setSha(data.sha ?? '');
-      setUploadPath('');
       setMessage(`chore: update ${path} via Dev Studio`);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Could not load file');
@@ -509,42 +525,33 @@ function FilesPanel() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
       setSha(data.sha ?? sha);
-      setStatus(data.commit ? 'Committed' : method === 'POST' ? 'Uploaded' : 'Saved');
+      setStatus(data.commit ? 'Committed to GitHub' : 'Saved');
       if (method === 'POST') {
         setFiles((current) => (current.includes(selected) ? current : [...current, selected].sort()));
       }
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : 'Could not save file');
+      setStatus(error instanceof Error ? error.message : 'Could not save');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="flex h-full overflow-hidden bg-[#1e1e1e]">
-      <div className="w-64 shrink-0 overflow-y-auto border-r border-[#3c3c3c] bg-[#252526]">
-        <div className="sticky top-0 border-b border-[#3c3c3c] bg-[#252526] p-2">
-          <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Files</div>
+    <div className="flex h-full overflow-hidden bg-white">
+      <div className="flex w-64 shrink-0 flex-col border-r border-slate-200">
+        <div className="border-b border-slate-200 p-2">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Repository files</p>
           <div className="flex gap-1">
             <input
               value={uploadPath}
-              onChange={(event) => {
-                const nextPath = sanitizeUploadPath(event.target.value);
-                setUploadPath(nextPath);
-                if (!sha && selected) {
-                  setSelected(nextPath);
-                  setMessage(`chore: add ${nextPath} via Dev Studio`);
-                }
-              }}
-              className="h-8 min-w-0 flex-1 rounded border border-[#3c3c3c] bg-[#1e1e1e] px-2 font-mono text-[11px] text-[#cccccc] outline-none"
-              placeholder="devstudio-uploads/file.ts"
-              spellCheck={false}
+              onChange={(event) => setUploadPath(sanitizeUploadPath(event.target.value))}
+              className="h-8 min-w-0 flex-1 rounded border border-slate-200 px-2 font-mono text-[11px] outline-none"
+              placeholder="path/in/repo.ts"
             />
             <input
               ref={fileInputRef}
               type="file"
               className="hidden"
-              accept=".css,.csv,.html,.js,.jsx,.json,.md,.mdx,.mjs,.sql,.svg,.ts,.tsx,.txt,.xml,.yml,.yaml,text/*,application/json,application/xml,image/svg+xml"
               onChange={(event) => {
                 void handleUpload(event.currentTarget.files?.[0]);
                 event.currentTarget.value = '';
@@ -553,35 +560,41 @@ function FilesPanel() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#0078d4] text-white"
-              title="Upload file"
+              className="inline-flex h-8 w-8 items-center justify-center rounded bg-brand-blue-600 text-white"
+              title="Upload"
             >
               <Upload className="h-3.5 w-3.5" />
             </button>
           </div>
-        </div>
-        {files.map((file) => (
-          <button
-            key={file}
-            type="button"
-            onClick={() => loadFile(file)}
-            className="flex w-full items-center gap-2 border-b border-[#2d2d2d] px-3 py-2 text-left text-[11px]"
-            style={{ background: selected === file ? '#094771' : 'transparent', color: selected === file ? '#ffffff' : '#cccccc' }}
-          >
-            <FileText className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{file}</span>
+          <button type="button" onClick={() => refreshFiles()} className="mt-2 text-[11px] text-brand-blue-600 hover:underline">
+            Refresh tree
           </button>
-        ))}
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          {files.map((file) => (
+            <button
+              key={file}
+              type="button"
+              onClick={() => loadFile(file)}
+              className={`flex w-full items-center gap-2 border-b border-slate-50 px-3 py-2 text-left text-[11px] ${
+                selected === file ? 'bg-brand-blue-50 text-brand-blue-900' : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <FileText className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{file}</span>
+            </button>
+          ))}
+        </div>
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex shrink-0 items-center gap-2 border-b border-[#3c3c3c] bg-[#2d2d2d] px-3 py-2">
-          <span className="min-w-0 flex-1 truncate font-mono text-[11px] text-[#858585]">{selected || 'Select a file'}</span>
-          {status && <span className="text-[11px] text-[#4ec9b0]">{status}</span>}
+        <div className="flex shrink-0 items-center gap-2 border-b border-slate-200 px-3 py-2">
+          <span className="min-w-0 flex-1 truncate font-mono text-xs text-slate-500">{selected || 'Select a file'}</span>
+          {status && <span className="text-xs text-brand-green-700">{status}</span>}
           <button
             type="button"
             onClick={saveFile}
             disabled={!selected || loading}
-            className="inline-flex h-8 items-center gap-1 rounded bg-[#f97316] px-2 text-[11px] font-semibold text-white disabled:opacity-50"
+            className="inline-flex h-8 items-center gap-1 rounded-lg bg-brand-blue-600 px-3 text-xs font-medium text-white disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
             Commit
@@ -590,13 +603,13 @@ function FilesPanel() {
         <input
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          className="h-9 shrink-0 border-b border-[#3c3c3c] bg-[#252526] px-3 font-mono text-[11px] text-[#cccccc] outline-none"
+          className="h-9 shrink-0 border-b border-slate-200 px-3 font-mono text-xs outline-none"
           placeholder="Commit message"
         />
         <textarea
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          className="min-h-0 flex-1 resize-none bg-[#1e1e1e] p-3 font-mono text-xs text-[#cccccc] outline-none"
+          className="min-h-0 flex-1 resize-none p-3 font-mono text-xs outline-none"
           spellCheck={false}
         />
       </div>
@@ -604,59 +617,57 @@ function FilesPanel() {
   );
 }
 
-function EnvironmentPanel() {
-  return (
-    <div className="flex h-full flex-col overflow-hidden bg-white">
-      <div className="shrink-0 border-b border-slate-200 bg-amber-50 px-4 py-2 text-[11px] text-amber-900">
-        Local VS Code only — not the AWS Dev Studio Runtime. Use <strong>Health</strong> and{' '}
-        <strong>Services</strong> for runtime status.
-      </div>
-      <div className="min-h-0 flex-1 overflow-hidden">
-        <DevContainerPanel />
-      </div>
-    </div>
-  );
-}
-
-function HealthPanel({
+function HealthWorkspace({
   health,
+  loading,
   studioRuntime,
   onRefresh,
 }: {
   health: Record<string, unknown> | null;
+  loading: boolean;
   studioRuntime?: StudioRuntimeCompletion;
   onRefresh: () => void;
 }) {
   const rows = [
     ['AI', health?.aiConfigured ? 'configured' : 'missing'],
-    ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
+    ['GitHub token', health?.hasGitHub ? 'configured' : 'missing — deploy & files disabled'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
     ['Gemini', health?.hasGemini ? 'configured' : 'missing'],
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
-    ['Anthropic', health?.hasAnthropic ? 'configured' : 'missing'],
+    ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
+    ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
+    ['Node', String(health?.nodeVersion ?? '—')],
+    ['Next.js', String(health?.nextVersion ?? '—')],
   ];
 
   return (
-    <div className="h-full overflow-y-auto bg-[#1e1e1e] p-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Activity className="h-4 w-4 text-[#4ec9b0]" />
-          <h2 className="text-sm font-semibold text-white">Health</h2>
+    <div className="h-full overflow-y-auto bg-slate-50 p-4">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-slate-900">Integration health</h2>
+          <p className="text-xs text-slate-500">Runtime secrets and API connectivity for this admin task</p>
         </div>
-        <button type="button" onClick={onRefresh} className="inline-flex h-8 items-center gap-1 rounded border border-[#3c3c3c] px-2 text-[11px] text-[#cccccc]">
-          <RefreshCw className="h-3.5 w-3.5" />
+        <button
+          type="button"
+          onClick={onRefresh}
+          disabled={loading}
+          className="inline-flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
       <DevStudioRuntimeStatus runtime={studioRuntime} />
-      <div className="rounded border border-[#3c3c3c] bg-[#252526]">
+      <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white">
         {rows.map(([label, value]) => (
-          <div key={label} className="flex items-center justify-between border-b border-[#2d2d2d] px-3 py-2 text-xs last:border-0">
-            <span className="text-[#858585]">{label}</span>
-            <span className="font-mono text-[#cccccc]">{value}</span>
+          <div key={label} className="flex items-center justify-between border-b border-slate-100 px-4 py-2.5 text-sm last:border-0">
+            <span className="text-slate-500">{label}</span>
+            <span className="font-mono text-xs text-slate-800">{value}</span>
           </div>
         ))}
       </div>
+      <h3 className="mb-2 text-sm font-semibold text-slate-900">AWS ECS services</h3>
+      <EcsStatusPanel />
     </div>
   );
 }
