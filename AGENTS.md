@@ -815,21 +815,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
   SKIP_ENV_VALIDATION=true
   ```
 
-### AWS production deploy (not the same as CI)
-
-GitHub **CI/CD Pipeline** (`ci-cd.yml`) runs tests and `pnpm build` on GitHub runners only — it does **not** push images to ECR or update ECS.
-
-Production deploys use separate workflows that call **AWS CodeBuild**:
-
-| Workflow | CodeBuild project | ECS service |
-|----------|-------------------|-------------|
-| **Deploy Admin** (`deploy-admin.yml`) | `elevate-admin-build` | `elevate-admin-service` |
-| **Deploy LMS** (`deploy-lms.yml`) | `elevate-lms-build` | `elevate-lms-service` |
-
-Triggers: push to **`main`** with path filters, or **workflow_dispatch** (Actions → Deploy Admin / Deploy LMS → Run workflow).
-
-If a merge shows a green CI check but production is unchanged, open **Deploy Admin** / **Deploy LMS** — that is the job that reaches AWS. Both workflows pass `--source-version` = the triggering commit SHA so CodeBuild builds the same revision as the GitHub push.
-
 ### Running services
 
 | Service | Command | Port |
@@ -851,8 +836,6 @@ If a merge shows a green CI check but production is unchanged, open **Deploy Adm
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
-- Public `/programs` uses `loadPublicProgramList()` in `lib/programs/public-program-list.ts` (DB first, then `STATIC_PROGRAM_MAP` fallback) so the catalog does not show 0 when the DB is empty.
-- Image `alt` must use JSX template expressions; never literal `alt="{PLATFORM_DEFAULTS.orgName} …"` strings.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
@@ -870,4 +853,13 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+
+### Platform hardening audits
+
+- `pnpm platform:doctor` — design, images, ESLint subset, unit tests; report in `artifacts/platform-doctor-report.json`
+- `pnpm integrity:stripe` + Vitest `tests/unit/stripe-*.test.ts` — Stripe client + webhook signature coverage
+- `pnpm images:contract` — next/image and placeholder rules (`artifacts/image-contract-report.json`)
+- `python3 scripts/admin-route-inventory.py` — requires `scripts/live-schema-snapshot.json`; output `scripts/admin-route-inventory.json`
+- Latest consolidated report: `docs/platform-hardening-audit-2026-05-31.md`
+- **Sentry is not integrated** in this repo; use CloudWatch/logs + `audit_logs` until SDK is added
 
