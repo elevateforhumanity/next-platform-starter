@@ -15,7 +15,8 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
 
-    await apiRequireAdmin(request);
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
     await hydrateProcessEnv();
     const supabase = await requireAdminClient();
 

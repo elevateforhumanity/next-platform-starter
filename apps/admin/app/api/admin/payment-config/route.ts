@@ -22,8 +22,9 @@ async function _GET(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    await apiRequireAdmin(request);
+    const auth = await apiRequireAdmin(request);
 
+    if (auth.error) return auth.error;
     const response = NextResponse.json({
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV,

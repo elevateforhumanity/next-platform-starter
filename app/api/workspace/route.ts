@@ -9,14 +9,8 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   try {
     const supabase = await requireAdminClient();
     const { data, error } = await supabase
@@ -39,14 +33,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   try {
     const body = await request.json();
     const { name, description, repoUrl } = body;

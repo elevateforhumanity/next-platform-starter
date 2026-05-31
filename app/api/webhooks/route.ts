@@ -22,8 +22,9 @@ export const maxDuration = 60;
 async function _GET(request: NextRequest) {
   try {
     const authResult = await apiRequireAdmin(request);
+    if (authResult.error) return authResult.error;
 
-    if (authResult instanceof NextResponse) {
+    if (authResult.error) {
       return authResult;
     }
 
@@ -68,8 +69,9 @@ async function _GET(request: NextRequest) {
 async function _POST(request: NextRequest) {
   try {
     const authResult = await apiRequireAdmin(request);
+    if (authResult.error) return authResult.error;
 
-    if (authResult instanceof NextResponse) {
+    if (authResult.error) {
       return authResult;
     }
 

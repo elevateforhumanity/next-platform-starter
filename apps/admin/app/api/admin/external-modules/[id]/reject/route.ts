@@ -13,12 +13,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
-  let admin;
-  try {
-    admin = await apiRequireAdmin(req);
-  } catch (err) {
-    return err as NextResponse;
-  }
+  const admin = await apiRequireAdmin(req);
+  if (admin.error) return admin.error;
 
   const { id } = await params;
   if (!id) return safeError('Missing module ID', 400);

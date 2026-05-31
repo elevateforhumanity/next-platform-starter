@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   try {
-    await apiRequireAdmin(request);
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   } catch (e) {
     return e instanceof Response
       ? e
@@ -30,7 +31,8 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
   try {
-    await apiRequireAdmin(request);
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   } catch (e) {
     return e instanceof Response
       ? e

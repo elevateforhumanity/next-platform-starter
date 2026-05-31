@@ -25,13 +25,8 @@ export async function POST(
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   const { courseId } = await params;
   const db = await requireAdminClient();
 

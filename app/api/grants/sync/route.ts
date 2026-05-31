@@ -32,7 +32,7 @@ async function _POST(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
     const auth = await apiRequireAdmin(request);
-    if (auth instanceof NextResponse) return auth;
+    if (auth.error) return auth.error;
     const supabaseAdmin = await requireAdminClient();
 
     // Ensure grant source exists

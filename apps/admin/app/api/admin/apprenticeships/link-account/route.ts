@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
   const authResult = await apiRequireAdmin(req);
-  if (authResult instanceof NextResponse) return authResult;
+  if (authResult.error) return authResult.error;
 
   let body: { apprenticeId?: string; userId?: string };
   try {

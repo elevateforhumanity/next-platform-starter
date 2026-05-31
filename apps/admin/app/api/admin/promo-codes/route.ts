@@ -14,7 +14,7 @@ async function _GET(request: Request) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
-  if (auth instanceof NextResponse) return auth;
+  if (auth.error) return auth.error;
 
   try {
     const supabase = await requireAdminClient();
@@ -43,7 +43,7 @@ async function _POST(req: Request) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(req);
-  if (auth instanceof NextResponse) return auth;
+  if (auth.error) return auth.error;
 
   try {
     const body = await req.json();
@@ -96,7 +96,7 @@ async function _PUT(req: Request) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(req);
-  if (auth instanceof NextResponse) return auth;
+  if (auth.error) return auth.error;
 
   try {
     const body = await req.json();
@@ -149,7 +149,7 @@ async function _DELETE(req: Request) {
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(req);
-  if (auth instanceof NextResponse) return auth;
+  if (auth.error) return auth.error;
 
   try {
     const { searchParams } = new URL(req.url);
