@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 async function getJobs() {
-  const db = createClient();
+  const db = createPublicClient();
 
   // Internal employer-posted jobs
   const { data: internalJobs } = await db

@@ -69,6 +69,9 @@ jobs:
       - name: Migration lint
         run: node scripts/lint-migrations.cjs
 
+      - name: API admin guard check
+        run: bash scripts/audit-api-auth-guards.sh
+
       # Integrity checks - each fails the build if issues found
       - name: Link integrity check
         run: pnpm run integrity:links

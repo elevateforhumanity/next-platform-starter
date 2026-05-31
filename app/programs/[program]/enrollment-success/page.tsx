@@ -117,7 +117,7 @@ export default async function BeautyEnrollmentSuccessPage({ params }: Props) {
                 ) : isSponsor ? (
                   <div className="flex items-center gap-2">
                     <Shield className={`w-4 h-4 ${c.text}`} />
-                    <span className="font-bold text-slate-900">{`${PLATFORM_DEFAULTS.orgName}}`}</span>
+                    <span className="font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>
                   </div>
                 ) : (
                   <span className="font-bold text-slate-900">{value}</span>

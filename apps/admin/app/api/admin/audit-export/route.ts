@@ -20,11 +20,8 @@ export const dynamic = 'force-dynamic';
 async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
-  try {
-    await apiRequireAdmin(request);
-  } catch (e: any) {
-    return e instanceof Response ? e : NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   const supabase = await requireAdminClient();
   if (!supabase) {

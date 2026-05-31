@@ -13,13 +13,8 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
-  let auth;
-  try {
-    auth = await apiRequireAdmin(req);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const supabase = await requireAdminClient();
   if (!supabase) return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });

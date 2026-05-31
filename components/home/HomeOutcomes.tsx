@@ -95,6 +95,7 @@ function StoryCard({ story }: { story: Testimonial }) {
 
 export async function HomeOutcomes() {
   const stories = await fetchTestimonials();
+  const verified = await loadVerifiedPublicStats();
 
   return (
     <section className="bg-slate-900 py-16 px-4" aria-labelledby="outcomes-heading">
@@ -103,14 +104,14 @@ export async function HomeOutcomes() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14">
           {[
             {
-              stat: `${SITE_STATS.careerServicesSupportRate}%`,
-              label: 'Receive placement support',
-              note: 'Graduates — not a job guarantee',
+              stat: verified.placementDisplay,
+              label: 'Credential attainment rate',
+              note: 'Among completers',
             },
             {
-              stat: '500+',
-              label: 'Learners trained annually',
-              note: 'Growing every cohort',
+              stat: verified.studentsDisplay,
+              label: 'Learners served',
+              note: 'Verified count when available',
             },
             {
               stat: '$0',
@@ -118,7 +119,7 @@ export async function HomeOutcomes() {
               note: 'WIOA & state funding',
             },
             {
-              stat: SITE_STATS.programsOfferedDisplay,
+              stat: verified.programsDisplay,
               label: 'Programs available',
               note: 'Across 6 sectors',
             },

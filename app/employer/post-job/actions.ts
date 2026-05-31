@@ -35,7 +35,7 @@ export async function postJobAction(formData: FormData) {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  await supabase.from('job_postings').insert({
+  const { error: insertError } = await supabase.from('job_postings').insert({
     title,
     description,
     job_type,
@@ -53,6 +53,10 @@ export async function postJobAction(formData: FormData) {
     status: 'active',
     posted_by: user.id,
   });
+
+  if (insertError) {
+    throw new Error(insertError.message || 'Failed to post job. Please try again.');
+  }
 
   redirect('/employer/jobs');
 }

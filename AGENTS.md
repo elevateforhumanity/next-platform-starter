@@ -800,13 +800,13 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ## Cursor Cloud specific instructions
 
-**VS Code Dev Container (`.devcontainer/`)** is a separate path: Docker image, AWS SSM → `.env.local`, ports 3000/3001. GitHub “Unified DevContainer” UI edits that JSON only; it does **not** configure Cloud Agent VMs. See `.devcontainer/README.md`.
+> **Operator workflow:** localhost + **admin dashboard** (`pnpm dev:admin` → http://localhost:3001). Gitpod is not required. See `docs/LOCAL_DEVELOPMENT.md`.
 
 ### Environment setup
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
 - **pnpm 10.28.2** is the package manager — `corepack enable` activates it.
-- **No local database** — the app connects to hosted Supabase. A `.env.local` with placeholder keys is enough to start the dev server; DB-dependent features fail gracefully at runtime.
+- **No local database** — hosted Supabase. Use real keys in `.env.local` for full admin features; placeholders only boot the servers.
 - Minimum `.env.local` for dev server startup:
   ```
   NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
@@ -855,6 +855,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-**Dev Studio Runtime** (ECS `elevate-studio`, env prefix `STUDIO_SHELL_*`) is the AWS worker that clones the repo and runs `pnpm install` for terminal/git commands. User-facing name is **not** "shell". Completion checklist: `GET /api/devstudio/health` → `studioRuntime.steps`. Finish order: admin SSM wiring → start `elevate-studio` → `GITHUB_TOKEN` on runtime task → wait for `/health` `ready: true` → AI keys in Secrets.
 

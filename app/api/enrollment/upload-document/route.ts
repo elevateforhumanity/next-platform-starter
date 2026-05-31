@@ -77,8 +77,14 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
     }
 
-    // Get public URL
-    const { data: urlData } = supabase.storage.from('documents').getPublicUrl(fileName);
+    // documents bucket is private — signed URL for immediate UI feedback; persist file_path only.
+    const { data: signed, error: signError } = await supabase.storage
+      .from('documents')
+      .createSignedUrl(fileName, 3600);
+    if (signError) {
+      logger.error('Signed URL error:', signError);
+      return NextResponse.json({ error: 'Failed to secure uploaded file' }, { status: 500 });
+    }
 
     // Create document record — linked to enrollment and binder
     const { data: document, error: dbError } = await supabase
@@ -89,7 +95,7 @@ async function _POST(req: Request) {
         digital_binder_id: binderId,
         file_name: file.name,
         document_type: documentType,
-        file_url: urlData.publicUrl,
+        file_url: signed.signedUrl,
         file_path: fileName,
         file_size: file.size,
         mime_type: file.type,

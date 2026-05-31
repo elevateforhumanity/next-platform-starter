@@ -4,6 +4,7 @@ export type CareerTrainingArea = {
   summary: string;
   description: string;
   programs: string[];
+  ctaHref: string;
 };
 
 export const careerTrainingAreas: CareerTrainingArea[] = [
@@ -20,6 +21,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
       'Home Health Aide',
       'Emergency Health & Safety Technician',
     ],
+    ctaHref: '/apply',
   },
   {
     slug: 'skilled-trades',
@@ -35,6 +37,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
       'CDL Class A',
       'Construction Trades Certification',
     ],
+    ctaHref: '/apply',
   },
   {
     slug: 'beauty-wellness',
@@ -48,6 +51,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
       'Nail Technician Apprenticeship',
       'Professional Esthetician',
     ],
+    ctaHref: '/apply',
   },
   {
     slug: 'technology',
@@ -63,6 +67,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
       'Network Administration',
       'CAD/Drafting Technician',
     ],
+    ctaHref: '/apply',
   },
   {
     slug: 'business',
@@ -78,6 +83,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
       'Tax Preparation',
       'Office Administration',
     ],
+    ctaHref: '/apply',
   },
 ];
 

@@ -152,8 +152,9 @@ export async function POST(req: Request) {
   if (rateLimited) return rateLimited;
 
   const authResult = await apiRequireAdmin(req);
+  if (authResult.error) return authResult.error;
   // apiRequireAdmin returns a NextResponse on failure, or the auth object on success
-  if (authResult instanceof NextResponse) return authResult;
+  if (authResult.error) return authResult.error;
   const auth = authResult;
 
   let body: { url?: string; organization_id?: string };

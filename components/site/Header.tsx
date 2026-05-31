@@ -55,7 +55,7 @@ export default function Header() {
         {/* Desktop Navigation — horizontal row, visible lg+ */}
         <HeaderDesktopNav items={NAV_ITEMS} />
 
-        {/* Desktop CTAs — sign in + get started, visible lg+ */}
+        {/* Desktop CTAs — sign in + apply now (lg+ only; tablet/mobile use drawer) */}
         <div className="hidden lg:flex items-center gap-1.5 shrink-0">
           <SearchModal />
           <LanguageSwitcher />

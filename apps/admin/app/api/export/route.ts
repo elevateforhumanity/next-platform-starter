@@ -43,8 +43,8 @@ export async function GET(request: NextRequest) {
       authResult = await apiRequireInstructor(request);
     }
 
-    if (authResult instanceof NextResponse) {
-      return authResult;
+    if (authResult.error) {
+      return authResult.error;
     }
 
     const userId = authResult.id;
@@ -141,8 +141,8 @@ export async function POST(request: NextRequest) {
 
     const authResult = await apiRequireAdmin(request);
 
-    if (authResult instanceof NextResponse) {
-      return authResult;
+    if (authResult.error) {
+      return authResult.error;
     }
 
     const userId = authResult.id;

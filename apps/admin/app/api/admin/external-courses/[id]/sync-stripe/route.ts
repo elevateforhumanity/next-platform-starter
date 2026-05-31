@@ -35,6 +35,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const { id } = await params;
 
   const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const body = await req.json().catch(() => null);
   if (!body) return safeError('Invalid JSON', 400);

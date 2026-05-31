@@ -9,13 +9,8 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   const { id } = await params;
   try {
     const supabase = await requireAdminClient();
@@ -41,13 +36,8 @@ export async function DELETE(
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  try {
-    await apiRequireAdmin(request);
-  } catch (e) {
-    if (e instanceof Response) return e;
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
   const { id } = await params;
   try {
     const supabase = await requireAdminClient();

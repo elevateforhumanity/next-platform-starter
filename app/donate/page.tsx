@@ -157,7 +157,7 @@ export default function DonatePage() {
             </h2>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
               <strong>Sit Selfish Inc</strong> is a 501(c)(3) nonprofit partnered with
-              <strong> ${PLATFORM_DEFAULTS.orgName}</strong> to deliver no-cost workforce training
+              <strong> {PLATFORM_DEFAULTS.orgName}</strong> to deliver no-cost workforce training
               to individuals who face barriers to employment — including justice-involved
               individuals, WIOA-eligible participants, and underserved communities across Indiana.
             </p>

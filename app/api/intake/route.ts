@@ -374,9 +374,7 @@ async function _POST(req: Request) {
   return NextResponse.json({
     success: true,
     funding_tag: fundingTag,
-    // Signals to the caller that the intake was saved but the admin queue mirror
-    // failed. The submission is not lost — it's in apprenticeship_intake.
-    ...(applicationId ? {} : { mirror_failed: true }),
+    ...(applicationId ? { application_id: applicationId } : { mirror_failed: true }),
   });
 }
 export const POST = withApiAudit('/api/intake', _POST);

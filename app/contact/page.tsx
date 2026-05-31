@@ -10,7 +10,6 @@ import Turnstile from '@/components/Turnstile';
 
 import FeedbackWidget from '@/components/FeedbackWidget';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 
 const contactInfo = [
   {
@@ -587,9 +586,6 @@ function ContactPageInner() {
       </div>
       <div className="max-w-4xl mx-auto px-4 py-8">
         <FeedbackWidget userId="" />
-      </div>
-      <div className="max-w-4xl mx-auto px-4 pb-12">
-        <InstitutionalLegalNotice />
       </div>
     </div>
   );

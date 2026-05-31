@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { formatVerifiedCount } from '@/lib/site-stats-server';
+import { SITE_STATS } from '@/lib/site-stats';
 import {
   Users, Award, Briefcase, BookOpen, Clock, TrendingUp,
   Heart, ArrowRight, CheckCircle, MapPin, Star, Globe,
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/impact' },
 };
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 async function getImpactStats() {
   try {
@@ -97,7 +99,7 @@ export default async function ImpactPage() {
   const IMPACT_NUMBERS = [
     {
       icon: Users,
-      value: stats ? stats.totalEnrollments.toLocaleString() : '500+',
+      value: formatVerifiedCount(stats?.totalEnrollments ?? null),
       label: 'Students Enrolled',
       sublabel: 'and counting',
       color: 'text-blue-600',
@@ -106,7 +108,7 @@ export default async function ImpactPage() {
     },
     {
       icon: Award,
-      value: stats ? stats.totalCerts.toLocaleString() : '200+',
+      value: formatVerifiedCount(stats?.totalCerts ?? null),
       label: 'Credentials Issued',
       sublabel: 'industry-recognized',
       color: 'text-brand-green-600',
@@ -115,7 +117,7 @@ export default async function ImpactPage() {
     },
     {
       icon: BookOpen,
-      value: stats ? stats.activePrograms.toLocaleString() : '10+',
+      value: formatVerifiedCount(stats?.activePrograms ?? null),
       label: 'Active Programs',
       sublabel: 'across Indiana',
       color: 'text-purple-600',
@@ -124,7 +126,7 @@ export default async function ImpactPage() {
     },
     {
       icon: Clock,
-      value: stats ? `${Math.round(stats.totalHours / 1000)}K+` : '50K+',
+      value: stats && stats.totalHours > 0 ? `${Math.round(stats.totalHours / 1000).toLocaleString('en-US')}K+` : '—',
       label: 'Training Hours Logged',
       sublabel: 'approved & verified',
       color: 'text-orange-600',
@@ -133,7 +135,7 @@ export default async function ImpactPage() {
     },
     {
       icon: CheckCircle,
-      value: stats ? stats.completedPrograms.toLocaleString() : '150+',
+      value: formatVerifiedCount(stats?.completedPrograms ?? null),
       label: 'Programs Completed',
       sublabel: 'graduates launched',
       color: 'text-teal-600',
@@ -142,9 +144,9 @@ export default async function ImpactPage() {
     },
     {
       icon: Briefcase,
-      value: '85%',
-      label: 'Job Placement Rate',
-      sublabel: 'within 90 days',
+      value: stats ? `${SITE_STATS.jobPlacementRate}%` : '—',
+      label: 'Credential attainment rate',
+      sublabel: 'among completers',
       color: 'text-red-600',
       bg: 'bg-red-50',
       border: 'border-red-100',
@@ -171,7 +173,7 @@ export default async function ImpactPage() {
         <div className="relative max-w-6xl mx-auto px-4 py-24 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
             <TrendingUp className="w-4 h-4 text-brand-green-400" />
-            Live Impact Data — Updated Hourly
+            Impact metrics from live data
           </div>
           <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
             Real People.<br />
@@ -180,7 +182,7 @@ export default async function ImpactPage() {
             </span>
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
-            Sit Selfish Inc and ${PLATFORM_DEFAULTS.orgName} are transforming lives through
+            Sit Selfish Inc and {PLATFORM_DEFAULTS.orgName} are transforming lives through
             no-cost workforce training, industry credentials, and career placement
             across Indiana.
           </p>

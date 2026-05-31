@@ -11,7 +11,6 @@ import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { LEGAL_ENTITY_OPERATING_LINE } from '@/lib/config/legal-entity';
 
 // FOOTER STRUCTURE — 5 columns
 // Col 1: Programs
@@ -58,10 +57,6 @@ const footerLinks = {
   // Column 3 — Partners & Employers
   partners: [
     { name: 'Partner Overview', href: '/partners' },
-    { name: 'Partner Application', href: '/partners/apply' },
-    { name: 'Booth Rental', href: '/booth-rental' },
-    { name: 'Staff Application', href: '/apply/staff' },
-    { name: 'Employers', href: '/employers' },
     { name: 'Hire Our Graduates', href: '/for-employers' },
     { name: 'Workforce Agencies', href: '/for-agencies' },
     { name: 'Workforce Partners', href: '/partners/workforce' },
@@ -197,7 +192,9 @@ export default function ServerFooter() {
             <div className="flex items-center gap-3">
               <LogoImage alt="Elevate" width={28} height={42} className="w-auto h-7" />
               <p className="text-white text-sm">
-                <Copyright entity="2Exclusive LLC-S d/b/a {PLATFORM_DEFAULTS.orgName} Career & Technical Institute" />
+                <Copyright
+                  entity={`2Exclusive LLC-S d/b/a ${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`}
+                />
               </p>
             </div>
 
@@ -290,9 +287,9 @@ export default function ServerFooter() {
             {/* Legal Disclaimer */}
             <div className="mt-6 pt-6 border-t border-slate-800">
               <p className="text-[10px] leading-relaxed text-slate-500 max-w-4xl mx-auto text-center">
-                {LEGAL_ENTITY_OPERATING_LINE}. {PLATFORM_DEFAULTS.orgName} Career &amp; Technical
-                Institute is a DOL Registered Apprenticeship Sponsor, Indiana ETPL-listed workforce
-                training provider, and Certiport Authorized Testing Center. Industry
+                {PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute is a DOL Registered
+                Apprenticeship Sponsor, Indiana ETPL-listed workforce training provider, and
+                Certiport Authorized Testing Center operating under 2Exclusive LLC-S. Industry
                 certifications are issued by the respective credentialing bodies (CompTIA, NHA, EPA,
                 NCCCO, etc.) upon passing the required exams — these are the same credentials
                 employers hire for. Training may be fully funded for eligible participants through

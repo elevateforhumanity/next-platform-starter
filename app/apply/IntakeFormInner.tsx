@@ -216,6 +216,7 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
       const result = await res.json();
 
       if (res.ok) {
+        setMirrorWarning(Boolean(result.mirror_failed));
         setSubmittedProgram((data.program_interest as string) || '');
         setSubmitted(true);
         setFundingTag(result.funding_tag || '');

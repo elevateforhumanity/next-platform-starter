@@ -18,6 +18,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   try {
     const { approved, rejection_reason } = await request.json();

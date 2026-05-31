@@ -161,7 +161,7 @@ export default function ScheduleMeetingPage() {
               </>
             ) : (
               <>
-                Questions? Call us at <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>
+                Questions? Call us at <strong>{PLATFORM_DEFAULTS.supportPhone}</strong>
               </>
             )}
           </p>

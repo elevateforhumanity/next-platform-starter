@@ -13,7 +13,7 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const auth = await requireApiRole(['student', 'admin', 'super_admin']);
-    if (auth instanceof NextResponse) return auth;
+    if (auth.error) return auth.error;
 
     const { user, db } = auth;
 
