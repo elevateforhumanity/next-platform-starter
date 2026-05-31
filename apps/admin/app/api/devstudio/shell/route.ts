@@ -217,48 +217,39 @@ export async function GET(request: NextRequest) {
   const action = searchParams.get('action');
   const runId  = searchParams.get('run_id');
 
-  // ── Recent deploy workflow runs (for re-run from Dev Studio) ─────────────
-  if (action === 'recent_deploys') {
-    const deployFiles = ['deploy-lms.yml', 'deploy-admin.yml', 'deploy-studio.yml'];
+  // ── Recent workflow runs (deploy + CI) ───────────────────────────────────
+  if (action === 'recent_runs') {
+    const perPage = Math.min(20, Math.max(1, Number(searchParams.get('per_page') ?? '10')));
     try {
-      const runs: Array<{
-        workflow: string;
-        id: number;
-        status: string;
-        conclusion: string | null;
-        url: string;
-        createdAt: string;
-      }> = [];
-      for (const workflowFile of deployFiles) {
-        const res = await fetch(
-          `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/runs?per_page=3&branch=${branch()}`,
-          { headers: ghHeaders() },
-        );
-        if (!res.ok) continue;
-        const data = (await res.json()) as {
-          workflow_runs?: Array<{
-            id: number;
-            status: string;
-            conclusion: string | null;
-            html_url: string;
-            created_at: string;
-          }>;
-        };
-        for (const run of data.workflow_runs ?? []) {
-          runs.push({
-            workflow: workflowFile.replace('.yml', ''),
-            id: run.id,
-            status: run.status,
-            conclusion: run.conclusion,
-            url: run.html_url,
-            createdAt: run.created_at,
-          });
-        }
-      }
-      runs.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-      return NextResponse.json({ runs: runs.slice(0, 12) });
+      const res = await fetch(
+        `${GH_API}/repos/${repo()}/actions/runs?per_page=${perPage}&branch=${branch()}`,
+        { headers: ghHeaders() },
+      );
+      if (!res.ok) return safeError('GitHub API error', res.status);
+      const data = await res.json() as {
+        workflow_runs: Array<{
+          id: number;
+          name: string;
+          status: string;
+          conclusion: string | null;
+          html_url: string;
+          created_at: string;
+          path?: string;
+        }>;
+      };
+      return NextResponse.json({
+        runs: (data.workflow_runs ?? []).map((r) => ({
+          id: r.id,
+          name: r.name,
+          status: r.status,
+          conclusion: r.conclusion,
+          url: r.html_url,
+          createdAt: r.created_at,
+          workflow: r.path?.replace('.github/workflows/', '') ?? r.name,
+        })),
+      });
     } catch (err) {
-      return safeInternalError(err, 'Failed to list recent deploy runs');
+      return safeInternalError(err, 'Failed to list recent runs');
     }
   }
 

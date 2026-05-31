@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
       { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to ECS' },
       { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin service to ECS' },
       { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build and push the Dev Studio shell service to ECS' },
-      { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
+      { key: 'ci-cd', label: 'Run CI', description: 'Run the full validation pipeline (ci-cd.yml)' },
       { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],
     defaultPreviewUrl: configuredPreviewUrl || publicSiteUrl,
