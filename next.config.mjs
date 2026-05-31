@@ -900,11 +900,9 @@ const nextConfig = {
       ...canonicalAliasRedirects,
 
       // ── Stub page consolidation (2026-06) ────────────────────────────────────
-      // Legacy tax URLs → community services (VITA); same-site only
-      { source: '/tax', destination: '/community-services', permanent: true },
-      { source: '/tax/:path*', destination: '/community-services', permanent: true },
-      { source: '/tax-self-prep', destination: '/community-services', permanent: true },
-      { source: '/tax-self-prep/:path*', destination: '/community-services', permanent: true },
+      // External tax platform
+      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
+      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
 
       // programs/admin/* → program-holder/*
       { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
@@ -983,7 +981,7 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
       // /mentor → /mentor/dashboard already covered above
       { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: '/community-services', permanent: true },
+      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
       { source: '/snap', destination: '/snap/snap-et', permanent: true },
       { source: '/training-providers', destination: '/for-providers', permanent: true },
       { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
@@ -1134,6 +1132,14 @@ const nextConfig = {
       process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
     const host = process.env.URL || '';
 
+    let adminPreviewOrigin = 'https://admin.elevateforhumanity.org';
+    try {
+      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || adminPreviewOrigin;
+      adminPreviewOrigin = new URL(adminUrl).origin;
+    } catch {
+      /* keep default */
+    }
+
     // No special handling needed - single canonical domain: www.elevateforhumanity.org
     const robotsHeaders = [];
 
@@ -1148,11 +1154,8 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=63072000; includeSubDomains; preload',
       },
-      // X-Frame-Options: DENY in production to prevent clickjacking.
-      // Omitted in dev so Dev Studio's iframe preview can load same-origin pages.
-      ...(isProduction
-        ? [{ key: 'X-Frame-Options', value: 'DENY' }]
-        : []),
+      // Clickjacking: use CSP frame-ancestors (not X-Frame-Options DENY — that blocks
+      // Dev Studio on admin.elevateforhumanity.org from embedding www in the preview pane).
       {
         key: 'X-Content-Type-Options',
         value: 'nosniff',
