@@ -252,6 +252,7 @@
     "route:audit": "tsx scripts/route-audit.ts",
     "route:audit:strict": "tsx scripts/route-audit.ts --strict",
     "audit:programs": "tsx scripts/audit-program-pages.ts",
+    "catalog:sync": "tsx scripts/sync-program-catalog-from-static.ts",
     "audit:hero-banners": "tsx scripts/audit-hero-banners.ts",
     "verify:system": "tsx scripts/verify-system.ts",
     "link:hvac-videos": "tsx scripts/link-hvac-videos.ts",
