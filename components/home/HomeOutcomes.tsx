@@ -103,9 +103,9 @@ export async function HomeOutcomes() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14">
           {[
             {
-              stat: `${SITE_STATS.jobPlacementRate}%`,
-              label: 'Credential attainment rate',
-              note: 'Among completers',
+              stat: `${SITE_STATS.careerServicesSupportRate}%`,
+              label: 'Receive placement support',
+              note: 'Graduates — not a job guarantee',
             },
             {
               stat: '500+',
@@ -118,7 +118,7 @@ export async function HomeOutcomes() {
               note: 'WIOA & state funding',
             },
             {
-              stat: `${SITE_STATS.programsOffered}+`,
+              stat: SITE_STATS.programsOfferedDisplay,
               label: 'Programs available',
               note: 'Across 6 sectors',
             },

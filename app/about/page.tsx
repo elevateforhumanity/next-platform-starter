@@ -69,7 +69,7 @@ export default async function AboutPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src="/images/team/elizabeth-greene.webp"
-              alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
+              alt={`Elizabeth Greene, Founder & CEO of ${PLATFORM_DEFAULTS.orgLegalName}`}
               fill
               className="object-cover object-top"
               priority
@@ -98,7 +98,7 @@ export default async function AboutPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-4 mb-6">
-            <Logo alt="{PLATFORM_DEFAULTS.orgName} logo" width={64} height={64} />
+            <Logo alt={`${PLATFORM_DEFAULTS.orgName} logo`} width={64} height={64} />
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Who We Are</h2>
           </div>
           <div className="text-slate-700 space-y-4">
@@ -451,7 +451,7 @@ export default async function AboutPage() {
               <div className="relative w-48 h-48 sm:w-56 sm:h-64 flex-shrink-0 overflow-hidden mx-auto sm:mx-0">
                 <Image
                   src="/images/team/founder/elizabeth-greene-founder-hero-01.jpg"
-                  alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
+                  alt={`Elizabeth Greene, Founder & CEO of ${PLATFORM_DEFAULTS.orgLegalName}`}
                   fill
                   sizes="(max-width: 640px) 192px, 224px"
                   quality={95}

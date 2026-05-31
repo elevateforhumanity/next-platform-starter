@@ -55,7 +55,7 @@ Training may be available at no cost for eligible participants. Call ${PLATFORM_
 **Professional:** Barbering, Cosmetology
 **Technology:** IT Fundamentals, Microsoft Office
 
-All programs include job placement assistance! Visit ${PLATFORM_DEFAULTS.canonicalDomain}/programs for details.`;
+Graduates receive career placement support (not a guaranteed job). Visit ${PLATFORM_DEFAULTS.canonicalDomain}/programs for details.`;
       } else if (
         userMessage.includes('free') ||
         userMessage.includes('cost') ||

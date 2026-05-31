@@ -27,7 +27,7 @@ export default function ApprovalsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/approvals-page-1.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} institutional approvals and governance"
+          alt={`${PLATFORM_DEFAULTS.orgName} institutional approvals and governance`}
           fill
           className="object-cover"
           priority

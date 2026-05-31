@@ -11,7 +11,7 @@ export function SiteLogo({ className }: SiteLogoProps) {
     <Link href="/" aria-label="Link" className={className ?? ''}>
       <Image
         src="/logo-small.png"
-        alt="{PLATFORM_DEFAULTS.orgName} – Building Success Stories"
+        alt={`${PLATFORM_DEFAULTS.orgName} – Building Success Stories`}
         width={96}
         height={96}
         priority

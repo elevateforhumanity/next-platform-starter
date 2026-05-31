@@ -32,7 +32,7 @@ export default async function NewsPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/success-stories-hero.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} news and updates"
+          alt={`${PLATFORM_DEFAULTS.orgName} news and updates`}
           fill
           className="object-cover"
           priority

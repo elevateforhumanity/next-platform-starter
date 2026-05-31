@@ -11,7 +11,7 @@ export default function SideHeroBanner() {
           <div className="text-black">
             <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue-700 px-4 py-2 text-sm font-bold mb-6 text-white">
               <span>💼</span>
-              <span>100% Job Placement Support</span>
+              <span>Career placement support for graduates</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               Your Career Starts Here

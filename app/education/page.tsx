@@ -7,6 +7,7 @@ import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import { MapPin, ArrowRight, Clock, Menu, X, Phone, Mail, BookOpen, Users, Award, CheckCircle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { SITE_STATS } from '@/lib/site-stats';
 
 const NAV = [
   { label: 'Programs', href: '/programs' },
@@ -72,10 +73,14 @@ const LOCATIONS = [
 ];
 
 const STATS = [
-  { Icon: BookOpen, value: '30+', label: 'Training Programs' },
-  { Icon: Users, value: '5', label: 'States Served' },
+  { Icon: BookOpen, value: SITE_STATS.programsOfferedDisplay, label: 'Training Programs' },
+  { Icon: Users, value: String(SITE_STATS.statesServed), label: 'States with hub pages' },
   { Icon: Award, value: '15+', label: 'Industry Certifications' },
-  { Icon: CheckCircle, value: '100%', label: 'Job Placement Support' },
+  {
+    Icon: CheckCircle,
+    value: `${SITE_STATS.careerServicesSupportRate}%`,
+    label: 'Placement support offered',
+  },
 ];
 
 export default function EducationLandingPage() {
