@@ -218,7 +218,7 @@ export default function VerifyCredentialsPage() {
       <section className="relative h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden">
         <Image
           src="/images/pages/verify-credentials-page-1.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} credential verification"
+          alt={`${PLATFORM_DEFAULTS.orgName} credential verification`}
           fill
           sizes="100vw"
           className="object-cover"

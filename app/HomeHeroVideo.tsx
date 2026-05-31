@@ -103,7 +103,7 @@ export default function HomeHeroVideo() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image
         src="/images/hero-poster.webp"
-        alt="{PLATFORM_DEFAULTS.orgName} career training"
+        alt={`${PLATFORM_DEFAULTS.orgName} career training`}
         fill
         priority
         sizes="100vw"

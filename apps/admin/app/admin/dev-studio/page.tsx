@@ -16,7 +16,7 @@ export default async function DevStudioPage() {
   const isSuperAdmin = auth.effectiveRoles.includes('super_admin');
   return (
     <Suspense fallback={null}>
-      <DevStudioUnifiedClient isSuperAdmin={isSuperAdmin} />
+      <DevStudioControlPlaneClient isSuperAdmin={isSuperAdmin} />
     </Suspense>
   );
 }

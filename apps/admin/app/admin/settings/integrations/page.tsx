@@ -24,7 +24,7 @@ export default async function IntegrationSettingsPage() {
     {
       title: 'AWS / ECS Container',
       description: 'Push environment variables to ECS task definitions and SSM Parameter Store',
-      href: '/admin/dev-studio?tab=container',
+      href: '/admin/dev-studio?tab=environments',
     },
     {
       title: 'Social Media Accounts',

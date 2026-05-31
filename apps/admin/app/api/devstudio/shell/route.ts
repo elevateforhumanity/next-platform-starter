@@ -217,6 +217,42 @@ export async function GET(request: NextRequest) {
   const action = searchParams.get('action');
   const runId  = searchParams.get('run_id');
 
+  // ── Recent workflow runs (deploy + CI) ───────────────────────────────────
+  if (action === 'recent_runs') {
+    const perPage = Math.min(20, Math.max(1, Number(searchParams.get('per_page') ?? '10')));
+    try {
+      const res = await fetch(
+        `${GH_API}/repos/${repo()}/actions/runs?per_page=${perPage}&branch=${branch()}`,
+        { headers: ghHeaders() },
+      );
+      if (!res.ok) return safeError('GitHub API error', res.status);
+      const data = await res.json() as {
+        workflow_runs: Array<{
+          id: number;
+          name: string;
+          status: string;
+          conclusion: string | null;
+          html_url: string;
+          created_at: string;
+          path?: string;
+        }>;
+      };
+      return NextResponse.json({
+        runs: (data.workflow_runs ?? []).map((r) => ({
+          id: r.id,
+          name: r.name,
+          status: r.status,
+          conclusion: r.conclusion,
+          url: r.html_url,
+          createdAt: r.created_at,
+          workflow: r.path?.replace('.github/workflows/', '') ?? r.name,
+        })),
+      });
+    } catch (err) {
+      return safeInternalError(err, 'Failed to list recent runs');
+    }
+  }
+
   // ── List all dispatchable workflows ──────────────────────────────────────
   if (action === 'list') {
     try {

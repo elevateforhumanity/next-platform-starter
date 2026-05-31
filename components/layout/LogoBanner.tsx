@@ -21,7 +21,7 @@ export function LogoStamp() {
     <Link
       href="/"
       className="fixed bottom-6 left-6 z-40 group hidden md:flex flex-col items-center gap-1 opacity-60 hover:opacity-100 transition-opacity"
-      aria-label="{PLATFORM_DEFAULTS.orgName} - Go to homepage"
+      aria-label={`${PLATFORM_DEFAULTS.orgName} - Go to homepage`}
     >
       <div className="w-14 h-14 lg:w-16 lg:h-16 bg-white rounded-xl shadow-lg border border-slate-200 p-2 group-hover:shadow-xl group-hover:scale-105 transition-all">
         <LogoImage

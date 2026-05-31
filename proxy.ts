@@ -544,6 +544,23 @@ export async function middleware(request: NextRequest) {
 
   // All routes are served by the same AWS ECS container — no proxy needed.
 
+  // Legacy / alternate domains — always 308 to canonical www (no Elevate content on tax/legacy hosts)
+  const legacyHosts = new Set([
+    'supersonicfastermoney.com',
+    'www.supersonicfastermoney.com',
+    'supersonicfastcash.com',
+    'www.supersonicfastcash.com',
+    'elevateforhumanity.com',
+    'www.elevateforhumanity.com',
+  ]);
+  if (legacyHosts.has(hostWithoutPort)) {
+    const url = request.nextUrl.clone();
+    url.host = 'www.elevateforhumanity.org';
+    url.protocol = 'https';
+    url.port = '';
+    return NextResponse.redirect(url, { status: 308 });
+  }
+
   // Redirect non-www .org to www .org
   if (hostWithoutPort === 'elevateforhumanity.org') {
     const url = request.nextUrl.clone();

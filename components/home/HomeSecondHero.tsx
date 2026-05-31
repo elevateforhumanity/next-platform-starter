@@ -8,7 +8,7 @@ export function HomeSecondHero() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src="/images/pages/programs-hero-vibrant.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} - Career & Technical Training, Hybrid Apprenticeships, Certifications & Digital Badges, Entrepreneurship & Workforce Startup"
+          alt={`${PLATFORM_DEFAULTS.orgName} - Career & Technical Training, Hybrid Apprenticeships, Certifications & Digital Badges, Entrepreneurship & Workforce Startup`}
           width={1920}
           height={1080}
           className="w-full rounded-2xl shadow-lg" placeholder="empty"

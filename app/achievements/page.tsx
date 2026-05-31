@@ -169,7 +169,7 @@ export default async function AchievementsPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-xl font-bold text-slate-900">
-              ${PLATFORM_DEFAULTS.orgName}
+              {PLATFORM_DEFAULTS.orgName}
             </Link>
             <Link
               href="/login"

@@ -26,7 +26,7 @@ export default function FounderPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/admin-audit-logs-hero.webp"
-          alt="{PLATFORM_DEFAULTS.orgName} founder"
+          alt={`${PLATFORM_DEFAULTS.orgName} founder`}
           fill
           sizes="100vw"
           className="object-cover"

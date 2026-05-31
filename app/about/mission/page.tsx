@@ -70,7 +70,7 @@ export default function MissionPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/mission-hero.webp"
-            alt="{PLATFORM_DEFAULTS.orgName} mission"
+            alt={`${PLATFORM_DEFAULTS.orgName} mission`}
             fill
             className="object-cover opacity-40"
             priority
@@ -116,7 +116,7 @@ export default function MissionPage() {
           <div className="relative rounded-2xl overflow-hidden h-80">
             <Image
               src="/images/pages/mission-page-1.webp"
-              alt="{PLATFORM_DEFAULTS.orgName} training"
+              alt={`${PLATFORM_DEFAULTS.orgName} training`}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"

@@ -900,11 +900,9 @@ const nextConfig = {
       ...canonicalAliasRedirects,
 
       // ── Stub page consolidation (2026-06) ────────────────────────────────────
-      // Legacy tax URLs → community services (VITA); same-site only
-      { source: '/tax', destination: '/community-services', permanent: true },
-      { source: '/tax/:path*', destination: '/community-services', permanent: true },
-      { source: '/tax-self-prep', destination: '/community-services', permanent: true },
-      { source: '/tax-self-prep/:path*', destination: '/community-services', permanent: true },
+      // External tax platform
+      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
+      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
 
       // programs/admin/* → program-holder/*
       { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
@@ -983,7 +981,7 @@ const nextConfig = {
       { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
       // /mentor → /mentor/dashboard already covered above
       { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: '/community-services', permanent: true },
+      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
       { source: '/snap', destination: '/snap/snap-et', permanent: true },
       { source: '/training-providers', destination: '/for-providers', permanent: true },
       { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
@@ -1186,8 +1184,10 @@ const nextConfig = {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self' https://js.stripe.com",
-          // Production: no framing allowed. Dev: allow same-origin for Dev Studio iframe.
-          isProduction ? "frame-ancestors 'none'" : "frame-ancestors 'self'",
+          // Production: allow admin portal to embed LMS for Dev Studio preview.
+          isProduction
+            ? "frame-ancestors 'self' https://admin.elevateforhumanity.org"
+            : "frame-ancestors 'self' http://localhost:3001",
           'upgrade-insecure-requests',
           // CSP violation reporting endpoint
           'report-uri /api/csp-report',
