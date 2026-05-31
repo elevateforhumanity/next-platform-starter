@@ -5,7 +5,19 @@
  * Exit 1 if critical leaks detected.
  */
 
-const BASE = (process.argv[2] || 'https://www.elevateforhumanity.org').replace(/\/$/, '');
+const requestedBase = process.argv[2] || process.env.PUBLIC_HTML_AUDIT_BASE_URL || '';
+const eventName = process.env.GITHUB_EVENT_NAME || '';
+const isSourceValidationEvent = eventName === 'push' || eventName.startsWith('pull_request');
+
+if (!requestedBase && process.env.CI === 'true' && isSourceValidationEvent) {
+  console.log(
+    'Skipping public HTML audit: no PUBLIC_HTML_AUDIT_BASE_URL was provided for source validation.',
+  );
+  console.log('Run this smoke check against a preview or production URL after deployment.');
+  process.exit(0);
+}
+
+const BASE = (requestedBase || 'https://www.elevateforhumanity.org').replace(/\/$/, '');
 
 const PATHS = ['/', '/programs', '/education', '/programs/catalog', '/career-training'];
 
