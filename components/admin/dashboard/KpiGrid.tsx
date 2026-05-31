@@ -52,7 +52,9 @@ function useCountUp(target: number) {
 
 function KpiCard({ card }: { card: KPICard }) {
   const pos = card.delta >= 0;
-  const IconComponent = ICON_MAP[iconKeyFor(card.label)];
+  const key = iconKeyFor(card.label);
+  const IconComponent = ICON_MAP[key];
+  const visual = KPI_VISUAL[key] ?? KPI_VISUAL.activity;
   const isRevenue = card.label.toLowerCase().includes('revenue');
   const animated = useCountUp(card.value);
 
@@ -64,15 +66,14 @@ function KpiCard({ card }: { card: KPICard }) {
         'shadow-sm hover:shadow-lg hover:-translate-y-0.5',
         'transition-all duration-200 ease-out',
         card.urgent
-          ? 'border-rose-300'
+          ? 'border-rose-300 ring-1 ring-rose-100'
           : 'border-slate-200',
       ].join(' ')}
     >
-      {/* Top accent bar */}
       <div
         className={[
-          'h-1 transition-all duration-300 group-hover:h-1.5',
-          card.urgent ? 'bg-rose-500' : 'bg-gradient-to-r from-brand-blue-500 to-cyan-400',
+          'h-1.5 transition-all duration-300 group-hover:h-2',
+          card.urgent ? 'bg-gradient-to-r from-rose-600 to-amber-500' : visual.bar,
         ].join(' ')}
       />
 
@@ -82,16 +83,14 @@ function KpiCard({ card }: { card: KPICard }) {
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 truncate mb-1">
               {card.label}
             </p>
-            <p className="text-3xl font-bold tracking-tight text-slate-900 tabular-nums">
+            <p className={`text-3xl font-bold tracking-tight tabular-nums ${card.urgent ? 'text-rose-700' : 'text-slate-900'}`}>
               {isRevenue ? fmtCents(animated) : fmt(animated)}
             </p>
           </div>
           <div
             className={[
               'rounded-xl p-2.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110',
-              card.urgent
-                ? 'bg-rose-50 text-rose-600'
-                : 'bg-slate-100 text-slate-600',
+              card.urgent ? 'bg-rose-100 text-rose-600' : visual.iconBg,
             ].join(' ')}
           >
             <IconComponent className="h-5 w-5" />

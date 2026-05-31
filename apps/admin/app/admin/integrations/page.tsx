@@ -244,6 +244,24 @@ export default async function AdminIntegrationsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <Link
+          href="/admin/integrations/env-manager"
+          className="mb-8 flex flex-col gap-1 rounded-xl border-2 border-brand-blue-200 bg-brand-blue-50 p-5 transition-colors hover:border-brand-blue-400 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="text-sm font-semibold text-slate-900">Environment Manager</p>
+            <p className="mt-0.5 text-xs text-slate-600">
+              API keys (Groq, OpenAI, Stripe, Supabase, email) stored in{' '}
+              <code className="rounded bg-white px-1">platform_settings</code> — powers Ellie, course
+              builder, and integrations below.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-blue-700">
+            Open Env Manager
+            <ExternalLink className="h-4 w-4" />
+          </span>
+        </Link>
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white rounded-lg shadow-sm border p-6">

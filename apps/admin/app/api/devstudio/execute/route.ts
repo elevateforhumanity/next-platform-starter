@@ -2102,7 +2102,7 @@ async function executeAction(
         const res = await fetch(`${getAdminUrl()}/api/devstudio/shell`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
-          body: JSON.stringify({ workflow: 'ci' }),
+          body: JSON.stringify({ workflow: 'ci-cd' }),
         });
         const data = await res.json().catch(() => ({}));
         logger.info('[devstudio/execute] run_tests dispatch response', { status: res.status });
