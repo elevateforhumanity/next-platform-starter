@@ -115,13 +115,13 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
         <div className="flex gap-2 mt-auto pt-2">
           <Link
             href={prog.cta?.applyHref || `/apply?program=${prog.slug}`}
-            className="flex-1 text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
+            className="flex-1 text-center py-2.5 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-bold transition-colors"
           >
             Apply Free
           </Link>
           <Link
             href={`/programs/${prog.slug}`}
-            className="flex-1 text-center py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+            className="flex-1 text-center py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-colors"
           >
             Details
           </Link>
@@ -142,31 +142,33 @@ export function HomeCareerPathways() {
       aria-labelledby="career-pathways-heading"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-          <div>
-            <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-2">
-              Career Pathways
-            </p>
-            <h2
-              id="career-pathways-heading"
-              className="text-2xl sm:text-3xl font-extrabold text-slate-900"
+        <div className="mb-8">
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-2">
+            Career Pathways
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+            <div>
+              <h2
+                id="career-pathways-heading"
+                className="text-2xl sm:text-3xl font-extrabold text-slate-900"
+              >
+                Pick a career. Start in weeks.
+              </h2>
+              <p className="text-slate-500 text-sm mt-2 max-w-lg">
+                Healthcare, skilled trades, CDL, technology, and more — each with a real
+                credential, funding options, and job placement support.
+              </p>
+            </div>
+            <Link
+              href="/programs"
+              className="inline-flex items-center gap-1.5 text-brand-red-600 hover:text-brand-red-700 text-sm font-bold transition-colors shrink-0"
             >
-              Pick a career. Start in weeks.
-            </h2>
-            <p className="text-slate-500 text-sm mt-2 max-w-lg">
-              Healthcare, skilled trades, CDL, technology, and more — each with a real
-              credential, funding options, and job placement support.
-            </p>
+              View all {ALL_PROGRAMS.length}+ programs <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-          <Link
-            href="/programs"
-            className="inline-flex items-center gap-1.5 text-brand-red-600 hover:text-brand-red-700 text-sm font-bold transition-colors shrink-0"
-          >
-            View all {ALL_PROGRAMS.length}+ programs <ArrowRight className="w-4 h-4" />
-          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {featured.map((prog) => (
             <PathwayCard key={prog.slug} prog={prog} />
           ))}

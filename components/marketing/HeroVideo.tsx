@@ -282,32 +282,32 @@ export default function HeroVideo({
       {/* BELOW-HERO CONTENT */}
       {/* All primary messaging lives here — never on the video */}
       {(belowHeroHeadline || belowHeroSubheadline || ctas || trustIndicators || children) && (
-        <section className="border-b border-slate-100 py-10 sm:py-14">
-          <div className="max-w-4xl mx-auto px-6">
+        <section className="border-b border-slate-100 py-8 sm:py-14">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6">
             {children ? (
               children
             ) : (
               <>
                 {belowHeroHeadline && (
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+                  <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-3 sm:mb-4">
                     {belowHeroHeadline}
                   </h1>
                 )}
                 {belowHeroSubheadline && (
-                  <p className="text-slate-900 text-lg leading-relaxed mb-8 max-w-2xl">
+                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl">
                     {belowHeroSubheadline}
                   </p>
                 )}
                 {ctas && ctas.length > 0 && (
-                  <div className="flex flex-wrap gap-3 mb-6">
+                  <div className="flex flex-col sm:flex-row gap-3 mb-6">
                     {ctas.map((cta) => (
                       <a
                         key={cta.href}
                         href={cta.href}
                         className={
                           cta.variant === 'secondary'
-                            ? 'border border-slate-300 text-slate-700 font-bold px-7 py-3 rounded-lg hover:bg-slate-50 transition-colors text-sm'
-                            : 'bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3 rounded-lg transition-colors text-sm'
+                            ? 'text-center border border-slate-300 text-slate-700 font-bold px-7 py-3.5 rounded-lg hover:bg-slate-50 transition-colors text-sm'
+                            : 'text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm'
                         }
                       >
                         {cta.label}

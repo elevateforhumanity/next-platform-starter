@@ -90,8 +90,8 @@ export function HomeHowItWorks() {
           </p>
         </div>
 
-        {/* Step grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+        {/* Step grid — 1 col mobile, 2 col sm, 3 col md, 6 col lg */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
           {STEPS.map((step, i) => (
             <Link
               key={step.n}
@@ -99,14 +99,14 @@ export function HomeHowItWorks() {
               className={`group relative flex flex-col rounded-2xl overflow-hidden bg-slate-900 border-t-4 ${step.accent} hover:ring-1 hover:ring-slate-600 transition-all hover:-translate-y-0.5`}
             >
               {/* Photo */}
-              <div className="relative w-full aspect-[3/2] overflow-hidden">
+              <div className="relative w-full aspect-[16/9] sm:aspect-[3/2] overflow-hidden">
                 <Image
                   src={step.img}
                   alt={step.imgAlt}
                   fill
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  loading={i < 3 ? 'eager' : 'lazy'}
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  loading={i < 2 ? 'eager' : 'lazy'}
                   placeholder="empty"
                 />
                 <span className="absolute top-2 left-2 text-[10px] font-black text-white bg-slate-900/60 px-1.5 py-0.5 rounded-md">
@@ -116,10 +116,10 @@ export function HomeHowItWorks() {
 
               {/* Label */}
               <div className="p-3">
-                <p className="text-xs font-extrabold text-white leading-tight mb-1">
+                <p className="text-sm font-extrabold text-white leading-tight mb-1">
                   {step.label}
                 </p>
-                <p className="text-[11px] text-slate-400 leading-snug hidden sm:block">
+                <p className="text-xs text-slate-400 leading-snug">
                   {step.detail}
                 </p>
               </div>

@@ -1,248 +1,13 @@
--- Elevate LMS — pending migrations bundle
--- Generated: 2026-05-30T23:09:14Z
--- Project: cuxzzpsyufcewtmicszk
--- Run in Supabase Dashboard → SQL Editor (one file or section-by-section).
+-- ============================================================
+-- ELEVATE PENDING MIGRATIONS BUNDLE
+-- Generated: 2026-05-30T23:18:47Z
+-- Project:   cuxzzpsyufcewtmicszk
+-- Run on:    Supabase Dashboard → SQL Editor
+-- ============================================================
 
-
--- ==============================================================================
--- FILE: 20260327000003_checkpoint_gating.sql
--- ==============================================================================
--- =============================================================================
--- Checkpoint gating, step submissions, and certificate auto-issuance support
---
--- 1. passing_score column on curriculum_lessons (default 70 for checkpoints)
--- 2. checkpoint_scores — records a learner's score on a checkpoint/quiz/exam step
--- 3. step_submissions — lab/assignment submissions with instructor sign-off
--- 4. Rebuild lms_lessons view to expose passing_score
--- 5. program_completion_certificates — canonical completion + cert record
---
--- Apply manually via Supabase Dashboard SQL Editor.
--- =============================================================================
-
-BEGIN;
-
--- ─── 1. passing_score on curriculum_lessons ───────────────────────────────────
-
-ALTER TABLE public.curriculum_lessons
-  ADD COLUMN IF NOT EXISTS passing_score integer NOT NULL DEFAULT 70
-  CHECK (passing_score BETWEEN 1 AND 100);
-
--- ─── 2. checkpoint_scores ─────────────────────────────────────────────────────
-
-CREATE TABLE IF NOT EXISTS public.checkpoint_scores (
-  id              uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id         uuid        NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  lesson_id       uuid        NOT NULL REFERENCES public.curriculum_lessons(id) ON DELETE CASCADE,
-  course_id       uuid        NOT NULL,
-  module_order    integer     NOT NULL,
-  score           integer     NOT NULL CHECK (score BETWEEN 0 AND 100),
-  passing_score   integer     NOT NULL DEFAULT 70,
-  passed          boolean     NOT NULL GENERATED ALWAYS AS (score >= passing_score) STORED,
-  attempt_number  integer     NOT NULL DEFAULT 1,
-  answers         jsonb,
-  created_at      timestamptz NOT NULL DEFAULT now()
-  UNIQUE (user_id, lesson_id, attempt_number)
-);
-
-CREATE INDEX IF NOT EXISTS idx_checkpoint_scores_user_course
-  ON public.checkpoint_scores (user_id, course_id, module_order);
-
-CREATE INDEX IF NOT EXISTS idx_checkpoint_scores_user_lesson
-  ON public.checkpoint_scores (user_id, lesson_id);
-
-ALTER TABLE public.checkpoint_scores ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "users_own_checkpoint_scores"
-  ON public.checkpoint_scores FOR ALL
-  USING (user_id = auth.uid());
-
-CREATE POLICY "service_role_checkpoint_scores"
-  ON public.checkpoint_scores FOR ALL
-  TO service_role USING (true);
-
-GRANT SELECT, INSERT ON public.checkpoint_scores TO authenticated;
-GRANT ALL ON public.checkpoint_scores TO service_role;
-
--- ─── 3. step_submissions ──────────────────────────────────────────────────────
-
-CREATE TABLE IF NOT EXISTS public.step_submissions (
-  id              uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id         uuid        NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  lesson_id       uuid        NOT NULL REFERENCES public.curriculum_lessons(id) ON DELETE CASCADE,
-  course_id       uuid        NOT NULL,
-  step_type       public.step_type_enum NOT NULL,
-  submission_text text,
-  file_urls       text[]      DEFAULT '{}',
-  status          text        NOT NULL DEFAULT 'submitted',
-                  CHECK (status IN ('submitted','under_review','approved','rejected','revision_requested')),
-  instructor_id   uuid        REFERENCES auth.users(id),
-  instructor_note text,
-  reviewed_at     timestamptz,
-  created_at      timestamptz NOT NULL DEFAULT now(),
-  updated_at      timestamptz NOT NULL DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_step_submissions_user_course
-  ON public.step_submissions (user_id, course_id);
-
-CREATE INDEX IF NOT EXISTS idx_step_submissions_instructor_pending
-  ON public.step_submissions (instructor_id, status)
-  WHERE status IN ('submitted','under_review');
-
-ALTER TABLE public.step_submissions ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "users_own_step_submissions"
-  ON public.step_submissions FOR ALL
-  USING (user_id = auth.uid());
-
-CREATE POLICY "service_role_step_submissions"
-  ON public.step_submissions FOR ALL
-  TO service_role USING (true);
-
-GRANT SELECT, INSERT, UPDATE ON public.step_submissions TO authenticated;
-GRANT ALL ON public.step_submissions TO service_role;
-
--- ─── 4. program_completion_certificates ───────────────────────────────────────
--- Canonical record written when a learner completes all required steps and
--- all checkpoints are passed. Used by /verify/[certificateId] page.
-
-CREATE TABLE IF NOT EXISTS public.program_completion_certificates (
-  id                  uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id             uuid        NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  program_id          uuid        NOT NULL REFERENCES public.programs(id),
-  course_id           uuid,
-  enrollment_id       uuid,
-  certificate_number  text        NOT NULL UNIQUE,
-  issued_at           timestamptz NOT NULL DEFAULT now(),
-  course_version      text,
-  completion_date     date        NOT NULL DEFAULT CURRENT_DATE,
-  pdf_url             text,
-  verification_url    text,
-  checkpoints_passed  integer     NOT NULL DEFAULT 0,
-  total_checkpoints   integer     NOT NULL DEFAULT 0,
-  seat_time_seconds   integer,
-  created_at          timestamptz NOT NULL DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_pcc_user_program
-  ON public.program_completion_certificates (user_id, program_id);
-
-CREATE INDEX IF NOT EXISTS idx_pcc_certificate_number
-  ON public.program_completion_certificates (certificate_number);
-
-ALTER TABLE public.program_completion_certificates ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "users_own_completion_certs"
-  ON public.program_completion_certificates FOR SELECT
-  USING (user_id = auth.uid());
-
-CREATE POLICY "public_verify_completion_certs"
-  ON public.program_completion_certificates FOR SELECT
-  TO anon USING (true);
-
-CREATE POLICY "service_role_completion_certs"
-  ON public.program_completion_certificates FOR ALL
-  TO service_role USING (true);
-
-GRANT SELECT ON public.program_completion_certificates TO authenticated, anon;
-GRANT ALL ON public.program_completion_certificates TO service_role;
-
--- ─── 5. Rebuild lms_lessons view to expose passing_score ──────────────────────
-
-DROP VIEW IF EXISTS public.lms_lessons CASCADE;
-
-CREATE OR REPLACE VIEW public.lms_lessons AS
-
-  -- Curriculum-seeded lessons (new source of truth)
-  SELECT
-    cl.id,
-    cl.course_id,
-    (cl.module_order * 1000 + cl.lesson_order)   AS lesson_number,
-    cl.lesson_title                               AS title,
-    cl.script_text                                AS content,
-    cl.video_file                                 AS video_url,
-    cl.duration_minutes,
-    NULL::text[]                                  AS topics,
-    NULL::jsonb                                   AS quiz_questions,
-    cl.created_at,
-    cl.updated_at,
-    cl.course_id                                  AS course_id_uuid,
-    (cl.module_order * 1000 + cl.lesson_order)   AS order_index,
-    true                                          AS is_required,
-    (cl.status = 'published')                     AS is_published,
-    cl.step_type::text                            AS content_type,
-    NULL::uuid                                    AS quiz_id,
-    cl.passing_score                              AS passing_score,
-    NULL::text                                    AS description,
-    NULL::uuid                                    AS tenant_id,
-    NULL::text                                    AS html,
-    cl.lesson_slug                                AS idx,
-    (cl.module_order * 1000 + cl.lesson_order)::text AS order_number,
-    cl.module_id,
-    cl.program_id,
-    'curriculum'::text                            AS lesson_source,
-    cl.credential_domain_id,
-    cl.step_type::text                            AS step_type,
-    m.title                                       AS module_title,
-    cl.module_order,
-    cl.lesson_order
-  FROM public.curriculum_lessons cl
-  LEFT JOIN public.modules m ON m.id = cl.module_id
-  WHERE cl.course_id IS NOT NULL
-    AND cl.lesson_slug NOT LIKE '%-smoke-%'
-    AND cl.status = 'published'
-
-  UNION ALL
-
-  -- Legacy training_lessons (HVAC and other pre-curriculum courses)
-  SELECT
-    tl.id,
-    tl.course_id,
-    tl.lesson_number,
-    tl.title,
-    tl.content,
-    tl.video_url,
-    tl.duration_minutes,
-    tl.topics,
-    tl.quiz_questions,
-    tl.created_at,
-    tl.updated_at,
-    tl.course_id                                  AS course_id_uuid,
-    tl.lesson_number                              AS order_index,
-    tl.is_required,
-    tl.is_published,
-    tl.content_type,
-    tl.quiz_id,
-    tl.passing_score,
-    tl.description,
-    tl.tenant_id,
-    tl.html,
-    tl.idx,
-    tl.order_number,
-    NULL::uuid                                    AS module_id,
-    NULL::uuid                                    AS program_id,
-    'training'::text                              AS lesson_source,
-    NULL::uuid                                    AS credential_domain_id,
-    tl.content_type                               AS step_type,
-    NULL::text                                    AS module_title,
-    NULL::integer                                 AS module_order,
-    tl.lesson_number                              AS lesson_order
-  FROM public.training_lessons tl
-  WHERE tl.is_published = true
-    AND NOT EXISTS (
-      SELECT 1 FROM public.curriculum_lessons cl2
-      WHERE cl2.course_id = tl.course_id
-        AND cl2.status = 'published'
-    );
-
-GRANT SELECT ON public.lms_lessons TO authenticated, anon, service_role;
-
-COMMIT;
-
-
--- ==============================================================================
--- FILE: 20260601000006_step_submissions_review_columns.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260601000006_step_submissions_review_columns.sql
+-- ────────────────────────────────────────────────────────────
 -- Add instructor review columns to step_submissions.
 -- Required for the instructor sign-off UI on lab/assignment step types.
 
@@ -265,10 +30,9 @@ CREATE INDEX IF NOT EXISTS idx_step_submissions_instructor_status
 CREATE INDEX IF NOT EXISTS idx_step_submissions_course_status
   ON public.step_submissions (course_id, instructor_status);
 
-
--- ==============================================================================
--- FILE: 20260702000001_rls_and_security_hardening.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000001_rls_and_security_hardening.sql
+-- ────────────────────────────────────────────────────────────
 -- =============================================================================
 -- Security hardening: RLS gaps, storage policies, login reliability
 -- =============================================================================
@@ -455,10 +219,9 @@ SET allowed_mime_types = ARRAY[
 ]
 WHERE id = 'curriculum';
 
-
--- ==============================================================================
--- FILE: 20260702000002_store_products_product_id.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000002_store_products_product_id.sql
+-- ────────────────────────────────────────────────────────────
 -- store_products is missing product_id FK to products table.
 -- cart-checkout queries store_products.product_id to resolve LMS access grants.
 -- Without this column the lookup silently returns empty and no course access is granted.
@@ -475,10 +238,9 @@ FROM public.products p
 WHERE sp.product_id IS NULL
   AND lower(p.name) = lower(sp.name);
 
-
--- ==============================================================================
--- FILE: 20260702000003_store_products_stripe_id.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000003_store_products_stripe_id.sql
+-- ────────────────────────────────────────────────────────────
 -- store_products needs stripe_product_id so the Stripe webhook can look up
 -- LMS access grants by Stripe product ID (the webhook receives prod_xxx, not a UUID).
 -- Without this, the refund webhook's LMS access revocation silently no-ops.
@@ -498,10 +260,9 @@ WHERE sp.product_id = p.id
   AND sp.stripe_product_id IS NULL
   AND p.stripe_product_id IS NOT NULL;
 
-
--- ==============================================================================
--- FILE: 20260702000004_course_pipeline_drafts.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000004_course_pipeline_drafts.sql
+-- ────────────────────────────────────────────────────────────
 -- Course pipeline draft persistence
 -- Stores in-progress course generation configs so admins can resume after
 -- page close or session expiry. One draft per user (upsert on save).
@@ -543,10 +304,9 @@ create trigger course_pipeline_drafts_updated_at
   before update on public.course_pipeline_drafts
   for each row execute function public.set_updated_at();
 
-
--- ==============================================================================
--- FILE: 20260702000005_ai_memory_ttl.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000005_ai_memory_ttl.sql
+-- ────────────────────────────────────────────────────────────
 -- ai_operator_memory TTL and archival
 -- Adds expires_at column so entries can be given a lifetime.
 -- Entries with no expires_at are kept forever (long-term memory).
@@ -580,10 +340,9 @@ set expires_at = created_at + interval '30 days'
 where memory_type in ('issue', 'deployment', 'audit', 'debug')
   and expires_at is null;
 
-
--- ==============================================================================
--- FILE: 20260702000006_guardrail_enforcement_log.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000006_guardrail_enforcement_log.sql
+-- ────────────────────────────────────────────────────────────
 -- Guardrail enforcement log
 -- Records every enforcement action taken by the guardrail engine.
 -- Used to prevent duplicate enforcement within grace periods.
@@ -619,10 +378,9 @@ create policy "admin_read" on public.guardrail_enforcement_log
     )
   );
 
-
--- ==============================================================================
--- FILE: 20260702000007_courses_course_code.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000007_courses_course_code.sql
+-- ────────────────────────────────────────────────────────────
 -- Add course_code to public.courses
 -- Used by the course builder pipeline to generate short enrollment codes
 -- (e.g. "HVAC608", "BARB417") that are human-readable and deterministic.
@@ -646,10 +404,9 @@ SET course_code = (
 )
 WHERE course_code IS NULL;
 
-
--- ==============================================================================
--- FILE: 20260702000008_ai_conversation_memory.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000008_ai_conversation_memory.sql
+-- ────────────────────────────────────────────────────────────
 -- ai_conversation_memory: per-session chat history for the AI Studio console.
 -- Stores user/assistant turns so Ellie has context across messages in a session.
 -- Sessions are scoped to user_id + session_id. Rows expire after 7 days.
@@ -708,10 +465,9 @@ begin
 end;
 $$;
 
-
--- ==============================================================================
--- FILE: 20260702000009_normalize_two_factor_auth.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000009_normalize_two_factor_auth.sql
+-- ────────────────────────────────────────────────────────────
 -- Normalize two_factor_auth table.
 --
 -- The table was created with both `is_enabled` and `enabled` columns.
@@ -806,10 +562,9 @@ CREATE POLICY "Service role full access on two_factor_auth"
   ON public.two_factor_auth
   USING (auth.role() = 'service_role');
 
-
--- ==============================================================================
--- FILE: 20260702000010_onboarding_progress_unique.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000010_onboarding_progress_unique.sql
+-- ────────────────────────────────────────────────────────────
 -- Add UNIQUE constraint on (user_id, step) so the upsert in
 -- /api/onboarding/complete-step can use onConflict: 'user_id,step'.
 -- Deduplicate any existing rows first (keep the most-recently completed one).
@@ -824,10 +579,9 @@ WHERE id NOT IN (
 ALTER TABLE public.onboarding_progress
   ADD CONSTRAINT onboarding_progress_user_step_unique UNIQUE (user_id, step);
 
-
--- ==============================================================================
--- FILE: 20260702000011_ensure_storage_buckets.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000011_ensure_storage_buckets.sql
+-- ────────────────────────────────────────────────────────────
 -- Ensure all storage buckets referenced in application code exist.
 -- Uses ON CONFLICT DO NOTHING so re-running is safe.
 
@@ -903,10 +657,9 @@ BEGIN
   END IF;
 END $$;
 
-
--- ==============================================================================
--- FILE: 20260702000012_external_courses_support_fee.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000012_external_courses_support_fee.sql
+-- ────────────────────────────────────────────────────────────
 -- Add Elevate support fee fields to program_external_courses
 --
 -- elevate_fee_cents  — what Elevate charges the learner for guided support
@@ -938,10 +691,9 @@ COMMENT ON COLUMN public.program_external_courses.fee_label IS
 COMMENT ON COLUMN public.program_external_courses.support_included IS
   'JSON array of support services included, e.g. ["Weekly coaching","Resume support"].';
 
-
--- ==============================================================================
--- FILE: 20260702000013_workflow_engine.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000013_workflow_engine.sql
+-- ────────────────────────────────────────────────────────────
 -- Workflow Engine: triggers, steps, runs
 -- Extends the existing `workflows` table with full trigger→action pipeline support.
 
@@ -1064,10 +816,9 @@ INSERT INTO workflows (name, workflow_key, category, status, metadata) VALUES
   ('Certificate Issued Alert',  'cert_issued',          'lms',         'active',   '{"description":"Notifies student and staff when a certificate is issued"}')
 ON CONFLICT DO NOTHING;
 
-
--- ==============================================================================
--- FILE: 20260702000014_testing_center.sql
--- ==============================================================================
+-- ────────────────────────────────────────────────────────────
+-- 20260702000014_testing_center.sql
+-- ────────────────────────────────────────────────────────────
 -- Testing Center: seed upcoming slots in the existing testing_slots table.
 -- testing_slots already exists — no schema changes needed.
 
@@ -1093,44 +844,36 @@ WHERE NOT EXISTS (
     AND start_time = (CURRENT_DATE + v.days_ahead)::timestamptz + v.start_offset
 );
 
-
--- ==============================================================================
--- FILE: 20260530100001_lms_checkpoint_certificate_rpc.sql
--- ==============================================================================
--- Learner-scoped writes for checkpoint_scores and program_completion_certificates.
--- Enables authenticated RPC calls so service_role is not required for the learner path.
--- Apply after 20260327000003_checkpoint_gating.sql (tables must exist).
+-- ────────────────────────────────────────────────────────────
+-- 20260530100001_lms_checkpoint_certificate_rpc.sql
+-- ────────────────────────────────────────────────────────────
+-- =============================================================================
+-- record_checkpoint_attempt RPC + certificate auto-issuance
 --
--- Does NOT enable FORCE ROW SECURITY — service_role admin overrides remain valid until
--- all privileged admin paths are migrated.
+-- Depends on: 20260327000003_checkpoint_gating.sql
+--   (checkpoint_scores, step_submissions, program_completion_certificates tables)
+--
+-- Provides:
+--   record_checkpoint_attempt(p_user_id, p_lesson_id, p_course_id,
+--                              p_module_order, p_score, p_answers)
+--     → inserts a checkpoint_scores row, increments attempt_number,
+--       and auto-issues a program_completion_certificates row when all
+--       checkpoints in the course have passing scores.
+--
+-- Apply manually via Supabase Dashboard SQL Editor.
+-- =============================================================================
 
 BEGIN;
 
--- ─── checkpoint_scores: tighten authenticated policies ───────────────────────
-
-DROP POLICY IF EXISTS "users_own_checkpoint_scores" ON public.checkpoint_scores;
-DROP POLICY IF EXISTS "users_insert_own_checkpoint_scores" ON public.checkpoint_scores;
-DROP POLICY IF EXISTS "users_select_own_checkpoint_scores" ON public.checkpoint_scores;
-
-CREATE POLICY "users_select_own_checkpoint_scores"
-  ON public.checkpoint_scores FOR SELECT
-  TO authenticated
-  USING (user_id = auth.uid());
-
-CREATE POLICY "users_insert_own_checkpoint_scores"
-  ON public.checkpoint_scores FOR INSERT
-  TO authenticated
-  WITH CHECK (user_id = auth.uid());
-
--- ─── record_checkpoint_attempt (SECURITY DEFINER) ─────────────────────────────
+-- ─── record_checkpoint_attempt ───────────────────────────────────────────────
 
 CREATE OR REPLACE FUNCTION public.record_checkpoint_attempt(
-  p_lesson_id uuid,
-  p_course_id uuid,
+  p_user_id      uuid,
+  p_lesson_id    uuid,
+  p_course_id    uuid,
   p_module_order integer,
-  p_score integer,
-  p_passing_score integer,
-  p_answers jsonb DEFAULT '{}'::jsonb
+  p_score        integer,
+  p_answers      jsonb DEFAULT NULL
 )
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -1138,70 +881,89 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_user_id uuid := auth.uid();
-  v_attempt integer;
-  v_passed boolean;
+  v_passing_score  integer;
+  v_attempt_number integer;
+  v_passed         boolean;
+  v_score_id       uuid;
+  v_all_passed     boolean;
+  v_cert_id        uuid;
 BEGIN
-  IF v_user_id IS NULL THEN
-    RAISE EXCEPTION 'not_authenticated';
+  -- Resolve passing threshold from the lesson definition
+  SELECT COALESCE(passing_score, 70)
+    INTO v_passing_score
+    FROM public.curriculum_lessons
+   WHERE id = p_lesson_id;
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('ok', false, 'error', 'lesson_not_found');
   END IF;
 
-  IF p_score < 0 OR p_score > 100 THEN
-    RAISE EXCEPTION 'invalid_score';
-  END IF;
-
+  -- Determine next attempt number for this user+lesson
   SELECT COALESCE(MAX(attempt_number), 0) + 1
-    INTO v_attempt
+    INTO v_attempt_number
     FROM public.checkpoint_scores
-   WHERE user_id = v_user_id
+   WHERE user_id = p_user_id
      AND lesson_id = p_lesson_id;
 
-  v_passed := p_score >= p_passing_score;
+  v_passed := p_score >= v_passing_score;
 
   INSERT INTO public.checkpoint_scores (
-    user_id,
-    lesson_id,
-    course_id,
-    module_order,
-    score,
-    passing_score,
-    attempt_number,
-    answers
+    user_id, lesson_id, course_id, module_order,
+    score, passing_score, attempt_number, answers
   ) VALUES (
-    v_user_id,
-    p_lesson_id,
-    p_course_id,
-    GREATEST(COALESCE(p_module_order, 1), 1),
-    p_score,
-    p_passing_score,
-    v_attempt,
-    COALESCE(p_answers, '{}'::jsonb)
-  );
+    p_user_id, p_lesson_id, p_course_id, p_module_order,
+    p_score, v_passing_score, v_attempt_number, p_answers
+  )
+  RETURNING id INTO v_score_id;
+
+  -- Auto-issue certificate when every checkpoint in the course has a passing row
+  IF v_passed THEN
+    SELECT NOT EXISTS (
+      SELECT 1
+        FROM public.curriculum_lessons cl
+       WHERE cl.course_id = p_course_id
+         AND cl.step_type IN ('checkpoint', 'exam')
+         AND NOT EXISTS (
+               SELECT 1
+                 FROM public.checkpoint_scores cs
+                WHERE cs.user_id  = p_user_id
+                  AND cs.lesson_id = cl.id
+                  AND cs.passed    = true
+             )
+    ) INTO v_all_passed;
+
+    IF v_all_passed THEN
+      INSERT INTO public.program_completion_certificates (
+        user_id, course_id, issued_at
+      )
+      SELECT p_user_id, p_course_id, now()
+      WHERE NOT EXISTS (
+        SELECT 1
+          FROM public.program_completion_certificates
+         WHERE user_id  = p_user_id
+           AND course_id = p_course_id
+      )
+      RETURNING id INTO v_cert_id;
+    END IF;
+  END IF;
 
   RETURN jsonb_build_object(
-    'lessonId', p_lesson_id,
-    'score', p_score,
-    'passed', v_passed,
-    'passingScore', p_passing_score,
-    'attemptNumber', v_attempt
+    'ok',             true,
+    'score_id',       v_score_id,
+    'passed',         v_passed,
+    'attempt_number', v_attempt_number,
+    'passing_score',  v_passing_score,
+    'certificate_id', v_cert_id
   );
 END;
 $$;
 
-REVOKE ALL ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, integer, integer, integer, jsonb) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, integer, integer, integer, jsonb) TO authenticated;
-GRANT EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, integer, integer, integer, jsonb) TO service_role;
-
--- ─── program_completion_certificates: authenticated insert for self ─────────
-
-DROP POLICY IF EXISTS "users_insert_own_completion_certs" ON public.program_completion_certificates;
-
-CREATE POLICY "users_insert_own_completion_certs"
-  ON public.program_completion_certificates FOR INSERT
-  TO authenticated
-  WITH CHECK (user_id = auth.uid());
+-- Only the authenticated role and service_role may call this function.
+-- Revoke public execute so anon callers cannot record scores.
+REVOKE EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, uuid, integer, integer, jsonb)
+  FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.record_checkpoint_attempt(uuid, uuid, uuid, integer, integer, jsonb)
+  TO authenticated, service_role;
 
 COMMIT;
 
--- Done. Verify:
---   SELECT proname FROM pg_proc WHERE proname = 'record_checkpoint_attempt';

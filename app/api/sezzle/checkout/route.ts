@@ -46,7 +46,7 @@ async function _POST(request: NextRequest) {
     }
 
     if (!sezzle.isConfigured()) {
-      logger.error('[Sezzle] Checkout attempted but client not configured', {
+      logger.error('[Sezzle] Checkout attempted but client not configured', undefined, {
         hasPubKey: !!process.env.SEZZLE_PUBLIC_KEY,
         hasPrivKey: !!process.env.SEZZLE_PRIVATE_KEY,
         env: process.env.SEZZLE_ENVIRONMENT || 'not set',
@@ -285,7 +285,11 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     const technicalMessage = error instanceof Error ? error.message : String(error);
-    logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage, error });
+    logger.error(
+      '[Sezzle] Checkout session creation failed',
+      error instanceof Error ? error : undefined,
+      { technicalMessage },
+    );
     return NextResponse.json(
       {
         error:
@@ -340,10 +344,9 @@ async function _GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'Provide order_uuid or session_uuid' }, { status: 400 });
   } catch (error) {
-    logger.error(
-      'Sezzle status check error',
-      error instanceof Error ? error : new Error(String(error)),
-    );
+    logger.error('Sezzle status check error', error instanceof Error ? error : undefined, {
+      raw: String(error),
+    });
     const message = 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
