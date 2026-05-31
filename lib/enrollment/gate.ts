@@ -49,11 +49,28 @@ export function getNextRequiredAction(enrollment: {
     };
   }
 
-  // 3. Start first course
+  const courseId = resolveCourseId(programSlug);
+  if (courseId) {
+    return {
+      label: 'Begin Your Program',
+      href: `/lms/courses/${courseId}`,
+      description: 'Open your training program and start the first lesson',
+    };
+  }
+
+  const portalPath = SLUG_TO_PORTAL[programSlug];
+  if (portalPath) {
+    return {
+      label: 'Go to Your Dashboard',
+      href: portalPath,
+      description: 'Track hours, documents, and apprenticeship progress',
+    };
+  }
+
   return {
-    label: 'Begin Course 1',
-    href: '/apprentice/courses/1',
-    description: 'Start your first course module',
+    label: 'View Programs',
+    href: '/programs',
+    description: 'Explore available training programs',
   };
 }
 

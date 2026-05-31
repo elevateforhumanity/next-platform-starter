@@ -175,8 +175,8 @@ export default function CareerServicesPage() {
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
             Ready to Start Your Career?
           </h2>
-          <p className="text-slate-300 mb-6 text-sm">
-            Apply for training — career services are included at no extra cost for graduates.
+          <p className="text-white/90 mb-6 text-sm">
+            Apply for training — career services are included at no extra cost for eligible participants.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

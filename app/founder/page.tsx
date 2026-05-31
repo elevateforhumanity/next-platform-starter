@@ -54,7 +54,7 @@ export default function FounderPage() {
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/team/founder/elizabeth-greene-founder-hero-01.jpg"
-                alt={`Elizabeth Greene, Founder and CEO of ${PLATFORM_DEFAULTS.orgName}`}
+                alt="Elizabeth Greene, Founder and CEO of {PLATFORM_DEFAULTS.orgName}"
                 fill
                 className="object-cover object-top"
                 priority
@@ -267,7 +267,7 @@ export default function FounderPage() {
                 name: 'Selfish Inc.',
                 role: '501(c)(3) Nonprofit',
                 desc: 'IRS-recognized 501(c)(3) nonprofit supporting mental wellness services, community programming, and free VITA tax preparation for Indianapolis families.',
-                href: '/community-services',
+                href: '/tax',
               },
               {
                 name: 'Elevate Tax Operations',

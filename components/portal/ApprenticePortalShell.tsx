@@ -134,6 +134,7 @@ interface Props {
     id: string;
     enrollment_state: string;
     orientation_completed_at?: string | null;
+    docs_verified?: boolean | null;
     stripe_subscription_id?: string | null;
     stripe_subscription_status?: string | null;
   } | null;
@@ -156,16 +157,12 @@ export function ApprenticePortalShell({ config, firstName, shopName, enrollment,
   const weeksComplete = Math.floor(totalHours / 40);
   const weeksTotal = Math.ceil(totalRequired / 40);
 
-  const enrollmentDocsComplete = !!enrollment?.docs_verified;
-  const hasPhotoId =
-    enrollmentDocsComplete || docs.some((d) => d.document_type === 'photo_id');
-  const hasResidency =
-    enrollmentDocsComplete ||
-    docs.some((d) => d.document_type === 'proof_of_residency' || d.document_type === 'other');
+  const hasPhotoId = docs.some((d) => d.document_type === 'photo_id');
+  const hasResidency = docs.some(
+    (d) => d.document_type === 'proof_of_residency' || d.document_type === 'other',
+  );
   const docsApproved =
-    enrollmentDocsComplete ||
-    (docs.length > 0 &&
-      docs.every((d) => d.status === 'approved' || d.verification_status === 'verified'));
+    docs.length > 0 && docs.every((d) => d.status === 'approved' || d.verification_status === 'verified');
   const hasSubscription = !!enrollment?.stripe_subscription_id;
   const subStatus = enrollment?.stripe_subscription_status ?? null;
   const needsPaymentMethod =

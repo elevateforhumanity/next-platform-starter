@@ -5,8 +5,6 @@ import Image from 'next/image';
 import { FileText, ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { SITE_STATS } from '@/lib/site-stats';
-import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 
 export const metadata: Metadata = {
   title: `Transparency | ${PLATFORM_DEFAULTS.orgName}`,
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const STATS = [
-  { label: 'Programs Available', value: SITE_STATS.programsOfferedDisplay },
+  { label: 'Programs Available', value: '10+' },
   { label: 'Placement Goal', value: '85%' },
   { label: 'Training Cost', value: '$0*' },
   { label: 'Funding Sources', value: '5+' },
@@ -100,7 +98,6 @@ export default function TransparencyPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-14 space-y-14">
-        <InstitutionalLegalNotice className="max-w-3xl" />
 
         {/* How we use funds */}
         <section>
