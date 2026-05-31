@@ -1,6 +1,7 @@
 import { createPublicClient } from '@/lib/supabase/public';
 import { STATIC_PROGRAM_MAP } from '@/data/programs/index';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
+import { resolveCredentialLabel } from '@/lib/programs/category-normalize';
 
 export type PublicProgramListItem = {
   slug: string;
@@ -102,9 +103,10 @@ export async function loadPublicProgramList(): Promise<PublicProgramListResult> 
     const { data } = await db
       .from('programs')
       .select(
-        'slug,title,short_description,description,category,duration,credential_type,wioa_eligible,published,status',
+        'slug,title,short_description,description,category,duration,credential_type,credential_name,wioa_approved,funding_eligible,published,status',
       )
       .eq('is_active', true)
+      .eq('published', true)
       .neq('status', 'archived')
       .order('title');
 
@@ -117,8 +119,8 @@ export async function loadPublicProgramList(): Promise<PublicProgramListResult> 
           description: trimDescription(p.short_description || p.description),
           category: p.category || 'other',
           duration: p.duration ?? null,
-          credential: p.credential_type ?? null,
-          funding_eligible: p.wioa_eligible ?? false,
+          credential: resolveCredentialLabel(p),
+          funding_eligible: Boolean(p.wioa_approved ?? p.funding_eligible),
         }));
 
       if (programs.length > 0) {

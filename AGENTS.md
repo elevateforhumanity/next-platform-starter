@@ -800,6 +800,8 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ## Cursor Cloud specific instructions
 
+**VS Code Dev Container (`.devcontainer/`)** is a separate path: Docker image, AWS SSM → `.env.local`, ports 3000/3001. GitHub “Unified DevContainer” UI edits that JSON only; it does **not** configure Cloud Agent VMs. See `.devcontainer/README.md`.
+
 ### Environment setup
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
@@ -836,14 +838,6 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
-
-### Public program catalog (canonical)
-
-- **Read path:** `lib/programs/load-program-catalog.ts` — queries `programs` where `published`, `is_active`, and `status != archived`.
-- **Static registry:** `lib/programs/static-registry.ts` (`ALL_PROGRAMS`); `data/programs/catalog.ts` re-exports for legacy imports. Detail slugs: `data/programs/index.ts` (`STATIC_PROGRAM_MAP`).
-- **Slugs:** `lib/programs/slug.ts` — `toDbSlug`, `resolveCanonicalSlug`, `SLUG_ALIASES`.
-- **Production:** Apply `supabase/migrations/20260705000011_program_catalog_unify.sql` in Supabase SQL Editor, then `pnpm catalog:sync` (upserts programs + `program_credentials` from static `credentials[]`).
-- **Columns:** `wioa_approved` on `programs`; `credential_name` preferred over `credential_type` for display.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 

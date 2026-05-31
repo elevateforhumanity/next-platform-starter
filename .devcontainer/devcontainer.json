@@ -6,16 +6,13 @@
     "source=elevate-lms-next-cache,target=${containerWorkspaceFolder}/.next/cache,type=volume"
   ],
 
-
-
   "features": {
     "ghcr.io/devcontainers/features/aws-cli:1": {},
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/node:1": { "version": "20" }
   },
 
-  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends git jq postgresql-client ffmpeg chromium python3 python3-pip libxml2-utils && sudo rm -rf /var/lib/apt/lists/* && git --version && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && bash .devcontainer/setup-env.sh && bash .devcontainer/setup-codex.sh",
-
+  "onCreateCommand": "bash .devcontainer/post-create.sh",
   "postStartCommand": "bash .devcontainer/setup-env.sh 2>/dev/null || true",
 
   "remoteEnv": {
@@ -29,7 +26,6 @@
 
   "containerEnv": {
     "ELEVATE_DEVINT_CONTAINER": "true",
-    "ELEVATE_REPO_ROOT": "${containerWorkspaceFolder}",
     "ELEVATE_ADMIN_URL": "http://localhost:3001",
     "ELEVATE_LMS_URL": "http://localhost:3000"
   },

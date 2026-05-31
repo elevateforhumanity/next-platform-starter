@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
+import { loadProgramCatalog, type CatalogProgram } from '@/lib/programs/load-program-catalog';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
@@ -45,16 +46,25 @@ export default async function ProgramCatalogPage({
   const perPage = 18;
 
   const supabase = await createClient();
-  const catalog = await loadProgramCatalog(supabase, {
-    q,
-    category,
-    wioaOnly,
-    providerSlug,
-    page,
-    perPage,
-  });
-  const programs = catalog.programs;
-  const count = catalog.total;
+
+  let query = supabase
+    .from('program_catalog_index')
+    .select(
+      'program_id, provider_name, provider_slug, title, slug, category, ' +
+      'wioa_eligible, funding_tags, credential_name, duration_weeks, ' +
+      'next_start_date, seats_available, delivery_mode, city, state, ' +
+      'completion_rate, placement_rate',
+      { count: 'exact' }
+    )
+    .range((page - 1) * perPage, page * perPage - 1)
+    .order('next_start_date', { ascending: true, nullsFirst: false });
+
+  if (q) query = query.textSearch('search_vector', q, { type: 'websearch' });
+  if (category) query = query.eq('category', category);
+  if (wioaOnly) query = query.eq('wioa_eligible', true);
+  if (providerSlug) query = query.eq('provider_slug', providerSlug);
+
+  const { data: programs, count } = await query;
 
   // Fetch partner_courses stripe data for any slugs in the result set
   // so catalog cards can show a "Pay & Enroll" button when a price is configured.
