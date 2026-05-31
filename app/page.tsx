@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     siteName: PLATFORM_DEFAULTS.orgName,
     images: [
       {
-        url: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4',
+        url: '/images/pages/comp-home-hero.webp',
         width: 1200,
         height: 630,
-        alt: `${PLATFORM_DEFAULTS.orgName} workforce training video`,
+        alt: `${PLATFORM_DEFAULTS.orgName} workforce training`,
       },
     ],
     type: 'website',
@@ -154,6 +154,10 @@ export default async function HomePage() {
       {/* Separate entry funnels: Learners / Employers / Workforce Agencies /
           Training Partners. Each routes to its own journey. */}
       <HomeSegmentedCTA />
+
+      {/* ── 9b. ACCREDITATIONS & PARTNER LOGOS ──────────────────────────── */}
+      {/* Institutional credentials — placed near footer, not under hero */}
+      <HomeTrustBar />
 
       {/* ── 10. FINAL CTA ───────────────────────────────────────────────── */}
       {/* "From where you are to where you want to be."
