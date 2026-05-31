@@ -70,7 +70,7 @@ export default function MissionPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/pages/mission-hero.webp"
-            alt={`${PLATFORM_DEFAULTS.orgName} mission`}
+            alt="{PLATFORM_DEFAULTS.orgName} mission"
             fill
             className="object-cover opacity-40"
             priority

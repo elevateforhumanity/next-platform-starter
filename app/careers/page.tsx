@@ -33,8 +33,29 @@ export const metadata: Metadata = {
 // revalidate is set to 0 to ensure fresh data
 export const revalidate = 0;
 
+async function getLiveStats() {
+  try {
+    const { createClient } = await import('@/lib/supabase/server');
+    const supabase = await createClient();
+    const [programsRes, jobsRes] = await Promise.all([
+      supabase
+        .from('programs')
+        .select('id', { count: 'exact', head: true })
+        .eq('published', true)
+        .neq('status', 'archived'),
+      supabase.from('job_postings').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+    ]);
+    return { programs: programsRes.count ?? 0, jobs: jobsRes.count ?? 0 };
+  } catch {
+    return { programs: 0, jobs: 0 };
+  }
+}
+
 export default async function CareersPage() {
-  const openPositions = await getActiveJobs({ limit: 20 });
+  const [openPositions, liveStats] = await Promise.all([
+    getActiveJobs({ limit: 20 }),
+    getLiveStats(),
+  ]);
 
   const benefits = [
     {

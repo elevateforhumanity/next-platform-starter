@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import SkillsGapAnalysis from '@/components/SkillsGapAnalysis';
 import VirtualCareerFair from '@/components/VirtualCareerFair';
+import { StudentSuccessCoaching } from '@/components/StudentSuccessCoaching';
 import WorkOneLocator from '@/components/WorkOneLocator';
 
 export const dynamic = 'force-static';
@@ -169,13 +170,13 @@ export default function CareerServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-8 sm:py-14">
+      <section className="py-8 sm:py-14 bg-slate-900">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
             Ready to Start Your Career?
           </h2>
-          <p className="text-white mb-6 text-sm">
-            Apply for training and career services are included at no extra cost.
+          <p className="text-slate-300 mb-6 text-sm">
+            Apply for training — career services are included at no extra cost for graduates.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
@@ -186,7 +187,7 @@ export default function CareerServicesPage() {
             </Link>
             <Link
               href="/programs"
-              className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
+              className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >
               View Programs
             </Link>
