@@ -727,8 +727,8 @@ There are two distinct quiz systems. They serve different purposes and must not 
 - `console.log` calls remain in some non-runtime areas — prefer `import { logger } from '@/lib/logger'` for new code
 - 8 certificate-related tables have no migration source — verify in Supabase Dashboard
 - One migration requires superuser application: `20260417000013_documents_bucket_policies.sql` (`storage.objects` ownership)
-- Enrollment reads in `lib/db/courses.ts` and `lib/enrollments/getUserEnrollments.ts` use `lms_courses` via `attachLmsCoursesToEnrollments` (not `training_courses` embed)
-- Remaining `training_courses` reads: mostly `_archived/`, program admin joins, and legacy pages — migrate incrementally to `lms_courses`
+- ~60 files still read `training_courses` directly — should migrate to `lms_courses` view incrementally
+- `training_courses` write path in `lib/db/courses.ts` `createCourseFromBlueprint()` still targets `training_courses` for the course row (lesson rows now fixed) — migrate to `courses` table when ready
 
 ---
 
@@ -836,6 +836,18 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
+
+### Admin vs public URL env vars (do not swap)
+
+| Variable | Admin ECS / build | LMS |
+|----------|-------------------|-----|
+| `NEXT_PUBLIC_SITE_URL` | `https://www.elevateforhumanity.org` (public LMS) | Same (from SSM) |
+| `NEXT_PUBLIC_PUBLIC_SITE_URL` | Same as `SITE_URL` on admin | Optional |
+| `NEXT_PUBLIC_ADMIN_URL` | `https://admin.elevateforhumanity.org` | Set for `/admin/*` redirects in `proxy.ts` |
+
+Admin-only API callbacks and `/admin/*` email links must use `getAdminUrl()` from `lib/utils/siteUrl.ts`. Learner/LMS links use `getPublicSiteUrl()` or `PLATFORM_DEFAULTS.siteUrl`. Never point `NEXT_PUBLIC_SITE_URL` at the admin host on the admin task definition — `scripts/validate-env.js` and `scripts/check-ecs-container-env.sh` enforce this on deploy.
+
+DNS: `admin.elevateforhumanity.org` → **elevate-admin-alb** only (not CloudFront/www). Run `.github/workflows/fix-alb-redirects.yml` if HTTP redirects use raw `*.elb.amazonaws.com` hostnames.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 

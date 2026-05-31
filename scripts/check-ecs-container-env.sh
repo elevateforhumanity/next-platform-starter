@@ -35,6 +35,14 @@ else
   exit 1
 fi
 
+# Admin container must not set NEXT_PUBLIC_SITE_URL to the admin subdomain (learner links break).
+if grep -A1 '"name": "NEXT_PUBLIC_SITE_URL"' "$ADMIN_FILE" | grep -q 'admin\.elevateforhumanity\.org'; then
+  echo "  Admin NEXT_PUBLIC_SITE_URL: FAIL (must be public www, not admin host)"
+  exit 1
+else
+  echo "  Admin NEXT_PUBLIC_SITE_URL: OK (not admin host)"
+fi
+
 declare -a CORE_VARS=(
   "NEXT_PUBLIC_SITE_URL"
   "NEXT_PUBLIC_ADMIN_URL"

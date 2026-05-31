@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
       ${tableRows}
     </table>
     <div style="text-align:center;margin:24px 0;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/payout-queue" style="background:#dc2626;color:white;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;text-decoration:none;display:inline-block;">
+      <a href="${(process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(/\/+$/, '')}/admin/payout-queue" style="background:#dc2626;color:white;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;text-decoration:none;display:inline-block;">
         Open Payout Queue
       </a>
     </div>
