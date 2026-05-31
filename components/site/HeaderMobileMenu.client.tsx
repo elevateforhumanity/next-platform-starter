@@ -1,11 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import LanguageSwitcher from './LanguageSwitcher.client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import SearchModal from './SearchModal.client';
-
 
 interface NavItem {
   id?: string;
@@ -55,8 +52,23 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   return (
     <>
-      {/* Mobile/tablet controls — CTAs only in drawer or desktop header (lg+) */}
+      {/* Mobile/tablet icon row — hidden on desktop (lg+) */}
       <div className="lg:hidden flex items-center gap-1">
+        {/* Compact CTAs visible on md screens where desktop nav isn't shown */}
+        <Link
+          href="/login"
+          prefetch={false}
+          className="hidden md:block lg:hidden text-slate-600 font-semibold text-[13px] hover:text-slate-900 px-2 py-1.5 rounded-md hover:bg-slate-50 transition-colors"
+        >
+          Sign In
+        </Link>
+        <Link
+          href="/for-students"
+          prefetch={false}
+          className="hidden md:inline-flex lg:hidden items-center bg-brand-red-600 text-white px-3 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
+        >
+          Get Started
+        </Link>
         <SearchModal />
         <LanguageSwitcher />
         <button
@@ -187,30 +199,15 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
             </div>
           ))}
 
-          <div className="mt-6 space-y-3 border-t border-slate-200 pt-6">
+          {/* Mobile CTAs */}
+          <div className="mt-6 space-y-3">
             <Link
-              href="/apply"
+              href="/start"
               prefetch={false}
               onClick={() => setIsOpen(false)}
-              className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold hover:bg-brand-red-700 transition-colors"
-            >
-              Apply Now
-            </Link>
-            <Link
-              href="/check-eligibility"
-              prefetch={false}
-              onClick={() => setIsOpen(false)}
-              className="block w-full text-center py-3 border border-slate-300 text-slate-900 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
+              className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
             >
               Check Eligibility
-            </Link>
-            <Link
-              href="/login"
-              prefetch={false}
-              onClick={() => setIsOpen(false)}
-              className="block w-full text-center py-3 text-slate-700 font-semibold hover:text-brand-blue-600 transition-colors"
-            >
-              Sign In
             </Link>
           </div>
         </nav>

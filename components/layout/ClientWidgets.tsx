@@ -22,12 +22,6 @@ const BottomNav = dynamic(
   { ssr: false, loading: () => null },
 );
 
-// Search dialog - cmd+k global search
-const SearchDialog = dynamic(
-  () => import('@/components/SearchDialog').then((mod) => ({ default: mod.SearchDialog })),
-  { ssr: false, loading: () => null },
-);
-
 // Scroll unlock failsafe on route changes
 const ScrollUnlocker = dynamic(() => import('@/components/ScrollUnlocker'), {
   ssr: false,
