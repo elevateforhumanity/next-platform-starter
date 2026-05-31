@@ -7,7 +7,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { SITE_STATS } from '@/lib/site-stats';
 import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
-import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 
 export const metadata: Metadata = {
   title: `Transparency | ${PLATFORM_DEFAULTS.orgName}`,
