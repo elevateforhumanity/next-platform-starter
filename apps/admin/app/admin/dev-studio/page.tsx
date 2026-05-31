@@ -2,7 +2,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import DevStudioUnifiedClient from './DevStudioUnifiedClient';
+import DevStudioClient from './DevStudioClient';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -16,7 +16,7 @@ export default async function DevStudioPage() {
   const isSuperAdmin = auth.effectiveRoles.includes('super_admin');
   return (
     <Suspense fallback={null}>
-      <DevStudioControlPlaneClient isSuperAdmin={isSuperAdmin} />
+      <DevStudioClient isSuperAdmin={isSuperAdmin} />
     </Suspense>
   );
 }

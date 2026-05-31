@@ -1,4 +1,4 @@
-name: Deploy Dev Studio Runtime
+name: Deploy Studio Shell
 # Retry trigger marker: 2026-05-22T10:36Z
 
 on:
@@ -27,7 +27,7 @@ env:
 
 jobs:
   deploy:
-    name: Build & Deploy Studio Shell
+    name: Build & Deploy Dev Studio Runtime
     runs-on: ubuntu-latest
     permissions:
       contents: read
