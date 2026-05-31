@@ -836,8 +836,8 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
-- Public `/programs` uses `loadPublicProgramList()` (`lib/programs/public-program-list.ts`): DB first, then `STATIC_PROGRAM_MAP` fallback so the catalog never shows 0 when marketing claims 30+.
-- Image `alt` must use JSX expressions (`alt={\`…${PLATFORM_DEFAULTS.orgName}…\`}`), never literal `alt="{PLATFORM_DEFAULTS.orgName} …"` strings.
+- Public `/programs` uses `loadPublicProgramList()` in `lib/programs/public-program-list.ts` (DB first, then `STATIC_PROGRAM_MAP` fallback) so the catalog does not show 0 when the DB is empty.
+- Image `alt` must use JSX template expressions; never literal `alt="{PLATFORM_DEFAULTS.orgName} …"` strings.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
