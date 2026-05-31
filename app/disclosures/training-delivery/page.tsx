@@ -57,7 +57,7 @@ const DELIVERY_COMPONENTS = [
     iconColor: 'text-purple-700',
     title: 'Administrative Office, Testing & Hands-On Training',
     body: [
-      '${PLATFORM_DEFAULTS.orgName} maintains this location for administrative operations, enrollment support, scheduled meetings, authorized proctored testing, and approved hands-on training activities. Services at this site are available by appointment only. This is not a walk-in location.',
+      `${PLATFORM_DEFAULTS.orgName} maintains this location for administrative operations, enrollment support, scheduled meetings, authorized proctored testing, and approved hands-on training activities. Services at this site are available by appointment only. This is not a walk-in location.`,
     ],
     address: '8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240',
   },

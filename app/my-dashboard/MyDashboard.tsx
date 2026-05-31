@@ -285,7 +285,7 @@ function EducationPanel({ data, role }: { data: any; role: string }) {
 
       {data.taughtCourses.length > 0 && (
         <div>
-          <SectionHeader title="Courses I Teach" href="https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/instructor" />
+          <SectionHeader title="Courses I Teach" href={`https://admin.${PLATFORM_DEFAULTS.canonicalDomain}/instructor`} />
           <div className="space-y-2">
             {data.taughtCourses.map((c: any) => (
               <div

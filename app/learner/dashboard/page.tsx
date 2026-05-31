@@ -160,12 +160,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
             <p className="text-sm text-slate-700 mb-6">
               Questions? Call{' '}
-              <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="text-slate-900 font-semibold">
-                ${PLATFORM_DEFAULTS.supportPhone}
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone}`} className="text-slate-900 font-semibold">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or email{' '}
-              <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" className="text-slate-900 font-semibold">
-                info@${PLATFORM_DEFAULTS.canonicalDomain}
+              <a href={`mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}`} className="text-slate-900 font-semibold">
+                {`info@${PLATFORM_DEFAULTS.canonicalDomain}`}
               </a>
             </p>
             <div className="border-t pt-6 text-left">
@@ -904,7 +904,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'payment_failed' && (
                           <div className="flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded p-2">
                             <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                            Payment issue — contact Elevate at ${PLATFORM_DEFAULTS.supportPhone}.
+                            Payment issue — contact Elevate at {PLATFORM_DEFAULTS.supportPhone}.
                           </div>
                         )}
 

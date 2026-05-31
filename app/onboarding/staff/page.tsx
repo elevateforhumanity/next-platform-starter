@@ -208,17 +208,17 @@ export default async function StaffOnboardingPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="mailto:hr@${PLATFORM_DEFAULTS.canonicalDomain}"
+              href={`mailto:hr@${PLATFORM_DEFAULTS.canonicalDomain}`}
               className="text-sm text-brand-blue-600 hover:underline font-medium"
             >
-              hr@${PLATFORM_DEFAULTS.canonicalDomain}
+              {`hr@${PLATFORM_DEFAULTS.canonicalDomain}`}
             </Link>
             <span className="text-slate-300">·</span>
             <Link
-              href="tel:+1${PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:+1${PLATFORM_DEFAULTS.supportPhone}`}
               className="text-sm text-brand-blue-600 hover:underline font-medium"
             >
-              ${PLATFORM_DEFAULTS.supportPhone}
+              {PLATFORM_DEFAULTS.supportPhone}
             </Link>
           </div>
         </div>

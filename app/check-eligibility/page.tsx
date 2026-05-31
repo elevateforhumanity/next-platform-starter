@@ -305,14 +305,14 @@ export default function CheckEligibilityPage() {
               href="/"
               className="text-white/80 hover:text-white text-sm font-semibold transition-colors"
             >
-              ← ${PLATFORM_DEFAULTS.orgName}
+              ← {PLATFORM_DEFAULTS.orgName}
             </Link>
             <a
-              href="tel:${PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
               className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone className="w-4 h-4" />
-              ${PLATFORM_DEFAULTS.supportPhone}
+              {PLATFORM_DEFAULTS.supportPhone}
             </a>
           </div>
           <div className="pb-6">

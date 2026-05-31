@@ -342,7 +342,7 @@ export default async function CosmetologyOrientationPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl mx-auto">
             <a
-              href="tel:+1${PLATFORM_DEFAULTS.supportPhone}"
+              href={`tel:+1${PLATFORM_DEFAULTS.supportPhone}`}
               className="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-5 transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-brand-red-100 flex items-center justify-center shrink-0">
@@ -350,11 +350,11 @@ export default async function CosmetologyOrientationPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Call Us</p>
-                <p className="text-slate-600 text-sm">{`${PLATFORM_DEFAULTS.supportPhone}}`}</p>
+                <p className="text-slate-600 text-sm">{PLATFORM_DEFAULTS.supportPhone}</p>
               </div>
             </a>
             <a
-              href="mailto:programs@${PLATFORM_DEFAULTS.canonicalDomain}"
+              href={`mailto:programs@${PLATFORM_DEFAULTS.canonicalDomain}`}
               className="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-5 transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-brand-red-100 flex items-center justify-center shrink-0">
@@ -362,7 +362,7 @@ export default async function CosmetologyOrientationPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Email Us</p>
-                <p className="text-slate-600 text-sm">programs@${PLATFORM_DEFAULTS.canonicalDomain}</p>
+                <p className="text-slate-600 text-sm">{`programs@${PLATFORM_DEFAULTS.canonicalDomain}`}</p>
               </div>
             </a>
           </div>

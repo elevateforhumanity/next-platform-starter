@@ -504,8 +504,8 @@ export default async function LearnerOnboardingPage({
             </Link>
             <p className="text-sm text-slate-400 mt-6">
               Questions? Call{' '}
-              <a href="tel:+1${PLATFORM_DEFAULTS.supportPhone}" className="underline">
-                ${PLATFORM_DEFAULTS.supportPhone}
+              <a href={`tel:+1${PLATFORM_DEFAULTS.supportPhone}`} className="underline">
+                {PLATFORM_DEFAULTS.supportPhone}
               </a>
             </p>
           </div>

@@ -317,7 +317,7 @@ export default function BeautyApplyPage() {
 
             <p className="text-xs text-slate-400 text-center">
               Questions?{' '}
-              <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className={`${c.text} hover:underline`}>{PLATFORM_DEFAULTS.supportPhone}</a>
+              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone}`} className={`${c.text} hover:underline`}>{PLATFORM_DEFAULTS.supportPhone}</a>
             </p>
           </form>
         </div>

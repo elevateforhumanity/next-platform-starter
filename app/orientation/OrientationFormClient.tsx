@@ -46,7 +46,7 @@ export default function OrientationFormClient() {
           const endH = (parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0');
           const endDT = `${date.replace(/-/g, '')}T${endH}${time.split(':')[1]}00`;
           const details = `Orientation for ${name} (${email})%0A%0AZoom Link: ${zoomLink}`;
-          const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('${PLATFORM_DEFAULTS.orgName} — Orientation')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}&location=Zoom`;
+          const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`${PLATFORM_DEFAULTS.orgName} — Orientation`)}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}&location=Zoom`;
 
           window.open(calUrl, '_blank');
         } catch {

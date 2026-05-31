@@ -344,7 +344,7 @@ function ContactPageInner() {
                     const endH = (parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0');
                     const endDT = `${date.replace(/-/g, '')}T${endH}${time.split(':')[1]}00`;
                     const details = `Meeting with ${name} (${email})%0A%0ATopic: ${encodeURIComponent(topic || 'General inquiry')}%0A%0AZoom Link: ${zoomLink}`;
-                    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('${PLATFORM_DEFAULTS.orgName} — Meeting')}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)},${encodeURIComponent('info@${PLATFORM_DEFAULTS.canonicalDomain}')}&location=Zoom`;
+                    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`${PLATFORM_DEFAULTS.orgName} — Meeting`)}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)},${encodeURIComponent(`info@${PLATFORM_DEFAULTS.canonicalDomain}`)}&location=Zoom`;
 
                     window.open(calUrl, '_blank');
                   } catch {

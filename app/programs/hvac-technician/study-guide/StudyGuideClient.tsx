@@ -295,7 +295,7 @@ function StudyGuideContent() {
 
   const buildTextContent = () => {
     let text = 'EPA 608 UNIVERSAL CERTIFICATION STUDY GUIDE\n';
-    text += '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute\n';
+    text += `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute\n`;
     text += '='.repeat(60) + '\n\n';
 
     text += 'CERTIFICATION TYPES\n' + '-'.repeat(40) + '\n';
@@ -329,7 +329,7 @@ function StudyGuideContent() {
     });
 
     text += '\n' + '='.repeat(60) + '\n';
-    text += '${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN\n';
+    text += `${PLATFORM_DEFAULTS.orgName} | Indianapolis, IN\n`;
     text += 'ETPL Program #10004322 | WIOA-Approved\n';
     return text;
   };

@@ -84,8 +84,8 @@ export default function OrientationScheduleClient() {
       const endDT = `${endDate.toISOString().slice(0, 10).replace(/-/g, '')}T${endDate.toTimeString().slice(0, 5).replace(':', '')}00`;
       const title =
         sessionType === 'barbershop'
-          ? '${PLATFORM_DEFAULTS.orgName} — Barbershop Walk-Through'
-          : '${PLATFORM_DEFAULTS.orgName} — Orientation';
+          ? `${PLATFORM_DEFAULTS.orgName} — Barbershop Walk-Through`
+          : `${PLATFORM_DEFAULTS.orgName} — Orientation`;
       const details = `Session for ${name} (${email})%0A%0AZoom Link: ${meetingUrl}`;
       const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}`;
       window.open(calUrl, '_blank');
@@ -121,8 +121,8 @@ export default function OrientationScheduleClient() {
         )}
         <p className="text-black text-sm">
           Questions? Call{' '}
-          <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="text-brand-blue-600 font-semibold hover:underline">
-            ${PLATFORM_DEFAULTS.supportPhone}
+          <a href={`tel:${PLATFORM_DEFAULTS.supportPhone}`} className="text-brand-blue-600 font-semibold hover:underline">
+            {PLATFORM_DEFAULTS.supportPhone}
           </a>
         </p>
       </div>
