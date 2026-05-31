@@ -82,6 +82,9 @@ const QUICK_ACTIONS = [
 ];
 
 function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
+  if (tab === 'ellie' || tab === 'ask' || tab === 'command' || tab === 'terminal') {
+    return { workspace: 'studio', mode: 'ask' };
+  }
   if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
   if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
   if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ask' };
@@ -265,9 +268,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
             </div>
-            <div className="min-h-0 flex-1 overflow-hidden">
-              <IframePreview url={livePreviewUrl || previewUrl} title="Live Preview" className="h-full" />
-            </div>
+            <iframe title="Live Preview" src={livePreviewUrl || previewUrl} className="min-h-0 flex-1 border-0 bg-white" />
           </section>
         </div>
       </div>
