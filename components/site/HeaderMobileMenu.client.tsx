@@ -78,6 +78,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
           className="p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
+          aria-controls="mobile-navigation-dialog"
         >
           {isOpen ? (
             <span className="text-2xl leading-none" aria-hidden="true">
@@ -100,120 +101,125 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       )}
 
       {/* Mobile Menu Panel */}
-      <div
-        className="fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] lg:hidden transform transition-transform duration-300 overflow-y-auto shadow-2xl"
-        style={{ transform: isOpen ? 'translateX(0)' : 'translateX(100%)' }}
-      >
-        <nav className="p-4" aria-label="Mobile navigation">
-          {items.map((item) => (
-            <div key={item.name} className="border-b border-slate-100">
-              {item.subItems ? (
-                <>
-                  <button
-                    onClick={() => setExpandedItem(expandedItem === item.name ? null : item.name)}
-                    className="flex items-center justify-between w-full py-3 text-slate-900 font-medium"
-                    aria-expanded={expandedItem === item.name}
-                  >
-                    {item.name}
-                    <span
-                      className={`text-sm leading-none transition-transform inline-block ${
-                        expandedItem === item.name ? 'rotate-180' : ''
-                      }`}
-                      aria-hidden="true"
+      {isOpen && (
+        <div
+          id="mobile-navigation-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+          className="fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] lg:hidden overflow-y-auto shadow-2xl"
+        >
+          <nav className="p-4" aria-label="Mobile navigation">
+            {items.map((item) => (
+              <div key={item.name} className="border-b border-slate-100">
+                {item.subItems ? (
+                  <>
+                    <button
+                      onClick={() => setExpandedItem(expandedItem === item.name ? null : item.name)}
+                      className="flex items-center justify-between w-full py-3 text-slate-900 font-medium"
+                      aria-expanded={expandedItem === item.name}
                     >
-                      &#9660;
-                    </span>
-                  </button>
-                  {expandedItem === item.name && (
-                    <div className="pb-3 pl-4">
-                      {item.subItems.map((subItem) => {
-                        if (subItem.isHeader) {
-                          return (
-                            <div
-                              key={subItem.name}
-                              className="pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-l-3 border-brand-red-500 pl-2"
-                            >
-                              {subItem.name.replace(/—/g, '').trim()}
-                            </div>
-                          );
-                        }
+                      {item.name}
+                      <span
+                        className={`text-sm leading-none transition-transform inline-block ${
+                          expandedItem === item.name ? 'rotate-180' : ''
+                        }`}
+                        aria-hidden="true"
+                      >
+                        &#9660;
+                      </span>
+                    </button>
+                    {expandedItem === item.name && (
+                      <div className="pb-3 pl-4">
+                        {item.subItems.map((subItem) => {
+                          if (subItem.isHeader) {
+                            return (
+                              <div
+                                key={subItem.name}
+                                className="pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-l-3 border-brand-red-500 pl-2"
+                              >
+                                {subItem.name.replace(/—/g, '').trim()}
+                              </div>
+                            );
+                          }
 
-                        if (subItem.isSectionLink) {
-                          return (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.href}
-                              prefetch={false}
-                              onClick={() => setIsOpen(false)}
-                              className="block pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-t border-brand-red-100 hover:text-brand-red-700 transition-colors"
-                            >
-                              {subItem.name}
-                            </Link>
-                          );
-                        }
-
-                        const programSlug =
-                          item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
-                        const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
-
-                        return (
-                          <div key={subItem.name}>
-                            <Link
-                              href={subItem.href}
-                              prefetch={false}
-                              onClick={() => setIsOpen(false)}
-                              className={`block hover:text-brand-blue-600 ${
-                                subItem.nested
-                                  ? 'py-1.5 pl-4 text-xs text-slate-400 border-l border-slate-200'
-                                  : 'py-3 text-slate-600'
-                              }`}
-                            >
-                              {subItem.name}
-                            </Link>
-                            {applyHref && (
+                          if (subItem.isSectionLink) {
+                            return (
                               <Link
-                                href={applyHref}
+                                key={subItem.name}
+                                href={subItem.href}
                                 prefetch={false}
                                 onClick={() => setIsOpen(false)}
-                                className="block py-1.5 pl-6 text-xs text-brand-blue-700 hover:text-brand-blue-800 border-l border-slate-200"
+                                className="block pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-t border-brand-red-100 hover:text-brand-red-700 transition-colors"
                               >
-                                Apply to {subItem.name}
+                                {subItem.name}
                               </Link>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </>
-              ) : item.href ? (
-                <Link
-                  href={item.href}
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                  className="block py-3 text-slate-900 font-medium hover:text-brand-blue-600"
-                >
-                  {item.name}
-                </Link>
-              ) : (
-                <span className="block py-3 text-slate-900 font-medium">{item.name}</span>
-              )}
-            </div>
-          ))}
+                            );
+                          }
 
-          {/* Mobile CTAs */}
-          <div className="mt-6 space-y-3">
-            <Link
-              href="/start"
-              prefetch={false}
-              onClick={() => setIsOpen(false)}
-              className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
-            >
-              Check Eligibility
-            </Link>
-          </div>
-        </nav>
-      </div>
+                          const programSlug =
+                            item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
+                          const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
+
+                          return (
+                            <div key={subItem.name}>
+                              <Link
+                                href={subItem.href}
+                                prefetch={false}
+                                onClick={() => setIsOpen(false)}
+                                className={`block hover:text-brand-blue-600 ${
+                                  subItem.nested
+                                    ? 'py-1.5 pl-4 text-xs text-slate-400 border-l border-slate-200'
+                                    : 'py-3 text-slate-600'
+                                }`}
+                              >
+                                {subItem.name}
+                              </Link>
+                              {applyHref && (
+                                <Link
+                                  href={applyHref}
+                                  prefetch={false}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block py-1.5 pl-6 text-xs text-brand-blue-700 hover:text-brand-blue-800 border-l border-slate-200"
+                                >
+                                  Apply to {subItem.name}
+                                </Link>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </>
+                ) : item.href ? (
+                  <Link
+                    href={item.href}
+                    prefetch={false}
+                    onClick={() => setIsOpen(false)}
+                    className="block py-3 text-slate-900 font-medium hover:text-brand-blue-600"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <span className="block py-3 text-slate-900 font-medium">{item.name}</span>
+                )}
+              </div>
+            ))}
+
+            {/* Mobile CTAs */}
+            <div className="mt-6 space-y-3">
+              <Link
+                href="/start"
+                prefetch={false}
+                onClick={() => setIsOpen(false)}
+                className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
+              >
+                Check Eligibility
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
     </>
   );
 }
