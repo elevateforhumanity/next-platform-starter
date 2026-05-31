@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import SearchModal from '@/components/site/SearchModal.client';
-import LanguageSwitcher from '@/components/site/LanguageSwitcher.client';
 
 interface NavItem {
   id?: string;
@@ -55,7 +53,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
   return (
     <>
       {/* Mobile/tablet icon row - hidden on desktop (lg+) */}
-      <div className="lg:hidden flex items-center gap-1">
+      <div className="lg:hidden flex items-center gap-1 shrink-0">
         {/* Compact CTAs visible on md screens where desktop nav isn't shown */}
         <Link
           href="/login"
@@ -71,11 +69,9 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
         >
           Get Started
         </Link>
-        <SearchModal />
-        <LanguageSwitcher />
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
           aria-controls="mobile-navigation-dialog"
