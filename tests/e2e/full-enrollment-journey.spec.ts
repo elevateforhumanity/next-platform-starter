@@ -68,7 +68,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await expect(programsLink.first()).toBeVisible();
 
     // Step 2.4: Verify eligibility notice is shown
-    const eligibilityNotice = page.locator('text=/eligibility|WorkOne/i');
+    const eligibilityNotice = page.locator('main').getByText(/eligibility|WorkOne/i);
     await expect(eligibilityNotice.first()).toBeVisible();
   });
 
