@@ -202,12 +202,12 @@
       "healthCheck": {
         "command": [
           "CMD-SHELL",
-          "curl -f http://localhost:3000/api/health || exit 1"
+          "curl -sf http://localhost:3000/api/ready >/dev/null && curl -sf http://localhost:3000/api/health >/dev/null || exit 1"
         ],
         "interval": 30,
         "timeout": 10,
         "retries": 3,
-        "startPeriod": 60
+        "startPeriod": 90
       },
       "ulimits": [
         {
