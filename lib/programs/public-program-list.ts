@@ -131,3 +131,23 @@ export async function loadPublicProgramList(): Promise<PublicProgramListResult> 
 
   return { programs: fromStaticCatalog(), source: 'static-catalog' };
 }
+
+/** Dropdown options for /apply and intake forms (id = slug for stable keys). */
+export type ApplyProgramOption = {
+  id: string;
+  title: string;
+  slug: string;
+};
+
+export async function loadApplyProgramOptions(): Promise<{
+  options: ApplyProgramOption[];
+  source: PublicProgramListResult['source'];
+}> {
+  const { programs, source } = await loadPublicProgramList();
+  const options = programs.map((p) => ({
+    id: p.slug,
+    title: p.title,
+    slug: p.slug,
+  }));
+  return { options, source };
+}

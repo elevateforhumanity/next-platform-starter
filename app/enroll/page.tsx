@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { createClient } from '@/lib/supabase/server';
+import { loadPublicProgramList } from '@/lib/programs/public-program-list';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
@@ -14,28 +14,18 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function EnrollPage() {
-  const supabase = await createClient();
-
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
-          <p className="text-slate-600">Please try again later.</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Fetch active programs
-  const { data: programs, error } = await supabase
-    .from('programs')
-    .select(
-      'id, name, slug, description, duration_weeks, is_free, price, total_cost, funding_eligible',
-    )
-    .eq('status', 'active')
-    .order('name', { ascending: true })
-    .limit(20);
+  const { programs: catalog } = await loadPublicProgramList();
+  const programs = catalog.map((p) => ({
+    id: p.slug,
+    name: p.title,
+    slug: p.slug,
+    description: p.description,
+    duration_weeks: p.duration ? parseInt(p.duration, 10) || null : null,
+    is_free: p.funding_eligible,
+    price: null,
+    total_cost: null,
+    funding_eligible: p.funding_eligible,
+  }));
 
   return (
     <div className="min-h-screen bg-slate-50">

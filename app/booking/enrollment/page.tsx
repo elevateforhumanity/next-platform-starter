@@ -1,12 +1,11 @@
-import { createStaticClient } from '@/lib/supabase/static';
 import EnrollmentBookingPage from './EnrollmentClient';
+import { loadApplyProgramOptions } from '@/lib/programs/public-program-list';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Page() {
-  const supabase = createStaticClient();
-  const { data: programs } = await supabase
-    .from('programs').select('id, title, slug')
-    .eq('is_active', true).eq('published', true).order('title');
-  return <EnrollmentBookingPage programs={programs ?? []} />;
+  const { options } = await loadApplyProgramOptions();
+  const programs = options.map((o) => ({ id: o.id, title: o.title, slug: o.slug }));
+  return <EnrollmentBookingPage programs={programs} />;
 }

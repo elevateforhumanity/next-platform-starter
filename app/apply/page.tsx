@@ -3,7 +3,8 @@ import Link from 'next/link';
 import IntakeFormInner from './IntakeFormInner';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { getStaticProgram, STATIC_PROGRAM_MAP } from '@/data/programs/index';
+import { getStaticProgram } from '@/data/programs/index';
+import { loadApplyProgramOptions } from '@/lib/programs/public-program-list';
 
 // No static revalidation; use the admin client when it is available so all
 // published programs are returned, but keep the intake page usable in CI/local
@@ -18,14 +19,6 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/apply',
   },
 };
-
-const staticProgramOptions = Array.from(STATIC_PROGRAM_MAP.values())
-  .map((program) => ({
-    id: program.slug,
-    title: program.title,
-    slug: program.slug,
-  }))
-  .sort((a, b) => a.title.localeCompare(b.title));
 
 export default async function ApplyPage({
   searchParams,
@@ -44,9 +37,9 @@ export default async function ApplyPage({
       ? programSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
       : '');
 
-  let programs = staticProgramOptions;
+  const { options: programs } = await loadApplyProgramOptions();
 
-  // Use admin client to bypass RLS when available. CI and local preview jobs often
+  // Use admin client to enrich with DB ids when available to bypass RLS when available. CI and local preview jobs often
   // do not have SUPABASE_SERVICE_ROLE_KEY, so fall back to the static catalog
   // instead of crashing the entire intake page.
   const db = await getAdminClient();
@@ -59,7 +52,11 @@ export default async function ApplyPage({
       .order('title');
 
     if (!error && data?.length) {
-      programs = data;
+      programs = data.map((row) => ({
+        id: row.id ?? row.slug,
+        title: row.title,
+        slug: row.slug,
+      }));
     }
   }
 
