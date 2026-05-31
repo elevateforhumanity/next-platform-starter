@@ -197,7 +197,7 @@ export default function CapitalReadinessGuidePage() {
                   <div className="text-center p-8">
                     <BookOpen className="w-16 h-16 text-slate-600 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Capital Readiness Guide</h3>
-                    <p className="text-slate-600 text-sm">${PLATFORM_DEFAULTS.orgName}</p>
+                    <p className="text-slate-600 text-sm">{`${PLATFORM_DEFAULTS.orgName}}`}</p>
                   </div>
                 </div>
               </div>

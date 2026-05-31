@@ -60,7 +60,7 @@ export default async function LmsRootPage() {
 
       <section className="py-16 sm:py-24 border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest mb-4">${PLATFORM_DEFAULTS.orgName} · Career Training</p>
+          <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest mb-4">{`${PLATFORM_DEFAULTS.orgName} · Career Training}`}</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-5">Start Your Training.<br className="hidden sm:block" /> Build Your Career.</h1>
           <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10">Industry-recognized credentials. Workforce funding available. Real job outcomes.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

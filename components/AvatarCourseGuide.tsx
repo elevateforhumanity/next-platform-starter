@@ -189,7 +189,7 @@ export default function AvatarCourseGuide({
 // Pre-built guide configurations
 export const ORIENTATION_STEPS: GuideStep[] = [
   {
-    title: 'Welcome to ${PLATFORM_DEFAULTS.orgName}!',
+    title: `Welcome to ${PLATFORM_DEFAULTS.orgName}!`,
     script:
       "Hi! I'm so excited you're here. I'm going to walk you through everything you need to know to get started with your training. Let's begin!",
   },

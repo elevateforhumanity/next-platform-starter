@@ -5,6 +5,7 @@ import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, Lock } from 'lu
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
@@ -359,6 +360,9 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </p>
         </div>
       </section>
+      <div className="max-w-4xl mx-auto px-4 pb-12">
+        <InstitutionalLegalNotice />
+      </div>
     </div>
   );
 }

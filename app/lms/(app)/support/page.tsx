@@ -214,7 +214,7 @@ export default async function SupportPage() {
                   </div>
                   <div>
                     <div className="font-medium text-slate-900">Phone Support</div>
-                    <div className="text-sm">${PLATFORM_DEFAULTS.supportPhone}</div>
+                    <div className="text-sm">{`${PLATFORM_DEFAULTS.supportPhone}}`}</div>
                   </div>
                 </a>
                 <a

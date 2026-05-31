@@ -70,7 +70,7 @@ export default function IndustryPortalPage({
               <p className="text-slate-400 text-xs uppercase tracking-widest font-medium">
                 {industryLabel} Portal
               </p>
-              <h1 className="text-lg font-bold leading-tight">${PLATFORM_DEFAULTS.orgName}</h1>
+              <h1 className="text-lg font-bold leading-tight">{`${PLATFORM_DEFAULTS.orgName}}`}</h1>
             </div>
           </div>
           <div className="text-right">
