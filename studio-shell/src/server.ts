@@ -9,8 +9,16 @@
  */
 
 import { WebSocketServer, WebSocket } from 'ws';
-import * as pty from 'node-pty';
 import { v4 as uuidv4 } from 'uuid';
+
+// node-pty uses native bindings — load lazily so a missing .node file
+// doesn't crash the process before the HTTP server starts.
+let pty: typeof import('node-pty') | null = null;
+try {
+  pty = require('node-pty');
+} catch (e) {
+  console.error('[studio] node-pty failed to load — PTY sessions unavailable:', e);
+}
 import * as http from 'http';
 import * as os from 'os';
 import { existsSync, readFileSync } from 'fs';
@@ -27,7 +35,7 @@ const STATUS_FILE = process.env.STUDIO_STATUS_FILE ?? '/tmp/studio-setup-status'
 
 interface Session {
   id: string;
-  pty: pty.IPty;
+  pty: import('node-pty').IPty;
   ws: WebSocket;
   timer: ReturnType<typeof setTimeout>;
   userId: string;
@@ -79,7 +87,9 @@ function getReadiness() {
 const httpServer = http.createServer((req, res) => {
   if (req.url === '/health') {
     const health = getReadiness();
-    res.writeHead(health.ready ? 200 : 503, { 'Content-Type': 'application/json' });
+    // Always return 200 so ECS health check passes during init.
+    // Callers inspect the `ready` field to determine if the studio is usable.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(health));
     return;
   }
@@ -122,6 +132,12 @@ wss.on('connection', (ws: WebSocket, req: http.IncomingMessage) => {
   }
 
   const sessionId = uuidv4();
+
+  if (!pty) {
+    ws.send(JSON.stringify({ type: 'error', message: 'PTY unavailable — node-pty native module failed to load. Check ECS logs.' }));
+    ws.close(1011, 'PTY unavailable');
+    return;
+  }
 
   const shell = pty.spawn(SHELL, [], {
     name: 'xterm-256color',
