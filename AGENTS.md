@@ -800,13 +800,13 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ## Cursor Cloud specific instructions
 
-> **Operator workflow:** localhost + **admin dashboard** (`pnpm dev:admin` → http://localhost:3001). Gitpod is not used for day-to-day work. See `docs/LOCAL_DEVELOPMENT.md`.
+> **Operator workflow:** localhost + **admin dashboard** (`pnpm dev:admin` → http://localhost:3001). Gitpod is not required. See `docs/LOCAL_DEVELOPMENT.md`.
 
 ### Environment setup
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.
 - **pnpm 10.28.2** is the package manager — `corepack enable` activates it.
-- **No local database** — the app connects to hosted Supabase. Use real keys in `.env.local` for full admin features; placeholders only boot the servers.
+- **No local database** — hosted Supabase. Use real keys in `.env.local` for full admin features; placeholders only boot the servers.
 - Minimum `.env.local` for dev server startup:
   ```
   NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
