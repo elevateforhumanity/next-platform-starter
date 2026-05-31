@@ -173,7 +173,8 @@ if (results.info.length > 0) {
 const productionReady = criticalIssues === 0 && warningIssues <= 3;
 const readinessScore = Math.round((passedChecks / totalChecks) * 100);
 
-  `\n🎯 PRODUCTION READINESS: ${productionReady ? '✅ READY' : '❌ NOT READY'}`
+console.log(
+  `\n🎯 PRODUCTION READINESS: ${productionReady ? '✅ READY' : '❌ NOT READY'} (${readinessScore}% checks passed)`,
 );
 
 if (!productionReady) {

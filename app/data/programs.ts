@@ -1302,7 +1302,7 @@ export const programs: Program[] = [
     schedule: '480 hours',
     delivery: 'Hybrid (Classroom + Practice)',
     credential: 'Certified Administrative Professional',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '12 weeks program',
@@ -1348,7 +1348,7 @@ export const programs: Program[] = [
     schedule: '1280 hours',
     delivery: 'Hybrid (Classroom + Shop)',
     credential: 'ASE Certified Technician',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '32 weeks program',
@@ -1458,7 +1458,7 @@ export const programs: Program[] = [
     schedule: '160 hours',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'WRG'],
     highlights: ['160 training hours', 'Earn: Certificate of Completion', 'Funding: WIOA, WRG'],
     whatYouLearn: [
@@ -1490,7 +1490,7 @@ export const programs: Program[] = [
     schedule: '1500 hours',
     delivery: 'hybrid',
     credential: 'Indiana Cosmetology License',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '12–18 months program',
@@ -1539,7 +1539,7 @@ export const programs: Program[] = [
     schedule: '1000 hours',
     delivery: 'apprenticeship',
     credential: 'Culinary Arts Certificate',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '40 weeks program',
@@ -1581,7 +1581,7 @@ export const programs: Program[] = [
     schedule: '320 hours',
     delivery: 'Hybrid (Classroom + Practice)',
     credential: 'Customer Service Professional',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans', 'Employer Sponsorship'],
     highlights: [
       '8 weeks program',
@@ -1629,7 +1629,7 @@ export const programs: Program[] = [
     schedule: '960 hours',
     delivery: 'Hybrid (Classroom + Lab)',
     credential: 'Certiport IT Specialist — Cybersecurity',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '24 weeks program',
@@ -1677,7 +1677,7 @@ export const programs: Program[] = [
     schedule: '800 hours',
     delivery: 'Hybrid (Classroom + Online)',
     credential: 'Data Analyst',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '20 weeks program',
@@ -1725,7 +1725,7 @@ export const programs: Program[] = [
     schedule: '480 hours',
     delivery: 'Hybrid (Classroom + Clinical)',
     credential: 'Certified Dental Assistant (CDA)',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '12 weeks program',
@@ -1771,7 +1771,7 @@ export const programs: Program[] = [
     schedule: '1280 hours',
     delivery: 'Hybrid (Classroom + Shop)',
     credential: 'ASE Diesel Certification',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '32 weeks program',
@@ -1817,7 +1817,7 @@ export const programs: Program[] = [
     schedule: '120 hours',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'WRG'],
     highlights: ['120 training hours', 'Earn: Certificate of Completion', 'Funding: WIOA, WRG'],
     whatYouLearn: ['DSP certification', 'CPR/First Aid', 'Person-centered care', 'Field placement'],
@@ -1842,7 +1842,7 @@ export const programs: Program[] = [
     schedule: 'Contact for schedule',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: ['Earn: Certificate of Completion', 'Funding: WIOA, Payment Plans'],
     whatYouLearn: [
@@ -1874,7 +1874,7 @@ export const programs: Program[] = [
     schedule: '180 hours',
     delivery: 'hybrid',
     credential: 'Indiana EMT Certification',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '12 weeks program',
@@ -1916,7 +1916,7 @@ export const programs: Program[] = [
     schedule: '640 hours',
     delivery: 'Hybrid (Classroom + Mentorship)',
     credential: 'Small Business Owner',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Small business grants', 'SBA loans', 'Self-funded'],
     highlights: [
       '16 weeks program',
@@ -1965,7 +1965,7 @@ export const programs: Program[] = [
     schedule: '40 hours',
     delivery: 'Hybrid (Classroom + Practice)',
     credential: 'OSHA Forklift Operator',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans', 'Employer-paid'],
     highlights: [
       '1 weeks program',
@@ -2013,7 +2013,7 @@ export const programs: Program[] = [
     schedule: '320 hours',
     delivery: 'Hybrid (Classroom + Online)',
     credential: 'Licensed Insurance Agent',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans', 'Self-funded', 'Agency sponsorship'],
     highlights: [
       '8 weeks program',
@@ -2061,7 +2061,7 @@ export const programs: Program[] = [
     schedule: '320 hours',
     delivery: 'Hybrid (Classroom + Lab)',
     credential: 'Certiport IT Specialist — Device Configuration',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '8 weeks program',
@@ -2109,7 +2109,7 @@ export const programs: Program[] = [
     schedule: '60 hours',
     delivery: 'online',
     credential: 'Certified Life Coach',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '12 weeks program',
@@ -2150,7 +2150,7 @@ export const programs: Program[] = [
     schedule: '480 hours',
     delivery: 'Hybrid (Classroom + Shop)',
     credential: 'Manufacturing Technician Level 1',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '12 weeks program',
@@ -2198,7 +2198,7 @@ export const programs: Program[] = [
     schedule: '450 hours',
     delivery: 'in-person',
     credential: 'Indiana Nail Technician License',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: [
       '16 weeks program',
@@ -2243,7 +2243,7 @@ export const programs: Program[] = [
     schedule: '40 hours',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'WRG'],
     highlights: ['40 training hours', 'Earn: Certificate of Completion', 'Funding: WIOA, WRG'],
     whatYouLearn: [
@@ -2273,7 +2273,7 @@ export const programs: Program[] = [
     schedule: '80 hours',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'WRG'],
     highlights: ['80 training hours', 'Earn: Certificate of Completion', 'Funding: WIOA, WRG'],
     whatYouLearn: [
@@ -2305,7 +2305,7 @@ export const programs: Program[] = [
     schedule: '640 hours',
     delivery: 'Hybrid (Classroom + Clinical)',
     credential: 'Certified Pharmacy Technician (CPhT)',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '16 weeks program',
@@ -2351,7 +2351,7 @@ export const programs: Program[] = [
     schedule: 'Contact for schedule',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: ['Earn: Certificate of Completion', 'Funding: WIOA, Payment Plans'],
     whatYouLearn: [
@@ -2383,7 +2383,7 @@ export const programs: Program[] = [
     schedule: '480 hours',
     delivery: 'Hybrid (Classroom + Online)',
     credential: 'Licensed Real Estate Agent',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans', 'Self-funded', 'Brokerage sponsorship'],
     highlights: [
       '12 weeks program',
@@ -2429,7 +2429,7 @@ export const programs: Program[] = [
     schedule: '80 hours',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'WRG'],
     highlights: ['80 training hours', 'Earn: Certificate of Completion', 'Funding: WIOA, WRG'],
     whatYouLearn: [
@@ -2459,7 +2459,7 @@ export const programs: Program[] = [
     schedule: 'Contact for schedule',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: ['Earn: Certificate of Completion', 'Funding: WIOA, Payment Plans'],
     whatYouLearn: [
@@ -2491,7 +2491,7 @@ export const programs: Program[] = [
     schedule: '480 hours',
     delivery: 'Hybrid (Classroom + Field)',
     credential: 'NABCEP PV Installation Professional',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans', 'Green jobs funding'],
     highlights: [
       '12 weeks program',
@@ -2540,7 +2540,7 @@ export const programs: Program[] = [
     schedule: '960 hours',
     delivery: 'Hybrid (Classroom + Online)',
     credential: 'Full-Stack Web Developer',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Workforce Ready Grant', 'Payment Plans'],
     highlights: [
       '24 weeks program',
@@ -2588,7 +2588,7 @@ export const programs: Program[] = [
     schedule: 'Contact for schedule',
     delivery: 'In-Person',
     credential: 'Certificate of Completion',
-    approvals: ['${PLATFORM_DEFAULTS.orgName} Career & Technical Institute'],
+    approvals: [`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`],
     fundingOptions: ['WIOA', 'Payment Plans'],
     highlights: ['Earn: Certificate of Completion', 'Funding: WIOA, Payment Plans'],
     whatYouLearn: [

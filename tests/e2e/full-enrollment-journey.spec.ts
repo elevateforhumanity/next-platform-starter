@@ -33,11 +33,12 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await page.goto('/programs');
     await expect(page).toHaveURL(/\/programs/);
 
-    // Step 1.3: Verify programs are displayed
+    // Step 1.3: Verify programs are displayed (DB or static SSR fallback — never empty grid)
     await page.waitForLoadState('domcontentloaded', { timeout: 30000 });
-    // Use .first() to avoid strict mode violation when multiple <main> elements exist
     const programContent = page.locator('main').first();
     await expect(programContent).toBeVisible();
+    const programLinkCount = await page.locator('main a[href*="/programs/"]').count();
+    expect(programLinkCount).toBeGreaterThan(0);
 
     // Step 1.4: Select a specific program — scope to main content to avoid nav links
     // that are outside the viewport and get detached during navigation.
@@ -57,7 +58,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
     await expect(page).toHaveURL(/\/apply/);
 
     // Step 2.2: Verify apply landing page content
-    await expect(page.locator('h1').first()).toBeVisible();
+    await expect(page.locator('h1')).toBeVisible();
 
     // Step 2.3: Verify the canonical intake form and program path are presented
     const formSection = page.locator('#application, form, [id*="form"]');
@@ -215,7 +216,7 @@ test.describe('Full Enrollment Journey: Apply → Auth → Checkout → Enrollme
 
     // Application Landing
     await page.goto('/apply');
-    await expect(page.locator('h1').first()).toBeVisible();
+    await expect(page.locator('h1')).toBeVisible();
     journeySteps.push('✓ Apply landing page displayed');
 
     // Intake Form

@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Stripe checkout completion — payment verified via sessionId before any DB write
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';

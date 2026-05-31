@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Store checkout — licensing gate via validateCheckoutAuthorization + rate limit
 import { createCheckoutSession } from '@/lib/store/stripe';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';

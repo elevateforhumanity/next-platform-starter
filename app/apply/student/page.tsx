@@ -143,7 +143,7 @@ export default async function StudentApplicationPage({
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apply-page-4.jpg"
-          alt="Apply for career training — {PLATFORM_DEFAULTS.orgName}"
+          alt={`Apply for career training — ${PLATFORM_DEFAULTS.orgName}`}
           fill
           sizes="100vw"
           className="object-cover"

@@ -65,7 +65,7 @@ export default async function EmployersPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/for-employers-page-1.webp"
-          alt="Employer partner meeting with {PLATFORM_DEFAULTS.orgName} team"
+          alt={`Employer partner meeting with ${PLATFORM_DEFAULTS.orgName} team`}
           fill
           className="object-cover"
           priority

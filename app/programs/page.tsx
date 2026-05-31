@@ -1,19 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import type { Metadata } from 'next';
-import { createPublicClient } from '@/lib/supabase/public';
-import { loadPublishedProgramsListing } from '@/lib/programs/load-program-catalog';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  buildProgramsListingMetadata,
+  getPublicProgramsPageData,
+  resolvePublicProgramCount,
+  type ProgramsPageRow,
+} from '@/lib/programs/public-programs-page';
 
-export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
+export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: `Programs | ${PLATFORM_DEFAULTS.orgName}`,
-  description:
-    'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs' },
-};
+export async function generateMetadata() {
+  return buildProgramsListingMetadata();
+}
 
 const PROGRAM_IMAGES: Record<string, string> = {
   cna:'/images/pages/cna-nursing-real.webp',qma:'/images/pages/programs-cna-hero.webp',
@@ -95,37 +95,11 @@ const CATEGORY_META: Record<string,{label:string;color:string;order:number}> = {
   special:          {label:'Workforce Readiness',  color:'bg-slate-600',   order:9},
 };
 
-const SUPPRESSED = new Set([
-  'cna-training','hvac','hvac-technician-program','hvac-2024','medical-assistant-program',
-  'phlebotomy-technician','phlebotomy-technician-program','barber','barber-program',
-  'cosmetology','nail-technician','cpr-cert','health-safety','forklift-operator','tax-prep',
-  'it-support','it-support-specialist','cybersecurity','bookkeeping-fundamentals',
-  'entrepreneurship-small-business','peer-recovery-specialist-jri',
-  'ai-advanced-project-management-1774494313718','ai-forklift-safety-certification-1774495387731',
-  'jri-badge-1-mindsets','jri-badge-2-self-management','jri-badge-3-learning-strategies',
-  'jri-badge-4-social-skills','jri-badge-5-workplace-skills','jri-badge-6-launch-a-career',
-  'jri-introduction','jri','micro-programs','emergency-health-safety','nha-medical-assistant',
-]);
-
-type Prog = {slug:string;title:string;description:string|null;category:string;duration:string|null;credential:string|null;funding_eligible:boolean};
-
 export default async function ProgramsPage() {
-  const db = createPublicClient();
-  const { programs: listing } = await loadPublishedProgramsListing(db, {
-    suppressSlugs: SUPPRESSED,
-  });
+  const { programs } = await getPublicProgramsPageData();
+  const displayCount = resolvePublicProgramCount(programs.length);
 
-  const programs: Prog[] = listing.map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    description: p.description,
-    category: p.sectionKey,
-    duration: p.duration,
-    credential: p.credential,
-    funding_eligible: p.funding_eligible,
-  }));
-
-  const grouped:Record<string,Prog[]>={};
+  const grouped: Record<string, ProgramsPageRow[]> = {};
   programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
   const cats=Object.keys(grouped).sort((a,b)=>(CATEGORY_META[a]?.order??99)-(CATEGORY_META[b]?.order??99));
 
@@ -141,7 +115,7 @@ export default async function ProgramsPage() {
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">{PLATFORM_DEFAULTS.orgName}</p>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight">Career Training Programs</h1>
           <p className="mt-3 text-slate-200 text-sm sm:text-base max-w-xl">
-            {programs.length} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available
+            {displayCount} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href="/orientation/schedule" className="inline-flex items-center gap-2 rounded-lg bg-brand-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-700 transition-colors">
@@ -158,7 +132,7 @@ export default async function ProgramsPage() {
       <nav className="sticky top-0 z-20 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 overflow-x-auto">
           <ul className="flex gap-1 py-2 whitespace-nowrap">
-            <li><a href="#top" className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">All ({programs.length})</a></li>
+            <li><a href="#top" className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">All ({displayCount})</a></li>
             {cats.map(cat=>(
               <li key={cat}><a href={`#cat-${cat}`} className="inline-block px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
                 {CATEGORY_META[cat]?.label??cat} ({grouped[cat].length})

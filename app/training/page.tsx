@@ -98,7 +98,7 @@ export default function TrainingPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/training-page-3.webp"
-          alt="Career training programs at {PLATFORM_DEFAULTS.orgName}"
+          alt={`Career training programs at ${PLATFORM_DEFAULTS.orgName}`}
           fill
           className="object-cover"
           priority

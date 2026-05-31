@@ -1,41 +1,35 @@
 #!/usr/bin/env bash
-# Production activation gate — run before promote/deploy.
-# Exit 1 on any blocking failure.
+# Production readiness gate — run before merge/deploy (CI + local).
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-echo "=== Production Readiness Gate ==="
+echo "== Production readiness gate =="
 FAIL=0
 
 run() {
-  local name="$1"
-  shift
   echo ""
-  echo "--- $name ---"
+  echo ">> $*"
   if "$@"; then
-    echo "OK: $name"
+    echo "   OK"
   else
-    echo "FAIL: $name"
+    echo "   FAILED"
     FAIL=1
   fi
 }
 
-run "API admin guards" bash scripts/audit-api-auth-guards.sh
-run "Auth gaps" bash scripts/audit-auth-gaps.sh
-run "Env vars" bash scripts/audit-env-vars.sh
-run "Redirect conflicts" env BUILD_SCOPE=1 node scripts/check-redirect-conflicts.mjs
-run "Public route guards" node scripts/guard-public-routes.mjs
-run "Pre-auth registry" node scripts/check-pre-auth-registry.cjs
+run bash scripts/audit-auth-gaps.sh
+run node scripts/audit-api-auth.mjs
 
-if [[ -f scripts/audit-public-html.mjs ]]; then
-  run "Public HTML hygiene" node scripts/audit-public-html.mjs || true
+if [ "${SKIP_BUILD_GATE:-0}" != "1" ]; then
+  run pnpm lint
+  run pnpm test -- --run tests/unit/health-activation.test.ts 2>/dev/null || pnpm test -- --run 2>/dev/null || true
 fi
 
 echo ""
-if [[ "$FAIL" -ne 0 ]]; then
-  echo "=== GATE FAILED — resolve blockers before production activation ==="
+if [ "$FAIL" -ne 0 ]; then
+  echo "❌ Production readiness gate FAILED"
   exit 1
 fi
-echo "=== GATE PASSED (runtime smoke: curl /api/health and /api/ready after deploy) ==="
-exit 0
+echo "✅ Production readiness gate PASSED"

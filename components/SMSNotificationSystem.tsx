@@ -143,7 +143,7 @@ export function SMSNotificationSystem() {
                         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
                       >,
                     ) => setPhoneNumber(e.target.value)}
-                    placeholder="+1 {PLATFORM_DEFAULTS.supportPhone}"
+                    placeholder={`+1 ${PLATFORM_DEFAULTS.supportPhone}`}
                     className="w-full px-4 py-2 border rounded-lg"
                   />
                 </div>

@@ -1,3 +1,4 @@
+// PUBLIC ROUTE: Azure AD OAuth initiation/callback — rate-limited
 /**
  * POST /api/auth/azure/callback
  * GET  /api/auth/azure/callback
