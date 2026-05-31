@@ -23,7 +23,7 @@ const PUBLIC_PATHS = [
   '/unauthorized',
   '/api/health',
   '/api/ping',
-  // Password reset flow — Supabase redirects here with a code before a session exists
+  // Password reset flow - Supabase redirects here with a code before a session exists
   '/auth/confirm',
   '/auth/reset-password',
 ];
@@ -34,7 +34,7 @@ function getSessionCookieName(): string {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
   const match = url.match(/https?:\/\/([^.]+)\./);
   if (match?.[1]) return `sb-${match[1]}-auth-token`;
-  // Fallback: hardcoded ref — update if project is migrated
+  // Fallback: hardcoded ref - update if project is migrated
   return 'sb-cuxzzpsyufcewtmicszk-auth-token';
 }
 const SESSION_COOKIE = getSessionCookieName();
@@ -46,7 +46,18 @@ export async function middleware(req: NextRequest) {
   const isLocalHost =
     host === 'localhost' || host === '127.0.0.1' || host === '::1';
 
-  // Misrouted www/apex → canonical admin host (ALB/DNS mistakes).
+  // Always allow health checks, public auth paths, Next.js internals, and static files
+  // before canonical-host redirects so ALB target health probes can receive 200s.
+  if (
+    PUBLIC_PATHS.some((p) => pathname.startsWith(p)) ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/favicon') ||
+    /\.[a-z0-9]+$/i.test(pathname)
+  ) {
+    return NextResponse.next();
+  }
+
+  // Misrouted www/apex -> canonical admin host (ALB/DNS mistakes).
   if (
     host &&
     host !== canonicalAdminHost &&
@@ -59,16 +70,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(`${adminBase}${pathname}${search}`, { status: 301 });
   }
 
-  // Always allow public paths, Next.js internals, and static files
-  if (
-    PUBLIC_PATHS.some((p) => pathname.startsWith(p)) ||
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/favicon') ||
-    /\.[a-z0-9]+$/i.test(pathname)
-  ) {
-    return NextResponse.next();
-  }
-
   // Only gate protected namespaces.
   const isProtected =
     pathname === '/' ||
@@ -77,7 +78,7 @@ export async function middleware(req: NextRequest) {
 
   if (!isProtected) return NextResponse.next();
 
-  // Edge middleware: env-only IP allowlist (no DB — avoids Supabase in middleware bundle).
+  // Edge middleware: env-only IP allowlist (no DB - avoids Supabase in middleware bundle).
   const ipBlocked = checkAdminIP(req);
   if (ipBlocked) return ipBlocked;
 
