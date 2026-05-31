@@ -27,7 +27,7 @@ const FEATURED_SLUGS = [
 const SECTOR_COLORS: Record<string, string> = {
   healthcare: 'bg-blue-600',
   'skilled-trades': 'bg-amber-600',
-  transportation: 'bg-emerald-600',
+  transportation: 'bg-emerald-700',
   technology: 'bg-purple-600',
   'personal-services': 'bg-pink-600',
   business: 'bg-slate-600',
@@ -73,7 +73,7 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
         {/* Funding badge */}
         {prog.badge && (
           <div className="absolute top-3 right-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-green-600 text-white">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-green-700 text-white">
               {prog.badge}
             </span>
           </div>
