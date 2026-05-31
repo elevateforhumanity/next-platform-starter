@@ -39,11 +39,7 @@ function StatCard({ icon, label, value, sub, href, urgent }: StatCardProps) {
   );
 }
 
-function fmt(cents: number) {
-  if (cents >= 100_000_00) return `$${(cents / 100_000_00).toFixed(1)}M`;
-  if (cents >= 1_000_00)   return `$${(cents / 1_000_00).toFixed(1)}k`;
-  return `$${(cents / 100).toLocaleString('en-US')}`;
-}
+const fmt = formatCentsCompact;
 
 export function StatsOverviewBar({ data }: Props) {
   const { counts, totalStudents, revenueAllTimeCents, operational } = data;
@@ -67,7 +63,6 @@ export function StatsOverviewBar({ data }: Props) {
           href="/admin/students?status=active"
         />
         <StatCard
-          themeIndex={2}
           icon={<DollarSign className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Revenue (Month)"
           value={fmt(counts.revenueThisMonthCents)}

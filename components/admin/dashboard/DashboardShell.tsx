@@ -16,7 +16,7 @@ import { LearnerActionButtons } from "./LearnerActionButtons";
 import { LeadActionButtons } from "./LeadActionButtons";
 import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
 import { SystemHealthPanel } from "./SystemHealthPanel";
-import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
+import { KpiGrid } from "./KpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
 import { JobBoardPanel } from "./JobBoardPanel";
@@ -452,7 +452,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative mb-6 h-40 w-full overflow-hidden rounded-2xl sm:h-56">
+      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
@@ -461,8 +461,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/40 via-transparent to-brand-red-900/30" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white via-white/80 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
       <div className="pt-2">

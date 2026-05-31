@@ -59,7 +59,7 @@ export function ProgramIntegrityPanel() {
     setError(null);
     try {
       // Fetch programs with score < 100 (anything with at least one failing check)
-      const res = await fetch('/api/admin/program-integrity?limit=50&min=90', { cache: 'no-store' });
+      const res = await fetch('/api/admin/program-integrity?limit=12&min=60', { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setData(await res.json());
     } catch {

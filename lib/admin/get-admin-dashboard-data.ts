@@ -808,22 +808,6 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
 
-  // Pending enrollments — one aggregate item
-  if (totalPendingCount > 0) {
-    const urgentApp = pendingApps.find(a => a.urgent);
-    const daysOverdue = urgentApp ? Math.max(0, Math.floor((Date.now() - new Date(urgentApp.created_at).getTime()) / 86400000) - 3) : 0;
-    const score = calculatePriorityScore({ type: 'enrollment', days: daysOverdue, money: 3, blocked: true });
-    rawPriorityItems.push({
-      id: 'pending-enrollments',
-      type: 'enrollment',
-      label: `${totalPendingCount} enrollment${totalPendingCount !== 1 ? 's' : ''} pending review`,
-      href: '/admin/applications?status=submitted',
-      score,
-      severity: scoreSeverity(score),
-      context: urgentApp ? 'Oldest is 3+ days old' : 'Awaiting admin review',
-    });
-  }
-
   // Failed jobs
   const failedJobCount = systemHealth.staleJobs ?? 0;
   if (failedJobCount > 0) {
