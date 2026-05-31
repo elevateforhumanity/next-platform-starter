@@ -31,8 +31,6 @@ on:
       - "tsconfig.json"
       - "Dockerfile.package"
       - "aws/buildspec-lms.yml"
-      - "aws/ecs-task-lms.json"
-      - "aws/ecs-task-lms-staging.json"
       - "pnpm-lock.yaml"
       - "package.json"
       - "pnpm-workspace.yaml"
@@ -108,22 +106,43 @@ jobs:
       - name: Health check — LMS
         id: health_check
         run: |
-          echo "Running post-deploy health check..."
-          MAX_ATTEMPTS=10
+          echo "Running post-deploy readiness + activation checks..."
+          MAX_ATTEMPTS=12
           DELAY=15
           for i in $(seq 1 $MAX_ATTEMPTS); do
-            HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
+            READY_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
+              --max-time 10 \
+              "https://www.elevateforhumanity.org/api/ready" 2>/dev/null || echo "000")
+            HEALTH_JSON=$(curl -sf --max-time 10 \
+              "https://www.elevateforhumanity.org/api/health" 2>/dev/null || echo "{}")
+            HEALTH_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
               --max-time 10 \
               "https://www.elevateforhumanity.org/api/health" 2>/dev/null || echo "000")
-            echo "  Attempt $i/$MAX_ATTEMPTS — HTTP $HTTP_CODE"
-            if [ "$HTTP_CODE" = "200" ]; then
-              echo "✅ Health check passed."
+            ACTIVATION=$(echo "$HEALTH_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print('true' if d.get('activation',{}).get('ready_for_traffic') else 'false')" 2>/dev/null || echo "false")
+            PROGRAMS_HTML=$(curl -sf --max-time 15 "https://www.elevateforhumanity.org/programs" 2>/dev/null || echo "")
+            HAS_PROGRAM_LINKS=$(echo "$PROGRAMS_HTML" | grep -c 'href="/programs/' || true)
+            echo "  Attempt $i/$MAX_ATTEMPTS — ready=$READY_CODE health=$HEALTH_CODE activation=$ACTIVATION program_links=$HAS_PROGRAM_LINKS"
+            if [ "$READY_CODE" = "200" ] && [ "$HEALTH_CODE" = "200" ] && [ "$ACTIVATION" = "true" ] && [ "${HAS_PROGRAM_LINKS:-0}" -gt 0 ]; then
+              echo "✅ Post-deploy smoke passed (ready, health, activation, programs catalog)."
               exit 0
             fi
             sleep $DELAY
           done
-          echo "❌ Health check failed after $MAX_ATTEMPTS attempts."
+          echo "❌ Post-deploy smoke failed after $MAX_ATTEMPTS attempts."
           exit 1
+
+      - name: Revalidate public cache
+        if: success()
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::warning::CRON_SECRET not set — skip revalidate-public"
+            exit 0
+          fi
+          curl -sf -X GET "https://www.elevateforhumanity.org/api/cron/revalidate-public" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            || echo "::warning::revalidate-public call failed (non-blocking)"
 
       - name: Rollback on health failure
         if: failure() && steps.health_check.outcome == 'failure'
