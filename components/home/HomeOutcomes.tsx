@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Quote } from 'lucide-react';
-import { SITE_STATS } from '@/lib/site-stats';
+import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
 import { createPublicClient } from '@/lib/supabase/public';
 
 const FALLBACK_STORIES = [
@@ -62,8 +62,6 @@ async function fetchTestimonials(): Promise<Testimonial[]> {
     return FALLBACK_STORIES;
   }
 }
-
-
 
 function StoryCard({ story }: { story: Testimonial }) {
   return (
