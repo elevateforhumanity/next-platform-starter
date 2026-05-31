@@ -65,9 +65,23 @@ jobs:
 
       - name: Start LMS CodeBuild and wait for completion
         run: |
-          echo "Starting LMS CodeBuild..."
+          set -euo pipefail
+
+          dump_build_details() {
+            echo "::group::CodeBuild failure details"
+            aws codebuild batch-get-builds \
+              --ids "$BUILD_ID" \
+              --region us-east-1 \
+              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus}}' \
+              --output json || true
+            echo "::endgroup::"
+          }
+
+          SOURCE_VERSION="${GITHUB_SHA:?Missing GITHUB_SHA}"
+          echo "Starting LMS CodeBuild for commit ${SOURCE_VERSION}..."
           BUILD_ID=$(aws codebuild start-build \
             --project-name elevate-lms-build \
+            --source-version "$SOURCE_VERSION" \
             --buildspec-override aws/buildspec-lms.yml \
             --region us-east-1 \
             --query 'build.id' --output text)
@@ -88,19 +102,34 @@ jobs:
                 ;;
               FAILED|FAULT|TIMED_OUT|STOPPED)
                 echo "❌ LMS build failed with status: $STATUS"
+                dump_build_details
                 exit 1
                 ;;
             esac
             sleep 30
           done
 
-      - name: Wait for ECS service stability
+      - name: Confirm ECS deployment was triggered
         run: |
-          echo "Waiting for ECS service to stabilize..."
-          aws ecs wait services-stable \
+          set -euo pipefail
+          aws ecs describe-services \
             --cluster elevate-cluster \
             --services elevate-lms-service \
-            --region us-east-1
+            --region us-east-1 \
+            --query 'services[0].{taskDef:taskDefinition,deployments:deployments[*].{status:status,rollout:rolloutState,running:runningCount,failed:failedTasks}}' \
+            --output json
+
+      - name: Wait for ECS service stability
+        run: |
+          set -euo pipefail
+          echo "Waiting for ECS service to stabilize (max 60 minutes)..."
+          if ! timeout 3600 aws ecs wait services-stable \
+            --cluster elevate-cluster \
+            --services elevate-lms-service \
+            --region us-east-1; then
+            echo "::error::LMS ECS did not stabilize in time."
+            exit 1
+          fi
           echo "✅ ECS service stable."
 
       - name: Health check — LMS
