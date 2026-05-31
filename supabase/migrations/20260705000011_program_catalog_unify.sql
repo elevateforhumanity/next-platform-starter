@@ -66,3 +66,6 @@ GRANT SELECT ON public.program_catalog_index TO authenticated, anon, service_rol
 
 COMMENT ON VIEW public.program_catalog_index IS
   'Published programs only. Legacy alias columns (program_id, wioa_eligible, duration_weeks) map to live programs columns.';
+
+-- Post-apply check (expect catalog_view_rows > 0; ~79 after publish-all-active seed):
+-- SELECT json_build_object('catalog_view_rows', count(*)) FROM public.program_catalog_index;

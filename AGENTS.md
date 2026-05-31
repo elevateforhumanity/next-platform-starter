@@ -800,6 +800,8 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ## Cursor Cloud specific instructions
 
+**VS Code Dev Container (`.devcontainer/`)** is a separate path: Docker image, AWS SSM → `.env.local`, ports 3000/3001. GitHub “Unified DevContainer” UI edits that JSON only; it does **not** configure Cloud Agent VMs. See `.devcontainer/README.md`.
+
 ### Environment setup
 
 - **Node.js 20.19.2** required (pinned in `.node-version`). Use `nvm use 20.19.2`.

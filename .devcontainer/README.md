@@ -1,8 +1,8 @@
 # Dev Container — Elevate LMS
 
-Standalone dev container. No dependency on Gitpod, Ona, Codespaces, or any CI platform.
+Standalone dev container for **VS Code Dev Containers** / GitHub Codespaces-style workflows.
 
-**Cursor Cloud Agents** run on `/workspace` and do **not** use this devcontainer automatically — they use the VM update script + `AGENTS.md` Cloud instructions instead. Use this devcontainer for **VS Code / Dev Containers: Reopen in Container** only.
+**Not used by Cursor Cloud Agents.** Cloud agents follow `AGENTS.md` → “Cursor Cloud specific instructions” (nvm, placeholder `.env.local`, VM update script). Editing this folder in GitHub “Unified DevContainer” UI only affects container-based local dev.
 
 ---
 

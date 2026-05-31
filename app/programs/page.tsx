@@ -2,11 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
-import { loadPublishedProgramsListing } from '@/lib/programs/load-program-catalog';
-import { PROGRAM_SECTION_META } from '@/lib/programs/category-normalize';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { logger } from '@/lib/logger';
 
 export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
 
@@ -113,20 +110,19 @@ type Prog = {slug:string;title:string;description:string|null;category:string;du
 
 export default async function ProgramsPage() {
   const db = createPublicClient();
-  let programs: Prog[] = [];
+  const { programs: listing } = await loadPublishedProgramsListing(db, {
+    suppressSlugs: SUPPRESSED,
+  });
 
-  {
-    const {data} = await db.from('programs')
-      .select('slug,title,short_description,description,category,duration,credential_type,wioa_eligible')
-      .eq('is_active',true).eq('published',true).neq('status','archived').order('title');
-    if (data?.length) {
-      programs = data.filter(p=>!SUPPRESSED.has(p.slug)).map(p=>{
-        let desc:string|null = p.short_description||p.description||null;
-        if(desc&&!/[.!?]$/.test(desc.trim())){const l=Math.max(desc.lastIndexOf('.'),desc.lastIndexOf('!'),desc.lastIndexOf('?'));desc=l>20?desc.slice(0,l+1):null;}
-        return {slug:p.slug,title:p.title,description:desc,category:p.category||'other',duration:p.duration??null,credential:p.credential_type??null,funding_eligible:p.wioa_eligible??false};
-      });
-    }
-  }
+  const programs: Prog[] = listing.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    category: p.sectionKey,
+    duration: p.duration,
+    credential: p.credential,
+    funding_eligible: p.funding_eligible,
+  }));
 
   const grouped:Record<string,Prog[]>={};
   programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
