@@ -57,7 +57,8 @@ function getReadiness() {
   const gitVersion = safeVersion('git');
   const pnpmVersion = safeVersion('pnpm');
   const psqlVersion = safeVersion('psql');
-  const ready = Boolean(readyFile && hasGitDir && gitVersion && pnpmVersion);
+  const hasNodeModules = existsSync(`${WORKDIR}/node_modules`);
+  const ready = Boolean(readyFile && gitVersion && pnpmVersion && (hasGitDir || hasNodeModules));
 
   return {
     ready,
@@ -75,28 +76,13 @@ function getReadiness() {
   };
 }
 
-function sendJson(res: http.ServerResponse, statusCode: number, payload: unknown) {
-  res.writeHead(statusCode, {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-store',
-  });
-  res.end(JSON.stringify(payload));
-}
-
 const httpServer = http.createServer((req, res) => {
-  const pathname = (req.url ?? '/').split('?')[0];
-
-  if (pathname === '/live') {
-    sendJson(res, 200, { alive: true, ...getReadiness() });
-    return;
-  }
-
-  if (pathname === '/health') {
+  if (req.url === '/health') {
     const health = getReadiness();
-    sendJson(res, health.ready ? 200 : 503, health);
+    res.writeHead(health.ready ? 200 : 503, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(health));
     return;
   }
-
   res.writeHead(404);
   res.end();
 });

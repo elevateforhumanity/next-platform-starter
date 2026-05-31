@@ -4,8 +4,8 @@
   "requiresCompatibilities": [
     "FARGATE"
   ],
-  "cpu": "1024",
-  "memory": "4096",
+  "cpu": "2048",
+  "memory": "8192",
   "executionRoleArn": "arn:aws:iam::954718262498:role/ecsTaskExecutionRole",
   "taskRoleArn": "arn:aws:iam::954718262498:role/ecsTaskRole",
   "containerDefinitions": [
@@ -138,12 +138,12 @@
       "healthCheck": {
         "command": [
           "CMD-SHELL",
-          "curl -sf http://localhost:8888/live || exit 1"
+          "curl -sf http://localhost:8888/health || exit 1"
         ],
         "interval": 30,
         "timeout": 10,
         "retries": 3,
-        "startPeriod": 60
+        "startPeriod": 180
       },
       "ulimits": [
         {

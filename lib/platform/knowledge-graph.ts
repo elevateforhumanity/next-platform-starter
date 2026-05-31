@@ -396,7 +396,7 @@ export const ROUTE_DEPENDENCIES: Record<string, { tables: string[]; apis: string
   '/admin/dev-studio': {
     tables: ['ai_audit_log'],
     apis: ['/api/devstudio/execute', '/api/devstudio/chat', '/api/devstudio/platform-state'],
-    components: ['AIChat', 'XTerminal', 'DevStudioClient'],
+    components: ['AIChat', 'XTerminal', 'DevStudioUnifiedClient', 'RunWorkspace'],
   },
 };
 

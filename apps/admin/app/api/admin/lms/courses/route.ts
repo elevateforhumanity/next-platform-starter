@@ -10,9 +10,33 @@ import { createClient } from '@/lib/supabase/server';
 import { createDraftCourse } from '@/lib/lms/course-service';
 import { safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+/** GET — list canonical courses for Dev Studio / AI course builder sidebar */
+export async function GET(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
+
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('courses')
+      .select('id, title, slug, status')
+      .order('updated_at', { ascending: false })
+      .limit(100);
+
+    if (error) return safeInternalError(error, 'Failed to list courses');
+    return NextResponse.json({ courses: data ?? [] });
+  } catch (error) {
+    return safeInternalError(error, 'Failed to list courses');
+  }
+}
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');

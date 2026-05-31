@@ -47,7 +47,7 @@ const SERVICES_CONFIG = [
   },
   {
     key: 'studio',
-    label: 'Dev Studio Shell',
+    label: 'Dev Studio Runtime',
     ecsService: 'elevate-studio',
     url: null,
     healthPath: null,
