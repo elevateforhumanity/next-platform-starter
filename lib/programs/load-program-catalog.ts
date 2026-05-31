@@ -273,7 +273,11 @@ export async function loadProgramCatalog(
 export async function loadPublishedProgramsListing(
   client: SupabaseClient,
   options?: { suppressSlugs?: Set<string> },
-): Promise<{ programs: ProgramsListingItem[]; error?: string }> {
+): Promise<{
+  programs: ProgramsListingItem[];
+  error?: string;
+  source: 'database' | 'static-fallback';
+}> {
   const { data, error } = await basePublishedQuery(client).order('title', { ascending: true });
 
   if (error) {
@@ -281,17 +285,22 @@ export async function loadPublishedProgramsListing(
   }
 
   const suppressed = options?.suppressSlugs ?? new Set<string>();
-  let programs = ((data ?? []) as ProgramsRow[])
+  const dbPrograms = ((data ?? []) as ProgramsRow[])
     .filter((row) => row.slug && !suppressed.has(row.slug))
     .map(mapProgramsRowToListing);
 
-  if (programs.length === 0) {
-    logger.warn(
-      '[loadPublishedProgramsListing] DB returned 0 published programs — using static catalog fallback',
-      error ? { dbError: error.message } : undefined,
-    );
-    programs = listingFromStaticCatalog(suppressed);
+  if (dbPrograms.length > 0) {
+    return { programs: dbPrograms, error: error?.message, source: 'database' };
   }
 
-  return { programs, error: error?.message };
+  logger.warn(
+    '[loadPublishedProgramsListing] DB returned 0 published programs — using static catalog fallback',
+    error ? { dbError: error.message } : undefined,
+  );
+
+  return {
+    programs: listingFromStaticCatalog(suppressed),
+    error: error?.message,
+    source: 'static-fallback',
+  };
 }

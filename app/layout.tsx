@@ -40,8 +40,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
+<<<<<<< HEAD
     default: `${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants`,
     template: `%s | ${PLATFORM_DEFAULTS.orgName}`,
+=======
+    default: '${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants',
+    template: '%s | ${PLATFORM_DEFAULTS.orgName}',
+>>>>>>> origin/cursor/platform-e2e-audit-c4c6
   },
 
   description:

@@ -14,6 +14,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
+<<<<<<< HEAD
+=======
+import { createPublicClient } from '@/lib/supabase/public';
+>>>>>>> origin/cursor/platform-e2e-audit-c4c6
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
   BookOpen,
@@ -33,7 +37,11 @@ export async function generateMetadata({
   params: Promise<{ program: string }>;
 }): Promise<Metadata> {
   const { program: slug } = await params;
+<<<<<<< HEAD
   const db = await createClient();
+=======
+  const db = createPublicClient();
+>>>>>>> origin/cursor/platform-e2e-audit-c4c6
   const { data: program } = await db
     .from('programs')
     .select('title, description')

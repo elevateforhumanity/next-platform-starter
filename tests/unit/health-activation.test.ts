@@ -1,17 +1,19 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-describe('health activation contract', () => {
-  it('documents expected activation shape on /api/health', () => {
-    const sample = {
-      activation: {
-        environment: true,
-        database: true,
-        ready_for_traffic: true,
-      },
-      production_ready: true,
-    };
-    expect(sample.activation.ready_for_traffic).toBe(sample.production_ready);
-    expect(sample).not.toHaveProperty('verification');
-    expect(JSON.stringify(sample)).not.toContain('10/10');
+describe('production health endpoint', () => {
+  it('does not advertise hardcoded fake production scores', () => {
+    const src = readFileSync(join(process.cwd(), 'app/api/health/route.ts'), 'utf8');
+    expect(src).not.toContain('10/10');
+    expect(src).not.toContain('overall_score');
+    expect(src).toContain('activation');
+    expect(src).toContain('ready_for_traffic');
+  });
+
+  it('exposes a lightweight readiness route', () => {
+    const src = readFileSync(join(process.cwd(), 'app/api/ready/route.ts'), 'utf8');
+    expect(src).toContain('ready');
+    expect(src).not.toContain('getPublicUrl');
   });
 });
