@@ -837,6 +837,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
+### Public program catalog (canonical)
+
+- **Read path:** `lib/programs/load-program-catalog.ts` — queries `programs` where `published`, `is_active`, and `status != archived`.
+- **Static registry:** `lib/programs/static-registry.ts` (`ALL_PROGRAMS`); `data/programs/catalog.ts` re-exports for legacy imports. Detail slugs: `data/programs/index.ts` (`STATIC_PROGRAM_MAP`).
+- **Slugs:** `lib/programs/slug.ts` — `toDbSlug`, `resolveCanonicalSlug`, `SLUG_ALIASES`.
+- **Production:** Apply `supabase/migrations/20260705000011_program_catalog_unify.sql` in Supabase SQL Editor, then `pnpm catalog:sync` (upserts programs + `program_credentials` from static `credentials[]`).
+- **Columns:** `wioa_approved` on `programs`; `credential_name` preferred over `credential_type` for display.
+
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
@@ -853,11 +861,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-### Platform hardening / security audits
-
-- `docs/platform-hardening-audit-2026-05-31.md` — Stripe/BNPL, images, admin route buckets, migrations
-- `docs/platform-security-operations-audit-2026-05-31.md` — tenant domains, cache, cron, email/SMS, uploads, audit logs, Sentry tags
-- `pnpm platform:doctor` · `pnpm integrity:stripe` · `pnpm audit:admin` · `node scripts/audit-route-auth-strategy.mjs`
-- **Sentry:** `@sentry/nextjs` + `lib/observability/sentry.ts` (alert on `dead_letter`, `tenant_id`, webhook tags)
 

@@ -22,22 +22,15 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import type { DeliveryModel, FundingType, EnrollmentType } from '@/lib/programs/program-schema';
 
-// ─── Slug normalization ───────────────────────────────────────────────────────
+import { toDbSlug } from '@/lib/programs/slug';
 
-/**
- * Maps canonical slugs used in URLs/code to the actual slug stored in the DB.
- * Only entries that differ are listed — all others pass through unchanged.
- */
-const CANONICAL_TO_DB_SLUG: Record<string, string> = {
-  'peer-recovery-specialist': 'peer-recovery-specialist-jri',
-  cna: 'cna-cert',
-  'cpr-first-aid': 'cpr-cert',
-  business: 'business-startup',
-};
-
-export function toDbSlug(canonicalSlug: string): string {
-  return CANONICAL_TO_DB_SLUG[canonicalSlug] ?? canonicalSlug;
-}
+export {
+  CANONICAL_TO_DB_SLUG,
+  toDbSlug,
+  toCanonicalSlug,
+  resolveCanonicalSlug,
+  slugLookupVariants,
+} from '@/lib/programs/slug';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

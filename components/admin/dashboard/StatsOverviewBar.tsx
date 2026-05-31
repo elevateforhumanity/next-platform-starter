@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Users, BookOpen, DollarSign, BadgeCheck, FileText, TrendingUp } from 'lucide-react';
 import type { AdminDashboardData } from './types';
+import { formatCentsCompact } from '@/lib/admin/dashboard/format-metrics';
 
 interface Props {
   data: AdminDashboardData;
@@ -67,7 +68,6 @@ export function StatsOverviewBar({ data }: Props) {
           href="/admin/students?status=active"
         />
         <StatCard
-          themeIndex={2}
           icon={<DollarSign className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Revenue (Month)"
           value={fmt(counts.revenueThisMonthCents)}

@@ -93,7 +93,9 @@ export async function getProgramsByCategory(category: string): Promise<Program[]
         'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
         'published, is_active, status, featured, display_order',
     )
+    .eq('published', true)
     .eq('is_active', true)
+    .neq('status', 'archived')
     .ilike('category', `%${category}%`)
     .order('display_order', { ascending: true, nullsFirst: false })
     .order('title', { ascending: true });
