@@ -839,11 +839,11 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ### Public program catalog (canonical)
 
-- **Read path:** `lib/programs/load-program-catalog.ts` — queries live `programs` (`published`, `is_active`, `status != archived`).
-- **Do not** select legacy `program_catalog_index` columns (`program_id`, `wioa_eligible`, `search_vector`, `provider_slug`) — the live object is a VIEW with `id`, `wioa_approved`, `credential_name`, etc.
-- **Credential display:** use `credential_name ?? credential_type` (`resolveCredentialLabel` in `lib/programs/category-normalize.ts`).
-- **WIOA flag:** `wioa_approved` (not `wioa_eligible`) on `programs`.
-- **Static content:** `data/programs/*.ts` is for rich detail pages only; public counts/listings come from DB.
+- **Read path:** `lib/programs/load-program-catalog.ts` — queries `programs` where `published`, `is_active`, and `status != archived`.
+- **Static registry:** `lib/programs/static-registry.ts` (`ALL_PROGRAMS`); `data/programs/catalog.ts` re-exports for legacy imports. Detail slugs: `data/programs/index.ts` (`STATIC_PROGRAM_MAP`).
+- **Slugs:** `lib/programs/slug.ts` — `toDbSlug`, `resolveCanonicalSlug`, `SLUG_ALIASES`.
+- **Production:** Apply `supabase/migrations/20260705000011_program_catalog_unify.sql` in Supabase SQL Editor, then `pnpm catalog:sync` (upserts programs + `program_credentials` from static `credentials[]`).
+- **Columns:** `wioa_approved` on `programs`; `credential_name` preferred over `credential_type` for display.
 
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
