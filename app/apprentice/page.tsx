@@ -145,12 +145,12 @@ export default async function ApprenticePortalPage() {
               <p className="text-red-700 text-sm mt-1">
                 You don&apos;t have automatic weekly payments set up. Your down payment credit will cover your weekly payments, but you need a card on file before it runs out.
               </p>
-              <a
-                href="https://billing.stripe.com/p/session/live_YWNjdF8xT0tTVnlINGEyeXJWT3Q1LF9VWHRLRWVrSng2VjdNSEpCaFF1TFUwRnd4azJWa0d20100dmjZ1uiI"
+              <Link
+                href="/apprentice/billing"
                 className="inline-flex items-center gap-2 mt-3 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition"
               >
                 <CreditCard className="w-4 h-4" /> Add Payment Method
-              </a>
+              </Link>
             </div>
           </div>
         )}
