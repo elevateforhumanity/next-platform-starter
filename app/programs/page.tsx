@@ -1,18 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import type { Metadata } from 'next';
-import { createPublicClient } from '@/lib/supabase/public';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  buildProgramsListingMetadata,
+  getPublicProgramsPageData,
+  resolvePublicProgramCount,
+  type ProgramsPageRow,
+} from '@/lib/programs/public-programs-page';
 
-export const revalidate = 0; // always fresh — catalog must reflect DB state on every request
+export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: `Programs | ${PLATFORM_DEFAULTS.orgName}`,
-  description:
-    'Credential-bearing programs in healthcare, skilled trades, technology, beauty, and business. WIOA and Workforce Ready Grant funding available.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs' },
-};
+export async function generateMetadata() {
+  return buildProgramsListingMetadata();
+}
 
 const PROGRAM_IMAGES: Record<string, string> = {
   cna:'/images/pages/cna-nursing-real.webp',qma:'/images/pages/programs-cna-hero.webp',
@@ -94,38 +95,11 @@ const CATEGORY_META: Record<string,{label:string;color:string;order:number}> = {
   special:          {label:'Workforce Readiness',  color:'bg-slate-600',   order:9},
 };
 
-const SUPPRESSED = new Set([
-  'cna-training','hvac','hvac-technician-program','hvac-2024','medical-assistant-program',
-  'phlebotomy-technician','phlebotomy-technician-program','barber','barber-program',
-  'cosmetology','nail-technician','cpr-cert','health-safety','forklift-operator','tax-prep',
-  'it-support','it-support-specialist','cybersecurity','bookkeeping-fundamentals',
-  'entrepreneurship-small-business','peer-recovery-specialist-jri',
-  'ai-advanced-project-management-1774494313718','ai-forklift-safety-certification-1774495387731',
-  'jri-badge-1-mindsets','jri-badge-2-self-management','jri-badge-3-learning-strategies',
-  'jri-badge-4-social-skills','jri-badge-5-workplace-skills','jri-badge-6-launch-a-career',
-  'jri-introduction','jri','micro-programs','emergency-health-safety','nha-medical-assistant',
-]);
-
-type Prog = {slug:string;title:string;description:string|null;category:string;duration:string|null;credential:string|null;funding_eligible:boolean};
-
 export default async function ProgramsPage() {
-  const db = createPublicClient();
-  let programs: Prog[] = [];
+  const { programs } = await getPublicProgramsPageData();
+  const displayCount = resolvePublicProgramCount(programs.length);
 
-  {
-    const {data} = await db.from('programs')
-      .select('slug,title,short_description,description,category,duration,credential_type,wioa_eligible')
-      .eq('is_active',true).eq('published',true).neq('status','archived').order('title');
-    if (data?.length) {
-      programs = data.filter(p=>!SUPPRESSED.has(p.slug)).map(p=>{
-        let desc:string|null = p.short_description||p.description||null;
-        if(desc&&!/[.!?]$/.test(desc.trim())){const l=Math.max(desc.lastIndexOf('.'),desc.lastIndexOf('!'),desc.lastIndexOf('?'));desc=l>20?desc.slice(0,l+1):null;}
-        return {slug:p.slug,title:p.title,description:desc,category:p.category||'other',duration:p.duration??null,credential:p.credential_type??null,funding_eligible:p.wioa_eligible??false};
-      });
-    }
-  }
-
-  const grouped:Record<string,Prog[]>={};
+  const grouped: Record<string, ProgramsPageRow[]> = {};
   programs.forEach(p=>{if(!grouped[p.category])grouped[p.category]=[];grouped[p.category].push(p);});
   const cats=Object.keys(grouped).sort((a,b)=>(CATEGORY_META[a]?.order??99)-(CATEGORY_META[b]?.order??99));
 
@@ -135,13 +109,13 @@ export default async function ProgramsPage() {
       {/* Hero */}
       <section className="relative h-64 sm:h-80 w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt="{PLATFORM_DEFAULTS.orgName} programs" fill className="object-cover object-center" priority placeholder="empty" />
+        <Image sizes="100vw" src="/images/programs-hero-vibrant.webp" alt={`${PLATFORM_DEFAULTS.orgName} programs`} fill className="object-cover object-center" priority placeholder="empty" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 to-brand-blue-900/30" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">{PLATFORM_DEFAULTS.orgName}</p>
           <h1 className="text-3xl sm:text-5xl font-bold text-white leading-tight">Career Training Programs</h1>
           <p className="mt-3 text-slate-200 text-sm sm:text-base max-w-xl">
-            {programs.length} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available
+            {displayCount} credential-bearing programs · 4–12 weeks · WIOA &amp; WRG funding available
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href="/orientation/schedule" className="inline-flex items-center gap-2 rounded-lg bg-brand-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-700 transition-colors">
