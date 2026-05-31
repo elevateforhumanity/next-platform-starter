@@ -495,11 +495,6 @@ function ProgramPage({
 export default async function ProgramDetailPage({ params }: { params: Promise<{ program: string }> }) {
   const { program } = await params;
 
-  const legacyDestination = legacyAliasLookup.get(`/programs/${program}`);
-  if (legacyDestination) {
-    redirect(legacyDestination);
-  }
-
   // Static ProgramSchema — richest renderer, always preferred when available.
   // Overlay DB title/description if the program also exists in the DB.
   const sp = getStaticProgram(program);
@@ -537,6 +532,14 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
           }}
         />
         <ProgramDetailPageComponent program={mergedProgram} banner={banner} />
+        {LIVE_JOBS_PROGRAM_SLUGS.has(program) ? (
+          <LiveJobPostings
+            programSlug={program}
+            heading={`Hiring for ${mergedProgram.title} graduates`}
+            limit={6}
+            className="bg-slate-50 border-t border-slate-100"
+          />
+        ) : null}
         <OnetLaborData slug={program} />
       </>
     );
