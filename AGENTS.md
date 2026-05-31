@@ -854,12 +854,10 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
 
-### Platform hardening audits
+### Platform hardening / security audits
 
-- `pnpm platform:doctor` — design, images, ESLint subset, unit tests; report in `artifacts/platform-doctor-report.json`
-- `pnpm integrity:stripe` + Vitest `tests/unit/stripe-*.test.ts` — Stripe client + webhook signature coverage
-- `pnpm images:contract` — next/image and placeholder rules (`artifacts/image-contract-report.json`)
-- `python3 scripts/admin-route-inventory.py` — requires `scripts/live-schema-snapshot.json`; output `scripts/admin-route-inventory.json`
-- Latest consolidated report: `docs/platform-hardening-audit-2026-05-31.md`
-- **Sentry is not integrated** in this repo; use CloudWatch/logs + `audit_logs` until SDK is added
+- `docs/platform-hardening-audit-2026-05-31.md` — Stripe/BNPL, images, admin route buckets, migrations
+- `docs/platform-security-operations-audit-2026-05-31.md` — tenant domains, cache, cron, email/SMS, uploads, audit logs, Sentry tags
+- `pnpm platform:doctor` · `pnpm integrity:stripe` · `pnpm audit:admin` · `node scripts/audit-route-auth-strategy.mjs`
+- **Sentry:** `@sentry/nextjs` + `lib/observability/sentry.ts` (alert on `dead_letter`, `tenant_id`, webhook tags)
 
