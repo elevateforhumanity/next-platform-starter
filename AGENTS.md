@@ -854,5 +854,5 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
 
-**Dev Studio live preview** (`/api/admin/devstudio/config`, `lib/devstudio/preview-config.ts`): On the admin ECS task, `NEXT_PUBLIC_SITE_URL` is the admin hostname — public preview URLs must use `NEXT_PUBLIC_PUBLIC_SITE_URL`. Default iframe URL on `admin.*` is the admin dashboard; public pages are in the preview target dropdown. LMS `next.config.mjs` allows `frame-ancestors` from `NEXT_PUBLIC_ADMIN_URL` so the admin iframe can load www pages.
+**Dev Studio Runtime** (ECS `elevate-studio`, env prefix `STUDIO_SHELL_*`) is the AWS worker that clones the repo and runs `pnpm install` for terminal/git commands. User-facing name is **not** "shell". Completion checklist: `GET /api/devstudio/health` → `studioRuntime.steps`. Finish order: admin SSM wiring → start `elevate-studio` → `GITHUB_TOKEN` on runtime task → wait for `/health` `ready: true` → AI keys in Secrets.
 

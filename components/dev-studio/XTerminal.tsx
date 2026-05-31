@@ -191,7 +191,7 @@ export default function XTerminal({ onConnect, onDisconnect, onOutput, onReady }
   if (status === 'disconnected') {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-[#0d1117] text-slate-400 gap-3 p-8">
-        <p className="text-sm font-mono">Shell disconnected.</p>
+        <p className="text-sm font-mono">Runtime terminal disconnected.</p>
         <button
           onClick={connect}
           className="text-xs px-3 py-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"

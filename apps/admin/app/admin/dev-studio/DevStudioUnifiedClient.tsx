@@ -191,7 +191,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
 
       <div className="flex min-h-0 flex-1">
         <aside className="hidden w-48 shrink-0 flex-col border-r border-[#3c3c3c] bg-[#252526] p-2 md:flex">
-          <div className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Environments</div>
+          <div className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Workspaces</div>
           <div className="space-y-1">
             {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => {
               const active = workspace === id;
@@ -717,27 +717,11 @@ function EnvironmentPanel() {
 }
 
 function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | null; onRefresh: () => void }) {
-  const shell = health?.shell as {
-    configured?: boolean;
-    ready?: boolean;
-    probe?: { status?: string; setupStatus?: string; reachable?: boolean };
-  } | undefined;
-
   const rows = [
-    ['AI (any provider)', health?.aiConfigured ? 'configured' : 'missing — add keys in Secrets'],
     ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
     ['Gemini', health?.hasGemini ? 'configured' : 'missing'],
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
-    ['Anthropic', health?.hasAnthropic ? 'configured' : 'missing'],
-    [
-      'Studio shell (ECS)',
-      shell?.ready
-        ? 'ready'
-        : shell?.configured
-          ? `not ready${shell?.probe?.setupStatus ? ` · ${shell.probe.setupStatus}` : ''}`
-          : 'STUDIO_SHELL_* env missing on admin task',
-    ],
     ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
     ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
     ['Node', String(health?.nodeVersion ?? 'unknown')],

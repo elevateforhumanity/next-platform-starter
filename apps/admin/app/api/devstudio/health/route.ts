@@ -1,9 +1,7 @@
 /**
  * GET /api/devstudio/health
  *
- * Safe diagnostics for Dev Studio - returns boolean flags only, never secret values.
- * Admin-only. Use this to confirm which providers are visible to the admin container
- * and whether the studio shell is actually reachable and repo-ready.
+ * Safe diagnostics for Dev Studio — boolean flags only, never secret values.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -15,6 +13,7 @@ import { isOpenAIConfigured } from '@/lib/ai/openai-client';
 import { isAnthropicConfigured } from '@/lib/ai/anthropic-client';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { probeStudioShell } from '@/lib/devstudio/shell-probe';
+import { buildStudioRuntimeCompletion } from '@/lib/devstudio/studio-runtime';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,10 +22,13 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  await refreshSecrets().catch(() => {});
+  await hydrateProcessEnv().catch(() => {});
 
-  let dbGroq = false, dbGemini = false, dbOpenAI = false,
-      dbAnthropic = false, dbGitHub = false;
+  let dbGroq = false;
+  let dbGemini = false;
+  let dbOpenAI = false;
+  let dbAnthropic = false;
+  let dbGitHub = false;
   try {
     const db = await requireAdminClient();
     const { data } = await db
@@ -42,32 +44,55 @@ export async function GET(req: NextRequest) {
       if (row.key === 'GITHUB_TOKEN') dbGitHub = set;
     }
   } catch {
-    // non-fatal - fall back to process.env only
+    // non-fatal — fall back to process.env only
   }
 
   const shellWsUrl = process.env.STUDIO_SHELL_WS_URL ?? '';
   const shellSecret = process.env.STUDIO_SHELL_SECRET ?? '';
   const tokenSecret = process.env.STUDIO_TOKEN_SECRET ?? '';
   const shellWsPublic = process.env.STUDIO_SHELL_WS_URL_PUBLIC ?? '';
-  const shellProbe = await probeShell(shellWsUrl);
+  const shellProbe = await probeStudioShell(shellWsUrl);
 
+  const adminConfigured = !!(shellWsUrl && shellSecret && tokenSecret);
   const shell = {
     STUDIO_SHELL_WS_URL: shellWsUrl ? 'configured' : 'MISSING',
     STUDIO_SHELL_SECRET: shellSecret ? 'configured' : 'MISSING',
     STUDIO_TOKEN_SECRET: tokenSecret ? 'configured' : 'MISSING',
     STUDIO_SHELL_WS_URL_PUBLIC: shellWsPublic ? 'configured' : 'MISSING',
-    configured: !!(shellWsUrl && shellSecret && tokenSecret),
-    ready: !!(shellWsUrl && shellSecret && tokenSecret && shellProbe.ready),
+    configured: adminConfigured,
+    ready: adminConfigured && shellProbe.ready,
     probe: shellProbe,
   };
 
+  const hasGroq = isGroqConfigured() || dbGroq;
+  const hasGemini = isGeminiConfigured() || dbGemini;
+  const hasOpenAI = isOpenAIConfigured() || dbOpenAI;
+  const hasAnthropic = isAnthropicConfigured() || dbAnthropic;
+  const hasGitHub = !!process.env.GITHUB_TOKEN || dbGitHub;
+  const aiConfigured = hasGroq || hasGemini || hasOpenAI || hasAnthropic;
+
+  const studioRuntime = buildStudioRuntimeCompletion({
+    adminConfigured,
+    probe: shellProbe,
+    hasGitHubToken: hasGitHub,
+    aiConfigured,
+  });
+
   return NextResponse.json({
-    hasGroq: isGroqConfigured() || dbGroq,
-    hasGemini: isGeminiConfigured() || dbGemini,
-    hasOpenAI: !!process.env.OPENAI_API_KEY || dbOpenAI,
-    hasAnthropic: !!process.env.ANTHROPIC_API_KEY || dbAnthropic,
-    hasGitHub: !!process.env.GITHUB_TOKEN || dbGitHub,
+    hasGroq,
+    hasGemini,
+    hasOpenAI,
+    hasAnthropic,
+    hasGitHub,
+    aiConfigured,
+    availableProviders: {
+      groq: hasGroq,
+      gemini: hasGemini,
+      openai: hasOpenAI,
+      anthropic: hasAnthropic,
+    },
     shell,
+    studioRuntime,
     runtime: 'nodejs',
     service: 'admin',
     nodeEnv: process.env.NODE_ENV ?? 'unknown',

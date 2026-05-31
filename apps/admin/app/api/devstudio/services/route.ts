@@ -127,6 +127,7 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const hasAws = !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
+  const studioShellProbe = await probeStudioShell(process.env.STUDIO_SHELL_WS_URL ?? '');
 
   // Fetch ECS status + health checks in parallel
   const [ecsData, ...healthResults] = await Promise.allSettled([
@@ -163,19 +164,7 @@ export async function GET(request: NextRequest) {
     const health = healthResults[i].status === 'fulfilled' ? healthResults[i].value : null;
 
     const running = ecs ? ecs.runningCount > 0 : null;
-    let healthy: boolean | null = health ? (health as { ok: boolean }).ok : null;
-    let shellSetupStatus: string | undefined;
-
-    if (cfg.key === 'studio') {
-      shellSetupStatus = studioShellProbe.setupStatus;
-      if (running) {
-        healthy = studioShellProbe.ready;
-      } else if (running === false) {
-        healthy = false;
-      } else {
-        healthy = null;
-      }
-    }
+    const healthy = health ? (health as { ok: boolean }).ok : null;
 
     return {
       key: cfg.key,
@@ -184,11 +173,9 @@ export async function GET(request: NextRequest) {
       url: cfg.url,
       color: cfg.color,
       ecs,
-      health: cfg.key === 'studio' ? null : health,
+      health,
       running,
       healthy,
-      shellProbe: cfg.key === 'studio' ? studioShellProbe : undefined,
-      shellSetupStatus,
       hasAws,
     };
   });

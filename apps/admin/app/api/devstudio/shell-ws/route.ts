@@ -42,7 +42,10 @@ export async function GET(request: NextRequest) {
 
   if (!SHELL_WS_URL) {
     return new Response(
-      JSON.stringify({ error: 'Studio shell not configured. Set STUDIO_SHELL_WS_URL in Admin → Integrations.' }),
+      JSON.stringify({
+        error:
+          'Dev Studio Runtime not configured. Set STUDIO_SHELL_WS_URL on the admin ECS task (SSM), deploy elevate-studio, then open Dev Studio → Health.',
+      }),
       { status: 503, headers: { 'Content-Type': 'application/json' } },
     );
   }
