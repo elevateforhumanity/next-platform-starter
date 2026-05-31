@@ -20,7 +20,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { createHmac, createHash } from 'crypto';
-import { resolveAdminSiteUrl, resolvePublicSiteUrl } from '@/lib/devstudio/preview-config';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -158,12 +158,46 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const services = SERVICES_CONFIG.map((cfg, i) => {
+  const shellProbe = studioShell.status === 'fulfilled' ? studioShell.value : null;
+
+  const services = SERVICES_CONFIG.map((cfg) => {
     const ecs = ecsServices[cfg.ecsService] ?? null;
-    const health = healthResults[i].status === 'fulfilled' ? healthResults[i].value : null;
+
+    let health: { ok: boolean; latencyMs: number; status: number | null } | null = null;
+    let shell: {
+      reachable: boolean;
+      ready: boolean;
+      setupStatus?: string;
+      status: string;
+    } | null = null;
+
+    if (cfg.key === 'lms' && lmsHealth.status === 'fulfilled') {
+      health = lmsHealth.value;
+    } else if (cfg.key === 'admin' && adminHealth.status === 'fulfilled') {
+      health = adminHealth.value;
+    } else if (cfg.key === 'studio' && shellProbe) {
+      shell = {
+        reachable: shellProbe.reachable,
+        ready: shellProbe.ready,
+        setupStatus: shellProbe.setupStatus,
+        status: shellProbe.status,
+      };
+      health = {
+        ok: shellProbe.ready,
+        latencyMs: 0,
+        status: shellProbe.ready ? 200 : shellProbe.reachable ? 503 : null,
+      };
+    }
 
     const running = ecs ? ecs.runningCount > 0 : null;
-    const healthy = health ? (health as { ok: boolean }).ok : null;
+    const healthy = health === null ? null : health.ok;
+
+    let reason: string | undefined;
+    if (cfg.key === 'studio' && running && shell && !shell.ready) {
+      reason = shell.reachable
+        ? `Initializing: ${shell.setupStatus ?? shell.status} (Terminal/Run needs repo ready — can take 3–5 min after restart)`
+        : 'Admin cannot reach studio-shell — verify STUDIO_SHELL_WS_URL in SSM and security groups';
+    }
 
     return {
       key: cfg.key,
@@ -173,9 +207,11 @@ export async function GET(request: NextRequest) {
       color: cfg.color,
       ecs,
       health,
+      shell,
       running,
       healthy,
       hasAws,
+      reason,
     };
   });
 

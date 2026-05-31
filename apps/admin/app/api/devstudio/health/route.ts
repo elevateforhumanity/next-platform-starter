@@ -7,8 +7,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { access } from 'fs/promises';
-import path from 'path';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { refreshSecrets } from '@/lib/secrets';
 import { isGroqConfigured } from '@/lib/groq-client';
@@ -17,29 +15,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-const DEVCONTAINER_REL = '.devcontainer/devcontainer.json';
-
-async function devcontainerJsonExists(): Promise<boolean> {
-  const candidates = [
-    process.env.ELEVATE_REPO_ROOT?.trim(),
-    process.cwd(),
-    path.resolve(process.cwd(), '..', '..'),
-    '/workspace',
-  ]
-    .filter(Boolean)
-    .map((root) => path.resolve(root as string, DEVCONTAINER_REL));
-
-  for (const candidate of candidates) {
-    try {
-      await access(candidate);
-      return true;
-    } catch {
-      // try next path
-    }
-  }
-  return false;
-}
 
 type ShellProbe = {
   reachable: boolean;
@@ -106,23 +81,14 @@ export async function GET(req: NextRequest) {
 
   await refreshSecrets().catch(() => {});
 
-  let dbGroq = false,
-    dbGemini = false,
-    dbOpenAI = false,
-    dbAnthropic = false,
-    dbGitHub = false;
+  let dbGroq = false, dbGemini = false, dbOpenAI = false,
+      dbAnthropic = false, dbGitHub = false;
   try {
     const db = await requireAdminClient();
     const { data } = await db
       .from('platform_secrets')
       .select('key, value_enc')
-      .in('key', [
-        'GROQ_API_KEY',
-        'GEMINI_API_KEY',
-        'OPENAI_API_KEY',
-        'ANTHROPIC_API_KEY',
-        'GITHUB_TOKEN',
-      ]);
+      .in('key', ['GROQ_API_KEY', 'GEMINI_API_KEY', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GITHUB_TOKEN']);
     for (const row of data ?? []) {
       const set = !!(row.value_enc && row.value_enc.length > 10);
       if (row.key === 'GROQ_API_KEY') dbGroq = set;
@@ -139,12 +105,7 @@ export async function GET(req: NextRequest) {
   const shellSecret = process.env.STUDIO_SHELL_SECRET ?? '';
   const tokenSecret = process.env.STUDIO_TOKEN_SECRET ?? '';
   const shellWsPublic = process.env.STUDIO_SHELL_WS_URL_PUBLIC ?? '';
-  const shellProbe = await probeShell(shellWsUrl);
-  const devcontainerJsonFound = await devcontainerJsonExists();
-  const devcontainerMode = process.env.ELEVATE_DEVINT_CONTAINER === 'true';
-  const devcontainerStudioMode = (
-    process.env.DEVSTUDIO_DEVCONTAINER_MODE ?? 'auto'
-  ).toLowerCase();
+  const shellProbe = await probeStudioShell(shellWsUrl);
 
   const shell = {
     STUDIO_SHELL_WS_URL: shellWsUrl ? 'configured' : 'MISSING',
@@ -162,19 +123,9 @@ export async function GET(req: NextRequest) {
     hasOpenAI: !!process.env.OPENAI_API_KEY || dbOpenAI,
     hasAnthropic: !!process.env.ANTHROPIC_API_KEY || dbAnthropic,
     hasGitHub: !!process.env.GITHUB_TOKEN || dbGitHub,
-    devcontainerMode,
-    devcontainerJsonFound,
-    devcontainerStudioMode,
-    githubTokenPresent: !!process.env.GITHUB_TOKEN || dbGitHub,
-    supabaseUrlPresent: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
-    supabaseServiceKeyPresent: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    stripeKeyPresent: Boolean(process.env.STRIPE_SECRET_KEY),
-    openaiKeyPresent: !!process.env.OPENAI_API_KEY || dbOpenAI,
-    nodeVersion: process.version,
     shell,
     runtime: 'nodejs',
     service: 'admin',
     nodeEnv: process.env.NODE_ENV ?? 'unknown',
-    timestamp: new Date().toISOString(),
   });
 }

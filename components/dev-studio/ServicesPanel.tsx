@@ -42,6 +42,7 @@ interface Service {
   healthy: boolean | null;
   hasAws: boolean;
   reason?: string;
+  shell?: StudioShellInfo | null;
 }
 
 interface ServicesData {
