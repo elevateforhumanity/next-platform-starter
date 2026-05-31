@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import heroBanners from '@/content/heroBanners';
 import {
   Shield,
   GraduationCap,
@@ -136,12 +137,12 @@ export default function ApprenticeshipStructurePage() {
         <HeroVideo
           videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4"
           posterImage="/images/pages/apprenticeship-structure.webp"
-          microLabel="DOL Registered Apprenticeship"
-          belowHeroHeadline="We're registered with the U.S. Department of Labor."
-          belowHeroSubheadline="That means your training hours count toward a federally recognized credential — and employers know it. Every program we run meets DOL standards for wages, hours, and outcomes."
+          microLabel="Compliance"
+          belowHeroHeadline="Apprenticeship & RTI Structure"
+          belowHeroSubheadline="Master operating structure for apprenticeship hierarchy, instructional authority, mapped training hours, and credential accountability."
           ctas={[
-            { label: 'See Our Programs', href: '/programs' },
-            { label: 'Check Eligibility', href: '/eligibility', variant: 'secondary' },
+            { label: 'Instructional Framework', href: '/instructional-framework' },
+            { label: 'Partnership Packet', href: '/compliance/workforce-partnership-packet', variant: 'secondary' },
           ]}
           analyticsName="Apprenticeship Structure"
         />
