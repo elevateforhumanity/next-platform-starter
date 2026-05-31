@@ -5,11 +5,14 @@ import type { SitePreviewTarget } from './types';
 
 const SitePreviewPanel = dynamic(
   () => import('./SitePreviewPanel').then(m => m.SitePreviewPanel),
-  { ssr: false, loading: () => (
-    <div className="bg-white border border-slate-200 rounded-xl h-[580px] flex items-center justify-center text-slate-400 text-sm">
-      Loading preview…
-    </div>
-  )}
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[420px] items-center justify-center rounded-2xl border border-slate-200 bg-gradient-to-br from-brand-blue-50 to-brand-orange-50 text-sm text-slate-500">
+        Loading preview…
+      </div>
+    ),
+  }
 );
 
 export default function SitePreviewPanelWrapper({ sites }: { sites: SitePreviewTarget[] }) {

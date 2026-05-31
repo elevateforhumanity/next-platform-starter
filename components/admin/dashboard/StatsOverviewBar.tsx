@@ -67,6 +67,7 @@ export function StatsOverviewBar({ data }: Props) {
           href="/admin/students?status=active"
         />
         <StatCard
+          themeIndex={2}
           icon={<DollarSign className="w-3.5 h-3.5" aria-hidden="true" />}
           label="Revenue (Month)"
           value={fmt(counts.revenueThisMonthCents)}

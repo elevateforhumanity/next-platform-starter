@@ -324,7 +324,7 @@ function ReviewQueues({ data }: { data: AdminDashboardData }) {
     { label: "Lab submissions awaiting sign-off", count: data.pendingSubmissions.length, context: data.pendingSubmissions.length > 0 ? "Instructor action required" : "Queue is clear", href: "/admin/submissions", urgent: data.pendingSubmissions.length > 0 },
     { label: "Program holders awaiting approval", count: data.counts.pendingProgramHolders, context: data.counts.pendingProgramHolders > 0 ? "Partner applications need review" : "Queue is clear", href: "/admin/program-holders", urgent: data.counts.pendingProgramHolders > 0 },
     { label: "Program holder documents pending", count: data.counts.pendingDocuments, context: data.counts.pendingDocuments > 0 ? "Documents submitted, awaiting review" : "Queue is clear", href: "/admin/program-holder-documents", urgent: data.counts.pendingDocuments > 0 },
-    { label: "Certificates issued", count: data.counts.certificatesIssued, context: "Total credentials issued on platform", href: "/admin/certificates", urgent: false },
+    { label: "Certificates to issue", count: data.counts.certificatesIssued, context: "Completed learners awaiting credential", href: "/admin/certificates", urgent: false },
   ];
   return (
     <div className="rounded-xl border border-slate-200 bg-white mb-6">
@@ -452,7 +452,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
+      <div className="relative mb-6 h-40 w-full overflow-hidden rounded-2xl sm:h-56">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
@@ -461,7 +461,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/40 via-transparent to-brand-red-900/30" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white via-white/80 to-transparent" />
       </div>
 
       <div className="pt-2">

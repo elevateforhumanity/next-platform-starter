@@ -72,6 +72,10 @@ const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'
 const GitPanel = dynamic(() => import('@/components/dev-studio/GitPanel'), { ssr: false });
 const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
 const EcsStatusPanel = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'), { ssr: false });
+const ColoredLivePreviewFrame = dynamic(
+  () => import('@/components/admin/dashboard/ColoredLivePreviewFrame').then((m) => m.ColoredLivePreviewFrame),
+  { ssr: false },
+);
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
@@ -303,70 +307,12 @@ export default function DevStudioControlPlaneClient({ isSuperAdmin = false }: { 
               ))}
           </main>
 
-          <section className="hidden w-[min(42vw,520px)] shrink-0 flex-col border-l border-slate-200 bg-white lg:flex">
-            <div className="flex h-11 shrink-0 items-center gap-1.5 border-b border-slate-200 px-2">
-              <button
-                type="button"
-                onClick={() => setLivePreviewUrl(previewUrl)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
-                title="Refresh preview"
-              >
-                <RefreshCw className="h-4 w-4" />
-              </button>
-              <form
-                className="flex min-w-0 flex-1 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setLivePreviewUrl(previewUrl);
-                }}
-              >
-                <Globe className="h-3.5 w-3.5 shrink-0 text-brand-blue-600" />
-                <input
-                  value={previewUrl}
-                  onChange={(event) => setPreviewUrl(event.target.value)}
-                  list="devstudio-preview-targets"
-                  className="h-8 min-w-0 flex-1 bg-transparent text-xs text-slate-800 outline-none"
-                  spellCheck={false}
-                />
-                <datalist id="devstudio-preview-targets">
-                  {(config?.previewTargets ?? []).map((target) => (
-                    <option key={target.url} value={target.url}>
-                      {target.label}
-                    </option>
-                  ))}
-                </datalist>
-              </form>
-              <a
-                href={livePreviewUrl || previewUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
-                title="Open in new tab"
-              >
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </div>
-            {(config?.previewTargets?.length ?? 0) > 0 && (
-              <div className="flex shrink-0 flex-wrap gap-1 border-b border-slate-100 px-2 py-1.5">
-                {config!.previewTargets!.slice(0, 6).map((target) => (
-                  <button
-                    key={target.url}
-                    type="button"
-                    onClick={() => {
-                      setPreviewUrl(target.url);
-                      setLivePreviewUrl(target.url);
-                    }}
-                    className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600 hover:bg-slate-200"
-                  >
-                    {target.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            <iframe
-              title="Site preview"
-              src={livePreviewUrl || previewUrl}
-              className="min-h-0 flex-1 border-0 bg-white"
+          <section className="hidden min-h-0 w-[min(42vw,520px)] shrink-0 p-2 lg:flex lg:flex-col">
+            <ColoredLivePreviewFrame
+              className="h-full min-h-0 flex-1"
+              minHeight={400}
+              targets={(config?.previewTargets ?? []).map((t) => ({ label: t.label, url: t.url }))}
+              defaultUrl={previewUrl}
             />
           </section>
         </div>
