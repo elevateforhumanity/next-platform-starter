@@ -70,9 +70,26 @@ export default async function PartnerDashboardPage() {
     documents_verified: boolean;
   } | null;
 
-  // No partner record — send to the new-partner application form
+  // No partner record — route barber host shop applicants to the correct flow
   if (!partner) {
-    redirect('/partner/onboarding');
+    const { data: bpa } = await db
+      .from('barbershop_partner_applications')
+      .select('status, mou_signed_at')
+      .eq('contact_email', user.email!)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (bpa?.status === 'approved') {
+      if (!bpa.mou_signed_at) {
+        redirect('/partners/barber-host-shop/sign-mou');
+      }
+      redirect('/partners/barber-host-shop/forms');
+    }
+    if (bpa?.status === 'pending' || bpa?.status === 'submitted') {
+      redirect('/partners/barber-host-shop/thank-you');
+    }
+    redirect('/partners/barber-host-shop/apply');
   }
 
   // Not yet approved — hold at onboarding

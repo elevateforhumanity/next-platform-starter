@@ -27,7 +27,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
     b?.primaryCta ?? { label: 'Apply Now', href: '/programs/barber-apprenticeship/apply' },
     b?.secondaryCta ?? {
       label: 'Request Information',
-      href: '/programs/barber-apprenticeship/inquiry',
+      href: '/programs/barber-apprenticeship/request-info',
       variant: 'secondary' as const,
     },
   ];
@@ -252,7 +252,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                 body: p.description,
                 cta: {
                   label: `Pay with ${p.name}`,
-                  href: `/programs/barber-apprenticeship/apply/apprentice?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
+                  href: `/programs/barber-apprenticeship/apply?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
                 },
               })),
             ].map((opt) => (

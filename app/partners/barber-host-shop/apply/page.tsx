@@ -167,6 +167,23 @@ export default function BarbershopPartnerApplyPage() {
       return;
     }
 
+    if (formData.canSuperviseAndVerify !== 'yes') {
+      setError('You must have a licensed supervising barber who can verify apprentice hours.');
+      return;
+    }
+    if (formData.hasGeneralLiability !== 'yes') {
+      setError('General liability insurance is required for partner barbershops.');
+      return;
+    }
+    if (formData.workersCompStatus === 'none') {
+      setError("Workers' compensation coverage or a valid exemption is required.");
+      return;
+    }
+    if (!shopLicenseFile) {
+      setError('Please upload your Indiana barbershop license.');
+      return;
+    }
+
     setLoading(true);
     setError('');
 

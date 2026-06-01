@@ -161,6 +161,47 @@ async function _POST(req: Request) {
       );
     }
 
+    if (body.canSuperviseAndVerify !== 'yes') {
+      return NextResponse.json(
+        {
+          error:
+            'A licensed supervising barber who can verify apprentice hours is required to host apprentices.',
+        },
+        { status: 400 },
+      );
+    }
+
+    if (body.hasGeneralLiability !== 'yes') {
+      return NextResponse.json(
+        { error: 'General liability insurance is required for all partner barbershops.' },
+        { status: 400 },
+      );
+    }
+
+    if (wcStatus === 'none') {
+      return NextResponse.json(
+        {
+          error:
+            "Workers' compensation coverage (or a valid exemption) is required before you can host apprentices.",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!body.signatureData || String(body.signatureData).length < 100) {
+      return NextResponse.json(
+        { error: 'A valid signature is required to submit your application.' },
+        { status: 400 },
+      );
+    }
+
+    if (!body.shopLicenseFileData || !body.shopLicenseFileName) {
+      return NextResponse.json(
+        { error: 'Please upload a copy of your Indiana barbershop license.' },
+        { status: 400 },
+      );
+    }
+
     const supabase = await requireAdminClient();
     if (!supabase) {
       logger.error('Supabase admin client not available');

@@ -633,8 +633,8 @@ const nextConfig = {
       // Partner consolidation
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
 
-      // apply/barber → apprentice enrollment (not partner shop)
-      { source: '/apply/barber', destination: '/programs/barber-apprenticeship/apply/apprentice', permanent: true },
+      // apply/barber → barber host shop apply
+      { source: '/apply/barber', destination: '/partners/barber-host-shop/apply', permanent: true },
 
       // Old barbershop-apprenticeship URLs → barber-host-shop
       { source: '/partners/barbershop-apprenticeship/:path*', destination: '/partners/barber-host-shop/:path*', permanent: true },
@@ -934,6 +934,11 @@ const nextConfig = {
 
       // Program aliases
       { source: '/barber-apprenticeship', destination: '/programs/barber-apprenticeship', permanent: true },
+      {
+        source: '/programs/barber-apprenticeship/inquiry',
+        destination: '/programs/barber-apprenticeship/request-info',
+        permanent: true,
+      },
       { source: '/courses', destination: '/programs', permanent: true },
       { source: '/programs/drug-collector', destination: '/programs/drug-alcohol-specimen-collector', permanent: true },
       { source: '/programs/building-services-technician/apply', destination: '/apply?program=building-services-technician', permanent: true },
