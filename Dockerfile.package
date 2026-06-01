@@ -27,16 +27,17 @@ ENV COMMIT_REF=$COMMIT_REF
 
 WORKDIR /app
 
-# Install sharp for Next.js image optimization (must match runtime arch)
-RUN npm install --os=linux --cpu=x64 sharp@0.33.5 --no-save 2>/dev/null || \
-    npm install sharp@0.33.5 --no-save
-
 # Copy standalone server output produced by `next build` on the host
 COPY .next/standalone ./
 COPY .next/static ./.next/static
 # Copy full server directory to ensure client-reference-manifest files are present
 COPY .next/server ./.next/server
 COPY public ./public
+
+# Remove host-compiled sharp binary — it was built on the CodeBuild host and
+# will not match this container's glibc/arch. Reinstall for linux/x64 here.
+RUN rm -rf /app/node_modules/sharp && \
+    npm install --os=linux --cpu=x64 --libc=glibc sharp@0.33.5 --no-save
 
 # Copy Remotion compositions (needed at render time)
 COPY remotion-src ./remotion-src
