@@ -82,7 +82,7 @@ function StoryCard({ story }: { story: Testimonial }) {
           {story.role && <p className="text-[11px] text-slate-500">{story.role}</p>}
         </div>
         {story.program && (
-          <span className="ml-auto text-[10px] font-semibold text-brand-red-600 bg-brand-red-50 px-2 py-0.5 rounded-full">
+          <span className="ml-auto text-[10px] font-semibold text-red-800 bg-red-50 px-2 py-0.5 rounded-full">
             {story.program}
           </span>
         )}
@@ -130,7 +130,7 @@ export async function HomeOutcomes() {
               <p className="text-slate-300 text-xs font-semibold leading-snug mb-1">
                 {item.label}
               </p>
-              <p className="text-slate-500 text-[10px]">{item.note}</p>
+              <p className="text-slate-400 text-[10px]">{item.note}</p>
             </div>
           ))}
         </div>
@@ -167,12 +167,12 @@ export async function HomeOutcomes() {
           ))}
         </div>
 
-        <p className="mt-8 text-center text-slate-600 text-xs">
+        <p className="mt-8 text-center text-slate-300 text-xs">
           Figures based on internal participant and credential records. Eligibility and outcomes
           vary by program and funding source.{' '}
           <Link
             href="/impact/methodology"
-            className="underline hover:text-slate-400 transition-colors"
+            className="font-semibold text-sky-300 underline hover:text-white transition-colors"
           >
             See methodology
           </Link>
