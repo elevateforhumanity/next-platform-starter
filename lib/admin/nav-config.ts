@@ -50,7 +50,6 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Risk Dashboard', href: '/admin/intelligence' },
       { label: 'Completion Forecast', href: '/admin/intelligence/forecast' },
       { label: 'Dev Studio', href: '/admin/dev-studio' },
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'Automation Log', href: '/admin/dev-studio?tab=automation' },
       { label: 'System Health', href: '/admin/dev-studio?tab=health' },

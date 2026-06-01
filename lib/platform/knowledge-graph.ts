@@ -299,7 +299,7 @@ export const SYSTEMS: SystemNode[] = [
     id: 'ellie',
     name: 'Ellie — AI Ops',
     description: 'Platform AI operator — tool-calling, SSE execution, Q&A, platform state',
-    routes: ['/admin/dev-studio?tab=ellie'],
+    routes: ['/admin/dashboard', '/admin/dev-studio'],
     apis: [
       '/api/devstudio/execute',
       '/api/devstudio/chat',

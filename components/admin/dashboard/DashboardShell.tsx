@@ -93,7 +93,6 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Risk dashboard', href: '/admin/intelligence' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
     ],
   },
   {
@@ -171,11 +170,10 @@ const ADMIN_CATEGORY_CARDS = [
   {
     title: 'Dev Studio',
     eyebrow: 'Automation layer',
-    description: 'Terminal, editor, Ellie AI assistant, workflows, and deploy controls.',
+    description: 'Terminal, editor, live preview + AI, workflows, and deploy controls.',
     href: '/admin/dev-studio',
     Icon: Settings,
     links: [
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'System health', href: '/admin/system-health' },
     ],

@@ -106,7 +106,7 @@ const TOOL_SECTIONS = [
       { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Terminal, editor, live preview, Ellie AI, and deploy controls' },
       { label: 'Automation', href: '/admin/automation', desc: 'Workflow automation rules' },
       { label: 'Workflows', href: '/admin/workflows', desc: 'Automated workflow definitions' },
-      { label: 'Ellie — AI Assistant', href: '/admin/dev-studio?tab=ellie', desc: 'AI Operations Assistant — platform data, compliance, enrollments' },
+      { label: 'Ellie — AI Assistant', href: '/admin/dashboard', desc: 'AI Operations Assistant — platform data, compliance, enrollments' },
       { label: 'Studio', href: '/admin/studio', desc: 'Course Studio — builder, curriculum, video, and AI copilot' },
       { label: 'HVAC AI Instructor', href: '/admin/integrations/gemini', desc: 'Marcus Johnson — Gemini-powered HVAC lesson instructor' },
       { label: 'Sentry Test', href: '/api/sentry-test', desc: 'Dev only — trigger a test error to verify Sentry capture' },

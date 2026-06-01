@@ -462,7 +462,7 @@ export default function MissionControlClient({ snapshot }: { snapshot: Snapshot 
 
             {/* AI providers */}
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-              <SectionHeader title="AI Providers" href="/admin/dev-studio?tab=ellie" icon={Bot} />
+              <SectionHeader title="AI Providers" href="/admin/dashboard" icon={Bot} />
               {aiStatus ? (
                 <div className="space-y-2">
                   {aiStatus.providers?.map((p) => (

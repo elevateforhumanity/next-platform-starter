@@ -166,7 +166,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
     return fallback ? [{ label: 'Preview', url: fallback }] : [];
   }, [config, previewUrl, livePreviewUrl]);
 
-  const unifiedStudio = workspace === 'studio' && studioMode === 'ask';
+  const studioPreviewWorkbench = workspace === 'studio' && studioMode === 'ask';
 
   function openWorkspace(next: Workspace) {
     if (next === 'secrets' && !isSuperAdmin) {
@@ -226,40 +226,13 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col md:flex-row">
-          {unifiedStudio ? (
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <div className="flex h-11 shrink-0 items-center gap-1 border-b border-[#3c3c3c] bg-[#252526] px-2">
-                {(
-                  [
-                    { id: 'ask' as StudioMode, label: 'Ask + Preview', Icon: MessageSquare },
-                    { id: 'run' as StudioMode, label: 'Run', Icon: Sparkles },
-                    { id: 'courses' as StudioMode, label: 'Courses', Icon: BookOpen },
-                  ] as const
-                ).map(({ id, label, Icon }) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setStudioMode(id)}
-                    className="inline-flex h-8 items-center gap-1.5 rounded border px-2.5 text-[11px]"
-                    style={{
-                      borderColor: studioMode === id ? '#0078d4' : '#3c3c3c',
-                      background: studioMode === id ? '#094771' : 'transparent',
-                      color: '#ffffff',
-                    }}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {label}
-                  </button>
-                ))}
-              </div>
-              <div className="min-h-0 flex-1 overflow-hidden p-2">
-                <AdminCommandWorkbench
-                  sites={previewTargets}
-                  defaultPreviewUrl={livePreviewUrl || previewUrl}
-                  variant="dark"
-                  className="h-full min-h-0"
-                />
-              </div>
+          {studioPreviewWorkbench ? (
+            <div className="min-h-0 min-w-0 flex-1 overflow-hidden p-2">
+              <AdminCommandWorkbench
+                sites={previewTargets}
+                defaultPreviewUrl={livePreviewUrl || previewUrl}
+                className="h-full min-h-0"
+              />
             </div>
           ) : (
           <>
