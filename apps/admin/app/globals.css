@@ -1711,6 +1711,17 @@ header[role='banner'] {
   background-color: #ffffff !important;
 }
 
+header[role='banner'] > div {
+  display: grid !important;
+  flex-direction: row !important;
+}
+
+header[role='banner'] nav[aria-label='Main navigation'] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+}
+
 header[role='banner'] > div,
 header[role='banner'] a,
 header[role='banner'] span,

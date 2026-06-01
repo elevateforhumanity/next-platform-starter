@@ -11,7 +11,7 @@ function getCurrentLocale(): Locale {
   return val && locales.includes(val) ? val : defaultLocale;
 }
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<Locale>(defaultLocale);
   const ref = useRef<HTMLDivElement>(null);

@@ -98,12 +98,6 @@ body {
   display: none !important;
 }
 
-@media (min-width: 1280px) {
-  .header-mobile-menu {
-    display: none !important;
-  }
-}
-
 /* ============================================================================
    BASE STYLES - Reset, Typography, Layout
    ============================================================================ */
@@ -1716,6 +1710,17 @@ header[role='banner'] {
   filter: none !important;
   backdrop-filter: none !important;
   background-color: #ffffff !important;
+}
+
+header[role='banner'] > div {
+  display: grid !important;
+  flex-direction: row !important;
+}
+
+header[role='banner'] nav[aria-label='Main navigation'] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
 }
 
 header[role='banner'] > div,
