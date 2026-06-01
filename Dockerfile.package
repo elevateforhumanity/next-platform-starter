@@ -34,11 +34,6 @@ COPY .next/static ./.next/static
 COPY .next/server ./.next/server
 COPY public ./public
 
-# Remove host-compiled sharp binary — it was built on the CodeBuild host and
-# will not match this container's glibc/arch. Reinstall for linux/x64 here.
-RUN rm -rf /app/node_modules/sharp && \
-    npm install --os=linux --cpu=x64 --libc=glibc sharp@0.33.5 --no-save
-
 # Copy Remotion compositions (needed at render time)
 COPY remotion-src ./remotion-src
 

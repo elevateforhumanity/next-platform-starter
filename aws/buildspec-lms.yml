@@ -79,6 +79,11 @@ phases:
   build:
     commands:
       - echo Installing dependencies...
+      # Force sharp to install the linux/x64/glibc native binary so it matches
+      # the node:20-bookworm-slim runtime container, not the CodeBuild host.
+      - export npm_config_platform=linux
+      - export npm_config_arch=x64
+      - export npm_config_libc=glibc
       - pnpm install --frozen-lockfile
       - echo Clearing stale build artifacts...
       - rm -rf .next
