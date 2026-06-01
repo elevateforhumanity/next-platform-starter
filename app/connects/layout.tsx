@@ -8,11 +8,10 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateconnects.org' },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
       { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon.png',
   },
 };
 
