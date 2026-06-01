@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: './tests/e2e',
   // Browser E2E only. Node/DB integration tests run via dedicated scripts.
   testMatch: ['**/*.spec.ts'],
-  testIgnore: ['**/unit/**'],
+  testIgnore: ['**/unit/**', '**/live-smoke.spec.ts'],
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
