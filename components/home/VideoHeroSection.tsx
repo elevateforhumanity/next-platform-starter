@@ -54,7 +54,7 @@ export default function VideoHeroSection() {
   }, [isPlaying]);
 
   return (
-    <section className="relative w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-end bg-slate-900 overflow-hidden">
+    <section className="relative w-full min-h-[320px] sm:min-h-[400px] lg:min-h-[520px] flex items-end bg-slate-900 overflow-hidden">
       {/* Fallback Image - always present for mobile */}
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
       <Image sizes="100vw"

@@ -23,7 +23,7 @@ interface HeaderDesktopNavProps {
 
 export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
   return (
-    <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 2xl:gap-2" aria-label="Main navigation">
+    <nav className="hidden xl:flex items-center gap-1 2xl:gap-2" aria-label="Main navigation">
       {items.map((item) => (
         <div key={item.name} className="relative group">
           {item.subItems && item.subItems.length > 0 ? (
@@ -100,9 +100,9 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
 
                   // Multi-column horizontal layout
                   return (
-                    <div className="flex gap-6 divide-x divide-slate-100">
+                    <div className="flex gap-5">
                       {columns.map((col, ci) => (
-                        <div key={ci} className={`flex flex-col min-w-[160px] ${ci > 0 ? 'pl-6' : ''}`}>
+                        <div key={ci} className="flex flex-col min-w-[160px]">
                           {col.map((sub) =>
                             sub.isHeader ? (
                               <p key={sub.name} className="text-xs font-extrabold text-brand-red-600 uppercase tracking-wide px-1 pb-2">

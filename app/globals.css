@@ -98,6 +98,12 @@ body {
   display: none !important;
 }
 
+@media (min-width: 1280px) {
+  .header-mobile-menu {
+    display: none !important;
+  }
+}
+
 /* ============================================================================
    BASE STYLES - Reset, Typography, Layout
    ============================================================================ */

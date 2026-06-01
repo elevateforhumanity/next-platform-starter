@@ -195,7 +195,7 @@ export default function HeroVideo({
   return (
     <div ref={wrapperRef} className={`w-full ${className}`}>
       {/* VIDEO FRAME */}
-      {/* Height: 56vw clamped between 400px and 780px */}
+      {/* Height is intentionally restrained so the first viewport includes the message below the video. */}
       {/* posterImage is set as CSS backgroundImage so the poster renders from
           SSR immediately — no bg-slate-900 dark flash before client hydration.
           CanonicalVideo then renders its own poster <img> (z:1) and video (z:2)
@@ -203,7 +203,7 @@ export default function HeroVideo({
       <section
         className="relative w-full overflow-hidden"
         style={{
-          height: 'clamp(400px, 56vw, 780px)',
+          height: 'clamp(280px, 42vw, 560px)',
           ...(posterImage ? {
             backgroundImage: `url(${posterImage})`,
             backgroundSize: 'cover',

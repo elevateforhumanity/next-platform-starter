@@ -13,7 +13,8 @@ type LogoImageProps = Omit<ImageProps, 'src' | 'alt'> & {
 export default function LogoImage({
   alt = PLATFORM_DEFAULTS.orgName,
   quality = 85,
+  style,
   ...props
 }: LogoImageProps) {
-  return <Image src="/logo.png" alt={alt} quality={quality} {...props} />;
+  return <Image src="/logo.png" alt={alt} quality={quality} style={{ width: 'auto', ...style }} {...props} />;
 }

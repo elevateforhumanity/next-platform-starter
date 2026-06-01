@@ -12,6 +12,7 @@ type LogoProps = Omit<ImageProps, 'src' | 'alt'> & {
 export default function Logo({
   alt = PLATFORM_DEFAULTS.orgName,
   priority = false,
+  style,
   ...props
 }: LogoProps) {
   return (
@@ -21,6 +22,7 @@ export default function Logo({
       quality={85}
       priority={priority}
       sizes="(max-width: 768px) 120px, 160px"
+      style={{ width: 'auto', ...style }}
       {...props}
     />
   );

@@ -72,7 +72,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
       </section>
 
       {/* Hero Section */}
-      <section className="relative h-[700px] overflow-hidden">
+      <section className="relative min-h-[420px] sm:min-h-[500px] lg:min-h-[560px] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={program.heroImage}
@@ -344,7 +344,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
       <section className="py-16   ">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[400px] rounded-xl overflow-hidden shadow-2xl">
+            <div className="relative h-[260px] sm:h-[320px] lg:h-[360px] rounded-xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/pages/comp-program-template.webp"
                 alt="Start your training today"

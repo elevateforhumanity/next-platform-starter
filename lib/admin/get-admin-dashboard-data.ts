@@ -4,7 +4,7 @@
 // No synthetic stats, no fake deltas.
 
 // SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import {
@@ -115,7 +115,7 @@ const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const supabase = await createClient();
-  const adminClient = await requireAdminClient();
+  const adminClient = await getAdminClient();
   // Fall back to the anon client if the service role key is absent.
   // Queries that require elevated privileges will return empty results
   // rather than crashing the entire dashboard.

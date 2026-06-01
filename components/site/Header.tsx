@@ -52,7 +52,7 @@ export default function Header() {
           <span className="font-bold text-[15px] text-slate-900 hidden sm:block tracking-tight">Elevate</span>
         </Link>
 
-        {/* Desktop Navigation — horizontal row, visible lg+ */}
+        {/* Desktop Navigation — horizontal row, visible xl+ to avoid tablet crowding */}
         <HeaderDesktopNav items={NAV_ITEMS} />
 
         {/* Header utilities + CTAs — search/lang mounted once (all breakpoints) */}
@@ -60,8 +60,8 @@ export default function Header() {
           <SearchModal />
           <LanguageSwitcher />
 
-          {/* Desktop CTAs — sign in + get started, visible lg+ */}
-          <div className="hidden lg:flex items-center gap-1.5">
+          {/* Desktop CTAs — sign in + get started, visible xl+ */}
+          <div className="hidden xl:flex items-center gap-1.5">
             <Link
               href="/login"
               prefetch={false}
@@ -78,7 +78,7 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile/tablet: compact CTAs + hamburger only */}
+          {/* Mobile/tablet: hamburger menu owns navigation and CTAs */}
           <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
         </div>
       </div>

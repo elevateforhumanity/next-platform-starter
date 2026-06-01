@@ -53,23 +53,8 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   return (
     <>
-      {/* Mobile/tablet icon row - hidden on desktop (lg+) */}
-      <div className="lg:hidden flex items-center gap-1 shrink-0">
-        {/* Compact CTAs visible on md screens where desktop nav isn't shown */}
-        <Link
-          href="/login"
-          prefetch={false}
-          className="hidden md:block lg:hidden text-slate-600 font-semibold text-[13px] hover:text-slate-900 px-2 py-1.5 rounded-md hover:bg-slate-50 transition-colors"
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/for-students"
-          prefetch={false}
-          className="hidden md:inline-flex lg:hidden items-center bg-brand-red-600 text-white px-3 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
-        >
-          Get Started
-        </Link>
+      {/* Mobile/tablet icon row - hidden on desktop (xl+) */}
+      <div className="header-mobile-menu flex items-center gap-1 shrink-0 xl:!hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-3 text-slate-700 hover:text-slate-900 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
@@ -92,7 +77,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
+          className="header-mobile-menu fixed inset-0 bg-black/50 z-[9998] xl:!hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -104,7 +89,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] lg:hidden overflow-y-auto shadow-2xl"
+          className="header-mobile-menu fixed top-[60px] right-0 bottom-0 w-[85vw] max-w-sm bg-white z-[9999] xl:!hidden overflow-y-auto shadow-2xl"
         >
           <nav className="p-4" aria-label="Mobile navigation">
             {items.map((item) => (
@@ -133,7 +118,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                             return (
                               <div
                                 key={subItem.name}
-                                className="pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-l-3 border-brand-red-500 pl-2"
+                                className="pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide"
                               >
                                 {subItem.name.replace(/—/g, '').trim()}
                               </div>
@@ -166,7 +151,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                                 onClick={() => setIsOpen(false)}
                                 className={`block hover:text-brand-blue-600 ${
                                   subItem.nested
-                                    ? 'py-1.5 pl-4 text-xs text-slate-400 border-l border-slate-200'
+                                    ? 'py-1.5 pl-4 text-xs text-slate-500'
                                     : 'py-3 text-slate-600'
                                 }`}
                               >
@@ -177,7 +162,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                                   href={applyHref}
                                   prefetch={false}
                                   onClick={() => setIsOpen(false)}
-                                  className="block py-1.5 pl-6 text-xs text-brand-blue-700 hover:text-brand-blue-800 border-l border-slate-200"
+                                  className="block py-1.5 pl-6 text-xs text-brand-blue-700 hover:text-brand-blue-800"
                                 >
                                   Apply to {subItem.name}
                                 </Link>
@@ -203,13 +188,29 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
               </div>
             ))}
 
-            {/* Mobile CTAs */}
+            {/* Mobile/tablet CTAs */}
             <div className="mt-6 space-y-3">
+              <Link
+                href="/login"
+                prefetch={false}
+                onClick={() => setIsOpen(false)}
+                className="block w-full text-center py-3 border border-slate-200 text-slate-700 rounded-lg font-semibold"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/for-students"
+                prefetch={false}
+                onClick={() => setIsOpen(false)}
+                className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
+              >
+                Get Started
+              </Link>
               <Link
                 href="/start"
                 prefetch={false}
                 onClick={() => setIsOpen(false)}
-                className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
+                className="block w-full text-center py-3 bg-slate-900 text-white rounded-lg font-semibold"
               >
                 Check Eligibility
               </Link>
