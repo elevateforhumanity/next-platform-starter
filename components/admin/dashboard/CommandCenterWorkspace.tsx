@@ -19,6 +19,8 @@ import {
   Send,
   Server,
   Sparkles,
+  Terminal,
+  Zap,
   Upload,
 } from 'lucide-react';
 
@@ -46,13 +48,21 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'deploy' | 'files' | 'environments' | 'services' | 'health' | 'secrets';
+type Workspace = 'studio' | 'deploy' | 'files' | 'environments' | 'services' | 'health' | 'secrets' | 'workflows';
 type StudioMode = 'ask' | 'run' | 'courses';
 
 const AIChat = dynamic(() => import('@/components/dev-studio/AIChat'), { ssr: false });
 const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'), { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
+const PlatformTerminalPanel = dynamic(
+  () => import('./PlatformTerminalPanel').then((m) => m.PlatformTerminalPanel),
+  { ssr: false },
+);
+const WorkflowsOpsPanel = dynamic(
+  () => import('./WorkflowsOpsPanel').then((m) => m.WorkflowsOpsPanel),
+  { ssr: false },
+);
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('@/apps/admin/app/admin/courses/ai-builder/AICourseBuilderChat'),
@@ -65,6 +75,7 @@ const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?
   { id: 'environments', label: 'Environments', Icon: Box },
   { id: 'services', label: 'Services', Icon: Server },
   { id: 'health', label: 'Health', Icon: Activity },
+  { id: 'workflows', label: 'Workflows', Icon: Zap },
   { id: 'secrets', label: 'Secrets', Icon: Key },
 ];
 
@@ -85,6 +96,7 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'services') return { workspace: 'services', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
+  if (tab === 'workflows' || tab === 'workflow') return { workspace: 'workflows', mode: 'ask' };
   if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
   return { workspace: 'studio', mode: 'ask' };
@@ -93,9 +105,11 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
 export function CommandCenterWorkspace({
   isSuperAdmin = false,
   initialTab,
+  onPreviewUrlDetected,
 }: {
   isSuperAdmin?: boolean;
   initialTab?: string | null;
+  onPreviewUrlDetected?: (url: string) => void;
 }) {
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(initialTab ?? searchParams.get('tab'));
@@ -157,6 +171,11 @@ export function CommandCenterWorkspace({
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#1e1e1e] text-[#cccccc]">
+      <div className="shrink-0 border-b border-[#3c3c3c] bg-[#1a2e1a] px-3 py-1.5 text-[10px] leading-snug text-[#9ca3af]">
+        <strong className="text-[#4ec9b0]">Platform command center</strong>
+        {' '}
+        — public site, LMS, enrollments, workflows, deploy, and container shell. Preview below updates when the shell prints a local dev URL.
+      </div>
       <div className="flex shrink-0 flex-wrap items-center gap-1 border-b border-[#3c3c3c] bg-[#252526] px-2 py-1.5">
         {visibleWorkspaces.map(({ id, label, Icon }) => {
           const active = workspace === id;
@@ -211,6 +230,7 @@ export function CommandCenterWorkspace({
                 onModeChange={setStudioMode}
                 programs={programs}
                 programsLoading={programsLoading}
+                onPreviewUrlDetected={onPreviewUrlDetected}
               />
             )}
             {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
@@ -218,6 +238,7 @@ export function CommandCenterWorkspace({
             {workspace === 'environments' && <EnvironmentPanel />}
             {workspace === 'services' && <ServicesPanel />}
             {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
+            {workspace === 'workflows' && <WorkflowsOpsPanel />}
             {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
       </div>
     </div>
@@ -229,15 +250,17 @@ function StudioPanel({
   onModeChange,
   programs,
   programsLoading,
+  onPreviewUrlDetected,
 }: {
   mode: StudioMode;
   onModeChange: (mode: StudioMode) => void;
   programs: CourseProgram[];
   programsLoading: boolean;
+  onPreviewUrlDetected?: (url: string) => void;
 }) {
   const modes: { id: StudioMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
     { id: 'ask', label: 'Ask', Icon: MessageSquare },
-    { id: 'run', label: 'Run', Icon: Sparkles },
+    { id: 'run', label: 'Shell', Icon: Terminal },
     { id: 'courses', label: 'Courses', Icon: BookOpen },
   ];
 
@@ -259,7 +282,7 @@ function StudioPanel({
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
         {mode === 'ask' && <AIChat ellieMode={true} />}
-        {mode === 'run' && <RunPanel />}
+        {mode === 'run' && <PlatformTerminalPanel onPreviewUrlDetected={onPreviewUrlDetected} />}
         {mode === 'courses' && (
           programsLoading ? (
             <div className="flex h-full items-center justify-center gap-2 text-slate-500">
@@ -275,129 +298,6 @@ function StudioPanel({
   );
 }
 
-function RunPanel() {
-  const [input, setInput] = useState('');
-  const [lines, setLines] = useState<{ type: 'user' | 'output' | 'error'; text: string }[]>([]);
-  const [loading, setLoading] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [lines]);
-
-  async function run(command: string) {
-    const trimmed = command.trim();
-    if (!trimmed || loading) return;
-    setInput('');
-    setLoading(true);
-    setLines([{ type: 'user', text: trimmed }]);
-
-    try {
-      const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
-      const res = await fetch(
-        isSmoke ? '/api/devstudio/smoke-test' : '/api/devstudio/execute',
-        isSmoke ? undefined : {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ command: trimmed }),
-        },
-      );
-
-      if (!res.ok || !res.body) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || `Request failed with HTTP ${res.status}`);
-      }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const chunks = buffer.split('\n');
-        buffer = chunks.pop() ?? '';
-        for (const chunk of chunks) {
-          if (!chunk.startsWith('data: ')) continue;
-          const raw = chunk.slice(6).trim();
-          if (!raw || raw === '[DONE]') continue;
-          let text = raw;
-          try {
-            const parsed = JSON.parse(raw);
-            text = parsed.line ?? parsed.text ?? parsed.output ?? raw;
-          } catch {
-            text = raw;
-          }
-          setLines((current) => [...current, { type: 'output', text }]);
-        }
-      }
-    } catch (error) {
-      setLines((current) => [...current, { type: 'error', text: error instanceof Error ? error.message : 'Command failed' }]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <div className="flex h-full flex-col overflow-hidden bg-[#1e1e1e]">
-      <div className="flex shrink-0 gap-1.5 overflow-x-auto border-b border-[#3c3c3c] bg-[#2d2d2d] px-2 py-2">
-        {QUICK_ACTIONS.map((item) => (
-          <button
-            key={item.label}
-            type="button"
-            onClick={() => run(item.command)}
-            disabled={loading}
-            className="shrink-0 rounded border border-[#555] bg-[#3c3c3c] px-2.5 py-1 text-[11px] text-[#cccccc] disabled:opacity-50"
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-      <div className="min-h-0 flex-1 overflow-y-auto p-3 font-mono text-xs">
-        {lines.length === 0 && <p className="text-[#555]">Ready.</p>}
-        {lines.map((line, index) => (
-          <div
-            key={`${line.type}-${index}`}
-            className="whitespace-pre-wrap break-words"
-            style={{ color: line.type === 'user' ? '#f97316' : line.type === 'error' ? '#f87171' : '#cccccc' }}
-          >
-            {line.type === 'user' ? `$ ${line.text}` : line.text}
-          </div>
-        ))}
-        {loading && (
-          <div className="mt-2 flex items-center gap-2 text-[#f97316]">
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            Running
-          </div>
-        )}
-        <div ref={bottomRef} />
-      </div>
-      <form
-        className="flex shrink-0 items-center gap-2 border-t border-[#3c3c3c] bg-[#252526] p-3"
-        onSubmit={(event) => {
-          event.preventDefault();
-          run(input);
-        }}
-      >
-        <span className="font-mono text-sm font-bold text-[#f97316]">$</span>
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          className="h-10 min-w-0 flex-1 rounded border border-[#555] bg-[#3c3c3c] px-3 font-mono text-sm text-[#cccccc] outline-none"
-          placeholder="Tell Studio what to run"
-          disabled={loading}
-        />
-        <button
-          type="submit"
-          disabled={loading || !input.trim()}
-          className="inline-flex h-10 w-10 items-center justify-center rounded bg-[#f97316] text-white disabled:opacity-50"
-        >
-          <Send className="h-4 w-4" />
-        </button>
-      </form>
-    </div>
-  );
-}
 
 const MAX_UPLOAD_BYTES = 512 * 1024;
 const TEXT_UPLOAD_EXTENSIONS = new Set([

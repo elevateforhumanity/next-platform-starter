@@ -67,6 +67,8 @@ export function AdminCommandWorkbench({
     [dashboardTargets, configPreview?.previewTargets],
   );
 
+  const [previewFromShell, setPreviewFromShell] = useState<string | undefined>();
+
   const resolvedDefaultUrl =
     defaultPreviewUrl ??
     configPreview?.defaultPreviewUrl ??
@@ -77,10 +79,15 @@ export function AdminCommandWorkbench({
   return (
     <ColoredLivePreviewFrame
       targets={targets}
-      defaultUrl={resolvedDefaultUrl}
+      defaultUrl={previewFromShell ?? resolvedDefaultUrl}
       minHeight={previewMinHeight}
       className={className}
-      workspaceTop={<CommandCenterWorkspace isSuperAdmin={isSuperAdmin} />}
+      workspaceTop={
+        <CommandCenterWorkspace
+          isSuperAdmin={isSuperAdmin}
+          onPreviewUrlDetected={(url) => setPreviewFromShell(url)}
+        />
+      }
       workspaceMinHeight={440}
       showSiteHealth
     />
