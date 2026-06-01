@@ -29,7 +29,7 @@ export const CDL_TRAINING: ProgramSchema = {
   fundingStatement:
     'WIOA funding available for eligible Indiana residents. Covers tuition, DOT physical, drug screen, and CDL exam fees when approved. Eligibility not guaranteed. Self-pay: $5,000.',
   selfPayCost: '$5,000',
-  badge: 'Funding Available',
+  badge: 'Now Enrolling — Funding Available',
   badgeColor: 'green',
 
   credentials: [
