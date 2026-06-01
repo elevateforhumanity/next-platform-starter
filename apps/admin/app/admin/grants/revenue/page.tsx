@@ -67,24 +67,59 @@ export default async function GrantRevenuePage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <h3 className="text-sm font-medium text-slate-700">Total Awarded</h3>
-            <p className="text-3xl font-bold text-brand-green-600 mt-2">$2.4M</p>
+            <p className="text-3xl font-bold text-brand-green-600 mt-2">{formatCurrency(totalAwarded)}</p>
+            <p className="text-xs text-slate-500 mt-1">{approvedApplications.length} approved applications</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h3 className="text-sm font-medium text-slate-700">Received YTD</h3>
-            <p className="text-3xl font-bold text-brand-blue-600 mt-2">$1.8M</p>
+            <h3 className="text-sm font-medium text-slate-700">Pending (requested)</h3>
+            <p className="text-3xl font-bold text-yellow-600 mt-2">{formatCurrency(totalPending)}</p>
+            <p className="text-xs text-slate-500 mt-1">{activeCount} in review</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h3 className="text-sm font-medium text-slate-700">Pending</h3>
-            <p className="text-3xl font-bold text-yellow-600 mt-2">$600K</p>
+            <h3 className="text-sm font-medium text-slate-700">Applications</h3>
+            <p className="text-3xl font-bold text-brand-blue-600 mt-2">{(applications ?? []).length}</p>
+            <p className="text-xs text-slate-500 mt-1">All statuses in grant_applications</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h3 className="text-sm font-medium text-slate-700">Active Grants</h3>
-            <p className="text-3xl font-bold text-brand-blue-600 mt-2">8</p>
+            <h3 className="text-sm font-medium text-slate-700">Approved</h3>
+            <p className="text-3xl font-bold text-brand-blue-600 mt-2">{approvedApplications.length}</p>
           </div>
         </div>
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4">Revenue Breakdown</h2>
-          <p className="text-slate-700">Detailed grant revenue tracking</p>
+        <div className="bg-white rounded-lg shadow-sm border p-6 overflow-x-auto">
+          <h2 className="text-lg font-semibold mb-4 text-slate-900">By status</h2>
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr className="border-b text-left text-slate-500">
+                <th className="py-2 pr-4 font-medium">Status</th>
+                <th className="py-2 pr-4 font-medium">Count</th>
+                <th className="py-2 font-medium">Amount (awarded or requested)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(
+                (applications ?? []).reduce<Record<string, { count: number; cents: number }>>((acc, row) => {
+                  const status = row.status ?? 'unknown';
+                  const cents =
+                    status === 'approved'
+                      ? Number(row.amount_awarded ?? 0)
+                      : Number(row.amount_requested ?? 0);
+                  if (!acc[status]) acc[status] = { count: 0, cents: 0 };
+                  acc[status].count += 1;
+                  acc[status].cents += cents;
+                  return acc;
+                }, {}),
+              ).map(([status, { count, cents }]) => (
+                <tr key={status} className="border-b border-slate-100">
+                  <td className="py-2 pr-4 capitalize text-slate-800">{status.replace(/_/g, ' ')}</td>
+                  <td className="py-2 pr-4 text-slate-700">{count}</td>
+                  <td className="py-2 text-slate-700">{formatCurrency(cents)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {(applications ?? []).length === 0 && (
+            <p className="text-sm text-slate-500 py-4">No grant applications in the database yet.</p>
+          )}
         </div>
       </div>
     </div>

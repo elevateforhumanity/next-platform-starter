@@ -23,18 +23,33 @@ async function _GET(request: Request) {
 
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, program_holder_id')
       .eq('id', user.id)
       .maybeSingle();
 
-    if (!profile || profile.role !== 'program_holder') {
+    const allowedRoles = ['program_holder', 'admin', 'super_admin', 'staff'];
+    if (!profile || !allowedRoles.includes(profile.role ?? '')) {
       return NextResponse.json(
         { error: 'Forbidden - Program holder access only' },
         { status: 403 },
       );
     }
 
-    const students = await getProgramHolderStudents(user.id);
+    let holderId = profile.program_holder_id;
+    if (!holderId) {
+      const { data: fallback } = await supabase
+        .from('program_holders')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      holderId = fallback?.id ?? null;
+    }
+
+    if (!holderId) {
+      return NextResponse.json({ error: 'Program holder record not found' }, { status: 403 });
+    }
+
+    const students = await getProgramHolderStudents(holderId);
 
     return NextResponse.json({ students });
   } catch (error) {
