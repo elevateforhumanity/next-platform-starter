@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { importName } from '@/data/programs/hvac-technician';
+import { HVAC_TECHNICIAN } from '@/data/programs/hvac-technician';
 import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
 export const metadata = buildProgramMetadata(HVAC_TECHNICIAN);

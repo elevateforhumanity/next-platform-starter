@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { importName } from '@/data/programs/cosmetology-apprenticeship';
+import { COSMETOLOGY } from '@/data/programs/cosmetology-apprenticeship';
 import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
 export const metadata = buildProgramMetadata(COSMETOLOGY);
