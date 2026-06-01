@@ -263,7 +263,7 @@ export default function HeroVideo({
             <button
               onClick={toggleMute}
               aria-label={muted ? 'Unmute narration' : 'Mute narration'}
-              className="flex items-center gap-2 text-white/70 hover:text-white text-xs font-semibold px-2 py-1.5 rounded-full transition-colors"
+              className="flex items-center gap-2 text-white/70 hover:text-white text-xs font-semibold px-2 py-1.5 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red-600"
             >
               {muted ? (
                 <>
@@ -345,7 +345,7 @@ export default function HeroVideo({
               onClick={() => setTranscriptOpen((o) => !o)}
               aria-expanded={transcriptOpen}
               aria-controls={transcriptId}
-              className="flex items-center gap-2 text-slate-500 text-xs font-semibold hover:text-slate-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red-500 rounded"
+              className="flex items-center gap-2 text-slate-500 text-xs font-semibold hover:text-slate-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red-600"
             >
               <span>{transcriptOpen ? '▲' : '▼'}</span>
               Video transcript
