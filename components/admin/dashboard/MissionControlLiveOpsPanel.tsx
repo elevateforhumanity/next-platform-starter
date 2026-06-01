@@ -19,7 +19,7 @@ type PlatformAlert = {
 };
 
 /**
- * Live ops strip formerly only on /admin/mission-control — embedded in unified dashboard.
+ * Live ops strip formerly only on /admin/dashboard — embedded in unified dashboard.
  */
 export function MissionControlLiveOpsPanel() {
   const [summary, setSummary] = useState<LiveOpsSummary | null>(null);
@@ -30,7 +30,7 @@ export function MissionControlLiveOpsPanel() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/mission-control/live-ops', { cache: 'no-store' });
+      const res = await fetch('/api/admin/dashboard/live-ops', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setSummary(data.summary ?? null);

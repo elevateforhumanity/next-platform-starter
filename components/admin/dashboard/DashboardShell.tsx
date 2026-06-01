@@ -93,6 +93,7 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Risk dashboard', href: '/admin/intelligence' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
+      { label: 'Command Center', href: '/admin/dashboard' },
     ],
   },
   {
@@ -171,7 +172,7 @@ const ADMIN_CATEGORY_CARDS = [
     title: 'Dev Studio',
     eyebrow: 'Automation layer',
     description: 'Terminal, editor, live preview + AI, workflows, and deploy controls.',
-    href: '/admin/dev-studio',
+    href: '/admin/dashboard',
     Icon: Settings,
     links: [
       { label: 'Workflows', href: '/admin/workflows' },
@@ -483,7 +484,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
-          <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
+          <Link href="/admin/dashboard" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Command Center</Link>
         </div>
 
         <DegradedBanner sections={data.degradedSections ?? []} />

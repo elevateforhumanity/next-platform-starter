@@ -91,7 +91,7 @@ export default function DevStudioMobileShell({
     setMoreOpen(null);
     const params = new URLSearchParams(searchParams.toString());
     params.set('tab', next === 'ellie' ? 'ellie' : next);
-    router.replace(`/admin/dev-studio?${params.toString()}`, { scroll: false });
+    router.replace(`/admin/dashboard?${params.toString()}`, { scroll: false });
   }
 
   const title =

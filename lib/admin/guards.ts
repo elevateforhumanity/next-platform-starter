@@ -104,12 +104,10 @@ export function shouldShowDevToolsInNav(role: string | null | undefined): boolea
  * List of dev/test route prefixes that should be guarded
  */
 export const DEV_TOOL_ROUTES = [
-  '/admin/dev-studio',
   '/admin/test-emails',
   '/admin/test-funding',
   '/admin/test-payments',
   '/admin/test-webhook',
-  '/admin/dev-studio',
   '/admin/autopilot',
   '/admin/autopilots',
 ] as const;

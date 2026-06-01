@@ -168,7 +168,7 @@ export const SYSTEMS: SystemNode[] = [
       '/admin/payroll',
       '/admin/reports',
       '/admin/analytics',
-      '/admin/dev-studio',
+      '/admin/dashboard',
       '/admin/monitoring',
       '/admin/audit-logs',
     ],
@@ -299,7 +299,7 @@ export const SYSTEMS: SystemNode[] = [
     id: 'ellie',
     name: 'Ellie — AI Ops',
     description: 'Platform AI operator — tool-calling, SSE execution, Q&A, platform state',
-    routes: ['/admin/dashboard', '/admin/dev-studio'],
+    routes: ['/admin/dashboard', '/admin/dashboard'],
     apis: [
       '/api/devstudio/execute',
       '/api/devstudio/chat',
@@ -393,7 +393,7 @@ export const ROUTE_DEPENDENCIES: Record<string, { tables: string[]; apis: string
     apis: ['/api/apply'],
     components: ['IntakeForm'],
   },
-  '/admin/dev-studio': {
+  '/admin/dashboard': {
     tables: ['ai_audit_log'],
     apis: ['/api/devstudio/execute', '/api/devstudio/chat', '/api/devstudio/platform-state'],
     components: ['AIChat', 'XTerminal', 'DevStudioClient'],

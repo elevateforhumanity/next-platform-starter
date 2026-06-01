@@ -37,7 +37,7 @@ export const ADMIN = {
   // ── AI ───────────────────────────────────────────────────────────────────
   AI_STUDIO:          '/admin/studio',
   AI_CONSOLE:         '/admin/studio',         // alias → ai-studio
-  DEV_STUDIO:         '/admin/dev-studio',
+  DEV_STUDIO:         '/admin/dashboard', // legacy name → dashboard command center
 
   // ── Finance ──────────────────────────────────────────────────────────────
   FUNDING:            '/admin/funding',
@@ -60,7 +60,7 @@ export const ADMIN = {
   SETTINGS:           '/admin/settings',
   SYSTEM_HEALTH:      '/admin/system-health',
   SNAPSHOTS:          '/admin/snapshots',
-  AUTOMATION:         '/admin/dev-studio?tab=automation',
+  AUTOMATION:         '/admin/workflows',
   MONITORING:         '/admin/monitoring',
 
   // ── Partners ─────────────────────────────────────────────────────────────

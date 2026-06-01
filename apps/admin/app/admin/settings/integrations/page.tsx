@@ -19,12 +19,12 @@ export default async function IntegrationSettingsPage() {
     {
       title: 'Platform Secrets',
       description: 'Encrypted secrets store — API keys loaded at runtime by lib/secrets.ts',
-      href: '/admin/dev-studio?tab=secrets',
+      href: '/admin/settings/integrations',
     },
     {
       title: 'AWS / ECS Container',
       description: 'Push environment variables to ECS task definitions and SSM Parameter Store',
-      href: '/admin/dev-studio?tab=environments',
+      href: '/admin/dashboard?tab=environments',
     },
     {
       title: 'Social Media Accounts',
