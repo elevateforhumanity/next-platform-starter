@@ -19,7 +19,6 @@ import {
   Send,
   Server,
   Sparkles,
-  Terminal,
   Zap,
   Upload,
 } from 'lucide-react';
@@ -48,15 +47,15 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'deploy' | 'files' | 'environments' | 'services' | 'health' | 'secrets' | 'workflows';
-type StudioMode = 'ask' | 'run' | 'courses';
+type Workspace = 'lizzy' | 'deploy' | 'files' | 'environments' | 'services' | 'health' | 'secrets' | 'workflows';
+type LizzyMode = 'ask' | 'execute' | 'courses';
 
 const AIChat = dynamic(() => import('@/components/dev-studio/AIChat'), { ssr: false });
 const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'), { ssr: false });
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
-const PlatformTerminalPanel = dynamic(
-  () => import('./PlatformTerminalPanel').then((m) => m.PlatformTerminalPanel),
+const LizzyExecutePanel = dynamic(
+  () => import('./LizzyExecutePanel').then((m) => m.LizzyExecutePanel),
   { ssr: false },
 );
 const WorkflowsOpsPanel = dynamic(
@@ -69,7 +68,7 @@ const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   { ssr: false },
 );
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
-  { id: 'studio', label: 'Studio', Icon: Bot },
+  { id: 'lizzy', label: 'Lizzy', Icon: Bot },
   { id: 'deploy', label: 'Deploy', Icon: Rocket },
   { id: 'files', label: 'Files', Icon: FolderOpen },
   { id: 'environments', label: 'Environments', Icon: Box },
@@ -88,8 +87,8 @@ const QUICK_ACTIONS = [
   { label: 'System health', command: 'Check system health' },
 ];
 
-function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: StudioMode } {
-  if (tab === 'ellie') return { workspace: 'studio', mode: 'ask' };
+function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: LizzyMode } {
+  if (tab === 'ellie' || tab === 'lizzy') return { workspace: 'lizzy', mode: 'ask' };
   if (tab === 'deploy') return { workspace: 'deploy', mode: 'ask' };
   if (tab === 'files' || tab === 'git' || tab === 'docs' || tab === 'documents') return { workspace: 'files', mode: 'ask' };
   if (tab === 'container' || tab === 'environments') return { workspace: 'environments', mode: 'ask' };
@@ -97,24 +96,22 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
   if (tab === 'workflows' || tab === 'workflow') return { workspace: 'workflows', mode: 'ask' };
-  if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
-  if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
-  return { workspace: 'studio', mode: 'ask' };
+  if (tab === 'command' || tab === 'terminal' || tab === 'execute' || tab === 'run') return { workspace: 'lizzy', mode: 'execute' };
+  if (tab === 'courses' || tab === 'course') return { workspace: 'lizzy', mode: 'courses' };
+  return { workspace: 'lizzy', mode: 'ask' };
 }
 
-export function CommandCenterWorkspace({
+export function LizzyWorkspace({
   isSuperAdmin = false,
   initialTab,
-  onPreviewUrlDetected,
 }: {
   isSuperAdmin?: boolean;
   initialTab?: string | null;
-  onPreviewUrlDetected?: (url: string) => void;
-}) {
+  }) {
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(initialTab ?? searchParams.get('tab'));
-  const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'studio' : initial.workspace);
-  const [studioMode, setStudioMode] = useState<StudioMode>(initial.mode);
+  const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'lizzy' : initial.workspace);
+  const [lizzyMode, setLizzyMode] = useState<LizzyMode>(initial.mode);
   const [config, setConfig] = useState<StudioConfig | null>(null);
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
   const [programs, setPrograms] = useState<CourseProgram[]>([]);
@@ -124,8 +121,8 @@ export function CommandCenterWorkspace({
 
   useEffect(() => {
     const next = normalizeWorkspace(initialTab ?? tabParam);
-    setWorkspace(next.workspace === 'secrets' && !isSuperAdmin ? 'studio' : next.workspace);
-    setStudioMode(next.mode);
+    setWorkspace(next.workspace === 'secrets' && !isSuperAdmin ? 'lizzy' : next.workspace);
+    setLizzyMode(next.mode);
   }, [tabParam, initialTab, isSuperAdmin]);
 
   useEffect(() => {
@@ -172,9 +169,9 @@ export function CommandCenterWorkspace({
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#1e1e1e] text-[#cccccc]">
       <div className="shrink-0 border-b border-[#3c3c3c] bg-[#1a2e1a] px-3 py-1.5 text-[10px] leading-snug text-[#9ca3af]">
-        <strong className="text-[#4ec9b0]">Platform command center</strong>
+        <strong className="text-[#4ec9b0]">Lizzy</strong>
         {' '}
-        — public site, LMS, enrollments, workflows, deploy, and container shell. Preview below updates when the shell prints a local dev URL.
+        — public site, LMS, enrollments, workflows, deploy, environments, and live preview in one container.
       </div>
       <div className="flex shrink-0 flex-wrap items-center gap-1 border-b border-[#3c3c3c] bg-[#252526] px-2 py-1.5">
         {visibleWorkspaces.map(({ id, label, Icon }) => {
@@ -196,23 +193,23 @@ export function CommandCenterWorkspace({
             </button>
           );
         })}
-        {workspace === 'studio' && (
+        {workspace === 'lizzy' && (
           <span className="ml-auto flex gap-1">
             {(
               [
-                { id: 'ask' as StudioMode, label: 'Ask' },
-                { id: 'run' as StudioMode, label: 'Run' },
-                { id: 'courses' as StudioMode, label: 'Courses' },
+                { id: 'ask' as LizzyMode, label: 'Ask' },
+                { id: 'run' as LizzyMode, label: 'Run' },
+                { id: 'courses' as LizzyMode, label: 'Courses' },
               ] as const
             ).map(({ id, label }) => (
               <button
                 key={id}
                 type="button"
-                onClick={() => setStudioMode(id)}
+                onClick={() => setLizzyMode(id)}
                 className="rounded border px-2 py-0.5 text-[10px]"
                 style={{
-                  borderColor: studioMode === id ? '#f97316' : '#3c3c3c',
-                  background: studioMode === id ? '#7c2d12' : 'transparent',
+                  borderColor: lizzyMode === id ? '#f97316' : '#3c3c3c',
+                  background: lizzyMode === id ? '#7c2d12' : 'transparent',
                   color: '#fff',
                 }}
               >
@@ -224,14 +221,13 @@ export function CommandCenterWorkspace({
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden">
-                      {workspace === 'studio' && (
-              <StudioPanel
-                mode={studioMode}
-                onModeChange={setStudioMode}
+                      {workspace === 'lizzy' && (
+              <LizzyPanel
+                mode={lizzyMode}
+                onModeChange={setLizzyMode}
                 programs={programs}
                 programsLoading={programsLoading}
-                onPreviewUrlDetected={onPreviewUrlDetected}
-              />
+                              />
             )}
             {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
             {workspace === 'files' && <FilesPanel />}
@@ -245,22 +241,20 @@ export function CommandCenterWorkspace({
   );
 }
 
-function StudioPanel({
+function LizzyPanel({
   mode,
   onModeChange,
   programs,
   programsLoading,
-  onPreviewUrlDetected,
 }: {
-  mode: StudioMode;
-  onModeChange: (mode: StudioMode) => void;
+  mode: LizzyMode;
+  onModeChange: (mode: LizzyMode) => void;
   programs: CourseProgram[];
   programsLoading: boolean;
-  onPreviewUrlDetected?: (url: string) => void;
-}) {
-  const modes: { id: StudioMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
+  }) {
+  const modes: { id: LizzyMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
     { id: 'ask', label: 'Ask', Icon: MessageSquare },
-    { id: 'run', label: 'Shell', Icon: Terminal },
+    { id: 'execute', label: 'Execute', Icon: Sparkles },
     { id: 'courses', label: 'Courses', Icon: BookOpen },
   ];
 
@@ -281,8 +275,8 @@ function StudioPanel({
         ))}
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
-        {mode === 'ask' && <AIChat ellieMode={true} />}
-        {mode === 'run' && <PlatformTerminalPanel onPreviewUrlDetected={onPreviewUrlDetected} />}
+        {mode === 'ask' && <AIChat ellieMode />}
+        {mode === 'execute' && <LizzyExecutePanel />}
         {mode === 'courses' && (
           programsLoading ? (
             <div className="flex h-full items-center justify-center gap-2 text-slate-500">

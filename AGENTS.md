@@ -837,29 +837,33 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
-### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
+### Lizzy + admin configuration (dashboard only)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
 
 | Store | Table | UI surface | Purpose |
 |-------|-------|------------|---------|
-| **platform_secrets** | `platform_secrets` | Dev Studio → Secrets | Encrypted API keys; highest runtime priority |
-| **app_secrets** | `app_secrets` | Dev Studio → Container (env section) | Dev environment secrets |
+| **platform_secrets** | `platform_secrets` | Lizzy → Secrets tab | Encrypted API keys; highest runtime priority |
+| **app_secrets** | `app_secrets` | Lizzy → Environments tab | Dev environment secrets |
 | **platform_settings** | `platform_settings` | Env Manager + Settings hub | Plaintext config, integration keys |
-| **process.env** | ECS task def / `.env.local` | Dev Studio → Container (ECS push) | Base layer |
+| **process.env** | ECS task def / `.env.local` | Lizzy → Environments (ECS push) | Base layer |
 
 Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
-**AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
+**Lizzy Execute tab** uses `/api/devstudio/execute` (and QA/smoke endpoints). There is no separate Dev Studio page or ECS shell UI.
 
-**Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+**Lizzy AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
 
-### Managed trial + tenant public sites
+### Dev container credentials (not fake / not removed in dashboard merge)
 
-- **Trial start:** `POST /api/trial/start-managed` provisions org + `managed_licenses` + published `user_websites` via `lib/tenant/provision-trial-website.ts` (skipped for `websiteMode=api_embed`).
-- **Public URL:** `https://{slug}.app.elevateforhumanity.org` — `proxy.ts` sets `x-tenant-slug` and rewrites non-admin paths to `app/tenant-site/[[...slug]]`.
-- **Publish / edit:** `POST /api/websites/[id]/publish`, `PATCH /api/websites/[id]/config`, editor at `/apps/website-builder/edit/[websiteId]`.
-- **AI → builder:** `POST /api/ai/generate-site` with `websiteId` persists into `site_config`.
-- **DB:** Migration `20260530000001_tenant_website_builder.sql` must be applied manually before new columns work in production.
-- **Docs:** `docs/store-14-day-trial.md`
+- **Deployed admin (ECS):** `aws/ecs-task-admin.json` injects **30 secrets** from AWS SSM `arn:...:parameter/elevate/*` (Supabase, Stripe, AI keys, `GITHUB_TOKEN`, `STUDIO_SHELL_*`, etc.). Plain `environment` block is public URLs/branding only.
+- **Environments tab (UI):** `DevContainerPanel` loads/saves **`app_secrets`** via `/api/devstudio/env` (masked values only in UI) and can **Import from SSM** (`/api/devstudio/import-ssm` → `platform_secrets`). **Push to ECS** uses `/api/devstudio/container-env` (SSM + task definition).
+- **Local devcontainer:** `.devcontainer/setup-env.sh` pulls `/elevate/*` into `.env.local` when `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` are set; otherwise copies `.env.example` (no fabricated production secrets).
+- **Verify wiring:** `node scripts/verify-devcontainer-env-wiring.mjs` and `tests/unit/devcontainer-credentials-wiring.test.ts`.
+- **Health tab** on the dashboard command center shows live `app_secrets` count and ECS SSM ref count from those APIs.
 
+### Lizzy (single admin container on `/admin/dashboard`)
+
+- UI: `LizzyContainer`, `LizzyWorkspace` — preview iframe + tabs (Lizzy, Deploy, Files, Environments, Services, Health, Workflows, Secrets).
+- No `/admin/dev-studio` route. No XTerminal / ECS shell in the product UI.
+- Legacy URLs `/admin/ai-studio`, `/admin/ai-console`, `/admin/dev-studio` redirect to `/admin/dashboard` in `proxy.ts`.

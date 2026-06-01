@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { ColoredLivePreviewFrame, type PreviewTarget } from './ColoredLivePreviewFrame';
-import { CommandCenterWorkspace } from './CommandCenterWorkspace';
+import { LizzyWorkspace } from './LizzyWorkspace';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { mergePreviewTargets } from '@/lib/admin/merge-preview-targets';
 
@@ -23,7 +23,7 @@ type DevStudioConfigPreview = {
   previewTargets?: PreviewTarget[];
 };
 
-export type AdminCommandWorkbenchProps = {
+export type LizzyContainerProps = {
   sites?: PreviewTarget[];
   defaultPreviewUrl?: string;
   className?: string;
@@ -32,16 +32,16 @@ export type AdminCommandWorkbenchProps = {
 };
 
 /**
- * Single admin command container: Dev Studio tools on top, live site preview below.
- * Preview targets come from Dev Studio config (pages, local URLs) merged with dashboard seeds.
+ * Single admin command container: Lizzy workspace tools on top, live site preview below.
+ * Preview targets come from Lizzy config (pages, local URLs) merged with dashboard seeds.
  */
-export function AdminCommandWorkbench({
+export function LizzyContainer({
   sites,
   defaultPreviewUrl,
   className = '',
   previewMinHeight = 380,
   isSuperAdmin = false,
-}: AdminCommandWorkbenchProps) {
+}: LizzyContainerProps) {
   const [configPreview, setConfigPreview] = useState<DevStudioConfigPreview | null>(null);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function AdminCommandWorkbench({
     [dashboardTargets, configPreview?.previewTargets],
   );
 
-  const [previewFromShell, setPreviewFromShell] = useState<string | undefined>();
+  const [previewFromOps, setPreviewFromShell] = useState<string | undefined>();
 
   const resolvedDefaultUrl =
     defaultPreviewUrl ??
@@ -79,11 +79,11 @@ export function AdminCommandWorkbench({
   return (
     <ColoredLivePreviewFrame
       targets={targets}
-      defaultUrl={previewFromShell ?? resolvedDefaultUrl}
+      defaultUrl={resolvedDefaultUrl}
       minHeight={previewMinHeight}
       className={className}
       workspaceTop={
-        <CommandCenterWorkspace
+        <LizzyWorkspace
           isSuperAdmin={isSuperAdmin}
           onPreviewUrlDetected={(url) => setPreviewFromShell(url)}
         />

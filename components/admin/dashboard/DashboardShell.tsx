@@ -3,8 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import AdminCommandWorkbenchWrapper from './AdminCommandWorkbenchWrapper';
-import { MissionControlLiveOpsPanel } from './MissionControlLiveOpsPanel';
+import LizzyContainerWrapper from './LizzyContainerWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle,
@@ -93,7 +92,7 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Risk dashboard', href: '/admin/intelligence' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'Command Center', href: '/admin/dashboard' },
+      { label: 'Lizzy', href: '/admin/dashboard' },
     ],
   },
   {
@@ -169,9 +168,9 @@ const ADMIN_CATEGORY_CARDS = [
     ],
   },
   {
-    title: 'Dev Studio',
-    eyebrow: 'Automation layer',
-    description: 'Terminal, editor, live preview + AI, workflows, and deploy controls.',
+    title: 'Lizzy',
+    eyebrow: 'Platform control',
+    description: 'Live preview with AI, deploy, files, environments, workflows, and platform health — one container.',
     href: '/admin/dashboard',
     Icon: Settings,
     links: [
@@ -484,16 +483,15 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
-          <Link href="/admin/dashboard" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Command Center</Link>
+          <Link href="/admin/dashboard" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Lizzy</Link>
         </div>
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
-        <AdminCommandWorkbenchWrapper
+        <LizzyContainerWrapper
           sites={data.sitePreviewTargets ?? []}
           isSuperAdmin={data.profile?.role === 'super_admin'}
         />
-        <MissionControlLiveOpsPanel />
 
         <AdminCategoryLanding />
 

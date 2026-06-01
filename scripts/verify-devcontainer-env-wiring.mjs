@@ -50,8 +50,8 @@ if (!setup.includes('SSM_PATH="/elevate/"')) {
 }
 
 const uiPaths = [
-  'components/admin/dashboard/AdminCommandWorkbench.tsx',
-  'components/admin/dashboard/CommandCenterWorkspace.tsx',
+  'components/admin/dashboard/LizzyContainer.tsx',
+  'components/admin/dashboard/LizzyWorkspace.tsx',
   'components/dev-studio/DevContainerPanel.tsx',
   'components/dev-studio/SecretsPanel.tsx',
 ];

@@ -120,7 +120,7 @@ export async function GET(req: NextRequest) {
     workflowButtons: [
       { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to ECS' },
       { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin service to ECS' },
-      { key: 'deploy-studio', label: 'Deploy Studio', description: 'Build and push the Dev Studio shell service to ECS' },
+      { key: 'deploy-studio', label: 'Deploy studio service', description: 'Build and push the Dev Studio shell service to ECS' },
       { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],

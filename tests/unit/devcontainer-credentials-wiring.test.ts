@@ -22,9 +22,9 @@ describe('dev container credential wiring (no fake secrets in UI)', () => {
 
   it('command center components do not embed raw API keys or placeholder Supabase secrets', () => {
     const paths = [
-      'components/admin/dashboard/AdminCommandWorkbench.tsx',
-      'components/admin/dashboard/CommandCenterWorkspace.tsx',
-      'components/admin/dashboard/PlatformTerminalPanel.tsx',
+      'components/admin/dashboard/LizzyContainer.tsx',
+      'components/admin/dashboard/LizzyWorkspace.tsx',
+      'components/admin/dashboard/LizzyExecutePanel.tsx',
       'components/admin/dashboard/DevContainerPanel.tsx',
       'components/dev-studio/DevContainerPanel.tsx',
       'components/dev-studio/SecretsPanel.tsx',

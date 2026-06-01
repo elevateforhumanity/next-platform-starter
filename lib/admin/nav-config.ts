@@ -49,7 +49,7 @@ export const DEFAULT_NAV: NavSection[] = [
     items: [
       { label: 'Risk Dashboard', href: '/admin/intelligence' },
       { label: 'Completion Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'Command Center', href: '/admin/dashboard' },
+      { label: 'Lizzy', href: '/admin/dashboard' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'System Health', href: '/admin/system-health' },

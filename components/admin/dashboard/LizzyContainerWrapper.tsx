@@ -4,19 +4,19 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import type { SitePreviewTarget } from './types';
 
-const AdminCommandWorkbench = dynamic(
-  () => import('./AdminCommandWorkbench').then((m) => m.AdminCommandWorkbench),
+const LizzyContainer = dynamic(
+  () => import('./LizzyContainer').then((m) => m.LizzyContainer),
   {
     ssr: false,
     loading: () => (
       <div className="mb-8 flex min-h-[420px] items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-sm text-slate-500">
-        Loading command center…
+        Loading Lizzy…
       </div>
     ),
   },
 );
 
-function AdminCommandWorkbenchInner({
+function LizzyContainerInner({
   sites,
   defaultPreviewUrl,
   isSuperAdmin,
@@ -32,7 +32,7 @@ function AdminCommandWorkbenchInner({
 
   return (
     <div className="mb-8">
-      <AdminCommandWorkbench
+      <LizzyContainer
         sites={targets}
         defaultPreviewUrl={defaultPreviewUrl}
         isSuperAdmin={isSuperAdmin}
@@ -41,7 +41,7 @@ function AdminCommandWorkbenchInner({
   );
 }
 
-export default function AdminCommandWorkbenchWrapper({
+export default function LizzyContainerWrapper({
   sites,
   defaultPreviewUrl,
   isSuperAdmin = false,
@@ -54,11 +54,11 @@ export default function AdminCommandWorkbenchWrapper({
     <Suspense
       fallback={
         <div className="mb-8 flex min-h-[420px] items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-sm text-slate-500">
-          Loading command center…
+          Loading Lizzy…
         </div>
       }
     >
-      <AdminCommandWorkbenchInner
+      <LizzyContainerInner
         sites={sites}
         defaultPreviewUrl={defaultPreviewUrl}
         isSuperAdmin={isSuperAdmin}

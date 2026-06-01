@@ -235,11 +235,11 @@ const ADMIN_PAGES: { section: string; pages: { label: string; path: string }[] }
   {
     section: 'AI',
     pages: [
-      { label: 'AI Console', path: '/admin/dev-studio?tab=chat' },
+      { label: 'Lizzy', path: '/admin/dashboard' },
       { label: 'Copilot', path: '/admin/studio' },
       { label: 'Automation', path: '/admin/automation' },
       { label: 'Workflows', path: '/admin/workflows' },
-      { label: 'Dev Studio', path: '/admin/dev-studio' },
+      { label: 'Lizzy Execute', path: '/admin/dashboard?tab=execute' },
     ],
   },
   {

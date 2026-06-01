@@ -517,7 +517,7 @@ export const CANONICAL_DECISIONS = [
   },
   {
     id: 'mission-control-canonical',
-    decision: 'Admin Dashboard (/admin/dashboard) is the single operational home. Mission Control, command-center, and monitoring aliases redirect to /admin/dashboard. Ellie AI and site preview are panels on that page; full Dev Studio remains at /admin/dev-studio.',
+    decision: 'Admin Dashboard (/admin/dashboard) is the single operational home. Mission Control, command-center, and monitoring aliases redirect to /admin/dashboard. Lizzy (single preview container with workspace tabs) is the only control surface on that page.',
     rationale: 'One operational surface eliminates context switching and duplicate maintenance.',
   },
 ];
