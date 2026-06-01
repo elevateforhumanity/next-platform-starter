@@ -535,6 +535,29 @@ function EnvironmentPanel() {
 }
 
 function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | null; onRefresh: () => void }) {
+  const [envWiring, setEnvWiring] = useState<{ appSecrets: number; appSecretsWithValue: number; ecsSecretRefs: number } | null>(null);
+
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/devstudio/env').then((r) => (r.ok ? r.json() : { entries: [] })),
+      fetch('/api/devstudio/container-env').then((r) => (r.ok ? r.json() : { services: {} })),
+    ])
+      .then(([envData, ecsData]) => {
+        const entries = Array.isArray(envData.entries) ? envData.entries : [];
+        const services = ecsData.services ?? {};
+        const ecsSecretRefs = Object.values(services).reduce<number>(
+          (n, svc) => n + (Array.isArray((svc as { secrets?: unknown[] }).secrets) ? (svc as { secrets: unknown[] }).secrets.length : 0),
+          0,
+        );
+        setEnvWiring({
+          appSecrets: entries.length,
+          appSecretsWithValue: entries.filter((e: { has_value?: boolean }) => e.has_value).length,
+          ecsSecretRefs,
+        });
+      })
+      .catch(() => setEnvWiring(null));
+  }, [health]);
+
   const rows = [
     ['GitHub', health?.hasGitHub ? 'connected' : 'not connected'],
     ['Groq', health?.hasGroq ? 'configured' : 'missing'],
@@ -542,6 +565,8 @@ function HealthPanel({ health, onRefresh }: { health: Record<string, unknown> | 
     ['OpenAI', health?.hasOpenAI ? 'configured' : 'missing'],
     ['Supabase URL', health?.supabaseUrlPresent ? 'present' : 'missing'],
     ['Supabase service key', health?.supabaseServiceKeyPresent ? 'present' : 'missing'],
+    ['app_secrets (UI)', envWiring ? `${envWiring.appSecretsWithValue}/${envWiring.appSecrets} set` : 'checking…'],
+    ['ECS SSM refs (deploy)', envWiring ? String(envWiring.ecsSecretRefs) : 'checking…'],
     ['Node', String(health?.nodeVersion ?? 'unknown')],
     ['Next', String(health?.nextVersion ?? 'unknown')],
   ];
