@@ -86,8 +86,15 @@ phases:
       - export NEXT_TELEMETRY_DISABLED=1
       - export BUILD_SCOPE=1
       - export SERVICE_ROLE=lms
+      # 8 GB JS heap — matches build:lms:compile in package.json.
+      # Node RSS will run higher (~12–14 GB peak on 2XLARGE); set NODE_OPTIONS
+      # here so the value is authoritative regardless of which script runs next build.
       - export NODE_OPTIONS='--max-old-space-size=8192'
       - pnpm run build:lms:phased
+      # Give the OS ~15 s to reclaim Node RSS before Docker buildx starts.
+      # Without this, both processes compete for memory on the same cgroup.
+      - echo "next build complete — waiting for RSS to drop before Docker..."
+      - sleep 15
       - echo Packaging Docker image...
       - docker buildx build --platform linux/amd64 --load -f Dockerfile.package --build-arg COMMIT_REF=$COMMIT_REF --cache-from type=registry,ref=$CACHE_IMAGE_URI --cache-to type=registry,ref=$CACHE_IMAGE_URI,mode=max -t $IMAGE_URI:latest -t $IMAGE_URI:$COMMIT_HASH .
 

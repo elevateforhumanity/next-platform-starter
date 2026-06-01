@@ -150,7 +150,9 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     workerThreads: false,
-    cpus: 4,
+    // On CI (CodeBuild) limit to 1 CPU to reduce parallel compile spikes.
+    // webpack.parallelism is already 1; this caps Next's own pipeline too.
+    cpus: process.env.CI === 'true' ? 1 : 4,
     serverActions: {
       allowedOrigins: [
         'www.elevateforhumanity.org',
