@@ -11,7 +11,7 @@ function getCurrentLocale(): Locale {
   return val && locales.includes(val) ? val : defaultLocale;
 }
 
-export default function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+export default function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<Locale>(defaultLocale);
   const ref = useRef<HTMLDivElement>(null);
@@ -60,7 +60,9 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
         aria-label={`Language: ${localeNames[current]}. Change language.`}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 transition-colors px-2 py-1.5 rounded-lg hover:bg-slate-100 text-sm"
+        className={`flex items-center text-slate-500 hover:text-slate-900 transition-colors rounded-lg hover:bg-slate-100 ${
+          compact ? 'gap-1 px-1.5 py-1 text-xs' : 'gap-1.5 px-2 py-1.5 text-sm'
+        }`}
       >
         {/* Globe icon */}
         <svg

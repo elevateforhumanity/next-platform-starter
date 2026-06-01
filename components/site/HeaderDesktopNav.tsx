@@ -24,11 +24,11 @@ interface HeaderDesktopNavProps {
 export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
   return (
     <nav
-      className="flex flex-row flex-nowrap items-center justify-center gap-0.5 xl:gap-1 2xl:gap-2"
+      className="flex flex-row flex-nowrap items-center justify-center gap-0.5 xl:gap-1 2xl:gap-1.5 w-full min-w-0 max-w-full"
       aria-label="Main navigation"
     >
       {items.map((item) => (
-        <div key={item.name} className="relative group">
+        <div key={item.name} className="relative group shrink-0">
           {item.subItems && item.subItems.length > 0 ? (
             item.href ? (
               <Link

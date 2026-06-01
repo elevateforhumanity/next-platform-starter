@@ -2,16 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import LanguageSwitcher from './LanguageSwitcher.client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import SearchModal from './SearchModal.client';
+import LanguageSwitcher from './LanguageSwitcher.client';
 
 interface NavItem {
   id?: string;
   name: string;
   href?: string;
-  subItems?: { name: string; href: string; isHeader?: boolean; isSectionLink?: boolean; nested?: boolean }[];
+  subItems?: {
+    name: string;
+    href: string;
+    isHeader?: boolean;
+    isSectionLink?: boolean;
+    nested?: boolean;
+  }[];
 }
 
 interface HeaderMobileMenuProps {
@@ -27,7 +33,6 @@ function getProgramSlugFromHref(href: string): string | null {
 
 export default function HeaderMobileMenu({ items, programApplyLinks = {} }: HeaderMobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
@@ -37,7 +42,6 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   useEffect(() => {
     setIsOpen(false);
-    setExpandedItem(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -66,116 +70,90 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
               aria-hidden="true"
             />
             <div
-              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,20rem)] bg-white z-[9999] lg:hidden overflow-y-auto shadow-2xl"
+              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,22rem)] bg-white z-[9999] lg:hidden overflow-y-auto shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label="Main menu"
             >
-              <nav className="p-4" aria-label="Mobile navigation">
+              <nav className="flex flex-col p-4 pb-10" aria-label="Mobile navigation">
                 {items.map((item) => (
-                  <div key={item.name} className="border-b border-slate-100">
-                    {item.subItems ? (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setExpandedItem(expandedItem === item.name ? null : item.name)
-                          }
-                          className="flex items-center justify-between w-full py-3 text-slate-900 font-medium text-left"
-                          aria-expanded={expandedItem === item.name}
-                        >
-                          {item.name}
-                          <span
-                            className={`text-sm leading-none transition-transform inline-block ${
-                              expandedItem === item.name ? 'rotate-180' : ''
-                            }`}
-                            aria-hidden="true"
-                          >
-                            &#9660;
-                          </span>
-                        </button>
-                        {expandedItem === item.name && (
-                          <div className="pb-3 pl-4">
-                            {item.subItems.map((subItem) => {
-                              if (subItem.isHeader) {
-                                return (
-                                  <div
-                                    key={subItem.name}
-                                    className="pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-l-3 border-brand-red-500 pl-2"
-                                  >
-                                    {subItem.name.replace(/—/g, '').trim()}
-                                  </div>
-                                );
-                              }
-
-                              if (subItem.isSectionLink) {
-                                return (
-                                  <Link
-                                    key={subItem.name}
-                                    href={subItem.href}
-                                    prefetch={false}
-                                    onClick={() => setIsOpen(false)}
-                                    className="block pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-t border-brand-red-100 hover:text-brand-red-700 transition-colors"
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                );
-                              }
-
-                              const programSlug =
-                                item.id === 'programs'
-                                  ? getProgramSlugFromHref(subItem.href)
-                                  : null;
-                              const applyHref = programSlug
-                                ? programApplyLinks[programSlug]
-                                : undefined;
-
-                              return (
-                                <div key={subItem.name}>
-                                  <Link
-                                    href={subItem.href}
-                                    prefetch={false}
-                                    onClick={() => setIsOpen(false)}
-                                    className={`block hover:text-brand-blue-600 ${
-                                      subItem.nested
-                                        ? 'py-1.5 pl-4 text-xs text-slate-400 border-l border-slate-200'
-                                        : 'py-3 text-slate-600'
-                                    }`}
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                  {applyHref && (
-                                    <Link
-                                      href={applyHref}
-                                      prefetch={false}
-                                      onClick={() => setIsOpen(false)}
-                                      className="block py-1.5 pl-6 text-xs text-brand-blue-700 hover:text-brand-blue-800 border-l border-slate-200"
-                                    >
-                                      Apply to {subItem.name}
-                                    </Link>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </>
-                    ) : item.href ? (
+                  <section key={item.name} className="border-b border-slate-100 last:border-0">
+                    {item.href ? (
                       <Link
                         href={item.href}
                         prefetch={false}
                         onClick={() => setIsOpen(false)}
-                        className="block py-3 text-slate-900 font-medium hover:text-brand-blue-600"
+                        className="block py-3 text-base font-semibold text-slate-900 hover:text-brand-blue-600"
                       >
                         {item.name}
                       </Link>
                     ) : (
-                      <span className="block py-3 text-slate-900 font-medium">{item.name}</span>
+                      <p className="py-3 text-base font-semibold text-slate-900">{item.name}</p>
                     )}
-                  </div>
+
+                    {item.subItems && item.subItems.length > 0 ? (
+                      <div className="flex flex-col pb-4 pl-1">
+                        {item.subItems.map((subItem) => {
+                          if (subItem.isHeader) {
+                            return (
+                              <p
+                                key={subItem.name}
+                                className="pt-3 pb-1 text-xs font-extrabold uppercase tracking-wide text-brand-red-600"
+                              >
+                                {subItem.name.replace(/—/g, '').trim()}
+                              </p>
+                            );
+                          }
+
+                          if (subItem.isSectionLink) {
+                            return (
+                              <Link
+                                key={`${subItem.name}-${subItem.href}`}
+                                href={subItem.href}
+                                prefetch={false}
+                                onClick={() => setIsOpen(false)}
+                                className="block py-2 text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
+                              >
+                                {subItem.name}
+                              </Link>
+                            );
+                          }
+
+                          const programSlug =
+                            item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
+                          const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
+
+                          return (
+                            <div key={`${subItem.name}-${subItem.href}`}>
+                              <Link
+                                href={subItem.href}
+                                prefetch={false}
+                                onClick={() => setIsOpen(false)}
+                                className={`block py-2.5 text-sm text-slate-700 hover:text-brand-blue-600 ${
+                                  subItem.nested ? 'pl-4 text-slate-500' : ''
+                                }`}
+                              >
+                                {subItem.name}
+                              </Link>
+                              {applyHref ? (
+                                <Link
+                                  href={applyHref}
+                                  prefetch={false}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block py-1.5 pl-4 text-xs text-brand-blue-700 hover:underline"
+                                >
+                                  Apply to {subItem.name}
+                                </Link>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </section>
                 ))}
 
-                <div className="mt-6 space-y-2">
+                <div className="mt-6 flex flex-col gap-2">
                   <Link
                     href="/for-students"
                     prefetch={false}
@@ -193,12 +171,12 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                     Sign In
                   </Link>
                   <Link
-                    href="/start"
+                    href="/apply"
                     prefetch={false}
                     onClick={() => setIsOpen(false)}
                     className="block w-full text-center py-2.5 text-brand-blue-600 font-medium text-sm hover:underline"
                   >
-                    Check Eligibility
+                    Check eligibility
                   </Link>
                 </div>
               </nav>
@@ -209,7 +187,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       : null;
 
   return (
-    <div className="lg:hidden flex flex-row flex-nowrap items-center gap-0.5 sm:gap-1">
+    <div className="lg:hidden flex flex-row flex-nowrap items-center justify-end gap-0.5 shrink-0">
       <SearchModal />
       <LanguageSwitcher compact />
       <button

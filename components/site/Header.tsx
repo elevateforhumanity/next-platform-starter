@@ -24,8 +24,7 @@ export default function Header() {
       className="fixed top-0 left-0 right-0 h-[60px] bg-white z-[9999] shadow-sm border-b border-slate-100"
       role="banner"
     >
-      <div className="max-w-screen-2xl mx-auto w-full h-full px-4 lg:px-8 grid grid-cols-[auto_1fr_auto] items-center gap-3 lg:gap-6">
-        {/* Logo */}
+      <div className="max-w-screen-2xl mx-auto w-full h-full px-4 lg:px-8 grid grid-cols-[auto_1fr_auto] items-center gap-2 lg:gap-4">
         <Link
           href="/"
           className="flex items-center gap-2 flex-shrink-0 min-w-0"
@@ -37,14 +36,12 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop nav — centered horizontal row */}
-        <div className="hidden lg:flex justify-center min-w-0 overflow-visible">
+        <div className="hidden lg:flex justify-center min-w-0 overflow-hidden">
           <HeaderDesktopNav items={NAV_ITEMS} />
         </div>
 
-        {/* Actions: desktop CTAs + mobile menu (never stacks as a vertical bar) */}
-        <div className="flex items-center justify-end gap-1 sm:gap-1.5 flex-shrink-0 min-w-0">
-          <div className="hidden lg:flex items-center gap-1.5">
+        <div className="flex flex-row flex-nowrap items-center justify-end gap-0.5 sm:gap-1 flex-shrink-0 min-w-0">
+          <div className="hidden lg:flex flex-row flex-nowrap items-center gap-1.5">
             <SearchModal />
             <LanguageSwitcher compact />
             <Link
