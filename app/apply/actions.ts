@@ -617,6 +617,7 @@ async function insertApplication(payload: {
         city: payload.city,
         zip: payload.zip,
         program_interest: payload.programInterest,
+        program_slug: programRow?.id ? programSlug : null,
         program_id: programRow?.id || null,
         support_notes: `Reference: ${referenceNumber} | ${payload.supportNotes}`,
         reference_number: referenceNumber,

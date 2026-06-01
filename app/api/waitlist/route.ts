@@ -8,18 +8,14 @@ import { withRuntime } from '@/lib/api/withRuntime';
 
 // Programs that have a waitlist — all others are rejected
 const WAITLIST_PROGRAMS = new Set([
-  'cdl-training',
   'barber-apprenticeship',
   'fssa',
   'cosmetology-apprenticeship',
   'welding',
   'electrical',
   'plumbing',
-  'cdl',
 ]);
 const PROGRAM_NAMES: Record<string, string> = {
-  'cdl-training': "CDL (Commercial Driver's License)",
-  'cdl': "CDL (Commercial Driver's License)",
   'barber-apprenticeship': 'Barber Apprenticeship',
   'fssa': 'FSSA IMPACT — Workforce Training',
   'cosmetology-apprenticeship': 'Cosmetology Apprenticeship',
