@@ -654,7 +654,7 @@ export default function ApprenticeForm({
                     className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded"
                   />
                   <label htmlFor="smsConsent" className="text-sm text-black">
-                    I agree to receive text messages from ${PLATFORM_DEFAULTS.orgName} about my enrollment,
+                    I agree to receive text messages from {PLATFORM_DEFAULTS.orgName} about my enrollment,
                     program updates, and important notices. Message and data rates may apply. Reply
                     STOP to opt out.
                   </label>

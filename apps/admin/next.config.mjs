@@ -40,6 +40,13 @@ const adminConfig = {
   // Canonical route redirects — legacy aliases forward to canonical paths
   async redirects() {
     return [
+      // ── Lizzy control plane (retired dev-studio / ai-console admin routes) ──
+      { source: '/admin/dashboard', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/dashboard/:path*', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/ai-console', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/ai-console/:path*', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/ai-studio', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/ai-studio/:path*', destination: '/admin/dashboard', permanent: true },
       // ── Studio consolidation — all legacy course/quiz/video/AI surfaces → studio ──
       { source: '/admin/quizzes', destination: '/admin/studio', permanent: true },
       { source: '/admin/quizzes/:path*', destination: '/admin/studio', permanent: true },

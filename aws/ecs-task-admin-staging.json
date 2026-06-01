@@ -615,14 +615,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SUPABASE_SERVICE_KEY"
         },
         {
-          "name": "STUDIO_SHELL_WS_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL"
-        },
-        {
-          "name": "STUDIO_SHELL_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_SECRET"
-        },
-        {
           "name": "ADMIN_ALERT_EMAIL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/ADMIN_ALERT_EMAIL"
         },
@@ -845,10 +837,6 @@
         {
           "name": "STRIPE_PRICES_JSON",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STRIPE_PRICES_JSON"
-        },
-        {
-          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL_PUBLIC"
         },
         {
           "name": "YOUTUBE_API_KEY_2",

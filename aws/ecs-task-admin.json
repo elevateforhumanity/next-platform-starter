@@ -203,14 +203,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/SUPABASE_URL"
         },
         {
-          "name": "STUDIO_SHELL_WS_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL"
-        },
-        {
-          "name": "STUDIO_SHELL_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_SECRET"
-        },
-        {
           "name": "GITHUB_REPO",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/GITHUB_REPO"
         },
@@ -225,14 +217,6 @@
         {
           "name": "REDIS_URL",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/REDIS_URL"
-        },
-        {
-          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_SHELL_WS_URL_PUBLIC"
-        },
-        {
-          "name": "STUDIO_TOKEN_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/STUDIO_TOKEN_SECRET"
         }
       ],
       "logConfiguration": {

@@ -80,14 +80,6 @@ export function LizzyErrorsPanel() {
               </div>
             </section>
 
-            <section>
-              <h3 className="mb-2 font-bold uppercase tracking-wider text-[#858585]">Shell (PTY)</h3>
-              <div className="rounded border border-[#3c3c3c] bg-[#252526] p-3 space-y-1">
-                {Object.entries(data.shell).map(([key, value]) => (
-                  <Row key={key} label={key} ok={value === 'configured'} detail={String(value)} />
-                ))}
-              </div>
-            </section>
 
             <section>
               <h3 className="mb-2 font-bold uppercase tracking-wider text-[#858585]">Intake TTL</h3>

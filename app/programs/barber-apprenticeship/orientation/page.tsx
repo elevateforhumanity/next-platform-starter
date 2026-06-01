@@ -29,7 +29,7 @@ export default async function BarberOrientationPage() {
 
   // No payment on file — send them back to complete checkout
   if (!sub) {
-    redirect('/programs/barber-apprenticeship/apply?type=apprentice&reason=payment_required');
+    redirect('/programs/barber-apprenticeship/apply/apprentice?reason=payment_required');
   }
 
   const payment: BarberPaymentSummary = {

@@ -11,7 +11,6 @@ import {
   Key,
   Rocket,
   Server,
-  Terminal,
   Upload,
   Zap,
 } from 'lucide-react';
@@ -29,10 +28,9 @@ interface StudioConfig {
   previewTargets?: { label: string; url: string }[];
 }
 
-/** One container: AI command chat + AWS/GitHub deploy + shell/files/ops/health/errors/video */
+/** One container: AI command chat + AWS/GitHub deploy + upload/files/ops/health/errors/video */
 type ToolPanel =
   | 'command'
-  | 'shell'
   | 'files'
   | 'upload'
   | 'ops'
@@ -48,7 +46,6 @@ const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPane
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
 const LizzyFilesPanel = dynamic(() => import('./LizzyFilesPanel').then((m) => m.LizzyFilesPanel), { ssr: false });
 const LizzyUploadPanel = dynamic(() => import('./LizzyUploadPanel').then((m) => m.LizzyUploadPanel), { ssr: false });
-const LizzyShellPanel = dynamic(() => import('./LizzyShellPanel').then((m) => m.LizzyShellPanel), { ssr: false });
 const LizzyErrorsPanel = dynamic(() => import('./LizzyErrorsPanel').then((m) => m.LizzyErrorsPanel), { ssr: false });
 const LizzyVideoPanel = dynamic(() => import('./LizzyVideoPanel').then((m) => m.LizzyVideoPanel), { ssr: false });
 const LizzyOperationsPanel = dynamic(
@@ -62,7 +59,6 @@ const WorkflowsOpsPanel = dynamic(
 
 const TOOLS: { id: ToolPanel; label: string; Icon: ElementType<{ className?: string }> }[] = [
   { id: 'command', label: 'Command', Icon: Bot },
-  { id: 'shell', label: 'Shell', Icon: Terminal },
   { id: 'upload', label: 'Upload', Icon: Upload },
   { id: 'files', label: 'Files', Icon: FolderOpen },
   { id: 'ops', label: 'Operations', Icon: Inbox },
@@ -118,7 +114,7 @@ export function LizzyWorkspace({
       <div className="shrink-0 border-b border-[#3c3c3c] bg-[#1a2e1a] px-3 py-2 text-[10px] leading-snug text-[#9ca3af]">
         <strong className="text-[#4ec9b0]">Lizzy</strong>
         {' '}
-        — talk to the platform AI, deploy via GitHub Actions to AWS, upload files, shell into the container, and run operations. Credentials load from ECS/SSM automatically — no browser production toggle.
+        — talk to the platform AI, deploy via GitHub Actions to AWS, upload files, and run operations. Credentials load from ECS/SSM automatically — no browser production toggle.
       </div>
 
       {/* AWS / GitHub deploy — always visible */}
@@ -156,7 +152,6 @@ export function LizzyWorkspace({
 
       <div className="min-h-0 flex-1 overflow-hidden">
         {panel === 'command' && <AIChat ellieMode />}
-        {panel === 'shell' && <LizzyShellPanel onPreviewUrlDetected={onPreviewUrlDetected} />}
         {panel === 'upload' && <LizzyUploadPanel />}
         {panel === 'files' && <LizzyFilesPanel />}
         {panel === 'ops' && (

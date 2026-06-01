@@ -38,6 +38,7 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/progress':             '/admin/analytics/learning',
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
+  '/admin/dashboard':           '/admin/dashboard',
   // ── Media consolidation ──────────────────────────────────────────────────
   '/admin/copilot':              '/admin/studio',
   '/admin/video-manager':        '/admin/studio',

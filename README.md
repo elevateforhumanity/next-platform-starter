@@ -305,7 +305,7 @@ UI:
 
 ## Dev Studio
 
-The admin app includes a built-in Dev Studio at `/admin/dev-studio` — a super-admin-only operations panel with the following tabs:
+The admin app includes a built-in Dev Studio at `/admin/dashboard` — a super-admin-only operations panel with the following tabs:
 
 | Tab | Purpose |
 |---|---|

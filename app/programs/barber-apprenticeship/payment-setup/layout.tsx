@@ -22,7 +22,7 @@ export default async function PaymentSetupLayout({ children }: { children: React
 
   if (!enrollment) {
     // No enrollment — send to apply page
-    redirect('/programs/barber-apprenticeship/apply?type=apprentice');
+    redirect('/programs/barber-apprenticeship/apply/apprentice');
   }
 
   if (enrollment.payment_status === 'paid' || enrollment.enrollment_state === 'active') {

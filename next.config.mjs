@@ -520,8 +520,6 @@ const nextConfig = {
       { source: '/admin/course-studio', destination: '/admin/studio', permanent: true },
       { source: '/admin/dight', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/dight/:path*', destination: '/admin/dashboard/:path*', permanent: true },
-      { source: '/admin/mission-control', destination: '/admin/dashboard', permanent: true },
-      { source: '/admin/mission-control/:path*', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/users/invite', destination: '/admin/staff', permanent: true },
       {
         source: '/admin/wioa/documents/upload',
@@ -635,8 +633,8 @@ const nextConfig = {
       // Partner consolidation
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
 
-      // apply/barber → barber host shop apply
-      { source: '/apply/barber', destination: '/partners/barber-host-shop/apply', permanent: true },
+      // apply/barber → apprentice enrollment (not partner shop)
+      { source: '/apply/barber', destination: '/programs/barber-apprenticeship/apply/apprentice', permanent: true },
 
       // Old barbershop-apprenticeship URLs → barber-host-shop
       { source: '/partners/barbershop-apprenticeship/:path*', destination: '/partners/barber-host-shop/:path*', permanent: true },

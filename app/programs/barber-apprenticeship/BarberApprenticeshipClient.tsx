@@ -252,7 +252,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                 body: p.description,
                 cta: {
                   label: `Pay with ${p.name}`,
-                  href: `/programs/barber-apprenticeship/apply?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
+                  href: `/programs/barber-apprenticeship/apply/apprentice?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
                 },
               })),
             ].map((opt) => (
