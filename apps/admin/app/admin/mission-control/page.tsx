@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Mission Control | Admin',
 };
 
-/** Mission Control merged into /admin/dashboard — avoid two operational home screens. */
+/** Mission Control merged into /admin/dashboard — one operational home. */
 export default function MissionControlRedirectPage() {
   redirect('/admin/dashboard');
 }
