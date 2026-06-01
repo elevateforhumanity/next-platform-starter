@@ -4,7 +4,7 @@
 // No synthetic stats, no fake deltas.
 
 // SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import {
@@ -109,10 +109,7 @@ const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const supabase = await createClient();
-  const adminClient = await requireAdminClient();
-  // Fall back to the anon client if the service role key is absent.
-  // Queries that require elevated privileges will return empty results
-  // rather than crashing the entire dashboard.
+  const adminClient = await getAdminClient();
   const db = adminClient ?? supabase;
 
   const thisMonthStart  = monthStart();
@@ -311,7 +308,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('participant_id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding (learner names enriched after fetch)
+    // Active enrollments missing funding — join profiles for display name/email
     // Exclude apprenticeship programs (barber/cosmetology are self-pay by design)
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
@@ -1045,6 +1042,51 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     },
   ];
 
+  const missingFundingRows = missingFundingEnrollmentsRes.error
+    ? []
+    : (missingFundingEnrollmentsRes.data ?? []);
+  if (missingFundingEnrollmentsRes.error) {
+    logger.error(
+      '[dashboard] missing funding enrollments query failed',
+      missingFundingEnrollmentsRes.error,
+    );
+  }
+  const missingFundingUserIds = [
+    ...new Set(
+      missingFundingRows
+        .map((row: { user_id?: string | null }) => row.user_id)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  ];
+  const missingFundingProfileByUserId: Record<
+    string,
+    { full_name: string | null; email: string | null }
+  > = {};
+  if (missingFundingUserIds.length > 0) {
+    const { data: profileRows, error: profileLookupError } = await db
+      .from('profiles')
+      .select('id, full_name, email')
+      .in('id', missingFundingUserIds);
+    if (profileLookupError) {
+      logger.error('[dashboard] missing funding profile lookup failed', profileLookupError);
+    } else {
+      for (const profile of profileRows ?? []) {
+        if (profile.id) {
+          missingFundingProfileByUserId[profile.id] = {
+            full_name: profile.full_name ?? null,
+            email: profile.email ?? null,
+          };
+        }
+      }
+    }
+  }
+  const missingFundingEnrollments = missingFundingRows.map((row: Record<string, unknown>) => {
+    const userId = typeof row.user_id === 'string' ? row.user_id : null;
+    const profile = userId ? missingFundingProfileByUserId[userId] : null;
+    return { ...row, profiles: profile };
+  });
+
+
   return {
     counts: {
       pendingApplications:   totalPendingCount,
@@ -1074,7 +1116,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     pendingWioaDocs,
     stalledApplications: stalledApplicationsRes.data ?? [],
     noOutcomeEnrollments: noOutcomeEnrollmentsRes.data ?? [],
-    missingFundingEnrollments: missingFundingEnrollmentsRes.data ?? [],
+    missingFundingEnrollments,
     profile: adminProfile,
     generatedAt: new Date().toISOString(),
     sitePreviewTargets,

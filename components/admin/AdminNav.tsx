@@ -80,6 +80,19 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
     };
   }, [mobileOpen]);
 
+  // Desktop: never leave body scroll locked after resizing from mobile menu
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const onChange = () => {
+      if (mq.matches) {
+        setMobileOpen(false);
+        document.body.style.overflow = '';
+      }
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     if (search.trim()) {

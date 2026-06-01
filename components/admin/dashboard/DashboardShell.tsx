@@ -43,7 +43,6 @@ function Empty({ message }: { message: string }) {
 }
 
 const DEGRADED_LABELS: Record<string, string> = {
-  dashboard_data: "Dashboard data",
   inactive_learners: "Inactive learners",
   unpublished_programs: "Unpublished programs",
   recent_students: "Recent students",
@@ -453,14 +452,14 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
+      <div className="relative w-full h-[min(200px,28vh)] max-h-[240px] overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
-          sizes="100vw"
+          sizes="(max-width: 1280px) 100vw, 1280px"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
@@ -490,13 +489,15 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
+        <AdminCategoryLanding />
+
         {/* ── Stats overview bar ───────────────────────────────────────── */}
         <StatsOverviewBar data={data} />
 
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {data.kpis.length > 0 && (
           <div className="mb-6">
-            <KpiGrid kpis={data.kpis} />
+            <RealtimeKpiGrid kpis={data.kpis} />
           </div>
         )}
 
@@ -504,7 +505,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         <OperationalAlerts data={data} />
 
         {/* ── Scored priority list ─────────────────────────────────────── */}
-        {(data.priorities?.length ?? 0) > 0 && <TodaysPriorities data={data} />}
+        <TodaysPriorities data={data} />
 
         {/* ── Main operational grid ────────────────────────────────────── */}
         {/* Left (2/3): action queues — learners, review queues, CRM       */}

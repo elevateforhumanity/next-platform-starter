@@ -38,7 +38,9 @@ export function RealtimeKpiGrid({ kpis: initialKpis }: Props) {
 
     const sb = createClient(url, key);
 
-    const channel = sb.channel('dashboard-kpi-realtime')
+    let channel: ReturnType<typeof sb.channel> | null = null;
+    try {
+    channel = sb.channel('dashboard-kpi-realtime')
       // ── Enrollments ──────────────────────────────────────────────────────
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'program_enrollments' }, () => {
         setKpis(k => patchKpi(k, 'learner', v => v + 1));
