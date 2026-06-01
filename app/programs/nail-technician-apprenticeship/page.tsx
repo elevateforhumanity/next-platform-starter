@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { importName } from '@/data/programs/nail-technician-apprenticeship';
+import { NAIL_TECH } from '@/data/programs/nail-technician-apprenticeship';
 import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
 export const metadata = buildProgramMetadata(NAIL_TECH);

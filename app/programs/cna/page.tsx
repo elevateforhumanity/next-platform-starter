@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { importName } from '@/data/programs/cna';
+import { CNA } from '@/data/programs/cna';
 import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
 export const metadata = buildProgramMetadata(CNA);
