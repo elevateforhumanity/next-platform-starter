@@ -12,12 +12,21 @@
 -- 20260702000009 - normalize_two_factor_auth
 -- ============================================================================
 
-UPDATE public.two_factor_auth
-SET enabled = TRUE
-WHERE is_enabled = TRUE AND (enabled IS NULL OR enabled = FALSE);
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'two_factor_auth'
+      AND column_name = 'is_enabled'
+  ) THEN
+    UPDATE public.two_factor_auth
+    SET enabled = TRUE
+    WHERE is_enabled = TRUE AND (enabled IS NULL OR enabled = FALSE);
 
-ALTER TABLE public.two_factor_auth
-  DROP COLUMN IF EXISTS is_enabled;
+    ALTER TABLE public.two_factor_auth DROP COLUMN IF EXISTS is_enabled;
+  END IF;
+END $$;
 
 ALTER TABLE public.two_factor_auth
   ALTER COLUMN enabled SET DEFAULT false,
