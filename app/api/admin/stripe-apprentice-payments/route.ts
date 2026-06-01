@@ -2,62 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getStripe } from '@/lib/stripe/client';
+import {
+  BARBER_APPRENTICE_STRIPE_CUSTOMERS,
+  runApprenticeStripeBilling,
+  type ApprenticeBillingAction,
+} from '@/lib/barber/apprentice-stripe-billing';
 
 export const dynamic = 'force-dynamic';
 
-// Barber apprentice Stripe customer IDs (live)
-const APPRENTICE_CUSTOMERS: Record<
-  string,
-  {
-    name: string;
-    email: string;
-    enrollmentId: string;
-    weeklyRateCents: number;
-    startDate: string;
-    hostShop: string;
-    studentNumber: string;
-    ojtHours: number;
-    transferHours: number;
-    downPaymentCents: number;
-  }
-> = {
-  cus_UGFxoJKjtlNoy8: {
-    name: 'Jordan White',
-    email: 'jbwhite888@icloud.com',
-    enrollmentId: '47e75da9-2903-4b9a-ba3b-fc23f00ec1a5',
-    weeklyRateCents: 7641,
-    startDate: '2026-04-17',
-    hostShop: 'Kountry Kutz',
-    studentNumber: 'ELV-2026-00114',
-    ojtHours: 200,
-    transferHours: 350,
-    downPaymentCents: 200000,
-  },
-  cus_UG4BIa05facQez: {
-    name: 'Wellington Mercedes',
-    email: 'msanqin@gmail.com',
-    enrollmentId: '0320f78d-40df-4fb4-b5b9-3bed858e975b',
-    weeklyRateCents: 15103,
-    startDate: '2026-04-13',
-    hostShop: 'Prestige Elevation Barber and Beauty Institute',
-    studentNumber: 'ELV-2026-00106',
-    ojtHours: 160,
-    transferHours: 0,
-    downPaymentCents: 60000,
-  },
-  cus_UTVa6pmsYlWBsp: {
-    name: 'Natalia Roa',
-    email: 'natataroa@gmail.com',
-    enrollmentId: '6ad966f1-f8fd-457f-9f5e-5391072f9f29',
-    weeklyRateCents: 15103,
-    startDate: '2026-05-12',
-    hostShop: 'Kountry Kutz',
-    studentNumber: 'ELV-2026-00263',
-    ojtHours: 40,
-    transferHours: 0,
-    downPaymentCents: 60000,
-  },
-};
+const JORDAN_AND_NATALIA = ['cus_UGFxoJKjtlNoy8', 'cus_UTVa6pmsYlWBsp'] as const;
 
 export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -72,7 +25,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const results = await Promise.all(
-      Object.entries(APPRENTICE_CUSTOMERS).map(async ([customerId, meta]) => {
+      Object.entries(BARBER_APPRENTICE_STRIPE_CUSTOMERS).map(async ([customerId, meta]) => {
         const [charges, subscriptions, invoices] = await Promise.all([
           stripe.charges.list({ customer: customerId, limit: 50 }),
           stripe.subscriptions.list({ customer: customerId, limit: 10, status: 'all' } as any),
@@ -86,11 +39,6 @@ export async function GET(request: NextRequest) {
         const activeSub = subscriptions.data.find((s) => s.status === 'active');
         const latestSub = subscriptions.data[0] ?? null;
 
-        const totalHours = meta.ojtHours + meta.transferHours;
-        const requiredHours = 2000;
-        const progressPct = Math.round((totalHours / requiredHours) * 100);
-
-        // Payment schedule: weeks since start × weekly rate
         const msPerWeek = 7 * 24 * 60 * 60 * 1000;
         const weeksSinceStart = Math.floor(
           (Date.now() - new Date(meta.startDate).getTime()) / msPerWeek,
@@ -106,10 +54,6 @@ export async function GET(request: NextRequest) {
           ...meta,
           totalPaidCents,
           totalPaidFormatted: formatCents(totalPaidCents),
-          totalHours,
-          ojtHours: meta.ojtHours,
-          transferHours: meta.transferHours,
-          progressPct,
           weeksBilled,
           totalScheduledCents,
           totalScheduledFormatted: formatCents(totalScheduledCents),
@@ -121,7 +65,7 @@ export async function GET(request: NextRequest) {
                 id: latestSub.id,
                 status: latestSub.status,
                 isActive: latestSub.status === 'active',
-                weeklyAmountCents: (latestSub.items.data[0]?.price?.unit_amount ?? 0),
+                weeklyAmountCents: latestSub.items.data[0]?.price?.unit_amount ?? 0,
                 weeklyAmountFormatted: formatCents(
                   latestSub.items.data[0]?.price?.unit_amount ?? 0,
                 ),
@@ -159,8 +103,48 @@ export async function GET(request: NextRequest) {
     );
 
     return NextResponse.json({ students: results });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: 'Payment processing error' }, { status: 500 });
+  }
+}
+
+/**
+ * POST — run billing for Jordan White and Natalia Roa (default).
+ * Body: { customerIds?: string[], actions?: ('ensure_subscription' | 'pay_open_invoices')[] }
+ */
+export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
+
+  const stripe = getStripe();
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+  }
+
+  let body: { customerIds?: string[]; actions?: ApprenticeBillingAction[] } = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+
+  const customerIds = body.customerIds?.length ? body.customerIds : [...JORDAN_AND_NATALIA];
+
+  try {
+    const results = await runApprenticeStripeBilling(stripe, {
+      customerIds,
+      actions: body.actions,
+    });
+    const allOk = results.every((r) => r.ok);
+    return NextResponse.json(
+      { ok: allOk, results, customerIds },
+      { status: allOk ? 200 : 207 },
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Billing run failed';
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
 

@@ -49,6 +49,10 @@ import {
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { claimWebhookEvent, finalizeWebhookEvent } from '@/lib/webhooks/event-tracker';
 import { flagCertificatesOnRefund } from '@/lib/certificates/flag-on-refund';
+import {
+  constructStripeEventWithAnySecret,
+  getCanonicalStripeWebhookSecrets,
+} from '@/lib/stripe/construct-webhook-event';
 import * as Sentry from '@sentry/nextjs';
 import { sendEmail } from '@/lib/email/service';
 import {
@@ -211,24 +215,23 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ received: true, warning: 'stripe_not_configured' }, { status: 200 });
   }
 
-  // Read secret at request time — module-level init would freeze a missing value permanently.
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecrets = getCanonicalStripeWebhookSecrets();
 
   // Stage 0: Log env var presence for debugging
   logger.info('[webhook] Env check:', {
     hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
-    hasWebhookSecret: !!webhookSecret,
+    hasWebhookSecret: webhookSecrets.length > 0,
+    webhookSecretCount: webhookSecrets.length,
     hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
     stripeInitialized: !!stripeClient,
     supabaseInitialized: !!supabase,
   });
 
-  if (!webhookSecret) {
-    // STRIPE_WEBHOOK_SECRET missing — alert loudly but return 200 so Stripe
-    // does not keep retrying. This is a misconfiguration, not a bad request.
+  if (!webhookSecrets.length) {
+    // No signing secrets — alert loudly but return 200 so Stripe does not keep retrying.
     logger.error(
-      '[webhook] STRIPE_WEBHOOK_SECRET is not set — event dropped. Set STRIPE_WEBHOOK_SECRET in AWS SSM Parameter Store (/elevate/STRIPE_WEBHOOK_SECRET).',
+      '[webhook] No Stripe webhook signing secrets configured — event dropped. Set STRIPE_WEBHOOK_SECRET in AWS SSM (/elevate/STRIPE_WEBHOOK_SECRET).',
     );
     Sentry.captureException(
       new Error('STRIPE_WEBHOOK_SECRET not set — webhook events are being dropped'),
@@ -260,11 +263,15 @@ async function _POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripeClient.webhooks.constructEvent(body, signature, webhookSecret);
+    event = constructStripeEventWithAnySecret(stripeClient, body, signature, webhookSecrets);
   } catch (err) {
-    logger.error('[webhook] Signature verification failed:', err);
+    logger.error('[webhook] Signature verification failed (tried all configured secrets):', err);
     Sentry.captureException(err, {
-      tags: { subsystem: 'stripe_webhook', failure: 'signature_verification' },
+      tags: {
+        subsystem: 'stripe_webhook',
+        failure: 'signature_verification',
+        secrets_tried: String(webhookSecrets.length),
+      },
     });
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
@@ -1096,6 +1103,16 @@ async function _POST(request: NextRequest) {
 // skip_body: Stripe body is already consumed by request.text() inside the handler.
 // critical omitted: audit failure must not override the 200 returned to Stripe —
 // the handler writes its own idempotency records to stripe_webhook_events.
+/** Stripe Dashboard probes / ops smoke check — no POST body required. */
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    endpoint: '/api/webhooks/stripe',
+    message: 'Register this URL in Stripe Dashboard; signing secret → STRIPE_WEBHOOK_SECRET in SSM.',
+  });
+}
+
 export const POST = withApiAudit('/api/webhooks/stripe', _POST, {
   actor_type: 'webhook',
+  skip_body: true,
 });
