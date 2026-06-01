@@ -489,7 +489,10 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
-        <AdminCommandWorkbenchWrapper sites={data.sitePreviewTargets ?? []} />
+        <AdminCommandWorkbenchWrapper
+          sites={data.sitePreviewTargets ?? []}
+          isSuperAdmin={data.profile?.role === 'super_admin'}
+        />
         <MissionControlLiveOpsPanel />
 
         <AdminCategoryLanding />

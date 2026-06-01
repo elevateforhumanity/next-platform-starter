@@ -1,18 +1,9 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 import { ColoredLivePreviewFrame, type PreviewTarget } from './ColoredLivePreviewFrame';
+import { CommandCenterWorkspace } from './CommandCenterWorkspace';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-
-const AIChat = dynamic(() => import('@/components/dev-studio/AIChat'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex flex-1 items-center justify-center text-sm text-slate-500">
-      Loading Ellie…
-    </div>
-  ),
-});
 
 const DEFAULT_TARGETS: PreviewTarget[] = [
   { label: 'Public site', url: process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl },
@@ -31,17 +22,18 @@ export type AdminCommandWorkbenchProps = {
   defaultPreviewUrl?: string;
   className?: string;
   previewMinHeight?: number;
+  isSuperAdmin?: boolean;
 };
 
 /**
- * Ellie merged into the preview container you already use:
- * workspace on top → gradient URL bar + chips → iframe at bottom.
+ * Single admin command container: Dev Studio tools on top, live site preview below.
  */
 export function AdminCommandWorkbench({
   sites,
   defaultPreviewUrl,
   className = '',
   previewMinHeight = 380,
+  isSuperAdmin = false,
 }: AdminCommandWorkbenchProps) {
   const targets = useMemo(() => {
     return (sites?.length ? sites : DEFAULT_TARGETS).map((t) => ({
@@ -56,8 +48,8 @@ export function AdminCommandWorkbench({
       defaultUrl={defaultPreviewUrl}
       minHeight={previewMinHeight}
       className={className}
-      workspaceTop={<AIChat ellieMode />}
-      workspaceMinHeight={380}
+      workspaceTop={<CommandCenterWorkspace isSuperAdmin={isSuperAdmin} />}
+      workspaceMinHeight={440}
       showSiteHealth
     />
   );

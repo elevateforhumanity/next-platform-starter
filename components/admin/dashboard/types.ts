@@ -113,7 +113,6 @@ export interface SystemHealth {
 // UI must render an explicit partial-failure notice when this is non-empty.
 // An empty array means all sections loaded successfully.
 export type DegradedSection =
-  | 'dashboard_data'
   | 'inactive_learners'
   | 'unpublished_programs'
   | 'recent_students'
@@ -216,7 +215,7 @@ export interface AdminDashboardData {
   noOutcomeEnrollments: Record<string, unknown>[];
   /** Active enrollments missing a funding source */
   missingFundingEnrollments: Record<string, unknown>[];
-  profile: { full_name: string | null } | null;
+  profile: { full_name: string | null; role?: string | null } | null;
   generatedAt: string;
   sitePreviewTargets: SitePreviewTarget[];
   /** Non-empty when one or more non-critical sections failed to load. */
