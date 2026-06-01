@@ -88,10 +88,16 @@ export function createBrowserClient(): SupabaseClient<any> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
-    if (!warnedOnce && process.env.NODE_ENV !== 'production') {
-      logger.warn(
-        '[Supabase Browser] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY; returning no-op client.',
+  const misconfigured =
+    !supabaseUrl ||
+    !supabaseAnonKey ||
+    supabaseAnonKey === 'placeholder' ||
+    supabaseUrl.includes('placeholder');
+
+  if (misconfigured) {
+    if (!warnedOnce) {
+      logger.error(
+        '[Supabase Browser] Auth is misconfigured (missing or placeholder NEXT_PUBLIC_SUPABASE_*). Login and client actions will not work.',
       );
       warnedOnce = true;
     }

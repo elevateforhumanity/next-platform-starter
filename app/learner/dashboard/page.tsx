@@ -49,36 +49,16 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   const supabase = await createClient();
   const sp = await searchParams;
 
-  // Students with a portal_type get redirected to their industry-specific dashboard.
-  // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
-  const profileAny = profile as any;
-  if (profile?.role === 'student' && profileAny.portal_type) {
-    redirect(`/portal/${profileAny.portal_type}`);
-  }
-
-  // Apprenticeship students each get their own dedicated portal dashboard.
+  // Smart router: apprenticeship program_slug wins over generic portal_type `apprentice`.
   if (profile?.role === 'student') {
-    const APPRENTICESHIP_SLUG_TO_PORTAL: Record<string, string> = {
-      'barber-apprenticeship':          '/portal/barber',
-      'cosmetology-apprenticeship':     '/portal/cosmetology',
-      'esthetician-apprenticeship':     '/portal/esthetician',
-      'nail-technician-apprenticeship': '/portal/nail-technician',
-      'culinary-apprenticeship':        '/portal/culinary',
-      'electrical':                     '/portal/electrical',
-      'plumbing':                       '/portal/plumbing',
-    };
-    const { data: apEnrollment } = await supabase
-      .from('program_enrollments')
-      .select('program_slug')
-      .eq('user_id', user.id)
-      .in('program_slug', Object.keys(APPRENTICESHIP_SLUG_TO_PORTAL))
-      .in('enrollment_state', ['active', 'confirmed', 'orientation_complete', 'documents_complete'])
-      .order('enrolled_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (apEnrollment?.program_slug) {
-      redirect(APPRENTICESHIP_SLUG_TO_PORTAL[apEnrollment.program_slug] ?? '/portal/apprentice');
+    const { resolveStudentHomePath } = await import('@/lib/portal/resolve-student-home');
+    const home = await resolveStudentHomePath(
+      supabase,
+      user.id,
+      (profile as { portal_type?: string | null }).portal_type,
+    );
+    if (home !== '/learner/dashboard') {
+      redirect(home);
     }
   }
 
@@ -160,12 +140,12 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             </div>
             <p className="text-sm text-slate-700 mb-6">
               Questions? Call{' '}
-              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone}`} className="text-slate-900 font-semibold">
-                {PLATFORM_DEFAULTS.supportPhone}
+              <a href="tel:${PLATFORM_DEFAULTS.supportPhone}" className="text-slate-900 font-semibold">
+                ${PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or email{' '}
-              <a href={`mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}`} className="text-slate-900 font-semibold">
-                {`info@${PLATFORM_DEFAULTS.canonicalDomain}`}
+              <a href="mailto:info@${PLATFORM_DEFAULTS.canonicalDomain}" className="text-slate-900 font-semibold">
+                info@${PLATFORM_DEFAULTS.canonicalDomain}
               </a>
             </p>
             <div className="border-t pt-6 text-left">
@@ -904,7 +884,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'payment_failed' && (
                           <div className="flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded p-2">
                             <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                            Payment issue — contact Elevate at {PLATFORM_DEFAULTS.supportPhone}.
+                            Payment issue — contact Elevate at ${PLATFORM_DEFAULTS.supportPhone}.
                           </div>
                         )}
 

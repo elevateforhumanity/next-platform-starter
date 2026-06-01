@@ -2,6 +2,7 @@ import 'server-only';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getApprovedHoursByType } from '@/lib/hours/get-approved-hours';
+import { ACTIVE_ENROLLMENT_STATES } from '@/lib/portal/apprenticeship-portal-paths';
 import { APPRENTICE_PORTAL_CONFIGS, type ApprenticePortalConfig } from '@/components/portal/ApprenticePortalShell';
 
 export async function loadApprenticePortalData(programSlug: string) {
@@ -28,9 +29,7 @@ export async function loadApprenticePortalData(programSlug: string) {
     supabase.from('profiles').select('full_name').eq('id', user.id).maybeSingle(),
     supabase
       .from('program_enrollments')
-      .select(
-        'id, program_id, program_slug, enrollment_state, orientation_completed_at, docs_verified, stripe_subscription_id, stripe_subscription_status',
-      )
+      .select('id, program_id, program_slug, enrollment_state, orientation_completed_at, stripe_subscription_id, stripe_subscription_status')
       .eq('user_id', user.id)
       .eq('program_slug', programSlug)
       .order('created_at', { ascending: false })

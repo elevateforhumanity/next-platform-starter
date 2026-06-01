@@ -190,13 +190,13 @@ export async function cachePortalTypeForEnrollment(
   try {
     const { data: program } = await supabase
       .from('programs')
-      .select('program_type, category')
+      .select('program_type, category, slug')
       .eq('id', programId)
       .maybeSingle()
 
     if (!program) return
 
-    const portalKey = derivePortalKey(program.program_type, program.category)
+    const portalKey = derivePortalKey(program.program_type, program.category, program.slug)
     if (!portalKey) return
 
     await supabase
