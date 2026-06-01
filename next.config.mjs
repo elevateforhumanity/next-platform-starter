@@ -150,9 +150,7 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     workerThreads: false,
-    // On CI (CodeBuild) limit to 1 CPU to reduce parallel compile spikes.
-    // webpack.parallelism is already 1; this caps Next's own pipeline too.
-    cpus: process.env.CI === 'true' ? 1 : 4,
+    cpus: 4,
     serverActions: {
       allowedOrigins: [
         'www.elevateforhumanity.org',
@@ -522,6 +520,8 @@ const nextConfig = {
       { source: '/admin/course-studio', destination: '/admin/studio', permanent: true },
       { source: '/admin/dight', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/dight/:path*', destination: '/admin/dashboard/:path*', permanent: true },
+      { source: '/admin/mission-control', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/mission-control/:path*', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/users/invite', destination: '/admin/staff', permanent: true },
       {
         source: '/admin/wioa/documents/upload',
@@ -1148,7 +1148,11 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=63072000; includeSubDomains; preload',
       },
-      // X-Frame-Options omitted — CSP frame-ancestors allows admin Dev Studio to preview www.
+      // X-Frame-Options: DENY in production to prevent clickjacking.
+      // Omitted in dev so Dev Studio's iframe preview can load same-origin pages.
+      ...(isProduction
+        ? [{ key: 'X-Frame-Options', value: 'DENY' }]
+        : []),
       {
         key: 'X-Content-Type-Options',
         value: 'nosniff',
@@ -1175,7 +1179,7 @@ const nextConfig = {
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://images.pexels.com https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev https://cms-artifacts.artlist.io https://*.r2.dev https://cdn.elevatelms.com https://*.githubusercontent.com https://cdn1.affirm.com",
           "font-src 'self' data: https://fonts.gstatic.com",
-          "connect-src 'self' https://*.supabase.co https://api.stripe.com wss://*.supabase.co https://us06web.zoom.us https://*.sentry.io https://*.ingest.sentry.io https://www.google-analytics.com https://region1.google-analytics.com",
+          "connect-src 'self' https://*.supabase.co https://api.stripe.com wss://*.supabase.co https://us06web.zoom.us https://*.sentry.io https://o4504*.ingest.sentry.io https://www.google-analytics.com https://region1.google-analytics.com",
           "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://js.stripe.com https://us06web.zoom.us https://challenges.cloudflare.com https://*.cloudflarestream.com",
           "media-src 'self' data: blob: https://*.supabase.co https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev https://cms-artifacts.artlist.io https://*.r2.dev https://cdn.elevatelms.com https://*.cloudflarestream.com",
           "worker-src 'self' blob:",
