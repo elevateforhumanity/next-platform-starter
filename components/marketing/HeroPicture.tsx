@@ -101,7 +101,7 @@ export default function HeroPicture({
         {/* Brand bug — top-left, only when requested */}
         {showBrandBug && (
           <div className="absolute top-4 left-4 z-10">
-            // IMAGE-CONTRACT: allow raw img because legacy markup
+            {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
             <img
               src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
               alt={PLATFORM_DEFAULTS.orgName}
@@ -179,7 +179,7 @@ export default function HeroPicture({
               onClick={() => setTranscriptOpen((o) => !o)}
               aria-expanded={transcriptOpen}
               aria-controls={transcriptId}
-              className="flex items-center gap-2 text-slate-500 text-xs font-semibold hover:text-slate-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red-500 rounded"
+              className="flex items-center gap-2 rounded text-xs font-semibold text-slate-500 transition-colors hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red-500 focus-visible:ring-offset-2"
             >
               <span>{transcriptOpen ? '▲' : '▼'}</span>
               Image transcript
