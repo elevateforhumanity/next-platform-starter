@@ -254,11 +254,20 @@ export default function InteractiveVideoPlayer({
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play().then(()=>{}, ()=>{});
+        syncAudioOutput();
+        void videoRef.current.play().then(() => {}, () => {});
       }
       setIsPlaying(!isPlaying);
     }
   };
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = false;
+    el.volume = volume > 0 ? volume : 1;
+    setIsMuted(false);
+  }, [videoUrl, volume]);
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
@@ -287,9 +296,18 @@ export default function InteractiveVideoPlayer({
     }
   };
 
+  const syncAudioOutput = () => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = false;
+    el.volume = volume > 0 ? volume : 1;
+    setIsMuted(false);
+  };
+
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      syncAudioOutput();
     }
   };
 
@@ -428,6 +446,7 @@ export default function InteractiveVideoPlayer({
             src={videoUrl}
             className="w-full aspect-video"
             playsInline
+            controls
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onError={() => setLoadError(true)}
