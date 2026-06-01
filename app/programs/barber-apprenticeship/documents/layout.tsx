@@ -33,7 +33,7 @@ export default async function DocumentsLayout({
 
   // No enrollment — redirect to apply
   if (!enrollment) {
-    redirect('/programs/barber-apprenticeship/apply?type=apprentice');
+    redirect('/programs/barber-apprenticeship/apply/apprentice');
   }
 
   // Must complete orientation first

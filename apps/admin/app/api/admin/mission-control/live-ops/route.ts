@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
- * GET /api/admin/mission-control/live-ops
+ * GET /api/admin/dashboard/live-ops
  *
  * Returns the full operational picture for Mission Control:
  *   - Active clock-ins + recent completions

@@ -839,18 +839,6 @@
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/SAM_GOV_API_KEY"
         },
         {
-          "name": "STUDIO_SHELL_SECRET",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_SECRET"
-        },
-        {
-          "name": "STUDIO_SHELL_WS_URL",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL"
-        },
-        {
-          "name": "STUDIO_SHELL_WS_URL_PUBLIC",
-          "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/STUDIO_SHELL_WS_URL_PUBLIC"
-        },
-        {
           "name": "YOUTUBE_API_KEY_2",
           "valueFrom": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate-staging/YOUTUBE_API_KEY_2"
         }

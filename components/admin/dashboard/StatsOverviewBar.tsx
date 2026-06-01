@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Users, BookOpen, DollarSign, BadgeCheck, FileText, TrendingUp } from 'lucide-react';
 import type { AdminDashboardData } from './types';
-import { formatCentsCompact } from '@/lib/admin/dashboard/format-metrics';
 
 interface Props {
   data: AdminDashboardData;
@@ -86,7 +85,7 @@ export function StatsOverviewBar({ data }: Props) {
           label="Pending Applications"
           value={counts.pendingApplications.toLocaleString()}
           sub="awaiting review"
-          href="/admin/applications?status=submitted,pending,in_review,pending_admin_review"
+          href="/admin/applications?status=submitted,pending,in_review,under_review,pending_admin_review,pending_funding"
           urgent={counts.pendingApplications > 0}
         />
         <StatCard

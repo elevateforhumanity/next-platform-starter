@@ -6,8 +6,18 @@ import toast from 'react-hot-toast';
 import { Edit2, X, Save } from 'lucide-react';
 
 const STATUSES = [
-  'pending', 'submitted', 'under_review', 'approved',
-  'rejected', 'enrolled', 'waitlisted', 'ready_to_enroll', 'pending_workone',
+  'pending',
+  'submitted',
+  'in_review',
+  'under_review',
+  'pending_admin_review',
+  'pending_funding',
+  'approved',
+  'rejected',
+  'enrolled',
+  'waitlisted',
+  'ready_to_enroll',
+  'pending_workone',
 ];
 
 interface Props {

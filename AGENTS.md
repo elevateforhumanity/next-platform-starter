@@ -815,6 +815,13 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
   SKIP_ENV_VALIDATION=true
   ```
 
+### Barber apprenticeship apply URLs
+
+- **Apprentice enrollment form:** `/programs/barber-apprenticeship/apply/apprentice` (canonical)
+- **Apply chooser (apprentice vs partner shop):** `/programs/barber-apprenticeship/apply`
+- Legacy `/programs/barber-apprenticeship/apply?type=apprentice` and `?payment=*` redirect to `/apply/apprentice` with query preserved
+- `/apply/barber` redirects to apprentice apply (not partner shop)
+
 ### Running services
 
 | Service | Command | Port |
@@ -853,13 +860,4 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
-
-### Managed trial + tenant public sites
-
-- **Trial start:** `POST /api/trial/start-managed` provisions org + `managed_licenses` + published `user_websites` via `lib/tenant/provision-trial-website.ts` (skipped for `websiteMode=api_embed`).
-- **Public URL:** `https://{slug}.app.elevateforhumanity.org` — `proxy.ts` sets `x-tenant-slug` and rewrites non-admin paths to `app/tenant-site/[[...slug]]`.
-- **Publish / edit:** `POST /api/websites/[id]/publish`, `PATCH /api/websites/[id]/config`, editor at `/apps/website-builder/edit/[websiteId]`.
-- **AI → builder:** `POST /api/ai/generate-site` with `websiteId` persists into `site_config`.
-- **DB:** Migration `20260530000001_tenant_website_builder.sql` must be applied manually before new columns work in production.
-- **Docs:** `docs/store-14-day-trial.md`
 

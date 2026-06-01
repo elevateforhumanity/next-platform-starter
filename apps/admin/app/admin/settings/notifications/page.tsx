@@ -63,7 +63,7 @@ export default async function NotificationSettingsPage() {
 
       <p className="text-xs text-slate-400 max-w-xl">
         Email API keys (SendGrid, Resend, SMTP) are configured in{' '}
-        <Link href="/admin/dev-studio?tab=secrets" className="text-brand-blue-600 underline">
+        <Link href="/admin/settings/integrations" className="text-brand-blue-600 underline">
           Dev Studio → Secrets
         </Link>.
       </p>

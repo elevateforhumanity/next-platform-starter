@@ -87,7 +87,7 @@ export default async function PaymentSettingsPage() {
 
       <p className="text-xs text-slate-400 max-w-xl">
         Stripe API keys are managed in{' '}
-        <Link href="/admin/dev-studio?tab=secrets" className="text-brand-blue-600 underline">
+        <Link href="/admin/settings/integrations" className="text-brand-blue-600 underline">
           Dev Studio → Secrets
         </Link>. Webhook endpoints and price IDs live in the{' '}
         <Link href="/admin/integrations/env-manager" className="text-brand-blue-600 underline">

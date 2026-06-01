@@ -33,7 +33,34 @@ export async function GET(req: NextRequest) {
     .maybeSingle();
 
   if (error) return safeError('Failed to load application', 500);
-  if (!data) return NextResponse.json(null, { status: 200 });
+  if (data) {
+    return NextResponse.json({
+      ...data,
+      shop_name: (data as { name?: string }).name ?? null,
+      shopName: (data as { name?: string }).name ?? null,
+    });
+  }
 
-  return NextResponse.json(data);
+  const { data: bpa } = await db
+    .from('barbershop_partner_applications')
+    .select(
+      'id, shop_legal_name, shop_dba_name, owner_name, contact_name, contact_email, contact_phone, shop_address_line1, shop_city, shop_state, shop_zip, indiana_shop_license_number, supervisor_name, supervisor_license_number, status, mou_signed_at',
+    )
+    .eq('contact_email', user.email ?? '')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (!bpa) return NextResponse.json(null, { status: 200 });
+
+  return NextResponse.json({
+    id: bpa.id,
+    name: bpa.shop_dba_name || bpa.shop_legal_name,
+    shop_name: bpa.shop_dba_name || bpa.shop_legal_name,
+    shopName: bpa.shop_dba_name || bpa.shop_legal_name,
+    contact_name: bpa.contact_name,
+    contact_email: bpa.contact_email,
+    status: bpa.status,
+    mou_signed: !!bpa.mou_signed_at,
+  });
 }

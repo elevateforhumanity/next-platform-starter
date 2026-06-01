@@ -45,14 +45,14 @@ export default async function CourseImportPage() {
           <Breadcrumbs
             items={[
               { label: 'Admin', href: '/admin/dashboard' },
-              { label: 'Dev Studio', href: '/admin/dev-studio' },
+              { label: 'Dev Studio', href: '/admin/dashboard' },
               { label: 'Course Import' },
             ]}
           />
         </div>
 
         <Link
-          href="/admin/dev-studio"
+          href="/admin/dashboard"
           className="text-sm text-brand-blue-600 hover:text-brand-blue-700 flex items-center gap-1 mb-6"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Advanced Tools

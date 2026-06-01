@@ -1,5 +1,4 @@
 'use client';
-import { logger } from '@/lib/logger';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -182,7 +181,7 @@ export default function SignMOUPage() {
         if (data.owner_name)  setSignerName(data.owner_name);
         if (data.contact_email || data.email) { /* email display only */ }
       })
-      .catch((err) => logger.warn('[sign-mou] prefill fetch failed', err));
+      .catch((err) => console.warn('[sign-mou] prefill fetch failed', err));
   }, []);
 
   // Canvas setup — use ResizeObserver so canvas is sized after layout
@@ -369,10 +368,16 @@ export default function SignMOUPage() {
           </p>
           <div className="space-y-3">
             <Link
-              href="/partners/barber-host-shop/handbook"
+              href="/partners/barber-host-shop/forms"
               className="block w-full px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700"
             >
-              Continue to Partner Handbook
+              Continue to Required Forms
+            </Link>
+            <Link
+              href="/partners/barber-host-shop/handbook"
+              className="block w-full px-6 py-3 text-slate-900 border border-slate-300 rounded-lg font-semibold hover:bg-white"
+            >
+              Read Partner Handbook
             </Link>
             <Link
               href="/partners/barber-host-shop"

@@ -31,11 +31,11 @@ export default async function EnvManagerPage() {
         </p>
         <p className="mt-1 text-xs text-slate-500">
           Encrypted runtime secrets:{' '}
-          <Link href="/admin/dev-studio?tab=secrets" className="text-brand-blue-600 underline">
+          <Link href="/admin/settings/integrations" className="text-brand-blue-600 underline">
             Dev Studio → Secrets
           </Link>
           . ECS task env:{' '}
-          <Link href="/admin/dev-studio?tab=environments" className="text-brand-blue-600 underline">
+          <Link href="/admin/dashboard?tab=environments" className="text-brand-blue-600 underline">
             Dev Studio → Environments
           </Link>
           .

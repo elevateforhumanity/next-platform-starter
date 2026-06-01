@@ -34,7 +34,7 @@ export default async function OrientationLayout({
 
   // No enrollment — redirect to apply
   if (!enrollment) {
-    redirect('/programs/barber-apprenticeship/apply?type=apprentice');
+    redirect('/programs/barber-apprenticeship/apply/apprentice');
   }
 
   // Must have paid (payment_status = paid/partial) or be in an active state

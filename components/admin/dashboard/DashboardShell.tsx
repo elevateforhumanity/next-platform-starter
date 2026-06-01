@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
+import LizzyContainerWrapper from './LizzyContainerWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle,
@@ -84,15 +84,15 @@ const ADMIN_CATEGORY_CARDS = [
     ],
   },
   {
-    title: 'Intelligence',
+    title: 'Lizzy Intelligence',
     eyebrow: 'AI + forecasting',
-    description: 'Risk scoring, completion forecasts, AI console, and operational memory.',
-    href: '/admin/intelligence',
+    description: 'Risk scoring, forecasts, and Lizzy command AI — same container as the dashboard control plane.',
+    href: '/admin/dashboard',
     Icon: Bot,
     links: [
-      { label: 'Risk dashboard', href: '/admin/intelligence' },
+      { label: 'Risk dashboard', href: '/admin/dashboard' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
+      { label: 'Lizzy', href: '/admin/dashboard' },
     ],
   },
   {
@@ -168,13 +168,12 @@ const ADMIN_CATEGORY_CARDS = [
     ],
   },
   {
-    title: 'Dev Studio',
-    eyebrow: 'Automation layer',
-    description: 'Terminal, editor, Ellie AI assistant, workflows, and deploy controls.',
-    href: '/admin/dev-studio',
+    title: 'Lizzy',
+    eyebrow: 'Platform control',
+    description: 'Live preview with AI, deploy, files, environments, workflows, and platform health — one container.',
+    href: '/admin/dashboard',
     Icon: Settings,
     links: [
-      { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
       { label: 'Workflows', href: '/admin/workflows' },
       { label: 'System health', href: '/admin/system-health' },
     ],
@@ -319,7 +318,7 @@ function LearnersNeedingAttention({ learners }: { learners: InactiveLearner[] })
 
 function ReviewQueues({ data }: { data: AdminDashboardData }) {
   const queues = [
-    { label: "Applications awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Intake queue needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted,pending,in_review,pending_admin_review", urgent: data.counts.pendingApplications > 0 },
+    { label: "Applications awaiting review", count: data.counts.pendingApplications, context: data.counts.pendingApplications > 0 ? "Intake queue needs admin action" : "Queue is clear", href: "/admin/applications?status=submitted,pending,in_review,under_review,pending_admin_review,pending_funding", urgent: data.counts.pendingApplications > 0 },
     { label: "WIOA documents awaiting review", count: data.pendingWioaDocs, context: data.pendingWioaDocs > 0 ? "Funding eligibility may be blocked" : "Queue is clear", href: "/admin/wioa/documents", urgent: data.pendingWioaDocs > 0 },
     { label: "Lab submissions awaiting sign-off", count: data.pendingSubmissions.length, context: data.pendingSubmissions.length > 0 ? "Instructor action required" : "Queue is clear", href: "/admin/submissions", urgent: data.pendingSubmissions.length > 0 },
     { label: "Program holders awaiting approval", count: data.counts.pendingProgramHolders, context: data.counts.pendingProgramHolders > 0 ? "Partner applications need review" : "Queue is clear", href: "/admin/program-holders", urgent: data.counts.pendingProgramHolders > 0 },
@@ -452,14 +451,14 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-[min(200px,28vh)] max-h-[240px] overflow-hidden rounded-2xl mb-6">
+      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
           fill
-          className="object-cover object-center"
+          className="object-cover"
           priority
-          sizes="(max-width: 1280px) 100vw, 1280px"
+          sizes="100vw"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
@@ -476,7 +475,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         </div>
         {/* Quick-action strip — mobile only. Desktop has the full nav bar. */}
         <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-6 -mx-4 px-4 scrollbar-none">
-          <Link href="/admin/applications?status=submitted,pending,in_review,pending_admin_review" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
+          <Link href="/admin/applications?status=submitted,pending,in_review,under_review,pending_admin_review,pending_funding" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
           <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
           <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>
@@ -484,10 +483,18 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
-          <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
+          <Link href="/admin/dashboard" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Lizzy</Link>
         </div>
 
         <DegradedBanner sections={data.degradedSections ?? []} />
+
+        <LizzyContainerWrapper
+          sites={data.sitePreviewTargets ?? []}
+          isSuperAdmin={data.profile?.role === 'super_admin'}
+          pendingApplications={data.pendingApplications ?? []}
+          pendingApplicationsCount={data.counts.pendingApplications}
+          pendingProgramHolders={data.counts.pendingProgramHolders}
+        />
 
         <AdminCategoryLanding />
 
@@ -519,20 +526,31 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <div className="space-y-4">
             <EnrollmentFunnel data={data} />
             <RecentActivity items={data.recentActivity} />
-            {data.recentApplications.length > 0 && (
-              <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-                <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Inbox className="w-4 h-4 text-slate-500" />
-                    <h2 className="font-bold text-slate-900 text-sm">Recent Applications</h2>
-                  </div>
-                  <Link href="/admin/applications" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
-                    View all <ArrowRight className="w-3 h-3" />
-                  </Link>
+            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+              <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Inbox className="w-4 h-4 text-slate-500" />
+                  <h2 className="font-bold text-slate-900 text-sm">
+                    {(data.pendingApplications?.length ?? 0) > 0 ? 'Applications awaiting review' : 'Recent Applications'}
+                  </h2>
+                  {data.counts.pendingApplications > 0 && (
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">
+                      {data.counts.pendingApplications}
+                    </span>
+                  )}
                 </div>
-                <RecentApplicationsList items={data.recentApplications} />
+                <Link href="/admin/applications?status=submitted,pending,in_review,under_review,pending_admin_review,pending_funding" className="text-xs font-semibold text-brand-blue-600 hover:underline flex items-center gap-1">
+                  View all <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
-            )}
+              {((data.pendingApplications?.length ?? 0) > 0 ? data.pendingApplications : data.recentApplications).length > 0 ? (
+                <RecentApplicationsList
+                  items={(data.pendingApplications?.length ?? 0) > 0 ? data.pendingApplications : data.recentApplications}
+                />
+              ) : (
+                <Empty message="No applications in the queue yet." />
+              )}
+            </div>
             <RecentPaymentsPanel payments={data.recentPayments} />
             <RecentStudentsPanel students={data.recentStudents} />
           </div>
@@ -573,9 +591,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         </div>
 
         {/* ── Job board + site status + system health ──────────────────── */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <JobBoardPanel />
-          <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
           <SystemHealthPanel health={data.systemHealth} />
         </div>
 

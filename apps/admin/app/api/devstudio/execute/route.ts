@@ -2047,10 +2047,12 @@ async function executeAction(
       // GitHub Actions workflow_dispatch directly. The old path called
       // getSiteUrl()/api/autopilots/deploy — that is the LMS app's stub and
       // does not trigger a real AWS CodeBuild.
-      const workflows: Array<'deploy-lms' | 'deploy-admin' | 'deploy-studio'> =
-        service === 'both'   ? ['deploy-lms', 'deploy-admin', 'deploy-studio'] :
-        service === 'admin'  ? ['deploy-admin'] :
-        service === 'studio' ? ['deploy-studio'] : ['deploy-lms'];
+      const workflows: Array<'deploy-lms' | 'deploy-admin'> =
+        service === 'both' || service === 'all'
+          ? ['deploy-lms', 'deploy-admin']
+          : service === 'admin'
+            ? ['deploy-admin']
+            : ['deploy-lms'];
 
       write(`🚀  Triggering ${service} deploy via GitHub Actions...`);
       logger.info('[devstudio/execute] deploy_autopilot', { service, workflows });
@@ -2102,7 +2104,7 @@ async function executeAction(
         const res = await fetch(`${getAdminUrl()}/api/devstudio/shell`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', cookie: authHeader },
-          body: JSON.stringify({ workflow: 'ci-cd' }),
+          body: JSON.stringify({ workflow: 'ci' }),
         });
         const data = await res.json().catch(() => ({}));
         logger.info('[devstudio/execute] run_tests dispatch response', { status: res.status });

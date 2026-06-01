@@ -1030,7 +1030,7 @@ export default function ApprenticeForm({
                 <strong>Have questions?</strong> Contact us for payment plan options or
                 employer-sponsored funding.{' '}
                 <Link
-                  href="/inquiry?program=barber-apprenticeship"
+                  href="/programs/barber-apprenticeship/request-info"
                   className="text-brand-blue-700 font-medium hover:underline"
                 >
                   Request information →

@@ -66,7 +66,7 @@ export default async function ApplicationsPage({
           <code className="mx-1 px-1 bg-slate-100 rounded">SUPABASE_SERVICE_ROLE_KEY</code>
           is missing from the container environment.
         </p>
-        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+        <Link href="/admin/applications" className="text-sm text-blue-600 underline">Retry</Link>
       </div>
     );
 
@@ -114,7 +114,7 @@ export default async function ApplicationsPage({
         <p className="text-slate-500 text-sm mb-1">
           Database error — check server logs for details.
         </p>
-        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+        <Link href="/admin/applications" className="text-sm text-blue-600 underline">Retry</Link>
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default async function ApplicationsPage({
         <p className="text-slate-500 text-sm mb-1">
           Database error — check server logs for details.
         </p>
-        <a href="/admin/applications" className="text-sm text-blue-600 underline">Retry</a>
+        <Link href="/admin/applications" className="text-sm text-blue-600 underline">Retry</Link>
       </div>
     );
   }
@@ -141,7 +141,6 @@ export default async function ApplicationsPage({
   let totalApplications = 0;
   countData?.forEach((app: { id?: string; status: string }) => {
     const id = String(app.id ?? '');
-    if (id.startsWith('intake-')) return;
     statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     totalApplications++;
   });

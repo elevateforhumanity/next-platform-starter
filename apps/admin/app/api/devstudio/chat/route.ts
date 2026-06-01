@@ -165,7 +165,7 @@ const TOOLS: any[] = [
       parameters: {
         type: 'object',
         properties: {
-          route_path: { type: 'string', description: 'Route path such as /programs/barber or /admin/dev-studio' },
+          route_path: { type: 'string', description: 'Route path such as /programs/barber or /admin/dashboard' },
         },
         required: ['route_path'],
       },

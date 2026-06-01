@@ -84,6 +84,24 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ error: 'Failed to approve application' }, { status: 500 });
   }
 
+  let linkUserId: string | undefined;
+  try {
+    const { data: byEmail } = await supabase.auth.admin.getUserByEmail(
+      application.contact_email.toLowerCase(),
+    );
+    linkUserId = byEmail.user?.id;
+  } catch {
+    // Applicant may not have an account yet
+  }
+
+  const provisionedPartner = await provisionPartnerFromBarberApplication(supabase, application, {
+    approvedBy: user.id,
+    linkUserId,
+  });
+  if (!provisionedPartner) {
+    logger.warn('[barber-approve] partners provisioning failed (non-fatal)', { id });
+  }
+
   // =========================================================================
   // PROVISION SHOP + SUPERVISOR ROWS
   // Creates the canonical identity records used by OJT enforcement and

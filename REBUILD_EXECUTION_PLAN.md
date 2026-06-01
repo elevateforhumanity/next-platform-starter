@@ -207,7 +207,7 @@ Same pattern as Barber, different:
 /admin/course-studio-ai
 /admin/course-studio-simple
 /admin/dashboard-enhanced
-/admin/dev-studio
+/admin/dashboard
 /admin/live-chat
 /admin/master-dashboard
 /admin/media-studio

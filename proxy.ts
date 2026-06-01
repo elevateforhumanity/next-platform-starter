@@ -38,25 +38,12 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/progress':             '/admin/analytics/learning',
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
+  '/admin/dashboard':           '/admin/dashboard',
   // ── Media consolidation ──────────────────────────────────────────────────
-  '/admin/ai-studio':            '/admin/dev-studio',
-  '/admin/ai-console':           '/admin/dev-studio?tab=chat',
   '/admin/copilot':              '/admin/studio',
   '/admin/video-manager':        '/admin/studio',
   '/admin/course-builder':       '/admin/studio',
 };
-function rewriteTenantPublicSite(
-  pathname: string,
-  request: NextRequest,
-  requestHeaders: Headers,
-): NextResponse | null {
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
-    return null;
-  }
-  const rewriteUrl = request.nextUrl.clone();
-  rewriteUrl.pathname = pathname === '/' ? '/tenant-site' : `/tenant-site${pathname}`;
-  return NextResponse.rewrite(rewriteUrl, { request: { headers: requestHeaders } });
-}
 
 // Webhook paths bypass auth — Stripe signature verification handles security.
 const WEBHOOK_PATHS = [
@@ -556,23 +543,6 @@ export async function middleware(request: NextRequest) {
 
   // All routes are served by the same AWS ECS container — no proxy needed.
 
-
-  const legacyHosts = new Set([
-    'supersonicfastermoney.com',
-    'www.supersonicfastermoney.com',
-    'supersonicfastcash.com',
-    'www.supersonicfastcash.com',
-    'elevateforhumanity.com',
-    'www.elevateforhumanity.com',
-  ]);
-  if (legacyHosts.has(hostWithoutPort)) {
-    const url = request.nextUrl.clone();
-    url.host = 'www.elevateforhumanity.org';
-    url.protocol = 'https';
-    url.port = '';
-    return NextResponse.redirect(url, { status: 308 });
-  }
-
   // Redirect non-www .org to www .org
   if (hostWithoutPort === 'elevateforhumanity.org') {
     const url = request.nextUrl.clone();
@@ -604,15 +574,12 @@ export async function middleware(request: NextRequest) {
       });
     }
 
-    if (tenantSlug) {
-      const publicRewrite = rewriteTenantPublicSite(pathname, request, requestHeadersWithTenant);
-      if (publicRewrite) return publicRewrite;
-    }
-
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
   }
 
-  // {subdomain}.app.elevateforhumanity.org — public site + admin on same host
+  // {subdomain}.app.elevateforhumanity.org — tenant portal subdomain form.
+  // e.g. elizabeth-greene-kkx3.app.elevateforhumanity.org/admin
+  // Tenant slug is extracted from the subdomain prefix.
   if (hostWithoutPort.endsWith('.app.elevateforhumanity.org')) {
     const tenantSlug = hostWithoutPort.replace('.app.elevateforhumanity.org', '');
     const requestHeadersWithTenant = new Headers(requestHeaders);
@@ -627,9 +594,6 @@ export async function middleware(request: NextRequest) {
         request: { headers: requestHeadersWithTenant },
       });
     }
-
-    const publicRewrite = rewriteTenantPublicSite(pathname, request, requestHeadersWithTenant);
-    if (publicRewrite) return publicRewrite;
 
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
   }

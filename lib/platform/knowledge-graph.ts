@@ -168,7 +168,7 @@ export const SYSTEMS: SystemNode[] = [
       '/admin/payroll',
       '/admin/reports',
       '/admin/analytics',
-      '/admin/dev-studio',
+      '/admin/dashboard',
       '/admin/monitoring',
       '/admin/audit-logs',
     ],
@@ -299,7 +299,7 @@ export const SYSTEMS: SystemNode[] = [
     id: 'ellie',
     name: 'Ellie — AI Ops',
     description: 'Platform AI operator — tool-calling, SSE execution, Q&A, platform state',
-    routes: ['/admin/dev-studio?tab=ellie'],
+    routes: ['/admin/dashboard', '/admin/dashboard'],
     apis: [
       '/api/devstudio/execute',
       '/api/devstudio/chat',
@@ -393,10 +393,10 @@ export const ROUTE_DEPENDENCIES: Record<string, { tables: string[]; apis: string
     apis: ['/api/apply'],
     components: ['IntakeForm'],
   },
-  '/admin/dev-studio': {
+  '/admin/dashboard': {
     tables: ['ai_audit_log'],
     apis: ['/api/devstudio/execute', '/api/devstudio/chat', '/api/devstudio/platform-state'],
-    components: ['AIChat', 'XTerminal', 'DevStudioUnifiedClient', 'RunWorkspace'],
+    components: ['AIChat', 'XTerminal', 'DevStudioClient'],
   },
 };
 
@@ -517,7 +517,7 @@ export const CANONICAL_DECISIONS = [
   },
   {
     id: 'mission-control-canonical',
-    decision: 'Mission Control (/admin/mission-control) is the single operational dashboard. command-center, monitoring, and ai-console redirect to their canonical destinations (mission-control and ai-studio).',
+    decision: 'Admin Dashboard (/admin/dashboard) is the single operational home. Mission Control, command-center, and monitoring aliases redirect to /admin/dashboard. Lizzy (single preview container with workspace tabs) is the only control surface on that page.',
     rationale: 'One operational surface eliminates context switching and duplicate maintenance.',
   },
 ];
