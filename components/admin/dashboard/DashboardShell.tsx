@@ -3,7 +3,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
+import AdminCommandWorkbenchWrapper from './AdminCommandWorkbenchWrapper';
+import { MissionControlLiveOpsPanel } from './MissionControlLiveOpsPanel';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle,
@@ -23,8 +24,6 @@ import { JobBoardPanel } from "./JobBoardPanel";
 import { RecentPaymentsPanel } from "./RecentPaymentsPanel";
 import { StatsOverviewBar } from "./StatsOverviewBar";
 import { EnrollmentFunnel } from "./EnrollmentFunnel";
-import { EllieOpsPanel } from "./EllieOpsPanel";
-import { MissionControlLiveOpsPanel } from "./MissionControlLiveOpsPanel";
 
 
 function fmtUsd(cents: number) {
@@ -491,6 +490,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 
+        <AdminCommandWorkbenchWrapper sites={data.sitePreviewTargets ?? []} />
+        <MissionControlLiveOpsPanel />
+
         <AdminCategoryLanding />
 
         {/* ── Stats overview bar ───────────────────────────────────────── */}
@@ -575,9 +577,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         </div>
 
         {/* ── Job board + site status + system health ──────────────────── */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <JobBoardPanel />
-          <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
           <SystemHealthPanel health={data.systemHealth} />
         </div>
 
