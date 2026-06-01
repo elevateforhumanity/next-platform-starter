@@ -43,6 +43,7 @@ function Empty({ message }: { message: string }) {
 }
 
 const DEGRADED_LABELS: Record<string, string> = {
+  dashboard_data: "Dashboard data",
   inactive_learners: "Inactive learners",
   unpublished_programs: "Unpublished programs",
   recent_students: "Recent students",

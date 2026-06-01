@@ -113,6 +113,7 @@ export interface SystemHealth {
 // UI must render an explicit partial-failure notice when this is non-empty.
 // An empty array means all sections loaded successfully.
 export type DegradedSection =
+  | 'dashboard_data'
   | 'inactive_learners'
   | 'unpublished_programs'
   | 'recent_students'
