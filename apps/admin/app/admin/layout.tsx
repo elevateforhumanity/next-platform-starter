@@ -52,9 +52,10 @@ export const metadata: Metadata = {
 // unstable_cache keys on the function arguments; no per-user variation needed
 // since nav sections are global platform settings.
 const getCachedNavSections = unstable_cache(
-  async (supabaseUrl: string): Promise<NavSection[]> => {
-    const { createClient: createAdminClient } = await import('@/lib/supabase/admin');
-    const db = createAdminClient();
+  async (_supabaseUrl: string): Promise<NavSection[]> => {
+    const { getAdminClient } = await import('@/lib/supabase/admin');
+    const db = await getAdminClient();
+    if (!db) return DEFAULT_NAV;
     const { data } = await db
       .from('platform_settings')
       .select('value')

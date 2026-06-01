@@ -4,7 +4,7 @@
 // No synthetic stats, no fake deltas.
 
 // SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import {
@@ -14,12 +14,6 @@ import {
   type PriorityItem,
 } from '@/lib/admin/priority-score';
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
-import { buildDashboardKpis } from './dashboard/build-dashboard-kpis';
-import { computeTrackedRevenue } from './dashboard/compute-tracked-revenue';
-import {
-  capCheckoutDollarsToCents,
-  isTestOrSuspiciousPayment,
-} from './dashboard/format-metrics';
 import { getSystemHealth } from './dashboard/get-system-health';
 import { withTimeout } from '@/lib/utils/withTimeout';
 
@@ -115,7 +109,7 @@ const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const supabase = await createClient();
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   // Fall back to the anon client if the service role key is absent.
   // Queries that require elevated privileges will return empty results
   // rather than crashing the entire dashboard.
@@ -143,8 +137,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     certsThisMonthRes,
     enrollmentTrendRes,
     studentStatusesRes,
-    newAppsThisMonthRes,
-    newAppsLastMonthRes,
+    lastMonthAppsRes,
     recentEnrollmentsRes,
     recentAppsActivityRes,
     pendingHoldersRes,
@@ -228,13 +221,10 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('program_enrollments')
       .select('enrollment_state'),
 
-    // Application volume — this month vs last month (not pending backlog stock)
+    // Last month pending apps count for delta
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .gte('created_at', thisMonthStart),
-
-    db.from('applications')
-      .select('id', { count: 'exact', head: true })
+      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
       .gte('created_at', lastMonthStartS)
       .lt('created_at', lastMonthEndS),
 
@@ -321,10 +311,10 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('participant_id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding — join profiles for display name/email
+    // Active enrollments missing funding (learner names enriched after fetch)
     // Exclude apprenticeship programs (barber/cosmetology are self-pay by design)
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source, profiles(full_name, email)')
+      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
       .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
       .not('access_granted_at', 'is', null)
       .is('revoked_at', null)
@@ -428,8 +418,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   );
   const activeEnrollCount    = dashboardActiveEnrollments.length;
   const lastMonthEnrollCount = lastMonthDashboardActiveEnrollments.length;
-  const newAppsThisMonth     = newAppsThisMonthRes.error ? 0 : (newAppsThisMonthRes.count ?? 0);
-  const newAppsLastMonth     = newAppsLastMonthRes.error ? 0 : (newAppsLastMonthRes.count ?? 0);
+  const lastMonthAppsCount   = lastMonthAppsRes.error ? 0 : (lastMonthAppsRes.count ?? 0);
   const totalStudents        = totalStudentsRes.error ? 0 : (totalStudentsRes.count ?? 0);
   // certsRes is a combined count from certificates + program_completion_certificates
   const certsCount           = certsRes.error ? 0 : (certsRes.count ?? 0);
@@ -575,39 +564,24 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     thisMonthStart,
   );
 
-  const { allTimeCents: revenueAllTimeCents, thisMonthCents: revenueThisMonthCents, lastMonthCents: revenueLastMonthCents } =
-    computeTrackedRevenue({
-      rpcOk: !revenueRes.error && !!revenueRow,
-      rpcAllTime: rpcRevenueAllTimeCents,
-      rpcThisMonth: rpcRevenueThisMonthCents,
-      rpcLastMonth: rpcRevenueLastMonthCents,
-      enrollmentRows: enrollmentRevenueRows as Record<string, unknown>[],
-      stripeRows: stripeSessionRows as Record<string, unknown>[],
-      barberSubs: barberSubscriptionRows as Record<string, unknown>[],
-      cosmoSubs: cosmetologySubscriptionRows as Record<string, unknown>[],
-      barberPayments: barberPaymentRows as Record<string, unknown>[],
-      thisMonthStart,
-      lastMonthStart: lastMonthStartS,
-      lastMonthEnd: lastMonthEndS,
-    });
+  const directTrackedAllTimeCents =
+    Math.max(rpcRevenueAllTimeCents, enrollmentRevenueAll, stripeRevenueAll) +
+    apprenticeshipCheckoutAll +
+    barberRecurringAll;
+  const directTrackedThisMonthCents =
+    Math.max(rpcRevenueThisMonthCents, enrollmentRevenueThisMonth, stripeRevenueThisMonth) +
+    apprenticeshipCheckoutThisMonth +
+    barberRecurringThisMonth;
+  const revenueAllTimeCents = directTrackedAllTimeCents;
+  const revenueThisMonthCents = directTrackedThisMonthCents;
+  const revenueLastMonthCents = rpcRevenueLastMonthCents;
 
   // ── Recent payments — merge stripe sessions + apprenticeship subscriptions ─
   type RecentPayment = import('@/components/admin/dashboard/types').RecentPayment;
   const recentPayments: RecentPayment[] = [];
 
-  const pushPayment = (payment: RecentPayment) => {
-    if (isTestOrSuspiciousPayment({
-      email: payment.email,
-      label: payment.label,
-      amountCents: payment.amountCents,
-    })) {
-      return;
-    }
-    recentPayments.push(payment);
-  };
-
   for (const row of (recentStripeSessionsRes.error ? [] : (recentStripeSessionsRes.data ?? [])) as any[]) {
-    pushPayment({
+    recentPayments.push({
       id: row.session_id,
       email: row.email ?? null,
       amountCents: toSafeNumber(row.amount),
@@ -617,37 +591,37 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
   for (const row of barberSubscriptionRows as any[]) {
-    pushPayment({
+    recentPayments.push({
       id: row.id,
       email: row.customer_email ?? null,
-      amountCents: capCheckoutDollarsToCents(row.amount_paid_at_checkout),
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
       label: row.customer_name ?? 'Barber apprenticeship',
       source: 'barber',
       paidAt: row.created_at,
     });
   }
   for (const row of cosmetologySubscriptionRows as any[]) {
-    pushPayment({
+    recentPayments.push({
       id: row.id,
       email: row.customer_email ?? null,
-      amountCents: capCheckoutDollarsToCents(row.amount_paid_at_checkout),
+      amountCents: dollarsToCents(row.amount_paid_at_checkout),
       label: row.customer_name ?? 'Cosmetology apprenticeship',
       source: 'cosmetology',
       paidAt: row.created_at,
     });
   }
   for (const row of barberPaymentRows as any[]) {
-    pushPayment({
+    recentPayments.push({
       id: row.id,
       email: null,
-      amountCents: capCheckoutDollarsToCents(row.amount_paid),
+      amountCents: dollarsToCents(row.amount_paid),
       label: 'Barber recurring',
       source: 'barber_recurring',
       paidAt: row.payment_date ?? row.created_at,
     });
   }
   recentPayments.sort((a, b) => new Date(b.paidAt).getTime() - new Date(a.paidAt).getTime());
-  const recentPaymentsSlice = recentPayments.slice(0, 8);
+  const recentPaymentsSlice = recentPayments.slice(0, 10);
 
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};
@@ -676,23 +650,83 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     .map(([name, value]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), value }))
     .sort((a, b) => b.value - a.value);
 
-  const kpis = buildDashboardKpis({
-    totalPending: totalPendingCount,
-    oldestAppSub: oldestApp
-      ? `Oldest: ${oldestApp.age_days}d — ${oldestApp.program_interest || 'unknown program'}`
-      : undefined,
-    activeEnrollCount,
-    lastMonthEnrollCount,
-    revenueThisMonthCents,
-    revenueLastMonthCents,
-    revenueAllTimeCents,
-    certsCount,
-    certsThisMonth,
-    newAppsThisMonth,
-    newAppsLastMonth,
-    inactiveLearnersCount: inactiveLearnersData.length,
-    inactiveLearnersDegraded: degradedSections.includes('inactive_learners'),
-  });
+  // ── KPI deltas — real month-over-month % change ───────────────────────────
+  function pctDelta(current: number, previous: number): number {
+    if (previous === 0) return current > 0 ? 100 : 0;
+    return Math.round(((current - previous) / previous) * 100);
+  }
+
+  const enrollDelta  = pctDelta(activeEnrollCount, lastMonthEnrollCount);
+  const revDelta     = pctDelta(revenueThisMonthCents, revenueLastMonthCents);
+  const appsDelta    = pctDelta(totalPendingCount, lastMonthAppsCount);
+
+  // ── KPIs ──────────────────────────────────────────────────────────────────
+  const kpis = [
+    {
+      label: 'Pending Applications',
+      value: totalPending,
+      delta: appsDelta,
+      deltaLabel: appsDelta !== 0
+        ? `${appsDelta > 0 ? '+' : ''}${appsDelta}% vs last month`
+        : 'No change vs last month',
+      href: '/admin/applications?status=submitted,pending,in_review,pending_admin_review',
+      urgent: totalPending > 0,
+      sub: oldestApp
+        ? `Oldest: ${oldestApp.age_days}d — ${oldestApp.program_interest || 'unknown program'}`
+        : 'No pending applications',
+    },
+    {
+      label: 'Active Enrollments',
+      value: activeEnrollCount,
+      delta: enrollDelta,
+      deltaLabel: enrollDelta !== 0
+        ? `${enrollDelta > 0 ? '+' : ''}${enrollDelta}% vs last month`
+        : 'No change vs last month',
+      href: '/admin/students?status=active',
+      urgent: !degradedSections.includes('inactive_learners') && inactiveLearnersData.length > 0,
+      sub: degradedSections.includes('inactive_learners')
+        ? 'Could not load inactive learner data'
+        : `${inactiveLearnersData.length} with no activity in 3+ days`,
+    },
+    {
+      label: 'Revenue This Month',
+      value: revenueThisMonthCents,
+      delta: revDelta,
+      deltaLabel: revDelta !== 0
+        ? `${revDelta > 0 ? '+' : ''}${revDelta}% vs last month`
+        : 'No change vs last month',
+      href: '/admin/students?payment_status=paid',
+      urgent: false,
+      sub: `$${(revenueAllTimeCents / 100).toLocaleString('en-US')} tracked cash all time · WIOA/grants tracked separately`,
+    },
+    {
+      label: 'Certificates Issued',
+      value: certsCount,
+      delta: certsThisMonth,
+      deltaLabel: `${certsThisMonth} issued this month`,
+      href: '/admin/certificates',
+      urgent: false,
+      sub: `${certsThisMonth} issued this month · ${certsCount} all time`,
+    },
+    {
+      label: 'Pending Program Holders',
+      value: pendingHoldersCount,
+      delta: 0,
+      deltaLabel: 'Awaiting approval',
+      href: '/admin/program-holders',
+      urgent: pendingHoldersCount > 0,
+      sub: pendingHoldersCount > 0 ? 'Requires admin review' : 'No pending applications',
+    },
+    {
+      label: 'Pending Documents',
+      value: pendingHolderDocsCount,
+      delta: 0,
+      deltaLabel: 'Awaiting review',
+      href: '/admin/program-holder-documents',
+      urgent: pendingHolderDocsCount > 0,
+      sub: pendingHolderDocsCount > 0 ? 'Program holder documents to review' : 'All documents reviewed',
+    },
+  ];
 
   // ── Blocked programs ──────────────────────────────────────────────────────
   const blockedPrograms = unpublishedProgramsData.map((p: any) => ({
@@ -728,7 +762,23 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   // Computed here so inactiveLearners, staleLeads, and pendingApps are all available.
   const rawPriorityItems: PriorityItem[] = [];
 
-  // Compliance alerts surface in OperationalAlerts only — not duplicated here.
+  // Compliance alerts
+  for (const a of complianceAlerts as any[]) {
+    const daysOpen = a.created_at
+      ? Math.floor((Date.now() - new Date(a.created_at).getTime()) / 86400000)
+      : 0;
+    const risk = a.severity === 'critical' ? 5 : a.severity === 'high' ? 4 : a.severity === 'medium' ? 2 : 1;
+    const score = calculatePriorityScore({ type: 'compliance', days: Math.max(0, daysOpen - 1), risk, blocked: true });
+    rawPriorityItems.push({
+      id: a.id,
+      type: 'compliance',
+      label: a.title ?? `Compliance alert: ${a.alert_type ?? 'unknown'}`,
+      href: '/admin/compliance',
+      score,
+      severity: scoreSeverity(score),
+      context: `${daysOpen}d open · ${a.severity ?? 'unknown'} severity`,
+    });
+  }
 
   // Stale CRM leads
   for (const l of staleLeads) {
@@ -766,7 +816,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     rawPriorityItems.push({
       id: 'pending-enrollments',
       type: 'enrollment',
-      label: `${totalPendingCount} application${totalPendingCount !== 1 ? 's' : ''} pending review`,
+      label: `${totalPendingCount} enrollment${totalPendingCount !== 1 ? 's' : ''} pending review`,
       href: '/admin/applications?status=submitted',
       score,
       severity: scoreSeverity(score),
@@ -803,7 +853,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
 
-  const priorities = sortPriorityItems(rawPriorityItems).slice(0, 5);
+  const priorities = sortPriorityItems(rawPriorityItems).slice(0, 10);
 
   // ── Operational signals ───────────────────────────────────────────────────
   const needsReviewTotal = totalPendingCount + pendingWioaDocs;
