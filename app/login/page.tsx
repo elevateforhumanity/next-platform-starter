@@ -140,7 +140,11 @@ function LoginForm() {
       window.location.href = dest;
     } catch (err: any) {
       // Supabase error objects have non-enumerable properties — extract explicitly
-      const msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
+      let msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
+      if (msg === 'Supabase not configured') {
+        msg =
+          'Sign-in is temporarily unavailable (site configuration). Please try again later or contact support.';
+      }
       setError(msg);
     } finally {
       setLoading(false);
@@ -257,7 +261,7 @@ function LoginForm() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/login-page-1.webp"
-          alt={`${PLATFORM_DEFAULTS.orgName} login`}
+          alt="${PLATFORM_DEFAULTS.orgName} login"
           fill
           className="object-cover"
           priority

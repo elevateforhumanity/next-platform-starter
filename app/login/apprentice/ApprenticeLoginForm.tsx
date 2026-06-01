@@ -1,21 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { createBrowserClient } from '@supabase/ssr';
 import { Loader2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
 
 export default function ApprenticeLoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  );
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,6 +17,8 @@ export default function ApprenticeLoginForm() {
     setLoading(true);
 
     try {
+      const supabase = createClient();
+
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
@@ -38,9 +34,22 @@ export default function ApprenticeLoginForm() {
         return;
       }
 
-      router.push('/portal/apprentice');
-    } catch (err: any) {
-      setError(err?.message || 'Login failed');
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('portal_type')
+        .eq('id', data.user.id)
+        .maybeSingle();
+
+      const dest = await resolveStudentHomePath(
+        supabase,
+        data.user.id,
+        profile?.portal_type,
+      );
+
+      window.location.href = dest;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Login failed';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -55,42 +64,43 @@ export default function ApprenticeLoginForm() {
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label htmlFor="apprentice-email" className="block text-sm font-medium text-slate-200 mb-1">
           Email
         </label>
         <input
-          id="email"
+          id="apprentice-email"
           type="email"
+          autoComplete="email"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="your.email@example.com"
-          required
-          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm"
+          className="w-full px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          placeholder="you@example.com"
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1.5">
+        <label htmlFor="apprentice-password" className="block text-sm font-medium text-slate-200 mb-1">
           Password
         </label>
         <input
-          id="password"
+          id="apprentice-password"
           type="password"
+          autoComplete="current-password"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          required
-          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm"
+          className="w-full px-4 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold py-2.5 rounded-lg transition disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold transition disabled:opacity-60 flex items-center justify-center gap-2"
       >
-        {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-        Sign In to Apprentice Portal
+        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
+        Sign In
       </button>
     </form>
   );
