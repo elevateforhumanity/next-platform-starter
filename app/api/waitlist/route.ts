@@ -6,6 +6,9 @@ import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
+/** CDL is open enrollment — legacy waitlist requests go to apply */
+const CDL_APPLY_SLUGS = new Set(['cdl-training', 'cdl']);
+
 // Programs that have a waitlist — all others are rejected
 const WAITLIST_PROGRAMS = new Set([
   'barber-apprenticeship',
