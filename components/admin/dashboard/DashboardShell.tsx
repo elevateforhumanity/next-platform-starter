@@ -23,6 +23,8 @@ import { JobBoardPanel } from "./JobBoardPanel";
 import { RecentPaymentsPanel } from "./RecentPaymentsPanel";
 import { StatsOverviewBar } from "./StatsOverviewBar";
 import { EnrollmentFunnel } from "./EnrollmentFunnel";
+import { EllieOpsPanel } from "./EllieOpsPanel";
+import { MissionControlLiveOpsPanel } from "./MissionControlLiveOpsPanel";
 
 
 function fmtUsd(cents: number) {
@@ -452,14 +454,14 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-[min(200px,28vh)] max-h-[240px] overflow-hidden rounded-2xl mb-6">
+      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
           fill
-          className="object-cover object-center"
+          className="object-cover"
           priority
-          sizes="(max-width: 1280px) 100vw, 1280px"
+          sizes="100vw"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>

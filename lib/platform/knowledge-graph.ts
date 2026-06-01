@@ -396,7 +396,7 @@ export const ROUTE_DEPENDENCIES: Record<string, { tables: string[]; apis: string
   '/admin/dev-studio': {
     tables: ['ai_audit_log'],
     apis: ['/api/devstudio/execute', '/api/devstudio/chat', '/api/devstudio/platform-state'],
-    components: ['AIChat', 'XTerminal', 'DevStudioUnifiedClient', 'RunWorkspace'],
+    components: ['AIChat', 'XTerminal', 'DevStudioClient'],
   },
 };
 
@@ -517,7 +517,7 @@ export const CANONICAL_DECISIONS = [
   },
   {
     id: 'mission-control-canonical',
-    decision: 'Mission Control (/admin/mission-control) is the single operational dashboard. command-center, monitoring, and ai-console redirect to their canonical destinations (mission-control and ai-studio).',
+    decision: 'Admin Dashboard (/admin/dashboard) is the single operational home. Mission Control, command-center, and monitoring aliases redirect to /admin/dashboard. Ellie AI and site preview are panels on that page; full Dev Studio remains at /admin/dev-studio.',
     rationale: 'One operational surface eliminates context switching and duplicate maintenance.',
   },
 ];

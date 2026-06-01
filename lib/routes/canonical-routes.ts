@@ -16,9 +16,9 @@ export const legacyAliasLookup = new Map(
 
 export const ADMIN = {
   // ── Operational ──────────────────────────────────────────────────────────
-  MISSION_CONTROL:    '/admin/mission-control',
+  MISSION_CONTROL:    '/admin/dashboard',
   OPERATIONS:         '/admin/operations',
-  COMMAND_CENTER:     '/admin/mission-control',   // alias → mission-control
+  COMMAND_CENTER:     '/admin/dashboard',
 
   // ── People ───────────────────────────────────────────────────────────────
   STUDENTS:           '/admin/students',
@@ -60,7 +60,7 @@ export const ADMIN = {
   SETTINGS:           '/admin/settings',
   SYSTEM_HEALTH:      '/admin/system-health',
   SNAPSHOTS:          '/admin/snapshots',
-  AUTOMATION:         '/admin/dev-studio?tab=workflows',
+  AUTOMATION:         '/admin/dev-studio?tab=automation',
   MONITORING:         '/admin/monitoring',
 
   // ── Partners ─────────────────────────────────────────────────────────────

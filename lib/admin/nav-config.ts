@@ -28,7 +28,6 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/dashboard',
     items: [
       { label: 'Dashboard', href: '/admin/dashboard' },
-      { label: 'Mission Control', href: '/admin/mission-control' },
       { label: 'At-Risk Learners', href: '/admin/at-risk' },
       { label: 'Analytics', href: '/admin/analytics' },
       { label: 'Analytics — Engagement', href: '/admin/analytics/engagement' },
@@ -53,7 +52,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'Dev Studio', href: '/admin/dev-studio' },
       { label: 'Ellie — AI Ops', href: '/admin/dev-studio?tab=ellie' },
       { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'Dev Studio', href: '/admin/dev-studio?tab=ellie' },
+      { label: 'Automation Log', href: '/admin/dev-studio?tab=automation' },
       { label: 'System Health', href: '/admin/dev-studio?tab=health' },
       { label: 'Snapshots', href: '/admin/snapshots' },
     ],
