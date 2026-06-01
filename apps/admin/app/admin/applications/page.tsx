@@ -141,7 +141,6 @@ export default async function ApplicationsPage({
   let totalApplications = 0;
   countData?.forEach((app: { id?: string; status: string }) => {
     const id = String(app.id ?? '');
-    if (id.startsWith('intake-')) return;
     statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     totalApplications++;
   });

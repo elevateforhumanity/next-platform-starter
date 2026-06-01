@@ -48,6 +48,8 @@ const STATUS_COLORS: Record<string, string> = {
   rejected: 'bg-red-100 text-red-800',
   waitlisted: 'bg-purple-100 text-purple-800',
   pending_workone: 'bg-orange-100 text-orange-800',
+  pending_admin_review: 'bg-amber-100 text-amber-800',
+  pending_funding: 'bg-orange-100 text-orange-900',
 };
 
 function ActionButton({

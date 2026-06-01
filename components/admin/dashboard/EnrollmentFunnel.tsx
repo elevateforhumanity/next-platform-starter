@@ -29,7 +29,7 @@ export function EnrollmentFunnel({ data }: Props) {
   const enrolled  = active + certs;
 
   const steps: FunnelStep[] = [
-    { label: 'Applied',    value: applied,  href: '/admin/applications?status=submitted,pending,in_review,pending_admin_review', color: 'text-amber-700',      bg: 'bg-amber-50 border-amber-200' },
+    { label: 'Applied',    value: applied,  href: '/admin/applications?status=submitted,pending,in_review,under_review,pending_admin_review,pending_funding', color: 'text-amber-700',      bg: 'bg-amber-50 border-amber-200' },
     { label: 'Enrolled',   value: enrolled, href: '/admin/students',                                                              color: 'text-brand-blue-700', bg: 'bg-brand-blue-50 border-brand-blue-200' },
     { label: 'Active',     value: active,   href: '/admin/students?status=active',                                                color: 'text-emerald-700',    bg: 'bg-emerald-50 border-emerald-200' },
     { label: 'Certified',  value: certs,    href: '/admin/certificates',                                                          color: 'text-purple-700',     bg: 'bg-purple-50 border-purple-200' },

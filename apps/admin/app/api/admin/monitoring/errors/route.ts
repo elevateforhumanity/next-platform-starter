@@ -1,68 +1,71 @@
-import { logger } from '@/lib/logger';
-import { NextRequest, NextResponse } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { withRuntime } from '@/lib/api/withRuntime';
+import { apiRequireAdmin } from '@/lib/admin/guards';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const maxDuration = 30;
 
-async function _GET(request: NextRequest) {
-  try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-    const auth = await apiRequireAdmin(request);
-    if (auth.error) return auth.error;
+/**
+ * Admin error surface for Lizzy — Sentry config, audit pipeline failures, shell wiring.
+ */
+export async function GET(request: Request) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
-    const supabase = await createClient();
-    const db = await requireAdminClient();
+  const admin = await requireAdminClient();
+  const supabase = admin ?? (await createClient());
 
-    // Fetch recent errors from audit_logs table
-    const { data: errors, error } = await db
-      .from('audit_logs')
-      .select('*')
-      .eq('action_type', 'error')
-      .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1);
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-    if (error) {
-      logger.error('Error fetching errors:', error);
-      return NextResponse.json({ errors: [] });
-    }
+  const { data: auditFailures, error: auditError } = await supabase
+    .from('audit_failures')
+    .select('id, endpoint, error_message, created_at, resolved')
+    .eq('resolved', false)
+    .order('created_at', { ascending: false })
+    .limit(25);
 
-    // Transform to expected format
-    const formattedErrors = (errors || []).map((log: any) => ({
-      id: log.id,
-      timestamp: log.created_at,
-      endpoint: log.details?.endpoint || 'unknown',
-      error: log.details?.error || log.description,
-      statusCode: log.details?.statusCode || 500,
-      ip: log.ip_address || 'unknown',
-    }));
-
-    return NextResponse.json({
-      errors: formattedErrors,
-      total: formattedErrors.length,
-      limit,
-      offset,
-    });
-  } catch (error) {
-    logger.error('Monitoring errors endpoint error:', error);
-    return NextResponse.json(
-      {
-        errors: [],
-        error: 'Internal server error',
-      },
-      { status: 500 },
-    );
+  if (auditError) {
+    logger.warn('[monitoring/errors] audit_failures query failed', auditError);
   }
+
+  let health: Record<string, unknown> = {};
+  try {
+    const healthRes = await fetch(new URL('/api/devstudio/health', request.url), {
+      headers: { cookie: request.headers.get('cookie') ?? '' },
+    });
+    if (healthRes.ok) {
+      health = (await healthRes.json()) as Record<string, unknown>;
+    }
+  } catch (err) {
+    logger.warn('[monitoring/errors] devstudio health fetch failed', err);
+  }
+
+  const sentryDsn =
+    process.env.SENTRY_DSN ||
+    process.env.NEXT_PUBLIC_SENTRY_DSN ||
+    process.env.SENTRY_ADMIN_DSN ||
+    '';
+
+  return NextResponse.json({
+    sentry: {
+      configured: Boolean(sentryDsn),
+      environment: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || 'unknown',
+    },
+    shell: health.shell ?? {
+      STUDIO_SHELL_WS_URL: process.env.STUDIO_SHELL_WS_URL ? 'configured' : 'MISSING',
+      STUDIO_SHELL_SECRET: process.env.STUDIO_SHELL_SECRET ? 'configured' : 'MISSING',
+    },
+    intake: {
+      idempotencyTtlSeconds: Number(process.env.APPLICATION_INTAKE_IDEMPOTENCY_TTL_SECONDS || '86400'),
+    },
+    auditFailures: auditFailures ?? [],
+    auditFailuresDegraded: Boolean(auditError),
+    generatedAt: new Date().toISOString(),
+  });
 }
-export const GET = withRuntime(withApiAudit('/api/admin/monitoring/errors', _GET));

@@ -4,7 +4,7 @@
 // No synthetic stats, no fake deltas.
 
 // SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import {
@@ -14,6 +14,7 @@ import {
   type PriorityItem,
 } from '@/lib/admin/priority-score';
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
+import { PENDING_APPLICATION_STATUSES } from '@/lib/admin/application-statuses';
 import { getSystemHealth } from './dashboard/get-system-health';
 import { withTimeout } from '@/lib/utils/withTimeout';
 
@@ -109,7 +110,10 @@ const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const supabase = await createClient();
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
+  // Fall back to the anon client if the service role key is absent.
+  // Queries that require elevated privileges will return empty results
+  // rather than crashing the entire dashboard.
   const db = adminClient ?? supabase;
 
   const thisMonthStart  = monthStart();
@@ -170,13 +174,13 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   ] = await Promise.all([
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
+      .in('status', [...PENDING_APPLICATION_STATUSES])
       .order('created_at', { ascending: true })
       .limit(20),
 
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review']),
+      .in('status', [...PENDING_APPLICATION_STATUSES]),
 
     db.from('program_enrollments')
       .select('id, user_id, program_id, program_slug, enrollment_state, access_granted_at, revoked_at, funding_source, funding_verified, amount_paid_cents, your_revenue_cents, stripe_payment_intent_id, stripe_checkout_session_id')
@@ -221,7 +225,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Last month pending apps count for delta
     db.from('applications')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
+      .in('status', [...PENDING_APPLICATION_STATUSES])
       .gte('created_at', lastMonthStartS)
       .lt('created_at', lastMonthEndS),
 
@@ -294,7 +298,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Operational alerts — stalled applications (7+ days in submitted/pending)
     db.from('applications')
       .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
-      .in('status', ['submitted', 'pending', 'in_review', 'pending_admin_review'])
+      .in('status', [...PENDING_APPLICATION_STATUSES])
       .lt('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
       .order('created_at', { ascending: true })
       .limit(10),
@@ -311,7 +315,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     // Active enrollments missing funding — join profiles for display name/email
     // Exclude apprenticeship programs (barber/cosmetology are self-pay by design)
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
+      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source, profiles(full_name, email)')
       .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
       .not('access_granted_at', 'is', null)
       .is('revoked_at', null)
@@ -666,7 +670,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       deltaLabel: appsDelta !== 0
         ? `${appsDelta > 0 ? '+' : ''}${appsDelta}% vs last month`
         : 'No change vs last month',
-      href: '/admin/applications?status=submitted,pending,in_review,pending_admin_review',
+      href: `/admin/applications?status=${PENDING_APPLICATION_STATUSES.join(',')}`,
       urgent: totalPending > 0,
       sub: oldestApp
         ? `Oldest: ${oldestApp.age_days}d — ${oldestApp.program_interest || 'unknown program'}`
@@ -1042,54 +1046,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     },
   ];
 
-  const missingFundingRows = missingFundingEnrollmentsRes.error
-    ? []
-    : (missingFundingEnrollmentsRes.data ?? []);
-  if (missingFundingEnrollmentsRes.error) {
-    logger.error(
-      '[dashboard] missing funding enrollments query failed',
-      missingFundingEnrollmentsRes.error,
-    );
-  }
-  const missingFundingUserIds = [
-    ...new Set(
-      missingFundingRows
-        .map((row: { user_id?: string | null }) => row.user_id)
-        .filter((id): id is string => Boolean(id)),
-    ),
-  ];
-  const missingFundingProfileByUserId: Record<
-    string,
-    { full_name: string | null; email: string | null }
-  > = {};
-  if (missingFundingUserIds.length > 0) {
-    const { data: profileRows, error: profileLookupError } = await db
-      .from('profiles')
-      .select('id, full_name, email')
-      .in('id', missingFundingUserIds);
-    if (profileLookupError) {
-      logger.error('[dashboard] missing funding profile lookup failed', profileLookupError);
-    } else {
-      for (const profile of profileRows ?? []) {
-        if (profile.id) {
-          missingFundingProfileByUserId[profile.id] = {
-            full_name: profile.full_name ?? null,
-            email: profile.email ?? null,
-          };
-        }
-      }
-    }
-  }
-  const missingFundingEnrollments = missingFundingRows.map((row: Record<string, unknown>) => {
-    const userId = typeof row.user_id === 'string' ? row.user_id : null;
-    const profile = userId ? missingFundingProfileByUserId[userId] : null;
-    return { ...row, profiles: profile };
-  });
-
-
   return {
     counts: {
-      pendingApplications:   totalPendingCount,
+      pendingApplications: pendingApps,
       activeEnrollments:     activeEnrollCount,
       revenueThisMonthCents: revenueThisMonthCents,
       certificatesIssued:    certsCount,
@@ -1116,7 +1075,7 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     pendingWioaDocs,
     stalledApplications: stalledApplicationsRes.data ?? [],
     noOutcomeEnrollments: noOutcomeEnrollmentsRes.data ?? [],
-    missingFundingEnrollments,
+    missingFundingEnrollments: missingFundingEnrollmentsRes.data ?? [],
     profile: adminProfile,
     generatedAt: new Date().toISOString(),
     sitePreviewTargets,

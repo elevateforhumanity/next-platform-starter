@@ -29,6 +29,9 @@ export type LizzyContainerProps = {
   className?: string;
   previewMinHeight?: number;
   isSuperAdmin?: boolean;
+  pendingApplications?: import("./types").RecentApplication[];
+  pendingApplicationsCount?: number;
+  pendingProgramHolders?: number;
 };
 
 /**
@@ -41,6 +44,9 @@ export function LizzyContainer({
   className = '',
   previewMinHeight = 380,
   isSuperAdmin = false,
+  pendingApplications = [],
+  pendingApplicationsCount = 0,
+  pendingProgramHolders = 0,
 }: LizzyContainerProps) {
   const [configPreview, setConfigPreview] = useState<DevStudioConfigPreview | null>(null);
 
@@ -86,6 +92,9 @@ export function LizzyContainer({
         <LizzyWorkspace
           isSuperAdmin={isSuperAdmin}
           onPreviewUrlDetected={(url) => setPreviewFromShell(url)}
+          pendingApplications={pendingApplications}
+          pendingApplicationsCount={pendingApplicationsCount}
+          pendingProgramHolders={pendingProgramHolders}
         />
       }
       workspaceMinHeight={440}

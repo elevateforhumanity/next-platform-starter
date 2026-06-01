@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import type { SitePreviewTarget } from './types';
+import type { RecentApplication, SitePreviewTarget } from './types';
 
 const LizzyContainer = dynamic(
   () => import('./LizzyContainer').then((m) => m.LizzyContainer),
@@ -20,10 +20,16 @@ function LizzyContainerInner({
   sites,
   defaultPreviewUrl,
   isSuperAdmin,
+  pendingApplications,
+  pendingApplicationsCount,
+  pendingProgramHolders,
 }: {
   sites: SitePreviewTarget[];
   defaultPreviewUrl?: string;
   isSuperAdmin: boolean;
+  pendingApplications?: RecentApplication[];
+  pendingApplicationsCount?: number;
+  pendingProgramHolders?: number;
 }) {
   const targets = sites.map((s) => ({
     label: s.label ?? s.url,
@@ -36,6 +42,9 @@ function LizzyContainerInner({
         sites={targets}
         defaultPreviewUrl={defaultPreviewUrl}
         isSuperAdmin={isSuperAdmin}
+        pendingApplications={pendingApplications ?? []}
+        pendingApplicationsCount={pendingApplicationsCount ?? 0}
+        pendingProgramHolders={pendingProgramHolders ?? 0}
       />
     </div>
   );
@@ -45,6 +54,9 @@ export default function LizzyContainerWrapper({
   sites,
   defaultPreviewUrl,
   isSuperAdmin = false,
+  pendingApplications = [],
+  pendingApplicationsCount = 0,
+  pendingProgramHolders = 0,
 }: {
   sites: SitePreviewTarget[];
   defaultPreviewUrl?: string;
@@ -62,6 +74,9 @@ export default function LizzyContainerWrapper({
         sites={sites}
         defaultPreviewUrl={defaultPreviewUrl}
         isSuperAdmin={isSuperAdmin}
+        pendingApplications={pendingApplications}
+        pendingApplicationsCount={pendingApplicationsCount}
+        pendingProgramHolders={pendingProgramHolders}
       />
     </Suspense>
   );

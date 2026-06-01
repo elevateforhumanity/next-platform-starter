@@ -66,7 +66,9 @@ export async function POST(request: NextRequest) {
     const label = (formData.get('label') as string | null) ?? '';
 
     if (!file) return safeError('No file provided', 400);
-    if (file.size > MAX_BYTES) return safeError('File exceeds 50 MB limit', 413);
+    if (file.size > MAX_BYTES) {
+      return safeError(`File exceeds ${Math.round(MAX_BYTES / (1024 * 1024))} MB limit`, 413);
+    }
 
     const contentType = file.type || 'application/octet-stream';
     const ext       = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'bin';

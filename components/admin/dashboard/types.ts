@@ -202,6 +202,7 @@ export interface AdminDashboardData {
   recentActivity: ActivityItem[];
   recentStudents: RecentStudent[];
   recentApplications: RecentApplication[];
+  pendingApplications: RecentApplication[];
   blockedPrograms: BlockedProgram[];
   inactiveLearners: InactiveLearner[];
   pendingSubmissions: PendingSubmission[];
@@ -215,7 +216,7 @@ export interface AdminDashboardData {
   noOutcomeEnrollments: Record<string, unknown>[];
   /** Active enrollments missing a funding source */
   missingFundingEnrollments: Record<string, unknown>[];
-  profile: { full_name: string | null; role?: string | null } | null;
+  profile: { full_name: string | null } | null;
   generatedAt: string;
   sitePreviewTargets: SitePreviewTarget[];
   /** Non-empty when one or more non-critical sections failed to load. */

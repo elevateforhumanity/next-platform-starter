@@ -430,4 +430,20 @@ export default async function ReviewApplicationPage({
       </div>
     </div>
   );
+  } catch (err) {
+    logger.error('[review/application] page render failed', err);
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <p className="text-4xl mb-4">⚠️</p>
+        <h1 className="text-xl font-bold text-slate-900 mb-2">Could not load application</h1>
+        <p className="text-slate-500 mb-6 text-sm">
+          The review page hit an internal error. Check server logs and confirm{' '}
+          <code className="px-1 bg-slate-100 rounded">SUPABASE_SERVICE_ROLE_KEY</code> is set on the admin container.
+        </p>
+        <Link href="/admin/applications" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl">
+          <ArrowLeft className="w-4 h-4" /> Back to Applications
+        </Link>
+      </div>
+    );
+  }
 }
