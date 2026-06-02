@@ -79,7 +79,7 @@ export const HERO_IMAGES = {
 
   // Business family
   business: {
-    taxPrep: '/images/pages/tax-preparation.webp',
+    taxPrep: '/images/business/professional-2.jpg',
     entrepreneurship: '/images/pages/business-sector.webp',
     businessAdmin: '/images/pages/admin-business-hero.webp',
   },

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import IntakeFormInner from './IntakeFormInner';
+import ApplyPathGuide from '@/components/apply/ApplyPathGuide';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { getStaticProgram, STATIC_PROGRAM_MAP } from '@/data/programs/index';
@@ -78,49 +80,55 @@ export default async function ApplyPage({
         </div>
       </div>
 
-      {/* Hero */}
-      <section className="bg-slate-900 py-10">
-        <div className="max-w-2xl mx-auto px-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
-            Funding &amp; Apprenticeship Intake
-          </p>
-          {programTitle ? (
-            <>
-              <p className="text-slate-400 text-sm mb-1">Applying for:</p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
-                {programTitle}
-              </h2>
-            </>
-          ) : (
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
-              Check Your Eligibility
-            </h2>
-          )}
-          <p className="text-slate-300 text-base max-w-xl">
-            Takes 3-5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and
-            Job Ready Indy funding - most eligible Indiana residents pay $0.
-          </p>
-          {programTitle ? (
-            <p className="mt-3 text-sm text-slate-400">
-              Not the right program?{' '}
-              <Link href="/programs" className="text-brand-red-400 hover:text-brand-red-300 underline underline-offset-2">
+      {/* Hero — media only (no text on image); messaging below per page design standard */}
+      <section className="relative w-full">
+        <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+          <Image
+            src="/images/pages/apply-hero.webp"
+            alt="Students exploring career training programs at Elevate for Humanity"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="bg-white border-b border-slate-200 py-10">
+          <div className="max-w-2xl mx-auto px-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-2">
+              Funding &amp; Apprenticeship Intake
+            </p>
+            {programTitle ? (
+              <>
+                <p className="text-slate-500 text-sm mb-1">Applying for:</p>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">{programTitle}</h1>
+              </>
+            ) : (
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
+                Check Your Eligibility
+              </h1>
+            )}
+            <p className="text-slate-700 text-base max-w-xl">
+              Takes 3–5 minutes. We screen for WIOA, Workforce Ready Grant, FSSA IMPACT, and Job Ready
+              Indy funding — most eligible Indiana residents pay $0.
+            </p>
+            <p className="mt-3 text-sm text-slate-600">
+              {programTitle ? 'Not the right program?' : 'Still deciding?'}{' '}
+              <Link href="/programs" className="text-brand-red-600 font-semibold hover:underline">
                 Browse all programs
               </Link>
-            </p>
-          ) : (
-            <p className="mt-3 text-sm text-slate-400">
-              Still deciding?{' '}
-              <Link href="/programs" className="text-brand-red-400 hover:text-brand-red-300 underline underline-offset-2">
-                Browse all programs
+              {' · '}
+              <Link href="/apply/student" className="text-brand-red-600 font-semibold hover:underline">
+                Full student application
               </Link>
             </p>
-          )}
+          </div>
         </div>
       </section>
 
       {/* Form */}
       <section id="application" className="py-10" aria-label="Application form">
         <div className="max-w-2xl mx-auto px-4">
+          <ApplyPathGuide variant="hub" />
           <IntakeFormInner programs={programs} />
         </div>
       </section>

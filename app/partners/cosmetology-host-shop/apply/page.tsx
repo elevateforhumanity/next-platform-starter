@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { Loader2, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import HostShopComplianceUploads from '@/components/partners/HostShopComplianceUploads';
+import { encodeDataUrlFile } from '@/lib/files/encode-data-url-file';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const WORKERS_COMP_OPTIONS = [
@@ -57,6 +59,10 @@ export default function CosmetologySalonApplyPage() {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM);
+  const [salonLicenseFile, setSalonLicenseFile] = useState<File | null>(null);
+  const [salonLicenseFileName, setSalonLicenseFileName] = useState('');
+  const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
+  const [insuranceFileName, setInsuranceFileName] = useState('');
 
   const set = (field: string, value: string | boolean) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -67,13 +73,34 @@ export default function CosmetologySalonApplyPage() {
       setError('You must acknowledge the MOU and consent to proceed.');
       return;
     }
+    if (!salonLicenseFile) {
+      setError('Please upload your Indiana salon license.');
+      return;
+    }
+    if (formData.hasGeneralLiability !== 'yes') {
+      setError('General liability insurance is required for host salons.');
+      return;
+    }
+    if (formData.workersCompStatus === 'none') {
+      setError("Workers' compensation coverage or a valid exemption is required.");
+      return;
+    }
     setLoading(true);
     setError('');
     try {
+      const shopLicenseFileData = await encodeDataUrlFile(salonLicenseFile);
+      const insuranceFileData = await encodeDataUrlFile(insuranceFile);
       const res = await fetch('/api/partners/cosmetology-host-shop/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, programType: 'cosmetology' }),
+        body: JSON.stringify({
+          ...formData,
+          programType: 'cosmetology',
+          shopLicenseFileData,
+          shopLicenseFileName: salonLicenseFileName,
+          insuranceFileData,
+          insuranceFileName,
+        }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -400,14 +427,35 @@ export default function CosmetologySalonApplyPage() {
             </div>
           </div>
 
-          {/* Document readiness (not required) */}
           <div className={sectionCls}>
-            <h2 className="text-lg font-bold text-slate-900">Required Documents Readiness</h2>
-            <p className="text-slate-500 text-sm">
-              We ask this to help your onboarding timeline. You can still submit this application
-              even if documents are not ready yet.
+            <h2 className="text-lg font-bold text-slate-900">Compliance Uploads</h2>
+            <p className="text-sm text-slate-600 mb-4">
+              Upload your salon license now (required). Insurance COI is optional at submit but
+              required before final approval — same process as barbershop host partners.
             </p>
-            <div className="space-y-4">
+            <HostShopComplianceUploads
+              licenseLabel="Indiana Salon License"
+              licenseFileName={salonLicenseFileName}
+              onLicenseChange={(f, name) => {
+                setSalonLicenseFile(f);
+                setSalonLicenseFileName(name);
+              }}
+              insuranceFileName={insuranceFileName}
+              onInsuranceChange={(f, name) => {
+                setInsuranceFile(f);
+                setInsuranceFileName(name);
+              }}
+              accentRing="focus:ring-purple-500"
+            />
+          </div>
+
+          {/* Document readiness (optional) */}
+          <div className={sectionCls}>
+            <h2 className="text-lg font-bold text-slate-900">Additional document timeline</h2>
+            <p className="text-slate-500 text-sm">
+              Optional — helps us schedule onboarding (W-9, supervisor license, etc.).
+            </p>
+            <div className="space-y-4 mt-4">
               <div>
                 <label className={labelCls}>Do you currently have the required documents?</label>
                 <select

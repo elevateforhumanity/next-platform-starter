@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
-import { Loader2, AlertCircle, CheckCircle, ArrowRight, Save } from 'lucide-react';
-import { useApplicationDraft } from '@/hooks/useApplicationDraft';
+import { Loader2, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import HostShopComplianceUploads from '@/components/partners/HostShopComplianceUploads';
+import { encodeDataUrlFile } from '@/lib/files/encode-data-url-file';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const WORKERS_COMP_OPTIONS = [
@@ -45,6 +46,8 @@ const INITIAL_FORM = {
   workersCompStatus: '',
   hasGeneralLiability: '',
   canSuperviseAndVerify: '',
+  documentReadiness: '',
+  documentSupportNeeded: '',
   mouAcknowledged: false,
   consentAcknowledged: false,
   notes: '',
@@ -56,55 +59,52 @@ export default function NailTechnicianSpaApplyPage() {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FORM);
-  const [showDraftBanner, setShowDraftBanner] = useState(false);
+  const [salonLicenseFile, setSalonLicenseFile] = useState<File | null>(null);
+  const [salonLicenseFileName, setSalonLicenseFileName] = useState('');
+  const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
+  const [insuranceFileName, setInsuranceFileName] = useState('');
 
-  const { hasDraft, savedData, savedAt, saveDraft, clearDraft } =
-    useApplicationDraft<typeof INITIAL_FORM>('nail-partner-apply');
-
-  useEffect(() => { if (hasDraft) setShowDraftBanner(true); }, [hasDraft]);
-
-  function resumeDraft() {
-    if (savedData) setFormData(savedData);
-    setShowDraftBanner(false);
-  }
-
-  const set = (field: string, value: string | boolean) => {
-    const next = { ...formData, [field]: value } as typeof INITIAL_FORM;
-    setFormData(next);
-    saveDraft(next, 1);
-  };
+  const set = (field: string, value: string | boolean) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.mouAcknowledged || !formData.consentAcknowledged) {
-      setError('You must acknowledge both the MOU terms and consent to proceed.');
+      setError('You must acknowledge the MOU and consent to proceed.');
+      return;
+    }
+    if (!salonLicenseFile) {
+      setError('Please upload your Indiana salon license.');
+      return;
+    }
+    if (formData.hasGeneralLiability !== 'yes') {
+      setError('General liability insurance is required for host salons.');
+      return;
+    }
+    if (formData.workersCompStatus === 'none') {
+      setError("Workers' compensation coverage or a valid exemption is required.");
       return;
     }
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/partners/apply', {
+      const shopLicenseFileData = await encodeDataUrlFile(salonLicenseFile);
+      const insuranceFileData = insuranceFile ? await encodeDataUrlFile(insuranceFile) : undefined;
+      const res = await fetch('/api/partners/nail-technician-apprenticeship/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          program: 'nail-technician-apprenticeship',
-          programName: 'Nail Technician Apprenticeship',
-          businessName: formData.spaLegalName,
-          businessDba: formData.spaDbaName,
-          businessAddressLine1: formData.spaAddressLine1,
-          businessAddressLine2: formData.spaAddressLine2,
-          businessCity: formData.spaCity,
-          businessState: formData.spaState,
-          businessZip: formData.spaZip,
-          licenseNumber: formData.indianaEstablishmentLicenseNumber,
+          shopLicenseFileData,
+          shopLicenseFileName: salonLicenseFileName,
+          insuranceFileData,
+          insuranceFileName,
         }),
       });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
         throw new Error(json.error || 'Submission failed. Please try again.');
       }
-      clearDraft();
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -115,29 +115,47 @@ export default function NailTechnicianSpaApplyPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-4">
-        <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-brand-green-600" />
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4">
+        <div className="max-w-lg w-full text-center">
+          <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 mb-2">Application Submitted</h1>
+          <h1 className="text-3xl font-black text-slate-900 mb-3">Application Submitted</h1>
           <p className="text-slate-600 mb-6">
-            Thank you for applying to host an nail technician apprentice. Our team will review your
-            application and contact you within 3–5 business days.
+            Your host salon application has been received. Our team will review it within 2–3 business
+            days and contact you at <strong>{formData.contactEmail}</strong>.
           </p>
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-6 text-left">
+            <p className="text-purple-900 font-bold text-sm mb-2">Next steps:</p>
+            <ol className="space-y-1 text-purple-800 text-sm list-decimal list-inside">
+              <li>Sign the MOU digitally</li>
+              <li>Acknowledge the Partner Handbook</li>
+              <li>Upload salon license and supervisor license if not yet on file</li>
+              <li>Receive apprentice placement</li>
+            </ol>
+          </div>
           <Link
-            href="/partners/nail-technician-apprenticeship"
-            className="inline-flex items-center gap-2 text-pink-600 font-semibold hover:text-pink-800"
+            href="/login?redirect=/partners/nail-technician-apprenticeship/sign-mou"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
           >
-            ← Back to Partner Program
+            Log In &amp; Sign the MOU <ArrowRight className="w-4 h-4" />
           </Link>
+          <p className="text-sm text-slate-500 mt-4">
+            Don&apos;t have an account?{' '}
+            <Link
+              href="/signup?redirect=/partners/nail-technician-apprenticeship/sign-mou"
+              className="text-purple-600 hover:underline font-medium"
+            >
+              Create one free
+            </Link>
+          </p>
         </div>
       </div>
     );
   }
 
   const inputClass =
-    'w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500';
+    'w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500';
   const labelClass = 'block text-xs font-bold text-slate-700 mb-1';
 
   return (
@@ -179,24 +197,6 @@ export default function NailTechnicianSpaApplyPage() {
               <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">
                 <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 {error}
-              </div>
-            )}
-
-            {showDraftBanner && (
-              <div className="flex items-start gap-3 p-4 mb-4 bg-blue-50 border border-blue-200 rounded-lg text-sm">
-                <Save className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                <div className="flex-1">
-                  <p className="font-semibold text-blue-900">You have a saved application</p>
-                  <p className="text-blue-700 text-xs mt-0.5">
-                    Saved {savedAt ? savedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'recently'}. Resume where you left off or start fresh.
-                  </p>
-                </div>
-                <div className="flex gap-2 shrink-0">
-                  <button type="button" onClick={resumeDraft}
-                    className="text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg">Resume</button>
-                  <button type="button" onClick={() => { clearDraft(); setShowDraftBanner(false); }}
-                    className="text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1.5">Start fresh</button>
-                </div>
               </div>
             )}
 
@@ -529,6 +529,67 @@ export default function NailTechnicianSpaApplyPage() {
                 </div>
               </div>
 
+              <div>
+                <h2 className="text-base font-extrabold text-slate-900 mb-4 pb-2 border-b border-slate-100">
+                  Compliance Uploads
+                </h2>
+                <p className="text-sm text-slate-600 mb-4">
+                  Upload your salon license now (required). Insurance COI is optional at submit but
+                  required before final approval — same process as cosmetology and barber host
+                  partners.
+                </p>
+                <HostShopComplianceUploads
+                  licenseLabel="Indiana Salon License"
+                  licenseFileName={salonLicenseFileName}
+                  onLicenseChange={(f, name) => {
+                    setSalonLicenseFile(f);
+                    setSalonLicenseFileName(name);
+                  }}
+                  insuranceFileName={insuranceFileName}
+                  onInsuranceChange={(f, name) => {
+                    setInsuranceFile(f);
+                    setInsuranceFileName(name);
+                  }}
+                  accentRing="focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <h2 className="text-base font-extrabold text-slate-900 mb-4 pb-2 border-b border-slate-100">
+                  Additional document timeline
+                </h2>
+                <p className="text-slate-500 text-sm mb-4">
+                  Optional — helps us schedule onboarding (W-9, supervisor license, etc.).
+                </p>
+                <div className="space-y-4">
+                  <div>
+                    <label className={labelClass}>Do you currently have the required documents?</label>
+                    <select
+                      className={inputClass}
+                      value={formData.documentReadiness}
+                      onChange={(e) => set('documentReadiness', e.target.value)}
+                    >
+                      <option value="">Select...</option>
+                      <option value="ready_now">Yes — I can upload now</option>
+                      <option value="ready_soon">Partially — I can upload within 7 days</option>
+                      <option value="need_time">Not yet — I need more time</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Do you want help gathering required documents?</label>
+                    <select
+                      className={inputClass}
+                      value={formData.documentSupportNeeded}
+                      onChange={(e) => set('documentSupportNeeded', e.target.value)}
+                    >
+                      <option value="">Select...</option>
+                      <option value="yes">Yes, I want onboarding support</option>
+                      <option value="no">No, I can complete document upload myself</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               {/* Notes */}
               <div>
                 <label className={labelClass} htmlFor="notes">
@@ -554,9 +615,15 @@ export default function NailTechnicianSpaApplyPage() {
                     className="mt-0.5 accent-pink-600 flex-shrink-0"
                   />
                   <span className="text-xs text-slate-700">
-                    I understand that approved host sites will be required to sign a Memorandum of
-                    Understanding (MOU) with {PLATFORM_DEFAULTS.orgName} outlining host site
-                    responsibilities, apprentice supervision requirements, and wage obligations.
+                    I have read and agree to the{' '}
+                    <Link
+                      href="/login?redirect=/partners/nail-technician-apprenticeship/sign-mou"
+                      className="text-purple-600 hover:underline font-medium"
+                    >
+                      Memorandum of Understanding
+                    </Link>{' '}
+                    for the Nail Technician Apprenticeship Program and understand my responsibilities
+                    as a host salon.
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer">

@@ -1,4 +1,4 @@
-// PUBLIC ROUTE: cosmetology apprenticeship application
+// PUBLIC ROUTE: esthetician apprenticeship host spa application
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -8,21 +8,20 @@ import { submitSalonHostShopApplication } from '@/lib/partners/submit-salon-host
 
 async function _POST(request: NextRequest) {
   try {
-
     const body = await request.json();
     const {
-      salonLegalName,
-      salonDbaName,
+      spaLegalName,
+      spaDbaName,
       ownerName,
       contactName,
       contactEmail,
       contactPhone,
-      salonAddressLine1,
-      salonAddressLine2,
-      salonCity,
-      salonState,
-      salonZip,
-      indianaSalonLicenseNumber,
+      spaAddressLine1,
+      spaAddressLine2,
+      spaCity,
+      spaState,
+      spaZip,
+      indianaEstablishmentLicenseNumber,
       supervisorName,
       supervisorLicenseNumber,
       supervisorYearsLicensed,
@@ -43,10 +42,10 @@ async function _POST(request: NextRequest) {
     } = body;
 
     if (
-      !salonLegalName ||
+      !spaLegalName ||
       !contactEmail ||
       !contactPhone ||
-      !indianaSalonLicenseNumber ||
+      !indianaEstablishmentLicenseNumber ||
       !supervisorName ||
       !supervisorLicenseNumber
     ) {
@@ -56,10 +55,10 @@ async function _POST(request: NextRequest) {
       return safeError('Acknowledgments are required', 400);
     }
     if (!shopLicenseFileData || !shopLicenseFileName) {
-      return safeError('Please upload your Indiana salon license.', 400);
+      return safeError('Please upload your Indiana establishment license.', 400);
     }
     if (hasGeneralLiability !== 'yes') {
-      return safeError('General liability insurance is required for host salons.', 400);
+      return safeError('General liability insurance is required for host sites.', 400);
     }
     if (workersCompStatus === 'none') {
       return safeError("Workers' compensation coverage or a valid exemption is required.", 400);
@@ -70,19 +69,19 @@ async function _POST(request: NextRequest) {
       return safeInternalError(new Error('DB unavailable'), 'Service temporarily unavailable');
     }
 
-    const result = await submitSalonHostShopApplication(db, 'cosmetology', {
-      salonLegalName,
-      salonDbaName,
+    const result = await submitSalonHostShopApplication(db, 'esthetician', {
+      salonLegalName: spaLegalName,
+      salonDbaName: spaDbaName,
       ownerName,
       contactName,
       contactEmail,
       contactPhone,
-      salonAddressLine1,
-      salonAddressLine2,
-      salonCity,
-      salonState,
-      salonZip,
-      indianaSalonLicenseNumber,
+      salonAddressLine1: spaAddressLine1,
+      salonAddressLine2: spaAddressLine2,
+      salonCity: spaCity,
+      salonState: spaState,
+      salonZip: spaZip,
+      indianaSalonLicenseNumber: indianaEstablishmentLicenseNumber,
       supervisorName,
       supervisorLicenseNumber,
       supervisorYearsLicensed,
@@ -110,7 +109,7 @@ async function _POST(request: NextRequest) {
         409,
       );
     }
-    logger.error('Cosmetology salon apply error:', error);
+    logger.error('Esthetician host spa apply error:', error);
     return safeInternalError(error, 'Failed to process application');
   }
 }

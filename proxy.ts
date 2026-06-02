@@ -134,6 +134,28 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/portal/jri':               ['student', 'admin', 'super_admin', 'staff', 'instructor'],
 };
 
+/**
+ * Auth prefix match — avoids false positives like /apprenticeships matching /apprentice.
+ * Requires exact path or a proper path segment boundary (/prefix/...).
+ */
+function pathMatchesAuthPrefix(pathname: string, prefix: string): boolean {
+  if (prefix.endsWith('/')) {
+    const base = prefix.slice(0, -1);
+    return pathname === base || pathname.startsWith(prefix);
+  }
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
+/** Marketing / public content — never gate behind login in middleware. */
+const PUBLIC_MARKETING_PREFIXES = [
+  '/apprenticeships',
+  '/programs/',
+  '/partners/',
+  '/apply',
+  '/for-employers',
+  '/apprenticeship-sponsor',
+];
+
 // Routes requiring authentication (any role).
 const AUTH_REQUIRED_ROUTES = [
   '/lms/dashboard',
@@ -642,12 +664,16 @@ export async function middleware(request: NextRequest) {
     return nextWithPathname();
   }
 
+  if (PUBLIC_MARKETING_PREFIXES.some((prefix) => pathMatchesAuthPrefix(pathname, prefix))) {
+    return nextWithPathname();
+  }
+
   // Admin namespace (/admin/*) is canonicalized to NEXT_PUBLIC_ADMIN_URL above.
   // The LMS middleware does not own /admin route rendering.
 
   // Check if route requires protection (non-admin routes)
   const protectedRoute = Object.keys(PROTECTED_ROUTES).find((route) => pathname.startsWith(route));
-  const authRequired = AUTH_REQUIRED_ROUTES.some((route) => pathname.startsWith(route));
+  const authRequired = AUTH_REQUIRED_ROUTES.some((route) => pathMatchesAuthPrefix(pathname, route));
 
   if (!protectedRoute && !authRequired) {
     return nextWithPathname();

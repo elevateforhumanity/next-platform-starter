@@ -5,6 +5,8 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { Clock, Award, DollarSign, ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { STATIC_PROGRAM_MAP } from '@/data/programs/index';
+import { getProgramCardImage } from '@/lib/images/programImages';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 
 export const revalidate = 0; // always fresh - catalog should prefer DB state when available
 
@@ -64,7 +66,7 @@ const PROGRAM_IMAGES: Record<string, string> = {
   'graphic-design':'/images/pages/tech-classroom.webp',
   'cad-drafting':'/images/pages/tech-classroom.webp',
   'web-development':'/images/pages/programs-tech-webdev-hero.webp',
-  'tax-preparation':'/images/pages/tax-preparation.webp',
+  'tax-preparation':'/images/business/office-admin.webp',
   bookkeeping:'/images/business/office-admin.webp',
   'finance-bookkeeping-accounting':'/images/business/office-admin.webp',
   'business-startup':'/images/programs/efh-business-startup-marketing-hero.jpg',
@@ -239,7 +241,7 @@ export default async function ProgramsPage() {
                   <Link key={p.slug} href={`/programs/${p.slug}`}
                     className="group flex flex-col rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:border-slate-300 transition-all duration-200 bg-white">
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-100 flex-shrink-0">
-                      <Image src={PROGRAM_IMAGES[p.slug]??'/images/programs-hero-new.webp'} alt={p.title} fill
+                      <Image src={resolveSiteImagePath(PROGRAM_IMAGES[p.slug] ?? getProgramCardImage(p.slug))} alt={p.title} fill
                         className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
                         sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder="empty" />
                       {p.funding_eligible&&(

@@ -59,7 +59,7 @@ export default function NailApplyIndexPage() {
             title="I'm an Apprentice"
             description="I want to enroll in the nail technician apprenticeship program as a student."
             enrollHref="/apply?program=nail-technician-apprenticeship&type=enrollment"
-            inquiryHref="/apply?program=nail-technician-apprenticeship&type=inquiry"
+            inquiryHref="/contact?program=nail-technician-apprenticeship"
             accentColor="brand-red"
           />
 
