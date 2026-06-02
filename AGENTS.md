@@ -837,6 +837,10 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
+### Northflank production DNS (mobile “can’t be reached”)
+
+If HTTPS to `elevateforhumanity.org` fails but `https://site--elevate-lms--pknyktykz4wg.code.run/` works, **DNS is wrong** — not the Next.js deploy. Apex/www must not point at `20.232.216.67` (no valid TLS). Use Northflank CNAME targets from `pnpm tsx scripts/northflank/print-cname-targets.ts` or apex **A** → IP from `dig +short elevateforhumanity.org.elev-5vfk.dns.northflank.app`. Runbook: `docs/northflank-dns-durable.md`.
+
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:

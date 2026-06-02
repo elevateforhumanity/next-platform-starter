@@ -26,12 +26,34 @@ async function printDomain(domain: string) {
   console.log('');
 }
 
+async function resolveNorthflankApexIp(cnameTarget: string): Promise<string | null> {
+  try {
+    const { execSync } = await import('child_process');
+    const out = execSync(`dig +short ${cnameTarget} A | head -1`, { encoding: 'utf8' }).trim();
+    return out || null;
+  } catch {
+    return null;
+  }
+}
+
 async function main() {
   console.log('\n=== Northflank CNAME records for Durable ===\n');
   await printDomain('www.elevateforhumanity.org');
   await printDomain('admin.elevateforhumanity.org');
   await printDomain('elevateforhumanity.org');
-  console.log('Replace AWS ALB CNAMEs with the targets above, then:');
+
+  const apexCname = 'elevateforhumanity.org.elev-5vfk.dns.northflank.app';
+  const apexIp = await resolveNorthflankApexIp(apexCname);
+  if (apexIp) {
+    console.log('=== Apex A-record fallback (if @ cannot be CNAME) ===\n');
+    console.log('elevateforhumanity.org');
+    console.log(`  A host: @`);
+    console.log(`  Target: ${apexIp}  (from ${apexCname})`);
+    console.log('  Remove any A record pointing at 20.232.216.67 — it breaks HTTPS/mobile.\n');
+  }
+
+  console.log('Full runbook: docs/northflank-dns-durable.md');
+  console.log('After DNS propagates:');
   console.log('  pnpm tsx scripts/northflank/configure-domains.ts --execute\n');
 }
 
