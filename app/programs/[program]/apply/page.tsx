@@ -15,6 +15,9 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 // Programs with dedicated enrollment flows — redirect away from this shared page.
 const DEDICATED_FLOWS: Record<string, string> = {
   'barber-apprenticeship': '/programs/barber-apprenticeship/apply',
+  'cosmetology-apprenticeship': '/programs/cosmetology-apprenticeship/apply',
+  'nail-technician-apprenticeship': '/programs/nail-technician-apprenticeship/apply',
+  'esthetician-apprenticeship': '/programs/esthetician-apprenticeship/apply',
 };
 
 type FundingType = 'wioa' | 'self_pay' | 'employer' | 'unsure';
@@ -39,23 +42,6 @@ export default function BeautyApplyPage() {
   const [fundingType, setFundingType] = useState<FundingType>('wioa');
   const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
-
-  useEffect(() => {
-    if (!cfg) return;
-    const slug = cfg.slug;
-    const checkAuth = async () => {
-      const { createBrowserClient } = await import('@supabase/ssr');
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      );
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        window.location.href = `/login?redirect=/programs/${slug}/apply`;
-      }
-    };
-    checkAuth();
-  }, [cfg]);
 
   if (!cfg) {
     // Non-beauty slug hit the shared beauty apply page — redirect to the
