@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
-import HeaderNavMenu from './HeaderNavMenu.client';
+import HeaderMainNav from './HeaderMainNav.client';
 import HeaderUtilities from './HeaderUtilities.client';
 import { NAV_ITEMS } from '@/lib/navigation';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -43,24 +43,7 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop: horizontal section shortcuts (full tree in Menu) */}
-          <nav
-            className="hidden lg:flex flex-1 items-center justify-center gap-0.5 min-w-0 overflow-x-auto px-2"
-            aria-label="Section shortcuts"
-          >
-            {NAV_ITEMS.map((item) =>
-              item.href ? (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  prefetch={false}
-                  className="text-[12px] font-medium text-slate-600 hover:text-brand-blue-600 px-2 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap shrink-0"
-                >
-                  {item.name}
-                </Link>
-              ) : null,
-            )}
-          </nav>
+          <HeaderMainNav items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
 
           <div className="flex flex-nowrap items-center gap-1 shrink-0">
             <HeaderUtilities />
@@ -81,8 +64,6 @@ export default function Header() {
                 Get Started
               </Link>
             </div>
-
-            <HeaderNavMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
           </div>
         </div>
       </div>
