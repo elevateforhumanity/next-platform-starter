@@ -51,7 +51,7 @@ export default async function EducationLandingPage() {
     <div className="min-h-screen bg-white" data-catalog-source={catalogSource}>
       <EducationHeader />
 
-      <section className="pt-16">
+      <section className="pt-[60px]">
         <HeroVideo
           videoSrcDesktop="/videos/lms-learning.mp4"
           posterImage="/images/pages/higher-ed-hero.webp"

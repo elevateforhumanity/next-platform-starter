@@ -23,7 +23,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
     <>
       <div data-public-layout-root>
-        <div data-marketing-chrome>
+        <div data-marketing-chrome data-marketing-header>
           <Header />
         </div>
 

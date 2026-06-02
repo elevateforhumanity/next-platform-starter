@@ -4,8 +4,7 @@
 import Link from 'next/link';
 import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
-import HeaderMobileMenu from './HeaderMobileMenu.client';
-import HeaderDesktopNav from './HeaderDesktopNav';
+import HeaderMainNav from './HeaderMainNav.client';
 import HeaderUtilities from './HeaderUtilities.client';
 import { NAV_ITEMS } from '@/lib/navigation';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -23,6 +22,7 @@ export default function Header() {
       className="fixed top-0 left-0 right-0 h-[60px] bg-white z-[9999] shadow-sm border-b border-slate-100"
       role="banner"
     >
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true" />
       <div className="max-w-screen-2xl mx-auto w-full h-full px-4 lg:px-8">
         <div className="flex h-full flex-nowrap items-center justify-between gap-2 lg:gap-4">
           <Link
@@ -30,37 +30,40 @@ export default function Header() {
             className="flex items-center gap-2 flex-shrink-0"
             aria-label={`${PLATFORM_DEFAULTS.orgName} home`}
           >
-            <LogoImage alt="Elevate" width={40} height={60} className="w-auto h-9" priority />
+            <LogoImage
+              alt=""
+              aria-hidden
+              width={40}
+              height={60}
+              className="w-auto h-9"
+              priority
+            />
             <span className="font-bold text-[15px] text-slate-900 hidden sm:block tracking-tight">
               Elevate
             </span>
           </Link>
 
-          <div className="hidden lg:flex flex-1 items-center justify-center min-w-0">
-            <HeaderDesktopNav items={NAV_ITEMS} />
-          </div>
+          <HeaderMainNav items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
 
           <div className="flex flex-nowrap items-center gap-1 shrink-0">
             <HeaderUtilities />
 
-            <div className="hidden lg:flex items-center gap-1.5">
+            <div className="hidden md:flex items-center gap-1.5 shrink-0">
               <Link
                 href="/login"
                 prefetch={false}
-                className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50"
+                className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 min-h-[44px] inline-flex items-center"
               >
                 Sign In
               </Link>
               <Link
                 href="/for-students"
                 prefetch={false}
-                className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
+                className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap min-h-[44px] inline-flex items-center"
               >
                 Get Started
               </Link>
             </div>
-
-            <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
           </div>
         </div>
       </div>

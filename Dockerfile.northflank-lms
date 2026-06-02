@@ -1,0 +1,82 @@
+# Dockerfile.northflank-lms
+#
+# LMS (root Next.js app) for Northflank combined CI/CD.
+# Mirrors Dockerfile.package layout; BuildKit registry cache is enabled via
+# scripts/northflank/ensure-build-cache.ts (useCache: true on the service).
+
+FROM public.ecr.aws/docker/library/node:20-bookworm AS builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    build-essential \
+    ca-certificates \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/admin/package.json apps/admin/package.json
+
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--max-old-space-size=8192
+ENV BUILD_SCOPE=1
+ENV NEXT_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
+ENV NEXT_PUBLIC_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
+ENV NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=build-placeholder
+ENV SKIP_ENV_VALIDATION=true
+
+RUN pnpm exec next build
+
+# --- runtime (Dockerfile.package layout) ---
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    fonts-liberation \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HOSTNAME=0.0.0.0
+ENV PORT=8080
+ARG COMMIT_REF=dev
+ENV COMMIT_REF=$COMMIT_REF
+
+WORKDIR /app
+
+RUN npm install --os=linux --cpu=x64 sharp@0.33.5 --no-save 2>/dev/null || \
+    npm install sharp@0.33.5 --no-save
+
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/.next/server ./.next/server
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/remotion-src ./remotion-src
+
+RUN addgroup --gid 1001 nodejs && \
+    adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
+    chown -R nextjs:nodejs /app
+
+USER nextjs
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD curl -f http://127.0.0.1:8080/ || exit 1
+
+CMD ["node", "--max-http-header-size=32768", "server.js"]

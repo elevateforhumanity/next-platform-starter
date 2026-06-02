@@ -225,6 +225,13 @@ export const PROGRAMS: ProgramEntry[] = [
     formType: 'apply',
     active: true,
   },
+  {
+    slug: 'beauty-career-educator',
+    name: 'Beauty & Career Educator',
+    category: 'Barber & Beauty',
+    formType: 'apply',
+    active: true,
+  },
 
   // Additional Programs
   {
