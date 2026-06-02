@@ -2,6 +2,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 
 export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
   slug: 'beauty-career-educator',
+  active: true,
+  public_visible: true,
   title: 'Beauty & Career Educator Training',
   subtitle:
     '12-week hybrid program combining salon services, peer teaching, entrepreneurship, and workforce readiness.',
@@ -285,10 +287,11 @@ export const BEAUTY_CAREER_EDUCATOR: ProgramSchema = {
 
   fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   funding: {
-    wioa_eligible: false,
-    fssa_eligible: false,
-    wrg_eligible: false,
+    wioa_eligible: true,
+    fssa_eligible: true,
+    wrg_eligible: true,
     jobReadyIndyEligible: false,
-    fundingNotes: 'Eligibility for WIOA/FSSA funding determined by the applicable workforce or funding agency.',
+    fundingNotes:
+      'ETPL-approved program. WIOA, Workforce Ready Grant, and FSSA IMPACT eligibility determined by your case manager or WorkOne office.',
   },
 };

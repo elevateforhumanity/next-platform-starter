@@ -841,6 +841,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → Northflank IP (wrong TLS on mobile). Use **`www` CNAME** → Northflank + **apex URL redirect** → `https://www.elevateforhumanity.org` in Durable. App canonical host is `www` (`proxy.ts` 308 apex→www). Runbook: `docs/northflank-dns-durable.md`.
 
+### Northflank deploy (LMS + admin)
+
+- **LMS:** service `elevate-lms`, Dockerfile `Dockerfile.northflank-lms`, branch `main`
+- **Admin:** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin`, branch must be `main` (not `cursor/northflank-setup-c4c6`)
+- **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
+- **Deploy both:** `DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute`
+- **DNS:** `docs/northflank-dns-durable.md`
+
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:

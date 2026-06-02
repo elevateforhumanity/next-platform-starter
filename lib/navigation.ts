@@ -51,6 +51,7 @@ export const NAV_ITEMS: NavItem[] = [
 
       { name: '— Beauty (overview) —', href: '/programs#cat-beauty', isHeader: true },
       { name: 'Beauty & Cosmetology Hub', href: '/programs#cat-beauty' },
+      { name: 'Beauty & Career Educator', href: '/programs/beauty-career-educator' },
 
       { name: '— Technology —', href: '/programs/technology', isHeader: true },
       { name: 'IT Help Desk', href: '/programs/it-help-desk' },
