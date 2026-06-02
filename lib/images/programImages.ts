@@ -226,7 +226,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
  * Falls back to a generic training image if the slug is not registered.
  */
 export function getProgramCardImage(slug: string): string {
-  return PROGRAM_IMAGES[slug]?.card ?? `${P}/training-cohort.jpg`;
+  return PROGRAM_IMAGES[slug]?.card ?? `${P}/training-cohort.webp`;
 }
 
 /**
@@ -234,7 +234,7 @@ export function getProgramCardImage(slug: string): string {
  * Falls back to a generic workforce training image if the slug is not registered.
  */
 export function getProgramHeroImage(slug: string): string {
-  return PROGRAM_IMAGES[slug]?.hero ?? `${P}/workforce-training.jpg`;
+  return PROGRAM_IMAGES[slug]?.hero ?? `${P}/workforce-training.webp`;
 }
 
 /**
