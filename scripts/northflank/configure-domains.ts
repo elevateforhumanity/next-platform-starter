@@ -10,7 +10,7 @@
  *   NORTHFLANK_LMS_SERVICE_ID, NORTHFLANK_ADMIN_SERVICE_ID
  *
  * Defaults:
- *   LMS  → elevateforhumanity.org (apex) + www (redirects to apex in app)
+ *   LMS  → www (canonical) + apex (redirect to www in app; Durable apex uses URL forward)
  *   Admin → admin.elevateforhumanity.org
  */
 
@@ -155,8 +155,8 @@ async function main() {
 --- DNS (at your registrar / Cloudflare) ---
 For each custom domain Northflank shows a CNAME target in the service → Ports UI.
 Point (browser should show apex, not www):
-  elevateforhumanity.org         → LMS apex CNAME (primary)
-  www.elevateforhumanity.org     → LMS www CNAME (app 308-redirects to apex)
+  www.elevateforhumanity.org     → LMS www CNAME (canonical — valid TLS on Durable)
+  elevateforhumanity.org         → URL forward to www in Durable (not Northflank A record)
   admin.elevateforhumanity.org   → Admin service CNAME
 
 After DNS propagates, TLS certificates provision automatically in Northflank.

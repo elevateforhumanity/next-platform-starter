@@ -355,17 +355,17 @@ const nextConfig = {
     }));
 
     return [
-      // www has no Durable DNS — send to apex so mobile does not hit "can't be reached"
+      // Durable apex cannot ALIAS to Northflank — canonical host is www (apex uses URL forward in DNS).
       {
         source: '/',
-        has: [{ type: 'host', value: 'www.elevateforhumanity.org' }],
-        destination: 'https://elevateforhumanity.org/',
+        has: [{ type: 'host', value: 'elevateforhumanity.org' }],
+        destination: 'https://www.elevateforhumanity.org/',
         permanent: true,
       },
       {
         source: '/:path+',
-        has: [{ type: 'host', value: 'www.elevateforhumanity.org' }],
-        destination: 'https://elevateforhumanity.org/:path+',
+        has: [{ type: 'host', value: 'elevateforhumanity.org' }],
+        destination: 'https://www.elevateforhumanity.org/:path+',
         permanent: true,
       },
       // NOTE: /sign-in and /signin redirects are handled in proxy.ts (middleware)

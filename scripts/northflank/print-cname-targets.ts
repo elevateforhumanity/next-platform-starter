@@ -40,17 +40,10 @@ async function main() {
   console.log('\n=== Northflank CNAME records for Durable ===\n');
   await printDomain('www.elevateforhumanity.org');
   await printDomain('admin.elevateforhumanity.org');
-  await printDomain('elevateforhumanity.org');
-
-  const apexCname = 'elevateforhumanity.org.elev-5vfk.dns.northflank.app';
-  const apexIp = await resolveNorthflankApexIp(apexCname);
-  if (apexIp) {
-    console.log('=== Apex A-record fallback (if @ cannot be CNAME) ===\n');
-    console.log('elevateforhumanity.org');
-    console.log(`  A host: @`);
-    console.log(`  Target: ${apexIp}  (from ${apexCname})`);
-    console.log('  Remove any A record pointing at 20.232.216.67 — it breaks HTTPS/mobile.\n');
-  }
+  console.log('=== Apex (Durable — URL redirect, NOT Northflank CNAME) ===\n');
+  console.log('elevateforhumanity.org');
+  console.log('  Use Durable URL forward / 301 redirect @ → https://www.elevateforhumanity.org');
+  console.log('  Do NOT use A record to Northflank IP (breaks mobile TLS).\n');
 
   console.log('Full runbook: docs/northflank-dns-durable.md');
   console.log('After DNS propagates:');

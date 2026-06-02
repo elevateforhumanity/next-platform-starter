@@ -1,59 +1,66 @@
-# Northflank DNS on Durable (elevateforhumanity.org)
+# Northflank + Durable DNS (no apex ALIAS)
 
-**Symptom:** Mobile shows “can’t be reached”; desktop may show SSL errors. HTTPS to `elevateforhumanity.org` fails because DNS points at the wrong IP.
+Durable **cannot** CNAME-flatten apex to Northflank. An apex **A** record to the Northflank IP serves the wrong TLS cert (`*.northflank.app`) and mobile browsers block the site.
 
-## Root cause
+**Working pattern:** `www` on Northflank (CNAME + Let's Encrypt) + **apex URL redirect** to `www` in Durable.
 
-Production runs on Northflank (`elevate-lms`). Custom domains are verified and attached in Northflank, but **public DNS still points apex and www at `20.232.216.67`**. That address does not present a valid TLS certificate for your domain. Browsers (especially mobile) use HTTPS first → connection fails.
+## Durable DNS records
 
-Northflank’s edge for this project resolves to **`34.145.171.7`** (via `*.elev-5vfk.dns.northflank.app` → `lb.*.northflank.com`).
+Run `pnpm tsx scripts/northflank/print-cname-targets.ts` for current Northflank targets.
 
-## Fix in Durable (required)
+### 1. Apex — `elevateforhumanity.org` (redirect only)
 
-Run locally:
+**Do not** point apex at Northflank (no A → `34.145.171.7`, no ALIAS to `*.northflank.app`).
 
-```bash
-pnpm tsx scripts/northflank/print-cname-targets.ts
-```
+In Durable / SystemDNS, add a **URL redirect** (301/302) or **domain forward**:
 
-### Apex — `elevateforhumanity.org`
+| Setting | Value |
+|---------|--------|
+| Host | `@` (apex) |
+| Type | URL Redirect / Web Forward / HTTP Redirect (name varies) |
+| Target | `https://www.elevateforhumanity.org` |
+| Include path | Yes (so `/programs/foo` → `https://www.elevateforhumanity.org/programs/foo`) |
 
-**Preferred:** CNAME flattening / ALIAS at `@` →
+If Durable only offers “forward to URL” without HTTPS on their edge, use their HTTPS forward option when available.
 
-`elevateforhumanity.org.elev-5vfk.dns.northflank.app`
-
-**If Durable only allows A on apex:** delete `20.232.216.67` and set:
-
-| Type | Host | Value |
-|------|------|--------|
-| A | `@` | `34.145.171.7` |
-
-(Confirm with `dig +short elevateforhumanity.org.elev-5vfk.dns.northflank.app` — use that IP if it changes.)
-
-### WWW — `www.elevateforhumanity.org`
+### 2. WWW — `www.elevateforhumanity.org` (app traffic)
 
 | Type | Host | Value |
 |------|------|--------|
 | CNAME | `www` | `www.elevateforhumanity.org.elev-5vfk.dns.northflank.app` |
 
-Remove any **A** record for `www` pointing at `20.232.216.67`.
+Remove any **A** record on `www`.
 
-### Admin — `admin.elevateforhumanity.org`
+### 3. Admin — `admin.elevateforhumanity.org`
 
 | Type | Host | Value |
 |------|------|--------|
 | CNAME | `admin` | `admin.elevateforhumanity.org.elev-5vfk.dns.northflank.app` |
 
-## Verify (after 5–60 minutes)
+## App behavior (after deploy)
+
+- Canonical host: **`www.elevateforhumanity.org`**
+- `proxy.ts` and `next.config.mjs` **308** apex → www (backup if traffic reaches Northflank)
+
+Set Northflank / ECS env:
 
 ```bash
-dig +short elevateforhumanity.org @8.8.8.8
-dig +short www.elevateforhumanity.org @8.8.8.8
-curl -sSI https://elevateforhumanity.org/ | head -5
+NEXT_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
+NEXT_PUBLIC_CANONICAL_DOMAIN=www.elevateforhumanity.org
 ```
 
-Expect HTTPS **200** or **308** (not SSL errors). The app redirects `www` → apex in `proxy.ts` and `next.config.mjs`.
+## Verify
 
-## App deploy
+```bash
+dig +short www.elevateforhumanity.org @8.8.8.8
+curl -sSI https://www.elevateforhumanity.org/ | head -5
+curl -sSI https://elevateforhumanity.org/ | head -5   # should 301/308 to www
+```
 
-LMS on Northflank `main` is healthy at `https://site--elevate-lms--pknyktykz4wg.code.run/`. No code deploy fixes wrong DNS.
+Expect **valid TLS** on `www` and a **redirect** on apex (from Durable and/or the app).
+
+## Northflank
+
+LMS direct URL (smoke test): `https://site--elevate-lms--pknyktykz4wg.code.run/`
+
+Attach domains: `pnpm tsx scripts/northflank/configure-domains.ts --execute`
