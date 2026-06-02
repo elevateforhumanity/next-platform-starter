@@ -395,9 +395,9 @@ export async function middleware(request: NextRequest) {
 
     const origin = request.headers.get('origin');
     const allowedOrigins = [
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.org',
-      'https://elevateforhumanity.org',
+      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
       'https://www.elevateforhumanity.org',
+      'https://elevateforhumanity.org',
       // Allow local dev requests (Postman, dev proxy, etc.)
       ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : []),
     ];
@@ -543,10 +543,10 @@ export async function middleware(request: NextRequest) {
 
   // All routes are served by the same AWS ECS container — no proxy needed.
 
-  // Canonical public site is apex (mobile/desktop must not redirect to www — www has no DNS).
-  if (hostWithoutPort === 'www.elevateforhumanity.org') {
+  // Canonical public site is www (Durable apex cannot CNAME-flatten to Northflank — use URL forward at DNS).
+  if (hostWithoutPort === 'elevateforhumanity.org') {
     const url = request.nextUrl.clone();
-    url.host = 'elevateforhumanity.org';
+    url.host = 'www.elevateforhumanity.org';
     url.protocol = 'https';
     url.port = '';
     return NextResponse.redirect(url, { status: 308 });
@@ -595,7 +595,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const isCanonicalHost =
-    hostWithoutPort === 'elevateforhumanity.org' ||
+    hostWithoutPort === 'www.elevateforhumanity.org' ||
     hostWithoutPort === canonicalAdminHost ||
     hostWithoutPort === 'app.elevateforhumanity.org' ||
     hostWithoutPort.endsWith('.app.elevateforhumanity.org');
@@ -606,7 +606,7 @@ export async function middleware(request: NextRequest) {
     !isGitpodPreview
   ) {
     const url = request.nextUrl.clone();
-    url.host = 'elevateforhumanity.org';
+    url.host = 'www.elevateforhumanity.org';
     url.protocol = 'https';
     url.port = '';
     return NextResponse.redirect(url, { status: 308 });

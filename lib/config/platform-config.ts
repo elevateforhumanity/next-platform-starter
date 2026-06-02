@@ -29,7 +29,7 @@ export const PLATFORM_DEFAULTS = {
     process.env.NEXT_PUBLIC_ORG_LEGAL_NAME ??
     'Elevate for Humanity Career & Technical Institute',
   siteUrl:
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevateforhumanity.org',
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org',
   supportEmail:
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? 'support@elevateforhumanity.org',
   supportPhone:
@@ -41,7 +41,7 @@ export const PLATFORM_DEFAULTS = {
   certificateHolder:
     process.env.NEXT_PUBLIC_CERT_HOLDER ?? 'Elevate for Humanity',
   canonicalDomain:
-    process.env.NEXT_PUBLIC_CANONICAL_DOMAIN ?? 'elevateforhumanity.org',
+    process.env.NEXT_PUBLIC_CANONICAL_DOMAIN ?? 'www.elevateforhumanity.org',
 } as const;
 
 export type PlatformConfig = typeof PLATFORM_DEFAULTS;

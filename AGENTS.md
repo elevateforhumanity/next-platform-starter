@@ -837,6 +837,10 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 
+### Northflank production DNS (Durable — no apex ALIAS)
+
+Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → Northflank IP (wrong TLS on mobile). Use **`www` CNAME** → Northflank + **apex URL redirect** → `https://www.elevateforhumanity.org` in Durable. App canonical host is `www` (`proxy.ts` 308 apex→www). Runbook: `docs/northflank-dns-durable.md`.
+
 ### Admin dashboard architecture (Dev Studio, AI, Settings, Container)
 
 Four configuration stores exist — they are **intentionally separate** and do NOT overlap:
