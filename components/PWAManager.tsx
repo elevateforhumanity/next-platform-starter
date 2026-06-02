@@ -29,27 +29,10 @@ export default function PWAManager() {
         .register('/sw.js', { scope: '/', updateViaCache: 'none' })
         .then((reg) => {
           setInterval(() => reg.update(), 60 * 60 * 1000);
-          reg.addEventListener('updatefound', () => {
-            const newWorker = reg.installing;
-            if (!newWorker) return;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                newWorker.postMessage({ type: 'SKIP_WAITING' });
-              }
-            });
-          });
+          // Do not auto skipWaiting — that reloads mid-session and flashes the PWA.
+          // New workers activate on the next navigation after deploy.
         })
         .catch(() => {});
-
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        const key = 'elevate-sw-reload';
-        if (sessionStorage.getItem(key)) {
-          sessionStorage.removeItem(key);
-          return;
-        }
-        sessionStorage.setItem(key, '1');
-        window.location.reload();
-      });
     };
 
     // Use requestIdleCallback when available, otherwise defer 4s after load

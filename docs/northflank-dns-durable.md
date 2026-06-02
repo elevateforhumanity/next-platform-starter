@@ -29,6 +29,8 @@ If Durable only offers “forward to URL” without HTTPS on their edge, use the
 |------|------|--------|
 | CNAME | `www` | `www.elevateforhumanity.org.elev-5vfk.dns.northflank.app` |
 
+**Typo check:** use `5vfk` not `5kfv`, and the **`www.`** hostname (not the apex `elevateforhumanity.org.elev-…` target).
+
 Remove any **A** record on `www`.
 
 ### 3. Admin — `admin.elevateforhumanity.org`

@@ -135,13 +135,17 @@ self.addEventListener('fetch', (event) => {
   // Skip no-cache patterns
   if (matchesPattern(request.url, CACHE_STRATEGIES.noCache)) return;
 
-  // Handle navigation requests (SPA routing)
+  // Handle navigation requests — never cache redirects (www↔apex loop caused PWA blink).
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: 'no-store', redirect: 'follow' })
         .then((response) => {
-          // Cache successful navigation responses
-          if (response.ok) {
+          const isDocumentOk =
+            response.status >= 200 &&
+            response.status < 300 &&
+            response.type === 'basic' &&
+            !response.redirected;
+          if (isDocumentOk) {
             const responseClone = response.clone();
             caches.open(DYNAMIC_CACHE).then((cache) => {
               cache.put(request, responseClone);
@@ -150,7 +154,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Try to return cached version first
           return caches.match(request).then((cached) => cached || caches.match(OFFLINE_URL));
         }),
     );
