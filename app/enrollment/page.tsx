@@ -53,7 +53,7 @@ const FEATURED = [
     hours: '160',
     weeks: '4',
     credentials: '3',
-    href: '/apply/student?program=cdl',
+    href: '/apply/student?program=cdl-training',
     image: '/images/pages/card-cdl.webp',
     tag: 'Transportation',
   },

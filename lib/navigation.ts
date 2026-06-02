@@ -192,10 +192,9 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Students —', href: '/apply', isHeader: true },
       { name: 'Apply hub', href: '/apply' },
       { name: 'Student application', href: '/apply/student' },
-      { name: 'FSSA / SNAP E&T application', href: '/apply/fssa' },
+      { name: 'FSSA / SNAP waitlist', href: '/apply/fssa/waitlist' },
       { name: 'Enroll in a program', href: '/enrollment' },
       { name: 'Track application', href: '/apply/track' },
-      { name: 'Application status', href: '/apply/status' },
 
       { name: '— Employers —', href: '/apply/employer', isHeader: true },
       { name: 'Employer application', href: '/apply/employer' },
