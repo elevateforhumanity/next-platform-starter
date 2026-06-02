@@ -55,7 +55,7 @@ const SECTOR_PRESENTATION: Record<
   business: {
     title: 'Business & Finance',
     href: '/programs/business-administration',
-    image: '/images/pages/tax-preparation.webp',
+    image: '/images/business/office-admin.webp',
     description:
       'Bookkeeping, Office Administration, Tax Preparation, and Entrepreneurship programs.',
   },

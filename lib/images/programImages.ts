@@ -121,6 +121,11 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
     hero: `${P}/barber-tools-closeup.jpg`,
     alt: 'Nail technician apprentice performing a manicure',
   },
+  'esthetician-apprenticeship': {
+    card: '/images/beauty/esthetician.webp',
+    hero: '/images/beauty/esthetician.webp',
+    alt: 'Esthetician apprentice performing a professional facial treatment',
+  },
 
   // ── Technology ───────────────────────────────────────────────────────────
   'it-help-desk': {
@@ -166,8 +171,8 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
 
   // ── Business / Finance ───────────────────────────────────────────────────
   'tax-preparation': {
-    card: `${P}/tax-prep-desk.jpg`,
-    hero: `${P}/tax-preparation.jpg`,
+    card: '/images/business/office-admin.webp',
+    hero: '/images/business/professional-2.jpg',
     alt: 'Tax preparer working with a client on financial documents',
   },
   bookkeeping: {

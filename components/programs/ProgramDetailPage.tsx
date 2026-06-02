@@ -40,7 +40,8 @@ import {
   getEnrollmentTracks,
 } from '@/lib/programs/program-schema';
 import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
-import { ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
+import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
@@ -126,6 +127,7 @@ export default function ProgramDetailPage({
                   <HeroPicture
                     src={banner.posterImage ?? p.heroImage}
                     alt={p.heroImageAlt ?? banner.microLabel ?? p.title}
+                    heightStyle={heroTokens.imageWrap}
                     microLabel={banner.microLabel}
                     analyticsName={banner.analyticsName}
                     belowHeroHeadline={banner.belowHeroHeadline}
@@ -153,15 +155,16 @@ export default function ProgramDetailPage({
             }
             // Fallback: plain image hero for programs without a banner entry
             return (
-              <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+              <div className={heroTokens.imageWrap}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                 <Image
-                  src={p.heroImage}
+                  src={resolveSiteImagePath(p.heroImage)}
                   alt={p.heroImageAlt}
                   fill
                   className="object-cover object-center"
                   priority
-                  sizes="100vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+                  placeholder="empty"
                 />
               </div>
             );

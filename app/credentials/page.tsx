@@ -42,7 +42,7 @@ const completionCerts = [
   {
     name: 'Tax Preparation',
     desc: 'Individual tax return preparation, IRS compliance, and tax software proficiency.',
-    img: '/images/pages/tax-preparation.webp',
+    img: '/images/business/office-admin.webp',
   },
   {
     name: 'Sanitation & Infection Control',

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Program } from '@/lib/programs/programs.data';
+import { getProgramCardImage } from '@/lib/images/programImages';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 
 /**
  * Standard program card — system-locked structure.
@@ -14,7 +16,9 @@ export default function ProgramCard({ program }: { program: Program }) {
       <div className="relative aspect-[16/9] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
-          src={program.cardImage || program.heroImage || '/images/pages/training-cohort.webp'}
+          src={resolveSiteImagePath(
+            program.cardImage || program.heroImage || getProgramCardImage(program.slug),
+          )}
           alt={program.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

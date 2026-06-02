@@ -14,9 +14,11 @@ import {
   ArrowRight,
   Shield,
   Clock,
-  CheckCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import HeroPicture from '@/components/marketing/HeroPicture';
+import { hero as heroTokens, layout, type as textType, btn } from '@/lib/page-design-tokens';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   alternates: {
@@ -24,142 +26,92 @@ export const metadata: Metadata = {
   },
   title: 'Portals',
   description:
-    'Access your personalized portal. Whether you are a student, employer, partner, parent, staff member, or client, find your dedicated dashboard here.',
+    'Sign in to your Elevate portal — learner, apprentice, employer, partner, instructor, case manager, mentor, or staff.',
   keywords: [
     'student portal',
     'employer portal',
     'partner portal',
-    'parent portal',
+    'apprentice portal',
     'staff portal',
-    'client portal',
     'dashboard',
     'login',
   ],
 };
 
-const portals = [
+type PortalEntry = {
+  icon: typeof GraduationCap;
+  title: string;
+  description: string;
+  href: string;
+  features: string[];
+};
+
+const portals: PortalEntry[] = [
   {
     icon: GraduationCap,
-    title: 'Student Portal',
+    title: 'Learner Portal',
     description:
-      'Access your courses, track progress, view grades, manage your schedule, and connect with instructors and career services.',
+      'Courses, progress, grades, schedule, and career services for enrolled students.',
     href: '/login?redirect=/learner/dashboard',
-    color: 'blue',
-    features: ['Course Materials', 'Grade Tracking', 'Career Services', 'Schedule Management'],
+    features: ['My programs', 'Progress', 'Career services'],
   },
   {
     icon: Clock,
     title: 'Apprentice Portal',
-    description:
-      'Track your apprenticeship hours, log competencies, manage timeclock, access your handbook, and prepare for state board exams.',
+    description: 'OJT hours, competencies, timeclock, handbook, and board exam prep.',
     href: '/login/apprentice',
-    color: 'orange',
-    features: ['Hour Tracking', 'Competency Logs', 'Timeclock', 'State Board Prep'],
+    features: ['Hour tracking', 'Competencies', 'Timeclock'],
   },
   {
     icon: Briefcase,
     title: 'Employer Portal',
-    description:
-      'Post jobs, manage apprentices, track training progress, access compliance documents, and connect with program coordinators.',
+    description: 'Jobs, apprentices, training progress, and compliance documents.',
     href: '/login?redirect=/employer/dashboard',
-    color: 'green',
-    features: ['Job Postings', 'Apprentice Management', 'Compliance Documents', 'Hiring Tools'],
+    features: ['Hiring', 'Apprentices', 'Compliance'],
   },
   {
     icon: Handshake,
     title: 'Partner Portal',
-    description:
-      "Record attendance, manage apprentice hours, access MOU documents, and track your organization's program involvement.",
+    description: 'Attendance, apprentice hours, MOUs, and program reporting for host sites.',
     href: '/login?redirect=/partner/dashboard',
-    color: 'purple',
-    features: ['Attendance Recording', 'Hours Tracking', 'MOU Documents', 'Program Reports'],
+    features: ['Attendance', 'Hours', 'MOU docs'],
   },
   {
     icon: Building2,
     title: 'Program Holder Portal',
-    description:
-      'Manage your programs, track enrollments, handle compliance documentation, and monitor student outcomes.',
+    description: 'Program management, enrollments, compliance, and outcomes.',
     href: '/login?redirect=/program-holder/dashboard',
-    color: 'indigo',
-    features: ['Program Management', 'Enrollment Tracking', 'Compliance Docs', 'Outcomes Reports'],
+    features: ['Programs', 'Enrollments', 'Reports'],
   },
   {
     icon: Users,
     title: 'Instructor Portal',
-    description:
-      'View your student roster, review lab and assignment submissions, track completions, and manage course content.',
+    description: 'Roster, lab and assignment review, grades, and course tools.',
     href: '/login?redirect=/instructor/dashboard',
-    color: 'teal',
-    features: ['Student Roster', 'Submission Review', 'Grade Tracking', 'Course Management'],
+    features: ['Roster', 'Submissions', 'Grades'],
   },
   {
     icon: UserCircle,
     title: 'Case Manager Portal',
-    description:
-      'Track your assigned participants, verify enrollments, record job placements, and generate WIOA compliance reports.',
+    description: 'Caseload, WIOA verification, placements, and compliance reporting.',
     href: '/login?redirect=/case-manager/dashboard',
-    color: 'orange',
-    features: ['Caseload Management', 'Enrollment Verification', 'Job Placements', 'WIOA Reports'],
+    features: ['Caseload', 'Placements', 'WIOA'],
   },
   {
     icon: Users,
     title: 'Mentor Portal',
-    description:
-      'Connect with your mentees, schedule sessions, track their career progress, and access mentoring resources.',
+    description: 'Mentees, sessions, progress notes, and mentoring resources.',
     href: '/login?redirect=/mentor/dashboard',
-    color: 'green',
-    features: ['Mentee List', 'Session Scheduling', 'Progress Tracking', 'Resources'],
+    features: ['Mentees', 'Sessions', 'Resources'],
   },
   {
     icon: Briefcase,
     title: 'Staff Portal',
-    description:
-      'Manage students, record attendance, flag at-risk learners, run reports, and coordinate daily operations.',
+    description: 'Daily operations — students, attendance, at-risk flags, and reports.',
     href: '/login?redirect=/admin/staff-portal/dashboard',
-    color: 'teal',
-    features: ['Student Management', 'Attendance Tracking', 'At-Risk Flags', 'Reports'],
+    features: ['Students', 'Attendance', 'Reports'],
   },
 ];
-
-const colorClasses: Record<string, { bg: string; text: string; border: string; light: string }> = {
-  blue: {
-    bg: 'bg-brand-blue-600',
-    text: 'text-brand-blue-600',
-    border: 'border-brand-blue-200',
-    light: 'bg-brand-blue-50',
-  },
-  green: {
-    bg: 'bg-brand-green-600',
-    text: 'text-brand-green-600',
-    border: 'border-brand-green-200',
-    light: 'bg-brand-green-50',
-  },
-  orange: {
-    bg: 'bg-brand-orange-600',
-    text: 'text-brand-orange-600',
-    border: 'border-brand-orange-200',
-    light: 'bg-brand-orange-50',
-  },
-  teal: {
-    bg: 'bg-teal-600',
-    text: 'text-teal-600',
-    border: 'border-teal-200',
-    light: 'bg-teal-50',
-  },
-  indigo: {
-    bg: 'bg-indigo-600',
-    text: 'text-indigo-600',
-    border: 'border-indigo-200',
-    light: 'bg-indigo-50',
-  },
-  purple: {
-    bg: 'bg-purple-600',
-    text: 'text-purple-600',
-    border: 'border-purple-200',
-    light: 'bg-purple-50',
-  },
-  red: { bg: 'bg-red-600', text: 'text-red-600', border: 'border-red-200', light: 'bg-red-50' },
-};
 
 const ROLE_DASHBOARD: Record<string, string> = {
   student: '/learner/dashboard',
@@ -177,7 +129,6 @@ const ROLE_DASHBOARD: Record<string, string> = {
 };
 
 export default async function PortalsPage() {
-  // Authenticated users go straight to their dashboard
   const supabase = await createClient();
   const {
     data: { user },
@@ -195,69 +146,53 @@ export default async function PortalsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs items={[{ label: 'Portals' }]} />
-      {/* Hero Section */}
-      <section className="bg-brand-blue-700 text-white py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Access Your Portal</h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
-            Choose your portal below to access your personalized dashboard, resources, and tools.
-            Each portal is designed to support your specific role in the Elevate community.
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-brand-green-400" />
-              <span>Secure Access</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-brand-blue-400" />
-              <span>24/7 Availability</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-slate-500 flex-shrink-0">•</span>
-              <span>Real-Time Updates</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Portals Grid */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <HeroPicture
+        src="/images/pages/workforce-training.webp"
+        alt="Workforce training at Elevate for Humanity"
+        microLabel="Your dashboard"
+        heightStyle={heroTokens.imageWrap}
+        belowHeroHeadline="Choose your portal"
+        belowHeroSubheadline={`Sign in to the right workspace for your role at ${PLATFORM_DEFAULTS.orgName}. Each portal is scoped to your permissions and program access.`}
+        ctas={[
+          { label: 'Sign in', href: '/login', variant: 'primary' },
+          { label: 'Contact support', href: '/contact', variant: 'secondary' },
+        ]}
+        trustIndicators={['Secure sign-in', 'Role-based access', 'Available 24/7']}
+      />
+
+      <section className={`${layout.section} border-b border-slate-100`}>
+        <div className={layout.container}>
+          <p className={textType.eyebrow}>Portals</p>
+          <h2 className={`${textType.h2} mt-2 mb-8`}>Select your workspace</h2>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {portals.map((portal) => {
-              const colors = colorClasses[portal.color];
               const Icon = portal.icon;
               return (
                 <Link
                   key={portal.title}
                   href={portal.href}
-                  className={`group bg-white rounded-2xl p-6 shadow-sm border ${colors.border} hover:shadow-lg hover:border-transparent transition-all duration-300`}
+                  className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 hover:border-brand-red-200 hover:shadow-md transition-all"
                 >
-                  <div
-                    className={`w-14 h-14 ${colors.light} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-                  >
-                    <Icon className={`w-7 h-7 ${colors.text}`} />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-blue-50 text-brand-blue-700">
+                    <Icon className="h-6 w-6" aria-hidden />
                   </div>
-                  <h2 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-slate-700">
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-brand-red-600 transition-colors">
                     {portal.title}
-                  </h2>
-                  <p className="text-slate-600 mb-4 text-sm leading-relaxed">
-                    {portal.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  </h3>
+                  <p className={`${textType.bodySmall} mt-2 flex-1`}>{portal.description}</p>
+                  <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
                     {portal.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className={`text-xs px-2 py-1 ${colors.light} ${colors.text} rounded-full`}
-                      >
+                      <li key={feature} className="flex items-center gap-1.5 text-xs text-slate-600">
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-red-500 shrink-0" />
                         {feature}
-                      </span>
+                      </li>
                     ))}
-                  </div>
-                  <div className={`flex items-center gap-2 ${colors.text} font-semibold text-sm`}>
-                    <span>Access Portal</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  </ul>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-red-600">
+                    Open portal
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </Link>
               );
             })}
@@ -265,62 +200,66 @@ export default async function PortalsPage() {
         </div>
       </section>
 
-      {/* Help Section */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Need Help Accessing Your Portal?
-          </h2>
-          <p className="text-lg text-slate-600 mb-8">
-            If you're having trouble logging in or need assistance finding the right portal, our
-            support team is here to help.
+      <section className="bg-slate-50 py-12 sm:py-16">
+        <div className={`${layout.containerNarrow} text-center`}>
+          <h2 className={textType.h2}>Not sure which portal?</h2>
+          <p className={`${textType.body} mt-3`}>
+            Learners and apprentices use different sign-in paths. Employers and training partners
+            each have dedicated dashboards. Our team can point you to the right link.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/contact"
-              className="px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              Contact Support
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/contact" className={btn.primary}>
+              Contact support
             </Link>
-            <Link
-              href="/faq"
-              className="px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-200 transition-colors"
-            >
+            <Link href="/faq" className={btn.secondary}>
               View FAQ
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Quick Access for Returning Users */}
-      <section className="py-16 bg-brand-blue-700 text-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Returning User?</h2>
-            <p className="text-blue-100">Sign in directly to your portal dashboard</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Link
-              href="/login?redirect=/learner/dashboard"
-              className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors"
-            >
-              <GraduationCap aria-label="graduationcap" className="w-6 h-6 text-brand-blue-400" />
-              <span className="font-semibold">Student Sign In</span>
-            </Link>
-            <Link
-              href="/login?redirect=/employer/dashboard"
-              className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors"
-            >
-              <Building2 className="w-6 h-6 text-brand-green-400" />
-              <span className="font-semibold">Employer Sign In</span>
-            </Link>
-            <Link
-              href="/login?redirect=/admin/staff-portal/dashboard"
-              className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 rounded-xl hover:bg-slate-700 transition-colors"
-            >
-              <Briefcase className="w-6 h-6 text-teal-400" />
-              <span className="font-semibold">Staff Sign In</span>
-            </Link>
+      <section className="bg-slate-900 py-12 text-white">
+        <div className={layout.container}>
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-extrabold text-white">Already have an account?</h2>
+              <p className="mt-2 text-slate-300 text-sm max-w-xl">
+                Use the same email you enrolled with. You will be taken to your role dashboard after
+                sign-in.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-400">
+                <span className="inline-flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-brand-green-400" aria-hidden />
+                  Encrypted session
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-brand-blue-400" aria-hidden />
+                  24/7 access
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <Link
+                href="/login?redirect=/learner/dashboard"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red-600 px-6 py-3 text-sm font-bold text-white hover:bg-brand-red-700 transition-colors"
+              >
+                <GraduationCap className="h-5 w-5" aria-hidden />
+                Learner sign in
+              </Link>
+              <Link
+                href="/login?redirect=/employer/dashboard"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-600 px-6 py-3 text-sm font-bold text-white hover:bg-slate-800 transition-colors"
+              >
+                <Building2 className="h-5 w-5" aria-hidden />
+                Employer sign in
+              </Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-xl border border-slate-600 px-6 py-3 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition-colors"
+              >
+                Other roles
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -16,6 +16,8 @@
 import Image from 'next/image';
 import { useId, useState } from 'react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 
 export interface HeroPictureCta {
   label: string;
@@ -49,8 +51,8 @@ export interface HeroPictureProps {
   /** Render below-hero content as children instead of structured props */
   children?: React.ReactNode;
   /**
-   * Image height class — defaults to 'clamp(260px, 40vw, 480px)' matching HeroVideo.
-   * Pass a Tailwind height class to override, e.g. 'h-[360px]'.
+   * Image height — defaults to locked program hero tokens (45vh, max 560px).
+   * Pass a Tailwind class string to override, e.g. 'h-[360px]'.
    */
   heightStyle?: string;
   /** Next/Image priority — true for above-the-fold heroes (default: true) */
@@ -76,22 +78,21 @@ export default function HeroPicture({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const transcriptId = useId();
 
-  const frameStyle = heightStyle ? undefined : { height: 'clamp(400px, 56vw, 780px)' };
+  const imageSrc = resolveSiteImagePath(src);
 
   return (
     <div className={`w-full ${className}`}>
       {/* IMAGE FRAME */}
       <section
-        className={`relative w-full overflow-hidden ${heightStyle ?? ''}`}
-        style={frameStyle}
+        className={`relative w-full overflow-hidden ${heightStyle ?? heroTokens.imageWrap}`}
         aria-label={analyticsName ? `${analyticsName} hero` : 'Hero image'}
       >
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
-          src={src}
+          src={imageSrc}
           alt={alt}
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
           className="object-cover object-center"
           priority={priority} placeholder="empty"
         />
