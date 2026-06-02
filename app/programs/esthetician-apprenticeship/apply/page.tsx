@@ -59,7 +59,7 @@ export default function EstheticianApplyIndexPage() {
             title="I'm an Apprentice"
             description="I want to enroll in the esthetician apprenticeship program as a student."
             enrollHref="/apply?program=esthetician-apprenticeship&type=enrollment"
-            inquiryHref="/apply?program=esthetician-apprenticeship&type=inquiry"
+            inquiryHref="/contact?program=esthetician-apprenticeship"
             accentColor="brand-red"
           />
 

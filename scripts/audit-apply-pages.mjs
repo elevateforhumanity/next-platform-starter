@@ -9,24 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-/** Apply section + closely related partner application URLs from lib/navigation.ts */
-const APPLY_AUDIT = [
-  { section: 'Students', name: 'Apply hub', href: '/apply', expectForm: 'IntakeFormInner', api: '/api/intake' },
-  { section: 'Students', name: 'Student application', href: '/apply/student', expectForm: 'StudentApplicationForm', api: 'server:submitStudentApplication' },
-  { section: 'Students', name: 'FSSA waitlist', href: '/apply/fssa/waitlist', expectForm: 'form', api: '/api/waitlist' },
-  { section: 'Students', name: 'Enroll hub', href: '/enrollment', expectForm: null, api: null },
-  { section: 'Students', name: 'Track', href: '/apply/track', expectForm: 'search', api: '/api/applications/track' },
-  { section: 'Employers', name: 'Employer application', href: '/apply/employer', expectForm: 'EmployerApplicationForm', api: 'server:submitEmployerApplication' },
-  { section: 'Employers', name: 'Employer onboarding', href: '/onboarding/employer', expectForm: null, api: null, note: 'Auth required' },
-  { section: 'Providers', name: 'Program holder', href: '/apply/program-holder', expectForm: 'ProgramHolderForm', api: 'server:submitProgramHolderApplication' },
-  { section: 'Providers', name: 'Barber host apply', href: '/partners/barber-host-shop/apply', expectForm: 'form', api: '/api/partners/barber-host-shop/apply' },
-  { section: 'Providers', name: 'Cosmetology host apply', href: '/partners/cosmetology-host-shop/apply', expectForm: 'form', api: '/api/partners/cosmetology-host-shop/apply' },
-  { section: 'Providers', name: 'Booth rental', href: '/booth-rental/apply', expectForm: 'form', api: '/api/booth-rental/checkout' },
-  { section: 'Providers', name: 'Create program (info)', href: '/partners/create-program', expectForm: null, api: null, cta: '/partners/apply' },
-  { section: 'Staff', name: 'Staff application', href: '/apply/staff', expectForm: 'StaffApplicationForm', api: 'server:submitStaffApplication' },
-  { section: 'Staff', name: 'Instructor onboarding', href: '/onboarding/instructor', expectForm: null, api: null, note: 'Auth may be required' },
-  { section: 'Agencies', name: 'Partner application', href: '/partners/apply', expectForm: 'ProviderApplicationForm', api: '/api/provider/apply' },
-];
+// Surfaces loaded from lib/apply/apply-surface-routes.ts in main()
 
 function pageFileForHref(href) {
   const pathname = href.split('?')[0].split('#')[0];
@@ -48,6 +31,8 @@ function apiRouteExists(apiPath) {
 }
 
 async function main() {
+  const routesMod = await import(pathToFileURL(path.join(ROOT, 'lib/apply/apply-surface-routes.ts')).href);
+  const APPLY_AUDIT = routesMod.APPLY_AUDIT_SURFACES;
   const mod = await import(pathToFileURL(path.join(ROOT, 'lib/navigation.ts')).href);
   const navApply = mod.NAV_ITEMS.find((i) => i.id === 'apply');
   const navHrefs = new Set(
@@ -59,7 +44,11 @@ async function main() {
   const issues = [];
   const rows = [];
 
-  for (const item of APPLY_AUDIT) {
+  for (const item of APPLY_AUDIT.map((a) => ({
+    ...a,
+    expectForm: a.expectForm ?? null,
+    api: a.api ?? null,
+  }))) {
     const pagePath = pageFileForHref(item.href);
     const row = { ...item, pagePath: pagePath ? path.relative(ROOT, pagePath) : null };
     if (!pagePath) {

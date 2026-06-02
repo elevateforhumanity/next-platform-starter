@@ -1,13 +1,9 @@
 export const dynamic = 'force-dynamic';
-import type { Metadata } from 'next';
-import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
-import { ESTHETICIAN } from '@/data/programs/esthetician';
-import heroBanners from '@/content/heroBanners';
-import { buildProgramMetadata } from '@/lib/programs/program-page';
+import { ESTHETICIAN_APPRENTICESHIP } from '@/data/programs/esthetician-apprenticeship';
+import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
-export const metadata: Metadata = buildProgramMetadata(ESTHETICIAN);
+export const metadata = buildProgramMetadata(ESTHETICIAN_APPRENTICESHIP);
 
-export default function EstheticianApprenticeshipPage() {
-  const banner = heroBanners['esthetician-apprenticeship'] ?? heroBanners['esthetician'] ?? null;
-  return <ProgramDetailPage program={ESTHETICIAN} banner={banner} />;
+export default function ProgramPage() {
+  return <ProgramMarketingPage program={ESTHETICIAN_APPRENTICESHIP} />;
 }

@@ -862,7 +862,6 @@ const nextConfig = {
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
       { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
       { source: '/programs/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
-      { source: '/programs/esthetician-apprenticeship', destination: '/programs/esthetician', permanent: true },
       { source: '/programs/nail-technician', destination: '/programs/nail-technician-apprenticeship', permanent: true },
       { source: '/programs/nail-tech-apprenticeship', destination: '/programs/nail-technician-apprenticeship', permanent: true },
       { source: '/programs/peer-recovery-specialist-jri', destination: '/programs/peer-recovery-specialist', permanent: true },

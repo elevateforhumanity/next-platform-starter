@@ -209,8 +209,8 @@ export const NAIL_TECH: ProgramSchema = {
     { title: 'Salon Owner', salary: '$45,000–$80,000+' },
   ],
   cta: {
-    applyHref: '/apply?program=nail-technician-apprenticeship',
-    requestInfoHref: '/programs/nail-technician-apprenticeship/request-info',
+    applyHref: '/programs/nail-technician-apprenticeship/apply',
+    requestInfoHref: '/contact?program=nail-technician-apprenticeship',
     careerConnectHref:
       'https://www.indianacareerconnect.com/jobs/search?q=nail+technician&location=Indiana',
     advisorHref: '/contact',
