@@ -37,7 +37,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Medical Assistant', href: '/programs/medical-assistant' },
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'Direct Support Professional', href: canonicalRoutes.programs.directSupportProfessional },
-      { name: 'Drug & Alcohol Collector', href: '/programs/drug-collector' },
+      { name: 'Drug & Alcohol Collector', href: '/programs/drug-alcohol-specimen-collector' },
       { name: 'CPR / First Aid', href: '/programs/cpr-first-aid' },
       { name: 'All Healthcare →', href: '/programs/healthcare', isSectionLink: true },
 
@@ -49,8 +49,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'CDL Training', href: '/programs/cdl-training' },
       { name: 'All Trades →', href: '/programs/skilled-trades', isSectionLink: true },
 
-      { name: '— Beauty (overview) —', href: '/programs/beauty', isHeader: true },
-      { name: 'Beauty & Cosmetology Hub', href: '/programs/beauty' },
+      { name: '— Beauty (overview) —', href: '/programs#cat-beauty', isHeader: true },
+      { name: 'Beauty & Cosmetology Hub', href: '/programs#cat-beauty' },
 
       { name: '— Technology —', href: '/programs/technology', isHeader: true },
       { name: 'IT Help Desk', href: '/programs/it-help-desk' },
@@ -92,9 +92,7 @@ export const NAV_ITEMS: NavItem[] = [
 
       { name: '— Enroll your shop —', href: '/partners/barber-host-shop', isHeader: true },
       { name: 'Barbershop partner program', href: '/partners/barber-host-shop' },
-      { name: 'Barbershop host application', href: '/partners/barber-host-shop/apply' },
       { name: 'Cosmetology partner program', href: '/partners/cosmetology-host-shop' },
-      { name: 'Cosmetology host application', href: '/partners/cosmetology-host-shop/apply' },
       { name: 'Become an apprenticeship sponsor →', href: '/apprenticeship-sponsor', isSectionLink: true },
     ],
   },
