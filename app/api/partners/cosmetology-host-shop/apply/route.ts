@@ -4,6 +4,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
+import { uploadApplicationDocument } from '@/lib/partners/upload-application-document';
 import { Resend } from 'resend';
 
 
@@ -37,6 +38,10 @@ async function _POST(request: NextRequest) {
       mouAcknowledged,
       consentAcknowledged,
       notes,
+      shopLicenseFileData,
+      shopLicenseFileName,
+      insuranceFileData,
+      insuranceFileName,
     } = body;
 
     if (
@@ -52,11 +57,37 @@ async function _POST(request: NextRequest) {
     if (!mouAcknowledged || !consentAcknowledged) {
       return safeError('Acknowledgments are required', 400);
     }
+    if (!shopLicenseFileData || !shopLicenseFileName) {
+      return safeError('Please upload your Indiana salon license.', 400);
+    }
 
     const db = await requireAdminClient();
+    if (!db) {
+      return safeInternalError(new Error('DB unavailable'), 'Service temporarily unavailable');
+    }
+
+    const emailKey = String(contactEmail).toLowerCase();
+    const licensePath = await uploadApplicationDocument(
+      db,
+      'salon-license-documents',
+      emailKey,
+      shopLicenseFileData,
+      shopLicenseFileName,
+    );
+    const insurancePath = insuranceFileData
+      ? await uploadApplicationDocument(
+          db,
+          'salon-insurance-coi-documents',
+          emailKey,
+          insuranceFileData,
+          insuranceFileName ?? 'coi.pdf',
+        )
+      : null;
 
     const notesWithDocumentStatus = [
       notes,
+      licensePath ? `Salon license file: ${licensePath}` : 'Salon license upload failed',
+      insurancePath ? `Insurance COI file: ${insurancePath}` : 'Insurance COI: not uploaded at apply',
       documentReadiness ? `Document readiness: ${documentReadiness}` : null,
       documentSupportNeeded ? `Document support needed: ${documentSupportNeeded}` : null,
     ]

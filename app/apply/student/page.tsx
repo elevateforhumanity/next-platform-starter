@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import ApplyPathGuide from '@/components/apply/ApplyPathGuide';
 import StudentApplicationForm from './StudentApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
@@ -345,6 +346,7 @@ export default async function StudentApplicationPage({
               if you have questions.
             </p>
           </div>
+          <ApplyPathGuide variant="student" />
           <StudentApplicationForm initialProgram={initialProgram} />
         </div>
       </section>
