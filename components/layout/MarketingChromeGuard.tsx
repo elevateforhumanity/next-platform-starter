@@ -2,7 +2,11 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { isAppRoute, isAdminRoute } from '@/lib/layout/app-routes';
+import {
+  isAppRoute,
+  isAdminRoute,
+  shouldHideMarketingHeader,
+} from '@/lib/layout/app-routes';
 
 // Route list lives in lib/layout/app-routes.ts — single source of truth.
 // Do not duplicate the prefix list here or in app/layout.tsx.
@@ -12,14 +16,20 @@ export default function MarketingChromeGuard() {
 
   useEffect(() => {
     const app = isAppRoute(pathname);
+    const customHeader = shouldHideMarketingHeader(pathname);
     const admin = isAdminRoute(pathname);
 
     // Toggle on <body> — keyed by the inline script in root layout for hard navs,
     // and by this effect for client-side SPA transitions.
     if (app) {
       document.body.setAttribute('data-app-route', 'true');
+      document.body.removeAttribute('data-custom-header-route');
+    } else if (customHeader) {
+      document.body.removeAttribute('data-app-route');
+      document.body.setAttribute('data-custom-header-route', 'true');
     } else {
       document.body.removeAttribute('data-app-route');
+      document.body.removeAttribute('data-custom-header-route');
     }
 
     // Admin routes get an additional attribute so the footer can be
@@ -36,8 +46,13 @@ export default function MarketingChromeGuard() {
     if (root) {
       if (app) {
         root.setAttribute('data-app-route', 'true');
+        root.removeAttribute('data-custom-header-route');
+      } else if (customHeader) {
+        root.removeAttribute('data-app-route');
+        root.setAttribute('data-custom-header-route', 'true');
       } else {
         root.removeAttribute('data-app-route');
+        root.removeAttribute('data-custom-header-route');
       }
       if (admin) {
         root.setAttribute('data-admin-route', 'true');
@@ -45,6 +60,7 @@ export default function MarketingChromeGuard() {
         root.removeAttribute('data-admin-route');
       }
     }
+
   }, [pathname]);
 
   return null;

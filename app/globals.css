@@ -2021,6 +2021,17 @@ body[data-app-route='true'] [data-marketing-main] {
   padding-top: 0 !important;
 }
 
+/* Pages with their own header (e.g. /education) — hide global header, keep footer */
+[data-public-layout-root][data-custom-header-route='true'] [data-marketing-header],
+body[data-custom-header-route='true'] [data-marketing-header] {
+  display: none !important;
+}
+
+[data-public-layout-root][data-custom-header-route='true'] [data-marketing-main],
+body[data-custom-header-route='true'] [data-marketing-main] {
+  padding-top: 0 !important;
+}
+
 @keyframes elevate-marquee {
   0% {
     transform: translateX(0);

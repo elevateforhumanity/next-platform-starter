@@ -20,9 +20,9 @@ export function EducationHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+    <header className="fixed top-0 left-0 right-0 z-[9999] h-[60px] bg-white border-b border-slate-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full">
+        <div className="flex items-center justify-between h-full">
           <Link href="/education" className="flex items-center gap-2.5">
             <Logo alt={PLATFORM_DEFAULTS.orgName} width={140} height={40} className="h-9 w-auto" priority />
             <span className="hidden sm:inline text-xs font-bold text-brand-red-600 bg-brand-red-50 px-2.5 py-1 rounded-full border border-brand-red-200">
