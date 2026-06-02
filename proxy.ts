@@ -395,7 +395,7 @@ export async function middleware(request: NextRequest) {
 
     const origin = request.headers.get('origin');
     const allowedOrigins = [
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
+      process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.org',
       'https://elevateforhumanity.org',
       'https://www.elevateforhumanity.org',
       // Allow local dev requests (Postman, dev proxy, etc.)
@@ -543,20 +543,16 @@ export async function middleware(request: NextRequest) {
 
   // All routes are served by the same AWS ECS container — no proxy needed.
 
-  // Redirect non-www .org to www .org
-  if (hostWithoutPort === 'elevateforhumanity.org') {
+  // Canonical public site is apex (mobile/desktop must not redirect to www — www has no DNS).
+  if (hostWithoutPort === 'www.elevateforhumanity.org') {
     const url = request.nextUrl.clone();
-    url.host = 'www.elevateforhumanity.org';
+    url.host = 'elevateforhumanity.org';
     url.protocol = 'https';
     url.port = '';
     return NextResponse.redirect(url, { status: 308 });
   }
 
-  // Unknown-host fallback. The LMS ALB only serves www.elevateforhumanity.org.
-  // Any other Host header that reaches this build (stale apex A records that
-  // still resolve to LMS ALB IPs, raw *.elb.amazonaws.com requests, the legacy
-  // app.elevateforhumanity.org subdomain, etc.) is force-redirected to www so
-  // traffic never gets served under the wrong host.
+  // Unknown-host fallback → apex (not www).
   // app.elevateforhumanity.org — tenant portal entry point (query-param form).
   // e.g. app.elevateforhumanity.org/admin?org=elizabeth-greene
   if (hostWithoutPort === 'app.elevateforhumanity.org') {
@@ -599,7 +595,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const isCanonicalHost =
-    hostWithoutPort === 'www.elevateforhumanity.org' ||
+    hostWithoutPort === 'elevateforhumanity.org' ||
     hostWithoutPort === canonicalAdminHost ||
     hostWithoutPort === 'app.elevateforhumanity.org' ||
     hostWithoutPort.endsWith('.app.elevateforhumanity.org');
@@ -610,7 +606,7 @@ export async function middleware(request: NextRequest) {
     !isGitpodPreview
   ) {
     const url = request.nextUrl.clone();
-    url.host = 'www.elevateforhumanity.org';
+    url.host = 'elevateforhumanity.org';
     url.protocol = 'https';
     url.port = '';
     return NextResponse.redirect(url, { status: 308 });

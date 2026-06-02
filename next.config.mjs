@@ -355,6 +355,19 @@ const nextConfig = {
     }));
 
     return [
+      // www has no Durable DNS — send to apex so mobile does not hit "can't be reached"
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'www.elevateforhumanity.org' }],
+        destination: 'https://elevateforhumanity.org/',
+        permanent: true,
+      },
+      {
+        source: '/:path+',
+        has: [{ type: 'host', value: 'www.elevateforhumanity.org' }],
+        destination: 'https://elevateforhumanity.org/:path+',
+        permanent: true,
+      },
       // NOTE: /sign-in and /signin redirects are handled in proxy.ts (middleware)
       // so they work on the live dev-build server. No next.config.mjs entries needed.
       // ============================================
