@@ -46,16 +46,35 @@ function groupSubItemsByHeader(subItems: NavSubItem[]) {
   return columns;
 }
 
+/** One grid cell for desktop mega-menu — every header group gets its own column. */
+function flattenNavColumns(items: NavItem[]) {
+  return items.flatMap((item) => {
+    if (!item.subItems?.length) return [];
+    const columns = groupSubItemsByHeader(item.subItems);
+    if (columns.length <= 1) {
+      return [{ key: item.id ?? item.name, parent: item, subItems: item.subItems, showParentTitle: true }];
+    }
+    return columns.map((col, ci) => ({
+      key: `${item.id ?? item.name}-${ci}`,
+      parent: item,
+      subItems: col,
+      showParentTitle: ci === 0,
+    }));
+  });
+}
+
 function NavLinkList({
   item,
   programApplyLinks,
   onNavigate,
   compact,
+  showParentTitle = true,
 }: {
   item: NavItem;
   programApplyLinks: Record<string, string>;
   onNavigate: () => void;
   compact?: boolean;
+  showParentTitle?: boolean;
 }) {
   if (!item.subItems?.length) {
     if (!item.href) return null;
@@ -72,19 +91,20 @@ function NavLinkList({
   }
 
   return (
-    <div className={compact ? 'space-y-2' : 'space-y-3'}>
-      {item.href ? (
-        <Link
-          href={item.href}
-          prefetch={false}
-          onClick={onNavigate}
-          className="text-sm font-bold text-brand-red-600 hover:text-brand-red-700"
-        >
-          {item.name} →
-        </Link>
-      ) : (
-        <p className="text-sm font-bold text-slate-900">{item.name}</p>
-      )}
+    <div className={compact ? 'space-y-2' : 'space-y-2'}>
+      {showParentTitle &&
+        (item.href ? (
+          <Link
+            href={item.href}
+            prefetch={false}
+            onClick={onNavigate}
+            className="text-sm font-bold text-brand-red-600 hover:text-brand-red-700 block mb-1"
+          >
+            {item.name} →
+          </Link>
+        ) : (
+          <p className="text-sm font-bold text-slate-900 mb-1">{item.name}</p>
+        ))}
       {item.subItems.map((sub) => {
         if (sub.isHeader) {
           return (
@@ -163,14 +183,20 @@ export default function HeaderNavMenu({ items, programApplyLinks = {} }: HeaderN
       document.body.style.overflow = '';
       return;
     }
-    document.body.style.overflow = 'hidden';
     const onEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeMenu();
     };
     document.addEventListener('keydown', onEscape);
+    const mq = window.matchMedia('(max-width: 767px)');
+    const lockScroll = () => {
+      document.body.style.overflow = mq.matches ? 'hidden' : '';
+    };
+    lockScroll();
+    mq.addEventListener('change', lockScroll);
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', onEscape);
+      mq.removeEventListener('change', lockScroll);
     };
   }, [isOpen, closeMenu]);
 
@@ -193,6 +219,7 @@ export default function HeaderNavMenu({ items, programApplyLinks = {} }: HeaderN
 
   const topLevelSimple = items.filter((i) => !i.subItems?.length && i.href);
   const topLevelMega = items.filter((i) => i.subItems && i.subItems.length > 0);
+  const desktopColumns = flattenNavColumns(topLevelMega);
 
   return (
     <div className="relative flex items-center">
@@ -224,66 +251,93 @@ export default function HeaderNavMenu({ items, programApplyLinks = {} }: HeaderN
         />
       )}
 
-      {/* ── Tablet / desktop / iPad: horizontal bar + dropdown panel ── */}
+      {/* ── Tablet / desktop / iPad: full-width mega-menu below header ── */}
       {isOpen && (
-        <div
-          id="site-nav-menu"
-          ref={panelRef}
-          className="hidden md:block absolute top-[calc(100%+4px)] right-0 z-[10000] w-[min(calc(100vw-2rem),56rem)] max-h-[min(80vh,640px)] overflow-y-auto bg-white rounded-xl shadow-2xl border border-slate-200"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site menu"
-        >
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between gap-4">
-            <p className="text-sm font-bold text-slate-900">Browse Elevate</p>
-            <div className="flex items-center gap-2 shrink-0">
-              <Link
-                href="/login"
-                prefetch={false}
-                onClick={closeMenu}
-                className="text-[13px] font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-slate-50"
+        <>
+          <div
+            className="hidden md:block fixed inset-0 top-[60px] z-[9998] bg-black/20"
+            onClick={closeMenu}
+            aria-hidden
+          />
+          <div
+            id="site-nav-menu"
+            ref={panelRef}
+            className="hidden md:block fixed left-0 right-0 top-[60px] z-[10000] bg-white border-b border-slate-200 shadow-2xl max-h-[calc(100vh-60px)] overflow-y-auto overscroll-contain"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+          >
+            <div className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm font-bold text-slate-900">All pages</p>
+              <nav
+                className="flex flex-wrap items-center gap-1 flex-1 justify-center min-w-0"
+                aria-label="Quick section links"
               >
-                Sign In
-              </Link>
-              <Link
-                href="/for-students"
-                prefetch={false}
-                onClick={closeMenu}
-                className="text-[13px] font-semibold bg-brand-red-600 text-white px-3 py-2 rounded-lg hover:bg-brand-red-700"
-              >
-                Get Started
-              </Link>
+                {topLevelMega.map((item) =>
+                  item.href ? (
+                    <Link
+                      key={item.id ?? item.name}
+                      href={item.href}
+                      prefetch={false}
+                      onClick={closeMenu}
+                      className="text-[12px] font-semibold text-slate-600 hover:text-brand-blue-600 px-2.5 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap"
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <span
+                      key={item.id ?? item.name}
+                      className="text-[12px] font-semibold text-slate-500 px-2.5 py-1.5 whitespace-nowrap"
+                    >
+                      {item.name}
+                    </span>
+                  ),
+                )}
+              </nav>
+              <div className="flex items-center gap-2 shrink-0">
+                <Link
+                  href="/login"
+                  prefetch={false}
+                  onClick={closeMenu}
+                  className="text-[13px] font-semibold text-slate-600 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-slate-50"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/for-students"
+                  prefetch={false}
+                  onClick={closeMenu}
+                  className="text-[13px] font-semibold bg-brand-red-600 text-white px-3 py-2 rounded-lg hover:bg-brand-red-700"
+                >
+                  Get Started
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="p-5 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {topLevelMega.map((item) => {
-              const columns = groupSubItemsByHeader(item.subItems!);
-              if (item.id === 'programs' && columns.length > 1) {
-                return columns.map((col, ci) => (
-                  <div key={`${item.id}-${ci}`} className="min-w-0">
+            <div className="max-w-screen-2xl mx-auto px-4 lg:px-8 py-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-8">
+                {desktopColumns.map(({ key, parent, subItems, showParentTitle }) => (
+                  <div key={key} className="min-w-0 break-words">
                     <NavLinkList
-                      item={{ ...item, subItems: col }}
+                      item={{ ...parent, subItems }}
                       programApplyLinks={programApplyLinks}
                       onNavigate={closeMenu}
+                      showParentTitle={showParentTitle}
                     />
                   </div>
-                ));
-              }
-              return (
-                <div key={item.id ?? item.name} className="min-w-0">
-                  <NavLinkList
-                    item={item}
-                    programApplyLinks={programApplyLinks}
-                    onNavigate={closeMenu}
-                  />
-                </div>
-              );
-            })}
-          </div>
+                ))}
+              </div>
+            </div>
 
-          {topLevelSimple.length > 0 && (
-            <div className="px-5 pb-5 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-4">
+            <div className="max-w-screen-2xl mx-auto px-4 lg:px-8 pb-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-4">
+              <Link
+                href="/start"
+                prefetch={false}
+                onClick={closeMenu}
+                className="text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
+              >
+                Check Eligibility
+              </Link>
               {topLevelSimple.map((item) => (
                 <Link
                   key={item.href}
@@ -295,17 +349,9 @@ export default function HeaderNavMenu({ items, programApplyLinks = {} }: HeaderN
                   {item.name}
                 </Link>
               ))}
-              <Link
-                href="/start"
-                prefetch={false}
-                onClick={closeMenu}
-                className="text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
-              >
-                Check Eligibility
-              </Link>
             </div>
-          )}
-        </div>
+          </div>
+        </>
       )}
 
       {/* ── Mobile: vertical panel + accordion dropdowns ── */}

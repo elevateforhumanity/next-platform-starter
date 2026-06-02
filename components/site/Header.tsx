@@ -43,8 +43,24 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Horizontal spacer — nav lives in Menu dropdown (md+) or vertical panel (mobile) */}
-          <div className="flex-1 min-w-2" aria-hidden />
+          {/* Desktop: horizontal section shortcuts (full tree in Menu) */}
+          <nav
+            className="hidden lg:flex flex-1 items-center justify-center gap-0.5 min-w-0 overflow-x-auto px-2"
+            aria-label="Section shortcuts"
+          >
+            {NAV_ITEMS.map((item) =>
+              item.href ? (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  prefetch={false}
+                  className="text-[12px] font-medium text-slate-600 hover:text-brand-blue-600 px-2 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap shrink-0"
+                >
+                  {item.name}
+                </Link>
+              ) : null,
+            )}
+          </nav>
 
           <div className="flex flex-nowrap items-center gap-1 shrink-0">
             <HeaderUtilities />
