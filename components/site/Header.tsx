@@ -4,8 +4,7 @@
 import Link from 'next/link';
 import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
-import HeaderMobileMenu from './HeaderMobileMenu.client';
-import HeaderDesktopNav from './HeaderDesktopNav';
+import HeaderNavMenu from './HeaderNavMenu.client';
 import HeaderUtilities from './HeaderUtilities.client';
 import { NAV_ITEMS } from '@/lib/navigation';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -44,14 +43,13 @@ export default function Header() {
             </span>
           </Link>
 
-          <div className="hidden lg:flex flex-1 items-center justify-center min-w-0">
-            <HeaderDesktopNav items={NAV_ITEMS} />
-          </div>
+          {/* Horizontal spacer — nav lives in Menu dropdown (md+) or vertical panel (mobile) */}
+          <div className="flex-1 min-w-2" aria-hidden />
 
           <div className="flex flex-nowrap items-center gap-1 shrink-0">
             <HeaderUtilities />
 
-            <div className="hidden lg:flex items-center gap-1.5 shrink-0">
+            <div className="hidden md:flex items-center gap-1.5 shrink-0">
               <Link
                 href="/login"
                 prefetch={false}
@@ -68,7 +66,7 @@ export default function Header() {
               </Link>
             </div>
 
-            <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
+            <HeaderNavMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
           </div>
         </div>
       </div>
