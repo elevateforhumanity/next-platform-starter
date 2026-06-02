@@ -94,6 +94,8 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Enroll your shop —', href: '/partners/barber-host-shop', isHeader: true },
       { name: 'Barbershop partner program', href: '/partners/barber-host-shop' },
       { name: 'Cosmetology partner program', href: '/partners/cosmetology-host-shop' },
+      { name: 'Esthetician partner program', href: '/partners/esthetician-apprenticeship' },
+      { name: 'Nail technician partner program', href: '/partners/nail-technician-apprenticeship' },
       { name: 'Become an apprenticeship sponsor →', href: '/apprenticeship-sponsor', isSectionLink: true },
     ],
   },
