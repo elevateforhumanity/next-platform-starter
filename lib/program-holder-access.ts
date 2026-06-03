@@ -65,33 +65,31 @@ export async function getProgramHolderPrograms(holderId: string) {
 export async function canAccessStudent(holderId: string, studentId: string): Promise<boolean> {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from('program_enrollments')
-    .select(
-      `
-      id,
-      course_id,
-      courses!inner(id, category, slug)
-    `,
-    )
+  const { data: roster } = await supabase
+    .from('program_holder_students')
+    .select('id')
+    .eq('program_holder_id', holderId)
     .eq('user_id', studentId)
     .maybeSingle();
 
-  if (error || !data) {
-    return false;
-  }
+  if (roster) return true;
 
   const { data: programs } = await supabase
     .from('program_holder_programs')
-    .select('program_slug')
-    .eq('program_holder_id', holderId);
+    .select('program_id')
+    .eq('program_holder_id', holderId)
+    .eq('status', 'active');
 
-  if (!programs || programs.length === 0) {
-    return false;
-  }
+  const programIds = (programs ?? []).map((p) => p.program_id).filter(Boolean);
+  if (!programIds.length) return false;
 
-  const course = data.courses as any;
-  return programs.some(
-    (p) => course.category === p.program_slug || course.slug.startsWith(p.program_slug),
-  );
+  const { data: enrollment } = await supabase
+    .from('program_enrollments')
+    .select('id')
+    .eq('user_id', studentId)
+    .in('program_id', programIds)
+    .limit(1)
+    .maybeSingle();
+
+  return Boolean(enrollment);
 }

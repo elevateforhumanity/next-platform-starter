@@ -96,7 +96,7 @@ function ProgressBar({
 const programGroups = getActiveProgramsByCategory();
 
 // Programs that have a waitlist — show waitlist link instead of enrollment form
-const WAITLIST_PROGRAMS = new Set(['cdl-training', 'barber-apprenticeship']);
+const WAITLIST_PROGRAMS = new Set(['barber-apprenticeship']);
 
 // ── Eligibility screening state ───────────────────────────────────────────────
 interface EligibilityAnswers {
@@ -659,10 +659,10 @@ export default function StudentApplicationForm({
                   team before submitting.
                 </p>
                 <a
-                  href={`tel:${PLATFORM_DEFAULTS.supportPhone}`}
+                  href="tel:${PLATFORM_DEFAULTS.supportPhone}"
                   className="inline-block mt-2 text-red-700 font-bold text-sm underline"
                 >
-                  {PLATFORM_DEFAULTS.supportPhone}
+                  ${PLATFORM_DEFAULTS.supportPhone}
                 </a>
               </div>
             </div>
