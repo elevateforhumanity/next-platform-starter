@@ -837,7 +837,7 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
-- **Program/marketing images:** use `getProgramCardImage()` / `getProgramHeroImage()` from `lib/images/programImages.ts` and `resolveSiteImagePath()` from `lib/images/site-image-paths.ts` for legacy `.webp` paths. `HeroPicture` defaults to `hero.imageWrap` (45vh, max 560px) — do not use the old `clamp(400px, 56vw, 780px)` sizing. Run `node scripts/audit-image-assets.mjs` before adding new `/images/*` refs.
+- **Program/marketing images:** use `getProgramCardImage()` / `getProgramHeroImage()` from `lib/images/programImages.ts` and `resolveSiteImagePath()` from `lib/images/site-image-paths.ts` for legacy `.webp` paths. `HeroPicture` / `HeroVideo` use `hero.imageWrap` from `lib/page-design-tokens.ts` (`38vh`, max `420px`). Run `pnpm audit:image-assets` and `pnpm audit:visual-layout` before large marketing changes; full report in `docs/audits/VISUAL_LAYOUT_AUDIT.md`.
 
 ### Northflank production DNS (Durable — no apex ALIAS)
 

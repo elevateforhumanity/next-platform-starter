@@ -11,8 +11,10 @@ export function HomeTopHero() {
         width={1920}
         height={800}
         priority
-        className="h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px] w-full object-cover"
-        sizes="100vw" placeholder="empty"
+        className="h-[220px] sm:h-[280px] md:h-[320px] lg:h-[380px] max-h-[420px] w-full object-cover"
+        sizes="(max-width: 768px) 100vw, 1200px"
+        quality={75}
+        placeholder="empty"
       />
       {/* Overlay content */}
       <div className="absolute inset-0 flex items-center justify-center">

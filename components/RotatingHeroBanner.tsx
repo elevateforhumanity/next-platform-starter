@@ -46,7 +46,7 @@ export default function RotatingHeroBanner() {
   };
 
   return (
-    <section className="relative h-[600px] md:h-[700px] overflow-hidden">
+    <section className="relative h-[38vh] min-h-[220px] max-h-[420px] w-full overflow-hidden">
       {slides.map((s, index) => (
         <div
           key={index}

@@ -62,12 +62,12 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
       </section>
 
       {/* HERO */}
-      <section className="relative h-[700px] overflow-hidden">
+      <section className="relative h-[38vh] min-h-[220px] max-h-[420px] w-full overflow-hidden">
         <Image
           src="/images/pages/comp-layout-hero.webp"
           alt={title}
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover"
           priority
           quality={90}

@@ -15,6 +15,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Volume2, VolumeX } from 'lucide-react';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                               */
@@ -55,6 +56,11 @@ export interface HeroVideoProps {
   className?: string;
   /** Render below-hero content as children instead of structured props */
   children?: React.ReactNode;
+  /**
+   * When true, hero video uses preload=auto (home page only).
+   * Default false — metadata preload avoids blocking LCP on inner pages.
+   */
+  eagerVideoLoad?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -76,6 +82,7 @@ export default function HeroVideo({
   analyticsName,
   className = '',
   children,
+  eagerVideoLoad = false,
 }: HeroVideoProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -201,15 +208,16 @@ export default function HeroVideo({
           CanonicalVideo then renders its own poster <img> (z:1) and video (z:2)
           on top. Both show the same image so the transition is seamless. */}
       <section
-        className="relative w-full overflow-hidden"
-        style={{
-          height: 'clamp(280px, 42vw, 560px)',
-          ...(posterImage ? {
-            backgroundImage: `url(${posterImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          } : {}),
-        }}
+        className={`relative w-full overflow-hidden ${heroTokens.imageWrap}`}
+        style={
+          posterImage
+            ? {
+                backgroundImage: `url(${posterImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : undefined
+        }
         aria-label={analyticsName ? `${analyticsName} hero video` : 'Hero video'}
       >
         {/* autoPlayOnMount — hero is always above the fold; start immediately.
@@ -220,7 +228,7 @@ export default function HeroVideo({
           className="absolute inset-0 w-full h-full object-cover object-center"
           autoPlayOnMount
           loop
-          preloadFull
+          preloadFull={eagerVideoLoad}
         />
 
         {/* Hidden audio element for voiceover */}

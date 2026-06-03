@@ -27,7 +27,7 @@ export default function EstheticianHostShopsPage() {
       />
 
       {/* Hero */}
-      <section className="relative h-[60vh] min-h-[450px] max-h-[600px]">
+      <section className="relative h-[38vh] min-h-[220px] max-h-[420px] w-full overflow-hidden">
         <Image
           src="/images/pages/cosmetology-hero.webp"
           alt="Professional spa interior with esthetician stations"

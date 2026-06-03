@@ -255,6 +255,8 @@
     "route:audit:strict": "tsx scripts/route-audit.ts --strict",
     "audit:programs": "tsx scripts/audit-program-pages.ts",
     "audit:hero-banners": "tsx scripts/audit-hero-banners.ts",
+    "audit:visual-layout": "node scripts/audit-visual-layout.mjs",
+    "audit:image-assets": "node scripts/audit-image-assets.mjs",
     "verify:system": "tsx scripts/verify-system.ts",
     "link:hvac-videos": "tsx scripts/link-hvac-videos.ts",
     "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm smoke",
