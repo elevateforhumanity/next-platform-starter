@@ -1,0 +1,32 @@
+import { describe, expect, it } from 'vitest';
+import { resolveHeroPosterSrc, DEFAULT_HERO_FALLBACK } from '@/lib/images/hero-banner-media';
+
+describe('resolveHeroPosterSrc', () => {
+  it('uses banner poster with tax alias fallback chain', () => {
+    const src = resolveHeroPosterSrc('tax-preparation', {
+      banner: {
+        pageKey: 'tax-preparation',
+        posterImage: '/images/pages/admin-tax-training-hero.webp',
+        belowHeroHeadline: 'x',
+        belowHeroSubheadline: 'y',
+        primaryCta: { label: 'Apply', href: '/apply' },
+        analyticsName: 'tax',
+      },
+      heroImage: '/images/pages/tax-preparation.jpg',
+    });
+    expect(src).toBe('/images/business/office-admin.webp');
+  });
+
+  it('falls back to program hero image when no banner', () => {
+    const src = resolveHeroPosterSrc('barber-apprenticeship', {
+      heroImage: '/images/pages/barber-hero-main.jpg',
+    });
+    expect(src).toContain('barber');
+  });
+
+  it('never returns empty string', () => {
+    const src = resolveHeroPosterSrc('unknown-program-slug-xyz');
+    expect(src.length).toBeGreaterThan(0);
+    expect(src).toBe(DEFAULT_HERO_FALLBACK);
+  });
+});
