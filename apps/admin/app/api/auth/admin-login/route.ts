@@ -5,6 +5,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { getServerSupabaseEnvMisconfigurationReason } from '@/lib/supabase/server-env';
+import { applyNormalizedSupabaseUrlToEnv } from '@/lib/supabase/normalize-url';
 
 // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and apps/admin/app/admin/layout.tsx
 const ADMIN_ROLES = ['super_admin', 'admin', 'staff', 'org_admin'];
@@ -14,6 +16,26 @@ export async function POST(req: NextRequest) {
 
   if (!email || !password) {
     return NextResponse.json({ error: 'Email and password required.' }, { status: 400 });
+  }
+
+  try {
+    const { hydrateProcessEnv } = await import('@/lib/secrets');
+    await hydrateProcessEnv();
+  } catch {
+    // platform_secrets hydration unavailable — continue with injected env
+  }
+  applyNormalizedSupabaseUrlToEnv();
+
+  const misconfigured = getServerSupabaseEnvMisconfigurationReason();
+  if (misconfigured) {
+    return NextResponse.json(
+      {
+        error:
+          'Admin authentication is misconfigured on this server. Contact engineering to update Supabase keys in Northflank.',
+        detail: misconfigured,
+      },
+      { status: 503 },
+    );
   }
 
   // Use the shared server client — applies the same cookie domain (.elevateforhumanity.org)
@@ -26,9 +48,15 @@ export async function POST(req: NextRequest) {
   });
 
   if (authError || !authData?.user) {
+    const raw = authError?.message || 'Invalid email or password.';
+    const invalidApiKey = /invalid api key/i.test(raw);
     return NextResponse.json(
-      { error: authError?.message || 'Invalid email or password.' },
-      { status: 401 }
+      {
+        error: invalidApiKey
+          ? 'Admin authentication is misconfigured (invalid Supabase anon key on this deployment). Contact engineering.'
+          : raw,
+      },
+      { status: invalidApiKey ? 503 : 401 },
     );
   }
 

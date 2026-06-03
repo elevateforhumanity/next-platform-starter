@@ -7,6 +7,7 @@ import {
 describe('supabase public-config', () => {
   it('treats placeholder values as misconfigured', () => {
     expect(isPlaceholderSupabaseConfig('https://x.supabase.co', 'placeholder')).toBe(true);
+    expect(isPlaceholderSupabaseConfig('https://x.supabase.co', 'build-placeholder')).toBe(true);
     expect(isPlaceholderSupabaseConfig('https://placeholder.supabase.co', 'eyJ')).toBe(true);
     expect(isPlaceholderSupabaseConfig('', '')).toBe(true);
   });
