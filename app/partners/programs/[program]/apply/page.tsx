@@ -9,7 +9,8 @@ import { getProgramConfig, type ProgramConfig } from '@/lib/partners/program-con
 // Programs that have dedicated regulated application flows.
 // This generic page must not accept them — it writes to the wrong table.
 const REGULATED_SLUGS: Record<string, string> = {
-  'barbershop-apprenticeship': '/partners/barbershop-apprenticeship/apply',
+  'barbershop-apprenticeship': '/partners/barber-host-shop/apply',
+  'barber-host-shop': '/partners/barber-host-shop/apply',
 };
 
 const CALENDLY_URL =

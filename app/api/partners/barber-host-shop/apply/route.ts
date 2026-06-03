@@ -522,4 +522,4 @@ async function _POST(req: Request) {
     );
   }
 }
-export const POST = withApiAudit('/api/partners/barbershop-apprenticeship/apply', _POST);
+export const POST = withApiAudit('/api/partners/barber-host-shop/apply', _POST);

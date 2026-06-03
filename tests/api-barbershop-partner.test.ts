@@ -6,6 +6,9 @@ import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
+const MIN_SIGNATURE =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+
 const validApplication = {
   shopLegalName: 'Test Barbershop LLC',
   shopDbaName: 'Test Cuts',
@@ -22,11 +25,16 @@ const validApplication = {
   supervisorName: 'Bob Smith',
   supervisorLicenseNumber: 'BB-67890',
   supervisorYearsLicensed: '5',
-  employmentModel: 'hybrid',
-  hasWorkersComp: 'yes',
+  compensationModel: 'hybrid',
+  workersCompStatus: 'verified',
+  apprenticesOnPayroll: 'yes',
+  hasGeneralLiability: 'yes',
   canSuperviseAndVerify: 'yes',
   mouAcknowledged: true,
   consentAcknowledged: true,
+  signatureData: MIN_SIGNATURE,
+  shopLicenseFileData: MIN_SIGNATURE,
+  shopLicenseFileName: 'license.pdf',
   notes: 'Test application',
 };
 
@@ -37,7 +45,7 @@ test.describe('Barbershop Partner Application API', () => {
       // Missing other required fields
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: incompleteData,
       failOnStatusCode: false,
     });
@@ -55,7 +63,7 @@ test.describe('Barbershop Partner Application API', () => {
       contactEmail: 'not-an-email',
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: invalidEmailData,
       failOnStatusCode: false,
     });
@@ -73,7 +81,7 @@ test.describe('Barbershop Partner Application API', () => {
       contactPhone: '123', // Too short
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: invalidPhoneData,
       failOnStatusCode: false,
     });
@@ -85,22 +93,22 @@ test.describe('Barbershop Partner Application API', () => {
     console.log('✅ Invalid phone rejected correctly');
   });
 
-  test('should reject invalid employment model', async ({ request }) => {
+  test('should reject invalid compensation model', async ({ request }) => {
     const invalidModelData = {
       ...validApplication,
-      employmentModel: 'invalid_model',
+      compensationModel: 'invalid_model',
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: invalidModelData,
       failOnStatusCode: false,
     });
 
     expect(response.status()).toBe(400);
     const body = await response.json();
-    expect(body.error).toContain('Invalid employment model');
+    expect(body.error).toMatch(/compensation model/i);
 
-    console.log('✅ Invalid employment model rejected correctly');
+    console.log('✅ Invalid compensation model rejected correctly');
   });
 
   test('should reject missing MOU acknowledgment', async ({ request }) => {
@@ -109,7 +117,7 @@ test.describe('Barbershop Partner Application API', () => {
       mouAcknowledged: false,
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: noMouData,
       failOnStatusCode: false,
     });
@@ -127,7 +135,7 @@ test.describe('Barbershop Partner Application API', () => {
       consentAcknowledged: false,
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: noConsentData,
       failOnStatusCode: false,
     });
@@ -145,7 +153,7 @@ test.describe('Barbershop Partner Application API', () => {
       honeypot: 'bot filled this in',
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: botData,
       failOnStatusCode: false,
     });
@@ -168,7 +176,7 @@ test.describe('Barbershop Partner Application API', () => {
       indianaShopLicenseNumber: `BS-${Date.now()}`,
     };
 
-    const response = await request.post(`${baseURL}/api/partners/barbershop-apprenticeship/apply`, {
+    const response = await request.post(`${baseURL}/api/partners/barber-host-shop/apply`, {
       data: uniqueApplication,
       failOnStatusCode: false,
     });

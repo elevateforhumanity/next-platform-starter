@@ -160,7 +160,7 @@ export default function CosmetologySignMOUPage() {
   const [handbookRead, setHandbookRead] = useState(false);
 
   useEffect(() => {
-    fetch('/api/partners/cosmetology-apprenticeship/my-application')
+    fetch('/api/partners/cosmetology-host-shop/my-application')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!data) return;
@@ -300,7 +300,7 @@ export default function CosmetologySignMOUPage() {
     setSubmitting(true);
     try {
       const signatureData = signatureDataRef.current || canvasRef.current?.toDataURL('image/png');
-      const res = await fetch('/api/partners/cosmetology-apprenticeship/sign-mou', {
+      const res = await fetch('/api/partners/cosmetology-host-shop/sign-mou', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

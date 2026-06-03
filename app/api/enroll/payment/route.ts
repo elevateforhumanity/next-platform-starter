@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
+import { getStripeMethodsForAmount } from '@/lib/bnpl-config';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { paymentRateLimit } from '@/lib/rate-limit';
@@ -35,7 +36,8 @@ const PROGRAM_DETAILS: Record<string, { name: string; totalPrice: number }> = {
   'emergency-health': { name: 'Emergency Health & Safety Technician', totalPrice: 4950 },
   'home-health-aide': { name: 'Home Health Aide', totalPrice: 4700 },
   'reentry-specialist': { name: 'Public Safety Reentry Specialist', totalPrice: 4750 },
-  'cpr-aed': { name: 'CPR / AED / First Aid', totalPrice: 575 },
+  'cpr-aed': { name: 'CPR / AED / First Aid', totalPrice: 130 },
+  'cpr-first-aid': { name: 'CPR & First Aid Certification', totalPrice: 130 },
 };
 
 async function _POST(req: Request) {
@@ -88,9 +90,13 @@ async function _POST(req: Request) {
       totalPrice: amount,
     };
 
-    // Create Stripe Checkout session
+    const amountDollars = amount;
+    const paymentMethodTypes = getStripeMethodsForAmount(amountDollars);
+
+    // Create Stripe Checkout session (includes BNPL methods from bnpl-config)
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
+      payment_method_types: paymentMethodTypes,
       customer_email: user?.email || undefined,
       line_items: [
         {
