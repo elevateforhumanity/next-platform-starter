@@ -97,7 +97,7 @@ export function HomeEmployerStrip() {
             </div>
           </div>
 
-          <div className="relative h-52 lg:h-60 rounded-2xl overflow-hidden">
+          <div className="relative h-40 sm:h-48 lg:h-52 rounded-2xl overflow-hidden">
             <Image
               src="/images/pages/for-employers-page-1.webp"
               alt={`Employer partner meeting with ${PLATFORM_DEFAULTS.orgName} team`}
@@ -137,7 +137,7 @@ export function HomeEmployerStrip() {
               className={`group bg-white rounded-2xl overflow-hidden shadow-sm ${path.accent} flex flex-col`}
             >
               {/* Photo */}
-              <div className="relative w-full h-52 overflow-hidden">
+              <div className="relative w-full h-36 sm:h-40 overflow-hidden">
                 <Image
                   src={path.img}
                   alt={path.imgAlt}

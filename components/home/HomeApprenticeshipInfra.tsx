@@ -58,7 +58,7 @@ export function HomeApprenticeshipInfra() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Learner side */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="relative h-40 lg:h-44 w-full">
+            <div className="relative h-36 sm:h-40 w-full">
               <Image
                 src="/images/learners/coaching-session.webp"
                 alt="Learner in apprenticeship training session"
@@ -93,7 +93,7 @@ export function HomeApprenticeshipInfra() {
 
           {/* Employer side */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-            <div className="relative h-40 lg:h-44 w-full">
+            <div className="relative h-36 sm:h-40 w-full">
               <Image
                 src="/images/pages/about-employer-partners.webp"
                 alt="Employer partner working with Elevate team"
@@ -129,7 +129,7 @@ export function HomeApprenticeshipInfra() {
 
         {/* Photo + copy strip */}
         <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
-          <div className="relative h-48 sm:h-56 w-full">
+          <div className="relative h-36 sm:h-44 w-full">
             <Image
               src="/images/pages/apprenticeships-page-1.webp"
               alt="Apprentice working on-site with employer supervisor"

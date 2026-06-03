@@ -119,7 +119,7 @@ export function HomeFunding() {
           </div>
 
           {/* Right: image */}
-          <div className="relative h-48 lg:h-52 rounded-2xl overflow-hidden">
+          <div className="relative h-40 sm:h-48 lg:h-52 rounded-2xl overflow-hidden">
             <Image
               src="/images/pages/funding-impact-1.webp"
               alt="Funding advisor helping a student navigate WIOA eligibility"

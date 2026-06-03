@@ -59,7 +59,7 @@ export const hero = {
    */
   /** Video/image band — capped lower on large screens so copy appears above the fold */
   imageWrap:
-    'relative h-[30vh] min-h-[180px] max-h-[300px] sm:max-h-[320px] lg:max-h-[280px] w-full overflow-hidden',
+    'relative h-[24vh] min-h-[160px] max-h-[240px] sm:max-h-[260px] lg:max-h-[240px] w-full overflow-hidden',
   /** Below-hero white panel (headline, CTAs) */
   belowPanel: 'border-b border-slate-100 py-8 sm:py-10 lg:py-8',
   belowHeadline:
@@ -79,7 +79,7 @@ export const card = {
   image16x9: 'relative aspect-[16/9] overflow-hidden',
   /** Homepage / pathway cards — shorter image band on desktop */
   image16x9Desktop:
-    'relative aspect-[16/9] lg:aspect-auto lg:h-36 overflow-hidden bg-slate-100',
+    'relative aspect-[2/1] max-h-36 lg:aspect-auto lg:h-32 overflow-hidden bg-slate-100',
   /** Card image container — 4:3 */
   image4x3: 'relative aspect-[4/3] overflow-hidden',
   /** Card body padding */
