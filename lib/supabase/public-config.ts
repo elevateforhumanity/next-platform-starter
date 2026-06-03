@@ -1,3 +1,5 @@
+import { normalizeSupabaseProjectUrl } from '@/lib/supabase/normalize-url';
+
 /**
  * Public Supabase URL + anon key (safe to expose to the browser).
  *
@@ -28,9 +30,9 @@ export function isPlaceholderSupabaseConfig(
 
 /** Read from process.env (build-time inline and/or Node runtime on ECS). */
 export function getServerPublicSupabaseConfig(): SupabasePublicConfig | null {
-  const url =
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
-    process.env.SUPABASE_URL?.trim();
+  const url = normalizeSupabaseProjectUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
+  );
   const anonKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
     process.env.SUPABASE_ANON_KEY?.trim();
@@ -51,9 +53,9 @@ export function getBrowserPublicSupabaseConfig(): SupabasePublicConfig | null {
     }
   }
 
-  const url =
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
-    process.env.SUPABASE_URL?.trim();
+  const url = normalizeSupabaseProjectUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
+  );
   const anonKey =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
     process.env.SUPABASE_ANON_KEY?.trim();
