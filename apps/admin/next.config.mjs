@@ -41,8 +41,7 @@ const adminConfig = {
   async redirects() {
     return [
       // ── Lizzy control plane (retired dev-studio / ai-console admin routes) ──
-      { source: '/admin/dashboard', destination: '/admin/dashboard', permanent: true },
-      { source: '/admin/dashboard/:path*', destination: '/admin/dashboard', permanent: true },
+      // Do NOT redirect /admin/dashboard → itself (infinite loop).
       { source: '/admin/ai-console', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/ai-console/:path*', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/ai-studio', destination: '/admin/dashboard', permanent: true },
