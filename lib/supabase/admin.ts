@@ -1,6 +1,7 @@
 import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { normalizeSupabaseProjectUrl } from '@/lib/supabase/normalize-url';
 
 /**
  * @deprecated Use `getAdminClient()` instead in all request-time code
@@ -41,7 +42,7 @@ export function createAdminClient(): SupabaseClient<any> {
   }
   // ────────────────────────────────────────────────────────────────────────
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const url = normalizeSupabaseProjectUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url) {

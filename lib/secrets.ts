@@ -38,6 +38,10 @@ import { logger } from '@/lib/logger';
 // Direct SDK import intentional: this module IS the hydration bootstrap.
 // All other files must use @/lib/supabase/* instead.
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import {
+  applyNormalizedSupabaseUrlToEnv,
+  normalizeSupabaseProjectUrl,
+} from '@/lib/supabase/normalize-url';
 
 let cache: Record<string, string> | null = null;
 let cacheTimestamp = 0;
@@ -49,7 +53,9 @@ const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — in-process cache for ECS long-r
 const SECRETS_FETCH_TIMEOUT_MS = 3000;
 
 function getBootstrapClient(): SupabaseClient | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const url = normalizeSupabaseProjectUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
+  );
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key, {
@@ -132,6 +138,8 @@ async function loadSecrets(): Promise<Record<string, string>> {
 export async function hydrateProcessEnv(): Promise<void> {
   if (hydrated && Date.now() - cacheTimestamp < CACHE_TTL_MS) return;
 
+  applyNormalizedSupabaseUrlToEnv();
+
   const secrets = await loadSecrets();
   for (const [key, value] of Object.entries(secrets)) {
     // Only write to process.env when the DB value is non-empty.
@@ -140,9 +148,13 @@ export async function hydrateProcessEnv(): Promise<void> {
     // This was the root cause of chat/git/shell failures: a blank row saved via
     // the admin Secrets UI would silently shadow the correct SSM value.
     if (value && value.trim().length > 0) {
-      process.env[key] = value;
+      process.env[key] =
+        key === 'NEXT_PUBLIC_SUPABASE_URL' || key === 'SUPABASE_URL'
+          ? normalizeSupabaseProjectUrl(value) ?? value
+          : value;
     }
   }
+  applyNormalizedSupabaseUrlToEnv();
   hydrated = true;
 }
 

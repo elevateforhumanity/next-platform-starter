@@ -4,13 +4,17 @@
  * falsely fail ECS readiness while the database is actually reachable.
  */
 
+import { normalizeSupabaseProjectUrl } from '@/lib/supabase/normalize-url';
+
 const PROBE_TIMEOUT_MS = 5_000;
 
 export async function probeSupabaseDatabase(): Promise<{
   ok: boolean;
   error?: string;
 }> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const url = normalizeSupabaseProjectUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
+  );
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
   if (!url || !key) {

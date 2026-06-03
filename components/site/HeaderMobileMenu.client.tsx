@@ -189,7 +189,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
   return (
     <div className="lg:hidden flex flex-row flex-nowrap items-center justify-end gap-0.5 shrink-0">
       <SearchModal />
-      <LanguageSwitcher compact />
+      <LanguageSwitcher compact={true} />
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}

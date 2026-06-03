@@ -43,7 +43,7 @@ export default function Header() {
         <div className="flex flex-row flex-nowrap items-center justify-end gap-0.5 sm:gap-1 flex-shrink-0 min-w-0">
           <div className="hidden lg:flex flex-row flex-nowrap items-center gap-1.5">
             <SearchModal />
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact={true} />
             <Link
               href="/login"
               prefetch={false}
