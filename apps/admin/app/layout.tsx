@@ -4,9 +4,14 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { getAdminUrl } from '@/lib/utils/siteUrl';
 import ToasterClient from '@/components/ui/ToasterClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+
+const ADMIN_METADATA_BASE =
+  (process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(
+    /\/+$/,
+    '',
+  );
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,7 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getAdminUrl()),
+  metadataBase: new URL(ADMIN_METADATA_BASE),
   title: {
     default: 'Elevate Admin',
     template: '%s | Elevate Admin',

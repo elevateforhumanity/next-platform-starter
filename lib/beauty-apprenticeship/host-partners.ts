@@ -39,11 +39,18 @@ export const FEATURED_BEAUTY_HOST_PARTNERS: FeaturedHostPartner[] = [
     state: 'IN',
     programs: ['barber-apprenticeship'],
   },
+  {
+    name: 'Style and Scissor Salon',
+    dba: 'Corinne Yvette Meid — Style and Scissor Salon',
+    city: 'Sullivan',
+    state: 'IN',
+    programs: ['barber-apprenticeship', 'cosmetology-apprenticeship', 'nail-technician-apprenticeship'],
+    note: '10 E Washington St, Sullivan, IN 47882 — host salon partner.',
+  },
 ];
 
-/** User-requested brands — add Corinne Styles / Scissors when address is confirmed in admin */
 export const PARTNER_BRAND_ALIASES = {
   prestigeKountryKuts: 'Prestige Kountry Kuts',
-  corinneStyles: 'Corinne Styles',
-  scissors: 'Scissors',
+  corinneStyles: 'Style and Scissor Salon',
+  scissors: 'Style and Scissor Salon',
 } as const;
