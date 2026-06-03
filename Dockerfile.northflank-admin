@@ -30,7 +30,8 @@ COPY . .
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_OPTIONS=--max-old-space-size=8192
+# Northflank nf-compute-400 builders are ~4GB RAM; 8192 heap OOM-kills `next build` in ~1m
+ENV NODE_OPTIONS=--max-old-space-size=4096
 ENV BUILD_SCOPE=1
 # Required at `next build` (overridden by Northflank secret group / build args when set)
 ENV NEXT_PUBLIC_ADMIN_URL=https://admin.elevateforhumanity.org
