@@ -34,10 +34,10 @@ on:
 permissions:
   contents: read
 
-# Serialize admin deploys independently of LMS deploys.
-# Separate concurrency group prevents LMS pushes from cancelling queued admin runs.
+# CodeBuild account capacity is shared by production deploy workflows.
+# Queue instead of cancelling so overlapping admin/LMS deploys do not race AWS.
 concurrency:
-  group: deploy-admin
+  group: production-codebuild-deploy
   cancel-in-progress: false
 
 jobs:
@@ -60,23 +60,29 @@ jobs:
         run: |
           set -euo pipefail
 
+          PROJECT_NAME="elevate-admin-build"
+          BUILDSPEC="aws/buildspec-admin.yml"
+          REGION="us-east-1"
+          MAX_START_ATTEMPTS=30
+          START_RETRY_DELAY=60
+
           dump_build_details() {
             echo "::group::CodeBuild failure details"
             aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
-              --region us-east-1 \
+              --region "$REGION" \
               --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts}}' \
               --output json || true
             echo "::endgroup::"
 
             LOG_GROUP=$(aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
-              --region us-east-1 \
+              --region "$REGION" \
               --query 'builds[0].logs.groupName' \
               --output text 2>/dev/null || true)
             LOG_STREAM=$(aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
-              --region us-east-1 \
+              --region "$REGION" \
               --query 'builds[0].logs.streamName' \
               --output text 2>/dev/null || true)
 
@@ -85,7 +91,7 @@ jobs:
               aws logs get-log-events \
                 --log-group-name "$LOG_GROUP" \
                 --log-stream-name "$LOG_STREAM" \
-                --region us-east-1 \
+                --region "$REGION" \
                 --limit 200 \
                 --query 'events[].message' \
                 --output json || true
@@ -95,21 +101,50 @@ jobs:
             fi
           }
 
+          start_codebuild_with_retry() {
+            local attempt output status
+
+            for attempt in $(seq 1 "$MAX_START_ATTEMPTS"); do
+              set +e
+              output=$(aws codebuild start-build \
+                --project-name "$PROJECT_NAME" \
+                --source-version "$SOURCE_VERSION" \
+                --buildspec-override "$BUILDSPEC" \
+                --region "$REGION" \
+                --query 'build.id' --output text 2>&1)
+              status=$?
+              set -e
+
+              if [ "$status" -eq 0 ]; then
+                BUILD_ID="$output"
+                return 0
+              fi
+
+              if echo "$output" | grep -q 'AccountLimitExceededException'; then
+                echo "CodeBuild is at account/project capacity (attempt ${attempt}/${MAX_START_ATTEMPTS}). Retrying in ${START_RETRY_DELAY}s..."
+                if [ "$attempt" -eq "$MAX_START_ATTEMPTS" ]; then
+                  echo "$output"
+                  return "$status"
+                fi
+                sleep "$START_RETRY_DELAY"
+                continue
+              fi
+
+              echo "$output"
+              return "$status"
+            done
+          }
+
           SOURCE_VERSION="${GITHUB_SHA:?Missing GITHUB_SHA}"
           echo "Starting Admin CodeBuild for commit ${SOURCE_VERSION}..."
-          BUILD_ID=$(aws codebuild start-build \
-            --project-name elevate-admin-build \
-            --source-version "$SOURCE_VERSION" \
-            --buildspec-override aws/buildspec-admin.yml \
-            --region us-east-1 \
-            --query 'build.id' --output text)
+          start_codebuild_with_retry
           echo "Build ID: $BUILD_ID"
 
           echo "Waiting for build to complete (polls every 30s)..."
           while true; do
             STATUS=$(aws codebuild batch-get-builds \
               --ids "$BUILD_ID" \
-              --region us-east-1 \
+              --region "$REGION" \
               --query 'builds[0].buildStatus' \
               --output text)
             echo "  Status: $STATUS"

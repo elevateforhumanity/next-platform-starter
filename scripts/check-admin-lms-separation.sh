@@ -31,8 +31,12 @@ LMS_WF=".github/workflows/deploy-lms.yml"
 [[ -f "$ADMIN_WF" ]] || fail "$ADMIN_WF missing"
 [[ -f "$LMS_WF" ]] || fail "$LMS_WF missing"
 
-grep -q 'project-name elevate-admin-build' "$ADMIN_WF" || fail "deploy-admin must trigger elevate-admin-build"
-grep -q 'project-name elevate-lms-build' "$LMS_WF" || fail "deploy-lms must trigger elevate-lms-build"
+if ! grep -q -- '--project-name' "$ADMIN_WF" || ! grep -q 'elevate-admin-build' "$ADMIN_WF"; then
+  fail "deploy-admin must trigger elevate-admin-build"
+fi
+if ! grep -q -- '--project-name' "$LMS_WF" || ! grep -q 'elevate-lms-build' "$LMS_WF"; then
+  fail "deploy-lms must trigger elevate-lms-build"
+fi
 
 # Basic path guardrails to avoid accidental cross-deploy coupling.
 grep -q '"apps/admin/\*\*"' "$ADMIN_WF" || fail "deploy-admin should watch apps/admin/**"
