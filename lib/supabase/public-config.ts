@@ -28,13 +28,17 @@ export function isPlaceholderSupabaseConfig(
 
 /** Read from process.env (build-time inline and/or Node runtime on ECS). */
 export function getServerPublicSupabaseConfig(): SupabasePublicConfig | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
+    process.env.SUPABASE_URL?.trim();
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
+    process.env.SUPABASE_ANON_KEY?.trim();
   if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
   return { url: url!, anonKey: anonKey! };
 }
 
-/** Browser: prefer runtime injection, then build-time inlined env. */
+/** Browser: prefer runtime injection, then build-time inlined env (if not placeholder). */
 export function getBrowserPublicSupabaseConfig(): SupabasePublicConfig | null {
   if (typeof window !== 'undefined') {
     const runtime = window.__EFH_SUPABASE_PUBLIC__;
@@ -47,8 +51,12 @@ export function getBrowserPublicSupabaseConfig(): SupabasePublicConfig | null {
     }
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
+    process.env.SUPABASE_URL?.trim();
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
+    process.env.SUPABASE_ANON_KEY?.trim();
   if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
   return { url: url!, anonKey: anonKey! };
 }
@@ -65,13 +73,18 @@ export async function hydrateBrowserSupabaseConfig(): Promise<SupabasePublicConf
   if (typeof window === 'undefined') return null;
 
   try {
-    const res = await fetch('/api/public/supabase-config', { cache: 'no-store' });
+    const res = await fetch('/api/public/supabase-config', {
+      cache: 'no-store',
+      credentials: 'same-origin',
+    });
     if (!res.ok) return null;
     const data = (await res.json()) as { url?: string; anonKey?: string };
     if (!data.url || !data.anonKey || isPlaceholderSupabaseConfig(data.url, data.anonKey)) {
       return null;
     }
     window.__EFH_SUPABASE_PUBLIC__ = { url: data.url, anonKey: data.anonKey };
+    const { resetSupabaseBrowserClientCache } = await import('@/lib/supabase/client');
+    resetSupabaseBrowserClientCache();
     return { url: data.url, anonKey: data.anonKey };
   } catch {
     return null;

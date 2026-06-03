@@ -22,6 +22,7 @@ import { InstallPromptBanner } from '@/components/pwa/InstallPromptBanner';
 import AuthRedirectHandler from '@/components/auth/AuthRedirectHandler';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { SupabasePublicConfigScript } from '@/components/supabase/SupabasePublicConfigScript';
+import SupabaseConfigBootstrap from '@/components/supabase/SupabaseConfigBootstrap';
 
 const inter = { variable: '' };
 
@@ -231,6 +232,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }}
         suppressHydrationWarning
       >
+        <SupabaseConfigBootstrap />
         {/* Suppress marketing chrome on app routes before hydration — no flash on hard nav.
             suppressHydrationWarning is required because this script sets data-app-route on
             <body> before React hydrates, causing a server/client attribute mismatch. */}

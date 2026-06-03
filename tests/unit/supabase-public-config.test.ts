@@ -23,10 +23,27 @@ describe('supabase public-config', () => {
   it('getServerPublicSupabaseConfig returns null when env is missing', () => {
     const prevUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const prevKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const prevSupabaseUrl = process.env.SUPABASE_URL;
     delete process.env.NEXT_PUBLIC_SUPABASE_URL;
     delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.SUPABASE_URL;
     expect(getServerPublicSupabaseConfig()).toBeNull();
     process.env.NEXT_PUBLIC_SUPABASE_URL = prevUrl;
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = prevKey;
+    process.env.SUPABASE_URL = prevSupabaseUrl;
+  });
+
+  it('getServerPublicSupabaseConfig falls back to SUPABASE_URL', () => {
+    const prevNextUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const prevSupabaseUrl = process.env.SUPABASE_URL;
+    const prevKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+    process.env.SUPABASE_URL = 'https://cuxzzpsyufcewtmicszk.supabase.co';
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9.test';
+    const cfg = getServerPublicSupabaseConfig();
+    expect(cfg?.url).toBe('https://cuxzzpsyufcewtmicszk.supabase.co');
+    process.env.NEXT_PUBLIC_SUPABASE_URL = prevNextUrl;
+    process.env.SUPABASE_URL = prevSupabaseUrl;
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = prevKey;
   });
 });

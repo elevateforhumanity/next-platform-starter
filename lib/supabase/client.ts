@@ -85,6 +85,13 @@ let warnedOnce = false;
 let cachedClient: SupabaseClient<any> | null = null;
 let cachedConfigKey: string | null = null;
 
+/** Call after runtime config is injected (hydrate or head script). */
+export function resetSupabaseBrowserClientCache(): void {
+  cachedClient = null;
+  cachedConfigKey = null;
+  warnedOnce = false;
+}
+
 export function createBrowserClient(): SupabaseClient<any> {
   const publicConfig = getBrowserPublicSupabaseConfig();
   const supabaseUrl = publicConfig?.url;
