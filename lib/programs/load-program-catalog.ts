@@ -278,13 +278,29 @@ export async function loadPublishedProgramsListing(
   error?: string;
   source: 'database' | 'static-fallback';
 }> {
-  const { data, error } = await basePublishedQuery(client).order('title', { ascending: true });
+  const suppressed = options?.suppressSlugs ?? new Set<string>();
+
+  let data: ProgramsRow[] | null = null;
+  let error: { message: string } | null = null;
+
+  try {
+    const result = await basePublishedQuery(client).order('title', { ascending: true });
+    data = (result.data ?? null) as ProgramsRow[] | null;
+    error = result.error;
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    logger.error('[loadPublishedProgramsListing] query threw', { message });
+    return {
+      programs: listingFromStaticCatalog(suppressed),
+      error: message,
+      source: 'static-fallback',
+    };
+  }
 
   if (error) {
     logger.error('[loadPublishedProgramsListing] query failed', { message: error.message });
   }
 
-  const suppressed = options?.suppressSlugs ?? new Set<string>();
   const dbPrograms = ((data ?? []) as ProgramsRow[])
     .filter((row) => row.slug && !suppressed.has(row.slug))
     .map(mapProgramsRowToListing);

@@ -29,7 +29,12 @@ export async function loadVerifiedProgramCount(): Promise<number> {
  * Stats safe to render in server HTML. Does not invent "500+" or "85%" when DB is empty.
  */
 export async function loadVerifiedPublicStats(): Promise<VerifiedPublicStats> {
-  const programCount = await loadVerifiedProgramCount();
+  let programCount = SITE_STATS.programsOffered;
+  try {
+    programCount = await loadVerifiedProgramCount();
+  } catch {
+    programCount = SITE_STATS.programsOffered;
+  }
 
   let publishedFromDb: number | null = null;
   try {

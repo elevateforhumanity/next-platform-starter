@@ -1,6 +1,7 @@
 // PUBLIC ROUTE: health check — no auth, no rate limiting (ECS calls this every 30s)
 import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { probeSupabaseDatabase } from '@/lib/supabase/db-probe';
 
 import { toErrorMessage } from '@/lib/safe';
 import { getAppVersion } from '@/lib/version/getAppVersion';
@@ -40,7 +41,7 @@ async function _GET(request: Request) {
     status: missingEnv.length === 0 ? 'pass' : 'fail',
   };
 
-  // Check 2: Database Connection
+  // Check 2: Database Connection (direct REST probe — not subject to circuit breaker)
   try {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
       checks.checks.database = {
@@ -49,22 +50,13 @@ async function _GET(request: Request) {
         error: 'Missing Supabase credentials',
       };
     } else {
-      const db = await requireAdminClient();
-      if (!db) {
-        checks.checks.database = {
-          connected: false,
-          status: 'warn',
-          error: 'Missing service role key',
-        };
-      } else {
-        const { error } = await db.from('programs').select('count').limit(1);
-        checks.checks.database = {
-          connected: !error,
-          status: error ? 'warn' : 'pass',
-          error: error ? (error.message ?? 'DB_ERROR') : null,
-          hint: error ? (error.hint ?? error.code ?? null) : null,
-        };
-      }
+      const probe = await probeSupabaseDatabase();
+      checks.checks.database = {
+        connected: probe.ok,
+        status: probe.ok ? 'pass' : 'warn',
+        error: probe.ok ? null : probe.error ?? 'DB_ERROR',
+        hint: null,
+      };
     }
   } catch (error) {
     checks.checks.database = { connected: false, status: 'warn', error: toErrorMessage(error) };
