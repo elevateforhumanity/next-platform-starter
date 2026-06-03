@@ -11,9 +11,9 @@ export default function FeaturedHostPartners() {
           Prestige, Kountry Kutz &amp; partner host shops
         </h2>
         <p className="text-slate-600 text-center mb-8 max-w-2xl mx-auto text-sm">
-          Including {PARTNER_BRAND_ALIASES.prestigeKountryKuts} and approved Indiana host
-          barbershops/salons. Additional partners such as {PARTNER_BRAND_ALIASES.corinneStyles}{' '}
-          and {PARTNER_BRAND_ALIASES.scissors} join as they complete host onboarding.
+          Including {PARTNER_BRAND_ALIASES.prestigeKountryKuts},{' '}
+          {PARTNER_BRAND_ALIASES.corinneStyles} in Sullivan, and other approved Indiana host
+          barbershops and salons.
         </p>
         <div className="grid sm:grid-cols-2 gap-4">
           {FEATURED_BEAUTY_HOST_PARTNERS.map((shop) => (

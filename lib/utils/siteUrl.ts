@@ -11,9 +11,10 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
  *   /elevate/NEXT_PUBLIC_COLLABORATION_WS_URL   wss://collab.elevateforhumanity.org
  */
 
-function requireUrl(name: string): string {
-  const val = (process.env[name] || '').trim();
-  if (!val) throw new Error(`Missing required environment variable: ${name}`);
+const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+
+function resolveUrl(name: string, fallback: string): string {
+  const val = (process.env[name] || '').trim() || fallback;
   return val.replace(/\/$/, '');
 }
 
@@ -26,12 +27,12 @@ export function getPublicSiteUrl(): string {
 
 /** LMS app base URL — canonical public site (www), not the admin subdomain */
 export function getSiteUrl(): string {
-  return requireUrl('NEXT_PUBLIC_SITE_URL');
+  return resolveUrl('NEXT_PUBLIC_SITE_URL', PLATFORM_DEFAULTS.siteUrl);
 }
 
-/** Admin app base URL — https://admin.${PLATFORM_DEFAULTS.canonicalDomain} */
+/** Admin app base URL — https://admin.elevateforhumanity.org */
 export function getAdminUrl(): string {
-  const url = requireUrl('NEXT_PUBLIC_ADMIN_URL');
+  const url = resolveUrl('NEXT_PUBLIC_ADMIN_URL', DEFAULT_ADMIN_URL);
   try {
     const parsed = new URL(url);
     if (parsed.hostname.toLowerCase().endsWith('.elb.amazonaws.com')) {
@@ -45,5 +46,8 @@ export function getAdminUrl(): string {
 
 /** WebSocket URL for Yjs collaboration */
 export function getCollaborationWsUrl(): string {
-  return requireUrl('NEXT_PUBLIC_COLLABORATION_WS_URL');
+  return resolveUrl(
+    'NEXT_PUBLIC_COLLABORATION_WS_URL',
+    'wss://collab.elevateforhumanity.org',
+  );
 }
