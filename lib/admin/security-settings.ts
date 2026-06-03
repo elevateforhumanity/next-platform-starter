@@ -42,8 +42,11 @@ async function fetchFromDb(): Promise<SecuritySettings> {
   try {
     // Dynamic import — avoids pulling Supabase into the middleware bundle
     // on cold start before the cache is warm.
-    const { createClient } = await import('@/lib/supabase/admin');
-    const db = createClient();
+    const { getAdminClient } = await import('@/lib/supabase/admin');
+    const db = await getAdminClient();
+    if (!db) {
+      throw new Error('Admin client unavailable');
+    }
     const { data: rows } = await db
       .from('platform_settings')
       .select('key, value')
@@ -108,7 +111,18 @@ export async function getSecuritySettings(): Promise<SecuritySettings> {
       return settings;
     }).catch((err) => {
       _inflight = null;
-      throw err;
+      logger.warn('[security-settings] fetch failed, using defaults', {
+        detail: err instanceof Error ? err.message : String(err),
+      });
+      const fallback: SecuritySettings = {
+        ...DEFAULT,
+        ipAllowlist: (process.env.ADMIN_IP_ALLOWLIST || '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
+      _cache = { settings: fallback, expiresAt: Date.now() + TTL_MS };
+      return fallback;
     });
   }
 

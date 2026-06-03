@@ -10,9 +10,17 @@
  * Keep-alive header reuses TCP connections across invocations within the
  * same warm container, reducing cold-start connection overhead.
  */
-import { breakers } from '@/lib/resilience';
+import { breakers, CircuitOpenError } from '@/lib/resilience';
 
 const SUPABASE_FETCH_TIMEOUT_MS = 8_000;
+
+/** Return a 503 Response instead of throwing when the breaker is open. */
+function circuitOpenResponse(err: CircuitOpenError): Response {
+  return new Response(
+    JSON.stringify({ code: 'CIRCUIT_OPEN', message: err.message }),
+    { status: 503, headers: { 'Content-Type': 'application/json' } },
+  );
+}
 
 export function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
   const controller = new AbortController();
@@ -42,5 +50,11 @@ export function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promis
         },
       }),
     )
+    .catch((err: unknown) => {
+      if (err instanceof CircuitOpenError) {
+        return circuitOpenResponse(err);
+      }
+      throw err;
+    })
     .finally(() => clearTimeout(timer));
 }

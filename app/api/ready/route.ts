@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: Kubernetes/ECS readiness probe — DB + critical env only (lighter than /api/health)
 import { NextResponse } from 'next/server';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { probeSupabaseDatabase } from '@/lib/supabase/db-probe';
 import { withRuntime } from '@/lib/api/withRuntime';
 
 export const runtime = 'nodejs';
@@ -16,15 +16,8 @@ async function _GET() {
 
   let databaseOk = false;
   if (missingEnv.length === 0) {
-    try {
-      const db = await requireAdminClient();
-      if (db) {
-        const { error } = await db.from('programs').select('id').limit(1);
-        databaseOk = !error;
-      }
-    } catch {
-      databaseOk = false;
-    }
+    const probe = await probeSupabaseDatabase();
+    databaseOk = probe.ok;
   }
 
   const ready = missingEnv.length === 0 && databaseOk;
