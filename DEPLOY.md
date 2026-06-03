@@ -75,6 +75,8 @@ RESEND_API_KEY=
 1. Set up Supabase project at [supabase.com](https://supabase.com)
 2. Run database migrations (see `/supabase/migrations`)
 3. Configure Stripe webhooks pointing to `/api/webhooks/stripe`
+   - Live signing secret must match SSM `/elevate/STRIPE_WEBHOOK_SECRET` on the LMS task
+   - Re-enable the endpoint in Stripe Dashboard after deploy; smoke `GET /api/webhooks/stripe`
 4. Add your branding in `/public` and update `next.config.js`
 
 ## Support

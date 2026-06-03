@@ -102,14 +102,15 @@ export default function NailTechnicianSignMouPage() {
     try {
       const canvas = canvasRef.current;
       const sigDataUrl = canvas?.toDataURL('image/png') ?? '';
-      const res = await fetch('/api/partners/cosmetology-host-shop/sign-mou', {
+      const res = await fetch('/api/partners/nail-technician-apprenticeship/sign-mou', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          program: 'nail-technician-apprenticeship',
-          signerName, signerTitle,
-          signatureDataUrl: sigDataUrl,
-          signedAt: new Date().toISOString(),
+          salon_name: signerName,
+          signer_name: signerName,
+          signer_title: signerTitle,
+          signature_data: sigDataUrl,
+          signed_at: new Date().toISOString(),
         }),
       });
       if (!res.ok) throw new Error('Submission failed');

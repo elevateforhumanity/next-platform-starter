@@ -98,12 +98,6 @@ body {
   display: none !important;
 }
 
-@media (min-width: 1280px) {
-  .header-mobile-menu {
-    display: none !important;
-  }
-}
-
 /* ============================================================================
    BASE STYLES - Reset, Typography, Layout
    ============================================================================ */
@@ -1716,6 +1710,37 @@ header[role='banner'] {
   filter: none !important;
   backdrop-filter: none !important;
   background-color: #ffffff !important;
+}
+
+/* Keep marketing header one horizontal row on desktop; vertical list only in mobile drawer */
+header[role='banner'] > div {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto !important;
+  align-items: center !important;
+  flex-direction: row !important;
+}
+
+header[role='banner'] nav[aria-label='Main navigation'] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+header[role='banner'] nav[aria-label='Main navigation'] > div {
+  flex-shrink: 0 !important;
+}
+
+header[role='banner'] a,
+header[role='banner'] button {
+  min-height: unset !important;
+  min-width: unset !important;
 }
 
 header[role='banner'] > div,

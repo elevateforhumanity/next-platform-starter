@@ -27,7 +27,7 @@ const HANDBOOK_SLIDES = [
     title: 'Your Apprenticeship',
     content: [
       'This is a U.S. Department of Labor Registered Apprenticeship — a nationally recognized credential.',
-      'You must complete 2,000 apprenticeship hours total: 1,500 on-the-job training (OJT) hours at your host barbershop and `You must complete 2,000 apprenticeship hours total: 1,500 on-the-job training (OJT) hours at your host barbershop and 500 related technical instruction (RTI) hours through the ${PRESTIGE_ELEVATION_BARBER_CURRICULUM} on Elevate LMS.`',
+      'You must complete 2,000 apprenticeship hours total: 1,500 on-the-job training (OJT) hours at your host barbershop and 500 related technical instruction (RTI) hours through the Prestige Elevation Barber curriculum on Elevate LMS.',
       'Upon completion you are eligible to sit for the Indiana Barber License exam.',
       'Your host shop supervisor signs off on your hours weekly. Hours not signed off do not count.',
     ],

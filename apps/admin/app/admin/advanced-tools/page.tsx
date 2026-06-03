@@ -103,10 +103,10 @@ const TOOL_SECTIONS = [
     iconBg: 'bg-emerald-700',
     description: 'Developer utilities, debugging, and studio tools.',
     tools: [
-      { label: 'Command Center', href: '/admin/dashboard', desc: 'Ellie AI, live site preview, and operations' },
+      { label: 'Operations Hub', href: '/admin/operations', desc: 'Cron jobs, workflows, dead letters, and admin alerts' },
+      { label: 'Dev Studio', href: '/admin/dev-studio', desc: 'Container, deploy, secrets, terminal, and live preview' },
       { label: 'Automation', href: '/admin/automation', desc: 'Workflow automation rules' },
       { label: 'Workflows', href: '/admin/workflows', desc: 'Automated workflow definitions' },
-      { label: 'Command Center', href: '/admin/dashboard', desc: 'AI Operations Assistant — platform data, compliance, enrollments' },
       { label: 'Studio', href: '/admin/studio', desc: 'Course Studio — builder, curriculum, video, and AI copilot' },
       { label: 'HVAC AI Instructor', href: '/admin/integrations/gemini', desc: 'Marcus Johnson — Gemini-powered HVAC lesson instructor' },
       { label: 'Sentry Test', href: '/api/sentry-test', desc: 'Dev only — trigger a test error to verify Sentry capture' },
@@ -191,6 +191,7 @@ export default async function AdvancedToolsPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             {[
+              { label: 'Operations', href: '/admin/operations' },
               { label: 'Settings', href: '/admin/settings' },
               { label: 'Users', href: '/admin/students' },
               { label: 'Licenses', href: '/admin/licenses' },

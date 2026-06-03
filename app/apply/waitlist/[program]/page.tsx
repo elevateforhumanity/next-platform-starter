@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+
+const OPEN_ENROLLMENT_REDIRECTS: Record<string, string> = {
+  'cdl-training': '/apply?program=cdl-training',
+  cdl: '/apply?program=cdl-training',
+};
 
 const WAITLIST_PROGRAMS: Record<
   string,
   { name: string; description: string; estimatedWait: string }
 > = {
-  'cdl-training': {
-    name: 'CDL Class A Training',
-    description: 'Earn your Class A CDL and launch a high-demand career in transportation and logistics.',
-    estimatedWait: '4–8 weeks',
-  },
   'barber-apprenticeship': {
     name: 'Barber Apprenticeship',
     description: 'Complete your Indiana DOL-registered barber apprenticeship and earn your license.',

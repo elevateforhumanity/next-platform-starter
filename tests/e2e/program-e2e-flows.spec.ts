@@ -208,7 +208,7 @@ test.describe('Barbershop Partner Shop — apply + onboarding', () => {
   });
 
   test('apply API rejects missing required fields', async ({ request }) => {
-    const res = await request.post(`${BASE}/api/partners/barbershop-apprenticeship/apply`, {
+    const res = await request.post(`${BASE}/api/partners/barber-host-shop/apply`, {
       data: { shopLegalName: 'Partial LLC' },
       failOnStatusCode: false,
     });
@@ -216,10 +216,11 @@ test.describe('Barbershop Partner Shop — apply + onboarding', () => {
   });
 
   test('apply API rejects unauthenticated request with full payload', async ({ request }) => {
-    const res = await request.post(`${BASE}/api/partners/barbershop-apprenticeship/apply`, {
+    const res = await request.post(`${BASE}/api/partners/barber-host-shop/apply`, {
       data: {
         shopLegalName: 'Test Shop LLC',
         ownerName: 'Jane Owner',
+        contactName: 'Jane Owner',
         contactEmail: 'test@example.com',
         contactPhone: '317-555-0001',
         shopAddressLine1: '100 Main St',
@@ -230,8 +231,10 @@ test.describe('Barbershop Partner Shop — apply + onboarding', () => {
         supervisorName: 'Bob Sup',
         supervisorLicenseNumber: 'BB-00001',
         supervisorYearsLicensed: '5',
-        employmentModel: 'hybrid',
-        hasWorkersComp: 'yes',
+        compensationModel: 'hybrid',
+        workersCompStatus: 'verified',
+        apprenticesOnPayroll: 'yes',
+        hasGeneralLiability: 'yes',
         canSuperviseAndVerify: 'yes',
         mouAcknowledged: true,
         consentAcknowledged: true,
@@ -307,8 +310,8 @@ test.describe('Cosmetology Apprenticeship Partnership — apply + onboarding', (
   });
 
   test('apply API rejects missing required fields', async ({ request }) => {
-    const res = await request.post(`${BASE}/api/partners/cosmetology-apprenticeship/apply`, {
-      data: { schoolName: 'Partial School' },
+    const res = await request.post(`${BASE}/api/partners/cosmetology-host-shop/apply`, {
+      data: { salonLegalName: 'Partial Salon' },
       failOnStatusCode: false,
     });
     expect([400, 401, 422]).toContain(res.status());

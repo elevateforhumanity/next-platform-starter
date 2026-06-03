@@ -111,6 +111,7 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
   const initialProgram = SLUG_TO_VALUE[programParam] || programParam || '';
   // Barber is a self-pay apprenticeship — simplify the form for this program
   const isBarberProgram = initialProgram === 'barber-apprenticeship';
+  const isCprProgram = initialProgram === 'cpr-first-aid';
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fundingTag, setFundingTag] = useState('');
@@ -232,7 +233,35 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
 
   if (submitted) {
     const isBarber = submittedProgram === 'barber-apprenticeship';
+    const isCpr = submittedProgram === 'cpr-first-aid';
     const isBarberSelfPay = isBarber && fundingTag === 'self-pay';
+    const isCprSelfPay = isCpr && (fundingTag === 'self-pay' || fundingTag === '');
+
+    // CPR self-pay: BNPL / card checkout
+    if (isCprSelfPay) {
+      return (
+        <div className="min-h-screen bg-white">
+          <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+            <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-2xl">✓</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received</h1>
+            <p className="text-lg text-slate-700 mb-2">
+              Complete your $130 CPR &amp; First Aid enrollment to reserve your training date.
+            </p>
+            <p className="text-sm text-slate-600 mb-8">
+              Pay in full or use Buy Now, Pay Later (Klarna, Afterpay, and more).
+            </p>
+            <Link
+              href="/programs/cpr-first-aid/payment/bnpl"
+              className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors text-base"
+            >
+              Continue to Checkout →
+            </Link>
+          </div>
+        </div>
+      );
+    }
 
     // Barber self-pay: send directly to payment cart
     if (isBarberSelfPay) {
@@ -272,7 +301,7 @@ function IntakeForm({ programs = [] }: { programs?: Program[] }) {
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received</h1>
           <p className="text-lg text-black mb-2">
-            Thank you for your interest in ${PLATFORM_DEFAULTS.orgName}.
+            Thank you for your interest in {PLATFORM_DEFAULTS.orgName}.
           </p>
           <p className="text-sm text-black mb-2">
             Check your email — we sent you a link to access your learner account and track your

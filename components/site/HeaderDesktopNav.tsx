@@ -23,9 +23,12 @@ interface HeaderDesktopNavProps {
 
 export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
   return (
-    <nav className="flex items-center gap-0.5 lg:gap-1 2xl:gap-2 min-w-0" aria-label="Main navigation">
+    <nav
+      className="flex flex-row flex-nowrap items-center justify-center gap-0.5 xl:gap-1 2xl:gap-1.5 w-full min-w-0 max-w-full"
+      aria-label="Main navigation"
+    >
       {items.map((item) => (
-        <div key={item.name} className="relative group">
+        <div key={item.name} className="relative group shrink-0">
           {item.subItems && item.subItems.length > 0 ? (
             item.href ? (
               <Link
@@ -100,9 +103,9 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
 
                   // Multi-column horizontal layout
                   return (
-                    <div className="flex gap-5">
+                    <div className="flex gap-6 divide-x divide-slate-100">
                       {columns.map((col, ci) => (
-                        <div key={ci} className="flex flex-col min-w-[160px]">
+                        <div key={ci} className={`flex flex-col min-w-[160px] ${ci > 0 ? 'pl-6' : ''}`}>
                           {col.map((sub) =>
                             sub.isHeader ? (
                               <p key={sub.name} className="text-xs font-extrabold text-brand-red-600 uppercase tracking-wide px-1 pb-2">

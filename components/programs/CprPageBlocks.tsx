@@ -113,12 +113,20 @@ function SplitBlock() {
                 </li>
               ))}
             </ul>
-            <Link
-              href="/apply?program=cpr-first-aid"
-              className="inline-block bg-slate-900 hover:bg-slate-700 text-white font-bold px-6 py-3 rounded-lg transition-colors text-sm"
-            >
-              Enroll — $130
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/apply?program=cpr-first-aid"
+                className="inline-block bg-slate-900 hover:bg-slate-700 text-white font-bold px-6 py-3 rounded-lg transition-colors text-sm"
+              >
+                Apply — $130
+              </Link>
+              <Link
+                href="/programs/cpr-first-aid/payment/bnpl"
+                className="inline-block border-2 border-slate-900 text-slate-900 hover:bg-slate-50 font-bold px-6 py-3 rounded-lg transition-colors text-sm"
+              >
+                Pay with BNPL
+              </Link>
+            </div>
           </div>
         </div>
       </div>

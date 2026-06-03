@@ -385,7 +385,7 @@ export const siteMapSections: SiteMapSection[] = [
       { label: "Success", href: "/programs/qma/apply/success" },
       { label: "Tax Preparation", href: "/programs/tax-preparation" },
       { label: "Technology", href: "/programs/technology" },
-      { label: "Waitlist", href: "/programs/cdl-training/waitlist" },
+      { label: "Apply — CDL", href: "/apply?program=cdl-training" },
       { label: "Welding", href: "/programs/welding" }
     ],
   },

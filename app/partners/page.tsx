@@ -65,10 +65,10 @@ const PARTNER_TYPES = [
       'Sign the Memorandum of Understanding (MOU)',
       'Receive your first apprentice placement',
     ],
-    cta: { label: 'See Details', href: '/partners/barbershop-apprenticeship' },
+    cta: { label: 'See Details', href: '/partners/barber-host-shop' },
     apply: {
       label: 'Apply to Host an Apprentice',
-      href: '/partners/barbershop-apprenticeship/apply',
+      href: '/partners/barber-host-shop/apply',
     },
     image: '/images/pages/barber-shop-interior.webp',
   },

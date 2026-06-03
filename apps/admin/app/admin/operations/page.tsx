@@ -1,101 +1,73 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
-  Activity,
   AlertTriangle,
+  ArrowRight,
+  BarChart3,
   CheckCircle,
   Clock,
-  XCircle,
-  RefreshCw,
   Inbox,
-  Zap,
-  BarChart3,
-  ArrowRight,
+  RefreshCw,
   RotateCcw,
+  XCircle,
+  Zap,
 } from 'lucide-react';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Operations | Admin' };
+export const metadata: Metadata = { title: 'Operations Hub | Admin' };
 
-function StatusDot({ status }: { status: 'ok' | 'warn' | 'fail' }) {
-  if (status === 'ok') return <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />;
-  if (status === 'warn') return <span className="inline-block w-2 h-2 rounded-full bg-amber-400" />;
-  return <span className="inline-block w-2 h-2 rounded-full bg-red-500" />;
+type QueryResult<T> = PromiseSettledResult<{ data?: T; count?: number | null; error?: { message?: string } | null }>;
+
+function getCount(r: QueryResult<unknown>): number {
+  if (r.status !== 'fulfilled') return 0;
+  return r.value.count ?? 0;
 }
 
-type SupabaseListResult = { data?: unknown[] | null; error?: { message?: string } | null };
-type SupabaseCountResult = { count?: number | null; error?: { message?: string } | null };
+function getRows<T>(r: QueryResult<T[]>, fallback: T[] = []): T[] {
+  if (r.status !== 'fulfilled') return fallback;
+  return (r.value.data as T[] | null) ?? fallback;
+}
+
+function queryFailed(r: QueryResult<unknown>): boolean {
+  if (r.status === 'rejected') return true;
+  return Boolean(r.value.error);
+}
+
+function StatusDot({ status }: { status: 'ok' | 'warn' | 'fail' }) {
+  const cls =
+    status === 'ok' ? 'bg-emerald-500' : status === 'warn' ? 'bg-amber-400' : 'bg-rose-500';
+  return <span className={`inline-block h-2 w-2 shrink-0 rounded-full ${cls}`} aria-hidden />;
+}
+
+function healthFromCounts(failed: number, warnAt: number, failAt: number): 'ok' | 'warn' | 'fail' {
+  if (failed === 0) return 'ok';
+  if (failed <= warnAt) return 'warn';
+  if (failed >= failAt) return 'fail';
+  return failed <= warnAt ? 'warn' : 'fail';
+}
 
 export default async function OperationsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
-
-  if (!db) {
-    return (
-      <div className="min-h-screen bg-slate-950 p-6">
-        <div className="max-w-2xl mx-auto mt-16 rounded-xl border border-amber-500/40 bg-slate-900 p-8">
-          <h1 className="text-xl font-bold text-white mb-2">Operations temporarily unavailable</h1>
-          <p className="text-slate-400 text-sm mb-6">
-            The admin service could not connect to the database (service role not loaded). Other admin
-            navigation should still work. Try refreshing in a minute or contact platform support if this
-            persists.
-          </p>
-          <Link
-            href="/admin/dashboard"
-            className="inline-flex items-center gap-2 text-sm text-brand-blue-400 hover:text-brand-blue-300"
-          >
-            <ArrowRight className="w-4 h-4" /> Back to dashboard
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const db = await requireAdminClient();
 
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const since1h = new Date(Date.now() - 60 * 60 * 1000).toISOString();
 
-  const [
-    cronTotal,
-    cronFailed,
-    cronRecent,
-    workflowRuns,
-    workflowFailed,
-    deadLetters,
-    deadLettersRecent,
-    stepLogs,
-    openAlerts,
-    criticalAlerts,
-    recentCronRuns,
-    recentDeadLetters,
-    recentAlerts,
-  ] = await Promise.allSettled([
+  const results = await Promise.allSettled([
     db.from('cron_job_runs').select('id', { count: 'exact', head: true }).gte('started_at', since24h),
-    db
-      .from('cron_job_runs')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'failed')
-      .gte('started_at', since24h),
+    db.from('cron_job_runs').select('id', { count: 'exact', head: true }).eq('status', 'failed').gte('started_at', since24h),
     db.from('cron_job_runs').select('id', { count: 'exact', head: true }).gte('started_at', since1h),
     db.from('workflow_runs').select('id', { count: 'exact', head: true }).gte('created_at', since24h),
-    db
-      .from('workflow_runs')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'failed')
-      .gte('created_at', since24h),
+    db.from('workflow_runs').select('id', { count: 'exact', head: true }).eq('status', 'failed').gte('created_at', since24h),
     db.from('workflow_dead_letters').select('id', { count: 'exact', head: true }),
-    db
-      .from('workflow_dead_letters')
-      .select('id', { count: 'exact', head: true })
-      .gte('created_at', since24h),
+    db.from('workflow_dead_letters').select('id', { count: 'exact', head: true }).gte('created_at', since24h),
     db.from('workflow_step_logs').select('id', { count: 'exact', head: true }).gte('created_at', since24h),
+    db.from('workflows').select('id', { count: 'exact', head: true }).eq('is_active', true),
     db.from('admin_alerts').select('id', { count: 'exact', head: true }).eq('resolved', false),
-    db
-      .from('admin_alerts')
-      .select('id', { count: 'exact', head: true })
-      .eq('resolved', false)
-      .in('severity', ['critical', 'high']),
+    db.from('admin_alerts').select('id', { count: 'exact', head: true }).eq('resolved', false).in('severity', ['critical', 'high']),
     db
       .from('cron_job_runs')
       .select('id, job_name, status, started_at, duration_ms, error')
@@ -114,10 +86,22 @@ export default async function OperationsPage() {
       .limit(10),
   ]);
 
-  const getList = (r: PromiseSettledResult<SupabaseListResult>) =>
-    r.status === 'fulfilled' && !r.value.error ? (r.value.data ?? []) : [];
-  const getCount = (r: PromiseSettledResult<SupabaseCountResult>) =>
-    r.status === 'fulfilled' && !r.value.error ? (r.value.count ?? 0) : 0;
+  const [
+    cronTotal,
+    cronFailed,
+    cronRecent,
+    workflowRuns,
+    workflowFailed,
+    deadLetters,
+    deadLettersRecent,
+    stepLogs,
+    activeWorkflows,
+    openAlerts,
+    criticalAlerts,
+    recentCronRuns,
+    recentDeadLetters,
+    recentAlerts,
+  ] = results;
 
   const cronTotalCount = getCount(cronTotal);
   const cronFailedCount = getCount(cronFailed);
@@ -127,223 +111,251 @@ export default async function OperationsPage() {
   const dlTotalCount = getCount(deadLetters);
   const dlRecentCount = getCount(deadLettersRecent);
   const stepLogsCount = getCount(stepLogs);
+  const activeWorkflowCount = getCount(activeWorkflows);
   const openAlertsCount = getCount(openAlerts);
   const criticalCount = getCount(criticalAlerts);
 
-  const cronRows = getList(recentCronRuns) as Array<Record<string, unknown>>;
-  const dlRows = getList(recentDeadLetters) as Array<Record<string, unknown>>;
-  const alertRows = getList(recentAlerts) as Array<Record<string, unknown>>;
+  const cronRows = getRows(recentCronRuns);
+  const dlRows = getRows(recentDeadLetters);
+  const alertRows = getRows(recentAlerts);
 
-  const cronHealth = cronFailedCount === 0 ? 'ok' : cronFailedCount <= 2 ? 'warn' : 'fail';
-  const wfHealth = wfFailedCount === 0 ? 'ok' : wfFailedCount <= 3 ? 'warn' : 'fail';
+  const cronHealth = healthFromCounts(cronFailedCount, 2, 3);
+  const wfHealth = healthFromCounts(wfFailedCount, 3, 4);
   const dlHealth = dlRecentCount === 0 ? 'ok' : dlRecentCount <= 2 ? 'warn' : 'fail';
   const alertHealth = criticalCount === 0 ? 'ok' : criticalCount <= 3 ? 'warn' : 'fail';
 
+  const unavailable: string[] = [];
+  if (queryFailed(cronTotal)) unavailable.push('Cron jobs');
+  if (queryFailed(workflowRuns)) unavailable.push('Workflow runs');
+  if (queryFailed(deadLetters)) unavailable.push('Dead letters');
+  if (queryFailed(openAlerts)) unavailable.push('Admin alerts');
+
   const SEVERITY_STYLES: Record<string, string> = {
-    critical: 'bg-red-100 text-red-800',
+    critical: 'bg-rose-100 text-rose-800',
     high: 'bg-orange-100 text-orange-800',
     medium: 'bg-amber-100 text-amber-800',
     warning: 'bg-yellow-100 text-yellow-800',
     low: 'bg-slate-100 text-slate-600',
   };
 
-  const cronTableMissing =
-    recentCronRuns.status === 'fulfilled' &&
-    recentCronRuns.value.error?.message?.includes('cron_job_runs');
+  const quickLinks = [
+    { label: 'Mission Control', href: '/admin/mission-control' },
+    { label: 'System Health', href: '/admin/system-health' },
+    { label: 'Workflows', href: '/admin/workflows' },
+    { label: 'Automation log', href: '/admin/automation' },
+    { label: 'Monitoring', href: '/admin/monitoring' },
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 space-y-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-slate-50">
+      <div className="border-b border-slate-200 bg-white px-6 py-5">
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin/dashboard' },
+            { label: 'Operations Hub' },
+          ]}
+        />
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Activity className="w-6 h-6 text-brand-blue-400" />
-              Operations
-            </h1>
-            <p className="text-slate-400 text-sm mt-1">
-              Cron health · Workflow engine · Dead letters · Active alerts
+            <h1 className="text-2xl font-bold text-slate-900">Operations Hub</h1>
+            <p className="mt-1 text-sm text-slate-600">
+              Live cron, workflow engine, dead letters, and unresolved admin alerts from Supabase.
             </p>
           </div>
-          <Link
-            href="/admin/system-health"
-            className="text-sm text-brand-blue-400 hover:text-brand-blue-300 flex items-center gap-1"
-          >
-            System Health <ArrowRight className="w-3 h-3" />
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            {quickLinks.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-brand-blue-300 hover:text-brand-blue-700"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
         </div>
+      </div>
 
-        {cronTableMissing && (
-          <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-950/30 px-5 py-4 text-sm text-amber-100">
-            Workflow operations tables are not fully provisioned in this environment. Apply migration{' '}
-            <code className="font-mono text-amber-200">20260705000001</code> in Supabase to enable cron
-            run history. Counts below may show zero until then.
+      <div className="mx-auto max-w-6xl space-y-6 px-6 py-6">
+        {unavailable.length > 0 && (
+          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+            <p>
+              Could not load: {unavailable.join(', ')}. Confirm migrations for{' '}
+              <code className="rounded bg-amber-100 px-1 text-xs">cron_job_runs</code>, workflows, and{' '}
+              <code className="rounded bg-amber-100 px-1 text-xs">admin_alerts</code> are applied in Supabase.
+            </p>
           </div>
         )}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
             {
-              label: 'Cron Jobs (24h)',
+              label: 'Cron (24h)',
               status: cronHealth,
               value: `${cronTotalCount} runs · ${cronFailedCount} failed`,
             },
             {
-              label: 'Workflow Engine',
+              label: 'Workflows (24h)',
               status: wfHealth,
               value: `${wfRunsCount} runs · ${wfFailedCount} failed`,
             },
             {
-              label: 'Dead Letters',
+              label: 'Dead letters',
               status: dlHealth,
-              value: `${dlTotalCount} total · ${dlRecentCount} new`,
+              value: `${dlTotalCount} total · ${dlRecentCount} new (24h)`,
             },
             {
-              label: 'Active Alerts',
+              label: 'Alerts',
               status: alertHealth,
-              value: `${openAlertsCount} open · ${criticalCount} critical`,
+              value: `${openAlertsCount} open · ${criticalCount} critical/high`,
             },
           ].map((s) => (
-            <div key={s.label} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div key={s.label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="mb-2 flex items-center gap-2">
                 <StatusDot status={s.status} />
-                <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">
-                  {s.label}
-                </span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">{s.label}</span>
               </div>
-              <p className="text-white text-sm font-semibold">{s.value}</p>
+              <p className="text-sm font-semibold text-slate-900">{s.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
-            <Clock className="w-4 h-4 text-slate-400" />
-            <h2 className="text-sm font-semibold text-white">Recent Cron Runs</h2>
-            <span className="ml-auto text-xs text-slate-500">{cronRecentCount} in last hour</span>
-          </div>
-          {cronRows.length === 0 ? (
-            <p className="px-5 py-6 text-slate-500 text-sm">
-              No cron runs recorded yet. Apply migration 20260705000001 to enable.
-            </p>
-          ) : (
-            <div className="divide-y divide-slate-800">
-              {cronRows.map((r) => (
-                <div key={String(r.id)} className="px-5 py-3 flex items-center gap-3 text-sm">
-                  {r.status === 'success' ? (
-                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-                  ) : r.status === 'failed' ? (
-                    <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                  ) : (
-                    <RefreshCw className="w-4 h-4 text-amber-400 shrink-0 animate-spin" />
-                  )}
-                  <span className="text-white font-mono">{String(r.job_name ?? '')}</span>
-                  <span className="text-slate-500 ml-auto">
-                    {r.duration_ms != null ? `${r.duration_ms}ms` : '—'}
-                  </span>
-                  <span className="text-slate-600 text-xs">
-                    {r.started_at ? new Date(String(r.started_at)).toLocaleTimeString() : '—'}
-                  </span>
-                  {r.error ? (
-                    <span className="text-red-400 text-xs truncate max-w-xs">{String(r.error)}</span>
-                  ) : null}
-                </div>
-              ))}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {[
+            { label: 'Active workflow definitions', value: activeWorkflowCount, icon: Zap },
+            { label: 'Step logs (24h)', value: stepLogsCount, icon: BarChart3 },
+            { label: 'Cron runs (1h)', value: cronRecentCount, icon: Clock },
+          ].map(({ label, value, icon: Icon }) => (
+            <div key={label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Icon className="mb-3 h-5 w-5 text-slate-400" />
+              <p className="text-2xl font-bold text-slate-900">{value.toLocaleString()}</p>
+              <p className="mt-1 text-xs text-slate-500">{label}</p>
             </div>
-          )}
+          ))}
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
-            <Inbox className="w-4 h-4 text-slate-400" />
-            <h2 className="text-sm font-semibold text-white">Workflow Dead Letters</h2>
-            <span className="ml-auto text-xs text-slate-500">{dlTotalCount} total</span>
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4">
+            <Clock className="h-4 w-4 text-slate-500" />
+            <h2 className="text-sm font-semibold text-slate-900">Recent cron runs</h2>
+            <span className="ml-auto text-xs text-slate-500">{cronRecentCount} in the last hour</span>
           </div>
-          {dlRows.length === 0 ? (
-            <p className="px-5 py-6 text-slate-500 text-sm">
-              {dlTotalCount === 0
-                ? 'No dead letters — all workflow steps completing successfully.'
-                : 'No recent dead letters.'}
+          {cronRows.length === 0 ? (
+            <p className="px-5 py-6 text-sm text-slate-500">
+              No cron runs in the log yet. After migration <code className="text-xs">20260705000001</code>, scheduled
+              jobs will appear here.
             </p>
           ) : (
-            <div className="divide-y divide-slate-800">
+            <ul className="divide-y divide-slate-100">
+              {cronRows.map((r) => (
+                <li key={r.id} className="flex flex-wrap items-center gap-3 px-5 py-3 text-sm">
+                  {r.status === 'success' ? (
+                    <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
+                  ) : r.status === 'failed' ? (
+                    <XCircle className="h-4 w-4 shrink-0 text-rose-600" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4 shrink-0 animate-spin text-amber-500" />
+                  )}
+                  <span className="font-mono text-slate-900">{r.job_name}</span>
+                  <span className="ml-auto text-slate-500">
+                    {r.duration_ms != null ? `${r.duration_ms}ms` : '—'}
+                  </span>
+                  <span className="text-xs text-slate-400">
+                    {new Date(r.started_at).toLocaleString()}
+                  </span>
+                  {r.error ? (
+                    <span className="w-full truncate text-xs text-rose-600">{r.error}</span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4">
+            <Inbox className="h-4 w-4 text-slate-500" />
+            <h2 className="text-sm font-semibold text-slate-900">Workflow dead letters</h2>
+            <span className="ml-auto text-xs text-slate-500">{dlTotalCount} total</span>
+            <Link
+              href="/admin/workflows"
+              className="ml-2 flex items-center gap-1 text-xs font-semibold text-brand-blue-600 hover:underline"
+            >
+              Workflows <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+          {dlRows.length === 0 ? (
+            <p className="px-5 py-6 text-sm text-slate-500">
+              {dlTotalCount === 0
+                ? 'No dead letters — workflow steps are completing successfully.'
+                : 'No dead letters in the recent window.'}
+            </p>
+          ) : (
+            <ul className="divide-y divide-slate-100">
               {dlRows.map((r) => (
-                <div key={String(r.id)} className="px-5 py-3 text-sm">
-                  <div className="flex items-center gap-3">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span className="text-white font-mono">{String(r.action_type ?? 'unknown')}</span>
-                    <span className="text-slate-500 text-xs ml-auto">{String(r.attempts ?? 0)} attempts</span>
-                    <span className="text-slate-600 text-xs">
-                      {r.created_at ? new Date(String(r.created_at)).toLocaleDateString() : '—'}
+                <li key={r.id} className="px-5 py-3 text-sm">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" />
+                    <span className="font-mono text-slate-900">{r.action_type ?? 'unknown'}</span>
+                    <span className="text-xs text-slate-500">{r.attempts} attempts</span>
+                    <span className="text-xs text-slate-400">
+                      {new Date(r.created_at).toLocaleString()}
                     </span>
                     {r.workflow_id ? (
                       <Link
                         href={`/admin/workflows/${r.workflow_id}`}
-                        className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition-colors"
-                        title="Replay via workflow page"
+                        className="ml-auto flex items-center gap-1 text-xs font-semibold text-amber-700 hover:underline"
                       >
-                        <RotateCcw className="w-3 h-3" /> Replay
+                        <RotateCcw className="h-3 w-3" /> Open workflow
                       </Link>
                     ) : null}
                   </div>
                   {r.last_error ? (
-                    <p className="mt-1 ml-7 text-red-400 text-xs truncate">{String(r.last_error)}</p>
+                    <p className="mt-1 truncate pl-7 text-xs text-rose-600">{r.last_error}</p>
                   ) : null}
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
-        </div>
+        </section>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {[
-            { label: 'Workflow Runs (24h)', value: wfRunsCount, icon: Zap },
-            { label: 'Step Logs (24h)', value: stepLogsCount, icon: BarChart3 },
-            { label: 'Failed Runs (24h)', value: wfFailedCount, icon: XCircle },
-          ].map((s) => (
-            <div key={s.label} className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-              <s.icon className="w-5 h-5 text-slate-500 mb-3" />
-              <p className="text-2xl font-bold text-white">{s.value}</p>
-              <p className="text-xs text-slate-400 mt-1">{s.label}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-slate-400" />
-            <h2 className="text-sm font-semibold text-white">Active Alerts</h2>
-            <span className="ml-auto text-xs text-slate-500">{openAlertsCount} unresolved</span>
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4">
+            <AlertTriangle className="h-4 w-4 text-slate-500" />
+            <h2 className="text-sm font-semibold text-slate-900">Unresolved admin alerts</h2>
+            <span className="ml-auto text-xs text-slate-500">{openAlertsCount} open</span>
             <Link
               href="/admin/monitoring"
-              className="text-xs text-brand-blue-400 hover:text-brand-blue-300 ml-2"
+              className="ml-2 text-xs font-semibold text-brand-blue-600 hover:underline"
             >
-              View all →
+              Monitoring →
             </Link>
           </div>
           {alertRows.length === 0 ? (
-            <p className="px-5 py-6 text-slate-500 text-sm flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-400" /> No active alerts.
+            <p className="flex items-center gap-2 px-5 py-6 text-sm text-slate-500">
+              <CheckCircle className="h-4 w-4 text-emerald-600" /> No unresolved alerts.
             </p>
           ) : (
-            <div className="divide-y divide-slate-800">
+            <ul className="divide-y divide-slate-100">
               {alertRows.map((a) => (
-                <div key={String(a.id)} className="px-5 py-3 flex items-start gap-3 text-sm">
+                <li key={a.id} className="flex items-start gap-3 px-5 py-3 text-sm">
                   <span
-                    className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 mt-0.5 ${
-                      SEVERITY_STYLES[String(a.severity ?? '')] ?? 'bg-slate-100 text-slate-600'
+                    className={`mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      SEVERITY_STYLES[a.severity] ?? 'bg-slate-100 text-slate-600'
                     }`}
                   >
-                    {String(a.severity ?? 'unknown')}
+                    {a.severity}
                   </span>
-                  <span className="text-slate-300 flex-1">{String(a.message ?? '')}</span>
-                  <span className="text-slate-600 text-xs shrink-0">
-                    {a.created_at ? new Date(String(a.created_at)).toLocaleDateString() : '—'}
+                  <span className="flex-1 text-slate-700">{a.message}</span>
+                  <span className="shrink-0 text-xs text-slate-400">
+                    {new Date(a.created_at).toLocaleString()}
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );

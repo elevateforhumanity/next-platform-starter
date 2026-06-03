@@ -25,9 +25,13 @@ export interface NavSection {
 export const DEFAULT_NAV: NavSection[] = [
   {
     label: 'Operations',
-    href: '/admin/dashboard',
+    href: '/admin/operations',
     items: [
+      { label: 'Operations Hub', href: '/admin/operations' },
       { label: 'Dashboard', href: '/admin/dashboard' },
+      { label: 'Mission Control', href: '/admin/mission-control' },
+      { label: 'System Health', href: '/admin/system-health' },
+      { label: 'Monitoring', href: '/admin/monitoring' },
       { label: 'At-Risk Learners', href: '/admin/at-risk' },
       { label: 'Analytics', href: '/admin/analytics' },
       { label: 'Analytics — Engagement', href: '/admin/analytics/engagement' },
@@ -49,11 +53,16 @@ export const DEFAULT_NAV: NavSection[] = [
     items: [
       { label: 'Risk Dashboard', href: '/admin/intelligence' },
       { label: 'Completion Forecast', href: '/admin/intelligence/forecast' },
-      { label: 'Lizzy', href: '/admin/dashboard' },
-      { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'System Health', href: '/admin/system-health' },
       { label: 'Snapshots', href: '/admin/snapshots' },
+    ],
+  },
+  {
+    label: 'Automation',
+    href: '/admin/workflows',
+    items: [
+      { label: 'Workflows', href: '/admin/workflows' },
+      { label: 'Automation Log', href: '/admin/automation' },
+      { label: 'Dev Studio', href: '/admin/dev-studio' },
     ],
   },
   {
@@ -231,6 +240,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'System Jobs', href: '/admin/system/jobs' },
       { label: 'System Webhooks', href: '/admin/system/webhooks' },
       { label: 'Files', href: '/admin/files' },
+      { label: 'Dev Studio', href: '/admin/dev-studio' },
       { label: 'Navigation Settings', href: '/admin/settings/nav' },
       { label: 'Impersonate', href: '/admin/impersonate' },
     ],

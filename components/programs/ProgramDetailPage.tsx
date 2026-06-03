@@ -1,5 +1,4 @@
 'use client';
-import { logger } from '@/lib/logger';
 
 /**
  * ProgramDetailPage — Institutional Program Detail Template v1
@@ -63,8 +62,8 @@ export default function ProgramDetailPage({
   if (process.env.NODE_ENV === 'development') {
     const errors = validateProgram(p);
     if (errors.length > 0) {
-      logger.warn(`[ProgramDetailPage] Validation errors for "${p.slug}":`);
-      errors.forEach((e) => logger.warn(`  ${e.field}: ${e.message}`));
+      console.warn(`[ProgramDetailPage] Validation errors for "${p.slug}":`);
+      errors.forEach((e) => console.warn(`  ${e.field}: ${e.message}`));
     }
   }
 
@@ -239,10 +238,10 @@ export default function ProgramDetailPage({
                 {p.deliveredBy && (
                   <p className="mt-4 text-xs text-slate-500">
                     {p.deliveredBy === 'Elevate'
-                      ? `Delivered directly by ${PLATFORM_DEFAULTS.orgName}.`
+                      ? 'Delivered directly by ${PLATFORM_DEFAULTS.orgName}.'
                       : p.deliveredBy === 'Partner'
                         ? 'Delivered by an approved training partner.'
-                        : `Delivered by ${PLATFORM_DEFAULTS.orgName} or an approved training partner.`}
+                        : 'Delivered by ${PLATFORM_DEFAULTS.orgName} or an approved training partner.'}
                   </p>
                 )}
               </div>
@@ -310,6 +309,12 @@ export default function ProgramDetailPage({
           </div>
         </div>
       </section>
+
+      {announcement ? (
+        <section className="border-b border-slate-100 bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">{announcement}</div>
+        </section>
+      ) : null}
 
       {/* CREDIBILITY STRIP */}
       <section className="py-8 border-y border-slate-100">

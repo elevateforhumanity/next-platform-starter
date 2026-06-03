@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Users, Clock, AlertTriangle, GraduationCap,
   BookOpen, Megaphone, Bell, FileText, Shield, Book, LifeBuoy,
   HelpCircle, ClipboardCheck, BarChart3, Settings, Menu, X,
-  LogOut, CheckCircle, CalendarDays, Briefcase,
+  LogOut, CheckCircle, CalendarDays, Briefcase, CreditCard,
 } from 'lucide-react';
 
 interface NavItem {
