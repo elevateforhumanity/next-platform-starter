@@ -30,14 +30,23 @@ export function isPlaceholderSupabaseConfig(
   return false;
 }
 
-/** Read from process.env (build-time inline and/or Node runtime on ECS). */
-export function getServerPublicSupabaseConfig(): SupabasePublicConfig | null {
+/**
+ * Server-side env resolution. Prefer SUPABASE_* (runtime injection) over NEXT_PUBLIC_*
+ * because Next inlines NEXT_PUBLIC_* at build time (Docker build-placeholder leaks otherwise).
+ */
+export function resolveServerSupabaseRawEnv(): { url?: string; anonKey?: string } {
   const url = normalizeSupabaseProjectUrl(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
+    process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
   );
   const anonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
-    process.env.SUPABASE_ANON_KEY?.trim();
+    process.env.SUPABASE_ANON_KEY?.trim() ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  return { url, anonKey };
+}
+
+/** Read from process.env (runtime ECS/Northflank + optional build-time NEXT_PUBLIC_*). */
+export function getServerPublicSupabaseConfig(): SupabasePublicConfig | null {
+  const { url, anonKey } = resolveServerSupabaseRawEnv();
   if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
   return { url: url!, anonKey: anonKey! };
 }
