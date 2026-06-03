@@ -57,7 +57,9 @@ export const hero = {
    * No gradient overlay. No text on top of image.
    * Content goes in a white panel BELOW the image.
    */
-  imageWrap: 'relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden',
+  imageWrap: 'relative h-[38vh] min-h-[220px] max-h-[420px] w-full overflow-hidden',
+  /** Responsive sizes for next/image fill heroes — caps decoded width for LCP */
+  imageSizes: '(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px',
   /** Content panel that sits below the hero image — white background */
   contentPanel: 'bg-white border-b border-slate-100',
 } as const;

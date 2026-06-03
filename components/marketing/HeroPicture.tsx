@@ -92,9 +92,11 @@ export default function HeroPicture({
           src={imageSrc}
           alt={alt}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+          sizes={heroTokens.imageSizes}
+          quality={75}
           className="object-cover object-center"
-          priority={priority} placeholder="empty"
+          priority={priority}
+          placeholder="empty"
         />
 
         {/* ON-IMAGE ELEMENTS (only these two are allowed) */}

@@ -25,21 +25,8 @@ const { videoRef } = useHeroVideo();
 
 - No `muted` attribute on the `<video>` element — the hook sets it programmatically
 - No `autoPlay` attribute — the hook calls `.play()` directly
-- Always include `loop playsInline preload="auto"`
-- Always include a `poster` image for the loading state
-
-```tsx
-<video
-  ref={videoRef}
-  loop
-  playsInline
-  preload="auto"
-  poster={posterSrc}
-  className="absolute inset-0 w-full h-full object-cover"
->
-  <source src={videoSrc} type="video/mp4" />
-</video>
-```
+- Marketing heroes use `HeroVideo` + `CanonicalVideo` (not raw `<video>` tags)
+- **No poster images** on banner-driven heroes — `hero-banners.json` stores video URLs only; frame uses `bg-slate-900` until the video plays
 
 ## Hero Container Rules
 

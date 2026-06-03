@@ -153,7 +153,7 @@ export default function HeroSlideshow() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
   return (
-    <section className="relative h-[700px] overflow-hidden">
+    <section className="relative h-[38vh] min-h-[220px] max-h-[420px] w-full overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={index}

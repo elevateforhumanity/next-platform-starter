@@ -70,7 +70,7 @@ export default async function VerifyCertificatePage({
     return (
       <div className="min-h-screen bg-slate-50">
         {/* Hero Section */}
-        <section className="relative h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center text-white overflow-hidden">
+        <section className="relative h-[38vh] min-h-[220px] max-h-[420px] w-full flex items-center justify-center text-white overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image
             src="/images/artlist/hero-training-3.webp"

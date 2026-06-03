@@ -13,6 +13,9 @@ import { getProgramOgImageUrl } from '@/lib/programs/og-images';
 import heroBanners from '@/content/heroBanners';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
+import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
+import { getProgramOgImage } from '@/lib/programs/og-images';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -183,41 +186,53 @@ function ProgramPage({
   slug: string;
   sections?: Array<{ heading: string; body: string }>;
   banner?: import('@/content/heroBanners').HeroBannerConfig | null;
+  imageUrl?: string | null;
 }) {
+  const heroPosterSrc = resolveHeroPosterSrc(slug, {
+    banner,
+    dbImageUrl: imageUrl,
+    heroImage: getProgramOgImage(slug),
+  });
   const learnItems = sections?.find(
     (s) => s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module'),
   );
 
   return (
     <main className="bg-white">
-      {/* HERO — video or image banner if available */}
-      {banner?.pageKey && (
-        banner.videoSrcDesktop ? (
-          <HeroVideo
-            videoSrcDesktop={banner.videoSrcDesktop}
-            posterImage={banner.posterImage}
-            voiceoverSrc={banner.voiceoverSrc}
-            microLabel={banner.microLabel}
-            analyticsName={banner.analyticsName}
-            belowHeroHeadline={banner.belowHeroHeadline}
-            belowHeroSubheadline={banner.belowHeroSubheadline}
-            ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]}
-            trustIndicators={banner.trustIndicators}
-            transcript={banner.transcript}
-          />
-        ) : (
-          <HeroPicture
-            src={banner.posterImage ?? ''}
-            alt={banner.microLabel ?? title}
-            microLabel={banner.microLabel}
-            analyticsName={banner.analyticsName}
-            belowHeroHeadline={banner.belowHeroHeadline}
-            belowHeroSubheadline={banner.belowHeroSubheadline}
-            ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]}
-            trustIndicators={banner.trustIndicators}
-            transcript={banner.transcript}
-          />
-        )
+      {/* HERO — always show media; banner copy when present */}
+      {banner?.pageKey ? (
+        <HeroVideo
+          videoSrcDesktop={banner.videoSrcDesktop ?? DEFAULT_HERO_VIDEO}
+          videoSrcMobile={banner.videoSrcMobile}
+          voiceoverSrc={banner.voiceoverSrc}
+          microLabel={banner.microLabel}
+          analyticsName={banner.analyticsName}
+          belowHeroHeadline={banner.belowHeroHeadline}
+          belowHeroSubheadline={banner.belowHeroSubheadline}
+          ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]}
+          trustIndicators={banner.trustIndicators}
+          transcript={banner.transcript}
+        />
+      ) : (
+        <HeroPicture
+          src={heroPosterSrc}
+          alt={banner?.microLabel ?? title}
+          heightStyle={heroTokens.imageWrap}
+          microLabel={banner?.microLabel}
+          analyticsName={banner?.analyticsName ?? slug}
+          belowHeroHeadline={banner?.belowHeroHeadline ?? title}
+          belowHeroSubheadline={banner?.belowHeroSubheadline ?? summary || description}
+          ctas={
+            banner?.pageKey
+              ? [banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])]
+              : [
+                  { label: 'Apply Now', href: getApplyHref(slug), variant: 'primary' as const },
+                  { label: 'Check Eligibility', href: '/check-eligibility', variant: 'secondary' as const },
+                ]
+          }
+          trustIndicators={banner?.trustIndicators}
+          transcript={banner?.transcript}
+        />
       )}
 
       {/* SECTION 1: OUTCOME FIRST */}
@@ -557,6 +572,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
           slug={cfProgram.slug}
           sections={cfProgram.sections}
           banner={heroBanners[cfProgram.slug] ?? null}
+          imageUrl={getProgramOgImage(cfProgram.slug)}
         />
         <OnetLaborData slug={cfProgram.slug} />
       </>
@@ -583,6 +599,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             durationWeeks={p.duration_weeks}
             slug={p.slug}
             banner={heroBanners[p.slug] ?? heroBanners[p.slug.replace(/-apprenticeship$/, '')] ?? null}
+            imageUrl={p.image_url}
             sections={
               p.description && p.description !== p.short_description
                 ? [{ heading: 'About This Program', body: p.description }]

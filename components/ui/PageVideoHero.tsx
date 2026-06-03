@@ -6,11 +6,13 @@ import CanonicalVideo from '@/components/video/CanonicalVideo';
 
 export type HeroSize = 'primary' | 'program' | 'marketing' | 'support';
 
+import { hero as heroTokens } from '@/lib/page-design-tokens';
+
 const SIZE: Record<HeroSize, string> = {
-  primary: 'h-[75vh] min-h-[480px] max-h-[860px]',
-  program: 'h-[65vh] min-h-[420px] max-h-[720px]',
-  marketing: 'h-[60vh] min-h-[380px] max-h-[640px]',
-  support: 'h-[50vh] min-h-[300px] max-h-[520px]',
+  primary: heroTokens.imageWrap,
+  program: heroTokens.imageWrap,
+  marketing: heroTokens.imageWrap,
+  support: 'relative h-[32vh] min-h-[200px] max-h-[360px] w-full overflow-hidden',
 };
 
 interface PageVideoHeroProps {

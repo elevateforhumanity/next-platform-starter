@@ -8,7 +8,7 @@
  *   - Always muted        — browsers require muted for autoplay
  *   - Always playsInline  — required on iOS
  *   - preload="metadata"  — never "auto"; does not download the full file on mount
- *   - poster required     — first paint is always a static image, never blank
+ *   - poster optional     — when omitted, slate background shows until video plays
  *   - Visibility-gated    — plays only when ≥50% visible; pauses when scrolled away
  *   - prefers-reduced-motion — shows poster only, no video
  *   - onError fallback    — hides the video element; poster remains visible via CSS
@@ -294,21 +294,32 @@ export default function CanonicalVideo({
     );
   }
 
-  // No poster — single video element, hide it after playback ends (unless looping)
+  // No poster — video fills frame; dark parent background until first frame
   return (
     <video
       ref={ref}
       src={src}
-      className={`${className} transition-opacity duration-700 ${ended ? 'opacity-0' : ''}`}
+      className={`${className} ${ended && !loop ? 'opacity-0' : 'opacity-100'}`}
       muted
       playsInline
       loop={loop}
       preload={preloadFull ? 'auto' : 'metadata'}
       aria-hidden="true"
+      onPlaying={handlePlaying}
+      onTimeUpdate={handleTimeUpdate}
       onEnded={handleEnded}
       onError={handleError}
       onStalled={handleStalled}
       onWaiting={handleStalled}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        objectPosition: 'center',
+        zIndex: 2,
+      }}
     />
   );
 }

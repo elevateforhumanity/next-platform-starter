@@ -41,7 +41,7 @@ import {
 } from '@/lib/programs/program-schema';
 import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
 import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
-import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
+import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
@@ -115,33 +115,19 @@ export default function ProgramDetailPage({
             // heroBanners Proxy returns {} on the client (loadJsonOnce is server-only).
             // Check pageKey to distinguish a real banner from the empty fallback object.
             const banner = bannerProp ?? heroBanners[p.slug];
+            const heroPosterSrc = resolveHeroPosterSrc(p.slug, {
+              banner,
+              heroImage: p.heroImage,
+            });
             if (banner?.pageKey) {
               const bannerCtas = [
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
               ];
-              // Use HeroPicture when no video is configured — avoids passing
-              // undefined to HeroVideo's required videoSrcDesktop prop.
-              if (!banner.videoSrcDesktop) {
-                return (
-                  <HeroPicture
-                    src={banner.posterImage ?? p.heroImage}
-                    alt={p.heroImageAlt ?? banner.microLabel ?? p.title}
-                    heightStyle={heroTokens.imageWrap}
-                    microLabel={banner.microLabel}
-                    analyticsName={banner.analyticsName}
-                    belowHeroHeadline={banner.belowHeroHeadline}
-                    belowHeroSubheadline={banner.belowHeroSubheadline}
-                    ctas={bannerCtas}
-                    trustIndicators={banner.trustIndicators}
-                    transcript={banner.transcript}
-                  />
-                );
-              }
               return (
                 <HeroVideo
-                  videoSrcDesktop={banner.videoSrcDesktop}
-                  posterImage={banner.posterImage}
+                  videoSrcDesktop={banner.videoSrcDesktop ?? DEFAULT_HERO_VIDEO}
+                  videoSrcMobile={banner.videoSrcMobile}
                   voiceoverSrc={banner.voiceoverSrc}
                   microLabel={banner.microLabel}
                   analyticsName={banner.analyticsName}
@@ -153,20 +139,17 @@ export default function ProgramDetailPage({
                 />
               );
             }
-            // Fallback: plain image hero for programs without a banner entry
+            // Fallback: picture hero when hero-banners.json has no entry
             return (
-              <div className={heroTokens.imageWrap}>
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                <Image
-                  src={resolveSiteImagePath(p.heroImage)}
-                  alt={p.heroImageAlt}
-                  fill
-                  className="object-cover object-center"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-                  placeholder="empty"
-                />
-              </div>
+              <HeroPicture
+                src={heroPosterSrc}
+                alt={p.heroImageAlt ?? p.title}
+                heightStyle={heroTokens.imageWrap}
+                microLabel={p.badge ?? p.category}
+                belowHeroHeadline={p.title}
+                belowHeroSubheadline={p.subtitle}
+                ctas={primaryCTA ? [{ label: primaryCTA.label, href: primaryCTA.href }] : undefined}
+              />
             );
           })()}
 

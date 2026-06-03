@@ -15,6 +15,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Volume2, VolumeX } from 'lucide-react';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                               */
@@ -31,7 +32,7 @@ export interface HeroVideoProps {
   videoSrcDesktop: string;
   /** Mobile video source — falls back to desktop if omitted */
   videoSrcMobile?: string;
-  /** Poster image shown while video loads — optional */
+  /** @deprecated Posters are not used on marketing heroes — video-only frame. */
   posterImage?: string;
   /** Voiceover audio track — starts on first user interaction */
   voiceoverSrc?: string;
@@ -55,6 +56,11 @@ export interface HeroVideoProps {
   className?: string;
   /** Render below-hero content as children instead of structured props */
   children?: React.ReactNode;
+  /**
+   * When true, hero video uses preload=auto (home page only).
+   * Default false — metadata preload avoids blocking LCP on inner pages.
+   */
+  eagerVideoLoad?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -64,7 +70,6 @@ export interface HeroVideoProps {
 export default function HeroVideo({
   videoSrcDesktop,
   videoSrcMobile,
-  posterImage,
   voiceoverSrc,
   microLabel,
   showBrandBug = false,
@@ -76,6 +81,7 @@ export default function HeroVideo({
   analyticsName,
   className = '',
   children,
+  eagerVideoLoad = false,
 }: HeroVideoProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -196,31 +202,16 @@ export default function HeroVideo({
     <div ref={wrapperRef} className={`w-full ${className}`}>
       {/* VIDEO FRAME */}
       {/* Height is intentionally restrained so the first viewport includes the message below the video. */}
-      {/* posterImage is set as CSS backgroundImage so the poster renders from
-          SSR immediately — no bg-slate-900 dark flash before client hydration.
-          CanonicalVideo then renders its own poster <img> (z:1) and video (z:2)
-          on top. Both show the same image so the transition is seamless. */}
       <section
-        className="relative w-full overflow-hidden"
-        style={{
-          height: 'clamp(280px, 42vw, 560px)',
-          ...(posterImage ? {
-            backgroundImage: `url(${posterImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          } : {}),
-        }}
+        className={`relative w-full overflow-hidden bg-slate-900 ${heroTokens.imageWrap}`}
         aria-label={analyticsName ? `${analyticsName} hero video` : 'Hero video'}
       >
-        {/* autoPlayOnMount — hero is always above the fold; start immediately.
-            loop — prevents the poster fading back in when the video ends. */}
         <CanonicalVideo
           src={videoSrc}
-          poster={posterImage}
           className="absolute inset-0 w-full h-full object-cover object-center"
           autoPlayOnMount
           loop
-          preloadFull
+          preloadFull={eagerVideoLoad}
         />
 
         {/* Hidden audio element for voiceover */}

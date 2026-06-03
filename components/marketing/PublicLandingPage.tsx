@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 
 export interface LandingPageConfig {
   breadcrumbs: { label: string; href?: string }[];
@@ -49,8 +50,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
 
       {/* Hero — clean full-bleed image, no overlay or text on top */}
       <section
-        className="relative w-full overflow-hidden"
-        style={{ height: 'clamp(320px, 45vw, 560px)' }}
+        className={heroTokens.imageWrap}
         aria-label={`${config.hero.title} hero image`}
       >
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
@@ -60,7 +60,9 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes={heroTokens.imageSizes}
+          quality={75}
+          placeholder="empty"
         />
         {/* Micro-label — bottom-left, 2–4 words max */}
         {config.hero.tag && (
