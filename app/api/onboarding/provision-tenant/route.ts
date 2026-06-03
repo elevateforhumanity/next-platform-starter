@@ -123,7 +123,7 @@ async function _POST(request: NextRequest) {
     const adminUrl = `https://${slug}.${PLATFORM_DEFAULTS.canonicalDomain}/admin`;
 
     await resend.emails.send({
-      from: '${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: contactEmail,
       subject: '🎉 Your Platform is Ready!',
       html: generateWelcomeEmail({
@@ -141,7 +141,7 @@ async function _POST(request: NextRequest) {
     // 7. Send setup guide email immediately after welcome email.
     // setTimeout is not safe in serverless — the function is frozen after response.
     await resend.emails.send({
-      from: '${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <onboarding@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: contactEmail,
       subject: '📚 Quick Start Guide - Set Up Your Platform',
       html: generateSetupGuideEmail({

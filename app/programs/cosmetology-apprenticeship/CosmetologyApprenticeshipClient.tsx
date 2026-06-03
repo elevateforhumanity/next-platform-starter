@@ -1,5 +1,6 @@
 'use client';
 
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Clock, Users, MapPin, Award } from 'lucide-react';
@@ -20,7 +21,7 @@ export default function CosmetologyApprenticeshipClient({ program: p, enrollment
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero image — no text overlay per design standard */}
-      <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+      <div className={`${heroTokens.imageWrap} w-full overflow-hidden`}>
         {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
         <img
           src="/images/pages/cosmetology-apprenticeship-hero.webp"

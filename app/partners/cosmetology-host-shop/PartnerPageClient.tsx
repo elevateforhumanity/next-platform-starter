@@ -1,5 +1,6 @@
 'use client';
 
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, Lock, BookOpen, ClipboardList, FileText, PenLine } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -89,7 +90,7 @@ export default function CosmetologyPartnerPageClient({
       </div>
 
       {/* Hero image — no text overlay, no gradient wash per design standard */}
-      <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+      <div className={`${heroTokens.imageWrap} w-full overflow-hidden`}>
         {/* IMAGE-CONTRACT: allow raw img because legacy markup */}
         <img
           src="/images/pages/cosmetology-hero.webp"

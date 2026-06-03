@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1a1a1a">
       <div style="background:#1a1a1a;padding:24px 32px">
         // IMAGE-CONTRACT: allow raw img because legacy markup
-        <img src="${SITE_URL}/images/elevate-logo-white.png" alt={PLATFORM_DEFAULTS.orgName} height="36" />
+        <img src="${SITE_URL}/images/elevate-logo-white.png" alt="${PLATFORM_DEFAULTS.orgName}" height="36" />
       </div>
       <div style="padding:32px">
         <h1 style="font-size:22px;font-weight:700;margin:0 0 8px">You're enrolled, ${firstName}!</h1>

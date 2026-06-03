@@ -11,17 +11,18 @@
  */
 
 import type { ReactNode } from 'react';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 
 type Props = {
   children: ReactNode;
-  /** Height class — defaults to a responsive 45–60vh range */
+  /** Height class — defaults to locked marketing hero tokens */
   heightClass?: string;
   className?: string;
 };
 
 export default function HeroMediaFrame({
   children,
-  heightClass = 'h-[45vh] sm:h-[50vh] md:h-[55vh] min-h-[280px] max-h-[640px]',
+  heightClass = heroTokens.imageWrap,
   className = '',
 }: Props) {
   return (

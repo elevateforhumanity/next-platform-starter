@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { HeroBannerConfig } from '@/content/heroBanners';
 import HeroPicture from '@/components/marketing/HeroPicture';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { AlertTriangle, ChevronRight } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 // Section imports removed — BarberDeliveryModel, BarberPartnership,
@@ -73,7 +74,7 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
         ctas={heroCtas}
         trustIndicators={b?.trustIndicators}
         transcript={b?.transcript}
-        heightStyle="h-[45vh] min-h-[300px] max-h-[560px]"
+        heightStyle={heroTokens.imageWrap}
       />
 
       {/* ═══ PROGRAM IDENTITY CARD ═══ */}

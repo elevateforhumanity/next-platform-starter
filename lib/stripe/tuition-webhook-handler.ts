@@ -76,7 +76,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt={PLATFORM_DEFAULTS.orgName} style="max-width: 200px;">
+            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt="${PLATFORM_DEFAULTS.orgName}" style="max-width: 200px;">
           </div>
           
           <div style="background-color: #10b981; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
@@ -121,7 +121,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     // EMAIL 2: WELCOME LETTER - Complete Enrollment
     // ============================================
     await resend.emails.send({
-      from: '${PLATFORM_DEFAULTS.orgName} <admissions@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <admissions@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: student.email,
       subject: `ACTION REQUIRED: Complete Your Enrollment - ${programName}`,
       html: `
@@ -133,7 +133,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt={PLATFORM_DEFAULTS.orgName} style="max-width: 200px;">
+            <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.png" alt="${PLATFORM_DEFAULTS.orgName}" style="max-width: 200px;">
           </div>
           
           <h1 style="color: #1e40af; text-align: center;">Welcome to ${PLATFORM_DEFAULTS.orgName}!</h1>
@@ -272,7 +272,7 @@ async function sendAdminEnrollmentNotification(
 
   try {
     await resend.emails.send({
-      from: '${PLATFORM_DEFAULTS.orgName} <system@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <system@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: adminEmail,
       subject: `🎉 New Enrollment: ${studentName} - ${programName}`,
       html: `
@@ -695,7 +695,7 @@ async function sendPaymentConfirmationEmail(
 
   await resend.emails
     .send({
-      from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: student.email,
       subject: `Payment Received - ${paymentNumber} of ${totalPayments}`,
       html: `
@@ -735,7 +735,7 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
 
   await resend.emails
     .send({
-      from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
+      from: `${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>`,
       to: student.email,
       subject: 'Congratulations! Tuition Paid in Full',
       html: `

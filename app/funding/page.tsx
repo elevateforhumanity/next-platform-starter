@@ -1,3 +1,4 @@
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -187,7 +188,7 @@ export default function FundingPage() {
       </div>
 
       {/* Hero — standard height, no text overlay */}
-      <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+      <section className={`${heroTokens.imageWrap} w-full overflow-hidden`}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/funding-page-5.webp"

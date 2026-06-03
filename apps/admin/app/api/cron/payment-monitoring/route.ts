@@ -163,7 +163,7 @@ async function sendUpcomingPaymentReminder(
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
   await resend.emails.send({
-    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
+    from: `${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>`,
     to: student.email,
     subject: 'Upcoming Payment Reminder',
     html: `
@@ -186,7 +186,7 @@ async function sendPastDueAlert(
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
   await resend.emails.send({
-    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
+    from: `${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>`,
     to: student.email,
     subject: 'Action Required: Payment Past Due',
     html: `
@@ -202,7 +202,7 @@ async function sendPastDueAlert(
 
   // Also notify admin
   await resend.emails.send({
-    from: '${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>',
+    from: `${PLATFORM_DEFAULTS.orgName} <billing@${PLATFORM_DEFAULTS.canonicalDomain}>`,
     to: 'elevate4humanityedu@gmail.com',
     subject: `Past Due Alert: ${student.full_name || student.email}`,
     html: `

@@ -7,6 +7,7 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/pages/tax-preparation.jpg': '/images/business/professional-2.jpg',
   '/images/pages/accessibility-hero.webp': '/images/pages/accessibility-hero.jpg',
   '/images/pages/esthetician.webp': '/images/beauty/esthetician.webp',
+  '/images/programs/culinary.jpg': '/images/pages/culinary.webp',
 };
 
 export function resolveSiteImagePath(src: string): string {

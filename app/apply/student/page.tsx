@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { resolveSlug } from '@/lib/program-registry';
 import { getProgramBySlug } from '@/data/programs/catalog';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 
 export const revalidate = 600;
 
@@ -140,7 +141,7 @@ export default async function StudentApplicationPage({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <div className="relative h-[45vh] min-h-[280px] max-h-[520px] overflow-hidden">
+      <div className={heroTokens.imageWrap}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/apply-page-4.jpg"

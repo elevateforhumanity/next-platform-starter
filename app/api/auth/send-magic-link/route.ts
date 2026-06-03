@@ -70,7 +70,7 @@ export async function POST(req: Request) {
           value: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;background:#fff;">
   // IMAGE-CONTRACT: allow raw img because legacy markup
-  <img src="${PLATFORM_DEFAULTS.siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt={PLATFORM_DEFAULTS.orgName} style="height:60px;margin-bottom:24px;" />
+  <img src="${PLATFORM_DEFAULTS.siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" alt="${PLATFORM_DEFAULTS.orgName}" style="height:60px;margin-bottom:24px;" />
   <h2 style="color:#1e293b;margin-bottom:8px;">Hi ${firstName},</h2>
   <p style="color:#475569;font-size:15px;line-height:1.6;">
     Here is your sign-in link for ${PLATFORM_DEFAULTS.orgName}. Click the button below to access your portal — no password needed.

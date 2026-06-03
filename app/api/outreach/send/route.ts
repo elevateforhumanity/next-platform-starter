@@ -20,7 +20,7 @@ const PARTNERSHIP_HTML = `<!DOCTYPE html>
 <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%;">
 <tr><td style="padding-bottom:24px; border-bottom:2px solid #222;">
   // IMAGE-CONTRACT: allow raw img because legacy markup
-  <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.jpg" alt={PLATFORM_DEFAULTS.orgName} width="44" height="44" style="display:inline-block; vertical-align:middle; margin-right:12px;">
+  <img src="${PLATFORM_DEFAULTS.siteUrl}/logo.jpg" alt="${PLATFORM_DEFAULTS.orgName}" width="44" height="44" style="display:inline-block; vertical-align:middle; margin-right:12px;">
   <span style="font-size:20px; font-weight:bold; vertical-align:middle;">${PLATFORM_DEFAULTS.orgName}</span>
 </td></tr>
 <tr><td style="padding:24px 0;">

@@ -112,7 +112,7 @@ async function sendWelcomeEmail(opts: {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <tr><td style="padding:28px 32px;text-align:center;border-bottom:1px solid #e2e8f0">
-          <img src="${logoUrl}" alt={PLATFORM_DEFAULTS.orgName} width="140" style="max-width:140px;height:auto" />
+          <img src="${logoUrl}" alt="${PLATFORM_DEFAULTS.orgName}" width="140" style="max-width:140px;height:auto" />
         </td></tr>
         <tr><td style="padding:32px">
           <h2 style="color:#1a1a1a;font-size:22px;margin:0 0 16px">Welcome to ${PLATFORM_DEFAULTS.orgName}, ${opts.firstName}!</h2>

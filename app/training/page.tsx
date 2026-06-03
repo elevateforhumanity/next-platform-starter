@@ -1,3 +1,4 @@
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -94,7 +95,7 @@ export default function TrainingPage() {
       </div>
 
       {/* Hero — clean image, no text overlay */}
-      <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+      <section className={`${heroTokens.imageWrap} w-full overflow-hidden`}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/training-page-3.webp"

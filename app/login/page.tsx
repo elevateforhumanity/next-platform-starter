@@ -271,7 +271,7 @@ function LoginForm() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/login-page-1.webp"
-          alt="${PLATFORM_DEFAULTS.orgName} login"
+          alt={`${PLATFORM_DEFAULTS.orgName} login`}
           fill
           className="object-cover"
           priority

@@ -1,3 +1,4 @@
+import { hero as heroTokens } from '@/lib/page-design-tokens';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -82,7 +83,7 @@ export default async function ApplyPage({
 
       {/* Hero — media only (no text on image); messaging below per page design standard */}
       <section className="relative w-full">
-        <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+        <div className={`${heroTokens.imageWrap} w-full overflow-hidden`}>
           <Image
             src="/images/pages/apply-hero.webp"
             alt="Students exploring career training programs at Elevate for Humanity"

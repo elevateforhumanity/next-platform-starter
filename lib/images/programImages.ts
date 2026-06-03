@@ -208,8 +208,8 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
 
   // ── Culinary ─────────────────────────────────────────────────────────────
   'culinary-apprenticeship': {
-    card: `${P}/culinary.jpg`,
-    hero: `${P}/culinary.jpg`,
+    card: '/images/pages/culinary.webp',
+    hero: '/images/pages/culinary.webp',
     alt: 'Culinary apprentice preparing food in a professional kitchen',
   },
 
