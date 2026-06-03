@@ -13,7 +13,7 @@ import { getProgramOgImageUrl } from '@/lib/programs/og-images';
 import heroBanners from '@/content/heroBanners';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
-import { resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
+import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
 import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { getProgramOgImage } from '@/lib/programs/og-images';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
@@ -200,10 +200,10 @@ function ProgramPage({
   return (
     <main className="bg-white">
       {/* HERO — always show media; banner copy when present */}
-      {banner?.pageKey && banner.videoSrcDesktop ? (
+      {banner?.pageKey ? (
         <HeroVideo
-          videoSrcDesktop={banner.videoSrcDesktop}
-          posterImage={heroPosterSrc}
+          videoSrcDesktop={banner.videoSrcDesktop ?? DEFAULT_HERO_VIDEO}
+          videoSrcMobile={banner.videoSrcMobile}
           voiceoverSrc={banner.voiceoverSrc}
           microLabel={banner.microLabel}
           analyticsName={banner.analyticsName}

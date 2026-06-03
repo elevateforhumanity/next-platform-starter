@@ -18,12 +18,10 @@
     },
     "trustIndicators": [],
     "transcript": "Elevate for Humanity is an AI-powered workforce operating system — not just a training provider. We handle credentialing, compliance tracking, employer placement, apprenticeship coordination, and funding documentation so agencies and participants can focus on outcomes.",
-    "analyticsName": "home",
-    "posterImage": "/images/pages/comp-home-hero.webp"
+    "analyticsName": "home"
   },
   "about": {
     "pageKey": "about",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "Our Mission",
     "belowHeroHeadline": "Built for workforce outcomes.",
     "belowHeroSubheadline": "Training, credential preparation, support services, and employer connections.",
@@ -42,11 +40,12 @@
       "DOL Registered Apprenticeship Sponsor"
     ],
     "transcript": "Elevate was built to connect training, credentials, and employment in one coordinated system. Not just classes. A workforce pathway.",
-    "analyticsName": "about"
+    "analyticsName": "about",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "platform": {
     "pageKey": "platform",
-    "posterImage": "/hero-images/technology-hero.webp",
     "microLabel": "Workforce Infrastructure",
     "belowHeroHeadline": "Workforce infrastructure, not just a website.",
     "belowHeroSubheadline": "A coordinated hub for training delivery, credential pathways, and employer connection.",
@@ -71,7 +70,6 @@
   },
   "funding-how-it-works": {
     "pageKey": "funding-how-it-works",
-    "posterImage": "/hero-images/wioa-hero.webp",
     "microLabel": "Funded Training",
     "belowHeroHeadline": "How funded training works.",
     "belowHeroSubheadline": "WIOA, apprenticeship pathways, state grants, and guided enrollment.",
@@ -91,12 +89,13 @@
       "Job Ready Indy (JRI)"
     ],
     "transcript": "Funding should not be confusing. We help eligible participants navigate workforce programs, complete the steps, and move into training without unnecessary friction.",
-    "analyticsName": "funding-how-it-works"
+    "analyticsName": "funding-how-it-works",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "healthcare": {
     "pageKey": "healthcare",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/hero-images/healthcare-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "Healthcare Programs",
     "belowHeroHeadline": "Healthcare training that leads to certification.",
@@ -123,7 +122,6 @@
   },
   "store": {
     "pageKey": "store",
-    "posterImage": "/images/pages/store-hero.webp",
     "voiceoverSrc": "/audio/heroes/store.mp3",
     "microLabel": "White-Label Platform",
     "belowHeroHeadline": "License the LMS that runs workforce programs end to end.",
@@ -150,7 +148,6 @@
   },
   "programs": {
     "pageKey": "programs",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "microLabel": "Career Training",
     "belowHeroHeadline": "Start a Career — Not Just a Class",
     "belowHeroSubheadline": "Get trained, certified, and connected to real job opportunities in weeks — not years. Most programs are available at no cost to eligible Indiana residents through WIOA and state funding.",
@@ -176,7 +173,6 @@
   },
   "building-services-technician": {
     "pageKey": "building-services-technician",
-    "posterImage": "/images/programs/efh-building-tech-hero.jpg",
     "microLabel": "DOL Apprenticeship",
     "belowHeroHeadline": "Building Services Technician Apprenticeship",
     "belowHeroSubheadline": "Earn while you learn with paid on-the-job training and a DOL Registered pathway.",
@@ -195,11 +191,12 @@
       "Employer-connected"
     ],
     "transcript": "Building Services Technician apprenticeship combines paid work experience with structured training and a nationally recognized pathway.",
-    "analyticsName": "building-services-technician"
+    "analyticsName": "building-services-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "federal-funded": {
     "pageKey": "federal-funded",
-    "posterImage": "/hero-images/federal-funded-hero.webp",
     "microLabel": "Funded Programs",
     "belowHeroHeadline": "Federal-Funded Career Training",
     "belowHeroSubheadline": "WIOA, WRG, and state-aligned funding pathways for eligible learners.",
@@ -218,11 +215,12 @@
       "No-cost options"
     ],
     "transcript": "Federal-funded programs connect eligible learners to workforce training at little or no upfront cost.",
-    "analyticsName": "federal-funded"
+    "analyticsName": "federal-funded",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "micro-programs": {
     "pageKey": "micro-programs",
-    "posterImage": "/images/pages/testing-page-1.webp",
     "microLabel": "Micro Credentials",
     "belowHeroHeadline": "Short Programs, Fast Credentials",
     "belowHeroSubheadline": "Complete targeted certifications in days or weeks and move into work faster.",
@@ -241,11 +239,12 @@
       "Career-ready"
     ],
     "transcript": "Micro programs are designed for quick credential attainment and rapid workforce entry.",
-    "analyticsName": "micro-programs"
+    "analyticsName": "micro-programs",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "learner": {
     "pageKey": "learner",
-    "posterImage": "/images/pages/learner-page-1.webp",
     "voiceoverSrc": "/audio/heroes/learner.mp3",
     "microLabel": "Your Training",
     "belowHeroHeadline": "Your credential is the goal. Everything here moves you toward it.",
@@ -273,7 +272,6 @@
   "skilled-trades": {
     "pageKey": "skilled-trades",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "posterImage": "/hero-images/skilled-trades-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/skilled-trades.mp3",
     "microLabel": "Skilled Trades",
     "belowHeroHeadline": "Skilled trades training for high-demand work.",
@@ -300,7 +298,6 @@
   "hvac-technician": {
     "pageKey": "hvac-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "posterImage": "/images/pages/hvac-unit.webp",
     "voiceoverSrc": "/audio/heroes/skilled-trades.mp3",
     "microLabel": "EPA 608 Universal",
     "credentialLabel": "EPA 608 Universal",
@@ -330,7 +327,6 @@
   },
   "cdl-training": {
     "pageKey": "cdl-training",
-    "posterImage": "/images/pages/cdl-hero.webp",
     "voiceoverSrc": "/audio/heroes/cdl.mp3",
     "microLabel": "CDL Class A",
     "credentialLabel": "CDL Class A",
@@ -361,7 +357,6 @@
   },
   "electrical": {
     "pageKey": "electrical",
-    "posterImage": "/hero-images/electrical-hero.jpg",
     "microLabel": "NCCER Core Curriculum",
     "credentialLabel": "NCCER Core Curriculum",
     "durationLabel": "12 weeks",
@@ -385,11 +380,12 @@
       "Apprenticeship pathway available"
     ],
     "transcript": "Train for NCCER Core Curriculum and OSHA 30 Construction credentials in 12 weeks, building skills in residential wiring, NEC code, load calculations, and conduit bending. Entry-level electrician helpers commonly earn $35,000 to $45,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "electrical"
+    "analyticsName": "electrical",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "welding": {
     "pageKey": "welding",
-    "posterImage": "/images/pages/welding-sparks.webp",
     "microLabel": "AWS D1.1 Certification",
     "credentialLabel": "AWS D1.1",
     "durationLabel": "10 weeks",
@@ -420,7 +416,6 @@
   },
   "plumbing": {
     "pageKey": "plumbing",
-    "posterImage": "/images/pages/plumbing-pipes.webp",
     "microLabel": "NCCER Core Curriculum",
     "credentialLabel": "NCCER Core Curriculum",
     "durationLabel": "10 weeks",
@@ -451,7 +446,6 @@
   },
   "diesel-mechanic": {
     "pageKey": "diesel-mechanic",
-    "posterImage": "/images/pages/diesel-mechanic.webp",
     "microLabel": "ASE Exam Prep",
     "credentialLabel": "ASE exam preparation",
     "durationLabel": "12 weeks",
@@ -482,7 +476,6 @@
   },
   "construction-trades-certification": {
     "pageKey": "construction-trades-certification",
-    "posterImage": "/images/pages/construction-trades.webp",
     "microLabel": "OSHA 30 + Forklift",
     "credentialLabel": "OSHA 30 Construction",
     "durationLabel": "8 weeks",
@@ -512,7 +505,6 @@
   },
   "forklift": {
     "pageKey": "forklift",
-    "posterImage": "/images/pages/forklift.webp",
     "microLabel": "OSHA Forklift Cert",
     "credentialLabel": "OSHA 29 CFR 1910.178",
     "durationLabel": "1 week",
@@ -544,7 +536,6 @@
   "cna": {
     "pageKey": "cna",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/cna-patient-care.jpg",
     "voiceoverSrc": "/audio/heroes/cna.mp3",
     "microLabel": "Indiana CNA Certification",
     "credentialLabel": "Indiana CNA certification",
@@ -574,7 +565,6 @@
   "medical-assistant": {
     "pageKey": "medical-assistant",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "voiceoverSrc": "/audio/heroes/medical-assistant.mp3",
     "microLabel": "NHA CCMA Certification",
     "credentialLabel": "NHA CCMA",
@@ -605,7 +595,6 @@
   "pharmacy-technician": {
     "pageKey": "pharmacy-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/pharmacy-tech.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "PTCB CPhT Prep",
     "credentialLabel": "PTCB CPhT",
@@ -637,7 +626,6 @@
   "phlebotomy": {
     "pageKey": "phlebotomy",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/phlebotomy-real.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "NHA CPT Certification",
     "credentialLabel": "NHA CPT",
@@ -668,7 +656,6 @@
   "home-health-aide": {
     "pageKey": "home-health-aide",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/healthcare-classroom.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "Indiana HHA Certification",
     "credentialLabel": "Indiana HHA certification",
@@ -698,7 +685,6 @@
   },
   "emergency-health-safety": {
     "pageKey": "emergency-health-safety",
-    "posterImage": "/images/pages/cpr-first-aid.webp",
     "microLabel": "NREMT EMR Certification",
     "credentialLabel": "NREMT Emergency Medical Responder",
     "durationLabel": "4 weeks",
@@ -729,7 +715,6 @@
   "cpr-first-aid": {
     "pageKey": "cpr-first-aid",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/cpr-mannequin.webp",
     "voiceoverSrc": "/audio/heroes/cpr.mp3",
     "microLabel": "HSI Certified",
     "credentialLabel": "HSI-certified CPR, AED, and First Aid",
@@ -761,7 +746,6 @@
   "sanitation-infection-control": {
     "pageKey": "sanitation-infection-control",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "ServSafe + Bloodborne",
     "credentialLabel": "ServSafe Food Handler",
@@ -793,7 +777,6 @@
   "barber-apprenticeship": {
     "pageKey": "barber-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "posterImage": "/images/pages/barber-hero-main.jpg",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Barber License",
@@ -823,7 +806,6 @@
   },
   "cosmetology-apprenticeship": {
     "pageKey": "cosmetology-apprenticeship",
-    "posterImage": "/images/pages/cosmetology-hero.webp",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Cosmetology License",
@@ -848,11 +830,12 @@
       "Salon-based training"
     ],
     "transcript": "Earn Indiana Cosmetology License through a DOL Registered Apprenticeship of 2,000 hours of supervised training in a licensed salon. Cosmetologists commonly earn $26,000 to $48,000 depending on clientele and setting. Wages begin on day one. The Indiana Cosmetology License is required to work in any Indiana salon.",
-    "analyticsName": "cosmetology-apprenticeship"
+    "analyticsName": "cosmetology-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
   },
   "nail-technician-apprenticeship": {
     "pageKey": "nail-technician-apprenticeship",
-    "posterImage": "/images/pages/nail-tech-hero.webp",
     "voiceoverSrc": "/audio/heroes/nail-tech.mp3",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Nail Technician License",
@@ -876,11 +859,12 @@
       "600 hours — fastest path"
     ],
     "transcript": "Earn Indiana Nail Technician License through a DOL Registered Apprenticeship of 600 hours — the fastest path to an Indiana nail license. Training covers manicure, pedicure, acrylics, and gel nails in a licensed salon. Nail technicians commonly earn $24,000 to $42,000. Wages begin on day one.",
-    "analyticsName": "nail-technician-apprenticeship"
+    "analyticsName": "nail-technician-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
   },
   "culinary-apprenticeship": {
     "pageKey": "culinary-apprenticeship",
-    "posterImage": "/images/pages/culinary.webp",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "ServSafe Manager",
     "durationLabel": "2,000 hours",
@@ -911,7 +895,6 @@
   "esthetician": {
     "pageKey": "esthetician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "posterImage": "/images/pages/cosmetology.webp",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Esthetician Certificate",
     "credentialLabel": "Esthetician Certificate",
@@ -942,7 +925,6 @@
   "beauty-career-educator": {
     "pageKey": "beauty-career-educator",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Certiport ESB",
     "credentialLabel": "Certiport ESB",
@@ -973,7 +955,6 @@
   },
   "apprenticeships": {
     "pageKey": "apprenticeships",
-    "posterImage": "/images/pages/apprenticeships-hero.webp",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "Earn While You Learn",
     "belowHeroHeadline": "Apprenticeships — get paid to train.",
@@ -1000,7 +981,6 @@
   },
   "it-help-desk": {
     "pageKey": "it-help-desk",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA A+ Prep",
     "credentialLabel": "CompTIA A+",
@@ -1031,7 +1011,6 @@
   },
   "cybersecurity-analyst": {
     "pageKey": "cybersecurity-analyst",
-    "posterImage": "/images/pages/cybersecurity-hero.webp",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Security+ Prep",
     "credentialLabel": "CompTIA Security+",
@@ -1062,7 +1041,6 @@
   },
   "network-administration": {
     "pageKey": "network-administration",
-    "posterImage": "/images/pages/network-administration.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Network+ Prep",
     "credentialLabel": "CompTIA Network+",
@@ -1093,7 +1071,6 @@
   },
   "network-support-technician": {
     "pageKey": "network-support-technician",
-    "posterImage": "/images/pages/it-networking.webp",
     "microLabel": "IT Specialist Networking",
     "credentialLabel": "Certiport IT Specialist Networking",
     "durationLabel": "6 weeks",
@@ -1123,7 +1100,6 @@
   },
   "software-development": {
     "pageKey": "software-development",
-    "posterImage": "/images/pages/software-development.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "IT Specialist Python",
     "credentialLabel": "Certiport IT Specialist Python",
@@ -1154,7 +1130,6 @@
   },
   "web-development": {
     "pageKey": "web-development",
-    "posterImage": "/images/pages/web-development.webp",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "Meta Front-End Cert",
     "credentialLabel": "Meta Front-End Developer Professional Certificate",
@@ -1185,7 +1160,6 @@
   },
   "graphic-design": {
     "pageKey": "graphic-design",
-    "posterImage": "/images/pages/graphic-design.webp",
     "microLabel": "Adobe Certified Professional",
     "credentialLabel": "Adobe Certified Professional",
     "durationLabel": "10 weeks",
@@ -1215,7 +1189,6 @@
   },
   "cad-drafting": {
     "pageKey": "cad-drafting",
-    "posterImage": "/images/pages/electrical-wiring.jpg",
     "microLabel": "Autodesk Certified User",
     "credentialLabel": "Autodesk Certified User",
     "durationLabel": "10 weeks",
@@ -1245,7 +1218,6 @@
   },
   "tax-preparation": {
     "pageKey": "tax-preparation",
-    "posterImage": "/images/business/office-admin.webp",
     "voiceoverSrc": "/audio/heroes/tax.mp3",
     "microLabel": "IRS PTIN + AFSP",
     "credentialLabel": "IRS PTIN and AFSP",
@@ -1275,7 +1247,6 @@
   },
   "bookkeeping": {
     "pageKey": "bookkeeping",
-    "posterImage": "/images/pages/bookkeeping.webp",
     "microLabel": "QuickBooks Certified User",
     "credentialLabel": "QuickBooks Certified User",
     "durationLabel": "5 weeks",
@@ -1305,7 +1276,6 @@
   },
   "office-administration": {
     "pageKey": "office-administration",
-    "posterImage": "/images/pages/office-admin-desk.jpg",
     "microLabel": "Microsoft Office Specialist",
     "credentialLabel": "Microsoft Office Specialist",
     "durationLabel": "6 weeks",
@@ -1335,7 +1305,6 @@
   },
   "entrepreneurship": {
     "pageKey": "entrepreneurship",
-    "posterImage": "/images/pages/entrepreneurship.webp",
     "microLabel": "Certiport ESB Certification",
     "credentialLabel": "Certiport ESB",
     "durationLabel": "6 weeks",
@@ -1365,7 +1334,6 @@
   },
   "business-administration": {
     "pageKey": "business-administration",
-    "posterImage": "/images/pages/business-sector.webp",
     "microLabel": "MOS + Certiport ESB",
     "credentialLabel": "Microsoft Office Specialist",
     "durationLabel": "8 weeks",
@@ -1395,7 +1363,6 @@
   },
   "project-management": {
     "pageKey": "project-management",
-    "posterImage": "/images/pages/project-management.webp",
     "microLabel": "Certiport PM Certification",
     "credentialLabel": "Certiport Project Management",
     "durationLabel": "6 weeks",
@@ -1425,7 +1392,6 @@
   },
   "finance-bookkeeping-accounting": {
     "pageKey": "finance-bookkeeping-accounting",
-    "posterImage": "/images/pages/finance-accounting.webp",
     "microLabel": "IRS PTIN + QuickBooks",
     "credentialLabel": "IRS PTIN",
     "durationLabel": "12 weeks",
@@ -1455,7 +1421,6 @@
   "peer-recovery-specialist": {
     "pageKey": "peer-recovery-specialist",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "microLabel": "Indiana CPRS Credential",
     "credentialLabel": "Indiana CPRS",
     "durationLabel": "8 weeks",
@@ -1484,7 +1449,6 @@
   },
   "technology": {
     "pageKey": "technology",
-    "posterImage": "/hero-images/technology-hero.webp",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Technology Career Training — CompTIA A+ in 12 weeks.",
     "belowHeroSubheadline": "Launch an IT career with industry-recognized certifications. WIOA and Workforce Ready Grant funding available.",
@@ -1508,7 +1472,6 @@
   },
   "business": {
     "pageKey": "business",
-    "posterImage": "/hero-images/business-hero.webp",
     "voiceoverSrc": "/audio/heroes/business.mp3",
     "microLabel": "Business & Finance Programs",
     "belowHeroHeadline": "Launch a business career — certifications in 5–10 weeks.",
@@ -1535,7 +1498,6 @@
   },
   "mission": {
     "pageKey": "mission",
-    "posterImage": "/images/pages/mission-hero.webp",
     "microLabel": "Our Mission",
     "belowHeroHeadline": "Pathways out of poverty. Into prosperity.",
     "belowHeroSubheadline": "Free career training for those who need it most — justice-involved, low-income, veterans, and anyone facing barriers to employment.",
@@ -1554,11 +1516,12 @@
       "DOL Registered Apprenticeship Sponsor"
     ],
     "transcript": "Elevate for Humanity exists to close the gap between people who need work and employers who need workers. Free training. Real credentials. A direct path to employment.",
-    "analyticsName": "mission"
+    "analyticsName": "mission",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "partners": {
     "pageKey": "partners",
-    "posterImage": "/images/pages/partner-page-1.jpg",
     "microLabel": "Partner With Us",
     "belowHeroHeadline": "Build the workforce your community needs.",
     "belowHeroSubheadline": "Workforce agencies, employers, training providers, barbershops, and reentry organizations — we build pathways together.",
@@ -1577,11 +1540,12 @@
       "WIOA partner"
     ],
     "transcript": "Elevate partners with workforce agencies, employers, and community organizations to build training pathways that work. Join us.",
-    "analyticsName": "partners"
+    "analyticsName": "partners",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "lms": {
     "pageKey": "lms",
-    "posterImage": "/images/pages/lms-page-1.webp",
     "voiceoverSrc": "/audio/heroes/lms.mp3",
     "microLabel": "Student Training Portal",
     "belowHeroHeadline": "Your career training starts here.",
@@ -1607,7 +1571,6 @@
   },
   "training": {
     "pageKey": "training",
-    "posterImage": "/hero-images/how-it-works-hero.webp",
     "microLabel": "Training Programs",
     "belowHeroHeadline": "Career training for real jobs.",
     "belowHeroSubheadline": "Healthcare, skilled trades, CDL, technology, barbering, and business. Most programs available at no cost to eligible Indiana residents.",
@@ -1626,11 +1589,12 @@
       "DOL Registered Apprenticeship Sponsor"
     ],
     "transcript": "Elevate offers career training in healthcare, skilled trades, CDL, technology, and more. Most programs are available at no cost through WIOA and state funding.",
-    "analyticsName": "training"
+    "analyticsName": "training",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "jri": {
     "pageKey": "jri",
-    "posterImage": "/hero-images/jri-hero.webp",
     "microLabel": "Justice-Involved Reentry",
     "belowHeroHeadline": "A second chance backed by real training.",
     "belowHeroSubheadline": "Career pathways for justice-involved individuals — credentials, employer connections, and funding support.",
@@ -1649,11 +1613,12 @@
       "Record-friendly programs"
     ],
     "transcript": "Elevate for Humanity provides career training and employer connections specifically designed for justice-involved individuals re-entering the workforce.",
-    "analyticsName": "jri"
+    "analyticsName": "jri",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "about-team": {
     "pageKey": "about-team",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "Our Team",
     "belowHeroHeadline": "The people behind Elevate for Humanity.",
     "belowHeroSubheadline": "Workforce professionals, educators, and community advocates committed to expanding access to career training.",
@@ -1672,11 +1637,12 @@
       "ETPL Certified"
     ],
     "transcript": "Meet the team behind Elevate for Humanity — workforce professionals and educators committed to expanding access to career training.",
-    "analyticsName": "about-team"
+    "analyticsName": "about-team",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "about-partners": {
     "pageKey": "about-partners",
-    "posterImage": "/images/pages/about-partners-hero.webp",
     "microLabel": "Our Partners",
     "belowHeroHeadline": "Built on strong partnerships.",
     "belowHeroSubheadline": "Employers, workforce agencies, and community organizations working together to connect Hoosiers to careers.",
@@ -1695,11 +1661,12 @@
       "Community Orgs"
     ],
     "transcript": "Elevate for Humanity partners with employers, workforce agencies, and community organizations to connect Hoosiers to real careers.",
-    "analyticsName": "about-partners"
+    "analyticsName": "about-partners",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "blog": {
     "pageKey": "blog",
-    "posterImage": "/hero-images/how-it-works-hero.webp",
     "microLabel": "News & Insights",
     "belowHeroHeadline": "Workforce training news and career insights.",
     "belowHeroSubheadline": "Updates from Elevate for Humanity — program news, student success stories, and workforce development resources.",
@@ -1713,11 +1680,12 @@
       "Career Tips"
     ],
     "transcript": "Stay current with workforce training news, student success stories, and career development insights from Elevate for Humanity.",
-    "analyticsName": "blog"
+    "analyticsName": "blog",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "career-services": {
     "pageKey": "career-services",
-    "posterImage": "/hero-images/career-services-hero.webp",
     "microLabel": "Career Services",
     "belowHeroHeadline": "From training to employment — we stay with you.",
     "belowHeroSubheadline": "Resume building, interview prep, job placement, and ongoing career support for every Elevate graduate.",
@@ -1736,11 +1704,12 @@
       "Employer Network"
     ],
     "transcript": "Elevate for Humanity provides career services from resume building and interview prep to job placement and ongoing support for every graduate.",
-    "analyticsName": "career-services"
+    "analyticsName": "career-services",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4"
   },
   "careers": {
     "pageKey": "careers",
-    "posterImage": "/hero-images/career-services-hero.webp",
     "microLabel": "Work With Us",
     "belowHeroHeadline": "Join the Elevate for Humanity team.",
     "belowHeroSubheadline": "Help us expand access to workforce training across Indiana. We're hiring educators, coaches, and operations staff.",
@@ -1759,11 +1728,12 @@
       "Remote-friendly roles"
     ],
     "transcript": "Join the Elevate for Humanity team and help expand access to workforce training across Indiana.",
-    "analyticsName": "careers"
+    "analyticsName": "careers",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/career-services-hero.mp4"
   },
   "cna-waitlist": {
     "pageKey": "cna-waitlist",
-    "posterImage": "/hero-images/healthcare-cat-new.jpg",
     "microLabel": "CNA Certification",
     "belowHeroHeadline": "CNA Certification — Join the Waitlist.",
     "belowHeroSubheadline": "Indiana CNA certification training is opening soon. Join the waitlist to be first in line when enrollment opens.",
@@ -1782,11 +1752,12 @@
       "Employer Connections"
     ],
     "transcript": "Indiana CNA certification training is opening soon at Elevate for Humanity. Join the waitlist to be notified when enrollment opens.",
-    "analyticsName": "cna-waitlist"
+    "analyticsName": "cna-waitlist",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4"
   },
   "contact": {
     "pageKey": "contact",
-    "posterImage": "/hero-images/contact-hero.webp",
     "microLabel": "Contact Us",
     "belowHeroHeadline": "We're here to help.",
     "belowHeroSubheadline": "Questions about programs, funding, enrollment, or partnerships — reach out and we'll respond within one business day.",
@@ -1805,11 +1776,12 @@
       "Free consultations"
     ],
     "transcript": "Contact Elevate for Humanity with questions about programs, funding, enrollment, or partnerships. We respond within one business day.",
-    "analyticsName": "contact"
+    "analyticsName": "contact",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "donate": {
     "pageKey": "donate",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "Support Our Mission",
     "belowHeroHeadline": "Your donation funds a career.",
     "belowHeroSubheadline": "Every contribution helps Elevate for Humanity provide free and low-cost workforce training to Hoosiers who need it most.",
@@ -1828,11 +1800,12 @@
       "100% to programs"
     ],
     "transcript": "Your donation to Elevate for Humanity funds free and low-cost workforce training for Hoosiers who need it most.",
-    "analyticsName": "donate"
+    "analyticsName": "donate",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "events": {
     "pageKey": "events",
-    "posterImage": "/hero-images/career-services-hero.webp",
     "microLabel": "Events & Workshops",
     "belowHeroHeadline": "Connect, learn, and grow.",
     "belowHeroSubheadline": "Orientation sessions, employer hiring events, graduation ceremonies, and community workshops — all free to attend.",
@@ -1851,11 +1824,12 @@
       "Graduation ceremonies"
     ],
     "transcript": "Elevate for Humanity hosts orientation sessions, employer hiring events, graduation ceremonies, and community workshops — all free to attend.",
-    "analyticsName": "events"
+    "analyticsName": "events",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "for-partners": {
     "pageKey": "for-partners",
-    "posterImage": "/hero-images/employer-hero.webp",
     "microLabel": "For Partners",
     "belowHeroHeadline": "Partner with Indiana's workforce training leader.",
     "belowHeroSubheadline": "Workforce agencies, employers, and community organizations — join the Elevate network and connect your clients to real careers.",
@@ -1874,11 +1848,12 @@
       "ETPL Certified"
     ],
     "transcript": "Partner with Elevate for Humanity to connect your clients to real career training. We are WIOA compliant, RAPIDS tracked, and ETPL certified.",
-    "analyticsName": "for-partners"
+    "analyticsName": "for-partners",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "for-students": {
     "pageKey": "for-students",
-    "posterImage": "/hero-images/how-it-works-hero.webp",
     "microLabel": "For Students",
     "belowHeroHeadline": "Your career starts here.",
     "belowHeroSubheadline": "Free and funded training programs in healthcare, trades, technology, and business. Most programs complete in 4–12 weeks.",
@@ -1897,11 +1872,12 @@
       "Job placement support"
     ],
     "transcript": "Elevate for Humanity offers free and funded career training in healthcare, trades, technology, and business. Most programs complete in 4 to 12 weeks.",
-    "analyticsName": "for-students"
+    "analyticsName": "for-students",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/student-portal-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/student-portal-hero.mp4"
   },
   "founder": {
     "pageKey": "founder",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "Our Founder",
     "belowHeroHeadline": "A mission rooted in community.",
     "belowHeroSubheadline": "Learn about the vision and values behind Elevate for Humanity and the founder's commitment to workforce equity.",
@@ -1920,11 +1896,12 @@
       "ETPL Certified"
     ],
     "transcript": "Learn about the vision and values behind Elevate for Humanity and the founder's commitment to workforce equity in Indiana.",
-    "analyticsName": "founder"
+    "analyticsName": "founder",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "funding": {
     "pageKey": "funding",
-    "posterImage": "/hero-images/federal-funded-hero.webp",
     "microLabel": "Funding & Financial Aid",
     "belowHeroHeadline": "Training that pays for itself.",
     "belowHeroSubheadline": "WIOA, Workforce Ready Grant, Next Level Jobs, and other funding sources cover tuition for eligible Indiana residents.",
@@ -1943,11 +1920,12 @@
       "Workforce Ready Grant"
     ],
     "transcript": "Elevate for Humanity programs are funded through WIOA, Workforce Ready Grant, Next Level Jobs, and other sources for eligible Indiana residents.",
-    "analyticsName": "funding"
+    "analyticsName": "funding",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "news": {
     "pageKey": "news",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "News",
     "belowHeroHeadline": "Latest from Elevate for Humanity.",
     "belowHeroSubheadline": "Program announcements, partnership news, student success stories, and workforce development updates.",
@@ -1961,11 +1939,12 @@
       "Partnership News"
     ],
     "transcript": "Stay current with the latest news from Elevate for Humanity — program announcements, partnerships, and student success stories.",
-    "analyticsName": "news"
+    "analyticsName": "news",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "pathways": {
     "pageKey": "pathways",
-    "posterImage": "/hero-images/apply-hero.webp",
     "microLabel": "Career Pathways",
     "belowHeroHeadline": "Find your pathway to a career.",
     "belowHeroSubheadline": "Healthcare, skilled trades, technology, beauty, and business — explore credential pathways designed for Indiana's job market.",
@@ -1984,11 +1963,12 @@
       "WIOA funded"
     ],
     "transcript": "Explore career pathways at Elevate for Humanity in healthcare, skilled trades, technology, beauty, and business — all designed for Indiana's job market.",
-    "analyticsName": "pathways"
+    "analyticsName": "pathways",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "press": {
     "pageKey": "press",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "Press & Media",
     "belowHeroHeadline": "Elevate for Humanity in the news.",
     "belowHeroSubheadline": "Press releases, media coverage, and brand assets for journalists and media partners.",
@@ -2007,11 +1987,12 @@
       "Spokespeople available"
     ],
     "transcript": "Find press releases, media coverage, and brand assets for Elevate for Humanity. Media inquiries welcome.",
-    "analyticsName": "press"
+    "analyticsName": "press",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "pricing": {
     "pageKey": "pricing",
-    "posterImage": "/hero-images/services-hero.webp",
     "microLabel": "Pricing",
     "belowHeroHeadline": "Transparent pricing for every pathway.",
     "belowHeroSubheadline": "Most programs are free for eligible Indiana residents. Self-pay and payment plan options available for all others.",
@@ -2030,11 +2011,12 @@
       "No hidden fees"
     ],
     "transcript": "Elevate for Humanity offers transparent pricing. Most programs are free for eligible Indiana residents, with self-pay and payment plan options for others.",
-    "analyticsName": "pricing"
+    "analyticsName": "pricing",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/store-marketplace.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/store-marketplace.mp4"
   },
   "volunteer": {
     "pageKey": "volunteer",
-    "posterImage": "/hero-images/career-services-hero.webp",
     "microLabel": "Volunteer",
     "belowHeroHeadline": "Give your time. Change a career.",
     "belowHeroSubheadline": "Volunteer as a mentor, mock interviewer, guest speaker, or event helper. Every hour makes a difference.",
@@ -2053,11 +2035,12 @@
       "Community impact"
     ],
     "transcript": "Volunteer with Elevate for Humanity as a mentor, mock interviewer, guest speaker, or event helper. Every hour makes a difference.",
-    "analyticsName": "volunteer"
+    "analyticsName": "volunteer",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "what-we-do": {
     "pageKey": "what-we-do",
-    "posterImage": "/hero-images/about-hero.webp",
     "microLabel": "What We Do",
     "belowHeroHeadline": "Workforce training that works.",
     "belowHeroSubheadline": "Elevate for Humanity provides credential-bearing career training, employer connections, and funding navigation for Indiana residents.",
@@ -2076,11 +2059,12 @@
       "RAPIDS Tracked"
     ],
     "transcript": "Elevate for Humanity provides credential-bearing career training, employer connections, and funding navigation for Indiana residents.",
-    "analyticsName": "what-we-do"
+    "analyticsName": "what-we-do",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "workforce-partners": {
     "pageKey": "workforce-partners",
-    "posterImage": "/images/pages/workforce-partnership-hero.webp",
     "microLabel": "Workforce Partners",
     "belowHeroHeadline": "A workforce pipeline you can count on.",
     "belowHeroSubheadline": "Elevate for Humanity partners with WorkOne, FSSA, employers, and community organizations to deliver WIOA-compliant training at scale.",
@@ -2105,7 +2089,6 @@
   },
   "impact": {
     "pageKey": "impact",
-    "posterImage": "/images/pages/funding-impact-1.webp",
     "microLabel": "Impact & Outcomes",
     "belowHeroHeadline": "Real results for learners, employers, and communities.",
     "belowHeroSubheadline": "Elevate for Humanity tracks every outcome — credentials earned, jobs placed, wages increased. See the data.",
@@ -2130,7 +2113,6 @@
   },
   "supersonic": {
     "pageKey": "supersonic",
-    "posterImage": "/images/business/office-admin.webp",
     "microLabel": "Tax Operations",
     "belowHeroHeadline": "Tax software built for speed.",
     "belowHeroSubheadline": "Professional tax preparation software for Enrolled Agents, EROs, and tax businesses. Fast refunds. Secure filing. Built for volume.",
@@ -2155,7 +2137,6 @@
   },
   "services": {
     "pageKey": "services",
-    "posterImage": "/hero-images/services-hero.webp",
     "microLabel": "Our Services",
     "belowHeroHeadline": "Training, credentials, and support — end to end.",
     "belowHeroSubheadline": "From enrollment to employment: career coaching, credential prep, employer connections, and funding navigation.",
@@ -2174,11 +2155,12 @@
       "Employer network"
     ],
     "transcript": "Elevate provides end-to-end workforce services — training, credential preparation, career coaching, and employer connections — all coordinated in one system.",
-    "analyticsName": "services"
+    "analyticsName": "services",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "enrollment": {
     "pageKey": "enrollment",
-    "posterImage": "/images/pages/enrollment-agreement-page-1.webp",
     "voiceoverSrc": "/audio/heroes/enrollment.mp3",
     "microLabel": "Enrollment",
     "belowHeroHeadline": "Ready to start? Let's get you enrolled.",
@@ -2204,7 +2186,6 @@
   },
   "how-it-works": {
     "pageKey": "how-it-works",
-    "posterImage": "/images/pages/how-it-works-hero.webp",
     "voiceoverSrc": "/audio/heroes/how-it-works.mp3",
     "microLabel": "How It Works",
     "belowHeroHeadline": "From application to employment in four steps.",
@@ -2230,7 +2211,6 @@
   },
   "employer": {
     "pageKey": "employer",
-    "posterImage": "/images/pages/employer-hero.webp",
     "voiceoverSrc": "/audio/heroes/career-services.mp3",
     "microLabel": "For Employers",
     "belowHeroHeadline": "Hire credentialed graduates. Access tax credits and apprenticeship support.",
@@ -2257,7 +2237,6 @@
   },
   "credentials": {
     "pageKey": "credentials",
-    "posterImage": "/hero-images/how-it-works-hero.webp",
     "microLabel": "Compliance Infrastructure",
     "belowHeroHeadline": "Credentials and compliance — active, verifiable, and integrated.",
     "belowHeroSubheadline": "DOL Registered Apprenticeship Sponsor. Indiana ETPL Certified. WIOA compliant. Every credential is operationally integrated, not decorative.",
@@ -2277,11 +2256,12 @@
       "Certiport Authorized Testing Center"
     ],
     "transcript": "Every Elevate credential is active, verifiable, and operationally integrated. DOL Registered Apprenticeship Sponsor, Indiana ETPL Certified, and WIOA compliant — four compliance tiers, three credential layers.",
-    "analyticsName": "credentials"
+    "analyticsName": "credentials",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "student-support": {
     "pageKey": "student-support",
-    "posterImage": "/hero-images/career-services-hero.webp",
     "microLabel": "Student Support",
     "belowHeroHeadline": "Support from enrollment through employment.",
     "belowHeroSubheadline": "Academic help, financial aid, career services, and counseling — everything you need to succeed.",
@@ -2301,11 +2281,12 @@
       "Counseling services"
     ],
     "transcript": "Elevate provides academic support, financial aid navigation, career placement, and counseling services — all included for enrolled students at no additional cost.",
-    "analyticsName": "student-support"
+    "analyticsName": "student-support",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/student-portal-hero.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/student-portal-hero.mp4"
   },
   "hire-graduates": {
     "pageKey": "hire-graduates",
-    "posterImage": "/images/pages/hire-graduates-page-1.webp",
     "voiceoverSrc": "/audio/heroes/hire-graduates.mp3",
     "microLabel": "Hire Our Graduates",
     "belowHeroHeadline": "Credential-ready talent. Pre-screened. Job-ready.",
@@ -2331,7 +2312,6 @@
   },
   "for-employers": {
     "pageKey": "for-employers",
-    "posterImage": "/images/pages/for-employers-page-1.webp",
     "voiceoverSrc": "/audio/heroes/for-employers.mp3",
     "microLabel": "For Employers",
     "belowHeroHeadline": "Build your workforce pipeline with Elevate.",
@@ -2357,7 +2337,6 @@
   },
   "faq": {
     "pageKey": "faq",
-    "posterImage": "/images/pages/faq-page-1.webp",
     "microLabel": "Frequently Asked Questions",
     "belowHeroHeadline": "Questions? We have answers.",
     "belowHeroSubheadline": "Everything you need to know about programs, funding, enrollment, and credentials.",
@@ -2376,11 +2355,12 @@
       "No hidden fees"
     ],
     "transcript": "Find answers to common questions about Elevate programs, funding eligibility, enrollment, and credentials.",
-    "analyticsName": "faq"
+    "analyticsName": "faq",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "financial-aid": {
     "pageKey": "financial-aid",
-    "posterImage": "/hero-images/wioa-hero.webp",
     "microLabel": "Financial Aid & Funding",
     "belowHeroHeadline": "Training at no cost for eligible students.",
     "belowHeroSubheadline": "WIOA, Next Level Jobs, DOL grants, and other funding sources can cover 100% of tuition for qualifying Indiana residents.",
@@ -2400,11 +2380,12 @@
       "No upfront cost"
     ],
     "transcript": "Most Elevate programs are available at no cost to eligible Indiana residents through WIOA, Next Level Jobs, and DOL funding. Check your eligibility today.",
-    "analyticsName": "financial-aid"
+    "analyticsName": "financial-aid",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "certifications": {
     "pageKey": "certifications",
-    "posterImage": "/hero-images/how-it-works-hero.webp",
     "microLabel": "Credentials & Certifications",
     "belowHeroHeadline": "Earn credentials employers recognize.",
     "belowHeroSubheadline": "Industry certifications in healthcare, trades, technology, and business — backed by national credentialing bodies.",
@@ -2424,11 +2405,12 @@
       "IRS PTIN credential"
     ],
     "transcript": "Elevate programs lead to industry-recognized credentials — NHA, EPA 608, CompTIA, IRS PTIN, and more. Credentials that employers hire for.",
-    "analyticsName": "certifications"
+    "analyticsName": "certifications",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "apprenticeship-sponsor": {
     "pageKey": "apprenticeship-sponsor",
-    "posterImage": "/hero-images/apprenticeships-hero.webp",
     "voiceoverSrc": "/audio/heroes/apprenticeship-sponsor.mp3",
     "microLabel": "DOL Apprenticeship Sponsor",
     "belowHeroHeadline": "Registered Apprenticeship — the earn-while-you-learn path.",
@@ -2449,11 +2431,12 @@
       "Employer-sponsored"
     ],
     "transcript": "As a DOL Registered Apprenticeship Sponsor, Elevate connects apprentices with employers who pay wages during training. Earn while you learn.",
-    "analyticsName": "apprenticeship-sponsor"
+    "analyticsName": "apprenticeship-sponsor",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "program-holder": {
     "pageKey": "program-holder",
-    "posterImage": "/images/pages/program-holder-page-1.webp",
     "voiceoverSrc": "/audio/heroes/program-holder.mp3",
     "microLabel": "Program Holders",
     "belowHeroHeadline": "Deliver training under the Elevate umbrella.",
@@ -2479,7 +2462,6 @@
   },
   "locations": {
     "pageKey": "locations",
-    "posterImage": "/images/pages/locations.webp",
     "microLabel": "Training Locations",
     "belowHeroHeadline": "Training in Indianapolis and beyond.",
     "belowHeroSubheadline": "In-person, hybrid, and online training options across Indiana — with employer site training available.",
@@ -2498,11 +2480,12 @@
       "Employer site training"
     ],
     "transcript": "Elevate offers training in Indianapolis and across Indiana — in-person, hybrid, and fully online. Find the format that works for you.",
-    "analyticsName": "locations"
+    "analyticsName": "locations",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "start": {
     "pageKey": "start",
-    "posterImage": "/images/pages/funding-page-1.jpg",
     "microLabel": "Get Started",
     "belowHeroHeadline": "Your next career starts here.",
     "belowHeroSubheadline": "Tell us about yourself and we'll match you with the right program and funding pathway.",
@@ -2521,12 +2504,13 @@
       "Funding pre-checked"
     ],
     "transcript": "Start your career training journey at Elevate. Tell us about yourself and we will match you with the right program and funding pathway.",
-    "analyticsName": "start"
+    "analyticsName": "start",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4"
   },
   "esthetician-apprenticeship": {
     "pageKey": "esthetician-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "posterImage": "/images/pages/cosmetology.webp",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Esthetician License",
     "durationLabel": "1,500 hours",
@@ -2554,7 +2538,6 @@
   },
   "cybersecurity": {
     "pageKey": "cybersecurity",
-    "posterImage": "/images/pages/cybersecurity-hero.webp",
     "microLabel": "CompTIA Security+",
     "credentialLabel": "CompTIA Security+",
     "durationLabel": "12 weeks",
@@ -2583,7 +2566,6 @@
   },
   "hospitality": {
     "pageKey": "hospitality",
-    "posterImage": "/images/pages/culinary.webp",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Hospitality & Customer Service — ServSafe certified in 8 weeks.",
     "belowHeroSubheadline": "Build a career in hotels, restaurants, and event services. WIOA and Workforce Ready Grant funding available.",
@@ -2612,7 +2594,6 @@
     "analyticsName": "direct-support-professional",
     "trustIndicators": [],
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/hero-images/dsp-hero.webp",
     "belowHeroHeadline": "Direct Support Professional — Indiana DSP credential in 6 weeks.",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 8400789
@@ -2620,7 +2601,6 @@
   "career-training-indiana": {
     "pageKey": "career-training-indiana",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Career Training in Indiana — Funded Programs for Adults.",
     "belowHeroSubheadline": "Healthcare, skilled trades, technology, and business programs. Most available at no cost through WIOA and state funding for eligible Indiana residents.",
@@ -2646,7 +2626,6 @@
   "qma": {
     "pageKey": "qma",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/healthcare-hero.webp",
     "voiceoverSrc": "/audio/heroes/healthcare.mp3",
     "microLabel": "Indiana QMA Certification",
     "credentialLabel": "Indiana QMA Certificate",
@@ -2680,7 +2659,6 @@
     "analyticsName": "drug-collector",
     "trustIndicators": [],
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/images/pages/drug-testing-main-1.jpg",
     "belowHeroHeadline": "Drug & Alcohol Collector — DOT-compliant certification in 2 weeks.",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 7230300
@@ -2688,7 +2666,6 @@
   "beauty": {
     "pageKey": "beauty",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "microLabel": "DOL Registered Apprenticeships",
     "belowHeroHeadline": "Beauty Industry Apprenticeships",
     "belowHeroSubheadline": "Cosmetology · Esthetics · Nails — earn while you learn with flat-fee pricing and DOL-registered programs.",
@@ -2716,7 +2693,6 @@
     "pageKey": "administrative-assistant",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/office-admin-desk.jpg",
     "headline": "Administrative Assistant",
     "subheadline": "Launch your office career with in-demand skills.",
     "microLabel": "Administrative Assistant",
@@ -2733,7 +2709,6 @@
     "pageKey": "ai-advanced-project-management-1774494313718",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3195441-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3195441-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/project-management.webp",
     "headline": "AI Project Management",
     "subheadline": "Lead projects with AI-powered tools and methods.",
     "microLabel": "AI Project Management",
@@ -2750,7 +2725,6 @@
     "pageKey": "ai-forklift-safety-certification-1774495387718",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
-    "posterImage": "/images/pages/forklift.webp",
     "headline": "AI Forklift Safety",
     "subheadline": "Earn your forklift safety certification online.",
     "microLabel": "AI Forklift Safety",
@@ -2767,7 +2741,6 @@
     "pageKey": "ai-osha-10-general-industry-1774495387718",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "OSHA 10 General Industry",
     "subheadline": "Complete OSHA 10 training and earn your card.",
     "microLabel": "OSHA 10 General Industry",
@@ -2784,7 +2757,6 @@
     "pageKey": "ai-osha-30-general-industry-1774495387718",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "OSHA 30 General Industry",
     "subheadline": "Advanced OSHA 30 certification for safety leaders.",
     "microLabel": "OSHA 30 General Industry",
@@ -2801,7 +2773,6 @@
     "pageKey": "automotive-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7006123-hd_1366_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7006123-hd_1366_720_25fps.mp4",
-    "posterImage": "/images/pages/diesel-mechanic.webp",
     "headline": "Automotive Technician",
     "subheadline": "Build hands-on skills in automotive repair.",
     "microLabel": "Automotive Technician",
@@ -2818,7 +2789,6 @@
     "pageKey": "barber",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6964488-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6964488-hd_1280_720_25fps.mp4",
-    "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
     "headline": "Barber Training",
     "subheadline": "Start your barbering career with professional training.",
     "microLabel": "Barber Training",
@@ -2835,7 +2805,6 @@
     "pageKey": "bookkeeping-fundamentals",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/bookkeeping.webp",
     "headline": "Bookkeeping Fundamentals",
     "subheadline": "Learn the core skills of professional bookkeeping.",
     "microLabel": "Bookkeeping Fundamentals",
@@ -2852,7 +2821,6 @@
     "pageKey": "building-maintenance-wrg",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
-    "posterImage": "/images/pages/construction-trades.webp",
     "headline": "Building Maintenance",
     "subheadline": "Hands-on training for building maintenance careers.",
     "microLabel": "Building Maintenance",
@@ -2869,7 +2837,6 @@
     "pageKey": "building-services-technician-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
-    "posterImage": "/images/pages/construction-trades.webp",
     "headline": "Building Services Tech",
     "subheadline": "Apprenticeship pathway for building services careers.",
     "microLabel": "Building Services Tech",
@@ -2886,7 +2853,6 @@
     "pageKey": "business-startup",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
-    "posterImage": "/images/pages/entrepreneurship.webp",
     "headline": "Business Startup",
     "subheadline": "Turn your idea into a thriving business.",
     "microLabel": "Business Startup",
@@ -2903,7 +2869,6 @@
     "pageKey": "certified-recovery-specialist",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "headline": "Certified Recovery Specialist",
     "subheadline": "Support others on their path to recovery.",
     "microLabel": "Certified Recovery Specialist",
@@ -2920,7 +2885,6 @@
     "pageKey": "cna-cert",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/hero-images/healthcare-cat-new.jpg",
     "headline": "CNA Certification",
     "subheadline": "Earn your Certified Nursing Assistant credential.",
     "microLabel": "CNA Certification",
@@ -2937,7 +2901,6 @@
     "pageKey": "cna-training",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/hero-images/healthcare-cat-new.jpg",
     "headline": "CNA Training",
     "subheadline": "Hands-on clinical training for aspiring CNAs.",
     "microLabel": "CNA Training",
@@ -2954,7 +2917,6 @@
     "pageKey": "community-health-worker",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
-    "posterImage": "/hero-images/dsp-hero.webp",
     "headline": "Community Health Worker",
     "subheadline": "Connect communities to the care they need.",
     "microLabel": "Community Health Worker",
@@ -2971,7 +2933,6 @@
     "pageKey": "construction-management",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
-    "posterImage": "/images/pages/construction-trades.webp",
     "headline": "Construction Management",
     "subheadline": "Lead construction projects from start to finish.",
     "microLabel": "Construction Management",
@@ -2988,7 +2949,6 @@
     "pageKey": "cosmetology",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/cosmetology.webp",
     "headline": "Cosmetology",
     "subheadline": "Build a career in beauty with professional training.",
     "microLabel": "Cosmetology",
@@ -3005,7 +2965,6 @@
     "pageKey": "customer-service",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/office-admin-desk.jpg",
     "headline": "Customer Service",
     "subheadline": "Build the skills employers look for in customer service.",
     "microLabel": "Customer Service",
@@ -3022,7 +2981,6 @@
     "pageKey": "data-analytics",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/11274341-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/11274341-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/software-development.jpg",
     "headline": "Data Analytics",
     "subheadline": "Turn data into decisions with analytics training.",
     "microLabel": "Data Analytics",
@@ -3039,7 +2997,6 @@
     "pageKey": "dental-assistant",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "Dental Assistant",
     "subheadline": "Launch your dental career with clinical training.",
     "microLabel": "Dental Assistant",
@@ -3056,7 +3013,6 @@
     "pageKey": "emt-basic",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/cpr-mannequin.webp",
     "headline": "EMT Basic",
     "subheadline": "Become an Emergency Medical Technician.",
     "microLabel": "EMT Basic",
@@ -3073,7 +3029,6 @@
     "pageKey": "forklift-operator",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
-    "posterImage": "/images/pages/forklift.webp",
     "headline": "Forklift Operator",
     "subheadline": "Get certified and start your warehouse career.",
     "microLabel": "Forklift Operator",
@@ -3090,7 +3045,6 @@
     "pageKey": "guest-services",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "Guest Services",
     "subheadline": "Deliver exceptional service in hospitality.",
     "microLabel": "Guest Services",
@@ -3107,7 +3061,6 @@
     "pageKey": "health-information-technology",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "headline": "Health Information Technology",
     "subheadline": "Manage health data with IT expertise.",
     "microLabel": "Health Information Technology",
@@ -3124,7 +3077,6 @@
     "pageKey": "hospitality-management",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "Hospitality Management",
     "subheadline": "Lead teams and operations in hospitality.",
     "microLabel": "Hospitality Management",
@@ -3141,7 +3093,6 @@
     "pageKey": "insurance-billing-coding",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "Insurance Billing & Coding",
     "subheadline": "Master medical billing and coding for healthcare careers.",
     "microLabel": "Insurance Billing & Coding",
@@ -3158,7 +3109,6 @@
     "pageKey": "jri-badge-1-mindsets",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Mindsets",
     "subheadline": "Build the mindset for career and life success.",
     "microLabel": "JRI: Mindsets",
@@ -3175,7 +3125,6 @@
     "pageKey": "jri-badge-2-digital-literacy",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "headline": "JRI: Digital Literacy",
     "subheadline": "Master essential digital skills for today's workplace.",
     "microLabel": "JRI: Digital Literacy",
@@ -3192,7 +3141,6 @@
     "pageKey": "jri-badge-3-financial-literacy",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8298000-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/bookkeeping.webp",
     "headline": "JRI: Financial Literacy",
     "subheadline": "Take control of your financial future.",
     "microLabel": "JRI: Financial Literacy",
@@ -3209,7 +3157,6 @@
     "pageKey": "jri-badge-4-career-readiness",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Career Readiness",
     "subheadline": "Prepare for your next career opportunity.",
     "microLabel": "JRI: Career Readiness",
@@ -3226,7 +3173,6 @@
     "pageKey": "jri-badge-5-entrepreneurship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
-    "posterImage": "/images/pages/entrepreneurship.webp",
     "headline": "JRI: Entrepreneurship",
     "subheadline": "Discover your entrepreneurial potential.",
     "microLabel": "JRI: Entrepreneurship",
@@ -3243,7 +3189,6 @@
     "pageKey": "jri-badge-6-trades-exploration",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "posterImage": "/hero-images/skilled-trades-cat-new.jpg",
     "headline": "JRI: Trades Exploration",
     "subheadline": "Explore skilled trades career pathways.",
     "microLabel": "JRI: Trades Exploration",
@@ -3260,7 +3205,6 @@
     "pageKey": "life-skills",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "Life Skills",
     "subheadline": "Build essential skills for work and life.",
     "microLabel": "Life Skills",
@@ -3277,7 +3221,6 @@
     "pageKey": "manufacturing-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13752022_640_360_50fps.mp4",
-    "posterImage": "/images/pages/construction-trades.webp",
     "headline": "Manufacturing Technician",
     "subheadline": "Build a career in modern manufacturing.",
     "microLabel": "Manufacturing Technician",
@@ -3294,7 +3237,6 @@
     "pageKey": "nail-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/4264878-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/cosmetology.webp",
     "headline": "Nail Technician",
     "subheadline": "Launch your nail tech career with professional training.",
     "microLabel": "Nail Technician",
@@ -3311,7 +3253,6 @@
     "pageKey": "nha-medical-assistant",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "NHA Medical Assistant",
     "subheadline": "Earn your NHA-certified Medical Assistant credential.",
     "microLabel": "NHA Medical Assistant",
@@ -3328,7 +3269,6 @@
     "pageKey": "nha-phlebotomy",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/phlebotomy-real.webp",
     "headline": "NHA Phlebotomy",
     "subheadline": "Earn your NHA phlebotomy certification.",
     "microLabel": "NHA Phlebotomy",
@@ -3345,7 +3285,6 @@
     "pageKey": "personal-care-aide",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7517699-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7517699-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/healthcare-classroom.webp",
     "headline": "Personal Care Aide",
     "subheadline": "Provide essential care and support to clients.",
     "microLabel": "Personal Care Aide",
@@ -3362,7 +3301,6 @@
     "pageKey": "real-estate",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
-    "posterImage": "/images/pages/business-sector.webp",
     "headline": "Real Estate",
     "subheadline": "Start your real estate career with licensed training.",
     "microLabel": "Real Estate",
@@ -3379,7 +3317,6 @@
     "pageKey": "reentry-employment",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "Reentry Employment",
     "subheadline": "Rebuild your career with employer-connected training.",
     "microLabel": "Reentry Employment",
@@ -3396,7 +3333,6 @@
     "pageKey": "servsafe-food-handler",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "ServSafe Food Handler",
     "subheadline": "Get certified in food safety and handling.",
     "microLabel": "ServSafe Food Handler",
@@ -3413,7 +3349,6 @@
     "pageKey": "servsafe-manager",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "ServSafe Manager",
     "subheadline": "Earn your ServSafe Manager certification.",
     "microLabel": "ServSafe Manager",
@@ -3430,7 +3365,6 @@
     "pageKey": "solar-installation",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/electrical-wiring.jpg",
     "headline": "Solar Installation",
     "subheadline": "Build a career in the growing solar energy industry.",
     "microLabel": "Solar Installation",
@@ -3447,7 +3381,6 @@
     "pageKey": "startup-business",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
-    "posterImage": "/images/pages/entrepreneurship.webp",
     "headline": "Startup Business",
     "subheadline": "Launch your business with expert guidance.",
     "microLabel": "Startup Business",
@@ -3464,7 +3397,6 @@
     "pageKey": "tax-prep",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/tax-career-paths.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/tax-career-paths.mp4",
-    "posterImage": "/images/business/office-admin.webp",
     "headline": "Tax Preparation",
     "subheadline": "Become a certified tax preparer.",
     "microLabel": "Tax Preparation",
@@ -3481,7 +3413,6 @@
     "pageKey": "youth-workforce",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "Youth Workforce",
     "subheadline": "Launch your career with youth workforce training.",
     "microLabel": "Youth Workforce",
@@ -3498,7 +3429,6 @@
     "pageKey": "ai-forklift-safety-certification-1774495387731",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/13996851_640_360_30fps.mp4",
-    "posterImage": "/images/pages/forklift.webp",
     "headline": "AI Forklift Safety Certification",
     "subheadline": "Earn your forklift safety certification online.",
     "microLabel": "AI Forklift Safety Certification",
@@ -3515,7 +3445,6 @@
     "pageKey": "chw-cert",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
-    "posterImage": "/hero-images/dsp-hero.webp",
     "headline": "Community Health Worker Certification",
     "subheadline": "Earn your CHW credential and serve your community.",
     "microLabel": "Community Health Worker Certification",
@@ -3532,7 +3461,6 @@
     "pageKey": "cpr-cert",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/cpr-mannequin.webp",
     "headline": "CPR Certification",
     "subheadline": "Get certified in CPR and emergency response.",
     "microLabel": "CPR Certification",
@@ -3549,7 +3477,6 @@
     "pageKey": "customer-service-representative",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/office-admin-desk.jpg",
     "headline": "Customer Service Representative",
     "subheadline": "Build the skills employers look for in customer service.",
     "microLabel": "Customer Service Representative",
@@ -3566,7 +3493,6 @@
     "pageKey": "drug-alcohol-specimen-collector",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "Drug & Alcohol Specimen Collector",
     "subheadline": "Become a certified specimen collector.",
     "microLabel": "Drug & Alcohol Specimen Collector",
@@ -3583,7 +3509,6 @@
     "pageKey": "dsp-training",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8400789-hd_1280_720_25fps.mp4",
-    "posterImage": "/hero-images/dsp-hero.webp",
     "headline": "Direct Support Professional Training",
     "subheadline": "Support individuals with disabilities in your community.",
     "microLabel": "Direct Support Professional Training",
@@ -3600,7 +3525,6 @@
     "pageKey": "emt-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/3981738-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/cpr-mannequin.webp",
     "headline": "EMT Apprenticeship",
     "subheadline": "Earn while you learn as an Emergency Medical Technician.",
     "microLabel": "EMT Apprenticeship",
@@ -3617,7 +3541,6 @@
     "pageKey": "entrepreneurship-small-business",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7414172-hd_1920_1080_24fps.mp4",
-    "posterImage": "/images/pages/entrepreneurship.webp",
     "headline": "Entrepreneurship & Small Business",
     "subheadline": "Launch and grow your small business.",
     "microLabel": "Entrepreneurship & Small Business",
@@ -3634,7 +3557,6 @@
     "pageKey": "guest-service-gold",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "Guest Service Gold",
     "subheadline": "Earn the gold standard in hospitality service.",
     "microLabel": "Guest Service Gold",
@@ -3651,7 +3573,6 @@
     "pageKey": "health-safety",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6151285-hd_1920_1080_30fps.mp4",
-    "posterImage": "/images/pages/sanitation.webp",
     "headline": "Health & Safety",
     "subheadline": "Master workplace health and safety fundamentals.",
     "microLabel": "Health & Safety",
@@ -3668,7 +3589,6 @@
     "pageKey": "hvac-2024",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4",
-    "posterImage": "/hero-images/skilled-trades-cat-new.jpg",
     "headline": "HVAC Technician 2024",
     "subheadline": "Get certified in HVAC installation and repair.",
     "microLabel": "HVAC Technician 2024",
@@ -3685,7 +3605,6 @@
     "pageKey": "insurance-agent",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
-    "posterImage": "/images/pages/business-sector.webp",
     "headline": "Insurance Agent",
     "subheadline": "Launch your career as a licensed insurance agent.",
     "microLabel": "Insurance Agent",
@@ -3702,7 +3621,6 @@
     "pageKey": "it-support",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "headline": "IT Support",
     "subheadline": "Build the skills for a career in IT support.",
     "microLabel": "IT Support",
@@ -3719,7 +3637,6 @@
     "pageKey": "it-support-specialist",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "headline": "IT Support Specialist",
     "subheadline": "Earn your IT support specialist certification.",
     "microLabel": "IT Support Specialist",
@@ -3736,7 +3653,6 @@
     "pageKey": "jri-badge-2-self-management",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Self-Management",
     "subheadline": "Develop the self-management skills for career success.",
     "microLabel": "JRI: Self-Management",
@@ -3753,7 +3669,6 @@
     "pageKey": "jri-badge-3-learning-strategies",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Learning Strategies",
     "subheadline": "Master strategies for lifelong learning.",
     "microLabel": "JRI: Learning Strategies",
@@ -3770,7 +3685,6 @@
     "pageKey": "jri-badge-4-social-skills",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Social Skills",
     "subheadline": "Build the social skills that employers value.",
     "microLabel": "JRI: Social Skills",
@@ -3787,7 +3701,6 @@
     "pageKey": "jri-badge-5-workplace-skills",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Workplace Skills",
     "subheadline": "Develop essential skills for the modern workplace.",
     "microLabel": "JRI: Workplace Skills",
@@ -3804,7 +3717,6 @@
     "pageKey": "jri-badge-6-launch-a-career",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI: Launch a Career",
     "subheadline": "Take the final step toward your new career.",
     "microLabel": "JRI: Launch a Career",
@@ -3821,7 +3733,6 @@
     "pageKey": "jri-introduction",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "JRI Introduction",
     "subheadline": "Begin your journey with the JRI program.",
     "microLabel": "JRI Introduction",
@@ -3838,7 +3749,6 @@
     "pageKey": "life-coach-certification-wioa",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "headline": "Life Coach Certification (WIOA)",
     "subheadline": "Become a certified life coach and help others thrive.",
     "microLabel": "Life Coach Certification (WIOA)",
@@ -3855,7 +3765,6 @@
     "pageKey": "nha-billing-coding",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "NHA Billing & Coding",
     "subheadline": "Earn your NHA medical billing and coding credential.",
     "microLabel": "NHA Billing & Coding",
@@ -3872,7 +3781,6 @@
     "pageKey": "nha-ehr",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/it-technology.mp4",
-    "posterImage": "/images/pages/it-help-desk.webp",
     "headline": "NHA Electronic Health Records",
     "subheadline": "Master EHR systems with NHA certification.",
     "microLabel": "NHA Electronic Health Records",
@@ -3889,7 +3797,6 @@
     "pageKey": "nha-ekg-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "NHA EKG Technician",
     "subheadline": "Earn your NHA EKG technician certification.",
     "microLabel": "NHA EKG Technician",
@@ -3906,7 +3813,6 @@
     "pageKey": "nha-medical-admin-assistant",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6130025-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/medical-assistant-lab.webp",
     "headline": "NHA Medical Admin Assistant",
     "subheadline": "Earn your NHA medical administrative assistant credential.",
     "microLabel": "NHA Medical Admin Assistant",
@@ -3923,7 +3829,6 @@
     "pageKey": "nha-patient-care-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
-    "posterImage": "/hero-images/healthcare-cat-new.jpg",
     "headline": "NHA Patient Care Technician",
     "subheadline": "Earn your NHA patient care technician certification.",
     "microLabel": "NHA Patient Care Technician",
@@ -3940,7 +3845,6 @@
     "pageKey": "nha-pharmacy-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8657331-hd_1366_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8657331-hd_1366_720_25fps.mp4",
-    "posterImage": "/images/pages/pharmacy-tech.webp",
     "headline": "NHA Pharmacy Technician",
     "subheadline": "Earn your NHA pharmacy technician certification.",
     "microLabel": "NHA Pharmacy Technician",
@@ -3957,7 +3861,6 @@
     "pageKey": "nrf-riseup",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7640073-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/office-admin-desk.jpg",
     "headline": "NRF RISE Up",
     "subheadline": "Earn your NRF retail industry credential.",
     "microLabel": "NRF RISE Up",
@@ -3974,7 +3877,6 @@
     "pageKey": "peer-recovery-specialist-jri",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "headline": "Peer Recovery Specialist (JRI)",
     "subheadline": "Support others on their recovery journey.",
     "microLabel": "Peer Recovery Specialist (JRI)",
@@ -3991,7 +3893,6 @@
     "pageKey": "peer-support",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "headline": "Peer Support Specialist",
     "subheadline": "Become a certified peer support specialist.",
     "microLabel": "Peer Support Specialist",
@@ -4008,7 +3909,6 @@
     "pageKey": "phlebotomy-technician",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6290542-hd_1280_720_30fps.mp4",
-    "posterImage": "/images/pages/phlebotomy-real.webp",
     "headline": "Phlebotomy Technician",
     "subheadline": "Earn your phlebotomy technician certification.",
     "microLabel": "Phlebotomy Technician",
@@ -4025,7 +3925,6 @@
     "pageKey": "real-estate-agent",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/partner-business.mp4",
-    "posterImage": "/images/pages/business-sector.webp",
     "headline": "Real Estate Agent",
     "subheadline": "Get licensed and launch your real estate career.",
     "microLabel": "Real Estate Agent",
@@ -4042,7 +3941,6 @@
     "pageKey": "recovery-coach",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/5713016-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/career-counseling.jpg",
     "headline": "Recovery Coach",
     "subheadline": "Become a certified recovery coach.",
     "microLabel": "Recovery Coach",
@@ -4059,7 +3957,6 @@
     "pageKey": "reentry-specialist",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/programs-overview-video-with-narration.mp4",
-    "posterImage": "/images/pages/apprenticeships-page-1.webp",
     "headline": "Reentry Specialist",
     "subheadline": "Help others rebuild their lives after incarceration.",
     "microLabel": "Reentry Specialist",
@@ -4076,7 +3973,6 @@
     "pageKey": "servsuccess",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "ServSuccess",
     "subheadline": "Earn your ServSuccess hospitality certification.",
     "microLabel": "ServSuccess",
@@ -4093,7 +3989,6 @@
     "pageKey": "solar-panel-installation",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/6615508-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/electrical-wiring.jpg",
     "headline": "Solar Panel Installation",
     "subheadline": "Build a career in the growing solar energy industry.",
     "microLabel": "Solar Panel Installation",
@@ -4110,7 +4005,6 @@
     "pageKey": "start-hospitality",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/7820473-hd_1920_1080_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "START Hospitality",
     "subheadline": "Launch your hospitality career with START certification.",
     "microLabel": "START Hospitality",
@@ -4127,7 +4021,6 @@
     "pageKey": "youth-culinary-apprenticeship",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8626681-hd_1280_720_25fps.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/8626681-hd_1280_720_25fps.mp4",
-    "posterImage": "/images/pages/culinary.webp",
     "headline": "Youth Culinary Apprenticeship",
     "subheadline": "Earn while you learn in a professional kitchen.",
     "microLabel": "Youth Culinary Apprenticeship",

@@ -1,7 +1,7 @@
 {
-  "staticProgramSlugs": 0,
+  "staticProgramSlugs": 40,
   "heroBannerEntries": 187,
   "staticMissingBanner": [],
-  "imageOnlyMissingFile": [],
-  "videoMissingFile": []
+  "bannersMissingVideo": [],
+  "bannersWithPosterImage": []
 }

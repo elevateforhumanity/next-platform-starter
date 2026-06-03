@@ -9,34 +9,31 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const banners = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/hero-banners.json'), 'utf8'));
 
+// Slugs registered in data/programs/index.ts (not every slug: line in program files)
 const indexSrc = fs.readFileSync(path.join(ROOT, 'data/programs/index.ts'), 'utf8');
-const staticSlugs = [...indexSrc.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]);
-const uniqueStatic = [...new Set(staticSlugs)];
+const importedFiles = [...indexSrc.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]);
+const uniqueStatic = [];
+for (const file of importedFiles) {
+  const src = fs.readFileSync(path.join(ROOT, 'data/programs', `${file}.ts`), 'utf8');
+  const m = src.match(/slug:\s*['"]([^'"]+)['"]/);
+  if (m) uniqueStatic.push(m[1]);
+}
 
 const missingBanner = uniqueStatic.filter((s) => !banners[s]?.pageKey);
-const badPoster = [];
-const badVideo = [];
+const missingVideo = [];
+const hasPoster = [];
 
 for (const [key, b] of Object.entries(banners)) {
-  if (b.posterImage && !b.videoSrcDesktop) {
-    const file = path.join(ROOT, 'public', b.posterImage.replace(/^\//, ''));
-    if (!fs.existsSync(file)) badPoster.push({ key, poster: b.posterImage });
-  }
-  if (b.videoSrcDesktop) {
-    const rel = b.videoSrcDesktop.replace(/^\//, '');
-    const file = path.join(ROOT, 'public', rel);
-    if (rel.startsWith('videos/') && !fs.existsSync(file) && !fs.existsSync(path.join(ROOT, 'public', rel))) {
-      badVideo.push({ key, video: b.videoSrcDesktop });
-    }
-  }
+  if (!b.videoSrcDesktop) missingVideo.push(key);
+  if (b.posterImage) hasPoster.push(key);
 }
 
 const out = {
   staticProgramSlugs: uniqueStatic.length,
   heroBannerEntries: Object.keys(banners).length,
   staticMissingBanner: missingBanner,
-  imageOnlyMissingFile: badPoster,
-  videoMissingFile: badVideo,
+  bannersMissingVideo: missingVideo,
+  bannersWithPosterImage: hasPoster,
 };
 
 const outDir = path.join(ROOT, 'docs/audits');
@@ -45,8 +42,8 @@ fs.writeFileSync(path.join(outDir, 'HERO_BANNER_COVERAGE.json'), JSON.stringify(
 
 console.log('Static programs:', out.staticProgramSlugs);
 console.log('Missing banner entry:', missingBanner.length, missingBanner.join(', ') || '(none)');
-console.log('Broken poster files:', badPoster.length);
-badPoster.slice(0, 10).forEach((r) => console.log(' ', r.key, r.poster));
+console.log('Banners missing video:', missingVideo.length);
+console.log('Banners with posterImage (should be 0):', hasPoster.length);
 console.log('Wrote docs/audits/HERO_BANNER_COVERAGE.json');
 
-process.exit(missingBanner.length || badPoster.length ? 1 : 0);
+process.exit(missingBanner.length || missingVideo.length || hasPoster.length ? 1 : 0);

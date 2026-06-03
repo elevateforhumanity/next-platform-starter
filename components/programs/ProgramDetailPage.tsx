@@ -41,7 +41,7 @@ import {
 } from '@/lib/programs/program-schema';
 import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
 import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
-import { resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
+import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Props {
@@ -124,28 +124,10 @@ export default function ProgramDetailPage({
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
               ];
-              // Use HeroPicture when no video is configured — avoids passing
-              // undefined to HeroVideo's required videoSrcDesktop prop.
-              if (!banner.videoSrcDesktop) {
-                return (
-                  <HeroPicture
-                    src={heroPosterSrc}
-                    alt={p.heroImageAlt ?? banner.microLabel ?? p.title}
-                    heightStyle={heroTokens.imageWrap}
-                    microLabel={banner.microLabel}
-                    analyticsName={banner.analyticsName}
-                    belowHeroHeadline={banner.belowHeroHeadline}
-                    belowHeroSubheadline={banner.belowHeroSubheadline}
-                    ctas={bannerCtas}
-                    trustIndicators={banner.trustIndicators}
-                    transcript={banner.transcript}
-                  />
-                );
-              }
               return (
                 <HeroVideo
-                  videoSrcDesktop={banner.videoSrcDesktop}
-                  posterImage={heroPosterSrc}
+                  videoSrcDesktop={banner.videoSrcDesktop ?? DEFAULT_HERO_VIDEO}
+                  videoSrcMobile={banner.videoSrcMobile}
                   voiceoverSrc={banner.voiceoverSrc}
                   microLabel={banner.microLabel}
                   analyticsName={banner.analyticsName}
