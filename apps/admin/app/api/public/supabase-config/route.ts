@@ -1,3 +1,9 @@
 // PUBLIC ROUTE: Supabase anon key is intended for browser use (RLS-protected).
 
-export { dynamic, GET } from '@/app/api/public/supabase-config/route';
+import { getSupabasePublicConfigResponse } from '@/lib/api/public/supabase-config';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+  return getSupabasePublicConfigResponse();
+}
