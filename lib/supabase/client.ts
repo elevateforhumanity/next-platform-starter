@@ -9,6 +9,7 @@ import { logger } from '@/lib/logger';
 
 import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { getBrowserPublicSupabaseConfig } from '@/lib/supabase/public-config';
 
 // Chainable stub that returns empty data for every query method.
 // Prevents "Cannot read properties of null (reading 'from')" across 130+ components.
@@ -81,20 +82,15 @@ const noOpClient = {
 
 let warnedOnce = false;
 
+let cachedClient: SupabaseClient<any> | null = null;
+let cachedConfigKey: string | null = null;
+
 export function createBrowserClient(): SupabaseClient<any> {
-  // process.env.NEXT_PUBLIC_* is inlined by Next.js at build time.
-  // Fallback literals ensure the client works even when Turbopack
-  // fails to inline env vars in dev (known issue with some env setups).
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const publicConfig = getBrowserPublicSupabaseConfig();
+  const supabaseUrl = publicConfig?.url;
+  const supabaseAnonKey = publicConfig?.anonKey;
 
-  const misconfigured =
-    !supabaseUrl ||
-    !supabaseAnonKey ||
-    supabaseAnonKey === 'placeholder' ||
-    supabaseUrl.includes('placeholder');
-
-  if (misconfigured) {
+  if (!supabaseUrl || !supabaseAnonKey) {
     if (!warnedOnce) {
       logger.error(
         '[Supabase Browser] Auth is misconfigured (missing or placeholder NEXT_PUBLIC_SUPABASE_*). Login and client actions will not work.',
@@ -104,8 +100,15 @@ export function createBrowserClient(): SupabaseClient<any> {
     return noOpClient;
   }
 
+  const configKey = `${supabaseUrl}:${supabaseAnonKey.slice(0, 12)}`;
+  if (cachedClient && cachedConfigKey === configKey) {
+    return cachedClient;
+  }
+
   try {
     const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+    cachedClient = client;
+    cachedConfigKey = configKey;
 
     // Silently clear stale sessions when the refresh token is invalid or expired.
     // Without this, Supabase logs "Invalid Refresh Token: Refresh Token Not Found"

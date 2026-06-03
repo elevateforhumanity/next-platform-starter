@@ -1,0 +1,79 @@
+/**
+ * Public Supabase URL + anon key (safe to expose to the browser).
+ *
+ * NEXT_PUBLIC_* values are inlined at build time. ECS/runtime env only applies on the server
+ * unless we inject config per request (see SupabasePublicConfigScript).
+ */
+
+export type SupabasePublicConfig = {
+  url: string;
+  anonKey: string;
+};
+
+declare global {
+  interface Window {
+    __EFH_SUPABASE_PUBLIC__?: SupabasePublicConfig;
+  }
+}
+
+export function isPlaceholderSupabaseConfig(
+  url?: string | null,
+  anonKey?: string | null,
+): boolean {
+  if (!url?.trim() || !anonKey?.trim()) return true;
+  if (anonKey.trim() === 'placeholder') return true;
+  if (url.includes('placeholder')) return true;
+  return false;
+}
+
+/** Read from process.env (build-time inline and/or Node runtime on ECS). */
+export function getServerPublicSupabaseConfig(): SupabasePublicConfig | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
+  return { url: url!, anonKey: anonKey! };
+}
+
+/** Browser: prefer runtime injection, then build-time inlined env. */
+export function getBrowserPublicSupabaseConfig(): SupabasePublicConfig | null {
+  if (typeof window !== 'undefined') {
+    const runtime = window.__EFH_SUPABASE_PUBLIC__;
+    if (
+      runtime?.url &&
+      runtime?.anonKey &&
+      !isPlaceholderSupabaseConfig(runtime.url, runtime.anonKey)
+    ) {
+      return { url: runtime.url, anonKey: runtime.anonKey };
+    }
+  }
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
+  return { url: url!, anonKey: anonKey! };
+}
+
+export function isSupabaseAuthConfigured(): boolean {
+  return getBrowserPublicSupabaseConfig() !== null;
+}
+
+/** Fetch runtime config from the server when build-time inlining was empty. */
+export async function hydrateBrowserSupabaseConfig(): Promise<SupabasePublicConfig | null> {
+  const existing = getBrowserPublicSupabaseConfig();
+  if (existing) return existing;
+
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const res = await fetch('/api/public/supabase-config', { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { url?: string; anonKey?: string };
+    if (!data.url || !data.anonKey || isPlaceholderSupabaseConfig(data.url, data.anonKey)) {
+      return null;
+    }
+    window.__EFH_SUPABASE_PUBLIC__ = { url: data.url, anonKey: data.anonKey };
+    return { url: data.url, anonKey: data.anonKey };
+  } catch {
+    return null;
+  }
+}

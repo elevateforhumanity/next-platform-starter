@@ -21,6 +21,7 @@ import PWAManager from '@/components/PWAManager';
 import { InstallPromptBanner } from '@/components/pwa/InstallPromptBanner';
 import AuthRedirectHandler from '@/components/auth/AuthRedirectHandler';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { SupabasePublicConfigScript } from '@/components/supabase/SupabasePublicConfigScript';
 
 const inter = { variable: '' };
 
@@ -220,6 +221,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <StructuredData />
+        <SupabasePublicConfigScript />
       </head>
       <body
         className={`min-h-dvh bg-white antialiased`}

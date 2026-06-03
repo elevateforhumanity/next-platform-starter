@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ToasterClient from '@/components/ui/ToasterClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { SupabasePublicConfigScript } from '@/components/supabase/SupabasePublicConfigScript';
 
 const ADMIN_METADATA_BASE =
   (process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(
@@ -37,6 +38,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <SupabasePublicConfigScript />
+      </head>
       <body className="font-sans antialiased">
         {children}
         {/* Single Toaster mount for the entire admin app — covers /admin, /instructor, /login */}

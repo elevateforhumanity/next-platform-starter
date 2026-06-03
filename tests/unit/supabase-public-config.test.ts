@@ -1,0 +1,32 @@
+import { describe, expect, it } from 'vitest';
+import {
+  getServerPublicSupabaseConfig,
+  isPlaceholderSupabaseConfig,
+} from '@/lib/supabase/public-config';
+
+describe('supabase public-config', () => {
+  it('treats placeholder values as misconfigured', () => {
+    expect(isPlaceholderSupabaseConfig('https://x.supabase.co', 'placeholder')).toBe(true);
+    expect(isPlaceholderSupabaseConfig('https://placeholder.supabase.co', 'eyJ')).toBe(true);
+    expect(isPlaceholderSupabaseConfig('', '')).toBe(true);
+  });
+
+  it('accepts real-looking values', () => {
+    expect(
+      isPlaceholderSupabaseConfig(
+        'https://cuxzzpsyufcewtmicszk.supabase.co',
+        'eyJhbGciOiJIUzI1NiJ9.test',
+      ),
+    ).toBe(false);
+  });
+
+  it('getServerPublicSupabaseConfig returns null when env is missing', () => {
+    const prevUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const prevKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+    delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    expect(getServerPublicSupabaseConfig()).toBeNull();
+    process.env.NEXT_PUBLIC_SUPABASE_URL = prevUrl;
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = prevKey;
+  });
+});

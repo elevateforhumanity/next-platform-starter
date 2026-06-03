@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { validateRedirect } from '@/lib/auth/validate-redirect';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -55,6 +56,15 @@ function LoginForm() {
     setError('');
 
     try {
+      const hydrated = await hydrateBrowserSupabaseConfig();
+      if (!hydrated) {
+        setError(
+          'Sign-in is temporarily unavailable (site configuration). Please try again later or contact support.',
+        );
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
 
       const { data, error }: any = await supabase.auth.signInWithPassword({
