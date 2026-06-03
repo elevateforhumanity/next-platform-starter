@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
 
 export const metadata: Metadata = {
   title: 'Become a Host Barbershop | Barber Apprenticeship',
@@ -159,6 +160,7 @@ export default function HostShopsPage() {
                 'Maintain a safe, professional training environment',
                 'Agree to verify apprentice attendance and progress',
                 'Follow program guidelines and documentation requirements',
+                'Use the published program syllabus so floor coaching matches the apprentice’s daily LMS theory module',
                 'Carry appropriate business insurance',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -221,6 +223,8 @@ export default function HostShopsPage() {
           </div>
         </div>
       </section>
+
+      <HostShopSyllabusRequirement programSlug="barber-apprenticeship" />
 
       {/* Approval Process */}
       <section className="py-16 px-6">

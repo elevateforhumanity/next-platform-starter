@@ -12,6 +12,9 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 // shown inline. Removing to eliminate invisible text, section stacking,
 // and redundant career/credential/payment sections.
 import { BNPL_PROVIDER_NAMES, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
+import BeautyTheoryDailyPolicy from '@/components/programs/beauty/BeautyTheoryDailyPolicy';
+import FeaturedHostPartners from '@/components/programs/beauty/FeaturedHostPartners';
+import BarberWorkforceNetworkMap from '@/components/programs/beauty/BarberWorkforceNetworkMap';
 
 interface Props { program: ProgramSchema; heroBanner: HeroBannerConfig | null; enrollmentCount?: number; }
 
@@ -217,6 +220,12 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
 
       {/* ═══ PARTNERSHIP / CAREER PATHWAYS / TRANSFER HOURS ═══ */}
       {/* Removed — career pathways + partnership shown in Career Outcomes section below */}
+
+      <BeautyTheoryDailyPolicy programTitle="Barber Apprenticeship" />
+
+      <FeaturedHostPartners />
+
+      <BarberWorkforceNetworkMap />
 
       {/* ═══ FUNDING & PAYMENT OPTIONS (WIOA · SNAP E&T · Self-Pay · Payment Plan · BNPL) ═══ */}
       <section id="funding" className="py-12 bg-slate-50 border-y border-slate-200">

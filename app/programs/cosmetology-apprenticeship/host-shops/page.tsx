@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
 
 export const metadata: Metadata = {
   title: 'Become a Host Salon | Cosmetology Apprenticeship',
@@ -228,6 +229,8 @@ export default function CosmetologyHostSalonsPage() {
           </div>
         </div>
       </section>
+
+      <HostShopSyllabusRequirement programSlug="cosmetology-apprenticeship" />
 
       {/* Approval Process */}
       <section className="py-16 px-6">

@@ -8,6 +8,9 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { canCreditTheoryHoursForDate } from '@/lib/beauty-apprenticeship/check-daily-theory-credit';
+import { dailyTheoryBlockedMessage } from '@/lib/beauty-apprenticeship/daily-theory';
+import { DAILY_THEORY_PASSING_SCORE } from '@/lib/beauty-apprenticeship/constants';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -172,10 +175,19 @@ export async function DELETE(request: NextRequest) {
 
     const currentTheory = (ledger as any)?.[`mod${session.module_number}_theory`] ?? 0;
     const cap = MODULE_THEORY_CAPS[session.module_number] ?? 100;
-    const theoryCredited = Math.min(
+    let theoryCredited = Math.min(
       activeHours * THEORY_CREDIT_RATE,
       Math.max(0, cap - currentTheory),
     );
+
+    const dailyGate = await canCreditTheoryHoursForDate(
+      db,
+      user.id,
+      'barber-apprenticeship',
+    );
+    if (!dailyGate.allowed) {
+      theoryCredited = 0;
+    }
 
     // Update session record
     await db
@@ -225,6 +237,10 @@ export async function DELETE(request: NextRequest) {
       active_seconds: activeSeconds,
       theory_hours_credited: theoryCredited,
       practical_hours_credited: 0,
+      daily_theory_required: !dailyGate.allowed,
+      daily_theory_passing_score: DAILY_THEORY_PASSING_SCORE,
+      daily_theory_best_score: dailyGate.bestScore,
+      daily_theory_message: dailyGate.allowed ? null : dailyTheoryBlockedMessage(dailyGate.bestScore ?? undefined),
     });
   } catch (err) {
     return safeInternalError(err, 'Failed to end session');
