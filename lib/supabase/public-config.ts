@@ -23,7 +23,9 @@ export function isPlaceholderSupabaseConfig(
   anonKey?: string | null,
 ): boolean {
   if (!url?.trim() || !anonKey?.trim()) return true;
-  if (anonKey.trim() === 'placeholder') return true;
+  const key = anonKey.trim();
+  if (key === 'placeholder' || key === 'build-placeholder') return true;
+  if (/placeholder/i.test(key)) return true;
   if (url.includes('placeholder')) return true;
   return false;
 }

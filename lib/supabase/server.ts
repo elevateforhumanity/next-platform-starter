@@ -1,5 +1,6 @@
 import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
+import { resolveServerSupabaseEnv } from '@/lib/supabase/server-env';
 import { createServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
@@ -62,15 +63,15 @@ const mockClient = {
 // Returns a real Supabase client. Throws if env vars are missing — misconfiguration
 // must be caught immediately, not silently swallowed by a mock.
 export async function createClient(): Promise<SupabaseClient<any>> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
+  const resolved = resolveServerSupabaseEnv();
+  if (!resolved) {
     throw new Error(
-      '[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
-        'Run: bash .devcontainer/setup-env.sh',
+      '[Supabase] Missing or placeholder NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
+        'Set real Supabase credentials in the deployment secret group (not build-placeholder).',
     );
   }
+
+  const { url: supabaseUrl, anonKey: supabaseAnonKey } = resolved;
 
   try {
     const cookieStore = await cookies();
@@ -114,12 +115,12 @@ export async function createClient(): Promise<SupabaseClient<any>> {
 // Uses the anon key with no session — do NOT use for auth-gated queries.
 // Returns mockClient if the Supabase constructor fails (e.g. during static prerender).
 export function createPublicClient(): SupabaseClient<any> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
+  const resolved = resolveServerSupabaseEnv();
+  if (!resolved) {
     return mockClient;
   }
+
+  const { url: supabaseUrl, anonKey: supabaseAnonKey } = resolved;
 
   try {
     return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
