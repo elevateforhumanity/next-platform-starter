@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getServerPublicSupabaseConfig,
   isPlaceholderSupabaseConfig,
+  resolveServerSupabaseRawEnv,
 } from '@/lib/supabase/public-config';
 
 describe('supabase public-config', () => {
@@ -32,6 +33,20 @@ describe('supabase public-config', () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = prevUrl;
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = prevKey;
     process.env.SUPABASE_URL = prevSupabaseUrl;
+  });
+
+  it('prefers SUPABASE_ANON_KEY over inlined NEXT_PUBLIC build placeholder', () => {
+    const prevAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const prevRuntime = process.env.SUPABASE_ANON_KEY;
+    const prevUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'build-placeholder';
+    process.env.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9.runtime';
+    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://cuxzzpsyufcewtmicszk.supabase.co';
+    const cfg = getServerPublicSupabaseConfig();
+    expect(cfg?.anonKey).toBe('eyJhbGciOiJIUzI1NiJ9.runtime');
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = prevAnon;
+    process.env.SUPABASE_ANON_KEY = prevRuntime;
+    process.env.NEXT_PUBLIC_SUPABASE_URL = prevUrl;
   });
 
   it('getServerPublicSupabaseConfig falls back to SUPABASE_URL', () => {

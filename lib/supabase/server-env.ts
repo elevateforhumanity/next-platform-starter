@@ -1,5 +1,7 @@
-import { isPlaceholderSupabaseConfig } from '@/lib/supabase/public-config';
-import { normalizeSupabaseProjectUrl } from '@/lib/supabase/normalize-url';
+import {
+  isPlaceholderSupabaseConfig,
+  resolveServerSupabaseRawEnv,
+} from '@/lib/supabase/public-config';
 
 export type ServerSupabaseEnv = {
   url: string;
@@ -8,24 +10,13 @@ export type ServerSupabaseEnv = {
 
 /** Resolved Supabase URL + anon key for server auth (runtime process.env). */
 export function resolveServerSupabaseEnv(): ServerSupabaseEnv | null {
-  const url = normalizeSupabaseProjectUrl(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
-  );
-  const anonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
-    process.env.SUPABASE_ANON_KEY?.trim();
-
+  const { url, anonKey } = resolveServerSupabaseRawEnv();
   if (isPlaceholderSupabaseConfig(url, anonKey)) return null;
   return { url: url!, anonKey: anonKey! };
 }
 
 export function getServerSupabaseEnvMisconfigurationReason(): string | null {
-  const url = normalizeSupabaseProjectUrl(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL,
-  );
-  const anonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
-    process.env.SUPABASE_ANON_KEY?.trim();
+  const { url, anonKey } = resolveServerSupabaseRawEnv();
 
   if (!url?.trim()) return 'NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) is missing';
   if (!anonKey?.trim()) return 'NEXT_PUBLIC_SUPABASE_ANON_KEY (or SUPABASE_ANON_KEY) is missing';
