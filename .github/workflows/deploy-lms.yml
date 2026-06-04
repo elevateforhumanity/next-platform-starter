@@ -82,6 +82,11 @@ jobs:
       - name: Wait for LMS deployment
         run: pnpm tsx scripts/northflank/wait-service.ts "$NORTHFLANK_LMS_SERVICE_ID" --timeout-ms 3600000
 
+      - name: Verify deployed SHA matches main
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: pnpm tsx scripts/northflank/verify-deployed-sha.ts elevate-lms
+
       - name: Smoke LMS
         run: |
           set -euo pipefail
