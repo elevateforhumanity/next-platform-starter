@@ -1,0 +1,16 @@
+# Keep Docker build context small; full repo is still copied for pnpm workspace install.
+.git
+.github
+**/.next
+**/.turbo
+**/node_modules
+.pnpm-store
+coverage
+playwright-report
+test-results
+*.md
+!README.md
+terminals
+.cursor
+apps/admin/.next
+.next

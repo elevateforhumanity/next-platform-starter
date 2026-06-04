@@ -21,12 +21,13 @@ RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/admin/package.json apps/admin/package.json
-
-RUN pnpm install --frozen-lockfile
-
+# Monorepo: pnpm needs all workspace package.json files (apps/*, packages/*) before install.
+# Partial COPY + --frozen-lockfile often fails with ERR_PNPM_* on CI builders.
 COPY . .
+
+ENV HUSKY=0
+ENV CI=true
+RUN pnpm install --frozen-lockfile --package-import-method=copy
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

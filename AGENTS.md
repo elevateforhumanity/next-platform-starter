@@ -850,6 +850,7 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 ### Northflank deploy (LMS + admin)
 
 - **LMS:** service `elevate-lms`, Dockerfile `Dockerfile.northflank-lms`, branch `main`
+- **Admin (Northflank):** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin` — must use `COPY . .` then `pnpm install --frozen-lockfile --package-import-method=copy` (not install before workspace manifests exist; avoid `--package-import-method=hardlink` on Northflank builders).
 - **Admin (AWS ECS):** `elevate-admin-service` on `elevate-cluster`, `Dockerfile.admin`, CodeBuild `elevate-admin-build`. `apps/admin/server.js` must load `.next/required-server-files.json` at startup. ECS container health uses `/api/ping` (not `/api/health`). Deploy: `.github/workflows/deploy-admin.yml` on `main`.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
 - **Deploy both:** `DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute`
