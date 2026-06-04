@@ -53,3 +53,29 @@ node -e "require('@napi-rs/canvas'); console.log('canvas ok')"
 - Confirm admin build ran **after** prune-list change.
 - Run `pnpm install` so lockfile includes `@napi-rs/canvas`.
 - Do not add `pdfjs-dist` back to `SHARED_STANDALONE_PRUNE_PACKAGES`.
+
+## Options matrix (generic Next.js advice vs Elevate)
+
+| Approach | Generic advice | Elevate decision |
+|----------|----------------|------------------|
+| **1. Install `@napi-rs/canvas`** | Recommended | **Done** — direct dep + lockfile; admin standalone no longer prunes canvas/pdfjs |
+| **2. Browser-only `pdfjs-dist`** | Good for in-app PDF viewers | **N/A today** — no `import "pdfjs-dist"` in app code; only `pdf-parse` on **server** API routes |
+| **3. Global DOM polyfill shim** | Works in some setups | **Skipped** — native canvas is cleaner when we already ship the binary |
+| **4. Pin `pdfjs-dist@4.10.38`** | Fixes many deploys | **Not used** — `pdf-parse@2.4.5` requires `pdfjs-dist@5.4.296`; downgrading breaks pdf-parse |
+| **Docker `pnpm install --frozen-lockfile`** | Required | **Already** in `Dockerfile.northflank-*`; avoid `--prod` that strips optionals |
+
+### PDF stacks on Elevate (do not conflate)
+
+| Library | Use | Canvas needed? |
+|---------|-----|----------------|
+| `pdf-parse` + `pdfjs-dist` | Admin text extract from uploads | **Yes** (admin container) |
+| `pdf-lib` / `pdfkit` | Generate MOUs, certs, grants | No pdfjs |
+| `@react-pdf/renderer` | Listed in package.json; **no app imports found** | Separate from pdfjs-dist warnings |
+
+### If we add a client PDF viewer later
+
+Use `next/dynamic` with `{ ssr: false }` — do not import `pdfjs-dist` in Server Components or root layout.
+
+### Northflank / ECS
+
+Redeploy **elevate-admin** after merges **#258** and **#259**. LMS may still log warnings only if something calls `pdf-parse` on www (unlikely; LMS prunes PDF stack).
