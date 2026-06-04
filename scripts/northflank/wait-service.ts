@@ -18,6 +18,11 @@ type ServiceStatus = {
   };
 };
 
+type LogEntry = {
+  log?: string;
+  ts?: string;
+};
+
 function resolveServicePhase(service: ServiceStatus): string {
   const build = service.status?.build?.status ?? service.buildStatus;
   const deploy = service.status?.deployment?.status ?? service.deploymentStatus?.status;
@@ -32,6 +37,41 @@ function resolveServicePhase(service: ServiceStatus): string {
 function argValue(name: string): string | undefined {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : undefined;
+}
+
+async function printRecentBuildLogs(projectId: string, serviceId: string) {
+  const params = new URLSearchParams({
+    queryType: 'range',
+    duration: String(60 * 60),
+    lineLimit: '200',
+    direction: 'backward',
+  });
+
+  try {
+    const logs = await nfFetch<LogEntry[]>(
+      projectApiPath(projectId, `/services/${serviceId}/build-logs?${params}`),
+    );
+
+    if (!Array.isArray(logs) || logs.length === 0) {
+      console.error(`${serviceId}: no recent Northflank build logs were returned.`);
+      return;
+    }
+
+    console.error(`\n--- Recent Northflank build logs for ${serviceId} ---`);
+    for (const entry of logs.reverse()) {
+      const prefix = entry.ts ? `${entry.ts} ` : '';
+      console.error(`${prefix}${entry.log ?? ''}`);
+    }
+    console.error(`--- End Northflank build logs for ${serviceId} ---\n`);
+  } catch (error) {
+    console.error(`${serviceId}: failed to fetch Northflank build logs`, error);
+  }
+}
+
+async function failWithLogs(projectId: string, serviceId: string, message: string) {
+  console.error(message);
+  await printRecentBuildLogs(projectId, serviceId);
+  process.exit(1);
 }
 
 async function main() {
@@ -65,8 +105,7 @@ async function main() {
     }
 
     if (build === 'FAILURE' || build === 'ERROR' || build === 'FAILED') {
-      console.error(`${serviceId} build failed (${build})`);
-      process.exit(1);
+      await failWithLogs(projectId, serviceId, `${serviceId} build failed (${build})`);
     }
 
     const deployReady =
@@ -79,15 +118,13 @@ async function main() {
     }
 
     if (['FAILED', 'ERROR'].includes(deploy ?? '')) {
-      console.error(`${serviceId} deployment failed (${deploy})`);
-      process.exit(1);
+      await failWithLogs(projectId, serviceId, `${serviceId} deployment failed (${deploy})`);
     }
 
     await new Promise((resolve) => setTimeout(resolve, 15_000));
   }
 
-  console.error(`${serviceId} did not settle within ${timeoutMs}ms`);
-  process.exit(1);
+  await failWithLogs(projectId, serviceId, `${serviceId} did not settle within ${timeoutMs}ms`);
 }
 
 main().catch((e) => {
