@@ -1,6 +1,7 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -60,23 +61,29 @@ async function _POST(request: NextRequest) {
     const trialEndsAt = new Date();
     trialEndsAt.setDate(trialEndsAt.getDate() + TRIAL_DURATION_DAYS);
 
-    const { data: subscription, error } = await supabase
+    const row = {
+      user_id: user.id,
+      app_slug: appSlug,
+      plan: plan,
+      status: 'trial',
+      trial_ends_at: trialEndsAt.toISOString(),
+      current_period_start: new Date().toISOString(),
+      current_period_end: trialEndsAt.toISOString(),
+    };
+
+    const admin = await getAdminClient();
+    const { data: subscription, error } = await admin
       .from('user_app_subscriptions')
-      .insert({
-        user_id: user.id,
-        app_slug: appSlug,
-        plan: plan,
-        status: 'trial',
-        trial_ends_at: trialEndsAt.toISOString(),
-        current_period_start: new Date().toISOString(),
-        current_period_end: trialEndsAt.toISOString(),
-      })
+      .insert(row)
       .select()
       .maybeSingle();
 
     if (error) {
       logger.error('Error creating trial:', error);
-      return NextResponse.json({ error: 'Failed to create trial' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to create trial', detail: error.message },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({
