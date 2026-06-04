@@ -126,6 +126,8 @@ const adminConfig = {
     'tesseract.js',
     'tesseract.js-core',
     'pdf-parse',
+    'pdfjs-dist',
+    '@napi-rs/canvas',
     'pdfkit',
     'pdf-lib',
     '@aws-sdk/client-s3',
