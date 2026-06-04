@@ -55,10 +55,10 @@ const BUILDKIT = {
 
 const billing = {
   deploymentPlan: process.env.NORTHFLANK_DEPLOYMENT_PLAN || 'nf-compute-100-2',
-  buildPlan: process.env.NORTHFLANK_BUILD_PLAN || 'nf-compute-400-16',
+  buildPlan: process.env.NORTHFLANK_BUILD_PLAN || 'nf-compute-800-32',
 };
 
-const ephemeralStorageSize = Number(process.env.NORTHFLANK_EPHEMERAL_STORAGE_MB || 32768);
+const ephemeralStorageSize = Number(process.env.NORTHFLANK_EPHEMERAL_STORAGE_MB || 65536);
 
 const healthChecks = [
   {
