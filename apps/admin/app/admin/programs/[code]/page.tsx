@@ -80,7 +80,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
               href={`/admin/compliance/wioa-etpl/${program.id}`}
               className="inline-flex items-center gap-1.5 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors"
             >
-              WIOA / ETPL forms
+              WIOA compliance
             </Link>
             <Link
               href={`/admin/programs/${code}/manage`}

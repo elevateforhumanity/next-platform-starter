@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { ADMIN_WIOA_COMPLIANCE, WIOA_COMPLIANCE } from '@/lib/compliance/wioa-etpl-routes';
 
 type ProgramRow = {
   id: string;
@@ -90,24 +91,50 @@ export function WioaEtplProgramsList() {
         <thead className="bg-slate-50 text-left text-slate-600">
           <tr>
             <th className="px-4 py-3 font-semibold">Program</th>
-            <th className="px-4 py-3 font-semibold">IEAP (new programs)</th>
+            <th className="px-4 py-3 font-semibold">IEAP (new)</th>
             <th className="px-4 py-3 font-semibold">Section 188</th>
             <th className="px-4 py-3 font-semibold">ETPL ready</th>
-            <th className="px-4 py-3 font-semibold" />
+            <th className="px-4 py-3 font-semibold">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
           {rows.map((p) => (
-            <tr key={p.id} className="hover:bg-slate-50">
+            <tr key={p.id} className="hover:bg-slate-50 align-top">
               <td className="px-4 py-3">
                 <div className="font-medium text-slate-900">{p.title}</div>
                 <div className="text-xs text-slate-500">{p.slug}</div>
+                <Link
+                  href={WIOA_COMPLIANCE.programHub(p.slug)}
+                  className="text-xs text-brand-blue-600 hover:underline mt-1 inline-block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Public page
+                </Link>
               </td>
               <td className="px-4 py-3">
                 <StatusBadge status={p.ieap_status} />
+                {p.needs_ieap && (
+                  <div className="mt-2 flex flex-col gap-1">
+                    <Link
+                      href={ADMIN_WIOA_COMPLIANCE.programIeap(p.id)}
+                      className="text-xs font-semibold text-brand-blue-600 hover:underline"
+                    >
+                      Complete IEAP
+                    </Link>
+                  </div>
+                )}
               </td>
               <td className="px-4 py-3">
                 <StatusBadge status={p.section_188_status} />
+                <div className="mt-2">
+                  <Link
+                    href={ADMIN_WIOA_COMPLIANCE.programSection188(p.id)}
+                    className="text-xs font-semibold text-brand-blue-600 hover:underline"
+                  >
+                    Complete Section 188
+                  </Link>
+                </div>
               </td>
               <td className="px-4 py-3">
                 {p.ready_for_etpl ? (
@@ -116,12 +143,12 @@ export function WioaEtplProgramsList() {
                   <span className="text-xs text-slate-500">No</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-right">
+              <td className="px-4 py-3">
                 <Link
-                  href={`/admin/compliance/wioa-etpl/${p.id}`}
-                  className="text-brand-blue-600 font-semibold hover:underline"
+                  href={ADMIN_WIOA_COMPLIANCE.programHub(p.id)}
+                  className="text-brand-blue-600 font-semibold hover:underline block"
                 >
-                  Open forms
+                  Hub
                 </Link>
               </td>
             </tr>

@@ -288,6 +288,35 @@ export default async function CompliancePage() {
         </section>
 
         <section>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">WIOA / INTraining ETPL</h2>
+          <div className="grid sm:grid-cols-2 gap-4 mb-10">
+            <Link
+              href="/compliance/wioa"
+              className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition block border border-slate-200"
+            >
+              <h3 className="font-semibold text-slate-900">ETPL compliance hub</h3>
+              <p className="text-sm text-slate-700 mt-1">
+                Per-program IEAP and Section 188 pages with dedicated URLs
+              </p>
+            </Link>
+            <Link
+              href="/compliance/wioa/initial-eligibility-aggregate-performance"
+              className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition block border border-slate-200"
+            >
+              <h3 className="font-semibold text-slate-900">Initial Eligibility (IEAP)</h3>
+              <p className="text-sm text-slate-700 mt-1">New programs only</p>
+            </Link>
+            <Link
+              href="/compliance/wioa/section-188-equal-opportunity-checklist"
+              className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition block border border-slate-200"
+            >
+              <h3 className="font-semibold text-slate-900">Section 188 checklist</h3>
+              <p className="text-sm text-slate-700 mt-1">Every program</p>
+            </Link>
+          </div>
+        </section>
+
+        <section>
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Policies</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
