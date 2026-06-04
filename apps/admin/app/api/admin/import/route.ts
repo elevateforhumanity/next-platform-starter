@@ -15,6 +15,10 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 120;
 
+/** CSV is loaded entirely into memory — cap file size and row count. */
+const MAX_CSV_BYTES = 10 * 1024 * 1024; // 10 MB
+const MAX_CSV_ROWS = 25_000;
+
 interface ImportResult {
   success: boolean;
   imported: number;
@@ -364,9 +368,25 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing file or type parameter' }, { status: 400 });
     }
 
+    if (file.size > MAX_CSV_BYTES) {
+      return NextResponse.json(
+        { error: `CSV exceeds ${Math.round(MAX_CSV_BYTES / (1024 * 1024))} MB limit` },
+        { status: 413 },
+      );
+    }
+
     // Read and parse CSV
     const content = await file.text();
     const records = parseCSV(content);
+
+    if (records.length > MAX_CSV_ROWS) {
+      return NextResponse.json(
+        {
+          error: `CSV exceeds ${MAX_CSV_ROWS.toLocaleString()} row limit (${records.length} rows parsed)`,
+        },
+        { status: 413 },
+      );
+    }
 
     if (records.length === 0) {
       return NextResponse.json(

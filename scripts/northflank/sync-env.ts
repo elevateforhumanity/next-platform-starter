@@ -21,6 +21,7 @@ import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { nfFetch, projectApiPath, resolveProjectId, resolveLmsServiceId, resolveAdminServiceId } from './lib';
+import { dedupeSecretVariables } from './canonical-env.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const MANIFEST = join(__dir, 'env-keys-manifest.txt');
@@ -45,7 +46,8 @@ const STATIC_ENV: Record<string, string> = {
   NEXT_PUBLIC_EMAIL_FROM_NAME: 'Elevate for Humanity',
   NEXT_PUBLIC_EMAIL_FROM_ADDRESS: 'noreply@elevateforhumanity.org',
   NEXT_PUBLIC_CERT_HOLDER: 'Elevate for Humanity',
-  SERVICE_ROLE: 'lms',
+  // SERVICE_ROLE is set per-service in configure-services.ts (lms vs admin) — do not put in shared secrets.
+  DEVSTUDIO_DEVCONTAINER_MODE: 'github-only',
 };
 
 function loadManifestKeys(): string[] {
@@ -129,6 +131,7 @@ async function main() {
     variables = { ...variables, ...loadFromFile(file) };
   }
   variables = { ...variables, ...loadFromProcessEnv(keys) };
+  variables = dedupeSecretVariables(variables);
 
   const missing = keys.filter((k) => !variables[k] && k.startsWith('NEXT_PUBLIC_'));
   const missingCritical = [
