@@ -50,9 +50,11 @@ export async function nfFetch<T = unknown>(
     throw new Error(`Northflank API non-JSON (${res.status}): ${text.slice(0, 500)}`);
   }
   if (!res.ok) {
-    throw new Error(
-      `Northflank API ${res.status} ${options.method || 'GET'} ${path}: ${json.error || json.message || text}`,
-    );
+    const detail =
+      typeof json.error === 'object'
+        ? JSON.stringify(json.error)
+        : json.error || json.message || text;
+    throw new Error(`Northflank API ${res.status} ${options.method || 'GET'} ${path}: ${detail}`);
   }
   return (json.data ?? json) as T;
 }
@@ -86,7 +88,22 @@ export function projectApiPath(projectId: string, suffix: string): string {
   return `/projects/${projectId}${suffix}`;
 }
 
-/** PATCH/GET combined CI/CD service (elevate-lms, elevate-admin). */
-export function combinedServicePath(projectId: string, serviceId: string): string {
+/** POST create combined CI/CD service. */
+export function combinedServiceCreatePath(projectId: string): string {
+  return projectApiPath(projectId, '/services/combined');
+}
+
+/** GET service status (build trigger, wait, inspect). */
+export function serviceGetPath(projectId: string, serviceId: string): string {
+  return projectApiPath(projectId, `/services/${serviceId}`);
+}
+
+/** PATCH combined CI/CD service — must use /services/combined/{id} (plain /services/{id} returns 405). */
+export function combinedServicePatchPath(projectId: string, serviceId: string): string {
   return projectApiPath(projectId, `/services/combined/${serviceId}`);
+}
+
+/** @deprecated Use combinedServicePatchPath for PATCH. */
+export function combinedServicePath(projectId: string, serviceId: string): string {
+  return combinedServicePatchPath(projectId, serviceId);
 }

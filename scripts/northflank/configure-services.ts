@@ -13,7 +13,13 @@
  *   pnpm tsx scripts/northflank/configure-services.ts --execute
  */
 
-import { combinedServicePath, nfFetch, resolveAdminServiceId, resolveLmsServiceId, resolveProjectId } from './lib';
+import {
+  combinedServicePatchPath,
+  nfFetch,
+  resolveAdminServiceId,
+  resolveLmsServiceId,
+  resolveProjectId,
+} from './lib';
 
 const SERVICES = [
   {
@@ -53,12 +59,29 @@ const BUILDKIT = {
   cacheStorageSize: 10240,
 };
 
+/** Northflank only accepts these MB values for build ephemeral storage. */
+const ALLOWED_EPHEMERAL_STORAGE_MB = [16384, 32768, 65536, 131072, 262144, 524288] as const;
+
+function resolveEphemeralStorageMb(): number {
+  const requested = Number(process.env.NORTHFLANK_EPHEMERAL_STORAGE_MB || 32768);
+  if (ALLOWED_EPHEMERAL_STORAGE_MB.includes(requested as (typeof ALLOWED_EPHEMERAL_STORAGE_MB)[number])) {
+    return requested;
+  }
+  const sorted = [...ALLOWED_EPHEMERAL_STORAGE_MB].sort((a, b) => a - b);
+  const next = sorted.find((size) => size >= requested);
+  const resolved = next ?? sorted[sorted.length - 1]!;
+  console.warn(
+    `NORTHFLANK_EPHEMERAL_STORAGE_MB=${requested} is invalid; using ${resolved} MB (allowed: ${ALLOWED_EPHEMERAL_STORAGE_MB.join(', ')})`,
+  );
+  return resolved;
+}
+
 const billing = {
   deploymentPlan: process.env.NORTHFLANK_DEPLOYMENT_PLAN || 'nf-compute-100-2',
   buildPlan: process.env.NORTHFLANK_BUILD_PLAN || 'nf-compute-800-32',
 };
 
-const ephemeralStorageSize = Number(process.env.NORTHFLANK_EPHEMERAL_STORAGE_MB || 32768);
+const ephemeralStorageSize = resolveEphemeralStorageMb();
 
 const healthChecks = [
   {
@@ -113,11 +136,11 @@ async function main() {
     };
 
     console.log(
-      `${dryRun ? '[dry-run]' : '[patch]'} ${service.id} -> ${service.dockerfile}, build ${billing.buildPlan}, runtime ${billing.deploymentPlan}, health /api/ping`,
+      `${dryRun ? '[dry-run]' : '[patch]'} ${service.id} -> ${service.dockerfile}, build ${billing.buildPlan}, runtime ${billing.deploymentPlan}, ephemeral ${ephemeralStorageSize}MB, health /api/ping`,
     );
 
     if (!dryRun) {
-      await nfFetch(combinedServicePath(projectId, service.id), {
+      await nfFetch(combinedServicePatchPath(projectId, service.id), {
         method: 'PATCH',
         body: JSON.stringify(patch),
       });

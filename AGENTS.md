@@ -850,8 +850,10 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 
 ### Northflank deploy (LMS + admin)
 
+- **Build disk (`ERR_PNPM_ENOSPC`):** Set build ephemeral storage to **32768 MB (32 GB)** minimum via `pnpm tsx scripts/northflank/configure-services.ts --execute` (or `patch-ephemeral-storage.ts --execute`). PATCH must target `/services/combined/{id}` (plain `/services/{id}` returns 405). Northflank only allows 16384, 32768, 65536, … — there is no 40960. **65536** may require a higher project build-resource quota on your Northflank plan. If the UI shows **0 MB**, storage was never applied.
+- **pnpm in Docker:** `Dockerfile.northflank-*` use BuildKit `RUN --mount=type=cache` for `/pnpm/store` to avoid re-downloading ~1900 packages every build.
 - **LMS:** service `elevate-lms`, Dockerfile `Dockerfile.northflank-lms`, branch `main`, readiness path `/api/ping`
-- **Admin (Northflank):** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin`, branch `main`, readiness path `/api/ping` — use `COPY . .` then `pnpm install --frozen-lockfile --package-import-method=copy` (workspace manifests must exist before install; avoid `--package-import-method=hardlink` on Northflank builders).
+- **Admin (Northflank):** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin`, branch `main`, readiness path `/api/ping` — use `COPY . .` then cached `pnpm install --frozen-lockfile --package-import-method=copy` (workspace manifests must exist before install; avoid `--package-import-method=hardlink` on Northflank builders).
 - **Admin (AWS ECS, legacy):** `elevate-admin-service` on `elevate-cluster`, `Dockerfile.admin`, CodeBuild `elevate-admin-build`. Deploy: `.github/workflows/deploy-admin.yml` on `main`.
 - `apps/admin/server.js` must load `.next/required-server-files.json` at startup.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)

@@ -11,7 +11,7 @@
  *   NORTHFLANK_ADMIN_SERVICE_ID (default: elevate-admin)
  */
 
-import { nfFetch, projectApiPath, resolveProjectId, resolveTeamId } from './lib';
+import { combinedServiceCreatePath, nfFetch, projectApiPath, resolveProjectId, resolveTeamId } from './lib';
 
 const DEFAULT_SERVICE_ID = 'elevate-admin';
 const REPO = 'https://github.com/elevate-for-humanity/Elevate-lms';
@@ -137,7 +137,7 @@ async function main() {
       body: JSON.stringify(payload),
     });
   } else {
-    await nfFetch(projectApiPath(projectId, '/services/combined'), {
+    await nfFetch(combinedServiceCreatePath(projectId), {
       method: 'POST',
       body: JSON.stringify(payload),
     });
