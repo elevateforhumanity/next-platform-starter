@@ -25,7 +25,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app
 
-# Workspace manifests first — smaller layer before full COPY (see .dockerignore).
+# Workspace manifests first - smaller layer before full COPY (see .dockerignore).
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/admin/package.json apps/admin/package.json
 COPY packages/db/package.json packages/db/package.json
@@ -33,13 +33,15 @@ COPY packages/shared/package.json packages/shared/package.json
 COPY packages/ui/package.json packages/ui/package.json
 
 # Store on /app so pnpm can hardlink into node_modules (same filesystem as /app).
-# Do NOT use --package-import-method=copy — it duplicates every package and causes ENOSPC.
-# Do NOT run `pnpm fetch` before COPY . — on Northflank (~2GB build volume) it fills the
+# Do NOT use --package-import-method=copy - it duplicates every package and causes ENOSPC.
+# Do NOT run `pnpm fetch` before COPY . - on Northflank (~2GB build volume) it fills the
 # disk with the full lockfile store and fails ERR_PNPM_ENOSPC before install/next build.
 COPY . .
 
 ENV HUSKY=0
 ENV CI=true
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN pnpm config set store-dir /app/.pnpm-store \
     && pnpm install --frozen-lockfile \
     && pnpm store prune
@@ -72,7 +74,7 @@ RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && cd ../.. \
     && node scripts/prune-admin-standalone.mjs
 
-# Bundle ws for runtime (custom server.js). Do NOT npm install ws in slim stage — peer-resolve fails.
+# Bundle ws for runtime (custom server.js). Do NOT npm install ws in slim stage - peer-resolve fails.
 RUN set -eux; \
   mkdir -p /export/ws; \
   WS_DIR="$(node -p "require('path').dirname(require.resolve('ws/package.json',{paths:[require('path').join(process.cwd(),'apps/admin')]}))")"; \
@@ -117,7 +119,7 @@ COPY --from=builder /export/sharp-node_modules/@img ./node_modules/@img
 COPY --from=builder /app/apps/admin/.next/server ./apps/admin/.next/server
 COPY --from=builder /app/apps/admin/.next/static ./apps/admin/.next/static
 COPY --from=builder /app/apps/admin/.next/required-server-files.json ./apps/admin/.next/required-server-files.json
-# Slim public assets — skip large marketing-only trees (audio, generated, etc.)
+# Slim public assets - skip large marketing-only trees (audio, generated, etc.)
 COPY --from=builder /app/public/fonts ./apps/admin/public/fonts
 COPY --from=builder /app/public/icons ./apps/admin/public/icons
 COPY --from=builder /app/public/forms ./apps/admin/public/forms
