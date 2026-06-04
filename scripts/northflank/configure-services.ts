@@ -94,7 +94,6 @@ const healthChecks = [
     periodSeconds: 10,
     timeoutSeconds: 10,
     failureThreshold: 18,
-    successThreshold: 1,
   },
   {
     protocol: 'HTTP',
