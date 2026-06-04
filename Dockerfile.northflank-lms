@@ -25,7 +25,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/admin/package.json apps/admin/package.json
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --store-dir .pnpm-store --package-import-method=hardlink \
+    && rm -rf .pnpm-store
 
 COPY . .
 
