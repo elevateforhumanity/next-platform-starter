@@ -25,14 +25,26 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app
 
-# Monorepo: pnpm needs all workspace package.json files (apps/*, packages/*) before install.
+# Workspace manifests first — smaller layer before full COPY (see .dockerignore).
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/admin/package.json apps/admin/package.json
+COPY packages/db/package.json packages/db/package.json
+COPY packages/shared/package.json packages/shared/package.json
+COPY packages/ui/package.json packages/ui/package.json
+
+# Store on /app so pnpm can hardlink into node_modules (same filesystem as /app).
+# Do NOT use --package-import-method=copy — it duplicates every package and causes ENOSPC.
+RUN --mount=type=cache,id=pnpm-store-admin,target=/app/.pnpm-store \
+    pnpm config set store-dir /app/.pnpm-store \
+    && pnpm fetch --frozen-lockfile
+
 COPY . .
 
 ENV HUSKY=0
 ENV CI=true
-RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm config set store-dir /pnpm/store \
-    && pnpm install --frozen-lockfile --package-import-method=copy
+RUN --mount=type=cache,id=pnpm-store-admin,target=/app/.pnpm-store \
+    pnpm config set store-dir /app/.pnpm-store \
+    && pnpm install --frozen-lockfile --offline --prefer-offline
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
