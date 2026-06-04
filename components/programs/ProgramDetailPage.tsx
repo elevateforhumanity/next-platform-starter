@@ -17,7 +17,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
 import ProgramApplyForm from '@/components/programs/ProgramApplyForm';
 import { PayNowButton } from '@/components/programs/PayNowButton';
-import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
+import type { HeroBannerConfig } from '@/content/heroBanners';
 import {
   BookOpen,
   Clock,
@@ -49,6 +49,8 @@ interface Props {
   banner?: HeroBannerConfig | null;
   /** Replaces the default video/image hero entirely. */
   heroOverride?: React.ReactNode;
+  /** Optional alert strip below the hero (e.g. enrollment open banner). */
+  announcement?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -56,6 +58,7 @@ export default function ProgramDetailPage({
   program: p,
   banner: bannerProp,
   heroOverride,
+  announcement,
   children,
 }: Props) {
   // Dev-time validation
@@ -113,7 +116,7 @@ export default function ProgramDetailPage({
             // bannerProp is passed from the server page.tsx — use it first.
             // heroBanners Proxy returns {} on the client (loadJsonOnce is server-only).
             // Check pageKey to distinguish a real banner from the empty fallback object.
-            const banner = bannerProp ?? heroBanners[p.slug];
+            const banner = bannerProp;
             const heroPosterSrc = resolveHeroPosterSrc(p.slug, {
               banner,
               heroImage: p.heroImage,
