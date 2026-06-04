@@ -66,7 +66,7 @@ export function resolveTeamId(): string | undefined {
 }
 
 export function resolveProjectId(): string | undefined {
-  return process.env.NORTHFLANK_PROJECT_ID;
+  return process.env.NORTHFLANK_PROJECT_ID || 'elevate-platform';
 }
 
 export function resolveLmsServiceId(): string | undefined {
