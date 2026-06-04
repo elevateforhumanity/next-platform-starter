@@ -49,7 +49,22 @@ export function AIAssistantBubble() {
 
   const handleClose = () => {
     setIsOpen(false);
+    setShowWelcome(false);
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -139,11 +154,13 @@ export function AIAssistantBubble() {
   return (
     <>
       {showWelcome && !isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 animate-fade-in">
+        <div className="fixed bottom-24 right-6 z-[60] animate-fade-in">
           <div className="bg-white rounded-lg shadow-2xl p-4 max-w-xs border border-slate-200 relative">
             <button
+              type="button"
               onClick={() => setShowWelcome(false)}
               className="absolute top-2 right-2 text-slate-700 hover:text-black"
+              aria-label="Dismiss chat prompt"
             >
               <X className="h-4 w-4" />
             </button>
@@ -154,6 +171,7 @@ export function AIAssistantBubble() {
               I can help you explore training options and check your eligibility!
             </p>
             <button
+              type="button"
               onClick={handleOpen}
               className="text-xs bg-brand-orange-600 text-white px-3 py-2.5 rounded-md hover:bg-brand-orange-700 transition-colors font-medium"
             >
@@ -165,8 +183,10 @@ export function AIAssistantBubble() {
 
       {!isOpen && (
         <button
+          type="button"
           onClick={handleOpen}
-          className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex bg-brand-orange-600 text-white rounded-full p-4 shadow-2xl hover:bg-brand-orange-700 transition-all hover:scale-110"
+          className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-[60] flex bg-brand-orange-600 text-white rounded-full p-4 shadow-2xl hover:bg-brand-orange-700 transition-all hover:scale-110"
+          aria-label="Open AI assistant"
         >
           <MessageCircle className="h-10 w-10" />
           <span className="absolute -top-1 -right-1 bg-brand-green-500 w-4 h-4 rounded-full border-2 border-white" />
@@ -174,7 +194,19 @@ export function AIAssistantBubble() {
       )}
 
       {isOpen && (
-        <div className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-50 w-full md:w-96 h-full md:h-[600px] bg-white md:rounded-2xl shadow-2xl flex flex-col border border-slate-200">
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-[60] bg-black/40 md:hidden"
+            aria-label="Close chat"
+            onClick={handleClose}
+          />
+          <div
+            className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[61] w-full md:w-96 h-full md:h-[600px] bg-white md:rounded-2xl shadow-2xl flex flex-col border border-slate-200"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Elevate AI Assistant"
+          >
           <div className="bg-gradient-to-r from-brand-orange-600 to-brand-orange-500 text-white p-4 md:rounded-t-2xl flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 rounded-full p-2">
@@ -189,11 +221,12 @@ export function AIAssistantBubble() {
               </div>
             </div>
             <button
+              type="button"
               onClick={handleClose}
               aria-label="Close chat"
-              className="text-slate-900 hover:bg-white/20 rounded-full p-2 transition-colors"
+              className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
             >
-              <X className="h-6 w-6" />
+              <X className="h-6 w-6" aria-hidden />
             </button>
           </div>
 
@@ -254,9 +287,11 @@ export function AIAssistantBubble() {
                 className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-orange-500 text-sm"
               />
               <button
+                type="button"
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
                 className="bg-brand-orange-600 text-white rounded-full p-2 hover:bg-brand-orange-700 disabled:opacity-50"
+                aria-label="Send message"
               >
                 {isLoading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -274,6 +309,7 @@ export function AIAssistantBubble() {
             </p>
           </div>
         </div>
+        </>
       )}
     </>
   );

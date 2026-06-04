@@ -39,6 +39,20 @@ export function ElevateChatWidget() {
     localStorage.setItem('elevate-chat-interacted', 'true');
   };
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open]);
+
   return (
     <>
       {/* Proactive chat prompt */}
@@ -117,8 +131,22 @@ export function ElevateChatWidget() {
 
       {/* Modal overlay */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden animate-scale-in">
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Elevate AI Helper"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setOpen(false);
+          }}
+        >
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            aria-label="Close chat"
+            onClick={() => setOpen(false)}
+          />
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden animate-scale-in">
             <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
               <div className="flex items-center gap-3">
                 <MessageCircle size={24} />
@@ -130,10 +158,10 @@ export function ElevateChatWidget() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-slate-900 hover:bg-white/20 rounded-full p-2 transition-colors"
+                className="relative z-10 text-white hover:bg-white/20 rounded-full p-2 transition-colors"
                 aria-label="Close chat"
               >
-                <X size={20} />
+                <X size={20} aria-hidden />
               </button>
             </div>
             <iframe src="/ai-chat" className="flex-1 w-full border-0" title="Elevate AI Chat" />
