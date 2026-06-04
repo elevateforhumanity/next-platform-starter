@@ -1,16 +1,16 @@
 # Visual layout audit (heroes, images, text gaps)
 
-Generated: 2026-06-03T00:26:01.019Z
+Generated: 2026-06-03T23:57:47.564Z
 
 | Category | Critical | High | Medium | Low | Total |
 |----------|----------|------|--------|-----|-------|
-| Oversized heroes | 0 | 245 | 2 | 0 | 247 |
-| Image load cost | 0 | 9 | 415 | 40 | 464 |
-| Layout / text | 0 | 111 | 4 | 0 | 115 |
+| Oversized heroes | 0 | 47 | 0 | 0 | 47 |
+| Image load cost | 0 | 9 | 416 | 40 | 465 |
+| Layout / text | 0 | 112 | 4 | 0 | 116 |
 
 **Canonical hero (design standard):** `h-[38vh] min-h-[220px] max-h-[420px]` or `HeroPicture` / `HeroVideo` from `components/marketing/`.
 
-**Marketing pages with hero markup but not canonical components:** 334
+**Marketing pages with hero markup but not canonical components:** 331
 
 ### Critical findings
 
@@ -18,185 +18,98 @@ _None_
 
 ## Oversized hero / banner patterns
 
-### `app/ai-tutor/page.tsx` (4)
-- L58 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L58 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L58 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L58 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx` (2)
+- L1648 **max-h-600-plus**: max-height >560px (exceeds design standard) — `max-h-[640px]`
+- L1268 **clamp-max-600-plus**: clamp() max >560px — `clamp(320px,44vw,640px)`
 
-### `app/booking/page.tsx` (4)
-- L94 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L94 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L94 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L94 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/ModerationDashboard.tsx` (2)
+- L319 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+- L324 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/calendar/page.tsx` (4)
-- L72 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L72 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L72 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L72 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/admin/dashboard/LizzyContainerWrapper.tsx` (2)
+- L12 **min-h-420-plus**: min-height ≥420px on hero-like container — `min-h-[420px]`
+- L68 **min-h-420-plus**: min-height ≥420px on hero-like container — `min-h-[420px]`
 
-### `app/career-counseling/page.tsx` (4)
-- L44 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L44 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L44 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L44 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/apprentice/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/educatorhub/page.tsx` (4)
-- L55 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L55 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L55 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L55 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/apps/website-builder/WebsiteBuilderApp.tsx` (1)
+- L199 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
 
-### `app/funding/dol/page.tsx` (4)
-- L43 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L43 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L43 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L43 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/employer/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/funding/how-it-works/page.tsx` (4)
-- L76 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L76 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L76 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L76 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/funding/not-found.tsx` (1)
+- L6 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/government/page.tsx` (4)
-- L51 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L51 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L51 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L51 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/lms/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/lms/(app)/courses/[courseId]/leaderboard/page.tsx` (4)
-- L153 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L153 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L153 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L153 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/loading.tsx` (1)
+- L6 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/ojt-and-funding/page.tsx` (4)
-- L60 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L60 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L60 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L60 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/login/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/orientation/competency-test/page.tsx` (4)
-- L66 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L66 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L66 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L66 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/mentor/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/orientation/schedule/page.tsx` (4)
-- L29 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L29 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L29 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L29 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/program-holder/not-found.tsx` (1)
+- L6 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/parent-portal/page.tsx` (4)
-- L108 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L108 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L108 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L108 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/programs/loading.tsx` (1)
+- L3 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/partners/create-program/page.tsx` (4)
-- L73 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L73 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L73 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L73 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/programs/not-found.tsx` (1)
+- L6 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/pathways/page.tsx` (4)
-- L207 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L207 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L207 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L207 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/platform/partner-portal/page.tsx` (4)
-- L114 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L114 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L114 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L114 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/platform/training-providers/page.tsx` (4)
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/platform/workforce-analytics/page.tsx` (4)
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L129 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/platform/workforce-boards/page.tsx` (4)
-- L125 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L125 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L125 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L125 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx` (4)
-- L523 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L523 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L523 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L523 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/programs/barber-apprenticeship/sections/BarberHero.tsx` (4)
-- L11 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L11 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L11 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L11 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/programs/hvac-technician/apply/page.tsx` (4)
-- L328 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L328 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L328 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L328 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/share/page.tsx` (4)
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
-
-### `app/store/compliance/grant-reporting/page.tsx` (4)
+### `app/store/add-ons/analytics-pro/page.tsx` (1)
 - L98 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L98 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L98 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L98 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
 
-### `app/store/courses/page.tsx` (4)
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/store/add-ons/compliance-automation/page.tsx` (1)
+- L99 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
 
-### `app/store/digital/page.tsx` (4)
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L40 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `app/store/not-found.tsx` (1)
+- L5 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
 
-### `app/success/page.tsx` (4)
-- L32 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L32 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L32 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L32 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/ContextualHelp.tsx` (1)
+- L206 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[80vh]`
 
-### `app/support/contact/page.tsx` (4)
-- L83 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L83 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L83 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L83 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/DataExportDialog.tsx` (1)
+- L323 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
 
-### `app/webinars/page.tsx` (4)
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L50 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/ElevateChatWidget.tsx` (1)
+- L121 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[85vh]`
 
-### `app/wioa-eligibility/veterans/page.tsx` (4)
-- L87 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[50vh]`
-- L87 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[55vh]`
-- L87 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[60vh]`
-- L87 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[65vh]`
+### `components/EligibilityModal.tsx` (1)
+- L22 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+
+### `components/FeedbackWidget.tsx` (1)
+- L99 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+
+### `components/NotificationBell.tsx` (1)
+- L105 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[80vh]`
+
+### `components/OnboardingFlow.tsx` (1)
+- L49 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+
+### `components/ProgramPageTemplate.tsx` (1)
+- L63 **min-h-420-plus**: min-height ≥420px on hero-like container — `min-h-[600px]`
+
+### `components/SurveyModal.tsx` (1)
+- L228 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+
+### `components/TutorialSystem.tsx` (1)
+- L105 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[90vh]`
+
+### `components/admin/AdminNav.tsx` (1)
+- L149 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[75vh]`
+
+### `components/blocks/AccordionSection.tsx` (1)
+- L48 **max-h-600-plus**: max-height >560px (exceeds design standard) — `max-h-[600px]`
+
+### `components/chat/AILiveChat.tsx` (1)
+- L233 **vh-50-plus**: Hero/viewport height ≥50vh (often oversized) — `h-[70vh]`
 
 
 ## Image performance (LCP / video)
@@ -240,58 +153,58 @@ _None_
 - L246 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
 
 ### `app/programs/barber-apprenticeship/host-shops/page.tsx` (7)
-- L35 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L52 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L104 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L116 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L52 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L36 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L53 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L105 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L117 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L53 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/barber-training.webp"
   `
-- L104 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L105 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/barber-gallery-2.webp"
  `
-- L116 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L117 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/barber-gallery-3.webp"
  `
 
 ### `app/programs/cosmetology-apprenticeship/host-shops/page.tsx` (7)
-- L36 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L54 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L109 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L121 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L54 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L37 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L55 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L110 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L122 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L55 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/cosmetology-apprenticesh`
-- L109 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L110 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/cosmetology.webp"
       `
-- L121 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L122 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/barber-styling-hair.webp`
 
 ### `app/programs/esthetician-apprenticeship/host-shops/page.tsx` (7)
-- L34 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L56 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L88 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L98 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L56 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L35 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L57 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L89 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L99 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L57 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
  `
-- L88 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L89 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
  `
-- L98 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
+- L99 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
  `
 
 ### `app/programs/nail-technician-apprenticeship/host-shops/page.tsx` (7)
-- L34 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L56 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L85 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L92 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
-- L56 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
+- L35 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L57 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L86 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L93 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
+- L57 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
                 al`
-- L85 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
+- L86 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
                 al`
-- L92 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
+- L93 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw" src="/images/pages/nail-technician.webp"
                 al`
 
 ### `app/workone-partner-packet/page.tsx` (6)
@@ -356,11 +269,10 @@ _None_
 - L54 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
 - L418 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
 - L54 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
-          src="/images/pexels/store-hero.webp"
-          al`
+          src="/images/pages/store-licensing-enterprise-her`
 - L418 **fill-no-sizes**: next/image fill without sizes (may over-fetch) — `<Image sizes="100vw"
-          src="/images/pexels/success-team.webp"
-          `
+          src="/images/business/team-4.webp"
+          alt=`
 
 ### `app/store/licenses/school-license/page.tsx` (4)
 - L27 **sizes-100vw**: sizes=100vw loads full viewport width image (heavy LCP) — `sizes="100vw"`
@@ -436,14 +348,19 @@ _None_
 - L206 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 t`
 
 ### `app/programs/building-services-technician/page.tsx` (2)
-- L35 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `hero.jpg"
+- L34 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `hero.jpg"
           alt="Building Services Technician working on facility mainte`
 - L42 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 t`
 
+### `app/programs/direct-support-professional/page.tsx` (2)
+- L30 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `Hero Banner */}
+      <section className="relative w-full" style={{ height: 'cla`
+- L41 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 t`
+
 ### `app/programs/esthetician-apprenticeship/host-shops/page.tsx` (2)
-- L29 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `Hero */}
+- L30 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `Hero */}
       <section className="relative h-[38vh] min-h-[220px] max-h-[420px]`
-- L38 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
+- L39 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
     `
 
 ### `app/programs/hvac-technician/course/HvacCourseHome.tsx` (2)
@@ -455,9 +372,9 @@ _None_
    `
 
 ### `app/programs/nail-technician-apprenticeship/host-shops/page.tsx` (2)
-- L29 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `Hero */}
+- L30 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `Hero */}
       <section className="relative h-[38vh] min-h-[220px] max-h-[420px]`
-- L38 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
+- L39 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
     `
 
 ### `app/scholarships/page.tsx` (2)
@@ -497,12 +414,12 @@ _None_
           <div className="max-w-7xl mx-auto`
 
 ### `components/admin/dashboard/DashboardShell.tsx` (2)
-- L456 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `hero.webp"
+- L455 **hero-gradient-overlay**: Gradient overlay near hero (forbidden on hero frame) — `hero.webp"
           alt=""
           fill
           className="object-cover"
   `
-- L455 **empty-alt**: Empty image alt text — `<Image
+- L454 **empty-alt**: Empty image alt text — `<Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""`
 
@@ -553,10 +470,6 @@ export default function PageHero({ title, description, forceHe`
 ### `app/for-agencies/page.tsx` (1)
 - L111 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 flex items-end">
           <div className="max-w-4xl mx-auto px`
-
-### `app/founder/page.tsx` (1)
-- L35 **hero-text-overlay**: Headline/text overlaid on hero media — `absolute inset-0 flex items-center px-6">
-          <div className="max-w-6xl mx`
 
 
 

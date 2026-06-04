@@ -38,7 +38,6 @@ const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
   '/admin/progress':             '/admin/analytics/learning',
   '/admin/completions':          '/admin/analytics/learning',
   '/admin/outcomes':             '/admin/analytics',
-  '/admin/dashboard':           '/admin/dashboard',
   // ── Media consolidation ──────────────────────────────────────────────────
   '/admin/copilot':              '/admin/studio',
   '/admin/video-manager':        '/admin/studio',
@@ -331,12 +330,6 @@ export async function middleware(request: NextRequest) {
   }
 
   let adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
-  // Never canonicalize to a raw AWS infra hostname — those leak infrastructure
-  // and break SSL/cookie scoping. Fall back to the public admin domain.
-  if (/\.amazonaws\.com(?::\d+)?$/i.test(adminBase) || /\.elb\.[a-z0-9-]+\.amazonaws\.com/i.test(adminBase)) {
-    console.error('[proxy] NEXT_PUBLIC_ADMIN_URL points at raw AWS infra:', adminBase, '— ignoring.');
-    adminBase = DEFAULT_ADMIN_URL;
-  }
   let canonicalAdminHost = 'admin.elevateforhumanity.org';
   try {
     canonicalAdminHost = new URL(adminBase).host;
@@ -563,7 +556,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/learner/dashboard', request.url), 301);
   }
 
-  // All routes are served by the same AWS ECS container — no proxy needed.
+  // Public-site canonicalization.
 
   // Canonical public site is www (Durable apex cannot CNAME-flatten to Northflank — use URL forward at DNS).
   if (hostWithoutPort === 'elevateforhumanity.org') {

@@ -13,17 +13,19 @@ pass() {
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-# 1) ECS task roles must stay separated.
-LMS_TASK="aws/ecs-task-lms.json"
-ADMIN_TASK="aws/ecs-task-admin.json"
-[[ -f "$LMS_TASK" ]] || fail "$LMS_TASK missing"
-[[ -f "$ADMIN_TASK" ]] || fail "$ADMIN_TASK missing"
+# 1) Northflank Dockerfiles and service config must keep service roles separated.
+LMS_DOCKERFILE="Dockerfile.northflank-lms"
+ADMIN_DOCKERFILE="Dockerfile.northflank-admin"
+NF_CONFIG="scripts/northflank/configure-services.ts"
+[[ -f "$LMS_DOCKERFILE" ]] || fail "$LMS_DOCKERFILE missing"
+[[ -f "$ADMIN_DOCKERFILE" ]] || fail "$ADMIN_DOCKERFILE missing"
+[[ -f "$NF_CONFIG" ]] || fail "$NF_CONFIG missing"
 
-grep -q '"name": "SERVICE_ROLE"' "$LMS_TASK" || fail "SERVICE_ROLE missing in LMS task"
-grep -q '"value": "lms"' "$LMS_TASK" || fail "LMS task SERVICE_ROLE must be lms"
-grep -q '"name": "SERVICE_ROLE"' "$ADMIN_TASK" || fail "SERVICE_ROLE missing in admin task"
-grep -q '"value": "admin"' "$ADMIN_TASK" || fail "Admin task SERVICE_ROLE must be admin"
-pass "ECS SERVICE_ROLE separation looks correct"
+grep -q "SERVICE_ROLE: 'lms'" "$NF_CONFIG" || fail "Northflank config must set SERVICE_ROLE=lms"
+grep -q "SERVICE_ROLE: 'admin'" "$NF_CONFIG" || fail "Northflank config must set SERVICE_ROLE=admin"
+grep -q '/api/ping' "$LMS_DOCKERFILE" || fail "LMS Dockerfile must healthcheck /api/ping"
+grep -q '/api/ping' "$ADMIN_DOCKERFILE" || fail "Admin Dockerfile must healthcheck /api/ping"
+pass "Northflank Dockerfile and service config separation looks correct"
 
 # 2) Deployment workflows must stay separated.
 ADMIN_WF=".github/workflows/deploy-admin.yml"
@@ -31,19 +33,14 @@ LMS_WF=".github/workflows/deploy-lms.yml"
 [[ -f "$ADMIN_WF" ]] || fail "$ADMIN_WF missing"
 [[ -f "$LMS_WF" ]] || fail "$LMS_WF missing"
 
-if ! grep -q -- '--project-name' "$ADMIN_WF" || ! grep -q 'elevate-admin-build' "$ADMIN_WF"; then
-  fail "deploy-admin must trigger elevate-admin-build"
+grep -q 'elevate-admin' "$ADMIN_WF" || fail "deploy-admin must target elevate-admin"
+grep -q 'elevate-lms' "$LMS_WF" || fail "deploy-lms must target elevate-lms"
+grep -q 'Dockerfile.northflank-admin' "$ADMIN_WF" || fail "deploy-admin must reference admin Dockerfile"
+grep -q 'Dockerfile.northflank-lms' "$LMS_WF" || fail "deploy-lms must reference LMS Dockerfile"
+if grep -q 'Dockerfile.northflank-admin' "$LMS_WF"; then
+  fail "deploy-lms should not reference admin Dockerfile"
 fi
-if ! grep -q -- '--project-name' "$LMS_WF" || ! grep -q 'elevate-lms-build' "$LMS_WF"; then
-  fail "deploy-lms must trigger elevate-lms-build"
-fi
-
-# Basic path guardrails to avoid accidental cross-deploy coupling.
-grep -q '"apps/admin/\*\*"' "$ADMIN_WF" || fail "deploy-admin should watch apps/admin/**"
-if grep -q '"apps/admin/\*\*"' "$LMS_WF"; then
-  fail "deploy-lms should not watch apps/admin/**"
-fi
-pass "Deploy workflow split looks correct"
+pass "Northflank deploy workflow split looks correct"
 
 # 3) Keep one canonical admin dashboard entry.
 ADMIN_LANDING="apps/admin/app/admin/page.tsx"
@@ -64,7 +61,6 @@ fi
 pass "Admin nav does not include legacy applicants path"
 
 # 5) Legacy app-detail links should use canonical review route.
-# Use literal substring checks so template-literal syntax never trips shell parsing.
 grep -R --line-number --include='*.tsx' '/admin/applications/${' apps/admin/app/admin >/tmp/legacy_app_links_raw.txt || true
 grep -v '/admin/applications/review/' /tmp/legacy_app_links_raw.txt | grep -v '/api/admin/applications/' >/tmp/legacy_app_links.txt || true
 if [[ -s /tmp/legacy_app_links.txt ]]; then

@@ -92,12 +92,11 @@ export default function VideoHeroBanner({
 
   return (
     <section className="relative w-full bg-brand-blue-900" onClick={handleUserInteraction}>
-      {/* Video Container - Full viewport height */}
+      {/* Video Container */}
       <div
-        className="relative w-full min-h-[320px] sm:min-h-[420px] lg:min-h-[560px]"
+        className="relative w-full min-h-[190px]"
         style={{
-          height: 'calc(100vh - var(--header-h, 72px))',
-          maxHeight: '640px',
+          height: 'clamp(220px, 34vw, 390px)',
         }}
       >
         {/* Video Background - loads immediately */}

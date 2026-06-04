@@ -148,10 +148,6 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
-    label: 'AWS / S3',
-    keys: ['AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'AWS_REGION', 'AWS_S3_BUCKET'],
-  },
-  {
     label: 'Cloudflare R2',
     keys: [
       'CLOUDFLARE_ACCOUNT_ID',
@@ -171,13 +167,16 @@ const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
   {
-    label: 'AWS',
+    label: 'Northflank',
     keys: [
-      'AWS_ACCESS_KEY_ID',
-      'AWS_SECRET_ACCESS_KEY',
-      'AWS_DEFAULT_REGION',
-      'ECS_CLUSTER',
-      'ECS_SERVICES',
+      'NORTHFLANK_API_TOKEN',
+      'NORTHFLANK_TEAM_ID',
+      'NORTHFLANK_PROJECT_ID',
+      'NORTHFLANK_LMS_SERVICE_ID',
+      'NORTHFLANK_ADMIN_SERVICE_ID',
+      'NORTHFLANK_SECRET_GROUP_ID',
+      'NORTHFLANK_DEPLOYMENT_PLAN',
+      'NORTHFLANK_BUILD_PLAN',
     ],
   },
   {

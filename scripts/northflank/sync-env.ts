@@ -103,7 +103,7 @@ async function findOrCreateSecretGroup(
     method: 'POST',
     body: JSON.stringify({
       name: secretId,
-      description: 'Elevate production env (migrated from AWS SSM / ECS)',
+      description: 'Elevate production env',
       priority: 10,
       type: 'secret',
       secretType: 'environment',
@@ -129,11 +129,6 @@ async function main() {
     variables = { ...variables, ...loadFromFile(file) };
   }
   variables = { ...variables, ...loadFromProcessEnv(keys) };
-
-  // Drop AWS-only bootstrap vars not needed on Northflank runtime
-  delete variables.AWS_ACCESS_KEY_ID;
-  delete variables.AWS_SECRET_ACCESS_KEY;
-  delete variables.AWS_SESSION_TOKEN;
 
   const missing = keys.filter((k) => !variables[k] && k.startsWith('NEXT_PUBLIC_'));
   const missingCritical = [
@@ -180,7 +175,7 @@ async function main() {
     method: 'POST',
     body: JSON.stringify({
       name: groupId,
-      description: 'Elevate production env (synced from AWS/Cursor)',
+      description: 'Elevate production env',
       priority: 10,
       type: 'secret',
       secretType: 'environment',

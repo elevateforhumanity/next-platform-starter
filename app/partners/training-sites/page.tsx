@@ -192,7 +192,7 @@ export default async function TrainingSitesPage() {
       {/* Hero */}
       <section
         className="relative overflow-hidden"
-        style={{ minHeight: 'clamp(420px, 50vw, 580px)' }}
+        style={{ minHeight: 'clamp(240px, 34vw, 390px)' }}
       >
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image

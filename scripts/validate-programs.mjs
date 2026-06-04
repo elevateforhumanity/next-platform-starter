@@ -7,7 +7,7 @@
  * or if a registered slug has no resolvable public route.
  *
  * Run: node scripts/validate-programs.mjs
- * CI:  runs in .github/workflows/deploy-aws.yml after pnpm next build
+ * CI: runs in deployment workflows after pnpm next build
  */
 
 import { readFileSync, existsSync } from 'fs';

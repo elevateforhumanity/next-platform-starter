@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Pre-deploy env validation. Run in CodeBuild post_build before docker push.
- * Exit 1 = build fails, image never pushed, ECS never updated.
+ * Pre-deploy env validation. Run before the container image is deployed.
+ * Exit 1 = build fails and the image is not promoted.
  */
 
 const SERVICE = process.argv[2] || 'lms';

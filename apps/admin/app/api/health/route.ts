@@ -1,4 +1,4 @@
-// PUBLIC ROUTE: ALB health check and env verification — no auth
+// PUBLIC ROUTE: platform health check and env verification — no auth
 import { NextResponse } from 'next/server';
 import { getServerSupabaseEnvMisconfigurationReason } from '@/lib/supabase/server-env';
 import { isPlaceholderSupabaseConfig } from '@/lib/supabase/public-config';

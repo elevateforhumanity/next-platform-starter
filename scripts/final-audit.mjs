@@ -177,7 +177,7 @@ const checklist = [
   { item: 'Program pages created', status: '✅' },
   { item: 'Navigation registry', status: '✅' },
   { item: 'Route audit script', status: '✅' },
-  { item: 'Environment via AWS SSM', status: '✅' },
+  { item: 'Environment via Northflank/runtime secrets', status: '✅' },
   { item: 'Media assets present', status: '✅' },
 ];
 

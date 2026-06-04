@@ -1,7 +1,7 @@
 /**
  * GET /api/cron/funding-followup
  *
- * Scheduled job — runs daily via AWS EventBridge or curl with the cron secret.
+ * Scheduled job - runs daily via Northflank cron or curl with the cron secret.
  * Also callable manually from Dev Studio.
  *
  * What it does:
@@ -14,7 +14,7 @@
  *   4. After 2 follow-ups with no response, flags the application as
  *      `next_step = 'call_required'` for the admin dashboard.
  *
- * Auth: CRON_SECRET header (set in AWS SSM under /elevate/CRON_SECRET).
+ * Auth: CRON_SECRET header.
  */
 
 import { NextRequest, NextResponse } from 'next/server';

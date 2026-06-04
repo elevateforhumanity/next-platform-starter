@@ -37,7 +37,7 @@ export default async function JRIProgramsPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h2>
           <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
@@ -65,14 +65,14 @@ export default async function JRIProgramsPage() {
 
       {/* Hero image — no overlay, no text on image per design standard */}
       <div className="relative w-full overflow-hidden" style={{ height: 'clamp(280px, 45vw, 560px)' }}>
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/jri-hero.webp"
           alt={`Second chance career training — JRI programs at ${PLATFORM_DEFAULTS.orgName}`}
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw"
+          placeholder="empty"
         />
       </div>
 
@@ -154,7 +154,8 @@ export default async function JRIProgramsPage() {
                 alt="JRI participants in career training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                placeholder="empty"
               />
             </div>
           </div>
@@ -340,13 +341,13 @@ export default async function JRIProgramsPage() {
               >
                 <div className="relative h-48 w-full overflow-hidden">
                   <Image
-                    priority
                     src={program.heroImage}
                     alt={program.heroImageAlt}
                     fill
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy" placeholder="empty"
+                    loading="lazy"
+                    placeholder="empty"
                   />
                 </div>
                 <div className="p-6">

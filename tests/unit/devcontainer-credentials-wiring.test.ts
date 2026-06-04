@@ -1,22 +1,20 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { ADMIN_ECS_SECRET_KEYS } from '@/lib/admin/required-ecs-secrets';
 
 const REPO_ROOT = join(__dirname, '../..');
 
 describe('dev container credential wiring (no fake secrets in UI)', () => {
-  it('ecs-task-admin.json lists every canonical admin secret from SSM', () => {
-    const taskDef = JSON.parse(
-      readFileSync(join(REPO_ROOT, 'aws/ecs-task-admin.json'), 'utf8'),
-    ) as {
-      containerDefinitions: Array<{ secrets?: Array<{ name: string }> }>;
-    };
-    const fromFile = new Set(
-      (taskDef.containerDefinitions[0]?.secrets ?? []).map((s) => s.name),
-    );
-    for (const key of ADMIN_ECS_SECRET_KEYS) {
-      expect(fromFile.has(key), `missing secret in ecs-task-admin.json: ${key}`).toBe(true);
+  it('documents Northflank runtime env keys', () => {
+    const envExample = readFileSync(join(REPO_ROOT, '.env.example'), 'utf8');
+    for (const key of [
+      'NORTHFLANK_API_TOKEN',
+      'NORTHFLANK_PROJECT_ID',
+      'NORTHFLANK_LMS_SERVICE_ID',
+      'NORTHFLANK_ADMIN_SERVICE_ID',
+      'NORTHFLANK_SECRET_GROUP_ID',
+    ]) {
+      expect(envExample, `missing ${key} in .env.example`).toContain(key);
     }
   });
 
@@ -58,10 +56,10 @@ describe('dev container credential wiring (no fake secrets in UI)', () => {
     expect(src).not.toContain("'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}'");
   });
 
-  it('devcontainer setup pulls credentials from SSM path /elevate/', () => {
+  it('devcontainer setup creates local env without production secret pull', () => {
     const setup = readFileSync(join(REPO_ROOT, '.devcontainer/setup-env.sh'), 'utf8');
-    expect(setup).toContain('SSM_PATH="/elevate/"');
-    expect(setup).toContain('AWS_ACCESS_KEY_ID');
+    expect(setup).toContain('cp .env.example "$ENV_FILE"');
+    expect(setup).toContain('Northflank secret groups');
     expect(setup).not.toContain('FAKE_');
   });
 });

@@ -124,7 +124,7 @@ export default function AIInstructorPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 bg-white rounded-xl border border-slate-200 overflow-y-auto p-4 space-y-4 min-h-[400px] max-h-[60vh]">
+        <div className="flex-1 bg-white rounded-xl border border-slate-200 overflow-y-auto p-4 space-y-4 min-h-[320px] max-h-[560px]">
           {messages.map((msg, i) => (
             <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${

@@ -4,10 +4,14 @@
  * Server-side: reads from public/data/ via fs, caches per process.
  * Client-side: returns empty object — data must be passed as props from server.
  *
- * Uses dynamic require() so webpack does not trace 'fs' into client bundles.
+ * Uses createRequire() so tsx/ESM scripts and server runtime can both read
+ * JSON synchronously without exposing fs to client execution.
  */
 
+import { createRequire } from 'module';
+
 const _cache = new Map<string, unknown>();
+const nodeRequire = createRequire(import.meta.url);
 
 export function loadJsonOnce<T = unknown>(filename: string): T {
   if (typeof window !== 'undefined') {
@@ -15,9 +19,8 @@ export function loadJsonOnce<T = unknown>(filename: string): T {
     return {} as T;
   }
   if (_cache.has(filename)) return _cache.get(filename) as T;
-  // Dynamic require keeps 'fs' out of webpack's static import graph
-  const fs = require('fs') as typeof import('fs');
-  const nodePath = require('path') as typeof import('path');
+  const fs = nodeRequire('fs') as typeof import('fs');
+  const nodePath = nodeRequire('path') as typeof import('path');
   const raw = fs.readFileSync(nodePath.join(process.cwd(), 'public/data', filename), 'utf8');
   const parsed = JSON.parse(raw) as T;
   _cache.set(filename, parsed);

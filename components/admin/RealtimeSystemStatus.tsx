@@ -73,7 +73,7 @@ export function RealtimeSystemStatus() {
     >
       <Metric
         icon={Activity}
-        label="ECS"
+        label="Runtime"
         value={m.ecs}
         status={m.ecs}
         href={ADMIN.SYSTEM_HEALTH}

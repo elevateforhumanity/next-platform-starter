@@ -1,21 +1,8 @@
 {
-  "scannedFiles": 3484,
-  "imageRefs": 811,
+  "scannedFiles": 3514,
+  "imageRefs": 817,
   "missingRefs": 0,
-  "pexelsRefs": 2,
+  "pexelsRefs": 0,
   "missing": [],
-  "pexels": [
-    {
-      "file": "app/store/licenses/page.tsx",
-      "ref": "/images/pexels/store-hero.webp",
-      "exists": true,
-      "pexels": true
-    },
-    {
-      "file": "app/store/licenses/page.tsx",
-      "ref": "/images/pexels/success-team.webp",
-      "exists": true,
-      "pexels": true
-    }
-  ]
+  "pexels": []
 }

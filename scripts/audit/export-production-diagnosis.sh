@@ -13,7 +13,7 @@ if [ -f "$ROOT/app/robots.ts" ]; then cp "$ROOT/app/robots.ts" "$OUT/robots.ts";
 
 {
   echo "# Redacted environment (keys only + safe public vars)"
-  env | grep -E '^(NEXT_PUBLIC_|NODE_ENV|AWS_REGION|AWS_DEFAULT_REGION)=' | sed -E 's/(KEY|SECRET|TOKEN|PASSWORD)=.*/\1=***REDACTED***/i' || true
+  env | grep -E '^(NEXT_PUBLIC_|NODE_ENV|NORTHFLANK_|SERVICE_ROLE|PORT)=' | sed -E 's/(KEY|SECRET|TOKEN|PASSWORD)=.*/\1=***REDACTED***/i' || true
 } > "$OUT/environment-redacted.txt"
 
 {

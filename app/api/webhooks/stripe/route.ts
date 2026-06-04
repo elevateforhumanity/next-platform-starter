@@ -192,8 +192,7 @@ async function flagCertRows(
 
 async function _POST(request: NextRequest) {
   // Hydrate process.env from app_secrets table before reading any secret.
-  // In production, STRIPE_WEBHOOK_SECRET is injected from SSM via ECS task definition
-  // SSM injection handles all secrets via ECS task definition.
+  // In production, STRIPE_WEBHOOK_SECRET is injected through runtime env or secret groups.
   // This must run before any process.env.STRIPE_* access.
   // Wrapped in try/catch — a hydration failure must never produce a 500 to Stripe.
   try {
@@ -231,7 +230,7 @@ async function _POST(request: NextRequest) {
   if (!webhookSecrets.length) {
     // No signing secrets — alert loudly but return 200 so Stripe does not keep retrying.
     logger.error(
-      '[webhook] No Stripe webhook signing secrets configured — event dropped. Set STRIPE_WEBHOOK_SECRET in AWS SSM (/elevate/STRIPE_WEBHOOK_SECRET).',
+      '[webhook] No Stripe webhook signing secrets configured — event dropped. Set STRIPE_WEBHOOK_SECRET in the runtime environment.',
     );
     Sentry.captureException(
       new Error('STRIPE_WEBHOOK_SECRET not set — webhook events are being dropped'),
@@ -1108,7 +1107,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     endpoint: '/api/webhooks/stripe',
-    message: 'Register this URL in Stripe Dashboard; signing secret → STRIPE_WEBHOOK_SECRET in SSM.',
+    message: 'Register this URL in Stripe Dashboard; signing secret → STRIPE_WEBHOOK_SECRET in runtime env or secret group.',
   });
 }
 

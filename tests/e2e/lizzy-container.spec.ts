@@ -11,7 +11,7 @@ test.describe('Lizzy container', () => {
 
   test('loads Lizzy with deploy strip and command panel', async ({ page }) => {
     await expect(page.getByText('Lizzy', { exact: false }).first()).toBeVisible({ timeout: 60_000 });
-    await expect(page.getByText('GitHub → AWS ECS')).toBeVisible();
+    await expect(page.getByText('GitHub → Northflank')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Command' })).toBeVisible();
   });
 

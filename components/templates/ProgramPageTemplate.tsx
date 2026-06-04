@@ -97,7 +97,7 @@ export function ProgramPageTemplate({
       </div>
 
       {/* Hero Image — clean, no overlays */}
-      <section className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
+      <section className="relative w-full h-[clamp(220px,34vw,390px)] overflow-hidden">
         {heroVideo ? (
           <CanonicalVideo
             src={heroVideo}

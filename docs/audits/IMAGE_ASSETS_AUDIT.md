@@ -1,13 +1,12 @@
 # Image Assets Audit
 
-- Scanned files: 3484
-- Image refs (/images/*): 811
+- Scanned files: 3514
+- Image refs (/images/*): 817
 - Missing refs: 0
-- Legacy pexels refs: 2
+- Legacy pexels refs: 0
 
 ## Missing refs
 None
 
 ## Legacy pexels refs
-- /images/pexels/store-hero.webp in `app/store/licenses/page.tsx`
-- /images/pexels/success-team.webp in `app/store/licenses/page.tsx`
+None

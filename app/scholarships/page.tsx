@@ -183,7 +183,7 @@ export default async function ScholarshipsPage() {
       </div>
 
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-[400px]">
+      <section className="relative h-[clamp(220px,34vw,390px)]">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
           src="/images/pages/success-stories-hero.webp"

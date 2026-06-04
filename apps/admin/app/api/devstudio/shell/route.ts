@@ -1,7 +1,7 @@
 /**
  * /api/devstudio/shell
  *
- * Dispatches GitHub Actions workflow runs. Works in ECS (no local source).
+ * Dispatches GitHub Actions workflow runs. Works in production with no local source.
  * Admin-only.
  *
  * GET ?action=list

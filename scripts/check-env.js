@@ -19,7 +19,7 @@ if (missing.length > 0) {
   });
     '\nFor production, add these to your deployment platform environment variables.'
   );
-    'For AWS ECS: set env vars in the ECS task definition or AWS SSM Parameter Store'
+    'For Northflank: set env vars in the service runtime environment or secret group'
   );
     'For Cloudflare Pages: https://dash.cloudflare.com/YOUR_ACCOUNT/pages/view/YOUR_PROJECT/settings/environment-variables\n'
   );

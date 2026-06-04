@@ -49,7 +49,7 @@ function constructStripeEventWithAnySecret(
  * 2. Run post-payment pipeline (emails, CRM, admin notification)
  */
 async function _POST(request: NextRequest) {
-  // Hydrate secrets from SSM/app_secrets before reading any STRIPE_* env vars.
+  // Hydrate secrets from runtime stores before reading any STRIPE_* env vars.
   try {
     await hydrateProcessEnv();
   } catch (err) {

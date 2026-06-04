@@ -2,21 +2,15 @@ import { logger } from '@/lib/logger';
 /**
  * Runtime secrets fetched from Supabase and merged into process.env.
  *
- * Cold-start note: ECS injects each SSM secret as a sequential API call at
- * container boot. With 195 secrets that is 10–20 seconds of startup latency.
+ * Runtime note: keep only boot-critical variables in the container runtime env.
  * hydrateProcessEnv() is called per-request (cached 5 min) so it does NOT
- * add per-request latency after the first call — but the first request after
- * a cold start pays the full cost. The ECS secret count should be reduced to
- * only the secrets the container actually needs at boot (STRIPE_SECRET_KEY,
- * SUPABASE_SERVICE_ROLE_KEY, etc.). All other secrets can be loaded lazily
- * via hydrateProcessEnv() from the DB.
+ * add per-request latency after the first call. Non-critical keys can be
+ * loaded lazily via hydrateProcessEnv() from the DB-backed secret stores.
  *
- * Architecture (AWS ECS / Fargate):
- *   - Primary source: AWS SSM Parameter Store — injected into the ECS task
- *     environment at container start via the task definition `secrets` array.
- *     All 190+ vars are available as process.env.* at boot with no size limit.
+ * Architecture:
+ *   - Primary source: Northflank runtime env / secret groups for boot-critical keys.
  *   - Secondary source: `platform_secrets` table — keys saved via Admin → Dev
- *     Studio → Secrets tab. These override SSM values so admins can rotate
+ *     Studio → Secrets tab. These override runtime values so admins can rotate
  *     API keys without a redeploy.
  *   - Tertiary source: `app_secrets` table — legacy runtime scope, kept for
  *     backward compatibility.
@@ -24,7 +18,7 @@ import { logger } from '@/lib/logger';
  * Precedence (highest → lowest):
  *   1. platform_secrets (admin UI rotation — takes effect immediately)
  *   2. app_secrets (legacy runtime scope)
- *   3. process.env (ECS task definition / SSM injection)
+ *   3. process.env (container runtime env / build-time vars)
  *
  * Usage — explicit fetch:
  *   import { getSecret } from '@/lib/secrets';
@@ -46,7 +40,7 @@ import {
 let cache: Record<string, string> | null = null;
 let cacheTimestamp = 0;
 let hydrated = false;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — in-process cache for ECS long-running container
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — in-process cache for long-running containers
 
 // Abort app_secrets fetch if Supabase doesn't respond within this window.
 // Without a timeout, a container with no service role key can hang on startup.
@@ -81,7 +75,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
   const client = getBootstrapClient();
   if (!client) {
     // SUPABASE_SERVICE_ROLE_KEY absent — local dev without .env.local.
-    // Fall through to process.env (SSM vars already injected by ECS task definition).
+    // Fall through to process.env.
     return {};
   }
 
@@ -92,7 +86,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
     const result = await client.from('app_secrets').select('key, value').eq('scope', 'runtime');
     if (!result.error) {
       for (const row of result.data ?? []) {
-        // Skip blank values — they must not shadow SSM-injected env vars
+        // Skip blank values — they must not shadow runtime env vars.
         if (row.key && row.value && row.value.trim().length > 0) secrets[row.key] = row.value;
       }
     } else {
@@ -108,7 +102,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
     const result = await client.from('platform_secrets').select('key, value_enc');
     if (!result.error) {
       for (const row of result.data ?? []) {
-        // Skip blank values — they must not shadow SSM-injected env vars
+        // Skip blank values — they must not shadow runtime env vars.
         if (row.key && row.value_enc && row.value_enc.trim().length > 0) secrets[row.key] = row.value_enc;
       }
     } else {
@@ -129,7 +123,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
  * Precedence (highest → lowest):
  *   1. platform_secrets (admin UI) — always wins, enables key rotation without redeploy
  *   2. app_secrets (legacy runtime scope)
- *   3. process.env (ECS task definition / build-time vars)
+ *   3. process.env (container runtime env / build-time vars)
  *
  * Previously process.env took precedence, which meant keys set via the admin
  * Integrations UI were silently ignored whenever a stale or empty value existed
@@ -144,9 +138,9 @@ export async function hydrateProcessEnv(): Promise<void> {
   for (const [key, value] of Object.entries(secrets)) {
     // Only write to process.env when the DB value is non-empty.
     // An empty string in platform_secrets / app_secrets must NOT overwrite a
-    // valid SSM value that was injected by the ECS task definition at boot.
+    // valid runtime value that was injected into the container at boot.
     // This was the root cause of chat/git/shell failures: a blank row saved via
-    // the admin Secrets UI would silently shadow the correct SSM value.
+    // the admin Secrets UI would silently shadow the correct runtime value.
     if (value && value.trim().length > 0) {
       process.env[key] =
         key === 'NEXT_PUBLIC_SUPABASE_URL' || key === 'SUPABASE_URL'

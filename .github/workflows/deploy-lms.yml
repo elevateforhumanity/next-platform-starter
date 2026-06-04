@@ -1,14 +1,9 @@
 name: Deploy LMS
-# No-op update to trigger workflow when manual dispatch is unavailable.
-# Retry trigger marker: 2026-05-22T10:36Z
 
 on:
   push:
     branches:
       - main
-    # LMS deploy source of truth:
-    # - app/** and LMS/shared code.
-    # - Explicitly excludes legacy app/admin so admin changes do not trigger LMS deploys.
     paths:
       - "app/**"
       - "!app/admin/**"
@@ -29,201 +24,76 @@ on:
       - "next.config.mjs"
       - "tailwind.config.js"
       - "tsconfig.json"
-      - "Dockerfile.package"
-      - "aws/buildspec-lms.yml"
+      - "Dockerfile.northflank-lms"
+      - "scripts/northflank/**"
       - "pnpm-lock.yaml"
       - "package.json"
       - "pnpm-workspace.yaml"
       - ".github/workflows/deploy-lms.yml"
-
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# CodeBuild account capacity is shared by production deploy workflows.
-# Queue instead of cancelling so overlapping admin/LMS deploys do not race AWS.
 concurrency:
-  group: production-codebuild-deploy
+  group: northflank-lms-deploy
   cancel-in-progress: false
 
 jobs:
   deploy-lms:
-    name: Build and deploy LMS only
+    name: Build and deploy LMS on Northflank
     runs-on: ubuntu-latest
+    env:
+      NORTHFLANK_API_TOKEN: ${{ secrets.NORTHFLANK_API_TOKEN }}
+      NORTHFLANK_TEAM_ID: ${{ secrets.NORTHFLANK_TEAM_ID || 'elevates-team' }}
+      NORTHFLANK_PROJECT_ID: ${{ secrets.NORTHFLANK_PROJECT_ID }}
+      NORTHFLANK_LMS_SERVICE_ID: ${{ secrets.NORTHFLANK_LMS_SERVICE_ID || 'elevate-lms' }}
+      NORTHFLANK_ADMIN_SERVICE_ID: ${{ secrets.NORTHFLANK_ADMIN_SERVICE_ID || 'elevate-admin' }}
+      DEPLOY_BRANCH: main
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
         with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          version: 10.28.2
 
-      - name: Start LMS CodeBuild and wait for completion
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Northflank services
+        run: pnpm tsx scripts/northflank/configure-services.ts --execute
+
+      - name: Point LMS service at main
+        run: pnpm tsx scripts/northflank/set-service-branch.ts "$NORTHFLANK_LMS_SERVICE_ID" "$DEPLOY_BRANCH"
+
+      - name: Trigger LMS build
+        run: pnpm tsx scripts/northflank/trigger-build.ts "$NORTHFLANK_LMS_SERVICE_ID"
+
+      - name: Wait for LMS deployment
+        run: pnpm tsx scripts/northflank/wait-service.ts "$NORTHFLANK_LMS_SERVICE_ID" --timeout-ms 1200000
+
+      - name: Smoke LMS
         run: |
           set -euo pipefail
-
-          PROJECT_NAME="elevate-lms-build"
-          BUILDSPEC="aws/buildspec-lms.yml"
-          REGION="us-east-1"
-          MAX_START_ATTEMPTS=30
-          START_RETRY_DELAY=60
-
-          dump_build_details() {
-            echo "::group::CodeBuild failure details"
-            aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts},logs:logs}' \
-              --output json || true
-            echo "::endgroup::"
-
-            LOG_GROUP=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].logs.groupName' \
-              --output text 2>/dev/null || true)
-            LOG_STREAM=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].logs.streamName' \
-              --output text 2>/dev/null || true)
-
-            if [ -n "$LOG_GROUP" ] && [ "$LOG_GROUP" != "None" ] && [ -n "$LOG_STREAM" ] && [ "$LOG_STREAM" != "None" ]; then
-              echo "::group::Last 200 CodeBuild log events"
-              aws logs get-log-events \
-                --log-group-name "$LOG_GROUP" \
-                --log-stream-name "$LOG_STREAM" \
-                --region "$REGION" \
-                --limit 200 \
-                --query 'events[].message' \
-                --output json || true
-              echo "::endgroup::"
-            else
-              echo "CodeBuild log stream was not available yet. Build ID: $BUILD_ID"
-            fi
-          }
-
-          start_codebuild_with_retry() {
-            local attempt output status
-
-            for attempt in $(seq 1 "$MAX_START_ATTEMPTS"); do
-              set +e
-              output=$(aws codebuild start-build \
-                --project-name "$PROJECT_NAME" \
-                --source-version "$SOURCE_VERSION" \
-                --buildspec-override "$BUILDSPEC" \
-                --region "$REGION" \
-                --query 'build.id' --output text 2>&1)
-              status=$?
-              set -e
-
-              if [ "$status" -eq 0 ]; then
-                BUILD_ID="$output"
-                return 0
-              fi
-
-              if echo "$output" | grep -q 'AccountLimitExceededException'; then
-                echo "CodeBuild is at account/project capacity (attempt ${attempt}/${MAX_START_ATTEMPTS}). Retrying in ${START_RETRY_DELAY}s..."
-                if [ "$attempt" -eq "$MAX_START_ATTEMPTS" ]; then
-                  echo "$output"
-                  return "$status"
-                fi
-                sleep "$START_RETRY_DELAY"
-                continue
-              fi
-
-              echo "$output"
-              return "$status"
-            done
-          }
-
-          SOURCE_VERSION="${GITHUB_SHA:?Missing GITHUB_SHA}"
-          echo "Starting LMS CodeBuild for commit ${SOURCE_VERSION}..."
-          start_codebuild_with_retry
-          echo "Build ID: $BUILD_ID"
-
-          echo "Waiting for build to complete (polls every 30s)..."
-          while true; do
-            STATUS=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].buildStatus' \
-              --output text)
-            echo "  Status: $STATUS"
-            case "$STATUS" in
-              SUCCEEDED)
-                echo "✅ LMS build succeeded."
-                exit 0
-                ;;
-              FAILED|FAULT|TIMED_OUT|STOPPED)
-                echo "❌ LMS build failed with status: $STATUS"
-                dump_build_details
-                exit 1
-                ;;
-            esac
-            sleep 30
-          done
-
-      - name: Wait for ECS service stability
-        run: |
-          echo "Waiting for ECS service to stabilize..."
-          aws ecs wait services-stable \
-            --cluster elevate-cluster \
-            --services elevate-lms-service \
-            --region us-east-1
-          echo "✅ ECS service stable."
-
-      - name: Health check — LMS
-        id: health_check
-        run: |
-          MAX_ATTEMPTS=12
-          DELAY=15
-          for i in $(seq 1 $MAX_ATTEMPTS); do
-            if bash scripts/post-deploy-smoke.sh "https://www.elevateforhumanity.org"; then
-              echo "✅ Post-deploy smoke passed."
+          for i in $(seq 1 20); do
+            status=$(curl -sk --max-time 10 -o /tmp/lms-health.json -w "%{http_code}" https://www.elevateforhumanity.org/api/ping || true)
+            body=$(cat /tmp/lms-health.json 2>/dev/null || true)
+            if [ "$status" = "200" ] && echo "$body" | grep -q '"ok":true'; then
+              echo "LMS liveness passed."
               exit 0
             fi
-            echo "  Attempt $i/$MAX_ATTEMPTS — retry in ${DELAY}s"
-            sleep $DELAY
+            echo "LMS liveness not ready yet: HTTP ${status}. Retry ${i}/20."
+            sleep 15
           done
-          echo "❌ Post-deploy smoke failed."
+          echo "LMS liveness failed after deploy."
+          cat /tmp/lms-health.json 2>/dev/null || true
           exit 1
-
-      - name: Revalidate public cache
-        if: success()
-        env:
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -n "$CRON_SECRET" ]; then
-            curl -sf -X GET "https://www.elevateforhumanity.org/api/cron/revalidate-public" \
-              -H "Authorization: Bearer ${CRON_SECRET}" || true
-          fi
-
-      - name: Rollback on health failure
-        if: failure() && steps.health_check.outcome == 'failure'
-        run: |
-          echo "⚠️  Health check failed — rolling back LMS service to previous task definition..."
-          PREV_TASK=$(aws ecs describe-services \
-            --cluster elevate-cluster \
-            --services elevate-lms-service \
-            --region us-east-1 \
-            --query 'services[0].deployments[?status==`PRIMARY`].taskDefinition' \
-            --output text)
-          echo "Current task: $PREV_TASK"
-          # Force new deployment of the previous stable task definition
-          # (CodeBuild already registered the new one; ECS will drain and revert)
-          aws ecs update-service \
-            --cluster elevate-cluster \
-            --service elevate-lms-service \
-            --force-new-deployment \
-            --region us-east-1 \
-            --query 'service.serviceName' \
-            --output text
-          echo "Rollback initiated. Monitor ECS console for completion."
-          exit 1
-# Deploy trigger: 2026-05-27T13:47Z

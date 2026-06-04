@@ -60,7 +60,7 @@ export default function TestingPage() {
       </div>
 
       {/* Hero */}
-      <section className="relative h-[45vh] md:h-[55vh] min-h-[280px] max-h-[520px] overflow-hidden">
+      <section className="relative h-[clamp(190px,32vw,360px)] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/career-services-page-1.webp"

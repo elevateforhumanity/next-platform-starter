@@ -27,7 +27,7 @@ export function getCanonicalStripeWebhookSecrets(): string[] {
 
 /**
  * Verify a Stripe webhook payload against one of several configured secrets.
- * Used when Dashboard signing secrets and SSM values may be out of sync across endpoints.
+ * Used when Dashboard signing secrets and runtime values may be out of sync across endpoints.
  */
 export function constructStripeEventWithAnySecret(
   stripe: Stripe,

@@ -116,13 +116,8 @@ export async function GET(request: NextRequest) {
   });
 
   // ── Deploy identity ────────────────────────────────────────────────────────
-  // In ECS the task role provides identity via metadata URI. In dev, explicit keys are needed.
-  const hasAwsKeys = Boolean(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
-  const hasAwsRole = Boolean(
-    process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI ||
-    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI,
-  );
-  const deployReady = hasAwsKeys || hasAwsRole || githubOk;
+  const hasNorthflank = Boolean(process.env.NORTHFLANK_API_TOKEN && process.env.NORTHFLANK_PROJECT_ID);
+  const deployReady = hasNorthflank || githubOk;
 
   checks.push({
     name: 'Deploy Identity',
@@ -130,10 +125,8 @@ export async function GET(request: NextRequest) {
     detail: deployReady
       ? githubOk
         ? 'GitHub Actions dispatch available'
-        : hasAwsRole
-          ? 'ECS task role active'
-          : 'AWS keys present'
-      : 'no AWS identity or GitHub token — deploy buttons will fail',
+        : 'Northflank API available'
+      : 'no Northflank API token or GitHub token — deploy buttons will fail',
   });
 
   const failCount = checks.filter((c) => c.status === 'fail').length;

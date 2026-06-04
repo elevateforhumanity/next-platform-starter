@@ -1,8 +1,8 @@
 /**
- * Admin Route Guards - ECS/AWS Context
+ * Admin Route Guards - container runtime context
  * Controls access to dev/test tools and sensitive admin features
  *
- * Required env vars (injected from SSM via ECS task definition):
+ * Required env vars (injected through runtime env or secret groups):
  * - Production: ENABLE_ADMIN_DEVTOOLS=false
  * - Deploy Previews: ENABLE_ADMIN_DEVTOOLS=true (optional)
  */
@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation';
 export type AdminRole = 'admin' | 'super_admin' | 'staff';
 
 /**
- * Environment detection — AWS ECS (NODE_ENV driven)
+ * Environment detection — container runtime (NODE_ENV driven)
  */
 export const isProd = process.env.NODE_ENV === 'production';
 export const isPreview = false;

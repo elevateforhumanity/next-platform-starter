@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
   checks.push({
     name: 'runtime:timezone',
     ok: true, // informational only
-    detail: `UTC offset: ${tzOffset} min (ECS runs UTC — cron 14:00 UTC = 9 AM ET)`,
+    detail: `UTC offset: ${tzOffset} min (container runs UTC - cron 14:00 UTC = 9 AM ET)`,
   });
 
   // ── 5. Recent followup activity ───────────────────────────────────────────

@@ -26,7 +26,7 @@ export default function GrantsPage() {
       </div>
 
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-48 md:h-64 flex items-center overflow-hidden">
+      <section className="relative h-[clamp(190px,32vw,360px)] flex items-center overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src="/images/pages/grants-page-1.webp"

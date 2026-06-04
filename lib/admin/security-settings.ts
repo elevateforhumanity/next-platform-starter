@@ -5,7 +5,7 @@
  * TTL: 60 seconds — stale values are acceptable for enforcement settings.
  *
  * Env vars are always the primary source. DB values are the fallback when
- * the env var is absent. This means SSM/ECS secrets override the UI.
+ * the env var is absent. This means runtime secrets override the UI.
  *
  * Keys read:
  *   ip_allowlist          — comma-separated CIDRs/IPs (fallback for ADMIN_IP_ALLOWLIST)

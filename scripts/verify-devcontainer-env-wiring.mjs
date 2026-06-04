@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Verifies dev container / ECS env wiring — no fake credentials in UI paths.
+ * Verifies dev container / Northflank env wiring — no fake credentials in UI paths.
  * Run: node scripts/verify-devcontainer-env-wiring.mjs
  */
 import { readFileSync, existsSync } from 'node:fs';
@@ -15,24 +15,23 @@ function fail(msg) {
   failed += 1;
 }
 function ok(msg) {
-  console.log(`✅ ${msg}`);
+  console.info(`✅ ${msg}`);
 }
 
-const taskPath = join(root, 'aws/ecs-task-admin.json');
-const task = JSON.parse(readFileSync(taskPath, 'utf8'));
-const secrets = task.containerDefinitions[0]?.secrets ?? [];
-const env = task.containerDefinitions[0]?.environment ?? [];
+const envExample = readFileSync(join(root, '.env.example'), 'utf8');
+const requiredNorthflankKeys = [
+  'NORTHFLANK_API_TOKEN',
+  'NORTHFLANK_PROJECT_ID',
+  'NORTHFLANK_LMS_SERVICE_ID',
+  'NORTHFLANK_ADMIN_SERVICE_ID',
+  'NORTHFLANK_SECRET_GROUP_ID',
+];
 
-if (secrets.length < 20) {
-  fail(`ecs-task-admin.json has only ${secrets.length} SSM secrets (expected 20+)`);
+const missingNorthflankKeys = requiredNorthflankKeys.filter((key) => !envExample.includes(key));
+if (missingNorthflankKeys.length > 0) {
+  fail(`.env.example is missing Northflank keys: ${missingNorthflankKeys.join(', ')}`);
 } else {
-  ok(`Admin ECS task: ${secrets.length} secrets from SSM, ${env.length} plain env vars`);
-}
-
-for (const s of secrets) {
-  if (!s.valueFrom?.includes('parameter/elevate/')) {
-    fail(`Secret ${s.name} is not sourced from /elevate/ SSM: ${s.valueFrom}`);
-  }
+  ok('Northflank runtime env keys are documented in .env.example');
 }
 
 const devPanel = readFileSync(join(root, 'components/dev-studio/DevContainerPanel.tsx'), 'utf8');
@@ -42,11 +41,11 @@ if (devPanel.includes("'https://staging.${PLATFORM_DEFAULTS")) {
   ok('DevContainerPanel staging preset uses real template literals');
 }
 
-const setup = readFileSync(join(root, '.devcontainer/setup-env.sh'), 'utf8');
-if (!setup.includes('SSM_PATH="/elevate/"')) {
-  fail('setup-env.sh does not pull from /elevate/ SSM');
+const northflankRuntime = readFileSync(join(root, 'lib/northflank/runtime.ts'), 'utf8');
+if (!northflankRuntime.includes('NORTHFLANK_API_TOKEN') || !northflankRuntime.includes('triggerNorthflankBuild')) {
+  fail('Northflank runtime helper is missing API token/build trigger wiring');
 } else {
-  ok('devcontainer setup-env.sh pulls from AWS SSM /elevate/*');
+  ok('Northflank runtime helper is wired for deploy control');
 }
 
 const uiPaths = [
@@ -66,7 +65,7 @@ for (const rel of uiPaths) {
 }
 
 if (failed === 0) {
-  console.log('\nAll devcontainer env wiring checks passed.');
+  console.info('\nAll devcontainer env wiring checks passed.');
   process.exit(0);
 } else {
   console.error(`\n${failed} check(s) failed.`);

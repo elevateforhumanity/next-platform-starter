@@ -48,7 +48,7 @@ function parseAddress(raw: string): { address: string; city: string; state: stri
 }
 
 export async function getApprovedShops(program?: ProgramKey): Promise<HostShop[]> {
-  // Admin client requires SUPABASE_SERVICE_ROLE_KEY — injected from SSM
+  // Admin client requires SUPABASE_SERVICE_ROLE_KEY from runtime env/secrets.
   // build time. Return empty list so static generation succeeds; ISR will
   // populate real data at runtime.
   let db: Awaited<ReturnType<typeof requireAdminClient>>;

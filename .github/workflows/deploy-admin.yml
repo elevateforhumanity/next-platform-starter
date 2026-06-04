@@ -1,13 +1,9 @@
 name: Deploy Admin
-# Retry trigger marker: 2026-05-22T10:36Z
 
 on:
   push:
     branches:
       - main
-    # Admin deploy source of truth:
-    # - Only trigger from apps/admin and shared libs used by admin.
-    # - Do not add app/** here (that is LMS container scope).
     paths:
       - "apps/admin/**"
       - "lib/**"
@@ -21,285 +17,76 @@ on:
       - "content/**"
       - "utils/**"
       - "packages/**"
-      - "Dockerfile.admin"
-      - "aws/buildspec-admin.yml"
-      - "aws/ecs-task-admin.json"
+      - "Dockerfile.northflank-admin"
+      - "scripts/northflank/**"
       - "pnpm-lock.yaml"
       - "package.json"
       - "pnpm-workspace.yaml"
       - ".github/workflows/deploy-admin.yml"
-
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# CodeBuild account capacity is shared by production deploy workflows.
-# Queue instead of cancelling so overlapping admin/LMS deploys do not race AWS.
 concurrency:
-  group: production-codebuild-deploy
+  group: northflank-admin-deploy
   cancel-in-progress: false
 
 jobs:
   deploy-admin:
-    name: Build and deploy admin only
+    name: Build and deploy admin on Northflank
     runs-on: ubuntu-latest
+    env:
+      NORTHFLANK_API_TOKEN: ${{ secrets.NORTHFLANK_API_TOKEN }}
+      NORTHFLANK_TEAM_ID: ${{ secrets.NORTHFLANK_TEAM_ID || 'elevates-team' }}
+      NORTHFLANK_PROJECT_ID: ${{ secrets.NORTHFLANK_PROJECT_ID }}
+      NORTHFLANK_ADMIN_SERVICE_ID: ${{ secrets.NORTHFLANK_ADMIN_SERVICE_ID || 'elevate-admin' }}
+      NORTHFLANK_LMS_SERVICE_ID: ${{ secrets.NORTHFLANK_LMS_SERVICE_ID || 'elevate-lms' }}
+      DEPLOY_BRANCH: main
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
         with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          version: 10.28.2
 
-      - name: Start Admin CodeBuild and wait for completion
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Northflank services
+        run: pnpm tsx scripts/northflank/configure-services.ts --execute
+
+      - name: Point admin service at main
+        run: pnpm tsx scripts/northflank/set-service-branch.ts "$NORTHFLANK_ADMIN_SERVICE_ID" "$DEPLOY_BRANCH"
+
+      - name: Trigger admin build
+        run: pnpm tsx scripts/northflank/trigger-build.ts "$NORTHFLANK_ADMIN_SERVICE_ID"
+
+      - name: Wait for admin deployment
+        run: pnpm tsx scripts/northflank/wait-service.ts "$NORTHFLANK_ADMIN_SERVICE_ID" --timeout-ms 1200000
+
+      - name: Smoke admin
         run: |
           set -euo pipefail
-
-          PROJECT_NAME="elevate-admin-build"
-          BUILDSPEC="aws/buildspec-admin.yml"
-          REGION="us-east-1"
-          MAX_START_ATTEMPTS=30
-          START_RETRY_DELAY=60
-
-          dump_build_details() {
-            echo "::group::CodeBuild failure details"
-            aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].{status:buildStatus,currentPhase:currentPhase,phases:phases[*].{phaseType:phaseType,phaseStatus:phaseStatus,durationInSeconds:durationInSeconds,contexts:contexts}}' \
-              --output json || true
-            echo "::endgroup::"
-
-            LOG_GROUP=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].logs.groupName' \
-              --output text 2>/dev/null || true)
-            LOG_STREAM=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].logs.streamName' \
-              --output text 2>/dev/null || true)
-
-            if [ -n "$LOG_GROUP" ] && [ "$LOG_GROUP" != "None" ] && [ -n "$LOG_STREAM" ] && [ "$LOG_STREAM" != "None" ]; then
-              echo "::group::Last 200 CodeBuild log events"
-              aws logs get-log-events \
-                --log-group-name "$LOG_GROUP" \
-                --log-stream-name "$LOG_STREAM" \
-                --region "$REGION" \
-                --limit 200 \
-                --query 'events[].message' \
-                --output json || true
-              echo "::endgroup::"
-            else
-              echo "CodeBuild log stream was not available yet. Build ID: $BUILD_ID"
-            fi
-          }
-
-          start_codebuild_with_retry() {
-            local attempt output status
-
-            for attempt in $(seq 1 "$MAX_START_ATTEMPTS"); do
-              set +e
-              output=$(aws codebuild start-build \
-                --project-name "$PROJECT_NAME" \
-                --source-version "$SOURCE_VERSION" \
-                --buildspec-override "$BUILDSPEC" \
-                --region "$REGION" \
-                --query 'build.id' --output text 2>&1)
-              status=$?
-              set -e
-
-              if [ "$status" -eq 0 ]; then
-                BUILD_ID="$output"
-                return 0
-              fi
-
-              if echo "$output" | grep -q 'AccountLimitExceededException'; then
-                echo "CodeBuild is at account/project capacity (attempt ${attempt}/${MAX_START_ATTEMPTS}). Retrying in ${START_RETRY_DELAY}s..."
-                if [ "$attempt" -eq "$MAX_START_ATTEMPTS" ]; then
-                  echo "$output"
-                  return "$status"
-                fi
-                sleep "$START_RETRY_DELAY"
-                continue
-              fi
-
-              echo "$output"
-              return "$status"
-            done
-          }
-
-          SOURCE_VERSION="${GITHUB_SHA:?Missing GITHUB_SHA}"
-          echo "Starting Admin CodeBuild for commit ${SOURCE_VERSION}..."
-          start_codebuild_with_retry
-          echo "Build ID: $BUILD_ID"
-
-          echo "Waiting for build to complete (polls every 30s)..."
-          while true; do
-            STATUS=$(aws codebuild batch-get-builds \
-              --ids "$BUILD_ID" \
-              --region "$REGION" \
-              --query 'builds[0].buildStatus' \
-              --output text)
-            echo "  Status: $STATUS"
-            case "$STATUS" in
-              SUCCEEDED)
-                echo "Admin build succeeded."
-                exit 0
-                ;;
-              FAILED|FAULT|TIMED_OUT|STOPPED)
-                echo "Admin build failed with status: $STATUS"
-                dump_build_details
-                exit 1
-                ;;
-            esac
-            sleep 30
-          done
-
-      - name: Confirm ECS deployment was triggered
-        run: |
-          set -euo pipefail
-          echo "Verifying CodeBuild triggered ECS on elevate-admin-service..."
-          aws ecs describe-services \
-            --cluster elevate-cluster \
-            --services elevate-admin-service \
-            --region us-east-1 \
-            --query 'services[0].{taskDef:taskDefinition,deployments:deployments[*].{status:status,taskDef:taskDefinition,rollout:rolloutState,running:runningCount,desired:desiredCount,failed:failedTasks},events:events[0:5].[createdAt,message]}' \
-            --output json
-          PRIMARY=$(aws ecs describe-services \
-            --cluster elevate-cluster \
-            --services elevate-admin-service \
-            --region us-east-1 \
-            --query 'services[0].deployments[?status==`PRIMARY`].taskDefinition' \
-            --output text)
-          if [ -z "$PRIMARY" ] || [ "$PRIMARY" = "None" ]; then
-            echo "::error::No PRIMARY ECS deployment — CodeBuild post_build may not have called update-service."
-            exit 1
-          fi
-          echo "PRIMARY task definition: $PRIMARY"
-
-      - name: Wait for ECS service stability
-        id: ecs_stability
-        run: |
-          set -euo pipefail
-          echo "Waiting for ECS service to stabilize (max 40 minutes)..."
-          if ! timeout 2400 aws ecs wait services-stable \
-            --cluster elevate-cluster \
-            --services elevate-admin-service \
-            --region us-east-1; then
-            echo "::error::ECS did not stabilize in time — new tasks may be crash-looping."
-            exit 1
-          fi
-          echo "ECS service stable."
-
-      - name: Diagnose Admin ECS stability failure
-        if: failure() && steps.ecs_stability.outcome == 'failure'
-        run: |
-          set +e
-          echo "### Admin ECS diagnostics" >> "$GITHUB_STEP_SUMMARY"
-          echo "Admin CodeBuild succeeded, but ECS did not report a stable service. Recent service events, task status, and CloudWatch logs follow in this job." >> "$GITHUB_STEP_SUMMARY"
-
-          echo "::group::ECS service events"
-          aws ecs describe-services \
-            --cluster elevate-cluster \
-            --services elevate-admin-service \
-            --region us-east-1 \
-            --query 'services[0].events[0:20].[createdAt,message]' \
-            --output table
-          echo "::endgroup::"
-
-          RUNNING_TASKS=$(aws ecs list-tasks \
-            --cluster elevate-cluster \
-            --service-name elevate-admin-service \
-            --desired-status RUNNING \
-            --region us-east-1 \
-            --query 'taskArns[]' \
-            --output text 2>/dev/null)
-          STOPPED_TASKS=$(aws ecs list-tasks \
-            --cluster elevate-cluster \
-            --service-name elevate-admin-service \
-            --desired-status STOPPED \
-            --region us-east-1 \
-            --query 'taskArns[]' \
-            --output text 2>/dev/null)
-          TASKS=$(echo "$RUNNING_TASKS $STOPPED_TASKS" | xargs 2>/dev/null || true)
-
-          if [ -n "$TASKS" ]; then
-            echo "::group::ECS task details"
-            aws ecs describe-tasks \
-              --cluster elevate-cluster \
-              --tasks $TASKS \
-              --region us-east-1 \
-              --query 'tasks[].{taskArn:taskArn,lastStatus:lastStatus,desiredStatus:desiredStatus,healthStatus:healthStatus,stoppedReason:stoppedReason,containers:containers[].{name:name,lastStatus:lastStatus,healthStatus:healthStatus,exitCode:exitCode,reason:reason}}' \
-              --output json
-            echo "::endgroup::"
-          else
-            echo "No running or stopped Admin tasks found."
-          fi
-
-          LOG_GROUP="/ecs/elevate-admin"
-          LOG_STREAMS=$(aws logs describe-log-streams \
-            --log-group-name "$LOG_GROUP" \
-            --order-by LastEventTime \
-            --descending \
-            --max-items 5 \
-            --region us-east-1 \
-            --query 'logStreams[].logStreamName' \
-            --output text 2>/dev/null)
-
-          if [ -n "$LOG_STREAMS" ]; then
-            for stream in $LOG_STREAMS; do
-              echo "::group::CloudWatch logs: $stream"
-              aws logs get-log-events \
-                --log-group-name "$LOG_GROUP" \
-                --log-stream-name "$stream" \
-                --limit 120 \
-                --region us-east-1 \
-                --query 'events[].message' \
-                --output text
-              echo "::endgroup::"
-            done
-          else
-            echo "No CloudWatch log streams found for $LOG_GROUP."
-          fi
-
-      - name: Health check - Admin
-        id: health_check
-        run: |
-          echo "Running post-deploy health check..."
-          MAX_ATTEMPTS=10
-          DELAY=15
-          for i in $(seq 1 $MAX_ATTEMPTS); do
-            HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
-              --max-time 10 \
-              "https://admin.elevateforhumanity.org/api/ping" 2>/dev/null || echo "000")
-            echo "  Attempt $i/$MAX_ATTEMPTS - HTTP $HTTP_CODE"
-            if [ "$HTTP_CODE" = "200" ]; then
-              echo "Health check passed."
+          for i in $(seq 1 20); do
+            status=$(curl -sk --max-time 10 -o /tmp/admin-health.json -w "%{http_code}" https://admin.elevateforhumanity.org/api/ping || true)
+            body=$(cat /tmp/admin-health.json 2>/dev/null || true)
+            if [ "$status" = "200" ] && echo "$body" | grep -q '"ok":true'; then
+              echo "Admin liveness passed."
               exit 0
             fi
-            sleep $DELAY
+            echo "Admin liveness not ready yet: HTTP ${status}. Retry ${i}/20."
+            sleep 15
           done
-          echo "Health check failed after $MAX_ATTEMPTS attempts."
+          echo "Admin liveness failed after deploy."
+          cat /tmp/admin-health.json 2>/dev/null || true
           exit 1
-
-      - name: Rollback on health failure
-        if: failure() && steps.health_check.outcome == 'failure'
-        run: |
-          echo "Health check failed - rolling back Admin service to previous task definition..."
-          aws ecs update-service \
-            --cluster elevate-cluster \
-            --service elevate-admin-service \
-            --force-new-deployment \
-            --region us-east-1 \
-            --query 'service.serviceName' \
-            --output text
-          echo "Rollback initiated. Monitor ECS console for completion."
-          exit 1
-# Deploy trigger: 2026-05-27T13:47Z

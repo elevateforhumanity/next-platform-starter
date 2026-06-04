@@ -200,7 +200,7 @@ Three domains route through `proxy.ts`:
 | **Communication**  | Twilio (SMS), Zoom, Jitsi, Tawk, Tidio, Zendesk, Intercom                       |
 | **Media**          | YouTube, Vimeo, Pexels, Pixabay, Unsplash                                       |
 | **Social**         | Facebook, Instagram, LinkedIn, Twitter/X                                        |
-| **Infrastructure** | Netlify, Cloudflare R2, AWS S3, Sentry, Upstash Redis, BigQuery                 |
+| **Infrastructure** | Northflank, Cloudflare R2, Supabase, Sentry, Upstash Redis, BigQuery            |
 | **LMS Standards**  | SCORM, xAPI, LTI                                                                |
 | **Identity**       | Stripe Identity, Turnstile, hCaptcha                                            |
 

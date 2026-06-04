@@ -85,15 +85,19 @@ function auditProgramPage(filePath: string): AuditResult {
     };
   }
 
-  // Check for forbidden strings
+  // Check for forbidden strings. Ignore legitimate Next/Image placeholder props
+  // and image-contract comments; those are implementation details, not draft copy.
+  const contentForForbiddenStrings = content
+    .replace(/placeholder=["']empty["']/gi, '')
+    .replace(/IMAGE-CONTRACT:[^\n]*/gi, '');
   for (const forbidden of FORBIDDEN_STRINGS) {
-    if (content.toLowerCase().includes(forbidden)) {
+    if (contentForForbiddenStrings.toLowerCase().includes(forbidden)) {
       errors.push(`Contains forbidden string: "${forbidden}"`);
     }
   }
 
   const usesCanonicalTemplate =
-    /ProgramDetailPage|ProgramPageLayout|ProgramCategoryPage|ProgramPageTemplate/.test(content);
+    /ProgramDetailPage|ProgramMarketingPage|ProgramPageLayout|ProgramCategoryPage|ProgramPageTemplate|BarberApprenticeshipClient/.test(content);
 
   // Check required patterns
   if (!usesCanonicalTemplate && !REQUIRED_PATTERNS.h1.test(content)) {

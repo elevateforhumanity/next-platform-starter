@@ -28,19 +28,57 @@ function qbBase() {
   return process.env.QB_ENVIRONMENT === 'production' ? QB_BASE_PRODUCTION : QB_BASE_SANDBOX;
 }
 
+async function getAppSetting(key: string): Promise<string | null> {
+  try {
+    const { getAdminClient } = await import('@/lib/supabase/admin');
+    const supabase = await getAdminClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', key)
+      .maybeSingle();
+    if (error) {
+      logger.warn('[QuickBooks] app_settings read failed', { key, error: error.message });
+      return null;
+    }
+    return typeof data?.value === 'string' ? data.value : null;
+  } catch (err) {
+    logger.warn('[QuickBooks] app_settings unavailable', { key, err });
+    return null;
+  }
+}
+
+async function persistAppSettings(params: Record<string, string>) {
+  try {
+    const { getAdminClient } = await import('@/lib/supabase/admin');
+    const supabase = await getAdminClient();
+    if (!supabase) return;
+    await Promise.allSettled(
+      Object.entries(params).map(([key, value]) =>
+        supabase
+          .from('app_settings')
+          .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' }),
+      ),
+    );
+  } catch (err) {
+    logger.warn('[QuickBooks] app_settings persist failed', { err });
+  }
+}
+
 async function getAccessToken(): Promise<string | null> {
   // Try current token first
-  const token     = process.env.QB_ACCESS_TOKEN;
-  const expiresAt = process.env.QB_TOKEN_EXPIRES;
+  const token = process.env.QB_ACCESS_TOKEN ?? await getAppSetting('QB_ACCESS_TOKEN');
+  const expiresAt = process.env.QB_TOKEN_EXPIRES ?? await getAppSetting('QB_TOKEN_EXPIRES');
 
   if (token && expiresAt && new Date(expiresAt) > new Date(Date.now() + 60_000)) {
     return token;
   }
 
   // Refresh
-  const clientId     = process.env.QB_CLIENT_ID;
-  const clientSecret = process.env.QB_CLIENT_SECRET;
-  const refreshToken = process.env.QB_REFRESH_TOKEN;
+  const clientId = process.env.QB_CLIENT_ID ?? await getAppSetting('QB_CLIENT_ID');
+  const clientSecret = process.env.QB_CLIENT_SECRET ?? await getAppSetting('QB_CLIENT_SECRET');
+  const refreshToken = process.env.QB_REFRESH_TOKEN ?? await getAppSetting('QB_REFRESH_TOKEN');
   if (!clientId || !clientSecret || !refreshToken) return null;
 
   const res = await fetch(QB_TOKEN_URL, {
@@ -54,24 +92,20 @@ async function getAccessToken(): Promise<string | null> {
 
   if (!res.ok) return null;
   const data = await res.json();
+  const nextExpiresAt = new Date(Date.now() + data.expires_in * 1000).toISOString();
 
-  // Persist refreshed token to SSM
-  try {
-    const { SSMClient, PutParameterCommand } = await import('@aws-sdk/client-ssm');
-    const ssm = new SSMClient({ region: process.env.AWS_REGION || 'us-east-1' });
-    await Promise.all([
-      ssm.send(new PutParameterCommand({ Name: '/elevate/QB_ACCESS_TOKEN',  Value: data.access_token,  Type: 'SecureString', Overwrite: true })),
-      ssm.send(new PutParameterCommand({ Name: '/elevate/QB_REFRESH_TOKEN', Value: data.refresh_token, Type: 'SecureString', Overwrite: true })),
-      ssm.send(new PutParameterCommand({ Name: '/elevate/QB_TOKEN_EXPIRES', Value: new Date(Date.now() + data.expires_in * 1000).toISOString(), Type: 'String', Overwrite: true })),
-    ]);
-  } catch { /* non-fatal */ }
+  await persistAppSettings({
+    QB_ACCESS_TOKEN: data.access_token,
+    QB_REFRESH_TOKEN: data.refresh_token,
+    QB_TOKEN_EXPIRES: nextExpiresAt,
+  });
 
   return data.access_token ?? null;
 }
 
 async function qbRequest(method: string, path: string, body?: unknown) {
   const token   = await getAccessToken();
-  const realmId = process.env.QB_REALM_ID;
+  const realmId = process.env.QB_REALM_ID ?? await getAppSetting('QB_REALM_ID');
   if (!token || !realmId) throw new Error('QuickBooks not connected');
 
   const url = `${qbBase()}/${realmId}/${path}?minorversion=65`;

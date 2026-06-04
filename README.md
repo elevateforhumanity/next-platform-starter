@@ -141,17 +141,17 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 |---|---|
 | Framework | Next.js 16 (App Router, Turbopack) |
 | Database | Supabase (PostgreSQL) — project `cuxzzpsyufcewtmicszk` |
-| Hosting | AWS ECS (Fargate) — `elevate-cluster`, two services: `elevate-lms-service` / `elevate-admin-service` |
-| CI/CD | GitHub Actions → AWS CodeBuild → ECS rolling deploy |
+| Hosting | Northflank combined services — `elevate-lms` and `elevate-admin` |
+| CI/CD | GitHub Actions → Northflank API → service build/deploy |
 | Package manager | pnpm |
 | Auth | Supabase Auth + custom role system |
 | Payments | Stripe + Affirm + Sezzle |
 | Email | SendGrid + Resend |
 | Rate limiting | Upstash Redis |
-| Storage | Cloudflare R2 + AWS S3 |
+| Storage | Cloudflare R2 / S3-compatible storage |
 | Analytics | Google Analytics |
 | Tax e-filing | IRS MeF stack (EFIN 358459) |
-| Secrets | AWS SSM Parameter Store (`/elevate/*`) + admin `platform_secrets` table |
+| Secrets | Northflank secret group (`elevate-production-env`) + admin `platform_secrets` table |
 
 ---
 
@@ -220,7 +220,7 @@ lib/curriculum/             Blueprint system and course generator
 lib/tax-software/           MeF tax stack
 data/programs/              Program data objects (metadata, content, CTAs)
 supabase/migrations/        SQL migration files (applied manually in Dashboard)
-aws/                        ECS task definitions, buildspecs, WAF rules
+aws/                        Legacy hosting reference only — do not use for new deploys
 public/images/              All site images
 scripts/                    Build guards, audit scripts, seeders
 ```
@@ -310,10 +310,10 @@ The admin app includes a built-in Dev Studio at `/admin/dashboard` — a super-a
 | Tab | Purpose |
 |---|---|
 | **Files** | Browse and edit source files via GitHub API |
-| **Terminal** | WebSocket shell into the running ECS container |
+| **Terminal** | WebSocket shell into the running service container where enabled |
 | **Website** | Embedded preview of the live site |
 | **Chat** | AI assistant (Groq / Gemini / OpenAI) with platform context and tool calling |
-| **Container** | Edit `devcontainer.json`, manage env vars, import from AWS SSM, push vars directly to ECS task definitions, upload documents |
+| **Container** | Edit `devcontainer.json`, manage env vars, sync Northflank service configuration, upload documents |
 | **Secrets** | CRUD for `platform_secrets` — encrypted key/value store loaded at runtime by `lib/secrets.ts` |
 | **Docs** | Uploaded documents and files |
 
@@ -327,13 +327,16 @@ Admin Secrets tab → platform_secrets (Supabase)
          process.env at runtime — all routes pick up keys automatically
 ```
 
-### Pushing env vars to ECS
+### Syncing env vars to Northflank
 
-From the Container tab → Container Secrets and Variables:
-1. Enter key + value → **Push to Container** — writes to SSM at `/elevate/<KEY>`, registers a new ECS task definition revision, force-redeploys both services
-2. **Import from SSM** — pulls all `/elevate/*` parameters from AWS SSM into `platform_secrets`
+Northflank production env is managed by the `elevate-production-env` secret group. Use:
 
-Requires `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to be set in the Secrets tab with permissions for `ssm:GetParametersByPath`, `ssm:PutParameter`, `ecs:DescribeTaskDefinition`, `ecs:RegisterTaskDefinition`, `ecs:UpdateService`.
+```bash
+pnpm tsx scripts/northflank/sync-env.ts --execute
+pnpm tsx scripts/northflank/configure-services.ts --execute
+```
+
+Requires `NORTHFLANK_API_TOKEN`, `NORTHFLANK_PROJECT_ID`, and the service IDs (`NORTHFLANK_LMS_SERVICE_ID`, `NORTHFLANK_ADMIN_SERVICE_ID`) in GitHub/Northflank secrets.
 
 ---
 

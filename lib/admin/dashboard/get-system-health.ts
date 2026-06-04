@@ -100,7 +100,7 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
       .then(r => r.error ? { count: 0, error: null } : r),
   ]);
 
-  // Check env var first (ECS injects it via SSM), then fall back to app_secrets table
+  // Check env var first, then fall back to app_secrets table.
   const stripeWebhookOk = !!process.env.STRIPE_WEBHOOK_SECRET || !!stripeWebhook.data?.value;
   if (!stripeWebhookOk) {
     alerts.push({

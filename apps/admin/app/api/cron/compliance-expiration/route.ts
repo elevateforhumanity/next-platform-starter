@@ -1,5 +1,5 @@
 // GET /api/cron/compliance-expiration
-// Runs weekly (AWS EventBridge or pg_cron fallback).
+// Runs weekly (Northflank cron or pg_cron fallback).
 // Finds provider_compliance_artifacts expiring within 30 days.
 // Queues compliance_expiring notification to provider contact + admin alert.
 // Protected by CRON_SECRET.

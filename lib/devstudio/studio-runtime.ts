@@ -1,5 +1,5 @@
 /**
- * Dev Studio Runtime — the AWS ECS worker (elevate-studio) that clones the repo,
+ * Dev Studio Runtime — the remote worker that clones the repo,
  * runs pnpm, and serves the PTY used for git/build/terminal in Dev Studio.
  *
  * User-facing name is intentionally NOT "shell" — that implied a separate,
@@ -47,12 +47,12 @@ export function buildStudioRuntimeCompletion(input: {
       label: 'Admin app wired to runtime',
       done: input.adminConfigured,
       detail: input.adminConfigured
-        ? 'STUDIO_SHELL_WS_URL + secrets present on admin task'
-        : 'Set STUDIO_SHELL_WS_URL, STUDIO_SHELL_SECRET, and STUDIO_TOKEN_SECRET (SSM → admin ECS task), then redeploy admin',
+        ? 'STUDIO_SHELL_WS_URL + secrets present on admin runtime'
+        : 'Set STUDIO_SHELL_WS_URL, STUDIO_SHELL_SECRET, and STUDIO_TOKEN_SECRET in admin runtime env, then redeploy admin',
     },
     {
-      id: 'ecs-running',
-      label: 'Runtime service running on AWS',
+      id: 'runtime-running',
+      label: 'Runtime service reachable',
       done: input.probe.reachable,
       detail: input.probe.reachable
         ? 'Internal /health reachable'
@@ -63,10 +63,10 @@ export function buildStudioRuntimeCompletion(input: {
       label: 'GitHub token on runtime task',
       done: input.hasGitHubToken && !missingGithub,
       detail: missingGithub
-        ? 'Add GITHUB_TOKEN to elevate-studio ECS task (SSM /elevate/GITHUB_TOKEN)'
+        ? 'Add GITHUB_TOKEN to the studio runtime environment'
         : input.hasGitHubToken
           ? 'Token available for clone'
-          : 'Set GITHUB_TOKEN in Secrets or SSM for the studio task',
+          : 'Set GITHUB_TOKEN in Secrets or runtime environment for the studio task',
     },
     {
       id: 'repo-ready',

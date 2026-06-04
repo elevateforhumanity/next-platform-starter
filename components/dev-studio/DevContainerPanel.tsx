@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Download, Send, Upload } from 'lucide-react';
+import { Save, RefreshCw, CheckCircle, AlertCircle, Box, Trash2, Send, Upload } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface DevContainerConfig {
@@ -149,11 +149,7 @@ export default function DevContainerPanel() {
   const [profileName, setProfileName] = useState('local');
   const [profileEnvBlock, setProfileEnvBlock] = useState('');
 
-  // SSM import
-  const [ssmImporting, setSsmImporting] = useState(false);
-  const [ssmResult, setSsmResult] = useState<string | null>(null);
-
-  // ECS push
+  // Northflank push
   const [ecsPushing, setEcsPushing] = useState<string | null>(null); // key being pushed, or 'all'
   const [ecsResult, setEcsResult] = useState<string | null>(null);
 
@@ -418,23 +414,7 @@ export default function DevContainerPanel() {
     }
   };
 
-  const importFromSSM = async () => {
-    setSsmImporting(true);
-    setSsmResult(null);
-    try {
-      const r = await fetch('/api/devstudio/import-ssm', { method: 'POST' });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error ?? 'Import failed');
-      setSsmResult(`✅ Imported ${d.imported} secrets from AWS SSM`);
-      await loadContainerEnv();
-    } catch (e) {
-      setSsmResult(`❌ ${(e as Error).message}`);
-    } finally {
-      setSsmImporting(false);
-    }
-  };
-
-  const pushKeyToECS = async (key: string, value?: string) => {
+  const pushKeyToNorthflank = async (key: string, value?: string) => {
     setEcsPushing(key);
     setEcsResult(null);
     try {
@@ -447,7 +427,7 @@ export default function DevContainerPanel() {
       });
       const d = await r.json();
       if (!r.ok) throw new Error(d.error ?? 'Push failed');
-      setEcsResult(`✅ ${key} pushed to ECS (${d.updatedServices?.join(', ')})`);
+      setEcsResult(`✅ ${key} pushed to Northflank (${d.updatedServices?.join(', ')})`);
     } catch (e) {
       setEcsResult(`❌ ${(e as Error).message}`);
     } finally {
@@ -819,35 +799,18 @@ export default function DevContainerPanel() {
                   Refresh
                 </button>
 
-                {/* Import from AWS SSM */}
                 <button
-                  onClick={importFromSSM}
-                  disabled={ssmImporting}
-                  title="Pull all /elevate/* parameters from AWS SSM into platform_secrets"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  {ssmImporting ? 'Importing…' : 'Import from SSM'}
-                </button>
-
-                {/* Push current form key to ECS */}
-                <button
-                  onClick={() => envForm.key && pushKeyToECS(envForm.key, envForm.value || undefined)}
+                  onClick={() => envForm.key && pushKeyToNorthflank(envForm.key, envForm.value || undefined)}
                   disabled={!envForm.key || !!ecsPushing}
-                  title="Write this key directly to the ECS task definition and redeploy"
+                  title="Write this key to the Northflank production secret group"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  {ecsPushing === envForm.key ? 'Pushing…' : 'Push to Container'}
+                  {ecsPushing === envForm.key ? 'Pushing…' : 'Push to Northflank'}
                 </button>
               </div>
 
               {/* Result banners */}
-              {ssmResult && (
-                <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ssmResult.startsWith('✅') ? 'bg-brand-green-50 text-brand-green-700' : 'bg-red-50 text-red-700'}`}>
-                  {ssmResult}
-                </p>
-              )}
               {ecsResult && (
                 <p className={`mt-2 text-xs px-3 py-1.5 rounded ${ecsResult.startsWith('✅') ? 'bg-brand-green-50 text-brand-green-700' : 'bg-red-50 text-red-700'}`}>
                   {ecsResult}
@@ -881,10 +844,10 @@ export default function DevContainerPanel() {
                       </span>
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => pushKeyToECS(entry.key)}
+                          onClick={() => pushKeyToNorthflank(entry.key)}
                           disabled={!!ecsPushing}
                           className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 disabled:opacity-40"
-                          title={`Push ${entry.key} to ECS`}
+                          title={`Push ${entry.key} to Northflank`}
                         >
                           <Send className="w-3 h-3" />
                           {ecsPushing === entry.key ? '…' : 'Push'}

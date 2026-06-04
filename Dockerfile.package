@@ -1,13 +1,11 @@
 # Dockerfile.package
 #
 # Packages a pre-built Next.js standalone output into a minimal runtime image.
-# The `next build` step runs on the EC2 host (full RAM, no Docker cgroup limit)
+# The `next build` step runs before this package stage
 # and produces .next/standalone + .next/static. This Dockerfile only copies
 # those artifacts into the final image — no compilation happens here.
-#
-# Used by the build-lms CI job in deploy-aws.yml.
 
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim
+FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \

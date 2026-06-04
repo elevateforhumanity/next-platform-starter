@@ -33,7 +33,7 @@ export default function HealthcarePageClient({ programs }: { programs: Program[]
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative w-full h-[50vh] sm:h-[60vh] flex items-center overflow-hidden bg-slate-900">
+      <section className="relative w-full h-[clamp(220px,34vw,390px)] flex items-center overflow-hidden bg-slate-900">
         <CanonicalVideo
           src="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4"
           className="absolute inset-0 w-full h-full object-cover brightness-110"

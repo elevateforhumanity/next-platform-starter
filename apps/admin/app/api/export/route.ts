@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
         },
       });
     } else if (format === 'pdf') {
-      // PDF export is not yet implemented on AWS — use CSV export instead.
+      // PDF export is not yet implemented — use CSV export instead.
       return NextResponse.json(
         { error: 'PDF export is not available. Use CSV format.' },
         { status: 501 },

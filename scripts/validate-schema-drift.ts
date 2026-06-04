@@ -277,8 +277,8 @@ ORDER BY tablename;
 - **Deployment Pipeline**: [STATUS]
   - GitHub Actions workflow: .github/workflows/deploy-*.yml
   - ECR image push credentials
-  - ECS task definition environment variables
-  - **Action**: Verify GitHub Secrets → AWS credentials current
+  - Northflank runtime environment variables
+  - **Action**: Verify Northflank runtime env and GitHub deployment secrets are current
 
 ### Migration Application Status
 - [ ] 20260327000003_checkpoint_gating.sql applied
@@ -333,10 +333,10 @@ Before merge to main:
 - [ ] Environment audit: All secrets configured [STATUS]
 - [ ] Race condition tests: All scenarios covered [STATUS]
 
-Before AWS ECS deployment:
+Before Northflank deployment:
 - [ ] Secrets pushed to GitHub (Actions can access)
 - [ ] ECR image built successfully
-- [ ] ECS task definition validates (JSON syntax)
+- [ ] Northflank service configuration validates
 - [ ] CloudFormation stack updates (if needed)
 - [ ] Canary deployment (1-2 instances first)
 

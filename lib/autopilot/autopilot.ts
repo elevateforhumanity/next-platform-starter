@@ -42,7 +42,7 @@ export async function getStatus(req: Request, res: Response) {
       status: 'ok',
       running: worker.isRunning,
       config: {
-        hasAwsAccess: !!worker.config.AWS_ACCESS_KEY_ID,
+        hasNorthflankAccess: !!worker.config.NORTHFLANK_API_TOKEN,
         hasSupabaseUrl: !!worker.config.VITE_SUPABASE_URL,
         hasStripeKey: !!worker.config.VITE_STRIPE_PUBLISHABLE_KEY,
         siteUrl: worker.config.VITE_SITE_URL || 'not set',

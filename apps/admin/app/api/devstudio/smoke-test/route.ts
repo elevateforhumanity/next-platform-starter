@@ -14,7 +14,7 @@
  *   - Storage (Supabase storage bucket reachable)
  *   - AI provider (Groq or Gemini reachable)
  *   - Key env vars present
- *   - ECS services healthy (if AWS creds available)
+ *   - Northflank services healthy (if Northflank API credentials are available)
  *
  * Admin-only. Streams SSE lines matching the Dev Studio format.
  */
@@ -221,8 +221,8 @@ export async function GET(request: NextRequest) {
         'OPENAI_API_KEY',
         'GROQ_API_KEY',
         'GITHUB_TOKEN',
-        'AWS_ACCESS_KEY_ID',
-        'AWS_SECRET_ACCESS_KEY',
+        'NORTHFLANK_API_TOKEN',
+        'NORTHFLANK_PROJECT_ID',
         'SENDGRID_API_KEY',
         'STRIPE_SECRET_KEY',
         'UPSTASH_REDIS_REST_URL',
@@ -246,34 +246,34 @@ export async function GET(request: NextRequest) {
         fromDb.forEach((k) => write(`     \x1b[33m⚡  ${k} resolved from Secrets tab\x1b[0m`));
       }
 
-      // ── 7. ECS services (if AWS creds available via env or secrets) ───────
-      const awsKey    = await resolveSecret('AWS_ACCESS_KEY_ID');
-      const awsSecret = await resolveSecret('AWS_SECRET_ACCESS_KEY');
-      if (awsKey && awsSecret) {
+      // ── 7. Northflank services (if API credentials are available) ─────────
+      const northflankToken = await resolveSecret('NORTHFLANK_API_TOKEN');
+      const northflankProject = await resolveSecret('NORTHFLANK_PROJECT_ID');
+      if (northflankToken && northflankProject) {
         write('');
-        write('\x1b[33mChecking ECS services…\x1b[0m');
-        results.push(await check('ECS elevate-lms-service', async () => {
+        write('\x1b[33mChecking Northflank services…\x1b[0m');
+        results.push(await check('Northflank elevate-lms', async () => {
           const r = await fetch(`${adminUrl}/api/devstudio/ecs-status`, {
             headers: { cookie: request.headers.get('cookie') ?? '' },
             signal: AbortSignal.timeout(12000),
           });
           if (!r.ok) throw new Error(`HTTP ${r.status}`);
           const d = await r.json();
-          const svc = d.services?.find((s: { name: string }) => s.name === 'elevate-lms-service');
+          const svc = d.services?.find((s: { name: string }) => s.name === 'elevate-lms');
           if (!svc) throw new Error('Service not found');
           if (!svc.healthy) throw new Error(`${svc.status} — running ${svc.runningCount}/${svc.desiredCount}`);
           return `running ${svc.runningCount}/${svc.desiredCount}`;
         }));
         write(fmt(results.at(-1)!));
 
-        results.push(await check('ECS elevate-admin-service', async () => {
+        results.push(await check('Northflank elevate-admin', async () => {
           const r = await fetch(`${adminUrl}/api/devstudio/ecs-status`, {
             headers: { cookie: request.headers.get('cookie') ?? '' },
             signal: AbortSignal.timeout(12000),
           });
           if (!r.ok) throw new Error(`HTTP ${r.status}`);
           const d = await r.json();
-          const svc = d.services?.find((s: { name: string }) => s.name === 'elevate-admin-service');
+          const svc = d.services?.find((s: { name: string }) => s.name === 'elevate-admin');
           if (!svc) throw new Error('Service not found');
           if (!svc.healthy) throw new Error(`${svc.status} — running ${svc.runningCount}/${svc.desiredCount}`);
           return `running ${svc.runningCount}/${svc.desiredCount}`;

@@ -63,7 +63,7 @@ This statement describes how we collect, use, store, protect, and share data —
 
 **Authentication:** Multi-factor authentication (MFA) is required for all staff accounts. Participant accounts use secure password hashing (bcrypt) and optional MFA.
 
-**Infrastructure:** Our platform is hosted on Supabase (SOC 2 Type II certified) and AWS ECS Fargate (SOC 2 Type II certified). No participant data is stored on local servers or personal devices.
+**Infrastructure:** Our platform is hosted on Supabase and Northflank-managed containers. No participant data is stored on local servers or personal devices.
 
 **Audit logging:** All access to sensitive records is logged with timestamp, user ID, and action type. Logs are retained for a minimum of 3 years.`,
   },
@@ -128,7 +128,7 @@ We maintain an incident response plan that is reviewed annually.`,
 **Funding agencies:** Indiana DWD, U.S. DOL (required for WIOA reporting)
 **Credentialing bodies:** NHA, ACT, Certiport, EPA, OSHA (for credential issuance and verification)
 **Payment processors:** Stripe (for tuition payments — PCI DSS compliant)
-**Platform infrastructure:** Supabase, AWS ECS Fargate (SOC 2 Type II certified)
+**Platform infrastructure:** Supabase and Northflank-managed application containers
 
 We do not sell, rent, or trade personal data to any third party for marketing or commercial purposes.`,
   },

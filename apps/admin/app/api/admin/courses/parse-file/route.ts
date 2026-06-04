@@ -60,7 +60,7 @@ function isScannedPdf(text: string, pageCount: number): boolean {
  * OCR a PDF buffer using tesseract.js on embedded images.
  *
  * PDF-to-image rendering requires pdfjs-dist (not installed) or system tools
- * (pdftoppm/ghostscript, not available in ECS). Instead, we attempt to
+ * (pdftoppm/ghostscript, not available in every container). Instead, we attempt to
  * extract any embedded raster images directly from the PDF binary using a
  * simple JPEG/PNG stream scan, then run tesseract on those images.
  *

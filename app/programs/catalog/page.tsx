@@ -4,6 +4,7 @@ import { loadProgramCatalog } from '@/lib/programs/load-program-catalog';
 import { buildSiteMetadata } from '@/lib/seo/build-site-metadata';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
 import CatalogFilters from './CatalogFilters';
@@ -69,7 +70,7 @@ export default async function ProgramCatalogPage({
   const slugs = (programs ?? []).map(p => p.slug).filter(Boolean) as string[];
   const stripeBySlug: Record<string, { stripe_price_id: string | null; payment_link: string | null; retail_price_cents: number | null }> = {};
   if (slugs.length > 0) {
-    const admin = getAdminClient();
+    const admin = await getAdminClient();
     if (admin) {
       const { data: partnerRows } = await admin
         .from('partner_courses')
@@ -108,8 +109,19 @@ export default async function ProgramCatalogPage({
         ]} />
       </div>
 
-      <div className="bg-white py-10 border-t">
-        <div className="max-w-4xl mx-auto px-4">
+      <div className="border-t bg-white">
+        <div className="relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden bg-slate-100">
+          <Image
+            src="/images/heroes/student-catalog.webp"
+            alt="Students reviewing workforce training program options"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+            placeholder="empty"
+          />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 py-8">
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Program Catalog</h1>
           <p className="text-slate-600 text-sm">
             {count ?? 0} program{(count ?? 0) !== 1 ? 's' : ''} from approved providers
@@ -117,6 +129,20 @@ export default async function ProgramCatalogPage({
             {category ? ` · ${category}` : ''}
             {providerSlug ? ` · ${providerSlug}` : ''}
           </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/apply"
+              className="inline-flex items-center justify-center rounded-lg bg-brand-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-red-700"
+            >
+              Apply Now
+            </Link>
+            <Link
+              href="/contact?topic=program-inquiry"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Request Information
+            </Link>
+          </div>
         </div>
       </div>
 

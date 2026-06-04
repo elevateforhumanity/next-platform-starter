@@ -269,7 +269,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
 
       <footer className="flex h-6 shrink-0 items-center justify-between bg-[#0078d4] px-3 text-[11px] text-white">
         <span>main</span>
-        <span className="hidden sm:inline">AWS / Supabase / GitHub Actions</span>
+        <span className="hidden sm:inline">Northflank / Supabase / GitHub Actions</span>
         <span>TypeScript</span>
       </footer>
     </div>
@@ -715,7 +715,7 @@ function EnvironmentPanel() {
         <div className="border-b border-slate-100 px-4 py-2">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
             <Server className="h-3.5 w-3.5" />
-            ECS services
+            Northflank services
           </div>
         </div>
         <div className="max-h-[42vh] overflow-auto">

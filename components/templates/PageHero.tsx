@@ -44,7 +44,7 @@ export default function PageHero({ title, description, forceHero }: PageHeroProp
   return (
     <section
       ref={wrapperRef}
-      className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden"
+      className="relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden"
     >
       {isVideo ? (
         <CanonicalVideo

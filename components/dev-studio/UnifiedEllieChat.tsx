@@ -52,7 +52,7 @@ const QUICK = [
   { label: 'Deploy LMS', text: 'Deploy the LMS service' },
   { label: 'Deploy admin', text: 'Deploy the admin service' },
   { label: 'Smoke test', text: 'Run smoke test' },
-  { label: 'Fix deploy', text: 'Why did the last ECS admin deploy fail? What should I check?' },
+  { label: 'Fix deploy', text: 'Why did the last Northflank admin deploy fail? What should I check?' },
   { label: 'Search code', text: 'Search code for middleware errors in apps/admin' },
 ];
 
@@ -206,7 +206,7 @@ export default function UnifiedEllieChat({ onOpenDeploy, onOpenPreview, embedded
             <Link href="/admin/integrations/env-manager" className="underline">
               Environment Manager
             </Link>
-            , then redeploy admin if keys are in SSM only.
+            , then redeploy admin if the runtime needs the new keys.
           </p>
         </div>
       )}
@@ -217,7 +217,7 @@ export default function UnifiedEllieChat({ onOpenDeploy, onOpenPreview, embedded
             <Bot className="mb-3 h-12 w-12 text-[#4ec9b0]" />
             <p className="text-sm text-[#e5e5e5]">One chat for the whole platform</p>
             <p className="mt-1 text-xs text-[#858585]">
-              Live ops data, ECS deploys, code/schema tools — same container, same Supabase & APIs.
+              Live ops data, Northflank deploys, code/schema tools — same container, same Supabase & APIs.
             </p>
             <div className="mt-6 flex w-full flex-wrap justify-center gap-2">
               {QUICK.map((q) => (

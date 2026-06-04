@@ -195,7 +195,7 @@ programs → modules → curriculum_lessons (step_type) → lesson_progress
 
 | System                 | File                          | Bucket                             |
 | ---------------------- | ----------------------------- | ---------------------------------- |
-| Cloudflare R2 / AWS S3 | `lib/storage/file-storage.ts` | `elevate-media` (env: `R2_BUCKET`) |
+| Cloudflare R2 | `lib/storage/file-storage.ts` | `elevate-media` (env: `R2_BUCKET`) |
 
 ### Storage Helper Files
 
@@ -203,7 +203,7 @@ programs → modules → curriculum_lessons (step_type) → lesson_progress
 | ----------------------------------- | --------------------- | ----------------------------------------------------- |
 | `lib/mou-storage.ts`                | `mous`                | Uses `createBrowserClient` — wrong for server context |
 | `lib/storage/complianceEvidence.ts` | `compliance-evidence` | Uses deprecated `lib/supabase-api` shim               |
-| `lib/storage/file-storage.ts`       | R2/S3                 | Canonical for digital downloads                       |
+| `lib/storage/file-storage.ts`       | R2                    | Canonical for digital downloads                       |
 
 ---
 

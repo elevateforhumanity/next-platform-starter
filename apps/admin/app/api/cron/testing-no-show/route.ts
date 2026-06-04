@@ -5,7 +5,7 @@
  * time has passed with no exam_result recorded, then creates an enforcement
  * hold requiring a $50 rescheduling fee before the candidate can rebook.
  *
- * Schedule (AWS EventBridge): 0 2 * * * (2 AM UTC daily)
+ * Schedule: 0 2 * * * (2 AM UTC daily)
  * Secured by CRON_SECRET header.
  *
  * Idempotent — safe to run multiple times.

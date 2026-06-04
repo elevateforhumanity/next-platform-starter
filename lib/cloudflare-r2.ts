@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 /**
  * Cloudflare R2 Storage Client
  *
- * R2 is S3-compatible, so we use the AWS SDK.
+ * R2 is S3-compatible, so we use the S3 client library.
  * Free egress makes it ideal for video/image CDN.
  */
 

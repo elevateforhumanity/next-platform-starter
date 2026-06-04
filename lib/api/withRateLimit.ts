@@ -34,7 +34,7 @@ function getIP(request: Request): string {
 }
 
 // IPs that should never consume Upstash quota.
-// ECS health checks originate from localhost (task-internal) or the VPC CIDR.
+// Platform health checks originate from localhost/container-internal networks.
 const INTERNAL_IP_PREFIXES = ['127.', '::1', '10.', '172.16.', '172.17.', '172.18.', '172.19.', '172.20.', '172.21.', '172.22.', '172.23.', '172.24.', '172.25.', '172.26.', '172.27.', '172.28.', '172.29.', '172.30.', '172.31.'];
 
 function isInternalIP(ip: string): boolean {
@@ -71,7 +71,7 @@ export async function applyRateLimit(
 
   const id = getIP(request);
 
-  // Skip Redis for internal/ECS health check IPs — they are not external callers
+  // Skip Redis for internal health check IPs — they are not external callers.
   // and would otherwise burn ~1,440 Upstash requests/day per task per route.
   if (isInternalIP(id)) return null;
 
@@ -110,7 +110,7 @@ export async function applyRateLimit(
     } else if (isCredential) {
       logger.error('[rate-limit] Redis credential error — failing open', undefined, {
         tier,
-        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in SSM /elevate/',
+        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in runtime env or secret groups.',
       });
     } else {
       logger.warn('[rate-limit] Redis unavailable — failing open', { tier, error: msg });

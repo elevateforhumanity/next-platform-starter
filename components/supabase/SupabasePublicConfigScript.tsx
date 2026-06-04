@@ -2,7 +2,7 @@ import { getServerPublicSupabaseConfig } from '@/lib/supabase/public-config';
 
 /**
  * Injects Supabase public credentials for the browser when they exist at request time
- * (ECS/Node runtime) but were missing during `next build`.
+ * (Node runtime) but were missing during `next build`.
  */
 export function SupabasePublicConfigScript() {
   const config = getServerPublicSupabaseConfig();

@@ -13,7 +13,7 @@
  *           Validates the id_token and establishes a Supabase session via magic link.
  *           Active when AZURE_AD_ENABLED=true and AZURE_CLIENT_ID/SECRET/TENANT_ID are set.
  *
- * Required env vars (set in SSM under /elevate/):
+ * Required env vars:
  *   AZURE_AD_ENABLED    — 'true' to activate
  *   AZURE_CLIENT_ID     — App registration client ID
  *   AZURE_CLIENT_SECRET — App registration client secret

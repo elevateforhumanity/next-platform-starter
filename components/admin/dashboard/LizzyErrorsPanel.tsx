@@ -72,7 +72,7 @@ export function LizzyErrorsPanel() {
                 <Row
                   label="DSN"
                   ok={data.sentry.configured}
-                  detail={data.sentry.configured ? `env: ${data.sentry.environment}` : 'Set SENTRY_DSN on admin ECS task'}
+                  detail={data.sentry.configured ? `env: ${data.sentry.environment}` : 'Set SENTRY_DSN on the admin container'}
                 />
                 <Link href="/api/sentry-test" target="_blank" className="text-[#4fc1ff] hover:underline">
                   Trigger test event (dev)

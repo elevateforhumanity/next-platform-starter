@@ -22,7 +22,7 @@ import { sanitizePlatformValue } from '@/lib/config/sanitize-platform-value';
 
 // ── Build-time / env-var defaults ─────────────────────────────────────────────
 // These are the fallback values used when platform_settings has no row for a key.
-// Override via environment variables in ECS task definition or .env.local.
+// Override via runtime environment variables or .env.local.
 
 const ENV_DEFAULTS = {
   orgName: 'Elevate for Humanity',

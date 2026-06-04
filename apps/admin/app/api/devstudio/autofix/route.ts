@@ -6,10 +6,10 @@
  *
  * Supported playbooks:
  *   auth-gap          — adds apiAuthGuard to unprotected API routes
- *   env-gap           — syncs missing SSM params into the running ECS task env
+ *   env-gap           — checks whether Northflank environment sync is configured
  *   devcontainer-readonly — rotates/sets GITHUB_TOKEN + switches mode to github-only
- *   stale-image       — force-redeploys ECS service to pull latest ECR image
- *   ssm-placeholder   — lists SSM params still set to PLACEHOLDER
+ *   stale-image       — triggers Northflank builds for the LMS/Admin services
+ *   northflank-env    — reports Northflank env sync status
  *
  * POST body: { playbook: string; dryRun?: boolean; options?: Record<string, unknown> }
  * Response:  { ok, playbook, dryRun, actions: ActionResult[], summary, timestamp }
@@ -20,6 +20,12 @@ import { spawn } from 'child_process';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import {
+  getNorthflankProjectId,
+  getNorthflankServices,
+  isNorthflankReady,
+  triggerNorthflankBuild,
+} from '@/lib/northflank/runtime';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -113,46 +119,24 @@ async function playbookAuthGap(dryRun: boolean): Promise<ActionResult[]> {
 }
 
 /**
- * env-gap: find SSM params still set to PLACEHOLDER and report them.
- * In non-dry-run mode, lists them with their SSM paths so ops can act.
+ * env-gap: verify Northflank API configuration is present.
  */
-async function playbookEnvGap(dryRun: boolean): Promise<ActionResult[]> {
+async function playbookEnvGap(_dryRun: boolean): Promise<ActionResult[]> {
   const actions: ActionResult[] = [];
+  const projectId = getNorthflankProjectId();
 
-  const { code, out, err } = await sh(
-    `aws ssm get-parameters-by-path --path /elevate/ --with-decryption --recursive --output json 2>/dev/null`
-  );
-
-  if (code !== 0) {
-    actions.push(error('ssm-scan', `AWS CLI error: ${err}`));
+  if (!projectId) {
+    actions.push(error('northflank-project', 'NORTHFLANK_PROJECT_ID is not configured'));
     return actions;
   }
 
-  let params: Array<{ Name: string; Value: string }> = [];
-  try {
-    params = JSON.parse(out).Parameters ?? [];
-  } catch {
-    actions.push(error('ssm-scan', 'Failed to parse SSM response'));
+  if (!isNorthflankReady()) {
+    actions.push(error('northflank-token', 'NORTHFLANK_API_TOKEN is not configured'));
     return actions;
   }
 
-  const placeholders = params.filter((p) =>
-    p.Value === 'PLACEHOLDER' || p.Value === '' || p.Value === 'placeholder'
-  );
-
-  if (placeholders.length === 0) {
-    actions.push(ok('ssm-scan', `All ${params.length} SSM params are set`));
-    return actions;
-  }
-
-  const names = placeholders.map((p) => p.Name).join('\n');
-  actions.push(error('ssm-scan', `${placeholders.length} placeholder param(s):\n${names}`));
-
-  if (!dryRun) {
-    actions.push(skipped('ssm-fill', 'Cannot auto-fill secrets — provide real values via AWS Console or CLI'));
-  } else {
-    actions.push(skipped('ssm-fill', `dry-run: ${placeholders.length} param(s) need real values`));
-  }
+  actions.push(ok('northflank-env', `Northflank env sync can run for project ${projectId}`));
+  actions.push(skipped('secret-values', 'Secret values are not printed or audited from this endpoint'));
 
   return actions;
 }
@@ -166,7 +150,7 @@ async function playbookDevcontainerReadonly(dryRun: boolean): Promise<ActionResu
 
   const hasToken = Boolean(process.env.GITHUB_TOKEN);
   if (!hasToken) {
-    actions.push(error('check-github-token', 'GITHUB_TOKEN is not set — set /elevate/GITHUB_TOKEN in SSM'));
+    actions.push(error('check-github-token', 'GITHUB_TOKEN is not set in the admin runtime'));
     return actions;
   }
   actions.push(ok('check-github-token', 'GITHUB_TOKEN is present'));
@@ -178,13 +162,7 @@ async function playbookDevcontainerReadonly(dryRun: boolean): Promise<ActionResu
   }
 
   if (!dryRun) {
-    const { code, err } = await sh(
-      `aws ssm put-parameter --name /elevate/DEVSTUDIO_DEVCONTAINER_MODE --value github-only --type String --overwrite 2>&1`
-    );
-    actions.push(code === 0
-      ? ok('set-mode', 'SSM /elevate/DEVSTUDIO_DEVCONTAINER_MODE set to github-only — redeploy to apply')
-      : error('set-mode', `SSM update failed: ${err}`)
-    );
+    actions.push(skipped('set-mode', 'Set DEVSTUDIO_DEVCONTAINER_MODE=github-only in the Northflank secret group, then redeploy'));
   } else {
     actions.push(skipped('set-mode', `dry-run: would set DEVSTUDIO_DEVCONTAINER_MODE=github-only (currently: ${currentMode})`));
   }
@@ -193,24 +171,31 @@ async function playbookDevcontainerReadonly(dryRun: boolean): Promise<ActionResu
 }
 
 /**
- * stale-image: force-redeploy ECS services to pull latest ECR image.
+ * stale-image: trigger Northflank builds for LMS/Admin.
  */
 async function playbookStaleImage(dryRun: boolean, options: Record<string, unknown>): Promise<ActionResult[]> {
   const actions: ActionResult[] = [];
-  const services = (options.services as string[]) ?? ['elevate-lms-service', 'elevate-admin-service'];
-  const cluster = (options.cluster as string) ?? 'elevate-cluster';
+  const projectId = getNorthflankProjectId();
+  if (!projectId || !isNorthflankReady()) {
+    actions.push(error('northflank-config', 'Northflank API credentials are not configured'));
+    return actions;
+  }
 
-  for (const svc of services) {
+  const requested = (options.services as string[] | undefined)?.length
+    ? (options.services as string[])
+    : getNorthflankServices().map((service) => service.id);
+
+  for (const svc of requested) {
     if (!dryRun) {
-      const { code, err } = await sh(
-        `aws ecs update-service --cluster ${cluster} --service ${svc} --force-new-deployment --output json 2>&1`
-      );
-      actions.push(code === 0
-        ? ok('force-redeploy', `${svc} redeployment triggered`)
-        : error('force-redeploy', `${svc} failed: ${err.slice(0, 200)}`)
-      );
+      try {
+        await triggerNorthflankBuild(projectId, svc);
+        actions.push(ok('northflank-build', `${svc} build triggered`));
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        actions.push(error('northflank-build', `${svc} failed: ${msg.slice(0, 200)}`));
+      }
     } else {
-      actions.push(skipped('force-redeploy', `dry-run: would force-redeploy ${svc}`));
+      actions.push(skipped('northflank-build', `dry-run: would trigger build for ${svc}`));
     }
   }
 
@@ -218,10 +203,10 @@ async function playbookStaleImage(dryRun: boolean, options: Record<string, unkno
 }
 
 /**
- * ssm-placeholder: list all SSM params still set to PLACEHOLDER (read-only audit).
+ * northflank-env: read-only Northflank environment readiness check.
  */
-async function playbookSsmPlaceholder(): Promise<ActionResult[]> {
-  return playbookEnvGap(true); // reuse env-gap in dry-run mode
+async function playbookNorthflankEnv(): Promise<ActionResult[]> {
+  return playbookEnvGap(true);
 }
 
 // ── Registry ──────────────────────────────────────────────────────────────────
@@ -231,7 +216,7 @@ const PLAYBOOKS: Record<string, (dryRun: boolean, options: Record<string, unknow
   'env-gap':                (d) => playbookEnvGap(d),
   'devcontainer-readonly':  (d) => playbookDevcontainerReadonly(d),
   'stale-image':            (d, o) => playbookStaleImage(d, o),
-  'ssm-placeholder':        () => playbookSsmPlaceholder(),
+  'northflank-env':         () => playbookNorthflankEnv(),
 };
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
@@ -284,10 +269,10 @@ export async function GET(request: NextRequest) {
     method: 'POST',
     playbooks: {
       'auth-gap':              'Scan for unprotected API routes; mark with TODO in non-dry-run',
-      'env-gap':               'Find SSM params still set to PLACEHOLDER',
-      'devcontainer-readonly': 'Switch DEVSTUDIO_DEVCONTAINER_MODE to github-only in SSM',
-      'stale-image':           'Force-redeploy ECS services to pull latest ECR image',
-      'ssm-placeholder':       'List all SSM placeholder params (read-only)',
+      'env-gap':               'Check Northflank env sync configuration',
+      'devcontainer-readonly': 'Verify GITHUB_TOKEN and remind operator to set github-only mode in Northflank',
+      'stale-image':           'Trigger Northflank builds for services',
+      'northflank-env':        'Read-only Northflank env readiness check',
     },
     body: {
       playbook: 'string (required)',

@@ -1,21 +1,90 @@
 #!/usr/bin/env tsx
 import { nfFetch, projectApiPath, resolveProjectId } from './lib';
 
+type NorthflankService = {
+  serviceType?: string;
+  status?: string;
+  billing?: {
+    deploymentPlan?: string;
+    buildPlan?: string;
+  };
+  deployment?: {
+    internal?: {
+      id?: string;
+      deployedSHA?: string;
+      buildId?: string;
+      branch?: string;
+    };
+  };
+  deploymentStatus?: {
+    status?: string;
+    lastTransitionTime?: string;
+    updatedAt?: string;
+  };
+  vcsData?: {
+    projectBranch?: string;
+    dockerFilePath?: string;
+    dockerWorkDir?: string;
+  };
+  buildSettings?: {
+    dockerfile?: {
+      dockerFilePath?: string;
+      dockerWorkDir?: string;
+      buildEngine?: string;
+      buildkit?: unknown;
+    };
+    storage?: {
+      ephemeralStorage?: {
+        storageSize?: number;
+      };
+    };
+  };
+  buildConfiguration?: {
+    storage?: {
+      ephemeralStorage?: {
+        storageSize?: number;
+      };
+    };
+  };
+  healthChecks?: unknown[];
+};
+
 async function main() {
   const pid = resolveProjectId();
   if (!pid) process.exit(1);
   for (const sid of ['elevate-admin', 'elevate-lms']) {
-    const s = await nfFetch<Record<string, unknown>>(projectApiPath(pid, `/services/${sid}`));
-    const vcs = s.vcsData as { projectBranch?: string } | undefined;
-    const bs = s.buildSettings as { dockerfile?: { dockerFilePath?: string; buildkit?: unknown } } | undefined;
-    console.log(
+    const s = await nfFetch<NorthflankService>(projectApiPath(pid, `/services/${sid}`));
+    const dockerfile =
+      s.vcsData?.dockerFilePath ??
+      s.buildSettings?.dockerfile?.dockerFilePath ??
+      null;
+    const ephemeralStorage =
+      s.buildConfiguration?.storage?.ephemeralStorage?.storageSize ??
+      s.buildSettings?.storage?.ephemeralStorage?.storageSize ??
+      null;
+
+    console.info(
       JSON.stringify(
         {
           id: sid,
-          branch: vcs?.projectBranch,
-          dockerfile: bs?.dockerfile?.dockerFilePath,
-          buildkit: bs?.dockerfile?.buildkit,
-          deploymentStatus: (s.deploymentStatus as { status?: string })?.status,
+          serviceType: s.serviceType ?? null,
+          branch: s.vcsData?.projectBranch ?? s.deployment?.internal?.branch ?? null,
+          dockerfile,
+          deploymentPlan: s.billing?.deploymentPlan ?? null,
+          buildPlan: s.billing?.buildPlan ?? null,
+          ephemeralStorageMb: ephemeralStorage,
+          buildkit: s.buildSettings?.dockerfile?.buildkit ?? null,
+          deploymentStatus: s.deploymentStatus?.status ?? s.status ?? null,
+          currentDeployment: s.deployment?.internal
+            ? {
+                id: s.deployment.internal.id ?? null,
+                buildId: s.deployment.internal.buildId ?? null,
+                deployedSHA: s.deployment.internal.deployedSHA ?? null,
+              }
+            : null,
+          healthChecks: Array.isArray(s.healthChecks) ? s.healthChecks.length : null,
+          lastTransitionTime:
+            s.deploymentStatus?.lastTransitionTime ?? s.deploymentStatus?.updatedAt ?? null,
         },
         null,
         2,

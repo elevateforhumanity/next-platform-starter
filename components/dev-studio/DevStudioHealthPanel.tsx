@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Activity, AlertTriangle, ExternalLink, Loader2, RefreshCw, Server } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const EcsStatusPanel = dynamic(() => import('@/components/dev-studio/EcsStatusPanel'), { ssr: false });
 
@@ -56,7 +57,7 @@ export default function DevStudioHealthPanel() {
         ['Anthropic', flag(health.hasAnthropic)],
         ['Gemini', flag(health.hasGemini)],
         [
-          'Studio shell (ECS)',
+          'Studio shell',
           health.shell?.ready
             ? 'connected'
             : health.shell?.configured
@@ -104,7 +105,7 @@ export default function DevStudioHealthPanel() {
         {rows.length > 0 && (
           <div className="rounded-xl border border-slate-200 bg-slate-50">
             <div className="border-b border-slate-200 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Admin runtime (this ECS task)
+              Admin runtime
             </div>
             {rows.map(([label, value]) => (
               <div
@@ -131,20 +132,20 @@ export default function DevStudioHealthPanel() {
         <div className="rounded-xl border border-slate-200">
           <div className="flex items-center gap-2 border-b border-slate-200 px-3 py-2">
             <Server className="h-4 w-4 text-slate-500" />
-            <span className="text-xs font-semibold text-slate-800">ECS services (live AWS)</span>
+            <span className="text-xs font-semibold text-slate-800">Northflank services</span>
           </div>
           <div className="max-h-[320px] overflow-auto">
             <EcsStatusPanel />
           </div>
         </div>
 
-        <a
+        <Link
           href="/admin/system-health"
           className="inline-flex items-center gap-1 text-xs font-medium text-brand-blue-600 hover:underline"
         >
           Full system health page
           <ExternalLink className="h-3 w-3" />
-        </a>
+        </Link>
       </div>
     </div>
   );

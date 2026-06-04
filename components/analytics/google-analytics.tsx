@@ -16,7 +16,7 @@ const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-16712632425';
 export function GoogleAnalytics() {
   useEffect(() => {
     // GA_MEASUREMENT_ID check is silent in production — operators
-    // should verify via SSM env vars, not browser console.
+    // should verify runtime env vars, not browser console.
   }, []);
 
   if (!GA_MEASUREMENT_ID) {
