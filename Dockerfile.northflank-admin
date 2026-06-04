@@ -33,6 +33,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Northflank nf-compute-400 builders are ~4GB RAM; 8192 heap OOM-kills `next build` in ~1m
 ENV NODE_OPTIONS=--max-old-space-size=4096
 ENV BUILD_SCOPE=1
+ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 # Required at `next build` because NEXT_PUBLIC_* values are inlined into the
 # admin client bundle. Northflank must provide the real anon key as a build arg
 # or build-time secret; otherwise /api/health reports a placeholder config.

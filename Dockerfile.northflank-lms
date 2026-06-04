@@ -33,6 +33,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV BUILD_SCOPE=1
+ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 # Required at `next build` because NEXT_PUBLIC_* values are inlined into the
 # client bundle. Northflank must provide the real anon key as a build arg or
 # build-time secret; otherwise public Supabase clients are built unusable.

@@ -187,9 +187,12 @@ const nextConfig = {
     // 2 workers doubles peak heap; 1 worker keeps it manageable.
     config.parallelism = 1;
 
-    // Note: config.cache is intentionally not set here.
-    // Next.js overwrites any custom cache config with its own filesystem cache
-    // pointing to .next/cache/webpack/. Setting it here is a no-op.
+    // Northflank's allowed ephemeral build storage is not large enough for
+    // Next's production webpack filesystem cache on this app. Disable only in
+    // container builds; local builds keep the cache for faster iteration.
+    if (process.env.DISABLE_WEBPACK_FILESYSTEM_CACHE === '1') {
+      config.cache = false;
+    }
 
     // Use Next.js default splitChunks — the custom config above was creating
     // one chunk per npm package (name() function), generating thousands of
