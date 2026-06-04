@@ -89,6 +89,10 @@ async function main() {
   }
 
   const { execSync } = await import('node:child_process');
+  execSync('pnpm exec tsx scripts/northflank/configure-services.ts --execute', {
+    stdio: 'inherit',
+    cwd: process.cwd(),
+  });
   execSync('pnpm exec tsx scripts/northflank/ensure-build-cache.ts --execute', {
     stdio: 'inherit',
     cwd: process.cwd(),
