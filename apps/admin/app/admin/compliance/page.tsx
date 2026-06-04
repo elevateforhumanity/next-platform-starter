@@ -141,6 +141,20 @@ export default async function CompliancePage() {
               </div>
             </div>
 
+            <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+              <h2 className="text-lg font-bold text-slate-900 mb-2">WIOA / INTraining ETPL forms</h2>
+              <p className="text-sm text-slate-600 mb-4">
+                Initial Eligibility Aggregate Performance (new programs) and Section 188 Equal
+                Opportunity checklist — one set per program.
+              </p>
+              <Link
+                href="/admin/compliance/wioa-etpl"
+                className="inline-flex items-center text-sm font-semibold text-brand-blue-600 hover:underline"
+              >
+                Open WIOA / ETPL compliance forms →
+              </Link>
+            </div>
+
             {/* Compliance checklist — reads compliance_items via /api/compliance/items */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <ComplianceItemsPanel />
