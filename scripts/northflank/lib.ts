@@ -2,7 +2,18 @@
  * Shared Northflank API helpers for Elevate LMS migration scripts.
  */
 
+import dotenv from 'dotenv';
+import fs from 'node:fs';
+import path from 'node:path';
+
 const API_BASE = 'https://api.northflank.com/v1';
+
+for (const file of ['.env.local', '.env']) {
+  const envPath = path.resolve(process.cwd(), file);
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath, override: false, quiet: true });
+  }
+}
 
 export function getToken(): string {
   const token =
@@ -55,7 +66,7 @@ export function resolveTeamId(): string | undefined {
 }
 
 export function resolveProjectId(): string | undefined {
-  return process.env.NORTHFLANK_PROJECT_ID;
+  return process.env.NORTHFLANK_PROJECT_ID || 'elevate-platform';
 }
 
 export function resolveLmsServiceId(): string | undefined {

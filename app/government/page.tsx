@@ -48,7 +48,7 @@ export default async function GovernmentPage() {
 
       {/* Hero Section with Video Background */}
       <section className="relative w-full">
-        <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+        <div className="relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden">
           <LazyVideo
             src={VIDEO_HEROES.homepage}
             poster="/images/pages/employer-hero.webp"

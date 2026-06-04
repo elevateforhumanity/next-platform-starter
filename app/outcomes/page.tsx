@@ -143,6 +143,7 @@ export default async function OutcomesPage() {
               {employers.map((e: any) => (
                 <div key={e.id} className="border border-slate-200 rounded-xl p-4 flex flex-col items-center gap-2 text-center">
                   {e.logo_url ? (
+                    /* IMAGE-CONTRACT: allow raw img because employer logos come from dynamic external partner URLs */
                     <img src={e.logo_url} alt={e.name} className="h-10 object-contain" />
                   ) : (
                     <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">

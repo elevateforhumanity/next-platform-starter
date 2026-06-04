@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
-  // No rate limiting — ECS health checks call this every 30s per task instance.
+  // No rate limiting — platform health checks call this frequently.
   // Applying Redis rate limiting here burns ~1,440 Upstash requests/day per task.
   const checks: Record<string, any> = {
     status: 'healthy',
@@ -175,7 +175,7 @@ async function _GET(request: Request) {
   };
   checks.production_ready = checks.activation.ready_for_traffic;
 
-  // Return 500 on hard failures so ALB health checks kill bad containers.
+  // Return 500 on hard failures so platform health checks kill bad containers.
   // Warnings (degraded DB, missing optional keys) still return 200 — the app
   // can serve traffic in a degraded state. Only missing critical env vars or
   // disabled audit triggers are hard failures.
@@ -187,5 +187,5 @@ async function _GET(request: Request) {
     },
   });
 }
-// No audit wrapper — this route is called every 30s by ECS health checks
+// No audit wrapper — this route is called frequently by platform health checks.
 export const GET = withRuntime(_GET);

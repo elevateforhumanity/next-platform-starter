@@ -1,7 +1,7 @@
 /**
  * Dev Studio live-preview URL resolution.
  *
- * The admin ECS task sets NEXT_PUBLIC_SITE_URL to the admin hostname; the public
+ * The admin container sets NEXT_PUBLIC_SITE_URL to the admin hostname; the public
  * marketing site must come from NEXT_PUBLIC_PUBLIC_SITE_URL (or LMS URL), not SITE_URL.
  */
 

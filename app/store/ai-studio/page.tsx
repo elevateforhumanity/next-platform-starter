@@ -110,7 +110,7 @@ export default function AIStudioPage() {
         <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Ai Studio" }]} />
       </div>
 {/* Hero */}
-      <section className="relative min-h-[500px] flex items-center overflow-hidden">
+      <section className="relative min-h-[320px] flex items-center overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-72 h-72 bg-pink-500 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-brand-blue-500 rounded-full blur-3xl animate-pulse delay-1000" />

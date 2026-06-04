@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import SearchModal from './SearchModal.client';
 import LanguageSwitcher from './LanguageSwitcher.client';
 
@@ -32,7 +33,9 @@ function getProgramSlugFromHref(href: string): string | null {
 }
 
 export default function HeaderMobileMenu({ items, programApplyLinks = {} }: HeaderMobileMenuProps) {
+  const firstItemKey = items[0]?.id ?? items[0]?.name ?? null;
   const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(firstItemKey);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
@@ -42,7 +45,8 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   useEffect(() => {
     setIsOpen(false);
-  }, [pathname]);
+    setExpanded(firstItemKey);
+  }, [pathname, firstItemKey]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -76,23 +80,53 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
               aria-label="Main menu"
             >
               <nav className="flex flex-col p-4 pb-10" aria-label="Mobile navigation">
-                {items.map((item) => (
-                  <section key={item.name} className="border-b border-slate-100 last:border-0">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        prefetch={false}
-                        onClick={() => setIsOpen(false)}
-                        className="block py-3 text-base font-semibold text-slate-900 hover:text-brand-blue-600"
-                      >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <p className="py-3 text-base font-semibold text-slate-900">{item.name}</p>
-                    )}
+                {items.map((item) => {
+                  const key = item.id ?? item.name;
+                  const hasSubItems = Boolean(item.subItems?.length);
+                  const isExpanded = expanded === key;
 
-                    {item.subItems && item.subItems.length > 0 ? (
-                      <div className="flex flex-col pb-4 pl-1">
+                  return (
+                    <section key={item.name} className="border-b border-slate-100 last:border-0">
+                      {hasSubItems ? (
+                        <button
+                          type="button"
+                          onClick={() => setExpanded(isExpanded ? null : key)}
+                          className="flex min-h-[48px] w-full items-center justify-between gap-3 py-3 text-left text-base font-semibold text-slate-900 hover:text-brand-blue-600"
+                          aria-expanded={isExpanded}
+                        >
+                          <span>{item.name}</span>
+                          <ChevronDown
+                            className={`h-5 w-5 flex-none text-slate-400 transition-transform ${
+                              isExpanded ? 'rotate-180' : ''
+                            }`}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      ) : item.href ? (
+                        <Link
+                          href={item.href}
+                          prefetch={false}
+                          onClick={() => setIsOpen(false)}
+                          className="block py-3 text-base font-semibold text-slate-900 hover:text-brand-blue-600"
+                        >
+                          {item.name}
+                        </Link>
+                      ) : (
+                        <p className="py-3 text-base font-semibold text-slate-900">{item.name}</p>
+                      )}
+
+                      {hasSubItems && isExpanded ? (
+                        <div className="flex flex-col pb-4 pl-3 border-l-2 border-brand-red-200">
+                          {item.href ? (
+                            <Link
+                              href={item.href}
+                              prefetch={false}
+                              onClick={() => setIsOpen(false)}
+                              className="block py-2 text-sm font-bold text-brand-red-600 hover:text-brand-red-700"
+                            >
+                              View all {item.name} →
+                            </Link>
+                          ) : null}
                         {item.subItems.map((subItem) => {
                           if (subItem.isHeader) {
                             return (
@@ -151,7 +185,8 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                       </div>
                     ) : null}
                   </section>
-                ))}
+                  );
+                })}
 
                 <div className="mt-6 flex flex-col gap-2">
                   <Link
@@ -197,15 +232,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
       >
-        {isOpen ? (
-          <span className="text-2xl leading-none" aria-hidden="true">
-            &times;
-          </span>
-        ) : (
-          <span className="text-2xl leading-none" aria-hidden="true">
-            &#9776;
-          </span>
-        )}
+        {isOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
       </button>
       {drawer}
     </div>

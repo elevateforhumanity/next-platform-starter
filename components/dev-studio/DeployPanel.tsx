@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Activity, AlertTriangle, CheckCircle2, ExternalLink, Loader2, Play, RefreshCw, Rocket, XCircle } from 'lucide-react';
 
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'deploy-studio' | 'ci' | 'lint' | string;
+type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint' | string;
 
 interface WorkflowButton {
   key: WorkflowKey;
@@ -31,9 +31,8 @@ interface DispatchResult {
 }
 
 const DEFAULT_WORKFLOWS: WorkflowButton[] = [
-  { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and push the public website service to AWS ECS' },
-  { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and push the admin dashboard service to AWS ECS' },
-  { key: 'deploy-studio', label: 'Deploy Runtime', description: 'Build and deploy the Dev Studio Runtime worker (elevate-studio) to AWS ECS' },
+  { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
+  { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin dashboard service on Northflank' },
   { key: 'ci', label: 'Run CI', description: 'Run the validation pipeline before deployment' },
   { key: 'lint', label: 'Run Lint', description: 'Run lint checks against the repository' },
 ];
@@ -52,6 +51,7 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
   const [run, setRun] = useState<WorkflowRun | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmKey, setConfirmKey] = useState<string | null>(null);
+  const [deployAllState, setDeployAllState] = useState<'idle' | 'confirm' | 'loading'>('idle');
 
   async function dispatchWorkflow(workflow: WorkflowButton) {
     if (workflow.key.startsWith('deploy-') && confirmKey !== workflow.key) {
@@ -92,6 +92,33 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
     }
   }
 
+  async function deployAll() {
+    if (deployAllState !== 'confirm') {
+      setDeployAllState('confirm');
+      return;
+    }
+
+    setDeployAllState('loading');
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/env-vars/deploy', { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error) throw new Error(data.error || `Deploy failed with HTTP ${res.status}`);
+      setLastResult({
+        ok: true,
+        workflow: 'Northflank LMS + Admin',
+        method: 'northflank-api',
+        runId: null,
+        runUrl: 'https://app.northflank.com',
+        status: data.triggered ? 'queued' : 'partial',
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not trigger Northflank deploy');
+    } finally {
+      setDeployAllState('idle');
+    }
+  }
+
   useEffect(() => {
     if (!lastResult?.runId) return;
     refreshRun();
@@ -110,22 +137,37 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <Rocket className="h-4 w-4" style={{ color: '#4ec9b0' }} />
-              <h2 className="text-sm font-semibold text-white">AWS Deploy Control</h2>
+              <h2 className="text-sm font-semibold text-white">Northflank Deploy Control</h2>
             </div>
             <p className="mt-1 text-[11px]" style={{ color: '#858585' }}>
-              Dispatch GitHub Actions workflows that build and deploy to AWS.
+              Dispatch GitHub Actions workflows that build and deploy on Northflank.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={refreshRun}
-            disabled={!lastResult?.runId}
-            className="inline-flex h-8 items-center gap-1.5 rounded border px-2 text-[11px] disabled:opacity-40"
-            style={{ borderColor: '#3c3c3c', color: '#cccccc' }}
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-            Refresh
-          </button>
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={deployAll}
+              disabled={deployAllState === 'loading'}
+              className="inline-flex h-8 items-center gap-1.5 rounded px-2 text-[11px] font-semibold disabled:opacity-50"
+              style={{
+                background: deployAllState === 'confirm' ? '#f59e0b' : '#0078d4',
+                color: deployAllState === 'confirm' ? '#111827' : '#ffffff',
+              }}
+            >
+              {deployAllState === 'loading' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Rocket className="h-3.5 w-3.5" />}
+              {deployAllState === 'confirm' ? 'Confirm Deploy All' : 'Deploy All'}
+            </button>
+            <button
+              type="button"
+              onClick={refreshRun}
+              disabled={!lastResult?.runId}
+              className="inline-flex h-8 items-center gap-1.5 rounded border px-2 text-[11px] disabled:opacity-40"
+              style={{ borderColor: '#3c3c3c', color: '#cccccc' }}
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              Refresh
+            </button>
+          </div>
         </div>
       </div>
 
@@ -165,7 +207,11 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
                   style={{ background: needsConfirm ? '#f59e0b' : '#0078d4', color: needsConfirm ? '#111827' : '#ffffff' }}
                 >
                   {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
-                  {needsConfirm ? 'Confirm Deploy' : 'Run'}
+                  {workflow.key.startsWith('deploy-')
+                    ? needsConfirm
+                      ? 'Confirm Deploy'
+                      : 'Deploy'
+                    : 'Run'}
                 </button>
               </div>
             );

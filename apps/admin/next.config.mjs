@@ -34,6 +34,11 @@ const adminConfig = {
     config.resolve.alias['@'] = ROOT;
     // Keep peak memory stable during admin builds on low-RAM runners.
     config.parallelism = 1;
+    // Northflank's allowed ephemeral build storage is not large enough for
+    // Next's production webpack filesystem cache on this repo.
+    if (process.env.DISABLE_WEBPACK_FILESYSTEM_CACHE === '1') {
+      config.cache = false;
+    }
     return config;
   },
 

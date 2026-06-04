@@ -1,6 +1,6 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 // GET /api/cron/expire-credentials
-// Runs daily via AWS EventBridge when pg_cron is not available.
+// Runs daily via Northflank cron when pg_cron is not available.
 // Calls expire_stale_credentials() RPC and reports results.
 // Protected by CRON_SECRET header (same pattern as expire-licenses).
 import { NextResponse } from 'next/server';

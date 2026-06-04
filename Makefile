@@ -2,7 +2,7 @@
 # No dependency on Gitpod, Ona, or any CI platform.
 #
 # Usage:
-#   make env        Pull secrets from AWS SSM into .env.local
+#   make env        Create .env.local from .env.example when missing
 #   make install    Install pnpm dependencies
 #   make dev        Start LMS dev server (port 3000)
 #   make dev-admin  Start Admin dev server (port 3001)

@@ -3,7 +3,7 @@
  * check-internal-links.mjs
  * Scans app/, components/, content/, data/, lib/routes/ for internal hrefs
  * and verifies each resolves to a compiled route or redirect alias.
- * Runs on AWS ECS build.
+ * Runs during the container build.
  */
 import fs from 'node:fs';
 import path from 'node:path';

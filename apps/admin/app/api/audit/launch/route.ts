@@ -366,7 +366,7 @@ function analyzeChecks(checks: any, blockers: Finding[], warnings: Finding[]) {
       },
       fix: {
         action: 'Add missing environment variables',
-        steps: checks.env.missing.map((key: string) => `Set ${key} in AWS SSM Parameter Store (/elevate/${key})`),
+        steps: checks.env.missing.map((key: string) => `Set ${key} in the Northflank production secret group`),
         owner: 'ops',
       },
     });

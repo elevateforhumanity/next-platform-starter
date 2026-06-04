@@ -8,7 +8,7 @@ name: Promote Staging -> Production
 #   2. Open a PR: staging -> main (or merge if --auto flag is set)
 #   3. Production deploy runs automatically via deploy-lms.yml / deploy-admin.yml on merge
 #
-# Required secrets: GITHUB_TOKEN (automatic), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+# Required secrets: GITHUB_TOKEN (automatic), NORTHFLANK_API_TOKEN, NORTHFLANK_PROJECT_ID
 # Required vars:    STAGING_URL, STAGING_ADMIN_URL
 
 on:
@@ -28,9 +28,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-
-env:
-  AWS_REGION: us-east-1
 
 jobs:
   verify-staging:
@@ -130,7 +127,7 @@ jobs:
           - [ ] Environment variables synced (if any new ones added)
 
           ### Rollback
-          If production degrades after merge, the deploy workflows include automatic ECS rollback on health check failure. Manual rollback: re-run the previous successful deploy workflow run.
+          If production degrades after merge, use Northflank to redeploy the previous successful commit or re-run the previous successful deploy workflow run.
           EOF
 
           # Check if PR already exists

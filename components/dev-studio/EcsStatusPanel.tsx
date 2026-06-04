@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { RefreshCw, CheckCircle, AlertCircle, Clock, Server, Cpu } from 'lucide-react';
 
-interface EcsService {
+interface PlatformService {
   name: string;
   status: string;
   runningCount: number;
@@ -15,17 +15,15 @@ interface EcsService {
   reason?: string;
 }
 
-interface EcsStatusData {
+interface PlatformStatusData {
   cluster: string;
-  services: EcsService[];
+  services: PlatformService[];
   fetchedAt: string;
 }
 
-// Known task config from ecs-task-*.json
 const TASK_CONFIG: Record<string, { cpu: string; memory: string; port: number }> = {
-  'elevate-lms-service':   { cpu: '4 vCPU', memory: '16 GB', port: 3000 },
-  'elevate-admin-service': { cpu: '4 vCPU', memory: '16 GB', port: 3000 },
-  'elevate-studio':        { cpu: '1 vCPU', memory: '2 GB',  port: 8888 },
+  'elevate-lms': { cpu: 'Northflank', memory: 'configured', port: 8080 },
+  'elevate-admin': { cpu: 'Northflank', memory: 'configured', port: 8080 },
 };
 
 function StatusBadge({ healthy, status }: { healthy: boolean; status: string }) {
@@ -50,9 +48,9 @@ function StatusBadge({ healthy, status }: { healthy: boolean; status: string }) 
   );
 }
 
-function ServiceCard({ svc }: { svc: EcsService }) {
+function ServiceCard({ svc }: { svc: PlatformService }) {
   const cfg = TASK_CONFIG[svc.name];
-  const label = svc.name === 'elevate-lms-service' ? 'LMS' : 'Admin';
+  const label = svc.name === 'elevate-lms' ? 'LMS' : 'Admin';
   const deployedAt = svc.lastDeployedAt
     ? new Date(svc.lastDeployedAt).toLocaleString('en-US', {
         month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
@@ -90,7 +88,7 @@ function ServiceCard({ svc }: { svc: EcsService }) {
         )}
         {svc.taskDefinition && (
           <div className="flex items-center gap-1.5 font-mono text-slate-400 truncate">
-            <span className="shrink-0">Task def:</span>
+            <span className="shrink-0">Branch:</span>
             <span className="truncate">{svc.taskDefinition}</span>
           </div>
         )}
@@ -117,7 +115,7 @@ function Stat({ label, value, highlight, warn }: { label: string; value: string;
 }
 
 export default function EcsStatusPanel() {
-  const [data, setData] = useState<EcsStatusData | null>(null);
+  const [data, setData] = useState<PlatformStatusData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -153,7 +151,7 @@ export default function EcsStatusPanel() {
       <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200 flex-shrink-0">
         <div className="flex items-center gap-2">
           <Server className="w-4 h-4 text-slate-500" />
-          <span className="font-semibold text-sm text-slate-700">ECS Services — elevate-cluster</span>
+          <span className="font-semibold text-sm text-slate-700">Northflank Services</span>
         </div>
         <div className="flex items-center gap-3">
           {fetchedAt && <span className="text-xs text-slate-400">Updated {fetchedAt}</span>}
@@ -171,7 +169,7 @@ export default function EcsStatusPanel() {
       <div className="flex-1 p-4">
         {loading && !data && (
           <div className="flex items-center justify-center h-40 text-slate-400 text-sm gap-2">
-            <RefreshCw className="w-4 h-4 animate-spin" /> Fetching ECS status…
+            <RefreshCw className="w-4 h-4 animate-spin" /> Fetching Northflank status…
           </div>
         )}
 
@@ -179,10 +177,10 @@ export default function EcsStatusPanel() {
           <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
             <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
             <div>
-              <p className="font-medium">Could not reach ECS</p>
+              <p className="font-medium">Could not reach Northflank</p>
               <p className="text-xs mt-1 text-red-500">{error}</p>
               <p className="text-xs mt-2 text-red-400">
-                Requires AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY with ecs:DescribeServices permission.
+                Requires NORTHFLANK_API_TOKEN and NORTHFLANK_PROJECT_ID.
               </p>
             </div>
           </div>
@@ -192,7 +190,7 @@ export default function EcsStatusPanel() {
           <div className="space-y-4">
             {/* Summary strip */}
             <div className="flex items-center gap-4 text-xs text-slate-500 pb-2 border-b border-slate-100">
-              <span className="font-mono text-slate-400">cluster: {data.cluster}</span>
+              <span className="font-mono text-slate-400">project: {data.cluster}</span>
               <span className="ml-auto">
                 {data.services.filter((s) => s.healthy).length}/{data.services.length} healthy
               </span>

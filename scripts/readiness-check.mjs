@@ -179,8 +179,8 @@ async function main() {
       console.error(`  - ${result.route.label}: ${result.error}`);
     }
     console.error('\nRecommended actions:');
-    console.error('  1. Run: Autopilot – Sync SSM Parameters');
-    console.error('  2. Check CodeBuild logs in AWS Console');
+    console.error('  1. Run: Northflank env sync');
+    console.error('  2. Check Northflank build logs');
     console.error('  3. Verify Supabase environment variables');
     console.error('  4. Test failed routes manually');
     process.exit(1);

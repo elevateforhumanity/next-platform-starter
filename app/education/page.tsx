@@ -112,6 +112,7 @@ export default async function EducationLandingPage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
+                    placeholder="empty"
                   />
                 </div>
                 <div className="p-5">
@@ -159,6 +160,7 @@ export default async function EducationLandingPage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
+                    placeholder="empty"
                   />
                 </div>
                 <div className="p-4">

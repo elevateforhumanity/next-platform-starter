@@ -33,7 +33,7 @@ export default function ApprenticeshipPage() {
     <main className="min-h-screen bg-white">
       <CanonicalHero
         media={
-          <HeroMediaFrame heightClass="h-[50vh] sm:h-[56vw] min-h-[280px] max-h-[680px]">
+          <HeroMediaFrame heightClass="h-[clamp(220px,34vw,390px)]">
             <CanonicalVideo
               src="/videos/barber-hero-final.mp4"
               poster="/images/pages/barber-apprenticeship.webp"

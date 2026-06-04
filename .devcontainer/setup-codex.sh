@@ -35,10 +35,10 @@ elif [ -f "$ENV_FILE" ] && grep -q "^OPENAI_API_KEY=" "$ENV_FILE"; then
     fi
     echo "  ✅ OPENAI_API_KEY loaded from .env.local"
   else
-    echo "  ⚠️  OPENAI_API_KEY is PLACEHOLDER — set real value in SSM /elevate/OPENAI_API_KEY"
+    echo "  ⚠️  OPENAI_API_KEY is PLACEHOLDER — set a real value in .env.local"
   fi
 else
-  echo "  ⚠️  OPENAI_API_KEY not found — set it in SSM or export manually before running codex"
+  echo "  ⚠️  OPENAI_API_KEY not found — set it in .env.local or export it before running codex"
 fi
 
 # ── 3. Create ~/.codex/config.json with project defaults ─────────────────────

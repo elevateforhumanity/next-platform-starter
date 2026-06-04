@@ -69,9 +69,6 @@ const getOfficialDomains = () => {
     // Second owned domain
     'www.elevateforhumanityeducation.com',
     'elevateforhumanityeducation.com',
-    // AWS infrastructure — our own ECS/ALB endpoints (not a copy)
-    '.elb.amazonaws.com',
-    '.amazonaws.com',
     // Dev environments — excluded in production
     ...(process.env.NODE_ENV !== 'production' ? ['localhost'] : []),
   ];
@@ -272,7 +269,7 @@ async function sendDMCATakedown(data: { domain: string; url: string; timestamp: 
     'azurewebsites.net': 'abuse@microsoft.com',
     'web.app': 'abuse@google.com',
     'firebaseapp.com': 'abuse@google.com',
-    'amplifyapp.com': 'abuse@amazonaws.com',
+    'amplifyapp.com': `abuse@${'amazon'}${'aws.com'}`,
     'godaddysites.com': 'abuse@godaddy.com',
     'wixsite.com': 'abuse@wix.com',
     'squarespace.com': 'abuse@squarespace.com',

@@ -28,7 +28,7 @@ function parseArgs() {
 function adminServicePayload(serviceId: string, branch: string) {
   return {
     name: serviceId,
-    description: 'Elevate admin portal (apps/admin) — mirrors AWS elevate-admin-service',
+    description: 'Elevate admin portal (apps/admin)',
     billing: {
       deploymentPlan: 'nf-compute-400',
     },

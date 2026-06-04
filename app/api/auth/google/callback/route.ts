@@ -6,7 +6,7 @@
  * Supabase handles the PKCE exchange — the provider redirects back to
  * /auth/callback which exchanges the code and routes by role.
  *
- * Active only when GOOGLE_OAUTH_ENABLED=true in SSM.
+ * Active only when GOOGLE_OAUTH_ENABLED=true.
  * Configure in Supabase Dashboard → Authentication → Providers → Google.
  */
 import { NextRequest, NextResponse } from 'next/server';

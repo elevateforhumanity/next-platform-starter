@@ -18,7 +18,7 @@ interface VideoHeroProps {
 export default function VideoHero({
   videoSrc,
   posterSrc,
-  heightClass = 'h-[50vh] md:h-[60vh]',
+  heightClass = 'h-[clamp(220px,34vw,390px)]',
   caption,
   preloadFull = false,
 }: VideoHeroProps) {

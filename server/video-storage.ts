@@ -538,7 +538,7 @@ export class CloudflareR2Storage {
         return null;
       }
 
-      // Convert AWS SDK stream to Node.js stream
+      // Convert object-storage SDK stream to Node.js stream
       return response.Body as any as NodeJS.ReadableStream;
     } catch (error) {
       return null;

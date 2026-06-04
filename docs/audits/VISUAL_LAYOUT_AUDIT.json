@@ -1,66 +1,71 @@
 {
-  "scannedFiles": 2470,
-  "generatedAt": "2026-06-03T00:25:32.885Z",
-  "canonicalHero": "h-[45vh] min-h-[280px] max-h-[560px]",
+  "scannedFiles": 2490,
+  "generatedAt": "2026-06-03T23:57:47.564Z",
+  "canonicalHero": "h-[38vh] min-h-[220px] max-h-[420px]",
   "summary": {
     "oversizedHero": {
-      "critical": 1,
-      "high": 245,
-      "medium": 2,
+      "critical": 0,
+      "high": 47,
+      "medium": 0,
       "low": 0
     },
     "imagePerf": {
       "critical": 0,
       "high": 9,
-      "medium": 415,
+      "medium": 416,
       "low": 40
     },
     "layoutText": {
       "critical": 0,
-      "high": 111,
+      "high": 112,
       "medium": 4,
       "low": 0
     },
-    "oversizedHeroTotal": 248,
-    "imagePerfTotal": 464,
-    "layoutTextTotal": 115,
-    "marketingPagesWithHeroButNotCanonical": 336
+    "oversizedHeroTotal": 47,
+    "imagePerfTotal": 465,
+    "layoutTextTotal": 116,
+    "marketingPagesWithHeroButNotCanonical": 331
   },
   "topOversizedHeroFiles": [
     [
-      "app/ai-tutor/page.tsx",
+      "app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx",
       [
         {
-          "file": "app/ai-tutor/page.tsx",
-          "line": 58,
-          "match": "h-[50vh]",
+          "file": "app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx",
+          "line": 1648,
+          "match": "max-h-[640px]",
+          "id": "max-h-600-plus",
+          "re": {},
+          "severity": "high",
+          "message": "max-height >560px (exceeds design standard)"
+        },
+        {
+          "file": "app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx",
+          "line": 1268,
+          "match": "clamp(320px,44vw,640px)",
+          "id": "clamp-max-600-plus",
+          "re": {},
+          "severity": "high",
+          "message": "clamp() max >560px"
+        }
+      ]
+    ],
+    [
+      "components/ModerationDashboard.tsx",
+      [
+        {
+          "file": "components/ModerationDashboard.tsx",
+          "line": 319,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
           "message": "Hero/viewport height ≥50vh (often oversized)"
         },
         {
-          "file": "app/ai-tutor/page.tsx",
-          "line": 58,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/ai-tutor/page.tsx",
-          "line": 58,
+          "file": "components/ModerationDashboard.tsx",
+          "line": 324,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/ai-tutor/page.tsx",
-          "line": 58,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -69,39 +74,35 @@
       ]
     ],
     [
-      "app/booking/page.tsx",
+      "components/admin/dashboard/LizzyContainerWrapper.tsx",
       [
         {
-          "file": "app/booking/page.tsx",
-          "line": 94,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
+          "file": "components/admin/dashboard/LizzyContainerWrapper.tsx",
+          "line": 12,
+          "match": "min-h-[420px]",
+          "id": "min-h-420-plus",
           "re": {},
           "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
+          "message": "min-height ≥420px on hero-like container"
         },
         {
-          "file": "app/booking/page.tsx",
-          "line": 94,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
+          "file": "components/admin/dashboard/LizzyContainerWrapper.tsx",
+          "line": 68,
+          "match": "min-h-[420px]",
+          "id": "min-h-420-plus",
           "re": {},
           "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+          "message": "min-height ≥420px on hero-like container"
+        }
+      ]
+    ],
+    [
+      "app/apprentice/not-found.tsx",
+      [
         {
-          "file": "app/booking/page.tsx",
-          "line": 94,
+          "file": "app/apprentice/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/booking/page.tsx",
-          "line": 94,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -110,39 +111,12 @@
       ]
     ],
     [
-      "app/calendar/page.tsx",
+      "app/apps/website-builder/WebsiteBuilderApp.tsx",
       [
         {
-          "file": "app/calendar/page.tsx",
-          "line": 72,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/calendar/page.tsx",
-          "line": 72,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/calendar/page.tsx",
-          "line": 72,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/calendar/page.tsx",
-          "line": 72,
-          "match": "h-[65vh]",
+          "file": "app/apps/website-builder/WebsiteBuilderApp.tsx",
+          "line": 199,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -151,39 +125,12 @@
       ]
     ],
     [
-      "app/career-counseling/page.tsx",
+      "app/employer/not-found.tsx",
       [
         {
-          "file": "app/career-counseling/page.tsx",
-          "line": 44,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/career-counseling/page.tsx",
-          "line": 44,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/career-counseling/page.tsx",
-          "line": 44,
+          "file": "app/employer/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/career-counseling/page.tsx",
-          "line": 44,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -192,39 +139,12 @@
       ]
     ],
     [
-      "app/educatorhub/page.tsx",
+      "app/funding/not-found.tsx",
       [
         {
-          "file": "app/educatorhub/page.tsx",
-          "line": 55,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/educatorhub/page.tsx",
-          "line": 55,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/educatorhub/page.tsx",
-          "line": 55,
+          "file": "app/funding/not-found.tsx",
+          "line": 6,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/educatorhub/page.tsx",
-          "line": 55,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -233,39 +153,12 @@
       ]
     ],
     [
-      "app/funding/dol/page.tsx",
+      "app/lms/not-found.tsx",
       [
         {
-          "file": "app/funding/dol/page.tsx",
-          "line": 43,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/dol/page.tsx",
-          "line": 43,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/dol/page.tsx",
-          "line": 43,
+          "file": "app/lms/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/dol/page.tsx",
-          "line": 43,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -274,39 +167,12 @@
       ]
     ],
     [
-      "app/funding/how-it-works/page.tsx",
+      "app/loading.tsx",
       [
         {
-          "file": "app/funding/how-it-works/page.tsx",
-          "line": 76,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/how-it-works/page.tsx",
-          "line": 76,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/how-it-works/page.tsx",
-          "line": 76,
+          "file": "app/loading.tsx",
+          "line": 6,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/funding/how-it-works/page.tsx",
-          "line": 76,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -315,39 +181,12 @@
       ]
     ],
     [
-      "app/government/page.tsx",
+      "app/login/not-found.tsx",
       [
         {
-          "file": "app/government/page.tsx",
-          "line": 51,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/government/page.tsx",
-          "line": 51,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/government/page.tsx",
-          "line": 51,
+          "file": "app/login/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/government/page.tsx",
-          "line": 51,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -356,39 +195,12 @@
       ]
     ],
     [
-      "app/lms/(app)/courses/[courseId]/leaderboard/page.tsx",
+      "app/mentor/not-found.tsx",
       [
         {
-          "file": "app/lms/(app)/courses/[courseId]/leaderboard/page.tsx",
-          "line": 153,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/lms/(app)/courses/[courseId]/leaderboard/page.tsx",
-          "line": 153,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/lms/(app)/courses/[courseId]/leaderboard/page.tsx",
-          "line": 153,
+          "file": "app/mentor/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/lms/(app)/courses/[courseId]/leaderboard/page.tsx",
-          "line": 153,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -397,39 +209,12 @@
       ]
     ],
     [
-      "app/ojt-and-funding/page.tsx",
+      "app/program-holder/not-found.tsx",
       [
         {
-          "file": "app/ojt-and-funding/page.tsx",
-          "line": 60,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/ojt-and-funding/page.tsx",
-          "line": 60,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/ojt-and-funding/page.tsx",
-          "line": 60,
+          "file": "app/program-holder/not-found.tsx",
+          "line": 6,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/ojt-and-funding/page.tsx",
-          "line": 60,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -438,39 +223,12 @@
       ]
     ],
     [
-      "app/orientation/competency-test/page.tsx",
+      "app/programs/loading.tsx",
       [
         {
-          "file": "app/orientation/competency-test/page.tsx",
-          "line": 66,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/competency-test/page.tsx",
-          "line": 66,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/competency-test/page.tsx",
-          "line": 66,
+          "file": "app/programs/loading.tsx",
+          "line": 3,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/competency-test/page.tsx",
-          "line": 66,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -479,39 +237,12 @@
       ]
     ],
     [
-      "app/orientation/schedule/page.tsx",
+      "app/programs/not-found.tsx",
       [
         {
-          "file": "app/orientation/schedule/page.tsx",
-          "line": 29,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/schedule/page.tsx",
-          "line": 29,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/schedule/page.tsx",
-          "line": 29,
+          "file": "app/programs/not-found.tsx",
+          "line": 6,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/orientation/schedule/page.tsx",
-          "line": 29,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -520,531 +251,40 @@
       ]
     ],
     [
-      "app/parent-portal/page.tsx",
+      "app/store/add-ons/analytics-pro/page.tsx",
       [
         {
-          "file": "app/parent-portal/page.tsx",
-          "line": 108,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/parent-portal/page.tsx",
-          "line": 108,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/parent-portal/page.tsx",
-          "line": 108,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/parent-portal/page.tsx",
-          "line": 108,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/partners/create-program/page.tsx",
-      [
-        {
-          "file": "app/partners/create-program/page.tsx",
-          "line": 73,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/partners/create-program/page.tsx",
-          "line": 73,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/partners/create-program/page.tsx",
-          "line": 73,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/partners/create-program/page.tsx",
-          "line": 73,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/pathways/page.tsx",
-      [
-        {
-          "file": "app/pathways/page.tsx",
-          "line": 207,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/pathways/page.tsx",
-          "line": 207,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/pathways/page.tsx",
-          "line": 207,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/pathways/page.tsx",
-          "line": 207,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/platform/partner-portal/page.tsx",
-      [
-        {
-          "file": "app/platform/partner-portal/page.tsx",
-          "line": 114,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/partner-portal/page.tsx",
-          "line": 114,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/partner-portal/page.tsx",
-          "line": 114,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/partner-portal/page.tsx",
-          "line": 114,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/platform/training-providers/page.tsx",
-      [
-        {
-          "file": "app/platform/training-providers/page.tsx",
-          "line": 129,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/training-providers/page.tsx",
-          "line": 129,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/training-providers/page.tsx",
-          "line": 129,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/training-providers/page.tsx",
-          "line": 129,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/platform/workforce-analytics/page.tsx",
-      [
-        {
-          "file": "app/platform/workforce-analytics/page.tsx",
-          "line": 129,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-analytics/page.tsx",
-          "line": 129,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-analytics/page.tsx",
-          "line": 129,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-analytics/page.tsx",
-          "line": 129,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/platform/workforce-boards/page.tsx",
-      [
-        {
-          "file": "app/platform/workforce-boards/page.tsx",
-          "line": 125,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-boards/page.tsx",
-          "line": 125,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-boards/page.tsx",
-          "line": 125,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/platform/workforce-boards/page.tsx",
-          "line": 125,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx",
-      [
-        {
-          "file": "app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx",
-          "line": 523,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx",
-          "line": 523,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx",
-          "line": 523,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/apply/ApprenticeForm.tsx",
-          "line": 523,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/programs/barber-apprenticeship/sections/BarberHero.tsx",
-      [
-        {
-          "file": "app/programs/barber-apprenticeship/sections/BarberHero.tsx",
-          "line": 11,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/sections/BarberHero.tsx",
-          "line": 11,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/sections/BarberHero.tsx",
-          "line": 11,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/barber-apprenticeship/sections/BarberHero.tsx",
-          "line": 11,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/programs/hvac-technician/apply/page.tsx",
-      [
-        {
-          "file": "app/programs/hvac-technician/apply/page.tsx",
-          "line": 328,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/hvac-technician/apply/page.tsx",
-          "line": 328,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/hvac-technician/apply/page.tsx",
-          "line": 328,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/programs/hvac-technician/apply/page.tsx",
-          "line": 328,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/share/page.tsx",
-      [
-        {
-          "file": "app/share/page.tsx",
-          "line": 50,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/share/page.tsx",
-          "line": 50,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/share/page.tsx",
-          "line": 50,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/share/page.tsx",
-          "line": 50,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "app/store/compliance/grant-reporting/page.tsx",
-      [
-        {
-          "file": "app/store/compliance/grant-reporting/page.tsx",
+          "file": "app/store/add-ons/analytics-pro/page.tsx",
           "line": 98,
           "match": "h-[50vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
           "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/compliance/grant-reporting/page.tsx",
-          "line": 98,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/compliance/grant-reporting/page.tsx",
-          "line": 98,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/compliance/grant-reporting/page.tsx",
-          "line": 98,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
         }
       ]
     ],
     [
-      "app/store/courses/page.tsx",
+      "app/store/add-ons/compliance-automation/page.tsx",
       [
         {
-          "file": "app/store/courses/page.tsx",
-          "line": 40,
+          "file": "app/store/add-ons/compliance-automation/page.tsx",
+          "line": 99,
           "match": "h-[50vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
           "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+        }
+      ]
+    ],
+    [
+      "app/store/not-found.tsx",
+      [
         {
-          "file": "app/store/courses/page.tsx",
-          "line": 40,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/courses/page.tsx",
-          "line": 40,
+          "file": "app/store/not-found.tsx",
+          "line": 5,
           "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/courses/page.tsx",
-          "line": 40,
-          "match": "h-[65vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1053,39 +293,12 @@
       ]
     ],
     [
-      "app/store/digital/page.tsx",
+      "components/ContextualHelp.tsx",
       [
         {
-          "file": "app/store/digital/page.tsx",
-          "line": 40,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/digital/page.tsx",
-          "line": 40,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/digital/page.tsx",
-          "line": 40,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/store/digital/page.tsx",
-          "line": 40,
-          "match": "h-[65vh]",
+          "file": "components/ContextualHelp.tsx",
+          "line": 206,
+          "match": "h-[80vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1094,39 +307,12 @@
       ]
     ],
     [
-      "app/success/page.tsx",
+      "components/DataExportDialog.tsx",
       [
         {
-          "file": "app/success/page.tsx",
-          "line": 32,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/success/page.tsx",
-          "line": 32,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/success/page.tsx",
-          "line": 32,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/success/page.tsx",
-          "line": 32,
-          "match": "h-[65vh]",
+          "file": "components/DataExportDialog.tsx",
+          "line": 323,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1135,39 +321,12 @@
       ]
     ],
     [
-      "app/support/contact/page.tsx",
+      "components/ElevateChatWidget.tsx",
       [
         {
-          "file": "app/support/contact/page.tsx",
-          "line": 83,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/support/contact/page.tsx",
-          "line": 83,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/support/contact/page.tsx",
-          "line": 83,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/support/contact/page.tsx",
-          "line": 83,
-          "match": "h-[65vh]",
+          "file": "components/ElevateChatWidget.tsx",
+          "line": 121,
+          "match": "h-[85vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1176,39 +335,12 @@
       ]
     ],
     [
-      "app/webinars/page.tsx",
+      "components/EligibilityModal.tsx",
       [
         {
-          "file": "app/webinars/page.tsx",
-          "line": 50,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/webinars/page.tsx",
-          "line": 50,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/webinars/page.tsx",
-          "line": 50,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/webinars/page.tsx",
-          "line": 50,
-          "match": "h-[65vh]",
+          "file": "components/EligibilityModal.tsx",
+          "line": 22,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1217,39 +349,12 @@
       ]
     ],
     [
-      "app/wioa-eligibility/veterans/page.tsx",
+      "components/FeedbackWidget.tsx",
       [
         {
-          "file": "app/wioa-eligibility/veterans/page.tsx",
-          "line": 87,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/wioa-eligibility/veterans/page.tsx",
-          "line": 87,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/wioa-eligibility/veterans/page.tsx",
-          "line": 87,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/wioa-eligibility/veterans/page.tsx",
-          "line": 87,
-          "match": "h-[65vh]",
+          "file": "components/FeedbackWidget.tsx",
+          "line": 99,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1258,39 +363,12 @@
       ]
     ],
     [
-      "app/workforce-board/eligibility/page.tsx",
+      "components/NotificationBell.tsx",
       [
         {
-          "file": "app/workforce-board/eligibility/page.tsx",
-          "line": 58,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/eligibility/page.tsx",
-          "line": 58,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/eligibility/page.tsx",
-          "line": 58,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/eligibility/page.tsx",
-          "line": 58,
-          "match": "h-[65vh]",
+          "file": "components/NotificationBell.tsx",
+          "line": 105,
+          "match": "h-[80vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1299,39 +377,12 @@
       ]
     ],
     [
-      "app/workforce-board/page.tsx",
+      "components/OnboardingFlow.tsx",
       [
         {
-          "file": "app/workforce-board/page.tsx",
-          "line": 106,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/page.tsx",
-          "line": 106,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/page.tsx",
-          "line": 106,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workforce-board/page.tsx",
-          "line": 106,
-          "match": "h-[65vh]",
+          "file": "components/OnboardingFlow.tsx",
+          "line": 49,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1340,39 +391,26 @@
       ]
     ],
     [
-      "app/workone-partner-packet/HeroVideo.tsx",
+      "components/ProgramPageTemplate.tsx",
       [
         {
-          "file": "app/workone-partner-packet/HeroVideo.tsx",
-          "line": 27,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
+          "file": "components/ProgramPageTemplate.tsx",
+          "line": 63,
+          "match": "min-h-[600px]",
+          "id": "min-h-420-plus",
           "re": {},
           "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+          "message": "min-height ≥420px on hero-like container"
+        }
+      ]
+    ],
+    [
+      "components/SurveyModal.tsx",
+      [
         {
-          "file": "app/workone-partner-packet/HeroVideo.tsx",
-          "line": 27,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workone-partner-packet/HeroVideo.tsx",
-          "line": 27,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/workone-partner-packet/HeroVideo.tsx",
-          "line": 27,
-          "match": "h-[65vh]",
+          "file": "components/SurveyModal.tsx",
+          "line": 228,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1381,39 +419,12 @@
       ]
     ],
     [
-      "app/writing-center/page.tsx",
+      "components/TutorialSystem.tsx",
       [
         {
-          "file": "app/writing-center/page.tsx",
-          "line": 100,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/writing-center/page.tsx",
-          "line": 100,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/writing-center/page.tsx",
-          "line": 100,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "app/writing-center/page.tsx",
-          "line": 100,
-          "match": "h-[65vh]",
+          "file": "components/TutorialSystem.tsx",
+          "line": 105,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1422,39 +433,12 @@
       ]
     ],
     [
-      "components/PageTemplate.tsx",
+      "components/admin/AdminNav.tsx",
       [
         {
-          "file": "components/PageTemplate.tsx",
-          "line": 76,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/PageTemplate.tsx",
-          "line": 76,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/PageTemplate.tsx",
-          "line": 76,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/PageTemplate.tsx",
-          "line": 76,
-          "match": "h-[65vh]",
+          "file": "components/admin/AdminNav.tsx",
+          "line": 149,
+          "match": "h-[75vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1463,80 +447,26 @@
       ]
     ],
     [
-      "components/ProgramHero.tsx",
+      "components/blocks/AccordionSection.tsx",
       [
         {
-          "file": "components/ProgramHero.tsx",
-          "line": 29,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/ProgramHero.tsx",
-          "line": 29,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/ProgramHero.tsx",
-          "line": 29,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/ProgramHero.tsx",
-          "line": 29,
-          "match": "h-[65vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        }
-      ]
-    ],
-    [
-      "components/portal/PortalPageLayout.tsx",
-      [
-        {
-          "file": "components/portal/PortalPageLayout.tsx",
+          "file": "components/blocks/AccordionSection.tsx",
           "line": 48,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
+          "match": "max-h-[600px]",
+          "id": "max-h-600-plus",
           "re": {},
           "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+          "message": "max-height >560px (exceeds design standard)"
+        }
+      ]
+    ],
+    [
+      "components/chat/AILiveChat.tsx",
+      [
         {
-          "file": "components/portal/PortalPageLayout.tsx",
-          "line": 48,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/portal/PortalPageLayout.tsx",
-          "line": 48,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/portal/PortalPageLayout.tsx",
-          "line": 48,
-          "match": "h-[65vh]",
+          "file": "components/chat/AILiveChat.tsx",
+          "line": 233,
+          "match": "h-[70vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1545,39 +475,12 @@
       ]
     ],
     [
-      "components/shared/QualityHero.tsx",
+      "components/course/DragDropBuilder.tsx",
       [
         {
-          "file": "components/shared/QualityHero.tsx",
-          "line": 109,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/shared/QualityHero.tsx",
-          "line": 109,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/shared/QualityHero.tsx",
-          "line": 109,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/shared/QualityHero.tsx",
-          "line": 109,
-          "match": "h-[65vh]",
+          "file": "components/course/DragDropBuilder.tsx",
+          "line": 369,
+          "match": "h-[90vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1586,39 +489,12 @@
       ]
     ],
     [
-      "components/templates/PageHero.tsx",
+      "components/demo/TourOverlay.tsx",
       [
         {
-          "file": "components/templates/PageHero.tsx",
-          "line": 47,
-          "match": "h-[50vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/templates/PageHero.tsx",
-          "line": 47,
-          "match": "h-[55vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/templates/PageHero.tsx",
-          "line": 47,
-          "match": "h-[60vh]",
-          "id": "vh-50-plus",
-          "re": {},
-          "severity": "high",
-          "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
-        {
-          "file": "components/templates/PageHero.tsx",
-          "line": 47,
-          "match": "h-[65vh]",
+          "file": "components/demo/TourOverlay.tsx",
+          "line": 140,
+          "match": "h-[80vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
@@ -1627,29 +503,109 @@
       ]
     ],
     [
-      "app/tutoring/TutoringClient.tsx",
+      "components/home/VideoHeroSection.tsx",
       [
         {
-          "file": "app/tutoring/TutoringClient.tsx",
-          "line": 88,
+          "file": "components/home/VideoHeroSection.tsx",
+          "line": 57,
+          "match": "min-h-[520px]",
+          "id": "min-h-420-plus",
+          "re": {},
+          "severity": "high",
+          "message": "min-height ≥420px on hero-like container"
+        }
+      ]
+    ],
+    [
+      "components/marketing/HeroCarousel.tsx",
+      [
+        {
+          "file": "components/marketing/HeroCarousel.tsx",
+          "line": 85,
+          "match": "h-[72vh]",
+          "id": "vh-50-plus",
+          "re": {},
+          "severity": "high",
+          "message": "Hero/viewport height ≥50vh (often oversized)"
+        }
+      ]
+    ],
+    [
+      "components/marketing/MarketingPageContent.tsx",
+      [
+        {
+          "file": "components/marketing/MarketingPageContent.tsx",
+          "line": 19,
+          "match": "min-h-[440px]",
+          "id": "min-h-420-plus",
+          "re": {},
+          "severity": "high",
+          "message": "min-height ≥420px on hero-like container"
+        }
+      ]
+    ],
+    [
+      "components/programs/ProgramPageContract.tsx",
+      [
+        {
+          "file": "components/programs/ProgramPageContract.tsx",
+          "line": 149,
+          "match": "h-[70vh]",
+          "id": "vh-50-plus",
+          "re": {},
+          "severity": "high",
+          "message": "Hero/viewport height ≥50vh (often oversized)"
+        }
+      ]
+    ],
+    [
+      "components/programs/VisualProgramTemplate.tsx",
+      [
+        {
+          "file": "components/programs/VisualProgramTemplate.tsx",
+          "line": 459,
           "match": "h-[50vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
           "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+        }
+      ]
+    ],
+    [
+      "components/programs/WorkforceProgramPage.tsx",
+      [
         {
-          "file": "app/tutoring/TutoringClient.tsx",
-          "line": 88,
+          "file": "components/programs/WorkforceProgramPage.tsx",
+          "line": 186,
           "match": "h-[55vh]",
           "id": "vh-50-plus",
           "re": {},
           "severity": "high",
           "message": "Hero/viewport height ≥50vh (often oversized)"
-        },
+        }
+      ]
+    ],
+    [
+      "components/site/SearchModal.client.tsx",
+      [
         {
-          "file": "app/tutoring/TutoringClient.tsx",
-          "line": 88,
+          "file": "components/site/SearchModal.client.tsx",
+          "line": 189,
+          "match": "h-[50vh]",
+          "id": "vh-50-plus",
+          "re": {},
+          "severity": "high",
+          "message": "Hero/viewport height ≥50vh (often oversized)"
+        }
+      ]
+    ],
+    [
+      "components/store/StoreGuideChat.tsx",
+      [
+        {
+          "file": "components/store/StoreGuideChat.tsx",
+          "line": 253,
           "match": "h-[60vh]",
           "id": "vh-50-plus",
           "re": {},
@@ -1914,7 +870,7 @@
       [
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 35,
+          "line": 36,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -1923,7 +879,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 52,
+          "line": 53,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -1932,7 +888,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 104,
+          "line": 105,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -1941,7 +897,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 116,
+          "line": 117,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -1950,7 +906,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 52,
+          "line": 53,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/barber-training.webp\"\n  ",
           "id": "fill-no-sizes",
           "re": {},
@@ -1959,7 +915,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 104,
+          "line": 105,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/barber-gallery-2.webp\"\n ",
           "id": "fill-no-sizes",
           "re": {},
@@ -1968,7 +924,7 @@
         },
         {
           "file": "app/programs/barber-apprenticeship/host-shops/page.tsx",
-          "line": 116,
+          "line": 117,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/barber-gallery-3.webp\"\n ",
           "id": "fill-no-sizes",
           "re": {},
@@ -1982,7 +938,7 @@
       [
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 36,
+          "line": 37,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -1991,7 +947,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 54,
+          "line": 55,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2000,7 +956,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 109,
+          "line": 110,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2009,7 +965,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 121,
+          "line": 122,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2018,7 +974,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 54,
+          "line": 55,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/cosmetology-apprenticesh",
           "id": "fill-no-sizes",
           "re": {},
@@ -2027,7 +983,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 109,
+          "line": 110,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/cosmetology.webp\"\n      ",
           "id": "fill-no-sizes",
           "re": {},
@@ -2036,7 +992,7 @@
         },
         {
           "file": "app/programs/cosmetology-apprenticeship/host-shops/page.tsx",
-          "line": 121,
+          "line": 122,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/barber-styling-hair.webp",
           "id": "fill-no-sizes",
           "re": {},
@@ -2050,7 +1006,7 @@
       [
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 34,
+          "line": 35,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2059,7 +1015,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 56,
+          "line": 57,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2068,7 +1024,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 88,
+          "line": 89,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2077,7 +1033,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 98,
+          "line": 99,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2086,7 +1042,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 56,
+          "line": 57,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/cosmetology-hero.webp\"\n ",
           "id": "fill-no-sizes",
           "re": {},
@@ -2095,7 +1051,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 88,
+          "line": 89,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/cosmetology-hero.webp\"\n ",
           "id": "fill-no-sizes",
           "re": {},
@@ -2104,7 +1060,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 98,
+          "line": 99,
           "match": "<Image sizes=\"100vw\"\n                src=\"/images/pages/cosmetology-hero.webp\"\n ",
           "id": "fill-no-sizes",
           "re": {},
@@ -2118,7 +1074,7 @@
       [
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 34,
+          "line": 35,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2127,7 +1083,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 56,
+          "line": 57,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2136,7 +1092,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 85,
+          "line": 86,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2145,7 +1101,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 92,
+          "line": 93,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2154,7 +1110,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 56,
+          "line": 57,
           "match": "<Image sizes=\"100vw\" src=\"/images/pages/nail-technician.webp\"\n                al",
           "id": "fill-no-sizes",
           "re": {},
@@ -2163,7 +1119,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 85,
+          "line": 86,
           "match": "<Image sizes=\"100vw\" src=\"/images/pages/nail-technician.webp\"\n                al",
           "id": "fill-no-sizes",
           "re": {},
@@ -2172,7 +1128,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 92,
+          "line": 93,
           "match": "<Image sizes=\"100vw\" src=\"/images/pages/nail-technician.webp\"\n                al",
           "id": "fill-no-sizes",
           "re": {},
@@ -2569,7 +1525,7 @@
         {
           "file": "app/store/licenses/page.tsx",
           "line": 54,
-          "match": "<Image sizes=\"100vw\"\n          src=\"/images/pexels/store-hero.webp\"\n          al",
+          "match": "<Image sizes=\"100vw\"\n          src=\"/images/pages/store-licensing-enterprise-her",
           "id": "fill-no-sizes",
           "re": {},
           "severity": "low",
@@ -2578,7 +1534,7 @@
         {
           "file": "app/store/licenses/page.tsx",
           "line": 418,
-          "match": "<Image sizes=\"100vw\"\n          src=\"/images/pexels/success-team.webp\"\n          ",
+          "match": "<Image sizes=\"100vw\"\n          src=\"/images/business/team-4.webp\"\n          alt=",
           "id": "fill-no-sizes",
           "re": {},
           "severity": "low",
@@ -2919,7 +1875,7 @@
       [
         {
           "file": "components/programs/PublicProgramPage.tsx",
-          "line": 234,
+          "line": 235,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2928,7 +1884,7 @@
         },
         {
           "file": "components/programs/PublicProgramPage.tsx",
-          "line": 317,
+          "line": 318,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2937,7 +1893,7 @@
         },
         {
           "file": "components/programs/PublicProgramPage.tsx",
-          "line": 442,
+          "line": 443,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -2946,7 +1902,7 @@
         },
         {
           "file": "components/programs/PublicProgramPage.tsx",
-          "line": 490,
+          "line": 491,
           "match": "sizes=\"100vw\"",
           "id": "sizes-100vw",
           "re": {},
@@ -3318,7 +2274,7 @@
       [
         {
           "file": "app/programs/building-services-technician/page.tsx",
-          "line": 35,
+          "line": 34,
           "match": "hero.jpg\"\n          alt=\"Building Services Technician working on facility mainte",
           "id": "hero-gradient-overlay",
           "re": {},
@@ -3337,11 +2293,34 @@
       ]
     ],
     [
+      "app/programs/direct-support-professional/page.tsx",
+      [
+        {
+          "file": "app/programs/direct-support-professional/page.tsx",
+          "line": 30,
+          "match": "Hero Banner */}\n      <section className=\"relative w-full\" style={{ height: 'cla",
+          "id": "hero-gradient-overlay",
+          "re": {},
+          "severity": "high",
+          "message": "Gradient overlay near hero (forbidden on hero frame)"
+        },
+        {
+          "file": "app/programs/direct-support-professional/page.tsx",
+          "line": 41,
+          "match": "absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 t",
+          "id": "hero-text-overlay",
+          "re": {},
+          "severity": "high",
+          "message": "Headline/text overlaid on hero media"
+        }
+      ]
+    ],
+    [
       "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
       [
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 29,
+          "line": 30,
           "match": "Hero */}\n      <section className=\"relative h-[38vh] min-h-[220px] max-h-[420px]",
           "id": "hero-gradient-overlay",
           "re": {},
@@ -3350,7 +2329,7 @@
         },
         {
           "file": "app/programs/esthetician-apprenticeship/host-shops/page.tsx",
-          "line": 38,
+          "line": 39,
           "match": "absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent\" />\n    ",
           "id": "hero-text-overlay",
           "re": {},
@@ -3387,7 +2366,7 @@
       [
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 29,
+          "line": 30,
           "match": "Hero */}\n      <section className=\"relative h-[38vh] min-h-[220px] max-h-[420px]",
           "id": "hero-gradient-overlay",
           "re": {},
@@ -3396,7 +2375,7 @@
         },
         {
           "file": "app/programs/nail-technician-apprenticeship/host-shops/page.tsx",
-          "line": 38,
+          "line": 39,
           "match": "absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent\" />\n    ",
           "id": "hero-text-overlay",
           "re": {},
@@ -3525,7 +2504,7 @@
       [
         {
           "file": "components/admin/dashboard/DashboardShell.tsx",
-          "line": 456,
+          "line": 455,
           "match": "hero.webp\"\n          alt=\"\"\n          fill\n          className=\"object-cover\"\n  ",
           "id": "hero-gradient-overlay",
           "re": {},
@@ -3534,7 +2513,7 @@
         },
         {
           "file": "components/admin/dashboard/DashboardShell.tsx",
-          "line": 455,
+          "line": 454,
           "match": "<Image\n          src=\"/images/pages/admin-dashboard-hero.webp\"\n          alt=\"\"",
           "id": "empty-alt",
           "re": {},
@@ -3878,7 +2857,7 @@
       [
         {
           "file": "app/programs/barber-apprenticeship/orientation/OrientationClient.tsx",
-          "line": 205,
+          "line": 208,
           "match": "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/50 hov",
           "id": "hero-text-overlay",
           "re": {},
@@ -3898,20 +2877,6 @@
           "re": {},
           "severity": "high",
           "message": "Gradient overlay near hero (forbidden on hero frame)"
-        }
-      ]
-    ],
-    [
-      "app/programs/direct-support-professional/page.tsx",
-      [
-        {
-          "file": "app/programs/direct-support-professional/page.tsx",
-          "line": 41,
-          "match": "absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 t",
-          "id": "hero-text-overlay",
-          "re": {},
-          "severity": "high",
-          "message": "Headline/text overlaid on hero media"
         }
       ]
     ],
@@ -3953,7 +2918,6 @@
     "app/apply/employer/page.tsx",
     "app/apply/fssa/waitlist/page.tsx",
     "app/apply/staff/page.tsx",
-    "app/apply/student/page.tsx",
     "app/apply/track/page.tsx",
     "app/apprentice/handbook/page.tsx",
     "app/apprentice/hours/log/page.tsx",
@@ -3982,7 +2946,6 @@
     "app/career-services/resume-building/page.tsx",
     "app/careers/page.tsx",
     "app/certificates/page.tsx",
-    "app/certificates/verify/[certificateId]/page.tsx",
     "app/check-eligibility/page.tsx",
     "app/client-portal/page.tsx",
     "app/cm/page.tsx",
@@ -4010,17 +2973,9 @@
     "app/email/page.tsx",
     "app/employer/hours/page.tsx",
     "app/employer-workforce-partnerships-indiana/page.tsx",
-    "app/employers/directory/page.tsx"
+    "app/employers/directory/page.tsx",
+    "app/employers/page.tsx",
+    "app/employment-support/page.tsx"
   ],
-  "criticalHits": [
-    {
-      "file": "app/certificates/verify/[certificateId]/page.tsx",
-      "line": 73,
-      "match": "h-[700px]",
-      "id": "layout-700",
-      "re": {},
-      "severity": "critical",
-      "message": "Fixed 700px hero section"
-    }
-  ]
+  "criticalHits": []
 }

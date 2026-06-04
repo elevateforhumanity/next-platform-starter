@@ -34,7 +34,7 @@ export default async function EnvManagerPage() {
           <Link href="/admin/settings/integrations" className="text-brand-blue-600 underline">
             Dev Studio → Secrets
           </Link>
-          . ECS task env:{' '}
+          . Container env:{' '}
           <Link href="/admin/dashboard?tab=environments" className="text-brand-blue-600 underline">
             Dev Studio → Environments
           </Link>

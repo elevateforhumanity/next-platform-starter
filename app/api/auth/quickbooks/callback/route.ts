@@ -11,7 +11,7 @@ const QB_TOKEN_URL = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer'
 /**
  * QuickBooks OAuth 2.0 callback.
  * Exchanges the authorization code for access + refresh tokens,
- * then persists them to AWS SSM so ECS containers pick them up.
+ * then persists them to Supabase app_settings for runtime use.
  *
  * AUTH_EXEMPT: OAuth callback — Intuit redirects here before any session exists.
  * Security: state param validated, rate-limited by IP, tokens never returned to client.
@@ -70,15 +70,6 @@ export async function GET(request: NextRequest) {
     const expiresAt = new Date(Date.now() + (expires_in ?? 3600) * 1000).toISOString();
     const realm = realmId ?? process.env.QB_REALM_ID ?? '';
 
-    // 1. Persist to SSM (for ECS containers)
-    await persistToSSM({
-      QB_ACCESS_TOKEN:  access_token,
-      QB_REFRESH_TOKEN: refresh_token,
-      QB_REALM_ID:      realm,
-      QB_TOKEN_EXPIRES: expiresAt,
-    });
-
-    // 2. Persist to Supabase app_settings table (fallback for non-SSM envs)
     await persistToSupabase({
       QB_ACCESS_TOKEN:  access_token,
       QB_REFRESH_TOKEN: refresh_token,
@@ -111,28 +102,5 @@ async function persistToSupabase(params: Record<string, string>) {
     );
   } catch (err) {
     logger.error('[QB callback] Supabase persist failed:', err);
-  }
-}
-
-async function persistToSSM(params: Record<string, string>) {
-  try {
-    const { SSMClient, PutParameterCommand } = await import('@aws-sdk/client-ssm');
-    const ssm = new SSMClient({ region: process.env.AWS_REGION || 'us-east-1' });
-
-    const sensitive = new Set(['QB_ACCESS_TOKEN', 'QB_REFRESH_TOKEN']);
-
-    await Promise.all(
-      Object.entries(params).map(([name, value]) =>
-        ssm.send(new PutParameterCommand({
-          Name:      `/elevate/${name}`,
-          Value:     value,
-          Type:      sensitive.has(name) ? 'SecureString' : 'String',
-          Overwrite: true,
-        })),
-      ),
-    );
-  } catch (err) {
-    // Non-fatal — tokens still work for this request, next restart will re-auth
-    logger.error('[QB callback] SSM persist failed:', err);
   }
 }

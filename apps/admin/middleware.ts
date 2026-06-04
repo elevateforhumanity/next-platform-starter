@@ -3,13 +3,12 @@ import { checkAdminIP } from '@/lib/api/admin-ip-guard';
 
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
-/** Canonical admin hostname for redirects (env NEXT_PUBLIC_ADMIN_URL, not ELB). */
+/** Canonical admin hostname for redirects. */
 function resolveCanonicalAdminHost(): string {
   const fromEnv = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
   if (fromEnv) {
     try {
-      const parsedHost = new URL(fromEnv).host.toLowerCase();
-      if (!parsedHost.endsWith('.elb.amazonaws.com')) return parsedHost;
+      return new URL(fromEnv).host.toLowerCase();
     } catch {
       /* fall through */
     }
@@ -47,7 +46,7 @@ export async function middleware(req: NextRequest) {
     host === 'localhost' || host === '127.0.0.1' || host === '::1';
 
   // Always allow health checks, public auth paths, Next.js internals, and static files
-  // before canonical-host redirects so ALB target health probes can receive 200s.
+  // before canonical-host redirects so platform health probes can receive 200s.
   if (
     PUBLIC_PATHS.some((p) => pathname.startsWith(p)) ||
     pathname.startsWith('/_next') ||
@@ -57,12 +56,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Misrouted www/apex -> canonical admin host (ALB/DNS mistakes).
+  // Misrouted www/apex -> canonical admin host.
   if (
     host &&
     host !== canonicalAdminHost &&
-    !(process.env.NODE_ENV === 'development' && isLocalHost) &&
-    !host.endsWith('.elb.amazonaws.com')
+    !(process.env.NODE_ENV === 'development' && isLocalHost)
   ) {
     const adminBase = (
       process.env.NEXT_PUBLIC_ADMIN_URL || `https://${CANONICAL_ADMIN_HOST}`

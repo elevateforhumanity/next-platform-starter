@@ -5,7 +5,7 @@
  * Stores the file in Supabase Storage (documents bucket) under
  * devstudio/{userId}/{timestamp}-{filename}.
  *
- * Falls back to S3/R2 only when R2_ENDPOINT or R2_BUCKET is explicitly set.
+ * Falls back to R2 only when R2_ENDPOINT and R2_BUCKET are explicitly set.
  * Never writes to /tmp — files there are lost on container restart.
  *
  * Returns: { id, key, url, name, size, type, created_at }
@@ -30,14 +30,14 @@ const MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 const SUPABASE_BUCKET = 'documents'; // always-available Supabase Storage bucket
 
 function hasR2Config(): boolean {
-  // Only use R2/S3 when explicitly configured with R2-specific vars
+  // Only use R2 when explicitly configured with R2-specific vars.
   return Boolean(process.env.R2_ENDPOINT && process.env.R2_ACCESS_KEY && process.env.R2_BUCKET);
 }
 
 function getS3(): S3Client {
   return new S3Client({
     endpoint: process.env.R2_ENDPOINT!,
-    region:   process.env.AWS_REGION || 'auto',
+    region:   process.env.R2_REGION || 'auto',
     credentials: {
       accessKeyId:     process.env.R2_ACCESS_KEY!,
       secretAccessKey: process.env.R2_SECRET_KEY!,

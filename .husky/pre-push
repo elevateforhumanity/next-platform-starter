@@ -1,6 +1,6 @@
 #!/bin/sh
 # Pre-push gate: enforces compile integrity and orphan JSX detection before any push.
-# Catches errors locally instead of wasting CodeBuild cycles.
+# Catches errors locally before pushing to CI.
 
 echo "🔒 Pre-push checks running..."
 
@@ -66,7 +66,7 @@ fi
 echo "  ✅ Orphan JSX: clean"
 
 # 4. ESLint — run only on files changed since the last pushed commit.
-# Full repo lint runs in CI (CodeBuild). Local pre-push scopes to changed files
+# Full repo lint runs in CI. Local pre-push scopes to changed files
 # to avoid OOM on the 1,300+ page codebase.
 echo "  → ESLint (changed files only)..."
 
@@ -87,7 +87,7 @@ else
     | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/\|^tests/" \
     | grep -v "node_modules" \
     | ([ -f "$BASELINE_FILE" ] && grep -vFf "$BASELINE_FILE" || cat) \
-    | tr '\n' ' ')
+    | xargs)
   if [ -z "$LINTABLE" ]; then
     echo "  ✅ ESLint: only ignored/baselined files changed, skipping."
   else

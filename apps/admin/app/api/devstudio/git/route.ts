@@ -45,7 +45,7 @@ const REPO_DIR = (() => {
 const HAS_GIT = REPO_DIR !== null;
 
 function git(cmd: string, opts?: { timeout?: number }): string {
-  if (!HAS_GIT) throw new Error('No local .git - ECS mode uses GitHub API or studio-shell');
+  if (!HAS_GIT) throw new Error('No local .git - production mode uses GitHub API or studio-shell');
   const token = process.env.GITHUB_TOKEN ?? '';
   const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0', GIT_ASKPASS: 'echo' };
   if (token) {

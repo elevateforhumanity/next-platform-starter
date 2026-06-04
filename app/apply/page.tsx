@@ -33,11 +33,13 @@ const staticProgramOptions = Array.from(STATIC_PROGRAM_MAP.values())
 export default async function ApplyPage({
   searchParams,
 }: {
-  searchParams?: { program?: string; payment?: string };
+  searchParams?: Promise<{ program?: string; payment?: string }>;
 }) {
+  const params = await searchParams;
+
   // Note: ?program=barber-apprenticeship is 301'd to /programs/barber-apprenticeship/apply
   // by next.config.mjs before this page renders. No barber-specific branch needed here.
-  const programSlug = normalizeProgramInterest(searchParams?.program) ?? '';
+  const programSlug = normalizeProgramInterest(params?.program) ?? '';
 
   // Resolve a human-readable program name for the hero: try static catalog first,
   // then fall back to slug-to-title formatting so the hero is never blank.
@@ -91,6 +93,7 @@ export default async function ApplyPage({
             className="object-cover object-center"
             priority
             sizes="100vw"
+            placeholder="empty"
           />
         </div>
         <div className="bg-white border-b border-slate-200 py-10">

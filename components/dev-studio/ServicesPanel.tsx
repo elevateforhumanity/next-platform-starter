@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * ECS services: LMS, Admin, Dev Studio Runtime (elevate-studio).
+ * Northflank services: LMS and Admin.
  */
 
 import { useEffect, useState, useCallback } from 'react';
@@ -197,7 +197,7 @@ export default function ServicesPanel() {
                 className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-amber-600/20 text-amber-400 disabled:opacity-40"
               >
                 {isLoading(svc.key, 'restart') ? <Loader2 className="w-3 h-3 animate-spin" /> : <RotateCcw className="w-3 h-3" />}
-                Restart (replace tasks)
+                Restart build
               </button>
               <button
                 onClick={() => doAction(svc.key, 'deploy')}
@@ -205,7 +205,7 @@ export default function ServicesPanel() {
                 className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-blue-600/20 text-blue-400 disabled:opacity-40"
               >
                 {isLoading(svc.key, 'deploy') ? <Loader2 className="w-3 h-3 animate-spin" /> : <RotateCcw className="w-3 h-3" />}
-                Force deploy
+                Deploy
               </button>
             </div>
           </div>

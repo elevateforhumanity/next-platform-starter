@@ -3,12 +3,12 @@
  * POST /api/auth/saml/callback
  *
  * SAML 2.0 assertion consumer service (ACS).
- * Active only when SAML_ENABLED=true and SAML_ENTRY_POINT + SAML_CERT are set in SSM.
+ * Active only when SAML_ENABLED=true and SAML_ENTRY_POINT + SAML_CERT are configured.
  *
  * Flow:
  *   IdP → POST SAMLResponse → here → validate → upsert Supabase user → set session → redirect
  *
- * Required env vars (set in SSM under /elevate/):
+ * Required env vars:
  *   SAML_ENTRY_POINT   — IdP SSO URL
  *   SAML_ISSUER        — SP entity ID (default: elevate-lms)
  *   SAML_CERT          — IdP public certificate (PEM, no headers)

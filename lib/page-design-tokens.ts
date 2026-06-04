@@ -59,13 +59,13 @@ export const hero = {
    */
   /** Video/image band — capped lower on large screens so copy appears above the fold */
   imageWrap:
-    'relative h-[24vh] min-h-[160px] max-h-[240px] sm:max-h-[260px] lg:max-h-[240px] w-full overflow-hidden',
+    'relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden bg-slate-100',
   /** Below-hero white panel (headline, CTAs) */
   belowPanel: 'border-b border-slate-100 py-8 sm:py-10 lg:py-8',
   belowHeadline:
     'text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight mb-3 sm:mb-4',
   /** Responsive sizes for next/image fill heroes — caps decoded width for LCP */
-  imageSizes: '(max-width: 768px) 100vw, (max-width: 1200px) 720px, 960px',
+  imageSizes: '100vw',
   /** Content panel that sits below the hero image — white background */
   contentPanel: 'bg-white border-b border-slate-100',
 } as const;

@@ -249,7 +249,7 @@ export default async function SecurityStatementPage() {
               <strong>File Storage:</strong> Supabase Storage with server-side encryption
             </li>
             <li>
-              <strong>Application Hosting:</strong> AWS ECS Fargate with automatic HTTPS via ALB
+              <strong>Application Hosting:</strong> Northflank-managed containers with automatic HTTPS
             </li>
             <li>
               <strong>Payment Processing:</strong> Stripe (PCI DSS Level 1 certified)

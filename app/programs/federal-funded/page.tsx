@@ -34,7 +34,7 @@ export default async function FederalFundedProgramsPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h1>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Service Unavailable</h2>
           <p className="text-slate-600">Please try again later.</p>
         </div>
       </div>
@@ -209,15 +209,14 @@ export default async function FederalFundedProgramsPage() {
                 className="group block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative aspect-[3/2] w-full overflow-hidden">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
                   <Image
-                    priority
                     src={program.heroImage}
                     alt={program.heroImageAlt}
                     fill
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy" placeholder="empty"
+                    loading="lazy"
+                    placeholder="empty"
                   />
                 </div>
                 <div className="p-6">

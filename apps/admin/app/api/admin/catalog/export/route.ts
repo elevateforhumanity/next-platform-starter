@@ -112,7 +112,7 @@ async function _GET(request: Request) {
       });
     }
 
-    // PDF export is not yet implemented on AWS — use CSV or XLSX format instead.
+    // PDF export is not yet implemented — use CSV or XLSX format instead.
     if (format === 'pdf') {
       return NextResponse.json(
         { error: 'PDF export is not available. Use CSV or XLSX format.' },

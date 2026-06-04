@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-/** Studio Shell retired — no WebSocket PTY on admin ECS. */
+/** Studio Shell retired — no WebSocket PTY on admin runtime. */
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 

@@ -37,7 +37,7 @@ const PROGRAMS = [
     href: '/programs/nail-technician-apprenticeship',
     hostHref: '/programs/nail-technician-apprenticeship/host-shops',
     applyHostHref: '/partners/nail-technician-apprenticeship/apply',
-    image: '/images/pages/nail-technician-apprenticeship-hero.webp',
+    image: '/images/pages/nail-tech-hero.webp',
   },
   {
     title: 'Esthetician apprenticeship',

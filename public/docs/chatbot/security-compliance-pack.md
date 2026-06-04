@@ -16,7 +16,7 @@ Elevate for Humanity maintains enterprise-grade security controls to protect lea
 
 | Component           | Provider              | Certification |
 | ------------------- | --------------------- | ------------- |
-| Application Hosting | Netlify / AWS         | SOC 2 Type II |
+| Application Hosting | Northflank-managed containers | Platform controls |
 | Database            | Supabase (PostgreSQL) | SOC 2 Type II |
 | File Storage        | Supabase Storage      | SOC 2 Type II |
 | CDN                 | Cloudflare            | SOC 2 Type II |

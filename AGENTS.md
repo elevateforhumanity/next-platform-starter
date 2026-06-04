@@ -8,7 +8,7 @@
 
 - **Framework**: Next.js 16.1.6 with Turbopack, App Router
 - **Database**: Supabase (project `cuxzzpsyufcewtmicszk`, 516+ tables)
-- **Hosting**: AWS ECS (Fargate) — self-hosted EC2 builder via GitHub Actions (`deploy-aws.yml`), Docker image packaged with `Dockerfile.package`, deployed to ECS cluster `elevate-cluster`
+- **Hosting**: Northflank combined services — `elevate-lms` uses `Dockerfile.northflank-lms`; `elevate-admin` uses `Dockerfile.northflank-admin`
 - **Package Manager**: pnpm
 - **Build**: `pnpm next build` — must complete with zero errors (page count grows as features are added — do not hardcode it)
 
@@ -27,7 +27,8 @@
 - `data/team.ts` — Team member data (7 real members)
 - `lib/tax-software/` — MeF tax stack
 - `lib/curriculum/` — Blueprint system and course generator
-- `aws/` — ECS task definitions (`ecs-task-lms.json`, `ecs-task-admin.json`) and buildspecs
+- `scripts/northflank/` — Northflank service configuration, env sync, DNS, and deploy helpers
+- `aws/` — legacy hosting task definitions/buildspecs retained only as migration reference; do not use for new deploys
 - `supabase/migrations/` — SQL migration files (applied manually — see Migrations section)
 - `public/images/` — All site images
 
@@ -834,14 +835,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - **Middleware auth prefixes:** `AUTH_REQUIRED_ROUTES` uses segment-aware matching (`pathMatchesAuthPrefix` in `proxy.ts`). Never use bare `/apprentice` with `pathname.startsWith` — it incorrectly gates public `/apprenticeships`. Public marketing prefixes are listed in `PUBLIC_MARKETING_PREFIXES` (`/apprenticeships`, `/programs/`, `/partners/`, etc.).
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.
 - Dev server logs `Failed to load from app_secrets` and `Failed to load from platform_secrets` with placeholder Supabase keys — this is expected and does not block the server.
-- Northflank Dockerfiles set `NEXT_PUBLIC_SUPABASE_ANON_KEY=build-placeholder` at **build** time only. Runtime must inject real keys via the secret group. Admin `/api/health` returns 500 with `supabaseAnonKeyLooksPlaceholder` when the anon key is still a placeholder. URL must be `https://<ref>.supabase.co`, not `db.<ref>.supabase.co`.
-- **Login "site configuration" error:** The browser needs real `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. They are injected at request time via `SupabasePublicConfigScript` in root layout when ECS/runtime env is set (even if the Docker build omitted them). Local dev: use real keys in `.env.local`, not `placeholder`. `/api/public/supabase-config` is the fallback hydrate endpoint used by `/login`.
+- Northflank Dockerfiles require real `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` at build time. Runtime must also inject real keys via the `elevate-production-env` secret group. Admin `/api/health` returns 500 with `supabaseAnonKeyLooksPlaceholder` when the anon key is still a placeholder. URL must be `https://<ref>.supabase.co`, not `db.<ref>.supabase.co`.
+- **Login "site configuration" error:** The browser needs real `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. They are injected from Northflank runtime env via `SupabasePublicConfigScript` in root layout. Local dev: use real keys in `.env.local`, not `placeholder`. `/api/public/supabase-config` is the fallback hydrate endpoint used by `/login`.
 - ESLint uses flat config (`eslint.config.mjs`). The `--ext` flag in `pnpm lint` is legacy but still works.
 - `pnpm approve-builds` is interactive — do not run in CI/agent. Build dependencies are already allowlisted in `pnpm.onlyBuiltDependencies`.
 - The admin app shares `lib/`, `components/`, and `data/` with the root via tsconfig path aliases (`@/*` → `../../*`).
 - **Beauty apprenticeships** (barber, cosmetology, nail, esthetician): daily theory quiz **70%** required before RTI hours credit (`apprenticeship_daily_theory` table + `POST /api/apprenticeship/daily-theory`). Host shops must align with published syllabus (`HostShopSyllabusRequirement` on host-shops pages). Barber program map: `BarberWorkforceNetworkMap` + `lib/beauty-apprenticeship/workforce-network-locations.ts`.
 - Marketing heroes are **video-only** (no `posterImage` in `public/data/hero-banners.json`). `HeroVideo` uses a slate frame until the video plays. Re-apply video defaults with `node scripts/patch-hero-banners-video-only.mjs` after regenerating banners.
-- **Program/marketing images:** use `getProgramCardImage()` / `getProgramHeroImage()` from `lib/images/programImages.ts` and `resolveSiteImagePath()` from `lib/images/site-image-paths.ts` for legacy `.webp` paths. `HeroPicture` / `HeroVideo` use `hero.imageWrap` from `lib/page-design-tokens.ts` (`38vh`, max `420px`). Run `pnpm audit:image-assets` and `pnpm audit:visual-layout` before large marketing changes; full report in `docs/audits/VISUAL_LAYOUT_AUDIT.md`.
+- **Program/marketing images:** use `getProgramCardImage()` / `getProgramHeroImage()` from `lib/images/programImages.ts` and `resolveSiteImagePath()` from `lib/images/site-image-paths.ts` for legacy `.webp` paths. `HeroPicture` / `HeroVideo` use `hero.imageWrap` from `lib/page-design-tokens.ts` (`clamp(190px,32vw,360px)`). Run `pnpm audit:image-assets` and `pnpm audit:visual-layout` before large marketing changes; full report in `docs/audits/VISUAL_LAYOUT_AUDIT.md`.
 
 ### Northflank production DNS (Durable — no apex ALIAS)
 
@@ -849,9 +850,10 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 
 ### Northflank deploy (LMS + admin)
 
-- **LMS:** service `elevate-lms`, Dockerfile `Dockerfile.northflank-lms`, branch `main`
-- **Admin (Northflank):** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin` — must use `COPY . .` then `pnpm install --frozen-lockfile --package-import-method=copy` (not install before workspace manifests exist; avoid `--package-import-method=hardlink` on Northflank builders).
-- **Admin (AWS ECS):** `elevate-admin-service` on `elevate-cluster`, `Dockerfile.admin`, CodeBuild `elevate-admin-build`. `apps/admin/server.js` must load `.next/required-server-files.json` at startup. ECS container health uses `/api/ping` (not `/api/health`). Deploy: `.github/workflows/deploy-admin.yml` on `main`.
+- **LMS:** service `elevate-lms`, Dockerfile `Dockerfile.northflank-lms`, branch `main`, readiness path `/api/ping`
+- **Admin (Northflank):** service `elevate-admin`, Dockerfile `Dockerfile.northflank-admin`, branch `main`, readiness path `/api/ping` — use `COPY . .` then `pnpm install --frozen-lockfile --package-import-method=copy` (workspace manifests must exist before install; avoid `--package-import-method=hardlink` on Northflank builders).
+- **Admin (AWS ECS, legacy):** `elevate-admin-service` on `elevate-cluster`, `Dockerfile.admin`, CodeBuild `elevate-admin-build`. Deploy: `.github/workflows/deploy-admin.yml` on `main`.
+- `apps/admin/server.js` must load `.next/required-server-files.json` at startup.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
 - **Deploy both:** `DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute`
 - **DNS:** `docs/northflank-dns-durable.md`
@@ -865,7 +867,7 @@ Four configuration stores exist — they are **intentionally separate** and do N
 | **platform_secrets** | `platform_secrets` | Dev Studio → Secrets | Encrypted API keys; highest runtime priority |
 | **app_secrets** | `app_secrets` | Dev Studio → Container (env section) | Dev environment secrets |
 | **platform_settings** | `platform_settings` | Env Manager + Settings hub | Plaintext config, integration keys |
-| **process.env** | ECS task def / `.env.local` | Dev Studio → Container (ECS push) | Base layer |
+| **process.env** | Northflank secret group / `.env.local` | Dev Studio → Container (Northflank push) | Base layer |
 
 Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
@@ -875,9 +877,8 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 ### Stripe webhooks (production)
 
-- **Canonical URL:** `https://www.elevateforhumanity.org/api/webhooks/stripe` — register in Stripe Dashboard (live), then set signing secret in SSM `/elevate/STRIPE_WEBHOOK_SECRET` on the **LMS** ECS task (`aws/ecs-task-lms.json`).
-- **Barber apprenticeship** events may also use `/api/barber/webhook` with `STRIPE_WEBHOOK_SECRET_BARBER` — keep both endpoints’ secrets in SSM if both are registered.
+- **Canonical URL:** `https://www.elevateforhumanity.org/api/webhooks/stripe` — register in Stripe Dashboard (live), then set signing secret in the Northflank production secret group for the **LMS** service.
+- **Barber apprenticeship** events may also use `/api/barber/webhook` with `STRIPE_WEBHOOK_SECRET_BARBER` — keep both endpoints’ secrets in Northflank if both are registered.
 - Handler tries all configured `STRIPE_WEBHOOK_SECRET*` env vars (`lib/stripe/construct-webhook-event.ts`) so a mismatched secondary endpoint secret does not cause repeated 400s.
-- After fixing SSM, redeploy LMS and **Enable** the endpoint in Stripe Dashboard. `GET /api/webhooks/stripe` returns `{ ok: true }` for smoke checks.
+- After fixing webhook secrets, redeploy LMS and **Enable** the endpoint in Stripe Dashboard. `GET /api/webhooks/stripe` returns `{ ok: true }` for smoke checks.
 - **Jordan / Natalia weekly billing (manual):** `POST /api/admin/stripe-apprentice-payments` (admin auth) or `pnpm tsx scripts/run-apprentice-stripe-billing.ts` with live `STRIPE_SECRET_KEY`. Defaults to customers `cus_UGFxoJKjtlNoy8` and `cus_UTVa6pmsYlWBsp`.
-

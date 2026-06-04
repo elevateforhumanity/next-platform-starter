@@ -2529,9 +2529,10 @@
     "trustIndicators": [
       "DOL Registered Apprenticeship",
       "Earn wages from day one",
-      "Indiana Esthetician License"
+      "Indiana Esthetician License",
+      "Licensed salon training"
     ],
-    "transcript": "Earn your Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon.",
+    "transcript": "Train for the Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon. Apprentices earn wages while completing supervised skin care, sanitation, client service, and exam preparation. Licensed estheticians commonly earn $32,000 to $52,000.",
     "analyticsName": "esthetician-apprenticeship",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "_pexelsVideoId": 7582852
@@ -2557,9 +2558,10 @@
     "trustIndicators": [
       "CompTIA Security+",
       "CompTIA CySA+",
-      "WIOA funding available"
+      "WIOA funding available",
+      "Hands-on lab practice"
     ],
-    "transcript": "Earn CompTIA Security+ and CySA+ certifications in 12 weeks.",
+    "transcript": "Prepare for CompTIA Security+ and CySA+ in 12 weeks through hands-on security labs, threat analysis practice, and career coaching. Eligible Indiana residents may use WIOA or Workforce Ready Grant funding. Cybersecurity analyst roles commonly pay $55,000 to $85,000.",
     "analyticsName": "cybersecurity",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
@@ -2648,7 +2650,7 @@
       "CPR/AED included",
       "QMA pay $30K–$42K"
     ],
-    "transcript": "Train for Indiana QMA certification in 4 weeks, learning medication administration, documentation, and resident safety under nurse supervision. QMAs in Indiana commonly earn $30,000 to $42,000. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Self-pay is $1,200.",
+    "transcript": "Train for the Indiana QMA Certificate in 4 weeks, learning medication administration, documentation, and resident safety under nurse supervision. QMAs in Indiana commonly earn $30,000 to $42,000. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Self-pay is $1,200.",
     "analyticsName": "qma",
     "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4",
     "_pexelsVideoId": 6130024

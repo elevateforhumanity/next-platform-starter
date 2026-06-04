@@ -28,7 +28,7 @@ interface PlatformSecret {
 
 const CATEGORY_LABELS: Record<string, string> = {
   ai:       'AI Providers',
-  aws:      'AWS / Infrastructure',
+  aws:      'Cloud / Infrastructure',
   email:    'Email',
   payments: 'Payments',
   infra:    'Infrastructure',

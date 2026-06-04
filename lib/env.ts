@@ -17,7 +17,7 @@ export function requireEnv(key: string): string {
   if (!value) {
     throw new Error(
       `Missing required environment variable: ${key}. ` +
-      `Ensure it is set in AWS SSM Parameter Store (production) or .env.local (development).`,
+      `Ensure it is set in Northflank runtime env, the encrypted secrets store, or .env.local.`,
     );
   }
   return value;
@@ -57,7 +57,7 @@ export const env = {
   // Email
   SENDGRID_API_KEY: safeEnv('SENDGRID_API_KEY'),
 
-  // AI / Media generation — ECS server workers (video/audio generation, AI chat)
+  // AI / Media generation — server workers (video/audio generation, AI chat)
   OPENAI_API_KEY: safeEnv('OPENAI_API_KEY'),
   DID_API_KEY: safeEnv('DID_API_KEY'),
 

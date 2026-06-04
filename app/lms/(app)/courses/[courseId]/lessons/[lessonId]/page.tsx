@@ -1265,7 +1265,7 @@ export default function LessonPage() {
               </div>
             </div>
           ) : lesson.content_type === 'scorm' && lesson.scorm_package_id ? (
-            <div className="h-[70vh]">
+            <div className="h-[clamp(320px,44vw,640px)]">
               <iframe
                 src={`/api/scorm/content/${lesson.scorm_package_id}/${lesson.scorm_launch_path || 'index.html'}`}
                 className="w-full h-full border-0"
@@ -1645,7 +1645,7 @@ export default function LessonPage() {
                       <div
                         role="tabpanel"
                         aria-label="Reading"
-                        className="bg-white rounded-xl p-4 md:p-8 shadow-sm overflow-y-auto max-h-[70vh]"
+                        className="bg-white rounded-xl p-4 md:p-8 shadow-sm overflow-y-auto max-h-[640px]"
                         onScroll={onReadingScroll}
                       >
                         {lesson.content ? (

@@ -28,7 +28,7 @@ interface StudioConfig {
   previewTargets?: { label: string; url: string }[];
 }
 
-/** One container: AI command chat + AWS/GitHub deploy + upload/files/ops/health/errors/video */
+/** One container: AI command chat + Northflank deploy + upload/files/ops/health/errors/video */
 type ToolPanel =
   | 'command'
   | 'files'
@@ -114,10 +114,10 @@ export function LizzyWorkspace({
       <div className="shrink-0 border-b border-[#3c3c3c] bg-[#1a2e1a] px-3 py-2 text-[10px] leading-snug text-[#9ca3af]">
         <strong className="text-[#4ec9b0]">Lizzy</strong>
         {' '}
-        — talk to the platform AI, deploy via GitHub Actions to AWS, upload files, and run operations. Credentials load from ECS/SSM automatically — no browser production toggle.
+        — talk to the platform AI, deploy to Northflank, upload files, and run operations. Credentials load from runtime env and the encrypted secrets store.
       </div>
 
-      {/* AWS / GitHub deploy — always visible */}
+      {/* Northflank deploy — always visible */}
       <div className="shrink-0 max-h-[220px] overflow-hidden border-b border-[#3c3c3c]">
         <DeployPanel workflowButtons={config?.workflowButtons} />
       </div>
@@ -144,7 +144,7 @@ export function LizzyWorkspace({
         })}
         <span className="ml-auto hidden items-center gap-2 text-[10px] text-[#858585] sm:flex">
           <Rocket className="h-3 w-3" />
-          GitHub → AWS ECS
+          GitHub → Northflank
           <Server className="h-3 w-3" />
           {health ? 'Health loaded' : 'Health…'}
         </span>

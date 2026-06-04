@@ -40,7 +40,7 @@ export default function JriPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[500px] flex items-center overflow-hidden">
+      <section className="relative min-h-[320px] flex items-center overflow-hidden">
         <div className="absolute inset-0">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
           <Image sizes="100vw"

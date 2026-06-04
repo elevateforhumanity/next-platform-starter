@@ -85,7 +85,7 @@ export default function TutoringClient({ tutors }: { tutors: { id: string; full_
         </div>
       </div>
 
-      <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-[320px] overflow-hidden">
+      <section className="relative h-[clamp(190px,32vw,360px)] overflow-hidden">
         <Image src="/images/pages/tutoring-page-1.webp" alt="Students receiving tutoring" fill sizes="100vw" className="object-cover" priority />
       </section>
 

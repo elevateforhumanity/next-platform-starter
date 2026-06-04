@@ -24,7 +24,7 @@ afterEach(() => {
 });
 
 describe('resolvePublicSiteUrl', () => {
-  it('prefers NEXT_PUBLIC_PUBLIC_SITE_URL on admin ECS tasks', () => {
+  it('prefers NEXT_PUBLIC_PUBLIC_SITE_URL on the admin runtime', () => {
     process.env.NEXT_PUBLIC_SITE_URL = 'https://admin.elevateforhumanity.org';
     process.env.NEXT_PUBLIC_PUBLIC_SITE_URL = 'https://www.elevateforhumanity.org';
     expect(resolvePublicSiteUrl()).toBe('https://www.elevateforhumanity.org');

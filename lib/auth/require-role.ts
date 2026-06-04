@@ -51,7 +51,7 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
       }
     }
     // Admin app has no /login page — redirect to /admin-login on the LMS.
-    // SERVICE_ROLE=admin is set in the admin ECS task definition.
+    // SERVICE_ROLE=admin is set in the admin container environment.
     const loginPath =
       process.env.SERVICE_ROLE === 'admin'
         ? `${process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl}/admin-login?redirect=${encodeURIComponent(returnPath)}`

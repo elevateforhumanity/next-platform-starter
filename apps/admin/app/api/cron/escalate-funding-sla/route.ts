@@ -1,5 +1,5 @@
 // GET /api/cron/escalate-funding-sla
-// Runs daily via AWS EventBridge scheduled rule.
+// Runs daily via Northflank cron.
 // Calls escalate_funding_verification_sla() RPC to mark payment_integrity_flags
 // rows that have exceeded their SLA window. Does not auto-revoke.
 // Protected by CRON_SECRET header.

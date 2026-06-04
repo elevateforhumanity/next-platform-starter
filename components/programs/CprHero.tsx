@@ -61,7 +61,7 @@ export default function CprHero() {
       {/* IMAGE FRAME — no text on it */}
       <section
         className="relative w-full overflow-hidden bg-slate-900"
-        style={{ height: 'clamp(400px, 56vw, 780px)' }}
+        style={{ height: 'clamp(220px, 34vw, 390px)' }}
         aria-label="CPR & First Aid hero"
       >
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}

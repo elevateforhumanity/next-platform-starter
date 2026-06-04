@@ -57,8 +57,8 @@ export interface HeroSectionProps {
 }
 
 const heightClasses: Record<HeroHeight, string> = {
-  full: 'min-h-[70vh]',
-  medium: 'min-h-[50vh]',
+  full: 'min-h-[clamp(260px,38vw,420px)]',
+  medium: 'min-h-[clamp(220px,32vw,360px)]',
   compact: 'min-h-[35vh]',
 };
 

@@ -1,7 +1,7 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // Load runtime secrets from Supabase into process.env.
-    // Vars are injected from SSM via ECS task definition at container start.
+    // Platform env vars are injected by Northflank at container start.
     const { applyNormalizedSupabaseUrlToEnv } = await import('./lib/supabase/normalize-url');
     applyNormalizedSupabaseUrlToEnv();
     const { hydrateProcessEnv } = await import('./lib/secrets');

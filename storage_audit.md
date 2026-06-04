@@ -27,13 +27,13 @@ The following bucket names appear in code but cannot be confirmed as existing wi
 
 ---
 
-## External Storage (Cloudflare R2 / AWS S3)
+## External Storage (Cloudflare R2)
 
 | System                 | File                          | Bucket                                                | Purpose                                                         |
 | ---------------------- | ----------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
-| Cloudflare R2 / AWS S3 | `lib/storage/file-storage.ts` | `elevate-media` (env: `R2_BUCKET` or `AWS_S3_BUCKET`) | Digital product downloads via `/api/store/download/[productId]` |
+| Cloudflare R2          | `lib/storage/file-storage.ts` | `elevate-media` (env: `R2_BUCKET`)                    | Digital product downloads via `/api/store/download/[productId]` |
 
-**Config:** Falls back to S3 if R2 env vars not set. Bucket name defaults to `elevate-media`.
+**Config:** Uses R2-compatible settings. Bucket name defaults to `elevate-media`.
 
 ---
 
@@ -43,7 +43,7 @@ The following bucket names appear in code but cannot be confirmed as existing wi
 | ----------------------------------- | --------------------- | ------------------------------------------------------------------------------------------- | --------------- |
 | `lib/mou-storage.ts`                | `mous`                | Uses `createBrowserClient` — wrong for server context. Should use `lib/supabase/server.ts`. | Fix in Phase 12 |
 | `lib/storage/complianceEvidence.ts` | `compliance-evidence` | Uses deprecated `lib/supabase-api` shim                                                     | Fix in Phase 12 |
-| `lib/storage/file-storage.ts`       | R2/S3                 | Canonical for digital downloads                                                             | Keep            |
+| `lib/storage/file-storage.ts`       | R2                    | Canonical for digital downloads                                                             | Keep            |
 
 ---
 
@@ -66,7 +66,7 @@ For new code:
 | Media (images, videos)                  | `media`               | `supabase.storage.from('media').upload(path, file)`                                   |
 | MOU PDFs                                | `mous`                | `supabase.storage.from('mous').createSignedUrl(filename, 60)`                         |
 | Certificate PDFs                        | `module-certificates` | `supabase.storage.from('module-certificates').upload(path, file)`                     |
-| Digital downloads                       | R2/S3                 | `lib/storage/file-storage.ts` — `getDownloadUrl(key)`                                 |
+| Digital downloads                       | R2                    | `lib/storage/file-storage.ts` — `getDownloadUrl(key)`                                 |
 | Course videos                           | `course-videos`       | Do not hardcode URLs. Use `supabase.storage.from('course-videos').getPublicUrl(path)` |
 
 **Rule:** Never hardcode Supabase project URLs. Always use the storage client to generate URLs.

@@ -12,24 +12,17 @@ Standalone dev container for **VS Code Dev Containers** / GitHub Codespaces-styl
 
 - Docker Desktop (or any OCI-compatible runtime)
 - VS Code with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-- AWS credentials with read access to SSM Parameter Store (`/elevate/*`)
 
 ### Steps
 
-1. Set your AWS credentials in your shell:
-
-```bash
-export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-export AWS_DEFAULT_REGION=us-east-1   # default if omitted
-```
-
-2. Open the repo in VS Code → **F1** → **Dev Containers: Reopen in Container**
+1. Open the repo in VS Code → **F1** → **Dev Containers: Reopen in Container**
 
 The container will:
 - Install system packages (ffmpeg, chromium, python3)
 - Install pnpm dependencies
-- Pull all secrets from AWS SSM into `.env.local`
+- Copy `.env.example` to `.env.local` if no local env file exists
+
+2. Fill any local-only secrets in `.env.local`.
 
 3. Start the dev server:
 
@@ -49,13 +42,11 @@ make dev-admin
 
 ## Secrets
 
-All secrets live in AWS SSM Parameter Store under `/elevate/*`. The ECS task
-definitions (`aws/ecs-task-lms.json`, `aws/ecs-task-admin.json`) are the
-canonical list of what parameters exist.
+Production and preview secrets are managed through Northflank runtime
+environment variables and secret groups. Local dev uses `.env.local`.
 
-`setup-env.sh` fetches every parameter under `/elevate/` and writes them to
-`.env.local`. It runs automatically on container create and on every start so
-rotated keys stay current without a rebuild.
+`setup-env.sh` creates `.env.local` from `.env.example` when needed. It does not
+pull production secrets into the dev container.
 
 To refresh secrets manually at any time:
 
@@ -65,20 +56,11 @@ bash .devcontainer/setup-env.sh
 make env
 ```
 
-### Required IAM permissions
+### Missing secrets?
 
-```json
-{
-  "Effect": "Allow",
-  "Action": ["ssm:GetParametersByPath", "ssm:GetParameter"],
-  "Resource": "arn:aws:ssm:us-east-1:954718262498:parameter/elevate/*"
-}
-```
-
-### No AWS credentials?
-
-`setup-env.sh` falls back to copying `.env.example` to `.env.local`. Fill in
-values manually, or obtain AWS credentials and re-run `make env`.
+Fill in
+values manually in `.env.local`, or add them to the appropriate Northflank
+secret group for deployed services.
 
 ---
 
@@ -86,8 +68,8 @@ values manually, or obtain AWS credentials and re-run `make env`.
 
 | Hook | What it does |
 |------|-------------|
-| `onCreateCommand` | Installs system packages, pnpm deps, pulls secrets from SSM |
-| `postStartCommand` | Re-pulls secrets from SSM on every start |
+| `onCreateCommand` | Installs system packages, pnpm deps, prepares `.env.local` |
+| `postStartCommand` | Verifies `.env.local` exists |
 
 Dev servers are **not started automatically** — run `make dev` after the container starts.
 
@@ -97,7 +79,7 @@ Dev servers are **not started automatically** — run `make dev` after the conta
 
 | Target | Description |
 |--------|-------------|
-| `make env` | Pull secrets from AWS SSM into `.env.local` |
+| `make env` | Prepare `.env.local` from `.env.example` when missing |
 | `make install` | Install pnpm dependencies |
 | `make dev` | Start LMS dev server (port 3000) |
 | `make dev-admin` | Start Admin dev server (port 3001) |
@@ -112,4 +94,4 @@ Dev servers are **not started automatically** — run `make dev` after the conta
 | File | Purpose |
 |------|---------|
 | `devcontainer.json` | Container definition — image, features, lifecycle hooks |
-| `setup-env.sh` | Pulls secrets from AWS SSM, writes `.env.local` |
+| `setup-env.sh` | Creates `.env.local` from `.env.example` when missing |

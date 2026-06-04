@@ -31,16 +31,10 @@ else
   echo "⚠️  Warning: tailwind.config.js not found"
 fi
 
-# Env file - pull from GitHub Secrets if available
+# Env file - create a local placeholder when needed.
 if [ ! -f .env ]; then
   echo "🌱 Creating .env file..."
-  
-  # Pull secrets from AWS SSM
-  if command -v aws &>/dev/null && [ -n "${AWS_ACCESS_KEY_ID:-}" ]; then
-    echo "Pulling secrets from AWS SSM..."
-    bash .devcontainer/setup-env.sh
-  fi
-  
+
   cat > .env <<ENV
 # --- EFH Environment Variables ---
 VITE_SITE_NAME="Elevate for Humanity"
@@ -63,7 +57,7 @@ ENV
   if [ "${VITE_SUPABASE_URL:-your_supabase_url_here}" = "your_supabase_url_here" ]; then
     echo ""
     echo "Supabase credentials not configured."
-    echo "Run: AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... bash .devcontainer/setup-env.sh"
+    echo "Fill .env manually or copy values from the approved runtime secret store."
   fi
 else
   echo "✅ .env file exists"

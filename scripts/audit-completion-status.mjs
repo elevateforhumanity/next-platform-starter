@@ -264,7 +264,7 @@ function checkServerSideOnly(feature) {
 }
 
 function checkCronJob(feature) {
-  const deployWorkflow = path.join(rootDir, '.github/workflows/deploy-aws.yml');
+  const deployWorkflow = path.join(rootDir, '.github/workflows/deploy-lms.yml');
   if (!fs.existsSync(deployWorkflow)) return false;
 
   const content = fs.existsSync(deployWorkflow) ? fs.readFileSync(deployWorkflow, 'utf8') : '';

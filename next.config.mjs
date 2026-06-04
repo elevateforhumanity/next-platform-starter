@@ -94,7 +94,7 @@ const nextConfig = {
       return `build-${Date.now()}`;
     }
   },
-  // Standalone output for AWS ECS — Node.js persistent server via Dockerfile.package
+  // Standalone output for containerized Node.js runtime via Dockerfile.northflank-*.
   output: 'standalone',
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // transpilePackages compiles it so webpack can parse it.
@@ -187,9 +187,12 @@ const nextConfig = {
     // 2 workers doubles peak heap; 1 worker keeps it manageable.
     config.parallelism = 1;
 
-    // Note: config.cache is intentionally not set here.
-    // Next.js overwrites any custom cache config with its own filesystem cache
-    // pointing to .next/cache/webpack/. Setting it here is a no-op.
+    // Northflank's allowed ephemeral build storage is not large enough for
+    // Next's production webpack filesystem cache on this app. Disable only in
+    // container builds; local builds keep the cache for faster iteration.
+    if (process.env.DISABLE_WEBPACK_FILESYSTEM_CACHE === '1') {
+      config.cache = false;
+    }
 
     // Use Next.js default splitChunks — the custom config above was creating
     // one chunk per npm package (name() function), generating thousands of
@@ -1144,7 +1147,6 @@ const nextConfig = {
   },
   async headers() {
     const isProduction = process.env.NODE_ENV === 'production';
-    // AWS CodeBuild sets CODEBUILD_BUILD_ID; use NODE_ENV for environment detection
     const isPreview =
       process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
     const host = process.env.URL || '';
@@ -1256,7 +1258,7 @@ const nextConfig = {
       },
       // 1a) Public marketing pages — short CDN cache (60s) with stale-while-revalidate.
       //     These pages have no auth, no user-specific data, and change only on deploy.
-      //     ALB/CloudFront will serve stale for up to 5 min while revalidating in background.
+      //     CDN/proxy caches may serve stale for up to 5 min while revalidating in background.
       {
         source: '/(|about|about/mission|about/team|about/partners|blog|careers|contact|credentials|dmca|donate|eligibility|faq|for-employers|for-students|how-it-works|jri|news|partners|press|resources|scholarships|services|site-map|training|transparency|tuition|verify|workkeys|mobile-app|install-app|career-training-indiana|certification-testing|check-eligibility|call-now|career-assessment|career-counseling|workforce-training-indianapolis|healthcare-training-indianapolis|skilled-trades-training-indiana|it-certification-training-indianapolis|employer-workforce-partnerships-indiana|agency-referral-workforce-training-indiana|wioa-eligibility)',
         headers: [

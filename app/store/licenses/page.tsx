@@ -37,7 +37,7 @@ export default async function LicensesPage() {
   return (
     <div className="bg-white">
       {/* Hero Section with Video */}
-      <section className="relative min-h-[600px] flex items-center overflow-hidden">
+      <section className="relative min-h-[360px] flex items-center overflow-hidden">
         {/* Video Background */}
         <video
           autoPlay
@@ -45,14 +45,14 @@ export default async function LicensesPage() {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          poster="/images/pexels/store-hero.webp"
+          poster="/images/pages/store-licensing-enterprise-hero.webp"
         >
           <source src="/videos/training-providers-video-with-narration.mp4" type="video/mp4" />
         </video>
         {/* Fallback Image */}
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image sizes="100vw"
-          src="/images/pexels/store-hero.webp"
+          src="/images/pages/store-licensing-enterprise-hero.webp"
           alt="Workforce training platform"
           fill
           className="object-cover -z-10"
@@ -416,7 +416,7 @@ export default async function LicensesPage() {
       {/* CTA */}
       <section className="relative px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
         <Image sizes="100vw"
-          src="/images/pexels/success-team.webp"
+          src="/images/business/team-4.webp"
           alt="Get started"
           fill
           className="object-cover" placeholder="empty"
