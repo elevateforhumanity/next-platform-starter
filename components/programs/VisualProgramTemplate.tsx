@@ -7,6 +7,7 @@ import type { Program } from '@/lib/types/program';
 import { ProgramTutorCTA } from '@/components/ProgramTutorCTA';
 import { PROGRAMS } from '@/lib/ai/programRegistry';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import { ProgramMediaCard } from '@/components/programs/ProgramMediaCard';
 import { Check, Clock, Award, DollarSign, MapPin, ArrowRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -189,26 +190,14 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                 sub: 'Job placement included',
               },
             ].map((card, i) => (
-              <div
+              <ProgramMediaCard
                 key={i}
-                className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
-              >
-                <div className="relative aspect-[4/3]">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                  <Image
-                    src={card.img}
-                    alt={card.label}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <p className="text-white font-bold text-sm leading-tight">{card.label}</p>
-                    <p className="text-slate-300 text-xs mt-0.5 leading-tight">{card.sub}</p>
-                  </div>
-                </div>
-              </div>
+                src={card.img}
+                alt={card.label}
+                title={card.label}
+                subtitle={card.sub}
+                className="hover:shadow-md transition-shadow"
+              />
             ))}
           </div>
         </div>
@@ -226,19 +215,12 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
               {program.whatYouLearn.slice(0, 6).map((item: string, i: number) => (
-                <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden group">
-                  <Image
+                <div key={i} className="flex flex-col gap-2">
+                  <ProgramMediaCard
                     src={images.tiles[i % images.tiles.length]}
                     alt={item}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty"
+                    title={item}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 flex items-start gap-2">
-                    <Check className="w-4 h-4 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-white text-sm font-semibold leading-snug">{item}</p>
-                  </div>
                 </div>
               ))}
             </div>
@@ -384,26 +366,14 @@ export function VisualProgramTemplate({ program, slug }: VisualProgramTemplatePr
                 desc: 'Career services connects you with employers',
               },
             ].map((s) => (
-              <div
+              <ProgramMediaCard
                 key={s.step}
-                className="relative aspect-square rounded-2xl overflow-hidden shadow-md"
-              >
-                <Image
-                  src={s.img}
-                  alt={s.label}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover" placeholder="empty"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
-                <div className="absolute top-3 left-3 w-8 h-8 bg-brand-red-600 rounded-full flex items-center justify-center text-white font-extrabold text-sm shadow">
-                  {s.step}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="text-white font-bold text-sm">{s.label}</p>
-                  <p className="text-slate-300 text-xs mt-0.5 leading-tight">{s.desc}</p>
-                </div>
-              </div>
+                src={s.img}
+                alt={s.label}
+                title={s.label}
+                subtitle={s.desc}
+                step={s.step}
+              />
             ))}
           </div>
         </div>

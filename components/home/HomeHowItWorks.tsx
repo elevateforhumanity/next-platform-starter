@@ -91,8 +91,8 @@ export function HomeHowItWorks() {
           </p>
         </div>
 
-        {/* Step grid — 1 col mobile, 2 col sm, 3 col md, 6 col lg */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 mb-10">
+        {/* Step grid — 2×3 on desktop so photos stay readable */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           {STEPS.map((step, i) => (
             <Link
               key={step.n}
@@ -100,13 +100,13 @@ export function HomeHowItWorks() {
               className={`group relative flex flex-col rounded-2xl overflow-hidden bg-slate-900 border-t-4 ${step.accent} hover:ring-1 hover:ring-slate-600 transition-all hover:-translate-y-0.5`}
             >
               {/* Photo */}
-              <div className={`${card.image16x9Desktop} sm:aspect-[3/2] lg:h-32`}>
+              <div className={card.programImage}>
                 <Image
                   src={step.img}
                   alt={step.imgAlt}
                   fill
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   loading={i < 2 ? 'eager' : 'lazy'}
                   placeholder="empty"
                 />
@@ -126,14 +126,6 @@ export function HomeHowItWorks() {
               </div>
 
               {/* Connector arrow (desktop only) */}
-              {i < STEPS.length - 1 && (
-                <span
-                  className="hidden lg:flex absolute -right-2 top-1/3 z-10 w-4 h-4 items-center justify-center rounded-full bg-slate-800 border border-slate-700"
-                  aria-hidden="true"
-                >
-                  <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
-                </span>
-              )}
             </Link>
           ))}
         </div>

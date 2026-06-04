@@ -61,6 +61,8 @@ export interface HeroVideoProps {
    * Default false — metadata preload avoids blocking LCP on inner pages.
    */
   eagerVideoLoad?: boolean;
+  /** Tighter below-hero typography and spacing (home page). */
+  compactBelowHero?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -82,6 +84,7 @@ export default function HeroVideo({
   className = '',
   children,
   eagerVideoLoad = false,
+  compactBelowHero = false,
 }: HeroVideoProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -275,32 +278,60 @@ export default function HeroVideo({
       {/* BELOW-HERO CONTENT */}
       {/* All primary messaging lives here — never on the video */}
       {(belowHeroHeadline || belowHeroSubheadline || ctas || trustIndicators || children) && (
-        <section className={heroTokens.belowPanel}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <section
+          className={
+            compactBelowHero
+              ? 'border-b border-slate-100 py-4 sm:py-5'
+              : heroTokens.belowPanel
+          }
+        >
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
             {children ? (
               children
             ) : (
               <>
                 {belowHeroHeadline && (
-                  <h1 className={heroTokens.belowHeadline}>
+                  <h1
+                    className={
+                      compactBelowHero
+                        ? 'text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 leading-snug mb-2'
+                        : heroTokens.belowHeadline
+                    }
+                  >
                     {belowHeroHeadline}
                   </h1>
                 )}
                 {belowHeroSubheadline && (
-                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl">
+                  <p
+                    className={
+                      compactBelowHero
+                        ? 'text-slate-600 text-sm sm:text-[0.9375rem] leading-relaxed mb-4 max-w-xl'
+                        : 'text-slate-700 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl'
+                    }
+                  >
                     {belowHeroSubheadline}
                   </p>
                 )}
                 {ctas && ctas.length > 0 && (
-                  <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                  <div
+                    className={
+                      compactBelowHero
+                        ? 'flex flex-col sm:flex-row gap-2 mb-2'
+                        : 'flex flex-col sm:flex-row gap-3 mb-6'
+                    }
+                  >
                     {ctas.map((cta) => (
                       <a
                         key={cta.href}
                         href={cta.href}
                         className={
                           cta.variant === 'secondary'
-                            ? 'text-center border border-slate-300 text-slate-700 font-bold px-7 py-3.5 rounded-lg hover:bg-slate-50 transition-colors text-sm'
-                            : 'text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm'
+                            ? compactBelowHero
+                              ? 'text-center border border-slate-300 text-slate-700 font-semibold px-5 py-2 rounded-lg hover:bg-slate-50 transition-colors text-sm'
+                              : 'text-center border border-slate-300 text-slate-700 font-bold px-7 py-3.5 rounded-lg hover:bg-slate-50 transition-colors text-sm'
+                            : compactBelowHero
+                              ? 'text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm'
+                              : 'text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm'
                         }
                       >
                         {cta.label}

@@ -1,8 +1,8 @@
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
+import { CleanPageHero } from '@/components/programs/CleanPageHero';
 
 export const metadata: Metadata = {
   title: 'Finance, Bookkeeping & Accounting Credential Pathway | ETPL Approved | Indianapolis',
@@ -31,27 +31,13 @@ const FAQS = [
 export default function FinanceBookkeepingAccountingPage() {
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Banner */}
-      <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-        <Image
-          src="/images/pages/finance-accounting.webp"
-          alt="Finance and accounting credential pathway"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-          placeholder="empty"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
-        <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
-            Finance, Bookkeeping &amp; Accounting
-          </h1>
-          <p className="text-white/90 text-base sm:text-lg leading-relaxed">
-            Tiered credential pathway. Tax preparation, bookkeeping, payroll, and accounting. ETPL approved.
-          </p>
-        </div>
-      </section>
+      <CleanPageHero
+        src="/images/pages/finance-accounting.webp"
+        alt="Finance and accounting credential pathway"
+        title="Finance, Bookkeeping & Accounting"
+        subtitle="Tiered credential pathway. Tax preparation, bookkeeping, payroll, and accounting. ETPL approved."
+        priority
+      />
 
       {/* Stats Strip */}
       <section className="bg-slate-900 py-6 px-6">

@@ -1,8 +1,8 @@
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import FundingInfoBlock from '@/components/programs/FundingInfoBlock';
+import { CleanPageHero } from '@/components/programs/CleanPageHero';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
@@ -29,27 +29,13 @@ const FAQS = [
 export default function DrugAlcoholSpecimenCollectorPage() {
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Banner */}
-      <section className="relative w-full" style={{ height: 'clamp(300px, 45vw, 520px)' }}>
-        <Image
-          src="/images/healthcare/healthcare-professional-portrait-1.jpg"
-          alt="Healthcare professional in specimen collection lab"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-          placeholder="empty"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-transparent" />
-        <div className="absolute bottom-8 left-6 sm:left-10 max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
-            Drug &amp; Alcohol Specimen Collector
-          </h1>
-          <p className="text-white/90 text-base sm:text-lg leading-relaxed">
-            DOT-certified training. High demand across transportation, healthcare, and corporate sectors.
-          </p>
-        </div>
-      </section>
+      <CleanPageHero
+        src="/images/healthcare/healthcare-professional-portrait-1.jpg"
+        alt="Healthcare professional in specimen collection lab"
+        title="Drug & Alcohol Specimen Collector"
+        subtitle="DOT-certified training. High demand across transportation, healthcare, and corporate sectors."
+        priority
+      />
 
       {/* Stats Strip */}
       <section className="bg-slate-900 py-6 px-6">

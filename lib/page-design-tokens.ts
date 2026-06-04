@@ -77,9 +77,12 @@ export const card = {
   base: 'bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all',
   /** Card image container — 16:9 */
   image16x9: 'relative aspect-[16/9] overflow-hidden',
-  /** Homepage / pathway cards — shorter image band on desktop */
+  /** Homepage / pathway cards — visible photo band without squashing on wide grids */
   image16x9Desktop:
-    'relative aspect-[2/1] max-h-36 lg:aspect-auto lg:h-32 overflow-hidden bg-slate-100',
+    'relative aspect-[16/10] sm:aspect-[16/9] max-h-44 overflow-hidden bg-slate-100',
+  /** Standard program card image (catalog, grids) */
+  programImage:
+    'relative aspect-[16/10] sm:aspect-[16/9] max-h-48 overflow-hidden bg-slate-100',
   /** Card image container — 4:3 */
   image4x3: 'relative aspect-[4/3] overflow-hidden',
   /** Card body padding */
@@ -146,8 +149,10 @@ export const ICC_INSTRUCTION =
 // ─── Responsive grid presets ─────────────────────────────────────────────────
 
 export const grid = {
-  /** 1 → 2 → 4 program cards */
-  programs: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5',
+  /** 1 → 2 → 3 program cards (avoids overly wide cards on desktop) */
+  programs: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto',
+  /** Homepage featured pathways — 2–3 columns */
+  homePrograms: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4',
   /** 1 → 2 → 3 content cards */
   cards3: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5',
   /** 1 → 2 content cards */
