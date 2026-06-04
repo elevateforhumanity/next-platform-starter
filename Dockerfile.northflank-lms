@@ -32,18 +32,20 @@ COPY packages/db/package.json packages/db/package.json
 COPY packages/shared/package.json packages/shared/package.json
 COPY packages/ui/package.json packages/ui/package.json
 
-# See Dockerfile.northflank-admin — avoid separate `pnpm fetch` (ERR_PNPM_ENOSPC on ~2GB builders).
+# See Dockerfile.northflank-admin - avoid separate `pnpm fetch` (ERR_PNPM_ENOSPC on ~2GB builders).
 COPY . .
 
 ENV HUSKY=0
 ENV CI=true
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN pnpm config set store-dir /app/.pnpm-store \
     && pnpm install --frozen-lockfile \
     && pnpm store prune
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-# nf-compute-800-32 builder — full LMS graph (do not set BUILD_SCOPE=1 here;
+# nf-compute-800-32 builder - full LMS graph (do not set BUILD_SCOPE=1 here;
 # scoped builds pull server-only json-cache into client chunks and fail webpack).
 ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
