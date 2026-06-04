@@ -87,7 +87,7 @@ else
     | grep -v "^scripts/\|^_archived/\|^tools/\|^supabase/\|^tests/" \
     | grep -v "node_modules" \
     | ([ -f "$BASELINE_FILE" ] && grep -vFf "$BASELINE_FILE" || cat) \
-    | tr '\n' ' ')
+    | xargs)
   if [ -z "$LINTABLE" ]; then
     echo "  ✅ ESLint: only ignored/baselined files changed, skipping."
   else
