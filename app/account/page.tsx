@@ -32,9 +32,15 @@ const accountSections = [
   },
   {
     title: 'Billing & Payments',
-    description: 'Manage payment methods and view invoices',
+    description: 'Plan, add-ons, invoices, and payment methods',
     href: '/account/billing',
     icon: CreditCard,
+  },
+  {
+    title: 'Your SaaS Plan',
+    description: 'View plan tier and enabled features',
+    href: '/account/plan',
+    icon: Settings,
   },
   {
     title: 'Licenses & Certificates',

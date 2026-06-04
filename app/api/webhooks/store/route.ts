@@ -259,6 +259,15 @@ async function _POST(req: NextRequest) {
     if (metadata.checkout_type === 'platform_saas' && metadata.tenant_id) {
       const adminDb = await requireAdminClient();
       if (adminDb) {
+        let currentPeriodEnd: string | undefined;
+        if (typeof session.subscription === 'string' && stripe) {
+          try {
+            const sub = await stripe.subscriptions.retrieve(session.subscription);
+            currentPeriodEnd = new Date(sub.current_period_end * 1000).toISOString();
+          } catch (e) {
+            logger.warn('platform_saas: could not load subscription period', e as Error);
+          }
+        }
         const { fulfillPlatformSaasSubscription } = await import('@/lib/platform/fulfillment');
         const result = await fulfillPlatformSaasSubscription(adminDb, {
           user_id: metadata.user_id || userId || '',
@@ -269,6 +278,7 @@ async function _POST(req: NextRequest) {
           stripe_subscription_id:
             typeof session.subscription === 'string' ? session.subscription : undefined,
           stripe_customer_id: typeof session.customer === 'string' ? session.customer : undefined,
+          current_period_end: currentPeriodEnd,
         });
         logger.info('platform_saas fulfillment', { result, tenantId: metadata.tenant_id });
       }

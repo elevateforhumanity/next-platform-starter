@@ -1,80 +1,88 @@
-# Platform SaaS Blueprint (Elevate)
+# Platform SaaS Blueprint (Phase 1) — Elevate
 
-Elevate already implements most of the “full code” scope as a production LMS + workforce platform (~516 Supabase tables, multi-tenant `tenants`, `licenses.features`, provisioning, Stripe). This document maps the **simplified go-to-market pricing** onto that architecture.
+Build on the existing Next.js + Supabase + `tenants` / `licenses` stack. Do **not** greenfield a second LMS.
 
-## Pricing (canonical)
+## Database (run manually)
 
-Source: `lib/store/platform-pricing.ts`
+`supabase/migrations/20260702000017_saas_subscription_foundation.sql`
 
-| Plan | Monthly | Annual |
-|------|--------:|-------:|
-| Solo | $29 | $290 |
-| Business | $59 | $590 |
-| Professional | $99 | $990 |
+| Table | Purpose |
+|-------|---------|
+| `subscription_plans` | Solo / Business / Professional catalog |
+| `features` | Feature codes (`crm`, `lms`, `workforce`, …) |
+| `plan_features` | M:N plan → features |
+| `saas_addon_catalog` | Add-on SKUs + `feature_codes[]` |
+| `organization_subscriptions` | One row per org (`organization_id` → `tenants.id`) |
+| `addon_subscriptions` | Active add-ons per org |
 
-Add-ons are sold separately via the marketplace on `/store/plans#addons`.
+Legacy bridge: `organization_addons` (tenant_id) still written during checkout.
 
-## Feature flags
+## Feature catalog (code)
 
-Canonical keys: `lib/platform/features.ts` (`PlatformFeature`).
+`lib/platform/feature-catalog.ts` — `FEATURES`, `ADDONS`, `PLAN_FEATURE_FALLBACK`
 
-Runtime check (tenant license):
-
-```typescript
-import { hasFeature } from '@/lib/middleware/withLicense';
-const allowed = await hasFeature(tenantId, 'lms');
-```
-
-Resolve entitlements from plan + add-ons:
+## Entitlements API
 
 ```typescript
-import { resolveEntitlements } from '@/lib/platform/entitlements';
-const { features, maxUsers } = resolveEntitlements('business', ['workforce-development']);
+import { FEATURES } from '@/lib/platform/feature-catalog';
+import { requireFeature, getOrganizationFeatures } from '@/lib/platform/organization-features';
+
+// API route
+await requireFeature(tenantId, FEATURES.WORKFORCE);
+
+// Or helper
+import { apiRequireOrganizationFeature } from '@/lib/api/require-organization-feature';
+const blocked = await apiRequireOrganizationFeature(tenantId, FEATURES.LMS);
+if (blocked instanceof NextResponse) return blocked;
 ```
 
-After Stripe checkout, fulfillment writes `licenses.features` and `organization_addons` rows: `lib/platform/fulfillment.ts`.
+`licenses.features` stays in sync via `lib/platform/sync-license-from-saas.ts` for existing `withLicense` middleware.
 
-## Database mapping (existing + new)
+## Checkout
 
-| Concept | Elevate table / mechanism |
-|---------|---------------------------|
-| Organizations | `tenants` |
-| Users | `auth.users` + `profiles` (`tenant_id`) |
-| Plans / subscriptions | `licenses` (`tier`, `stripe_subscription_id`, `features[]`) |
-| Add-ons | `organization_addons` (migration `20260702000016`) |
-| CRM, courses, WIOA, apprenticeship | Existing domain tables (contacts, `courses`, `program_enrollments`, `progress_entries`, etc.) |
+- Store UI: `/store/plans`
+- API: `POST /api/store/platform-checkout`
+- Webhook: `checkout_type=platform_saas` → `fulfillPlatformSaasSubscription`
 
-Recommended future tables (optional, not required for v1 pricing UI):
+## Admin UI (admin subdomain)
 
-- `saas_plans` — mirror catalog in DB for admin editing
-- `usage_meters` — SMS/storage overage
+| Path | Purpose |
+|------|---------|
+| `/admin/billing` | Overview |
+| `/admin/billing/plans` | Plan catalog |
+| `/admin/billing/addons` | Add-on catalog |
+| `/admin/billing/subscriptions` | Org subscriptions |
+| `/admin/billing/licenses` | Link to legacy licenses |
+| `/admin/billing/usage` | Phase 2 metering |
+| `/admin/billing/invoices` | Phase 2 |
+| `/admin/billing/feature-flags` | Feature code list |
 
-## Checkout flow
+## Customer UI (www)
 
-1. Customer selects plan + add-ons on `/store/plans`
-2. `POST /api/store/platform-checkout` → Stripe Checkout (subscription)
-3. `checkout.session.completed` → `app/api/webhooks/store` → `fulfillPlatformSaasSubscription`
+| Path | Purpose |
+|------|---------|
+| `/account/billing` | Existing billing hub |
+| `/account/plan` | Current plan + features |
+| `/account/addons` | Active + catalog |
+| `/account/invoices` | Stripe portal |
+| `/account/payment-methods` | Stripe portal |
 
-**Requirement:** User’s `profiles.tenant_id` must be set (create org via `/store/trial` first if needed).
+API: `GET /api/account/subscription`
 
-## Comparison to Marblism
+## Pricing strategy (your model)
 
-| Marblism | Elevate |
-|----------|---------|
-| Prompt-to-app SaaS builder | Operational workforce + beauty/trades LMS |
-| Next.js + Supabase + Stripe greenfield | Same stack, domain-specific modules already built |
-| AI employees / app generation | AI tutor, Dev Studio, content tools (different product lane) |
+- **Low entry:** Solo $29 → Business $59 → Professional $99  
+- **Upsell:** Workforce $99, Apprenticeship $99, Student Mgmt $49, White-label mobile $199  
+- Natural expansion path to **$250–500/mo** without a $199+ upfront wall  
 
-Elevate is closer to **GoHighLevel + TalentLMS + apprenticeship compliance** than a generic app generator.
+## Phase 2 (next modules)
 
-## Module delivery order (recommended)
+1. Route-level gates on workforce / apprenticeship / student APIs  
+2. Stripe metered billing (SMS, storage)  
+3. `usage_meters` table + admin usage dashboard  
+4. Coupons + annual Stripe Price IDs in catalog  
+5. Admin edit UI for plans (not SQL-only seed)
 
-1. ✅ Pricing catalog + store UI + checkout API  
-2. Apply migrations `20260702000015`, `20260702000016` in Supabase SQL Editor  
-3. Gate routes with `hasFeature` / `withLicense` per module  
-4. Metered SMS/storage (Stripe usage records)  
-5. Admin UI to view/edit `organization_addons` per tenant  
+## vs Marblism / GoHighLevel
 
-## Migrations (manual)
-
-- `supabase/migrations/20260702000016_organization_addons.sql`
+Elevate already has the domain modules; Phase 1 adds the **monetization and entitlement layer** they sell as generated apps.
