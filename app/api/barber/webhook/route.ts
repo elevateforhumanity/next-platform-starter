@@ -16,6 +16,7 @@ import {
 
 import { withRuntime } from '@/lib/api/withRuntime';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
+import { createBarberWeeklySubscriptionAfterCheckout } from '@/lib/barber/create-weekly-subscription';
 import { STRIPE_BNPL_PAYMENT_METHODS } from '@/lib/bnpl-config';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -491,6 +492,33 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Weekly invoices will arrive ev
           }).select('id').maybeSingle();
           if (subRecordError) {
             logger.error('barber_subscriptions insert error:', new Error(subRecordError.message));
+          }
+
+          // Payment plan: create weekly Stripe subscription (same as barber_full_tuition path)
+          if (!fullyPaid && weeklyPaymentCents > 0 && weeksRemaining > 0) {
+            const billing = await createBarberWeeklySubscriptionAfterCheckout({
+              stripe,
+              supabase,
+              session,
+              customerId,
+              customerEmail,
+              applicationId,
+              weeklyPaymentCents,
+              invoiceWeeks: weeksRemaining,
+              fullyPaid,
+            });
+            if (billing.error) {
+              try {
+                const { sendEmail } = await import('@/lib/email/sendgrid');
+                await sendEmail({
+                  to: 'elevate4humanityedu@gmail.com',
+                  subject: '⚠️ Weekly billing setup failed — manual action required',
+                  html: `<p>Student: ${customerEmail}<br>Customer ID: ${customerId}<br>Weekly: $${(weeklyPaymentCents / 100).toFixed(2)}<br>Weeks: ${weeksRemaining}</p><p>Error: ${billing.error}</p>`,
+                });
+              } catch {
+                /* non-fatal */
+              }
+            }
           }
 
           // Update applications.payment_status so the admin approval gate passes

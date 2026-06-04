@@ -224,6 +224,7 @@ export const PROGRAMS: ProgramEntry[] = [
     category: 'Barber & Beauty',
     formType: 'apply',
     active: true,
+    dedicatedApplyPage: '/programs/nail-technician-apprenticeship/apply',
   },
   {
     slug: 'beauty-career-educator',

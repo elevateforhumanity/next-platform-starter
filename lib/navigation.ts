@@ -49,9 +49,14 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'CDL Training', href: '/programs/cdl-training' },
       { name: 'All Trades →', href: '/programs/skilled-trades', isSectionLink: true },
 
-      { name: '— Beauty (overview) —', href: '/programs#cat-beauty', isHeader: true },
-      { name: 'Beauty & Cosmetology Hub', href: '/programs#cat-beauty' },
+      { name: '— Beauty & Apprenticeships —', href: '/programs#cat-beauty', isHeader: true },
+      { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
+      { name: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
+      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Beauty & Cosmetology Hub', href: '/programs#cat-beauty', isSectionLink: true },
       { name: 'Beauty & Career Educator', href: '/programs/beauty-career-educator' },
+      { name: 'All apprenticeships →', href: '/apprenticeships', isSectionLink: true },
 
       { name: '— Technology —', href: '/programs/technology', isHeader: true },
       { name: 'IT Help Desk', href: '/programs/it-help-desk' },

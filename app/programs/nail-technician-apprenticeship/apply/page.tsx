@@ -58,8 +58,9 @@ export default function NailApplyIndexPage() {
             icon={<Sparkles className="w-6 h-6 text-purple-600" />}
             title="I'm an Apprentice"
             description="I want to enroll in the nail technician apprenticeship program as a student."
-            enrollHref="/apply?program=nail-technician-apprenticeship&type=enrollment"
+            enrollHref="/programs/nail-technician-apprenticeship/apply/apprentice"
             inquiryHref="/contact?program=nail-technician-apprenticeship"
+            routeFundedToEnrollment
             accentColor="brand-red"
           />
 

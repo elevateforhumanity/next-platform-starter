@@ -41,6 +41,8 @@ interface Props {
   description: string;
   enrollHref: string;
   inquiryHref: string;
+  /** When true, funded paths go to enrollHref with ?funding= instead of inquiry only */
+  routeFundedToEnrollment?: boolean;
   /** Tailwind color prefix, e.g. 'brand-red' */
   accentColor?: string;
 }
@@ -65,8 +67,10 @@ export default function FundingGateCard({
     }
     if (SELF_PAY_VALUES.has(funding)) {
       router.push(enrollHref);
+    } else if (routeFundedToEnrollment) {
+      const join = enrollHref.includes('?') ? '&' : '?';
+      router.push(`${enrollHref}${join}funding=${encodeURIComponent(funding)}`);
     } else {
-      // Pass funding type so the inquiry form can pre-fill it
       router.push(`${inquiryHref}?funding=${encodeURIComponent(funding)}`);
     }
   };
