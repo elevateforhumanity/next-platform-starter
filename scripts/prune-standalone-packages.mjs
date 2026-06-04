@@ -35,9 +35,8 @@ export const SHARED_STANDALONE_PRUNE_PACKAGES = [
   'html2canvas',
   'node-pty',
   'canvas',
-  '@napi-rs',
+  // Do NOT prune @napi-rs or pdfjs-dist globally — admin document APIs need them (pdf-parse → pdfjs-dist).
   'jspdf',
-  'pdfjs-dist',
   'fontkit',
   'hyphen',
   'mediabunny',
@@ -71,6 +70,8 @@ export const LMS_ONLY_STANDALONE_PRUNE_PACKAGES = [
   '@rspack',
   'pdf-parse',
   'pdfkit',
+  'pdfjs-dist',
+  '@napi-rs/canvas',
 ];
 
 /** Admin-only extras (Remotion kept for lesson video API). */

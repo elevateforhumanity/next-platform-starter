@@ -16,6 +16,8 @@ const nextConfig = {
     'tesseract.js-core',
     'sharp',
     'pdf-parse',
+    'pdfjs-dist',
+    '@napi-rs/canvas',
     'pdfkit',
     'pdf-lib',
     'jspdf',

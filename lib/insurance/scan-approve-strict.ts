@@ -1,4 +1,3 @@
-import pdf from 'pdf-parse';
 import { ocrPdfFirstPages } from './ocr';
 import { validateCoiText, type CoiTextValidationResult } from './validate-coi-text';
 
@@ -35,9 +34,10 @@ export async function scanApproveStrict(args: {
   let method: StrictInsuranceDecision['method'] = 'PDF_TEXT';
   let ocrConfidence: number | undefined;
 
-  // 1) Try native PDF text extraction
+  // 1) Try native PDF text extraction (pdf-parse → pdfjs-dist; needs @napi-rs/canvas in admin runtime)
   try {
-    const parsed = await pdf(args.pdfBuffer);
+    const pdfParse = (await import('pdf-parse')).default;
+    const parsed = await pdfParse(args.pdfBuffer);
     extractedText = parsed.text || '';
   } catch {
     extractedText = '';
