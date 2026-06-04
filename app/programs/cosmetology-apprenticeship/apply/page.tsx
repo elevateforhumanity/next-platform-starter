@@ -61,6 +61,7 @@ export default function CosmetologyApplyIndexPage() {
             description="I want to enroll in the cosmetology apprenticeship program as a student."
             enrollHref="/programs/cosmetology-apprenticeship/apply/apprentice"
             inquiryHref="/programs/cosmetology-apprenticeship/request-info"
+            routeFundedToEnrollment
             accentColor="brand-red"
           />
 
