@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Program } from '@/lib/programs/programs.data';
 import { getProgramCardImage } from '@/lib/images/programImages';
 import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
+import { card } from '@/lib/page-design-tokens';
 
 /**
  * Standard program card — system-locked structure.
@@ -13,7 +14,7 @@ export default function ProgramCard({ program }: { program: Program }) {
   return (
     <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
       {/* Flush top image — 16:9 */}
-      <div className="relative aspect-[16/9] overflow-hidden">
+      <div className={card.programImage}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
         <Image
           src={resolveSiteImagePath(

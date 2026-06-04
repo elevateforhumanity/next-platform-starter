@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
-import { card, layout } from '@/lib/page-design-tokens';
+import { card, grid, layout } from '@/lib/page-design-tokens';
 
 // Featured programs shown on homepage - ordered by demand/visibility
 const FEATURED_SLUGS = [
@@ -53,7 +53,7 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
   return (
     <article className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200 hover:border-brand-red-300 hover:shadow-lg transition-all hover:-translate-y-0.5">
       {/* Image */}
-      <div className={card.image16x9Desktop}>
+      <div className={card.programImage}>
         <Image
           src={prog.heroImage}
           alt={prog.heroImageAlt || prog.title}
@@ -169,7 +169,7 @@ export function HomeCareerPathways() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className={grid.homePrograms}>
           {featured.map((prog) => (
             <PathwayCard key={prog.slug} prog={prog} />
           ))}

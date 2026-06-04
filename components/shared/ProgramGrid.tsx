@@ -15,7 +15,7 @@ interface ProgramGridProps {
 const GRID: Record<number, string> = {
   2: 'grid grid-cols-1 sm:grid-cols-2 gap-5',
   3: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5',
-  4: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5',
+  4: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-6xl mx-auto',
 };
 
 export default function ProgramGrid({ programs, cols = 3 }: ProgramGridProps) {
