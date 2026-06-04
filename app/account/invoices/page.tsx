@@ -1,12 +1,5 @@
 'use client';
 
-import type { Metadata } from 'next';
-
-export const metadata = {
-  title: 'Invoices | Account',
-  robots: { index: false, follow: false },
-};
-
 import { useState } from 'react';
 import { AccountBillingShell } from '@/components/billing/AccountBillingShell';
 import { Loader2 } from 'lucide-react';
