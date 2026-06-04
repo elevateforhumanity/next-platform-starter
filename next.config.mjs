@@ -262,6 +262,11 @@ const nextConfig = {
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
       // /for-students has a dedicated public page — no redirect
+      {
+        source: '/store/codebase-clone',
+        destination: '/store/licenses#clone',
+        permanent: false,
+      },
       { source: '/forgotpassword', destination: '/reset-password', permanent: true },
       { source: '/resetpassword', destination: '/reset-password', permanent: true },
       { source: '/verifyemail', destination: '/verify-email', permanent: true },

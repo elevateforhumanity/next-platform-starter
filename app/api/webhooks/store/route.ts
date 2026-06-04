@@ -254,6 +254,25 @@ async function _POST(req: NextRequest) {
     if (metadata.delivery === 'digital' && userId && productId) {
       await unlockDownload(userId, productId, stripePaymentId);
     }
+
+    // ── Platform SaaS (Solo / Business / Professional + add-ons) ─────────
+    if (metadata.checkout_type === 'platform_saas' && metadata.tenant_id) {
+      const adminDb = await requireAdminClient();
+      if (adminDb) {
+        const { fulfillPlatformSaasSubscription } = await import('@/lib/platform/fulfillment');
+        const result = await fulfillPlatformSaasSubscription(adminDb, {
+          user_id: metadata.user_id || userId || '',
+          tenant_id: metadata.tenant_id,
+          plan_id: metadata.plan_id as 'solo' | 'business' | 'professional',
+          billing_interval: (metadata.billing_interval || 'monthly') as 'monthly' | 'annual',
+          addon_slugs: metadata.addon_slugs,
+          stripe_subscription_id:
+            typeof session.subscription === 'string' ? session.subscription : undefined,
+          stripe_customer_id: typeof session.customer === 'string' ? session.customer : undefined,
+        });
+        logger.info('platform_saas fulfillment', { result, tenantId: metadata.tenant_id });
+      }
+    }
   }
 
   // Handle invoice.payment_succeeded (for enterprise invoices)

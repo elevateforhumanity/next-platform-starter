@@ -895,6 +895,8 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 - **14-day app trials:** `/apps/{website-builder|sam-gov|grants}/start-trial` → `lib/trial/start-app-trial.ts` (admin insert into `user_app_subscriptions`).
 - **Individual paid plans:** `lib/apps/individual-app-plans.ts` + `IndividualAppPlansSection` on store pages; checkout via `POST /api/apps/upgrade`.
+- **Org SaaS plans (Solo/Business/Professional):** `lib/store/platform-pricing.ts`, `/store/plans`, checkout `POST /api/store/platform-checkout`, entitlements `lib/platform/entitlements.ts`, blueprint `docs/platform-saas-blueprint.md`.
+- **Beauty vertical store:** `/store/beauty-programs` → `/store/plans?vertical=beauty`.
 - **Import website:** `/import` → `POST /api/ai/import-site` (auth required). Builder: `/apps/website-builder`.
 - **DB:** Apply `supabase/migrations/20260702000015_individual_app_subscriptions.sql` if trials or “New Website” fail (missing `app_slug` / RLS).
 

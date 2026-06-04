@@ -33,6 +33,11 @@ const SUBSCRIPTION_TIERS = new Set([
   'org_annual',
   'team_monthly',
   'team_annual',
+  // SaaS base plans (store/plans)
+  'solo_monthly',
+  'solo_annual',
+  'business_monthly',
+  'business_annual',
 ]);
 
 // DB tiers that MUST have expires_at (time-boxed)
