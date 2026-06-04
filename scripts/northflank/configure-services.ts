@@ -6,7 +6,7 @@
  *   - Dockerfile paths for LMS and Admin
  *   - BuildKit registry cache
  *   - runtime defaults
- *   - lightweight /api/ping readiness probes
+ *   - HTTP startup + readiness probes on /api/ping:8080 (both LMS and Admin)
  *
  * Usage:
  *   pnpm tsx scripts/northflank/configure-services.ts --dry-run
@@ -166,8 +166,15 @@ async function main() {
       const appliedStorage =
         response?.buildSettings?.storage?.ephemeralStorage?.storageSize ??
         ephemeralStorageSize;
+      const probes = Array.isArray(response?.healthChecks) ? response.healthChecks : healthChecks;
+      const probeSummary = probes
+        .map(
+          (p: { type?: string; path?: string; port?: number }) =>
+            `${p.type ?? '?'}:${p.path ?? '?'}:${p.port ?? '?'}`,
+        )
+        .join(', ');
       console.log(
-        `[patch-ok] ${service.id} buildPlan=${appliedBuild} deploymentPlan=${appliedRuntime} buildEphemeralMB=${appliedStorage}`,
+        `[patch-ok] ${service.id} buildPlan=${appliedBuild} deploymentPlan=${appliedRuntime} buildEphemeralMB=${appliedStorage} health=[${probeSummary}]`,
       );
     }
   }
