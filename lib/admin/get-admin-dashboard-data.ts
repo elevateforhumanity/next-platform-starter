@@ -4,8 +4,9 @@
 // No synthetic stats, no fake deltas.
 
 // SitePreviewTarget is defined in @/components/admin/dashboard/types — import from there.
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
+import { getDegradedAdminDashboardData } from '@/lib/admin/degraded-dashboard-data';
 import { logger } from '@/lib/logger';
 import {
   calculatePriorityScore,
@@ -109,8 +110,24 @@ function lastMonthEnd() {
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
-  const supabase = await createClient();
-  const adminClient = await requireAdminClient();
+  try {
+    return await loadAdminDashboardData();
+  } catch (err) {
+    logger.error('[getAdminDashboardData] fatal — returning degraded dashboard', err);
+    return getDegradedAdminDashboardData();
+  }
+}
+
+async function loadAdminDashboardData(): Promise<AdminDashboardData> {
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch (err) {
+    logger.error('[getAdminDashboardData] createClient failed', err);
+    return getDegradedAdminDashboardData();
+  }
+
+  const adminClient = await getAdminClient();
   // Fall back to the anon client if the service role key is absent.
   // Queries that require elevated privileges will return empty results
   // rather than crashing the entire dashboard.
