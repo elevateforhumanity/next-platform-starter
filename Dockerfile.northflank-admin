@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 # Dockerfile.northflank-admin
 #
 # Builds apps/admin on Northflank (combined CI/CD).
@@ -19,6 +20,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
 WORKDIR /app
 
 # Monorepo: pnpm needs all workspace package.json files (apps/*, packages/*) before install.
@@ -26,7 +30,9 @@ COPY . .
 
 ENV HUSKY=0
 ENV CI=true
-RUN pnpm install --frozen-lockfile --package-import-method=copy
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+    pnpm config set store-dir /pnpm/store \
+    && pnpm install --frozen-lockfile --package-import-method=copy
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
