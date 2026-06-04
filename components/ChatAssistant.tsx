@@ -52,6 +52,20 @@ export default function ChatAssistant({
 
   useEffect(scrollToBottom, [messages]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isOpen]);
+
   // Initialize with welcome message
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -178,10 +192,10 @@ export default function ChatAssistant({
     }
   };
 
-  if (!isOpen) return null;
-  {
+  if (!isOpen) {
     return (
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         className="chat-assistant-button"
         style={{
@@ -258,6 +272,7 @@ export default function ChatAssistant({
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
+            type="button"
             onClick={() => setIsMinimized(!isMinimized)}
             style={{
               background: 'transparent',
@@ -273,6 +288,7 @@ export default function ChatAssistant({
             {isMinimized ? <Maximize2 size={20} /> : <Minimize2 size={20} />}
           </button>
           <button
+            type="button"
             onClick={() => setIsOpen(false)}
             style={{
               background: 'transparent',
