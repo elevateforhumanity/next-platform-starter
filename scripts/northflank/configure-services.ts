@@ -76,8 +76,9 @@ function resolveEphemeralStorageMb(): number {
   return resolved;
 }
 
+// Do not default runtime to nf-compute-100-2 — every deploy would downgrade production (400 → 100).
 const billing = {
-  deploymentPlan: process.env.NORTHFLANK_DEPLOYMENT_PLAN || 'nf-compute-100-2',
+  deploymentPlan: process.env.NORTHFLANK_DEPLOYMENT_PLAN || 'nf-compute-400',
   buildPlan: process.env.NORTHFLANK_BUILD_PLAN || 'nf-compute-800-32',
 };
 
@@ -86,12 +87,22 @@ const ephemeralStorageSize = resolveEphemeralStorageMb();
 const healthChecks = [
   {
     protocol: 'HTTP',
+    type: 'startupProbe',
+    path: '/api/ping',
+    port: 8080,
+    initialDelaySeconds: 90,
+    periodSeconds: 10,
+    timeoutSeconds: 10,
+    failureThreshold: 18,
+  },
+  {
+    protocol: 'HTTP',
     type: 'readinessProbe',
     path: '/api/ping',
     port: 8080,
     initialDelaySeconds: 30,
     periodSeconds: 10,
-    timeoutSeconds: 5,
+    timeoutSeconds: 10,
     failureThreshold: 6,
     successThreshold: 1,
   },
@@ -140,10 +151,24 @@ async function main() {
     );
 
     if (!dryRun) {
-      await nfFetch(combinedServicePatchPath(projectId, service.id), {
+      const response = await nfFetch(combinedServicePatchPath(projectId, service.id), {
         method: 'PATCH',
         body: JSON.stringify(patch),
       });
+      const appliedBuild =
+        response?.billing?.buildPlan ??
+        response?.buildSettings?.billing?.buildPlan ??
+        billing.buildPlan;
+      const appliedRuntime =
+        response?.billing?.deploymentPlan ??
+        response?.deployment?.billing?.deploymentPlan ??
+        billing.deploymentPlan;
+      const appliedStorage =
+        response?.buildSettings?.storage?.ephemeralStorage?.storageSize ??
+        ephemeralStorageSize;
+      console.log(
+        `[patch-ok] ${service.id} buildPlan=${appliedBuild} deploymentPlan=${appliedRuntime} buildEphemeralMB=${appliedStorage}`,
+      );
     }
   }
 
