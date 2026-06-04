@@ -22,6 +22,11 @@ const POLICIES = [
   { title: 'Grievance Policy', href: '/grievance', desc: 'How to file and resolve a grievance.' },
   { title: 'Equal Opportunity', href: '/equal-opportunity', desc: 'Non-discrimination and equal access statement.' },
   { title: 'Federal Compliance', href: '/federal-compliance', desc: 'WIOA, Title IX, ADA compliance.' },
+  {
+    title: 'WIOA / INTraining ETPL forms',
+    href: '/compliance/wioa',
+    desc: 'IEAP (new programs) and Section 188 checklists — per program.',
+  },
   { title: 'Accessibility', href: '/accessibility', desc: 'Platform and facility accessibility standards.' },
 ];
 

@@ -77,6 +77,12 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
               <BarChart3 className="w-4 h-4" /> Dashboard
             </Link>
             <Link
+              href={`/admin/compliance/wioa-etpl/${program.id}`}
+              className="inline-flex items-center gap-1.5 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors"
+            >
+              WIOA compliance
+            </Link>
+            <Link
               href={`/admin/programs/${code}/manage`}
               className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
             >

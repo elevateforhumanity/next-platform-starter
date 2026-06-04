@@ -38,6 +38,7 @@ function getPriority(route: string): number {
   if (route.startsWith('/apps')) return 0.8;
   if (route === '/mobile-app' || route === '/install-app') return 0.7;
   if (route.startsWith('/blog') || route.startsWith('/resources')) return 0.7;
+  if (route.startsWith('/compliance/wioa')) return 0.5;
   if (route.startsWith('/policies') || route.startsWith('/legal/privacy') || route.startsWith('/legal'))
     return 0.4;
   return 0.6;
@@ -57,6 +58,7 @@ function getChangeFreq(
   // State-specific pages update monthly
   if (route.startsWith('/career-training-') || route.startsWith('/community-services-'))
     return 'monthly';
+  if (route.startsWith('/compliance/wioa')) return 'monthly';
   if (route.startsWith('/policies') || route.startsWith('/legal/privacy')) return 'yearly';
   return 'monthly';
 }
@@ -168,6 +170,9 @@ const STATIC_ROUTES = [
   '/it-certification-training-indianapolis',
   '/employer-workforce-partnerships-indiana',
   '/agency-referral-workforce-training-indiana',
+  '/compliance/wioa',
+  '/compliance/wioa/initial-eligibility-aggregate-performance',
+  '/compliance/wioa/section-188-equal-opportunity-checklist',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -196,7 +201,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((slug) => !staticProgramRoutes.has(slug))
     .map((slug) => `/programs/${slug}`);
 
-  const allRoutes = [...STATIC_ROUTES, ...dynamicProgramRoutes];
+  const wioaProgramRoutes = programSlugs.flatMap((slug) => [
+    `/compliance/wioa/programs/${slug}`,
+    `/compliance/wioa/programs/${slug}/initial-eligibility-aggregate-performance`,
+    `/compliance/wioa/programs/${slug}/section-188-equal-opportunity-checklist`,
+  ]);
+
+  const allRoutes = [...STATIC_ROUTES, ...dynamicProgramRoutes, ...wioaProgramRoutes];
 
   return allRoutes.map((route) => ({
     url: `${ELEVATE_URL}${route === '/' ? '' : route}`,

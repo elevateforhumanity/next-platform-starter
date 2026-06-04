@@ -208,6 +208,7 @@ export const DEFAULT_NAV: NavSection[] = [
     href: '/admin/compliance',
     items: [
       { label: 'Compliance', href: '/admin/compliance' },
+      { label: 'WIOA / ETPL Forms', href: '/admin/compliance/wioa-etpl' },
       { label: 'Audit Logs', href: '/admin/audit-logs' },
       { label: 'Accreditation', href: '/admin/accreditation' },
       { label: 'Governance', href: '/admin/governance' },
