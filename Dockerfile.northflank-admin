@@ -37,7 +37,7 @@ ENV BUILD_SCOPE=1
 # admin client bundle. Northflank must provide the real anon key as a build arg
 # or build-time secret; otherwise /api/health reports a placeholder config.
 ARG NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1eHp6cHN5dWZjZXd0bWljc3prIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNjEwNDcsImV4cCI6MjA3MzczNzA0N30.DyFtzoKha_tuhKiSIPoQlKonIpaoSYrlhzntCUvLUnA
 ARG NEXT_PUBLIC_ADMIN_URL=https://admin.elevateforhumanity.org
 ARG NEXT_PUBLIC_SITE_URL=https://admin.elevateforhumanity.org
 ARG NEXT_PUBLIC_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
