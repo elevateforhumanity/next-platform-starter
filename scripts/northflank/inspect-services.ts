@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { nfFetch, projectApiPath, resolveProjectId } from './lib';
+import { combinedServicePatchPath, nfFetch, projectApiPath, resolveProjectId } from './lib';
 
 type NorthflankService = {
   serviceType?: string;
@@ -46,7 +46,11 @@ type NorthflankService = {
       };
     };
   };
-  healthChecks?: unknown[];
+  healthChecks?: Array<{ type?: string; path?: string; port?: number }>;
+};
+
+type CombinedService = {
+  healthChecks?: Array<{ type?: string; path?: string; port?: number }>;
 };
 
 async function main() {
@@ -54,6 +58,15 @@ async function main() {
   if (!pid) process.exit(1);
   for (const sid of ['elevate-admin', 'elevate-lms']) {
     const s = await nfFetch<NorthflankService>(projectApiPath(pid, `/services/${sid}`));
+    let combinedHealth: CombinedService['healthChecks'];
+    try {
+      const combined = await nfFetch<CombinedService>(combinedServicePatchPath(pid, sid), {
+        method: 'GET',
+      });
+      combinedHealth = combined.healthChecks;
+    } catch {
+      combinedHealth = undefined;
+    }
     const dockerfile =
       s.vcsData?.dockerFilePath ??
       s.buildSettings?.dockerfile?.dockerFilePath ??
@@ -82,7 +95,9 @@ async function main() {
                 deployedSHA: s.deployment.internal.deployedSHA ?? null,
               }
             : null,
-          healthChecks: Array.isArray(s.healthChecks) ? s.healthChecks.length : null,
+          healthChecks:
+            combinedHealth?.map((p) => `${p.type}:${p.path}:${p.port}`) ??
+            (Array.isArray(s.healthChecks) ? s.healthChecks : null),
           lastTransitionTime:
             s.deploymentStatus?.lastTransitionTime ?? s.deploymentStatus?.updatedAt ?? null,
         },
