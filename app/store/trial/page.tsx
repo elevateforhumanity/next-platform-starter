@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { BEAUTY_TRIAL_PROGRAMS_PREFILL } from '@/lib/store/beauty-dashboard-clone';
 import Image from 'next/image';
 import {
   ArrowRight, Clock, Shield, Loader2, AlertCircle,
@@ -40,7 +42,8 @@ const CHECKLIST_EXISTING = [
   { label: 'Launch', desc: 'Go live — trial data carries over' },
 ];
 
-export default function TrialPage() {
+function TrialPageContent() {
+  const searchParams = useSearchParams();
   const [orgName, setOrgName] = useState('');
   const [adminName, setAdminName] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
@@ -48,6 +51,12 @@ export default function TrialPage() {
   const [existingUrl, setExistingUrl] = useState('');
   const [programs, setPrograms] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('vertical') === 'beauty') {
+      setPrograms((prev) => (prev.trim() ? prev : BEAUTY_TRIAL_PROGRAMS_PREFILL));
+    }
+  }, [searchParams]);
   const [error, setError] = useState<string | null>(null);
   const [correlationId, setCorrelationId] = useState<string | null>(null);
   const [result, setResult] = useState<TrialResult | null>(null);
@@ -325,11 +334,26 @@ export default function TrialPage() {
                 <p className="text-sm text-slate-500">Want to see the platform first?{' '}
                   <Link href="/store/demos" className="text-brand-red-600 font-medium hover:underline">Open full demo →</Link>
                 </p>
+                <p className="text-sm text-slate-500">Beauty schools & salons?{' '}
+                  <Link href="/store/beauty-programs" className="text-brand-red-600 font-medium hover:underline">Dashboard clone for beauty programs →</Link>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+export default function TrialPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center text-slate-600">Loading trial…</div>
+      }
+    >
+      <TrialPageContent />
+    </Suspense>
   );
 }

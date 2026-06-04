@@ -21,6 +21,12 @@ export default function AdminDemoPage() {
             </div>
           </div>
           <Link
+            href="/store/beauty-programs"
+            className="bg-slate-700 text-white px-4 py-2 rounded-lg font-bold hover:bg-slate-800 transition text-sm"
+          >
+            Beauty schools
+          </Link>
+          <Link
             href="/store/licenses"
             className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition"
           >

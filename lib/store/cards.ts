@@ -87,9 +87,9 @@ export const primaryCards: StoreCard[] = [
   {
     id: 'subscriptions',
     title: 'Plans & Pricing',
-    subtitle: 'Subscriptions & Checkout',
-    description: 'View pricing plans, manage subscriptions, and complete purchases.',
-    href: '/store/subscriptions',
+    subtitle: 'Solo · Business · Professional',
+    description: 'Base plans from $29/mo plus add-on marketplace for LMS, workforce, and apprenticeship.',
+    href: '/store/plans',
     image: '/images/pages/store-recommendations.webp',
     icon: 'credit-card',
     tourId: 'store-card-pricing',
@@ -116,6 +116,21 @@ export const secondaryCards: StoreCard[] = [
     tourDescription: 'Access WIOA, FERPA, and WCAG compliance tools for workforce programs.',
   },
   {
+    id: 'beauty-dashboard',
+    title: 'Beauty Dashboard Clone',
+    subtitle: 'For Outside Schools',
+    description:
+      'White-label admin dashboard for barber, cosmetology, esthetician, and nail programs. 14-day org trial.',
+    href: '/store/beauty-programs',
+    image: '/images/pages/barber-gallery-1.webp',
+    icon: 'server',
+    tourId: 'store-card-beauty-dashboard',
+    tier: 'secondary',
+    order: 7,
+    tourDescription:
+      'License a branded admin dashboard clone for beauty schools and training providers outside your network.',
+  },
+  {
     id: 'programs',
     title: 'Training Programs',
     subtitle: 'WIOA-Funded Training',
@@ -125,7 +140,7 @@ export const secondaryCards: StoreCard[] = [
     icon: 'users',
     tourId: 'store-card-programs',
     tier: 'secondary',
-    order: 7,
+    order: 8,
     tourDescription: 'Browse career training programs including Barber, CNA, HVAC, and CDL.',
   },
   {
@@ -138,7 +153,7 @@ export const secondaryCards: StoreCard[] = [
     icon: 'users',
     tourId: 'store-card-demo',
     tier: 'secondary',
-    order: 8,
+    order: 9,
     tourDescription:
       'Schedule a demo to see how our platform can transform your training operations.',
   },
@@ -152,7 +167,7 @@ export const secondaryCards: StoreCard[] = [
     icon: 'users',
     tourId: 'store-card-contact',
     tier: 'secondary',
-    order: 9,
+    order: 10,
     tourDescription: 'Connect with our sales team for enterprise pricing and custom solutions.',
   },
 ];
