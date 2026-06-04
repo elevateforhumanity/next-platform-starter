@@ -891,6 +891,13 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
 
+### Store apps — individual trials & plans
+
+- **14-day app trials:** `/apps/{website-builder|sam-gov|grants}/start-trial` → `lib/trial/start-app-trial.ts` (admin insert into `user_app_subscriptions`).
+- **Individual paid plans:** `lib/apps/individual-app-plans.ts` + `IndividualAppPlansSection` on store pages; checkout via `POST /api/apps/upgrade`.
+- **Import website:** `/import` → `POST /api/ai/import-site` (auth required). Builder: `/apps/website-builder`.
+- **DB:** Apply `supabase/migrations/20260702000015_individual_app_subscriptions.sql` if trials or “New Website” fail (missing `app_slug` / RLS).
+
 ### Stripe webhooks (production)
 
 - **Canonical URL:** `https://www.elevateforhumanity.org/api/webhooks/stripe` — register in Stripe Dashboard (live), then set signing secret in the Northflank production secret group for the **LMS** service.
