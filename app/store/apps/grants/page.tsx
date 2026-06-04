@@ -5,7 +5,9 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
-import { Check, Play, ShoppingCart, Star, Search, Bell, FileText, DollarSign, Calendar, Users } from 'lucide-react';
+import { Play, Star, Search, Bell, FileText, DollarSign, Calendar, Users } from 'lucide-react';
+import { IndividualAppPlansSection } from '@/components/store/IndividualAppPlansSection';
+import { INDIVIDUAL_APP_CATALOG } from '@/lib/apps/individual-app-plans';
 
 export const metadata: Metadata = {
   title: 'Grants Discovery & Management App | Elevate Store',
@@ -40,13 +42,8 @@ const grantSources = [
   'Workforce Development Funding',
 ];
 
-const pricing = [
-  { name: 'Nonprofit', price: 79, period: '/month', features: ['50 Grant Searches/month', 'Basic AI Matching', 'Deadline Alerts', 'Email Support', '3 Team Members'] },
-  { name: 'Organization', price: 199, period: '/month', features: ['Unlimited Searches', 'Advanced AI Matching', 'Application Tracking', 'Budget Management', 'Priority Support', '10 Team Members', 'Custom Reports'], popular: true },
-  { name: 'Agency', price: 499, period: '/month', features: ['Everything in Organization', 'Multi-department Access', 'API Integration', 'Dedicated Success Manager', 'Unlimited Team Members', 'White-label Reports', 'Compliance Automation'] },
-];
-
 export default function GrantsAppPage() {
+  const catalog = INDIVIDUAL_APP_CATALOG.grants;
 
   return (
     <div className="min-h-screen bg-white">
@@ -68,16 +65,15 @@ export default function GrantsAppPage() {
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
                 Grants Discovery & Management App
               </h1>
-              <p className="text-xl text-white mb-8">
+              <p className="text-xl text-slate-600 mb-8">
                 Find the right grants faster with AI-powered matching. Track applications, manage deadlines, and streamline compliance reporting.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href="/store/cart?add=grants-org"
+                  href="/apps/grants/start-trial"
                   className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors"
                 >
-                  <ShoppingCart className="w-5 h-5" />
-                  Add to Cart - $199/mo
+                  Start 14-day free trial
                 </Link>
                 <button className="inline-flex items-center gap-2 border border-slate-300 hover:bg-white text-slate-900 px-8 py-4 rounded-lg font-bold text-lg transition-colors">
                   <Play className="w-5 h-5" />
@@ -147,52 +143,15 @@ export default function GrantsAppPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4">Pricing Plans</h2>
-          <p className="text-slate-700 text-center mb-12">Flexible plans for organizations of all sizes</p>
-          <div className="grid md:grid-cols-3 gap-8">
-            {pricing.map((plan, i) => (
-              <div key={i} className={`rounded-2xl p-8 ${plan.popular ? 'bg-brand-green-600 text-white ring-4 ring-brand-green-300' : 'bg-white border border-slate-200'}`}>
-                {plan.popular && <span className="bg-brand-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</span>}
-                <h3 className={`text-2xl font-bold mt-4 ${plan.popular ? 'text-slate-900' : 'text-slate-900'}`}>{plan.name}</h3>
-                <div className="mt-4 mb-6">
-                  <span className="text-4xl font-bold">${plan.price}</span>
-                  <span className={plan.popular ? 'text-white' : 'text-slate-700'}>{plan.period}</span>
-                </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2">
-                      <Check className={`w-5 h-5 ${plan.popular ? 'text-white' : 'text-brand-green-500'}`} />
-                      <span className={plan.popular ? 'text-white' : 'text-slate-700'}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/store/cart?add=grants-${plan.name.toLowerCase()}`}
-                  className={`block w-full text-center py-3 rounded-lg font-bold transition-colors ${
-                    plan.popular 
-                      ? 'bg-white text-brand-green-600 hover:bg-white' 
-                      : 'bg-brand-green-600 text-white hover:bg-brand-green-700'
-                  }`}
-                >
-                  <ShoppingCart className="w-4 h-4 inline mr-2" />
-                  Add to Cart
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IndividualAppPlansSection catalog={catalog} />
 
       {/* CTA */}
       <section className="py-16 px-4 text-slate-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Start Finding Grants Today</h2>
-          <p className="text-slate-700 mb-8">14-day free trial. Card required, not charged until trial ends.</p>
+          <p className="text-slate-700 mb-8">14-day individual free trial — no credit card. Subscribe monthly when you are ready.</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/store/cart?add=grants-org" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold">
+            <Link href="/apps/grants/start-trial" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold">
               Start Free Trial
             </Link>
             <Link href="/contact" className="border border-slate-300 hover:bg-white text-slate-900 px-8 py-4 rounded-lg font-bold">

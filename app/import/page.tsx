@@ -72,8 +72,13 @@ export default function ImportSitePage() {
 
       const data = await res.json();
 
+      if (res.status === 401) {
+        window.location.href = '/login?redirect=/import';
+        return;
+      }
+
       if (!res.ok) {
-        throw new Error(data.error || 'Import failed');
+        throw new Error(data.error || data.detail || 'Import failed');
       }
 
       setExtracted(data.extracted);
@@ -81,7 +86,7 @@ export default function ImportSitePage() {
       localStorage.setItem('sitePreviewConfig', JSON.stringify(data.config));
       setStep('review');
     } catch (err) {
-      setError('An error occurred');
+      setError(err instanceof Error ? err.message : 'Import failed. Sign in and ensure AI keys are configured.');
       setStep('url');
     } finally {
       setAnalyzing(false);
@@ -112,9 +117,14 @@ export default function ImportSitePage() {
             <Globe className="w-6 h-6 text-brand-green-400" />
             <span className="font-bold text-lg">Import Your Website</span>
           </div>
-          <Link href="/programs" className="text-slate-400 hover:text-white text-sm">
-            Or build from scratch →
-          </Link>
+          <div className="flex flex-col items-end gap-1 text-sm">
+            <Link href="/apps/website-builder/start-trial" className="text-brand-blue-600 font-semibold hover:underline">
+              Start Website Builder trial →
+            </Link>
+            <Link href="/programs" className="text-slate-500 hover:text-slate-800">
+              Or browse programs
+            </Link>
+          </div>
         </div>
       </header>
 

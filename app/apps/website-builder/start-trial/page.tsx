@@ -25,7 +25,12 @@ async function startTrial() {
   redirect('/apps/website-builder?welcome=true');
 }
 
-export default async function StartTrialPage() {
+export default async function StartTrialPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error: errorParam } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/apps/website-builder/start-trial');
@@ -68,6 +73,14 @@ export default async function StartTrialPage() {
             <h2 className="text-2xl font-bold text-slate-900">Start Your Free Trial</h2>
             <p className="text-slate-600 mt-2">No credit card required.</p>
           </div>
+
+          {errorParam === 'failed' && (
+            <div className="mb-6 rounded-lg border border-brand-red-200 bg-brand-red-50 px-4 py-3 text-sm text-brand-red-800">
+              We could not start your trial. An admin may need to run migration{' '}
+              <code className="text-xs">20260702000015_individual_app_subscriptions.sql</code> in Supabase,
+              then try again.
+            </div>
+          )}
 
           <ul className="space-y-3 mb-8">
             {features.map((feature, i) => (

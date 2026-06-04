@@ -3,6 +3,8 @@ export const dynamic = 'force-static';
 
 import { Metadata } from 'next';
 import { ProductPage } from '@/components/store/ProductPage';
+import { IndividualAppPlansSection } from '@/components/store/IndividualAppPlansSection';
+import { INDIVIDUAL_APP_CATALOG } from '@/lib/apps/individual-app-plans';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
@@ -247,6 +249,12 @@ const productData = {
 };
 
 export default function SamGovProductPage() {
+  const catalog = INDIVIDUAL_APP_CATALOG['sam-gov'];
 
-  return <ProductPage product={productData} />;
+  return (
+    <>
+      <ProductPage product={productData} />
+      <IndividualAppPlansSection catalog={catalog} />
+    </>
+  );
 }

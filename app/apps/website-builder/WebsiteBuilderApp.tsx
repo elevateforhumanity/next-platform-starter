@@ -42,11 +42,13 @@ export function WebsiteBuilderApp({
   const [showNewModal, setShowNewModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [loading, setLoading] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
   const supabase = createClient();
 
   const createWebsite = async (name: string, templateId: string) => {
     if (!supabase) return;
     setLoading(true);
+    setCreateError(null);
 
     const { data, error } = await supabase
       .from('user_websites')
@@ -59,13 +61,28 @@ export function WebsiteBuilderApp({
       .select()
       .single();
 
-    if (!error && data) {
-      // Create default pages
-      await supabase.from('website_pages').insert([
+    if (error) {
+      setCreateError(
+        error.message.includes('column')
+          ? 'Database not fully configured. Apply migration 20260702000015_individual_app_subscriptions.sql in Supabase.'
+          : error.message,
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (data) {
+      const { error: pagesError } = await supabase.from('website_pages').insert([
         { website_id: data.id, name: 'Home', slug: 'home', is_home: true, blocks: [] },
         { website_id: data.id, name: 'About', slug: 'about', blocks: [] },
         { website_id: data.id, name: 'Contact', slug: 'contact', blocks: [] },
       ]);
+
+      if (pagesError) {
+        setCreateError(pagesError.message);
+        setLoading(false);
+        return;
+      }
 
       setWebsites((prev) => [data, ...prev]);
       setShowNewModal(false);
@@ -118,13 +135,28 @@ export function WebsiteBuilderApp({
               {websites.length} website{websites.length !== 1 ? 's' : ''}
             </p>
           </div>
-          <button
-            onClick={() => setShowNewModal(true)}
-            className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg font-medium flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" /> New Website
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/import"
+              className="px-4 py-2 border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Import website
+            </Link>
+            <button
+              type="button"
+              onClick={() => setShowNewModal(true)}
+              className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg font-medium flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" /> New Website
+            </button>
+          </div>
         </div>
+
+        {createError && (
+          <p className="mb-6 text-sm text-brand-red-700 bg-brand-red-50 border border-brand-red-200 rounded-lg px-4 py-3">
+            {createError}
+          </p>
+        )}
 
         {/* Website Grid */}
         {websites.length === 0 ? (
