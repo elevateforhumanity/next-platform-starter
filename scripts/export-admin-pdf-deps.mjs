@@ -11,13 +11,19 @@ const root = process.cwd();
 const exportRoot = join(root, 'export', 'pdf-node_modules');
 
 function copyDir(src, destRelative) {
-  const dest = join(exportRoot, destRelative);
+  // destRelative uses slashes e.g. "@napi-rs/canvas" → export/pdf-node_modules/@napi-rs/canvas
+  const dest = join(exportRoot, ...destRelative.split('/'));
   mkdirSync(dirname(dest), { recursive: true });
   cpSync(src, dest, { recursive: true });
   console.log(`[export-pdf] -> ${destRelative}`);
 }
 
 function copyPkg(packageName, destRelative) {
+  const pkgJson = require.resolve(`${packageName}/package.json`, { paths: [root] });
+  copyDir(dirname(pkgJson), destRelative);
+}
+
+function copyPkgAs(packageName, destRelative) {
   const pkgJson = require.resolve(`${packageName}/package.json`, { paths: [root] });
   copyDir(dirname(pkgJson), destRelative);
 }
@@ -31,13 +37,8 @@ function copyPkgFromDir(srcDir, destRelative) {
 
 mkdirSync(exportRoot, { recursive: true });
 
+// Must match node_modules/@napi-rs/{canvas,canvas-linux-x64-gnu} layout
 copyPkg('@napi-rs/canvas', '@napi-rs/canvas');
-
-try {
-  copyPkg('@napi-rs/canvas-linux-x64-gnu', '@napi-rs/canvas-linux-x64-gnu');
-} catch {
-  console.warn('[export-pdf] @napi-rs/canvas-linux-x64-gnu not found (non-linux build?)');
-}
 
 // pdf-parse does not export package.json subpath; resolve entry then dirname
 const pdfParseEntry = require.resolve('pdf-parse', { paths: [root] });
@@ -64,7 +65,8 @@ if (canvasNative) {
   console.warn('[export-pdf] @napi-rs/canvas-linux-x64-gnu not in pnpm store');
 }
 
-if (!existsSync(join(exportRoot, '@napi-rs/canvas/package.json'))) {
+const canvasPkg = join(exportRoot, '@napi-rs', 'canvas', 'package.json');
+if (!existsSync(canvasPkg)) {
   console.error('[export-pdf] @napi-rs/canvas export failed');
   process.exit(1);
 }
