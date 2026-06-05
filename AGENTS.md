@@ -869,7 +869,7 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 | Dashboard UI (`app/admin/*`, WIOA ETPL) | None | N/A — API → Supabase only |
 
 Full audit: `docs/audits/ADMIN_DASHBOARD_STORAGE_AUDIT.md` §6. LMS video jobs: `POST /api/videos/generate` uses the same Supabase upload path (no `public/generated/`).
-- **Admin (AWS ECS, legacy):** `elevate-admin-service` on `elevate-cluster`, `Dockerfile.admin`, CodeBuild `elevate-admin-build`. Deploy: `.github/workflows/deploy-admin.yml` on `main`.
+- **Admin (Northflank):** `elevate-admin` combined service, `Dockerfile.northflank-admin`. Deploy: `.github/workflows/deploy-admin.yml` on `main` (not AWS ECS).
 - `apps/admin/server.js` must load `.next/required-server-files.json` at startup.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
 - **Deploy both:** `DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute`

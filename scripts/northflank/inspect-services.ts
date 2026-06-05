@@ -58,15 +58,10 @@ async function main() {
   if (!pid) process.exit(1);
   for (const sid of ['elevate-admin', 'elevate-lms']) {
     const s = await nfFetch<NorthflankService>(projectApiPath(pid, `/services/${sid}`));
+    // Combined service health probes are only returned on PATCH (GET returns 405).
+    // Run configure-services --execute or verify-health-checks.ts to confirm probes.
     let combinedHealth: CombinedService['healthChecks'];
-    try {
-      const combined = await nfFetch<CombinedService>(combinedServicePatchPath(pid, sid), {
-        method: 'GET',
-      });
-      combinedHealth = combined.healthChecks;
-    } catch {
-      combinedHealth = undefined;
-    }
+    combinedHealth = undefined;
     const dockerfile =
       s.vcsData?.dockerFilePath ??
       s.buildSettings?.dockerfile?.dockerFilePath ??
