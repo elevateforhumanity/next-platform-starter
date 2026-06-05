@@ -1,6 +1,7 @@
 /** Shared prune lists for LMS vs admin standalone output. */
 
 export const SHARED_STANDALONE_PRUNE_PACKAGES = [
+  '@esbuild/linux-x64',
   '@next/swc-linux-x64-gnu',
   '@next/swc-linux-x64-musl',
   '@next/swc-darwin-x64',

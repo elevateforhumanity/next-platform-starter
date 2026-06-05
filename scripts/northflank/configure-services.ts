@@ -55,9 +55,10 @@ const SERVICES = [
   },
 ];
 
+// Registry layer cache was exhausting nf-buildkit overlay disk (ENOSPC on COPY).
 const BUILDKIT = {
-  useCache: true,
-  cacheStorageSize: 10240,
+  useCache: false,
+  cacheStorageSize: 0,
 };
 
 /** Northflank only accepts these MB values for build ephemeral storage. */
