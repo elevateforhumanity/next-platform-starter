@@ -80,13 +80,19 @@ for (const file of importedFiles) {
     continue;
   }
 
-  // Route check — must have either own page.tsx or be in STATIC_PROGRAM_MAP
+  // Route check — dedicated page.tsx, [program]/page.tsx dynamic renderer, or STATIC_PROGRAMS export
   const ownPage = join(ROOT, 'app/programs', slug, 'page.tsx');
-  const inMap = indexContent.includes(`'${slug}'`) || indexContent.includes(`"${slug}"`);
+  const dynamicProgramPage = join(ROOT, 'app/programs/[program]/page.tsx');
+  const inStaticProgramsArray = new RegExp(
+    `slug:\\s*['"]${slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`,
+  ).test(content);
   const hasOwnPage = existsSync(ownPage);
+  const hasDynamicRoute = existsSync(dynamicProgramPage);
 
-  if (!hasOwnPage && !inMap) {
-    console.error(`  ❌ ${slug} — no route: missing app/programs/${slug}/page.tsx and not in STATIC_PROGRAM_MAP`);
+  if (!hasOwnPage && !(hasDynamicRoute && inStaticProgramsArray)) {
+    console.error(
+      `  ❌ ${slug} — no route: missing app/programs/${slug}/page.tsx and not served by [program]/page.tsx`,
+    );
     errors++;
     continue;
   }
@@ -164,6 +170,31 @@ for (const file of importedFiles) {
   }
 }
 if (warnings === 0) console.log('  ✅ All dedicated program pages have H1');
+
+// ── ProgramMarketingPage pattern — banner must be passed server-side ────────
+console.log('\n[validate-programs] Checking dedicated pages use ProgramMarketingPage...');
+for (const file of importedFiles) {
+  const filePath = join(ROOT, 'data/programs', `${file}.ts`);
+  if (!existsSync(filePath)) continue;
+  const content = readFileSync(filePath, 'utf8');
+  const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+  if (!slugMatch) continue;
+  const slug = slugMatch[1];
+  const pagePath = join(ROOT, 'app/programs', slug, 'page.tsx');
+  if (!existsSync(pagePath)) continue;
+  const pageContent = readFileSync(pagePath, 'utf8');
+  if (pageContent.includes('redirect(') && pageContent.split('\n').length < 15) continue;
+  if (
+    pageContent.includes('ProgramDetailPage') &&
+    !pageContent.includes('ProgramMarketingPage')
+  ) {
+    console.error(
+      `  ❌ ${slug} — uses ProgramDetailPage without ProgramMarketingPage (hero banner will not load)`,
+    );
+    errors++;
+  }
+}
+if (errors === 0) console.log('  ✅ Dedicated program pages pass hero banners server-side');
 
 // ── Hero banner media validation ──────────────────────────────────────────
 // Checks hero-banners.json for:

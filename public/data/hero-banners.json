@@ -107,7 +107,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/healthcare/inquiry",
+      "href": "/programs/healthcare/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -312,7 +312,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/hvac-technician/inquiry",
+      "href": "/programs/hvac-technician/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -341,7 +341,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/cdl-training/inquiry",
+      "href": "/programs/cdl-training/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -370,7 +370,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/electrical/inquiry",
+      "href": "/programs/electrical/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -399,7 +399,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/welding/inquiry",
+      "href": "/programs/welding/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -429,7 +429,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/plumbing/inquiry",
+      "href": "/programs/plumbing/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -459,7 +459,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/diesel-mechanic/inquiry",
+      "href": "/programs/diesel-mechanic/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -609,7 +609,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/pharmacy-technician/inquiry",
+      "href": "/programs/pharmacy-technician/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -791,7 +791,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/barber-apprenticeship/inquiry",
+      "href": "/programs/barber-apprenticeship/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -820,7 +820,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/cosmetology-apprenticeship/inquiry",
+      "href": "/programs/cosmetology-apprenticeship/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -939,7 +939,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/beauty-career-educator/inquiry",
+      "href": "/programs/beauty-career-educator/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -995,7 +995,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/it-help-desk/inquiry",
+      "href": "/programs/it-help-desk/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -1347,7 +1347,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/business-administration/inquiry",
+      "href": "/programs/business-administration/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [
@@ -2552,7 +2552,7 @@
     },
     "secondaryCta": {
       "label": "Request Information",
-      "href": "/programs/cybersecurity/inquiry",
+      "href": "/programs/cybersecurity-analyst/request-info",
       "variant": "secondary"
     },
     "trustIndicators": [

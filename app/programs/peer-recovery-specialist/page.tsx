@@ -1,15 +1,9 @@
 export const dynamic = 'force-dynamic';
-import type { Metadata } from 'next';
 import { PEER_RECOVERY } from '@/data/programs/peer-recovery-specialist';
-import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { buildProgramMetadata, ProgramMarketingPage } from '@/lib/programs/program-page';
 
-export const metadata: Metadata = {
-  title: PEER_RECOVERY.metaTitle ?? `${PEER_RECOVERY.title} | ${PLATFORM_DEFAULTS.orgName}`,
-  description: PEER_RECOVERY.metaDescription,
-  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/peer-recovery-specialist' },
-};
+export const metadata = buildProgramMetadata(PEER_RECOVERY);
 
 export default function PeerRecoverySpecialistPage() {
-  return <ProgramDetailPage program={PEER_RECOVERY} />;
+  return <ProgramMarketingPage program={PEER_RECOVERY} />;
 }
