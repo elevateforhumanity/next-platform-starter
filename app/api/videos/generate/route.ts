@@ -4,8 +4,7 @@
  * Accepts a lesson_id from the admin course builder, creates a video_jobs row,
  * then fires the render pipeline asynchronously (non-blocking response).
  *
- * The render runs in the background on the container which has
- * ffmpeg, chromium, and Remotion's native binaries available.
+ * The render runs in the background on the container (Remotion + ffmpeg).
  *
  * Flow:
  *   Admin POST lesson_id

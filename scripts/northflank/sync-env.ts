@@ -32,8 +32,6 @@ const STATIC_ENV: Record<string, string> = {
   PORT: '8080',
   NEXT_TELEMETRY_DISABLED: '1',
   SUPABASE_PROJECT_REF: 'cuxzzpsyufcewtmicszk',
-  PUPPETEER_EXECUTABLE_PATH: '/usr/bin/chromium',
-  CHROMIUM_PATH: '/usr/bin/chromium',
   NEXT_PUBLIC_SITE_URL: 'https://www.elevateforhumanity.org',
   NEXT_PUBLIC_CANONICAL_DOMAIN: 'www.elevateforhumanity.org',
   NEXT_PUBLIC_ADMIN_URL: 'https://admin.elevateforhumanity.org',
