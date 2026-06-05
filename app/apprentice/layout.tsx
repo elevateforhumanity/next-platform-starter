@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
+import {
+  ApprenticeSubNav,
+  resolveApprenticeNavConfig,
+} from '@/components/portal/ApprenticeSubNav';
+import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -9,6 +15,9 @@ export const metadata: Metadata = {
   description: 'Apprentice dashboard, hours, documents, and training.',
 };
 export const dynamic = 'force-dynamic';
+
+/** Routes that must stay reachable when tuition is past due (payment method update only). */
+const BILLING_EXEMPT_PREFIXES = ['/apprentice/billing'];
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -20,7 +29,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
     redirect('/login?redirect=/apprentice');
   }
 
-  // Role check — only students and admins can access the apprentice portal
   const { data: profile } = await supabase
     .from('profiles')
     .select('role')
@@ -32,8 +40,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
     redirect('/unauthorized');
   }
 
+  const pathname = (await headers()).get('x-pathname') ?? '';
+  const isBillingExempt = BILLING_EXEMPT_PREFIXES.some((p) => pathname.startsWith(p));
+
   const db = await getAdminClient();
-  if (db) {
+  if (db && !isBillingExempt) {
     const { data: barberSub } = await db
       .from('barber_subscriptions')
       .select('payment_status, suspension_deadline')
@@ -53,5 +64,13 @@ export default async function Layout({ children }: { children: React.ReactNode }
     }
   }
 
-  return children;
+  const programSlug = await resolveApprenticeProgramSlug(supabase, user.id);
+  const nav = resolveApprenticeNavConfig(programSlug);
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {nav && <ApprenticeSubNav programSlug={nav.programSlug} config={nav.config} />}
+      {children}
+    </div>
+  );
 }

@@ -123,6 +123,14 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
 
   // ── Field portals — all require student role (or admin/staff oversight) ───
   '/portal/apprentice':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/barber':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/cosmetology':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/esthetician':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/nail-technician':   ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/culinary':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/electrical':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/plumbing':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/apprentice/':              ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/healthcare':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/technology':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/business':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
@@ -242,7 +250,10 @@ const PUBLIC_DASHBOARD_LANDINGS = [
 // Paths that get X-Robots-Tag: noindex, nofollow.
 const NOINDEX_PREFIXES = [
   '/admin',
-
+  '/lms/',
+  '/learner/',
+  '/apprentice',
+  '/portal/',
   '/program-holder',
   '/workforce-board',
   '/employer',
@@ -254,6 +265,11 @@ const NOINDEX_PREFIXES = [
   '/onboarding',
   '/settings',
   '/profile',
+  '/case-manager/',
+  '/provider/',
+  '/creator/',
+  '/instructor/',
+  '/staff-portal/',
 ];
 
 function inferApiRateLimitTier(pathname: string): 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public' | null {
@@ -887,14 +903,14 @@ export async function middleware(request: NextRequest) {
   // TENANT CONTEXT INJECTION (STEP 4B)
   // ============================================
   // Inject tenant context headers for downstream route handlers
-  const tenantId = user.user_metadata?.tenant_id;
-  const userRole = user.user_metadata?.role || 'user';
+  const tenantId = cachedProfile?.tenant_id ?? user.user_metadata?.tenant_id;
+  const userRole = cachedProfile?.role ?? user.user_metadata?.role ?? 'user';
 
   if (tenantId) {
-    response.headers.set('x-tenant-id', tenantId);
+    response.headers.set('x-tenant-id', String(tenantId));
   }
   response.headers.set('x-user-id', user.id);
-  response.headers.set('x-user-role', userRole);
+  response.headers.set('x-user-role', String(userRole));
   response.headers.set('x-trace-id', traceId);
 
   // ============================================

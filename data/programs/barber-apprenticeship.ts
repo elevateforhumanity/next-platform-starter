@@ -1,5 +1,6 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { prestigeElevationBarberCoursePath } from '@/lib/barber/branding';
 
 /**
  * Barber Apprenticeship — Program Detail Template v1
@@ -262,7 +263,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',
   deliveryModelDetail: 'hybrid',
-  partnerProvider: 'milady',
+  partnerProvider: 'elevate-lms',
   fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   funding: {
     fssa_eligible: true,
@@ -280,7 +281,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
       credentialIssued: 'RTI completion (500 hours)',
       duration: '500 hours RTI',
       required: true,
-      enrollmentUrl: '/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
+      enrollmentUrl: prestigeElevationBarberCoursePath,
     },
   ],
   microCourses: [

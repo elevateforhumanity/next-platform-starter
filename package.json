@@ -223,6 +223,7 @@
     "preinstall": "corepack enable || true",
     "gen:types": "node scripts/gen-db-types.cjs",
     "lint:migrations": "node scripts/lint-migrations.cjs",
+    "audit:migrations": "node scripts/audit-migration-discipline.mjs",
     "production:gate": "bash scripts/production-readiness-gate.sh",
     "production:smoke": "bash scripts/post-deploy-smoke.sh",
     "audit:schema": "tsx scripts/audit-schema-drift.ts",

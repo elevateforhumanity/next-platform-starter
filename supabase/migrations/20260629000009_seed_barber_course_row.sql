@@ -18,9 +18,9 @@ INSERT INTO public.courses (
 )
 VALUES (
   '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
-  'Barber Apprenticeship',
+  'Prestige Elevation Barber Curriculum',
   'barber-apprenticeship',
-  'DOL-registered barber apprenticeship program. 2,000 OJT hours + 144 RTI hours. Indiana IPLA licensure pathway.',
+  'Prestige Elevation Barber Curriculum — 500 hours RTI + 1,500 hours OJT. Indiana DOL barber apprenticeship pathway.',
   'published',
   true,
   now(),

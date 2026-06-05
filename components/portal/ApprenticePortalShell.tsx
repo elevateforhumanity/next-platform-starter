@@ -20,10 +20,18 @@ import {
   Hammer,
   Droplets,
 } from 'lucide-react';
+import { PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL } from '@/lib/barber/branding';
+import {
+  BARBER_STUDENT_APP_HOME,
+  BARBER_STUDENT_APP_SHORT_LABEL,
+} from '@/lib/barber/student-app';
+import { BarberStudentAppDownload } from '@/components/portal/BarberStudentAppDownload';
 import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
   apprenticeshipOrientationPath,
+  apprenticeshipRtiLabel,
+  apprenticeshipWorkbookHref,
 } from '@/lib/portal/program-portal-paths';
 
 export interface ApprenticePortalConfig {
@@ -215,6 +223,12 @@ export function ApprenticePortalShell({
   const orientationHref = apprenticeshipOrientationPath(config.programSlug);
   const documentsHref = apprenticeshipDocumentsPath(config.programSlug);
   const lmsCourseHref = apprenticeshipLmsCoursePath(config.programSlug);
+  const rtiCourseLabel =
+    apprenticeshipRtiLabel(config.programSlug) ?? 'Online Course';
+  const rtiCourseLabelShort =
+    apprenticeshipRtiLabel(config.programSlug, true) ?? 'Online Course';
+  const workbookHref = apprenticeshipWorkbookHref(config.programSlug);
+  const isBarberApprentice = config.programSlug === 'barber-apprenticeship';
 
   const onboardingItems = [
     {
@@ -237,7 +251,7 @@ export function ApprenticePortalShell({
   const navTabs = [
     { id: 'dashboard', label: 'Dashboard', href: config.portalPath },
     ...(lmsCourseHref
-      ? [{ id: 'course', label: 'Online Course', href: lmsCourseHref }]
+      ? [{ id: 'course', label: rtiCourseLabelShort, href: lmsCourseHref }]
       : []),
     { id: 'hours', label: 'Hours', href: '/apprentice/hours' },
     { id: 'timeclock', label: 'Timeclock', href: '/apprentice/timeclock' },
@@ -245,6 +259,9 @@ export function ApprenticePortalShell({
     { id: 'documents', label: 'Documents', href: documentsHref },
     { id: 'billing', label: 'Billing', href: '/apprentice/billing' },
     { id: 'handbook', label: 'Handbook', href: '/apprentice/handbook' },
+    ...(isBarberApprentice
+      ? [{ id: 'mobile-app', label: BARBER_STUDENT_APP_SHORT_LABEL, href: BARBER_STUDENT_APP_HOME }]
+      : []),
   ];
 
   return (
@@ -446,6 +463,8 @@ export function ApprenticePortalShell({
           </div>
         )}
 
+        {isBarberApprentice && <BarberStudentAppDownload variant="card" />}
+
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
@@ -513,8 +532,8 @@ export function ApprenticePortalShell({
                 >
                   <BookOpen className={`w-5 h-5 ${config.accentText}`} />
                   <div>
-                    <p className="font-semibold text-sm text-slate-900">Milady Online Course</p>
-                    <p className="text-xs text-slate-500">RTI lessons &amp; practice</p>
+                    <p className="font-semibold text-sm text-slate-900">{rtiCourseLabel}</p>
+                    <p className="text-xs text-slate-500">Log in to RTI lessons &amp; practice</p>
                   </div>
                 </Link>
               )}
@@ -532,13 +551,25 @@ export function ApprenticePortalShell({
                   <p className="text-xs text-slate-500">Record a competency</p>
                 </div>
               </Link>
-              <Link href="/apprentice/documents" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
+              <Link href={documentsHref} className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
                 <FileText className={`w-5 h-5 ${config.accentText}`} />
                 <div>
                   <p className="font-semibold text-sm text-slate-900">Upload Document</p>
                   <p className="text-xs text-slate-500">Submit required files</p>
                 </div>
               </Link>
+              {workbookHref && (
+                <Link
+                  href={workbookHref}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition"
+                >
+                  <FileText className={`w-5 h-5 ${config.accentText}`} />
+                  <div>
+                    <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
+                    <p className="text-xs text-slate-500">Reading &amp; study materials</p>
+                  </div>
+                </Link>
+              )}
               <Link href="/apprentice/state-board" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
                 <GraduationCap aria-label="graduationcap" className={`w-5 h-5 ${config.accentText}`} />
                 <div>
@@ -553,6 +584,9 @@ export function ApprenticePortalShell({
                   <p className="text-xs text-slate-500">Payments & invoices</p>
                 </div>
               </Link>
+              {isBarberApprentice && (
+                <BarberStudentAppDownload variant="compact" accentText={config.accentText} />
+              )}
             </div>
           </div>
 
@@ -563,27 +597,36 @@ export function ApprenticePortalShell({
               {onboardingComplete && <span className="text-brand-green-600 ml-1">✓ Complete</span>}
             </h2>
             <ul className="space-y-2.5">
-              {onboardingItems.map((item) =>
-                item.done ? (
-                  <li key={item.label} className="flex items-center gap-2.5 text-sm text-slate-400">
-                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
-                    <span className="line-through">{item.label}</span>
-                  </li>
-                ) : (
-                  <li key={item.label}>
-                    <Link href={item.href} className="flex items-center gap-2.5 text-sm text-slate-800 hover:text-slate-900 group">
+              {onboardingItems.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-2.5 text-sm group ${
+                      item.done
+                        ? 'text-slate-500 hover:text-slate-700'
+                        : 'text-slate-800 hover:text-slate-900'
+                    }`}
+                  >
+                    {item.done ? (
+                      <span
+                        className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    ) : (
                       <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                      <span className="group-hover:underline">{item.label}</span>
-                    </Link>
-                  </li>
-                ),
-              )}
+                    )}
+                    <span className={item.done ? 'line-through group-hover:no-underline' : 'group-hover:underline'}>
+                      {item.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         {/* Resources */}
-        <div className="grid sm:grid-cols-3 gap-3">
+        <div className={`grid gap-3 ${workbookHref ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'}`}>
           <Link href="/apprentice/skills" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
             <Award aria-label="award" className={`w-5 h-5 ${config.accentText} mb-2`} />
             <p className="font-semibold text-sm text-slate-900">Skills Checklist</p>
@@ -595,14 +638,24 @@ export function ApprenticePortalShell({
               className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition"
             >
               <BookOpen className={`w-5 h-5 ${config.accentText} mb-2`} />
-              <p className="font-semibold text-sm text-slate-900">Milady Course</p>
-              <p className="text-xs text-slate-500 mt-0.5">Online RTI &amp; theory</p>
+              <p className="font-semibold text-sm text-slate-900">{rtiCourseLabelShort}</p>
+              <p className="text-xs text-slate-500 mt-0.5">RTI lessons on Elevate LMS</p>
             </Link>
           ) : (
             <Link href="/apprentice/handbook" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
               <BookOpen className={`w-5 h-5 ${config.accentText} mb-2`} />
               <p className="font-semibold text-sm text-slate-900">Handbook</p>
               <p className="text-xs text-slate-500 mt-0.5">Rules & guidelines</p>
+            </Link>
+          )}
+          {workbookHref && (
+            <Link
+              href={workbookHref}
+              className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition"
+            >
+              <FileText className={`w-5 h-5 ${config.accentText} mb-2`} />
+              <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
+              <p className="text-xs text-slate-500 mt-0.5">Open workbook in LMS</p>
             </Link>
           )}
           <Link href="/apprentice/transfer-hours" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">

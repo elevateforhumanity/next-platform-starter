@@ -838,6 +838,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - **Secrets:** `elevate-production-env` secret group on project `elevate-platform`. GitHub may still list `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — unused by deploy workflows; safe to delete in repo Settings.
 - **Legacy deploy API:** `POST /api/admin/deploy` returns **410**; use Northflank via CI or `/api/admin/env-vars/deploy`.
 
+### Migration discipline
+
+- **747** SQL files in `supabase/migrations/` — `pnpm lint:migrations` (filename + SQL hygiene).
+- **Never reuse** the same `YYYYMMDDNNNNNN` prefix; 20 historical collision groups exist — do not add more.
+- **Apply:** `node scripts/db/runMigrations.js` (tracks in `public.efh_migrations` via `exec_sql` RPC). Requires real `SUPABASE_SERVICE_ROLE_KEY` (not `placeholder`).
+- **Audit:** `pnpm audit:migrations` → `audit_out/migration-discipline.json`. Report: `docs/audits/supabase-platform-discipline-audit-2026-06-05.md`.
+- **Pending bundle:** `supabase/migrations/20260703000002_pending_migrations_bundle.sql` (July 20260702 idempotent singles).
+
 ### Gotchas
 
 - **Middleware auth prefixes:** `AUTH_REQUIRED_ROUTES` uses segment-aware matching (`pathMatchesAuthPrefix` in `proxy.ts`). Never use bare `/apprentice` with `pathname.startsWith` — it incorrectly gates public `/apprenticeships`. Public marketing prefixes are listed in `PUBLIC_MARKETING_PREFIXES` (`/apprenticeships`, `/programs/`, `/partners/`, etc.).

@@ -41,9 +41,9 @@ export default async function DocumentsLayout({
     redirect('/programs/barber-apprenticeship/orientation');
   }
 
-  // Already submitted documents — redirect to dashboard
+  // Already submitted documents — redirect to barber student dashboard
   if (enrollment.documents_submitted_at) {
-    redirect('/apprentice');
+    redirect('/portal/barber');
   }
 
   return <>{children}</>;

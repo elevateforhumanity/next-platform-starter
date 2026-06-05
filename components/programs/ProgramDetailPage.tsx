@@ -241,10 +241,10 @@ export default function ProgramDetailPage({
                 {p.deliveredBy && (
                   <p className="mt-4 text-xs text-slate-500">
                     {p.deliveredBy === 'Elevate'
-                      ? 'Delivered directly by ${PLATFORM_DEFAULTS.orgName}.'
+                      ? `Delivered directly by ${PLATFORM_DEFAULTS.orgName}.`
                       : p.deliveredBy === 'Partner'
                         ? 'Delivered by an approved training partner.'
-                        : 'Delivered by ${PLATFORM_DEFAULTS.orgName} or an approved training partner.'}
+                        : `Delivered by ${PLATFORM_DEFAULTS.orgName} or an approved training partner.`}
                   </p>
                 )}
               </div>

@@ -1,8 +1,9 @@
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { BookOpen, Download, FileText, GraduationCap } from 'lucide-react';
+import { BookOpen, Download, FileText, GraduationCap, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { BARBER_COURSE_ID } from '@/lib/barber/pricing';
 
 export const metadata: Metadata = {
   title: 'Program Workbooks',
@@ -14,13 +15,29 @@ export const metadata: Metadata = {
 
 const workbooks = [
   {
-    program: 'Barbering/Cosmetology',
-    slug: 'barbering',
+    program: 'Prestige Elevation Barber Curriculum',
+    slug: 'barber-apprenticeship',
+    anchorId: 'prestige-elevation-barber',
     materials: [
-      { title: 'Theory Workbook', file: 'barbering-theory.pdf', pages: 120 },
-      { title: 'Practice Guide', file: 'barbering-practice.pdf', pages: 80 },
-      { title: 'State Board Prep', file: 'barbering-exam-prep.pdf', pages: 60 },
-      { title: 'Safety Procedures', file: 'barbering-safety.pdf', pages: 40 },
+      {
+        title: 'Prestige Elevation Workbook',
+        description: 'Full RTI curriculum — lessons, readings, video, and practice quizzes',
+        lmsHref: `/lms/courses/${BARBER_COURSE_ID}`,
+      },
+      {
+        title: 'Practice Guide',
+        file: 'barbering-practice.pdf',
+        pages: 80,
+        lmsHref: `/lms/courses/${BARBER_COURSE_ID}?activity=practice`,
+      },
+      {
+        title: 'State Board Prep',
+        lmsHref: '/apprentice/state-board',
+      },
+      {
+        title: 'Safety Procedures',
+        lmsHref: `/lms/courses/${BARBER_COURSE_ID}?activity=reading`,
+      },
     ],
   },
   {
@@ -130,32 +147,58 @@ export default function WorkbooksPage() {
         {/* Workbooks by Program */}
         <div className="space-y-8">
           {workbooks.map((program: any) => (
-            <div key={program.slug} className="bg-white rounded-xl shadow-sm p-8">
+            <div
+              key={program.slug}
+              id={program.anchorId ?? program.slug}
+              className="bg-white rounded-xl shadow-sm p-8 scroll-mt-24"
+            >
               <div className="flex items-center gap-3 mb-6">
                 <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
                 <h2 className="text-2xl font-bold text-black">{program.program}</h2>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                {program.materials.map((material) => (
+                {program.materials.map((material: {
+                  title: string;
+                  file?: string;
+                  pages?: number;
+                  description?: string;
+                  lmsHref?: string;
+                }) => (
                   <div
-                    key={material.file}
+                    key={material.title}
                     className="border border-slate-200 rounded-lg p-4 hover:border-brand-blue-300 hover:shadow-md transition"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <h3 className="font-bold text-black mb-1">{material.title}</h3>
-                        <p className="text-sm text-black">{material.pages} pages • PDF Format</p>
+                        <p className="text-sm text-black">
+                          {material.description ??
+                            (material.pages
+                              ? `${material.pages} pages • PDF Format`
+                              : 'Available in Elevate LMS')}
+                        </p>
                       </div>
-                      <a
-                        href={`/downloads/workbooks/${material.file}`}
-                        className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition text-sm font-medium whitespace-nowrap"
-                        download
-                        aria-label={`Download ${material.title}`}
-                      >
-                        <Download className="w-4 h-4" />
-                        Download
-                      </a>
+                      {material.lmsHref ? (
+                        <Link
+                          href={material.lmsHref}
+                          className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition text-sm font-medium whitespace-nowrap"
+                          aria-label={`Open ${material.title}`}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Open
+                        </Link>
+                      ) : material.file ? (
+                        <a
+                          href={`/downloads/workbooks/${material.file}`}
+                          className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition text-sm font-medium whitespace-nowrap"
+                          download
+                          aria-label={`Download ${material.title}`}
+                        >
+                          <Download className="w-4 h-4" />
+                          Download
+                        </a>
+                      ) : null}
                     </div>
                   </div>
                 ))}
