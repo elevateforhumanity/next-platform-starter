@@ -177,6 +177,7 @@ function ProgramPage({
   slug,
   sections,
   banner,
+  imageUrl,
 }: {
   title: string;
   summary: string;
