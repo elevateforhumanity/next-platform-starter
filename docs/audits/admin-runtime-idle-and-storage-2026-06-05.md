@@ -102,7 +102,16 @@ CLOUDFLARE_R2_SECRET_ACCESS_KEY=...
 
 ---
 
-## 7. Verify in production
+## 7. Migrate existing Supabase MP4s to R2
+
+```bash
+pnpm tsx scripts/migrate-course-videos-to-r2.ts --dry-run
+pnpm tsx scripts/migrate-course-videos-to-r2.ts --execute --prefix=generated-lessons/
+```
+
+Update `course_lessons.video_url` / enrollment rows manually or via a follow-up SQL job if URLs change domain.
+
+## 8. Verify in production
 
 ```bash
 pnpm tsx scripts/northflank/verify-health-checks.ts
