@@ -57,11 +57,8 @@ ENV SKIP_ENV_VALIDATION=true
 ENV HUSKY=0
 ENV CI=true
 
-# pnpm store on BuildKit cache; node_modules on /app builder disk (avoids ENOSPC on unified mount).
-RUN --mount=type=cache,id=pnpm-northflank-lms-store,target=/mnt/pnpm-store \
-    mkdir -p /mnt/pnpm-store \
-    && printf '%s\n' 'store-dir=/mnt/pnpm-store' >> .npmrc \
-    && pnpm install --frozen-lockfile --ignore-scripts
+# Install on /app builder ephemeral disk (32GB). No BuildKit cache mount (ENOSPC on shared store).
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
