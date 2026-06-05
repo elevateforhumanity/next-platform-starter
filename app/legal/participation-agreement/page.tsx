@@ -20,7 +20,7 @@ export default function ParticipationAgreementPage() {
       <DocumentPage
         documentType="Participation Agreement"
         title="Participation Agreement"
-        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
+        subtitle={`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`}
         date="2025-01-01"
         version="1.0"
       >

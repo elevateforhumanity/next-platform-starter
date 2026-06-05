@@ -147,7 +147,7 @@ export function StudentPortfolio() {
             certData.map((c) => ({
               id: c.id,
               title: (c.training_programs as any)?.name || c.program_name || 'Certificate',
-              issuer: '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+              issuer: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
               date: c.issued_at?.split('T')[0] || '',
               credentialUrl: c.verification_url || `/verify/${c.id}`,
             })),
@@ -173,7 +173,7 @@ export function StudentPortfolio() {
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
       completedDate: '2024-01',
       githubUrl: 'https://github.com/example/ecommerce',
-      liveUrl: '${PLATFORM_DEFAULTS.siteUrl}/demo/ecommerce',
+      liveUrl: `${PLATFORM_DEFAULTS.siteUrl}/demo/ecommerce`,
       achievements: [
         'Processed 1000+ transactions',
         'Achieved 99.9% uptime',
@@ -190,7 +190,7 @@ export function StudentPortfolio() {
       technologies: ['Next.js', 'TypeScript', 'PostgreSQL', 'Socket.io', 'Prisma'],
       completedDate: '2023-11',
       githubUrl: 'https://github.com/example/taskmanager',
-      liveUrl: 'https://${PLATFORM_DEFAULTS.canonicalDomain}/demo/tasks',
+      liveUrl: `https://${PLATFORM_DEFAULTS.canonicalDomain}/demo/tasks`,
       achievements: ['500+ active users', 'Real-time collaboration', 'Mobile responsive'],
     },
     {
@@ -226,7 +226,7 @@ export function StudentPortfolio() {
       imageUrl: '/images/pages/comp-home-hero.webp',
       technologies: ['Vue.js', 'Firebase', 'Vuetify', 'Netlify'],
       completedDate: '2023-08',
-      liveUrl: 'https://www.${PLATFORM_DEFAULTS.canonicalDomain}/demo/portfolio',
+      liveUrl: `https://www.${PLATFORM_DEFAULTS.canonicalDomain}/demo/portfolio`,
       achievements: ['200+ templates', 'SEO optimized', 'One-click deployment'],
     },
     {
@@ -264,7 +264,7 @@ export function StudentPortfolio() {
     {
       id: '1',
       title: 'Full-Stack Web Development',
-      issuer: '${PLATFORM_DEFAULTS.orgName} Career & Technical Institute',
+      issuer: `${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`,
       date: '2024-01',
       credentialUrl: '#',
     },

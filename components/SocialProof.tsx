@@ -100,10 +100,10 @@ export default function SocialProof() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [dbTestimonials, setDbTestimonials] = useState<Testimonial[]>([]);
   const [stats, setStats] = useState({
-    successStories: 500,
-    avgRating: 4.9,
-    jobPlacement: 87,
-    completionRate: 95,
+    successStories: 0,
+    avgRating: 0,
+    jobPlacement: 0,
+    completionRate: 0,
   });
   const supabase = createClient();
 
@@ -144,10 +144,10 @@ export default function SocialProof() {
           statsMap[s.stat_name] = s.stat_value;
         });
         setStats({
-          successStories: statsMap.success_stories || 500,
-          avgRating: statsMap.avg_rating || 4.9,
-          jobPlacement: statsMap.job_placement_rate || 87,
-          completionRate: statsMap.completion_rate || 95,
+          successStories: Number(statsMap.success_stories) || 0,
+          avgRating: Number(statsMap.avg_rating) || 0,
+          jobPlacement: Number(statsMap.job_placement_rate) || 0,
+          completionRate: Number(statsMap.completion_rate) || 0,
         });
       }
     }
@@ -167,7 +167,7 @@ export default function SocialProof() {
     return () => clearInterval(interval);
   }, [isAutoPlaying, displayTestimonials.length]);
 
-  const currentTestimonial = testimonials[currentIndex];
+  const currentTestimonial = displayTestimonials[currentIndex];
 
   return (
     <section className="py-20 to-white">
@@ -178,7 +178,9 @@ export default function SocialProof() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-teal-100 rounded-full mb-3">
               <Users className="w-6 h-6 text-teal-600" />
             </div>
-            <div className="text-3xl font-bold text-black mb-1">500+</div>
+            <div className="text-3xl font-bold text-black mb-1">
+              {stats.successStories > 0 ? `${stats.successStories}+` : '—'}
+            </div>
             <div className="text-sm text-black">Success Stories</div>
           </div>
 
@@ -186,7 +188,9 @@ export default function SocialProof() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-brand-blue-100 rounded-full mb-3">
               <Star className="w-6 h-6 text-brand-blue-600" />
             </div>
-            <div className="text-3xl font-bold text-black mb-1">4.9/5</div>
+            <div className="text-3xl font-bold text-black mb-1">
+              {stats.avgRating > 0 ? `${stats.avgRating}/5` : '—'}
+            </div>
             <div className="text-sm text-black">Average Rating</div>
           </div>
 
@@ -194,15 +198,19 @@ export default function SocialProof() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-brand-green-100 rounded-full mb-3">
               <TrendingUp className="w-6 h-6 text-brand-green-600" />
             </div>
-            <div className="text-3xl font-bold text-black mb-1">87%</div>
-            <div className="text-sm text-black">Job Placement</div>
+            <div className="text-3xl font-bold text-black mb-1">
+              {stats.jobPlacement > 0 ? `${stats.jobPlacement}%` : '—'}
+            </div>
+            <div className="text-sm text-black">Career Services Support</div>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg text-center border border-slate-200">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-3">
               <Award aria-label="award" className="w-6 h-6 text-purple-600" />
             </div>
-            <div className="text-3xl font-bold text-black mb-1">95%</div>
+            <div className="text-3xl font-bold text-black mb-1">
+              {stats.completionRate > 0 ? `${stats.completionRate}%` : '—'}
+            </div>
             <div className="text-sm text-black">Completion Rate</div>
           </div>
         </div>
