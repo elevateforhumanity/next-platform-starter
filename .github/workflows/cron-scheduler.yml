@@ -1,7 +1,7 @@
 name: Cron Scheduler
 
-# Calls all admin cron endpoints on their required cadences.
-# Previously these relied on a railway.toml that does not exist.
+# Calls all admin cron endpoints on their required cadences (HTTP only — no work inside idle admin pods).
+# Low-frequency / heavy jobs run weekly; testing-lead-followup runs once daily (not hourly).
 # CRON_SECRET and ADMIN_URL must be set as GitHub Actions secrets.
 #
 # To trigger manually: Actions → Cron Scheduler → Run workflow
@@ -67,7 +67,6 @@ on:
     - cron: '*/5 * * * *'  # every-5-min (queue processors)
     - cron: '0 9 * * 1'    # weekly-monday-9am
     - cron: '0 2 * * *'    # daily-2am (maintenance: guardrails + memory cleanup)
-    - cron: '0 * * * *'    # hourly (testing lead follow-up)
     - cron: '*/30 * * * *' # every-30-min (missed clock-out enforcement)
 
 env:
@@ -166,12 +165,6 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::funding-followup failed"
 
-      - name: School application follow-up
-        run: |
-          curl -sf -X GET "$ADMIN_URL/api/cron/school-application-followup" \
-            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
-            || echo "::warning::school-application-followup failed"
-
       - name: Inactivity reminders
         run: |
           curl -sf -X GET "$ADMIN_URL/api/cron/inactivity-reminders" \
@@ -184,20 +177,6 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" \
             -H "Content-Type: application/json" \
             --max-time 55 || echo "::warning::at-risk-detection failed"
-
-      - name: AI dropout scoring
-        run: |
-          curl -sf -X POST "$ADMIN_URL/api/internal/dropout-score" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -H "Content-Type: application/json" \
-            --max-time 120 || echo "::warning::dropout-score failed"
-
-      - name: LMS lesson pace check
-        run: |
-          curl -sf -X POST "$ADMIN_URL/api/internal/lesson-pace-check" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -H "Content-Type: application/json" \
-            --max-time 60 || echo "::warning::lesson-pace-check failed"
 
       - name: Enrollment automation
         run: |
@@ -295,12 +274,6 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::payment-monitoring failed"
 
-      - name: Payout deadline alert
-        run: |
-          curl -sf -X GET "$ADMIN_URL/api/cron/payout-deadline-alert" \
-            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
-            || echo "::warning::payout-deadline-alert failed"
-
       - name: Webhook health check
         run: |
           curl -sf -X GET "$ADMIN_URL/api/cron/webhook-health-check" \
@@ -320,29 +293,23 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::trial-lifecycle failed"
 
-      - name: Career course emails
-        run: |
-          curl -sf -X GET "$ADMIN_URL/api/cron/career-course-emails" \
-            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
-            || echo "::warning::career-course-emails failed"
-
       - name: Barber billing
         run: |
           curl -sf -X GET "$ADMIN_URL/api/cron/barber-billing" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::barber-billing failed"
 
-      - name: Barber reinstate
-        run: |
-          curl -sf -X GET "$ADMIN_URL/api/cron/barber-reinstate" \
-            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
-            || echo "::warning::barber-reinstate failed"
-
       - name: Escalate funding SLA
         run: |
           curl -sf -X GET "$ADMIN_URL/api/cron/escalate-funding-sla" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
             || echo "::warning::escalate-funding-sla failed"
+
+      - name: Testing lead follow-up (daily)
+        run: |
+          curl -sf -X GET "$ADMIN_URL/api/cron/testing-lead-followup" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
+            || echo "::warning::testing-lead-followup failed"
 
   # ── Daily 8 PM: end-of-day summary ────────────────────────────────────────
   daily-evening:
@@ -399,6 +366,12 @@ jobs:
          || github.event.inputs.job == 'weekly-reminders'
          || github.event.inputs.job == 'weekly-verdicts'
          || github.event.inputs.job == 'low-hours-pace'
+         || github.event.inputs.job == 'career-course-emails'
+         || github.event.inputs.job == 'barber-reinstate'
+         || github.event.inputs.job == 'payout-deadline-alert'
+         || github.event.inputs.job == 'school-application-followup'
+         || github.event.inputs.job == 'dropout-score'
+         || github.event.inputs.job == 'lesson-pace-check'
       ))
     steps:
       - name: Weekly reminders
@@ -425,16 +398,40 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" --max-time 300 \
             || echo "::warning::embed-knowledge failed (non-fatal)"
 
-  # ── Hourly: testing lead follow-up ────────────────────────────────────────
-  hourly:
-    name: Hourly jobs
-    runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'schedule' && github.event.schedule == '0 * * * *'
-      || (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'testing-lead-followup')
-    steps:
-      - name: Testing lead follow-up
+      - name: School application follow-up
         run: |
-          curl -sf -X GET "$ADMIN_URL/api/cron/testing-lead-followup" \
+          curl -sf -X GET "$ADMIN_URL/api/cron/school-application-followup" \
             -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
-            || echo "::warning::testing-lead-followup failed"
+            || echo "::warning::school-application-followup failed"
+
+      - name: Career course emails
+        run: |
+          curl -sf -X GET "$ADMIN_URL/api/cron/career-course-emails" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
+            || echo "::warning::career-course-emails failed"
+
+      - name: Barber reinstate
+        run: |
+          curl -sf -X GET "$ADMIN_URL/api/cron/barber-reinstate" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
+            || echo "::warning::barber-reinstate failed"
+
+      - name: Payout deadline alert
+        run: |
+          curl -sf -X GET "$ADMIN_URL/api/cron/payout-deadline-alert" \
+            -H "Authorization: Bearer $CRON_SECRET" --max-time 60 \
+            || echo "::warning::payout-deadline-alert failed"
+
+      - name: AI dropout scoring
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/dropout-score" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 120 || echo "::warning::dropout-score failed"
+
+      - name: LMS lesson pace check
+        run: |
+          curl -sf -X POST "$ADMIN_URL/api/internal/lesson-pace-check" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            --max-time 60 || echo "::warning::lesson-pace-check failed"

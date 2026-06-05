@@ -91,9 +91,10 @@ export async function POST(request: NextRequest) {
 
   if (createErr || !job) return safeDbError(createErr ?? new Error('Insert failed'), 'Failed to create export job');
 
-  // Run the export — writes to a temp dir
+  // Run the export — writes to a temp dir (always removed in finally)
   const outDir = path.join(os.tmpdir(), `pirl-${job.id}`);
   const filePrefix = 'elevate';
+  const fs = await import('node:fs/promises');
 
   try {
     const adapter = createSupabaseAdapter();
@@ -105,7 +106,6 @@ export async function POST(request: NextRequest) {
     });
 
     // Upload the .txt file to Supabase Storage (wioa-exports bucket)
-    const fs = await import('node:fs/promises');
     const fileBytes = await fs.readFile(result.dataFilePath);
     const storagePath = `pirl/${quarter}/${path.basename(result.dataFilePath)}`;
 
@@ -180,9 +180,6 @@ export async function POST(request: NextRequest) {
       })
       .eq('id', job.id);
 
-    // Clean up temp dir
-    await (await import('node:fs/promises')).rm(outDir, { recursive: true, force: true });
-
     return NextResponse.json({
       export_id:    job.id,
       quarter,
@@ -208,5 +205,7 @@ export async function POST(request: NextRequest) {
       .eq('id', job.id);
 
     return safeInternalError(err, 'PIRL export failed');
+  } finally {
+    await fs.rm(outDir, { recursive: true, force: true }).catch(() => {});
   }
 }

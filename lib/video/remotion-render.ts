@@ -12,7 +12,6 @@
 import path from 'path';
 import os from 'os';
 import { mkdir, readFile, rm, writeFile, unlink } from 'fs/promises';
-import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
 import { registerUsageEvent } from '@remotion/licensing';
 import { generateEdgeTTS, buildLessonScript, EDGE_TTS_VOICES, type EdgeTTSVoice } from './edge-tts';
@@ -21,6 +20,11 @@ import { logger } from '@/lib/logger';
 // Type-only import — never bundled, only used for type checking
 import type { ElevateLessonProps } from '@/remotion-src/compositions/ElevateLesson';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  getRemotionBundleUrl,
+  releaseRemotionBundle,
+  shouldReleaseRemotionBundleAfterJob,
+} from './remotion-bundle-cache';
 import {
   lessonRenderTempPaths,
   uploadLessonFileFromDisk,
@@ -162,33 +166,6 @@ function estimateDuration(script: string): number {
   return Math.ceil((words / 140) * 60);
 }
 
-// ── Remotion bundle cache ─────────────────────────────────────────────────────
-
-let _bundleUrl: string | null = null;
-
-async function getBundleUrl(): Promise<string> {
-  if (_bundleUrl) return _bundleUrl;
-
-  logger.info('[RemotionRender] Bundling Remotion composition...');
-  const entryPoint = path.join(process.cwd(), 'remotion-src', 'index.ts');
-
-  _bundleUrl = await bundle({
-    entryPoint,
-    // Webpack override: mark Node-only modules as external so they don't
-    // get bundled into the browser-side Remotion bundle.
-    webpackOverride: (config) => ({
-      ...config,
-      externals: [
-        ...(Array.isArray(config.externals) ? config.externals : []),
-        'edge-tts',
-      ],
-    }),
-  });
-
-  logger.info('[RemotionRender] Bundle ready');
-  return _bundleUrl;
-}
-
 // ── Main render function ──────────────────────────────────────────────────────
 
 /**
@@ -253,7 +230,7 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
     // ── Step 4: Bundle and render ─────────────────────────────────────────────
     logger.info(`[RemotionRender] Rendering MP4 (${totalFrames} frames @ 30fps = ${duration}s)`);
 
-    const bundleUrl = await getBundleUrl();
+    const bundleUrl = await getRemotionBundleUrl();
 
     const composition = await selectComposition({
       serveUrl: bundleUrl,
@@ -299,6 +276,10 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
     const videoUrl = await uploadLessonFileFromDisk(paths.videoPath, lessonId, 'mp4');
     await rm(paths.dir, { recursive: true, force: true }).catch(() => {});
 
+    if (shouldReleaseRemotionBundleAfterJob()) {
+      await releaseRemotionBundle();
+    }
+
     return {
       success: true,
       videoUrl,
@@ -312,6 +293,10 @@ export async function renderLessonVideo(input: RemotionLessonInput): Promise<Rem
 
     await unlink(paths.videoPath).catch(() => {});
     await rm(paths.dir, { recursive: true, force: true }).catch(() => {});
+
+    if (shouldReleaseRemotionBundleAfterJob()) {
+      await releaseRemotionBundle();
+    }
 
     return {
       success: false,
@@ -353,6 +338,11 @@ export async function renderLessonVideoBatch(
   }
 
   onProgress?.(lessons.length, lessons.length, lessons[lessons.length - 1]);
+
+  if (shouldReleaseRemotionBundleAfterJob()) {
+    await releaseRemotionBundle();
+  }
+
   return results;
 }
 
