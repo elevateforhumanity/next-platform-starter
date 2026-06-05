@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { BARBER_COURSE_ID } from '@/lib/barber/pricing';
+import { BARBER_STUDENT_APP_HOME } from '@/lib/barber/student-app';
 import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
@@ -23,6 +24,7 @@ export const BARBER_PORTAL_QUICK_ACTION_HREFS = {
   workbook: `/lms/courses/${BARBER_COURSE_ID}?activity=reading`,
   transferHours: '/apprentice/transfer-hours',
   orientation: '/programs/barber-apprenticeship/orientation',
+  mobileApp: BARBER_STUDENT_APP_HOME,
 } as const;
 
 describe('barber apprentice portal quick actions', () => {
@@ -36,5 +38,9 @@ describe('barber apprentice portal quick actions', () => {
     expect(apprenticeshipDocumentsPath(SLUG)).toBe(BARBER_PORTAL_QUICK_ACTION_HREFS.uploadDocument);
     expect(apprenticeshipOrientationPath(SLUG)).toBe(BARBER_PORTAL_QUICK_ACTION_HREFS.orientation);
     expect(apprenticeshipWorkbookHref(SLUG)).toBe(BARBER_PORTAL_QUICK_ACTION_HREFS.workbook);
+  });
+
+  it('exposes barber student mobile app download path', () => {
+    expect(BARBER_PORTAL_QUICK_ACTION_HREFS.mobileApp).toBe('/pwa/barber');
   });
 });

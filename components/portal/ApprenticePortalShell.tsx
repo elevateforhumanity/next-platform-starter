@@ -22,6 +22,11 @@ import {
 } from 'lucide-react';
 import { PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL } from '@/lib/barber/branding';
 import {
+  BARBER_STUDENT_APP_HOME,
+  BARBER_STUDENT_APP_SHORT_LABEL,
+} from '@/lib/barber/student-app';
+import { BarberStudentAppDownload } from '@/components/portal/BarberStudentAppDownload';
+import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
   apprenticeshipOrientationPath,
@@ -223,6 +228,7 @@ export function ApprenticePortalShell({
   const rtiCourseLabelShort =
     apprenticeshipRtiLabel(config.programSlug, true) ?? 'Online Course';
   const workbookHref = apprenticeshipWorkbookHref(config.programSlug);
+  const isBarberApprentice = config.programSlug === 'barber-apprenticeship';
 
   const onboardingItems = [
     {
@@ -253,6 +259,9 @@ export function ApprenticePortalShell({
     { id: 'documents', label: 'Documents', href: documentsHref },
     { id: 'billing', label: 'Billing', href: '/apprentice/billing' },
     { id: 'handbook', label: 'Handbook', href: '/apprentice/handbook' },
+    ...(isBarberApprentice
+      ? [{ id: 'mobile-app', label: BARBER_STUDENT_APP_SHORT_LABEL, href: BARBER_STUDENT_APP_HOME }]
+      : []),
   ];
 
   return (
@@ -454,6 +463,8 @@ export function ApprenticePortalShell({
           </div>
         )}
 
+        {isBarberApprentice && <BarberStudentAppDownload variant="card" />}
+
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
@@ -573,6 +584,9 @@ export function ApprenticePortalShell({
                   <p className="text-xs text-slate-500">Payments & invoices</p>
                 </div>
               </Link>
+              {isBarberApprentice && (
+                <BarberStudentAppDownload variant="compact" accentText={config.accentText} />
+              )}
             </div>
           </div>
 
