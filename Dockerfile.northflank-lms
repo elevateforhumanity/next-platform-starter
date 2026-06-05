@@ -57,15 +57,13 @@ ENV SKIP_ENV_VALIDATION=true
 ENV HUSKY=0
 ENV CI=true
 
-# Unified pnpm cache mount — install and build in separate RUN layers (same cache id).
-RUN --mount=type=cache,id=pnpm-northflank-lms-unified,target=/mnt/pnpm-cache \
-    mkdir -p /mnt/pnpm-cache/store /mnt/pnpm-cache/node_modules \
-    && printf '%s\n' 'store-dir=/mnt/pnpm-cache/store' 'modules-dir=/mnt/pnpm-cache/node_modules' >> .npmrc \
+# pnpm store on BuildKit cache; node_modules on /app builder disk (avoids ENOSPC on unified mount).
+RUN --mount=type=cache,id=pnpm-northflank-lms-store,target=/mnt/pnpm-store \
+    mkdir -p /mnt/pnpm-store \
+    && printf '%s\n' 'store-dir=/mnt/pnpm-store' >> .npmrc \
     && pnpm install --frozen-lockfile --ignore-scripts
 
-RUN --mount=type=cache,id=pnpm-northflank-lms-unified,target=/mnt/pnpm-cache \
-    ln -sfn /mnt/pnpm-cache/node_modules /app/node_modules \
-    && test -n "$NEXT_PUBLIC_SUPABASE_URL" \
+RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
     && test -x /app/node_modules/next/dist/bin/next \
     && node /app/node_modules/next/dist/bin/next build \
