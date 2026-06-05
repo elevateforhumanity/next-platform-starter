@@ -540,7 +540,7 @@ export function ApprenticePortalShell({
                   <p className="text-xs text-slate-500">Record a competency</p>
                 </div>
               </Link>
-              <Link href="/apprentice/documents" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
+              <Link href={documentsHref} className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
                 <FileText className={`w-5 h-5 ${config.accentText}`} />
                 <div>
                   <p className="font-semibold text-sm text-slate-900">Upload Document</p>
