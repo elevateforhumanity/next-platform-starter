@@ -59,12 +59,9 @@ ENV SKIP_ENV_VALIDATION=true
 ENV HUSKY=0
 ENV CI=true
 
-# pnpm store on BuildKit cache (10GB cap); node_modules on /app builder disk (32GB+ ephemeral).
-# Unified store+modules mount exhausts /mnt/pnpm-cache → ERR_PNPM_ENOSPC during install.
-RUN --mount=type=cache,id=pnpm-northflank-admin-store,target=/mnt/pnpm-store \
-    mkdir -p /mnt/pnpm-store \
-    && printf '%s\n' 'store-dir=/mnt/pnpm-store' >> .npmrc \
-    && pnpm install --frozen-lockfile --ignore-scripts
+# Install on /app builder ephemeral disk (32GB via patch-ephemeral-storage). No BuildKit
+# cache mount — shared store cache was exhausting disk (ERR_PNPM_ENOSPC) on nf builders.
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
