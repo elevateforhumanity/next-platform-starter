@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Ensure Northflank combined services use BuildKit layer cache (10GB).
+ * Ensure Northflank combined services BuildKit cache settings (disabled — ENOSPC).
  *
  *   pnpm tsx scripts/northflank/ensure-build-cache.ts --dry-run
  *   pnpm tsx scripts/northflank/ensure-build-cache.ts --execute
@@ -20,8 +20,8 @@ const SERVICES = [
 ];
 
 const BUILDKIT = {
-  useCache: true,
-  cacheStorageSize: 10240,
+  useCache: false,
+  cacheStorageSize: 0,
 };
 
 async function main() {

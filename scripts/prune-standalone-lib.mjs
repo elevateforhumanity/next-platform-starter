@@ -33,8 +33,16 @@ export async function pruneStandaloneNodeModules(nodeModulesDir, prunePackages, 
     const entries = await readdir(pnpmDir);
     for (const entry of entries) {
       const shouldPrune = prunePackages.some((pkg) => {
-        const pnpmName = pkg.startsWith('@') ? pkg.replace('/', '+') : pkg;
-        return entry.startsWith(pnpmName + '@') || entry === pnpmName;
+        if (pkg.startsWith('@')) {
+          const slash = pkg.indexOf('/');
+          if (slash > 0) {
+            const scoped = pkg.slice(1).replace('/', '+') + '@';
+            return entry.startsWith(scoped);
+          }
+          // @esbuild → @esbuild+linux-x64@…, @remotion → @remotion+…
+          return entry.startsWith(`${pkg}+`) || entry.startsWith(`${pkg.slice(1)}+`);
+        }
+        return entry.startsWith(`${pkg}@`) || entry === pkg;
       });
       if (shouldPrune) {
         try {
