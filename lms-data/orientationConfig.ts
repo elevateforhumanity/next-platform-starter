@@ -35,7 +35,7 @@ export const orientationConfigs: Record<string, OrientationProgramConfig> = {
     ojtDescription:
       'Work in a licensed barbershop under a mentor barber. Learn real skills with real clients.',
     rtiDescription:
-      'Complete Milady theory courses online. Learn sanitation, anatomy, and business skills.',
+      'Complete Prestige Elevation Barber Curriculum online through Elevate LMS. Learn sanitation, anatomy, and business skills.',
     tuition: {
       total: 4980,
       setupFeePercent: 35,

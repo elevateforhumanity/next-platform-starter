@@ -33,6 +33,11 @@ describe('barber apprentice portal quick actions', () => {
     expect(apprenticeshipRtiLabel(SLUG, true)).toBe('Prestige Elevation Course');
   });
 
+  it('workbook href targets canonical BARBER_COURSE_ID', () => {
+    expect(apprenticeshipWorkbookHref(SLUG)).toContain(BARBER_COURSE_ID);
+    expect(apprenticeshipWorkbookHref(SLUG)).toMatch(/\?activity=reading$/);
+  });
+
   it('resolves canonical LMS and document paths', () => {
     expect(apprenticeshipLmsCoursePath(SLUG)).toBe(BARBER_PORTAL_QUICK_ACTION_HREFS.rtiCourse);
     expect(apprenticeshipDocumentsPath(SLUG)).toBe(BARBER_PORTAL_QUICK_ACTION_HREFS.uploadDocument);

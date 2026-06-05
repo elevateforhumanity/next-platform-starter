@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { checkBarberSuspension } from '@/lib/barber/suspension';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -23,6 +24,9 @@ async function _POST(request: Request) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const suspended = await checkBarberSuspension(user.id, supabase);
+    if (suspended) return suspended;
 
     const body = await parseBody<Record<string, any>>(request);
     const { date, hours, services_performed, notes } = body;

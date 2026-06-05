@@ -3,6 +3,8 @@
  * Do not use third-party curriculum vendor names in learner UI.
  */
 
+import { BARBER_COURSE_ID } from '@/lib/barber/pricing';
+
 export const PRESTIGE_ELEVATION_BARBER_CURRICULUM =
   'Prestige Elevation Barber Curriculum';
 
@@ -12,6 +14,9 @@ export const PRESTIGE_ELEVATION_BARBER_CURRICULUM_SHORT = 'Prestige Elevation Co
 /** Printable / offline companion materials */
 export const PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL = 'Prestige Elevation Workbook';
 
+/** Canonical LMS path for Prestige Elevation RTI course */
+export const prestigeElevationBarberCoursePath = `/lms/courses/${BARBER_COURSE_ID}`;
+
 /** Primary workbook entry — opens Prestige Elevation RTI reading materials in LMS */
 export const PRESTIGE_ELEVATION_BARBER_WORKBOOK_HREF =
-  '/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17?activity=reading';
+  `${prestigeElevationBarberCoursePath}?activity=reading`;
