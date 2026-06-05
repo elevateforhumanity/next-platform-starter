@@ -7,27 +7,12 @@ import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { logger } from '@/lib/logger';
+import { PUBLIC_REVALIDATE_PATHS } from '@/lib/public-revalidate-paths';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-/** All public marketing routes that must not serve stale program counts or SEO. */
-export const PUBLIC_REVALIDATE_PATHS = [
-  '/',
-  '/programs',
-  '/programs/catalog',
-  '/programs/healthcare',
-  '/programs/skilled-trades',
-  '/programs/technology',
-  '/education',
-  '/career-training',
-  '/impact',
-  '/funding',
-  '/apply',
-  '/enrollment',
-  '/about',
-  '/contact',
-] as const;
+export { PUBLIC_REVALIDATE_PATHS };
 
 export const GET = withRuntime({ cron: 'bearer' }, async () => {
   for (const path of PUBLIC_REVALIDATE_PATHS) {
