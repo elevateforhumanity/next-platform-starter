@@ -60,15 +60,33 @@ async function main() {
 
   console.log(`Expected production SHA (main): ${expected.slice(0, 12)}…\n`);
 
+  const maxAttempts = Number(process.env.NORTHFLANK_SHA_VERIFY_ATTEMPTS || 12);
+  const pollMs = Number(process.env.NORTHFLANK_SHA_VERIFY_POLL_MS || 15_000);
+
   for (const serviceId of services) {
-    const s = await nfFetch<ServiceStatus>(projectApiPath(projectId, `/services/${serviceId}`));
-    const deployed =
-      s.deployment?.internal?.deployedSHA ??
-      (s as { deployedSHA?: string }).deployedSHA;
-    const branch = s.vcsData?.projectBranch ?? s.deployment?.internal?.branch ?? '?';
-    const build = s.status?.build?.status ?? '?';
-    const deploy = s.status?.deployment?.status ?? '?';
-    const ok = shaMatches(deployed, expected);
+    let deployed: string | undefined;
+    let branch = '?';
+    let build = '?';
+    let deploy = '?';
+    let ok = false;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      const s = await nfFetch<ServiceStatus>(projectApiPath(projectId, `/services/${serviceId}`));
+      deployed =
+        s.deployment?.internal?.deployedSHA ??
+        (s as { deployedSHA?: string }).deployedSHA;
+      branch = s.vcsData?.projectBranch ?? s.deployment?.internal?.branch ?? '?';
+      build = s.status?.build?.status ?? '?';
+      deploy = s.status?.deployment?.status ?? '?';
+      ok = shaMatches(deployed, expected);
+      if (ok) break;
+      if (attempt < maxAttempts) {
+        console.log(
+          `${serviceId}: deployed SHA not updated yet (attempt ${attempt}/${maxAttempts}), waiting ${pollMs}ms…`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, pollMs));
+      }
+    }
 
     console.log(
       `${serviceId}: branch=${branch} build=${build} deploy=${deploy}\n  deployed=${deployed?.slice(0, 12) ?? 'unknown'}…  ${ok ? '✅ current' : '❌ STALE'}`,
