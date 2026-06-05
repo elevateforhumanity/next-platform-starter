@@ -232,6 +232,32 @@ const nextConfig = {
       permanent: alias.permanent !== false,
     }));
 
+    const imageManifest = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'scripts/.image-conversion-manifest.json'), 'utf8'),
+    );
+    const imageJpgRedirects = imageManifest.map((row) => ({
+      source: row.origRel,
+      destination: row.webpRel,
+      permanent: true,
+    }));
+    imageJpgRedirects.push(
+      {
+        source: '/hero-images/how-it-works-hero.jpg',
+        destination: '/hero-images/how-it-works-hero.webp',
+        permanent: true,
+      },
+      {
+        source: '/images/alberta-davis.jpg',
+        destination: '/images/alberta-davis.webp',
+        permanent: true,
+      },
+      {
+        source: '/images/facilities-new/facility-2.jpg',
+        destination: '/images/facilities-new/facility-1.webp',
+        permanent: true,
+      },
+    );
+
     return [
       // Durable apex cannot ALIAS to Northflank — canonical host is www (apex uses URL forward in DNS).
       {
