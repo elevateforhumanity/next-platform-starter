@@ -48,6 +48,9 @@ const STATIC_ENV: Record<string, string> = {
   NEXT_PUBLIC_CERT_HOLDER: 'Elevate for Humanity',
   // SERVICE_ROLE is set per-service in configure-services.ts (lms vs admin) — do not put in shared secrets.
   DEVSTUDIO_DEVCONTAINER_MODE: 'github-only',
+  COURSE_VIDEO_STORAGE_BACKEND: 'auto',
+  COURSE_VIDEO_R2_MIN_BYTES: '5242880',
+  REMOTION_RELEASE_BUNDLE_AFTER_RENDER: 'true',
 };
 
 function loadManifestKeys(): string[] {

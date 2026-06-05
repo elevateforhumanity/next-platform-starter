@@ -8,6 +8,10 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { MEDIA_STORAGE_POLICY } from '@/lib/media/storage-policy';
 import { isR2Configured } from '@/lib/cloudflare-r2';
 import { isStorageConfigured } from '@/lib/storage/file-storage';
+import {
+  resolveCourseVideoStorageBackend,
+  isAnyR2Configured,
+} from '@/lib/video/upload-lesson-media';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -33,6 +37,9 @@ export async function GET(request: NextRequest) {
       supabaseConfigured: envSet('NEXT_PUBLIC_SUPABASE_URL') && envSet('SUPABASE_SERVICE_ROLE_KEY'),
       r2CloudflareModule: isR2Configured(),
       r2FileStorageModule: isStorageConfigured(),
+      courseVideoBackend: resolveCourseVideoStorageBackend(),
+      courseVideoR2MinBytes: Number(process.env.COURSE_VIDEO_R2_MIN_BYTES || 5_242_880),
+      largeMp4UsesR2WhenConfigured: isAnyR2Configured(),
       remotionReleaseAfterJob: process.env.REMOTION_RELEASE_BUNDLE_AFTER_RENDER !== 'false',
     },
     notes: [

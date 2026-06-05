@@ -4,10 +4,12 @@
  */
 
 export const MEDIA_STORAGE_POLICY = {
-  /** Lesson/course MP4, MP3, slide cache, b-roll — Supabase `course-videos` */
+  /** Lesson/course MP4 — R2 when ≥5MB + CLOUDFLARE_R2_* set; MP3/slides → Supabase `course-videos` */
   courseVideo: {
     bucket: 'course-videos',
     upload: 'lib/video/upload-lesson-media.ts',
+    r2Prefix: 'course-videos/',
+    env: 'COURSE_VIDEO_STORAGE_BACKEND=auto|supabase|r2',
     temp: 'os.tmpdir() only during render; deleted after upload',
   },
   /** Dev Studio uploads — Supabase `documents`; optional R2 when R2_* set */

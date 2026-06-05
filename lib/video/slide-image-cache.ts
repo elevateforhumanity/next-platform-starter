@@ -52,7 +52,7 @@ export async function getSlideImageLocalPath(prompt: string | undefined): Promis
   if (!buffer) return null;
 
   await mkdir(path.dirname(tmpPath), { recursive: true });
-  await uploadCourseVideosObject(buffer, storagePath, 'image/jpeg');
+  await uploadCourseVideosObject(buffer, storagePath, 'image/jpeg', { forceSupabase: true });
   const { writeFile } = await import('fs/promises');
   await writeFile(tmpPath, buffer);
 

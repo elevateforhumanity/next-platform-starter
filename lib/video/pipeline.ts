@@ -12,7 +12,7 @@
  *      - Burned-in captions (Whisper transcription)
  *      - Music bed (-22 dB under narration)
  *      - Branded outro card (3 s)
- *   4. Upload to Supabase course-videos/{programSlug}/{slug}.mp4
+ *   4. Upload to course-videos/{programSlug}/{slug}.mp4 (R2 when large + configured, else Supabase)
  *   5. Update course_lessons.video_url
  *
  * The pipeline is driven entirely by VideoProfile — no per-program code.
@@ -23,6 +23,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { BROLL_MAP, pickBrollKey } from './broll-map';
+import { uploadCourseVideosObject } from './upload-lesson-media';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -453,9 +454,8 @@ export async function processLesson(
   );
 
   // ── Upload final video ────────────────────────────────────────────────────
-  const videoUrl = await uploadToSupabase(
+  const videoUrl = await uploadCourseVideosObject(
     fs.readFileSync(finalVideo),
-    'course-videos',
     `${profile.programSlug}/${slug}.mp4`,
     'video/mp4',
   );

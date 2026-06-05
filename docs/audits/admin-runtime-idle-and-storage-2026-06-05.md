@@ -61,7 +61,7 @@ Two env families exist (historical):
 
 **Check:** `node scripts/check-media-storage-config.mjs`
 
-Course videos do **not** require R2 today; they use Supabase CDN URLs. Moving large video libraries to R2 is optional (lower egress cost) — not implemented in `upload-lesson-media.ts` yet.
+**Large course MP4s** (≥ `COURSE_VIDEO_R2_MIN_BYTES`, default 5MB) upload to R2 when `CLOUDFLARE_R2_*` is set (`COURSE_VIDEO_STORAGE_BACKEND=auto`). MP3 and slide JPEGs stay on Supabase. Store downloads still use `R2_*` / `lib/storage/file-storage.ts`.
 
 ---
 
