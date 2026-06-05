@@ -908,6 +908,14 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
 
+### AI providers (Northflank — not Vercel AI Gateway / not AWS)
+
+- **Production hosting:** Northflank services only (`elevate-lms`, `elevate-admin`). Do not plan or document Elevate production on AWS ECS, Vercel hosting, or Vercel AI Gateway.
+- **Canonical completions:** `lib/ai/ai-service.ts` → `aiChat()` with providers in `lib/ai/providers/` (OpenAI, Gemini, Groq, Azure). Keys via `platform_secrets` / Northflank `elevate-production-env` (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `AI_PROVIDER`, …).
+- **Do not** add a second in-app AI layer (no parallel “gateway SDK” beside `aiChat()`). Exception: `app/api/ai-chat/route.ts` (public chatbot offline fallback) and Dev Studio chat (documented above).
+- **Qwen:** not in the repo. Add only by implementing a provider in `ai-service.ts` and wiring env keys — do not assume it exists.
+- **LiteLLM (optional later):** infrastructure proxy in front of Claude/OpenAI/Groq/Gemini for per-key spend caps and unified logs. Point provider base URLs at LiteLLM; keep application code on `aiChat()`. LiteLLM is ops/infra, not a duplicate business layer.
+
 ### Store apps — individual trials & plans
 
 - **14-day app trials:** `/apps/{website-builder|sam-gov|grants}/start-trial` → `lib/trial/start-app-trial.ts` (admin insert into `user_app_subscriptions`).

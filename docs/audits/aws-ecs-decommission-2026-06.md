@@ -88,6 +88,12 @@ Separate CI/CD per service: [`docs/deploy/northflank-separate-lms-admin.md`](../
 - **Mitigation in PR:** split `pnpm install` and `next build` into separate `RUN` steps in `Dockerfile.northflank-*` (same unified cache mount).
 - After merge to `main`, run: `pnpm tsx scripts/northflank/trigger-build.ts elevate-lms` and `elevate-admin`, or push to `main` to trigger workflows.
 
-## Optional: open PRs still carrying `aws/`
+## CI guard (repo)
 
-Before merging large stabilization PRs, confirm the diff does **not** re-add `aws/ecs-task-*.json` or `deploy-aws.yml`. Rebase or drop those paths if present.
+`node scripts/verify-no-aws-deploy.mjs` runs in `integrity-gate.yml` and **fails** if any of these exist:
+
+- `aws/` directory (any path)
+- `Dockerfile.package`, `Dockerfile.admin`
+- `deploy-aws.yml` or ECS patterns in workflows
+
+**Do not merge** PRs that re-add `aws/README.md`, task defs, or legacy Dockerfiles — rebase onto `main` and drop those paths. Doc-only branches that “mark `aws/` as reference” are obsolete; production is Northflank-only.

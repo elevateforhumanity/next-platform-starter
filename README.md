@@ -220,7 +220,7 @@ lib/curriculum/             Blueprint system and course generator
 lib/tax-software/           MeF tax stack
 data/programs/              Program data objects (metadata, content, CTAs)
 supabase/migrations/        SQL migration files (applied manually in Dashboard)
-aws/                        Legacy hosting reference only — do not use for new deploys
+scripts/northflank/         Production deploy (Northflank — elevate-lms + elevate-admin)
 public/images/              All site images
 scripts/                    Build guards, audit scripts, seeders
 ```

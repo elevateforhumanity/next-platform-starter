@@ -15,12 +15,14 @@ const forbiddenInWorkflows = [
 ];
 
 const forbiddenRepoPaths = [
+  'aws',
   'aws/ecs-task-lms.json',
   'aws/ecs-task-admin.json',
   'aws/buildspec-lms.yml',
   'aws/buildspec-admin.yml',
   '.github/workflows/deploy-aws.yml',
   'Dockerfile.package',
+  'Dockerfile.admin',
 ];
 
 let failed = false;
