@@ -387,12 +387,12 @@ export default async function HelpPage() {
               <div className="text-slate-600">Average Response Time</div>
             </div>
             <div>
-              <div className="text-4xl font-black text-purple-600 mb-2">500+</div>
-              <div className="text-slate-600">Help Articles</div>
+              <div className="text-4xl font-black text-purple-600 mb-2">50+</div>
+              <div className="text-slate-600">Help Topics</div>
             </div>
             <div>
-              <div className="text-4xl font-black text-orange-600 mb-2">98%</div>
-              <div className="text-slate-600">Satisfaction Rate</div>
+              <div className="text-4xl font-black text-orange-600 mb-2">Live</div>
+              <div className="text-slate-600">Admissions Support</div>
             </div>
           </div>
         </div>

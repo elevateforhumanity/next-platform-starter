@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
-import { getActiveJobs, formatSalary, jobTypeLabel } from '@/lib/data/jobs';
+import { getActivePositions } from '@/lib/data/careers';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
@@ -53,7 +53,7 @@ async function getLiveStats() {
 
 export default async function CareersPage() {
   const [openPositions, liveStats] = await Promise.all([
-    getActiveJobs({ limit: 20 }),
+    getActivePositions(),
     getLiveStats(),
   ]);
 
@@ -112,9 +112,9 @@ export default async function CareersPage() {
         primaryCTA={{ text: 'View Open Positions', href: '#positions' }}
         secondaryCTA={{ text: 'Learn About Our Culture', href: '#culture' }}
         features={[
-          'Hundreds of Indiana residents trained • Strong placement outcomes',
-          'Growing employer network • Mission-driven work',
-          'Competitive benefits • Remote work options',
+          'Mission-driven workforce development in Indianapolis',
+          'Roles posted when we are actively hiring',
+          'Competitive benefits for eligible team members',
         ]}
         imageOnRight={true}
       />
@@ -199,31 +199,33 @@ export default async function CareersPage() {
                           'Join our team and make a difference in workforce development.'}
                       </p>
                       <div className="flex flex-wrap gap-3 text-sm">
-                        {position.remote_allowed && (
-                          <span className="bg-brand-green-100 text-brand-green-700 px-3 py-2 rounded-full">
-                            Remote OK
-                          </span>
-                        )}
-                        {(position.job_type || position.employment_type) && (
+                        {position.department?.name && (
                           <span className="bg-brand-blue-100 text-brand-blue-700 px-3 py-2 rounded-full">
-                            {jobTypeLabel(position.job_type ?? position.employment_type)}
+                            {position.department.name}
                           </span>
                         )}
-                        {(position.salary_range || position.salary_min) && (
+                        {position.employment_type && (
+                          <span className="bg-slate-100 text-slate-700 px-3 py-2 rounded-full capitalize">
+                            {position.employment_type.replace(/_/g, ' ')}
+                          </span>
+                        )}
+                        {(position.min_salary || position.max_salary) && (
                           <span className="bg-emerald-100 text-emerald-700 px-3 py-2 rounded-full">
-                            {formatSalary(position)}
+                            {position.min_salary && position.max_salary
+                              ? `$${position.min_salary.toLocaleString()}–$${position.max_salary.toLocaleString()}`
+                              : position.min_salary
+                                ? `From $${position.min_salary.toLocaleString()}`
+                                : `Up to $${position.max_salary!.toLocaleString()}`}
                           </span>
                         )}
-                        {position.location && (
-                          <span className="bg-white text-slate-700 px-3 py-2 rounded-full">
-                            {position.location}
-                          </span>
-                        )}
+                        <span className="bg-white text-slate-700 px-3 py-2 rounded-full">
+                          Indianapolis, IN
+                        </span>
                       </div>
                     </div>
                     <div>
                       <Link
-                        href={`/careers/jobs/${position.id}`}
+                        href={`/careers/${position.id}`}
                         className="inline-block bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
                       >
                         Apply Now

@@ -166,7 +166,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
                   <div>
                     <h4 className="font-bold text-slate-900">Certificate of Completion</h4>
                     <p className="text-sm text-slate-600">
-                      Issued by ${PLATFORM_DEFAULTS.orgName} upon successful program completion
+                      Issued by {PLATFORM_DEFAULTS.orgName} upon successful program completion
                     </p>
                   </div>
                 </div>

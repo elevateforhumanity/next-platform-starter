@@ -2,7 +2,9 @@ import { test, expect } from '@playwright/test';
 
 const PATHS = [
   '/',
+  '/blog',
   '/skilled-trades-training-indiana',
+  '/programs/skilled-trades',
   '/programs/culinary-apprenticeship',
   '/programs',
   '/employers',

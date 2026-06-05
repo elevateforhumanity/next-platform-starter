@@ -78,6 +78,8 @@ async function completeOrientation() {
     if (profile?.email) {
       const firstName = profile.first_name || profile.full_name?.split(' ')[0] || 'there';
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
+      const orgName = PLATFORM_DEFAULTS.orgName;
+      const supportPhone = PLATFORM_DEFAULTS.supportPhone;
       const { sendEmail } = await import('@/lib/email/resend');
       await sendEmail({
         to: profile.email,
@@ -85,7 +87,7 @@ async function completeOrientation() {
         html: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1e293b">
   <div style="background:#1e293b;padding:24px 32px">
-    <p style="margin:0;color:#fff;font-size:18px;font-weight:700">${PLATFORM_DEFAULTS.orgName}</p>
+    <p style="margin:0;color:#fff;font-size:18px;font-weight:700">${orgName}</p>
     <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Career &amp; Technical Institute</p>
   </div>
   <div style="padding:32px">
@@ -102,8 +104,8 @@ async function completeOrientation() {
       Go to My Dashboard →
     </a>
     <p style="margin:32px 0 0;color:#94a3b8;font-size:12px">
-      Questions? Call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong> or reply to this email.<br>
-      ${PLATFORM_DEFAULTS.orgName} Career &amp; Technical Institute
+      Questions? Call <strong>${supportPhone}</strong> or reply to this email.<br>
+      ${orgName} Career &amp; Technical Institute
     </p>
   </div>
 </div>`,

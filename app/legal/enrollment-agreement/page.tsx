@@ -20,7 +20,7 @@ export default function EnrollmentAgreementPage() {
       <DocumentPage
         documentType="Enrollment Agreement"
         title="Student Enrollment Agreement"
-        subtitle="{PLATFORM_DEFAULTS.orgName} Career & Technical Institute"
+        subtitle={`${PLATFORM_DEFAULTS.orgName} Career & Technical Institute`}
         date="2025-01-01"
         version="1.0"
       >

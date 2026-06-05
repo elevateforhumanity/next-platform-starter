@@ -69,7 +69,7 @@ export default async function AboutPage() {
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image
               src="/images/team/elizabeth-greene.webp"
-              alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
+              alt={`Elizabeth Greene, Founder & CEO of ${PLATFORM_DEFAULTS.orgName}`}
               fill
               className="object-cover object-top"
               priority
@@ -451,7 +451,7 @@ export default async function AboutPage() {
               <div className="relative w-48 h-48 sm:w-56 sm:h-64 flex-shrink-0 overflow-hidden mx-auto sm:mx-0">
                 <Image
                   src="/images/team/founder/elizabeth-greene-founder-hero-01.jpg"
-                  alt="Elizabeth Greene, Founder & CEO of {PLATFORM_DEFAULTS.orgName}"
+                  alt={`Elizabeth Greene, Founder & CEO of ${PLATFORM_DEFAULTS.orgName}`}
                   fill
                   sizes="(max-width: 640px) 192px, 224px"
                   quality={95}
