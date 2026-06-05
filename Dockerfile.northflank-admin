@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
-ENV PNPM_HOME="/pnpm"
+ENV PNPM_HOME="/app/.pnpm-home"
 ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app
@@ -34,7 +34,7 @@ COPY packages/ui/package.json packages/ui/package.json
 
 COPY . .
 
-RUN rm -rf /app/.pnpm-store /app/node_modules
+RUN rm -rf /app/.pnpm-store /app/.pnpm-home /app/node_modules
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
