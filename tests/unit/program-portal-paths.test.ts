@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest';
 import {
   apprenticeshipLmsCoursePath,
   apprenticeshipOrientationPath,
+  apprenticeshipRtiLabel,
+  apprenticeshipWorkbookHref,
   isWorkoneChecklistEligibleApplication,
 } from '@/lib/portal/program-portal-paths';
+import { BARBER_COURSE_ID } from '@/lib/barber/pricing';
 
 describe('program-portal-paths', () => {
   it('routes barber orientation to program page', () => {
@@ -12,9 +15,15 @@ describe('program-portal-paths', () => {
     );
   });
 
-  it('exposes barber Milady LMS course', () => {
-    expect(apprenticeshipLmsCoursePath('barber-apprenticeship')).toMatch(
-      /^\/lms\/courses\/[0-9a-f-]{36}$/,
+  it('routes barber RTI to Prestige Elevation LMS course', () => {
+    expect(apprenticeshipLmsCoursePath('barber-apprenticeship')).toBe(
+      `/lms/courses/${BARBER_COURSE_ID}`,
+    );
+    expect(apprenticeshipRtiLabel('barber-apprenticeship')).toBe(
+      'Prestige Elevation Barber Curriculum',
+    );
+    expect(apprenticeshipWorkbookHref('barber-apprenticeship')).toBe(
+      '/workbooks#prestige-elevation-barber',
     );
   });
 

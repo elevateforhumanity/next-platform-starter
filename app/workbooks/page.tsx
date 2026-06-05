@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 
 const workbooks = [
   {
-    program: 'Barbering/Cosmetology',
-    slug: 'barbering',
+    program: 'Prestige Elevation Barber Curriculum',
+    slug: 'barber-apprenticeship',
+    anchorId: 'prestige-elevation-barber',
     materials: [
-      { title: 'Theory Workbook', file: 'barbering-theory.pdf', pages: 120 },
+      { title: 'Prestige Elevation Workbook', file: 'barbering-theory.pdf', pages: 120 },
       { title: 'Practice Guide', file: 'barbering-practice.pdf', pages: 80 },
       { title: 'State Board Prep', file: 'barbering-exam-prep.pdf', pages: 60 },
       { title: 'Safety Procedures', file: 'barbering-safety.pdf', pages: 40 },
@@ -130,7 +131,11 @@ export default function WorkbooksPage() {
         {/* Workbooks by Program */}
         <div className="space-y-8">
           {workbooks.map((program: any) => (
-            <div key={program.slug} className="bg-white rounded-xl shadow-sm p-8">
+            <div
+              key={program.slug}
+              id={program.anchorId ?? program.slug}
+              className="bg-white rounded-xl shadow-sm p-8 scroll-mt-24"
+            >
               <div className="flex items-center gap-3 mb-6">
                 <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-brand-blue-600" />
                 <h2 className="text-2xl font-bold text-black">{program.program}</h2>

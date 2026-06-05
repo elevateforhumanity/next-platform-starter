@@ -20,10 +20,13 @@ import {
   Hammer,
   Droplets,
 } from 'lucide-react';
+import { PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL } from '@/lib/barber/branding';
 import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
   apprenticeshipOrientationPath,
+  apprenticeshipRtiLabel,
+  apprenticeshipWorkbookHref,
 } from '@/lib/portal/program-portal-paths';
 
 export interface ApprenticePortalConfig {
@@ -215,6 +218,11 @@ export function ApprenticePortalShell({
   const orientationHref = apprenticeshipOrientationPath(config.programSlug);
   const documentsHref = apprenticeshipDocumentsPath(config.programSlug);
   const lmsCourseHref = apprenticeshipLmsCoursePath(config.programSlug);
+  const rtiCourseLabel =
+    apprenticeshipRtiLabel(config.programSlug) ?? 'Online Course';
+  const rtiCourseLabelShort =
+    apprenticeshipRtiLabel(config.programSlug, true) ?? 'Online Course';
+  const workbookHref = apprenticeshipWorkbookHref(config.programSlug);
 
   const onboardingItems = [
     {
@@ -237,7 +245,7 @@ export function ApprenticePortalShell({
   const navTabs = [
     { id: 'dashboard', label: 'Dashboard', href: config.portalPath },
     ...(lmsCourseHref
-      ? [{ id: 'course', label: 'Online Course', href: lmsCourseHref }]
+      ? [{ id: 'course', label: rtiCourseLabelShort, href: lmsCourseHref }]
       : []),
     { id: 'hours', label: 'Hours', href: '/apprentice/hours' },
     { id: 'timeclock', label: 'Timeclock', href: '/apprentice/timeclock' },
@@ -513,8 +521,8 @@ export function ApprenticePortalShell({
                 >
                   <BookOpen className={`w-5 h-5 ${config.accentText}`} />
                   <div>
-                    <p className="font-semibold text-sm text-slate-900">Milady Online Course</p>
-                    <p className="text-xs text-slate-500">RTI lessons &amp; practice</p>
+                    <p className="font-semibold text-sm text-slate-900">{rtiCourseLabel}</p>
+                    <p className="text-xs text-slate-500">Log in to RTI lessons &amp; practice</p>
                   </div>
                 </Link>
               )}
@@ -539,6 +547,18 @@ export function ApprenticePortalShell({
                   <p className="text-xs text-slate-500">Submit required files</p>
                 </div>
               </Link>
+              {workbookHref && (
+                <Link
+                  href={workbookHref}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition"
+                >
+                  <FileText className={`w-5 h-5 ${config.accentText}`} />
+                  <div>
+                    <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
+                    <p className="text-xs text-slate-500">Download study materials</p>
+                  </div>
+                </Link>
+              )}
               <Link href="/apprentice/state-board" className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 hover:bg-slate-200 transition">
                 <GraduationCap aria-label="graduationcap" className={`w-5 h-5 ${config.accentText}`} />
                 <div>
@@ -583,7 +603,7 @@ export function ApprenticePortalShell({
         </div>
 
         {/* Resources */}
-        <div className="grid sm:grid-cols-3 gap-3">
+        <div className={`grid gap-3 ${workbookHref ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'}`}>
           <Link href="/apprentice/skills" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
             <Award aria-label="award" className={`w-5 h-5 ${config.accentText} mb-2`} />
             <p className="font-semibold text-sm text-slate-900">Skills Checklist</p>
@@ -595,14 +615,24 @@ export function ApprenticePortalShell({
               className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition"
             >
               <BookOpen className={`w-5 h-5 ${config.accentText} mb-2`} />
-              <p className="font-semibold text-sm text-slate-900">Milady Course</p>
-              <p className="text-xs text-slate-500 mt-0.5">Online RTI &amp; theory</p>
+              <p className="font-semibold text-sm text-slate-900">{rtiCourseLabelShort}</p>
+              <p className="text-xs text-slate-500 mt-0.5">Online RTI &amp; theory on Elevate LMS</p>
             </Link>
           ) : (
             <Link href="/apprentice/handbook" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
               <BookOpen className={`w-5 h-5 ${config.accentText} mb-2`} />
               <p className="font-semibold text-sm text-slate-900">Handbook</p>
               <p className="text-xs text-slate-500 mt-0.5">Rules & guidelines</p>
+            </Link>
+          )}
+          {workbookHref && (
+            <Link
+              href={workbookHref}
+              className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition"
+            >
+              <FileText className={`w-5 h-5 ${config.accentText} mb-2`} />
+              <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
+              <p className="text-xs text-slate-500 mt-0.5">Printable study guides &amp; practice</p>
             </Link>
           )}
           <Link href="/apprentice/transfer-hours" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
