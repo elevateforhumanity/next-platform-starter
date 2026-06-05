@@ -151,7 +151,7 @@ export default function SkilledTradesTrainingIndianaPage() {
             name: 'HVAC Technician',
             description:
               'Comprehensive HVAC training covering heating, cooling, refrigeration, and ventilation systems. Includes EPA 608 refrigerant handling certification prep.',
-            href: '/programs/hvac-technician',
+            href: '/hvac-training-indianapolis',
           },
           {
             name: 'EPA 608 Certification',
@@ -192,6 +192,8 @@ export default function SkilledTradesTrainingIndianaPage() {
           { label: 'Main Training Hub', href: '/workforce-training-indianapolis' },
           { label: 'WIOA & Funded Training', href: '/wioa-funded-training-indiana' },
           { label: 'Employer Partnerships', href: '/employer-workforce-partnerships-indiana' },
+          { label: 'HVAC Training Indianapolis', href: '/hvac-training-indianapolis' },
+          { label: 'CDL Training Indianapolis', href: '/cdl-training-indianapolis' },
           { label: 'HVAC Technician Program', href: '/programs/hvac-technician' },
           { label: 'Apprenticeships', href: '/apprenticeships' },
           { label: 'All Programs', href: '/programs' },

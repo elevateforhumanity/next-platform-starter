@@ -8,7 +8,7 @@
 
 - **Framework**: Next.js 16.1.6 with Turbopack, App Router
 - **Database**: Supabase (project `cuxzzpsyufcewtmicszk`, 516+ tables)
-- **Hosting**: Northflank combined services — `elevate-lms` uses `Dockerfile.northflank-lms`; `elevate-admin` uses `Dockerfile.northflank-admin`
+- **Hosting**: Two **separate** Northflank services — `elevate-lms` (`Dockerfile.northflank-lms`) and `elevate-admin` (`Dockerfile.northflank-admin`). Each has its own CI/CD workflow; admin pushes must not reconfigure or rebuild LMS (and vice versa).
 - **Package Manager**: pnpm
 - **Build**: `pnpm next build` — must complete with zero errors (page count grows as features are added — do not hardcode it)
 
@@ -28,7 +28,6 @@
 - `lib/tax-software/` — MeF tax stack
 - `lib/curriculum/` — Blueprint system and course generator
 - `scripts/northflank/` — Northflank service configuration, env sync, DNS, and deploy helpers
-- `aws/` — legacy hosting task definitions/buildspecs retained only as migration reference; do not use for new deploys
 - `supabase/migrations/` — SQL migration files (applied manually — see Migrations section)
 - `public/images/` — All site images
 
@@ -832,10 +831,10 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ### Northflank production (not AWS)
 
-- **Deploy path:** GitHub Actions → `scripts/northflank/*` → combined services `elevate-lms` / `elevate-admin`. No `deploy-aws.yml` or ECS in workflows.
-- **Health probes:** `configure-services.ts` sets `startupProbe` + `readinessProbe` on `GET /api/ping:8080`. Verify: `pnpm tsx scripts/northflank/verify-health-checks.ts`.
+- **Deploy path:** GitHub Actions → `scripts/northflank/*` → **separate** services `elevate-lms` and `elevate-admin` (`.github/workflows/deploy-lms.yml` vs `deploy-admin.yml`). Full-platform manual deploy uses `--all`. No `deploy-aws.yml` or ECS in workflows.
+- **Health probes:** `configure-services.ts <service-id>` sets probes per service. Verify: `pnpm tsx scripts/northflank/verify-health-checks.ts elevate-admin` (or `elevate-lms`). Do not run unscoped configure in a single-service workflow.
 - **Build disk:** `NORTHFLANK_EPHEMERAL_STORAGE_MB=32768` (max allowed on project plan). Admin ENOSPC during `pnpm install` means configure must run **before** `trigger-build` on the same build.
-- **Secrets:** `elevate-production-env` secret group on project `elevate-platform`. GitHub may still list `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — unused by deploy workflows; safe to delete in repo Settings.
+- **Secrets:** `elevate-production-env` secret group on project `elevate-platform`. Delete unused GitHub `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` (not used by deploy). Checklist: `docs/audits/aws-ecs-decommission-2026-06.md`.
 - **Legacy deploy API:** `POST /api/admin/deploy` returns **410**; use Northflank via CI or `/api/admin/env-vars/deploy`.
 
 ### Migration discipline
@@ -886,7 +885,7 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 | Dashboard UI (`app/admin/*`, WIOA ETPL) | None | N/A — API → Supabase only |
 
 **Idle admin:** No in-process crons, no Remotion at startup, no autofix until POST. Crons = GitHub Actions → `/api/cron/*`. Storage map: `lib/media/storage-policy.ts`. Audits: `docs/audits/ADMIN_DASHBOARD_STORAGE_AUDIT.md`, `docs/audits/admin-runtime-idle-and-storage-2026-06-05.md`. Check env: `node scripts/check-media-storage-config.mjs`. Diagnostic: `GET /api/admin/runtime-footprint`.
-- **Admin (Northflank):** `elevate-admin` combined service, `Dockerfile.northflank-admin`. Deploy: `.github/workflows/deploy-admin.yml` on `main` (not AWS ECS).
+- **Admin (Northflank):** separate service `elevate-admin`, `Dockerfile.northflank-admin`. Deploy: `.github/workflows/deploy-admin.yml` on `main` (configures admin only).
 - `apps/admin/server.js` must load `.next/required-server-files.json` at startup.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
 - **Deploy both:** `DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute`
@@ -908,6 +907,14 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 **AI Console vs Dev Studio Command tab:** both use `/api/devstudio/execute` — AI Console is the standalone page, Dev Studio embeds the same in an IDE-like shell. Not a conflict.
 
 **Dev Studio AI Chat** (`/api/devstudio/chat`) uses Groq/Gemini with tool calling for platform operations. This is separate from `lib/ai/ai-service.ts` (`aiChat()`) which is for course content generation.
+
+### AI providers (Northflank — not Vercel AI Gateway / not AWS)
+
+- **Production hosting:** Northflank services only (`elevate-lms`, `elevate-admin`). Do not plan or document Elevate production on AWS ECS, Vercel hosting, or Vercel AI Gateway.
+- **Canonical completions:** `lib/ai/ai-service.ts` → `aiChat()` with providers in `lib/ai/providers/` (OpenAI, Gemini, Groq, Azure). Keys via `platform_secrets` / Northflank `elevate-production-env` (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `AI_PROVIDER`, …).
+- **Do not** add a second in-app AI layer (no parallel “gateway SDK” beside `aiChat()`). Exception: `app/api/ai-chat/route.ts` (public chatbot offline fallback) and Dev Studio chat (documented above).
+- **Qwen:** not in the repo. Add only by implementing a provider in `ai-service.ts` and wiring env keys — do not assume it exists.
+- **LiteLLM (optional later):** infrastructure proxy in front of Claude/OpenAI/Groq/Gemini for per-key spend caps and unified logs. Point provider base URLs at LiteLLM; keep application code on `aiChat()`. LiteLLM is ops/infra, not a duplicate business layer.
 
 ### Store apps — individual trials & plans
 

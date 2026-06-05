@@ -1,8 +1,7 @@
 /**
- * GET /api/devstudio/ecs-status
+ * GET /api/devstudio/northflank-status
  *
- * Compatibility endpoint retained for existing Dev Studio panels.
- * Returns Northflank service status after the hosting migration.
+ * Northflank LMS + Admin service status for Dev Studio.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -55,7 +54,9 @@ export async function GET(request: NextRequest) {
           runningCount: isHealthy(status) ? 1 : 0,
           desiredCount: 1,
           pendingCount: ['BUILDING', 'DEPLOYING', 'PENDING'].includes(status.toUpperCase()) ? 1 : 0,
-          taskDefinition: String((service.vcsData as { projectBranch?: string } | undefined)?.projectBranch ?? 'Northflank'),
+          deployBranch: String(
+            (service.vcsData as { projectBranch?: string } | undefined)?.projectBranch ?? 'main',
+          ),
           lastDeployedAt: deploymentStatus?.lastTransitionTime ?? deploymentStatus?.updatedAt ?? null,
           healthy: isHealthy(status),
         };

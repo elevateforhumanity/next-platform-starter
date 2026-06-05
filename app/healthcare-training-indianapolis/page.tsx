@@ -150,7 +150,7 @@ export default function HealthcareTrainingIndianapolisPage() {
             name: 'Certified Nursing Assistant (CNA)',
             description:
               'State-supervised CNA training meeting Indiana State Department of Health hours requirements. Prepares graduates for the Indiana Nurse Aide Competency Evaluation and ISDH registry.',
-            href: '/programs/cna',
+            href: '/cna-training-indianapolis',
           },
           {
             name: 'Home Health Aide (HHA)',
@@ -191,6 +191,7 @@ export default function HealthcareTrainingIndianapolisPage() {
           { label: 'Main Training Hub', href: '/workforce-training-indianapolis' },
           { label: 'WIOA & Funded Training', href: '/wioa-funded-training-indiana' },
           { label: 'Employer Partnerships', href: '/employer-workforce-partnerships-indiana' },
+          { label: 'CNA Training Indianapolis', href: '/cna-training-indianapolis' },
           { label: 'CNA Program', href: '/programs/cna' },
           { label: 'Healthcare Programs', href: '/programs/healthcare' },
           { label: 'Apply Now', href: '/apply' },

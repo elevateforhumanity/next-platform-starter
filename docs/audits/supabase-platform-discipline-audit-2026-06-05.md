@@ -131,7 +131,7 @@ node scripts/db/runMigrations.js
 ### Stale references (docs only — no active workflow)
 
 - `deploy-aws.yml` — **not in repo**; mentioned in older audit docs under `docs/audits/`
-- `aws/ecs-task-lms.json` — retained as migration reference per AGENTS.md
+- `aws/ecs-task-lms.json` — **removed** from repo; CI blocks `aws/` (Northflank-only)
 - `docs/platform-hardening-audit-2026-05-31.md` — cites `deploy-aws.yml` (update doc)
 
 ### Portal / learner route consolidation

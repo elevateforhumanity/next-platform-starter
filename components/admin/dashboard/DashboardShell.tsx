@@ -23,6 +23,7 @@ import { JobBoardPanel } from "./JobBoardPanel";
 import { RecentPaymentsPanel } from "./RecentPaymentsPanel";
 import { StatsOverviewBar } from "./StatsOverviewBar";
 import { EnrollmentFunnel } from "./EnrollmentFunnel";
+import { PublishWebsitePanel } from "./PublishWebsitePanel";
 
 
 function fmtUsd(cents: number) {
@@ -484,6 +485,8 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
           <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
         </div>
+
+        <PublishWebsitePanel />
 
         <DegradedBanner sections={data.degradedSections ?? []} />
 

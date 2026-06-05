@@ -2,7 +2,7 @@
 # Dockerfile.northflank-lms
 #
 # LMS (root Next.js app) for Northflank combined CI/CD.
-# Mirrors Dockerfile.package layout; BuildKit registry cache is enabled via
+# BuildKit registry cache is enabled via
 # scripts/northflank/ensure-build-cache.ts (useCache: true on the service).
 
 FROM node:20-bookworm AS builder
@@ -79,7 +79,7 @@ RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
 
 RUN node scripts/prune-lms-builder-disk.mjs
 
-# --- runtime (Dockerfile.package layout) ---
+# --- runtime ---
 FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

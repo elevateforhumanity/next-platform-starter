@@ -208,7 +208,7 @@ export default function AvatarChatBar() {
           content:
             data.message ||
             data.response ||
-            "I'm here to help! Please try again or call {PLATFORM_DEFAULTS.supportPhone}.",
+            `I'm here to help! Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`,
         },
       ]);
 

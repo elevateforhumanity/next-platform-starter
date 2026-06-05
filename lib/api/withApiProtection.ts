@@ -96,8 +96,13 @@ function validateSystemToken(request: NextRequest): boolean {
   if (cronSecret && (authHeader === `Bearer ${cronSecret}` || cronHeader === cronSecret)) return true;
   if (jobToken && authHeader === `Bearer ${jobToken}`) return true;
 
-  // Scheduled task header.
-  if (request.headers.get('x-ecs-scheduled-task-secret') === process.env.CRON_SECRET) return true;
+  // Legacy scheduled-task header (Northflank/cron); same secret as CRON_SECRET.
+  if (
+    cronSecret &&
+    request.headers.get('x-ecs-scheduled-task-secret') === cronSecret
+  ) {
+    return true;
+  }
 
   return false;
 }

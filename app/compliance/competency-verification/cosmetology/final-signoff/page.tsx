@@ -37,7 +37,7 @@ export default function CosmetologyFinalSignoffPage() {
         <InstitutionalHeader
           documentType="Final Sign-Off"
           title="Cosmetology Apprenticeship — Final Competency Sign-Off"
-          subtitle="{PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132302 | Occupation: Cosmetologist (332.271-010)"
+          subtitle={`${PLATFORM_DEFAULTS.orgName} | RAPIDS ID: 2025-IN-132302 | Occupation: Cosmetologist (332.271-010)`}
         />
 
         <div className="grid grid-cols-3 gap-4 my-4 text-sm">
