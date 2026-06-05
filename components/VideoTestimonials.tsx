@@ -2,10 +2,17 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { statLabel } from '@/lib/site-stats';
+import { createClient } from '@/lib/supabase/client';
+import { SITE_STATS } from '@/lib/site-stats';
+
+function displayStat(value: number | null | undefined, options?: { suffix?: string; prefix?: string }) {
+  if (value == null || value <= 0) return '—';
+  const base = value.toLocaleString('en-US');
+  return `${options?.prefix ?? ''}${base}${options?.suffix ?? ''}`;
+}
 
 interface Testimonial {
   id: string;
@@ -108,6 +115,45 @@ const testimonials: Testimonial[] = [
 export default function VideoTestimonials() {
   const [selectedVideo, setSelectedVideo] = useState<Testimonial | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [verifiedStats, setVerifiedStats] = useState({
+    placementRate: null as number | null,
+    successStories: null as number | null,
+    avgRating: null as number | null,
+  });
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase
+          .from('platform_stats')
+          .select('stat_name, stat_value')
+          .in('stat_name', ['job_placement_rate', 'success_stories', 'avg_rating']);
+
+        if (!data?.length) return;
+
+        const map: Record<string, number> = {};
+        for (const row of data) {
+          map[row.stat_name] = Number(row.stat_value);
+        }
+        setVerifiedStats({
+          placementRate: map.job_placement_rate > 0 ? map.job_placement_rate : null,
+          successStories: map.success_stories > 0 ? map.success_stories : null,
+          avgRating: map.avg_rating > 0 ? map.avg_rating : null,
+        });
+      } catch {
+        // Public page — show em dash when stats unavailable
+      }
+    }
+    void loadStats();
+  }, []);
+
+  const placementDisplay =
+    verifiedStats.placementRate != null
+      ? `${verifiedStats.placementRate}%`
+      : SITE_STATS.careerServicesSupportRate > 0
+        ? `${SITE_STATS.careerServicesSupportRate}%`
+        : '—';
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -299,27 +345,27 @@ export default function VideoTestimonials() {
         >
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
-              {statLabel.placement}
+              {placementDisplay}
             </div>
-            <div className="text-black">Graduate Employment Rate</div>
+            <div className="text-black">Career Services Support</div>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-green-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
-              $15K+
+              —
             </div>
-            <div className="text-black">Average Salary Increase</div>
+            <div className="text-black">Avg. Wage Change (self-reported)</div>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-purple-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
-              2,500+
+              {displayStat(verifiedStats.successStories, { suffix: '+' })}
             </div>
-            <div className="text-black">Success Stories</div>
+            <div className="text-black">Published Success Stories</div>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-orange-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
-              4.9★
+              {verifiedStats.avgRating != null ? `${verifiedStats.avgRating}★` : '—'}
             </div>
-            <div className="text-black">Student Satisfaction</div>
+            <div className="text-black">Learner Satisfaction</div>
           </div>
         </motion.div>
 

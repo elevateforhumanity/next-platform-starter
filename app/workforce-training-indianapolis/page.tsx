@@ -136,9 +136,24 @@ export default function WorkforceTrainingIndianapolisPage() {
         pathwaysHeading="Training Program Areas"
         pathways={[
           {
+            name: 'CNA Training Indianapolis',
+            description: 'Certified Nursing Assistant program with ISDH-aligned curriculum, clinical hours, and WIOA funding pathways.',
+            href: '/cna-training-indianapolis',
+          },
+          {
             name: 'Healthcare Training',
             description: 'CNA, HHA, Medical Assistant, Phlebotomy, and Patient Care Technician programs. State-approved credentials for Indiana healthcare employment.',
             href: '/healthcare-training-indianapolis',
+          },
+          {
+            name: 'HVAC Training Indianapolis',
+            description: 'HVAC technician training with EPA 608 prep, hands-on labs, and apprenticeship options.',
+            href: '/hvac-training-indianapolis',
+          },
+          {
+            name: 'CDL Training Indianapolis',
+            description: 'Class A commercial driver training with workforce funding guidance and employer placement support.',
+            href: '/cdl-training-indianapolis',
           },
           {
             name: 'Skilled Trades Training',

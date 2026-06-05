@@ -17,10 +17,10 @@ const roleConfig = {
     primaryAction: { label: 'View Reports', href: '/board/reports' },
     secondaryAction: { label: 'Manage Programs', href: '/board/programs' },
     stats: [
-      { label: 'Active Students', value: '2,500+' },
-      { label: 'Job Placements', value: '95%' },
-      { label: 'Programs', value: '28' },
-      { label: 'Partners', value: '15' },
+      { label: 'Active Students', value: '—' },
+      { label: 'Career Services', value: '—' },
+      { label: 'Programs', value: '—' },
+      { label: 'Partners', value: '—' },
     ],
   },
   delegate: {
@@ -65,10 +65,10 @@ const roleConfig = {
     primaryAction: { label: 'Student Management', href: '/portal/staff/students' },
     secondaryAction: { label: 'Reports', href: '/portal/staff/reports' },
     stats: [
-      { label: 'Total Students', value: '2,500+' },
-      { label: 'Active Programs', value: '28' },
-      { label: 'Pending Apps', value: '45' },
-      { label: 'This Month', value: '120' },
+      { label: 'Total Students', value: '—' },
+      { label: 'Active Programs', value: '—' },
+      { label: 'Pending Apps', value: '—' },
+      { label: 'This Month', value: '—' },
     ],
   },
   admin: {

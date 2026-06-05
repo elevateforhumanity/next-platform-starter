@@ -196,6 +196,71 @@ export default function ImpactMethodologyPage() {
         </div>
       </section>
 
+      {/* Auditor & workforce agency evidence */}
+      <section className="py-14 px-4 border-t border-slate-200 bg-slate-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Evidence for Auditors &amp; Workforce Agencies</h2>
+          <p className="text-slate-600 text-sm mb-8 leading-relaxed">
+            DWD, WorkOne, FSSA, grant reviewers, and employer partners may request substantiation for public metrics and compliance claims. The following materials are available upon request to authorized reviewers.
+          </p>
+          <ul className="space-y-3 text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-2 shrink-0" />
+              <span>
+                <strong>ETPL listing</strong> — Indiana Eligible Training Provider List status and program approvals (
+                <Link href="/federal-compliance" className="text-brand-blue-600 underline">federal compliance</Link>
+                ).
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-2 shrink-0" />
+              <span>
+                <strong>DOL apprenticeship registration</strong> — Sponsor registration and RAPIDS alignment (
+                <Link href="/compliance/apprenticeship-structure" className="text-brand-blue-600 underline">apprenticeship structure</Link>
+                ).
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-2 shrink-0" />
+              <span>
+                <strong>Enrollment &amp; outcome exports</strong> — De-identified cohort reports from{' '}
+                <code className="text-xs bg-white px-1 py-0.5 rounded border">program_enrollments</code>,{' '}
+                <code className="text-xs bg-white px-1 py-0.5 rounded border">program_completion_certificates</code>, and{' '}
+                <code className="text-xs bg-white px-1 py-0.5 rounded border">checkpoint_scores</code> with methodology above.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-2 shrink-0" />
+              <span>
+                <strong>WIOA / PIRL alignment</strong> — Participant reporting fields mapped to internal enrollment records (staff portal exports).
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-red-500 mt-2 shrink-0" />
+              <span>
+                <strong>Internal evidence binder</strong> — Staff-maintained document index:{' '}
+                <code className="text-xs bg-white px-1 py-0.5 rounded border">docs/compliance/public-metrics-evidence-binder.md</code>{' '}
+                (repository; not a public download).
+              </span>
+            </li>
+          </ul>
+          <p className="mt-8 text-sm text-slate-600">
+            Request a reviewer packet:{' '}
+            <Link href="/contact?subject=workforce-audit" className="font-semibold text-brand-blue-600 underline">
+              contact our compliance team
+            </Link>{' '}
+            or email{' '}
+            <a href="mailto:info@elevateforhumanity.org" className="font-semibold text-brand-blue-600 underline">
+              info@elevateforhumanity.org
+            </a>
+            . Allow 3–5 business days for customized exports.
+          </p>
+          <p className="mt-3 text-xs text-slate-500">
+            Methodology version: 2026-06 · Northflank production hosting only (no AWS ECS deploy path).
+          </p>
+        </div>
+      </section>
+
       {/* Footer nav */}
       <section className="py-10 bg-slate-900 text-white px-4">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">

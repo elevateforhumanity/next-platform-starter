@@ -37,6 +37,9 @@ const PARTNER_LOGOS = [
   { src: '/images/partners/nextleveljobs.webp', alt: 'Next Level Jobs', href: '/eligibility' },
   { src: '/images/partners/osha.webp', alt: 'OSHA Authorized', href: '/compliance' },
   { src: '/images/partners/microsoft-logo.png', alt: 'Microsoft training partner', href: '/programs/technology' },
+  { src: '/images/partners/certiport.svg', alt: 'Certiport authorized testing', href: '/programs/technology' },
+  { src: '/images/partners/act-workkeys.svg', alt: 'ACT WorkKeys assessment partner', href: '/workkeys' },
+  { src: '/images/partners/hsi.svg', alt: 'HSI authorized training', href: '/programs/healthcare' },
 ];
 
 export function HomeWhyChoose() {
