@@ -830,6 +830,14 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - `pnpm typecheck` — TypeScript type check (requires `--max-old-space-size=8192`)
 - `pnpm build` — Full production build (requires `--max-old-space-size=6144`, 2600+ pages)
 
+### Northflank production (not AWS)
+
+- **Deploy path:** GitHub Actions → `scripts/northflank/*` → combined services `elevate-lms` / `elevate-admin`. No `deploy-aws.yml` or ECS in workflows.
+- **Health probes:** `configure-services.ts` sets `startupProbe` + `readinessProbe` on `GET /api/ping:8080`. Verify: `pnpm tsx scripts/northflank/verify-health-checks.ts`.
+- **Build disk:** `NORTHFLANK_EPHEMERAL_STORAGE_MB=32768` (max allowed on project plan). Admin ENOSPC during `pnpm install` means configure must run **before** `trigger-build` on the same build.
+- **Secrets:** `elevate-production-env` secret group on project `elevate-platform`. GitHub may still list `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — unused by deploy workflows; safe to delete in repo Settings.
+- **Legacy deploy API:** `POST /api/admin/deploy` returns **410**; use Northflank via CI or `/api/admin/env-vars/deploy`.
+
 ### Gotchas
 
 - **Middleware auth prefixes:** `AUTH_REQUIRED_ROUTES` uses segment-aware matching (`pathMatchesAuthPrefix` in `proxy.ts`). Never use bare `/apprentice` with `pathname.startsWith` — it incorrectly gates public `/apprenticeships`. Public marketing prefixes are listed in `PUBLIC_MARKETING_PREFIXES` (`/apprenticeships`, `/programs/`, `/partners/`, etc.).
@@ -864,11 +872,12 @@ Durable cannot CNAME-flatten apex to Northflank. **Do not** use apex **A** → N
 | `POST /api/admin/generate-lesson-videos` | `os.tmpdir()` during Remotion/TTS; durable → Supabase `course-videos/generated-lessons/` | Yes — temp removed after upload (`lib/video/remotion-render.ts`, `upload-lesson-media.ts`) |
 | `POST /api/admin/courses/[id]/generate-videos` | `os.tmpdir()/vid-gen-*` | Yes — `rmSync` in `finally` |
 | `POST /api/admin/preview-slide` | `os.tmpdir()/elevate-slide-cache/`; durable cache → Supabase `course-videos/slide-cache/` | Yes — temp per request (`lib/video/slide-image-cache.ts`) |
-| `POST /api/admin/wioa/pirl-export` | `os.tmpdir()/pirl-*` | Yes — after upload |
+| `POST /api/admin/wioa/pirl-export` | `os.tmpdir()/pirl-*` | Yes — `finally` rm even on failure |
 | `PUT /api/devstudio/devcontainer` | `.devcontainer/` only in `local-only` without `GITHUB_TOKEN` | Blocked in prod (`github-only`) |
+| Remotion webpack bundle | `os.tmpdir()` on first video job only | Yes — `releaseRemotionBundle()` after each job (`lib/video/remotion-bundle-cache.ts`; `REMOTION_RELEASE_BUNDLE_AFTER_RENDER` default true) |
 | Dashboard UI (`app/admin/*`, WIOA ETPL) | None | N/A — API → Supabase only |
 
-Full audit: `docs/audits/ADMIN_DASHBOARD_STORAGE_AUDIT.md` §6. LMS video jobs: `POST /api/videos/generate` uses the same Supabase upload path (no `public/generated/`).
+**Idle admin:** No in-process crons, no Remotion at startup, no autofix until POST. Crons = GitHub Actions → `/api/cron/*`. Storage map: `lib/media/storage-policy.ts`. Audits: `docs/audits/ADMIN_DASHBOARD_STORAGE_AUDIT.md`, `docs/audits/admin-runtime-idle-and-storage-2026-06-05.md`. Check env: `node scripts/check-media-storage-config.mjs`. Diagnostic: `GET /api/admin/runtime-footprint`.
 - **Admin (Northflank):** `elevate-admin` combined service, `Dockerfile.northflank-admin`. Deploy: `.github/workflows/deploy-admin.yml` on `main` (not AWS ECS).
 - `apps/admin/server.js` must load `.next/required-server-files.json` at startup.
 - **BuildKit cache:** `pnpm tsx scripts/northflank/ensure-build-cache.ts --execute` (10GB `useCache` on both services)
