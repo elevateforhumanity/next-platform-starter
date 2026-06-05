@@ -980,6 +980,8 @@ const nextConfig = {
       // Canonical forgot-pw (request form): /reset-password
       // Canonical set-new-password: /auth/reset-password
       { source: '/auth/signin', destination: '/login', permanent: true },
+      { source: '/sign-in', destination: '/login', permanent: true },
+      { source: '/signin', destination: '/login', permanent: true },
       { source: '/auth/signup', destination: '/signup', permanent: true },
       { source: '/register', destination: '/signup', permanent: true },
       { source: '/auth/forgot-password', destination: '/reset-password', permanent: true },
@@ -1276,7 +1278,7 @@ const sentryWebpackPluginOptions = {
   widenClientFileUpload: false,
 };
 
-// Skip Sentry webpack wrapping in production Docker builds (reduces build time)
+// Skip Sentry webpack wrapping in ECS (reduces build time)
 // and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
 // Skip Sentry webpack worker on AWS EC2 builds — it doubles peak heap and OOMs
 // the 16GB runner. Sentry still initialises at runtime via instrumentation.ts.

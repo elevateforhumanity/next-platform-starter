@@ -26,6 +26,7 @@ import {
   BARBER_STUDENT_APP_SHORT_LABEL,
 } from '@/lib/barber/student-app';
 import { BarberStudentAppDownload } from '@/components/portal/BarberStudentAppDownload';
+import { ApprenticeClockInStatus } from '@/components/portal/ApprenticeClockInStatus';
 import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
@@ -511,6 +512,10 @@ export function ApprenticePortalShell({
               </div>
             )}
           </div>
+        </div>
+
+        <div className="mb-5">
+          <ApprenticeClockInStatus />
         </div>
 
         {/* Quick actions + onboarding */}

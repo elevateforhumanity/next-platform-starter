@@ -118,6 +118,9 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/provider/':                ['provider_admin', 'admin', 'super_admin'],
   '/creator/':                 ['creator', 'admin', 'super_admin'],
 
+  // ── Instructor (LMS host redirects /instructor/* to admin in production) ───
+  '/instructor/':              ['instructor', 'admin', 'super_admin', 'staff'],
+
   // ── Learner portals ───────────────────────────────────────────────────────
   '/learner/':                 ['student', 'admin', 'super_admin', 'staff', 'instructor'],
 
@@ -177,8 +180,12 @@ const AUTH_REQUIRED_ROUTES = [
   '/proctor/',
   '/proctor',
   '/learner/',
+  '/student-portal',
+  '/instructor/',
   '/apprentice',
   '/portal/',
+  '/portals',
+  '/dashboards',
   '/case-manager/',
   '/case-manager',
   '/account/',
@@ -258,6 +265,8 @@ const NOINDEX_PREFIXES = [
   '/workforce-board',
   '/employer',
   '/student-portal',
+  '/portals',
+  '/dashboards',
   '/partner/',
   '/mentor/',
   '/hub/',

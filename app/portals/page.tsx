@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/portals',
   },
+  robots: { index: false, follow: false },
   title: 'Portals',
   description:
     'Sign in to your Elevate portal — learner, apprentice, employer, partner, instructor, case manager, mentor, or staff.',
