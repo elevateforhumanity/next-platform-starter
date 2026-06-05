@@ -555,7 +555,7 @@ export function ApprenticePortalShell({
                   <FileText className={`w-5 h-5 ${config.accentText}`} />
                   <div>
                     <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
-                    <p className="text-xs text-slate-500">Download study materials</p>
+                    <p className="text-xs text-slate-500">Reading &amp; study materials</p>
                   </div>
                 </Link>
               )}
@@ -583,21 +583,30 @@ export function ApprenticePortalShell({
               {onboardingComplete && <span className="text-brand-green-600 ml-1">✓ Complete</span>}
             </h2>
             <ul className="space-y-2.5">
-              {onboardingItems.map((item) =>
-                item.done ? (
-                  <li key={item.label} className="flex items-center gap-2.5 text-sm text-slate-400">
-                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0" aria-hidden="true" />
-                    <span className="line-through">{item.label}</span>
-                  </li>
-                ) : (
-                  <li key={item.label}>
-                    <Link href={item.href} className="flex items-center gap-2.5 text-sm text-slate-800 hover:text-slate-900 group">
+              {onboardingItems.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-2.5 text-sm group ${
+                      item.done
+                        ? 'text-slate-500 hover:text-slate-700'
+                        : 'text-slate-800 hover:text-slate-900'
+                    }`}
+                  >
+                    {item.done ? (
+                      <span
+                        className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    ) : (
                       <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                      <span className="group-hover:underline">{item.label}</span>
-                    </Link>
-                  </li>
-                ),
-              )}
+                    )}
+                    <span className={item.done ? 'line-through group-hover:no-underline' : 'group-hover:underline'}>
+                      {item.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -616,7 +625,7 @@ export function ApprenticePortalShell({
             >
               <BookOpen className={`w-5 h-5 ${config.accentText} mb-2`} />
               <p className="font-semibold text-sm text-slate-900">{rtiCourseLabelShort}</p>
-              <p className="text-xs text-slate-500 mt-0.5">Online RTI &amp; theory on Elevate LMS</p>
+              <p className="text-xs text-slate-500 mt-0.5">RTI lessons on Elevate LMS</p>
             </Link>
           ) : (
             <Link href="/apprentice/handbook" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">
@@ -632,7 +641,7 @@ export function ApprenticePortalShell({
             >
               <FileText className={`w-5 h-5 ${config.accentText} mb-2`} />
               <p className="font-semibold text-sm text-slate-900">{PRESTIGE_ELEVATION_BARBER_WORKBOOK_LABEL}</p>
-              <p className="text-xs text-slate-500 mt-0.5">Printable study guides &amp; practice</p>
+              <p className="text-xs text-slate-500 mt-0.5">Open workbook in LMS</p>
             </Link>
           )}
           <Link href="/apprentice/transfer-hours" className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-slate-300 transition">

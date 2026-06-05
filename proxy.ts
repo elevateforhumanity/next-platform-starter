@@ -123,6 +123,14 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
 
   // ── Field portals — all require student role (or admin/staff oversight) ───
   '/portal/apprentice':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/barber':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/cosmetology':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/esthetician':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/nail-technician':   ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/culinary':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/electrical':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/portal/plumbing':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/apprentice/':              ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/healthcare':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/technology':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
   '/portal/business':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],

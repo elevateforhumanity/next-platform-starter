@@ -23,7 +23,7 @@ describe('program-portal-paths', () => {
       'Prestige Elevation Barber Curriculum',
     );
     expect(apprenticeshipWorkbookHref('barber-apprenticeship')).toBe(
-      '/workbooks#prestige-elevation-barber',
+      `/lms/courses/${BARBER_COURSE_ID}?activity=reading`,
     );
   });
 
