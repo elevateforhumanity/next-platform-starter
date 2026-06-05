@@ -87,6 +87,9 @@ RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json
 
+# Drop node_modules + marketing-only assets before runtime COPY (BuildKit ENOSPC).
+RUN node scripts/prune-admin-builder-disk.mjs
+
 # --- runtime (same as Dockerfile.admin) ---
 FROM node:20-bookworm-slim
 
