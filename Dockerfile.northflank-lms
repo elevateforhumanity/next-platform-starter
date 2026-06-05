@@ -56,8 +56,6 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV SKIP_ENV_VALIDATION=true
 ENV HUSKY=0
 ENV CI=true
-ENV PUPPETEER_SKIP_DOWNLOAD=true
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Unified pnpm cache mount — install and build in separate RUN layers (same cache id).
 RUN --mount=type=cache,id=pnpm-northflank-lms-unified,target=/mnt/pnpm-cache \
