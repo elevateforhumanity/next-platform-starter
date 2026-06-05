@@ -2,6 +2,7 @@
 
 import Image, { ImageProps } from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 
 interface LazyImageProps extends Omit<ImageProps, 'onLoad'> {
   fallback?: string;
@@ -14,6 +15,8 @@ export function LazyImage({
   className = '',
   ...props
 }: LazyImageProps) {
+  const resolvedSrc = resolveSiteImagePath(src);
+  const resolvedFallback = resolveSiteImagePath(fallback);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [error, setError] = useState(false);
@@ -44,7 +47,7 @@ export function LazyImage({
 
       {isInView && (
         <Image
-          src={error ? fallback : src}
+          src={error ? resolvedFallback : resolvedSrc}
           alt={alt}
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setIsLoaded(true)}

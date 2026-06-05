@@ -14,9 +14,23 @@ describe('resolveSiteImagePath', () => {
     );
   });
 
+  it('maps legacy .jpg paths to .webp from conversion manifest', () => {
+    expect(resolveSiteImagePath('/images/pages/pathways-page-6.jpg')).toBe(
+      '/images/pages/pathways-page-6.webp',
+    );
+    expect(resolveSiteImagePath('/images/pages/how-it-works-hero.jpg')).toBe(
+      '/images/pages/how-it-works-hero.webp',
+    );
+  });
+
   it('returns unknown paths unchanged', () => {
     expect(resolveSiteImagePath('/images/pages/hvac-technician.webp')).toBe(
       '/images/pages/hvac-technician.webp',
     );
+  });
+
+  it('returns fallback for null/empty src', () => {
+    expect(resolveSiteImagePath(null)).toBe('/images/pages/prog-hero-main-2.webp');
+    expect(resolveSiteImagePath('')).toBe('/images/pages/prog-hero-main-2.webp');
   });
 });

@@ -26,15 +26,8 @@ export default function BeautyApplyPage() {
   const params = useParams<{ program: string }>();
   const router = useRouter();
 
-  // Redirect programs that have their own dedicated enrollment flow.
-  useEffect(() => {
-    const dedicated = DEDICATED_FLOWS[params.program];
-    if (dedicated) {
-      router.replace(dedicated);
-    }
-  }, [params.program, router]);
-
   const cfg = getBeautyProgram(params.program);
+  const dedicatedFlow = DEDICATED_FLOWS[params.program];
   const c = colorClasses(cfg?.color ?? 'blue');
 
   const [loading, setLoading] = useState(false);
@@ -43,11 +36,23 @@ export default function BeautyApplyPage() {
   const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
 
-  if (!cfg) {
-    // Non-beauty slug hit the shared beauty apply page — redirect to the
-    // generic intake so the user lands on the correct flow.
-    router.replace(`/apply?program=${params.program}`);
-    return null;
+  // Redirects must run in useEffect — router.replace during render throws on SSR (location is not defined).
+  useEffect(() => {
+    if (dedicatedFlow) {
+      router.replace(dedicatedFlow);
+      return;
+    }
+    if (!cfg) {
+      router.replace(`/apply?program=${params.program}`);
+    }
+  }, [cfg, dedicatedFlow, params.program, router]);
+
+  if (dedicatedFlow || !cfg) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="w-8 h-8 animate-spin text-slate-400" aria-label="Redirecting" />
+      </div>
+    );
   }
 
   const depositDollars = (cfg.depositCents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });

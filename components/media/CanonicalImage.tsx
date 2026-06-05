@@ -14,6 +14,7 @@
  */
 
 import Image from 'next/image';
+import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 
 type Props = {
   /** Local static path only. Blocks remote URLs at compile time. */
@@ -55,7 +56,7 @@ export default function CanonicalImage({
 
   return (
     <Image
-      src={src}
+      src={resolveSiteImagePath(src)}
       alt={alt}
       width={width}
       height={height}
