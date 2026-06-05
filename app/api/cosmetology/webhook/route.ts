@@ -6,7 +6,13 @@ import type Stripe from 'stripe';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { runCosmetologyPostPayment } from '@/lib/enrollment/cosmetology-post-payment';
-import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TUITION_CENTS } from '@/lib/cosmetology/pricing';
+import {
+  COSMETOLOGY_PROGRAM_ID,
+  COSMETOLOGY_COURSE_ID,
+  TUITION_CENTS,
+  TUITION_DOLLARS,
+} from '@/lib/cosmetology/pricing';
+import { createWeeklySubscriptionAfterCheckout } from '@/lib/enrollment/create-weekly-subscription-after-checkout';
 import { createOrUpdateEnrollment, linkOrphanedEnrollments } from '@/lib/enrollment-service';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -106,6 +112,74 @@ async function _POST(request: NextRequest) {
         const remainingBalanceCents = Math.max(0, adjustedPriceCents - amountPaidCents);
 
         if (checkoutType === 'cosmetology_enrollment') {
+          const paymentType = session.metadata?.payment_type;
+          const hoursPerWeek = parseInt(session.metadata?.hours_per_week || '0', 10);
+          const transferredHours = parseInt(session.metadata?.transfer_hours_claimed || '0', 10);
+          const fullyPaidEnrollment =
+            paymentType === 'pay_in_full' || fullyPaid;
+
+          const { error: subRecordError } = await supabase.from('cosmetology_subscriptions').insert({
+            stripe_customer_id: customerId,
+            customer_email: customerEmail,
+            customer_name: customerName,
+            customer_phone: customerPhone,
+            status: 'active',
+            full_tuition_amount: TUITION_DOLLARS,
+            amount_paid_at_checkout: amountPaidCents / 100,
+            remaining_balance: remainingBalanceCents / 100,
+            payment_method: 'card',
+            fully_paid: fullyPaidEnrollment,
+            weekly_payment_cents: fullyPaidEnrollment ? 0 : weeklyPaymentCents,
+            weeks_remaining: fullyPaidEnrollment ? 0 : weeksRemaining,
+            hours_per_week: hoursPerWeek,
+            transferred_hours_verified: transferredHours,
+            payment_model: fullyPaidEnrollment ? 'paid_in_full' : 'invoices',
+            created_at: new Date().toISOString(),
+          });
+          if (subRecordError) {
+            logger.error('[cosmetology/webhook] cosmetology_subscriptions insert error:', subRecordError);
+          }
+
+          if (!fullyPaidEnrollment && weeklyPaymentCents > 0 && weeksRemaining > 0) {
+            const billing = await createWeeklySubscriptionAfterCheckout({
+              stripe,
+              supabase,
+              session,
+              customerId,
+              customerEmail,
+              applicationId,
+              weeklyPaymentCents,
+              invoiceWeeks: weeksRemaining,
+              fullyPaid: fullyPaidEnrollment,
+              subscriptionsTable: 'cosmetology_subscriptions',
+              productName: 'Cosmetology Apprenticeship — Weekly Tuition',
+              programSlug: 'cosmetology-apprenticeship',
+            });
+            if (billing.error) {
+              try {
+                const { sendEmail } = await import('@/lib/email/sendgrid');
+                await sendEmail({
+                  to: 'elevate4humanityedu@gmail.com',
+                  subject: '⚠️ Cosmetology weekly billing setup failed — manual action required',
+                  html: `<p>Student: ${customerEmail}<br>Customer ID: ${customerId}<br>Weekly: $${(weeklyPaymentCents / 100).toFixed(2)}<br>Weeks: ${weeksRemaining}</p><p>Error: ${billing.error}</p>`,
+                });
+              } catch {
+                /* non-fatal */
+              }
+            }
+          }
+
+          if (applicationId) {
+            await supabase
+              .from('applications')
+              .update({
+                payment_status: 'paid',
+                payment_intent_id: (session.payment_intent as string) ?? null,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', applicationId);
+          }
+
           // Write program_enrollments row
           const normalizedEmail = customerEmail.toLowerCase().trim();
           const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

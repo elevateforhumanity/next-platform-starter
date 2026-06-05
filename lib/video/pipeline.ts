@@ -208,9 +208,8 @@ async function getOrFetchBroll(brollKey: string, tmpDir: string): Promise<string
   execSync(`curl -sL "${clipUrl}" -o "${tmpPath}"`, { stdio: 'pipe' });
   execSync(`ffmpeg -y -i "${tmpPath}" -t 30 -c copy "${trimPath}" 2>/dev/null`, { stdio: 'pipe' });
 
-  const url = await uploadToSupabase(
+  const url = await uploadCourseVideosObject(
     fs.readFileSync(trimPath),
-    'course-videos',
     storagePath,
     'video/mp4',
   );
