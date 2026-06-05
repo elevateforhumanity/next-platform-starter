@@ -94,7 +94,7 @@ export default function HeroPicture({
           fill
           sizes={heroTokens.imageSizes}
           quality={75}
-          className="object-cover object-center"
+          className="object-cover object-center sm:object-[center_35%]"
           priority={priority}
           placeholder="empty"
         />

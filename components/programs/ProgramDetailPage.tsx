@@ -42,6 +42,7 @@ import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
 import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
 import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
 
 interface Props {
   program: ProgramSchema;
@@ -879,6 +880,8 @@ export default function ProgramDetailPage({
       </section>
 
       {children && <div>{children}</div>}
+
+      <CredentialAuthorityFootnote />
     </div>
   );
 }

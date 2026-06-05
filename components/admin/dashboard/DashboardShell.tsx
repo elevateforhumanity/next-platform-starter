@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle,
@@ -14,16 +13,19 @@ import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types
 import { OperationalAlerts } from "./OperationalAlerts";
 import { LearnerActionButtons } from "./LearnerActionButtons";
 import { LeadActionButtons } from "./LeadActionButtons";
-import { ProgramIntegrityPanel } from "./ProgramIntegrityPanel";
 import { SystemHealthPanel } from "./SystemHealthPanel";
 import { RealtimeKpiGrid } from "./RealtimeKpiGrid";
 import { BlockedProgramsList } from "./BlockedProgramsList";
 import { RecentApplicationsList } from "./RecentApplicationsList";
-import { JobBoardPanel } from "./JobBoardPanel";
 import { RecentPaymentsPanel } from "./RecentPaymentsPanel";
 import { StatsOverviewBar } from "./StatsOverviewBar";
 import { EnrollmentFunnel } from "./EnrollmentFunnel";
-import { PublishWebsitePanel } from "./PublishWebsitePanel";
+import {
+  JobBoardPanelLazy,
+  ProgramIntegrityPanelLazy,
+  PublishWebsitePanelLazy,
+  SitePreviewPanelWrapperLazy,
+} from "./DashboardDeferredPanels";
 
 
 function fmtUsd(cents: number) {
@@ -188,7 +190,9 @@ function AdminCategoryLanding() {
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-brand-red-600">Admin OS</p>
           <h2 className="mt-1 text-xl font-black text-slate-900">Operate by category</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Each card opens a dedicated admin area with its focused workflows.
+            Each card opens a dedicated admin area. Use the{' '}
+            <span className="font-semibold text-slate-700">☰ menu</span> in the header for every
+            subpage — applications, enrollments, Dev Studio, funding, compliance, and more.
           </p>
         </div>
         <Link href="/admin/settings/nav" className="hidden text-xs font-semibold text-brand-blue-600 hover:underline sm:inline">
@@ -451,14 +455,14 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
   return (
     <div className="pb-16">
-      <div className="relative w-full h-40 sm:h-56 overflow-hidden rounded-2xl mb-6">
+      <div className="relative w-full h-32 sm:h-40 overflow-hidden rounded-2xl mb-6">
         <Image
           src="/images/pages/admin-dashboard-hero.webp"
           alt=""
           fill
           className="object-cover"
-          priority
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 1200px"
+          loading="lazy"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
@@ -486,11 +490,11 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
         </div>
 
-        <PublishWebsitePanel />
-
         <DegradedBanner sections={data.degradedSections ?? []} />
 
         <AdminCategoryLanding />
+
+        <PublishWebsitePanelLazy />
 
         {/* ── Stats overview bar ───────────────────────────────────────── */}
         <StatsOverviewBar data={data} />
@@ -570,13 +574,13 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         {/* ── Program integrity ────────────────────────────────────────── */}
         <div className="mt-8">
-          <ProgramIntegrityPanel />
+          <ProgramIntegrityPanelLazy />
         </div>
 
         {/* ── Job board + site status + system health ──────────────────── */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <JobBoardPanel />
-          <SitePreviewPanelWrapper sites={data.sitePreviewTargets ?? []} />
+          <JobBoardPanelLazy />
+          <SitePreviewPanelWrapperLazy sites={data.sitePreviewTargets ?? []} />
           <SystemHealthPanel health={data.systemHealth} />
         </div>
 

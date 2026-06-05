@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 import { hero as heroTokens } from '@/lib/page-design-tokens';
+import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
 
 export interface LandingPageConfig {
   breadcrumbs: { label: string; href?: string }[];
@@ -58,7 +59,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
           src={config.hero.image}
           alt={config.hero.title}
           fill
-          className="object-cover object-center"
+          className="object-cover object-center sm:object-[center_35%]"
           priority
           sizes={heroTokens.imageSizes}
           quality={75}
@@ -162,6 +163,8 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
           </div>
         </div>
       </section>
+
+      <CredentialAuthorityFootnote />
     </div>
   );
 }

@@ -30,12 +30,20 @@ export function HomeFundingStrip() {
               Most eligible learners qualify for $0 tuition through workforce funding.
             </p>
           </div>
-          <Link
-            href="/funding"
-            className="inline-flex items-center gap-1.5 text-sm font-bold bg-white text-brand-blue-800 px-4 py-2 rounded-lg hover:bg-brand-blue-50 transition-colors shrink-0"
-          >
-            Explore all funding options <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <Link
+              href="/find-workone"
+              className="inline-flex items-center gap-1.5 text-sm font-bold border border-white/40 text-white px-4 py-2 rounded-lg hover:bg-white/10 transition-colors"
+            >
+              Find WorkOne <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/funding"
+              className="inline-flex items-center gap-1.5 text-sm font-bold bg-white text-brand-blue-800 px-4 py-2 rounded-lg hover:bg-brand-blue-50 transition-colors"
+            >
+              All funding options <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {FUNDING_PATHS.map((path) => (

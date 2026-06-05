@@ -18,6 +18,7 @@ import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { getProgramOgImage } from '@/lib/programs/og-images';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
 
 export const dynamic = 'force-dynamic';
 
@@ -504,6 +505,8 @@ function ProgramPage({
           </p>
         </div>
       </section>
+
+      <CredentialAuthorityFootnote />
     </main>
   );
 }
