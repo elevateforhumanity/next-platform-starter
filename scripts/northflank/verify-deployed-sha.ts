@@ -50,6 +50,7 @@ async function main() {
 
   const expected = resolveExpectedSha();
   const trigger = process.argv.includes('--trigger');
+  const trustDeployStatus = process.argv.includes('--trust-deploy-status');
   const onlyArg = process.argv.find((a) => a.startsWith('elevate-'));
   const services = onlyArg
     ? ([onlyArg] as readonly string[])
@@ -86,6 +87,18 @@ async function main() {
         );
         await new Promise((resolve) => setTimeout(resolve, pollMs));
       }
+    }
+
+    if (
+      !ok &&
+      trustDeployStatus &&
+      ['SUCCESS', 'COMPLETED'].includes(String(build)) &&
+      String(deploy) === 'COMPLETED'
+    ) {
+      console.warn(
+        `${serviceId}: deployedSHA metadata stale (${deployed?.slice(0, 12) ?? 'unknown'}…) but Northflank build/deploy completed — accepting`,
+      );
+      ok = true;
     }
 
     console.log(
