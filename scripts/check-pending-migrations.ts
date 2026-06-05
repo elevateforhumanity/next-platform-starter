@@ -4,14 +4,36 @@
  */
 import { createClient } from '@supabase/supabase-js';
 
-const db = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!url || !key || key === 'placeholder' || key.length < 30) {
+  console.error(
+    '❌ SUPABASE_SERVICE_ROLE_KEY missing or placeholder — cannot probe live DB.\n' +
+      '   Set real keys in .env.local, then re-run: pnpm exec tsx scripts/check-pending-migrations.ts',
+  );
+  process.exit(1);
+}
+
+const db = createClient(url, key);
+
+async function verifyConnection(): Promise<boolean> {
+  const { error } = await db.from('programs').select('slug').limit(1);
+  if (error?.message?.includes('Invalid API key') || error?.message?.includes('JWT')) {
+    return false;
+  }
+  return true;
+}
 
 async function tableExists(name: string): Promise<boolean> {
   const { error } = await db.from(name as any).select('*').limit(0);
-  return !error || !error.message.includes('does not exist');
+  if (!error) return true;
+  if (error.message.includes('does not exist')) return false;
+  if (error.message.includes('Invalid API key') || error.message.includes('JWT')) {
+    throw new Error('Invalid Supabase API key — probes would be unreliable');
+  }
+  // Permission errors still mean the relation exists
+  return true;
 }
 
 async function columnExists(table: string, col: string): Promise<boolean> {
@@ -57,8 +79,8 @@ const checks: Array<{ file: string; check: () => Promise<boolean>; description: 
   },
   {
     file: '20260701000006_curriculum_uploads.sql',
-    check: () => columnExists('curriculum_lessons', 'upload_url'),
-    description: 'curriculum_lessons.upload_url column',
+    check: () => tableExists('curriculum_uploads'),
+    description: 'curriculum_uploads table',
   },
   {
     file: '20260701000007_document_intel_and_grant_applications.sql',
@@ -93,6 +115,11 @@ const checks: Array<{ file: string; check: () => Promise<boolean>; description: 
     description: 'curvaturebodysculpting@gmail.com has super_admin role',
   },
 ];
+
+if (!(await verifyConnection())) {
+  console.error('❌ Supabase auth failed — fix SUPABASE_SERVICE_ROLE_KEY before probing migrations.');
+  process.exit(1);
+}
 
 console.log('Checking recent migrations...\n');
 const pending: string[] = [];
