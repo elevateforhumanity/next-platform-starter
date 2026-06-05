@@ -8,7 +8,9 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const root = process.cwd();
-const exportRoot = join(root, 'export', 'pdf-node_modules');
+// Northflank/AWS Dockerfiles export ws/sharp under /export; local dev uses ./export
+const exportBase = process.env.EXPORT_ROOT ?? join(root, 'export');
+const exportRoot = join(exportBase, 'pdf-node_modules');
 
 function copyDir(src, destRelative) {
   // destRelative uses slashes e.g. "@napi-rs/canvas" → export/pdf-node_modules/@napi-rs/canvas
