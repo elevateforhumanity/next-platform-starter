@@ -211,7 +211,7 @@ export default function HeroVideo({
       >
         <CanonicalVideo
           src={videoSrc}
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center sm:object-[center_35%]"
           autoPlayOnMount
           loop
           preloadFull={eagerVideoLoad}

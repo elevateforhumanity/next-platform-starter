@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
 
 export const dynamic = 'force-static';
 
@@ -541,21 +542,6 @@ export default function CredentialsPage() {
         </div>
       </section>
 
-      {/* Disclosure */}
-      <section className="py-8 bg-amber-50 border-b border-amber-200">
-        <div className="max-w-4xl mx-auto px-4">
-          <p className="text-amber-800 text-sm leading-relaxed">
-            <strong>Credential Disclosure:</strong> {PLATFORM_DEFAULTS.orgName} is not an accredited
-            college or university. Certificates of completion are issued by 2Exclusive LLC-S d/b/a
-            {PLATFORM_DEFAULTS.orgName} Career & Technical Institute. Industry certifications are issued by
-            their respective certifying bodies — Elevate provides exam preparation training.
-            Registered Apprenticeship credentials require employer-validated OJT hours and are
-            governed by DOL standards. Funding eligibility (WIOA, WRG, Job Ready Indy) is determined
-            by your local WorkOne office and is not guaranteed.
-          </p>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-14">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -581,6 +567,18 @@ export default function CredentialsPage() {
           </div>
         </div>
       </section>
+
+      <CredentialAuthorityFootnote
+        showComplianceLink
+        className="border-t border-slate-200"
+      />
+      <div className="px-4 pb-8">
+        <p className="text-[10px] text-slate-500 max-w-4xl mx-auto text-center leading-relaxed">
+          Funding eligibility (WIOA, WRG, Job Ready Indy, IMPACT) is determined by your local
+          WorkOne office or agency — not by {PLATFORM_DEFAULTS.orgName}. Registered Apprenticeship
+          credentials require employer-validated OJT hours and are governed by DOL standards.
+        </p>
+      </div>
     </div>
   );
 }

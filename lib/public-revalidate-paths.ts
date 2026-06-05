@@ -33,6 +33,11 @@ export const PUBLIC_REVALIDATE_PATHS = [
   '/cdl-training-indianapolis',
   '/barber-apprenticeship-indianapolis',
   '/wioa-funded-training-indiana',
+  '/find-workone',
+  '/find-workone/central-indiana',
+  '/find-workone/northwest-indiana',
+  '/find-workone/northeast-indiana',
+  '/find-workone/southern-indiana',
 ] as const;
 
 export type PublicRevalidatePath = (typeof PUBLIC_REVALIDATE_PATHS)[number];

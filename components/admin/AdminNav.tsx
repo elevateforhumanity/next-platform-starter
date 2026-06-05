@@ -37,7 +37,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
   const NAV = navSections ?? DEFAULT_NAV;
   const pathname = usePathname();
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [notifOpen, setNotifOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -60,7 +60,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
       if (e.key === 'Escape') {
         setOpenDropdown(null);
         setNotifOpen(false);
-        setMobileOpen(false);
+        setMenuOpen(false);
       }
     }
     document.addEventListener('keydown', handle);
@@ -74,18 +74,18 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [mobileOpen]);
+  }, [menuOpen]);
 
   // Desktop: never leave body scroll locked after resizing from mobile menu
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
     const onChange = () => {
       if (mq.matches) {
-        setMobileOpen(false);
+        setMenuOpen(false);
         document.body.style.overflow = '';
       }
     };
@@ -119,8 +119,8 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
 
           <nav
             ref={navRef}
-            aria-label="Admin navigation"
-            className="hidden md:flex items-center gap-0 flex-1 overflow-x-auto"
+            aria-label="Admin section shortcuts"
+            className="hidden xl:flex items-center gap-0 flex-1 overflow-x-auto min-w-0"
             style={{ scrollbarWidth: 'none' }}
           >
             {NAV.map((section) => {
@@ -250,24 +250,28 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
             </div>
 
             <button
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-label="Toggle menu"
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="Open full admin menu"
+              aria-expanded={menuOpen}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition-colors border border-slate-200"
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </header>
 
-      {mobileOpen && (
+      {menuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/60 z-40 md:hidden"
-            onClick={() => setMobileOpen(false)}
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
           />
           <div
-            className="fixed top-16 right-0 bottom-0 w-[85vw] max-w-sm bg-white border-l border-slate-200 z-50 md:hidden overflow-y-auto shadow-2xl"
+            className="fixed top-16 right-0 bottom-0 w-[min(92vw,28rem)] sm:w-[min(85vw,32rem)] bg-white border-l border-slate-200 z-50 overflow-y-auto shadow-2xl"
+            role="dialog"
+            aria-label="Admin navigation menu"
           >
         <div className="p-4 space-y-1">
           <form
@@ -291,7 +295,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
               <Link
                 key={section.href}
                 href={section.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className={`flex items-center justify-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors text-center ${
                   isSectionActive(pathname, section)
                     ? 'bg-brand-red-50 text-brand-red-700'
@@ -327,7 +331,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
                       <Link
                         key={item.href}
                         href={item.href}
-                        onClick={() => setMobileOpen(false)}
+                        onClick={() => setMenuOpen(false)}
                         className={`block px-3 py-2 rounded-xl text-sm transition-colors ${isActive(pathname, item.href) ? 'bg-brand-red-50 text-brand-red-700 font-semibold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`}
                       >
                         {item.label}

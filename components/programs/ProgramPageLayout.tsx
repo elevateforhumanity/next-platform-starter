@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
-import { ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
+import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
 import { InView } from '@/components/ui/InView';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
@@ -927,6 +928,8 @@ export default function ProgramPageLayout({
           </div>
         </section>
       </InView>
+
+      <CredentialAuthorityFootnote className="border-t-0" />
 
       {/* ===== TRUST BAR ===== */}
       <section className="py-8 bg-slate-50 border-t border-slate-100">

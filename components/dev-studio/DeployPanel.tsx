@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Activity, AlertTriangle, CheckCircle2, ExternalLink, Loader2, Play, RefreshCw, Rocket, XCircle } from 'lucide-react';
+import PublishWebsiteDevPanel from '@/components/dev-studio/PublishWebsiteDevPanel';
 
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint' | string;
 
@@ -217,6 +218,8 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
             );
           })}
         </div>
+
+        <PublishWebsiteDevPanel />
 
         {(lastResult || run) && (
           <section className="mt-4 rounded-md border" style={{ borderColor: '#3c3c3c', background: '#252526' }}>

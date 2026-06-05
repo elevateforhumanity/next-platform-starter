@@ -57,9 +57,12 @@ export const hero = {
    * No gradient overlay. No text on top of image.
    * Content goes in a white panel BELOW the image.
    */
-  /** Video/image band — capped lower on large screens so copy appears above the fold */
+  /**
+   * Video/image band — 16:9-friendly on desktop without crowding the first viewport.
+   * Mobile stays shorter; lg uses 45vh cap per hero-video-standard (max 560px).
+   */
   imageWrap:
-    'relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden bg-slate-100',
+    'relative h-[clamp(220px,42vw,400px)] sm:h-[clamp(260px,44vw,460px)] lg:h-[clamp(280px,45vh,560px)] w-full overflow-hidden bg-slate-100',
   /** Below-hero white panel (headline, CTAs) */
   belowPanel: 'border-b border-slate-100 py-8 sm:py-10 lg:py-8',
   belowHeadline:
