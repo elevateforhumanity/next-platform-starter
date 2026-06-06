@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
 import { getSecuritySettings } from '@/lib/admin/security-settings';
+import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -729,10 +730,9 @@ export async function middleware(request: NextRequest) {
         // Preserve requestHeaders (which carries x-pathname) when refreshing cookies
         response = NextResponse.next({ request: { headers: requestHeaders } });
         cookiesToSet.forEach(({ name, value, options }) => {
-          // Scope auth cookies to root domain so www and app subdomains share the session
           const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
           const cookieOptions = isAuthCookie
-            ? { ...options, domain: '.elevateforhumanity.org' }
+            ? withSupabaseAuthCookieDomain(options)
             : options;
           response.cookies.set(name, value, cookieOptions);
         });
