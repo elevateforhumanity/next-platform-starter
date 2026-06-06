@@ -13,7 +13,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export function HomeFinalCTA() {
   return (
     <section
-      className="relative bg-brand-red-700 py-16 px-4 overflow-hidden"
+      className="relative bg-brand-red-700 py-12 sm:py-14 px-4 overflow-hidden"
       aria-labelledby="final-cta-heading"
     >
       <div className="relative max-w-3xl mx-auto text-center">
