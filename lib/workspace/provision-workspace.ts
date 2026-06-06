@@ -4,15 +4,17 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { fetchPlatformOwnerTenantId } from '@/lib/platform/platform-owner';
 import { enqueueJob } from '@/lib/jobs/queue';
-import type { WorkspaceSubscriptionTier } from '@/lib/workspace/tier-limits';
+import { normalizeWorkspaceTier, type WorkspaceSubscriptionTier } from '@/lib/workspace/tier-limits';
 
 export type ProvisionWorkspaceParams = {
   displayName: string;
   slug: string;
-  subscriptionTier: WorkspaceSubscriptionTier;
+  plan?: string;
+  subscriptionTier?: WorkspaceSubscriptionTier;
   templateSlug?: string;
-  provisionedByUserId: string;
+  provisionedByUserId?: string | null;
   contactEmail?: string;
+  trialEndsAt?: string;
 };
 
 export type ProvisionWorkspaceResult =
@@ -21,27 +23,29 @@ export type ProvisionWorkspaceResult =
       workspaceId: string;
       tenantId: string;
       organizationId: string;
-      status: 'pending' | 'provisioning';
-      workspaceUrl: string | null;
+      status: 'pending' | 'provisioning' | 'active';
+      workspaceUrl: string;
+      publicPreviewUrl: string;
+      subscriptionTier: WorkspaceSubscriptionTier;
     }
   | { ok: false; error: string };
 
-function workspacePublicUrl(slug: string): string {
-  const host = process.env.ELEVATE_DEV_CLOUD_HOST || 'elevatedev.ai';
-  return `https://${slug}.${host}`;
+export function workspacePublicUrl(slug: string): string {
+  const devCloudHost = process.env.ELEVATE_DEV_CLOUD_HOST?.trim();
+  if (devCloudHost) {
+    return `https://${slug}.${devCloudHost}`;
+  }
+  return `https://${slug}.app.elevateforhumanity.org`;
 }
 
 /**
- * Phase 1: creates customer tenant + organization + customer_workspaces row.
- * Phase 2+ (async job): GitHub fork, Northflank project, Supabase project, deploy.
+ * Phase 1: customer tenant + organization + customer_workspaces row + trial license.
+ * Phase 2 (async job): GitHub fork, Northflank service, custom domain, deploy.
  */
 export async function provisionWorkspace(
   params: ProvisionWorkspaceParams,
 ): Promise<ProvisionWorkspaceResult> {
   const db = await requireAdminClient();
-  if (!db) {
-    return { ok: false, error: 'Database unavailable' };
-  }
 
   const slug = params.slug.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
   if (!slug || slug.length < 2) {
@@ -53,8 +57,11 @@ export async function provisionWorkspace(
     return { ok: false, error: 'Platform owner tenant is not configured' };
   }
 
+  const subscriptionTier =
+    params.subscriptionTier ?? normalizeWorkspaceTier(params.plan);
   const templateSlug = params.templateSlug ?? 'workforce-platform-v1';
   const workspaceUrl = workspacePublicUrl(slug);
+  const publicPreviewUrl = workspaceUrl;
 
   const { data: existing } = await db
     .from('customer_workspaces')
@@ -75,7 +82,7 @@ export async function provisionWorkspace(
       type: 'customer',
       is_platform_owner: false,
       parent_tenant_id: ownerTenantId,
-    })
+    } as Record<string, unknown>)
     .select('id')
     .maybeSingle();
 
@@ -84,16 +91,19 @@ export async function provisionWorkspace(
     return { ok: false, error: 'Failed to create customer tenant' };
   }
 
+  const orgInsert: Record<string, unknown> = {
+    name: params.displayName,
+    slug,
+    type: 'training_provider',
+    status: 'active',
+    tenant_id: tenant.id,
+    contact_email: params.contactEmail ?? null,
+    domain: `${slug}.app.elevateforhumanity.org`,
+  };
+
   const { data: org, error: orgError } = await db
     .from('organizations')
-    .insert({
-      name: params.displayName,
-      slug,
-      type: 'training_provider',
-      tenant_id: tenant.id,
-      status: 'active',
-      contact_email: params.contactEmail ?? null,
-    })
+    .insert(orgInsert)
     .select('id')
     .maybeSingle();
 
@@ -110,16 +120,18 @@ export async function provisionWorkspace(
       organization_id: org.id,
       slug,
       display_name: params.displayName,
-      subscription_tier: params.subscriptionTier,
+      owner_email: params.contactEmail ?? null,
+      subscription_tier: subscriptionTier,
       template_slug: templateSlug,
       status: 'provisioning',
       workspace_url: workspaceUrl,
-      provisioned_by: params.provisionedByUserId,
+      trial_ends_at: params.trialEndsAt ?? null,
+      provisioned_by: params.provisionedByUserId ?? null,
       metadata: {
         contact_email: params.contactEmail ?? null,
         phase: 1,
       },
-    })
+    } as Record<string, unknown>)
     .select('id')
     .maybeSingle();
 
@@ -141,7 +153,7 @@ export async function provisionWorkspace(
         organization_id: org.id,
         slug,
         template_slug: templateSlug,
-        subscription_tier: params.subscriptionTier,
+        subscription_tier: subscriptionTier,
       },
     });
   } catch (err) {
@@ -164,5 +176,7 @@ export async function provisionWorkspace(
     organizationId: org.id,
     status: 'provisioning',
     workspaceUrl,
+    publicPreviewUrl,
+    subscriptionTier,
   };
 }

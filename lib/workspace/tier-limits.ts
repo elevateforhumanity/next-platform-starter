@@ -1,5 +1,5 @@
 /**
- * Elevate Dev Cloud workspace subscription tiers.
+ * Elevate workspace subscription tiers.
  * @see docs/platform-owner-tenant-model.md
  */
 
@@ -50,6 +50,19 @@ export const WORKSPACE_TIER_PRICING_USD_MONTHLY: Record<WorkspaceSubscriptionTie
   pro: 149,
   agency: 499,
 };
+
+export const TRIAL_DURATION_DAYS = 14;
+
+/** Map API aliases (starter, individual, school) to canonical tier. */
+export function normalizeWorkspaceTier(
+  plan: string | undefined | null,
+): WorkspaceSubscriptionTier {
+  const raw = (plan ?? 'builder').toLowerCase().trim();
+  if (raw === 'starter' || raw === 'builder' || raw === 'individual') return 'builder';
+  if (raw === 'pro' || raw === 'professional' || raw === 'school') return 'pro';
+  if (raw === 'agency' || raw === 'enterprise') return 'agency';
+  return 'builder';
+}
 
 export function getWorkspaceTierLimits(tier: WorkspaceSubscriptionTier): WorkspaceTierLimits {
   return WORKSPACE_TIER_LIMITS[tier];
