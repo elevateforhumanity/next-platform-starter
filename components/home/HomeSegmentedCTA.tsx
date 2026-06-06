@@ -75,7 +75,7 @@ const SEGMENTS = [
 export function HomeSegmentedCTA() {
   return (
     <section
-      className="bg-white py-16 px-4 border-t border-slate-100"
+      className="bg-white py-12 sm:py-16 px-4 border-b border-slate-100"
       aria-labelledby="segments-heading"
     >
       <div className="max-w-6xl mx-auto">

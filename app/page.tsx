@@ -4,7 +4,6 @@ import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { HomeWhyChoose } from '@/components/home/HomeWhyChoose';
 import { HomeFundingStrip } from '@/components/home/HomeFundingStrip';
-import { HomePrimaryPathways } from '@/components/home/HomePrimaryPathways';
 import { HomeHowItWorks } from '@/components/home/HomeHowItWorks';
 import { HomeCareerPathways } from '@/components/home/HomeCareerPathways';
 import { HomeApprenticeshipInfra } from '@/components/home/HomeApprenticeshipInfra';
@@ -103,7 +102,8 @@ export default async function HomePage() {
   return (
     <>
       <HomeHeroVideo banner={banner} />
-      <HomePrimaryPathways />
+      <HomeSegmentedCTA />
+      <HomeFinalCTA />
       <HomeFundingStrip />
       <HomeWhyChoose />
       <HomeHowItWorks />
@@ -112,8 +112,6 @@ export default async function HomePage() {
       <Suspense fallback={<OutcomesSkeleton />}>
         <HomeOutcomes />
       </Suspense>
-      <HomeSegmentedCTA />
-      <HomeFinalCTA />
     </>
   );
 }
