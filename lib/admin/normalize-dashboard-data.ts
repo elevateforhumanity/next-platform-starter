@@ -75,6 +75,32 @@ function normalizeOperational(
   };
 }
 
+function normalizeSystemHealth(
+  health: Partial<AdminDashboardData['systemHealth']> | null | undefined,
+): AdminDashboardData['systemHealth'] {
+  const base = getDegradedAdminDashboardData().systemHealth;
+  const raw = health ?? {};
+  const alerts = asObjectArray(raw.alerts).map((alert) => ({
+    code: typeof alert.code === 'string' ? alert.code : 'unknown',
+    severity:
+      alert.severity === 'critical' || alert.severity === 'warning' || alert.severity === 'info'
+        ? alert.severity
+        : 'warning',
+    message: typeof alert.message === 'string' ? alert.message : 'System health alert',
+  }));
+  return {
+    stripeWebhookOk: raw.stripeWebhookOk === true,
+    stripeIssuingOk: raw.stripeIssuingOk === true,
+    buildEnvOk: raw.buildEnvOk === true,
+    staleJobs: asCount(raw.staleJobs, base.staleJobs),
+    degraded: raw.degraded === true || alerts.some((a) => a.severity === 'critical'),
+    missingDocuments: asCount(raw.missingDocuments, base.missingDocuments),
+    missingCertifications: asCount(raw.missingCertifications, base.missingCertifications),
+    unresolvedFlags: asCount(raw.unresolvedFlags, base.unresolvedFlags),
+    alerts: alerts.length ? alerts : base.alerts,
+  };
+}
+
 function normalizeCounts(
   counts: Partial<DashboardCounts> | null | undefined,
   pendingApplicationsListLength: number,
@@ -133,7 +159,7 @@ export function normalizeAdminDashboardData(
       ? asArray(input.sitePreviewTargets)
       : fallback.sitePreviewTargets,
     degradedSections: asArray(input.degradedSections),
-    systemHealth: { ...fallback.systemHealth, ...input.systemHealth },
+    systemHealth: normalizeSystemHealth(input.systemHealth),
     isSuperAdmin: input.isSuperAdmin === true,
   };
 }

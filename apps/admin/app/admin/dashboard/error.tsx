@@ -22,10 +22,11 @@ export default function DashboardError({
           secrets (Supabase service role).
         </p>
         <p className="text-xs text-slate-500 mb-4">
-          Try refresh. If it persists, open Dev Studio → System health or confirm{' '}
+          Try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) first — stale JavaScript chunks after a
+          deploy often cause this. If it persists, open Dev Studio → System health or confirm{' '}
           <code className="font-mono">SUPABASE_SERVICE_ROLE_KEY</code> is set in Northflank.
         </p>
-        <p className="text-xs text-slate-700 mb-6 font-mono">
+        <p className="text-xs text-slate-700 mb-6 font-mono break-all">
           {error.digest || error.message || 'ERR_DASHBOARD_LOAD'}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">

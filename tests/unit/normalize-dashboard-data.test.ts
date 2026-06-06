@@ -95,6 +95,22 @@ describe('normalizeAdminDashboardData', () => {
     expect(normalized.priorities[0].severity).toBe('high');
   });
 
+  it('normalizes malformed system health alerts', () => {
+    const normalized = normalizeAdminDashboardData({
+      systemHealth: {
+        alerts: [
+          null,
+          { code: 'stale_jobs', severity: 'warning', message: '2 stuck' },
+          { code: 'bad', severity: 'urgent' as 'critical', message: undefined as unknown as string },
+        ],
+      } as unknown as import('@/components/admin/dashboard/types').AdminDashboardData['systemHealth'],
+    });
+
+    expect(normalized.systemHealth.alerts).toHaveLength(2);
+    expect(normalized.systemHealth.alerts[0].code).toBe('stale_jobs');
+    expect(normalized.systemHealth.alerts[1].severity).toBe('warning');
+  });
+
   it('normalizes operational counters when partial payload omits fields', () => {
     const normalized = normalizeAdminDashboardData({
       operational: {
