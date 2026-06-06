@@ -262,6 +262,7 @@ const PUBLIC_DASHBOARD_LANDINGS = [
   '/program-holder',
   '/workforce-board',
   '/employer',
+  '/partner',
   '/mentor',
 ];
 
