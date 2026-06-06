@@ -43,9 +43,11 @@ import ProgramFundingProcessSection from './ProgramFundingProcessSection';
 import { resolveProgramFundingStatus } from '@/lib/programs/funding-visibility';
 import { ICC_URL, ICC_INSTRUCTION, hero as heroTokens } from '@/lib/page-design-tokens';
 import { DEFAULT_HERO_VIDEO, resolveHeroPosterSrc } from '@/lib/images/hero-banner-media';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { formatDeliveryDisclosure } from '@/lib/programs/program-schema';
 import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialAuthorityFootnote';
+import ProgramAtAGlance from '@/components/programs/ProgramAtAGlance';
+import ProgramCredentialsSection from '@/components/programs/ProgramCredentialsSection';
+import ProgramEmploymentPathway from '@/components/programs/ProgramEmploymentPathway';
 
 interface Props {
   program: ProgramSchema;
@@ -320,6 +322,10 @@ export default function ProgramDetailPage({
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">{announcement}</div>
         </section>
       ) : null}
+
+      <ProgramAtAGlance program={p} />
+      <ProgramCredentialsSection program={p} />
+      <ProgramEmploymentPathway program={p} />
 
       {/* CREDIBILITY STRIP */}
       <section className="py-8 border-y border-slate-100">

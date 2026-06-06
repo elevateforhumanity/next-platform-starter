@@ -45,7 +45,9 @@ export async function loadVerifiedPublicStats(): Promise<VerifiedPublicStats> {
   return {
     programsOffered,
     programsDisplay: formatProgramsDisplay(programsOffered),
-    studentsDisplay: SITE_STATS.studentsDisplay,
+    studentsDisplay: SITE_STATS.studentsDisplayVerified
+      ? SITE_STATS.studentsDisplay
+      : 'Data upon request',
     placementDisplay: SITE_STATS.careerServicesSupportRate != null
       ? `${SITE_STATS.careerServicesSupportRate}%`
       : 'Data upon request',
