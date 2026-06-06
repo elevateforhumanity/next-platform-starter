@@ -9,7 +9,6 @@ import { ArrowRight } from 'lucide-react';
 const FUNDING_PATHS = [
   { label: 'WIOA', desc: 'Federal tuition', href: '/funding/wioa' },
   { label: 'Workforce Ready Grant', desc: 'Indiana state', href: '/funding/wrg' },
-  { label: 'SNAP E&T', desc: 'Training support', href: '/snap-et-partner' },
   { label: 'State funding hub', desc: 'WRG, JRI, WIOA', href: '/funding' },
   { label: 'Earn While You Learn', desc: 'Apprenticeship', href: '/programs/apprenticeships' },
 ];
@@ -45,7 +44,7 @@ export function HomeFundingStrip() {
             </Link>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {FUNDING_PATHS.map((path) => (
             <Link
               key={path.label}

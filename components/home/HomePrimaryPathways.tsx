@@ -17,7 +17,7 @@ const PATHWAYS = [
   },
   {
     headline: 'I Need Funding',
-    desc: 'WIOA, Workforce Ready Grant, FSSA IMPACT, and apprenticeship earn-while-you-learn.',
+    desc: 'WIOA, Workforce Ready Grant, and apprenticeship earn-while-you-learn.',
     href: '/funding',
     cta: 'Check Funding',
     icon: Landmark,
