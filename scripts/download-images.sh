@@ -44,7 +44,7 @@ dl "plumbing-tools.jpg"         "https://images.pexels.com/photos/6419128/pexels
 dl "trades-classroom.jpg"       "https://images.pexels.com/photos/8005401/pexels-photo-8005401.jpeg?auto=compress&cs=tinysrgb&w=1280"
 
 echo "=== CDL / TRUCKING ==="
-dl "cdl-truck-highway.jpg"      "https://images.pexels.com/photos/1427107/pexels-photo-1427107.jpeg?auto=compress&cs=tinysrgb&w=1280"
+dl "cdl-truck-highway.jpg"      "https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=1280"
 dl "cdl-cab-interior.jpg"       "https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg?auto=compress&cs=tinysrgb&w=1280"
 dl "cdl-pretrip.jpg"            "https://images.pexels.com/photos/906982/pexels-photo-906982.jpeg?auto=compress&cs=tinysrgb&w=1280"
 dl "cdl-loading-dock.jpg"       "https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg?auto=compress&cs=tinysrgb&w=1280"
