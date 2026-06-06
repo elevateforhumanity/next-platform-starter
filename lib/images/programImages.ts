@@ -35,7 +35,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
 
   // ── CDL / Commercial Driving ─────────────────────────────────────────────
   'cdl-training': {
-    card: `${P}/cdl-pretrip.jpg`,
+    card: `${P}/cdl-truck-highway.jpg`,
     hero: `${P}/cdl-truck-highway.jpg`,
     alt: 'CDL student performing a pre-trip inspection on a commercial truck',
   },

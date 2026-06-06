@@ -103,7 +103,6 @@ export default async function HomePage() {
     <>
       <HomeHeroVideo banner={banner} />
       <HomeSegmentedCTA />
-      <HomeFinalCTA />
       <HomeFundingStrip />
       <HomeWhyChoose />
       <HomeHowItWorks />
@@ -112,6 +111,7 @@ export default async function HomePage() {
       <Suspense fallback={<OutcomesSkeleton />}>
         <HomeOutcomes />
       </Suspense>
+      <HomeFinalCTA />
     </>
   );
 }
