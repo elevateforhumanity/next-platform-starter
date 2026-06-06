@@ -83,7 +83,7 @@ export interface RuntimeOptions {
    * Cron route — validates cron secret header against CRON_SECRET env var.
    * Automatically adds 'CRON_SECRET' to required secrets.
    *   'x-header'  — checks x-cron-secret header
-   *   'bearer'    — checks Authorization: Bearer <secret> header (Vercel/manual cron)
+   *   'bearer'    — checks Authorization: Bearer <secret> header (manual / external cron)
    */
   cron?: 'x-header' | 'bearer';
 }

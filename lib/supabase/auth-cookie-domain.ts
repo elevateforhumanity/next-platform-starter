@@ -7,7 +7,6 @@ export function resolveSupabaseAuthCookieDomain(): string | undefined {
     process.env.NEXT_PUBLIC_SITE_URL,
     process.env.NEXT_PUBLIC_ADMIN_URL,
     process.env.NEXTAUTH_URL,
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
   ].filter(Boolean) as string[];
 
   for (const raw of candidates) {

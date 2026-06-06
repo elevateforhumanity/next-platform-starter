@@ -293,7 +293,7 @@ export default async function WhiteLabelPage() {
             <div className="p-8 bg-white rounded-xl border border-slate-200">
               <h3 className="text-xl font-bold text-zinc-900 mb-4">Infrastructure</h3>
               <ul className="space-y-2 text-zinc-700">
-                <li>• Vercel deployment</li>
+                <li>• Northflank managed hosting</li>
                 <li>• CDN & edge caching</li>
                 <li>• Automated CI/CD</li>
                 <li>• Environment management</li>
