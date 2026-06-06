@@ -15,6 +15,7 @@ import {
   Zap,
 } from 'lucide-react';
 import type { RecentApplication } from './types';
+import { DashboardPanelErrorBoundary } from './DashboardPanelErrorBoundary';
 
 interface WorkflowButton {
   key: string;
@@ -121,7 +122,9 @@ export function LizzyWorkspace({
 
       {/* Northflank deploy — always visible */}
       <div className="shrink-0 max-h-[220px] overflow-hidden border-b border-[#3c3c3c]">
-        <DeployPanel workflowButtons={config?.workflowButtons} />
+        <DashboardPanelErrorBoundary name="Deploy">
+          <DeployPanel workflowButtons={config?.workflowButtons} />
+        </DashboardPanelErrorBoundary>
       </div>
 
       <div className="flex shrink-0 flex-wrap items-center gap-1 border-b border-[#3c3c3c] bg-[#252526] px-2 py-1.5">
@@ -153,30 +156,32 @@ export function LizzyWorkspace({
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden">
-        {panel === 'command' && <UnifiedEllieChat embedded />}
-        {panel === 'upload' && <LizzyUploadPanel />}
-        {panel === 'files' && <LizzyFilesPanel />}
-        {panel === 'ops' && (
-          <LizzyOperationsPanel
-            pendingApplications={pendingApplications}
-            pendingCount={pendingApplicationsCount}
-            pendingProgramHolders={pendingProgramHolders}
-          />
-        )}
-        {panel === 'health' && (
-          <div className="flex h-full flex-col overflow-hidden">
-            <div className="min-h-0 flex-1 overflow-auto">
-              <EnvironmentHealthPanel />
+        <DashboardPanelErrorBoundary name={`Lizzy ${panel}`}>
+          {panel === 'command' && <UnifiedEllieChat embedded />}
+          {panel === 'upload' && <LizzyUploadPanel />}
+          {panel === 'files' && <LizzyFilesPanel />}
+          {panel === 'ops' && (
+            <LizzyOperationsPanel
+              pendingApplications={pendingApplications}
+              pendingCount={pendingApplicationsCount}
+              pendingProgramHolders={pendingProgramHolders}
+            />
+          )}
+          {panel === 'health' && (
+            <div className="flex h-full flex-col overflow-hidden">
+              <div className="min-h-0 flex-1 overflow-auto">
+                <EnvironmentHealthPanel />
+              </div>
+              <div className="h-1/2 min-h-[200px] border-t border-[#3c3c3c]">
+                <ServicesPanel />
+              </div>
             </div>
-            <div className="h-1/2 min-h-[200px] border-t border-[#3c3c3c]">
-              <ServicesPanel />
-            </div>
-          </div>
-        )}
-        {panel === 'errors' && <LizzyErrorsPanel />}
-        {panel === 'video' && <LizzyVideoPanel />}
-        {panel === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <LizzyErrorsPanel />)}
-        {panel === 'workflows' && <WorkflowsOpsPanel />}
+          )}
+          {panel === 'errors' && <LizzyErrorsPanel />}
+          {panel === 'video' && <LizzyVideoPanel />}
+          {panel === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <LizzyErrorsPanel />)}
+          {panel === 'workflows' && <WorkflowsOpsPanel />}
+        </DashboardPanelErrorBoundary>
       </div>
     </div>
   );
