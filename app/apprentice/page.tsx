@@ -36,6 +36,18 @@ export default async function ApprenticePortalPage() {
     .limit(1)
     .maybeSingle();
 
+  const { data: cosmetologyEnrollment } = await supabase
+    .from('program_enrollments')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('program_slug', 'cosmetology-apprenticeship')
+    .limit(1)
+    .maybeSingle();
+
+  if (cosmetologyEnrollment) {
+    redirect('/portal/cosmetology');
+  }
+
   if (!barberEnrollment) {
     const { data: barberSub } = await supabase
       .from('barber_subscriptions')
