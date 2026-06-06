@@ -109,9 +109,15 @@ function lastMonthEnd() {
 
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+const DASHBOARD_LOAD_TIMEOUT_MS = 25_000;
+
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   try {
-    return await loadAdminDashboardData();
+    return await withTimeout(
+      loadAdminDashboardData(),
+      DASHBOARD_LOAD_TIMEOUT_MS,
+      'loadAdminDashboardData',
+    );
   } catch (err) {
     logger.error('[getAdminDashboardData] fatal — returning degraded dashboard', err);
     return getDegradedAdminDashboardData();
@@ -329,10 +335,11 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
       .order('participant_id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding — join profiles for display name/email
+    // Active enrollments missing funding — profiles hydrated after Promise.all
+    // (program_enrollments.user_id has ambiguous/no embed FK to profiles in PostgREST)
     // Exclude apprenticeship programs (barber/cosmetology are self-pay by design)
     db.from('program_enrollments')
-      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source, profiles(full_name, email)')
+      .select('id, user_id, program_id, program_slug, enrollment_state, funding_source')
       .in('enrollment_state', ['active', 'onboarding', 'enrolled'])
       .not('access_granted_at', 'is', null)
       .is('revoked_at', null)
@@ -459,6 +466,43 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   const newAppsToday = (newAppsTodayRes as any)?.error ? 0 : ((newAppsTodayRes as any)?.count ?? 0);
 
   const now2 = Date.now();
+  // Hydrate learner names for missing-funding rows (no reliable profiles embed on enrollments)
+  const missingFundingRaw = missingFundingEnrollmentsRes.error
+    ? []
+    : (missingFundingEnrollmentsRes.data ?? []);
+  if (missingFundingEnrollmentsRes.error) {
+    logger.error(
+      '[dashboard] missing funding enrollments query failed',
+      missingFundingEnrollmentsRes.error,
+    );
+  }
+  const missingFundingUserIds = [
+    ...new Set(missingFundingRaw.map((row: { user_id?: string | null }) => row.user_id).filter(Boolean)),
+  ] as string[];
+  const missingFundingProfileMap: Record<string, { full_name: string | null; email: string | null }> =
+    {};
+  if (missingFundingUserIds.length > 0) {
+    const { data: missingFundingProfiles, error: missingFundingProfilesError } = await db
+      .from('profiles')
+      .select('id, full_name, email')
+      .in('id', missingFundingUserIds);
+    if (missingFundingProfilesError) {
+      logger.error('[dashboard] missing funding profile hydrate failed', missingFundingProfilesError);
+    }
+    for (const profile of missingFundingProfiles ?? []) {
+      if (profile.id) {
+        missingFundingProfileMap[profile.id] = {
+          full_name: profile.full_name ?? null,
+          email: profile.email ?? null,
+        };
+      }
+    }
+  }
+  const missingFundingEnrollments = missingFundingRaw.map((row: any) => ({
+    ...row,
+    profiles: row.user_id ? (missingFundingProfileMap[row.user_id] ?? null) : null,
+  }));
+
   const staleLeads = staleLeadsData
     .filter((l: any) => !isLikelyTestRecord(l.first_name, l.last_name, l.email))
     .map((l: any) => ({
@@ -1093,7 +1137,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     pendingWioaDocs,
     stalledApplications: stalledApplicationsRes.data ?? [],
     noOutcomeEnrollments: noOutcomeEnrollmentsRes.data ?? [],
-    missingFundingEnrollments: missingFundingEnrollmentsRes.data ?? [],
+    missingFundingEnrollments,
     profile: adminProfile,
     generatedAt: new Date().toISOString(),
     sitePreviewTargets,
