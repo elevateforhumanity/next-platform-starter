@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   const { searchParams } = request.nextUrl;
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   try {
@@ -107,7 +107,7 @@ export async function PATCH(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   try {

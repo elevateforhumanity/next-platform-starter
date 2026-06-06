@@ -7,7 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
   await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   const action = request.nextUrl.searchParams.get('action') ?? 'status';
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
   await hydrateProcessEnv();
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   let body: { action: string; message?: string; files?: string[]; branch?: string; confirmation?: string; path?: string; content?: string; sha?: string };

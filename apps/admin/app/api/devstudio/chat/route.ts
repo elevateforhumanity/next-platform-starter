@@ -13,7 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured, getGroqClient } from '@/lib/groq-client';
@@ -1183,7 +1183,7 @@ async function _POST(req: NextRequest) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const auth = await apiRequireAdmin(req);
+    const auth = await apiRequireDevStudio(req);
     if (auth.error) return auth.error;
 
     await hydrateProcessEnv();

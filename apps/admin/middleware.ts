@@ -73,7 +73,9 @@ export async function middleware(req: NextRequest) {
     pathname === '/' ||
     pathname.startsWith('/admin') ||
     pathname.startsWith('/api/admin') ||
-    pathname.startsWith('/api/staff');
+    pathname.startsWith('/api/staff') ||
+    pathname.startsWith('/api/devstudio') ||
+    pathname.startsWith('/api/platform');
 
   if (!isProtected) return NextResponse.next();
 

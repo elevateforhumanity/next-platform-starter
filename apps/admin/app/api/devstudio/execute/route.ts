@@ -35,7 +35,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv, refreshSecrets } from '@/lib/secrets';
 import { safeError } from '@/lib/api/safe-error';
@@ -3469,7 +3469,7 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   // Hydrate app_secrets so executed commands have full secret access
