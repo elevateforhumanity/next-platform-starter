@@ -1275,10 +1275,9 @@ const sentryWebpackPluginOptions = {
   widenClientFileUpload: false,
 };
 
-// Skip Sentry webpack wrapping in ECS (reduces build time)
-// and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
-// Skip Sentry webpack worker on AWS EC2 builds — it doubles peak heap and OOMs
-// the 16GB runner. Sentry still initialises at runtime via instrumentation.ts.
+// Skip Sentry webpack wrapping on CI/Northflank builds (BUILD_SCOPE=1) — withSentryConfig
+// spawns a child process that doubles peak heap and can OOM the builder.
+// Sentry still initialises at runtime via instrumentation.ts.
 const skipSentry =
   process.env.BUILD_SCOPE === '1';
 

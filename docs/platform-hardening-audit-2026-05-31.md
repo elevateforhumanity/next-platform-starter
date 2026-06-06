@@ -143,7 +143,7 @@ Migrations are **not** auto-applied on deploy (`prebuild` skips migrate). Verify
 | `pnpm audit:admin` | 0 errors |
 | `pnpm guard:admin-routes` | 32 routes guarded |
 | `pnpm predeploy:check` | **Fails** on `routes:check` (link noise) |
-| CI reference | `.github/workflows/compliance-gate.yml`, `deploy-aws.yml` |
+| CI reference | `.github/workflows/compliance-gate.yml`, `deploy-lms.yml`, `deploy-admin.yml` |
 
 **Hardening actions:**
 
