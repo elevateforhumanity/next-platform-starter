@@ -11,6 +11,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import OnboardingFlow from './OnboardingFlow';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,21 +63,13 @@ export default async function OnboardingStartPage() {
 
   if (progress?.is_complete) {
     // Redirect to appropriate dashboard based on role
-    const dashboardMap: Record<string, string> = {
-      PROGRAM_HOLDER: '/program-holder/dashboard',
-      WORKSITE_ONLY: '/partner/dashboard',
-      SITE_COORDINATOR: '/partner/dashboard',
-      program_holder: '/program-holder/dashboard',
-      worksite_only: '/partner/dashboard',
-      site_coordinator: '/partner/dashboard',
-      staff: '/admin/staff-portal/dashboard',
-      instructor: '/instructor/dashboard',
-      employer: '/employer/dashboard',
-      admin: '/admin/dashboard',
-      super_admin: '/admin/dashboard',
+    const roleAliases: Record<string, string> = {
+      PROGRAM_HOLDER: 'program_holder',
+      WORKSITE_ONLY: 'partner',
+      SITE_COORDINATOR: 'partner',
     };
-
-    redirect(dashboardMap[profile.role] || '/dashboard');
+    const normalizedRole = roleAliases[profile.role] ?? profile.role;
+    redirect(getRoleDestination(normalizedRole));
   }
 
   // Get active onboarding packet for role

@@ -306,6 +306,28 @@ export function collectNavHrefOwners(items: NavItem[] = NAV_ITEMS): Map<string, 
   return owners;
 }
 
+/** Split flat subItems into category columns at each `isHeader` boundary (desktop + mobile nav). */
+export function groupNavSubItemsByHeader(subItems: NavSubItem[]): NavSubItem[][] {
+  const columns: NavSubItem[][] = [];
+  let current: NavSubItem[] = [];
+  for (const sub of subItems) {
+    if (sub.isHeader && current.length > 0) {
+      columns.push(current);
+      current = [sub];
+    } else {
+      current.push(sub);
+    }
+  }
+  if (current.length > 0) columns.push(current);
+  return columns;
+}
+
+export function getNavCategoryLabel(column: NavSubItem[]): string {
+  const header = column.find((sub) => sub.isHeader);
+  if (header) return header.name.replace(/—/g, '').trim();
+  return 'Links';
+}
+
 export function findDuplicateNavHrefs(items: NavItem[] = NAV_ITEMS): { href: string; owners: string }[] {
   const count = new Map<string, Set<string>>();
   for (const item of items) {

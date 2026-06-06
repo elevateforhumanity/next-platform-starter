@@ -48,6 +48,8 @@ import { CredentialAuthorityFootnote } from '@/components/compliance/CredentialA
 import ProgramAtAGlance from '@/components/programs/ProgramAtAGlance';
 import ProgramCredentialsSection from '@/components/programs/ProgramCredentialsSection';
 import ProgramEmploymentPathway from '@/components/programs/ProgramEmploymentPathway';
+import PaymentPlanCalculator from '@/components/programs/PaymentPlanCalculator';
+import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 
 interface Props {
   program: ProgramSchema;
@@ -689,6 +691,40 @@ export default function ProgramDetailPage({
               )}
             </div>
           </div>
+
+          {(enrollmentTracks.selfPay.available || p.fundingOptions?.includes('self_pay')) && (
+            <div id="payment-calculator" className="mt-10 max-w-2xl mx-auto scroll-mt-24">
+              <div className="text-center mb-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-brand-blue-600 mb-2">
+                  Self-pay options
+                </p>
+                <h3 className="text-xl font-extrabold text-slate-900">Payment plan calculator</h3>
+                <p className="text-slate-500 text-sm mt-2">
+                  Adjust your deposit to see weekly payments. BNPL available at checkout.
+                </p>
+              </div>
+              <PaymentPlanCalculator programSlug={p.slug} />
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {ACTIVE_BNPL_PROVIDERS.map((provider) => (
+                  <span
+                    key={provider.id}
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${provider.badgeBg} ${provider.badgeText}`}
+                  >
+                    {provider.name}
+                  </span>
+                ))}
+              </div>
+              <p className="text-center text-xs text-slate-500 mt-3">{BNPL_PROVIDER_SUMMARY}</p>
+              <p className="text-center text-sm mt-4">
+                <Link
+                  href={p.cta.applyHref || `/apply?program=${p.slug}`}
+                  className="font-semibold text-brand-blue-600 hover:underline"
+                >
+                  Start application →
+                </Link>
+              </p>
+            </div>
+          )}
 
           {/* Reassurance line */}
           <p className="text-center text-slate-500 text-sm mt-8">

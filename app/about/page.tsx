@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TEAM } from '@/data/team';
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { HomeTrustBar } from '@/components/home/HomeTrustBar';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
@@ -641,6 +642,8 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+
+      <HomeTrustBar />
 
       {/* CTA */}
       <section className="py-12 bg-brand-blue-700">

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { NAV_ITEMS, findDuplicateNavHrefs } from '@/lib/navigation';
+import {
+  NAV_ITEMS,
+  findDuplicateNavHrefs,
+  groupNavSubItemsByHeader,
+  getNavCategoryLabel,
+} from '@/lib/navigation';
 
 describe('NAV_ITEMS structure', () => {
   it('has unique top-level ids', () => {
@@ -13,6 +18,14 @@ describe('NAV_ITEMS structure', () => {
       console.log('Duplicate nav hrefs:', dupes);
     }
     expect(dupes).toEqual([]);
+  });
+
+  it('groups program subItems into category columns', () => {
+    const programs = NAV_ITEMS.find((i) => i.id === 'programs');
+    expect(programs?.subItems?.length).toBeGreaterThan(5);
+    const columns = groupNavSubItemsByHeader(programs!.subItems!);
+    expect(columns.length).toBeGreaterThan(3);
+    expect(getNavCategoryLabel(columns[0])).toMatch(/Healthcare/i);
   });
 
   it('includes core main menu sections', () => {

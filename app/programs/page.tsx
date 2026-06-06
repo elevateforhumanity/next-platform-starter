@@ -13,6 +13,7 @@ import { getProgramCardImage } from '@/lib/images/programImages';
 import { resolveSiteImagePath } from '@/lib/images/site-image-paths';
 import { IMAGE_SIZES } from '@/lib/images/media-dimensions';
 import { card } from '@/lib/page-design-tokens';
+import { HomePlatformPreview } from '@/components/home/HomePlatformPreview';
 
 export const revalidate = 0; // always fresh - catalog should prefer DB state when available
 
@@ -232,6 +233,8 @@ export default async function ProgramsPage() {
           </div>
         </div>
       </section>
+
+      <HomePlatformPreview />
 
       {/* CTA */}
       <section className="bg-slate-900 text-white py-16">

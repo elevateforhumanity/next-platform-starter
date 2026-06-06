@@ -18,6 +18,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
+import { HomeEmployerStrip } from '@/components/home/HomeEmployerStrip';
 
 export const metadata: Metadata = {
   title: 'For Employers | Hire, Sponsor & Train | Elevate Workforce OS',
@@ -347,6 +348,8 @@ export default async function ForEmployersPage() {
       </section>
 
       {/* CTA */}
+      <HomeEmployerStrip />
+
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Hire?</h2>
