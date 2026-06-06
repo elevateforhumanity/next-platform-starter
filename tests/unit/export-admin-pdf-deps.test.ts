@@ -20,5 +20,16 @@ describe('export-admin-pdf-deps.mjs', () => {
     expect(existsSync(join(exportRoot, 'pdf-node_modules', '@napi-rs', 'canvas', 'package.json'))).toBe(
       true,
     );
+    expect(
+      existsSync(
+        join(
+          exportRoot,
+          'pdf-node_modules',
+          '@napi-rs',
+          'canvas-linux-x64-gnu',
+          'skia.linux-x64-gnu.node',
+        ),
+      ),
+    ).toBe(true);
   });
 });

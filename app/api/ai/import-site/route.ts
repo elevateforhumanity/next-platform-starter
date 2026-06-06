@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { aiChat } from '@/lib/ai/ai-service';
 import * as cheerio from 'cheerio';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { requireFeatureForAuth } from '@/lib/platform/require-feature-for-auth';
+import { FEATURES } from '@/lib/platform/feature-catalog';
 
 /**
  * POST /api/ai/import-site
@@ -22,8 +23,8 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
+    const auth = await requireFeatureForAuth(request, FEATURES.WEBSITE);
+    if (auth instanceof Response) return auth;
 
     const body = await request.json();
     const { url, includePages = ['/', '/about', '/programs', '/contact'] } = body;

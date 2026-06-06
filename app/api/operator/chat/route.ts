@@ -2,14 +2,19 @@ import { NextRequest } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { safeError, safeInternalError, safeOk } from '@/lib/api/safe-error';
 import { withRuntime } from '@/lib/api/withRuntime';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { runCustomerOperator } from '@/lib/operator/customer-operator';
+import { resolveTenantIdForUser } from '@/lib/platform/resolve-tenant-for-user';
 import { requireAdminClient } from '@/lib/supabase/admin';
 
 /**
  * POST /api/operator/chat
- * Foundation: records operator task; AI execution is phase 2.
- * Body: { workspaceId?, prompt }
+ * Customer-facing AI Operator (not Dev Studio).
  */
 async function _POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
 
@@ -20,27 +25,44 @@ async function _POST(request: NextRequest) {
       return safeError('prompt is required', 400);
     }
 
+    const tenantId = await resolveTenantIdForUser(auth.user.id);
     const db = await requireAdminClient();
-    const { data: task } = await db
-      .from('operator_tasks')
-      .insert({
-        workspace_id: body.workspaceId ?? null,
-        created_by: auth.id,
-        task_type: 'chat',
-        status: 'queued',
-        prompt,
-        metadata: { phase: 1 },
-      } as Record<string, unknown>)
-      .select('id')
-      .maybeSingle();
+
+    let workspaceId: string | null = body.workspaceId ?? null;
+    let organizationId: string | null = null;
+
+    if (tenantId) {
+      const { data: org } = await db
+        .from('organizations')
+        .select('id')
+        .eq('tenant_id', tenantId)
+        .maybeSingle();
+      organizationId = org?.id ?? null;
+
+      if (!workspaceId && organizationId) {
+        const { data: ws } = await db
+          .from('customer_workspaces')
+          .select('id')
+          .eq('organization_id', organizationId)
+          .maybeSingle();
+        workspaceId = ws?.id ?? null;
+      }
+    }
+
+    const result = await runCustomerOperator({
+      prompt,
+      userId: auth.user.id,
+      workspaceId,
+      organizationId,
+    });
 
     return safeOk({
-      taskId: task?.id ?? null,
-      status: 'queued',
-      message: 'Operator task recorded. Autonomous execution ships in phase 2.',
+      reply: result.reply,
+      action: result.action,
+      taskId: result.taskId,
     });
   } catch (err) {
-    return safeInternalError(err, 'Failed to queue operator task');
+    return safeInternalError(err, 'Operator request failed');
   }
 }
 

@@ -669,6 +669,8 @@ const nextConfig = {
       // Those routes are not compiled in this deploy.
 
       // Store / platform aliases
+      { source: '/store/trial', destination: '/launch', permanent: false },
+      { source: '/marketplace', destination: '/store/digital', permanent: true },
       { source: '/store/demo', destination: '/store/demos', permanent: true },
       { source: '/store/orders', destination: '/store', permanent: true },
       { source: '/platform/licensing', destination: '/licensing', permanent: true },

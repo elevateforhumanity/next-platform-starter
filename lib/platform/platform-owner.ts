@@ -22,10 +22,7 @@ export type PlatformUserContext = {
   canDeployCode: boolean;
 };
 
-<<<<<<< HEAD
 /** Env override — set after migration backfill or in Northflank secret group. */
-=======
->>>>>>> 400203573 (feat(workspace): self-service provisioning API and trial signup)
 export function getPlatformOwnerTenantIdFromEnv(): string | null {
   const raw = process.env.PLATFORM_OWNER_TENANT_ID?.trim();
   return raw || null;
@@ -101,12 +98,7 @@ export async function getPlatformUserContext(userId: string): Promise<PlatformUs
   };
 }
 
-<<<<<<< HEAD
-/**
- * Session-scoped helper for server components and API routes.
- */
-=======
->>>>>>> 400203573 (feat(workspace): self-service provisioning API and trial signup)
+/** Session-scoped helper for server components and API routes. */
 export async function getCurrentPlatformUserContext(): Promise<PlatformUserContext | null> {
   const supabase = await createClient();
   const {
@@ -115,7 +107,6 @@ export async function getCurrentPlatformUserContext(): Promise<PlatformUserConte
   if (!user) return null;
   return getPlatformUserContext(user.id);
 }
-<<<<<<< HEAD
 
 export async function requirePlatformOperatorContext(): Promise<PlatformUserContext | null> {
   const ctx = await getCurrentPlatformUserContext();
@@ -131,5 +122,3 @@ export async function requirePlatformStaffContext(): Promise<PlatformUserContext
   }
   return null;
 }
-=======
->>>>>>> 400203573 (feat(workspace): self-service provisioning API and trial signup)

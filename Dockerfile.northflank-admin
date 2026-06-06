@@ -86,7 +86,9 @@ RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && test -d /export/sharp-node_modules/@img/sharp-linux-x64 \
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
-    && test -f /export/pdf-node_modules/pdf-parse/package.json
+    && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
+    && test -f /export/pdf-node_modules/pdf-parse/package.json \
+    && NODE_PATH=/export/pdf-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
 
 # Drop node_modules + marketing-only assets before runtime COPY (BuildKit ENOSPC).
 RUN node scripts/prune-admin-builder-disk.mjs
@@ -134,8 +136,10 @@ RUN mkdir -p apps/admin/node_modules
 COPY --from=builder /export/ws ./apps/admin/node_modules/ws
 RUN test -f apps/admin/node_modules/ws/package.json
 
+COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-runtime.mjs
+
 # Fail image build if PDF stack is missing (prevents silent canvas warnings in prod)
-RUN node -e "require('@napi-rs/canvas'); require('pdf-parse'); console.log('[admin] pdf runtime ok')"
+RUN NODE_PATH=/app/node_modules:./apps/admin/node_modules node scripts/verify-pdf-runtime.mjs admin
 
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \

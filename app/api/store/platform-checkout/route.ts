@@ -14,6 +14,12 @@ import {
   type BasePlanId,
   type BillingInterval,
 } from '@/lib/store/platform-pricing';
+import {
+  LAUNCH_PLANS,
+  launchPlanPriceCents,
+  resolveLaunchPlanId,
+  type LaunchPlanDefinition,
+} from '@/lib/store/launch-plans';
 
 async function _POST(request: NextRequest) {
   try {
@@ -29,14 +35,26 @@ async function _POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const planId = body.planId as BasePlanId;
+    const rawPlanId = String(body.planId ?? '');
     const interval = (body.interval || 'monthly') as BillingInterval;
     const addonSlugs: string[] = Array.isArray(body.addonSlugs) ? body.addonSlugs : [];
 
-    const plan = BASE_PLANS[planId];
+    const launchPlanId = resolveLaunchPlanId(rawPlanId);
+    const launchPlan: LaunchPlanDefinition | null = launchPlanId
+      ? LAUNCH_PLANS[launchPlanId]
+      : null;
+    const legacyPlanId = rawPlanId as BasePlanId;
+    const legacyPlan = BASE_PLANS[legacyPlanId];
+
+    const plan = launchPlan ?? legacyPlan;
     if (!plan) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
+
+    const checkoutPlanId = launchPlan ? launchPlan.id : legacyPlanId;
+    const unitAmount = launchPlan
+      ? launchPlanPriceCents(launchPlan, interval)
+      : priceCents(legacyPlan!, interval);
     if (interval !== 'monthly' && interval !== 'annual') {
       return NextResponse.json({ error: 'Invalid billing interval' }, { status: 400 });
     }
@@ -76,7 +94,7 @@ async function _POST(request: NextRequest) {
             name: `Elevate ${plan.name} (${interval})`,
             description: plan.featureBullets.slice(0, 3).join(' · '),
           },
-          unit_amount: priceCents(plan, interval),
+          unit_amount: unitAmount,
           recurring: {
             interval: interval === 'annual' ? 'year' : 'month',
           },
@@ -115,15 +133,17 @@ async function _POST(request: NextRequest) {
         checkout_type: 'platform_saas',
         user_id: user.id,
         tenant_id: profile?.tenant_id || '',
-        plan_id: planId,
+        plan_id: checkoutPlanId,
         billing_interval: interval,
         addon_slugs: addonSlugs.join(','),
-        license_tier: licenseTierForPlan(planId, interval),
+        license_tier: launchPlan
+          ? `${launchPlan.id}_${interval}`
+          : licenseTierForPlan(legacyPlanId, interval),
       },
       subscription_data: {
         metadata: {
           checkout_type: 'platform_saas',
-          plan_id: planId,
+          plan_id: checkoutPlanId,
           tenant_id: profile?.tenant_id || '',
         },
       },

@@ -78,7 +78,9 @@ RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
     && test -d /export/sharp-node_modules/@img/sharp-linux-x64 \
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
-    && test -f /export/pdf-node_modules/pdf-parse/package.json
+    && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
+    && test -f /export/pdf-node_modules/pdf-parse/package.json \
+    && NODE_PATH=/export/pdf-node_modules node scripts/verify-pdf-runtime.mjs builder-lms
 
 RUN node scripts/prune-lms-builder-disk.mjs
 
@@ -112,9 +114,10 @@ COPY --from=builder /app/.next/server ./.next/server
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/remotion-src ./remotion-src
 COPY --from=builder /app/lib/server/register-connection-guards.cjs ./lib/server/register-connection-guards.cjs
+COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-runtime.mjs
 
 # Fail image build if PDF stack is missing (OCR + pdf-parse routes need canvas at runtime).
-RUN node -e "require('@napi-rs/canvas'); require('pdf-parse'); console.log('[lms] pdf runtime ok')"
+RUN NODE_PATH=/app/node_modules node scripts/verify-pdf-runtime.mjs lms
 
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
