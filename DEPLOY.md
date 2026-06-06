@@ -1,54 +1,52 @@
 # Deploy Elevate LMS
 
-Choose your deployment method:
+**Elevate for Humanity production** runs on **Northflank** only (`elevate-lms` + `elevate-admin`). There is no AWS ECS or Netlify production deploy path in this repository.
 
-## Option 1: One-Click Deploy (Free Template)
+Canonical runbooks:
 
-Deploy your own instance in minutes:
+- `docs/deploy/northflank-separate-lms-admin.md`
+- `docs/audits/aws-ecs-decommission-2026-06.md` (legacy teardown checklist)
+- `pnpm tsx scripts/northflank/verify-health-checks.ts`
 
-### Netlify (Recommended)
+## Production (Northflank)
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/elevateforhumanity/Elevate-lms)
+| Service | Dockerfile | CI workflow | Health |
+|---------|------------|---------------|--------|
+| LMS (`elevate-lms`) | `Dockerfile.northflank-lms` | `.github/workflows/deploy-lms.yml` | `GET /api/ping`, `GET /api/ready` |
+| Admin (`elevate-admin`) | `Dockerfile.northflank-admin` | `.github/workflows/deploy-admin.yml` | `GET /api/ping`, `GET /api/health` |
 
-### Railway
+Merge to `main` triggers deploy when paths under `lib/`, `components/`, `apps/admin/`, or Dockerfiles change. Manual deploy:
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/elevate-lms?referralCode=elevate)
+```bash
+DEPLOY_BRANCH=main pnpm tsx scripts/northflank/deploy-live.ts --execute
+```
+
+Secrets: Northflank secret group `elevate-production-env` on project `elevate-platform`.
 
 ---
 
-## Option 2: Licensed Deployment (Self-Hosted)
+## Licensed self-hosted deployment
 
-For organizations wanting full control:
+For organizations running their own instance:
 
 1. **Purchase a license** at [elevateforhumanity.org/store](https://www.elevateforhumanity.org/store)
 2. **Get private repo access** after purchase
-3. **Deploy to your infrastructure**
-4. **Receive setup support**
-
-### License Tiers
-
-| Tier         | Price    | Includes                                    |
-| ------------ | -------- | ------------------------------------------- |
-| Starter      | $99/mo   | 100 students, 1 admin, email support        |
-| Professional | $299/mo  | 500 students, 5 admins, priority support    |
-| Enterprise   | $35,000+ | Unlimited, dedicated support, customization |
+3. **Build** with `Dockerfile.northflank-lms` and/or `Dockerfile.northflank-admin`
+4. **Configure** Supabase + env vars (see below)
 
 ---
 
-## Option 3: Managed White-Label (We Host)
+## Managed white-label (we host)
 
-Let us handle everything:
+- Your branding on our Northflank infrastructure
+- Custom subdomain or your own domain
+- We manage updates, security, and scaling
 
-- **Your branding** on our infrastructure
-- **Custom subdomain** (yourorg.app.elevateforhumanity.org) or your own domain
-- **Zero DevOps** - we manage updates, security, scaling
-- **SLA guaranteed** uptime
-
-[Request White-Label Demo →](https://www.elevateforhumanity.org/store/request-license)
+[Request a demo →](https://www.elevateforhumanity.org/store/trial)
 
 ---
 
-## Environment Variables Required
+## Environment variables required
 
 ```bash
 # Supabase (Database)
@@ -65,22 +63,19 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-# Optional
-NEXT_PUBLIC_GA_MEASUREMENT_ID=
-RESEND_API_KEY=
+# Northflank deploy (CI only)
+NORTHFLANK_API_TOKEN=
 ```
 
-## Quick Start After Deploy
+## Quick start after deploy
 
 1. Set up Supabase project at [supabase.com](https://supabase.com)
 2. Run database migrations (see `/supabase/migrations`)
-3. Configure Stripe webhooks pointing to `/api/webhooks/stripe`
-   - Live signing secret must match `STRIPE_WEBHOOK_SECRET` in the LMS runtime environment
-   - Re-enable the endpoint in Stripe Dashboard after deploy; smoke `GET /api/webhooks/stripe`
-4. Add your branding in `/public` and update `next.config.js`
+3. Configure Stripe webhooks pointing to `https://www.elevateforhumanity.org/api/webhooks/stripe`
+4. Smoke: `curl -sf https://www.elevateforhumanity.org/api/ready`
 
 ## Support
 
 - **Documentation**: [/docs](./docs)
-- **Issues**: [GitHub Issues](https://github.com/elevateforhumanity/Elevate-lms/issues)
+- **Issues**: [GitHub Issues](https://github.com/elevate-for-humanity/Elevate-lms/issues)
 - **Email**: support@elevateforhumanity.org

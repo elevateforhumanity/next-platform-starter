@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * CI guard: Studio Shell must not be wired into Lizzy UI or admin server proxy.
- * (Legacy ECS task env vars are no longer in-repo; check runtime wiring only.)
+ * (Legacy container env vars are no longer in-repo; check runtime wiring only.)
  */
 import fs from 'fs';
 import path from 'path';

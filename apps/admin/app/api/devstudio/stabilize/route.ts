@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { spawn } from 'child_process';
 import path from 'path';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   try {
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   return NextResponse.json({

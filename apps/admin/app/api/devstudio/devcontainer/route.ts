@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { access, mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   try {
@@ -301,7 +301,7 @@ export async function PUT(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
   try {

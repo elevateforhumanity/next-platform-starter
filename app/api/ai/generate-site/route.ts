@@ -4,7 +4,8 @@ import { aiChat } from '@/lib/ai/ai-service';
 import { getRecommendedTemplate } from '@/lib/templates/designs';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { apiAuthGuard } from '@/lib/admin/guards';
+import { requireFeatureForAuth } from '@/lib/platform/require-feature-for-auth';
+import { FEATURES } from '@/lib/platform/feature-catalog';
 import { saveWebsiteConfig } from '@/lib/websites/save-site-config';
 import type { TenantSiteConfig } from '@/lib/tenant/site-types';
 
@@ -19,8 +20,8 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const auth = await apiAuthGuard(request);
-    if (auth.error) return auth.error;
+    const auth = await requireFeatureForAuth(request, FEATURES.AI_BASIC);
+    if (auth instanceof Response) return auth;
 
     const body = await request.json();
     const {

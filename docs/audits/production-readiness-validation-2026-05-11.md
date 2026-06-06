@@ -1,4 +1,7 @@
 # Production Readiness Validation Report
+
+> **Historical (2026-05-11).** Production hosting is **Northflank only** — ignore ECS / `deploy-aws.yml` / `Dockerfile.package` items below. Current checklist: `docs/audits/aws-ecs-decommission-2026-06.md`.
+
 **Date**: 2026-05-11  
 **Status**: IN PROGRESS  
 **Validation Phase**: Comprehensive production verification before final commit

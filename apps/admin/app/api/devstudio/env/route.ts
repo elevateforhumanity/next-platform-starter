@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeDbError, safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   try {
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   const body = await req.json().catch(() => null);
@@ -125,7 +125,7 @@ export async function DELETE(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'strict');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   const key = new URL(req.url).searchParams.get('key')?.trim() || '';

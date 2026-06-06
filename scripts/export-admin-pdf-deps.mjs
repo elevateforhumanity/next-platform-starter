@@ -5,6 +5,7 @@
 import { cpSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
+import { spawnSync } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 const root = process.cwd();
@@ -62,14 +63,15 @@ copyDir(join(pnpmDir, pdfjsStore, 'node_modules', 'pdfjs-dist'), 'pdfjs-dist');
 const canvasNative = readdirSync(pnpmDir).find((e) =>
   e.startsWith('@napi-rs+canvas-linux-x64-gnu@'),
 );
-if (canvasNative) {
-  copyDir(
-    join(pnpmDir, canvasNative, 'node_modules', '@napi-rs', 'canvas-linux-x64-gnu'),
-    '@napi-rs/canvas-linux-x64-gnu',
+if (!canvasNative) {
+  throw new Error(
+    '@napi-rs/canvas-linux-x64-gnu not in pnpm store — run pnpm install on linux x64 before export',
   );
-} else {
-  console.warn('[export-pdf] @napi-rs/canvas-linux-x64-gnu not in pnpm store');
 }
+copyDir(
+  join(pnpmDir, canvasNative, 'node_modules', '@napi-rs', 'canvas-linux-x64-gnu'),
+  '@napi-rs/canvas-linux-x64-gnu',
+);
 
 const canvasPkg = join(exportRoot, '@napi-rs', 'canvas', 'package.json');
 if (!existsSync(canvasPkg)) {
@@ -83,4 +85,20 @@ if (!existsSync(pdfParsePkg)) {
   process.exit(1);
 }
 
-console.log('[export-pdf] done');
+const nativeNode = join(exportRoot, '@napi-rs', 'canvas-linux-x64-gnu', 'skia.linux-x64-gnu.node');
+if (!existsSync(nativeNode)) {
+  throw new Error(`[export-pdf] missing native binding: ${nativeNode}`);
+}
+
+// Validate require() from export tree (same layout as Docker runtime COPY).
+const probe = spawnSync(
+  process.execPath,
+  ['-e', "require('@napi-rs/canvas'); require('pdf-parse');"],
+  { env: { ...process.env, NODE_PATH: exportRoot }, stdio: 'pipe' },
+);
+if (probe.status !== 0) {
+  const detail = probe.stderr?.toString() || probe.stdout?.toString() || 'unknown';
+  throw new Error(`[export-pdf] runtime require failed: ${detail}`);
+}
+
+console.log('[export-pdf] done (require ok)');

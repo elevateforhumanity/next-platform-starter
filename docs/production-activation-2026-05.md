@@ -42,11 +42,11 @@ curl -sf "https://www.elevateforhumanity.org/api/health" | jq '.activation, .sta
 ## 10k-user scale requirements
 
 1. **Database** — Supabase plan sized for connection pool; indexes on `program_enrollments(user_id, program_id)`, `applications(status, submitted_at)`.
-2. **ECS** — Multiple LMS tasks; ALB health on `/api/health`; optional readiness on `/api/ready`.
-3. **CDN** — Static assets on CloudFront; `revalidate-public` cron after catalog changes.
+2. **Northflank** — Separate `elevate-lms` + `elevate-admin` services; health on `/api/ping`; LMS readiness on `/api/ready`.
+3. **CDN** — Static assets via Northflank + Supabase Storage; `revalidate-public` cron after catalog changes.
 4. **Webhooks** — Single Stripe endpoint; `stripe_webhook_events` dedup (no duplicate enrollments).
 5. **Enrollment writes** — **Only** `createOrUpdateEnrollment()` in `lib/enrollment-service.ts` (no stray `.insert()` on `program_enrollments`).
-6. **Observability** — Sentry DSN in ECS task def; alert on health 500, webhook failures, audit_failure_count.
+6. **Observability** — Sentry DSN in Northflank env; alert on health 500, webhook failures, audit_failure_count.
 
 ---
 
@@ -78,7 +78,7 @@ Removed: hardcoded "10/10" marketing strings and fake `verification` booleans.
 - [ ] Student self-pay path works without manual DB fixes  
 - [ ] Employer portal auth on all critical APIs  
 - [ ] `bash scripts/audit-api-auth-guards.sh` exits 0 on `main`  
-- [ ] `/api/ready` wired in ECS task definition (optional second probe)  
+- [ ] `/api/ready` returns 200 on Northflank LMS readiness probe  
 - [ ] No `getPublicUrl` on private `documents` uploads in enrollment/cert paths  
 - [ ] Load test: 10k virtual users with &lt;1% error rate on apply + health endpoints  
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Upsert non-bootstrap vars from .env.local into Supabase app_secrets.
- * Bootstrap vars stay in process.env / ECS / Netlify only.
+ * Bootstrap vars stay in process.env / Northflank secret group only.
  *
  * Usage: set -a && . ./.env.local && set +a && node scripts/sync-env-to-app-secrets.mjs
  */

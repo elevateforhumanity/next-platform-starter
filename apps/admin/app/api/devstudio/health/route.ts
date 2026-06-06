@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { isGroqConfigured } from '@/lib/groq-client';
 import { isGeminiConfigured } from '@/lib/gemini-client';
@@ -19,7 +19,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   await hydrateProcessEnv().catch(() => {});

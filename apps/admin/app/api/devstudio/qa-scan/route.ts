@@ -21,7 +21,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import { apiRequireAdmin } from '@/lib/admin/guards';
+import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
-  const auth = await apiRequireAdmin(req);
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
   await hydrateProcessEnv();

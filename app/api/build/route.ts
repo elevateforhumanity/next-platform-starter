@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { getProductionHostingPlatform } from '@/lib/platform/hosting';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,7 @@ async function _GET(request: Request) {
   if (auth.error) return auth.error;
   const payload = {
     now: new Date().toISOString(),
-    platform: 'aws-ecs',
+    platform: getProductionHostingPlatform(),
     env: process.env.NODE_ENV ?? null,
     commit: process.env.COMMIT_REF ?? null,
   };

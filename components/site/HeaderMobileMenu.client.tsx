@@ -7,19 +7,12 @@ import Link from 'next/link';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import SearchModal from './SearchModal.client';
 import LanguageSwitcher from './LanguageSwitcher.client';
-
-interface NavItem {
-  id?: string;
-  name: string;
-  href?: string;
-  subItems?: {
-    name: string;
-    href: string;
-    isHeader?: boolean;
-    isSectionLink?: boolean;
-    nested?: boolean;
-  }[];
-}
+import {
+  groupNavSubItemsByHeader,
+  getNavCategoryLabel,
+  type NavItem,
+  type NavSubItem,
+} from '@/lib/navigation';
 
 interface HeaderMobileMenuProps {
   items: NavItem[];
@@ -32,12 +25,78 @@ function getProgramSlugFromHref(href: string): string | null {
   return match[1];
 }
 
+function isExternalHref(href: string) {
+  return href.startsWith('http');
+}
+
+function MobileSubLink({
+  subItem,
+  itemId,
+  programApplyLinks,
+  onNavigate,
+  nested,
+}: {
+  subItem: NavSubItem;
+  itemId?: string;
+  programApplyLinks: Record<string, string>;
+  onNavigate: () => void;
+  nested?: boolean;
+}) {
+  if (subItem.isHeader) return null;
+
+  if (subItem.isSectionLink) {
+    return (
+      <Link
+        href={subItem.href}
+        prefetch={false}
+        onClick={onNavigate}
+        {...(isExternalHref(subItem.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className="block py-2 text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
+      >
+        {subItem.name}
+      </Link>
+    );
+  }
+
+  const programSlug = itemId === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
+  const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
+
+  return (
+    <div>
+      <Link
+        href={subItem.href}
+        prefetch={false}
+        onClick={onNavigate}
+        {...(isExternalHref(subItem.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className={`block py-2.5 text-sm text-slate-700 hover:text-brand-blue-600 ${
+          nested ? 'pl-2 text-slate-600' : ''
+        }`}
+      >
+        {subItem.name}
+      </Link>
+      {applyHref ? (
+        <Link
+          href={applyHref}
+          prefetch={false}
+          onClick={onNavigate}
+          className="block py-1.5 pl-3 text-xs font-medium text-brand-blue-700 hover:underline"
+        >
+          Apply to {subItem.name}
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
 export default function HeaderMobileMenu({ items, programApplyLinks = {} }: HeaderMobileMenuProps) {
   const firstItemKey = items[0]?.id ?? items[0]?.name ?? null;
   const [isOpen, setIsOpen] = useState(false);
-  const [expanded, setExpanded] = useState<string | null>(firstItemKey);
+  const [expandedSection, setExpandedSection] = useState<string | null>(firstItemKey);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  const closeMenu = () => setIsOpen(false);
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +104,8 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
 
   useEffect(() => {
     setIsOpen(false);
-    setExpanded(firstItemKey);
+    setExpandedSection(firstItemKey);
+    setExpandedCategory(null);
   }, [pathname, firstItemKey]);
 
   useEffect(() => {
@@ -70,7 +130,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
           <>
             <div
               className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
               aria-hidden="true"
             />
             <div
@@ -81,23 +141,33 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
             >
               <nav className="flex flex-col p-4 pb-10" aria-label="Mobile navigation">
                 {items.map((item) => {
-                  const key = item.id ?? item.name;
+                  const sectionKey = item.id ?? item.name;
                   const hasSubItems = Boolean(item.subItems?.length);
-                  const isExpanded = expanded === key;
+                  const sectionOpen = expandedSection === sectionKey;
+                  const columns = hasSubItems ? groupNavSubItemsByHeader(item.subItems!) : [];
+                  const useCategoryAccordions = columns.length > 1;
 
                   return (
                     <section key={item.name} className="border-b border-slate-100 last:border-0">
                       {hasSubItems ? (
                         <button
                           type="button"
-                          onClick={() => setExpanded(isExpanded ? null : key)}
+                          onClick={() => {
+                            if (sectionOpen) {
+                              setExpandedSection(null);
+                              setExpandedCategory(null);
+                            } else {
+                              setExpandedSection(sectionKey);
+                              setExpandedCategory(null);
+                            }
+                          }}
                           className="flex min-h-[48px] w-full items-center justify-between gap-3 py-3 text-left text-base font-semibold text-slate-900 hover:text-brand-blue-600"
-                          aria-expanded={isExpanded}
+                          aria-expanded={sectionOpen}
                         >
                           <span>{item.name}</span>
                           <ChevronDown
                             className={`h-5 w-5 flex-none text-slate-400 transition-transform ${
-                              isExpanded ? 'rotate-180' : ''
+                              sectionOpen ? 'rotate-180' : ''
                             }`}
                             aria-hidden="true"
                           />
@@ -106,7 +176,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                         <Link
                           href={item.href}
                           prefetch={false}
-                          onClick={() => setIsOpen(false)}
+                          onClick={closeMenu}
                           className="block py-3 text-base font-semibold text-slate-900 hover:text-brand-blue-600"
                         >
                           {item.name}
@@ -115,76 +185,81 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                         <p className="py-3 text-base font-semibold text-slate-900">{item.name}</p>
                       )}
 
-                      {hasSubItems && isExpanded ? (
+                      {hasSubItems && sectionOpen ? (
                         <div className="flex flex-col pb-4 pl-3 border-l-2 border-brand-red-200">
                           {item.href ? (
                             <Link
                               href={item.href}
                               prefetch={false}
-                              onClick={() => setIsOpen(false)}
+                              onClick={closeMenu}
                               className="block py-2 text-sm font-bold text-brand-red-600 hover:text-brand-red-700"
                             >
                               View all {item.name} →
                             </Link>
                           ) : null}
-                        {item.subItems.map((subItem) => {
-                          if (subItem.isHeader) {
-                            return (
-                              <p
-                                key={subItem.name}
-                                className="pt-3 pb-1 text-xs font-extrabold uppercase tracking-wide text-brand-red-600"
-                              >
-                                {subItem.name.replace(/—/g, '').trim()}
-                              </p>
-                            );
-                          }
 
-                          if (subItem.isSectionLink) {
-                            return (
-                              <Link
-                                key={`${subItem.name}-${subItem.href}`}
-                                href={subItem.href}
-                                prefetch={false}
-                                onClick={() => setIsOpen(false)}
-                                className="block py-2 text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
-                              >
-                                {subItem.name}
-                              </Link>
-                            );
-                          }
+                          {useCategoryAccordions
+                            ? columns.map((column, columnIndex) => {
+                                const categoryKey = `${sectionKey}::${columnIndex}`;
+                                const categoryOpen = expandedCategory === categoryKey;
+                                const label = getNavCategoryLabel(column);
 
-                          const programSlug =
-                            item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
-                          const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
-
-                          return (
-                            <div key={`${subItem.name}-${subItem.href}`}>
-                              <Link
-                                href={subItem.href}
-                                prefetch={false}
-                                onClick={() => setIsOpen(false)}
-                                className={`block py-2.5 text-sm text-slate-700 hover:text-brand-blue-600 ${
-                                  subItem.nested ? 'pl-4 text-slate-500' : ''
-                                }`}
-                              >
-                                {subItem.name}
-                              </Link>
-                              {applyHref ? (
-                                <Link
-                                  href={applyHref}
-                                  prefetch={false}
-                                  onClick={() => setIsOpen(false)}
-                                  className="block py-1.5 pl-4 text-xs text-brand-blue-700 hover:underline"
-                                >
-                                  Apply to {subItem.name}
-                                </Link>
-                              ) : null}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : null}
-                  </section>
+                                return (
+                                  <div key={categoryKey} className="mt-1">
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setExpandedCategory(categoryOpen ? null : categoryKey)
+                                      }
+                                      className="flex min-h-[40px] w-full items-center justify-between gap-2 py-2 text-left text-xs font-extrabold uppercase tracking-wide text-brand-red-600"
+                                      aria-expanded={categoryOpen}
+                                    >
+                                      <span>{label}</span>
+                                      <ChevronDown
+                                        className={`h-4 w-4 flex-none text-brand-red-400 transition-transform ${
+                                          categoryOpen ? 'rotate-180' : ''
+                                        }`}
+                                        aria-hidden="true"
+                                      />
+                                    </button>
+                                    {categoryOpen ? (
+                                      <div className="pl-2 pb-2 border-l border-slate-200 ml-1">
+                                        {column.map((subItem) => (
+                                          <MobileSubLink
+                                            key={`${subItem.name}-${subItem.href}`}
+                                            subItem={subItem}
+                                            itemId={item.id}
+                                            programApplyLinks={programApplyLinks}
+                                            onNavigate={closeMenu}
+                                          />
+                                        ))}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                );
+                              })
+                            : item.subItems!.map((subItem) =>
+                                subItem.isHeader ? (
+                                  <p
+                                    key={subItem.name}
+                                    className="pt-3 pb-1 text-xs font-extrabold uppercase tracking-wide text-brand-red-600"
+                                  >
+                                    {subItem.name.replace(/—/g, '').trim()}
+                                  </p>
+                                ) : (
+                                  <MobileSubLink
+                                    key={`${subItem.name}-${subItem.href}`}
+                                    subItem={subItem}
+                                    itemId={item.id}
+                                    programApplyLinks={programApplyLinks}
+                                    onNavigate={closeMenu}
+                                    nested={subItem.nested}
+                                  />
+                                ),
+                              )}
+                        </div>
+                      ) : null}
+                    </section>
                   );
                 })}
 
@@ -192,7 +267,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                   <Link
                     href="/for-students"
                     prefetch={false}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeMenu}
                     className="block w-full text-center py-3 bg-brand-red-600 text-white rounded-lg font-semibold"
                   >
                     Get Started
@@ -200,7 +275,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                   <Link
                     href="/login"
                     prefetch={false}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeMenu}
                     className="block w-full text-center py-3 border border-slate-300 text-slate-800 rounded-lg font-semibold hover:bg-slate-50"
                   >
                     Sign In
@@ -208,7 +283,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                   <Link
                     href="/apply"
                     prefetch={false}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeMenu}
                     className="block w-full text-center py-2.5 text-brand-blue-600 font-medium text-sm hover:underline"
                   >
                     Check eligibility

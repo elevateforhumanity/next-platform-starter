@@ -68,7 +68,7 @@ export default function AdminNav({ userName = 'Admin', notifs = [], navSections 
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
+    setMenuOpen(false);
     setOpenDropdown(null);
     setNotifOpen(false);
   }, [pathname]);

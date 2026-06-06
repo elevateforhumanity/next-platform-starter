@@ -350,7 +350,7 @@ export default async function LicensesPage() {
               </div>
               <h3 className="text-xl font-bold mb-3">Deploy Anywhere</h3>
               <p className="text-zinc-400">
-                Vercel, AWS, Azure, GCP, or self-hosted. One-click deployment
+                Northflank, Docker on any cloud, or self-hosted. Managed trial at /store/trial
                 templates included.
               </p>
             </div>

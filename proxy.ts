@@ -3,6 +3,12 @@ import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
 import { getSecuritySettings } from '@/lib/admin/security-settings';
+import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
+import {
+  rewriteCustomDomainRequest,
+  rewriteTenantAppHostRequest,
+  tenantSlugFromAppHost,
+} from '@/lib/tenant/middleware-tenant-routing';
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
@@ -618,43 +624,36 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
   }
 
-  // {subdomain}.app.elevateforhumanity.org — tenant portal subdomain form.
-  // e.g. elizabeth-greene-kkx3.app.elevateforhumanity.org/admin
-  // Tenant slug is extracted from the subdomain prefix.
-  if (hostWithoutPort.endsWith('.app.elevateforhumanity.org')) {
-    const tenantSlug = hostWithoutPort.replace('.app.elevateforhumanity.org', '');
-    const requestHeadersWithTenant = new Headers(requestHeaders);
-    requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
-    requestHeadersWithTenant.set('x-pathname', pathname);
-
-    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
-      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
-      const rewriteUrl = request.nextUrl.clone();
-      rewriteUrl.pathname = adminPath;
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeadersWithTenant },
-      });
-    }
-
-    return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
+  // {subdomain}.app.elevateforhumanity.org — tenant public site + admin on same host.
+  const tenantSubdomainSlug = tenantSlugFromAppHost(hostWithoutPort);
+  if (tenantSubdomainSlug) {
+    return rewriteTenantAppHostRequest(
+      request,
+      tenantSubdomainSlug,
+      pathname,
+      requestHeaders,
+    );
   }
 
   const isCanonicalHost =
     hostWithoutPort === 'www.elevateforhumanity.org' ||
     hostWithoutPort === canonicalAdminHost ||
-    hostWithoutPort === 'app.elevateforhumanity.org' ||
-    hostWithoutPort.endsWith('.app.elevateforhumanity.org');
+    hostWithoutPort === 'app.elevateforhumanity.org';
   if (
     hostWithoutPort &&
     !isCanonicalHost &&
     !isLocalHost &&
     !isGitpodPreview
   ) {
-    const url = request.nextUrl.clone();
-    url.host = 'www.elevateforhumanity.org';
-    url.protocol = 'https';
-    url.port = '';
-    return NextResponse.redirect(url, { status: 308 });
+    // Custom tenant domains — resolve slug in tenant-site via x-tenant-host.
+    if (
+      !pathname.startsWith('/api/') &&
+      !pathname.startsWith('/_next') &&
+      pathname !== '/login' &&
+      !pathname.startsWith('/login/')
+    ) {
+      return rewriteCustomDomainRequest(request, hostWithoutPort, pathname, requestHeaders);
+    }
   }
 
   // ============================================
@@ -729,10 +728,9 @@ export async function middleware(request: NextRequest) {
         // Preserve requestHeaders (which carries x-pathname) when refreshing cookies
         response = NextResponse.next({ request: { headers: requestHeaders } });
         cookiesToSet.forEach(({ name, value, options }) => {
-          // Scope auth cookies to root domain so www and app subdomains share the session
           const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
           const cookieOptions = isAuthCookie
-            ? { ...options, domain: '.elevateforhumanity.org' }
+            ? withSupabaseAuthCookieDomain(options)
             : options;
           response.cookies.set(name, value, cookieOptions);
         });

@@ -4,6 +4,7 @@ import { logger } from '@/lib/logger';
 import { processLicenseProvision } from '@/lib/jobs/handlers/license-provision';
 import { processLicenseSuspend } from '@/lib/jobs/handlers/license-suspend';
 import { processEmailSend } from '@/lib/jobs/handlers/email-send';
+import { processWorkspaceProvision } from '@/lib/jobs/handlers/workspace-provision';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -205,13 +206,16 @@ async function processJob(job: ProvisioningJob): Promise<void> {
       await processTenantSetup(job);
       break;
 
+    case 'workspace_provision':
+      await processWorkspaceProvision(job);
+      break;
+
     case 'webhook_process':
-      // Generic webhook processing
       logger.info('Webhook process job', { jobId: job.id, payload: job.payload });
       break;
 
     default:
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      throw new Error(`Unknown job type: ${job.job_type}`);
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/process-provisioning-jobs', _GET));

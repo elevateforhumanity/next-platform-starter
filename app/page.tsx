@@ -2,18 +2,13 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
-import MarqueeBanner from '@/components/MarqueeBanner';
-import { HomeTrustBar } from '@/components/home/HomeTrustBar';
 import { HomeWhyChoose } from '@/components/home/HomeWhyChoose';
 import { HomeFundingStrip } from '@/components/home/HomeFundingStrip';
 import { HomePrimaryPathways } from '@/components/home/HomePrimaryPathways';
 import { HomeHowItWorks } from '@/components/home/HomeHowItWorks';
 import { HomeCareerPathways } from '@/components/home/HomeCareerPathways';
 import { HomeApprenticeshipInfra } from '@/components/home/HomeApprenticeshipInfra';
-import { HomeFunding } from '@/components/home/HomeFunding';
 import { HomeOutcomes } from '@/components/home/HomeOutcomes';
-import { HomePlatformPreview } from '@/components/home/HomePlatformPreview';
-import { HomeEmployerStrip } from '@/components/home/HomeEmployerStrip';
 import { HomeSegmentedCTA } from '@/components/home/HomeSegmentedCTA';
 import { HomeFinalCTA } from '@/components/home/HomeFinalCTA';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -107,68 +102,17 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 1. HERO ─────────────────────────────────────────────────────── */}
       <HomeHeroVideo banner={banner} />
-
-      {/* ── 1b. ROTATING MARQUEE BANNER ─────────────────────────────────── */}
-      <MarqueeBanner />
-
-      {/* ── 1b2. FOUR PRIMARY PATHWAYS ──────────────────────────────────── */}
       <HomePrimaryPathways />
-
-      {/* ── 1c. FUNDING PATHWAYS (above the fold) ───────────────────────── */}
       <HomeFundingStrip />
-
-      {/* ── 1d. WHY CHOOSE ELEVATE — credentials & partner logos ────────── */}
       <HomeWhyChoose />
-
-      {/* ── 2. HOW ELEVATE WORKS ────────────────────────────────────────── */}
-      {/* 6-step operational pipeline: Apply → Funding → Training →
-          Apprenticeship → Credential → Employment */}
       <HomeHowItWorks />
-
-      {/* ── 4. CAREER PATHWAYS ──────────────────────────────────────────── */}
-      {/* 8 featured program cards with credential, funding, and
-          apprenticeship flags. Sector quick-links below. */}
       <HomeCareerPathways />
-
-      {/* ── 5. APPRENTICESHIP + EMPLOYER INFRASTRUCTURE ─────────────────── */}
-      {/* Dual-column: learner OJT benefits + employer capabilities.
-          RAPIDS, wage reimbursement, compliance — in human language. */}
       <HomeApprenticeshipInfra />
-
-      {/* ── 6. FUNDING & ACCESSIBILITY ──────────────────────────────────── */}
-      {/* WIOA, Workforce Ready Grant, FSSA IMPACT, Job Ready Indy,
-          OJT reimbursement, payment plans. "Most learners pay $0." */}
-      <HomeFunding />
-
-      {/* ── 7. OUTCOMES + SUCCESS STORIES ───────────────────────────────── */}
-      {/* Live enrollment stats from /api/enrollment-stats.
-          Testimonials from /api/testimonials (featured=true).
-          Falls back to static content if APIs unavailable. */}
       <Suspense fallback={<OutcomesSkeleton />}>
         <HomeOutcomes />
       </Suspense>
-
-      {/* ── 8. PLATFORM PREVIEW ─────────────────────────────────────────── */}
-      {/* Learner portal, employer dashboard, workforce analytics screenshots.
-          System capabilities listed — framed as "supporting student success." */}
-      <HomePlatformPreview />
-
-      {/* ── 8b. EMPLOYER STRIP ──────────────────────────────────────────── */}
-      <HomeEmployerStrip />
-
-      {/* ── 9. SEGMENTED CTA ────────────────────────────────────────────── */}
-      {/* Separate entry funnels: Learners / Employers / Workforce Agencies /
-          Training Partners. Each routes to its own journey. */}
       <HomeSegmentedCTA />
-
-      {/* ── 9b. ACCREDITATIONS & PARTNER LOGOS (before final CTA) ───────── */}
-      <HomeTrustBar />
-
-      {/* ── 10. FINAL CTA ───────────────────────────────────────────────── */}
-      {/* "From where you are to where you want to be."
-          Apply Now + Check Eligibility + phone number. */}
       <HomeFinalCTA />
     </>
   );

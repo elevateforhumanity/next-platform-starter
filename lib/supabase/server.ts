@@ -1,5 +1,6 @@
 import { timedFetch } from '@/lib/supabase/timed-fetch';
 import { logger } from '@/lib/logger';
+import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
 import { resolveServerSupabaseEnv } from '@/lib/supabase/server-env';
 import { createServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -90,7 +91,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
               // Only apply to Supabase auth tokens — leave other cookies alone.
               const isAuthCookie = name.startsWith('sb-') && name.includes('-auth-token');
               const cookieOptions = isAuthCookie
-                ? { ...options, domain: '.elevateforhumanity.org' }
+                ? withSupabaseAuthCookieDomain(options)
                 : options;
               cookieStore.set(name, value, cookieOptions);
             });

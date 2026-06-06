@@ -922,6 +922,15 @@ Precedence at runtime: `platform_secrets > app_secrets > process.env`
 - **Import website:** `/import` → `POST /api/ai/import-site` (auth required). Builder: `/apps/website-builder`.
 - **DB:** Apply `supabase/migrations/20260702000015_individual_app_subscriptions.sql` if trials or “New Website” fail (missing `app_slug` / RLS).
 
+### Platform owner vs customer tenants
+
+Elevate is **not** a customer workspace — it is the **platform owner tenant** (`tenants.is_platform_owner = true`). Your brands (Elevate for Humanity, Prestige, Curvature, Rise Forward) are **organizations** on that tenant. Dev Cloud subscribers get separate `customer` tenants via `provisionWorkspace()`.
+
+- Architecture: `docs/platform-owner-tenant-model.md`
+- Permission levels: `lib/platform/permission-levels.ts` (Platform Owner / Platform Admin / Organization Admin / Standard User)
+- DevStudio + deploy: **platform operator only** (`super_admin` on owner tenant) — `apiRequirePlatformOperator`
+- Workspace provisioning: platform staff — `POST /api/platform/workspaces/provision`
+
 ### Stripe webhooks (production)
 
 - **Canonical URL:** `https://www.elevateforhumanity.org/api/webhooks/stripe` — register in Stripe Dashboard (live), then set signing secret in the Northflank production secret group for the **LMS** service.

@@ -222,3 +222,47 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
 
   return user;
 }
+
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff'];
+
+/**
+ * Platform staff on the owner tenant — workspace provisioning, all-tenant admin.
+ * Organization admins on customer tenants are rejected.
+ */
+export async function apiRequirePlatformStaff(_req?: Request): Promise<GuardedUser> {
+  const user = await apiAuthGuard(_req);
+  if (user.error) return user;
+
+  if (!user.role || !PLATFORM_STAFF_ROLES.includes(user.role)) {
+    return { ...user, error: forbidden() };
+  }
+
+  const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
+  const ctx = await getPlatformUserContext(user.id);
+  if (!ctx || (ctx.permissionLevel !== 'platform_owner' && ctx.permissionLevel !== 'platform_admin')) {
+    return { ...user, error: forbidden('Platform staff access required') };
+  }
+
+  return user;
+}
+
+/**
+ * Platform operator (owner) — DevStudio, deploy, Northflank, AI autopilot.
+ * Requires super_admin on the platform owner tenant.
+ */
+export async function apiRequirePlatformOperator(_req?: Request): Promise<GuardedUser> {
+  const user = await apiAuthGuard(_req);
+  if (user.error) return user;
+
+  if (user.role !== 'super_admin') {
+    return { ...user, error: forbidden() };
+  }
+
+  const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
+  const ctx = await getPlatformUserContext(user.id);
+  if (!ctx?.canAccessDevStudio) {
+    return { ...user, error: forbidden('Platform operator access required') };
+  }
+
+  return user;
+}

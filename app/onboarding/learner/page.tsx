@@ -21,6 +21,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { logger } from '@/lib/logger';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export const metadata: Metadata = {
   title: 'Student Onboarding',
@@ -153,7 +154,7 @@ export default async function LearnerOnboardingPage({
     redirect('/onboarding/employer');
   }
   if (roleCheck?.role === 'instructor') {
-    redirect('/instructor/dashboard');
+    redirect(getRoleDestination('instructor'));
   }
 
   // Fetch all data in parallel

@@ -625,14 +625,11 @@ const nextConfig = {
       // Portal redirects:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
       //   /instructor/:path*, /admin/staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
-      // Portal redirects:
-      // /dashboard (55 lines, db=5) and /my-dashboard (251 lines, db=21) — real pages, no redirect
-      { source: '/employer', destination: '/employer/dashboard', permanent: false },
-      { source: '/employer/:path*', destination: '/login', permanent: false },
-      { source: '/partner/:path*', destination: '/login', permanent: false },
-      { source: '/provider/:path*', destination: '/login', permanent: false },
+      // Portal routes (/employer/*, /partner/*, /provider/*, /account/*) are real app pages.
+      // Auth gating is handled by proxy.ts — do NOT wildcard-redirect them to /login
+      // (that broke authenticated employer/partner dashboards after middleware passed).
+      // /employer (marketing landing) and /employer/dashboard (portal) are both real pages.
       // /approvals — real 431-line page, no redirect
-      { source: '/account/:path*', destination: '/login', permanent: false },
       // /admin/:path* — gated by proxy.ts middleware
       // Missing public pages with no Railway equivalent
       // /certiport-exam (350 lines, db=7) and /microclasses (265 lines) — real pages, no redirect
@@ -669,6 +666,8 @@ const nextConfig = {
       // Those routes are not compiled in this deploy.
 
       // Store / platform aliases
+      { source: '/store/trial', destination: '/launch', permanent: false },
+      { source: '/marketplace', destination: '/store/digital', permanent: true },
       { source: '/store/demo', destination: '/store/demos', permanent: true },
       { source: '/store/orders', destination: '/store', permanent: true },
       { source: '/platform/licensing', destination: '/licensing', permanent: true },
@@ -758,7 +757,7 @@ const nextConfig = {
 
       // Program holder apply alias
       { source: '/program-holder/apply', destination: '/apply/program-holder', permanent: true },
-      { source: '/program-holder/:path*', destination: '/login?redirect=/program-holder/:path*', permanent: false },
+      // /program-holder/* pages are real — proxy.ts handles auth; no login wildcard here.
 
       // /scholarships → /funding (public SEO route)
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
@@ -1275,10 +1274,9 @@ const sentryWebpackPluginOptions = {
   widenClientFileUpload: false,
 };
 
-// Skip Sentry webpack wrapping in ECS (reduces build time)
-// and on AWS Docker builds (BUILD_SCOPE=1) — withSentryConfig spawns a child
-// Skip Sentry webpack worker on AWS EC2 builds — it doubles peak heap and OOMs
-// the 16GB runner. Sentry still initialises at runtime via instrumentation.ts.
+// Skip Sentry webpack wrapping on CI/Northflank builds (BUILD_SCOPE=1) — withSentryConfig
+// spawns a child process that doubles peak heap and can OOM the builder.
+// Sentry still initialises at runtime via instrumentation.ts.
 const skipSentry =
   process.env.BUILD_SCOPE === '1';
 
