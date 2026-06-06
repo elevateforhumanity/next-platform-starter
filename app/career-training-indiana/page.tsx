@@ -18,7 +18,7 @@ const workforceHighlights = [
   'WIOA-aligned enrollment guidance through Indiana workforce channels',
   'Career pathways across healthcare, skilled trades, technology, and business',
   'Credential-focused training mapped to employer-ready outcomes',
-  'Support for residents in Indianapolis, Fort Wayne, Evansville, South Bend, and statewide',
+  'Support for residents in Indianapolis, Fort Wayne, Evansville, South Bend, and Central Indiana',
 ];
 
 const indianaPathways = [

@@ -1032,6 +1032,16 @@ const nextConfig = {
       { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
       { source: '/partner-portal/:path*', destination: '/partner/:path*', permanent: true },
 
+      // ── OUT-OF-STATE SEO STUBS → INDIANA (operational HQ: Indianapolis, IN) ─
+      { source: '/career-training-illinois', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-ohio', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-tennessee', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-texas', destination: '/career-training-indiana', permanent: true },
+      { source: '/community-services-illinois', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-ohio', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-tennessee', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-texas', destination: '/community-services-indiana', permanent: true },
+
       // ── CERTIFICATE / VERIFY DUPLICATES ────────────────────────────────────
       // Canonical verify: /verify/:certificateId
       { source: '/cert/verify', destination: '/verify', permanent: true },

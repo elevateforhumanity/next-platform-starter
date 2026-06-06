@@ -353,50 +353,14 @@ export const headerNavigation: NavGroup[] = [
     items: [
       { label: 'All Services', href: '/services', description: 'Our service offerings' },
       {
-        label: 'Career Training IL',
-        href: '/career-training-illinois',
-        description: 'Illinois programs',
-      },
-      {
-        label: 'Career Training IN',
+        label: 'Career Training Indiana',
         href: '/career-training-indiana',
-        description: 'Indiana programs',
-      },
-      { label: 'Career Training OH', href: '/career-training-ohio', description: 'Ohio programs' },
-      {
-        label: 'Career Training TN',
-        href: '/career-training-tennessee',
-        description: 'Tennessee programs',
+        description: 'Indiana workforce programs',
       },
       {
-        label: 'Career Training TX',
-        href: '/career-training-texas',
-        description: 'Texas programs',
-      },
-      {
-        label: 'Community Services IL',
-        href: '/community-services-illinois',
-        description: 'IL community services',
-      },
-      {
-        label: 'Community Services IN',
+        label: 'Community Services Indiana',
         href: '/community-services-indiana',
         description: 'IN community services',
-      },
-      {
-        label: 'Community Services OH',
-        href: '/community-services-ohio',
-        description: 'OH community services',
-      },
-      {
-        label: 'Community Services TN',
-        href: '/community-services-tennessee',
-        description: 'TN community services',
-      },
-      {
-        label: 'Community Services TX',
-        href: '/community-services-texas',
-        description: 'TX community services',
       },
       {
         label: 'Community Services',
