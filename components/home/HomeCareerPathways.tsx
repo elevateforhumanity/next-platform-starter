@@ -36,7 +36,7 @@ const SECTOR_COLORS: Record<string, string> = {
   business: 'bg-slate-600',
 };
 
-function PathwayCard({ prog }: { prog: ProgramSchema }) {
+function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boolean }) {
   const sectorColor = SECTOR_COLORS[prog.sector] ?? 'bg-slate-600';
   const duration = prog.durationWeeks
     ? prog.durationWeeks === 1
@@ -62,7 +62,8 @@ function PathwayCard({ prog }: { prog: ProgramSchema }) {
           fill
           className={card.programImageFill}
           sizes={IMAGE_SIZES.programCard}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
+          priority={priority}
           placeholder="empty"
         />
         {/* Sector badge */}
@@ -173,8 +174,8 @@ export async function HomeCareerPathways() {
         </div>
 
         <div className={grid.homePrograms}>
-          {featured.map((prog) => (
-            <PathwayCard key={prog.slug} prog={prog} />
+          {featured.map((prog, index) => (
+            <PathwayCard key={prog.slug} prog={prog} priority={index === 0} />
           ))}
         </div>
 

@@ -26,6 +26,7 @@ import {
   SitePreviewPanelWrapperLazy,
   LizzyContainerWrapperLazy,
 } from "./DashboardDeferredPanels";
+import { DashboardPanelErrorBoundary } from "./DashboardPanelErrorBoundary";
 
 
 function fmtUsd(cents: number) {
@@ -497,7 +498,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         <AdminCategoryLanding />
 
-        <PublishWebsitePanelLazy />
+        <DashboardPanelErrorBoundary name="Publish website">
+          <PublishWebsitePanelLazy />
+        </DashboardPanelErrorBoundary>
 
         {/* ── Stats overview bar ───────────────────────────────────────── */}
         <StatsOverviewBar data={data} />
@@ -505,7 +508,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
         {/* ── KPI cards ────────────────────────────────────────────────── */}
         {(data.kpis?.length ?? 0) > 0 && (
           <div className="mb-6">
-            <RealtimeKpiGrid kpis={data.kpis} />
+            <DashboardPanelErrorBoundary name="KPI cards">
+              <RealtimeKpiGrid kpis={data.kpis} />
+            </DashboardPanelErrorBoundary>
           </div>
         )}
 
@@ -577,20 +582,28 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         {/* ── Program integrity ────────────────────────────────────────── */}
         <div className="mt-8">
-          <ProgramIntegrityPanelLazy />
+          <DashboardPanelErrorBoundary name="Program integrity">
+            <ProgramIntegrityPanelLazy />
+          </DashboardPanelErrorBoundary>
         </div>
 
         {/* ── Job board + site status + system health ──────────────────── */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <JobBoardPanelLazy />
-          <LizzyContainerWrapperLazy
-            sites={data.sitePreviewTargets ?? []}
-            isSuperAdmin={data.isSuperAdmin === true}
-            pendingApplications={data.recentApplications}
-            pendingApplicationsCount={data.counts?.pendingApplications ?? 0}
-            pendingProgramHolders={data.counts?.pendingProgramHolders ?? 0}
-          />
-          <SitePreviewPanelWrapperLazy sites={data.sitePreviewTargets ?? []} />
+          <DashboardPanelErrorBoundary name="Job board">
+            <JobBoardPanelLazy />
+          </DashboardPanelErrorBoundary>
+          <DashboardPanelErrorBoundary name="Lizzy control plane">
+            <LizzyContainerWrapperLazy
+              sites={data.sitePreviewTargets ?? []}
+              isSuperAdmin={data.isSuperAdmin === true}
+              pendingApplications={data.recentApplications}
+              pendingApplicationsCount={data.counts?.pendingApplications ?? 0}
+              pendingProgramHolders={data.counts?.pendingProgramHolders ?? 0}
+            />
+          </DashboardPanelErrorBoundary>
+          <DashboardPanelErrorBoundary name="Site preview">
+            <SitePreviewPanelWrapperLazy sites={data.sitePreviewTargets ?? []} />
+          </DashboardPanelErrorBoundary>
           <SystemHealthPanel health={data.systemHealth ?? { stripeWebhookOk: false, stripeIssuingOk: false, buildEnvOk: false, staleJobs: 0, degraded: true, missingDocuments: 0, missingCertifications: 0, unresolvedFlags: 0, alerts: [] }} />
         </div>
 

@@ -28,7 +28,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
       aria-label="Main navigation"
     >
       {items.map((item) => (
-        <div key={item.name} className="relative group shrink-0">
+        <div key={item.name} className="relative group shrink-0 pb-3 -mb-3">
           {item.subItems && item.subItems.length > 0 ? (
             item.href ? (
               <Link
@@ -62,8 +62,8 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
 
           {/* Dropdown — horizontal mega-menu layout */}
           {item.subItems && item.subItems.length > 0 && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50">
-              <div className="bg-white rounded-xl shadow-xl border border-slate-200 p-4">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto transition-all duration-200 z-[10000]">
+              <div className="bg-white rounded-xl shadow-xl border border-slate-200 p-4 max-h-[min(70vh,560px)] overflow-y-auto overscroll-contain">
                 {/* Group sub-items by section headers into columns */}
                 {(() => {
                   // Split into columns at each isHeader boundary
@@ -103,7 +103,7 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
 
                   // Multi-column horizontal layout
                   return (
-                    <div className="flex gap-6 divide-x divide-slate-100">
+                    <div className="flex flex-wrap gap-x-6 gap-y-4 divide-x-0 sm:divide-x sm:divide-slate-100 max-w-[min(calc(100vw-2rem),1080px)]">
                       {columns.map((col, ci) => (
                         <div key={ci} className={`flex flex-col min-w-[160px] ${ci > 0 ? 'pl-6' : ''}`}>
                           {col.map((sub) =>

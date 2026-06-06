@@ -2,13 +2,9 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import HomeHeroVideo from '@/components/ui/HomeHeroVideo';
 import heroBanners from '@/content/heroBanners';
-import { HomeWhyChoose } from '@/components/home/HomeWhyChoose';
 import { HomeFundingStrip } from '@/components/home/HomeFundingStrip';
-import { HomeHowItWorks } from '@/components/home/HomeHowItWorks';
 import { HomeCareerPathways } from '@/components/home/HomeCareerPathways';
-import { HomeApprenticeshipInfra } from '@/components/home/HomeApprenticeshipInfra';
 import { HomeOutcomes } from '@/components/home/HomeOutcomes';
-import { HomeSegmentedCTA } from '@/components/home/HomeSegmentedCTA';
 import { HomeFinalCTA } from '@/components/home/HomeFinalCTA';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -102,16 +98,12 @@ export default async function HomePage() {
   return (
     <>
       <HomeHeroVideo banner={banner} />
-      <HomeSegmentedCTA />
-      <HomeFinalCTA />
       <HomeFundingStrip />
-      <HomeWhyChoose />
-      <HomeHowItWorks />
       <HomeCareerPathways />
-      <HomeApprenticeshipInfra />
       <Suspense fallback={<OutcomesSkeleton />}>
         <HomeOutcomes />
       </Suspense>
+      <HomeFinalCTA />
     </>
   );
 }

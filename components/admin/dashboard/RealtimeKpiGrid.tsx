@@ -15,11 +15,13 @@ interface Props {
 }
 
 function patchKpi(cards: KPICard[], labelFragment: string, updater: (v: number) => number): KPICard[] {
-  return cards.map((c) =>
-    c.label.toLowerCase().includes(labelFragment)
-      ? { ...c, value: Math.max(0, updater(c.value)) }
-      : c,
-  );
+  return cards.map((c) => {
+    const label = typeof c.label === 'string' ? c.label : '';
+    const value = typeof c.value === 'number' && Number.isFinite(c.value) ? c.value : 0;
+    return label.toLowerCase().includes(labelFragment)
+      ? { ...c, label: label || c.label, value: Math.max(0, updater(value)) }
+      : { ...c, label: label || c.label, value };
+  });
 }
 
 export function RealtimeKpiGrid({ kpis: initialKpis }: Props) {

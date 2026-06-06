@@ -10,7 +10,7 @@ const FUNDING_PATHS = [
   { label: 'WIOA', desc: 'Federal tuition', href: '/funding/wioa' },
   { label: 'Workforce Ready Grant', desc: 'Indiana state', href: '/funding/wrg' },
   { label: 'State funding hub', desc: 'WRG, JRI, WIOA', href: '/funding' },
-  { label: 'Earn While You Learn', desc: 'Apprenticeship', href: '/programs/apprenticeships' },
+  { label: 'Earn While You Learn', desc: 'Apprenticeship', href: '/apprenticeships' },
 ];
 
 export function HomeFundingStrip() {

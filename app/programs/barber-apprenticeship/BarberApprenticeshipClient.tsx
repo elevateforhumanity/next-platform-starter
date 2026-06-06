@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { HeroBannerConfig } from '@/content/heroBanners';
-import HeroPicture from '@/components/marketing/HeroPicture';
-import { hero as heroTokens } from '@/lib/page-design-tokens';
+import HeroVideo from '@/components/marketing/HeroVideo';
 import { AlertTriangle, ChevronRight } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 // Section imports removed — BarberDeliveryModel, BarberPartnership,
@@ -60,32 +59,30 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ═══ HERO ═══ */}
-      <HeroPicture
-        src={b?.posterImage ?? '/images/pages/barber-hero-main.jpg'}
-        alt="Licensed barber cutting hair in a professional barbershop"
-        microLabel={b?.microLabel ?? 'DOL Apprenticeship'}
-        analyticsName={b?.analyticsName ?? 'barber-apprenticeship'}
-        belowHeroHeadline={b?.belowHeroHeadline ?? 'Earn your Indiana Barber License while getting paid.'}
-        belowHeroSubheadline={
-          b?.belowHeroSubheadline ??
-          'DOL Registered Apprenticeship. Train under a licensed barber, complete 2,000 hours, and graduate ready for the Indiana Barber License exam.'
-        }
-        ctas={heroCtas}
-        trustIndicators={b?.trustIndicators}
-        transcript={b?.transcript}
-        heightStyle={heroTokens.imageWrap}
-      />
+      {/* ═══ HERO (video + below-hero messaging per hero-video-standard) ═══ */}
+      {b?.videoSrcDesktop ? (
+        <HeroVideo
+          videoSrcDesktop={b.videoSrcDesktop}
+          videoSrcMobile={b.videoSrcMobile}
+          voiceoverSrc={b.voiceoverSrc}
+          microLabel={b.microLabel ?? 'DOL Registered Apprenticeship'}
+          belowHeroHeadline={b.belowHeroHeadline}
+          belowHeroSubheadline={b.belowHeroSubheadline}
+          ctas={heroCtas}
+          trustIndicators={b.trustIndicators}
+          transcript={b.transcript}
+          analyticsName={b.analyticsName ?? 'barber-apprenticeship'}
+        />
+      ) : null}
 
-      {/* ═══ PROGRAM IDENTITY CARD ═══ */}
+      {/* ═══ PROGRAM STATS (no duplicate hero copy) ═══ */}
       <section className="border-b border-slate-200 bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4">
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
             <Link href="/programs" className="hover:text-brand-blue-600">Programs</Link>
             <ChevronRight className="w-3 h-3" />
             <span className="text-slate-900 font-medium">Barber Apprenticeship</span>
           </nav>
-          <p className="text-slate-600 text-lg mb-6">{p.subtitle}</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 rounded-lg p-4">
             {[
               { label: 'Duration', value: '52 weeks' },
@@ -292,22 +289,6 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
               Funding eligibility determined after application review. Payment method is selected at that point — not upfront.
             </span>
           </div>
-        </div>
-      </section>
-
-      {/* Removed — enrollment/payment shown in Funding section above */}
-
-      {/* ═══ CTA: MID-PAGE ═══ */}
-      <section className="py-10 border-t bg-slate-50">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <p className="text-slate-700 font-medium mb-4">Ready to get started? Apply first — we handle the rest.</p>
-          <Link
-            href="/programs/barber-apprenticeship/apply"
-            className="inline-flex items-center justify-center rounded-xl bg-brand-red-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-red-700"
-          >
-            Apply Now
-          </Link>
-          <p className="mt-3 text-sm text-slate-500">See payment options and funding paths.</p>
         </div>
       </section>
 
