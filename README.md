@@ -118,20 +118,26 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 
 ## Stakeholder Portals
 
-| Portal | Path | Audience |
-|---|---|---|
-| Learner LMS | `/lms` | Enrolled students |
-| Student Portal | `/student-portal` | Student self-service |
-| Admin | `/admin` | Staff, super admins |
-| Instructor | `/instructor` | Course instructors |
-| Employer Portal | `/employer-portal` | Hiring partners |
-| Program Holder | `/program-holder` | Community org partners |
-| Partner Portal | `/partners/dashboard` | Apprenticeship host shops |
-| Staff Portal | `/staff-portal` | Internal staff |
-| Workforce Board | `/workforce-board` | WIOA/DWD administrators |
-| Parent Portal | `/parent-portal` | Guardians of youth participants |
-| Apprentice | `/apprentice` | Registered apprentices |
-| Case Manager | `/cm` | WIOA case managers |
+Canonical post-auth destinations are defined in `lib/auth/role-destinations.ts`. Legacy paths redirect to these routes (see `next.config.mjs`).
+
+| Portal | Canonical path | Host | Audience |
+|---|---|---|---|
+| Learner | `/learner/dashboard` | www | Enrolled students |
+| LMS (courses) | `/lms/courses` | www | Authenticated program access |
+| LMS (browse) | `/lms/programs` | www | Program catalog inside LMS |
+| Admin | `/admin/dashboard` | **admin** subdomain | `admin`, `super_admin`, `org_admin` |
+| Staff | `/admin/staff-portal/dashboard` | **admin** subdomain | Internal Elevate staff |
+| Instructor | `/admin/instructor/dashboard` | **admin** subdomain | Course instructors |
+| Employer | `/employer/dashboard` | www | Hiring partners |
+| Partner (host shop) | `/partner/dashboard` | www | Apprenticeship host sites |
+| Program Holder | `/program-holder/dashboard` | www | Community org partners |
+| Provider | `/provider/dashboard` | www | `provider_admin` tenants |
+| Case Manager | `/case-manager/dashboard` | www | WIOA case managers |
+| Mentor | `/mentor/dashboard` | www | Mentors |
+| Workforce Board | `/workforce-board/dashboard` | www | WIOA/DWD administrators |
+| Creator | `/creator/products` | www | Content creators |
+
+**Legacy redirects (do not link directly):** `/student-portal` → `/learner/dashboard`, `/employer-portal` → `/employer/dashboard`, `/partner-portal/*` → `/partner/*`, `/instructor/*` and `/staff-portal/*` on www → admin host, `/partners/dashboard` → `/partner/dashboard`.
 
 ---
 
@@ -141,8 +147,8 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 |---|---|
 | Framework | Next.js 16 (App Router, Turbopack) |
 | Database | Supabase (PostgreSQL) — project `cuxzzpsyufcewtmicszk` |
-| Hosting | Northflank combined services — `elevate-lms` and `elevate-admin` |
-| CI/CD | GitHub Actions → Northflank API → service build/deploy |
+| Hosting | AWS ECS Fargate (`elevate-cluster`) — LMS + admin task definitions in `aws/`; Northflank scripts in `scripts/northflank/` for alternate deploy path |
+| CI/CD | GitHub Actions (`deploy-aws.yml`, `apply-pending-migrations.yml`) → Docker build → ECS deploy |
 | Package manager | pnpm |
 | Auth | Supabase Auth + custom role system |
 | Payments | Stripe + Affirm + Sezzle |
@@ -182,7 +188,7 @@ The admin platform now includes an operations-first automation center for curric
 |---|---|
 | `page.tsx` files | 1,293 |
 | `route.ts` API files | 1,186 |
-| Supabase migrations | 687 |
+| Supabase migrations | 754 |
 | Canonical programs | 37 |
 | Nav hrefs | 111 |
 
@@ -191,10 +197,16 @@ The admin platform now includes an operations-first automation center for curric
 ## Common Commands
 
 ```bash
-pnpm next dev --turbopack        # LMS dev server (port 3000)
-cd apps/admin && pnpm dev        # Admin dev server (port 3001)
-pnpm next build                  # Production build — must complete with zero errors
+pnpm dev                         # LMS dev server (port 3000, Turbopack)
+pnpm dev:admin                   # Admin dev server (port 3001)
+pnpm build                       # Production build — must complete with zero errors
 pnpm lint                        # Run ESLint
+pnpm test                        # Vitest unit tests
+pnpm typecheck                   # TypeScript (needs NODE_OPTIONS=--max-old-space-size=8192)
+pnpm production:gate             # Full production readiness gate
+pnpm integrity:store             # Store catalog integrity report
+pnpm check:redirects             # Redirect conflict check
+pnpm route:audit                 # Route vs filesystem audit
 bash scripts/audit-schema-refs.sh   # DB table gap report
 bash scripts/audit-auth-gaps.sh     # Auth gap report
 bash scripts/audit-env-vars.sh      # Env var gap report

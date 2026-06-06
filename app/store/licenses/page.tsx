@@ -14,10 +14,55 @@ import {
   Award,
   Shield,
 } from 'lucide-react';
-import { STORE_PRODUCTS, CLONE_LICENSES } from '@/lib/data/store-products';
+import {
+  STORE_PRODUCTS,
+  CLONE_LICENSES,
+  type StoreProduct,
+} from '@/lib/data/store-products';
+import { getCatalogProducts, type CatalogProduct } from '@/lib/store/db';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
+
+type LicenseDisplayProduct = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  billingType: 'one_time' | 'subscription';
+  licenseType?: 'single' | 'school' | 'enterprise';
+  features: string[];
+  idealFor: string[];
+};
+
+function fromCatalogProduct(product: CatalogProduct): LicenseDisplayProduct {
+  return {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    description: product.description,
+    price: product.price / 100,
+    billingType: product.billingType,
+    licenseType: product.licenseType,
+    features: product.features,
+    idealFor: product.idealFor ? [product.idealFor] : [],
+  };
+}
+
+function fromStoreProduct(product: StoreProduct): LicenseDisplayProduct {
+  return {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    billingType: product.billingType,
+    licenseType: product.licenseType,
+    features: product.features,
+    idealFor: product.idealFor,
+  };
+}
 
 export const metadata: Metadata = {
   title: `Platform Licenses | ${PLATFORM_DEFAULTS.orgName} Store`,
@@ -29,10 +74,23 @@ export const metadata: Metadata = {
 };
 
 export default async function LicensesPage() {
-  // Filter to only show main license products (not community add-ons)
-  const licenseProducts = STORE_PRODUCTS.filter(
-    (p) => p.id.startsWith('efh-') && !p.id.includes('community')
-  );
+  const [dbStoreProducts, dbCloneProducts] = await Promise.all([
+    getCatalogProducts('store'),
+    getCatalogProducts('clone'),
+  ]);
+
+  // DB catalog is canonical; hardcoded list is dev/offline fallback only.
+  const licenseProducts: LicenseDisplayProduct[] =
+    dbStoreProducts.length > 0
+      ? dbStoreProducts.map(fromCatalogProduct)
+      : STORE_PRODUCTS.filter(
+          (p) => p.id.startsWith('efh-') && !p.id.includes('community'),
+        ).map(fromStoreProduct);
+
+  const cloneLicenses: LicenseDisplayProduct[] =
+    dbCloneProducts.length > 0
+      ? dbCloneProducts.map(fromCatalogProduct)
+      : CLONE_LICENSES.map(fromStoreProduct);
 
   return (
     <div className="bg-white">
@@ -246,7 +304,7 @@ export default async function LicensesPage() {
       </section>
 
       {/* Clone Licenses Section */}
-      {CLONE_LICENSES && CLONE_LICENSES.length > 0 && (
+      {cloneLicenses.length > 0 && (
         <section className="px-4 sm:px-6 lg:px-8 py-20 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
@@ -264,7 +322,7 @@ export default async function LicensesPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              {CLONE_LICENSES.map((license) => (
+              {cloneLicenses.map((license) => (
                 <div
                   key={license.id}
                   className="bg-slate-50 rounded-2xl p-8 border border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all"

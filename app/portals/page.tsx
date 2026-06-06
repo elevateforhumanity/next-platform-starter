@@ -86,7 +86,7 @@ const portals: PortalEntry[] = [
     icon: Users,
     title: 'Instructor Portal',
     description: 'Roster, lab and assignment review, grades, and course tools.',
-    href: '/login?redirect=/instructor/dashboard',
+    href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Finstructor%2Fdashboard',
     features: ['Roster', 'Submissions', 'Grades'],
   },
   {
@@ -107,7 +107,7 @@ const portals: PortalEntry[] = [
     icon: Briefcase,
     title: 'Staff Portal',
     description: 'Daily operations — students, attendance, at-risk flags, and reports.',
-    href: '/login?redirect=/admin/staff-portal/dashboard',
+    href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Fstaff-portal%2Fdashboard',
     features: ['Students', 'Attendance', 'Reports'],
   },
 ];
