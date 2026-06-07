@@ -35,6 +35,16 @@ describe('NAV_ITEMS structure', () => {
     expect(names).toContain('Funding');
     expect(names).toContain('Partners');
     expect(names).toContain('Apply');
+    expect(names).toContain('Support');
     expect(names).toContain('About');
+  });
+
+  it('includes support hub and student support in Support dropdown', () => {
+    const support = NAV_ITEMS.find((i) => i.id === 'support');
+    expect(support?.href).toBe('/support');
+    const hrefs = (support?.subItems ?? []).filter((s) => !s.isHeader).map((s) => s.href);
+    expect(hrefs).toContain('/support/chat');
+    expect(hrefs).toContain('/student-support');
+    expect(hrefs).toContain('/faq');
   });
 });

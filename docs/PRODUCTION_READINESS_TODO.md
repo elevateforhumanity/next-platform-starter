@@ -3,6 +3,14 @@
 Actionable checklist derived from `docs/SYSTEM_INTEGRITY_AUDIT_2026-06-07.md`, `docs/platform-hardening-audit-2026-05-31.md`, and AGENTS.md.  
 **Last updated:** 2026-06-07 · **Branch tracking:** `cursor/production-readiness-full-c4c6`
 
+### Migration verification (run before recommending SQL)
+
+```bash
+node scripts/verify-pending-migrations.mjs
+```
+
+If all five checks pass, **do not** re-run migration files — they are already live. Agents must run this script before telling users to paste SQL.
+
 ---
 
 ## Why audits find issues but do not “fix everything” in one pass
@@ -56,6 +64,7 @@ Actionable checklist derived from `docs/SYSTEM_INTEGRITY_AUDIT_2026-06-07.md`, `
 | P1-6 | Orphan admin routes (180 `REVIEW_NEEDED`) — wire nav or redirect | Code | `node scripts/audit-orphan-categorization.mjs` | 📋 ~10 routes/PR |
 | P1-7 | Admin dashboard degraded-data banner | Code | Dashboard with bad Supabase key | ✅ #333 |
 | P1-8 | Portals hub link in header (desktop + mobile) | Code | Header "Portals" → `/portals` | ✅ #333 |
+| P1-9 | **Support** top-level dropdown (hub, chat, ticket, help, student-support) | Code | `lib/navigation.ts` + `audit-nav-links.mjs` | 🔄 PR #334 |
 | P1-9 | Super-admin admin host vs www login documentation | Docs | AGENTS.md + unauthorized page | ✅ #331 |
 
 ---
