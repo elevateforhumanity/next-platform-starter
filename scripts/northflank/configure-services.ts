@@ -152,6 +152,8 @@ async function main() {
       for (const storageMb of storageAllowanceCandidates(requestedEphemeralMb)) {
         const patch = {
           billing,
+          // Builds must roll to pods automatically; disabledCD left admin 194 commits behind main.
+          disabledCD: false,
           runtimeEnvironment: service.runtimeEnvironment,
           healthChecks,
           buildSettings: {
