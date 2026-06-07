@@ -105,7 +105,7 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/program-holder/':          ['program_holder', 'admin', 'super_admin'],
 
   // ── Grant clients ─────────────────────────────────────────────────────────
-  '/lms/':                     ['student', 'grant_client', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/lms/':                     ['student', 'grant_client', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
 
   // ── Sponsor (DOL apprenticeship) ──────────────────────────────────────────
   // sponsor shares /employer/dashboard — employer route already covers it

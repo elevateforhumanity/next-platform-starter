@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Scissors, GraduationCap } from 'lucide-react';
 import ApprenticeLoginForm from './ApprenticeLoginForm';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
+import { validateRedirect } from '@/lib/auth/validate-redirect';
 
 export const metadata: Metadata = {
   title: `Apprentice Login — ${PLATFORM_DEFAULTS.orgName}`,
@@ -13,12 +15,25 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function ApprenticeLoginPage() {
+export default async function ApprenticeLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string; next?: string }>;
+}) {
+  const params = await searchParams;
+  const redirectTo = validateRedirect(params.redirect ?? params.next, '');
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (user) {
-    redirect('/portal/apprentice');
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('portal_type')
+      .eq('id', user.id)
+      .maybeSingle();
+    const home = await resolveStudentHomePath(supabase, user.id, profile?.portal_type);
+    redirect(home);
   }
 
   return (
@@ -40,7 +55,7 @@ export default async function ApprenticeLoginPage() {
           </div>
         </div>
 
-        <ApprenticeLoginForm />
+        <ApprenticeLoginForm redirectTo={redirectTo || undefined} />
 
         <div className="mt-6 text-center space-y-2">
           <Link

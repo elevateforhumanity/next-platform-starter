@@ -27,10 +27,10 @@ export const BARBER_LMS_COURSE_PATH = `/lms/courses/${BARBER_COURSE_ID}` as cons
 export const prestigeElevationBarberCoursePath = BARBER_LMS_COURSE_PATH;
 
 /**
- * Static workbook fallback — course landing with reading tab hint.
+ * Static workbook fallback when server cannot resolve first lesson id.
  * Prefer server-resolved `workbookHref` from resolveCourseEntryLinks() on dashboards.
  */
-export const PRESTIGE_ELEVATION_BARBER_WORKBOOK_HREF = BARBER_LMS_COURSE_PATH;
+export const PRESTIGE_ELEVATION_BARBER_WORKBOOK_HREF = `${BARBER_LMS_COURSE_PATH}?activity=reading`;
 
 export const PRESTIGE_BARBER_BRAND = {
   instituteName: 'Prestige Barber & Beauty Institute',

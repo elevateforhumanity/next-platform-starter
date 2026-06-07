@@ -1,16 +1,19 @@
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
+import { allowedRolesForPortalPath } from '@/lib/portal/apprentice-access';
 
 export const dynamic = 'force-dynamic';
-
-const ALLOWED_ROLES = ['student', 'admin', 'super_admin', 'staff', 'instructor'];
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') ?? '/portal';
+
   if (!user) {
-    redirect('/login?redirect=/portal');
+    redirect(`/login?redirect=${encodeURIComponent(pathname)}`);
   }
 
   const { data: profile } = await supabase
@@ -19,7 +22,8 @@ export default async function PortalLayout({ children }: { children: React.React
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile?.role || !ALLOWED_ROLES.includes(profile.role)) {
+  const allowedRoles = allowedRolesForPortalPath(pathname);
+  if (!profile?.role || !allowedRoles.includes(profile.role)) {
     redirect('/unauthorized');
   }
 
