@@ -41,7 +41,19 @@ async function triggerBuild(projectId: string, serviceId: string) {
     method: 'POST',
     body: JSON.stringify({}),
   });
-  console.log(`[trigger] ${serviceId}`);
+  console.log(`[trigger-build] ${serviceId}`);
+}
+
+async function triggerDeployment(projectId: string, serviceId: string, expectedSha: string) {
+  const branch = process.env.DEPLOY_BRANCH || 'main';
+  await nfFetch(projectApiPath(projectId, `/services/${serviceId}/deployment`), {
+    method: 'POST',
+    body: JSON.stringify({
+      internal: { id: serviceId, branch, buildSHA: expectedSha },
+      docker: { configType: 'default' },
+    }),
+  });
+  console.log(`[trigger-deploy] ${serviceId} -> ${expectedSha.slice(0, 12)}…`);
 }
 
 async function main() {
@@ -107,7 +119,14 @@ async function main() {
 
     if (!ok) {
       stale = true;
-      if (trigger) await triggerBuild(projectId, serviceId);
+      if (trigger) {
+        const buildSucceeded = ['SUCCESS', 'COMPLETED'].includes(String(build));
+        if (buildSucceeded) {
+          await triggerDeployment(projectId, serviceId, expected);
+        } else {
+          await triggerBuild(projectId, serviceId);
+        }
+      }
     }
   }
 
@@ -119,7 +138,9 @@ async function main() {
   }
 
   if (stale && trigger) {
-    console.log('\nTriggered rebuild for stale service(s). Monitor Northflank UI or wait-service.ts');
+    console.log(
+      '\nTriggered rollout for stale service(s). Monitor Northflank UI or wait-service.ts',
+    );
     process.exit(0);
   }
 
