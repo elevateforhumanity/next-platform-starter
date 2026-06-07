@@ -30,6 +30,8 @@ import {
 } from 'lucide-react';
 import { CourseModuleAccordion } from '@/components/lms/CourseModuleAccordion';
 import { CourseReviewsPanel } from '@/components/lms/CourseReviewsPanel';
+import { BARBER_COURSE_ID } from '@/lib/barber/constants';
+import { BARBER_CURRICULUM_COVER } from '@/lib/barber/branding';
 
 export const dynamic = 'force-dynamic';
 
