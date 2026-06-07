@@ -59,9 +59,6 @@ export default function LizzyContainerWrapper({
   pendingApplications = [],
   pendingApplicationsCount = 0,
   pendingProgramHolders = 0,
-  pendingApplications?: RecentApplication[];
-  pendingApplicationsCount?: number;
-  pendingProgramHolders?: number;
 }: {
   sites: SitePreviewTarget[];
   defaultPreviewUrl?: string;
