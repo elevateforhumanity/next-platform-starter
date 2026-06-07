@@ -111,6 +111,40 @@ describe('normalizeAdminDashboardData', () => {
     expect(normalized.systemHealth.alerts[1].severity).toBe('warning');
   });
 
+  it('filters null site preview targets so Lizzy map cannot throw', () => {
+    const normalized = normalizeAdminDashboardData({
+      sitePreviewTargets: [
+        null,
+        { label: 'Public', url: 'https://www.elevateforhumanity.org' },
+        { label: 'Bad', url: '' },
+      ] as unknown as import('@/components/admin/dashboard/types').SitePreviewTarget[],
+    });
+
+    expect(normalized.sitePreviewTargets).toHaveLength(1);
+    expect(normalized.sitePreviewTargets[0].url).toContain('elevateforhumanity.org');
+  });
+
+  it('coerces non-string profile full_name for greeting render', () => {
+    const normalized = normalizeAdminDashboardData({
+      profile: { full_name: 123 as unknown as string, role: 'super_admin' },
+    });
+
+    expect(normalized.profile?.full_name).toBeNull();
+    expect(normalized.isSuperAdmin).toBe(true);
+  });
+
+  it('drops recent students without ids', () => {
+    const normalized = normalizeAdminDashboardData({
+      recentStudents: [
+        { id: '', full_name: 'Bad', email: null, enrollment_status: null, created_at: null, program_name: null, href: '/x' },
+        { id: 'abc', full_name: 'Good', email: null, enrollment_status: null, created_at: null, program_name: null, href: '/admin/students/abc' },
+      ],
+    });
+
+    expect(normalized.recentStudents).toHaveLength(1);
+    expect(normalized.recentStudents[0].id).toBe('abc');
+  });
+
   it('normalizes operational counters when partial payload omits fields', () => {
     const normalized = normalizeAdminDashboardData({
       operational: {

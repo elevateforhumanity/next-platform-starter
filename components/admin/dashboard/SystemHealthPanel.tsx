@@ -144,7 +144,8 @@ export function SystemHealthPanel({ health }: Props) {
           <div className="space-y-2">
             {alerts.map((alert, i) => {
               const styles = SEVERITY_STYLES[alert.severity] ?? SEVERITY_STYLES.info;
-              const AlertIcon = CODE_ICONS[alert.code] ?? styles.Icon;
+              const code = typeof alert.code === 'string' ? alert.code : 'unknown';
+              const AlertIcon = CODE_ICONS[code] ?? styles.Icon;
               return (
                 <div
                   key={i}
@@ -153,7 +154,7 @@ export function SystemHealthPanel({ health }: Props) {
                   <AlertIcon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${styles.icon}`} />
                   <div className="min-w-0">
                     <p className={`text-xs font-semibold ${styles.text}`}>
-                      {alert.code.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                      {code.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                     </p>
                     <p className={`text-xs mt-0.5 ${styles.sub}`}>{alert.message}</p>
                   </div>
