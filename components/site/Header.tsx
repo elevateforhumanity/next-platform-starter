@@ -45,9 +45,16 @@ export default function Header() {
             <SearchModal />
             <LanguageSwitcher compact={true} />
             <Link
-              href="/login"
+              href="/portals"
               prefetch={false}
               className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap"
+            >
+              Portals
+            </Link>
+            <Link
+              href="/login"
+              prefetch={false}
+              className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap hidden xl:inline"
             >
               Sign In
             </Link>
