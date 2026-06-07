@@ -336,7 +336,9 @@ describe('student_enrollments — column contract (HIGH RISK: 21 refs)', () => {
 
 describe('participant_report — VIEW contract (4 refs)', () => {
   it('is defined as a VIEW in migrations', () => {
-    expect(allMigrationsSql).toMatch(/CREATE OR REPLACE VIEW public\.participant_report/i);
+    expect(allMigrationsSql).toMatch(
+      /CREATE (?:OR REPLACE )?VIEW public\.participant_report[\s\S]*security_invoker\s*=\s*true/i,
+    );
   });
 
   it('view includes enrollment_status column', () => {
