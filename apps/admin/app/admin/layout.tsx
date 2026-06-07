@@ -114,7 +114,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  if (!user) {
+    const headersList = await headers();
+    const pathname = headersList.get('x-pathname') || '/admin/dashboard';
+    redirect(`/login?redirect=${encodeURIComponent(pathname)}`);
+  }
 
   const db = await getAdminClient();
   const effectiveDb = db ?? (supabase as unknown as Awaited<ReturnType<typeof getAdminClient>>);

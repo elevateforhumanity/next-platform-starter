@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { resolvePostLoginDestination } from '@/lib/auth/role-redirects';
-import { validateRedirect } from '@/lib/auth/validate-redirect';
+import { readRedirectParam, resolveRedirectLocation, validateRedirect } from '@/lib/auth/validate-redirect';
 import { reconcilePreAuthRows } from '@/lib/pre-auth-tables';
 import { resolvePortalForUser } from '@/lib/portal/router';
 
@@ -13,9 +13,7 @@ export async function GET(request: Request) {
   const error = requestUrl.searchParams.get('error');
   const errorDescription = requestUrl.searchParams.get('error_description');
   const type = requestUrl.searchParams.get('type');
-  const redirectParam =
-    requestUrl.searchParams.get('redirect') ??
-    requestUrl.searchParams.get('next');
+  const redirectParam = readRedirectParam(requestUrl.searchParams);
   const redirectTarget = validateRedirect(redirectParam, '/learner/dashboard');
 
   // Password reset flow — exchange code then send to reset form
@@ -158,7 +156,7 @@ export async function GET(request: Request) {
         return NextResponse.redirect(new URL(destination, requestUrl.origin));
       }
 
-      return NextResponse.redirect(new URL(redirectTarget, requestUrl.origin));
+      return NextResponse.redirect(resolveRedirectLocation(redirectTarget, requestUrl.origin));
     } catch (err) {
       logger.error('Auth callback exception:', err);
       return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin));

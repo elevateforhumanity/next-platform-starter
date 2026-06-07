@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
 
 export default function AuthRedirectHandler() {
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function AuthRedirectHandler() {
     // Magic links are generated with redirect_to=${PLATFORM_DEFAULTS.siteUrl}?next=/apprentice
     // Supabase preserves query params on the base URL even when it strips the path.
     const searchParams = new URLSearchParams(window.location.search);
-    const next = searchParams.get('next');
+    const next = validateRedirect(readRedirectParam(searchParams), '');
 
     // If the user landed on a payment/checkout page via magic link, keep them
     // there after auth — do not redirect to their role destination.
@@ -73,7 +73,7 @@ export default function AuthRedirectHandler() {
       // If the landing page is a payment/checkout page, stay on it after auth.
       // Otherwise route by role, using cached portal_type for students.
       let destination: string;
-      if (next && next.startsWith('/')) {
+      if (next) {
         destination = next;
       } else if (isPaymentPage) {
         // Stay on the current payment page — preserve search params, drop the hash

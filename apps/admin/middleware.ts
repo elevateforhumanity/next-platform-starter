@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { checkAdminIP } from '@/lib/api/admin-ip-guard';
+import { buildLoginUrl, buildReturnPath } from '@/lib/auth/validate-redirect';
 
 const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
 
@@ -92,10 +93,8 @@ export async function middleware(req: NextRequest) {
   );
 
   if (!hasSession) {
-    const loginUrl = new URL('/login', req.url);
-    if (pathname.startsWith('/') && !pathname.startsWith('//') && !pathname.includes('://')) {
-      loginUrl.searchParams.set('redirect', pathname);
-    }
+    const returnPath = buildReturnPath(pathname, search);
+    const loginUrl = buildLoginUrl(req.url, returnPath);
     return NextResponse.redirect(loginUrl);
   }
 
