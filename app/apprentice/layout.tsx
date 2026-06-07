@@ -8,6 +8,7 @@ import {
   resolveApprenticeNavConfig,
 } from '@/components/portal/ApprenticeSubNav';
 import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
+import { canAccessApprenticeTools } from '@/lib/portal/apprentice-access';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -25,8 +26,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
     data: { user },
   } = await supabase.auth.getUser();
 
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') ?? '/apprentice';
+
   if (!user) {
-    redirect('/login?redirect=/apprentice');
+    redirect(`/login?redirect=${encodeURIComponent(pathname)}`);
   }
 
   const { data: profile } = await supabase
@@ -35,12 +39,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
     .eq('id', user.id)
     .maybeSingle();
 
-  const ALLOWED = ['student', 'admin', 'super_admin', 'staff', 'instructor'];
-  if (!profile?.role || !ALLOWED.includes(profile.role)) {
+  if (!canAccessApprenticeTools(profile?.role)) {
     redirect('/unauthorized');
   }
-
-  const pathname = (await headers()).get('x-pathname') ?? '';
   const isBillingExempt = BILLING_EXEMPT_PREFIXES.some((p) => pathname.startsWith(p));
 
   const db = await getAdminClient();

@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
 
-export default function ApprenticeLoginForm() {
+export default function ApprenticeLoginForm({ redirectTo }: { redirectTo?: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -40,11 +40,9 @@ export default function ApprenticeLoginForm() {
         .eq('id', data.user.id)
         .maybeSingle();
 
-      const dest = await resolveStudentHomePath(
-        supabase,
-        data.user.id,
-        profile?.portal_type,
-      );
+      const dest = redirectTo
+        ? redirectTo
+        : await resolveStudentHomePath(supabase, data.user.id, profile?.portal_type);
 
       window.location.href = dest;
     } catch (err: unknown) {
