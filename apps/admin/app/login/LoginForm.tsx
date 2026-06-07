@@ -3,14 +3,10 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { validateRedirect } from '@/lib/auth/validate-redirect';
 
-function getSafeRedirect(raw: string | null): string {
-  if (!raw) return '/admin/dashboard';
-  // Allow same-origin paths only
-  if (!raw.startsWith('/') || raw.startsWith('//') || raw.includes('://')) {
-    return '/admin/dashboard';
-  }
-  return raw;
+function getSafeRedirect(raw: string | null | undefined): string {
+  return validateRedirect(raw, '/admin/dashboard');
 }
 
 export default function AdminLoginForm({ redirectTo, initialError }: { redirectTo?: string; initialError?: string }) {

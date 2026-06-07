@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
-import { validateRedirect } from '@/lib/auth/validate-redirect';
+import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
@@ -36,7 +36,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSafeSearchParams();
   // Support both 'next' and 'redirect' params for backward compatibility
-  const rawNext = searchParams.get('next') || searchParams.get('redirect') || '';
+  const rawNext = readRedirectParam(searchParams) || '';
   const next = validateRedirect(rawNext, '');
   const reason = searchParams.get('reason');
 
@@ -189,7 +189,9 @@ function LoginForm() {
     setLinkError('');
     try {
       const redirectTo = next
-        ? `${window.location.origin}${next}`
+        ? next.startsWith('https://')
+          ? next
+          : `${window.location.origin}${next}`
         : `${window.location.origin}/learner/dashboard`;
       const res = await fetch('/api/auth/send-magic-link', {
         method: 'POST',

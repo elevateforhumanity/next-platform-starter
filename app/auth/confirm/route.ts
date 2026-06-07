@@ -3,7 +3,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
-import { validateRedirect } from '@/lib/auth/validate-redirect';
+import { readRedirectParam, resolveRedirectLocation, validateRedirect } from '@/lib/auth/validate-redirect';
 import { logger } from '@/lib/logger';
 
 /**
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get('token_hash');
   const type = searchParams.get('type') as EmailOtpType | null;
-  const next = validateRedirect(searchParams.get('next'), '/');
+  const next = validateRedirect(readRedirectParam(searchParams), '/');
 
   if (token_hash && type) {
     const supabase = await createClient();
@@ -200,7 +200,7 @@ export async function GET(request: NextRequest) {
       const CANONICAL = process.env.NEXT_PUBLIC_SITE_URL
         ? process.env.NEXT_PUBLIC_SITE_URL
         : new URL(request.url).origin;
-      return NextResponse.redirect(new URL(redirectTo, CANONICAL));
+      return NextResponse.redirect(resolveRedirectLocation(redirectTo, CANONICAL));
     }
 
     // verifyOtp failed — token expired or already used. This is expected user

@@ -10,9 +10,37 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const TRUSTED_HOSTS = [
   PLATFORM_DEFAULTS.canonicalDomain,
-  PLATFORM_DEFAULTS.canonicalDomain,
+  'elevateforhumanity.org',
   'admin.elevateforhumanity.org',
 ];
+
+/** Pathname + query (and hash) for post-login return URLs. */
+export function buildReturnPath(pathname: string, search = '', hash = ''): string {
+  const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  return `${path}${search}${hash}`;
+}
+
+/** Read canonical ?redirect= with legacy ?next= fallback. */
+export function readRedirectParam(
+  searchParams: Pick<URLSearchParams, 'get'>,
+): string | null {
+  return searchParams.get('redirect') ?? searchParams.get('next');
+}
+
+/** Build /login?redirect=… with proper encoding (preserves nested query strings). */
+export function buildLoginUrl(base: string | URL, returnPath: string): URL {
+  const loginUrl = new URL('/login', base);
+  loginUrl.searchParams.set('redirect', returnPath);
+  return loginUrl;
+}
+
+/** Resolve a validated redirect target to an absolute URL for server redirects. */
+export function resolveRedirectLocation(target: string, origin: string): URL {
+  if (target.startsWith('https://')) {
+    return new URL(target);
+  }
+  return new URL(target, origin);
+}
 
 export function validateRedirect(url: string | null | undefined, fallback: string = '/'): string {
   if (!url || typeof url !== 'string') return fallback;
