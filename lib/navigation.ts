@@ -252,12 +252,18 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Student / learner', href: '/login?redirect=/learner/dashboard' },
       { name: 'Apprentice', href: '/login/apprentice' },
       { name: 'Employer', href: '/login?redirect=/employer/dashboard' },
-      { name: 'Instructor', href: '/login?redirect=/instructor/dashboard' },
+      {
+        name: 'Instructor',
+        href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Finstructor%2Fdashboard',
+      },
       { name: 'Partner', href: '/login?redirect=/partner/dashboard' },
       { name: 'Program holder', href: '/login?redirect=/program-holder/dashboard' },
       { name: 'Case manager', href: '/login?redirect=/case-manager/dashboard' },
       { name: 'Mentor', href: '/login?redirect=/mentor/dashboard' },
-      { name: 'Staff', href: '/login?redirect=/admin/staff-portal/dashboard' },
+      {
+        name: 'Staff',
+        href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Fstaff-portal%2Fdashboard',
+      },
       { name: 'Program catalog', href: '/programs/catalog' },
 
       { name: '— Career support —', href: '/career-services', isHeader: true },

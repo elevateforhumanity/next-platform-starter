@@ -364,7 +364,7 @@ const nextConfig = {
       { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: false },
       { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: false },
 
-      { source: '/lms/programs', destination: '/lms/courses', permanent: false },
+      // /lms/programs — real browse page (app/lms/(app)/programs/page.tsx); do not redirect
 
       // Mentor / Mentorship
       { source: '/mentor', destination: '/mentor/dashboard', permanent: false },
@@ -378,6 +378,28 @@ const nextConfig = {
       {
         source: '/portal/staff/dashboard',
         destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
+        permanent: true,
+      },
+
+      // Instructor + staff portals live on admin host — fix www deep links at source
+      {
+        source: '/instructor',
+        destination: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/instructor/:path*',
+        destination: 'https://admin.elevateforhumanity.org/admin/instructor/:path*',
+        permanent: true,
+      },
+      {
+        source: '/staff-portal',
+        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/staff-portal/:path*',
+        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/:path*',
         permanent: true,
       },
 
@@ -1008,7 +1030,17 @@ const nextConfig = {
       // ── PARTNER PORTAL DUPLICATES ──────────────────────────────────────────
       // Canonical: /partner/dashboard
       { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
-      { source: '/partner-portal/:path*', destination: '/partner/dashboard', permanent: true },
+      { source: '/partner-portal/:path*', destination: '/partner/:path*', permanent: true },
+
+      // ── OUT-OF-STATE SEO STUBS → INDIANA (operational HQ: Indianapolis, IN) ─
+      { source: '/career-training-illinois', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-ohio', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-tennessee', destination: '/career-training-indiana', permanent: true },
+      { source: '/career-training-texas', destination: '/career-training-indiana', permanent: true },
+      { source: '/community-services-illinois', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-ohio', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-tennessee', destination: '/community-services-indiana', permanent: true },
+      { source: '/community-services-texas', destination: '/community-services-indiana', permanent: true },
 
       // ── CERTIFICATE / VERIFY DUPLICATES ────────────────────────────────────
       // Canonical verify: /verify/:certificateId

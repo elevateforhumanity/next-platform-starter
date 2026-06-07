@@ -359,16 +359,6 @@
       "permanent": true
     },
     {
-      "source": "/store/licenses",
-      "destination": "/contact",
-      "permanent": true
-    },
-    {
-      "source": "/store/licenses/starter-license",
-      "destination": "/contact",
-      "permanent": true
-    },
-    {
       "source": "/ebook/barber-theory",
       "destination": "/programs/barber-apprenticeship",
       "permanent": true

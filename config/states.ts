@@ -41,7 +41,7 @@ export const STATES: Record<string, StateConfig> = {
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Indiana',
       description:
-        'Workforce development and career training programs in Indiana. WIOA-eligible training, apprenticeships, and certification programs serving Indianapolis, Fort Wayne, and statewide. Free for qualifying residents.',
+        'Workforce development and career training programs in Indiana. WIOA-eligible training, apprenticeships, and certification programs serving Indianapolis, Fort Wayne, and Central Indiana. Free for qualifying residents.',
       features: [
         'WIOA-eligible training programs',
         'Registered apprenticeships',
@@ -52,7 +52,7 @@ export const STATES: Record<string, StateConfig> = {
     taxPreparation: {
       headline: 'Free Tax Preparation in Indiana',
       description:
-        'VITA-certified free tax preparation services across Indiana. Serving Indianapolis, Fort Wayne, and communities statewide.',
+        'VITA-certified free tax preparation services across Central Indiana. Serving Indianapolis, Fort Wayne, and surrounding communities.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal and state filing',

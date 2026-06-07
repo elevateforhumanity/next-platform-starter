@@ -360,11 +360,34 @@ export async function getCatalogProducts(
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
 
-  if (group) {
+  if (group === 'store') {
+    query = query.eq('catalog_group', 'store').in('category', ['platform', 'infrastructure']);
+  } else if (group) {
     query = query.eq('catalog_group', group);
   }
 
-  const { data, error } = await query;
+  let { data, error } = await query;
+
+  // Pre-catalog_group schema: filter by type/category until migration is applied.
+  if (error?.message?.includes('catalog_group')) {
+    let fallback = supabase
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+
+    if (group === 'store') {
+      fallback = fallback.eq('type', 'license').in('category', ['platform', 'infrastructure']);
+    } else if (group === 'clone') {
+      fallback = fallback.eq('type', 'license').eq('category', 'clone');
+    } else if (group === 'addon') {
+      fallback = fallback.in('type', ['addon', 'digital']);
+    }
+
+    const result = await fallback;
+    data = result.data;
+    error = result.error;
+  }
 
   if (error) {
     logger.error('Error fetching catalog products:', error);

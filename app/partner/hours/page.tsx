@@ -32,7 +32,7 @@ export default async function PartnerHoursPage() {
     .maybeSingle();
 
   if (!partnerUser) {
-    redirect('/partner');
+    redirect('/partner/dashboard');
   }
 
   // Get hours statistics from consolidated hour_entries

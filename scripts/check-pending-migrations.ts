@@ -94,8 +94,9 @@ const checks: Array<{ file: string; check: () => Promise<boolean>; description: 
   },
   {
     file: '20260701000009_fix_program_holders_user_id_constraint.sql',
-    check: () => columnExists('program_holders', 'user_id'),
-    description: 'program_holders.user_id column',
+    // Drops duplicate constraint unique_program_holders_user_id (column already exists).
+    check: () => tableExists('program_holders'),
+    description: 'program_holders table (constraint fix migration)',
   },
   {
     file: '20260701000010_platform_secrets.sql',

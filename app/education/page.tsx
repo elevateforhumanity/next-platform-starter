@@ -15,23 +15,9 @@ const LOCATIONS = [
   {
     state: 'Indiana',
     href: '/career-training-indiana',
-    cities: ['Indianapolis', 'Fort Wayne', 'Evansville'],
+    cities: ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend'],
     image: '/images/pages/about-career-training.webp',
-    desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.',
-  },
-  {
-    state: 'Illinois',
-    href: '/career-training-illinois',
-    cities: ['Chicago', 'Aurora', 'Naperville'],
-    image: '/images/pages/workforce-training.webp',
-    desc: 'Workforce programs across the Chicago metro and statewide.',
-  },
-  {
-    state: 'Ohio',
-    href: '/career-training-ohio',
-    cities: ['Columbus', 'Cleveland', 'Cincinnati'],
-    image: '/images/pages/welding-sparks.webp',
-    desc: 'Career training aligned with Ohio industry demand.',
+    desc: 'Main campus and training sites. WIOA-eligible programs, apprenticeships, and job placement across Central Indiana.',
   },
 ];
 
