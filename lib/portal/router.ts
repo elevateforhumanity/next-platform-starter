@@ -19,7 +19,9 @@
  *   5. Add the route prefix to proxy.ts PROTECTED_ROUTES
  */
 
-import type { SupabaseClient } from '@/lib/supabase'
+import type { SupabaseClient } from '@/lib/supabase';
+import { ACTIVE_ENROLLMENT_STATES } from '@/lib/portal/apprenticeship-portal-paths';
+import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
 
 // ── Portal registry ───────────────────────────────────────────────────────────
 
@@ -105,27 +107,36 @@ export async function resolvePortalForUser(
   userId: string,
 ): Promise<string> {
   try {
-    // ── 1. Check cached portal_type on profile ────────────────────────────
     const { data: profile } = await supabase
       .from('profiles')
       .select('portal_type')
       .eq('id', userId)
-      .maybeSingle()
+      .maybeSingle();
 
-    if (profile?.portal_type) {
-      const path = PORTAL_PATHS[profile.portal_type as PortalKey]
-      if (path) return path
+    // Apprenticeship slugs + per-program portal_type (barber, cosmetology, …)
+    const apprenticeshipHome = await resolveStudentHomePath(
+      supabase,
+      userId,
+      profile?.portal_type ?? null,
+    );
+    if (apprenticeshipHome !== PORTAL_FALLBACK) {
+      return apprenticeshipHome;
     }
 
-    // ── 2. Derive from active enrollment ─────────────────────────────────
+    if (profile?.portal_type) {
+      const path = PORTAL_PATHS[profile.portal_type as PortalKey];
+      if (path) return path;
+    }
+
+    // ── Derive from enrollment (all in-progress states, not only active) ──
     const { data: enrollment } = await supabase
       .from('program_enrollments')
       .select('program_id')
       .eq('user_id', userId)
-      .eq('enrollment_state', 'active')
+      .in('enrollment_state', [...ACTIVE_ENROLLMENT_STATES])
       .order('created_at', { ascending: false })
       .limit(1)
-      .maybeSingle()
+      .maybeSingle();
 
     if (!enrollment?.program_id) return PORTAL_FALLBACK
 

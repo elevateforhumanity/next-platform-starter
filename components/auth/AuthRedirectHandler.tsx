@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { resolvePortalForUser } from '@/lib/portal/router';
 import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
 
 export default function AuthRedirectHandler() {
@@ -86,8 +87,8 @@ export default function AuthRedirectHandler() {
           .maybeSingle();
         const role = profile?.role ?? user.user_metadata?.role ?? 'student';
 
-        if (role === 'student' && profile?.portal_type) {
-          destination = `/portal/${profile.portal_type}`;
+        if (role === 'student') {
+          destination = await resolvePortalForUser(supabase, user.id);
         } else {
           destination = getRoleDestination(role);
         }

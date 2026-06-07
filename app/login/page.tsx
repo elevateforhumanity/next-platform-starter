@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { resolvePortalForUser } from '@/lib/portal/router';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 
@@ -111,11 +112,9 @@ function LoginForm() {
         return;
       }
 
-      // Students: route to their industry portal if portal_type is cached.
+      // Students: slug-aware portal (barber, cosmetology, …) then category fallback.
       if (role === 'student') {
-        const studentDest = profile.portal_type
-          ? `/portal/${profile.portal_type}`
-          : '/learner/dashboard';
+        const studentDest = await resolvePortalForUser(supabase, data.user.id);
         const twoFARes2 = await fetch('/api/auth/2fa/status');
         if (twoFARes2.ok) {
           const { enabled } = await twoFARes2.json();
