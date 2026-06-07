@@ -57,9 +57,10 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
     redirect(getUnauthorizedRedirect(profile.role));
   }
 
-  // Gate LMS access — students must have admin-granted access before entering the LMS.
+  // Gate LMS access — learners (student, partner, program_holder) need granted access.
   // access_granted_at is set by admin via /admin/enrollments grant-access action.
-  if (profile?.role === 'student' && db) {
+  const isLearnerRole = ['student', 'partner', 'program_holder'].includes(profile?.role ?? '');
+  if (isLearnerRole && db) {
     const enrollment = await resolveLatestEnrollment({
       client: db,
       userId: user.id,

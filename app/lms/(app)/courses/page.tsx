@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, Users, BookOpen } from 'lucide-react';
 import { LMS_HEROES } from '@/lib/lms/image-map';
+import { BARBER_COURSE_ID } from '@/lib/barber/constants';
+import { BARBER_CURRICULUM_COVER } from '@/lib/barber/branding';
 
 export const metadata: Metadata = {
   title: 'My Programs | LMS',

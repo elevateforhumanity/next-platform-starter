@@ -12,6 +12,9 @@
  */
 export const APP_ROUTE_PREFIXES = [
   '/lms',
+  '/portal',
+  '/portals',
+  '/apprentice',
   '/learner',
   '/admin',
   '/admin/instructor',

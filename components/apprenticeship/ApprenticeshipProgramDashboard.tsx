@@ -21,9 +21,7 @@ export function ApprenticeshipProgramDashboard(props: ApprenticeshipDashboardDat
       config={config}
       enrollment={enrollment}
       billing={billing}
-      brandSubtitle={extras.brandSubtitle}
       rti={rti}
-      complianceLinks={complianceLinks}
     />
   );
 }
