@@ -10,6 +10,7 @@ import { FEATURES } from '@/lib/platform/feature-catalog';
 /**
  * POST /api/ai/import-site
  *
+ * Auth: requireFeatureForAuth(FEATURES.AI_BASIC) — not a public route.
  * Imports an existing website and recreates it on Elevate LMS platform.
  *
  * Flow:
