@@ -849,6 +849,7 @@ const nextConfig = {
 
       // (partner)/partners/* → /partner/* (route group stubs removed)
       { source: '/partners/dashboard', destination: '/partner/dashboard', permanent: true },
+      { source: '/partners/portal', destination: '/partner/dashboard', permanent: true },
       { source: '/partners/hours', destination: '/partner/hours', permanent: true },
       { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
       { source: '/partners/documents', destination: '/partner/documents', permanent: true },

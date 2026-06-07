@@ -1,5 +1,7 @@
 /**
  * @deprecated Use POST /api/programs/enroll/checkout
+ *
+ * // PUBLIC ROUTE: Legacy alias — same forward path as /api/checkout/create-session.
  */
 import type { NextRequest } from 'next/server';
 import { forwardEnrollmentCheckout } from '@/lib/checkout/enrollment-checkout-forward';
