@@ -3,7 +3,14 @@
  * Defines which roles can access which routes
  */
 
-export type LMSRole = 'student' | 'instructor' | 'staff' | 'admin' | 'super_admin';
+export type LMSRole =
+  | 'student'
+  | 'partner'
+  | 'program_holder'
+  | 'instructor'
+  | 'staff'
+  | 'admin'
+  | 'super_admin';
 
 interface RouteConfig {
   path: string;
@@ -29,11 +36,11 @@ export const LMS_PROTECTED_ROUTES: RouteConfig[] = [
   // Student routes (most LMS pages)
   {
     path: '/lms/dashboard',
-    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+    allowedRoles: ['student', 'partner', 'program_holder', 'instructor', 'staff', 'admin', 'super_admin'],
   },
   {
     path: '/lms/courses',
-    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+    allowedRoles: ['student', 'partner', 'program_holder', 'instructor', 'staff', 'admin', 'super_admin'],
   },
   {
     path: '/lms/assignments',
