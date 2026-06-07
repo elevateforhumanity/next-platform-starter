@@ -273,12 +273,20 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                     Get Started
                   </Link>
                   <Link
-                    href="/login"
+                    href="/portals"
                     prefetch={false}
                     onClick={closeMenu}
                     className="block w-full text-center py-3 border border-slate-300 text-slate-800 rounded-lg font-semibold hover:bg-slate-50"
                   >
-                    Sign In
+                    Portals
+                  </Link>
+                  <Link
+                    href="/login"
+                    prefetch={false}
+                    onClick={closeMenu}
+                    className="block w-full text-center py-2.5 text-slate-600 font-medium text-sm hover:underline"
+                  >
+                    Sign in (all roles)
                   </Link>
                   <Link
                     href="/apply"

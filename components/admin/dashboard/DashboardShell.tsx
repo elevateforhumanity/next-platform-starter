@@ -52,7 +52,28 @@ const DEGRADED_LABELS: Record<string, string> = {
   recent_students: "Recent students",
   enrollments_by_program: "Enrollment breakdown",
 };
-function DegradedBanner({ sections }: { sections: string[] }) {
+function DegradedBanner({
+  sections,
+  dashboardUnavailable,
+}: {
+  sections: string[];
+  dashboardUnavailable?: boolean;
+}) {
+  if (dashboardUnavailable) {
+    return (
+      <div className="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-900 mb-6">
+        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
+        <div>
+          <span className="font-semibold">Live dashboard data could not be loaded.</span>{' '}
+          Counts below may show zero until Supabase reconnects. Use{' '}
+          <Link href="/admin/operations" className="underline font-medium">
+            Operations
+          </Link>{' '}
+          or hard-refresh. If this persists, verify admin deploy SHA matches main.
+        </div>
+      </div>
+    );
+  }
   if (!sections.length) return null;
   return (
     <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-800 mb-6">
@@ -500,7 +521,10 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
         </div>
 
-        <DegradedBanner sections={data.degradedSections ?? []} />
+        <DegradedBanner
+          sections={(data.degradedSections ?? []).filter((s) => s !== 'dashboard_data')}
+          dashboardUnavailable={(data.degradedSections ?? []).includes('dashboard_data')}
+        />
 
         <AdminCategoryLanding />
 

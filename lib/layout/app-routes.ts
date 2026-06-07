@@ -29,7 +29,6 @@ export const APP_ROUTE_PREFIXES = [
   '/case-manager',
   '/workforce-board',
   '/admin-login',
-  '/login',
   '/signup',
   '/reset-password',
   '/verify',
