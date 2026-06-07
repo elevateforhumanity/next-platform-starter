@@ -14,7 +14,7 @@ export function SEO({
   title,
   description,
   canonical,
-  ogImage = '/media/og-image.jpg',
+  ogImage = '/images/og-image.jpg',
   ogType = 'website',
   noindex = false,
 }: SEOProps) {

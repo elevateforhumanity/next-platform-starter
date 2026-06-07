@@ -35,6 +35,7 @@ export type UserRole =
   | 'case_manager'
   | 'provider_admin'
   | 'grant_client'
+  | 'partner_admin'
 
 /**
  * Maps every role to its canonical post-auth landing page.
@@ -71,6 +72,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Employer & industry partners ─────────────────────────────────
   employer: '/employer/dashboard',
   partner: '/partner/dashboard', // smart-routes to /partner/attendance
+  partner_admin: '/partner/dashboard',
 
   // ── Learners ──────────────────────────────────────────────────────
   student: '/learner/dashboard',

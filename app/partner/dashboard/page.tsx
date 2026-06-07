@@ -25,7 +25,7 @@ export default async function PartnerDashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/partner/dashboard');
 
   let db: Awaited<ReturnType<typeof requireAdminClient>>;
   try {
