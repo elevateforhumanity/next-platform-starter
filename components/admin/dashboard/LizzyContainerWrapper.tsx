@@ -31,10 +31,12 @@ function LizzyContainerInner({
   pendingApplicationsCount?: number;
   pendingProgramHolders?: number;
 }) {
-  const targets = sites.map((s) => ({
-    label: s.label ?? s.url,
-    url: s.url,
-  }));
+  const targets = (Array.isArray(sites) ? sites : [])
+    .filter((s): s is SitePreviewTarget => s != null && typeof s === 'object' && typeof s.url === 'string')
+    .map((s) => ({
+      label: typeof s.label === 'string' && s.label.trim() ? s.label : s.url,
+      url: s.url,
+    }));
 
   return (
     <div className="mb-8">
@@ -57,10 +59,16 @@ export default function LizzyContainerWrapper({
   pendingApplications = [],
   pendingApplicationsCount = 0,
   pendingProgramHolders = 0,
+  pendingApplications?: RecentApplication[];
+  pendingApplicationsCount?: number;
+  pendingProgramHolders?: number;
 }: {
   sites: SitePreviewTarget[];
   defaultPreviewUrl?: string;
   isSuperAdmin?: boolean;
+  pendingApplications?: RecentApplication[];
+  pendingApplicationsCount?: number;
+  pendingProgramHolders?: number;
 }) {
   return (
     <Suspense

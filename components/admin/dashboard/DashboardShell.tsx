@@ -419,7 +419,7 @@ function RecentStudentsPanel({ students }: { students: import('./types').RecentS
         {students.slice(0, 5).map(s => (
           <Link key={s.id} href={s.href} className="flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-slate-900 truncate">{s.full_name ?? s.email ?? s.id.slice(0, 8)}</p>
+              <p className="text-sm font-medium text-slate-900 truncate">{s.full_name ?? s.email ?? String(s.id).slice(0, 8)}</p>
               <p className="text-xs text-slate-400 truncate">{s.program_name ?? 'No program'}</p>
             </div>
             {s.enrollment_status && (
@@ -456,8 +456,14 @@ function RecentActivity({ items }: { items: { id: string; title: string; timesta
   );
 }
 
+function dashboardFirstName(profile: AdminDashboardData['profile']): string {
+  const raw = profile?.full_name;
+  if (typeof raw !== 'string' || !raw.trim()) return 'Admin';
+  return raw.trim().split(/\s+/)[0] || 'Admin';
+}
+
 export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
-  const firstName = data.profile?.full_name?.split(' ')[0] ?? 'Admin';
+  const firstName = dashboardFirstName(data.profile);
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',

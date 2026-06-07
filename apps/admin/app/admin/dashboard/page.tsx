@@ -3,6 +3,7 @@ import { getAdminDashboardData } from '@/lib/admin/get-admin-dashboard-data';
 import { getDegradedAdminDashboardData } from '@/lib/admin/degraded-dashboard-data';
 import { normalizeAdminDashboardData } from '@/lib/admin/normalize-dashboard-data';
 import { AdminDashboardContent } from '@/components/admin/dashboard/DashboardShell';
+import { DashboardPageGuard } from '@/components/admin/dashboard/DashboardPageGuard';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -20,5 +21,9 @@ export default async function AdminDashboardPage() {
     logger.error('[AdminDashboardPage] Dashboard data load failed; rendering degraded dashboard', err);
     data = normalizeAdminDashboardData(getDegradedAdminDashboardData());
   }
-  return <AdminDashboardContent data={data} />;
+  return (
+    <DashboardPageGuard>
+      <AdminDashboardContent data={data} />
+    </DashboardPageGuard>
+  );
 }
