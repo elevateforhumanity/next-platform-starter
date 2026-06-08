@@ -2,7 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Settings, RefreshCw, CheckCircle, XCircle } from 'lucide-react';
+import { Settings, RefreshCw, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+
+interface HealthStatus {
+  hasGroq: boolean;
+  hasGemini: boolean;
+  hasOpenAI: boolean;
+  hasAnthropic: boolean;
+  hasGitHub: boolean;
+  aiConfigured: boolean;
+  shell: { configured: boolean; ready: boolean };
+}
 
 interface HealthCheck {
   name: string;
@@ -13,12 +23,14 @@ interface HealthCheck {
 export default function SettingsClient() {
   const [checks, setChecks] = useState<HealthCheck[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   async function fetchHealth() {
     setLoading(true);
+    setError(null);
     const results: HealthCheck[] = [];
 
-    // Check NEXT_PUBLIC_ var (client-accessible)
+    // Client-side NEXT_PUBLIC_ check (inlined at build time)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     results.push({
       name: 'Supabase',
@@ -26,33 +38,31 @@ export default function SettingsClient() {
       detail: supabaseUrl ? 'NEXT_PUBLIC_SUPABASE_URL configured' : 'NEXT_PUBLIC_SUPABASE_URL missing',
     });
 
-    // Server-side env vars must be checked via API
+    // Server-side health endpoint — granular provider + shell checks
     try {
-      const res = await fetch('/api/devstudio/agents');
-      if (res.ok) {
-        results.push({ name: 'Dev Studio API', status: 'healthy', detail: 'All routes responding' });
-      } else if (res.status === 401 || res.status === 403) {
-        results.push({ name: 'Dev Studio API', status: 'degraded', detail: `Auth required (${res.status})` });
-      } else {
-        results.push({ name: 'Dev Studio API', status: 'degraded', detail: `Status ${res.status}` });
-      }
-    } catch {
-      results.push({ name: 'Dev Studio API', status: 'offline', detail: 'Unable to reach API' });
+      const res = await fetch('/api/devstudio/health');
+      if (!res.ok) throw new Error(await res.text());
+      const health: HealthStatus = await res.json();
+
+      // AI Providers
+      results.push({ name: 'Groq', status: health.hasGroq ? 'healthy' : 'offline', detail: health.hasGroq ? 'API key configured' : 'GROQ_API_KEY missing' });
+      results.push({ name: 'Gemini', status: health.hasGemini ? 'healthy' : 'offline', detail: health.hasGemini ? 'API key configured' : 'GEMINI_API_KEY missing' });
+      results.push({ name: 'OpenAI', status: health.hasOpenAI ? 'healthy' : 'offline', detail: health.hasOpenAI ? 'API key configured' : 'OPENAI_API_KEY missing' });
+      results.push({ name: 'Anthropic', status: health.hasAnthropic ? 'healthy' : 'offline', detail: health.hasAnthropic ? 'API key configured' : 'ANTHROPIC_API_KEY missing' });
+
+      // Infrastructure
+      results.push({ name: 'GitHub Token', status: health.hasGitHub ? 'healthy' : 'offline', detail: health.hasGitHub ? 'Token configured' : 'GITHUB_TOKEN missing' });
+      results.push({
+        name: 'Shell WebSocket',
+        status: health.shell?.ready ? 'healthy' : health.shell?.configured ? 'degraded' : 'offline',
+        detail: health.shell?.ready ? 'Connected and ready' : health.shell?.configured ? 'Configured, not ready' : 'Not configured',
+      });
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to reach /api/devstudio/health');
+      results.push({ name: 'Dev Studio API', status: 'offline', detail: 'Health endpoint not responding' });
     }
 
-    // Check AI service connectivity via builds endpoint (uses service role)
-    try {
-      const res = await fetch('/api/devstudio/workflows');
-      if (res.ok) {
-        results.push({ name: 'Database (RLS)', status: 'healthy', detail: 'Service role active' });
-      } else {
-        results.push({ name: 'Database (RLS)', status: 'degraded', detail: `Status ${res.status}` });
-      }
-    } catch {
-      results.push({ name: 'Database (RLS)', status: 'offline', detail: 'Unable to reach DB' });
-    }
-
-    // Check Northflank connectivity
+    // Northflank connectivity check
     try {
       const res = await fetch('/api/devstudio/builds');
       if (res.ok) {
@@ -95,6 +105,13 @@ export default function SettingsClient() {
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
           </button>
         </div>
+
+        {error && (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700 mb-6 flex items-center gap-2">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {error}
+          </div>
+        )}
 
         {/* Health Checks */}
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden mb-8">

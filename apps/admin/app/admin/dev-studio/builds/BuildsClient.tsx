@@ -94,6 +94,12 @@ export default function BuildsClient() {
           </button>
         </div>
 
+        {!process.env.NEXT_PUBLIC_NORTHFLANK_CONFIGURED && (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-700 mb-6">
+            Integration pending: NORTHFLANK_API_TOKEN env var not configured — builds will record but not trigger Northflank
+          </div>
+        )}
+
         {error && <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700 mb-6">{error}</div>}
 
         <div className="space-y-4">

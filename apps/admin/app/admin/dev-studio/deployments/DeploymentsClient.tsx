@@ -10,6 +10,7 @@ interface Deployment {
   environment: string;
   status: string;
   commit_sha: string | null;
+  health_check: Record<string, unknown> | null;
   started_at: string;
   completed_at: string | null;
 }
@@ -101,7 +102,10 @@ export default function DeploymentsClient() {
                       {d.commit_sha && <p className="text-[10px] font-mono text-slate-400">{d.commit_sha.slice(0, 8)}</p>}
                     </div>
                   </div>
-                  <p className="text-[10px] text-slate-400 mt-3">{new Date(d.started_at).toLocaleString()}</p>
+                  <div className="flex items-center gap-3 text-[10px] text-slate-400 mt-3">
+                    <span>{new Date(d.started_at).toLocaleString()}</span>
+                    {d.completed_at && <span>Completed: {new Date(d.completed_at).toLocaleString()}</span>}
+                  </div>
                 </div>
               </div>
             );
