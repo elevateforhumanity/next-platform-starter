@@ -785,6 +785,7 @@ const nextConfig = {
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
 
       // ── Archived duplicate program slugs → canonical ─────────────────────
+      { source: '/programs/barber', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/barber-2024', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },

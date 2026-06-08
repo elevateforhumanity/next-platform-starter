@@ -11,7 +11,7 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 // BarberEnrollment, BarberCredentials all duplicated content already
 // shown inline. Removing to eliminate invisible text, section stacking,
 // and redundant career/credential/payment sections.
-import { BNPL_PROVIDER_NAMES, ACTIVE_BNPL_PROVIDERS } from '@/lib/bnpl-config';
+import { BNPL_PROVIDER_NAMES, BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 import BeautyTheoryDailyPolicy from '@/components/programs/beauty/BeautyTheoryDailyPolicy';
 import FeaturedHostPartners from '@/components/programs/beauty/FeaturedHostPartners';
 import BarberWorkforceNetworkMap from '@/components/programs/beauty/BarberWorkforceNetworkMap';
@@ -253,15 +253,15 @@ export default function BarberApprenticeshipClient({ program: p, heroBanner: b, 
                 body: 'Start with $600 minimum down payment, then split the balance over 29 weekly installments. No interest, no credit check.',
                 cta: { label: 'Apply on Plan', href: '/programs/barber-apprenticeship/apply?payment=payment_plan' },
               },
-              ...ACTIVE_BNPL_PROVIDERS.filter((p) => ['klarna', 'afterpay', 'affirm', 'sezzle'].includes(p.id)).map((p) => ({
+              {
                 tag: 'BNPL',
-                title: p.name,
-                body: p.description,
+                title: 'Buy Now, Pay Later',
+                body: `Split tuition with ${BNPL_PROVIDER_SUMMARY}. Compare providers, limits, and checkout options — Affirm can finance the full $4,980 program.`,
                 cta: {
-                  label: `Pay with ${p.name}`,
-                  href: `/programs/barber-apprenticeship/apply?payment=${p.id === 'klarna' || p.id === 'afterpay' ? 'bnpl' : p.id}`,
+                  label: 'Compare BNPL providers',
+                  href: '/programs/barber-apprenticeship/payment/bnpl',
                 },
-              })),
+              },
             ].map((opt) => (
               <div key={opt.title} className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col">
                 <span className="inline-block self-start text-[10px] font-bold uppercase tracking-wide text-brand-blue-700 bg-brand-blue-50 px-2 py-0.5 rounded mb-3">

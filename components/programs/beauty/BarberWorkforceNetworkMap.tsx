@@ -42,7 +42,8 @@ export default function BarberWorkforceNetworkMap() {
         </h2>
         <p className="text-slate-600 mb-8 max-w-3xl leading-relaxed">
           Use this map to find the nearest WorkOne center for WIOA funding, Elevate enrollment
-          support, and approved host barbershops including Prestige Kountry Kuts and Kountry Kutz.
+          support, and approved host barbershops — including Elevate Prestige Barber and Beauty
+          Institute and Kountry Kutz Barbershop.
         </p>
 
         <div className="grid lg:grid-cols-5 gap-6">
