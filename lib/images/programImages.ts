@@ -115,12 +115,12 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
   },
   'cosmetology-apprenticeship': {
     card: `${P}/cosmetology.jpg`,
-    hero: `${P}/barber-styling-hair.jpg`,
+    hero: `${P}/cosmetology-apprenticeship-hero.webp`,
     alt: 'Cosmetology student practicing hair styling techniques',
   },
   'nail-technician-apprenticeship': {
     card: `${P}/nail-technician.jpg`,
-    hero: `${P}/barber-tools-closeup.jpg`,
+    hero: `${P}/nail-tech-hero.webp`,
     alt: 'Nail technician apprentice performing a manicure',
   },
   'esthetician-apprenticeship': {

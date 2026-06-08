@@ -831,8 +831,7 @@
     ],
     "transcript": "Earn Indiana Cosmetology License through a DOL Registered Apprenticeship of 2,000 hours of supervised training in a licensed salon. Cosmetologists commonly earn $26,000 to $48,000 depending on clientele and setting. Wages begin on day one. The Indiana Cosmetology License is required to work in any Indiana salon.",
     "analyticsName": "cosmetology-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
+    "posterImage": "/images/pages/cosmetology-apprenticeship-hero.webp"
   },
   "nail-technician-apprenticeship": {
     "pageKey": "nail-technician-apprenticeship",
@@ -860,8 +859,7 @@
     ],
     "transcript": "Earn Indiana Nail Technician License through a DOL Registered Apprenticeship of 600 hours — the fastest path to an Indiana nail license. Training covers manicure, pedicure, acrylics, and gel nails in a licensed salon. Nail technicians commonly earn $24,000 to $42,000. Wages begin on day one.",
     "analyticsName": "nail-technician-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
+    "posterImage": "/images/pages/nail-tech-hero.webp"
   },
   "culinary-apprenticeship": {
     "pageKey": "culinary-apprenticeship",
@@ -888,13 +886,11 @@
     ],
     "transcript": "Earn ServSafe Manager certification through a DOL Registered Culinary Apprenticeship of 2,000 hours in a professional kitchen, building skills in food preparation, kitchen operations, and food safety. Culinary professionals commonly earn $28,000 to $45,000. Wages begin on day one.",
     "analyticsName": "culinary-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "_pexelsVideoId": 8626681
+    "_pexelsVideoId": 8626681,
+    "posterImage": "/images/pages/culinary-apprenticeship-hero.webp"
   },
   "esthetician": {
     "pageKey": "esthetician",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Esthetician Certificate",
     "credentialLabel": "Esthetician Certificate",
@@ -919,12 +915,11 @@
     ],
     "transcript": "Earn an Esthetician Certificate in 5 weeks, building skills in skin analysis, facial treatments, chemical peels, hair removal, and business startup. Estheticians commonly earn $32,000 to $48,000. ETPL approved. Free with WIOA or Workforce Ready Grant for eligible Indiana residents.",
     "analyticsName": "esthetician",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "_pexelsVideoId": 4264878
+    "_pexelsVideoId": 4264878,
+    "posterImage": "/images/beauty/esthetician.webp"
   },
   "beauty-career-educator": {
     "pageKey": "beauty-career-educator",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "voiceoverSrc": "/audio/heroes/cosmetology.mp3",
     "microLabel": "Certiport ESB",
     "credentialLabel": "Certiport ESB",
@@ -950,8 +945,8 @@
     ],
     "transcript": "Earn Certiport ESB, Rise Up, and CPR credentials in 12 weeks alongside hands-on salon training and peer teaching skills. Beauty and career educator roles commonly earn $28,000 to $45,000. Hybrid schedule. Free with WIOA or Workforce Ready Grant for eligible Indiana residents.",
     "analyticsName": "beauty-career-educator",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "_pexelsVideoId": 6964488
+    "_pexelsVideoId": 6964488,
+    "posterImage": "/images/beauty/program-beauty-training.webp"
   },
   "apprenticeships": {
     "pageKey": "apprenticeships",
@@ -2510,7 +2505,6 @@
   },
   "esthetician-apprenticeship": {
     "pageKey": "esthetician-apprenticeship",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "microLabel": "DOL Registered Apprenticeship",
     "credentialLabel": "Indiana Esthetician License",
     "durationLabel": "1,500 hours",
@@ -2534,8 +2528,8 @@
     ],
     "transcript": "Train for the Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon. Apprentices earn wages while completing supervised skin care, sanitation, client service, and exam preparation. Licensed estheticians commonly earn $32,000 to $52,000.",
     "analyticsName": "esthetician-apprenticeship",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "_pexelsVideoId": 7582852
+    "_pexelsVideoId": 7582852,
+    "posterImage": "/images/beauty/esthetician.webp"
   },
   "cybersecurity": {
     "pageKey": "cybersecurity",
@@ -2586,8 +2580,8 @@
       "Indianapolis, Indiana"
     ],
     "analyticsName": "hospitality",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
     "_pexelsVideoId": 7820473
   },
   "direct-support-professional": {
@@ -2667,7 +2661,6 @@
   },
   "beauty": {
     "pageKey": "beauty",
-    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4",
     "microLabel": "DOL Registered Apprenticeships",
     "belowHeroHeadline": "Beauty Industry Apprenticeships",
     "belowHeroSubheadline": "Cosmetology · Esthetics · Nails — earn while you learn with flat-fee pricing and DOL-registered programs.",
@@ -2689,7 +2682,7 @@
     ],
     "analyticsName": "beauty-programs",
     "transcript": "Elevate for Humanity offers DOL-registered beauty apprenticeships in cosmetology, esthetics, and nail technology. Earn while you learn.",
-    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
+    "posterImage": "/images/beauty/program-beauty-training.webp"
   },
   "administrative-assistant": {
     "pageKey": "administrative-assistant",
