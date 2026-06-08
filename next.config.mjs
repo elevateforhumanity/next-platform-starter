@@ -314,8 +314,47 @@ const nextConfig = {
       { source: '/admin/video-manager', destination: '/admin/studio', permanent: true },
       { source: '/admin/course-builder', destination: '/admin/studio', permanent: true },
       // ============================================
-      // DELETED PAGE REDIRECTS
+      // ORPHAN ROUTE → CHRONOLOGICAL DESTINATION MAP
+      // Routes with zero/low inbound links → nearest active parent or flow page
       // ============================================
+
+      // Missing LMS feature pages → LMS courses hub
+      { source: '/lms/adaptive', destination: '/lms/courses', permanent: true },
+      { source: '/lms/chat', destination: '/lms/courses', permanent: true },
+      { source: '/lms/collaborate/documents', destination: '/lms/courses', permanent: true },
+      { source: '/lms/integrations', destination: '/lms/courses', permanent: true },
+
+      // Missing partner pages → partner flow
+      { source: '/partners/cosmetology-host-shop/documents', destination: '/partners/cosmetology-host-shop', permanent: true },
+
+      // Stale feature stubs → nearest active destination
+      { source: '/create-course', destination: '/admin/studio', permanent: true },
+      { source: '/file-manager', destination: '/admin/files', permanent: true },
+      { source: '/eligibility/quiz', destination: '/programs', permanent: true },
+      { source: '/ferpa/compliance', destination: '/admin/ferpa', permanent: true },
+      { source: '/ferpa/training/complete', destination: '/admin/ferpa/training', permanent: true },
+
+      // Preview/demo stubs → program pages
+      { source: '/preview/barber-studio', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/preview/barber-videos', destination: '/programs/barber-apprenticeship', permanent: true },
+
+      // Payment edge-case pages → payment hub
+      { source: '/payment-error', destination: '/learner/dashboard', permanent: false },
+      { source: '/payment/affirm/cancel', destination: '/learner/dashboard', permanent: false },
+      { source: '/payment/affirm/confirm', destination: '/learner/dashboard', permanent: false },
+
+      // Org management stubs → dashboard (route groups handle these already)
+      { source: '/for-partners', destination: '/partners', permanent: true },
+      { source: '/nail-host-shop', destination: '/partners/nail-technician-apprenticeship', permanent: true },
+      { source: '/barber-apprenticeship-indianapolis', destination: '/programs/barber-apprenticeship', permanent: true },
+
+      // Store orphan checkouts → store hub
+      { source: '/store/sam-gov-assistant', destination: '/store', permanent: true },
+      { source: '/store/checkout/cancel', destination: '/store', permanent: false },
+
+      // Suboffice onboarding → main apply flow
+      { source: '/suboffice-onboarding/apply', destination: '/apply', permanent: true },
+
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================

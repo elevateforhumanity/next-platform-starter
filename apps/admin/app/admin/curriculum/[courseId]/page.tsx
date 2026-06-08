@@ -15,10 +15,15 @@ export const metadata: Metadata = {
 
 export default async function CurriculumCourseEditorPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ courseId: string }>;
+  searchParams: Promise<{ table?: string }>;
 }) {
   const { courseId } = await params;
+  const { table: tableParam } = await searchParams;
+  const lessonTable = tableParam === 'training_lessons' ? 'training_lessons' as const : 'curriculum_lessons' as const;
+  const isHvac = lessonTable === 'training_lessons';
   const supabase = await createClient();
   const {
     data: { user },
@@ -168,7 +173,7 @@ export default async function CurriculumCourseEditorPage({
 
           {/* Main — lesson editor */}
           <div className="flex-1 min-w-0">
-            <CurriculumLessonManager courseId={courseId} />
+            <CurriculumLessonManager courseId={courseId} table={lessonTable} />
           </div>
         </div>
       </div>
