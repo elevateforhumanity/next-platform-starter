@@ -60,7 +60,7 @@ export default function WorkflowsClient() {
           </div>
         ))}
         {!loading && workflows.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: ai_tasks table migration not yet applied</p>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No workflows yet — workflows are created when multi-step tasks run</p>
         )}
       </div>
     </div>

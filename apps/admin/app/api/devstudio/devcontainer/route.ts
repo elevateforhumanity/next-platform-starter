@@ -230,26 +230,50 @@ export async function GET(request: NextRequest) {
 
     if (githubConfigured) {
       const gh = await readGitHubDevcontainer(true);
-      if (!gh.ok) {
-        if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
-        return safeError('GitHub API error', gh.status);
+      if (gh.ok) {
+        return NextResponse.json({
+          raw: gh.raw,
+          parsed: gh.parsed,
+          sha: gh.sha,
+          source: 'github',
+          writable: true,
+          mode,
+          repo,
+          branch,
+          capabilities: {
+            githubConfigured,
+            localWritable: false,
+            canCommit: true,
+          },
+        });
       }
 
-      return NextResponse.json({
-        raw: gh.raw,
-        parsed: gh.parsed,
-        sha: gh.sha,
-        source: 'github',
-        writable: true,
-        mode,
-        repo,
-        branch,
-        capabilities: {
-          githubConfigured,
-          localWritable: false,
-          canCommit: true,
-        },
-      });
+      // In auto mode, fall back to local if GitHub fails
+      if (mode === 'auto') {
+        try {
+          const local = await readLocalDevcontainer();
+          return NextResponse.json({
+            raw: local.raw,
+            parsed: local.parsed,
+            sha: local.sha,
+            source: 'local',
+            writable: true,
+            mode,
+            repo,
+            branch,
+            capabilities: {
+              githubConfigured,
+              localWritable: true,
+              canCommit: false,
+            },
+          });
+        } catch {
+          // both GitHub and local failed
+        }
+      }
+
+      if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
+      return safeError('GitHub API error — check GITHUB_TOKEN permissions', gh.status);
     }
 
     try {

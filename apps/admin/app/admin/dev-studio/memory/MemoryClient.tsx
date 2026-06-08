@@ -86,7 +86,7 @@ export default function MemoryClient() {
           </div>
         ))}
         {!loading && memories.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: ai_memory table migration not yet applied</p>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No memories stored yet — add key-value pairs above or let agents store context</p>
         )}
       </div>
     </div>
