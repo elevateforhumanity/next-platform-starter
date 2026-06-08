@@ -17,6 +17,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhum
 );
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
+const MOU_ONLY = process.argv.includes('--mou-only');
 
 const HOLDER = {
   organizationName: 'Enchanted Hearts Training Institute LLC',
@@ -171,6 +172,49 @@ and related healthcare training programs delivered through your institute.
 </body></html>`;
 }
 
+async function buildMouPdf() {
+  return generateDetailedMOUPdf({
+    partner_name: HOLDER.organizationName,
+    partner_role: 'Third-Party Program Delivery Partner',
+    signer_name: HOLDER.contactName,
+    signer_title: HOLDER.signerTitle,
+    contact_email: HOLDER.email,
+    contact_phone: HOLDER.phone,
+    partner_address: `${HOLDER.addressLine1}, ${HOLDER.city}, ${HOLDER.state} ${HOLDER.zip}`,
+    partner_ein: HOLDER.ein,
+    programs: MOU_PROGRAMS,
+    revenue_share_model:
+      'Program delivery partner delivers ISDH-aligned healthcare training; Elevate provides ETPL listing, WIOA/DOL sponsorship pathways, enrollment infrastructure, and compliance oversight per executed agreement.',
+    wioa_eligible: true,
+    signed_at: new Date().toISOString(),
+    mou_version: '2026-program-holder-healthcare-01',
+  });
+}
+
+async function sendCorrectedMou(sgKey: string) {
+  const pdfBytes = await buildMouPdf();
+  const pdfB64 = Buffer.from(pdfBytes).toString('base64');
+  const pdfFilename = `Elevate-Program-Holder-MOU-${HOLDER.organizationName.replace(/[^a-zA-Z0-9]+/g, '-')}.pdf`;
+  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/program-holder/sign-mou')}`;
+  const html = `<!DOCTYPE html>
+<html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto">
+<p>Dear Shawndra,</p>
+<p>Please <strong>disregard the prior MOU attachment</strong> if the program table appeared crowded or overlapping. Attached is a <strong>corrected, professionally formatted</strong> Program Holder MOU for <strong>${HOLDER.organizationName}</strong>.</p>
+<p><strong>Attached:</strong> revised MOU PDF (clear program schedule, no overlapping text).</p>
+<p><a href="${signUrl}" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:bold">Sign Program Holder MOU Online →</a></p>
+<p style="font-size:14px;color:#475569">Log in with <strong>${HOLDER.email}</strong> if prompted. Reply with any questions.</p>
+<p>Thank you,<br><strong>Elizabeth Greene</strong><br>Elevate for Humanity</p>
+</body></html>`;
+  await sendMail(sgKey, {
+    to: HOLDER.email,
+    subject: `Corrected Program Holder MOU — ${HOLDER.organizationName}`,
+    html,
+    pdfB64,
+    filename: pdfFilename,
+  });
+  console.log(`  ✅ Corrected MOU sent (${Math.round(pdfBytes.length / 1024)} KB)`);
+}
+
 function dashboardEmailHtml(loginUrl: string) {
   return `<!DOCTYPE html>
 <html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto">
@@ -202,6 +246,17 @@ async function main() {
 
   const now = new Date().toISOString();
   console.log(`\n=== ${HOLDER.organizationName} ===`);
+
+  if (MOU_ONLY) {
+    const sgKeyOnly = await loadSendGridKey(db);
+    if (!sgKeyOnly && !DRY_RUN) {
+      console.error('SENDGRID_API_KEY not found');
+      process.exit(1);
+    }
+    await sendCorrectedMou(sgKeyOnly!);
+    console.log('\nDone (MOU resend only).');
+    return;
+  }
 
   // ── Auth user ─────────────────────────────────────────────────────────────
   let userId: string | null = null;
@@ -343,20 +398,7 @@ async function main() {
   }
 
   // ── MOU PDF ───────────────────────────────────────────────────────────────
-  const pdfBytes = await generateDetailedMOUPdf({
-    partner_name: HOLDER.organizationName,
-    partner_role: 'Third-Party Program Delivery Partner',
-    signer_name: HOLDER.contactName,
-    signer_title: HOLDER.signerTitle,
-    contact_email: HOLDER.email,
-    contact_phone: HOLDER.phone,
-    programs: MOU_PROGRAMS,
-    revenue_share_model:
-      'Program delivery partner delivers ISDH-aligned healthcare training; Elevate provides ETPL listing, WIOA/DOL sponsorship pathways, enrollment infrastructure, and compliance oversight per executed agreement.',
-    wioa_eligible: true,
-    signed_at: now,
-    mou_version: '2026-program-holder-healthcare-01',
-  });
+  const pdfBytes = await buildMouPdf();
   const pdfB64 = Buffer.from(pdfBytes).toString('base64');
   const pdfFilename = `Elevate-Program-Holder-MOU-${HOLDER.organizationName.replace(/[^a-zA-Z0-9]+/g, '-')}.pdf`;
   console.log(`  📄 MOU PDF ${Math.round(pdfBytes.length / 1024)} KB`);
