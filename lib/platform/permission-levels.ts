@@ -47,8 +47,10 @@ export function resolvePermissionLevel(params: {
 }): PlatformPermissionLevel {
   const { profileRole, isPlatformOwnerTenant, orgRole } = params;
 
+  // super_admin always gets platform_owner level — full access regardless of tenant
+  if (profileRole === 'super_admin') return 'platform_owner';
+
   if (isPlatformOwnerTenant && profileRole && PLATFORM_STAFF_ROLES.includes(profileRole)) {
-    if (profileRole === 'super_admin') return 'platform_owner';
     return 'platform_admin';
   }
 
