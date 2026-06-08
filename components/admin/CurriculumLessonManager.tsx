@@ -8,7 +8,10 @@
  * video_file, and quiz_questions.
  *
  * content (JSONB) is the canonical rich-text field edited via RichContentEditor.
- * script_text is retained as a read-only archive for HVAC legacy content.
+ * script_text is the HVAC plain-text content field — editable alongside content.
+ *
+ * Supports both curriculum_lessons (default) and training_lessons (HVAC) via
+ * the `table` prop. HVAC lessons are fully writable for content management.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -43,7 +46,7 @@ interface CurriculumLesson {
   status: string;
   /** Rich-text content as Tiptap ProseMirror JSON. Canonical for new edits. */
   content: object | null;
-  /** Plain-text archive from legacy HVAC generation. Read-only. */
+  /** Plain-text content from HVAC generation. Editable for HVAC lessons. */
   script_text: string | null;
   video_file: string | null;
   quiz_questions: any[] | null;
@@ -53,6 +56,8 @@ interface CurriculumLesson {
 interface Props {
   courseId: string;
   moduleOrder?: number;
+  /** Which table to read/write. Defaults to 'curriculum_lessons'. */
+  table?: 'curriculum_lessons' | 'training_lessons';
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -87,7 +92,7 @@ const TYPES_WITH_SCORE: StepType[] = ['quiz', 'checkpoint', 'exam'];
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function CurriculumLessonManager({ courseId, moduleOrder }: Props) {
+export default function CurriculumLessonManager({ courseId, moduleOrder, table = 'curriculum_lessons' }: Props) {
   const [lessons, setLessons] = useState<CurriculumLesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
@@ -101,12 +106,13 @@ export default function CurriculumLessonManager({ courseId, moduleOrder }: Props
     setError(null);
     try {
       const supabase = createClient();
+      const columns = table === 'training_lessons'
+        ? 'id, lesson_slug:lesson_number, lesson_title:title, step_type, passing_score, module_order, lesson_order, duration_minutes, status, content, script_text, video_file:video_url, quiz_questions, module_id:course_id'
+        : 'id, lesson_slug, lesson_title, step_type, passing_score, module_order, lesson_order, duration_minutes, status, content, script_text, video_file, quiz_questions, module_id';
       let query = supabase
-        .from('curriculum_lessons')
-        .select(
-          'id, lesson_slug, lesson_title, step_type, passing_score, module_order, lesson_order, duration_minutes, status, content, script_text, video_file, quiz_questions, module_id',
-        )
-        .eq('course_id', courseId)
+        .from(table)
+        .select(columns)
+        .eq(table === 'training_lessons' ? 'course_id' : 'course_id', courseId)
         .order('module_order', { ascending: true })
         .order('lesson_order', { ascending: true });
 
@@ -122,7 +128,7 @@ export default function CurriculumLessonManager({ courseId, moduleOrder }: Props
     } finally {
       setLoading(false);
     }
-  }, [courseId, moduleOrder]);
+  }, [courseId, moduleOrder, table]);
 
   useEffect(() => {
     fetchLessons();
@@ -145,9 +151,19 @@ export default function CurriculumLessonManager({ courseId, moduleOrder }: Props
     setSaving(lesson.id);
     try {
       const supabase = createClient();
+      const savePatch = table === 'training_lessons'
+        ? Object.fromEntries(
+            Object.entries({ ...patch, updated_at: new Date().toISOString() }).map(([k, v]) => {
+              if (k === 'lesson_title') return ['title', v];
+              if (k === 'video_file') return ['video_url', v];
+              if (k === 'lesson_slug') return ['lesson_number', v];
+              return [k, v];
+            }),
+          )
+        : { ...patch, updated_at: new Date().toISOString() };
       const { error: saveError } = await supabase
-        .from('curriculum_lessons')
-        .update({ ...patch, updated_at: new Date().toISOString() })
+        .from(table)
+        .update(savePatch)
         .eq('id', lesson.id);
       if (saveError) throw saveError;
       setLessons((prev) => prev.map((l) => (l.id === lesson.id ? { ...l, ...patch } : l)));

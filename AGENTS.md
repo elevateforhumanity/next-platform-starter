@@ -89,7 +89,7 @@ programs → modules → curriculum_lessons (step_type) → lesson_progress
 | Object                            | Purpose                                                                                    |
 | --------------------------------- | ------------------------------------------------------------------------------------------ |
 | `curriculum_lessons`              | Canonical lesson store — `step_type`, `module_order`, `lesson_order`, `passing_score`      |
-| `training_lessons`                | Legacy HVAC lesson store (94 rows) — **read-only archive, do not write**                   |
+| `training_lessons`                | HVAC lesson store (95 rows) — **active, writable** for HVAC content management             |
 | `course_lessons`                  | Canonical lesson write target for all new courses — blueprint engine, Studio, LMS engine   |
 | `lms_lessons` (view)              | Unified lesson read source: `curriculum_lessons` (priority) UNION `training_lessons`       |
 | `courses`                         | Canonical course table — all new courses write here                                        |
@@ -97,6 +97,8 @@ programs → modules → curriculum_lessons (step_type) → lesson_progress
 | `lms_courses` (view)              | Unified course read source: `courses` (priority) UNION `training_courses` (fallback)       |
 | `course_modules`                  | Course-scoped modules — linked via `course_id`. Used by Studio, blueprint engine, LMS engine |
 | `modules`                         | Program-scoped modules — linked via `program_id`. Used by transcript, analytics, mobile API. **Different scope from `course_modules` — not a duplicate** |
+| `training_modules`                | Staff training modules — **also visible in admin Modules page alongside LMS modules**      |
+| `lms_modules` (view)              | Unified module view: `modules` UNION `course_modules` UNION `training_modules`             |
 | `lesson_progress`                 | Per-lesson completion — one row per user+lesson. Canonical for checkpoint gating           |
 | `lms_progress`                    | Per-course summary — one row per user+course. Tracks `status`, `progress_percent`, `last_activity_at`. **Not a duplicate of `lesson_progress`** |
 | `progress_entries`                | OJT apprenticeship timeclock — clock-in/out, geofencing. Unrelated to lesson progress      |
@@ -215,17 +217,17 @@ pnpm tsx scripts/seed-course-from-blueprint.ts --list
   - `notes` → `NoteTaking`
   - `resources` → downloadable resource list
 
-### HVAC Legacy Path — Do Not Replicate
+### HVAC Path — Active System
 
-HVAC was built before the DB-driven engine. These files must not be copied for new programs:
+HVAC is an active, production system with both DB-driven and file-based components:
 
 | File                                                        | Status                                                    |
 | ----------------------------------------------------------- | --------------------------------------------------------- |
-| `lib/courses/hvac-*.ts` (32 files)                          | HVAC-only — do not replicate                              |
-| `lib/lms/hvac-enrichment.ts`, `lib/lms/hvac-simulations.ts` | HVAC-only                                                 |
-| `app/courses/hvac/`                                         | Standalone hardcoded HVAC lesson — not part of LMS engine |
+| `lib/courses/hvac-*.ts` (32 files)                          | HVAC enrichment and content helpers — actively maintained  |
+| `lib/lms/hvac-enrichment.ts`, `lib/lms/hvac-simulations.ts` | HVAC-specific lesson enrichment and lab simulations        |
+| `app/courses/hvac/`                                         | HVAC course pages — integrated with LMS engine             |
 
-The lesson page runs both paths in parallel for backward compatibility. New programs use only the DB-driven path.
+The lesson page runs both the DB-driven path (`curriculum_lessons`) and HVAC file-based path in parallel. `training_lessons` is writable for content management via admin CurriculumLessonManager. New programs should still use only the blueprint-driven DB path.
 
 ### HVAC Source of Truth — MIGRATED (2025-Q2)
 
@@ -241,11 +243,11 @@ The lesson page runs both paths in parallel for backward compatibility. New prog
 - Lesson slugs: `hvac-lesson-1` through `hvac-lesson-95`
 - `quiz_questions` backfilled from `training_lessons` via migration `20260401000005`
 
-**training_lessons:** 95 rows retained as **read-only archive**. Do not write to or delete from this table.
+**training_lessons:** 95 rows — **active and writable**. Used by HVAC course engine and admin CurriculumLessonManager for content updates, quiz edits, and video management.
 
 **lms_lessons view:** `curriculum_lessons` rows take priority (UNION ALL with NOT EXISTS guard). HVAC learners are served from `curriculum_lessons`. The view now exposes `cl.quiz_questions` and `cl.passing_score` directly (fixed in migration `20260401000005`).
 
-**Do not delete `training_lessons` for HVAC** — it is the archive source for `quiz_questions` backfill and a rollback reference.
+**Do not delete `training_lessons` for HVAC** — it is actively used by the LMS engine via `lms_lessons` view and the admin curriculum editor.
 
 ---
 
