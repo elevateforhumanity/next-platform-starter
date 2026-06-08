@@ -67,12 +67,9 @@ for <strong>${HOST.shopName}</strong>.
 <table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
 <a href="${signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Barber Host Shop MOU Online →</a>
 </td></tr></table>
-<div style="background:#f1f5f9;border-radius:8px;padding:16px 20px;margin:0 0 24px">
-<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:#1e293b">About your host partner dashboard</p>
-<p style="margin:0;font-size:13px;line-height:1.7;color:#475569">
-After we receive your signed MOU, we will activate your <strong>host partner dashboard</strong> and Elizabeth will send a separate email with next steps for onboarding apprentices.
+<p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#475569">
+After we receive your signed MOU, Elizabeth will follow up with next steps for onboarding apprentices.
 </p>
-</div>
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply here or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
 </td></tr>
