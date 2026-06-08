@@ -130,8 +130,10 @@ async function qbRequest(method: string, path: string, body?: unknown) {
 }
 
 function sanitizeQBString(value: string): string {
-  // QuickBooks query language escapes: strip control chars, escape single quotes
-  return value.replace(/[\x00-\x1f\x7f]/g, '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+  // QuickBooks query language escapes: strip control chars, escape backslashes then single quotes
+  // eslint-disable-next-line no-control-regex
+  const cleaned = value.replace(/[\u0000-\u001f\u007f]/g, '');
+  return cleaned.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 }
 
 async function findOrCreateVendor(name: string, email: string) {
