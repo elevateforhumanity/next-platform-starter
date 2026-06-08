@@ -177,7 +177,7 @@ export default async function LearnerOnboardingPage({
       .maybeSingle(),
     supabase
       .from('program_enrollments')
-      .select('id, program_id, program_slug, status, enrollment_state')
+      .select('id, program_id, program_slug, status, enrollment_state, payment_status')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(1)
@@ -427,7 +427,7 @@ export default async function LearnerOnboardingPage({
               Student Onboarding
             </p>
             <h1 className="text-3xl font-black text-slate-900 mb-2 leading-tight">
-              Welcome to ${PLATFORM_DEFAULTS.orgName}
+              Welcome to {PLATFORM_DEFAULTS.orgName}
             </h1>
             <p className="text-slate-500">
               {enrollmentProgramName
@@ -577,7 +577,7 @@ export default async function LearnerOnboardingPage({
                     <h2 className="text-xl font-black text-slate-900 mb-1">Onboarding Complete</h2>
                     <p className="text-slate-500 text-sm">
                       Your documents are under review. You'll receive an email once access is
-                      granted. Questions? Call ${PLATFORM_DEFAULTS.supportPhone}.
+                      granted. Questions? Call {PLATFORM_DEFAULTS.supportPhone}.
                     </p>
                   </div>
                   <Link
