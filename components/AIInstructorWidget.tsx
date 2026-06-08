@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { MessageCircle, X, Volume2, VolumeX } from 'lucide-react';
 
 interface AIInstructorWidgetProps {
@@ -20,6 +20,8 @@ export function AIInstructorWidget({
   const [message, setMessage] = useState('');
   const [speaking, setSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
+  const mutedRef = useRef(muted);
+  mutedRef.current = muted;
 
   const fetchMessage = useCallback(async () => {
     try {
@@ -32,7 +34,7 @@ export function AIInstructorWidget({
       const data = await response.json();
       setMessage(data.message);
 
-      if (data.audioUrl && !muted) {
+      if (data.audioUrl && !mutedRef.current) {
         playAudio(data.audioUrl);
       }
     } catch (error) {
@@ -41,7 +43,7 @@ export function AIInstructorWidget({
         "Hi! I'm here to help you succeed in your training. Feel free to ask me anything!",
       );
     }
-  }, [context, programId, lessonId, muted]);
+  }, [context, programId, lessonId]);
 
   useEffect(() => {
     if (isOpen) {

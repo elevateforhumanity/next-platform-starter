@@ -9,6 +9,8 @@
  * - Benefit-driven labels
  */
 
+import { getRoleDestination } from '@/lib/auth/role-destinations';
+
 export type NavItem = {
   label: string;
   href: string;
@@ -78,27 +80,11 @@ export const postIntentNav: NavSection[] = [
 ];
 
 /**
- * Get dashboard URL based on user role
+ * Get dashboard URL based on user role (canonical — role-destinations.ts).
  */
 export function getDashboardUrl(user: { role?: string } | null): string {
-  if (!user || !user.role) return '/student/dashboard';
-
-  switch (user.role) {
-    case 'admin':
-    case 'super_admin':
-      return '/admin';
-    case 'program_holder':
-      return '/program-holder/dashboard';
-    case 'partner':
-      return '/partner';
-    case 'employer':
-      return '/employer';
-    case 'workforce_board':
-      return '/workforce-board';
-    case 'student':
-    default:
-      return '/student/dashboard';
-  }
+  if (!user?.role) return '/learner/dashboard';
+  return getRoleDestination(user.role);
 }
 
 /**

@@ -24,6 +24,9 @@ const BANNERS_PATH = join(ROOT, 'public/data/hero-banners.json');
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const API_KEY = process.env.PEXELS_API_KEY;
+// Optional: restrict to a comma-separated list of slugs, e.g. --only=esthetician,beauty
+const ONLY_ARG = process.argv.find((a) => a.startsWith('--only='));
+const ONLY = ONLY_ARG ? ONLY_ARG.slice('--only='.length).split(',').map((s) => s.trim()).filter(Boolean) : null;
 
 if (!API_KEY) {
   console.error('❌  PEXELS_API_KEY not set');
@@ -43,6 +46,9 @@ const PROGRAM_QUERIES = {
   'drug-collector':                'drug testing laboratory professional',
   'qma':                           'medication administration nursing care',
   // Beauty
+  'cosmetology-apprenticeship':    'hairdresser cutting hair salon',
+  'nail-technician-apprenticeship': 'nail technician manicure salon',
+  'beauty':                        'beauty salon hair styling cosmetology',
   'esthetician':                   'esthetician facial skincare spa',
   'esthetician-apprenticeship':    'esthetician skincare beauty treatment',
   'beauty-career-educator':        'cosmetology beauty school instructor',
@@ -94,9 +100,12 @@ async function fetchPexelsVideo(query) {
     return null;
   }
 
-  // Prefer 10-30s clips, pick best HD file
-  const suitable = data.videos.filter((v) => v.duration >= 8 && v.duration <= 35);
-  const pool = suitable.length ? suitable : data.videos;
+  // Prefer 10-30s clips that also have a real HD (>=1280w) file available.
+  const hasHd = (v) => v.video_files?.some((f) => f.width >= 1280);
+  const byDuration = data.videos.filter((v) => v.duration >= 8 && v.duration <= 35);
+  const hdDuration = byDuration.filter(hasHd);
+  const hdAny = data.videos.filter(hasHd);
+  const pool = hdDuration.length ? hdDuration : hdAny.length ? hdAny : byDuration.length ? byDuration : data.videos;
   // Pick the first (highest quality) result
   const video = pool[0];
 
@@ -120,7 +129,11 @@ async function main() {
   const banners = JSON.parse(readFileSync(BANNERS_PATH, 'utf8'));
   const results = { updated: [], failed: [], skipped: [] };
 
-  const slugs = Object.keys(PROGRAM_QUERIES);
+  let slugs = Object.keys(PROGRAM_QUERIES);
+  if (ONLY) {
+    slugs = slugs.filter((s) => ONLY.includes(s));
+    console.log(`[pexels-videos] --only filter active: ${slugs.join(', ')}\n`);
+  }
 
   for (const slug of slugs) {
     const query = PROGRAM_QUERIES[slug];

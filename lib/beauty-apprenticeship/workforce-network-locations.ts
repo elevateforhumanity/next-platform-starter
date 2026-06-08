@@ -34,7 +34,7 @@ export const BARBER_WORKFORCE_NETWORK_PINS: NetworkMapPin[] = [
   {
     id: 'prestige-keystone',
     kind: 'host_shop',
-    name: 'Prestige Kountry Kuts / Prestige Elevation Institute',
+    name: 'Elevate Prestige Barber and Beauty Institute',
     address: '6331 N Keystone Ave',
     city: 'Indianapolis',
     state: 'IN',

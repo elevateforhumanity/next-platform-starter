@@ -13,6 +13,7 @@ import { provisionAccount } from '@/lib/enrollment/provision-account';
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { getClientIp } from '@/lib/api/get-client-ip';
 // approveApplication is called by /api/admin/applications/[id]/approve — not here
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -76,15 +77,6 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   } catch {
     return false;
   }
-}
-
-function getClientIp(req: Request): string {
-  return (
-    req.headers.get('cf-connecting-ip') ||
-    req.headers.get('x-real-ip') ||
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    'unknown'
-  );
 }
 
 async function claimIdempotencyKey(

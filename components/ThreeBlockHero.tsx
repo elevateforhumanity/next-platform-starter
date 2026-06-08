@@ -8,7 +8,7 @@ const heroBlocks = [
     title: 'Beauty & Wellness Programs',
     description: 'Barber, Cosmetology, and Esthetics training with state licensure',
     cta: 'Explore Beauty Programs',
-    href: '/programs/barber',
+    href: '/programs/barber-apprenticeship',
     badge: 'Licensed Careers',
     color: ' ',
   },

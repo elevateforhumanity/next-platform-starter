@@ -172,23 +172,14 @@ export const TUITION_LAST_UPDATED = '2026-01-01';
 // HELPER FUNCTIONS
 // =============================================================================
 
-/**
- * Format currency for display
- */
-export function formatCurrency(cents: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
-}
+import { formatCurrency as _fc, formatHours } from '@/lib/format';
+export { formatHours };
 
 /**
- * Format hours for display
+ * Format currency for display (input is cents)
  */
-export function formatHours(hours: number): string {
-  return new Intl.NumberFormat('en-US').format(hours);
+export function formatCurrency(cents: number): string {
+  return _fc(cents, { cents: true });
 }
 
 // =============================================================================

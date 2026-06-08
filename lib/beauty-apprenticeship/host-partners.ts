@@ -14,11 +14,10 @@ export type FeaturedHostPartner = {
 export const FEATURED_BEAUTY_HOST_PARTNERS: FeaturedHostPartner[] = [
   {
     name: 'Elevate Prestige Barber and Beauty Institute',
-    dba: 'Prestige Kountry Kuts',
     city: 'Indianapolis',
     state: 'IN',
     programs: ['barber-apprenticeship', 'cosmetology-apprenticeship'],
-    note: 'Owner-operated institute on N Keystone Ave — barber & cosmetology apprenticeships.',
+    note: '6331 N Keystone Ave — barber & cosmetology apprenticeships and Prestige Elevation RTI.',
   },
   {
     name: 'Kountry Kutz Barbershop',
@@ -50,7 +49,8 @@ export const FEATURED_BEAUTY_HOST_PARTNERS: FeaturedHostPartner[] = [
 ];
 
 export const PARTNER_BRAND_ALIASES = {
-  prestigeKountryKuts: 'Prestige Kountry Kuts',
+  prestigeInstitute: 'Elevate Prestige Barber and Beauty Institute',
+  kountryKutz: 'Kountry Kutz Barbershop',
   corinneStyles: 'Style and Scissor Salon',
   scissors: 'Style and Scissor Salon',
 } as const;

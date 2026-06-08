@@ -161,7 +161,7 @@ export async function handleTestingCheckoutSession(
         from: FROM,
         subject: 'Fee Paid — You Can Now Rebook Your Exam',
         html: `<p>Your fee was received. <a href="${SITE_URL}/testing/book">Book your exam →</a></p>`,
-      }).catch(() => {});
+      }).catch((e) => logger.warn('[testing/checkout] Failed to send rebook email', { email, error: e instanceof Error ? e.message : String(e) }));
     }
   }
 }

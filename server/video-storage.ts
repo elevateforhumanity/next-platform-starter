@@ -448,7 +448,7 @@ export class CloudflareR2Storage {
               Key: fileName,
             }),
           )
-          .catch(() => {}),
+          .catch((e) => console.warn('[video-storage] Failed to delete video file:', fileName, e instanceof Error ? e.message : e)),
         this.s3Client
           .send(
             new DeleteObjectCommand({
@@ -456,7 +456,7 @@ export class CloudflareR2Storage {
               Key: metadataFileName,
             }),
           )
-          .catch(() => {}),
+          .catch((e) => console.warn('[video-storage] Failed to delete metadata file:', metadataFileName, e instanceof Error ? e.message : e)),
         this.s3Client
           .send(
             new DeleteObjectCommand({
@@ -464,11 +464,12 @@ export class CloudflareR2Storage {
               Key: thumbnailFileName,
             }),
           )
-          .catch(() => {}),
+          .catch((e) => console.warn('[video-storage] Failed to delete thumbnail:', thumbnailFileName, e instanceof Error ? e.message : e)),
       ]);
 
       return true;
     } catch (error) {
+      console.error('[video-storage] deleteVideo failed for job', jobId, error instanceof Error ? error.message : error);
       return false;
     }
   }
@@ -511,7 +512,9 @@ export class CloudflareR2Storage {
               videos.push(metadata);
             }
           }
-        } catch (error) {}
+        } catch (error) {
+          console.warn('[video-storage] Failed to parse metadata for', file.Key, error instanceof Error ? error.message : error);
+        }
       }
 
       // Sort by creation date (newest first)
@@ -519,6 +522,7 @@ export class CloudflareR2Storage {
 
       return videos;
     } catch (error) {
+      console.error('[video-storage] listVideos failed:', error instanceof Error ? error.message : error);
       return [];
     }
   }

@@ -1,12 +1,8 @@
 /**
- * apps/admin/server.js — Next.js standalone entry (admin container).
+ * apps/admin/server.js — Next.js standalone entry (admin ECS task).
  * Studio Shell WebSocket proxy removed — Lizzy uses GitHub API + /api/devstudio/shell (workflows) only.
  */
 'use strict';
-
-// Before Next boots — swallow benign client aborts (ECONNRESET / aborted).
-const { registerConnectionGuards } = require('../../lib/server/register-connection-guards.cjs');
-registerConnectionGuards();
 
 const fs = require('fs');
 const path = require('path');
@@ -21,11 +17,17 @@ function loadStandaloneConfig() {
     return existing;
   }
 
-  const requiredServerFilesPath = path.join(dir, '.next', 'required-server-files.json');
+  const requiredServerFilesPath = path.join(
+    dir,
+    '.next',
+    'required-server-files.json',
+  );
 
   let nextConfig = {};
   try {
-    const requiredServerFiles = JSON.parse(fs.readFileSync(requiredServerFilesPath, 'utf8'));
+    const requiredServerFiles = JSON.parse(
+      fs.readFileSync(requiredServerFilesPath, 'utf8'),
+    );
     nextConfig = requiredServerFiles.config || {};
   } catch (err) {
     console.warn(
@@ -52,10 +54,6 @@ process.env.__NEXT_PRIVATE_STANDALONE_CONFIG = loadStandaloneConfig();
 require('next');
 
 const { startServer } = require('next/dist/server/lib/start-server');
-
-console.info(
-  `[admin] starting standalone server host=${host} port=${port} cwd=${process.cwd()}`,
-);
 
 startServer({
   dir,

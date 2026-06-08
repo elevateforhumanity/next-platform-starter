@@ -1,9 +1,4 @@
-export function slugify(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { slugify } from '@/lib/validate';
 
 export function buildCoursePath(
   courseSlug: string,

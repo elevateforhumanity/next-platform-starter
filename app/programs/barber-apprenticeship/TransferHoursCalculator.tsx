@@ -8,20 +8,12 @@ import {
   TOTAL_HOURS_REQUIRED,
   PAYMENT_TERM_WEEKS,
 } from '@/lib/barber/pricing';
+import { formatCurrency } from '@/lib/format';
 
 const SETUP_FEE = MIN_SETUP_FEE_CENTS / 100;
 const REMAINING_BALANCE = TUITION_DOLLARS - SETUP_FEE;
 // Weekly payment is fixed — 29 weeks regardless of transfer hours or pace
 const WEEKLY_PAYMENT = Math.round((REMAINING_BALANCE / PAYMENT_TERM_WEEKS) * 100) / 100;
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
 
 export function TransferHoursCalculator() {
   const [transferHoursStr, setTransferHoursStr] = useState('');

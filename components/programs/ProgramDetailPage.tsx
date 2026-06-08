@@ -133,7 +133,11 @@ export default function ProgramDetailPage({
               banner,
               heroImage: p.heroImage,
             });
-            if (banner?.pageKey) {
+            // Render the video hero only when a real video source is configured.
+            // Programs without a dedicated video (e.g. beauty/culinary, which have
+            // no beauty video assets) fall through to the still-image hero so they
+            // never inherit another program's video.
+            if (banner?.pageKey && banner.videoSrcDesktop) {
               const bannerCtas = [
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),

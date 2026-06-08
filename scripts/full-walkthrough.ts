@@ -20,8 +20,8 @@ const BASE          = 'https://www.elevateforhumanity.org';
 const SUPABASE_URL  = 'https://cuxzzpsyufcewtmicszk.supabase.co';
 const ANON_KEY      = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
 const SERVICE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
-const EMAIL         = 'jozanna.test.elevate@gmail.com';
-const PASSWORD      = 'ElevateTest2026!';
+const EMAIL         = process.env.WALKTHROUGH_EMAIL || 'jozanna.test.elevate@gmail.com';
+const PASSWORD      = process.env.WALKTHROUGH_PASSWORD ?? (() => { throw new Error('WALKTHROUGH_PASSWORD env var is required'); })();
 const SCREENSHOT_DIR = '/tmp/elevate-walkthrough';
 
 fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });

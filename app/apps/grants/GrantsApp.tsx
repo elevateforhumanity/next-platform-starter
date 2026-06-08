@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { formatCurrencyCompact } from '@/lib/format';
 import {
   DollarSign,
   Bell,
@@ -53,12 +54,6 @@ export function GrantsApp({
   const saveGrant = async (grantId: string) => {
     if (!supabase) return;
     await supabase.from('user_saved_grants').insert({ user_id: user.id, grant_id: grantId });
-  };
-
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
-    if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
-    return `$${amount}`;
   };
 
   return (
@@ -182,7 +177,7 @@ export function GrantsApp({
                         <div className="flex items-center gap-6 text-sm">
                           <span className="text-brand-green-600 font-medium">
                             {grant.amount_min && grant.amount_max
-                              ? `${formatCurrency(grant.amount_min)} - ${formatCurrency(grant.amount_max)}`
+                              ? `${formatCurrencyCompact(grant.amount_min)} - ${formatCurrencyCompact(grant.amount_max)}`
                               : 'Amount varies'}
                           </span>
                           {grant.deadline && (
@@ -256,7 +251,7 @@ export function GrantsApp({
                       <div>
                         <h3 className="font-bold">{app.grant_title}</h3>
                         <p className="text-sm text-slate-500">
-                          {app.agency} • {formatCurrency(app.requested_amount || 0)}
+                          {app.agency} • {formatCurrencyCompact(app.requested_amount || 0)}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">

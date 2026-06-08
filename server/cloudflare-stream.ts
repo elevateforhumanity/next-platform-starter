@@ -217,6 +217,7 @@ export class CloudflareStreamService {
 
       return data.result;
     } catch (error) {
+      console.error('[cloudflare-stream] getVideo failed:', error instanceof Error ? error.message : error);
       return null;
     }
   }
@@ -258,6 +259,7 @@ export class CloudflareStreamService {
         total: data.total,
       };
     } catch (error) {
+      console.error('[cloudflare-stream] listVideos failed:', error instanceof Error ? error.message : error);
       return { videos: [], total: 0 };
     }
   }
@@ -283,6 +285,7 @@ export class CloudflareStreamService {
 
       return true;
     } catch (error) {
+      console.error('[cloudflare-stream] deleteVideo failed:', error instanceof Error ? error.message : error);
       return false;
     }
   }
@@ -318,6 +321,7 @@ export class CloudflareStreamService {
 
       return data.result;
     } catch (error) {
+      console.error('[cloudflare-stream] updateVideoMetadata failed:', error instanceof Error ? error.message : error);
       return null;
     }
   }
@@ -439,6 +443,7 @@ export class CloudflareStreamService {
       const data = (await response.json()) as { result?: any };
       return data.result;
     } catch (error) {
+      console.error('[cloudflare-stream] getVideoAnalytics failed:', error instanceof Error ? error.message : error);
       return null;
     }
   }

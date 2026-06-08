@@ -161,7 +161,9 @@ async function logEmail(
         provider: SENDGRID_API_KEY ? 'sendgrid' : 'resend',
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error('[email-dispatch] Failed to log email delivery:', error instanceof Error ? error.message : error);
+  }
 }
 
 async function processEmailQueue() {

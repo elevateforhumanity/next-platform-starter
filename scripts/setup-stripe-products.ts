@@ -118,7 +118,9 @@ async function createStripeProducts() {
         priceId: price.id,
         amount: course.price / 100,
       });
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.error(`Failed to create Stripe product for course ${course.courseId} (${course.name}):`, error?.message ?? error);
+    }
   }
 
   // Create bundles
@@ -151,7 +153,9 @@ async function createStripeProducts() {
         priceId: price.id,
         amount: bundle.price / 100,
       });
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.error(`Failed to create Stripe product for bundle ${bundle.courseId} (${bundle.name}):`, error?.message ?? error);
+    }
   }
 
   // Print summary

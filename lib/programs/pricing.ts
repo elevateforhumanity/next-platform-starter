@@ -190,27 +190,14 @@ export function getBoothRentalTier(discipline: string): BoothRentalTier | null {
   return BOOTH_RENTAL_TIERS[discipline as BoothRentalDiscipline] ?? null;
 }
 
-/**
- * Format currency for display
- */
+import { formatCurrency as _fc } from '@/lib/format';
+
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(amount);
+  return _fc(amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-/**
- * Format currency without cents for whole numbers
- */
 export function formatCurrencyWhole(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return _fc(amount);
 }
 
 /**

@@ -657,7 +657,7 @@ const nextConfig = {
       // /certiport-exam (350 lines, db=7) and /microclasses (265 lines) — real pages, no redirect
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
       // /orientation — real 200-line page, no redirect
-      { source: '/help/:path*', destination: '/support', permanent: false },
+      // /help and /help/* are real pages — wired in lib/navigation.ts Support dropdown
       // /compliance (327 lines, db=3) and /credentials (584 lines) — real pages, no redirect
       // Legal consolidation
       // /privacy (160 lines), /terms (112 lines), /legal/privacy (100 lines) — real pages, no redirect
@@ -785,6 +785,7 @@ const nextConfig = {
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
 
       // ── Archived duplicate program slugs → canonical ─────────────────────
+      { source: '/programs/barber', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/barber-2024', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
@@ -849,6 +850,7 @@ const nextConfig = {
 
       // (partner)/partners/* → /partner/* (route group stubs removed)
       { source: '/partners/dashboard', destination: '/partner/dashboard', permanent: true },
+      { source: '/partners/portal', destination: '/partner/dashboard', permanent: true },
       { source: '/partners/hours', destination: '/partner/hours', permanent: true },
       { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
       { source: '/partners/documents', destination: '/partner/documents', permanent: true },
@@ -913,8 +915,7 @@ const nextConfig = {
       { source: '/platform/providers', destination: '/for-providers', permanent: true },
 
       // Help / support aliases
-      // /help/tutorials/* covered by existing /help/:path* wildcard → /help
-      { source: '/support/documentation', destination: '/help', permanent: true },
+      { source: '/support/documentation', destination: '/support/help', permanent: true },
 
       // Misc aliases
       { source: '/ai-chat-standalone', destination: '/ai-chat', permanent: true },

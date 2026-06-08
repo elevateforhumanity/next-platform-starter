@@ -358,7 +358,7 @@ export async function executeWorkflow(
       error_message: stepError ?? null, duration_ms: stepDuration, attempts,
     }).catch((e: unknown) => logger.warn('[workflow/engine] step log write failed', { run_id: runId, error: String(e) }));
 
-    await db.from('workflow_runs').update({ steps_done: stepsDone }).eq('id', runId).catch(() => {});
+    await db.from('workflow_runs').update({ steps_done: stepsDone }).eq('id', runId).catch((e: unknown) => logger.warn('[workflow/engine] progress update failed', { run_id: runId, error: String(e) }));
 
     if (finalStatus === 'failed') break;
   }

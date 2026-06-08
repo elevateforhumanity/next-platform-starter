@@ -420,5 +420,7 @@ export async function getVideoMetadata(videoPath: string): Promise<any> {
 export async function cleanupTempFiles(tempDir: string): Promise<void> {
   try {
     await fs.rm(tempDir, { recursive: true, force: true });
-  } catch (error) {}
+  } catch (error) {
+    console.warn('[video-renderer] Failed to clean up temp dir:', tempDir, error instanceof Error ? error.message : error);
+  }
 }
