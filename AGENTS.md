@@ -841,6 +841,12 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 - **Audit:** `pnpm audit:migrations` → `audit_out/migration-discipline.json`. Report: `docs/audits/supabase-platform-discipline-audit-2026-06-05.md`.
 - **Pending bundle:** `supabase/migrations/20260703000002_pending_migrations_bundle.sql` (July 20260702 idempotent singles).
 
+### Ops outreach emails (MOU / host shop / program holder)
+
+- **Never send dashboard login emails** from ops scripts — MOU PDF + sign link + document checklist only. `provision-host-dashboards.mjs` is blocked unless `ALLOW_DASHBOARD_OUTREACH=1`.
+- **Never use localhost in outbound links.** `.env.local` often sets `NEXT_PUBLIC_SITE_URL=http://localhost:3000` for dev. All `scripts/ops/*` email senders must use `outboundSiteUrl()` from `scripts/ops/outbound-site-url.ts` (forces `https://www.elevateforhumanity.org` when env is local).
+- Admin email copies: `pnpm tsx --env-file=.env.local scripts/ops/send-email-copies-to-admin.ts`
+
 ### Gotchas
 
 - **Middleware auth prefixes:** `AUTH_REQUIRED_ROUTES` uses segment-aware matching (`pathMatchesAuthPrefix` in `proxy.ts`). Never use bare `/apprentice` with `pathname.startsWith` — it incorrectly gates public `/apprenticeships`. Public marketing prefixes are listed in `PUBLIC_MARKETING_PREFIXES` (`/apprenticeships`, `/programs/`, `/partners/`, etc.).

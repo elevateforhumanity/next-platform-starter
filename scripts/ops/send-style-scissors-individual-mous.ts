@@ -11,10 +11,9 @@ import { generateCosmetologyMOUPdf } from '@/lib/documents/generate-cosmetology-
 import { generateNailMOUPdf } from '@/lib/documents/generate-nail-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+import { outboundSiteUrl } from './outbound-site-url';
+
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
 

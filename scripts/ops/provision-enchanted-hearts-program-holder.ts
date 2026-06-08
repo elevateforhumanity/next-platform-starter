@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * Provision Enchanted Hearts Training Institute LLC as a third-party program holder,
- * send MOU PDF (no admin dashboard), then send program-holder dashboard login.
+ * send MOU PDF only (no dashboard emails — provision DB access separately if needed).
  *
  *   pnpm tsx --env-file=.env.local scripts/ops/provision-enchanted-hearts-program-holder.ts
  *   pnpm tsx --env-file=.env.local scripts/ops/provision-enchanted-hearts-program-holder.ts --dry-run
@@ -10,11 +10,9 @@ import { randomBytes } from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { generateDetailedMOUPdf } from '@/lib/documents/generate-detailed-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { outboundSiteUrl } from './outbound-site-url';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
 const MOU_ONLY = process.argv.includes('--mou-only');
@@ -199,7 +197,8 @@ async function sendCorrectedMou(sgKey: string) {
   const html = `<!DOCTYPE html>
 <html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto">
 <p>Dear Shawndra,</p>
-<p>Please <strong>disregard the prior MOU attachment</strong> if the program table appeared crowded or overlapping. Attached is a <strong>corrected, professionally formatted</strong> Program Holder MOU for <strong>${HOLDER.organizationName}</strong>.</p>
+<p>Please <strong>disregard any prior dashboard login emails</strong> (especially any link pointing to <code>localhost</code>) — those were sent in error. We are <strong>not</strong> asking you to use a dashboard at this time.</p>
+<p>Attached is your <strong>Program Holder MOU</strong> for <strong>${HOLDER.organizationName}</strong>. Review the PDF and sign using the button below.</p>
 <p><strong>Attached:</strong> revised MOU PDF (clear program schedule, no overlapping text).</p>
 <p><a href="${signUrl}" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:bold">Sign Program Holder MOU Online →</a></p>
 <p style="font-size:14px;color:#475569">Log in with <strong>${HOLDER.email}</strong> if prompted. Reply with any questions.</p>
@@ -213,20 +212,6 @@ async function sendCorrectedMou(sgKey: string) {
     filename: pdfFilename,
   });
   console.log(`  ✅ Corrected MOU sent (${Math.round(pdfBytes.length / 1024)} KB)`);
-}
-
-function dashboardEmailHtml(loginUrl: string) {
-  return `<!DOCTYPE html>
-<html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto">
-<p>Dear Shawndra,</p>
-<p>Your <strong>Program Holder dashboard</strong> for <strong>${HOLDER.organizationName}</strong> is now active on the Elevate platform.</p>
-<p>Use this secure link to log in (no password needed):</p>
-<p><a href="${loginUrl}" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:bold">Open Program Holder Dashboard →</a></p>
-<p style="font-size:14px;color:#475569">Or sign in at <a href="${SITE_URL}/login">${SITE_URL}/login</a> with <strong>${HOLDER.email}</strong>, then go to <strong>Program Holder Dashboard</strong>.</p>
-<p style="font-size:14px;color:#475569">From your dashboard you can manage students, track compliance, and access program-holder tools after you complete MOU signing and onboarding steps.</p>
-<p>Questions? Reply to this email or call ${PLATFORM_DEFAULTS.supportPhone}.</p>
-<p>Thank you,<br><strong>Elizabeth Greene</strong><br>Elevate for Humanity</p>
-</body></html>`;
 }
 
 async function main() {
@@ -412,27 +397,6 @@ async function main() {
     filename: pdfFilename,
   });
   console.log('  ✅ MOU email sent (PDF attached, CC Elevate)');
-
-  // ── Dashboard magic link (separate from MOU — not admin) ───────────────────
-  let loginUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/program-holder/dashboard')}`;
-  if (!DRY_RUN) {
-    const { data: linkData, error: linkErr } = await db.auth.admin.generateLink({
-      type: 'magiclink',
-      email: HOLDER.email,
-      options: {
-        redirectTo: `${SITE_URL}/auth/callback?redirect=${encodeURIComponent('/program-holder/dashboard')}`,
-      },
-    });
-    if (linkErr) throw linkErr;
-    loginUrl = linkData.properties?.action_link ?? loginUrl;
-  }
-
-  await sendMail(sgKey!, {
-    to: HOLDER.email,
-    subject: `Your Program Holder dashboard is ready — ${HOLDER.organizationName}`,
-    html: dashboardEmailHtml(loginUrl),
-  });
-  console.log('  ✅ Dashboard login email sent');
 
   console.log('\nDone.');
   console.log(`  Email: ${HOLDER.email}`);

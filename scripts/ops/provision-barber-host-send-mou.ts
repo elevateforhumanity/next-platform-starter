@@ -10,11 +10,9 @@ import { randomBytes } from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { outboundSiteUrl } from './outbound-site-url';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
 const emailArg = process.argv.find((a) => a.startsWith('--email='))?.split('=')[1]
@@ -49,15 +47,11 @@ function documentChecklistHtml() {
   const items = REQUIRED_DOCS.map(
     (d) => `<li style="margin-bottom:8px">${d}</li>`,
   ).join('');
-  const uploadUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partners/barber-host-shop/documents')}`;
   return `
 <p style="margin:0 0 12px;font-size:14px;line-height:1.7;color:#475569">
-<strong>Required documents</strong> — please upload clear, complete copies (PDF preferred). If we already received a file that was cropped, expired, or unreadable, <strong>resend the full document</strong> by reply email or via the portal:
+<strong>Required documents</strong> — please reply to this email with clear, complete copies (PDF preferred). If we already received a file that was cropped, expired, or unreadable, <strong>resend the full document</strong> as attachments.
 </p>
-<ol style="margin:0 0 16px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">${items}</ol>
-<p style="margin:0 0 20px;font-size:14px;line-height:1.7;color:#475569">
-<a href="${uploadUrl}" style="color:#dc2626;font-weight:bold">Upload documents in Partner Portal →</a>
-</p>`;
+<ol style="margin:0 0 20px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">${items}</ol>`;
 }
 
 function buildEmailHtml(opts: {
@@ -65,7 +59,6 @@ function buildEmailHtml(opts: {
   shopName: string;
   email: string;
   signUrl: string;
-  loginUrl: string;
 }) {
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
@@ -87,11 +80,8 @@ Your barber apprenticeship <strong>host shop application</strong> for <strong>${
 <li>Click below to <strong>digitally sign</strong> (log in with <strong>${opts.email}</strong>).</li>
 <li>Upload or resend the required documents listed below.</li>
 </ol>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 16px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
+<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
 <a href="${opts.signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Barber Host Shop MOU Online →</a>
-</td></tr></table>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#1e293b;border-radius:8px;padding:14px 24px">
-<a href="${opts.loginUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Open Partner Dashboard →</a>
 </td></tr></table>
 ${documentChecklistHtml()}
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply to this email or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
@@ -285,18 +275,6 @@ async function main() {
   }
 
   const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partners/barber-host-shop/sign-mou')}`;
-  let loginUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partner/dashboard')}`;
-  if (!DRY_RUN) {
-    const { data: linkData, error: linkErr } = await db.auth.admin.generateLink({
-      type: 'magiclink',
-      email,
-      options: {
-        redirectTo: `${SITE_URL}/auth/callback?redirect=${encodeURIComponent('/partner/dashboard')}`,
-      },
-    });
-    if (linkErr) throw linkErr;
-    loginUrl = linkData.properties?.action_link ?? loginUrl;
-  }
 
   const pdfBytes = await generateMOUPdf({
     shop_name: shopName,
@@ -315,7 +293,7 @@ async function main() {
     to: email,
     name: contactName,
     subject: `Barber Host Shop MOU & required documents — ${shopName}`,
-    html: buildEmailHtml({ firstName, shopName, email, signUrl, loginUrl }),
+    html: buildEmailHtml({ firstName, shopName, email, signUrl }),
     pdfB64,
     filename,
   });

@@ -8,11 +8,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { outboundSiteUrl } from './outbound-site-url';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const PARTNER_ID = '9dffa854-1002-42e7-bad3-a8d626326d6e';
 const CONTACT_EMAIL = 'info@prestigeelevation.com';
@@ -136,7 +134,7 @@ async function main() {
 <li>General Liability COI</li>
 <li>Supervising Barber License</li>
 </ol>
-<p>Upload: <a href="${SITE_URL}/partners/barber-host-shop/documents">${SITE_URL}/partners/barber-host-shop/documents</a></p>
+<p>Please <strong>reply to this email</strong> with PDF attachments for each item above.</p>
 <p>— ${PLATFORM_DEFAULTS.orgName}</p>
 </body></html>`;
 
