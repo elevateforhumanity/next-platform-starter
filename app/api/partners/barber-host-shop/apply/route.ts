@@ -4,10 +4,11 @@ import { NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
-import crypto from 'crypto';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { getClientIp, hashIp } from '@/lib/api/get-client-ip';
+import { isValidEmail, isValidPhone } from '@/lib/validate';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -86,22 +87,6 @@ const REQUIRED_FIELDS = [
 const VALID_COMPENSATION_MODELS = ['hourly', 'hybrid'];
 const VALID_WC_STATUSES = ['verified', 'exempt', 'none'];
 
-function validateEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function validatePhone(phone: string): boolean {
-  return /^[\d\s\-()\\+]{10,}$/.test(phone);
-}
-
-function hashIP(ip: string): string {
-  return crypto
-    .createHash('sha256')
-    .update(ip + process.env.IP_HASH_SALT || 'efh-salt')
-    .digest('hex')
-    .slice(0, 16);
-}
-
 async function _POST(req: Request) {
   try {
     const rateLimited = await applyRateLimit(req, 'contact');
@@ -122,12 +107,12 @@ async function _POST(req: Request) {
     }
 
     // Validate email
-    if (!validateEmail(body.contactEmail)) {
+    if (!isValidEmail(body.contactEmail)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 
     // Validate phone
-    if (!validatePhone(body.contactPhone)) {
+    if (!isValidPhone(body.contactPhone)) {
       return NextResponse.json({ error: 'Invalid phone number' }, { status: 400 });
     }
 
@@ -287,10 +272,7 @@ async function _POST(req: Request) {
     const insuranceStatus = approvalHoldReasons.length > 0 ? 'rejected' : 'pending';
     const insuranceReasonCodes = approvalHoldReasons.map((r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`);
 
-    const ipRaw =
-      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-      req.headers.get('x-real-ip') ||
-      'unknown';
+    const ipRaw = getClientIp(req);
 
     // Insert application
     const { data, error } = await supabase
@@ -359,7 +341,7 @@ async function _POST(req: Request) {
         consent_signer_name: body.consentSignerName?.trim() || body.contactName.trim(),
         source_url: req.headers.get('referer') || null,
         user_agent: req.headers.get('user-agent') || null,
-        ip_hash: hashIP(ipRaw),
+        ip_hash: hashIp(ipRaw),
       })
       .select()
       .maybeSingle();

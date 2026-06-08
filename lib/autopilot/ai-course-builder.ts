@@ -1,11 +1,5 @@
 import { getOpenAIClient } from '@/lib/ai/openai-client';
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+import { slugify } from '@/lib/validate';
 
 function getOpenAIClient() {
   if (!process.env.OPENAI_API_KEY) {

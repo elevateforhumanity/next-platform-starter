@@ -77,9 +77,7 @@ function drawWrappedText(
   return y;
 }
 
-function formatCurrency(cents: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents);
-}
+import { formatCurrency } from '@/lib/format';
 
 export async function generateDetailedMOUPdf(data: DetailedMOUPDFData): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
