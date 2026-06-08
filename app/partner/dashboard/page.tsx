@@ -119,5 +119,5 @@ export default async function PartnerDashboardPage() {
     }
   }
 
-  redirect('/partner/attendance');
+  redirect('/partner/board');
 }
