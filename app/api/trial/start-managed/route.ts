@@ -8,6 +8,7 @@ import { strictRateLimit } from '@/lib/rate-limit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { isValidEmail } from '@/lib/validate';
 import { tenantAdminUrl } from '@/lib/tenant/public-site-url';
 import { startWorkspaceTrial } from '@/lib/workspace/start-workspace-trial';
 
@@ -34,10 +35,6 @@ async function checkTrialRateLimit(email: string): Promise<boolean> {
 
   entry.count++;
   return true;
-}
-
-function validateEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 async function sendTrialWelcomeEmail(
@@ -116,7 +113,7 @@ async function _POST(request: NextRequest) {
     }
 
     const email = adminEmail.trim().toLowerCase();
-    if (!validateEmail(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json({ error: 'Invalid email address', correlationId }, { status: 400 });
     }
 

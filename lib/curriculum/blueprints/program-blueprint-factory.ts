@@ -1,5 +1,6 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { getSocCode } from '@/lib/onet/soc-map';
+import { slugify } from '@/lib/validate';
 import type {
   BlueprintAssessmentRule,
   BlueprintCompetency,
@@ -61,13 +62,6 @@ const DEFAULT_VIDEO_CONFIG: BlueprintVideoConfig = {
   width: 1920,
   height: 1080,
 };
-
-function slugify(input: string): string {
-  return input
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
 
 function titleCase(input: string): string {
   return input

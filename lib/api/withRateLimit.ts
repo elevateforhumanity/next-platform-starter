@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
+import { getClientIp } from '@/lib/api/get-client-ip';
 import {
   contactRateLimit,
   strictRateLimit,
@@ -22,16 +23,6 @@ const limiters: Record<Tier, { get: () => any }> = {
   public: publicRateLimit, // 5 req / 1 min (public AI tutor)
   pageLoad: pageLoadRateLimit, // 30 req / 1 min (public content endpoints)
 };
-
-function getIP(request: Request): string {
-  const h = request.headers;
-  return (
-    h.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    h.get('x-real-ip') ||
-    h.get('cf-connecting-ip') ||
-    'unknown'
-  );
-}
 
 // IPs that should never consume Upstash quota.
 // Platform health checks originate from localhost/container-internal networks.
@@ -69,7 +60,7 @@ export async function applyRateLimit(
     return null;
   }
 
-  const id = getIP(request);
+  const id = getClientIp(request);
 
   // Skip Redis for internal health check IPs — they are not external callers.
   // and would otherwise burn ~1,440 Upstash requests/day per task per route.

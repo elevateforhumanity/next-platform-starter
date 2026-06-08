@@ -6,6 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { resolveZip } from '@/lib/intake/normalize-zip';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { isValidEmail } from '@/lib/validate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -27,10 +28,6 @@ interface IntakePayload {
   zip_code?: string;
   postal_code?: string;
   postalCode?: string;
-}
-
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**
