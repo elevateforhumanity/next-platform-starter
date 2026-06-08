@@ -24,6 +24,11 @@ const HOLDER_PROGRAMS: Record<string, string[]> = {
     'entrepreneurship',
   ],
   'indyondemandservices@gmail.com': ['hvac-technician'],
+  'doreen.hawkins01@outlook.com': [
+    'peer-recovery-specialist',
+    'peer-support',
+    'life-coach-certification-wioa',
+  ],
   'amecosenterprise@gmail.com': [
     'it-help-desk',
     'data-analytics',
@@ -159,14 +164,20 @@ async function main() {
         .eq('user_id', h.user_id)
         .maybeSingle();
       if (sig) continue;
-      await db.from('mou_signatures').insert({
+      const { error: sigErr } = await db.from('mou_signatures').insert({
         user_id: h.user_id,
         program_holder_id: h.id,
         signed_at: h.mou_signed_at ?? new Date().toISOString(),
+        agreed_at: h.mou_signed_at ?? new Date().toISOString(),
         signer_name: h.contact_email,
-        document_type: 'program_holder_mou',
+        contact_email: h.contact_email,
+        signature_data: 'admin-backfill-mou-signed',
+        partner_type: 'program_holder',
+        agreed: true,
+        mou_version: 'admin-backfill',
       });
-      console.log(`✅ mou_signatures backfill: ${h.contact_email}`);
+      if (sigErr) console.warn(`  ⚠ mou_signatures backfill ${h.contact_email}:`, sigErr.message);
+      else console.log(`✅ mou_signatures backfill: ${h.contact_email}`);
     }
   }
 

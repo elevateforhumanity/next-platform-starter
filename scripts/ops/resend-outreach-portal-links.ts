@@ -13,6 +13,7 @@ import {
   journeyStepsHtml,
   type OutreachPersona,
 } from './outreach-auth-link';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -94,6 +95,8 @@ ${stepsHtml}
 }
 
 async function main() {
+  assertOutreachEmailAllowed('resend-outreach-portal-links.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) process.exit(1);

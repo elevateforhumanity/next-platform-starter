@@ -850,6 +850,7 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ### Gotchas
 
+- **Outreach email lock:** All `scripts/ops/*` SendGrid scripts call `outreach-email-guard.ts` and **exit without sending** unless `OUTREACH_EMAIL_UNLOCK=1` and `--force-send`. Use `--dry-run` or `--write-only` for previews only. Verify portals with `pnpm tsx --env-file=.env.local scripts/ops/verify-portal-dashboards.ts` (no email).
 - **Middleware auth prefixes:** `AUTH_REQUIRED_ROUTES` uses segment-aware matching (`pathMatchesAuthPrefix` in `proxy.ts`). Never use bare `/apprentice` with `pathname.startsWith` — it incorrectly gates public `/apprenticeships`. Public marketing prefixes are listed in `PUBLIC_MARKETING_PREFIXES` (`/apprenticeships`, `/programs/`, `/partners/`, etc.).
 - **Before recommending manual SQL migrations**, run `node scripts/verify-pending-migrations.mjs`. If all five checks pass, migrations are already live — do not ask the user to re-run them.
 - The `predev` script runs `scripts/setup-env-auto.sh` which will fail if `.env.local` doesn't exist. Create it first or set `SKIP_ENV_VALIDATION=true`.

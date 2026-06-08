@@ -13,6 +13,7 @@ import { join } from 'path';
 import { createClient } from '@supabase/supabase-js';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
 const ADMIN = 'elevate4humanityedu@gmail.com';
 const SITE_URL = outboundSiteUrl();
@@ -52,6 +53,8 @@ function table(headers: string[], rows: string[][]) {
 }
 
 async function main() {
+  assertOutreachEmailAllowed('send-admin-portal-roster-email.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) process.exit(1);

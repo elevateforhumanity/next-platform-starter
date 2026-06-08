@@ -12,6 +12,7 @@ import { generateNailMOUPdf } from '@/lib/documents/generate-nail-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 import { outboundSiteUrl } from './outbound-site-url';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -133,6 +134,8 @@ async function sendWithAttachment(
 }
 
 async function main() {
+  assertOutreachEmailAllowed('send-style-scissors-individual-mous.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key || key === 'placeholder') {

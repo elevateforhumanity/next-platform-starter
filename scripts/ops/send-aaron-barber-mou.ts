@@ -9,6 +9,7 @@ import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
 import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -72,6 +73,8 @@ After we receive your signed MOU, Elizabeth will follow up with next steps for o
 }
 
 async function main() {
+  assertOutreachEmailAllowed('send-aaron-barber-mou.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key || key === 'placeholder') {

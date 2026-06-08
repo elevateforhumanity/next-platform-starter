@@ -12,6 +12,7 @@ import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
 import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -122,6 +123,8 @@ async function sendMail(
 }
 
 async function main() {
+  assertOutreachEmailAllowed('provision-barber-host-send-mou.ts');
+
   if (!emailArg) {
     console.error('Usage: --email <contact_email>');
     process.exit(1);
