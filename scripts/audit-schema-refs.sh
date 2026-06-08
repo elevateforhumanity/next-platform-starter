@@ -18,10 +18,10 @@ grep -rh "\.\(from\|rpc\)(" app/ lib/ components/ --include="*.ts" --include="*.
 
 # Extract all table/view names defined in migrations (CREATE TABLE + CREATE VIEW)
 {
-  grep -rh "CREATE TABLE" supabase/migrations/ 2>/dev/null \
+  grep -rhi "CREATE TABLE" supabase/migrations/ 2>/dev/null \
     | grep -oiP "CREATE TABLE (IF NOT EXISTS )?(public\.)?([a-z_]+)" \
     | grep -oP "[a-z_]{3,}$"
-  grep -rh "CREATE\b.*\bVIEW" supabase/migrations/ 2>/dev/null \
+  grep -rhi "CREATE\b.*\bVIEW" supabase/migrations/ 2>/dev/null \
     | grep -oiP "CREATE (OR REPLACE )?(MATERIALIZED )?VIEW (IF NOT EXISTS )?(public\.)?([a-z_]+)" \
     | grep -oP "[a-z_]{3,}$"
 } | sort -u > /tmp/_migration_tables.txt
