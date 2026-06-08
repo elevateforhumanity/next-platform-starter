@@ -7,12 +7,18 @@ import { createClient } from '@/lib/supabase/client';
 import { Calendar, Building2, Award, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  canShowConfirmedPage,
+  getEnrollmentRoute,
+  hasLmsAccess,
+  normalizeEnrollmentState,
+} from '@/lib/enrollment/enrollment-flow';
 
 interface EnrollmentData {
   id: string;
   program_name: string;
   enrollment_state: string;
-  enrollment_confirmed_at: string;
+  enrollment_confirmed_at: string | null;
   start_date?: string;
 }
 
@@ -63,25 +69,28 @@ function EnrollmentConfirmedContent() {
         return;
       }
 
-      // Redirect based on state
-      if (data.enrollment_state === 'orientation_complete') {
-        router.push('/enrollment/documents');
+      const state = normalizeEnrollmentState(data.enrollment_state) ?? data.enrollment_state;
+
+      if (hasLmsAccess(state)) {
+        router.push('/learner/dashboard');
         return;
       }
-      if (data.enrollment_state === 'documents_complete' || data.enrollment_state === 'active') {
-        router.push('/dashboard');
+
+      const targetRoute = getEnrollmentRoute(state);
+      if (targetRoute !== '/enrollment/confirmed' && targetRoute !== '/programs') {
+        router.push(targetRoute);
         return;
       }
-      // Accept both 'approved' and 'confirmed' — approved students confirm here
-      if (data.enrollment_state !== 'confirmed' && data.enrollment_state !== 'approved') {
+
+      if (!canShowConfirmedPage(state)) {
         router.push('/programs');
         return;
       }
 
       setEnrollment({
         id: data.id,
-        program_name: (data.training_programs as any)?.name || 'Your Program',
-        enrollment_state: data.enrollment_state,
+        program_name: (data.training_programs as { name?: string } | null)?.name || 'Your Program',
+        enrollment_state: state,
         enrollment_confirmed_at: data.enrollment_confirmed_at,
       });
       setLoading(false);
@@ -100,7 +109,13 @@ function EnrollmentConfirmedContent() {
 
   if (!enrollment) return null;
 
-  const isApproved = enrollment.enrollment_state === 'approved';
+  const normalizedState = normalizeEnrollmentState(enrollment.enrollment_state);
+  const needsConfirm = normalizedState === 'onboarding';
+  const awaitingReview =
+    normalizedState === 'applied' ||
+    normalizedState === 'waitlisted' ||
+    normalizedState === 'pending_funding_verification';
+  const needsPayment = normalizedState === 'payment_required';
 
   async function handleConfirm() {
     setConfirming(true);
@@ -109,7 +124,7 @@ function EnrollmentConfirmedContent() {
       const { error } = await supabase
         .from('program_enrollments')
         .update({
-          enrollment_state: 'confirmed',
+          enrollment_state: 'orientation',
           enrollment_confirmed_at: new Date().toISOString(),
           next_required_action: 'COMPLETE_ORIENTATION',
         })
@@ -133,23 +148,32 @@ function EnrollmentConfirmedContent() {
   return (
     <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-green-100 rounded-full mb-4">
             <Award aria-label="award" className="w-10 h-10 text-brand-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900">
-            {isApproved ? 'Confirm Your Enrollment' : 'Enrollment Confirmed'}
+            {needsConfirm
+              ? 'Confirm Your Enrollment'
+              : awaitingReview
+                ? 'Application Received'
+                : needsPayment
+                  ? 'Payment Required'
+                  : 'Enrollment Confirmed'}
           </h1>
-          {isApproved && (
+          {needsConfirm && (
             <p className="text-slate-700 mt-2">
-              Your application has been approved. Review the details below and confirm to begin
-              onboarding.
+              Your enrollment is ready. Review the details below and confirm to begin onboarding.
+            </p>
+          )}
+          {awaitingReview && (
+            <p className="text-slate-700 mt-2">
+              We received your application. Our team will notify you when you can continue to
+              orientation.
             </p>
           )}
         </div>
 
-        {/* Enrollment Details Card */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -165,14 +189,17 @@ function EnrollmentConfirmedContent() {
               <div>
                 <p className="text-sm text-slate-700">Status</p>
                 <p
-                  className={`font-semibold ${isApproved ? 'text-amber-600' : 'text-brand-green-600'}`}
+                  className={`font-semibold ${needsConfirm || needsPayment ? 'text-amber-600' : 'text-brand-green-600'}`}
                 >
-                  {isApproved ? 'Approved — Awaiting Confirmation' : 'Confirmed'}
+                  {needsConfirm && 'Ready — Awaiting Confirmation'}
+                  {awaitingReview && 'Under Review'}
+                  {needsPayment && 'Payment Required'}
+                  {!needsConfirm && !awaitingReview && !needsPayment && 'Confirmed'}
                 </p>
               </div>
             </div>
 
-            {!isApproved && (
+            {!needsConfirm && !awaitingReview && (
               <div className="flex items-start gap-3">
                 <Calendar className="w-5 h-5 text-brand-blue-600 mt-0.5" />
                 <div>
@@ -194,8 +221,7 @@ function EnrollmentConfirmedContent() {
           </div>
         </div>
 
-        {/* CTA Button */}
-        {isApproved ? (
+        {needsConfirm ? (
           <button
             onClick={handleConfirm}
             disabled={confirming}
@@ -203,6 +229,20 @@ function EnrollmentConfirmedContent() {
           >
             {confirming ? 'Confirming...' : 'Confirm Enrollment & Start Onboarding'}
           </button>
+        ) : needsPayment ? (
+          <Link
+            href="/apply"
+            className="flex items-center justify-center gap-2 w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center font-semibold py-4 px-6 rounded-lg transition-colors"
+          >
+            Complete Payment <ArrowRight className="w-5 h-5" />
+          </Link>
+        ) : awaitingReview ? (
+          <Link
+            href="/learner/dashboard"
+            className="flex items-center justify-center gap-2 w-full bg-slate-100 hover:bg-slate-200 text-slate-900 text-center font-semibold py-4 px-6 rounded-lg transition-colors"
+          >
+            Go to Dashboard <ArrowRight className="w-5 h-5" />
+          </Link>
         ) : (
           <Link
             href="/enrollment/orientation"
@@ -212,7 +252,6 @@ function EnrollmentConfirmedContent() {
           </Link>
         )}
 
-        {/* Helper Text */}
         <p className="text-center text-sm text-slate-700 mt-4">
           This program is sponsor-managed. Orientation and required documents must be completed
           before course access is unlocked.
@@ -223,7 +262,5 @@ function EnrollmentConfirmedContent() {
 }
 
 export default function EnrollmentConfirmedPage() {
-  return (
-          <EnrollmentConfirmedContent />
-  );
+  return <EnrollmentConfirmedContent />;
 }
