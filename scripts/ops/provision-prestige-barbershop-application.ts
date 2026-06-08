@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
+import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -109,7 +110,8 @@ async function main() {
     process.exit(1);
   }
 
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partners/barber-host-shop/sign-mou')}`;
+  const { steps } = await buildJourneyLinks(db, CONTACT_EMAIL, 'partner');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
   const pdfBytes = await generateMOUPdf({
     shop_name: HOST_SHOP_APP.shop_name,
     signer_name: HOST_SHOP_APP.owner_name,
@@ -124,7 +126,7 @@ async function main() {
   const html = `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px">
 <p>Dear Elizabeth,</p>
 <p><strong>Attached:</strong> Barber Host Shop MOU PDF for <strong>${HOST_SHOP_APP.shop_name}</strong> (now on the canonical <code>barbershop_partner_applications</code> track).</p>
-<p><a href="${signUrl}" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:bold">Sign MOU Online →</a></p>
+${stepsHtml}
 <p><strong>Required documents on file / please resend if updated:</strong></p>
 <ol>
 <li>IRS EIN Assignment Letter (CP 575)</li>

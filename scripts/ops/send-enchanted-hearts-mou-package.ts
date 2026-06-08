@@ -13,6 +13,7 @@ import { generateProgramHolderWorkforceMOUPdf } from '@/lib/documents/generate-p
 import { generateProgramHolderMOUPart2Pdf } from '@/lib/documents/generate-program-holder-mou-part2-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
+import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -219,7 +220,8 @@ async function main() {
   console.log(`  📄 Part 1: ${Math.round(part1.length / 1024)} KB`);
   console.log(`  📄 Part 2: ${Math.round(part2.length / 1024)} KB`);
 
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/program-holder/sign-mou')}`;
+  const { steps } = await buildJourneyLinks(db, HOLDER.email, 'program_holder');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
   const orgSlug = HOLDER.organizationName.replace(/[^a-zA-Z0-9]+/g, '-');
 
   const mouHtml = `<!DOCTYPE html>
@@ -243,12 +245,10 @@ Attached is the <strong>complete, correct Program Holder workforce training agre
 <li><strong>Part 1 — Master Workforce Training MOU</strong> (programs, roles, compliance, signatures)</li>
 <li><strong>Part 2 — Payment, Refund &amp; Reporting Addendum</strong> (what you are entitled to, refund policy, reporting requirements, audits)</li>
 </ol>
-<p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#475569">
-Please review both PDFs, then sign online using the button below (log in with <strong>${HOLDER.email}</strong>).
+<p style="margin:0 0 12px;font-size:14px;line-height:1.7;color:#475569">
+Please review both PDFs, then complete these steps <strong>in order</strong> (log in with <strong>${HOLDER.email}</strong>):
 </p>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
-<a href="${signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Program Holder MOU Online →</a>
-</td></tr></table>
+${stepsHtml}
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply to this email or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
 </td></tr>

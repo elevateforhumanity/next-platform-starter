@@ -11,6 +11,7 @@ import { createClient } from '@supabase/supabase-js';
 import { generateDetailedMOUPdf } from '@/lib/documents/generate-detailed-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
+import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -133,7 +134,7 @@ async function sendMail(
   }
 }
 
-function mouEmailHtml(signUrl: string) {
+function mouEmailHtml(stepsHtml: string) {
   const first = 'Shawndra';
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
@@ -154,14 +155,8 @@ for <strong>${HOLDER.organizationName}</strong>.
 <strong>Attached:</strong> your <strong>Program Holder Memorandum of Understanding (MOU)</strong> covering CNA, HHA, QMA,
 and related healthcare training programs delivered through your institute.
 </p>
-<ol style="margin:0 0 20px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">
-<li>Review the attached PDF.</li>
-<li>Click below to <strong>digitally sign</strong> (log in with <strong>${HOLDER.email}</strong> if prompted).</li>
-<li>Reply to this email with questions or a signed copy if you prefer.</li>
-</ol>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
-<a href="${signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Program Holder MOU Online →</a>
-</td></tr></table>
+<p style="margin:0 0 12px;font-size:14px;line-height:1.7;color:#475569">Review the attached PDF, then complete these steps <strong>in order</strong> (each link signs you in and opens the correct page on ${SITE_URL}):</p>
+${stepsHtml}
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply here or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
 </td></tr>
@@ -189,21 +184,13 @@ async function buildMouPdf() {
   });
 }
 
-async function sendCorrectedMou(sgKey: string) {
+async function sendCorrectedMou(sgKey: string, db: ReturnType<typeof createClient>) {
   const pdfBytes = await buildMouPdf();
   const pdfB64 = Buffer.from(pdfBytes).toString('base64');
   const pdfFilename = `Elevate-Program-Holder-MOU-${HOLDER.organizationName.replace(/[^a-zA-Z0-9]+/g, '-')}.pdf`;
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/program-holder/sign-mou')}`;
-  const html = `<!DOCTYPE html>
-<html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto">
-<p>Dear Shawndra,</p>
-<p>Please <strong>disregard any prior dashboard login emails</strong> (especially any link pointing to <code>localhost</code>) — those were sent in error. We are <strong>not</strong> asking you to use a dashboard at this time.</p>
-<p>Attached is your <strong>Program Holder MOU</strong> for <strong>${HOLDER.organizationName}</strong>. Review the PDF and sign using the button below.</p>
-<p><strong>Attached:</strong> revised MOU PDF (clear program schedule, no overlapping text).</p>
-<p><a href="${signUrl}" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:bold">Sign Program Holder MOU Online →</a></p>
-<p style="font-size:14px;color:#475569">Log in with <strong>${HOLDER.email}</strong> if prompted. Reply with any questions.</p>
-<p>Thank you,<br><strong>Elizabeth Greene</strong><br>Elevate for Humanity</p>
-</body></html>`;
+  const { steps } = await buildJourneyLinks(db, HOLDER.email, 'program_holder');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
+  const html = mouEmailHtml(stepsHtml);
   await sendMail(sgKey, {
     to: HOLDER.email,
     subject: `Corrected Program Holder MOU — ${HOLDER.organizationName}`,
@@ -238,7 +225,7 @@ async function main() {
       console.error('SENDGRID_API_KEY not found');
       process.exit(1);
     }
-    await sendCorrectedMou(sgKeyOnly!);
+    await sendCorrectedMou(sgKeyOnly!, db);
     console.log('\nDone (MOU resend only).');
     return;
   }
@@ -388,11 +375,12 @@ async function main() {
   const pdfFilename = `Elevate-Program-Holder-MOU-${HOLDER.organizationName.replace(/[^a-zA-Z0-9]+/g, '-')}.pdf`;
   console.log(`  📄 MOU PDF ${Math.round(pdfBytes.length / 1024)} KB`);
 
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/program-holder/sign-mou')}`;
+  const { steps } = await buildJourneyLinks(db, HOLDER.email, 'program_holder');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
   await sendMail(sgKey!, {
     to: HOLDER.email,
     subject: `Program Holder MOU — ${HOLDER.organizationName} (signature required)`,
-    html: mouEmailHtml(signUrl),
+    html: mouEmailHtml(stepsHtml),
     pdfB64,
     filename: pdfFilename,
   });

@@ -843,8 +843,9 @@ The hook attempts unmuted play and falls back silently. No mute button shown.
 
 ### Ops outreach emails (MOU / host shop / program holder)
 
-- **Never send dashboard login emails** from ops scripts — MOU PDF + sign link + document checklist only. `provision-host-dashboards.mjs` is blocked unless `ALLOW_DASHBOARD_OUTREACH=1`.
-- **Never use localhost in outbound links.** `.env.local` often sets `NEXT_PUBLIC_SITE_URL=http://localhost:3000` for dev. All `scripts/ops/*` email senders must use `outboundSiteUrl()` from `scripts/ops/outbound-site-url.ts` (forces `https://www.elevateforhumanity.org` when env is local).
+- **Link flow (required):** Supabase `generateLink` → `redirectTo` = `{outboundSiteUrl()}/auth/callback?redirect={path}` → user lands on role dashboard or onboarding step. Use `buildJourneyLinks()` from `scripts/ops/outreach-auth-link.ts` for chronological steps (sign MOU → documents → dashboard).
+- **Never use localhost in outbound links.** Use `outboundSiteUrl()` (forces `https://www.elevateforhumanity.org` when `.env.local` is local).
+- **Resend broken links:** `pnpm tsx --env-file=.env.local scripts/ops/resend-outreach-portal-links.ts`
 - Admin email copies: `pnpm tsx --env-file=.env.local scripts/ops/send-email-copies-to-admin.ts`
 
 ### Gotchas

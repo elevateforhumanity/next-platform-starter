@@ -11,6 +11,7 @@ import { createClient } from '@supabase/supabase-js';
 import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { outboundSiteUrl } from './outbound-site-url';
+import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
 
 const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
@@ -57,8 +58,7 @@ function documentChecklistHtml() {
 function buildEmailHtml(opts: {
   firstName: string;
   shopName: string;
-  email: string;
-  signUrl: string;
+  stepsHtml: string;
 }) {
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
@@ -75,14 +75,8 @@ function buildEmailHtml(opts: {
 Your barber apprenticeship <strong>host shop application</strong> for <strong>${opts.shopName}</strong> is approved on the Elevate platform.
 <strong>Attached</strong> is your Barber Host Shop Employer Agreement (MOU) for review and signature.
 </p>
-<ol style="margin:0 0 20px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">
-<li>Review the attached MOU PDF.</li>
-<li>Click below to <strong>digitally sign</strong> (log in with <strong>${opts.email}</strong>).</li>
-<li>Upload or resend the required documents listed below.</li>
-</ol>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
-<a href="${opts.signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Barber Host Shop MOU Online →</a>
-</td></tr></table>
+<p style="margin:0 0 12px;font-size:14px;line-height:1.7;color:#475569">Review the attached MOU PDF, then complete these steps <strong>in order</strong> on ${SITE_URL}:</p>
+${opts.stepsHtml}
 ${documentChecklistHtml()}
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply to this email or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
@@ -274,7 +268,8 @@ async function main() {
     console.log('  ✅ profile + partner_users linked');
   }
 
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partners/barber-host-shop/sign-mou')}`;
+  const { steps } = await buildJourneyLinks(db, email, 'partner');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
 
   const pdfBytes = await generateMOUPdf({
     shop_name: shopName,
@@ -293,7 +288,7 @@ async function main() {
     to: email,
     name: contactName,
     subject: `Barber Host Shop MOU & required documents — ${shopName}`,
-    html: buildEmailHtml({ firstName, shopName, email, signUrl }),
+    html: buildEmailHtml({ firstName, shopName, stepsHtml }),
     pdfB64,
     filename,
   });
