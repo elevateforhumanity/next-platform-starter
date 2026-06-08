@@ -50,6 +50,7 @@ function EnrollmentConfirmedContent() {
           id,
           enrollment_state,
           enrollment_confirmed_at,
+          programs(title),
           training_programs(name)
         `,
         )
@@ -89,7 +90,7 @@ function EnrollmentConfirmedContent() {
 
       setEnrollment({
         id: data.id,
-        program_name: (data.training_programs as { name?: string } | null)?.name || 'Your Program',
+        program_name: (data.programs as { title?: string } | null)?.title || (data.training_programs as { name?: string } | null)?.name || 'Your Program',
         enrollment_state: state,
         enrollment_confirmed_at: data.enrollment_confirmed_at,
       });
