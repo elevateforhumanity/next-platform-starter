@@ -120,7 +120,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    qualities: [85, 90, 95],
+    qualities: [70, 75, 85, 90, 95],
     minimumCacheTTL: 31536000,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'inline',
@@ -284,8 +284,35 @@ const nextConfig = {
         permanent: false, // 307 so we can swap the asset later without cache lock-in
       },
       // ============================================
-      // DELETED PAGE REDIRECTS
+      // LEGACY ADMIN PATH CONSOLIDATION (moved from proxy.ts)
+      // Case-insensitive matching handled by Next.js redirect engine.
       // ============================================
+      { source: '/admin/applicants', destination: '/admin/applications', permanent: true },
+      { source: '/admin/leads', destination: '/admin/crm/leads', permanent: true },
+      { source: '/admin/leads/new', destination: '/admin/crm/leads/new', permanent: true },
+      { source: '/admin/course-generator', destination: '/admin/studio', permanent: true },
+      { source: '/admin/syllabus-generator', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-templates', destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/manage', destination: '/admin/courses', permanent: true },
+      { source: '/admin/course-import', destination: '/admin/studio', permanent: true },
+      { source: '/admin/quiz-builder', destination: '/admin/studio', permanent: true },
+      { source: '/admin/external-courses', destination: '/admin/courses', permanent: true },
+      { source: '/admin/enrollment', destination: '/admin/students', permanent: true },
+      { source: '/admin/users', destination: '/admin/staff', permanent: true },
+      { source: '/admin/contacts', destination: '/admin/crm/contacts', permanent: true },
+      { source: '/admin/campaigns', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/email-marketing', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/social-media', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/marketing', destination: '/admin/crm', permanent: true },
+      { source: '/admin/compliance-audit', destination: '/admin/compliance', permanent: true },
+      { source: '/admin/license', destination: '/admin/licenses', permanent: true },
+      { source: '/admin/license-requests', destination: '/admin/licenses', permanent: true },
+      { source: '/admin/progress', destination: '/admin/analytics/learning', permanent: true },
+      { source: '/admin/completions', destination: '/admin/analytics/learning', permanent: true },
+      { source: '/admin/outcomes', destination: '/admin/analytics', permanent: true },
+      { source: '/admin/copilot', destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-manager', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder', destination: '/admin/studio', permanent: true },
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
@@ -355,14 +382,12 @@ const nextConfig = {
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
       // Studio consolidation — old standalone pages redirect to studio
-      { source: '/admin/copilot',           destination: '/admin/studio', permanent: false },
-      { source: '/admin/course-builder',    destination: '/admin/studio', permanent: false },
-      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-manager',     destination: '/admin/studio', permanent: false },
-      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: false },
+      // /admin/copilot, /admin/course-builder, /admin/video-manager moved to LEGACY ADMIN PATH CONSOLIDATION block above (permanent: true)
+      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: true },
+      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: true },
 
       // /lms/programs — real browse page (app/lms/(app)/programs/page.tsx); do not redirect
 
@@ -657,7 +682,7 @@ const nextConfig = {
       // /certiport-exam (350 lines, db=7) and /microclasses (265 lines) — real pages, no redirect
       { source: '/outcomes/indiana', destination: '/about', permanent: false },
       // /orientation — real 200-line page, no redirect
-      { source: '/help/:path*', destination: '/support', permanent: false },
+      // /help and /help/* are real pages — wired in lib/navigation.ts Support dropdown
       // /compliance (327 lines, db=3) and /credentials (584 lines) — real pages, no redirect
       // Legal consolidation
       // /privacy (160 lines), /terms (112 lines), /legal/privacy (100 lines) — real pages, no redirect
@@ -785,6 +810,7 @@ const nextConfig = {
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
 
       // ── Archived duplicate program slugs → canonical ─────────────────────
+      { source: '/programs/barber', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/barber-2024', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
@@ -914,8 +940,7 @@ const nextConfig = {
       { source: '/platform/providers', destination: '/for-providers', permanent: true },
 
       // Help / support aliases
-      // /help/tutorials/* covered by existing /help/:path* wildcard → /help
-      { source: '/support/documentation', destination: '/help', permanent: true },
+      { source: '/support/documentation', destination: '/support/help', permanent: true },
 
       // Misc aliases
       { source: '/ai-chat-standalone', destination: '/ai-chat', permanent: true },

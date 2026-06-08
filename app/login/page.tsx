@@ -15,6 +15,7 @@ import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { resolvePortalForUser } from '@/lib/portal/router';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
+import { mapAuthError } from '@/lib/auth/map-auth-error';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -59,9 +60,7 @@ function LoginForm() {
     try {
       const hydrated = await hydrateBrowserSupabaseConfig();
       if (!hydrated) {
-        setError(
-          'Sign-in is temporarily unavailable (site configuration). Please try again later or contact support.',
-        );
+        setError(mapAuthError('site configuration'));
         setLoading(false);
         return;
       }
@@ -149,12 +148,8 @@ function LoginForm() {
       window.location.href = dest;
     } catch (err: any) {
       // Supabase error objects have non-enumerable properties — extract explicitly
-      let msg = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
-      if (msg === 'Supabase not configured') {
-        msg =
-          'Sign-in is temporarily unavailable (site configuration). Please try again later or contact support.';
-      }
-      setError(msg);
+      const raw = err?.message || err?.error_description || err?.msg || 'Invalid email or password';
+      setError(mapAuthError(raw));
     } finally {
       setLoading(false);
     }

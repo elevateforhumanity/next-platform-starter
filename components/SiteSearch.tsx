@@ -179,7 +179,7 @@ export default function SiteSearch() {
 
       // Search programs
       const { data: programs } = await supabase
-        .from('training_programs')
+        .from('programs')
         .select('name, slug, description, category')
         .eq('is_active', true)
         .or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)

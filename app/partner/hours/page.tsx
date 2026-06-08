@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getUnverifiedHours, type OJTHoursLog } from '@/lib/blended-learning/ojt-tracking';
+import { getMyPartnerContext } from '@/lib/partner/access';
+import { getPartnerStudentIds } from '@/lib/partner/students';
 
 export const metadata: Metadata = {
   title: 'Hours Management | Partner Portal',
@@ -24,44 +26,54 @@ export default async function PartnerHoursPage() {
     redirect('/login?redirect=/partner/hours');
   }
 
-  // Get partner info
-  const { data: partnerUser } = await supabase
-    .from('partner_users')
-    .select('partner_id, role')
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  if (!partnerUser) {
+  // Resolve partner context and scope to their students
+  const ctx = await getMyPartnerContext();
+  if (!ctx) {
     redirect('/partner/dashboard');
   }
 
-  // Get hours statistics from consolidated hour_entries
-  const { data: pendingHours, count: pendingCount } = await supabase
-    .from('hour_entries')
-    .select('*', { count: 'exact' })
-    .eq('status', 'pending')
-    .order('created_at', { ascending: false });
+  const shopIds = ctx.shops.map((s) => s.shop_id).filter(Boolean);
+  const studentIds = await getPartnerStudentIds(shopIds);
 
-  const { count: approvedCount } = await supabase
-    .from('hour_entries')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'approved');
+  // Get hours statistics scoped to partner's assigned students
+  const { data: pendingHours, count: pendingCount } = studentIds.length > 0
+    ? await supabase
+        .from('hour_entries')
+        .select('*', { count: 'exact' })
+        .in('user_id', studentIds)
+        .eq('status', 'pending')
+        .order('created_at', { ascending: false })
+    : { data: [], count: 0 };
 
-  const { count: rejectedCount } = await supabase
-    .from('hour_entries')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'rejected');
+  const { count: approvedCount } = studentIds.length > 0
+    ? await supabase
+        .from('hour_entries')
+        .select('*', { count: 'exact', head: true })
+        .in('user_id', studentIds)
+        .eq('status', 'approved')
+    : { count: 0 };
 
-  // Get total hours approved this month
+  const { count: rejectedCount } = studentIds.length > 0
+    ? await supabase
+        .from('hour_entries')
+        .select('*', { count: 'exact', head: true })
+        .in('user_id', studentIds)
+        .eq('status', 'rejected')
+    : { count: 0 };
+
+  // Get total hours approved this month (scoped to partner's students)
   const startOfMonth = new Date();
   startOfMonth.setDate(1);
   startOfMonth.setHours(0, 0, 0, 0);
 
-  const { data: monthlyHours } = await supabase
-    .from('hour_entries')
-    .select('hours_claimed')
-    .eq('status', 'approved')
-    .gte('approved_at', startOfMonth.toISOString());
+  const { data: monthlyHours } = studentIds.length > 0
+    ? await supabase
+        .from('hour_entries')
+        .select('hours_claimed')
+        .in('user_id', studentIds)
+        .eq('status', 'approved')
+        .gte('approved_at', startOfMonth.toISOString())
+    : { data: [] };
 
   const totalMonthlyHours =
     monthlyHours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;

@@ -5,6 +5,7 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
+import { logger } from '@/lib/logger';
 import { Document, Packer, Paragraph, HeadingLevel } from 'docx';
 import JSZip from 'jszip';
 
@@ -357,7 +358,7 @@ Total,,0
  */
 export async function buildGrantPackage(applicationId: string): Promise<GrantPackage> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_package_builder' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_package_builder' }).catch((e) => logger.warn('[grants/package-builder] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const { data: app, error } = await db
     .from('grant_applications')
     .select('*, grant:grant_opportunities(*), entity:entities(*)')

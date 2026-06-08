@@ -5,6 +5,7 @@
 
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
+import { logger } from '@/lib/logger';
 import { getEntityByUEI } from '@/lib/integrations/sam-gov';
 
 async function getDb() {
@@ -444,7 +445,7 @@ export async function generateAllFederalForms(applicationId: string): Promise<{
   sflll: SFLLLData;
 }> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_federal_forms' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_federal_forms' }).catch((e) => logger.warn('[grants/federal-forms] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const { data: app, error } = await db
     .from('grant_applications')
     .select('*, grant:grant_opportunities(*), entity:entities(*)')

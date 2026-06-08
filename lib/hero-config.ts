@@ -65,9 +65,9 @@ export const HERO_IMAGES = {
   // Beauty/Apprenticeship family
   apprenticeship: {
     barber: '/images/pages/barber-hero-main.jpg',
-    cosmetology: '/images/pages/barber-styling-hair.webp',
-    esthetician: '/images/pages/barber-apprentice-learning.webp',
-    nailTech: '/images/pages/barber-apprenticeship.webp',
+    cosmetology: '/images/pages/cosmetology-apprenticeship-hero.webp',
+    esthetician: '/images/beauty/esthetician.webp',
+    nailTech: '/images/pages/nail-tech-hero.webp',
   },
 
   // Technology family

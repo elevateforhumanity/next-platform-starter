@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 <div style="max-width:560px;margin:0 auto;padding:40px 20px;">
   <div style="background:#1e3a5f;border-radius:12px 12px 0 0;padding:28px 30px;text-align:center;">
     <h1 style="color:white;margin:0;font-size:20px;font-weight:700;">New Student Enrolled</h1>
-    <p style="color:#93c5fd;margin:6px 0 0 0;font-size:14px;">Indy On Demand Services LLC — ${programName ?? 'HVAC Program'}</p>
+    <p style="color:#93c5fd;margin:6px 0 0 0;font-size:14px;">INDY ON DEMAND SERVICES — ${programName ?? 'HVAC Program'}</p>
   </div>
   <div style="background:white;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;padding:32px 30px;">
     <p style="margin-top:0;">Hi David,</p>

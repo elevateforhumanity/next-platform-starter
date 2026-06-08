@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import {
+  canCompleteOrientation,
+  getEnrollmentRoute,
+  hasLmsAccess,
+  normalizeEnrollmentState,
+} from '@/lib/enrollment/enrollment-flow';
 
 export default function EnrollmentOrientationPage() {
   const router = useRouter();
@@ -44,12 +50,21 @@ export default function EnrollmentOrientationPage() {
         return;
       }
 
-      if (data.enrollment_state === 'orientation_complete') {
-        router.push('/enrollment/documents');
+      const state = normalizeEnrollmentState(data.enrollment_state) ?? data.enrollment_state;
+
+      if (hasLmsAccess(state)) {
+        router.push('/learner/dashboard');
         return;
       }
-      if (data.enrollment_state === 'documents_complete' || data.enrollment_state === 'active') {
-        router.push('/learner/dashboard');
+
+      const targetRoute = getEnrollmentRoute(state);
+      if (targetRoute !== '/enrollment/orientation' && targetRoute !== '/programs') {
+        router.push(targetRoute);
+        return;
+      }
+
+      if (!canCompleteOrientation(state)) {
+        router.push('/programs');
         return;
       }
 

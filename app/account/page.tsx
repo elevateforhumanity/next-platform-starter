@@ -37,6 +37,12 @@ const accountSections = [
     icon: CreditCard,
   },
   {
+    title: 'Invoices',
+    description: 'View and download billing invoices and receipts',
+    href: '/account/invoices',
+    icon: FileText,
+  },
+  {
     title: 'Your SaaS Plan',
     description: 'View plan tier and enabled features',
     href: '/account/plan',

@@ -100,7 +100,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
           .update({
             status: 'active',
             payment_status: 'paid',
-            enrollment_state: 'confirmed',
+            enrollment_state: 'onboarding',
             enrollment_confirmed_at: now,
             stripe_checkout_session_id: session.id,
             amount_paid_cents: amountPaidCents,
@@ -363,7 +363,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
 
       const customerEmail = session.customer_email ?? session.customer_details?.email;
       if (customerEmail) {
-        await linkOrphanedEnrollments(supabase, customerEmail).catch(() => {});
+        await linkOrphanedEnrollments(supabase, customerEmail).catch((e) => logger.warn('[webhook/checkout] Failed to link orphaned enrollments', { email: customerEmail, error: e instanceof Error ? e.message : String(e) }));
       }
     } catch (err) {
       Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook', kind } });

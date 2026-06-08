@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import PartnerShell from '@/components/partner/PartnerShell';
+import { getMyPartnerContext } from '@/lib/partner/access';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,5 +34,11 @@ export default async function PartnerLayout({ children }: { children: React.Reac
     redirect('/unauthorized');
   }
 
-  return <>{children}</>;
+  const ctx = await getMyPartnerContext();
+
+  if (!ctx) {
+    return <>{children}</>;
+  }
+
+  return <PartnerShell ctx={ctx as any}>{children}</PartnerShell>;
 }

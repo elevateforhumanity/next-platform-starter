@@ -12,6 +12,7 @@ import {
   ArrowRight,
   Shield,
   Clock,
+  Settings,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroPicture from '@/components/marketing/HeroPicture';
@@ -86,7 +87,7 @@ const portals: PortalEntry[] = [
     icon: Users,
     title: 'Instructor Portal',
     description: 'Roster, lab and assignment review, grades, and course tools.',
-    href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Finstructor%2Fdashboard',
+    href: '/login?redirect=/instructor/dashboard',
     features: ['Roster', 'Submissions', 'Grades'],
   },
   {
@@ -107,8 +108,15 @@ const portals: PortalEntry[] = [
     icon: Briefcase,
     title: 'Staff Portal',
     description: 'Daily operations — students, attendance, at-risk flags, and reports.',
-    href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Fstaff-portal%2Fdashboard',
+    href: '/login?redirect=/admin/staff-portal/dashboard',
     features: ['Students', 'Attendance', 'Reports'],
+  },
+  {
+    icon: Settings,
+    title: 'Admin Dashboard',
+    description: 'Full platform administration — students, programs, compliance, and analytics.',
+    href: '/login?redirect=/admin/dashboard',
+    features: ['Students', 'Programs', 'Analytics'],
   },
 ];
 

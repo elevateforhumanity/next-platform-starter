@@ -1,5 +1,8 @@
 /**
  * @deprecated Use POST /api/programs/enroll/checkout
+ *
+ * // PUBLIC ROUTE: Pre-auth checkout session — forwards to canonical enroll checkout
+ * with program slug validation inside forwardEnrollmentCheckout().
  */
 import type { NextRequest } from 'next/server';
 import { forwardEnrollmentCheckout } from '@/lib/checkout/enrollment-checkout-forward';

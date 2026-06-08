@@ -133,7 +133,11 @@ export default function ProgramDetailPage({
               banner,
               heroImage: p.heroImage,
             });
-            if (banner?.pageKey) {
+            // Render the video hero only when a real video source is configured.
+            // Programs without a dedicated video (e.g. beauty/culinary, which have
+            // no beauty video assets) fall through to the still-image hero so they
+            // never inherit another program's video.
+            if (banner?.pageKey && banner.videoSrcDesktop) {
               const bannerCtas = [
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
@@ -921,6 +925,38 @@ export default function ProgramDetailPage({
           >
             Questions? Talk to an Advisor
           </Link>
+        </div>
+      </section>
+
+      {/* Program Resources — dynamic links to sub-pages */}
+      <section className="py-8 border-t border-slate-100">
+        <div className="max-w-5xl mx-auto px-4">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Program Resources</p>
+          <div className="flex flex-wrap gap-2">
+            {hasEligibilityPage && (
+              <Link href={`/programs/${p.slug}/eligibility`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                Eligibility
+              </Link>
+            )}
+            <Link href={`/programs/${p.slug}/apply`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+              Apply
+            </Link>
+            {eligibilityPageSlugs.has(p.slug) && (
+              <Link href={`/programs/${p.slug}/orientation`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                Orientation
+              </Link>
+            )}
+            {p.slug === 'hvac-technician' && (
+              <>
+                <Link href={`/programs/${p.slug}/curriculum`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                  Curriculum
+                </Link>
+                <Link href={`/programs/${p.slug}/course`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                  Course Details
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </section>
 

@@ -14,7 +14,7 @@ export function BnplPageClient() {
       applyHref="/apply?program=cpr-first-aid"
       successPath="/apply"
       paymentPlanHref="/apply?program=cpr-first-aid"
-      payInFullHref="/apply?program=cpr-first-aid&payment=full"
+      payInFullHref="/apply?program=cpr-first-aid&payment=pay_in_full"
     />
   );
 }

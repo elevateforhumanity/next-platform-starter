@@ -167,6 +167,12 @@ export default function CareerServicesPage() {
               Apply Now <ArrowRight className="w-4 h-4 inline ml-1" />
             </Link>
             <Link
+              href="/career-services/ongoing-support"
+              className="bg-white/10 text-white font-bold px-6 py-3 rounded-lg text-base hover:bg-white/20 transition-colors text-center"
+            >
+              Ongoing Support
+            </Link>
+            <Link
               href="/programs"
               className="border-2 border-white text-slate-900 font-bold px-6 py-3 rounded-lg text-base hover:bg-white/10 transition-colors text-center"
             >

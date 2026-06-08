@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.4
 # Dockerfile.northflank-lms
 #
 # LMS (root Next.js app) for Northflank combined CI/CD.

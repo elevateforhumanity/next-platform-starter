@@ -10,18 +10,19 @@ import {
   BarChart3,
   Settings,
   ClipboardCheck,
-  GraduationCap,
   Shield,
   HelpCircle,
+  BadgeCheck,
 } from 'lucide-react';
 
 const items = [
-  { href: '/partner/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/partner/board', label: 'My Board', icon: LayoutDashboard },
   { href: '/partner/hours', label: 'Training Hours', icon: Clock },
   { href: '/partner/attendance', label: 'Attendance', icon: ClipboardCheck },
+  { href: '/partner/competencies', label: 'Competencies', icon: BadgeCheck },
+  { href: '/partner/students', label: 'Apprentices', icon: Users },
   { href: '/partner/documents', label: 'Documents', icon: FileText },
   { href: '/partner/reports', label: 'Reports', icon: BarChart3 },
-  { href: '/partner/programs', label: 'Programs', icon: GraduationCap },
   { href: '/partner/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -43,7 +44,7 @@ export default function PartnerNav({ isAdmin }: { isAdmin: boolean }) {
         <nav className="flex flex-col gap-0.5" aria-label="Partner navigation">
           {items.map((i) => {
             const active =
-              pathname === i.href || (i.href !== '/partner/dashboard' && pathname.startsWith(i.href));
+              pathname === i.href || (i.href !== '/partner/board' && pathname.startsWith(i.href));
             return (
               <Link
                 key={i.href}

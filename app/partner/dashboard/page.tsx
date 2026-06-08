@@ -99,7 +99,9 @@ export default async function PartnerDashboardPage() {
 
   // Approved barber/training-site partners: route by onboarding step.
   const isTrainingSite =
-    partner.partner_type === 'training_site' || partner.partner_type === 'barber';
+    partner.partner_type === 'training_site' ||
+    partner.partner_type === 'barber' ||
+    partner.partner_type === 'barbershop';
   if (isTrainingSite || !partner.onboarding_completed) {
     const { data: bpa } = await db
       .from('barbershop_partner_applications')
@@ -119,5 +121,5 @@ export default async function PartnerDashboardPage() {
     }
   }
 
-  redirect('/partner/attendance');
+  redirect('/partner/board');
 }

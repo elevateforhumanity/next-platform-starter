@@ -8,12 +8,12 @@ export default function FeaturedHostPartners() {
           Training network
         </p>
         <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center">
-          Prestige, Kountry Kutz &amp; partner host shops
+          Approved host barbershops &amp; training partners
         </h2>
         <p className="text-slate-600 text-center mb-8 max-w-2xl mx-auto text-sm">
-          Including {PARTNER_BRAND_ALIASES.prestigeKountryKuts},{' '}
-          {PARTNER_BRAND_ALIASES.corinneStyles} in Sullivan, and other approved Indiana host
-          barbershops and salons.
+          Including {PARTNER_BRAND_ALIASES.prestigeInstitute},{' '}
+          {PARTNER_BRAND_ALIASES.kountryKutz}, {PARTNER_BRAND_ALIASES.corinneStyles} in Sullivan,
+          and other DOL-registered Indiana host shops.
         </p>
         <div className="grid sm:grid-cols-2 gap-4">
           {FEATURED_BEAUTY_HOST_PARTNERS.map((shop) => (

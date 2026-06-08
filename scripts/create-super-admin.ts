@@ -1,6 +1,6 @@
 /**
  * Creates a super admin user account
- * Usage: pnpm tsx scripts/create-super-admin.ts
+ * Usage: ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=yourpass pnpm tsx scripts/create-super-admin.ts
  */
 import { createClient } from '@supabase/supabase-js';
 
@@ -16,8 +16,14 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
-const ADMIN_EMAIL = 'curvaturebodysculpting@gmail.com';
-const ADMIN_PASSWORD = 'Aniah0116!';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+  console.error('Missing ADMIN_EMAIL or ADMIN_PASSWORD environment variables.');
+  console.error('Usage: ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=yourpass pnpm tsx scripts/create-super-admin.ts');
+  process.exit(1);
+}
 
 async function main() {
   try {
@@ -95,7 +101,7 @@ async function main() {
     console.log(`✓ SUPER ADMIN ACCOUNT READY`);
     console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
     console.log(`\nEmail:    ${verified?.email}`);
-    console.log(`Password: ${ADMIN_PASSWORD}`);
+    console.log(`Password: (provided via env var)`);
     console.log(`Role:     ${verified?.role}`);
     console.log(`\nLogin at: https://www.elevateforhumanity.org/login`);
     console.log(`Dashboard: https://www.elevateforhumanity.org/admin/dashboard\n`);

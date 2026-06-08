@@ -12,8 +12,8 @@ import type { TenantSiteConfig } from '@/lib/tenant/site-types';
 /**
  * POST /api/ai/generate-site
  *
+ * Auth: requireFeatureForAuth(FEATURES.AI_BASIC) — not a public route.
  * AI generates a complete site configuration based on user input.
- * Returns preview config that can be used to render a preview site.
  */
 async function _POST(request: NextRequest) {
   try {
