@@ -90,9 +90,9 @@ export function SearchBar({
     const searchResults: SearchResult[] = [];
 
     try {
-      // Search training programs
+      // Search programs
       const { data: programs } = await supabase
-        .from('training_programs')
+        .from('programs')
         .select('id, name, description, slug, category')
         .or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
         .limit(5);
