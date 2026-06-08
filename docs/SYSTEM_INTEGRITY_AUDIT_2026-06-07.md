@@ -2,6 +2,7 @@
 
 Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, alias, wrapped-not-wired, and mismatched redirect** issues.
 
+**Scope:** `main` @ `883e8f22` (post-#330/#331). Audits run in Cloud Agent VM + production smoke against `www` / `admin`.
 **Scope:** `main` @ `610f83a5f` (post-#351 enrollment flow + nav/routing). Audits run in Cloud Agent VM + production smoke against `www` / `admin`.
 
 **Merge note:** If you see conflict markers around `/partners/portal` or production smoke, keep the **`main`** side — redirect is live in `next.config.mjs` line ~853 and returns **308 → `/partner/dashboard`** in production.
@@ -12,6 +13,14 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 
 | Area | Grade | Notes |
 |------|-------|-------|
+| **Redirect conflicts** | ✅ Green | 323 sources scanned — **0 conflicts** |
+| **Production smoke** | ⚠️ 98% | 60/61 routes — **`/partners/portal` → 404** |
+| **Portal role routing** | ✅ Green | `audit-portal-roles.mjs` — 0 mismatches (post-#331) |
+| **Auth gaps** | ⚠️ Yellow | 5 routes flagged `NO_AUTH` (some intentional public) |
+| **Schema vs migrations** | ⚠️ Yellow | **4 tables** referenced ≥5× with no migration |
+| **Orphan routes** | 🔴 Red | **205** orphan candidates; **180** need manual review |
+| **Legacy course path** | ⚠️ Yellow | HVAC hardcoded path + **~90** `training_*` table refs remain |
+| **Deploy parity** | ⚠️ Yellow | LMS `883e8f22` ✅; admin `eff826d2` (1 commit behind main) |
 | **Redirect conflicts** | ✅ Green | 324 sources scanned — **0 conflicts** |
 | **Enrollment state machine** | ✅ Green | Post-#351 — `lib/enrollment/enrollment-flow.ts`; DB-valid states only |
 | **Production smoke** | ✅ Green | 61/61 after `/partners/portal` redirect (PR production-readiness) |
@@ -31,6 +40,10 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 
 | Service | Deployed SHA | vs `main` | Risk |
 |---------|--------------|-----------|------|
+| `elevate-lms` | `883e8f22…` | Current | ✅ |
+| `elevate-admin` | `eff826d2…` | ~1 merge behind | ⚠️ Re-deploy admin after each main merge |
+
+**Historical issue (fixed #330):** `elevate-admin` had `disabledCD: true` — builds succeeded but pods stayed on stale images. **Always verify SHA** with `pnpm tsx scripts/northflank/inspect-services.ts`.
 | `elevate-lms` | Check Northflank UI | `main` | Run `pnpm tsx scripts/northflank/verify-deployed-sha.ts` after each merge |
 | `elevate-admin` | Check Northflank UI | `main` | Same — workflow calls `trigger-deployment.ts` then `verify-deployed-sha.ts` |
 
@@ -58,6 +71,10 @@ pnpm tsx scripts/northflank/trigger-deployment.ts elevate-lms
 
 | Path | Expected | Actual | Fix |
 |------|----------|--------|-----|
+| `/partners/portal` | `/partner/dashboard` | **404** | Add redirect in `next.config.mjs` (test expects this URL) |
+| `/platform/partner-portal` | Marketing page exists | Nav links here; `/partner-portal` redirects correctly | Clarify: marketing vs authenticated portal |
+| `/store/trial` | Trial entry | Redirects to `/launch` | Intentional alias — document in store docs |
+| `/my-dashboard` | Hub | Redirects to `/learner/dashboard` | `config/dashboard-routes.ts` still lists `delegate → /my-dashboard` (**stale map**) |
 | `/partners/portal` | `/partner/dashboard` | ✅ Redirect in `next.config.mjs` | — |
 | `/platform/partner-portal` | Marketing page exists | Nav links here; `/partner-portal` redirects correctly | Clarify: marketing vs authenticated portal |
 | `/store/trial` | Trial entry | Redirects to `/launch` | Intentional alias — document in store docs |
@@ -68,6 +85,7 @@ pnpm tsx scripts/northflank/trigger-deployment.ts elevate-lms
 | File | Status | Canonical |
 |------|--------|-----------|
 | `lib/auth/role-destinations.ts` | ✅ Canonical post-login | Use `getRoleDestination()` |
+| `config/dashboard-routes.ts` | ⚠️ Duplicate | Missing `partner_admin`, `grant_client`; `delegate` points to `/my-dashboard` |
 | `config/dashboard-routes.ts` | ✅ Deprecated wrapper | Re-exports `ROLE_DESTINATIONS` from `role-destinations.ts` |
 | `config/canonical-routes.ts` | Registry | 240+ classified routes; run `pnpm route:audit` after changes |
 | `proxy.ts` admin redirects | Runtime | Should migrate to `next.config.mjs` per middleware audit |
@@ -203,6 +221,14 @@ From `reports/canonicalization/duplicate-component-map.json`:
 
 ### Code vs migrations (`audit-schema-refs.sh`)
 
+Tables referenced ≥5× with **no migration file**:
+
+- `workflow_dead_letters`
+- `digital_binders`
+- `cron_job_runs`
+- `compliance_violations`
+
+**Action:** Verify live in Supabase; add migrations if missing.
 | Table | Migration file | Status |
 |-------|----------------|--------|
 | `workflow_dead_letters` | `20260705000002_workflow_observability_tables.sql` | ✅ In repo |
@@ -239,6 +265,27 @@ Post-#331:
 
 ### P0 — User-facing breaks
 
+1. Add `/partners/portal` → `/partner/dashboard` redirect
+2. Keep admin deploy SHA in sync with `main` (trigger-deployment after build)
+3. Apply pending Supabase migrations (#15 for store trials)
+
+### P1 — Login & governance
+
+4. Delete or redirect **180 `REVIEW_NEEDED`** orphan admin routes (batch by module)
+5. Consolidate `config/dashboard-routes.ts` → `role-destinations.ts` (remove duplicate)
+6. Move 26 `proxy.ts` admin redirects → `next.config.mjs`
+
+### P2 — Legacy debt
+
+7. Migrate `training_courses` writes in `lib/db/courses.ts` → `courses`
+8. Incrementally replace `training_*` reads with `lms_*` views
+9. Register or delete unregistered blueprints (`hvac-epa-608.ts`, `prs.ts`)
+
+### P3 — Cleanup
+
+10. HVAC legacy files — read-only archive; no new code
+11. Auth pattern migration (265 inline checks) — bounded batches only
+12. Stub audit noise — tune `audit-stubs.ts` to ignore template files
 1. ~~Add `/partners/portal` → `/partner/dashboard` redirect~~ ✅ Done (`next.config.mjs`)
 2. Keep LMS + admin deploy SHA in sync with `main` (trigger `deploy-lms.yml` / `deploy-admin.yml` after each merge)
 3. Apply pending Supabase migrations (#15 for store trials)
@@ -286,6 +333,7 @@ pnpm tsx scripts/audit-admin-dashboard-load.mjs
 
 ---
 
+*Generated by Cloud Agent system integrity pass — 2026-06-07.*
 ## 11. Latest verification run (2026-06-08)
 
 | Check | Result |
