@@ -36,5 +36,5 @@ export default async function ApprenticePortalPage() {
     redirect('/portals');
   }
 
-  redirect('/learner/dashboard');
+  redirect('/portals');
 }

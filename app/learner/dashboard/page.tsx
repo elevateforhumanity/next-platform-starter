@@ -51,8 +51,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
   // Students with a portal_type get redirected to their industry-specific dashboard.
   // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
+  // Only redirect when the portal page actually exists to avoid 404 loops.
+  const VALID_PORTAL_TYPES = new Set([
+    'apprentice', 'barber', 'cosmetology', 'esthetician',
+    'nail-technician', 'culinary', 'electrical', 'plumbing',
+  ]);
   const profileAny = profile as any;
-  if (profile?.role === 'student' && profileAny.portal_type) {
+  if (profile?.role === 'student' && profileAny.portal_type && VALID_PORTAL_TYPES.has(profileAny.portal_type)) {
     redirect(`/portal/${profileAny.portal_type}`);
   }
 
