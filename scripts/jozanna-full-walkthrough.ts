@@ -10,8 +10,8 @@ const ANON_KEY = process.env.SUPABASE_ANON_KEY!;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const BASE = 'https://www.elevateforhumanity.org';
 
-const EMAIL = 'jozanna.test.elevate@gmail.com';
-const PASSWORD = 'ElevateTest2026!';
+const EMAIL = process.env.WALKTHROUGH_EMAIL || 'jozanna.test.elevate@gmail.com';
+const PASSWORD = process.env.WALKTHROUGH_PASSWORD ?? (() => { throw new Error('WALKTHROUGH_PASSWORD env var is required'); })();
 
 const adminDb = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { autoRefreshToken: false, persistSession: false } });
 const anonDb = createClient(SUPABASE_URL, ANON_KEY, { auth: { autoRefreshToken: false, persistSession: false } });

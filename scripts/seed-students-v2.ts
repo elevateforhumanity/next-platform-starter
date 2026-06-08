@@ -115,7 +115,7 @@ async function main() {
       // Create auth user with admin API
       const { data: authData, error: authError } = await supabase.auth.admin.createUser({
         email,
-        password: 'StudentPass123!',
+        password: process.env.SEED_STUDENT_PASSWORD || `Seed${Date.now().toString(36)}!`,
         email_confirm: true,
         user_metadata: {
           full_name: fullName,

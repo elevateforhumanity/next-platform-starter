@@ -17,8 +17,8 @@ const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   || process.env.SUPABASE_ANON_KEY
   || '';
 const BASE = 'https://www.elevateforhumanity.org';
-const EMAIL = 'jozanna.test.elevate@gmail.com';
-const PASSWORD = 'ElevateTest2026!';
+const EMAIL = process.env.WALKTHROUGH_EMAIL || 'jozanna.test.elevate@gmail.com';
+const PASSWORD = process.env.WALKTHROUGH_PASSWORD ?? (() => { throw new Error('WALKTHROUGH_PASSWORD env var is required'); })();
 const PROJECT_REF = 'cuxzzpsyufcewtmicszk';
 
 type Result = { label: string; pass: boolean; detail: string };
