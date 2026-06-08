@@ -385,14 +385,12 @@ const nextConfig = {
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
       // Studio consolidation — old standalone pages redirect to studio
-      { source: '/admin/copilot',           destination: '/admin/studio', permanent: false },
-      { source: '/admin/course-builder',    destination: '/admin/studio', permanent: false },
-      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-manager',     destination: '/admin/studio', permanent: false },
-      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: false },
+      // /admin/copilot, /admin/course-builder, /admin/video-manager moved to LEGACY ADMIN PATH CONSOLIDATION block above (permanent: true)
+      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: true },
+      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: true },
 
       // /lms/programs — real browse page (app/lms/(app)/programs/page.tsx); do not redirect
 
