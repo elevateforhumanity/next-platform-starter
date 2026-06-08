@@ -139,7 +139,7 @@ export default async function ApprenticePortalPage() {
     { label: 'Photo ID uploaded', done: hasPhotoId, href: '/apprentice/documents' },
     { label: 'Proof of residency uploaded', done: hasResidency, href: '/apprentice/documents' },
     { label: 'Documents approved', done: docsApproved, href: '/apprentice/documents' },
-    { label: 'Payment method on file', done: hasSubscription, href: 'https://billing.stripe.com/p/session/live_YWNjdF8xT0tTVnlINGEyeXJWT3Q1LF9VWHRLRWVrSng2VjdNSEpCaFF1TFUwRnd4azJWa0d20100dmjZ1uiI' },
+    { label: 'Payment method on file', done: hasSubscription, href: '/apprentice/billing' },
   ];
   const onboardingComplete = onboardingItems.every(i => i.done);
   const onboardingPending = onboardingItems.filter(i => !i.done);
@@ -180,7 +180,7 @@ export default async function ApprenticePortalPage() {
                 You don&apos;t have automatic weekly payments set up. Your down payment credit will cover your weekly payments, but you need a card on file before it runs out.
               </p>
               <a
-                href="https://billing.stripe.com/p/session/live_YWNjdF8xT0tTVnlINGEyeXJWT3Q1LF9VWHRLRWVrSng2VjdNSEpCaFF1TFUwRnd4azJWa0d20100dmjZ1uiI"
+                href="/apprentice/billing"
                 className="inline-flex items-center gap-2 mt-3 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition"
               >
                 <CreditCard className="w-4 h-4" /> Add Payment Method
@@ -253,7 +253,7 @@ export default async function ApprenticePortalPage() {
             <div className="flex-1">
               <div className="h-4 bg-slate-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-white rounded-full transition-all"
+                  className="h-full bg-brand-blue-600 rounded-full transition-all"
                   style={{ width: `${hoursProgressPercent}%` }}
                 />
               </div>
