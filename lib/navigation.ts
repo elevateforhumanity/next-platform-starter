@@ -500,7 +500,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'AI Tutor', href: '/ai-tutor' },
       { name: 'AI — Instructor', href: '/ai/instructor' },
       { name: 'Job Match', href: '/ai/job-match' },
-      { name: '— Resources —', href: '/donate/monthly', isHeader: true },
+      { name: '— More —', href: '/resources', isHeader: true },
       { name: 'Monthly Giving', href: '/donate/monthly' },
       { name: 'Industries', href: '/industries' },
       { name: 'General Inquiry', href: '/inquiry' },
