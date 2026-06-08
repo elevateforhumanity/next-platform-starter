@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import { autoEnroll } from '@/lib/enrollment/auto-enroll';
+import { notifyElevateHostMouSigned } from '@/lib/email/notify-host-mou-signed';
 import type { SalonHostShopProgramType } from '@/lib/partners/submit-salon-host-shop-application';
 import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID } from '@/lib/cosmetology/pricing';
 
@@ -64,16 +65,24 @@ export async function signSalonHostShopMou(
   const cfg = ENROLLMENT_BY_TYPE[programType];
   const signedAt = input.signed_at ?? new Date().toISOString();
 
-  const { data: partner, error: partnerErr } = await db
+  // One contact_email may host multiple beauty programs (cosmetology + nail + barber).
+  const { data: partnerCandidates, error: partnerErr } = await db
     .from('partners')
-    .select('id, name')
+    .select('id, name, program_type, programs')
     .eq('contact_email', userEmail)
-    .eq('program_type', programType)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .order('created_at', { ascending: false });
 
   if (partnerErr) throw partnerErr;
+
+  const partner =
+    partnerCandidates?.find((row) => row.program_type === programType) ??
+    partnerCandidates?.find((row) => {
+      const programs = Array.isArray(row.programs) ? row.programs : [];
+      return programs.includes(programType);
+    }) ??
+    partnerCandidates?.[0] ??
+    null;
+
   if (!partner) {
     const err = new Error('NO_PARTNER');
     throw err;
@@ -124,6 +133,23 @@ export async function signSalonHostShopMou(
       programType,
       error: enrollResult.error,
       partnerId: partner.id,
+    });
+  }
+
+  if (programType === 'nail_technician' || programType === 'cosmetology') {
+    void notifyElevateHostMouSigned({
+      program: programType === 'nail_technician' ? 'nail_technician' : 'cosmetology',
+      organizationName: input.salon_name,
+      signerName: input.signer_name,
+      signerTitle: input.signer_title,
+      contactEmail: userEmail,
+      supervisorName: input.supervisor_name,
+      supervisorLicense: input.supervisor_license,
+      compensationModel: input.compensation_model,
+      compensationRate: input.compensation_rate,
+      signatureData: input.signature_data,
+      signedAt,
+      mouVersion: input.mou_version ?? cfg.mouVersion,
     });
   }
 

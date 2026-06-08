@@ -260,7 +260,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
       </header>
 
       <div className="flex min-h-0 flex-1">
-        <aside className="hidden w-48 shrink-0 flex-col border-r border-[#3c3c3c] bg-[#252526] p-2 md:flex">
+        <aside className="hidden w-48 shrink-0 flex-col border-r border-[#3c3c3c] bg-[#252526] p-2 md:flex overflow-y-auto">
           <div className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Environments</div>
           <div className="space-y-1">
             {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => {
@@ -278,6 +278,27 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                 </button>
               );
             })}
+          </div>
+          <div className="mt-4 mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Advanced</div>
+          <div className="space-y-0.5">
+            {[
+              { label: 'Agents', href: '/admin/dev-studio/agents' },
+              { label: 'Tasks', href: '/admin/dev-studio/tasks' },
+              { label: 'Memory', href: '/admin/dev-studio/memory' },
+              { label: 'Workflows', href: '/admin/dev-studio/workflows' },
+              { label: 'Builds', href: '/admin/dev-studio/builds' },
+              { label: 'Deployments', href: '/admin/dev-studio/deployments' },
+              { label: 'Logs', href: '/admin/dev-studio/logs' },
+              { label: 'Settings', href: '/admin/dev-studio/settings' },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex h-8 w-full items-center rounded px-2 text-left text-[11px] text-[#858585] hover:text-white hover:bg-[#094771] transition"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </aside>
 

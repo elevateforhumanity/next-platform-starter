@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Upload, FileText, AlertCircle, X } from 'lucide-react';
 import DocumentAIPrefillPanel from '@/components/documents/DocumentAIPrefillPanel';
+import {
+  canSubmitDocuments,
+  getEnrollmentRoute,
+  hasLmsAccess,
+  normalizeEnrollmentState,
+} from '@/lib/enrollment/enrollment-flow';
 
 interface RequiredDocument {
   id: string;
@@ -65,17 +71,21 @@ export default function DocumentsPage() {
         return;
       }
 
-      // Redirect based on state
-      if (data.enrollment_state === 'applied' || data.enrollment_state === 'approved') {
-        router.push('/enrollment/confirmed');
+      const state = normalizeEnrollmentState(data.enrollment_state) ?? data.enrollment_state;
+
+      if (hasLmsAccess(state)) {
+        router.push('/learner/dashboard');
         return;
       }
-      if (data.enrollment_state === 'confirmed') {
-        router.push('/enrollment/orientation');
+
+      const targetRoute = getEnrollmentRoute(state);
+      if (targetRoute !== '/enrollment/documents' && targetRoute !== '/programs') {
+        router.push(targetRoute);
         return;
       }
-      if (data.enrollment_state === 'documents_complete' || data.enrollment_state === 'active') {
-        router.push('/dashboard');
+
+      if (!canSubmitDocuments(state)) {
+        router.push('/programs');
         return;
       }
 

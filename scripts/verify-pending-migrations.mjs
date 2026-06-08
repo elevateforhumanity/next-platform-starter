@@ -108,7 +108,8 @@ async function runViaPg(sql) {
 
 async function query(sql) {
   const mgmt = await runViaMgmtApi(sql).catch((e) => {
-    throw new Error(`Management API: ${e.message}`);
+    console.warn(`Management API failed, trying PG: ${e.message}`);
+    return null;
   });
   if (mgmt !== null) return mgmt;
 

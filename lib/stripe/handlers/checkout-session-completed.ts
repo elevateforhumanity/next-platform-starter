@@ -100,7 +100,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
           .update({
             status: 'active',
             payment_status: 'paid',
-            enrollment_state: 'confirmed',
+            enrollment_state: 'onboarding',
             enrollment_confirmed_at: now,
             stripe_checkout_session_id: session.id,
             amount_paid_cents: amountPaidCents,

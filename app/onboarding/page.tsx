@@ -56,7 +56,7 @@ export default async function OnboardingPage() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black mb-4">
             Welcome to {PLATFORM_DEFAULTS.orgName}
           </h1>
-          <p className="text-base md:text-lg sm:text-base md:text-lg text-black mb-6">
+          <p className="text-base sm:text-lg text-black mb-6">
             Choose your path to get started with our platform and access free workforce training.
           </p>
         </div>

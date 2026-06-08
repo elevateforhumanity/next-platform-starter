@@ -928,6 +928,38 @@ export default function ProgramDetailPage({
         </div>
       </section>
 
+      {/* Program Resources — dynamic links to sub-pages */}
+      <section className="py-8 border-t border-slate-100">
+        <div className="max-w-5xl mx-auto px-4">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Program Resources</p>
+          <div className="flex flex-wrap gap-2">
+            {hasEligibilityPage && (
+              <Link href={`/programs/${p.slug}/eligibility`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                Eligibility
+              </Link>
+            )}
+            <Link href={`/programs/${p.slug}/apply`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+              Apply
+            </Link>
+            {eligibilityPageSlugs.has(p.slug) && (
+              <Link href={`/programs/${p.slug}/orientation`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                Orientation
+              </Link>
+            )}
+            {p.slug === 'hvac-technician' && (
+              <>
+                <Link href={`/programs/${p.slug}/curriculum`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                  Curriculum
+                </Link>
+                <Link href={`/programs/${p.slug}/course`} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:border-brand-blue-300 transition-colors">
+                  Course Details
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+
       {children && <div>{children}</div>}
 
       <CredentialAuthorityFootnote />

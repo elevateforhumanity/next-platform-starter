@@ -27,6 +27,7 @@ import {
   ScrollText,
 } from 'lucide-react';
 import { logger } from '@/lib/logger';
+import { getOnboardingBannerCopy } from '@/lib/enrollment/enrollment-flow';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
@@ -51,8 +52,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
   // Students with a portal_type get redirected to their industry-specific dashboard.
   // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
+  // Only redirect when the portal page actually exists to avoid 404 loops.
+  const VALID_PORTAL_TYPES = new Set([
+    'apprentice', 'barber', 'cosmetology', 'esthetician',
+    'nail-technician', 'culinary', 'electrical', 'plumbing',
+  ]);
   const profileAny = profile as any;
-  if (profile?.role === 'student' && profileAny.portal_type) {
+  if (profile?.role === 'student' && profileAny.portal_type && VALID_PORTAL_TYPES.has(profileAny.portal_type)) {
     redirect(`/portal/${profileAny.portal_type}`);
   }
 
@@ -72,7 +78,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       .select('program_slug')
       .eq('user_id', user.id)
       .in('program_slug', Object.keys(APPRENTICESHIP_SLUG_TO_PORTAL))
-      .in('enrollment_state', ['active', 'confirmed', 'orientation_complete', 'documents_complete'])
+      .in('enrollment_state', ['active', 'enrolled', 'orientation', 'onboarding'])
       .order('enrolled_at', { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -431,47 +437,26 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
         </div>
 
         {/* Onboarding Banner — shown when student has a pending program enrollment */}
-        {pendingOnboarding && (
+        {pendingOnboarding && (() => {
+          const banner = getOnboardingBannerCopy(pendingOnboarding.enrollment_state);
+          return (
           <div className="mb-8 bg-amber-50 border border-amber-200 rounded-xl p-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="text-lg font-bold text-amber-900 mb-1">Complete Your Onboarding</h2>
-                <p className="text-amber-800 text-sm">
-                  {pendingOnboarding.enrollment_state === 'approved' &&
-                    'Confirm your enrollment to proceed to orientation.'}
-                  {pendingOnboarding.enrollment_state === 'confirmed' &&
-                    'Complete your orientation to unlock document upload.'}
-                  {pendingOnboarding.enrollment_state === 'orientation_complete' &&
-                    'Upload your required documents to activate your enrollment.'}
-                  {pendingOnboarding.enrollment_state === 'documents_complete' &&
-                    "Your documents are being reviewed. You'll be activated shortly."}
-                  {pendingOnboarding.enrollment_state === 'applied' &&
-                    "Your application is being reviewed. We'll notify you when it's approved."}
-                </p>
+                <p className="text-amber-800 text-sm">{banner.message}</p>
               </div>
               <Link
-                href={
-                  pendingOnboarding.enrollment_state === 'approved'
-                    ? '/enrollment/confirmed'
-                    : pendingOnboarding.enrollment_state === 'confirmed'
-                      ? '/enrollment/orientation'
-                      : pendingOnboarding.enrollment_state === 'orientation_complete'
-                        ? '/enrollment/documents'
-                        : '/enrollment/confirmed'
-                }
+                href={banner.href}
                 className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors whitespace-nowrap"
               >
-                {pendingOnboarding.enrollment_state === 'approved' && 'Confirm Enrollment'}
-                {pendingOnboarding.enrollment_state === 'confirmed' && 'Start Orientation'}
-                {pendingOnboarding.enrollment_state === 'orientation_complete' &&
-                  'Upload Documents'}
-                {pendingOnboarding.enrollment_state === 'documents_complete' && 'View Status'}
-                {pendingOnboarding.enrollment_state === 'applied' && 'View Status'}
+                {banner.cta}
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
-        )}
+          );
+        })()}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

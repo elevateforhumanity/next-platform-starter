@@ -25,6 +25,30 @@ export default async function CurriculumPage() {
     .from('curriculum_lessons')
     .select('course_id, step_type');
 
+  // Also fetch HVAC training_lessons (active, writable)
+  const { data: hvacLessonRows } = await supabase
+    .from('training_lessons')
+    .select('course_id, lesson_number');
+
+  const hvacStats = new Map<string, number>();
+  for (const row of hvacLessonRows ?? []) {
+    hvacStats.set(row.course_id, (hvacStats.get(row.course_id) ?? 0) + 1);
+  }
+
+  // Resolve HVAC course names
+  const hvacCourseIds = Array.from(hvacStats.keys());
+  const { data: hvacCourses } = hvacCourseIds.length
+    ? await supabase.from('training_courses').select('id, course_name').in('id', hvacCourseIds)
+    : { data: [] };
+  const hvacNameMap = new Map<string, string>();
+  for (const c of hvacCourses ?? []) hvacNameMap.set(c.id, c.course_name);
+
+  const hvacCourseList = hvacCourseIds.map((id) => ({
+    id,
+    name: hvacNameMap.get(id) ?? id,
+    total: hvacStats.get(id) ?? 0,
+  })).sort((a, b) => b.total - a.total);
+
   // Build per-course stats
   const courseStats = new Map<
     string,
@@ -126,7 +150,41 @@ export default async function CurriculumPage() {
           </div>
         </div>
 
-        {/* Course list */}
+        {/* HVAC Active Courses (training_lessons) */}
+        {hvacCourseList.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+              <Layers className="w-5 h-5 text-amber-600" />
+              HVAC Courses (Active)
+            </h2>
+            <div className="bg-white rounded-xl border border-amber-200 divide-y divide-amber-100">
+              {hvacCourseList.map((course) => (
+                <Link
+                  key={course.id}
+                  href={`/admin/curriculum/${course.id}?table=training_lessons`}
+                  className="flex items-center justify-between px-5 py-4 hover:bg-amber-50 transition group"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-slate-800 group-hover:text-amber-700 truncate">
+                      {course.name}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-0.5 font-mono">{course.id}</p>
+                  </div>
+                  <div className="flex items-center gap-6 ml-4 shrink-0">
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-amber-700">{course.total}</p>
+                      <p className="text-xs text-slate-400">lessons</p>
+                    </div>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">HVAC</span>
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-400 transition" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* LMS Course list (curriculum_lessons) */}
         {courses.length === 0 ? (
           <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
             <Layers className="w-10 h-10 text-slate-300 mx-auto mb-3" />

@@ -83,8 +83,8 @@ export async function createOrUpdateEnrollment(
     stripePaymentIntentId,
     status,
     paymentStatus,
-    enrollmentState = 'confirmed',
-    nextRequiredAction = 'ORIENTATION',
+    enrollmentState = 'onboarding',
+    nextRequiredAction = 'CONFIRM_ENROLLMENT',
     email,
     fullName,
   } = input;

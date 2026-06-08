@@ -1,14 +1,17 @@
 'use client';
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { MessageSquare, Sparkles, Bot, PanelBottomClose, Play, Terminal } from 'lucide-react';
+import { MessageSquare, Sparkles, Bot, PanelBottomClose, Play, Terminal, Activity } from 'lucide-react';
 import { useState } from 'react';
 
 const UnifiedEllieChat = dynamic(() => import('@/components/dev-studio/UnifiedEllieChat'), {
   ssr: false,
 });
+const CommandCenterPanel = dynamic(() => import('@/components/dev-studio/CommandCenterPanel'), {
+  ssr: false,
+});
 
-export type BottomTab = 'output' | 'chat' | 'ellie' | 'command';
+export type BottomTab = 'output' | 'chat' | 'ellie' | 'command' | 'status';
 
 const QUICK_CMDS = [
   { label: 'Deploy LMS', cmd: 'Deploy the LMS service' },
@@ -101,6 +104,7 @@ export default function BottomPane({
       { id: 'ellie', Icon: Bot, label: 'Ellie' },
       { id: 'chat', Icon: MessageSquare, label: 'Code AI' },
       { id: 'command', Icon: Sparkles, label: 'Commands' },
+      { id: 'status', Icon: Activity, label: 'Status' },
     ];
 
   const fileContext = openFile
@@ -167,6 +171,13 @@ export default function BottomPane({
           style={{ display: activeTab === 'chat' ? 'flex' : 'none', flexDirection: 'column' }}
         >
           <UnifiedEllieChat embedded fileContext={fileContext} />
+        </div>
+
+        <div
+          className="min-w-0 flex-1 overflow-auto"
+          style={{ display: activeTab === 'status' ? 'block' : 'none' }}
+        >
+          <CommandCenterPanel />
         </div>
       </div>
     </div>

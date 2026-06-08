@@ -22,7 +22,7 @@ export default async function TuitionFeesPage() {
 
   // Fetch programs from database
   const { data: dbPrograms } = await supabase
-    .from('training_programs')
+    .from('programs')
     .select('*')
     .eq('is_active', true)
     .order('name');
