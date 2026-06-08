@@ -14,7 +14,7 @@ export function BnplPageClient() {
       applyHref="/programs/barber-apprenticeship/apply"
       successPath="/programs/barber-apprenticeship/apply/success"
       paymentPlanHref="/programs/barber-apprenticeship/payment-setup"
-      payInFullHref="/programs/barber-apprenticeship/apply?payment=full"
+      payInFullHref="/programs/barber-apprenticeship/apply?payment=pay_in_full"
     />
   );
 }

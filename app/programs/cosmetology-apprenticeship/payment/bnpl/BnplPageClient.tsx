@@ -14,7 +14,7 @@ export function BnplPageClient() {
       applyHref="/programs/cosmetology-apprenticeship/apply"
       successPath="/programs/cosmetology-apprenticeship/apply/success"
       paymentPlanHref="/programs/cosmetology-apprenticeship/payment-setup"
-      payInFullHref="/programs/cosmetology-apprenticeship/apply?payment=full"
+      payInFullHref="/programs/cosmetology-apprenticeship/apply?payment=pay_in_full"
     />
   );
 }
