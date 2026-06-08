@@ -25,89 +25,112 @@ import { RAPIDS_SPONSOR_LABEL } from '@/lib/workforce-ids';
 // No portal/dashboard/LMS/admin links in the footer.
 // Footer links: static config (intentional). Footer changes require a deploy regardless.
 
+// Footer carries ONLY footer-unique links. All program/funding/partner/about
+// content lives in the header nav (single source of truth) — no header↔footer
+// duplicate links. Footer = funding extras, governance, legal, compliance.
 const footerLinks = {
-  // Column 1 — Programs by area
-  programs: [
-    { name: 'All Programs', href: '/programs' },
-    { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
-    { name: 'Certified Nursing Assistant (CNA)', href: canonicalRoutes.programs.certifiedNursingAssistant },
-    { name: 'Medical Assistant', href: '/programs/medical-assistant' },
-    { name: 'Phlebotomy', href: '/programs/phlebotomy' },
-    { name: 'IT Help Desk', href: '/programs/it-help-desk' },
-    { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
-    { name: 'Welding', href: '/programs/welding' },
-    { name: 'Electrical', href: '/programs/electrical' },
-    { name: 'Plumbing', href: '/programs/plumbing' },
-    { name: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
-    { name: 'Bookkeeping & Accounting', href: '/programs/finance-bookkeeping-accounting' },
-    { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
-    { name: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
-  ],
-
-  // Column 2 — Funding & Eligibility
+  // Funding & Eligibility (not surfaced in header nav)
   funding: [
-    { name: 'Funding Overview', href: '/funding' },
     { name: 'Check My Eligibility', href: '/check-eligibility' },
     { name: 'WIOA / WorkOne', href: '/funding/wioa' },
-    { name: 'Workforce Ready Grant', href: '/funding/wrg' },
     { name: 'SNAP E&T Partner', href: '/snap-et-partner' },
-    { name: 'Federal Programs', href: '/funding/federal-programs' },
     { name: 'Consumer Education', href: '/consumer-education' },
     { name: 'Tuition & Fees', href: '/tuition-fees' },
   ],
 
-  // Column 3 — Partners & Employers
+  // Partners & Employers (footer-only)
   partners: [
-    { name: 'Partner Overview', href: '/partners' },
-    { name: 'Hire Our Graduates', href: '/for-employers' },
-    { name: 'Workforce Agencies', href: '/for-agencies' },
-    { name: 'Workforce Partners', href: '/partners/workforce' },
-    { name: 'Reentry Organizations', href: '/partners/reentry' },
-    { name: 'Job Ready Indy', href: '/partners/jri' },
-    { name: 'Barbershop Partners', href: '/partners/barber-host-shop' },
     { name: 'Program Holders', href: '/program-holder' },
     { name: 'LMS Licensing', href: '/partners/sales' },
     { name: 'Technology Partners', href: '/partners/technology' },
-    { name: 'Become a Partner', href: '/partners/apply' },
   ],
 
-  // Column 4 — About
+  // About (footer-only)
   about: [
-    { name: 'About Elevate', href: '/about' },
     { name: 'Organization', href: '/about/organization' },
     { name: 'Compliance Center', href: '/compliance/center' },
-    { name: 'Our Team', href: '/about/team' },
-    { name: 'Outcomes', href: '/impact' },
-    { name: 'Impact', href: '/impact' },
-    { name: 'Success Stories', href: '/success-stories' },
-    { name: 'Accreditation', href: '/accreditation' },
-    { name: 'Events', href: '/events' },
-    { name: 'Donate', href: '/donate' },
     { name: 'Philanthropy', href: '/philanthropy' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Contact Us', href: '/contact' },
   ],
 
-  // Column 5 — Platform / Apply
+  // Platform / Resources (footer-only)
   platform: [
     { name: 'Platform Overview', href: '/platform' },
-    { name: 'Apply for Training', href: '/apply' },
-    { name: 'Quick Application', href: '/apply/quick' },
     { name: 'Microclasses', href: '/microclasses' },
-    { name: 'Videos', href: '/video' },
     { name: 'Downloads & Resources', href: '/downloads' },
-    { name: 'Metrics & Outcomes', href: '/metrics' },
     { name: 'Credential Verification', href: '/verify-credentials' },
-    { name: 'Site Map', href: '/site-map' },
   ],
 
   legal: [
     { name: 'Terms of Service', href: '/legal' },
     { name: 'Privacy Policy', href: '/legal/privacy' },
-    { name: 'Policies', href: '/policies/terms' },
     { name: 'Security & Data', href: '/security-and-data-protection' },
     { name: 'Accessibility', href: '/accessibility' },
     { name: 'Site Map', href: '/site-map' },
+  ],
+
+  legalDisclosures: [
+    { name: 'Academic Integrity', href: '/academic-integrity' },
+    { name: 'Consumer Disclosures', href: '/consumer-disclosures' },
+    { name: 'Cookies', href: '/cookies' },
+    { name: 'Copyright', href: '/copyright' },
+    { name: 'Training Delivery', href: '/disclosures/training-delivery' },
+    { name: 'DMCA', href: '/dmca' },
+    { name: 'Equal Opportunity', href: '/equal-opportunity' },
+    { name: 'Grievance', href: '/grievance' },
+    { name: 'Acceptable Use', href: '/legal/acceptable-use' },
+    { name: 'Creator Agreement', href: '/legal/creator-agreement' },
+    { name: 'Data Sharing', href: '/legal/data-sharing' },
+    { name: 'Disclosures', href: '/legal/disclosures' },
+    { name: 'Employer Agreement', href: '/legal/employer-agreement' },
+    { name: 'Enrollment Agreement', href: '/legal/enrollment-agreement' },
+    { name: 'EULA', href: '/legal/eula' },
+    { name: 'FERPA Consent', href: '/legal/ferpa-consent' },
+    { name: 'License Agreement', href: '/legal/license-agreement' },
+    { name: 'Marketplace Terms', href: '/legal/marketplace-terms' },
+    { name: 'MOU', href: '/legal/mou' },
+    { name: 'Participation Agreement', href: '/legal/participation-agreement' },
+    { name: 'Partner MOU', href: '/legal/partner-mou' },
+    { name: 'Program Host Agreement', href: '/legal/program-host-agreement' },
+    { name: 'Program License Agreement', href: '/legal/program-license-agreement' },
+    { name: 'Student Handbook', href: '/legal/student-handbook' },
+    { name: 'Policies', href: '/policies' },
+    { name: 'Refund Policy', href: '/refund-policy' },
+    { name: 'Security', href: '/security' },
+  ],
+
+  compliance: [
+    { name: 'Compliance', href: '/compliance' },
+    { name: 'Competency Verification', href: '/compliance/competency-verification' },
+    { name: 'Credential Partners', href: '/compliance/credential-partners' },
+    { name: 'Internship Agreement', href: '/compliance/internship-agreement' },
+    { name: 'Internship Evaluation', href: '/compliance/internship-evaluation' },
+    { name: 'OJT Training Plan', href: '/compliance/ojt-training-plan' },
+    { name: 'Report', href: '/compliance/report' },
+    { name: 'Compliance — WIOA', href: '/compliance/wioa' },
+    { name: 'Initial Eligibility Aggregate Performance', href: '/compliance/wioa/initial-eligibility-aggregate-performance' },
+    { name: 'Section 188 Equal Opportunity Checklist', href: '/compliance/wioa/section-188-equal-opportunity-checklist' },
+    { name: 'Workforce Partnership Packet', href: '/compliance/workforce-partnership-packet' },
+  ],
+
+  governance: [
+    { name: 'Contracts', href: '/contracts' },
+    { name: 'Branding Addendum', href: '/contracts/branding-addendum' },
+    { name: 'Data Sharing', href: '/contracts/data-sharing' },
+    { name: 'Employer Agreement', href: '/contracts/employer-agreement' },
+    { name: 'Master License', href: '/contracts/master-license' },
+    { name: 'Workforce MOU', href: '/contracts/workforce-mou' },
+    { name: 'Operational Controls', href: '/governance/operational-controls' },
+    { name: 'Operational Security', href: '/governance/security' },
+    { name: 'Institutional Governance', href: '/institutional-governance' },
+    { name: 'Legal Entity Structure', href: '/legal-entity-structure' },
+    { name: 'Legal Governance', href: '/legal/governance' },
+    { name: 'Governance Compliance', href: '/legal/governance/compliance' },
+    { name: 'LMS Standards', href: '/legal/governance/lms-standards' },
+    { name: 'Onboarding UX', href: '/legal/governance/onboarding-ux' },
+    { name: 'Governance Platform Overview', href: '/legal/governance/platform-overview' },
+    { name: 'Legal Gov — Security', href: '/legal/governance/security' },
+    { name: 'Governance Store Payments', href: '/legal/governance/store-payments' },
   ],
 };
 
@@ -147,11 +170,13 @@ export default function ServerFooter() {
         {/* Footer Accordion — all screen sizes */}
         <FooterAccordion
           sections={[
-            { title: 'Programs', links: footerLinks.programs },
             { title: 'Funding', links: footerLinks.funding },
             { title: 'Employers & Partners', links: footerLinks.partners },
             { title: 'About', links: footerLinks.about },
             { title: 'Platform', links: footerLinks.platform },
+            { title: 'Legal & Disclosures', links: footerLinks.legalDisclosures },
+            { title: 'Compliance', links: footerLinks.compliance },
+            { title: 'Governance & Contracts', links: footerLinks.governance },
           ]}
         />
 
