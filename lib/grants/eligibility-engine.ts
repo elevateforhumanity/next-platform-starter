@@ -6,6 +6,7 @@
 import { getEntityByUEI, checkExclusions } from '@/lib/integrations/sam-gov';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
+import { logger } from '@/lib/logger';
 
 async function getDb() {
   return requireAdminClient();
@@ -50,7 +51,7 @@ export interface GrantEligibilityResult {
  */
 export async function checkEntityEligibility(entityId: string): Promise<EligibilityCheck> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch((e) => logger.warn('[grants/eligibility-engine] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const { data: entity, error } = await db
     .from('entities')
     .select('*')
@@ -214,7 +215,7 @@ export async function checkGrantEligibility(
   entityId: string,
 ): Promise<GrantEligibilityResult> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch((e) => logger.warn('[grants/eligibility-engine] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const { data: grant, error: grantError } = await db
     .from('grant_opportunities')
     .select('*')
