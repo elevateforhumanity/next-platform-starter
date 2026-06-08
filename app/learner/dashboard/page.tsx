@@ -33,6 +33,8 @@ import heroBanners from '@/content/heroBanners';
 import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
+import { PORTAL_FALLBACK } from '@/lib/portal/router';
 
 export const metadata: Metadata = {
   title: 'Learner Dashboard | Elevate LMS',
@@ -50,41 +52,17 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   const supabase = await createClient();
   const sp = await searchParams;
 
-  // Students with a portal_type get redirected to their industry-specific dashboard.
-  // This makes /learner/dashboard a smart router — no more generic one-size-fits-all.
-  // Only redirect when the portal page actually exists to avoid 404 loops.
-  const VALID_PORTAL_TYPES = new Set([
-    'apprentice', 'barber', 'cosmetology', 'esthetician',
-    'nail-technician', 'culinary', 'electrical', 'plumbing',
-  ]);
   const profileAny = profile as any;
-  if (profile?.role === 'student' && profileAny.portal_type && VALID_PORTAL_TYPES.has(profileAny.portal_type)) {
-    redirect(`/portal/${profileAny.portal_type}`);
-  }
 
-  // Apprenticeship students each get their own dedicated portal dashboard.
+  // Apprenticeship + industry portal routing (same resolver as login / auth callback).
   if (profile?.role === 'student') {
-    const APPRENTICESHIP_SLUG_TO_PORTAL: Record<string, string> = {
-      'barber-apprenticeship':          '/portal/barber',
-      'cosmetology-apprenticeship':     '/portal/cosmetology',
-      'esthetician-apprenticeship':     '/portal/esthetician',
-      'nail-technician-apprenticeship': '/portal/nail-technician',
-      'culinary-apprenticeship':        '/portal/culinary',
-      'electrical':                     '/portal/electrical',
-      'plumbing':                       '/portal/plumbing',
-    };
-    const { data: apEnrollment } = await supabase
-      .from('program_enrollments')
-      .select('program_slug')
-      .eq('user_id', user.id)
-      .in('program_slug', Object.keys(APPRENTICESHIP_SLUG_TO_PORTAL))
-      .in('enrollment_state', ['active', 'enrolled', 'orientation', 'onboarding'])
-      .order('enrolled_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (apEnrollment?.program_slug) {
-      redirect(APPRENTICESHIP_SLUG_TO_PORTAL[apEnrollment.program_slug] ?? '/portal/apprentice');
+    const home = await resolveStudentHomePath(
+      supabase,
+      user.id,
+      profileAny.portal_type ?? null,
+    );
+    if (home !== PORTAL_FALLBACK) {
+      redirect(home);
     }
   }
 

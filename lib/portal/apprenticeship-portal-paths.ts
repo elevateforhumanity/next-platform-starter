@@ -3,6 +3,8 @@
  * Used by login, learner dashboard, and portal router — keep in sync.
  */
 
+import { APPRENTICESHIP_PORTAL_ENROLLMENT_STATES } from '@/lib/enrollment/enrollment-flow';
+
 export const APPRENTICESHIP_SLUG_TO_PORTAL_PATH: Record<string, string> = {
   'barber-apprenticeship': '/portal/barber',
   'cosmetology-apprenticeship': '/portal/cosmetology',
@@ -24,14 +26,8 @@ export const APPRENTICESHIP_SLUG_TO_PORTAL_TYPE: Record<string, string> = {
   plumbing: 'plumbing',
 };
 
-export const ACTIVE_ENROLLMENT_STATES = [
-  'active',
-  'enrolled',
-  'onboarding',
-  'confirmed',
-  'orientation_complete',
-  'documents_complete',
-] as const;
+/** @see APPRENTICESHIP_PORTAL_ENROLLMENT_STATES in enrollment-flow.ts */
+export const ACTIVE_ENROLLMENT_STATES = APPRENTICESHIP_PORTAL_ENROLLMENT_STATES;
 
 export function portalPathForProgramSlug(programSlug: string | null | undefined): string | null {
   if (!programSlug) return null;
