@@ -17,10 +17,10 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 | **Production smoke** | ✅ Green | 61/61 after `/partners/portal` redirect (PR production-readiness) |
 | **Portal role routing** | ✅ Green | `audit-portal-roles.mjs` — 0 mismatches (post-#331) |
 | **Auth gaps** | ⚠️ Yellow | 5 routes flagged `NO_AUTH` (some intentional public) |
-| **Schema vs migrations** | ⚠️ Yellow | **4 tables** referenced ≥5× with no migration |
+| **Schema vs migrations** | ✅ Green | Migration sources for all ≥5-ref tables; apply `20260710000003` in Supabase |
 | **Orphan routes** | 🔴 Red | **205** orphan candidates; **180** need manual review |
 | **Legacy course path** | ⚠️ Yellow | HVAC hardcoded path + **~90** `training_*` table refs remain |
-| **Deploy parity** | ⚠️ Yellow | CI deploy #351 in progress; LMS service branch was on feature branch — reset to `main` after merge |
+| **Deploy parity** | ⚠️ Yellow | Post-#330: `trigger-deployment.ts` rolls out image after build; verify with `verify-deployed-sha.ts` |
 | **Stub/placeholder scan** | 🔴 Noisy | 1,986 findings — mostly template literals, not runtime blockers |
 
 **Bottom line:** Core LMS + portals are operational. Debt is concentrated in **route/orphan sprawl**, **legacy HVAC + training_* writes**, **admin dashboard panel APIs**, **store trial DB migration**, and **180 low-traffic admin pages** with weak inbound links.
@@ -31,10 +31,18 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 
 | Service | Deployed SHA | vs `main` | Risk |
 |---------|--------------|-----------|------|
-| `elevate-lms` | Re-deploy `main` @ `610f83a5f` | Post-#351 | ⚠️ Confirm SHA after `deploy-lms.yml` completes |
-| `elevate-admin` | `9acac05a…` deployed; `main` @ `610f83a5f` | ~4 commits ahead | ⚠️ Re-deploy after each `main` merge |
+| `elevate-lms` | Check Northflank UI | `main` | Run `pnpm tsx scripts/northflank/verify-deployed-sha.ts` after each merge |
+| `elevate-admin` | Check Northflank UI | `main` | Same — workflow calls `trigger-deployment.ts` then `verify-deployed-sha.ts` |
 
-**Historical issue (fixed #330):** `elevate-admin` had `disabledCD: true` — builds succeeded but pods stayed on stale images. **Always verify SHA** with `pnpm tsx scripts/northflank/inspect-services.ts`.
+**Historical issue (fixed #330):** `elevate-admin` had `disabledCD: true` — builds succeeded but pods stayed on stale images. **CI fix:** `deploy-admin.yml` / `deploy-lms.yml` call `trigger-deployment.ts` after `trigger-build.ts`, then `verify-deployed-sha.ts` fails the job if `deployedSHA` ≠ `github.sha`.
+
+**Manual recovery:**
+
+```bash
+pnpm tsx scripts/northflank/verify-deployed-sha.ts --trigger
+pnpm tsx scripts/northflank/trigger-deployment.ts elevate-admin
+pnpm tsx scripts/northflank/trigger-deployment.ts elevate-lms
+```
 
 ---
 
@@ -195,14 +203,16 @@ From `reports/canonicalization/duplicate-component-map.json`:
 
 ### Code vs migrations (`audit-schema-refs.sh`)
 
-Tables referenced ≥5× with **no migration file**:
+| Table | Migration file | Status |
+|-------|----------------|--------|
+| `workflow_dead_letters` | `20260705000002_workflow_observability_tables.sql` | ✅ In repo |
+| `cron_job_runs` | `20260705000001_cron_job_runs.sql` | ✅ In repo |
+| `digital_binders` | `20260710000003_digital_binders_compliance_violations.sql` | ⚠️ Apply in Supabase |
+| `compliance_violations` | `20260710000003_digital_binders_compliance_violations.sql` | ⚠️ Apply in Supabase |
 
-- `workflow_dead_letters`
-- `digital_binders`
-- `cron_job_runs`
-- `compliance_violations`
+**Note:** `audit-schema-refs.sh` is case-insensitive on `CREATE TABLE` (lowercase `create table` in SQL files counts).
 
-**Action:** Verify live in Supabase; add migrations if missing.
+**Action:** Run `node scripts/db/runMigrations.js` or paste migrations in Supabase SQL Editor.
 
 ### Pending manual migrations (AGENTS.md)
 
@@ -236,21 +246,23 @@ Post-#331:
 
 ### P1 — Login & governance
 
-4. Delete or redirect **180 `REVIEW_NEEDED`** orphan admin routes (batch by module)
-5. ~~Consolidate `config/dashboard-routes.ts` → `role-destinations.ts`~~ ✅ Wrapper only; remove file when last importers migrate
-6. Move 26 `proxy.ts` admin redirects → `next.config.mjs`
+5. Delete or redirect **180 `REVIEW_NEEDED`** orphan admin routes (batch by module)
+6. ~~Consolidate `config/dashboard-routes.ts` → `role-destinations.ts`~~ ✅ Wrapper only; remove file when last importers migrate
+7. Move 26 `proxy.ts` admin redirects → `next.config.mjs`
+8. Mark intentional public APIs with `// PUBLIC ROUTE:` (`ping`, checkout forwards — `generate-site` / `import-site` use `requireFeatureForAuth`)
 
 ### P2 — Legacy debt
 
-7. Migrate `training_courses` writes in `lib/db/courses.ts` → `courses`
-8. Incrementally replace `training_*` reads with `lms_*` views
-9. Register or delete unregistered blueprints (`hvac-epa-608.ts`, `prs.ts`)
+9. Migrate `training_courses` writes in `lib/db/courses.ts` → `courses`
+10. Incrementally replace `training_*` reads with `lms_*` views (~90 refs)
+11. Register or delete unregistered blueprints (`hvac-epa-608.ts`, `prs.ts`)
+12. HVAC: 32× `lib/courses/hvac-*.ts` — read-only archive; no new per-program hardcoding
 
 ### P3 — Cleanup
 
-10. HVAC legacy files — read-only archive; no new code
-11. Auth pattern migration (265 inline checks) — bounded batches only
-12. Stub audit noise — tune `audit-stubs.ts` to ignore template files
+13. Auth pattern migration (265 inline checks) — bounded batches only
+14. Stub audit noise — tune `audit-stubs.ts` to ignore template files
+15. Re-run `node scripts/audit-orphan-categorization.mjs` quarterly; target 180 `REVIEW_NEEDED` admin shells in batches
 
 ---
 
@@ -274,4 +286,15 @@ pnpm tsx scripts/audit-admin-dashboard-load.mjs
 
 ---
 
-*Last updated: 2026-06-08 (post-#351 merge). Original pass: 2026-06-07.*
+## 11. Latest verification run (2026-06-08)
+
+| Check | Result |
+|-------|--------|
+| `check-redirect-conflicts.mjs` | ✅ 324 sources, 0 conflicts |
+| `full-platform-test.sh` (production `www`) | ✅ **61/61** (includes `/partners/portal` → 308) |
+| `audit-portal-roles.mjs` | ✅ 0 role mismatches |
+| `audit-schema-refs.sh` | ✅ 0 gaps after case-fix + `20260710000003` |
+
+---
+
+*Last updated: 2026-06-08 (post-#351, production smoke 61/61). Original pass: 2026-06-07.*
