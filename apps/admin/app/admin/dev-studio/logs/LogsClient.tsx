@@ -69,7 +69,7 @@ export default function LogsClient() {
           </tbody>
         </table>
         {!loading && logs.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: dev_audit_logs table migration not yet applied</p>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No audit logs yet — actions in Dev Studio are recorded here automatically</p>
         )}
       </div>
     </div>

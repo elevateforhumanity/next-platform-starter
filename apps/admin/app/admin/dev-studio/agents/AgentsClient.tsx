@@ -83,7 +83,7 @@ export default function AgentsClient() {
         ))}
         {!loading && agents.length === 0 && !error && (
           <p className="text-sm text-center py-8" style={{ color: '#858585' }}>
-            Integration pending: ai_agents table migration not yet applied
+            No agents configured — seed agents via Dev Studio settings
           </p>
         )}
       </div>

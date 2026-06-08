@@ -108,7 +108,7 @@ export default function TasksClient() {
         })}
         {!loading && tasks.length === 0 && !error && (
           <p className="text-sm text-center py-8" style={{ color: '#858585' }}>
-            Integration pending: ai_tasks table migration not yet applied
+            No tasks yet — create one from the Studio chat or trigger an agent action
           </p>
         )}
       </div>

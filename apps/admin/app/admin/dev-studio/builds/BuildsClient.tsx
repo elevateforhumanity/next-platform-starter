@@ -84,7 +84,7 @@ export default function BuildsClient() {
 
       {!process.env.NEXT_PUBLIC_NORTHFLANK_CONFIGURED && (
         <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#3c3c3c', background: '#252526', color: '#fbbf24' }}>
-          Integration pending: NORTHFLANK_API_TOKEN env var not configured — builds will record but not trigger Northflank
+          NORTHFLANK_API_TOKEN not configured — builds will record locally but not trigger Northflank deploys
         </div>
       )}
 
@@ -105,7 +105,7 @@ export default function BuildsClient() {
           </div>
         ))}
         {!loading && builds.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: ai_deployments table migration not yet applied</p>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No builds yet — click Deploy Admin or Deploy LMS to start</p>
         )}
       </div>
     </div>

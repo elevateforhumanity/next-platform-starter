@@ -78,6 +78,12 @@ export async function GET(req: NextRequest) {
     aiConfigured,
   });
 
+  const supabaseUrlPresent = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL);
+  const supabaseServiceKeyPresent = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const nodeVersion = process.version;
+  let nextVersion = 'unknown';
+  try { nextVersion = require('next/package.json').version; } catch { /* noop */ }
+
   return NextResponse.json({
     hasGroq,
     hasGemini,
@@ -85,6 +91,10 @@ export async function GET(req: NextRequest) {
     hasAnthropic,
     hasGitHub,
     aiConfigured,
+    supabaseUrlPresent,
+    supabaseServiceKeyPresent,
+    nodeVersion,
+    nextVersion,
     availableProviders: {
       groq: hasGroq,
       gemini: hasGemini,

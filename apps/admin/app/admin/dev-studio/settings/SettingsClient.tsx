@@ -89,7 +89,7 @@ export default function SettingsClient() {
       )}
 
       {!health && !loading && !error && (
-        <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: /api/devstudio/health endpoint not responding</p>
+        <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Health check unavailable — verify /api/devstudio/health endpoint is deployed</p>
       )}
     </div>
   );
