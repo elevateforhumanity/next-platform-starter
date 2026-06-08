@@ -10,6 +10,7 @@ import {
   BookOpen, FileText, ClipboardCheck, ShieldCheck, ArrowRight, Upload,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import HostShopMouPreview from '@/components/partners/HostShopMouPreview';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const compensationModels = [
@@ -587,6 +588,8 @@ export default function BarbershopPartnerApplyPage() {
               <textarea rows={4} value={formData.notes} onChange={e => updateField('notes', e.target.value)} placeholder="Any additional information you'd like to share..." className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500" />
             </div>
 
+            <HostShopMouPreview program="barber" />
+
             {/* Acknowledgments */}
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <h2 className="text-xl font-bold text-slate-900 mb-6">Acknowledgments</h2>
@@ -595,7 +598,12 @@ export default function BarbershopPartnerApplyPage() {
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={formData.mouAcknowledged} onChange={e => updateField('mouAcknowledged', e.target.checked)} className="mt-1" />
                     <span className="text-sm text-slate-900">
-                      I acknowledge that I have reviewed the <Link href="/docs/Indiana-Barbershop-Apprenticeship-MOU" className="text-brand-blue-600 underline" target="_blank">Memorandum of Understanding (MOU)</Link> and understand that signing it is required to participate as a partner. *
+                      I acknowledge that I have reviewed the{' '}
+                      <a href="#host-shop-mou" className="text-brand-blue-600 underline">
+                        Memorandum of Understanding (MOU)
+                      </a>{' '}
+                      above and understand that digitally signing it is required after approval to
+                      participate as a partner. *
                     </span>
                   </label>
                 </div>
@@ -650,9 +658,12 @@ export default function BarbershopPartnerApplyPage() {
               <button type="submit" disabled={loading} className="flex-1 inline-flex items-center justify-center px-8 py-4 bg-brand-blue-600 text-white rounded-lg font-bold hover:bg-brand-blue-700 disabled:opacity-50 transition-colors">
                 {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Submitting...</> : 'Submit Application'}
               </button>
-              <Link href="/docs/Indiana-Barbershop-Apprenticeship-MOU" className="inline-flex items-center justify-center px-6 py-4 border border-slate-300 rounded-lg font-medium hover:bg-white" target="_blank">
-                <Download className="w-5 h-5 mr-2" /> View MOU
-              </Link>
+              <a
+                href="#host-shop-mou"
+                className="inline-flex items-center justify-center px-6 py-4 border border-slate-300 rounded-lg font-medium hover:bg-white"
+              >
+                <Download className="w-5 h-5 mr-2" /> Review MOU
+              </a>
             </div>
           </form>
         </div>
