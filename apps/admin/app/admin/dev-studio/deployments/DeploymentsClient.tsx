@@ -9,7 +9,6 @@ interface Deployment {
   environment: string;
   status: string;
   commit_sha: string | null;
-  health_check: Record<string, unknown> | null;
   started_at: string;
   completed_at: string | null;
 }
@@ -36,48 +35,73 @@ export default function DeploymentsClient() {
 
   useEffect(() => { fetchDeployments(); }, []);
 
-  const StatusIcon = ({ status }: { status: string }) => {
-    if (status === 'success') return <CheckCircle className="w-4 h-4" style={{ color: '#4ade80' }} />;
-    if (status === 'failed') return <XCircle className="w-4 h-4" style={{ color: '#f87171' }} />;
-    return <Clock className="w-4 h-4" style={{ color: '#fbbf24' }} />;
+  const STATUS_ICONS: Record<string, typeof Clock> = {
+    success: CheckCircle,
+    failed: XCircle,
+    pending: Clock,
+    building: Clock,
+    deploying: Rocket,
+  };
+
+  const STATUS_COLORS: Record<string, string> = {
+    success: 'text-emerald-500',
+    failed: 'text-red-500',
+    pending: 'text-slate-400',
+    building: 'text-amber-500',
+    deploying: 'text-blue-500',
   };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#1e1e1e' }}>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Rocket className="w-5 h-5" style={{ color: '#007acc' }} />
-          <h1 className="text-xl font-bold" style={{ color: '#cccccc' }}>Deployment History</h1>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50">
+            <Rocket className="h-5 w-5 text-cyan-600" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold text-slate-900">Deployments</h1>
+            <p className="text-sm text-slate-500">Production deployment history</p>
+          </div>
         </div>
-        <button onClick={fetchDeployments} className="p-2 rounded hover:bg-[#333]" style={{ color: '#cccccc' }}>
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+        <button onClick={fetchDeployments} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
         </button>
       </div>
 
-      {error && <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#f44', background: '#2a1a1a', color: '#f88' }}>{error}</div>}
+      {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
-      <div className="space-y-2">
-        {deployments.map((d) => (
-          <div key={d.id} className="rounded-lg border p-4" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <StatusIcon status={d.status} />
-                <div>
-                  <p className="font-semibold text-sm" style={{ color: '#cccccc' }}>{d.service}</p>
-                  <p className="text-xs" style={{ color: '#858585' }}>{d.environment} {d.commit_sha ? `• ${d.commit_sha.slice(0, 8)}` : ''}</p>
+      <div className="space-y-3">
+        {deployments.map((d) => {
+          const Icon = STATUS_ICONS[d.status] ?? Clock;
+          const color = STATUS_COLORS[d.status] ?? 'text-slate-400';
+          return (
+            <div key={d.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Icon className={`h-5 w-5 ${color}`} />
+                  <div>
+                    <p className="font-medium text-slate-900 capitalize">{d.service}</p>
+                    <p className="text-xs text-slate-500">{d.environment}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs font-medium text-slate-600 capitalize">{d.status}</span>
+                  {d.commit_sha && <p className="text-[10px] font-mono text-slate-400">{d.commit_sha.slice(0, 8)}</p>}
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-xs" style={{ color: '#858585' }}>{new Date(d.started_at).toLocaleString()}</p>
-                {d.completed_at && <p className="text-[10px]" style={{ color: '#555' }}>Completed: {new Date(d.completed_at).toLocaleString()}</p>}
-              </div>
+              <p className="text-xs text-slate-400 mt-2">{new Date(d.started_at).toLocaleString()}</p>
             </div>
-          </div>
-        ))}
-        {!loading && deployments.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: ai_deployments table migration not yet applied</p>
-        )}
+          );
+        })}
       </div>
+
+      {!loading && deployments.length === 0 && !error && (
+        <div className="rounded-xl border border-slate-200 bg-slate-50 py-12 text-center">
+          <Rocket className="mx-auto h-8 w-8 text-slate-400" />
+          <p className="mt-2 text-sm text-slate-500">Integration pending: ai_deployments table migration not yet applied</p>
+        </div>
+      )}
     </div>
   );
 }

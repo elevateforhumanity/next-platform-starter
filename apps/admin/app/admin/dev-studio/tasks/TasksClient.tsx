@@ -47,47 +47,52 @@ export default function TasksClient() {
 
   useEffect(() => { fetchTasks(); }, []);
 
-  const STATUS_ICON: Record<string, typeof Clock> = {
-    pending: Clock,
-    awaiting_approval: ShieldAlert,
-    approved: CheckCircle,
-    running: RefreshCw,
-    completed: CheckCircle,
-    failed: XCircle,
-    rolled_back: XCircle,
+  const STATUS_STYLES: Record<string, { icon: typeof Clock; color: string }> = {
+    pending: { icon: Clock, color: 'text-slate-400' },
+    awaiting_approval: { icon: ShieldAlert, color: 'text-amber-500' },
+    approved: { icon: CheckCircle, color: 'text-blue-500' },
+    running: { icon: RefreshCw, color: 'text-blue-500' },
+    completed: { icon: CheckCircle, color: 'text-emerald-500' },
+    failed: { icon: XCircle, color: 'text-red-500' },
+    rolled_back: { icon: XCircle, color: 'text-slate-500' },
   };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#1e1e1e' }}>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <ListTodo className="w-5 h-5" style={{ color: '#007acc' }} />
-          <h1 className="text-xl font-bold" style={{ color: '#cccccc' }}>AI Tasks</h1>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50">
+            <ListTodo className="h-5 w-5 text-purple-600" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold text-slate-900">AI Tasks</h1>
+            <p className="text-sm text-slate-500">Monitor and manage autonomous task execution</p>
+          </div>
         </div>
-        <button onClick={fetchTasks} className="p-2 rounded hover:bg-[#333]" style={{ color: '#cccccc' }}>
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+        <button onClick={fetchTasks} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
         </button>
       </div>
 
       {error && (
-        <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#f44', background: '#2a1a1a', color: '#f88' }}>
-          {error}
-        </div>
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {tasks.map((task) => {
-          const Icon = STATUS_ICON[task.status] ?? Clock;
+          const style = STATUS_STYLES[task.status] ?? STATUS_STYLES.pending;
+          const Icon = style.icon;
           return (
-            <div key={task.id} className="rounded-lg border p-4" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
-              <div className="flex items-start justify-between gap-3">
+            <div key={task.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3 min-w-0">
-                  <Icon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: task.status === 'awaiting_approval' ? '#f59e0b' : '#858585' }} />
+                  <Icon className={`h-5 w-5 mt-0.5 shrink-0 ${style.color}`} />
                   <div className="min-w-0">
-                    <p className="font-semibold text-sm truncate" style={{ color: '#cccccc' }}>{task.title}</p>
-                    {task.ai_agents && <p className="text-xs mt-0.5" style={{ color: '#858585' }}>Agent: {task.ai_agents.name}</p>}
+                    <p className="font-medium text-slate-900 truncate">{task.title}</p>
+                    {task.ai_agents && <p className="text-xs text-slate-500 mt-0.5">Agent: {task.ai_agents.name}</p>}
                     {task.approval_reason && (
-                      <p className="text-xs mt-1 px-2 py-0.5 rounded inline-block" style={{ background: '#3a2a00', color: '#fbbf24' }}>
+                      <p className="mt-1.5 inline-block rounded-md bg-amber-50 px-2 py-0.5 text-xs text-amber-700 border border-amber-200">
                         {task.approval_reason}
                       </p>
                     )}
@@ -96,22 +101,30 @@ export default function TasksClient() {
                 <div className="flex items-center gap-2 shrink-0">
                   {task.status === 'awaiting_approval' && (
                     <>
-                      <button onClick={() => approveTask(task.id)} className="text-xs px-2 py-1 rounded" style={{ background: '#1a3a1a', color: '#4ade80' }}>Approve</button>
-                      <button onClick={() => rollbackTask(task.id)} className="text-xs px-2 py-1 rounded" style={{ background: '#3a1a1a', color: '#f87171' }}>Reject</button>
+                      <button onClick={() => approveTask(task.id)} className="rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100 transition">
+                        Approve
+                      </button>
+                      <button onClick={() => rollbackTask(task.id)} className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-100 transition">
+                        Reject
+                      </button>
                     </>
                   )}
-                  <span className="text-[10px] px-2 py-0.5 rounded" style={{ background: '#333', color: '#aaa' }}>{task.status}</span>
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600 capitalize">
+                    {task.status.replace(/_/g, ' ')}
+                  </span>
                 </div>
               </div>
             </div>
           );
         })}
-        {!loading && tasks.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>
-            Integration pending: ai_tasks table migration not yet applied
-          </p>
-        )}
       </div>
+
+      {!loading && tasks.length === 0 && !error && (
+        <div className="rounded-xl border border-slate-200 bg-slate-50 py-12 text-center">
+          <ListTodo className="mx-auto h-8 w-8 text-slate-400" />
+          <p className="mt-2 text-sm text-slate-500">Integration pending: ai_tasks table migration not yet applied</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -36,40 +36,49 @@ export default function LogsClient() {
   useEffect(() => { fetchLogs(); }, []);
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#1e1e1e' }}>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <FileText className="w-5 h-5" style={{ color: '#007acc' }} />
-          <h1 className="text-xl font-bold" style={{ color: '#cccccc' }}>Dev Audit Logs</h1>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50">
+            <FileText className="h-5 w-5 text-orange-600" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold text-slate-900">Dev Audit Logs</h1>
+            <p className="text-sm text-slate-500">Complete audit trail of all Dev Studio actions</p>
+          </div>
         </div>
-        <button onClick={fetchLogs} className="p-2 rounded hover:bg-[#333]" style={{ color: '#cccccc' }}>
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+        <button onClick={fetchLogs} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
         </button>
       </div>
 
-      {error && <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#f44', background: '#2a1a1a', color: '#f88' }}>{error}</div>}
+      {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs" style={{ color: '#cccccc' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #3c3c3c' }}>
-              <th className="text-left py-2 px-3 font-semibold" style={{ color: '#858585' }}>Action</th>
-              <th className="text-left py-2 px-3 font-semibold" style={{ color: '#858585' }}>Resource</th>
-              <th className="text-left py-2 px-3 font-semibold" style={{ color: '#858585' }}>Time</th>
+      <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th className="text-left py-3 px-4 font-medium text-slate-600">Action</th>
+              <th className="text-left py-3 px-4 font-medium text-slate-600">Resource</th>
+              <th className="text-left py-3 px-4 font-medium text-slate-600">Time</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {logs.map((log) => (
-              <tr key={log.id} style={{ borderBottom: '1px solid #2a2a2a' }}>
-                <td className="py-2 px-3 font-mono">{log.action}</td>
-                <td className="py-2 px-3" style={{ color: '#858585' }}>{log.resource_type ?? '—'}</td>
-                <td className="py-2 px-3" style={{ color: '#858585' }}>{new Date(log.created_at).toLocaleString()}</td>
+              <tr key={log.id} className="hover:bg-slate-50 transition">
+                <td className="py-3 px-4 font-mono text-xs text-slate-800">{log.action}</td>
+                <td className="py-3 px-4 text-xs text-slate-500">{log.resource_type ?? '—'}</td>
+                <td className="py-3 px-4 text-xs text-slate-500">{new Date(log.created_at).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
         {!loading && logs.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: dev_audit_logs table migration not yet applied</p>
+          <div className="py-12 text-center">
+            <FileText className="mx-auto h-8 w-8 text-slate-400" />
+            <p className="mt-2 text-sm text-slate-500">Integration pending: dev_audit_logs table migration not yet applied</p>
+          </div>
         )}
       </div>
     </div>

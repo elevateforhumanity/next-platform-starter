@@ -51,63 +51,70 @@ export default function BuildsClient() {
   useEffect(() => { fetchBuilds(); }, []);
 
   const STATUS_COLORS: Record<string, string> = {
-    pending: '#858585',
-    building: '#fbbf24',
-    deploying: '#60a5fa',
-    success: '#4ade80',
-    failed: '#f87171',
+    pending: 'bg-slate-400',
+    building: 'bg-amber-400',
+    deploying: 'bg-blue-400',
+    success: 'bg-emerald-400',
+    failed: 'bg-red-400',
   };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#1e1e1e' }}>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Hammer className="w-5 h-5" style={{ color: '#007acc' }} />
-          <h1 className="text-xl font-bold" style={{ color: '#cccccc' }}>Builds & Deployments</h1>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50">
+            <Hammer className="h-5 w-5 text-amber-600" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold text-slate-900">Builds & Deploy</h1>
+            <p className="text-sm text-slate-500">Trigger and monitor Northflank deployments</p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => triggerBuild('admin')} disabled={triggering}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold" style={{ background: '#007acc', color: '#fff' }}>
-            <Play className="w-3 h-3" /> Deploy Admin
+            className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50 transition">
+            <Play className="h-3.5 w-3.5" /> Deploy Admin
           </button>
           <button onClick={() => triggerBuild('lms')} disabled={triggering}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold" style={{ background: '#1a5c1a', color: '#4ade80' }}>
-            <Play className="w-3 h-3" /> Deploy LMS
+            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50 transition">
+            <Play className="h-3.5 w-3.5" /> Deploy LMS
           </button>
-          <button onClick={fetchBuilds} className="p-2 rounded hover:bg-[#333]" style={{ color: '#cccccc' }}>
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <button onClick={fetchBuilds} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
 
-      {error && <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#f44', background: '#2a1a1a', color: '#f88' }}>{error}</div>}
+      {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
-      {!process.env.NEXT_PUBLIC_NORTHFLANK_CONFIGURED && (
-        <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#3c3c3c', background: '#252526', color: '#fbbf24' }}>
-          Integration pending: NORTHFLANK_API_TOKEN env var not configured — builds will record but not trigger Northflank
-        </div>
-      )}
+      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+        Northflank deploy requires <code className="font-mono text-xs bg-amber-100 px-1 py-0.5 rounded">NORTHFLANK_API_TOKEN</code> env var. Builds are recorded regardless.
+      </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {builds.map((b) => (
-          <div key={b.id} className="rounded-lg border p-4" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
+          <div key={b.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-sm" style={{ color: '#cccccc' }}>{b.service} — {b.environment}</p>
-                {b.commit_sha && <p className="text-xs font-mono mt-0.5" style={{ color: '#858585' }}>{b.commit_sha.slice(0, 8)}</p>}
+                <p className="font-medium text-slate-900 capitalize">{b.service} — {b.environment}</p>
+                {b.commit_sha && <p className="text-xs font-mono text-slate-500 mt-0.5">{b.commit_sha.slice(0, 8)}</p>}
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full" style={{ background: STATUS_COLORS[b.status] ?? '#858585' }} />
-                <span className="text-xs" style={{ color: STATUS_COLORS[b.status] ?? '#858585' }}>{b.status}</span>
+                <span className={`h-2.5 w-2.5 rounded-full ${STATUS_COLORS[b.status] ?? 'bg-slate-400'}`} />
+                <span className="text-xs font-medium text-slate-600 capitalize">{b.status}</span>
               </div>
             </div>
-            <p className="text-[10px] mt-2" style={{ color: '#555' }}>{new Date(b.started_at).toLocaleString()}</p>
+            <p className="text-xs text-slate-400 mt-2">{new Date(b.started_at).toLocaleString()}</p>
           </div>
         ))}
-        {!loading && builds.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Integration pending: ai_deployments table migration not yet applied</p>
-        )}
       </div>
+
+      {!loading && builds.length === 0 && !error && (
+        <div className="rounded-xl border border-slate-200 bg-slate-50 py-12 text-center">
+          <Hammer className="mx-auto h-8 w-8 text-slate-400" />
+          <p className="mt-2 text-sm text-slate-500">Integration pending: ai_deployments table migration not yet applied</p>
+        </div>
+      )}
     </div>
   );
 }
