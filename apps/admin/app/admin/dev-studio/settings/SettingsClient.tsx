@@ -18,29 +18,52 @@ export default function SettingsClient() {
     setLoading(true);
     const results: HealthCheck[] = [];
 
-    const envChecks = [
-      { name: 'Supabase', env: 'NEXT_PUBLIC_SUPABASE_URL' },
-      { name: 'Groq AI', env: 'GROQ_API_KEY' },
-      { name: 'Gemini AI', env: 'GEMINI_API_KEY' },
-      { name: 'OpenAI', env: 'OPENAI_API_KEY' },
-      { name: 'Anthropic', env: 'ANTHROPIC_API_KEY' },
-      { name: 'GitHub', env: 'GITHUB_TOKEN' },
-      { name: 'Northflank', env: 'NORTHFLANK_API_TOKEN' },
-    ];
+    // Check NEXT_PUBLIC_ var (client-accessible)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    results.push({
+      name: 'Supabase',
+      status: supabaseUrl ? 'healthy' : 'offline',
+      detail: supabaseUrl ? 'NEXT_PUBLIC_SUPABASE_URL configured' : 'NEXT_PUBLIC_SUPABASE_URL missing',
+    });
 
-    for (const { name, env } of envChecks) {
-      results.push({ name, status: 'healthy', detail: `${env} configured` });
-    }
-
+    // Server-side env vars must be checked via API
     try {
       const res = await fetch('/api/devstudio/agents');
       if (res.ok) {
         results.push({ name: 'Dev Studio API', status: 'healthy', detail: 'All routes responding' });
+      } else if (res.status === 401 || res.status === 403) {
+        results.push({ name: 'Dev Studio API', status: 'degraded', detail: `Auth required (${res.status})` });
       } else {
         results.push({ name: 'Dev Studio API', status: 'degraded', detail: `Status ${res.status}` });
       }
     } catch {
       results.push({ name: 'Dev Studio API', status: 'offline', detail: 'Unable to reach API' });
+    }
+
+    // Check AI service connectivity via builds endpoint (uses service role)
+    try {
+      const res = await fetch('/api/devstudio/workflows');
+      if (res.ok) {
+        results.push({ name: 'Database (RLS)', status: 'healthy', detail: 'Service role active' });
+      } else {
+        results.push({ name: 'Database (RLS)', status: 'degraded', detail: `Status ${res.status}` });
+      }
+    } catch {
+      results.push({ name: 'Database (RLS)', status: 'offline', detail: 'Unable to reach DB' });
+    }
+
+    // Check Northflank connectivity
+    try {
+      const res = await fetch('/api/devstudio/builds');
+      if (res.ok) {
+        const data = await res.json();
+        const hasToken = data.builds !== undefined;
+        results.push({ name: 'Northflank', status: hasToken ? 'healthy' : 'degraded', detail: hasToken ? 'Build API reachable' : 'NORTHFLANK_API_TOKEN may be missing' });
+      } else {
+        results.push({ name: 'Northflank', status: 'degraded', detail: `Status ${res.status}` });
+      }
+    } catch {
+      results.push({ name: 'Northflank', status: 'offline', detail: 'Unable to reach build API' });
     }
 
     setChecks(results);

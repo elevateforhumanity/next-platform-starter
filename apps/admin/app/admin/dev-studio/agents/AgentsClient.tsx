@@ -105,7 +105,7 @@ export default function AgentsClient() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className={`h-2.5 w-2.5 rounded-full ${STATUS_COLORS[agent.status] ?? 'bg-slate-400'} animate-pulse`} />
+                  <span className={`h-2.5 w-2.5 rounded-full ${STATUS_COLORS[agent.status] ?? 'bg-slate-400'} ${agent.status === 'active' || agent.status === 'busy' ? 'animate-pulse' : ''}`} />
                   <span className="text-[11px] font-medium text-slate-500 capitalize">{agent.status}</span>
                 </div>
               </div>
