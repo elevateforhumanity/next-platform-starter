@@ -864,31 +864,32 @@ export async function middleware(request: NextRequest) {
   if (needsEnrollment && !isGitpodPreview && enrollmentResult.data) {
     const state = enrollmentResult.data.enrollment_state;
 
-    // States that grant LMS access. 'enrolled' and 'active' are the two live
-    // states the submit-documents flow produces. Legacy rows may have 'active'
-    // only — both are treated as equivalent here.
-    const LMS_ACCESS_STATES = new Set(['active', 'enrolled']);
+    // Canonical enrollment routing — see lib/enrollment/enrollment-flow.ts
+    const LMS_ACCESS_STATES = new Set(['active']);
 
-    // States that are terminal (suspended, revoked, etc.) — do not loop into
-    // the enrollment flow, send to /unauthorized so the student sees a clear message.
     const TERMINAL_STATES = new Set([
       'suspended', 'revoked', 'withdrawn', 'completed',
       'graduated', 'placed', 'follow_up_6mo', 'follow_up_12mo',
     ]);
 
-    if (!LMS_ACCESS_STATES.has(state)) {
-      if (TERMINAL_STATES.has(state)) {
+    // Legacy rows may still carry removed state strings — normalize before routing.
+    const LEGACY_STATE_MAP: Record<string, string> = {
+      approved: 'onboarding',
+      confirmed: 'onboarding',
+      orientation_complete: 'enrolled',
+      documents_complete: 'active',
+    };
+    const normalizedState = LEGACY_STATE_MAP[state] ?? state;
+
+    if (!LMS_ACCESS_STATES.has(normalizedState)) {
+      if (TERMINAL_STATES.has(normalizedState)) {
         return NextResponse.redirect(new URL('/unauthorized', request.url), { status: 307 });
       }
-      // In-progress enrollment states — route to the appropriate enrollment step.
-      // 'onboarding' and 'orientation' map to the orientation step.
-      // 'pending_funding_verification' and 'payment_required' map to confirmed (waiting).
-      // 'applied' and 'waitlisted' also map to confirmed (earliest state).
       let redirectPath = '/enrollment/confirmed';
-      if (state === 'orientation' || state === 'onboarding') {
+      if (normalizedState === 'orientation') {
         redirectPath = '/enrollment/orientation';
-      } else if (state === 'pending_funding_verification' || state === 'payment_required') {
-        redirectPath = '/enrollment/confirmed';
+      } else if (normalizedState === 'enrolled') {
+        redirectPath = '/enrollment/documents';
       }
       return NextResponse.redirect(new URL(redirectPath, request.url), { status: 307 });
     }

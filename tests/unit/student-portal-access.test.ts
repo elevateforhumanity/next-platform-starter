@@ -73,11 +73,16 @@ describe('proxy.ts enrollment gate — enrollment_state values', () => {
   const src = read('proxy.ts');
 
   it('passes students with enrollment_state = active', () => {
-    expect(src).toContain("LMS_ACCESS_STATES = new Set(['active', 'enrolled'])");
+    expect(src).toContain("LMS_ACCESS_STATES = new Set(['active'])");
   });
 
-  it('passes students with enrollment_state = enrolled', () => {
-    expect(src).toContain("'enrolled'");
+  it('routes enrolled state to documents before LMS access', () => {
+    const enrollmentGateBlock = src.slice(
+      src.indexOf('LMS_ACCESS_STATES'),
+      src.indexOf('if (needsPartner)'),
+    );
+    expect(enrollmentGateBlock).toContain("normalizedState === 'enrolled'");
+    expect(enrollmentGateBlock).toContain('/enrollment/documents');
   });
 
   it('does not reference the removed documents_complete state as an access state', () => {
@@ -91,10 +96,10 @@ describe('proxy.ts enrollment gate — enrollment_state values', () => {
   });
 
   it('sends terminal states to /unauthorized, not enrollment flow', () => {
-    expect(src).toContain("TERMINAL_STATES.has(state)");
+    expect(src).toContain('TERMINAL_STATES.has(normalizedState)');
     const terminalBlock = src.slice(
-      src.indexOf('TERMINAL_STATES.has(state)'),
-      src.indexOf('In-progress enrollment states'),
+      src.indexOf('TERMINAL_STATES.has(normalizedState)'),
+      src.indexOf('let redirectPath'),
     );
     expect(terminalBlock).toContain('/unauthorized');
   });
@@ -118,13 +123,13 @@ describe('proxy.ts enrollment gate — enrollment_state values', () => {
     expect(enrollmentGateBlock).not.toMatch(/state === ['"]orientation_complete['"]/);
   });
 
-  it('routes onboarding/orientation states to /enrollment/orientation', () => {
-    expect(src).toContain("state === 'orientation' || state === 'onboarding'");
-    const routingBlock = src.slice(
-      src.indexOf("state === 'orientation' || state === 'onboarding'"),
-      src.indexOf('return NextResponse.redirect(new URL(redirectPath'),
+  it('routes orientation state to /enrollment/orientation', () => {
+    const enrollmentGateBlock = src.slice(
+      src.indexOf('LMS_ACCESS_STATES'),
+      src.indexOf('if (needsPartner)'),
     );
-    expect(routingBlock).toContain('/enrollment/orientation');
+    expect(enrollmentGateBlock).toContain("normalizedState === 'orientation'");
+    expect(enrollmentGateBlock).toContain('/enrollment/orientation');
   });
 });
 
@@ -151,8 +156,9 @@ describe('submit-documents route — auto-grants LMS access', () => {
     expect(src).not.toContain("'confirmed'");
   });
 
-  it('looks for orientation_complete as the pre-documents state', () => {
-    expect(src).toContain("'orientation_complete'");
+  it('uses canonical PRE_DOCUMENTS_STATES from enrollment-flow', () => {
+    expect(src).toContain('PRE_DOCUMENTS_STATES');
+    expect(src).not.toContain("'orientation_complete'");
   });
 });
 
@@ -183,13 +189,9 @@ describe('documents/complete route — auto-grants LMS access', () => {
 // ---------------------------------------------------------------------------
 
 describe('enrollment state contract', () => {
-  it('DB-valid states used in proxy.ts access check match known valid states', () => {
-    // These are the states from migration 20260501000010 that mean "enrolled and active"
-    const DB_ACTIVE_STATES = ['active', 'enrolled'];
+  it('DB-valid LMS access state is active only', () => {
     const proxySrc = read('proxy.ts');
-    for (const state of DB_ACTIVE_STATES) {
-      expect(proxySrc).toContain(`'${state}'`);
-    }
+    expect(proxySrc).toContain("LMS_ACCESS_STATES = new Set(['active'])");
   });
 
   it('DB-valid terminal states are all handled in proxy.ts', () => {

@@ -19,11 +19,13 @@ import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import { logger } from '@/lib/logger';
 
+import { PENDING_ONBOARDING_STATES } from '@/lib/enrollment/enrollment-flow';
+
 const ACCESS_STATES = [
   'active',
   'in_progress',
   'enrolled',
-  'confirmed',
+  'onboarding',
   'pending_funding_verification',
 ];
 
@@ -560,13 +562,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
     .from('program_enrollments')
     .select('id, enrollment_state, next_required_action, full_name, program_id, program_slug')
     .eq('user_id', user.id)
-    .in('enrollment_state', [
-      'applied',
-      'approved',
-      'confirmed',
-      'orientation_complete',
-      'documents_complete',
-    ])
+    .in('enrollment_state', [...PENDING_ONBOARDING_STATES])
     .order('enrolled_at', { ascending: false })
     .limit(1)
     .maybeSingle();
