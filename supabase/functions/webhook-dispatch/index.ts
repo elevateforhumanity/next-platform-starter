@@ -110,7 +110,9 @@ async function logWebhookDelivery(
       error: result.error,
       response_time_ms: result.responseTime,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error(`[webhook-dispatch] Failed to log webhook delivery for ${webhookId}:`, error instanceof Error ? error.message : error);
+  }
 }
 
 async function dispatchWebhook(event: string, data: any, orgId: string) {

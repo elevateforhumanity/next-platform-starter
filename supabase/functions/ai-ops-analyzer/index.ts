@@ -366,7 +366,9 @@ async function generateInsights(): Promise<any> {
     try {
       const enhancedInsights = await enhanceWithAI(insights, recentEvents, migrations);
       return enhancedInsights;
-    } catch (e) {}
+    } catch (e) {
+      console.warn('[ai-ops-analyzer] AI enhancement failed, using base insights:', e instanceof Error ? e.message : e);
+    }
   }
 
   return insights;

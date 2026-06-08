@@ -361,7 +361,9 @@ async function processGradingQueue() {
           orgId: submission.org_id,
         });
         processed++;
-      } catch (error) {}
+      } catch (error) {
+        console.error(`[grade-ai] Failed to grade submission ${submission.id}:`, error instanceof Error ? error.message : error);
+      }
     }
 
     return { processed };

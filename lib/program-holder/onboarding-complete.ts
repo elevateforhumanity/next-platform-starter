@@ -79,12 +79,12 @@ export async function checkAndSendOnboardingCompleteEmail(
 
   await sendWelcomeEmail({ email: profile.email, firstName, organizationName });
 
-  // Mark sent — welcome_email_sent column may not exist yet; ignore error
+  // Mark sent — welcome_email_sent column may not exist yet
   await admin
     .from('program_holders')
     .update({ welcome_email_sent: true })
     .eq('id', holderId)
-    .catch(() => {});
+    .catch((e) => logger.warn('[onboarding-complete] Failed to mark welcome email sent', { holderId, error: e instanceof Error ? e.message : String(e) }));
 
   logger.info('[onboarding-complete] Welcome email sent', { userId, email: profile.email });
   return { sent: true };

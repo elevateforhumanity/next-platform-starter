@@ -7,6 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { notifyGrantSubmitted } from './notification-system';
 import { logAuditEvent } from '@/lib/audit';
+import { logger } from '@/lib/logger';
 
 async function getDb() {
   return requireAdminClient();
@@ -54,7 +55,7 @@ export async function recordSubmission(
   submission: Omit<SubmissionRecord, 'id' | 'timeline'>,
 ): Promise<SubmissionRecord> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch((e) => logger.warn('[grants/submission-tracker] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const timeline: SubmissionTimelineEvent[] = [
     {
       timestamp: submission.submittedAt,
@@ -133,7 +134,7 @@ export async function addTimelineEvent(
   event: Omit<SubmissionTimelineEvent, 'timestamp'>,
 ): Promise<void> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch((e) => logger.warn('[grants/submission-tracker] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   const { data: submission } = await db
     .from('grant_submissions')
     .select('timeline')
@@ -163,7 +164,7 @@ export async function updateSubmissionStatus(
   performedBy?: string,
 ): Promise<void> {
   const db = await getDb();
-  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
+  await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch((e) => logger.warn('[grants/submission-tracker] Failed to set audit context', { error: e instanceof Error ? e.message : String(e) }));
   await db.from('grant_submissions').update({ status, notes }).eq('id', submissionId);
 
   await addTimelineEvent(submissionId, {
