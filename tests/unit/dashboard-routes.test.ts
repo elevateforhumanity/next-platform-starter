@@ -6,6 +6,7 @@ describe('getDashboardUrl', () => {
   it('matches canonical role destinations for known roles', () => {
     expect(getDashboardUrl('partner')).toBe(getRoleDestination('partner'));
     expect(getDashboardUrl('program_holder')).toBe(getRoleDestination('program_holder'));
+    // delegate intentionally maps to learner dashboard until a dedicated portal ships
     expect(getDashboardUrl('delegate')).toBe('/learner/dashboard');
   });
 
