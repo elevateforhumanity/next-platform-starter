@@ -11,10 +11,10 @@ import { generateCosmetologyMOUPdf } from '@/lib/documents/generate-cosmetology-
 import { generateNailMOUPdf } from '@/lib/documents/generate-nail-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+import { outboundSiteUrl } from './outbound-site-url';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
+
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const DRY_RUN = process.argv.includes('--dry-run');
 
@@ -70,24 +70,17 @@ Attached is your <strong>individual ${programLabel} Host Shop Memorandum of Unde
 <strong>${HOST.shopName}</strong>. This is a separate employer agreement for this program only.
 </p>
 <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#475569">
-<strong>How to sign (please do not use the partner dashboard for this step):</strong>
+<strong>How to sign:</strong>
 </p>
 <ol style="margin:0 0 20px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">
 <li>Review the attached PDF.</li>
-<li>Click below to open the <strong>digital signature page</strong> for this program only (log in with <strong>${HOST.email}</strong> if prompted).</li>
+<li>Click below to open the <strong>digital signature page</strong> for this program (log in with <strong>${HOST.email}</strong> if prompted).</li>
 <li>Sign with your finger, mouse, or stylus and submit — a signed copy is sent to Elevate automatically.</li>
 <li>You may also reply to this email with the signed PDF attached if you prefer.</li>
 </ol>
 <table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
 <a href="${signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign ${programLabel} MOU Online →</a>
 </td></tr></table>
-<div style="background:#f1f5f9;border-radius:8px;padding:16px 20px;margin:0 0 24px">
-<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:#1e293b">About your partner dashboard</p>
-<p style="margin:0;font-size:13px;line-height:1.7;color:#475569">
-Your partner dashboard is <strong>not active yet</strong>. Once we receive your signed MOU for this program, we will turn on dashboard access.
-You will sign the executed copy again inside the dashboard when Elizabeth sends your <strong>next-steps email</strong> with onboarding instructions.
-</p>
-</div>
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply here or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
 </td></tr>
@@ -141,6 +134,8 @@ async function sendWithAttachment(
 }
 
 async function main() {
+  assertOutreachEmailAllowed('send-style-scissors-individual-mous.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key || key === 'placeholder') {

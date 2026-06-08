@@ -2,7 +2,7 @@
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   Upload, AlertCircle, FileText,
   Loader2, ArrowLeft, ExternalLink, X,
@@ -86,6 +86,40 @@ export default function PartnerDocumentsPage() {
     Object.fromEntries(DOC_SLOTS.map(d => [d.id, { status: 'idle' }]))
   );
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/partner/documents');
+        if (!res.ok) return;
+        const data = await res.json();
+        const uploaded = (data.documents ?? []).filter(
+          (d: { uploaded?: boolean; document?: { document_type?: string; file_name?: string } }) =>
+            d.uploaded && d.document?.document_type,
+        );
+        if (cancelled || !uploaded.length) return;
+        setSlots((prev) => {
+          const next = { ...prev };
+          for (const row of uploaded) {
+            const type = row.document.document_type as string;
+            if (DOC_SLOTS.some((s) => s.id === type)) {
+              next[type] = {
+                status: 'done',
+                fileName: row.document.file_name ?? 'Uploaded',
+              };
+            }
+          }
+          return next;
+        });
+      } catch {
+        // non-fatal — page still allows fresh uploads
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function setSlot(id: string, update: Partial<SlotState>) {
     setSlots(prev => ({ ...prev, [id]: { ...prev[id], ...update } }));

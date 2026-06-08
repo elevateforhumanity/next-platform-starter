@@ -7,11 +7,11 @@
 import { createClient } from '@supabase/supabase-js';
 import { generateMOUPdf } from '@/lib/documents/generate-mou-pdf';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { outboundSiteUrl } from './outbound-site-url';
+import { buildJourneyLinks, journeyStepsHtml } from './outreach-auth-link';
+import { assertOutreachEmailAllowed } from './outreach-email-guard';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 
 const HOST = {
@@ -39,7 +39,7 @@ async function loadSendGridKey(db: ReturnType<typeof createClient>) {
   return (app?.value as string) ?? null;
 }
 
-function buildEmailHtml(signUrl: string) {
+function buildEmailHtml(stepsHtml: string) {
   const first = HOST.contactName.split(' ')[0];
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
@@ -59,20 +59,11 @@ for <strong>${HOST.shopName}</strong>.
 <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#475569">
 <strong>Attached:</strong> your individual <strong>Barber Host Shop Employer Agreement (MOU)</strong> for review and signature.
 </p>
-<ol style="margin:0 0 20px;padding-left:20px;font-size:14px;line-height:1.7;color:#475569">
-<li>Review the attached PDF.</li>
-<li>Click below to <strong>digitally sign</strong> (log in with <strong>${HOST.email}</strong> if prompted).</li>
-<li>Reply to this email with any questions or a signed copy if you prefer.</li>
-</ol>
-<table cellpadding="0" cellspacing="0" style="margin:0 0 24px"><tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
-<a href="${signUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Sign Barber Host Shop MOU Online →</a>
-</td></tr></table>
-<div style="background:#f1f5f9;border-radius:8px;padding:16px 20px;margin:0 0 24px">
-<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:#1e293b">About your host partner dashboard</p>
-<p style="margin:0;font-size:13px;line-height:1.7;color:#475569">
-After we receive your signed MOU, we will activate your <strong>host partner dashboard</strong> and Elizabeth will send a separate email with next steps for onboarding apprentices.
+<p style="margin:0 0 12px;font-size:14px;line-height:1.7;color:#475569">Review the attached PDF, then complete these steps <strong>in order</strong> on ${SITE_URL}:</p>
+${stepsHtml}
+<p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#475569">
+After we receive your signed MOU, Elizabeth will follow up with next steps for onboarding apprentices.
 </p>
-</div>
 <p style="margin:0;font-size:13px;color:#475569">Questions? Reply here or call <strong>${PLATFORM_DEFAULTS.supportPhone}</strong>.</p>
 <p style="margin:24px 0 0;font-size:14px">Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, ${PLATFORM_DEFAULTS.orgName}</p>
 </td></tr>
@@ -82,6 +73,8 @@ After we receive your signed MOU, we will activate your <strong>host partner das
 }
 
 async function main() {
+  assertOutreachEmailAllowed('send-aaron-barber-mou.ts');
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key || key === 'placeholder') {
@@ -96,7 +89,8 @@ async function main() {
     process.exit(1);
   }
 
-  const signUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partners/barber-host-shop/sign-mou')}`;
+  const { steps } = await buildJourneyLinks(db, HOST.email, 'partner');
+  const stepsHtml = journeyStepsHtml(steps, { primaryIndex: 0 });
   const pdfBytes = await generateMOUPdf({
     shop_name: HOST.shopName,
     signer_name: HOST.contactName,
@@ -120,7 +114,7 @@ async function main() {
     from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
     reply_to: { email: ELEVATE_COPY, name: 'Elizabeth Greene' },
     subject: `Barber Host Shop Employer Agreement (MOU) — ${HOST.shopName}`,
-    content: [{ type: 'text/html', value: buildEmailHtml(signUrl) }],
+    content: [{ type: 'text/html', value: buildEmailHtml(stepsHtml) }],
     attachments: [
       {
         content: pdfB64,

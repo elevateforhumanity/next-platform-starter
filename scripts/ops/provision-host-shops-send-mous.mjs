@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Provision partner dashboards + send host-shop MOU emails (with Elevate copy).
+ * Provision host shop partner records + send MOU emails (no dashboard links).
  *
  *   node scripts/ops/provision-host-shops-send-mous.mjs
  *   node scripts/ops/provision-host-shops-send-mous.mjs --dry-run
@@ -12,10 +12,19 @@ import { join } from 'path';
 import { createClient } from '@supabase/supabase-js';
 
 const ROOT = process.cwd();
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org').replace(
-  /\/$/,
-  '',
-);
+const PRODUCTION_SITE_URL = 'https://www.elevateforhumanity.org';
+function outboundSiteUrl() {
+  const raw = (process.env.OUTBOUND_SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || PRODUCTION_SITE_URL).replace(
+    /\/$/,
+    '',
+  );
+  if (/localhost|127\.0\.0\.1/i.test(raw)) {
+    console.warn(`⚠️ Outbound links use ${PRODUCTION_SITE_URL} (dev SITE_URL ignored)`);
+    return PRODUCTION_SITE_URL;
+  }
+  return raw;
+}
+const SITE_URL = outboundSiteUrl();
 const ELEVATE_COPY = 'elevate4humanityedu@gmail.com';
 const FROM = { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' };
 const REPLY_TO = { email: ELEVATE_COPY, name: 'Elizabeth Greene' };
@@ -155,7 +164,6 @@ async function sendEmail({ to, subject, html }) {
 
 function buildMouEmail(host) {
   const firstName = host.contactName.split(' ')[0];
-  const dashboardUrl = `${SITE_URL}/login?redirect=${encodeURIComponent('/partner/dashboard')}`;
   const programRows = host.programs
     .map((p) => {
       const link = `${SITE_URL}/login?redirect=${encodeURIComponent(p.signPath)}`;
@@ -186,7 +194,7 @@ function buildMouEmail(host) {
     <p style="margin:0 0 16px;color:#1e293b;font-size:15px">Hi ${firstName},</p>
     <p style="margin:0 0 16px;color:#475569;font-size:14px;line-height:1.7">
       Thank you for partnering with <strong>Elevate for Humanity</strong> as a registered apprenticeship host shop for
-      <strong>${host.shopName}</strong>. Below are your program MOU(s) and your partner dashboard link.
+      <strong>${host.shopName}</strong>. Below are your program MOU(s) for review and signature.
     </p>
     <p style="margin:0 0 12px;color:#1e293b;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em">Program MOUs</p>
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin:0 0 24px">
@@ -197,13 +205,8 @@ function buildMouEmail(host) {
         ? `<p style="margin:0 0 20px;color:#475569;font-size:14px;line-height:1.7">
       Please sign the ${pendingCount === 1 ? 'remaining MOU' : 'remaining MOUs'} using the buttons above (you will be prompted to log in with <strong>${host.email}</strong>).
     </p>`
-        : `<p style="margin:0 0 20px;color:#166534;font-size:14px">All program MOUs for your shop are on file. Use your partner dashboard below to manage apprentices.</p>`
+        : `<p style="margin:0 0 20px;color:#166534;font-size:14px">All program MOUs for your shop are on file. Reply to this email if you need anything else.</p>`
     }
-    <table cellpadding="0" cellspacing="0" style="margin:0 0 28px">
-      <tr><td style="background:#dc2626;border-radius:8px;padding:14px 24px">
-        <a href="${dashboardUrl}" style="color:#fff;font-size:15px;font-weight:bold;text-decoration:none">Open Partner Dashboard →</a>
-      </td></tr>
-    </table>
     <p style="margin:0 0 8px;color:#475569;font-size:13px">Questions? Reply to this email or call <strong>(317) 314-3757</strong>.</p>
     <p style="margin:24px 0 0;color:#1e293b;font-size:14px">
       Warm regards,<br><strong>Elizabeth Greene</strong><br>Founder &amp; CEO, Elevate for Humanity
@@ -312,7 +315,7 @@ async function provisionStyleAndScissors() {
   if (!PROVISION_ONLY) {
     await sendEmail({
       to: h.email,
-      subject: `Host Shop MOUs & Partner Dashboard — ${h.shopName}`,
+      subject: `Host Shop MOUs — ${h.shopName}`,
       html: buildMouEmail(h),
     });
   }
@@ -443,7 +446,7 @@ async function provisionRazorsImage() {
   if (!PROVISION_ONLY) {
     await sendEmail({
       to: h.email,
-      subject: `Barber Host Shop MOU & Partner Dashboard — ${h.shopName}`,
+      subject: `Barber Host Shop MOU — ${h.shopName}`,
       html: buildMouEmail(h),
     });
   }

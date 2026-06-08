@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 /**
- * Provision host partner dashboard access + send login / MOU emails.
+ * DEPRECATED — do not send dashboard emails from ops scripts.
+ * Use MOU-only scripts (provision-barber-host-send-mou.ts, provision-enchanted-hearts --mou-only).
  *
- *   node scripts/ops/provision-host-dashboards.mjs
- *   node scripts/ops/provision-host-dashboards.mjs --corienne-only
- *   node scripts/ops/provision-host-dashboards.mjs --aaron-only
+ * This script is blocked unless ALLOW_DASHBOARD_OUTREACH=1 is set explicitly.
  */
+if (process.env.ALLOW_DASHBOARD_OUTREACH !== '1') {
+  console.error(
+    'Blocked: dashboard outreach emails are disabled. Set ALLOW_DASHBOARD_OUTREACH=1 to override.',
+  );
+  process.exit(1);
+}
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { createClient } from '@supabase/supabase-js';
