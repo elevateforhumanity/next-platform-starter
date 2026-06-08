@@ -14,42 +14,8 @@ import {
 // ── Module-level constants ────────────────────────────────────────────────────
 
 const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
-const LEGACY_ADMIN_PATH_REDIRECTS: Record<string, string> = {
-  '/admin/applicants': '/admin/applications',
-  '/admin/leads': '/admin/crm/leads',
-  '/admin/leads/new': '/admin/crm/leads/new',
-  // ── Course / curriculum consolidation ────────────────────────────────────
-  '/admin/course-generator':     '/admin/studio',
-  '/admin/syllabus-generator':   '/admin/studio',
-  '/admin/course-templates':     '/admin/studio',
-  '/admin/courses/manage':       '/admin/courses',
-  '/admin/course-import':        '/admin/studio',
-  '/admin/quiz-builder':         '/admin/studio',
-  // career-courses is a separate table/product — not an LMS course duplicate
-  '/admin/external-courses':     '/admin/courses',
-  // ── Enrollment / student consolidation ───────────────────────────────────
-  '/admin/enrollment':           '/admin/students',
-  // ── User / staff consolidation ───────────────────────────────────────────
-  '/admin/users':                '/admin/staff',
-  // ── CRM consolidation ────────────────────────────────────────────────────
-  '/admin/contacts':             '/admin/crm/contacts',
-  '/admin/campaigns':            '/admin/crm/campaigns',
-  '/admin/email-marketing':      '/admin/crm/campaigns',
-  '/admin/social-media':         '/admin/crm/campaigns',
-  '/admin/marketing':            '/admin/crm',
-  // ── Compliance / licensing consolidation ─────────────────────────────────
-  '/admin/compliance-audit':     '/admin/compliance',
-  '/admin/license':              '/admin/licenses',
-  '/admin/license-requests':     '/admin/licenses',
-  // ── Analytics consolidation ──────────────────────────────────────────────
-  '/admin/progress':             '/admin/analytics/learning',
-  '/admin/completions':          '/admin/analytics/learning',
-  '/admin/outcomes':             '/admin/analytics',
-  // ── Media consolidation ──────────────────────────────────────────────────
-  '/admin/copilot':              '/admin/studio',
-  '/admin/video-manager':        '/admin/studio',
-  '/admin/course-builder':       '/admin/studio',
-};
+// Legacy admin path redirects moved to next.config.mjs (LEGACY ADMIN PATH CONSOLIDATION section).
+// next.config.mjs handles these as static 308 redirects at the routing layer.
 
 // Webhook paths bypass auth — Stripe signature verification handles security.
 const WEBHOOK_PATHS = [
@@ -399,14 +365,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 301 });
   }
 
-  // Canonicalize legacy admin paths before auth logic.
-  // Use case-insensitive lookup so old bookmarks like /Admin/Applicants still work.
-  const legacyAdminRedirect = LEGACY_ADMIN_PATH_REDIRECTS[pathname.toLowerCase()];
-  if (legacyAdminRedirect) {
-    const url = new URL(request.url);
-    url.pathname = legacyAdminRedirect;
-    return NextResponse.redirect(url, { status: 308 });
-  }
+  // Legacy admin path redirects are now in next.config.mjs — no runtime lookup needed.
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.

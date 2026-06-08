@@ -16,9 +16,9 @@ export default async function StaffCoursesPage() {
   await requireStaffPortalAccess();
   const supabase = await createClient();
 
-  // Fetch courses from training_programs table
+  // Fetch courses from programs table
   const { data: courses } = await supabase
-    .from('training_programs')
+    .from('programs')
     .select('id, name, slug, category, tuition_cost, duration_weeks, is_active')
     .order('name');
 
