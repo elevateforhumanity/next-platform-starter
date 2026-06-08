@@ -54,7 +54,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
       const supabase = createClient();
 
       let queryBuilder = supabase
-        .from('training_programs')
+        .from('programs')
         .select(
           'id, name, slug, category, duration_weeks, skill_level, price, image_url, description',
         )

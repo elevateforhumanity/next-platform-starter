@@ -284,6 +284,36 @@ const nextConfig = {
         permanent: false, // 307 so we can swap the asset later without cache lock-in
       },
       // ============================================
+      // LEGACY ADMIN PATH CONSOLIDATION (moved from proxy.ts)
+      // Case-insensitive matching handled by Next.js redirect engine.
+      // ============================================
+      { source: '/admin/applicants', destination: '/admin/applications', permanent: true },
+      { source: '/admin/leads', destination: '/admin/crm/leads', permanent: true },
+      { source: '/admin/leads/new', destination: '/admin/crm/leads/new', permanent: true },
+      { source: '/admin/course-generator', destination: '/admin/studio', permanent: true },
+      { source: '/admin/syllabus-generator', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-templates', destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/manage', destination: '/admin/courses', permanent: true },
+      { source: '/admin/course-import', destination: '/admin/studio', permanent: true },
+      { source: '/admin/quiz-builder', destination: '/admin/studio', permanent: true },
+      { source: '/admin/external-courses', destination: '/admin/courses', permanent: true },
+      { source: '/admin/enrollment', destination: '/admin/students', permanent: true },
+      { source: '/admin/users', destination: '/admin/staff', permanent: true },
+      { source: '/admin/contacts', destination: '/admin/crm/contacts', permanent: true },
+      { source: '/admin/campaigns', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/email-marketing', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/social-media', destination: '/admin/crm/campaigns', permanent: true },
+      { source: '/admin/marketing', destination: '/admin/crm', permanent: true },
+      { source: '/admin/compliance-audit', destination: '/admin/compliance', permanent: true },
+      { source: '/admin/license', destination: '/admin/licenses', permanent: true },
+      { source: '/admin/license-requests', destination: '/admin/licenses', permanent: true },
+      { source: '/admin/progress', destination: '/admin/analytics/learning', permanent: true },
+      { source: '/admin/completions', destination: '/admin/analytics/learning', permanent: true },
+      { source: '/admin/outcomes', destination: '/admin/analytics', permanent: true },
+      { source: '/admin/copilot', destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-manager', destination: '/admin/studio', permanent: true },
+      { source: '/admin/course-builder', destination: '/admin/studio', permanent: true },
+      // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
       // ============================================
@@ -355,14 +385,12 @@ const nextConfig = {
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
       // Studio consolidation — old standalone pages redirect to studio
-      { source: '/admin/copilot',           destination: '/admin/studio', permanent: false },
-      { source: '/admin/course-builder',    destination: '/admin/studio', permanent: false },
-      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-manager',     destination: '/admin/studio', permanent: false },
-      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: false },
-      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: false },
-      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: false },
+      // /admin/copilot, /admin/course-builder, /admin/video-manager moved to LEGACY ADMIN PATH CONSOLIDATION block above (permanent: true)
+      { source: '/admin/curriculum',        destination: '/admin/studio', permanent: true },
+      { source: '/admin/media-studio',      destination: '/admin/studio', permanent: true },
+      { source: '/admin/video-generator',   destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/pipeline',  destination: '/admin/studio', permanent: true },
+      { source: '/admin/courses/generate',  destination: '/admin/studio', permanent: true },
 
       // /lms/programs — real browse page (app/lms/(app)/programs/page.tsx); do not redirect
 

@@ -45,7 +45,7 @@ export function SearchDialog() {
     try {
       const supabase = createClient();
       const { data: programs } = await supabase
-        .from('training_programs')
+        .from('programs')
         .select('name, slug')
         .eq('is_active', true)
         .ilike('name', `%${searchQuery}%`)
