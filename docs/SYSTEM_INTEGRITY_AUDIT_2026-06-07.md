@@ -2,7 +2,9 @@
 
 Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, alias, wrapped-not-wired, and mismatched redirect** issues.
 
-**Scope:** `main` @ `883e8f22` (post-#330/#331). Audits run in Cloud Agent VM + production smoke against `www` / `admin`.
+**Scope:** `main` @ `610f83a5f` (post-#351 enrollment flow + nav/routing). Audits run in Cloud Agent VM + production smoke against `www` / `admin`.
+
+**Merge note:** If you see conflict markers around `/partners/portal` or production smoke, keep the **`main`** side — redirect is live in `next.config.mjs` line ~853 and returns **308 → `/partner/dashboard`** in production.
 
 ---
 
@@ -10,14 +12,15 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 
 | Area | Grade | Notes |
 |------|-------|-------|
-| **Redirect conflicts** | ✅ Green | 323 sources scanned — **0 conflicts** |
+| **Redirect conflicts** | ✅ Green | 324 sources scanned — **0 conflicts** |
+| **Enrollment state machine** | ✅ Green | Post-#351 — `lib/enrollment/enrollment-flow.ts`; DB-valid states only |
 | **Production smoke** | ✅ Green | 61/61 after `/partners/portal` redirect (PR production-readiness) |
 | **Portal role routing** | ✅ Green | `audit-portal-roles.mjs` — 0 mismatches (post-#331) |
 | **Auth gaps** | ⚠️ Yellow | 5 routes flagged `NO_AUTH` (some intentional public) |
 | **Schema vs migrations** | ⚠️ Yellow | **4 tables** referenced ≥5× with no migration |
 | **Orphan routes** | 🔴 Red | **205** orphan candidates; **180** need manual review |
 | **Legacy course path** | ⚠️ Yellow | HVAC hardcoded path + **~90** `training_*` table refs remain |
-| **Deploy parity** | ⚠️ Yellow | LMS `883e8f22` ✅; admin `eff826d2` (1 commit behind main) |
+| **Deploy parity** | ⚠️ Yellow | CI deploy #351 in progress; LMS service branch was on feature branch — reset to `main` after merge |
 | **Stub/placeholder scan** | 🔴 Noisy | 1,986 findings — mostly template literals, not runtime blockers |
 
 **Bottom line:** Core LMS + portals are operational. Debt is concentrated in **route/orphan sprawl**, **legacy HVAC + training_* writes**, **admin dashboard panel APIs**, **store trial DB migration**, and **180 low-traffic admin pages** with weak inbound links.
@@ -28,8 +31,8 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 
 | Service | Deployed SHA | vs `main` | Risk |
 |---------|--------------|-----------|------|
-| `elevate-lms` | `883e8f22…` | Current | ✅ |
-| `elevate-admin` | `eff826d2…` | ~1 merge behind | ⚠️ Re-deploy admin after each main merge |
+| `elevate-lms` | Re-deploy `main` @ `610f83a5f` | Post-#351 | ⚠️ Confirm SHA after `deploy-lms.yml` completes |
+| `elevate-admin` | `9acac05a…` deployed; `main` @ `610f83a5f` | ~4 commits ahead | ⚠️ Re-deploy after each `main` merge |
 
 **Historical issue (fixed #330):** `elevate-admin` had `disabledCD: true` — builds succeeded but pods stayed on stale images. **Always verify SHA** with `pnpm tsx scripts/northflank/inspect-services.ts`.
 
@@ -50,14 +53,14 @@ Full-platform audit for **partial, stale, dead, orphaned, duplicate, legacy, ali
 | `/partners/portal` | `/partner/dashboard` | ✅ Redirect in `next.config.mjs` | — |
 | `/platform/partner-portal` | Marketing page exists | Nav links here; `/partner-portal` redirects correctly | Clarify: marketing vs authenticated portal |
 | `/store/trial` | Trial entry | Redirects to `/launch` | Intentional alias — document in store docs |
-| `/my-dashboard` | Hub | Redirects to `/learner/dashboard` | `config/dashboard-routes.ts` still lists `delegate → /my-dashboard` (**stale map**) |
+| `/my-dashboard` | Hub | Redirects to `/learner/dashboard` | ✅ `delegate → /learner/dashboard` in `role-destinations.ts`; `dashboard-routes.ts` is deprecated wrapper |
 
 ### Duplicate redirect maps (legacy aliases)
 
 | File | Status | Canonical |
 |------|--------|-----------|
 | `lib/auth/role-destinations.ts` | ✅ Canonical post-login | Use `getRoleDestination()` |
-| `config/dashboard-routes.ts` | ⚠️ Duplicate | Missing `partner_admin`, `grant_client`; `delegate` points to `/my-dashboard` |
+| `config/dashboard-routes.ts` | ✅ Deprecated wrapper | Re-exports `ROLE_DESTINATIONS` from `role-destinations.ts` |
 | `config/canonical-routes.ts` | Registry | 240+ classified routes; run `pnpm route:audit` after changes |
 | `proxy.ts` admin redirects | Runtime | Should migrate to `next.config.mjs` per middleware audit |
 
@@ -226,14 +229,15 @@ Post-#331:
 
 ### P0 — User-facing breaks
 
-1. Add `/partners/portal` → `/partner/dashboard` redirect
-2. Keep admin deploy SHA in sync with `main` (trigger-deployment after build)
+1. ~~Add `/partners/portal` → `/partner/dashboard` redirect~~ ✅ Done (`next.config.mjs`)
+2. Keep LMS + admin deploy SHA in sync with `main` (trigger `deploy-lms.yml` / `deploy-admin.yml` after each merge)
 3. Apply pending Supabase migrations (#15 for store trials)
+4. ~~Student enrollment state mismatch~~ ✅ Done in PR #351 (`enrollment-flow.ts`)
 
 ### P1 — Login & governance
 
 4. Delete or redirect **180 `REVIEW_NEEDED`** orphan admin routes (batch by module)
-5. Consolidate `config/dashboard-routes.ts` → `role-destinations.ts` (remove duplicate)
+5. ~~Consolidate `config/dashboard-routes.ts` → `role-destinations.ts`~~ ✅ Wrapper only; remove file when last importers migrate
 6. Move 26 `proxy.ts` admin redirects → `next.config.mjs`
 
 ### P2 — Legacy debt
@@ -270,4 +274,4 @@ pnpm tsx scripts/audit-admin-dashboard-load.mjs
 
 ---
 
-*Generated by Cloud Agent system integrity pass — 2026-06-07.*
+*Last updated: 2026-06-08 (post-#351 merge). Original pass: 2026-06-07.*
