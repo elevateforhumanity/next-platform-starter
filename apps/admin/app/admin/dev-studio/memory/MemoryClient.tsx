@@ -110,6 +110,7 @@ export default function MemoryClient() {
             <p className="mt-3 text-sm font-medium text-slate-500">No memories stored yet</p>
             <p className="text-xs text-slate-400 mt-1">Integration pending: ai_memory table migration not yet applied</p>
           </div>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No memories stored yet — add key-value pairs above or let agents store context</p>
         )}
       </div>
     </div>

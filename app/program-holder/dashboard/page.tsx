@@ -37,6 +37,12 @@ function StatusPill({ status }: { status: string }) {
 
 export default async function ProgramHolderDashboardPage() {
   const { db, user, holderId, programIds } = await requireProgramHolder();
+  const { data: holderRow } = await db
+    .from('program_holders')
+    .select('mou_signed')
+    .eq('id', holderId)
+    .maybeSingle();
+  const holderMouSigned = !!holderRow?.mou_signed;
   // ── onboarding checks ──────────────────────────────────────────────────────
   const [acksRes, docsRes, mouSigRes, payrollRes, w9Res, profileRes] = await Promise.all([
     db.from('program_holder_acknowledgements').select('document_type').eq('user_id', user.id),
@@ -48,7 +54,7 @@ export default async function ProgramHolderDashboardPage() {
   ]);
   const acks = acksRes.data ?? [];
   const pendingSteps = [
-    !mouSigRes.data && { label: 'Sign MOU digitally', href: '/program-holder/mou' },
+    !mouSigRes.data && !holderMouSigned && { label: 'Sign MOU digitally', href: '/program-holder/mou' },
     !profileRes.data?.address && { label: 'Complete profile', href: '/program-holder/profile' },
     !w9Res.data && { label: 'Submit W-9', href: '/onboarding/payroll-setup' },
     !payrollRes.data?.bank_name && { label: 'Set up direct deposit', href: '/onboarding/payroll-setup' },
@@ -244,8 +250,8 @@ export default async function ProgramHolderDashboardPage() {
           {[
             { label: 'My Students', value: students.length, img: '/images/pages/admin-students-hero.jpg', href: '/program-holder/students' },
             { label: 'Programs', value: programs.length, img: '/images/pages/about-career-training.webp', href: '/program-holder/programs' },
+            { label: 'Analytics', value: '→', img: '/images/pages/wioa-meeting.webp', href: '/program-holder/analytics' },
             { label: 'Completions', value: totalCompleted, img: '/images/pages/graduation-ceremony.webp', href: '/program-holder/reports' },
-            { label: 'Certificates', value: totalCerts, img: '/images/pages/certificates-page-1.webp', href: '/program-holder/reports' },
           ].map((s) => (
             <Link key={s.label} href={s.href} className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
               <div className="relative h-24 w-full">

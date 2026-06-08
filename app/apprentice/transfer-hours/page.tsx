@@ -93,7 +93,7 @@ export default async function TransferHoursPage() {
             experience and complete the transfer request form.
           </p>
           <Link
-            href="/apprentice/transfer-hours"
+            href="/apprentice/transfer-hours/request"
             className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-blue-700 transition"
           >
             Start Transfer Request

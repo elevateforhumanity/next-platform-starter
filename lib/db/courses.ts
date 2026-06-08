@@ -99,7 +99,7 @@ export async function deleteCourse(id: string) {
 
 // ============ LESSONS ============
 // All lesson CRUD targets course_lessons (canonical).
-// training_lessons is a read-only HVAC archive — do not write to it.
+// training_lessons is the active HVAC lesson store — writable via admin CurriculumLessonManager.
 export async function createLesson(input: LessonCreate) {
   const supabase = await getSupabase();
   const { data, error } = await supabase

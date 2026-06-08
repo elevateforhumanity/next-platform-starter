@@ -17,6 +17,7 @@ export default async function ModulesPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
+  // Fetch program modules (LMS)
   const { data: modules, count: totalModules } = await supabase
     .from('modules')
     .select(
@@ -28,6 +29,12 @@ export default async function ModulesPage() {
       { count: 'exact' },
     )
     .order('created_at', { ascending: false });
+
+  // Fetch staff training modules
+  const { data: trainingModules, count: totalTrainingModules } = await supabase
+    .from('training_modules')
+    .select('*', { count: 'exact' })
+    .order('order_index', { ascending: true });
 
   const { count: scormModules } = await supabase
     .from('modules')
@@ -74,10 +81,14 @@ export default async function ModulesPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">Total Modules</h3>
+              <h3 className="text-sm font-medium text-black mb-1">Program Modules</h3>
               <p className="text-base md:text-lg font-bold text-black">{totalModules || 0}</p>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border p-4">
+              <h3 className="text-sm font-medium text-black mb-1">Staff Training</h3>
+              <p className="text-base md:text-lg font-bold text-amber-600">{totalTrainingModules || 0}</p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
               <h3 className="text-sm font-medium text-black mb-1">SCORM Packages</h3>
@@ -100,7 +111,52 @@ export default async function ModulesPage() {
           </div>
         </div>
 
-        {/* Modules Table */}
+        {/* Staff Training Modules */}
+        {(trainingModules?.length ?? 0) > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-black mb-4">Staff Training Modules</h2>
+            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Order</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Title</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Description</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Duration</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Required</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {trainingModules?.map((mod: Record<string, any>) => (
+                    <tr key={mod.id} className="hover:bg-slate-50">
+                      <td className="px-4 py-3 text-sm text-black font-mono">{mod.order_index}</td>
+                      <td className="px-4 py-3 text-sm font-medium text-black">{mod.title}</td>
+                      <td className="px-4 py-3 text-sm text-slate-600 max-w-xs truncate">{mod.description}</td>
+                      <td className="px-4 py-3 text-sm text-black">{mod.duration_minutes ? `${mod.duration_minutes}m` : '—'}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${mod.is_required ? 'bg-red-50 text-red-700' : 'bg-slate-100 text-slate-600'}`}>
+                          {mod.is_required ? 'Required' : 'Optional'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <Link
+                          href={`/admin/staff-portal/training`}
+                          className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                        >
+                          View in Staff Portal →
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Program Modules Table */}
+        <h2 className="text-xl font-bold text-black mb-4">Program Modules (LMS)</h2>
         <ModulesTable modules={modules || []} programs={programs || []} />
       </div>
     </div>

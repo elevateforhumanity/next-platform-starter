@@ -171,6 +171,9 @@ export default function SettingsClient() {
           </div>
         </div>
       </div>
+      {!health && !loading && !error && (
+        <p className="text-sm text-center py-8" style={{ color: '#858585' }}>Health check unavailable — verify /api/devstudio/health endpoint is deployed</p>
+      )}
     </div>
   );
 }

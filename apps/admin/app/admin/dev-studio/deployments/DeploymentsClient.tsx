@@ -118,6 +118,7 @@ export default function DeploymentsClient() {
             <p className="mt-3 text-sm font-medium text-slate-500">No deployments yet</p>
             <p className="text-xs text-slate-400 mt-1">Integration pending: ai_deployments table migration not yet applied</p>
           </div>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No deployments yet — trigger a deploy from the Builds page</p>
         )}
       </div>
     </div>

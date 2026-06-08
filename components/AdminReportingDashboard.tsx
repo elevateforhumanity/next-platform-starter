@@ -115,7 +115,7 @@ export function AdminReportingDashboard() {
           .eq('status', 'completed'),
         supabase.from('payments').select('amount').gte('created_at', startDate.toISOString()),
         supabase
-          .from('training_programs')
+          .from('programs')
           .select(
             `
           id, name,

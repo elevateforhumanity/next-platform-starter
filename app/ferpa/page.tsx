@@ -373,6 +373,13 @@ export default async function FERPAPortal() {
               Generate Report
             </Link>
             <Link
+              href="/ferpa/compliance"
+              className="px-4 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition text-center font-medium"
+              aria-label="FERPA Compliance Dashboard"
+            >
+              Compliance
+            </Link>
+            <Link
               href="/ferpa/help"
               className="px-4 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition text-center font-medium"
               aria-label="FERPA Help and Resources"

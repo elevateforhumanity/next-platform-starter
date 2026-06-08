@@ -131,6 +131,9 @@ export default function AgentsClient() {
             <p className="mt-3 text-sm font-medium text-slate-500">No agents found</p>
             <p className="text-xs text-slate-400 mt-1">Integration pending: ai_agents table migration not yet applied</p>
           </div>
+          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>
+            No agents configured — seed agents via Dev Studio settings
+          </p>
         )}
       </div>
     </div>
