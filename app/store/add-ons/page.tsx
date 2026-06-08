@@ -59,6 +59,42 @@ const moreAddOns = [
     video: '/videos/store/store-compliance-automation.mp4',
     poster: '/images/pages/admin-compliance-hero.webp',
   },
+  {
+    id: 'agency-template-autofill',
+    title: 'Agency Template Autofill',
+    description: 'Auto-populate grant applications and agency forms from your existing enrollment and compliance data.',
+    href: '/store/add-ons/agency-template-autofill',
+    price: '$997',
+    video: '/videos/store/store-compliance-automation.mp4',
+    poster: '/images/pages/admin-compliance-hero.webp',
+  },
+  {
+    id: 'compliance-signature-automation',
+    title: 'Compliance Signature Automation',
+    description: 'Automate document signing workflows for MOUs, enrollment agreements, and compliance forms.',
+    href: '/store/add-ons/compliance-signature-automation',
+    price: '$997',
+    video: '/videos/store/store-compliance-automation.mp4',
+    poster: '/images/pages/admin-compliance-hero.webp',
+  },
+  {
+    id: 'proposal-writing-assistant',
+    title: 'Proposal Writing Assistant',
+    description: 'AI-powered grant proposal drafting using your program data, outcomes, and compliance records.',
+    href: '/store/add-ons/proposal-writing-assistant',
+    price: '$1,497',
+    video: '/videos/store/store-analytics-pro.mp4',
+    poster: '/images/pages/wioa-meeting.webp',
+  },
+  {
+    id: 'workforce-grant-operations-hub',
+    title: 'Workforce Grant Operations Hub',
+    description: 'Centralized grant lifecycle management — tracking, reporting, and renewal workflows for all your funding sources.',
+    href: '/store/add-ons/workforce-grant-operations-hub',
+    price: '$1,997',
+    video: '/videos/store/store-analytics-pro.mp4',
+    poster: '/images/pages/wioa-meeting.webp',
+  },
 ];
 
 export default function AddOnsPage() {

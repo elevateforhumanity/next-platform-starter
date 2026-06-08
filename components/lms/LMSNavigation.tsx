@@ -103,6 +103,10 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
     },
     { href: '/lms/certificates', label: 'Certificates', desc: 'Your credentials', icon: Award },
     { href: '/lms/library', label: 'Library', desc: 'Resources & reading', icon: BookMarked },
+    { href: '/lms/collaborate', label: 'Collaborate', desc: 'Docs & teamwork', icon: BookMarked },
+    { href: '/lms/chat', label: 'Chat', desc: 'Peer & mentor chat', icon: MessageSquare },
+    { href: '/lms/adaptive', label: 'Adaptive', desc: 'Personalized learning', icon: TrendingUp },
+    { href: '/lms/integrations', label: 'Integrations', desc: 'Connected tools', icon: Settings },
     { href: '/lms/payments', label: 'Payments', desc: 'Billing & invoices', icon: Award },
     { href: '/lms/settings', label: 'Settings', desc: 'Account settings', icon: Settings },
   ];

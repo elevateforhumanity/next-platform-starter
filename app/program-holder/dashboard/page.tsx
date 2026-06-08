@@ -244,8 +244,8 @@ export default async function ProgramHolderDashboardPage() {
           {[
             { label: 'My Students', value: students.length, img: '/images/pages/admin-students-hero.jpg', href: '/program-holder/students' },
             { label: 'Programs', value: programs.length, img: '/images/pages/about-career-training.webp', href: '/program-holder/programs' },
+            { label: 'Analytics', value: '→', img: '/images/pages/wioa-meeting.webp', href: '/program-holder/analytics' },
             { label: 'Completions', value: totalCompleted, img: '/images/pages/graduation-ceremony.webp', href: '/program-holder/reports' },
-            { label: 'Certificates', value: totalCerts, img: '/images/pages/certificates-page-1.webp', href: '/program-holder/reports' },
           ].map((s) => (
             <Link key={s.label} href={s.href} className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
               <div className="relative h-24 w-full">

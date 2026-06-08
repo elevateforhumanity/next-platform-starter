@@ -239,12 +239,20 @@ export default async function EligibilityPage() {
             Our enrollment team will confirm your eligibility and connect you with the right funding
             program.
           </p>
-          <Link
-            href="/apply"
-            className="rounded-lg bg-white px-8 py-3 font-bold text-brand-red-700 hover:bg-red-50 transition"
-          >
-            Start Your Application
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/eligibility/quiz"
+              className="rounded-lg bg-white/10 border-2 border-white px-8 py-3 font-bold text-white hover:bg-white/20 transition"
+            >
+              Take Eligibility Quiz
+            </Link>
+            <Link
+              href="/apply"
+              className="rounded-lg bg-white px-8 py-3 font-bold text-brand-red-700 hover:bg-red-50 transition"
+            >
+              Start Your Application
+            </Link>
+          </div>
         </div>
       </section>
     </div>
