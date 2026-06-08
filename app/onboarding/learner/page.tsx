@@ -16,6 +16,7 @@ import {
   HelpCircle,
   ClipboardCheck,
   Clock,
+  ShieldCheck,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
@@ -50,6 +51,17 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     icon: User,
     image: '/images/pages/career-services-page-2.jpg',
     imageAlt: `Student completing profile at ${PLATFORM_DEFAULTS.orgName}`,
+    required: true,
+  },
+  {
+    id: 'verify-identity',
+    title: 'Verify Your Identity',
+    description:
+      'Confirm your identity with a government-issued ID and selfie verification.',
+    href: '/onboarding/learner/verify-identity',
+    icon: ShieldCheck,
+    image: '/images/pages/career-services-page-2.jpg',
+    imageAlt: 'Identity verification process',
     required: true,
   },
   {

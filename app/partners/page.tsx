@@ -316,6 +316,12 @@ export default function PartnersIndexPage() {
             >
               General Partner Application <ArrowRight className="w-4 h-4" />
             </Link>
+            <Link
+              href="/for-partners"
+              className="inline-flex items-center justify-center gap-2 border-2 border-slate-300 text-slate-700 px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors"
+            >
+              All Partnership Types <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
