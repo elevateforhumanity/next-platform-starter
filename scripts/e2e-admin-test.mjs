@@ -4,8 +4,9 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || '';
-const EMAIL = 'testadmin@elevateforhumanity.org';
-const PASSWORD = 'TestAdmin2026!';
+const EMAIL = process.env.E2E_ADMIN_EMAIL || 'testadmin@elevateforhumanity.org';
+const PASSWORD = process.env.E2E_ADMIN_PASSWORD;
+if (!PASSWORD) { console.error('E2E_ADMIN_PASSWORD env var is required'); process.exit(1); }
 
 const results = [];
 const pass = (n, d = '') => {

@@ -19,8 +19,13 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
-const TEST_EMAIL = 'e2e-admin@elevate-test.internal';
-const TEST_PASSWORD = 'E2eTestAdmin2026!';
+const TEST_EMAIL = process.env.TEST_ADMIN_EMAIL || 'e2e-admin@elevate-test.internal';
+const TEST_PASSWORD = process.env.TEST_ADMIN_PASSWORD;
+
+if (!TEST_PASSWORD) {
+  console.error('TEST_ADMIN_PASSWORD env var is required');
+  process.exit(1);
+}
 
 async function main() {
   // Check if user already exists

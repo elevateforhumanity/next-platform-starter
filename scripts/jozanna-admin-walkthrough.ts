@@ -28,7 +28,7 @@ const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 const EMAIL = process.env.WALKTHROUGH_EMAIL || 'jozanna.test.elevate@gmail.com';
-const PASSWORD = process.env.WALKTHROUGH_PASSWORD || 'ElevateTest2026!';
+const PASSWORD = process.env.WALKTHROUGH_PASSWORD ?? (() => { throw new Error('WALKTHROUGH_PASSWORD env var is required'); })();
 const PROJECT_REF = SUPABASE_URL.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] ?? '';
 
 const anonDb = createClient(SUPABASE_URL, ANON_KEY, {

@@ -129,9 +129,15 @@ async function qbRequest(method: string, path: string, body?: unknown) {
   return data;
 }
 
+function sanitizeQBString(value: string): string {
+  // QuickBooks query language escapes: strip control chars, escape single quotes
+  return value.replace(/[\x00-\x1f\x7f]/g, '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+}
+
 async function findOrCreateVendor(name: string, email: string) {
-  // Search by email
-  const query = `SELECT * FROM Vendor WHERE PrimaryEmailAddr = '${email.replace(/'/g, "\\'")}' MAXRESULTS 1`;
+  // Search by email — sanitize to prevent query injection
+  const safeEmail = sanitizeQBString(email);
+  const query = `SELECT * FROM Vendor WHERE PrimaryEmailAddr = '${safeEmail}' MAXRESULTS 1`;
   const search = await qbRequest('GET', `query?query=${encodeURIComponent(query)}`);
   const existing = search?.QueryResponse?.Vendor?.[0];
   if (existing) return existing;

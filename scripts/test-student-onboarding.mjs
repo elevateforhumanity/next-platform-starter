@@ -31,9 +31,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Test configuration
+if (!process.env.TEST_STUDENT_PASSWORD) { console.error('TEST_STUDENT_PASSWORD env var is required'); process.exit(1); }
 const testStudent = {
   email: `test-student-${Date.now()}@elevateforhumanity.org`,
-  password: 'TestPassword123!',
+  password: process.env.TEST_STUDENT_PASSWORD,
   firstName: 'Test',
   lastName: 'Student',
   phone: '555-123-4567',

@@ -1,5 +1,13 @@
 import { getAdminClient } from '@/lib/supabase/admin';
 
+const TEST_EMAIL = process.env.HVAC_TEST_EMAIL || 'hvac.test@elevateforhumanity.org';
+const TEST_PASSWORD = process.env.HVAC_TEST_PASSWORD;
+
+if (!TEST_PASSWORD) {
+  console.error('HVAC_TEST_PASSWORD env var is required');
+  process.exit(1);
+}
+
 async function main() {
   const supabase = await getAdminClient();
 
@@ -7,7 +15,7 @@ async function main() {
   const { data: existing } = await supabase
     .from('profiles')
     .select('id')
-    .eq('email', 'hvac.test@elevateforhumanity.org')
+    .eq('email', TEST_EMAIL)
     .maybeSingle();
 
   if (existing?.id) {
@@ -17,8 +25,8 @@ async function main() {
 
   // Create fresh test user
   const { data, error } = await supabase.auth.admin.createUser({
-    email: 'hvac.test@elevateforhumanity.org',
-    password: 'TestUser2026!',
+    email: TEST_EMAIL,
+    password: TEST_PASSWORD,
     email_confirm: true,
     user_metadata: {
       first_name: 'Test',
@@ -34,8 +42,8 @@ async function main() {
 
   console.log('\n✅ Test user created');
   console.log('   ID:       ', data.user.id);
-  console.log('   Email:    hvac.test@elevateforhumanity.org');
-  console.log('   Password: TestUser2026!');
+  console.log(`   Email:    ${TEST_EMAIL}`);
+  console.log('   Password: (provided via env var)');
   console.log('   Login at: /login\n');
 }
 

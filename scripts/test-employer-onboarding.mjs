@@ -5,8 +5,9 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || '';
-const EMAIL = 'emp-fresh-1775828277@elevate-demo.test';
-const PASSWORD = 'ElevateDemo2026!';
+const EMAIL = process.env.EMPLOYER_TEST_EMAIL || 'emp-fresh-1775828277@elevate-demo.test';
+const PASSWORD = process.env.EMPLOYER_TEST_PASSWORD;
+if (!PASSWORD) { console.error('EMPLOYER_TEST_PASSWORD env var is required'); process.exit(1); }
 
 const PASS = '✅';
 const FAIL = '❌';
