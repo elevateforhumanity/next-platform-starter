@@ -14,8 +14,10 @@ import {
   FolderOpen,
   Globe,
   Key,
+  LayoutDashboard,
   Loader2,
   MessageSquare,
+  PanelBottomOpen,
   RefreshCw,
   Rocket,
   Save,
@@ -49,7 +51,7 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets';
+type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets';
 type StudioMode = 'ask' | 'run' | 'courses';
 
 const UnifiedEllieChat = dynamic(() => import('@/components/dev-studio/UnifiedEllieChat'), {
@@ -63,6 +65,10 @@ const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'),
 const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), { ssr: false });
 const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), { ssr: false });
 const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
+const CommandCenterPanel = dynamic(() => import('@/components/dev-studio/CommandCenterPanel'), {
+  ssr: false,
+});
+const BottomPane = dynamic(() => import('./panels/BottomPane'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
@@ -70,6 +76,7 @@ const AICourseBuilderChat = dynamic<CourseBuilderProps>(
 
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
   { id: 'studio', label: 'Studio', Icon: Bot },
+  { id: 'command', label: 'Command', Icon: LayoutDashboard },
   { id: 'deploy', label: 'Deploy', Icon: Rocket },
   { id: 'files', label: 'Files', Icon: FolderOpen },
   { id: 'environments', label: 'Container', Icon: Box },
@@ -92,6 +99,7 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'container' || tab === 'environments' || tab === 'services') return { workspace: 'environments', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
+  if (tab === 'command-center' || tab === 'os') return { workspace: 'command', mode: 'ask' };
   if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
   return { workspace: 'studio', mode: 'ask' };
@@ -108,6 +116,11 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   const [livePreviewUrl, setLivePreviewUrl] = useState('');
   const [programs, setPrograms] = useState<CourseProgram[]>([]);
   const [programsLoading, setProgramsLoading] = useState(false);
+  const [bottomOpen, setBottomOpen] = useState(false);
+  const [bottomTab, setBottomTab] = useState<'output' | 'chat' | 'ellie' | 'command'>('command');
+  const [commandOutput, setCommandOutput] = useState('');
+  const [openFilePath, setOpenFilePath] = useState<string | null>(null);
+  const [openFileContent, setOpenFileContent] = useState('');
 
   useEffect(() => {
     fetch('/api/admin/devstudio/config')
@@ -165,6 +178,59 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
     }
     setWorkspace(next);
   }
+
+  const runTerminalCommand = useCallback(async (command: string) => {
+    const trimmed = command.trim();
+    if (!trimmed) return;
+    setCommandOutput((prev) => `${prev}$ ${trimmed}\n`);
+    setBottomOpen(true);
+    setBottomTab('command');
+
+    try {
+      const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
+      const res = await fetch(
+        isSmoke ? '/api/devstudio/smoke-test' : '/api/devstudio/execute',
+        isSmoke ? undefined : {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: trimmed }),
+        },
+      );
+
+      if (!res.ok || !res.body) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error || `HTTP ${res.status}`);
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const chunks = buffer.split('\n');
+        buffer = chunks.pop() ?? '';
+        for (const chunk of chunks) {
+          if (!chunk.startsWith('data: ')) continue;
+          const raw = chunk.slice(6).trim();
+          if (!raw || raw === '[DONE]') continue;
+          let text = raw;
+          try {
+            const parsed = JSON.parse(raw);
+            text = parsed.line ?? parsed.text ?? parsed.output ?? raw;
+          } catch {
+            text = raw;
+          }
+          setCommandOutput((prev) => `${prev}${text}\n`);
+        }
+      }
+    } catch (error) {
+      setCommandOutput((prev) =>
+        `${prev}${error instanceof Error ? error.message : 'Command failed'}\n`,
+      );
+    }
+  }, []);
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden bg-[#1e1e1e] text-[#cccccc]">
@@ -224,10 +290,46 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
                 onModeChange={setStudioMode}
                 programs={programs}
                 programsLoading={programsLoading}
+                onRunCommand={runTerminalCommand}
               />
             )}
+            {workspace === 'command' && <CommandCenterPanel />}
             {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
-            {workspace === 'files' && <DevStudioEditorWorkspace />}
+            {workspace === 'files' && (
+              <div className="flex h-full flex-col overflow-hidden">
+                <div className="min-h-0 flex-1 overflow-hidden">
+                  <DevStudioEditorWorkspace
+                    onFileContextChange={(path, content) => {
+                      setOpenFilePath(path);
+                      setOpenFileContent(content);
+                    }}
+                  />
+                </div>
+                {bottomOpen ?
+                  <div className="h-[38vh] min-h-[200px] shrink-0 border-t border-[#3c3c3c]">
+                    <BottomPane
+                      activeTab={bottomTab}
+                      onTabChange={setBottomTab}
+                      onClose={() => setBottomOpen(false)}
+                      onSendToTerminal={runTerminalCommand}
+                      openFile={openFilePath}
+                      fileContent={openFileContent}
+                      commandOutput={commandOutput}
+                    />
+                  </div>
+                : <div className="flex shrink-0 justify-end border-t border-[#3c3c3c] bg-[#252526] px-2 py-1">
+                    <button
+                      type="button"
+                      onClick={() => setBottomOpen(true)}
+                      className="inline-flex items-center gap-1 rounded px-2 py-1 text-[10px] text-[#858585] hover:text-white"
+                    >
+                      <PanelBottomOpen className="h-3.5 w-3.5" />
+                      Panel
+                    </button>
+                  </div>
+                }
+              </div>
+            )}
             {workspace === 'environments' && <EnvironmentPanel />}
             {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
             {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
@@ -314,11 +416,13 @@ function StudioPanel({
   onModeChange,
   programs,
   programsLoading,
+  onRunCommand,
 }: {
   mode: StudioMode;
   onModeChange: (mode: StudioMode) => void;
   programs: CourseProgram[];
   programsLoading: boolean;
+  onRunCommand?: (command: string) => void;
 }) {
   const modes: { id: StudioMode; label: string; Icon: ElementType<{ className?: string }> }[] = [
     { id: 'ask', label: 'Ask', Icon: MessageSquare },
@@ -344,7 +448,7 @@ function StudioPanel({
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
         {mode === 'ask' && <UnifiedEllieChat embedded />}
-        {mode === 'run' && <RunPanel />}
+        {mode === 'run' && <RunPanel onRunCommand={onRunCommand} />}
         {mode === 'courses' && (
           programsLoading ? (
             <div className="flex h-full items-center justify-center gap-2 text-slate-500">
@@ -360,7 +464,7 @@ function StudioPanel({
   );
 }
 
-function RunPanel() {
+function RunPanel({ onRunCommand }: { onRunCommand?: (command: string) => void }) {
   const [input, setInput] = useState('');
   const [lines, setLines] = useState<{ type: 'user' | 'output' | 'error'; text: string }[]>([]);
   const [loading, setLoading] = useState(false);
@@ -376,6 +480,21 @@ function RunPanel() {
     setInput('');
     setLoading(true);
     setLines([{ type: 'user', text: trimmed }]);
+
+    if (onRunCommand) {
+      try {
+        await onRunCommand(trimmed);
+        setLines((current) => [...current, { type: 'output', text: 'Command sent — see bottom panel for stream.' }]);
+      } catch (error) {
+        setLines((current) => [
+          ...current,
+          { type: 'error', text: error instanceof Error ? error.message : 'Command failed' },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
 
     try {
       const isSmoke = /smoke.?test|health.?check|check.*platform|verify.*platform/i.test(trimmed);
