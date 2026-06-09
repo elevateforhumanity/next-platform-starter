@@ -1,22 +1,30 @@
 -- Studio Audit Fixes: seed workflow templates, ensure cron_jobs, verify tables
 -- Idempotent — safe to re-run.
 
--- 1. Seed core workflow templates if table exists (skip duplicates by name)
-DO $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='workflow_templates') THEN
-    INSERT INTO workflow_templates (id, name, description, trigger_type, is_active, created_at)
-    SELECT gen_random_uuid(), v.name, v.description, v.trigger_type, true, now()
-    FROM (VALUES
-      ('Course Published',    'Fires when a course transitions from draft to published', 'event'),
-      ('Student Enrolled',    'Fires when a student enrolls in a course',               'event'),
-      ('Student Completed',   'Fires when a student completes all course requirements', 'event'),
-      ('Certificate Issued',  'Fires after a certificate is generated and stored',      'event'),
-      ('Employer Notified',   'Fires to notify employer of student completion',         'event')
-    ) AS v(name, description, trigger_type)
-    WHERE NOT EXISTS (SELECT 1 FROM workflow_templates wt WHERE wt.name = v.name);
-  END IF;
-END $$;
+-- 1. Create workflow_templates table if it doesn't exist
+CREATE TABLE IF NOT EXISTS workflow_templates (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name          text NOT NULL,
+  description   text,
+  trigger_type  text NOT NULL DEFAULT 'event',
+  is_active     boolean NOT NULL DEFAULT true,
+  config        jsonb DEFAULT '{}',
+  created_by    uuid,
+  created_at    timestamptz DEFAULT now(),
+  updated_at    timestamptz DEFAULT now()
+);
+
+-- Seed core workflow templates (skip duplicates by name)
+INSERT INTO workflow_templates (id, name, description, trigger_type, is_active, created_at)
+SELECT gen_random_uuid(), v.name, v.description, v.trigger_type, true, now()
+FROM (VALUES
+  ('Course Published',    'Fires when a course transitions from draft to published', 'event'),
+  ('Student Enrolled',    'Fires when a student enrolls in a course',               'event'),
+  ('Student Completed',   'Fires when a student completes all course requirements', 'event'),
+  ('Certificate Issued',  'Fires after a certificate is generated and stored',      'event'),
+  ('Employer Notified',   'Fires to notify employer of student completion',         'event')
+) AS v(name, description, trigger_type)
+WHERE NOT EXISTS (SELECT 1 FROM workflow_templates wt WHERE wt.name = v.name);
 
 -- 2. Ensure question_banks table exists for assessment system
 CREATE TABLE IF NOT EXISTS question_banks (
@@ -45,11 +53,28 @@ CREATE TABLE IF NOT EXISTS course_embeddings (
   updated_at  timestamptz DEFAULT now()
 );
 
--- Index for vector similarity search (HNSW — works on empty tables, no REINDEX needed)
+-- Replace IVFFlat with HNSW if the old index exists (IVFFlat needs data to be effective)
+DROP INDEX IF EXISTS idx_course_embeddings_embedding;
 CREATE INDEX IF NOT EXISTS idx_course_embeddings_embedding
   ON course_embeddings USING hnsw (embedding vector_cosine_ops);
 
--- 4. RLS on question_banks
+-- 4. RLS on workflow_templates
+ALTER TABLE workflow_templates ENABLE ROW LEVEL SECURITY;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename='workflow_templates' AND policyname='workflow_templates_admin_all'
+  ) THEN
+    CREATE POLICY workflow_templates_admin_all ON workflow_templates
+      FOR ALL TO authenticated
+      USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin','super_admin'))
+      );
+  END IF;
+END $$;
+
+-- 5. RLS on question_banks
 ALTER TABLE question_banks ENABLE ROW LEVEL SECURITY;
 
 DO $$
