@@ -130,6 +130,8 @@ COPY --from=builder /app/public/images ./apps/admin/public/images
 COPY --from=builder /app/public/hero-images ./apps/admin/public/hero-images
 COPY --from=builder /app/public/downloads ./apps/admin/public/downloads
 COPY --from=builder /app/remotion-src ./remotion-src
+# DevContainer config for Dev Studio local-fallback when GitHub API is unavailable
+COPY --from=builder /app/.devcontainer/devcontainer.json ./.devcontainer/devcontainer.json
 COPY --from=builder /app/apps/admin/server.js ./apps/admin/server.js
 COPY --from=builder /app/lib/server/register-connection-guards.cjs ./lib/server/register-connection-guards.cjs
 RUN mkdir -p apps/admin/node_modules
