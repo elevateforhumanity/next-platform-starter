@@ -56,6 +56,16 @@ describe('dev container credential wiring (no fake secrets in UI)', () => {
     expect(src).not.toContain("'https://admin.${PLATFORM_DEFAULTS.canonicalDomain}'");
   });
 
+  it('devcontainer API hydrates platform_secrets before GitHub calls', () => {
+    const route = readFileSync(
+      join(REPO_ROOT, 'apps/admin/app/api/devstudio/devcontainer/route.ts'),
+      'utf8',
+    );
+    expect(route).toContain('ensureDevStudioSecrets');
+    expect(route).toContain('getGitHubToken');
+    expect(route).not.toMatch(/function hasGitHubToken\(\): boolean/);
+  });
+
   it('devcontainer setup creates local env without production secret pull', () => {
     const setup = readFileSync(join(REPO_ROOT, '.devcontainer/setup-env.sh'), 'utf8');
     expect(setup).toContain('cp .env.example "$ENV_FILE"');
