@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, Filter, Search, ShoppingCart } from 'lucide-react';
 import { trackSearch, trackProductView, trackAddToCart } from '@/components/analytics/PageTracker';
+import { addToCart } from '@/lib/store/cart';
+import { useStoreCart } from '@/hooks/useStoreCart';
 
 interface Product {
   id: string;
@@ -25,6 +27,7 @@ interface ShopClientProps {
 export function ShopClient({ products, categories }: ShopClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const { cart } = useStoreCart();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +44,21 @@ export function ShopClient({ products, categories }: ShopClientProps) {
     e.preventDefault();
     e.stopPropagation();
     trackAddToCart(product.id, product.name, product.category, product.price);
-    // Add to cart logic here
+    addToCart(
+      {
+        id: product.id,
+        name: product.name,
+        slug: product.slug || product.id,
+        category: 'physical-product',
+        price: product.price,
+        description: product.name,
+        image: product.image_url || '/images/pages/store-hero.webp',
+        inStock: true,
+        featured: false,
+        digital: false,
+      },
+      1,
+    );
   };
 
   const filteredProducts =
@@ -77,15 +94,17 @@ export function ShopClient({ products, categories }: ShopClientProps) {
             />
           </form>
           <Link
-            href="/shop/cart"
+            href="/store/cart"
             className="relative p-2 text-slate-600 hover:text-brand-blue-600"
-            aria-label="Shopping cart"
+            aria-label={cart.itemCount > 0 ? `Shopping cart, ${cart.itemCount} items` : 'Shopping cart'}
             data-tour="shop-cart"
           >
             <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand-blue-600 text-white text-xs rounded-full flex items-center justify-center">
-              0
-            </span>
+            {cart.itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[1.25rem] h-5 px-1 bg-brand-blue-600 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                {cart.itemCount > 99 ? '99+' : cart.itemCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>
