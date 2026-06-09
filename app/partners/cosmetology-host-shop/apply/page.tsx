@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { Loader2, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
 import HostShopComplianceUploads from '@/components/partners/HostShopComplianceUploads';
+import HostShopMouPreview from '@/components/partners/HostShopMouPreview';
 import { encodeDataUrlFile } from '@/lib/files/encode-data-url-file';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -504,6 +505,8 @@ export default function CosmetologySalonApplyPage() {
             </div>
           </div>
 
+          <HostShopMouPreview program="cosmetology" />
+
           {/* Acknowledgments */}
           <div className={sectionCls}>
             <h2 className="text-lg font-bold text-slate-900">Acknowledgments</h2>
@@ -516,14 +519,12 @@ export default function CosmetologySalonApplyPage() {
               />
               <span className="text-sm text-slate-700">
                 I have read and agree to the{' '}
-                <Link
-                  href="/login?redirect=/partners/cosmetology-host-shop/sign-mou"
-                  className="text-purple-600 hover:underline font-medium"
-                >
+                <a href="#host-shop-mou" className="text-purple-600 hover:underline font-medium">
                   Memorandum of Understanding
-                </Link>{' '}
-                for the Cosmetology Apprenticeship Program and understand my responsibilities as a
-                host salon.
+                </a>{' '}
+                above for the Cosmetology Apprenticeship Program and understand my responsibilities
+                as a host salon. I understand I will digitally sign the MOU after logging in once
+                my application is processed.
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
