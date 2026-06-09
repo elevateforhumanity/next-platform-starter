@@ -50,6 +50,20 @@ import ProgramCredentialsSection from '@/components/programs/ProgramCredentialsS
 import ProgramEmploymentPathway from '@/components/programs/ProgramEmploymentPathway';
 import PaymentPlanCalculator from '@/components/programs/PaymentPlanCalculator';
 import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
+import { PAYMENT_TERM_WEEKS as BARBER_PAYMENT_WEEKS } from '@/lib/barber/pricing';
+
+/** Self-pay installment weeks — may differ from program duration (e.g. barber: 29 vs 52). */
+const PAYMENT_WEEKS_BY_SLUG: Record<string, number> = {
+  'barber-apprenticeship': BARBER_PAYMENT_WEEKS,
+};
+
+/** Programs with a dedicated multi-step apply flow — skip generic inline form. */
+const DEDICATED_APPLY_SLUGS = new Set([
+  'barber-apprenticeship',
+  'cosmetology-apprenticeship',
+  'esthetician-apprenticeship',
+  'nail-technician-apprenticeship',
+]);
 
 interface Props {
   program: ProgramSchema;
@@ -59,6 +73,8 @@ interface Props {
   heroOverride?: React.ReactNode;
   /** Optional alert strip below the hero (e.g. enrollment open banner). */
   announcement?: React.ReactNode;
+  /** Program-specific process section (e.g. apprenticeship steps) — renders after overview. */
+  processSlot?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -67,6 +83,7 @@ export default function ProgramDetailPage({
   banner: bannerProp,
   heroOverride,
   announcement,
+  processSlot,
   children,
 }: Props) {
   // Dev-time validation
@@ -90,10 +107,12 @@ export default function ProgramDetailPage({
     : ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician', 'nail-technician-apprenticeship'].includes(p.slug)
       ? 600
       : null;
+  const paymentPlanWeeks = PAYMENT_WEEKS_BY_SLUG[p.slug] ?? p.durationWeeks;
   const estimatedWeeklyAfterDeposit =
-    bnplDepositStart && selfPayNumeric > bnplDepositStart && p.durationWeeks > 0
-      ? Math.ceil((selfPayNumeric - bnplDepositStart) / p.durationWeeks)
+    bnplDepositStart && selfPayNumeric > bnplDepositStart && paymentPlanWeeks > 0
+      ? Math.ceil((selfPayNumeric - bnplDepositStart) / paymentPlanWeeks)
       : null;
+  const hasDedicatedApply = DEDICATED_APPLY_SLUGS.has(p.slug);
   const fundingStatus = resolveProgramFundingStatus(p);
   const hasIndianaFunding =
     fundingStatus.showWorkforceFundingProcess || fundingStatus.isImpactFundable;
@@ -333,6 +352,8 @@ export default function ProgramDetailPage({
       <ProgramCredentialsSection program={p} />
       <ProgramEmploymentPathway program={p} />
 
+      {processSlot}
+
       {/* CREDIBILITY STRIP */}
       <section className="py-8 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -385,22 +406,24 @@ export default function ProgramDetailPage({
         </div>
       </section>
 
-      {/* 5-STEP WORKFORCE PATHWAY */}
-      <section className="py-12 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Full Workforce Pathway</h2>
-          <p className="text-slate-600 text-sm mb-8">Built for agency deployment: intake to wage outcome in one system.</p>
-          <div className="grid gap-3 md:grid-cols-5">
-            {pathwaySteps.map((item) => (
-              <div key={item.step} className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-brand-red-600 mb-2">{item.step}</p>
-                <h3 className="text-sm font-extrabold text-slate-900 mb-1">{item.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{item.detail}</p>
-              </div>
-            ))}
+      {/* 5-STEP WORKFORCE PATHWAY — hidden when a program supplies its own process narrative */}
+      {!processSlot && (
+        <section className="py-12 bg-slate-50 border-y border-slate-100">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Full Workforce Pathway</h2>
+            <p className="text-slate-600 text-sm mb-8">Built for agency deployment: intake to wage outcome in one system.</p>
+            <div className="grid gap-3 md:grid-cols-5">
+              {pathwaySteps.map((item) => (
+                <div key={item.step} className="rounded-xl border border-slate-200 bg-white p-4">
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-brand-red-600 mb-2">{item.step}</p>
+                  <h3 className="text-sm font-extrabold text-slate-900 mb-1">{item.title}</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">{item.detail}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CURRICULUM */}
       <section className="py-12">
@@ -845,7 +868,7 @@ export default function ProgramDetailPage({
         </div>
       </section>
 
-      {/* ===== INLINE APPLICATION FORM ===== */}
+      {/* ===== APPLICATION ===== */}
       <section id="apply" className="py-16 bg-white border-t border-slate-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="mb-8 text-center">
@@ -859,7 +882,33 @@ export default function ProgramDetailPage({
               Free to apply · No payment required · An advisor will contact you within 1 business day
             </p>
           </div>
-          <ProgramApplyForm programSlug={p.slug} programTitle={p.title} />
+          {hasDedicatedApply ? (
+            <div className="text-center">
+              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
+                This program uses a guided application with eligibility and host-shop matching steps.
+                {processSlot ? (
+                  <>
+                    {' '}
+                    Review{' '}
+                    <Link href="#how-it-works" className="font-semibold text-brand-blue-600 hover:underline">
+                      how it works
+                    </Link>{' '}
+                    above, then continue when you are ready.
+                  </>
+                ) : (
+                  ' Continue when you are ready.'
+                )}
+              </p>
+              <Link
+                href={p.cta.applyHref || `/programs/${p.slug}/apply`}
+                className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white px-10 py-4 rounded-xl font-extrabold text-base transition-colors"
+              >
+                Continue to Application
+              </Link>
+            </div>
+          ) : (
+            <ProgramApplyForm programSlug={p.slug} programTitle={p.title} />
+          )}
         </div>
       </section>
 

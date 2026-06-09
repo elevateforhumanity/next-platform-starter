@@ -135,9 +135,11 @@ export default function DevStudioMobileShell({
               [
                 { id: 'files' as const, label: 'Files', Icon: FolderOpen },
                 { id: 'services' as const, label: 'Services', Icon: Server },
-                { id: 'environments' as const, label: 'Container', Icon: Bot },
                 ...(isSuperAdmin
-                  ? [{ id: 'secrets' as const, label: 'Secrets', Icon: Key }]
+                  ? [
+                      { id: 'environments' as const, label: 'Container', Icon: Bot },
+                      { id: 'secrets' as const, label: 'Secrets', Icon: Key },
+                    ]
                   : []),
               ] as const
             ).map(({ id, label, Icon }) => (
@@ -224,7 +226,7 @@ export default function DevStudioMobileShell({
             <div className="min-h-0 flex-1 overflow-y-auto p-2">
               {moreOpen === 'files' && <FilesPlaceholder />}
               {moreOpen === 'services' && <ServicesPanel />}
-              {moreOpen === 'environments' && <DevContainerPanel />}
+              {moreOpen === 'environments' && isSuperAdmin && <DevContainerPanel />}
               {moreOpen === 'secrets' && isSuperAdmin && <SecretsPanel />}
             </div>
           </div>

@@ -170,7 +170,14 @@ export function LizzyWorkspace({
           {panel === 'health' && (
             <div className="flex h-full flex-col overflow-hidden">
               <div className="min-h-0 flex-1 overflow-auto">
-                <EnvironmentHealthPanel />
+                {isSuperAdmin ? (
+                  <EnvironmentHealthPanel />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-white p-6 text-center text-sm text-slate-600">
+                    Dev Container controls require a super admin account. Other health tools remain
+                    available below.
+                  </div>
+                )}
               </div>
               <div className="h-1/2 min-h-[200px] border-t border-[#3c3c3c]">
                 <ServicesPanel />

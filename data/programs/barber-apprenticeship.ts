@@ -258,7 +258,9 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     'LMS access for full program duration',
     'Career placement and shop matching',
   ],
-  paymentTerms: '$4,980. Payment plans available.',
+  depositAmount: '$600',
+  paymentTerms:
+    '$4,980 total tuition. $600 minimum down payment, then 29 weekly installments (~$152/wk) or BNPL at checkout.',
 
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',
@@ -299,7 +301,11 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   ],
 
   faqs: [
-    { question: 'How much does the program cost?', answer: 'Tuition is $4,980. Payment plans are available — contact us to discuss options.' },
+    {
+      question: 'How much does the program cost?',
+      answer:
+        'Tuition is $4,980 when workforce funding does not apply. Pay $600 down and spread the balance over 29 weekly payments (~$152/week), pay in full, or use BNPL at checkout.',
+    },
     { question: 'How long is the program?', answer: '12 months (52 weeks). Indiana requires 2,000 total hours: 1,500 hours of on-the-job training at a licensed shop and 500 hours of Related Technical Instruction delivered online.' },
     { question: 'Do I need my own barbershop?', answer: 'No. We match you with a licensed host barbershop in the Indianapolis area. The host shop provides your on-the-job training environment.' },
     { question: 'What license do I earn?', answer: 'The Indiana Barber License, issued by the Indiana State Board of Cosmetology and Barber Examiners. You also earn a DOL Registered Apprenticeship certificate, which is recognized in all 50 states.' },

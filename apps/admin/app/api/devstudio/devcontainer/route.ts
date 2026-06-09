@@ -18,8 +18,15 @@ import { createHash } from 'crypto';
 import { access, mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
+import {
+  ensureDevStudioSecrets,
+  getGitHubHeaders,
+  getGitHubToken,
+  githubApiErrorMessage,
+} from '@/lib/devstudio/github-token';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 const DEFAULT_REPO = 'elevate-for-humanity/Elevate-lms';
 const DEFAULT_BRANCH = 'main';
@@ -49,8 +56,8 @@ function getDevcontainerMode(): DevcontainerMode {
   return 'auto';
 }
 
-function hasGitHubToken(): boolean {
-  return Boolean(process.env.GITHUB_TOKEN);
+async function hasGitHubToken(): Promise<boolean> {
+  return (await getGitHubToken()) !== null;
 }
 
 function stripJsonCommentsAndTrailingCommas(input: string): string {
@@ -157,22 +164,11 @@ async function writeLocalDevcontainer(content: string, expectedSha: string) {
   return { conflict: false as const, sha: computeSha(content) };
 }
 
-function ghHeaders(): HeadersInit {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error('GITHUB_TOKEN is not configured');
-  return {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',
-  };
-}
-
 async function readGitHubDevcontainer(authenticated: boolean) {
   const encodedPath = encodeURIComponent(DEVCONTAINER_GH).replace(/%2F/g, '/');
   const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodedPath}?ref=${getBranch()}`, {
     headers: authenticated
-      ? ghHeaders()
+      ? await getGitHubHeaders()
       : {
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
@@ -196,8 +192,12 @@ export async function GET(request: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
+    await ensureDevStudioSecrets();
+    // Load platform_secrets (GITHUB_TOKEN, etc.) into process.env
+    await hydrateProcessEnv().catch(() => {});
+
     const mode = getDevcontainerMode();
-    const githubConfigured = hasGitHubToken();
+    const githubConfigured = await hasGitHubToken();
     const repo = getRepo();
     const branch = getBranch();
 
@@ -272,8 +272,8 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      if (gh.status === 404) return safeError('devcontainer.json not found in repo', 404);
-      return safeError('GitHub API error — check GITHUB_TOKEN permissions', gh.status);
+      if (gh.status === 404) return safeError(githubApiErrorMessage(404), 404);
+      return safeError(githubApiErrorMessage(gh.status), gh.status >= 400 && gh.status < 600 ? gh.status : 502);
     }
 
     try {
@@ -329,6 +329,9 @@ export async function PUT(request: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
+    await ensureDevStudioSecrets();
+    await hydrateProcessEnv().catch(() => {});
+
     const mode = getDevcontainerMode();
     const body = await request.json();
     const { content, sha, message } = body as { content: string; sha: string; message?: string };
@@ -341,11 +344,11 @@ export async function PUT(request: NextRequest) {
 
     parseJsonc(content);
 
-    if (mode === 'github-only' && !hasGitHubToken()) {
+    if (mode === 'github-only' && !(await hasGitHubToken())) {
       return safeError('Save requires GITHUB_TOKEN (github-only mode)', 503);
     }
 
-    if (!hasGitHubToken()) {
+    if (!(await hasGitHubToken())) {
       if (mode !== 'local-only') {
         return safeError(
           'Save requires GITHUB_TOKEN. Production admin must use DEVSTUDIO_DEVCONTAINER_MODE=github-only.',
@@ -367,7 +370,7 @@ export async function PUT(request: NextRequest) {
 
     const res = await fetch(`${GH_API}/repos/${getRepo()}/contents/${encodedPath}`, {
       method: 'PUT',
-      headers: ghHeaders(),
+      headers: await getGitHubHeaders(),
       body: JSON.stringify({
         message: message ?? 'chore: update devcontainer.json via Dev Studio',
         content: encoded,
@@ -378,7 +381,7 @@ export async function PUT(request: NextRequest) {
 
     if (!res.ok) {
       await res.json().catch(() => ({}));
-      return safeError('GitHub API error', res.status);
+      return safeError(githubApiErrorMessage(res.status), res.status);
     }
 
     const result = await res.json();
