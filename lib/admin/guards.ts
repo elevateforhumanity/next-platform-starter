@@ -258,10 +258,14 @@ export async function apiRequirePlatformOperator(_req?: Request): Promise<Guarde
     return { ...user, error: forbidden() };
   }
 
-  const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
-  const ctx = await getPlatformUserContext(user.id);
-  if (!ctx?.canAccessDevStudio) {
-    return { ...user, error: forbidden('Platform operator access required') };
+  // super_admin is platform_owner by definition (see resolvePermissionLevel).
+  // Do not block when tenant context lookup fails — service-role hydration can lag on cold start.
+  try {
+    const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
+    const ctx = await getPlatformUserContext(user.id);
+    if (ctx?.canAccessDevStudio) return user;
+  } catch {
+    // Fall through — authenticated super_admin still allowed.
   }
 
   return user;

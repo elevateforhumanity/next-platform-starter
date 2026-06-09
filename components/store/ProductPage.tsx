@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { addToCart } from '@/lib/store/cart';
 
 // Hook to track product page views
 function useProductPageAnalytics(productId: string) {
@@ -133,6 +134,7 @@ interface FAQ {
 
 interface ProductPageProps {
   product: {
+    slug?: string;
     name: string;
     tagline: string;
     description: string;
@@ -157,6 +159,7 @@ interface ProductPageProps {
 export function ProductPage({ product }: ProductPageProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
+  const [cartNotice, setCartNotice] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState(1);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [reviewFilter, setReviewFilter] = useState<'all' | '5' | '4' | '3' | '2' | '1'>('all');
@@ -349,9 +352,40 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             </div>
 
+            {cartNotice && (
+              <p className="mb-4 text-sm text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg px-4 py-2">
+                {cartNotice}
+              </p>
+            )}
+
             {/* CTA Buttons */}
             <div className="flex gap-3 mb-6">
-              <button className="flex-1 bg-brand-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-blue-700 transition flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const plan = product.pricing[selectedPlan];
+                  const slug =
+                    product.slug ||
+                    product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                  addToCart(
+                    {
+                      id: `store:${slug}:${selectedPlan}`,
+                      name: `${product.name} — ${plan.name}`,
+                      slug,
+                      category: 'template',
+                      price: plan.price,
+                      description: plan.description,
+                      image: product.images[0]?.src || '/images/pages/store-hero.webp',
+                      inStock: true,
+                      featured: Boolean(plan.popular),
+                      digital: true,
+                    },
+                    1,
+                  );
+                  setCartNotice(`${plan.name} plan added to cart.`);
+                }}
+                className="flex-1 bg-brand-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-blue-700 transition flex items-center justify-center gap-2"
+              >
                 <ShoppingCart className="w-5 h-5" />
                 Add to Cart
               </button>

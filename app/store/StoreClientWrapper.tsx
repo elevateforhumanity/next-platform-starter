@@ -10,6 +10,9 @@ const StoreGuideChat = dynamic(() => import('@/components/store/StoreGuideChat')
 const GuidedTour = dynamic(() => import('@/components/store/GuidedTour'), {
   ssr: false,
 });
+const StoreCartButton = dynamic(() => import('@/components/store/StoreCartButton'), {
+  ssr: false,
+});
 
 interface StoreClientWrapperProps {
   children: ReactNode;
@@ -53,7 +56,9 @@ export default function StoreClientWrapper({ children }: StoreClientWrapperProps
   return (
     <>
       {children}
-      
+
+      <StoreCartButton />
+
       {/* Store Guide Chat — deferred to avoid blocking initial paint */}
       {showGuide && <StoreGuideChat onStartTour={handleStartTour} />}
       

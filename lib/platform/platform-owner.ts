@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { createClient } from '@/lib/supabase/server';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import type { UserRole } from '@/lib/rbac/role-matrix';
 import {
   resolvePermissionLevel,
@@ -65,21 +65,48 @@ export function isUserOnPlatformOwnerTenant(
   return userTenantId === platformOwnerTenantId;
 }
 
+async function loadProfileForPlatformContext(
+  userId: string,
+): Promise<{ role: UserRole | null; tenant_id: string | null } | null> {
+  const adminDb = await getAdminClient();
+  if (adminDb) {
+    const { data, error } = await adminDb
+      .from('profiles')
+      .select('role, tenant_id')
+      .eq('id', userId)
+      .maybeSingle();
+    if (!error && data) {
+      return {
+        role: (data.role as UserRole | null) ?? null,
+        tenant_id: (data.tenant_id as string | null) ?? null,
+      };
+    }
+  }
+
+  const sessionDb = await createClient();
+  const { data, error } = await sessionDb
+    .from('profiles')
+    .select('role, tenant_id')
+    .eq('id', userId)
+    .maybeSingle();
+  if (error || !data) return null;
+  return {
+    role: (data.role as UserRole | null) ?? null,
+    tenant_id: (data.tenant_id as string | null) ?? null,
+  };
+}
+
 /** Load platform permission context for the current session user. */
 export async function getPlatformUserContext(userId: string): Promise<PlatformUserContext | null> {
-  const db = await requireAdminClient();
-  if (!db) return null;
-
-  const [profileRes, ownerTenantId] = await Promise.all([
-    db.from('profiles').select('role, tenant_id').eq('id', userId).maybeSingle(),
+  const [profile, ownerTenantId] = await Promise.all([
+    loadProfileForPlatformContext(userId),
     fetchPlatformOwnerTenantId(),
   ]);
 
-  const profile = profileRes.data;
   if (!profile) return null;
 
-  const profileRole = (profile.role as UserRole | null) ?? null;
-  const tenantId = (profile.tenant_id as string | null) ?? null;
+  const profileRole = profile.role;
+  const tenantId = profile.tenant_id;
   const onOwnerTenant = isUserOnPlatformOwnerTenant(tenantId, ownerTenantId);
   const permissionLevel = resolvePermissionLevel({
     profileRole,
