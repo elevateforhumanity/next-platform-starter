@@ -13,7 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { requireAdminClient } from '@/lib/supabase/admin';
+import { getGitHubHeaders } from '@/lib/devstudio/github-token';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -52,39 +52,8 @@ function isBlocked(filePath: string): boolean {
   return BLOCKED_PATTERNS.some((p) => p.test(filePath));
 }
 
-let ghTokenCache: { token: string; expiresAt: number } | null = null;
-
-async function getGhToken(): Promise<string> {
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  if (ghTokenCache && ghTokenCache.expiresAt > Date.now()) return ghTokenCache.token;
-
-  try {
-    const db = await requireAdminClient();
-    const { data } = await db
-      .from('platform_secrets')
-      .select('value_enc')
-      .eq('key', 'GITHUB_TOKEN')
-      .single();
-    const token = data?.value_enc;
-    if (token && token.length > 10) {
-      ghTokenCache = { token, expiresAt: Date.now() + 5 * 60 * 1000 };
-      return token;
-    }
-  } catch {
-    // fall through
-  }
-
-  throw new Error('GITHUB_TOKEN is not configured. Add it in Dev Studio > Secrets tab.');
-}
-
 async function ghHeaders(): Promise<HeadersInit> {
-  const token = await getGhToken();
-  return {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',
-  };
+  return getGitHubHeaders();
 }
 
 interface GHEntry {

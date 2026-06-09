@@ -17,6 +17,10 @@ import {
 import type { AdminDashboardData, DegradedSection } from '@/components/admin/dashboard/types';
 import { PENDING_APPLICATION_STATUSES } from '@/lib/admin/application-statuses';
 import { getSystemHealth } from './dashboard/get-system-health';
+import {
+  isLikelyTestOrDemoRecord,
+  isTestOrSuspiciousPayment,
+} from '@/lib/admin/dashboard/format-metrics';
 import { withTimeout } from '@/lib/utils/withTimeout';
 
 function toSafeNumber(value: unknown): number {
@@ -31,15 +35,6 @@ function clampPercent(value: number): number {
 
 function dollarsToCents(value: unknown): number {
   return Math.round(toSafeNumber(value) * 100);
-}
-
-function isLikelyTestRecord(...values: Array<unknown>): boolean {
-  const text = values
-    .filter(Boolean)
-    .map(String)
-    .join(' ')
-    .toLowerCase();
-  return /\b(sample|test|demo|example|placeholder)\b/.test(text);
 }
 
 function sumCentsFromRows<T extends Record<string, unknown>>(
@@ -504,7 +499,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   }));
 
   const staleLeads = staleLeadsData
-    .filter((l: any) => !isLikelyTestRecord(l.first_name, l.last_name, l.email))
+    .filter((l: any) => !isLikelyTestOrDemoRecord(l.first_name, l.last_name, l.email))
     .map((l: any) => ({
       id: l.id,
       name: [l.first_name, l.last_name].filter(Boolean).join(' ') || l.email || null,
@@ -542,7 +537,9 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   // ── Applications with aging ───────────────────────────────────────────────
   const now = Date.now();
   const pendingApps = (pendingAppsRes.data ?? [])
-    .filter((app: any) => !isLikelyTestRecord(app.full_name, app.first_name, app.last_name, app.email))
+    .filter((app: any) =>
+      !isLikelyTestOrDemoRecord(app.full_name, app.first_name, app.last_name, app.email),
+    )
     .map((app: any) => {
     const createdAt = app.submitted_at || app.created_at;
     const ageDays = Math.floor((now - new Date(createdAt).getTime()) / 86400000);
@@ -642,8 +639,21 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   type RecentPayment = import('@/components/admin/dashboard/types').RecentPayment;
   const recentPayments: RecentPayment[] = [];
 
+  const pushRecentPayment = (payment: RecentPayment) => {
+    if (
+      isTestOrSuspiciousPayment({
+        email: payment.email,
+        label: payment.label,
+        amountCents: payment.amountCents,
+      })
+    ) {
+      return;
+    }
+    recentPayments.push(payment);
+  };
+
   for (const row of (recentStripeSessionsRes.error ? [] : (recentStripeSessionsRes.data ?? [])) as any[]) {
-    recentPayments.push({
+    pushRecentPayment({
       id: row.session_id,
       email: row.email ?? null,
       amountCents: toSafeNumber(row.amount),
@@ -653,7 +663,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
   for (const row of barberSubscriptionRows as any[]) {
-    recentPayments.push({
+    pushRecentPayment({
       id: row.id,
       email: row.customer_email ?? null,
       amountCents: dollarsToCents(row.amount_paid_at_checkout),
@@ -663,7 +673,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
   for (const row of cosmetologySubscriptionRows as any[]) {
-    recentPayments.push({
+    pushRecentPayment({
       id: row.id,
       email: row.customer_email ?? null,
       amountCents: dollarsToCents(row.amount_paid_at_checkout),
@@ -673,7 +683,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     });
   }
   for (const row of barberPaymentRows as any[]) {
-    recentPayments.push({
+    pushRecentPayment({
       id: row.id,
       email: null,
       amountCents: dollarsToCents(row.amount_paid),
@@ -804,7 +814,9 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   // RPC returns fully-enriched rows (profiles + program names joined server-side).
   // Falls back to empty array if the RPC is not yet applied in Supabase.
   const nowMs = Date.now();
-  const inactiveLearners = inactiveLearnersData.map((e: any) => {
+  const inactiveLearners = inactiveLearnersData
+    .filter((e: any) => !isLikelyTestOrDemoRecord(e.full_name, e.email))
+    .map((e: any) => {
     const lastActivityMs = e.last_activity ? new Date(e.last_activity).getTime()
       : e.enrolled_at ? new Date(e.enrolled_at).getTime() : nowMs;
     const daysInactive = Math.floor((nowMs - lastActivityMs) / 86_400_000);
@@ -984,7 +996,9 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
       }
     }
   }
-  const recentStudents = recentStudentsData.map((s: any) => ({
+  const recentStudents = recentStudentsData
+    .filter((s: any) => !isLikelyTestOrDemoRecord(s.full_name, s.email))
+    .map((s: any) => ({
     id: s.id,
     full_name: s.full_name ?? null,
     email: s.email ?? null,
@@ -1056,21 +1070,25 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     timestamp: e.created_at,
   }));
 
-  const appActivityItems = (recentAppsActivityRes.data ?? []).map((a: any) => {
-    const name = a.full_name || [a.first_name, a.last_name].filter(Boolean).join(' ') || 'Someone';
-    return {
-      id: `app-${a.id}`,
-      title: `${name} applied — ${a.program_interest ?? 'unknown program'}`,
-      timestamp: a.created_at,
-    };
-  });
+  const appActivityItems = (recentAppsActivityRes.data ?? [])
+    .filter((a: any) => !isLikelyTestOrDemoRecord(a.full_name, a.first_name, a.last_name, a.email))
+    .map((a: any) => {
+      const name = a.full_name || [a.first_name, a.last_name].filter(Boolean).join(' ') || 'Someone';
+      return {
+        id: `app-${a.id}`,
+        title: `${name} applied — ${a.program_interest ?? 'unknown program'}`,
+        timestamp: a.created_at,
+      };
+    });
 
   const recentActivityItems = [...enrollActivityItems, ...appActivityItems]
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
     .slice(0, 15);
 
   const recentApplications = (recentAppsActivityRes.data ?? [])
-    .filter((app: any) => !isLikelyTestRecord(app.full_name, app.first_name, app.last_name))
+    .filter((app: any) =>
+      !isLikelyTestOrDemoRecord(app.full_name, app.first_name, app.last_name, app.email),
+    )
     .map((app: any) => {
       const createdAt = app.created_at;
       const ageDays = Math.floor((Date.now() - new Date(createdAt).getTime()) / 86400000);
