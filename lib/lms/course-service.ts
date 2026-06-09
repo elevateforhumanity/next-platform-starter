@@ -42,6 +42,8 @@ export interface CreateCourseInput {
   shortDescription?: string;
   description?: string;
   modules: GeneratedModule[];
+  /** Optional tenant/org scoping for multi-tenant isolation */
+  orgId?: string;
 }
 
 /**
@@ -100,6 +102,7 @@ export async function createDraftCourse(db: SupabaseClient, input: CreateCourseI
       description: input.description ?? null,
       status: 'draft',
       is_active: true,
+      ...(input.orgId ? { org_id: input.orgId } : {}),
     })
     .select('*')
     .maybeSingle();

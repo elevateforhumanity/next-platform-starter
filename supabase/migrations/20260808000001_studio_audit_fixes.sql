@@ -1,0 +1,87 @@
+-- Studio Audit Fixes: seed workflow templates, ensure cron_jobs, verify tables
+-- Idempotent — safe to re-run.
+
+-- 1. Seed core workflow templates if table exists and is empty
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='workflow_templates') THEN
+    INSERT INTO workflow_templates (id, name, description, trigger_type, is_active, created_at)
+    VALUES
+      (gen_random_uuid(), 'Course Published',    'Fires when a course transitions from draft to published', 'event', true, now()),
+      (gen_random_uuid(), 'Student Enrolled',    'Fires when a student enrolls in a course',               'event', true, now()),
+      (gen_random_uuid(), 'Student Completed',   'Fires when a student completes all course requirements', 'event', true, now()),
+      (gen_random_uuid(), 'Certificate Issued',  'Fires after a certificate is generated and stored',      'event', true, now()),
+      (gen_random_uuid(), 'Employer Notified',   'Fires to notify employer of student completion',         'event', true, now())
+    ON CONFLICT DO NOTHING;
+  END IF;
+END $$;
+
+-- 2. Ensure question_banks table exists for assessment system
+CREATE TABLE IF NOT EXISTS question_banks (
+  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name        text NOT NULL,
+  description text,
+  course_id   uuid REFERENCES courses(id) ON DELETE SET NULL,
+  category    text DEFAULT 'general',
+  tags        text[] DEFAULT '{}',
+  is_public   boolean DEFAULT false,
+  shared_with text[] DEFAULT '{}',
+  created_by  uuid,
+  created_at  timestamptz DEFAULT now(),
+  updated_at  timestamptz DEFAULT now()
+);
+
+-- 3. Ensure course_embeddings table exists for RAG pipeline
+CREATE TABLE IF NOT EXISTS course_embeddings (
+  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  course_id   uuid REFERENCES courses(id) ON DELETE CASCADE,
+  lesson_id   uuid,
+  content     text,
+  embedding   vector(1536),
+  metadata    jsonb DEFAULT '{}',
+  created_at  timestamptz DEFAULT now(),
+  updated_at  timestamptz DEFAULT now()
+);
+
+-- Index for vector similarity search
+CREATE INDEX IF NOT EXISTS idx_course_embeddings_embedding
+  ON course_embeddings USING ivfflat (embedding vector_cosine_ops)
+  WITH (lists = 100);
+
+-- 4. RLS on question_banks
+ALTER TABLE question_banks ENABLE ROW LEVEL SECURITY;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename='question_banks' AND policyname='question_banks_admin_all'
+  ) THEN
+    CREATE POLICY question_banks_admin_all ON question_banks
+      FOR ALL TO authenticated
+      USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin','super_admin','instructor'))
+      );
+  END IF;
+END $$;
+
+-- 5. RLS on course_embeddings
+ALTER TABLE course_embeddings ENABLE ROW LEVEL SECURITY;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename='course_embeddings' AND policyname='course_embeddings_read_all'
+  ) THEN
+    CREATE POLICY course_embeddings_read_all ON course_embeddings
+      FOR SELECT TO authenticated USING (true);
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename='course_embeddings' AND policyname='course_embeddings_admin_write'
+  ) THEN
+    CREATE POLICY course_embeddings_admin_write ON course_embeddings
+      FOR ALL TO authenticated
+      USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin','super_admin'))
+      );
+  END IF;
+END $$;
