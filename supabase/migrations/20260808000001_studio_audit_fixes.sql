@@ -1,18 +1,20 @@
 -- Studio Audit Fixes: seed workflow templates, ensure cron_jobs, verify tables
 -- Idempotent — safe to re-run.
 
--- 1. Seed core workflow templates if table exists and is empty
+-- 1. Seed core workflow templates if table exists (skip duplicates by name)
 DO $$
 BEGIN
   IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema='public' AND table_name='workflow_templates') THEN
     INSERT INTO workflow_templates (id, name, description, trigger_type, is_active, created_at)
-    VALUES
-      (gen_random_uuid(), 'Course Published',    'Fires when a course transitions from draft to published', 'event', true, now()),
-      (gen_random_uuid(), 'Student Enrolled',    'Fires when a student enrolls in a course',               'event', true, now()),
-      (gen_random_uuid(), 'Student Completed',   'Fires when a student completes all course requirements', 'event', true, now()),
-      (gen_random_uuid(), 'Certificate Issued',  'Fires after a certificate is generated and stored',      'event', true, now()),
-      (gen_random_uuid(), 'Employer Notified',   'Fires to notify employer of student completion',         'event', true, now())
-    ON CONFLICT DO NOTHING;
+    SELECT gen_random_uuid(), v.name, v.description, v.trigger_type, true, now()
+    FROM (VALUES
+      ('Course Published',    'Fires when a course transitions from draft to published', 'event'),
+      ('Student Enrolled',    'Fires when a student enrolls in a course',               'event'),
+      ('Student Completed',   'Fires when a student completes all course requirements', 'event'),
+      ('Certificate Issued',  'Fires after a certificate is generated and stored',      'event'),
+      ('Employer Notified',   'Fires to notify employer of student completion',         'event')
+    ) AS v(name, description, trigger_type)
+    WHERE NOT EXISTS (SELECT 1 FROM workflow_templates wt WHERE wt.name = v.name);
   END IF;
 END $$;
 
@@ -43,10 +45,9 @@ CREATE TABLE IF NOT EXISTS course_embeddings (
   updated_at  timestamptz DEFAULT now()
 );
 
--- Index for vector similarity search
+-- Index for vector similarity search (HNSW — works on empty tables, no REINDEX needed)
 CREATE INDEX IF NOT EXISTS idx_course_embeddings_embedding
-  ON course_embeddings USING ivfflat (embedding vector_cosine_ops)
-  WITH (lists = 100);
+  ON course_embeddings USING hnsw (embedding vector_cosine_ops);
 
 -- 4. RLS on question_banks
 ALTER TABLE question_banks ENABLE ROW LEVEL SECURITY;
