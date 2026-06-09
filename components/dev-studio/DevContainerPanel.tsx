@@ -488,10 +488,10 @@ export default function DevContainerPanel() {
       {/* Status bar */}
       {status && (
         <div
-          className={`flex items-center gap-2 px-4 py-2 text-sm flex-shrink-0 ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm flex-shrink-0 border-b ${
             status.type === 'success'
-              ? 'bg-brand-green-900/50 text-brand-green-300'
-              : 'bg-red-900/50 text-red-300'
+              ? 'bg-brand-green-50 text-brand-green-800 border-brand-green-200'
+              : 'bg-red-50 text-red-700 border-red-200'
           }`}
         >
           {status.type === 'success' ? (
@@ -793,7 +793,7 @@ export default function DevContainerPanel() {
                 <button
                   onClick={saveContainerEnvEntry}
                   disabled={envSaving}
-                  className="px-3 py-1.5 rounded text-sm bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white"
+                  className="px-3 py-1.5 rounded text-sm bg-brand-green-600 hover:bg-brand-green-700 disabled:opacity-50 text-white"
                 >
                   {envSaving ? 'Saving…' : 'Save Key'}
                 </button>
@@ -809,7 +809,7 @@ export default function DevContainerPanel() {
                   onClick={() => envForm.key && pushKeyToNorthflank(envForm.key, envForm.value || undefined)}
                   disabled={!envForm.key || !!nfPushing}
                   title="Write this key to the Northflank production secret group"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-50 text-white"
                 >
                   <Send className="w-3.5 h-3.5" />
                   {nfPushing === envForm.key ? 'Pushing…' : 'Push to Northflank'}
@@ -852,7 +852,7 @@ export default function DevContainerPanel() {
                         <button
                           onClick={() => pushKeyToNorthflank(entry.key)}
                           disabled={!!nfPushing}
-                          className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 disabled:opacity-40"
+                          className="inline-flex items-center gap-1 text-brand-blue-600 hover:text-brand-blue-700 disabled:opacity-40"
                           title={`Push ${entry.key} to Northflank`}
                         >
                           <Send className="w-3 h-3" />
@@ -962,7 +962,7 @@ export default function DevContainerPanel() {
           // Raw JSON tab
           <div className="h-full flex flex-col">
             {parseError && (
-              <div className="flex items-center gap-2 px-4 py-2 bg-red-900/40 text-red-300 text-xs flex-shrink-0">
+              <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 border-b border-red-200 text-xs flex-shrink-0">
                 <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
                 JSON error: {parseError}
               </div>

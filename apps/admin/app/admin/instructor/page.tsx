@@ -3,9 +3,11 @@ export const revalidate = 3600;
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import { GraduationCap } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { requireRole } from '@/lib/auth/require-role';
 
 export const metadata: Metadata = {
   title: 'Instructor Portal | Elevate For Humanity',
@@ -15,7 +17,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InstructorPortalLanding() {
+export default async function InstructorPortalLanding() {
+  const { profile } = await requireRole(['instructor', 'admin', 'super_admin', 'staff']);
+  if (profile?.role === 'admin' || profile?.role === 'super_admin' || profile?.role === 'staff') {
+    redirect('/admin/instructor/dashboard');
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {' '}
