@@ -74,6 +74,20 @@ export const PENDING_ONBOARDING_STATES: readonly ValidEnrollmentState[] = [
   'enrolled',
 ];
 
+/**
+ * Enrollment states that route apprentices to their program portal
+ * (/portal/barber, /portal/cosmetology, …) — not /learner/dashboard.
+ * Includes in-progress onboarding and legacy DB values still on old rows.
+ */
+export const APPRENTICESHIP_PORTAL_ENROLLMENT_STATES = [
+  ...PENDING_ONBOARDING_STATES,
+  'active',
+  // legacy values (see LEGACY_STATE_MAP) — may still exist on program_enrollments
+  'confirmed',
+  'orientation_complete',
+  'documents_complete',
+] as const;
+
 /** States eligible for document submission APIs. */
 export const PRE_DOCUMENTS_STATES: readonly ValidEnrollmentState[] = [
   'enrolled',

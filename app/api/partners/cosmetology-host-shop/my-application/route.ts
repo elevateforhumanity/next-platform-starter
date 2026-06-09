@@ -35,5 +35,10 @@ export async function GET(req: NextRequest) {
   if (error) return safeError('Failed to load application', 500);
   if (!data) return NextResponse.json(null, { status: 200 });
 
-  return NextResponse.json(data);
+  return NextResponse.json({
+    ...data,
+    shop_name: data.name,
+    salon_legal_name: data.legal_name ?? data.name,
+    salon_name: data.name,
+  });
 }
