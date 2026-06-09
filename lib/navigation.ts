@@ -55,8 +55,26 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'All Trades →', href: '/programs/skilled-trades', isSectionLink: true },
 
       { name: '— Beauty & Apprenticeships —', href: '/programs#cat-beauty', isHeader: true },
-      { name: 'Beauty & Cosmetology Hub', href: '/programs#cat-beauty', isSectionLink: true },
+      { name: 'All beauty programs →', href: '/programs#cat-beauty', isSectionLink: true },
+      { name: 'Barber Apprenticeship · $4,980', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
+      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
       { name: 'Beauty & Career Educator', href: '/programs/beauty-career-educator' },
+
+      { name: '— Barber host shops —', href: '/programs/barber-apprenticeship/host-shops', isHeader: true },
+      { name: 'Find a barber host shop', href: '/programs/barber-apprenticeship/host-shops' },
+      { name: 'Enroll your barbershop', href: '/partners/barber-host-shop' },
+
+      { name: '— Cosmetology host shops —', href: '/programs/cosmetology-apprenticeship/host-shops', isHeader: true },
+      { name: 'Find a cosmetology host shop', href: '/programs/cosmetology-apprenticeship/host-shops' },
+      { name: 'Enroll your salon', href: '/partners/cosmetology-host-shop' },
+
+      { name: '— Esthetician host shops —', href: '/programs/esthetician-apprenticeship/host-shops', isHeader: true },
+      { name: 'Find an esthetician host shop', href: '/programs/esthetician-apprenticeship/host-shops' },
+
+      { name: '— Nail technician host shops —', href: '/programs/nail-technician-apprenticeship/host-shops', isHeader: true },
+      { name: 'Find a nail host shop', href: '/programs/nail-technician-apprenticeship/host-shops' },
 
       { name: '— Technology —', href: '/programs/technology', isHeader: true },
       { name: 'IT Help Desk', href: '/programs/it-help-desk' },
@@ -97,24 +115,9 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       { name: '— Registered programs —', href: '/apprenticeships', isHeader: true },
       { name: 'Overview & how it works', href: '/apprenticeships' },
-      { name: 'Barber Apprenticeship', href: canonicalRoutes.programs.barberApprenticeship },
-      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
-      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
-      { name: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
+      { name: 'Browse beauty apprenticeships →', href: '/beauty-apprenticeships', isSectionLink: true },
       { name: 'Culinary Apprenticeship', href: '/programs/culinary-apprenticeship' },
-
-      { name: '— Host shops (by trade) —', href: '/programs/barber-apprenticeship/host-shops', isHeader: true },
-      { name: 'Barber host shops', href: '/programs/barber-apprenticeship/host-shops' },
-      { name: 'Cosmetology host shops', href: '/programs/cosmetology-apprenticeship/host-shops' },
-      { name: 'Esthetician host shops', href: '/programs/esthetician-apprenticeship/host-shops' },
-      { name: 'Nail technician host shops', href: '/programs/nail-technician-apprenticeship/host-shops' },
       { name: 'Host shop inquiry', href: '/forms/host-shop-inquiry' },
-
-      { name: '— Enroll your shop —', href: '/partners/barber-host-shop', isHeader: true },
-      { name: 'Barbershop partner program', href: '/partners/barber-host-shop' },
-      { name: 'Cosmetology partner program', href: '/partners/cosmetology-host-shop' },
-      { name: 'Esthetician partner program', href: '/partners/esthetician-apprenticeship' },
-      { name: 'Nail technician partner program', href: '/partners/nail-technician-apprenticeship' },
       { name: 'Become an apprenticeship sponsor →', href: '/apprenticeship-sponsor', isSectionLink: true },
     
       { name: '— Apprenticeship Resources —', href: '/apprentice/handbook', isHeader: true },
