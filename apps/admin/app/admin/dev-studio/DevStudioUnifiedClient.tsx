@@ -100,7 +100,11 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
 export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
   const searchParams = useSearchParams();
   const initial = normalizeWorkspace(searchParams.get('tab'));
-  const [workspace, setWorkspace] = useState<Workspace>(initial.workspace === 'secrets' && !isSuperAdmin ? 'studio' : initial.workspace);
+  const [workspace, setWorkspace] = useState<Workspace>(
+    (initial.workspace === 'secrets' || initial.workspace === 'environments') && !isSuperAdmin
+      ? 'studio'
+      : initial.workspace,
+  );
   const [studioMode, setStudioMode] = useState<StudioMode>(initial.mode);
   const [config, setConfig] = useState<StudioConfig | null>(null);
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
@@ -159,7 +163,7 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
   }, [health]);
 
   function openWorkspace(next: Workspace) {
-    if (next === 'secrets' && !isSuperAdmin) {
+    if ((next === 'secrets' || next === 'environments') && !isSuperAdmin) {
       setWorkspace('health');
       return;
     }
@@ -197,7 +201,10 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
         <aside className="hidden w-48 shrink-0 flex-col border-r border-[#3c3c3c] bg-[#252526] p-2 md:flex overflow-y-auto">
           <div className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-[#858585]">Environments</div>
           <div className="space-y-1">
-            {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => {
+            {WORKSPACES.filter(
+              (item) =>
+                (item.id !== 'secrets' && item.id !== 'environments') || isSuperAdmin,
+            ).map(({ id, label, Icon }) => {
               const active = workspace === id;
               return (
                 <button
@@ -249,7 +256,12 @@ export default function DevStudioUnifiedClient({ isSuperAdmin = false }: { isSup
             )}
             {workspace === 'deploy' && <DeployPanel workflowButtons={config?.workflowButtons} />}
             {workspace === 'files' && <DevStudioEditorWorkspace />}
-            {workspace === 'environments' && <EnvironmentPanel />}
+            {workspace === 'environments' &&
+              (isSuperAdmin ? (
+                <EnvironmentPanel />
+              ) : (
+                <HealthPanel health={health} onRefresh={() => window.location.reload()} />
+              ))}
             {workspace === 'health' && <HealthPanel health={health} onRefresh={() => window.location.reload()} />}
             {workspace === 'secrets' && (isSuperAdmin ? <SecretsPanel /> : <HealthPanel health={health} onRefresh={() => window.location.reload()} />)}
           </main>
@@ -314,7 +326,9 @@ function MobileTabs({
 }) {
   return (
     <div className="flex shrink-0 gap-1 overflow-x-auto border-b border-[#3c3c3c] bg-[#252526] p-1 md:hidden">
-      {WORKSPACES.filter((item) => item.id !== 'secrets' || isSuperAdmin).map(({ id, label, Icon }) => (
+      {WORKSPACES.filter(
+        (item) => (item.id !== 'secrets' && item.id !== 'environments') || isSuperAdmin,
+      ).map(({ id, label, Icon }) => (
         <button
           key={id}
           type="button"
