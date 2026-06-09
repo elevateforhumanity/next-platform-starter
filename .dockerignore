@@ -5,6 +5,7 @@
 .github
 .cursor
 .devcontainer
+!.devcontainer/devcontainer.json
 .husky
 terminals
 

@@ -26,6 +26,7 @@ import {
 } from '@/lib/devstudio/github-token';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 const DEFAULT_REPO = 'elevate-for-humanity/Elevate-lms';
 const DEFAULT_BRANCH = 'main';
@@ -192,6 +193,9 @@ export async function GET(request: NextRequest) {
 
   try {
     await ensureDevStudioSecrets();
+    // Load platform_secrets (GITHUB_TOKEN, etc.) into process.env
+    await hydrateProcessEnv().catch(() => {});
+
     const mode = getDevcontainerMode();
     const githubConfigured = await hasGitHubToken();
     const repo = getRepo();
@@ -326,6 +330,8 @@ export async function PUT(request: NextRequest) {
 
   try {
     await ensureDevStudioSecrets();
+    await hydrateProcessEnv().catch(() => {});
+
     const mode = getDevcontainerMode();
     const body = await request.json();
     const { content, sha, message } = body as { content: string; sha: string; message?: string };
