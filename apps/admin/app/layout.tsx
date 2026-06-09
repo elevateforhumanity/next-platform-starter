@@ -30,7 +30,10 @@ export const metadata: Metadata = {
   description: `${PLATFORM_DEFAULTS.orgName} — Admin Portal`,
   robots: { index: false, follow: false },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '32x32' },
+      { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
+    ],
     shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },

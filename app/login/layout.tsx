@@ -8,6 +8,17 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/login',
   },
+  openGraph: {
+    title: `Sign In | ${PLATFORM_DEFAULTS.orgName}`,
+    description: `Sign in to access your training programs, career services, and workforce development tools.`,
+    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: `${PLATFORM_DEFAULTS.orgName} — Sign In` }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Sign In | ${PLATFORM_DEFAULTS.orgName}`,
+    description: `Sign in to access your training programs, career services, and workforce development tools.`,
+    images: ['/images/og-image.jpg'],
+  },
   robots: {
     index: false,
     follow: false,
