@@ -1,4 +1,9 @@
 import { requireAdminClient } from '@/lib/supabase/admin';
+import {
+  getHostShopOnboardingPaths,
+  mergeHostShopDocumentRequirements,
+  resolveHostShopProgram,
+} from '@/lib/partners/host-shop-onboarding';
 
 export const TRADE_TARGETS: Record<string, { hours: number; label: string }> = {
   'barber': { hours: 2000, label: 'Barber Apprenticeship' },
@@ -6,6 +11,7 @@ export const TRADE_TARGETS: Record<string, { hours: number; label: string }> = {
   'cosmetology': { hours: 1500, label: 'Cosmetology Apprenticeship' },
   'nail-tech': { hours: 450, label: 'Nail Technician Apprenticeship' },
   'nail_tech': { hours: 450, label: 'Nail Technician Apprenticeship' },
+  'nail_technician': { hours: 450, label: 'Nail Technician Apprenticeship' },
   'esthetician': { hours: 700, label: 'Esthetician Apprenticeship' },
   'training_site': { hours: 2000, label: 'Apprenticeship' },
 };
@@ -16,7 +22,7 @@ export async function getHostShopBoard(userId: string) {
   // 1. Resolve partner record
   const { data: partnerLink } = await db
     .from('partner_users')
-    .select('partner_id, partners(id, partner_type, approval_status, status, mou_signed, onboarding_completed, documents_verified, name, city, state)')
+    .select('partner_id, partners(id, partner_type, program_type, programs, approval_status, status, mou_signed, onboarding_completed, documents_verified, name, city, state)')
     .eq('user_id', userId)
     .eq('status', 'active')
     .maybeSingle();
@@ -74,15 +80,75 @@ export async function getHostShopBoard(userId: string) {
     .select('*', { count: 'exact', head: true })
     .eq('status', 'pending');
 
-  // 6. Determine trade from partner_type or first placement discipline
-  const tradeKey = partner?.partner_type || apprentices[0]?.discipline || 'barber';
+  // 6. Determine trade from the canonical host-shop program fields.
+  const programType = resolveHostShopProgram(partner ?? { partner_type: apprentices[0]?.discipline });
+  const tradeKey = programType;
   const tradeInfo = TRADE_TARGETS[tradeKey] || TRADE_TARGETS['barber'];
+  const onboardingPaths = getHostShopOnboardingPaths(programType);
+
+  // 7. Document and onboarding alerts for the partner dashboard.
+  const { data: programAccess } = partner?.id
+    ? await db
+        .from('partner_program_access')
+        .select('program_id')
+        .eq('partner_id', partner.id)
+        .is('revoked_at', null)
+    : { data: [] };
+  const programIds = Array.from(
+    new Set([
+      programType,
+      ...(programAccess || []).map((row: { program_id?: string }) => row.program_id).filter(Boolean),
+    ]),
+  );
+
+  const { data: dbRequirements } = await db
+    .from('partner_document_requirements')
+    .select('*')
+    .in('program_id', [...programIds, 'ALL'])
+    .in('state', [partner?.state || 'Indiana', 'ALL']);
+
+  const requirements = mergeHostShopDocumentRequirements(dbRequirements, programType);
+  const { data: uploadedDocs } = partner?.id
+    ? await db
+        .from('partner_documents')
+        .select('id, document_type, file_name, status, rejection_reason, expires_at')
+        .eq('partner_id', partner.id)
+        .order('created_at', { ascending: false })
+    : { data: [] };
+
+  const latestDocs = new Map<string, any>();
+  for (const doc of uploadedDocs || []) {
+    if (!latestDocs.has(doc.document_type)) latestDocs.set(doc.document_type, doc);
+  }
+
+  const documentStatuses = requirements.map((req: any) => {
+    const doc = latestDocs.get(req.document_type);
+    return {
+      ...req,
+      uploaded: !!doc,
+      document: doc || null,
+      status: doc?.status || 'missing',
+    };
+  });
+  const missingDocuments = documentStatuses.filter(
+    (doc: any) => doc.is_required && (!doc.uploaded || ['missing', 'rejected', 'expired'].includes(doc.status)),
+  );
+  const pendingDocuments = documentStatuses.filter((doc: any) => doc.is_required && doc.status === 'pending');
+  const acceptedDocumentCount = documentStatuses.filter((doc: any) => doc.is_required && doc.status === 'accepted').length;
+  const requiredDocumentCount = documentStatuses.filter((doc: any) => doc.is_required).length;
 
   return {
     partner,
     shops,
     tradeKey,
     tradeInfo,
+    programType,
+    onboardingPaths,
+    documentStatuses,
+    missingDocuments,
+    pendingDocuments,
+    acceptedDocumentCount,
+    requiredDocumentCount,
     apprentices: apprentices.map((a) => ({
       ...a,
       ojt: ojtProgress[a.student_id] || { completed: 0, required: tradeInfo.hours },

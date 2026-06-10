@@ -39,6 +39,7 @@ export const ADMIN_ROLES: ReadonlyArray<string> = [
   'super_admin',
   'staff',
   'org_admin',
+  'platform_operator',
 ];
 
 export function isAdminRole(role: string | null | undefined): boolean {

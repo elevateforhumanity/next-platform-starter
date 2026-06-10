@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import { uploadApplicationDocument } from '@/lib/partners/upload-application-document';
+import { sendEmail } from '@/lib/email/sendgrid';
 
 export type SalonHostShopProgramType = 'cosmetology' | 'esthetician' | 'nail_technician';
 
@@ -159,7 +160,11 @@ export async function submitSalonHostShopApplication(
       zip: salonZip,
       partner_type: 'salon',
       program_type: cfg.programType,
-      status: 'pending',
+      status: 'active',
+      approval_status: 'approved',
+      account_status: 'conditional_access',
+      documents_verified: false,
+      onboarding_completed: false,
       license_number: indianaSalonLicenseNumber,
       supervisor_name: supervisorName,
       supervisor_license_number: supervisorLicenseNumber,
@@ -170,6 +175,8 @@ export async function submitSalonHostShopApplication(
       has_general_liability: hasGeneralLiability === 'yes',
       can_supervise_and_verify: canSuperviseAndVerify === 'yes',
       mou_acknowledged: mouAcknowledged,
+      mou_signed: false,
+      programs: [cfg.programType],
       notes: notesWithDocumentStatus || null,
       applied_at: new Date().toISOString(),
     })
@@ -193,14 +200,12 @@ export async function submitSalonHostShopApplication(
   );
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  const sgKey = process.env.SENDGRID_API_KEY;
   const adminEmail = process.env.PARTNER_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com';
   const applicantName = contactName || ownerName || 'Partner';
   const mouLink = `${siteUrl}/login?redirect=${cfg.mouSignPath}`;
   const accent = cfg.emailAccentHex;
 
-  if (sgKey) {
-    const applicantHtml = `<!DOCTYPE html>
+  const applicantHtml = `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f8fafc">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 20px">
@@ -242,54 +247,130 @@ export async function submitSalonHostShopApplication(
 </table>
 <p><a href="${siteUrl}/admin/program-holders">Review in Admin Dashboard →</a></p>`;
 
-    await Promise.allSettled([
-      fetch('https://api.sendgrid.com/v3/mail/send', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-          reply_to: { email: 'elevate4humanityedu@gmail.com' },
-          personalizations: [{ to: [{ email: contactEmail, name: applicantName }] }],
-          subject: `Application Received — ${salonLegalName} | Elevate ${cfg.programTitle}`,
-          content: [{ type: 'text/html', value: applicantHtml }],
-        }),
-      }),
-      fetch('https://api.sendgrid.com/v3/mail/send', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${sgKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
-          personalizations: [{ to: [{ email: adminEmail }] }],
-          subject: `[NEW APPLICATION] ${cfg.adminEmailSubjectTag} — ${salonLegalName}`,
-          content: [{ type: 'text/html', value: adminHtml }],
-        }),
-      }),
-    ]);
-  }
+  const emailResults = await Promise.allSettled([
+    sendEmail({
+      to: contactEmail,
+      subject: `Application Received — ${salonLegalName} | Elevate ${cfg.programTitle}`,
+      html: applicantHtml,
+      replyTo: 'elevate4humanityedu@gmail.com',
+    }),
+    sendEmail({
+      to: adminEmail,
+      subject: `[NEW APPLICATION] ${cfg.adminEmailSubjectTag} — ${salonLegalName}`,
+      html: adminHtml,
+    }),
+  ]);
+  emailResults.forEach((result, index) => {
+    if (result.status === 'rejected') {
+      logger.error(`${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} send failed:`, result.reason);
+      return;
+    }
+    if (!result.value.success) {
+      logger.warn(`${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} not sent`, {
+        error: result.value.error,
+      });
+    }
+  });
 
   const mouRedirect = `${siteUrl}${cfg.mouSignPath}`;
   try {
+    const normalizedEmail = contactEmail.toLowerCase().trim();
     const { data: existingUsers } = await db.auth.admin.listUsers();
     const existingUser = existingUsers?.users?.find(
-      (u: { email?: string }) => u.email?.toLowerCase() === contactEmail.toLowerCase(),
+      (u: { email?: string }) => u.email?.toLowerCase() === normalizedEmail,
     );
+
+    const invited = existingUser
+      ? null
+      : await db.auth.admin.inviteUserByEmail(normalizedEmail, {
+          redirectTo: mouRedirect,
+          data: {
+            full_name: applicantName,
+            role: 'partner',
+            partner_type: `${cfg.programType}_salon`,
+            partner_id: partner.id,
+          },
+        });
 
     if (existingUser) {
       await db.auth.admin.generateLink({
         type: 'magiclink',
-        email: contactEmail,
+        email: normalizedEmail,
         options: { redirectTo: mouRedirect },
       });
-    } else {
-      await db.auth.admin.inviteUserByEmail(contactEmail, {
-        redirectTo: mouRedirect,
-        data: {
+    }
+
+    const userId = existingUser?.id || invited?.data?.user?.id;
+    if (userId) {
+      const [firstName = applicantName, ...lastNameParts] = applicantName.split(' ');
+      await db.from('profiles').upsert(
+        {
+          id: userId,
+          email: normalizedEmail,
+          first_name: firstName,
+          last_name: lastNameParts.join(' ') || null,
           full_name: applicantName,
           role: 'partner',
-          partner_type: `${cfg.programType}_salon`,
-          partner_id: partner.id,
         },
-      });
+        { onConflict: 'id' },
+      );
+
+      await db.from('partner_users').upsert(
+        {
+          partner_id: partner.id,
+          user_id: userId,
+          role: 'partner_admin',
+          status: 'active',
+        },
+        { onConflict: 'partner_id,user_id' },
+      );
+
+      await db.from('partner_program_access').upsert(
+        {
+          partner_id: partner.id,
+          program_id: cfg.programType,
+          can_view_apprentices: true,
+          can_enter_progress: true,
+          can_view_reports: true,
+        },
+        { onConflict: 'partner_id,program_id' },
+      );
+
+      const initialDocs = [
+        licensePath
+          ? {
+              partner_id: partner.id,
+              document_type: 'salon_license',
+              program_id: cfg.programType,
+              file_name: shopLicenseFileName,
+              file_url: licensePath,
+              file_type: shopLicenseFileData?.split(';')[0]?.replace('data:', '') || 'application/octet-stream',
+              status: 'pending',
+            }
+          : null,
+        insurancePath
+          ? {
+              partner_id: partner.id,
+              document_type: 'liability_insurance',
+              program_id: cfg.programType,
+              file_name: insuranceFileName ?? 'insurance-coi.pdf',
+              file_url: insurancePath,
+              file_type: insuranceFileData?.split(';')[0]?.replace('data:', '') || 'application/octet-stream',
+              status: 'pending',
+            }
+          : null,
+      ].filter(Boolean);
+
+      if (initialDocs.length) {
+        const documentTypes = initialDocs.map((doc: any) => doc.document_type);
+        await db
+          .from('partner_documents')
+          .delete()
+          .eq('partner_id', partner.id)
+          .in('document_type', documentTypes)
+          .then(undefined, () => undefined);
+        await db.from('partner_documents').insert(initialDocs).then(undefined, () => undefined);
+      }
     }
   } catch (authErr) {
     logger.error('Failed to create/invite partner auth account:', authErr);

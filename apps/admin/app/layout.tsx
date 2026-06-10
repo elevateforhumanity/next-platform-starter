@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import React from 'react';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import ToasterClient from '@/components/ui/ToasterClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -15,8 +15,12 @@ const ADMIN_METADATA_BASE =
     '',
   );
 
-const inter = Inter({
-  subsets: ['latin'],
+const inter = localFont({
+  src: [
+    { path: '../../../public/fonts/Inter-Regular.otf', weight: '400', style: 'normal' },
+    { path: '../../../public/fonts/Inter-SemiBold.otf', weight: '600', style: 'normal' },
+    { path: '../../../public/fonts/Inter-Bold.otf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-inter',
   display: 'swap',
 });
