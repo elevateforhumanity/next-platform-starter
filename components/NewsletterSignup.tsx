@@ -15,7 +15,7 @@ export default function NewsletterSignup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Honeypot: if filled, silently fake success
+    // Honeypot: if filled, silently return the same success UX
     if (website) {
       setStatus('success');
       setMessage('Thanks for subscribing! Check your email to confirm.');

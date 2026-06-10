@@ -429,7 +429,10 @@
     "platform:polish": "node scripts/platform-polish-audit.mjs",
     "design:enforce": "node scripts/design-enforcer.mjs",
     "design:enforce:strict": "node scripts/design-enforcer.mjs --strict",
-    "images:contract:fix": "node scripts/image-contract.mjs --fix"
+    "images:contract:fix": "node scripts/image-contract.mjs --fix",
+    "audit:doc-code": "node scripts/audit-doc-code-reconciliation.mjs",
+    "audit:doc-code:strict": "node scripts/audit-doc-code-reconciliation.mjs --strict",
+    "export:manual-deploy-patch": "node scripts/export-manual-deploy-patch.mjs"
   },
   "overrides": {
     "inflight": "npm:lru-cache@^10.0.0"
