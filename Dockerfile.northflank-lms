@@ -62,6 +62,7 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public-build-env \
     && . /tmp/next-public-build-env \
+    && rm -f /tmp/next-public-build-env \
     && test -x /app/node_modules/next/dist/bin/next \
     && node /app/node_modules/next/dist/bin/next build \
     && node scripts/prune-standalone.mjs \
