@@ -166,7 +166,9 @@ function LoginForm() {
         body: JSON.stringify({ token: twoFACode.trim(), isBackupCode: useBackupCode }),
       });
       if (!res.ok) {
-        setTwoFAError(useBackupCode ? 'Invalid backup code.' : 'Invalid or expired code. Try again.');
+        setTwoFAError(
+          useBackupCode ? 'Invalid backup code.' : 'Invalid or expired code. Try again.',
+        );
         return;
       }
       window.location.href = pendingDestRef.current || '/learner/dashboard';
@@ -208,13 +210,25 @@ function LoginForm() {
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm">
           <div className="text-center mb-6">
             <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              <svg
+                className="w-6 h-6 text-indigo-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
               </svg>
             </div>
             <h2 className="text-xl font-bold text-slate-900">Two-Factor Authentication</h2>
             <p className="text-sm text-slate-500 mt-1">
-              {useBackupCode ? 'Enter one of your backup codes' : 'Enter the 6-digit code from your authenticator app'}
+              {useBackupCode
+                ? 'Enter one of your backup codes'
+                : 'Enter the 6-digit code from your authenticator app'}
             </p>
           </div>
           <form onSubmit={handle2FASubmit} className="space-y-4">
@@ -224,15 +238,13 @@ function LoginForm() {
               pattern={useBackupCode ? undefined : '[0-9]{6}'}
               maxLength={useBackupCode ? 20 : 6}
               value={twoFACode}
-              onChange={e => setTwoFACode(e.target.value)}
+              onChange={(e) => setTwoFACode(e.target.value)}
               placeholder={useBackupCode ? 'Backup code' : '000000'}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg text-center text-2xl tracking-widest font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
               autoFocus
               autoComplete="one-time-code"
             />
-            {twoFAError && (
-              <p className="text-sm text-red-600 text-center">{twoFAError}</p>
-            )}
+            {twoFAError && <p className="text-sm text-red-600 text-center">{twoFAError}</p>}
             <button
               type="submit"
               disabled={twoFALoading || twoFACode.trim().length < 6}
@@ -242,14 +254,18 @@ function LoginForm() {
             </button>
             <button
               type="button"
-              onClick={() => setUseBackupCode(v => !v)}
+              onClick={() => setUseBackupCode((v) => !v)}
               className="w-full text-sm text-indigo-600 hover:underline text-center"
             >
               {useBackupCode ? 'Use authenticator app instead' : 'Use a backup code instead'}
             </button>
             <button
               type="button"
-              onClick={() => { setShow2FA(false); setTwoFACode(''); setTwoFAError(''); }}
+              onClick={() => {
+                setShow2FA(false);
+                setTwoFACode('');
+                setTwoFAError('');
+              }}
               className="w-full text-sm text-slate-400 hover:text-slate-600 text-center"
             >
               ← Back to login
@@ -272,7 +288,8 @@ function LoginForm() {
           className="object-cover"
           priority
           quality={90}
-          sizes="100vw" placeholder="empty"
+          sizes="100vw"
+          placeholder="empty"
         />
       </section>
 
@@ -281,35 +298,47 @@ function LoginForm() {
         <div className="max-w-md mx-auto px-4">
           <div className="bg-white rounded-lg shadow-lg p-8">
             {/* Portal-specific header when redirecting to a known portal */}
-            {next?.startsWith('/portal/apprentice') && (
+            {(next?.startsWith('/apprentice') || next?.startsWith('/portal/apprentice')) && (
               <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Apprentice Portal</p>
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">
+                  Apprentice Portal
+                </p>
                 <p className="text-xs text-amber-600 mt-0.5">DOL Registered Apprenticeship</p>
               </div>
             )}
             {next?.startsWith('/portal/healthcare') && (
               <div className="mb-5 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-rose-700 uppercase tracking-widest">Healthcare Portal</p>
+                <p className="text-xs font-bold text-rose-700 uppercase tracking-widest">
+                  Healthcare Portal
+                </p>
               </div>
             )}
             {next?.startsWith('/portal/trades') && (
               <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Skilled Trades Portal</p>
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">
+                  Skilled Trades Portal
+                </p>
               </div>
             )}
             {next?.startsWith('/portal/technology') && (
               <div className="mb-5 bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest">Technology Portal</p>
+                <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
+                  Technology Portal
+                </p>
               </div>
             )}
             {next?.startsWith('/portal/beauty') && (
               <div className="mb-5 bg-pink-50 border border-pink-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-pink-700 uppercase tracking-widest">Beauty & Barber Portal</p>
+                <p className="text-xs font-bold text-pink-700 uppercase tracking-widest">
+                  Beauty & Barber Portal
+                </p>
               </div>
             )}
             {next?.startsWith('/portal/business') && (
               <div className="mb-5 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3 text-center">
-                <p className="text-xs font-bold text-emerald-700 uppercase tracking-widest">Business Portal</p>
+                <p className="text-xs font-bold text-emerald-700 uppercase tracking-widest">
+                  Business Portal
+                </p>
               </div>
             )}
             <h1 className="text-3xl font-bold text-center mb-2">Login</h1>
@@ -406,13 +435,19 @@ function LoginForm() {
                 </button>
               ) : linkSent ? (
                 <div className="rounded-lg bg-brand-green-50 border border-brand-green-200 p-4 text-center">
-                  <p className="text-sm font-semibold text-brand-green-800 mb-1">Check your email</p>
+                  <p className="text-sm font-semibold text-brand-green-800 mb-1">
+                    Check your email
+                  </p>
                   <p className="text-sm text-brand-green-700">
-                    A sign-in link was sent to <strong>{linkEmail}</strong>. Click it to log in instantly — no password needed.
+                    A sign-in link was sent to <strong>{linkEmail}</strong>. Click it to log in
+                    instantly — no password needed.
                   </p>
                   <button
                     type="button"
-                    onClick={() => { setLinkSent(false); setLinkEmail(''); }}
+                    onClick={() => {
+                      setLinkSent(false);
+                      setLinkEmail('');
+                    }}
                     className="mt-3 text-xs text-brand-green-600 underline"
                   >
                     Send to a different email
@@ -420,7 +455,9 @@ function LoginForm() {
                 </div>
               ) : (
                 <form onSubmit={handleSendLink} className="space-y-3">
-                  <p className="text-sm font-semibold text-slate-700">Get a sign-in link by email</p>
+                  <p className="text-sm font-semibold text-slate-700">
+                    Get a sign-in link by email
+                  </p>
                   <input
                     type="email"
                     required
@@ -429,9 +466,7 @@ function LoginForm() {
                     placeholder="your@email.com"
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
                   />
-                  {linkError && (
-                    <p className="text-sm text-brand-red-600">{linkError}</p>
-                  )}
+                  {linkError && <p className="text-sm text-brand-red-600">{linkError}</p>}
                   <div className="flex gap-2">
                     <button
                       type="submit"
@@ -442,7 +477,10 @@ function LoginForm() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => { setShowLinkForm(false); setLinkError(''); }}
+                      onClick={() => {
+                        setShowLinkForm(false);
+                        setLinkError('');
+                      }}
                       className="px-4 py-3 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 text-sm"
                     >
                       Cancel
@@ -456,10 +494,13 @@ function LoginForm() {
               <p className="text-center text-sm text-black mb-4">Quick Access:</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Apprentice Portal', dest: '/portal/apprentice', highlight: true },
+                  { label: 'Apprentice Portal', dest: '/apprentice', highlight: true },
                   { label: 'Student Portal', dest: '/learner/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
-                  { label: 'Instructor', dest: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
+                  {
+                    label: 'Instructor',
+                    dest: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard',
+                  },
                   { label: 'Employer', dest: '/employer/dashboard' },
                   { label: 'Partner Portal', dest: '/partner/dashboard' },
                   { label: 'Staff Portal', dest: '/admin/staff-portal/dashboard' },
@@ -492,7 +533,10 @@ function LoginForm() {
           <div className="mt-6 text-center text-sm text-black">
             <p>
               Need help?{' '}
-              <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="text-brand-blue-600 font-semibold">
+              <a
+                href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, '')}`}
+                className="text-brand-blue-600 font-semibold"
+              >
                 {PLATFORM_DEFAULTS.supportPhone}
               </a>{' '}
               or{' '}
@@ -522,7 +566,5 @@ function LoginSkeleton() {
 }
 
 export default function LoginPage() {
-  return (
-          <LoginForm />
-  );
+  return <LoginForm />;
 }
