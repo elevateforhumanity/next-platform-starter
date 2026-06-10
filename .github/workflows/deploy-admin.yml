@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - 'app/api/admin/**'
       - 'apps/admin/**'
       - 'lib/**'
       - 'components/**'
