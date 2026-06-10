@@ -13,7 +13,57 @@ type ProgramSubmitBody = {
   notes?: string;
 };
 
-const SUBMIT_ROLES = new Set(['provider_admin', 'admin', 'super_admin', 'staff']);
+type ProfileTenant = { tenant_id?: string | null };
+type ProviderProgram = {
+  id: string;
+  title?: string | null;
+  slug?: string | null;
+  tenant_id?: string | null;
+  status?: string | null;
+  is_published?: boolean | null;
+  updated_at?: string | null;
+};
+
+const SUBMIT_ROLES = new Set([
+  'provider_admin',
+  'admin',
+  'super_admin',
+  'platform_operator',
+  'staff',
+  'org_admin',
+]);
+
+function resolveTenantId({
+  role,
+  bodyTenantId,
+  profileTenantId,
+  programTenantId,
+}: {
+  role?: string | null;
+  bodyTenantId?: string;
+  profileTenantId?: string | null;
+  programTenantId?: string | null;
+}): { tenantId?: string; error?: NextResponse } {
+  if (role === 'provider_admin') {
+    if (!profileTenantId) {
+      return { error: safeError('Provider admin profile is missing tenant_id', 403) };
+    }
+    if (bodyTenantId && bodyTenantId !== profileTenantId) {
+      return { error: safeError('Provider admins can only submit programs for their tenant', 403) };
+    }
+    if (!programTenantId || programTenantId !== profileTenantId) {
+      return { error: safeError('Program does not belong to the provider tenant', 403) };
+    }
+    return { tenantId: profileTenantId };
+  }
+
+  const tenantId = bodyTenantId ?? programTenantId ?? profileTenantId ?? undefined;
+  if (!tenantId) return { error: safeError('tenant_id is required for program submission', 400) };
+  if (programTenantId && programTenantId !== tenantId) {
+    return { error: safeError('Program does not belong to the requested tenant', 403) };
+  }
+  return { tenantId };
+}
 
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -39,12 +89,6 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
     if (profileError) return safeDbError(profileError, 'Provider program submit profile lookup failed');
 
-    const requestedTenantId = body.tenant_id ?? (profile as { tenant_id?: string } | null)?.tenant_id;
-    if (!requestedTenantId) return safeError('tenant_id is required for program submission', 400);
-    if (auth.role === 'provider_admin' && requestedTenantId !== (profile as { tenant_id?: string } | null)?.tenant_id) {
-      return safeError('Provider admins can only submit programs for their tenant', 403);
-    }
-
     const { data: program, error: programError } = await db
       .from('programs')
       .select('id, title, slug, tenant_id, status, is_published, updated_at')
@@ -53,10 +97,14 @@ export async function POST(request: NextRequest) {
     if (programError) return safeDbError(programError, 'Provider program submit lookup failed');
     if (!program) return safeError('Program not found', 404);
 
-    const programTenantId = (program as { tenant_id?: string | null }).tenant_id;
-    if (programTenantId && programTenantId !== requestedTenantId) {
-      return safeError('Program does not belong to the requested tenant', 403);
-    }
+    const tenantResolution = resolveTenantId({
+      role: auth.role,
+      bodyTenantId: body.tenant_id,
+      profileTenantId: (profile as ProfileTenant | null)?.tenant_id,
+      programTenantId: (program as ProviderProgram).tenant_id,
+    });
+    if (tenantResolution.error) return tenantResolution.error;
+    const requestedTenantId = tenantResolution.tenantId!;
 
     const { data: existing, error: existingError } = await db
       .from('provider_program_approvals')

@@ -8,7 +8,6 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const ADMIN_ROLES = new Set(['admin', 'super_admin', 'platform_operator', 'staff', 'org_admin']);
-const ADMIN_ROLES = new Set(['admin', 'super_admin', 'staff', 'org_admin']);
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const rateLimited = await applyRateLimit(request, 'api');
