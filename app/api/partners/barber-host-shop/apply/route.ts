@@ -266,11 +266,14 @@ async function _POST(req: Request) {
     }
 
     const approvalHoldReasons: string[] = [];
-    if (body.hasGeneralLiability !== 'yes') approvalHoldReasons.push('General liability not confirmed');
+    if (body.hasGeneralLiability !== 'yes')
+      approvalHoldReasons.push('General liability not confirmed');
     if (wcStatus === 'none') approvalHoldReasons.push("Workers' compensation missing");
     if (!insuranceCoiFilePath) approvalHoldReasons.push('Insurance certificate not uploaded');
     const insuranceStatus = approvalHoldReasons.length > 0 ? 'rejected' : 'pending';
-    const insuranceReasonCodes = approvalHoldReasons.map((r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`);
+    const insuranceReasonCodes = approvalHoldReasons.map(
+      (r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`,
+    );
 
     const ipRaw = getClientIp(req);
 
@@ -314,13 +317,18 @@ async function _POST(req: Request) {
         can_supervise_and_verify: body.canSuperviseAndVerify === 'yes',
         mou_acknowledged: body.mouAcknowledged,
         consent_acknowledged: body.consentAcknowledged,
-        notes: [
-          body.notes?.trim() || null,
-          shopLicenseDocumentPath ? `shop_license_document_path=${shopLicenseDocumentPath}` : null,
-          approvalHoldReasons.length ? `approval_hold_reasons=${approvalHoldReasons.join('; ')}` : null,
-        ]
-          .filter(Boolean)
-          .join('\n') || null,
+        notes:
+          [
+            body.notes?.trim() || null,
+            shopLicenseDocumentPath
+              ? `shop_license_document_path=${shopLicenseDocumentPath}`
+              : null,
+            approvalHoldReasons.length
+              ? `approval_hold_reasons=${approvalHoldReasons.join('; ')}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join('\n') || null,
         signature_data: body.signatureData || null,
         // EIN
         ein: body.ein?.trim() || null,
@@ -488,6 +496,44 @@ async function _POST(req: Request) {
       subject: `[Copy] Welcome to the Barbershop Partner Program — ${shopDisplayName}`,
       html: partnerWelcomeHtml,
     }).catch((err) => logger.error('Failed to send admin copy of partner welcome email', err));
+
+    // Create or update the partner login profile so the host shop can access
+    // onboarding/forms after submission instead of only appearing in admin.
+    try {
+      const normalizedEmail = body.contactEmail.toLowerCase().trim();
+      const { data: existingUsers } = await supabase.auth.admin.listUsers();
+      const existingUser = existingUsers?.users?.find(
+        (user: { email?: string }) => user.email?.toLowerCase() === normalizedEmail,
+      );
+      const invited = existingUser
+        ? null
+        : await supabase.auth.admin.inviteUserByEmail(normalizedEmail, {
+            redirectTo: `${PLATFORM_DEFAULTS.siteUrl}/partners/barber-host-shop/forms`,
+            data: {
+              full_name: body.contactName,
+              role: 'partner',
+              partner_type: 'barber_host_shop',
+              partner_application_id: data.id,
+            },
+          });
+      const userId = existingUser?.id || invited?.data?.user?.id;
+      if (userId) {
+        const [firstName = body.contactName, ...lastNameParts] = body.contactName.split(' ');
+        await supabase.from('profiles').upsert(
+          {
+            id: userId,
+            email: normalizedEmail,
+            first_name: firstName,
+            last_name: lastNameParts.join(' ') || null,
+            full_name: body.contactName,
+            role: 'partner',
+          },
+          { onConflict: 'id' },
+        );
+      }
+    } catch (accountErr) {
+      logger.error('Failed to create/update barbershop partner account', accountErr as Error);
+    }
 
     return NextResponse.json({
       success: true,

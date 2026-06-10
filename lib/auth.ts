@@ -3,12 +3,12 @@
 // =====================================================
 
 import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
-import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
-import type { UserRole } from '@/types/database';
+import { ADMIN_ROLES, type UserRole } from '@/lib/rbac/role-matrix';
 import { logger } from '@/lib/logger';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -208,8 +208,7 @@ export async function requireApiAuth() {
 export async function requireAuth(redirectTo?: string, loginBase?: string) {
   const session = await getSession();
   if (!session) {
-    const base =
-      loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
+    const base = loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
     const loginUrl = redirectTo
       ? `${base}/login?redirect=${encodeURIComponent(redirectTo)}`
       : `${base}/login`;

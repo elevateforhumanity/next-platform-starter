@@ -28,6 +28,7 @@ async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'contact');
   if (rateLimited) return rateLimited;
 
+  const stripe = getStripe();
   if (!stripe) {
     return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
@@ -157,8 +158,6 @@ async function _POST(request: NextRequest) {
       }),
     };
 
-    const stripe = getStripe();
-    if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     const session = await stripe.checkout.sessions.create(sessionConfig);
 
     // Log the checkout attempt

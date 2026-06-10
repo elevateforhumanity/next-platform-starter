@@ -13,10 +13,15 @@ export type PlatformPermissionLevel =
   | 'standard_user';
 
 export const PLATFORM_OWNER_ROLES: UserRole[] = ['super_admin', 'platform_operator'];
-export const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
+export const PLATFORM_STAFF_ROLES: UserRole[] = [
+  'super_admin',
+  'platform_operator',
+  'admin',
+  'staff',
+];
 export const ORGANIZATION_ADMIN_ROLES: UserRole[] = ['org_admin'];
 
-/** Capabilities gated to platform operator (super_admin on owner tenant). */
+/** Capabilities gated to platform operator (super_admin or platform_operator). */
 export const PLATFORM_OPERATOR_CAPABILITIES = [
   'deploy_code',
   'access_devstudio',
@@ -54,11 +59,7 @@ export function resolvePermissionLevel(params: {
     return 'platform_admin';
   }
 
-  if (
-    profileRole === 'org_admin' ||
-    orgRole === 'org_admin' ||
-    orgRole === 'org_owner'
-  ) {
+  if (profileRole === 'org_admin' || orgRole === 'org_admin' || orgRole === 'org_owner') {
     return 'organization_admin';
   }
 

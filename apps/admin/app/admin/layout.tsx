@@ -13,6 +13,7 @@ import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { unstable_cache } from 'next/cache';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
+import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 import { getSecuritySettings } from '@/lib/admin/security-settings';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
@@ -30,8 +31,7 @@ export const runtime = 'nodejs';
 
 export const metadata: Metadata = {
   title: 'Admin Portal - Manage Programs & Operations',
-  description:
-    `Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for ${PLATFORM_DEFAULTS.orgName}.`,
+  description: `Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for ${PLATFORM_DEFAULTS.orgName}.`,
   keywords: [
     'admin portal',
     'program management',
@@ -137,10 +137,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     getCachedNavSections(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').catch(() => DEFAULT_NAV),
   ]);
 
-  // Role enforcement — runs on the result fetched in parallel above.
+  // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and the admin-login route.
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
-  if (!ADMIN_ROLES.includes(roleCheck.role)) redirect('/unauthorized');
+  if (!ADMIN_ROLES.includes(roleCheck.role as any)) {
+    redirect(`/unauthorized?reason=${encodeURIComponent(String(roleCheck.role ?? 'role_denied'))}`);
+  }
 
   // MFA enforcement — if mfa_required is enabled in platform_settings,
   // redirect admins who haven't set up MFA to the security settings page.
