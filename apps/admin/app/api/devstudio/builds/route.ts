@@ -106,6 +106,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  }
+
+  if (!projectId || !isNorthflankReady()) {
+    return NextResponse.json(
+      {
+        build: data,
+        triggered: false,
+        message: 'Build record created, but Northflank API credentials are not configured.',
+      },
+      { status: 202 },
+    );
+  }
+
   try {
     const northflankBuilds = await Promise.all(
       services.map(async (item) => ({

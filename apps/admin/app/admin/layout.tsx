@@ -127,8 +127,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Header data (notification counts, user name) is no longer fetched here —
   // AdminNavShell fetches it client-side via /api/admin/header-data so it
   // never blocks the server render.
-  const [roleCheckRes, context, navSections] = await Promise.all([
+  const [roleCheckRes, secondaryRoleRes, context, navSections] = await Promise.all([
     effectiveDb.from('profiles').select('role').eq('id', user.id).maybeSingle(),
+    effectiveDb.from('user_roles').select('roles(name)').eq('user_id', user.id),
     withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(
       () => null,
     ),
@@ -139,6 +140,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and the admin-login route.
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
+  const secondaryRoles = (secondaryRoleRes.data ?? [])
+    .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+    .filter((role): role is string => typeof role === 'string');
+  const effectiveRoles = Array.from(new Set([roleCheck.role, ...secondaryRoles]));
+  if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {
   if (!ADMIN_ROLES.includes(roleCheck.role as any)) {
     redirect(`/unauthorized?reason=${encodeURIComponent(String(roleCheck.role ?? 'role_denied'))}`);
   }

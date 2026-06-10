@@ -82,7 +82,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!ADMIN_ROLES.includes(profile.role)) {
+  const { data: roleRows } = await db
+    .from('user_roles')
+    .select('roles(name)')
+    .eq('user_id', authData.user.id);
+  const secondaryRoles = (roleRows ?? [])
+    .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+    .filter((role): role is string => typeof role === 'string');
+  const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
+
+  if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {
     await supabase.auth.signOut();
     return NextResponse.json(
       { error: 'You do not have permission to access the admin portal.' },
@@ -90,5 +99,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ ok: true, role: profile.role });
+  return NextResponse.json({ ok: true, role: profile.role, effectiveRoles });
 }
