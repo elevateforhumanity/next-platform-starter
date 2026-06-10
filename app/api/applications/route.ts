@@ -73,6 +73,10 @@ function titleizeProgram(value: string): string {
 }
 
 function normalizeProgramPayload(body: Record<string, any>) {
+  const rawSlug = String(body.programSlug || body.program_slug || body.preferredProgramId || '').trim();
+  const rawProgram = String(body.program || body.programName || body.programTitle || rawSlug || '').trim();
+  const slug = rawSlug ? slugifyProgram(rawSlug) : slugifyProgram(rawProgram);
+  const displayName = String(body.programName || body.programTitle || '').trim() || titleizeProgram(rawProgram || slug);
   const rawSlug = String(
     body.programSlug || body.program_slug || body.preferredProgramId || '',
   ).trim();
@@ -125,6 +129,7 @@ async function claimIdempotencyKey(
 
   try {
     const setResult = await redis.set(key, value, { nx: true, ex: ttlSeconds });
+    const claimed = setResult === 'OK';
     const claimed = ['OK', '1', 'true'].includes(String(setResult));
     if (claimed) {
       return { duplicate: false, samePayload: false };
@@ -224,6 +229,7 @@ async function _POST(req: Request) {
       );
     }
 
+    const fingerprint = `${String(body.email || '').toLowerCase().trim()}|${programSlug}|${normalizedPhone}`;
     const fingerprint = `${String(body.email || '')
       .toLowerCase()
       .trim()}|${programSlug}|${normalizedPhone}`;
@@ -280,6 +286,7 @@ async function _POST(req: Request) {
       .from('applications')
       .select('id')
       .eq('email', body.email.toLowerCase().trim())
+      .or(`program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`)
       .or(
         `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
       )
@@ -294,6 +301,7 @@ async function _POST(req: Request) {
         .from('applications')
         .select('id')
         .eq('normalized_phone', normalizedPhone)
+        .or(`program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`)
         .or(
           `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
         )
@@ -465,6 +473,10 @@ async function _POST(req: Request) {
           modality_preference: undefined,
           transfer_hours_claimed: undefined,
           funding_eligibility_status: undefined,
+          funding_type: undefined,       // added in 20260425000001
+          program_slug: undefined,       // added in 20260224000002 (applications table)
+          program_id: undefined,
+          date_of_birth: undefined,      // added in 20260304120000
           funding_type: undefined, // added in 20260425000001
           program_slug: undefined, // added in 20260224000002 (applications table)
           program_id: undefined,

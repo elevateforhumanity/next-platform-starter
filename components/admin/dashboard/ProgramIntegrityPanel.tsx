@@ -21,6 +21,8 @@ interface ProgramRow {
 interface ApiResponse {
   programs: ProgramRow[];
   pending_migration?: boolean;
+  source?: 'view' | 'fallback';
+  fallback_reason?: string;
 }
 
 const FAILING_CHECK_LABELS: Record<string, string> = {
@@ -117,17 +119,19 @@ export function ProgramIntegrityPanel() {
         </div>
       </div>
 
-      {data?.pending_migration ? (
-        <div className="px-6 py-5 flex items-start gap-3">
+      {data?.source === 'fallback' && (
+        <div className="border-b border-amber-100 bg-amber-50 px-6 py-3 flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-slate-800">Migration pending</p>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Apply <code className="font-mono bg-slate-100 px-1 rounded">20260701000003_program_integrity_view.sql</code> in Supabase Dashboard to enable this panel.
+            <p className="text-sm font-semibold text-amber-900">Live fallback audit active</p>
+            <p className="text-xs text-amber-800 mt-0.5">
+              The database view is not available, so the dashboard computed integrity from live program, module, lesson, enrollment, certificate, and completion-rule tables.
             </p>
           </div>
         </div>
-      ) : error ? (
+      )}
+
+      {error ? (
         <div className="px-6 py-4 text-sm text-red-600">{error}</div>
       ) : loading && !data ? (
         <div className="divide-y divide-slate-100">

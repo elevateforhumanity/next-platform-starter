@@ -350,6 +350,7 @@ async function insertApplication(payload: {
   source: string;
   fundingType?: string | null;
 }): Promise<
+  | { success: true; status?: 'submitted'; applicationId: string; referenceNumber: string; email?: string }
   | {
       success: true;
       applicationId: string;

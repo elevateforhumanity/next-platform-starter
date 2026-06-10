@@ -15,6 +15,30 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
 
+
+const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);
+const ADMIN_ORIGIN = (process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(/\/$/, '');
+
+function normalizePostLoginRedirect(target: string, role: string | null | undefined): string | null {
+  if (!target) return null;
+  const isAdminRole = ADMIN_LOGIN_ROLES.has(String(role ?? ''));
+
+  try {
+    if (target.startsWith('https://')) {
+      const url = new URL(target);
+      const isAdminHost = url.hostname === 'admin.elevateforhumanity.org';
+      if (isAdminHost) return isAdminRole ? url.toString() : null;
+      return target;
+    }
+
+    if (target.startsWith('/admin')) {
+      return isAdminRole ? `${ADMIN_ORIGIN}${target}` : null;
+    }
+  } catch {
+    return null;
+  }
+
+  return target;
 async function resolveLandingAfterPasswordLogin(redirectTo: string): Promise<string> {
   const query = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : '';
   let lastStatus = 0;
@@ -100,6 +124,65 @@ function LoginForm() {
 
       if (!data?.user) throw new Error('Login succeeded but no user returned');
 
+      // Fetch profile — role + portal_type + onboarding status drive routing
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role, onboarding_completed, enrollment_status, portal_type')
+        .eq('id', data.user.id)
+        .maybeSingle();
+
+      if (profileError) {
+        // profile fetch failed — non-fatal, user still authenticated
+        setError('Unable to load your profile. Please try again or contact support.');
+        setLoading(false);
+        return;
+      }
+
+      if (!profile) {
+        // Profile row missing — send to onboarding to create one
+        window.location.href = '/onboarding/learner';
+        return;
+      }
+
+      const role = profile.role;
+
+      // Explicit redirect param takes priority only after role-aware admin-domain normalization.
+      // This prevents www /login?redirect=/admin/dashboard from trapping admins on the wrong host
+      // and prevents non-admin users from being sent into an admin unauthorized loop.
+      const resolvedRedirect = normalizePostLoginRedirect(next, role);
+      if (resolvedRedirect) {
+        window.location.href = resolvedRedirect;
+        return;
+      }
+
+
+      const onboardingDone = profile.onboarding_completed === true;
+
+      // Employer: gate on onboarding before dashboard.
+      if (role === 'employer' && !onboardingDone) {
+        window.location.href = '/onboarding/employer';
+        return;
+      }
+
+      // Students: slug-aware portal (barber, cosmetology, …) then category fallback.
+      if (role === 'student') {
+        const studentDest = await resolvePortalForUser(supabase, data.user.id);
+        const twoFARes2 = await fetch('/api/auth/2fa/status');
+        if (twoFARes2.ok) {
+          const { enabled } = await twoFARes2.json();
+          if (enabled) {
+            pendingDestRef.current = studentDest;
+            setShow2FA(true);
+            setLoading(false);
+            return;
+          }
+        }
+        window.location.href = studentDest;
+        return;
+      }
+
+      // All other roles: canonical destination from lib/auth/role-destinations.ts.
+      const dest = getRoleDestination(role);
       const dest = await resolveLandingAfterPasswordLogin(next);
 
       // Check 2FA before navigating — if enabled, show challenge screen
@@ -158,7 +241,9 @@ function LoginForm() {
       const redirectTo = next
         ? next.startsWith('https://')
           ? next
-          : `${window.location.origin}${next}`
+          : next.startsWith('/admin')
+            ? `${ADMIN_ORIGIN}${next}`
+            : `${window.location.origin}${next}`
         : `${window.location.origin}/learner/dashboard`;
       const res = await fetch('/api/auth/send-magic-link', {
         method: 'POST',

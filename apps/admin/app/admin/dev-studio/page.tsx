@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 export default async function DevStudioPage() {
   const auth = await requireRole(['super_admin', 'platform_operator']);
+  const isSuperAdmin = auth.effectiveRoles.some((role) => role === 'super_admin' || role === 'platform_operator');
   const isSuperAdmin = auth.effectiveRoles.some(
     (role) => role === 'super_admin' || role === 'platform_operator',
   );

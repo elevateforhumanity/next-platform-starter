@@ -39,7 +39,6 @@ async function _POST(req: Request) {
       );
     }
 
-    const Stripe = (await import('stripe')).default;
     const stripe = getStripe();
     if (!stripe)
       return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });

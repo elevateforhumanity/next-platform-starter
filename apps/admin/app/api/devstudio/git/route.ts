@@ -56,6 +56,7 @@ const HAS_GIT = REPO_DIR !== null;
 
 function git(args: string[], opts?: { timeout?: number; token?: string }): string {
   if (!HAS_GIT) throw new Error('No local .git - production mode uses GitHub API or studio-shell');
+  const token = opts?.token ?? process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? process.env.GITHUB_PAT ?? '';
   const token =
     opts?.token ?? process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? process.env.GITHUB_PAT ?? '';
   const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0', GIT_ASKPASS: 'echo' };
@@ -64,6 +65,7 @@ function git(args: string[], opts?: { timeout?: number; token?: string }): strin
     env.GIT_CONFIG_KEY_0 = `url.https://x-access-token:${token}@github.com/.insteadOf`;
     env.GIT_CONFIG_VALUE_0 = 'https://github.com/';
   }
+  return execFileSync('git', ['-C', REPO_DIR!, ...args], { timeout: opts?.timeout ?? 15000, encoding: 'utf8', env }).trim();
   return execFileSync('git', ['-C', REPO_DIR!, ...args], {
     timeout: opts?.timeout ?? 15000,
     encoding: 'utf8',
@@ -74,6 +76,8 @@ function git(args: string[], opts?: { timeout?: number; token?: string }): strin
 function redactToken(output: string, token: string): string {
   if (!token) return output;
   const basic = Buffer.from(`x-access-token:${token}`).toString('base64');
+  return [token, `x-access-token:${token}`, basic, `Authorization: Basic ${basic}`]
+    .reduce((acc, secret) => acc.split(secret).join('[REDACTED]'), output);
   return [token, `x-access-token:${token}`, basic, `Authorization: Basic ${basic}`].reduce(
     (acc, secret) => acc.split(secret).join('[REDACTED]'),
     output,
@@ -94,6 +98,10 @@ function getGithubToken(request?: NextRequest, body?: { githubToken?: string }):
 
 function isNetworkBlockedError(err: unknown): boolean {
   const text = err instanceof Error ? `${err.name} ${err.message} ${err.stack ?? ''}` : String(err);
+  return /CONNECT tunnel failed|response 403|Could not resolve host|getaddrinfo|EAI_AGAIN|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|network timeout|fetch failed/i.test(text);
+}
+
+type GithubTreeItem = { path: string; mode?: string; type?: 'blob' | 'tree' | 'commit'; sha?: string | null };
   return /CONNECT tunnel failed|response 403|Could not resolve host|getaddrinfo|EAI_AGAIN|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|network timeout|fetch failed/i.test(
     text,
   );
@@ -126,6 +134,7 @@ async function githubApi<T>(path: string, token: string, init?: RequestInit): Pr
 }
 
 async function getGithubRefSha(repo: string, branch: string): Promise<string> {
+  const data = await ghFetch(`/repos/${repo}/git/ref/heads/${encodePath(branch)}`) as { object?: { sha?: string } };
   const data = (await ghFetch(`/repos/${repo}/git/ref/heads/${encodePath(branch)}`)) as {
     object?: { sha?: string };
   };
@@ -156,6 +165,12 @@ function gitText(args: string[], opts?: { timeout?: number }): string {
 }
 
 function parseDiffNameStatus(output: string) {
+  return output.split('\n').filter(Boolean).map((line) => {
+    const parts = line.split('\t');
+    const status = parts[0] ?? '';
+    if (status.startsWith('R')) return { status: 'R', oldPath: parts[1], path: parts[2] };
+    return { status: status[0], path: parts[1] };
+  }).filter((entry): entry is { status: string; path: string; oldPath?: string } => !!entry.path);
   return output
     .split('\n')
     .filter(Boolean)
@@ -176,6 +191,13 @@ async function createGithubBlob(repo: string, token: string, content: Buffer): P
   return blob.sha;
 }
 
+async function promoteLocalHeadViaGithubApi(params: { repo: string; sourceRef: string; targetBranch: string; token: string; message?: string }) {
+  const { repo, sourceRef, targetBranch, token } = params;
+  const sourceSha = gitText(['rev-parse', sourceRef]);
+  const target = await githubApi<{ object: { sha: string } }>(`/repos/${repo}/git/ref/heads/${encodePath(targetBranch)}`, token);
+  const targetSha = target.object.sha;
+  const targetCommit = await githubApi<{ tree: { sha: string } }>(`/repos/${repo}/git/commits/${targetSha}`, token);
+  const diff = gitText(['diff', '--name-status', '--find-renames', `${targetSha}..${sourceSha}`], { timeout: 30000 });
 async function promoteLocalHeadViaGithubApi(params: {
   repo: string;
   sourceRef: string;
@@ -229,6 +251,7 @@ async function promoteLocalHeadViaGithubApi(params: {
     }),
   });
   await updateGithubBranchRef(repo, targetBranch, newCommit.sha, token);
+  return { sourceSha, targetSha, newSha: newCommit.sha, changedFiles: entries.length, skipped: false };
   return {
     sourceSha,
     targetSha,
@@ -271,6 +294,13 @@ export async function GET(request: NextRequest) {
       if (HAS_GIT) {
         const branch = git(['rev-parse', '--abbrev-ref', 'HEAD']);
         const status = git(['status', '--porcelain']);
+        const ahead = (() => { try { return git(['rev-list', '--count', '@{u}..HEAD']); } catch { return '0'; } })();
+        const behind = (() => { try { return git(['rev-list', '--count', 'HEAD..@{u}']); } catch { return '0'; } })();
+        const log = git(['log', '--oneline', '-10', '--pretty=format:%h|%s|%an|%ar']);
+        const changed = status.split('\n').filter(Boolean).map(line => ({ status: line.slice(0, 2).trim(), file: line.slice(3) }));
+        const commits = log.split('\n').filter(Boolean).map(line => {
+          const [hash, subject, author, when] = line.split('|');
+          return { hash, subject, author, when };
         const ahead = (() => {
           try {
             return git(['rev-list', '--count', '@{u}..HEAD']);
@@ -336,6 +366,7 @@ export async function GET(request: NextRequest) {
 
     if (action === 'diff') {
       if (HAS_GIT) {
+        const diff = git(file ? ['diff', 'HEAD', '--', file] : ['diff', 'HEAD'], { timeout: 10000 });
         const diff = git(file ? ['diff', 'HEAD', '--', file] : ['diff', 'HEAD'], {
           timeout: 10000,
         });
@@ -365,6 +396,10 @@ export async function GET(request: NextRequest) {
     if (action === 'log') {
       if (HAS_GIT) {
         const log = git(['log', '--oneline', '-30', '--pretty=format:%h|%s|%an|%ar|%D']);
+        const commits = log.split('\n').filter(Boolean).map(line => {
+          const [hash, subject, author, when, refs] = line.split('|');
+          return { hash, subject, author, when, refs };
+        });
         const commits = log
           .split('\n')
           .filter(Boolean)
@@ -393,6 +428,9 @@ export async function GET(request: NextRequest) {
     if (action === 'branches') {
       if (HAS_GIT) {
         const local = git(['branch', '--format=%(refname:short)']).split('\n').filter(Boolean);
+        const remote = (() => { try { return git(['branch', '-r', '--format=%(refname:short)']).split('\n').filter(Boolean); } catch { return []; } })();
+        const current = git(['rev-parse', '--abbrev-ref', 'HEAD']);
+        return NextResponse.json({ local, remote, current, mode: 'local', repo, workdir: REPO_DIR });
         const remote = (() => {
           try {
             return git(['branch', '-r', '--format=%(refname:short)']).split('\n').filter(Boolean);
@@ -430,6 +468,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
+
+function safeBranch(value: string, label: string): string | NextResponse {
+  if (!SAFE_BRANCH_RE.test(value) || value.includes('..') || value.startsWith('/') || value.endsWith('/')) {
 function safeBranch(value: string, label: string): string | NextResponse {
   if (
     !SAFE_BRANCH_RE.test(value) ||
@@ -445,6 +486,7 @@ function safeBranch(value: string, label: string): string | NextResponse {
 function configureLocalGit(remoteUrl: string, userName: string, userEmail: string) {
   git(['config', 'user.name', userName]);
   git(['config', 'user.email', userEmail]);
+  const remotes = git(['remote']).split('\n').map((line) => line.trim());
   const remotes = git(['remote'])
     .split('\n')
     .map((line) => line.trim());
@@ -459,6 +501,8 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireDevStudio(request);
   if (auth.error) return auth.error;
 
+  let body: { action: string; message?: string; files?: string[]; branch?: string; sourceBranch?: string; targetBranch?: string; remoteUrl?: string; userName?: string; userEmail?: string; confirmation?: string; path?: string; content?: string; sha?: string; strategy?: string; githubToken?: string };
+  try { body = await request.json(); } catch { return safeError('Invalid JSON', 400); }
   let body: {
     action: string;
     message?: string;
@@ -498,6 +542,11 @@ export async function POST(request: NextRequest) {
 
       const confirm = requireTypedConfirmation(body.confirmation, 'git_push');
       if (!confirm.ok) {
+        return NextResponse.json({ ok: false, error: `Type "${confirm.required}" to confirm push to ${targetBranch}`, requiresConfirmation: true, required: confirm.required }, { status: 422 });
+      }
+
+      const token = getGithubToken(request, body);
+      if (!token) return safeError('GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to update GitHub refs from production.', 409);
         return NextResponse.json(
           {
             ok: false,
@@ -532,6 +581,10 @@ export async function POST(request: NextRequest) {
 
     if (action === 'commit') {
       const { path: filePath, content, message } = body;
+      if (!filePath || !content || !message) return safeError('path, content, and message required in GitHub API mode', 400);
+      const current = await ghFetch(`/repos/${repo}/contents/${encodePath(filePath)}?ref=${encodeURIComponent(branchRef)}`) as { sha: string };
+      const token = getGithubToken(request, body);
+      if (!token) return safeError('GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to commit through GitHub API mode.', 409);
       if (!filePath || !content || !message)
         return safeError('path, content, and message required in GitHub API mode', 400);
       const current = (await ghFetch(
@@ -567,6 +620,7 @@ export async function POST(request: NextRequest) {
         branch: branchRef,
       });
     }
+    return NextResponse.json({ ok: false, error: `"${action}" requires local git. Use commit/configure-and-push in GitHub API mode, or use the Terminal tab (studio-shell) in /repo for full-repo git commands.`, mode: 'github-api', repo, branch: branchRef }, { status: 422 });
     return NextResponse.json(
       {
         ok: false,
@@ -585,6 +639,15 @@ export async function POST(request: NextRequest) {
       const targetBranch = safeBranch(targetBranchRaw, 'targetBranch');
       if (targetBranch instanceof NextResponse) return targetBranch;
 
+      const sourceBranchRaw = (body.sourceBranch ?? git(['rev-parse', '--abbrev-ref', 'HEAD'])).trim();
+      const sourceBranch = safeBranch(sourceBranchRaw, 'sourceBranch');
+      if (sourceBranch instanceof NextResponse) return sourceBranch;
+
+      const remoteUrl = (body.remoteUrl ?? process.env.GITHUB_REMOTE_URL ?? DEFAULT_REMOTE_URL).trim();
+      const userName = (body.userName ?? process.env.GIT_AUTHOR_NAME ?? DEFAULT_USER_NAME).trim();
+      const userEmail = (body.userEmail ?? process.env.GIT_AUTHOR_EMAIL ?? DEFAULT_USER_EMAIL).trim();
+      const token = getGithubToken(request, body);
+      if (!token) return safeError('GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to push from the admin container.', 409);
       const sourceBranchRaw = (
         body.sourceBranch ?? git(['rev-parse', '--abbrev-ref', 'HEAD'])
       ).trim();
@@ -613,6 +676,20 @@ export async function POST(request: NextRequest) {
       const basic = Buffer.from(`x-access-token:${token}`).toString('base64');
       const confirm = requireTypedConfirmation(body.confirmation, 'git_push');
       if (!confirm.ok) {
+        return NextResponse.json({ ok: false, error: `Type "${confirm.required}" to confirm push to ${targetBranch}`, requiresConfirmation: true, required: confirm.required }, { status: 422 });
+      }
+      if (body.strategy === 'github-api') {
+        const promoted = await promoteLocalHeadViaGithubApi({ repo, sourceRef: sourceBranch, targetBranch, token, message: body.message });
+        return NextResponse.json({ ok: true, action, sourceBranch, targetBranch, mode: 'github-api-tree-promote', hash: promoted.newSha.slice(0, 7), changedFiles: promoted.changedFiles, skipped: promoted.skipped, repo, workdir: REPO_DIR });
+      }
+
+      try {
+        const out = git(['-c', `http.https://github.com/.extraheader=Authorization: Basic ${basic}`, 'push', 'origin', `${sourceBranch}:${targetBranch}`], { timeout: 120000, token });
+        return NextResponse.json({ ok: true, action, sourceBranch, targetBranch, mode: 'git-push', output: redactToken(out, token), repo, workdir: REPO_DIR });
+      } catch (err) {
+        if (!isNetworkBlockedError(err)) throw err;
+        const promoted = await promoteLocalHeadViaGithubApi({ repo, sourceRef: sourceBranch, targetBranch, token, message: body.message });
+        return NextResponse.json({ ok: true, action, sourceBranch, targetBranch, mode: 'github-api-tree-promote-after-git-network-failure', hash: promoted.newSha.slice(0, 7), changedFiles: promoted.changedFiles, skipped: promoted.skipped, warning: 'Local git push was blocked by container network/proxy, so Dev Studio promoted the local HEAD tree through the GitHub API.', repo, workdir: REPO_DIR });
         return NextResponse.json(
           {
             ok: false,
@@ -693,6 +770,11 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'configure-git') {
+      const remoteUrl = (body.remoteUrl ?? process.env.GITHUB_REMOTE_URL ?? DEFAULT_REMOTE_URL).trim();
+      const userName = (body.userName ?? process.env.GIT_AUTHOR_NAME ?? DEFAULT_USER_NAME).trim();
+      const userEmail = (body.userEmail ?? process.env.GIT_AUTHOR_EMAIL ?? DEFAULT_USER_EMAIL).trim();
+      configureLocalGit(remoteUrl, userName, userEmail);
+      return NextResponse.json({ ok: true, action, remoteUrl, userName, userEmail, repo, workdir: REPO_DIR });
       const remoteUrl = (
         body.remoteUrl ??
         process.env.GITHUB_REMOTE_URL ??
@@ -725,6 +807,8 @@ export async function POST(request: NextRequest) {
         git(['add', '-A']);
       }
       const staged = git(['diff', '--cached', '--name-only']);
+      if (!staged.trim()) return NextResponse.json({ ok: false, message: 'Nothing to commit - working tree clean', repo, workdir: REPO_DIR });
+      git(['commit', '-m', msg, `--author=Admin Studio <admin@${PLATFORM_DEFAULTS.canonicalDomain}>`]);
       if (!staged.trim())
         return NextResponse.json({
           ok: false,
@@ -768,6 +852,7 @@ export async function POST(request: NextRequest) {
       }
       const ghToken = getGithubToken(request, body);
       const pushOut = ghToken
+        ? git(['-c', `http.https://github.com/.extraheader=Authorization: Basic ${Buffer.from(`x-access-token:${ghToken}`).toString('base64')}`, 'push', 'origin', branch], { timeout: 30000, token: ghToken })
         ? git(
             [
               '-c',
@@ -793,6 +878,7 @@ export async function POST(request: NextRequest) {
       if (!branch) return safeError('branch name required', 400);
       const safe = safeBranch(branch, 'branch');
       if (safe instanceof NextResponse) return safe;
+      try { git(['checkout', safe]); } catch { git(['checkout', '-b', safe]); }
       try {
         git(['checkout', safe]);
       } catch {

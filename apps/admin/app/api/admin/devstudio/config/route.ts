@@ -104,6 +104,9 @@ export async function GET(req: NextRequest) {
       'Run platform stabilize check',
     ],
     workflowButtons: [
+      { key: 'deploy-all', label: 'Deploy All', description: 'Build and deploy LMS plus Admin on Northflank from main' },
+      { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
+      { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin service on Northflank' },
       {
         key: 'deploy-all',
         label: 'Deploy All',

@@ -132,6 +132,7 @@ export const SENSITIVE_ROUTES = [
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
+import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES, type UserRole } from '@/lib/rbac/role-matrix';
 import {
   API_ADMIN_ROLES,
   INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES,
@@ -231,6 +232,7 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
   return user;
 }
 
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'platform_operator'];
 const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 
 /**

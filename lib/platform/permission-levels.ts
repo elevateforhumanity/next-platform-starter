@@ -13,6 +13,7 @@ export type PlatformPermissionLevel =
   | 'standard_user';
 
 export const PLATFORM_OWNER_ROLES: UserRole[] = ['super_admin', 'platform_operator'];
+export const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 export const PLATFORM_STAFF_ROLES: UserRole[] = [
   'super_admin',
   'platform_operator',
@@ -52,6 +53,7 @@ export function resolvePermissionLevel(params: {
 }): PlatformPermissionLevel {
   const { profileRole, isPlatformOwnerTenant, orgRole } = params;
 
+  // super_admin and platform_operator get platform_owner level — full Dev Studio/deploy access.
   // Platform owner roles get Dev Studio/deploy access regardless of tenant
   if (profileRole && PLATFORM_OWNER_ROLES.includes(profileRole)) return 'platform_owner';
 

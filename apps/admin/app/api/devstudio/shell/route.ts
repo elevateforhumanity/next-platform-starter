@@ -148,6 +148,7 @@ export async function POST(request: NextRequest) {
   };
 
   // Normalise to filename
+  const workflowFile = workflowAliases[workflowRaw] ?? (workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`);
   const workflowFile =
     workflowAliases[workflowRaw] ??
     (workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`);

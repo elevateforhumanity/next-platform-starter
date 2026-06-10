@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getHostShopBoard } from '@/lib/partner/board';
 import Link from 'next/link';
-import { Clock, Users, TrendingUp, FileText } from 'lucide-react';
+import { AlertCircle, CheckCircle, Clock, FileText, TrendingUp, Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,10 +63,99 @@ export default async function PartnerBoardPage() {
         </div>
         <div className="bg-white rounded-xl border p-5">
           <FileText className="w-5 h-5 text-purple-500 mb-2" />
-          <p className="text-2xl font-bold">{board.partner?.documents_verified ? '✓' : '—'}</p>
-          <p className="text-sm text-slate-600">Documents Verified</p>
+          <p className="text-2xl font-bold">
+            {board.requiredDocumentCount
+              ? `${board.acceptedDocumentCount}/${board.requiredDocumentCount}`
+              : board.partner?.documents_verified
+                ? '✓'
+                : '—'}
+          </p>
+          <p className="text-sm text-slate-600">Required Docs Accepted</p>
         </div>
       </div>
+
+      {(board.missingDocuments.length > 0 || board.pendingDocuments.length > 0 || !board.partner?.onboarding_completed) && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex gap-3">
+              <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" />
+              <div>
+                <h2 className="font-semibold text-amber-950">Finish host-site onboarding</h2>
+                <p className="mt-1 text-sm text-amber-900">
+                  Your host shop is approved for portal access. Finish onboarding and upload the
+                  required documents before apprentices can be fully placed at your site.
+                </p>
+                <div className="mt-3 grid gap-2 text-sm text-amber-950 md:grid-cols-3">
+                  <div className="rounded-lg bg-white/70 p-3">
+                    <p className="font-medium">MOU</p>
+                    <p className="mt-1 flex items-center gap-1 text-xs">
+                      {board.partner?.mou_signed ? (
+                        <CheckCircle className="h-3.5 w-3.5 text-brand-green-600" />
+                      ) : (
+                        <AlertCircle className="h-3.5 w-3.5 text-amber-600" />
+                      )}
+                      {board.partner?.mou_signed ? 'Signed' : 'Needs signature'}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-white/70 p-3">
+                    <p className="font-medium">Onboarding forms</p>
+                    <p className="mt-1 flex items-center gap-1 text-xs">
+                      {board.partner?.onboarding_completed ? (
+                        <CheckCircle className="h-3.5 w-3.5 text-brand-green-600" />
+                      ) : (
+                        <AlertCircle className="h-3.5 w-3.5 text-amber-600" />
+                      )}
+                      {board.partner?.onboarding_completed ? 'Complete' : 'Needs completion'}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-white/70 p-3">
+                    <p className="font-medium">Documents</p>
+                    <p className="mt-1 text-xs">
+                      {board.missingDocuments.length} missing · {board.pendingDocuments.length} in review
+                    </p>
+                  </div>
+                </div>
+                {board.missingDocuments.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">
+                      Missing uploads
+                    </p>
+                    <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-amber-950">
+                      {board.missingDocuments.slice(0, 5).map((doc: any) => (
+                        <li key={doc.document_type}>{doc.document_name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-shrink-0 flex-wrap gap-2 md:justify-end">
+              {!board.partner?.mou_signed && (
+                <Link
+                  href={board.onboardingPaths.signMou}
+                  className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700"
+                >
+                  Sign MOU
+                </Link>
+              )}
+              {!board.partner?.onboarding_completed && (
+                <Link
+                  href={board.onboardingPaths.forms}
+                  className="rounded-lg border border-amber-300 bg-white px-4 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+                >
+                  Finish onboarding
+                </Link>
+              )}
+              <Link
+                href={board.onboardingPaths.documents}
+                className="rounded-lg border border-amber-300 bg-white px-4 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+              >
+                Upload documents
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Apprentice OJT Progress */}
       <div className="bg-white rounded-xl border overflow-hidden">
