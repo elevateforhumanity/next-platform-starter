@@ -4,11 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
-export default async function DocumentsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function DocumentsLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const db = await getAdminClient();
 
@@ -16,7 +12,9 @@ export default async function DocumentsLayout({
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');
@@ -24,7 +22,9 @@ export default async function DocumentsLayout({
 
   const { data: enrollment } = await db
     .from('program_enrollments')
-    .select('id, enrollment_state, payment_status, orientation_completed_at, documents_submitted_at')
+    .select(
+      'id, enrollment_state, payment_status, orientation_completed_at, documents_submitted_at',
+    )
     .eq('user_id', user.id)
     .eq('program_slug', 'barber-apprenticeship')
     .order('created_at', { ascending: false })
@@ -41,9 +41,9 @@ export default async function DocumentsLayout({
     redirect('/programs/barber-apprenticeship/orientation');
   }
 
-  // Already submitted documents — redirect to barber student dashboard
+  // Already submitted documents — redirect to the apprentice dashboard
   if (enrollment.documents_submitted_at) {
-    redirect('/portal/barber');
+    redirect('/apprentice');
   }
 
   return <>{children}</>;

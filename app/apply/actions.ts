@@ -351,6 +351,13 @@ async function insertApplication(payload: {
   fundingType?: string | null;
 }): Promise<
   | { success: true; status?: 'submitted'; applicationId: string; referenceNumber: string; email?: string }
+  | {
+      success: true;
+      applicationId: string;
+      referenceNumber: string;
+      email?: string;
+      status?: 'submitted';
+    }
   | { success: false; error: string }
 > {
   let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
@@ -359,7 +366,9 @@ async function insertApplication(payload: {
     supabase = await requireAdminClient();
   } catch (err) {
     persistenceFailureReason =
-      err instanceof Error ? `admin client init failed: ${err.message}` : 'admin client init failed';
+      err instanceof Error
+        ? `admin client init failed: ${err.message}`
+        : 'admin client init failed';
     logger.error('[Apply] getAdminClient failed in insertApplication', err);
   }
 
@@ -367,7 +376,7 @@ async function insertApplication(payload: {
   if (!supabase) {
     try {
       const { createClient: createServerClient } = await import('@/lib/supabase/server');
-      supabase = await createServerClient() as any;
+      supabase = (await createServerClient()) as any;
       logger.warn('[Apply] Using server client fallback for insertApplication');
     } catch (err) {
       logger.error('[Apply] Server client fallback also failed', err);
@@ -615,19 +624,19 @@ async function insertApplication(payload: {
         reference_number: referenceNumber,
         status: 'submitted',
         source: payload.source,
-        type: payload.source === 'program-holder-application' ? 'program_holder'
-            : payload.source === 'employer-application' ? 'employer'
-            : payload.source === 'staff-application' ? 'staff'
-            : 'student',
+        type:
+          payload.source === 'program-holder-application'
+            ? 'program_holder'
+            : payload.source === 'employer-application'
+              ? 'employer'
+              : payload.source === 'staff-application'
+                ? 'staff'
+                : 'student',
         funding_type: payload.fundingType || null,
       };
 
       const tryInsert = async () =>
-        supabase
-          .from('applications')
-          .insert(insertPayload)
-          .select('id')
-          .maybeSingle();
+        supabase.from('applications').insert(insertPayload).select('id').maybeSingle();
 
       let { data, error } = await tryInsert();
       if (error) {
@@ -644,18 +653,14 @@ async function insertApplication(payload: {
 
       if (error) {
         persistenceFailureReason = `applications insert failed: ${error.message}`;
-        logger.error(
-          '[Application] DB insert failed',
-          new Error(error.message),
-          {
-            email: payload.email,
-            source: payload.source,
-            referenceNumber,
-            pgCode: error.code,
-            pgDetails: error.details,
-            pgHint: error.hint,
-          },
-        );
+        logger.error('[Application] DB insert failed', new Error(error.message), {
+          email: payload.email,
+          source: payload.source,
+          referenceNumber,
+          pgCode: error.code,
+          pgDetails: error.details,
+          pgHint: error.hint,
+        });
       } else {
         // Derive the profile role and onboarding destination from the application source.
         // These are passed into createStudentAccount so the profile is written correctly
@@ -701,7 +706,7 @@ async function insertApplication(payload: {
               funding_type: payload.fundingType || null,
               reference_number: referenceNumber,
             },
-          })
+          }),
         ).catch((err: unknown) => logger.warn('[Apply] Audit log failed (non-fatal)', err));
 
         // Application lands in admin queue as 'submitted' — admin reviews and approves.
@@ -723,7 +728,9 @@ async function insertApplication(payload: {
       }
     } catch (error) {
       persistenceFailureReason =
-        error instanceof Error ? `insertApplication exception: ${error.message}` : 'insertApplication exception';
+        error instanceof Error
+          ? `insertApplication exception: ${error.message}`
+          : 'insertApplication exception';
       logger.error(
         '[Application] DB error before persistence',
         error instanceof Error ? error : new Error(String(error)),
@@ -771,8 +778,7 @@ async function insertApplication(payload: {
 
   return {
     success: false,
-    error:
-      `We could not save your application right now. Please try again in a moment or call ${PLATFORM_DEFAULTS.supportPhone} so we can assist immediately.`,
+    error: `We could not save your application right now. Please try again in a moment or call ${PLATFORM_DEFAULTS.supportPhone} so we can assist immediately.`,
   };
 }
 

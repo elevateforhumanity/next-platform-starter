@@ -1,7 +1,10 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
+import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 
 const WWW_ORIGIN =
   process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
@@ -14,10 +17,7 @@ export default function UnauthorizedPage() {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const sb = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    );
+    const sb = createClient();
     sb.auth.getUser().then(async ({ data }) => {
       setEmail(data.user?.email ?? null);
       if (!data.user) return;
@@ -70,13 +70,12 @@ export default function UnauthorizedPage() {
   }, [isAdminPortalRole, role]);
 
   async function handleSignOut() {
-    const sb = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    );
+    const sb = createClient();
     await sb.auth.signOut();
     window.location.href = '/login';
   }
+
+  const isAdminRole = role ? ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]) : false;
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
@@ -89,6 +88,10 @@ export default function UnauthorizedPage() {
         <h1 className="text-xl font-bold text-white mb-2">Access Denied</h1>
         <p className="text-slate-400 text-sm mb-4">
           {message}
+          Your account does not have permission to access the admin portal.
+          {role && !isAdminRole
+            ? ' Host shops, apprentices, and partners sign in on the main site — not admin.'
+            : ' Contact your administrator if you believe this is an error.'}
         </p>
         {email && (
           <p className="text-slate-500 text-xs mb-4">
@@ -109,6 +112,7 @@ export default function UnauthorizedPage() {
             Return to admin dashboard
           </a>
         ) : portalHref && role && !['admin', 'super_admin', 'staff', 'org_admin', 'platform_operator', 'instructor'].includes(role) ? (
+        {portalHref && role && !isAdminRole && role !== 'instructor' ? (
           <a
             href={portalHref}
             className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"
