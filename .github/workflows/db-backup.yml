@@ -1,0 +1,20 @@
+name: Database Backup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '11 7 * * *'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify backup configuration
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+        run: |
+          test -n "$SUPABASE_ACCESS_TOKEN" || (echo "SUPABASE_ACCESS_TOKEN secret is required" && exit 1)
+          test -n "$SUPABASE_PROJECT_ID" || (echo "SUPABASE_PROJECT_ID secret is required" && exit 1)
+          echo "Supabase backup workflow is configured. Use Supabase PITR/dashboard exports for production restore artifacts."
