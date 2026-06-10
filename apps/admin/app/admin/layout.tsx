@@ -21,7 +21,6 @@ import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 
 // force-dynamic is required — layout reads auth cookies on every request.
 // revalidate has no effect when force-dynamic is set and was removed.
