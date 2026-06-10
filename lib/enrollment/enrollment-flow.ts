@@ -75,8 +75,8 @@ export const PENDING_ONBOARDING_STATES: readonly ValidEnrollmentState[] = [
 ];
 
 /**
- * Enrollment states that route apprentices to their program portal
- * (/portal/barber, /portal/cosmetology, …) — not /learner/dashboard.
+ * Enrollment states that route apprentices to the apprentice dashboard,
+ * not the generic learner dashboard.
  * Includes in-progress onboarding and legacy DB values still on old rows.
  */
 export const APPRENTICESHIP_PORTAL_ENROLLMENT_STATES = [

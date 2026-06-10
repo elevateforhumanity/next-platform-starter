@@ -30,8 +30,7 @@ export const runtime = 'nodejs';
 
 export const metadata: Metadata = {
   title: 'Admin Portal - Manage Programs & Operations',
-  description:
-    `Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for ${PLATFORM_DEFAULTS.orgName}.`,
+  description: `Manage programs, students, certificates, compliance, and workforce development operations. Admin dashboard for ${PLATFORM_DEFAULTS.orgName}.`,
   keywords: [
     'admin portal',
     'program management',
@@ -137,7 +136,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     getCachedNavSections(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').catch(() => DEFAULT_NAV),
   ]);
 
-  // Role enforcement — runs on the result fetched in parallel above.
   // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and the admin-login route.
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');

@@ -5,31 +5,31 @@ on:
     branches:
       - main
     paths:
-      - "app/**"
-      - "!app/admin/**"
-      - "apps/lms/**"
-      - "components/**"
-      - "lib/**"
-      - "public/**"
-      - "packages/**"
-      - "styles/**"
-      - "data/**"
-      - "types/**"
-      - "hooks/**"
-      - "contexts/**"
-      - "config/**"
-      - "content/**"
-      - "utils/**"
-      - "proxy.ts"
-      - "next.config.mjs"
-      - "tailwind.config.js"
-      - "tsconfig.json"
-      - "Dockerfile.northflank-lms"
-      - "scripts/northflank/**"
-      - "pnpm-lock.yaml"
-      - "package.json"
-      - "pnpm-workspace.yaml"
-      - ".github/workflows/deploy-lms.yml"
+      - 'app/**'
+      - '!app/admin/**'
+      - 'apps/lms/**'
+      - 'components/**'
+      - 'lib/**'
+      - 'public/**'
+      - 'packages/**'
+      - 'styles/**'
+      - 'data/**'
+      - 'types/**'
+      - 'hooks/**'
+      - 'contexts/**'
+      - 'config/**'
+      - 'content/**'
+      - 'utils/**'
+      - 'proxy.ts'
+      - 'next.config.mjs'
+      - 'tailwind.config.js'
+      - 'tsconfig.json'
+      - 'Dockerfile.northflank-lms'
+      - 'scripts/northflank/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - '.github/workflows/deploy-lms.yml'
   workflow_dispatch:
 
 permissions:
@@ -50,7 +50,9 @@ jobs:
       NORTHFLANK_LMS_SERVICE_ID: ${{ secrets.NORTHFLANK_LMS_SERVICE_ID || 'elevate-lms' }}
       NORTHFLANK_TARGET_SERVICE: lms
       DEPLOY_BRANCH: main
-      NORTHFLANK_EPHEMERAL_STORAGE_MB: "32768"
+      NORTHFLANK_EPHEMERAL_STORAGE_MB: '32768'
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
     steps:
       - name: Checkout

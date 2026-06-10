@@ -18,8 +18,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { logger } from '@/lib/logger';
-import { getSecuritySettings } from '@/lib/admin/security-settings';
 
 function ipInCidr(ip: string, cidr: string): boolean {
   if (!cidr.includes('/')) return ip === cidr;
@@ -45,26 +43,8 @@ function isAllowed(ip: string, allowlist: string[]): boolean {
 }
 
 /**
- * Async version — reads allowlist from cache (env var → platform_settings DB fallback).
- * Use this in middleware and API routes where async is available.
- */
-export async function checkAdminIPAsync(request: NextRequest): Promise<NextResponse | null> {
-  const { ipAllowlist } = await getSecuritySettings();
-  if (ipAllowlist.length === 0) return null;
-
-  const forwarded = request.headers.get('x-forwarded-for');
-  const ip = forwarded?.split(',')[0]?.trim() ?? request.headers.get('x-real-ip') ?? '';
-
-  if (!isAllowed(ip, ipAllowlist)) {
-    logger.warn('Admin IP guard: blocked request', { ip, path: request.nextUrl.pathname });
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-  return null;
-}
-
-/**
  * Sync version — reads from env var only (no DB fallback).
- * Use in contexts where async is not available.
+ * Use in Edge middleware so bundles do not trace Supabase admin code.
  */
 export function checkAdminIP(request: NextRequest): NextResponse | null {
   const raw = process.env.ADMIN_IP_ALLOWLIST ?? '';
@@ -75,7 +55,7 @@ export function checkAdminIP(request: NextRequest): NextResponse | null {
   const ip = forwarded?.split(',')[0]?.trim() ?? request.headers.get('x-real-ip') ?? '';
 
   if (!isAllowed(ip, allowlist)) {
-    logger.warn('Admin IP guard: blocked request (sync)', { ip, path: request.nextUrl.pathname });
+    console.warn('Admin IP guard: blocked request (sync)', { ip, path: request.nextUrl.pathname });
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
   return null;

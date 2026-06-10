@@ -42,8 +42,7 @@ export interface UI3MatchResult {
 /**
  * Submit wage verification request to UI-3 system
  *
- * In production, this would connect to Indiana DWD's UI-3 API.
- * For now, this is a placeholder that logs the request.
+ * External submission is blocked unless governance authorization is supplied.
  */
 export async function submitUI3Request(
   students: Array<{
@@ -70,7 +69,7 @@ export async function submitUI3Request(
     timestamp: new Date().toISOString(),
   });
 
-  // Placeholder response
+  // Return the locally tracked request envelope after governance approval.
   return {
     request_id: `UI3-${Date.now()}`,
     status: 'pending',

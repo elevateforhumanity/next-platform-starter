@@ -49,34 +49,30 @@ function isWorkflowButtons(
   const validKeys: WorkflowKey[] = ['deploy-all', 'deploy-lms', 'deploy-admin', 'ci', 'lint'];
   return (
     Array.isArray(v) &&
-    v.every(
-      (item): item is { key: WorkflowKey; label: string; description: string } => {
-        if (!item || typeof item !== 'object') return false;
-        if (!('key' in item) || !('label' in item) || !('description' in item)) return false;
-        const key = item.key;
-        const label = item.label;
-        const description = item.description;
-        return (
-          typeof key === 'string' &&
-          validKeys.includes(key as WorkflowKey) &&
-          typeof label === 'string' &&
-          typeof description === 'string'
-        );
-      },
-    )
+    v.every((item): item is { key: WorkflowKey; label: string; description: string } => {
+      if (!item || typeof item !== 'object') return false;
+      if (!('key' in item) || !('label' in item) || !('description' in item)) return false;
+      const key = item.key;
+      const label = item.label;
+      const description = item.description;
+      return (
+        typeof key === 'string' &&
+        validKeys.includes(key as WorkflowKey) &&
+        typeof label === 'string' &&
+        typeof description === 'string'
+      );
+    })
   );
 }
 
 function isPreviewTargets(v: unknown): v is { label: string; url: string }[] {
   return (
     Array.isArray(v) &&
-    v.every(
-      (item): item is { label: string; url: string } => {
-        if (!item || typeof item !== 'object') return false;
-        if (!('label' in item) || !('url' in item)) return false;
-        return typeof item.label === 'string' && typeof item.url === 'string';
-      },
-    )
+    v.every((item): item is { label: string; url: string } => {
+      if (!item || typeof item !== 'object') return false;
+      if (!('label' in item) || !('url' in item)) return false;
+      return typeof item.label === 'string' && typeof item.url === 'string';
+    })
   );
 }
 
@@ -93,7 +89,8 @@ export async function GET(req: NextRequest) {
 
   const adminUrl = getAdminUrl();
   const publicSiteUrl = process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
-  const configuredPreviewUrl = process.env.DEVSTUDIO_DEFAULT_PREVIEW_URL || process.env.DEVSTUDIO_PREVIEW_URL;
+  const configuredPreviewUrl =
+    process.env.DEVSTUDIO_DEFAULT_PREVIEW_URL || process.env.DEVSTUDIO_PREVIEW_URL;
 
   const fallback: DevStudioConfigResponse = {
     quickCommands: [
@@ -110,6 +107,21 @@ export async function GET(req: NextRequest) {
       { key: 'deploy-all', label: 'Deploy All', description: 'Build and deploy LMS plus Admin on Northflank from main' },
       { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
       { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin service on Northflank' },
+      {
+        key: 'deploy-all',
+        label: 'Deploy All',
+        description: 'Build and deploy LMS plus Admin on Northflank from main',
+      },
+      {
+        key: 'deploy-lms',
+        label: 'Deploy Website',
+        description: 'Build and deploy the public website service on Northflank',
+      },
+      {
+        key: 'deploy-admin',
+        label: 'Deploy Admin',
+        description: 'Build and deploy the admin service on Northflank',
+      },
       { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },
       { key: 'lint', label: 'Lint', description: 'Run the lint check' },
     ],
@@ -186,7 +198,8 @@ export async function GET(req: NextRequest) {
         'DEVSTUDIO_WORKFLOW_BUTTONS_JSON',
         isWorkflowButtons,
       ),
-      defaultPreviewUrl: settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') || fallback.defaultPreviewUrl,
+      defaultPreviewUrl:
+        settings.get('DEVSTUDIO_DEFAULT_PREVIEW_URL') || fallback.defaultPreviewUrl,
       previewTargets: parseJsonSetting<DevStudioConfigResponse['previewTargets']>(
         settings.get('DEVSTUDIO_PREVIEW_TARGETS_JSON'),
         fallback.previewTargets,

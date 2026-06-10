@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Hammer, RefreshCw, Play } from 'lucide-react';
 
 interface Build {
@@ -48,64 +49,126 @@ export default function BuildsClient() {
     }
   }
 
-  useEffect(() => { fetchBuilds(); }, []);
+  useEffect(() => {
+    fetchBuilds();
+  }, []);
 
   const STATUS_COLORS: Record<string, string> = {
-    pending: '#858585',
-    building: '#fbbf24',
-    deploying: '#60a5fa',
-    success: '#4ade80',
-    failed: '#f87171',
+    pending: 'bg-slate-400',
+    building: 'bg-amber-400 animate-pulse',
+    deploying: 'bg-blue-400 animate-pulse',
+    success: 'bg-emerald-500',
+    failed: 'bg-red-500',
   };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: '#1e1e1e' }}>
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Hammer className="w-5 h-5" style={{ color: '#007acc' }} />
-          <h1 className="text-xl font-bold" style={{ color: '#cccccc' }}>Builds & Deployments</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => triggerBuild('admin')} disabled={triggering}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold" style={{ background: '#007acc', color: '#fff' }}>
-            <Play className="w-3 h-3" /> Deploy Admin
-          </button>
-          <button onClick={() => triggerBuild('lms')} disabled={triggering}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold" style={{ background: '#1a5c1a', color: '#4ade80' }}>
-            <Play className="w-3 h-3" /> Deploy LMS
-          </button>
-          <button onClick={fetchBuilds} className="p-2 rounded hover:bg-[#333]" style={{ color: '#cccccc' }}>
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
+    <div className="min-h-screen bg-white">
+      <div className="relative h-[280px] w-full overflow-hidden">
+        <Image
+          src="/images/pages/admin-dev-hero.jpg"
+          alt="Builds & Deploy"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/80 to-orange-900/60" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-5xl mx-auto px-6 w-full">
+            <div className="flex items-center gap-3 mb-3">
+              <Hammer className="h-8 w-8 text-white/90" />
+              <span className="text-xs font-semibold tracking-widest uppercase bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white">
+                CI/CD
+              </span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+              Builds & Deploy
+            </h1>
+            <p className="text-amber-100 text-lg mt-2 max-w-2xl">
+              Trigger, monitor, and track Northflank deployments in real time.
+            </p>
+          </div>
         </div>
       </div>
 
-      {error && <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#f44', background: '#2a1a1a', color: '#f88' }}>{error}</div>}
-
-      {!process.env.NEXT_PUBLIC_NORTHFLANK_CONFIGURED && (
-        <div className="rounded border px-4 py-3 mb-4 text-sm" style={{ borderColor: '#3c3c3c', background: '#252526', color: '#fbbf24' }}>
-          NORTHFLANK_API_TOKEN not configured — builds will record locally but not trigger Northflank deploys
-        </div>
-      )}
-
-      <div className="space-y-2">
-        {builds.map((b) => (
-          <div key={b.id} className="rounded-lg border p-4" style={{ background: '#252526', borderColor: '#3c3c3c' }}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-semibold text-sm" style={{ color: '#cccccc' }}>{b.service} — {b.environment}</p>
-                {b.commit_sha && <p className="text-xs font-mono mt-0.5" style={{ color: '#858585' }}>{b.commit_sha.slice(0, 8)}</p>}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full" style={{ background: STATUS_COLORS[b.status] ?? '#858585' }} />
-                <span className="text-xs" style={{ color: STATUS_COLORS[b.status] ?? '#858585' }}>{b.status}</span>
-              </div>
-            </div>
-            <p className="text-[10px] mt-2" style={{ color: '#555' }}>{new Date(b.started_at).toLocaleString()}</p>
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        {/* Action bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => triggerBuild('admin')}
+              disabled={triggering}
+              className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50 transition shadow-sm"
+            >
+              <Play className="h-4 w-4" /> Deploy Admin
+            </button>
+            <button
+              onClick={() => triggerBuild('lms')}
+              disabled={triggering}
+              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+            >
+              <Play className="h-4 w-4" /> Deploy LMS
+            </button>
           </div>
-        ))}
+          <button
+            onClick={fetchBuilds}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition shadow-sm"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
+          </button>
+        </div>
+
+        {!process.env.NEXT_PUBLIC_NORTHFLANK_CONFIGURED && (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-700 mb-6">
+            Integration pending: NORTHFLANK_API_TOKEN env var not configured — builds will record
+            but not trigger Northflank
+          </div>
+        )}
+
+        {error && (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700 mb-6">
+            {error}
+          </div>
+        )}
+        <div className="space-y-4">
+          {builds.map((b) => (
+            <div
+              key={b.id}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-slate-900 capitalize">
+                    {b.service} — {b.environment}
+                  </p>
+                  {b.commit_sha && (
+                    <p className="text-xs font-mono text-slate-500 mt-0.5">
+                      Commit: {b.commit_sha.slice(0, 8)}
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`h-3 w-3 rounded-full ${STATUS_COLORS[b.status] ?? 'bg-slate-400'}`}
+                  />
+                  <span className="text-sm font-medium text-slate-700 capitalize">{b.status}</span>
+                </div>
+              </div>
+              <p className="text-[10px] text-slate-400 mt-3">
+                {new Date(b.started_at).toLocaleString()}
+              </p>
+            </div>
+          ))}
+        </div>
+
         {!loading && builds.length === 0 && !error && (
-          <p className="text-sm text-center py-8" style={{ color: '#858585' }}>No builds yet — click Deploy Admin or Deploy LMS to start</p>
+          <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 py-16 text-center">
+            <Hammer className="mx-auto h-12 w-12 text-slate-300" />
+            <p className="mt-3 text-sm font-medium text-slate-500">No builds recorded yet</p>
+            <p className="text-xs text-slate-400 mt-1">
+              Integration pending: ai_deployments table migration not yet applied
+            </p>
+          </div>
         )}
       </div>
     </div>
