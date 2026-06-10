@@ -202,7 +202,7 @@ export function ProfileDropdown({ className }: Props) {
       .slice(0, 2);
   };
 
-  const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin'];
+  const ADMIN_ROLES = ['admin', 'super_admin', 'platform_operator', 'org_admin'];
   const isAdmin = ADMIN_ROLES.includes(profile?.role ?? '') ||
     profile?.roles?.some((r) => ADMIN_ROLES.includes(r));
 
