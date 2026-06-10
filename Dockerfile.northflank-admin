@@ -45,8 +45,8 @@ ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 # Required at `next build` because NEXT_PUBLIC_* values are inlined into the
 # admin client bundle. Northflank must provide the real anon key as a build arg
 # or build-time secret; otherwise /api/health reports a placeholder config.
-ARG NEXT_PUBLIC_SUPABASE_URL=https://cuxzzpsyufcewtmicszk.supabase.co
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1eHp6cHN5dWZjZXd0bWljc3prIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxNjEwNDcsImV4cCI6MjA3MzczNzA0N30.DyFtzoKha_tuhKiSIPoQlKonIpaoSYrlhzntCUvLUnA
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_ADMIN_URL=https://admin.elevateforhumanity.org
 ARG NEXT_PUBLIC_SITE_URL=https://admin.elevateforhumanity.org
 ARG NEXT_PUBLIC_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
@@ -63,8 +63,8 @@ ENV CI=true
 # cache mount — shared store cache was exhausting disk (ERR_PNPM_ENOSPC) on nf builders.
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
-RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" \
-    && test -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
+RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public-build-env \
+    && . /tmp/next-public-build-env \
     && test -x /app/node_modules/next/dist/bin/next \
     && cd apps/admin \
     && node /app/node_modules/next/dist/bin/next build \
