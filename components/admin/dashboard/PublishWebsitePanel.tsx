@@ -66,7 +66,7 @@ export function PublishWebsitePanel() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/admin/publish-website');
+      const res = await fetch('/api/admin/publish-website', { credentials: 'same-origin' });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`);
       setStatus(json);
@@ -93,6 +93,7 @@ export function PublishWebsitePanel() {
     try {
       const res = await fetch('/api/admin/publish-website', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ confirm: 'PUBLISH', revalidate: true, deploy: true }),
       });

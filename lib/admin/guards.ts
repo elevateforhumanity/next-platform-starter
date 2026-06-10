@@ -9,7 +9,7 @@
 
 import { notFound } from 'next/navigation';
 
-export type AdminRole = 'admin' | 'super_admin' | 'staff';
+export type AdminRole = 'admin' | 'super_admin' | 'staff' | 'org_admin' | 'platform_operator';
 
 /**
  * Environment detection — container runtime (NODE_ENV driven)
@@ -128,7 +128,11 @@ export const SENSITIVE_ROUTES = [
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
-import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES } from '@/lib/rbac/role-matrix';
+import {
+  API_ADMIN_ROLES,
+  INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES,
+  type UserRole,
+} from '@/lib/rbac/role-matrix';
 
 // Re-export UserRole from the canonical role matrix so all guards share one type.
 export type { UserRole } from '@/lib/rbac/role-matrix';

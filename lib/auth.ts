@@ -7,6 +7,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
+import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 import type { UserRole } from '@/types/database';
 import { logger } from '@/lib/logger';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -242,7 +243,7 @@ export async function requireAdmin() {
   // Admin app has its own /login page — redirect there, not the main site login.
   // Role set must match ADMIN_ROLES in lib/rbac/role-matrix.ts, admin-login route, and admin layout.
   const adminUrl = getAdminUrl();
-  return requireRole(['admin', 'super_admin', 'staff', 'org_admin'], '/admin/dashboard', adminUrl);
+  return requireRole(ADMIN_ROLES, '/admin/dashboard', adminUrl);
 }
 
 export async function requireProgramHolder() {

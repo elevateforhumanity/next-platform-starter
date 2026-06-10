@@ -20,6 +20,7 @@ import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 import { AdminInstallPrompt } from '@/components/pwa/AdminInstallPrompt';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 
 // force-dynamic is required — layout reads auth cookies on every request.
 // revalidate has no effect when force-dynamic is set and was removed.
@@ -137,11 +138,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ]);
 
   // Role enforcement — runs on the result fetched in parallel above.
-  // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and the admin-login route.
-  const adminRoles = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
-  if (!adminRoles.includes(roleCheck.role)) redirect('/unauthorized');
+  if (!ADMIN_ROLES.includes(roleCheck.role)) redirect('/unauthorized');
 
   // MFA enforcement — if mfa_required is enabled in platform_settings,
   // redirect admins who haven't set up MFA to the security settings page.

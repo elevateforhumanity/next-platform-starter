@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
-import { getSecuritySettings } from '@/lib/admin/security-settings';
+import { checkAdminIP } from '@/lib/api/admin-ip-guard';
 import { buildLoginUrl, buildReturnPath } from '@/lib/auth/validate-redirect';
 import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
 import {
@@ -496,7 +495,7 @@ export async function middleware(request: NextRequest) {
 
       // For admin API routes, verify admin/super_admin/staff role + IP allowlist
       if (pathname.startsWith('/api/admin/')) {
-        const ipBlocked = await checkAdminIPAsync(request);
+        const ipBlocked = checkAdminIP(request);
         if (ipBlocked) return ipBlocked;
 
         const { data: apiProfile } = await apiSupabase
@@ -717,11 +716,14 @@ export async function middleware(request: NextRequest) {
 
   // ============================================
   // SERVER-SIDE IDLE TIMEOUT (NIST 800-63B)
-  // Timeout value read from platform_settings (session_timeout key, in minutes).
-  // Env var SESSION_TIMEOUT_MINUTES overrides the DB value.
-  // Falls back to 30 minutes if neither is set.
+  // Edge middleware cannot load DB-backed platform settings.
+  // Use SESSION_TIMEOUT_MINUTES with a 30-minute fallback.
   // ============================================
-  const { sessionTimeoutMs: IDLE_TIMEOUT_MS } = await getSecuritySettings();
+  const sessionTimeoutMinutes = Number.parseInt(process.env.SESSION_TIMEOUT_MINUTES ?? '', 10);
+  const IDLE_TIMEOUT_MS =
+    Number.isFinite(sessionTimeoutMinutes) && sessionTimeoutMinutes > 0
+      ? sessionTimeoutMinutes * 60 * 1000
+      : 30 * 60 * 1000;
   const ACTIVITY_COOKIE = 'efh_last_activity';
   const now = Date.now();
   const lastActivity = request.cookies.get(ACTIVITY_COOKIE)?.value;
