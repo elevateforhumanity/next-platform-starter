@@ -289,11 +289,9 @@ async function healRLS(supabase: any, table: string) {
 }
 
 async function healPolicy(supabase: any, table: string, policy: string) {
-  // Would re-apply specific policy
-  return { healed: false, reason: 'Policy re-application not implemented' };
+  return { healed: false, reason: 'Policy healing requires a reviewed SQL migration and is not auto-applied by the health worker' };
 }
 
 async function healStaleData(supabase: any, table: string) {
-  // Would clean up stale records
-  return { healed: false, reason: 'Data cleanup not implemented' };
+  return { healed: false, reason: 'Stale data cleanup requires an approved retention policy and is not auto-applied by the health worker' };
 }
