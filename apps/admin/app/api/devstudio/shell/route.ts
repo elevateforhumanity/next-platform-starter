@@ -137,8 +137,14 @@ export async function POST(request: NextRequest) {
 
   if (!workflowRaw) return safeError('workflow is required', 400);
 
+  const workflowAliases: Record<string, string> = {
+    'deploy-all': 'deploy-production-dispatch.yml',
+    'deploy-production': 'deploy-production-dispatch.yml',
+    'deploy-production-dispatch': 'deploy-production-dispatch.yml',
+  };
+
   // Normalise to filename
-  const workflowFile = workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`;
+  const workflowFile = workflowAliases[workflowRaw] ?? (workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`);
 
   // Validate the workflow exists and is active in the repo
   try {

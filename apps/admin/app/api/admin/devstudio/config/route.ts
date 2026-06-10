@@ -9,7 +9,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
+type WorkflowKey = 'deploy-all' | 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint';
 
 interface DevStudioConfigResponse {
   quickCommands: string[];
@@ -46,7 +46,7 @@ function isStringArray(v: unknown): v is string[] {
 function isWorkflowButtons(
   v: unknown,
 ): v is { key: WorkflowKey; label: string; description: string }[] {
-  const validKeys: WorkflowKey[] = ['deploy-lms', 'deploy-admin', 'ci', 'lint'];
+  const validKeys: WorkflowKey[] = ['deploy-all', 'deploy-lms', 'deploy-admin', 'ci', 'lint'];
   return (
     Array.isArray(v) &&
     v.every(
@@ -107,6 +107,7 @@ export async function GET(req: NextRequest) {
       'Run platform stabilize check',
     ],
     workflowButtons: [
+      { key: 'deploy-all', label: 'Deploy All', description: 'Build and deploy LMS plus Admin on Northflank from main' },
       { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
       { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin service on Northflank' },
       { key: 'ci', label: 'Run CI', description: 'Run the full validation pipeline' },

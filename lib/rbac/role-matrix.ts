@@ -10,6 +10,7 @@
  *   admin          — platform admin, cannot impersonate or access dev tools
  *   staff          — case managers, enrollment staff, limited admin access
  *   org_admin      — organization-level admin (employer orgs, partner orgs)
+ *   platform_operator — Elevate platform operator with Dev Studio/deploy access
  *   instructor     — course delivery, lesson sign-offs, student progress
  *   case_manager   — WIOA/workforce case management
  *   employer       — employer portal access, apprentice tracking
@@ -25,6 +26,7 @@ export type UserRole =
   | 'admin'
   | 'staff'
   | 'org_admin'
+  | 'platform_operator'
   | 'instructor'
   | 'case_manager'
   | 'employer'
@@ -38,10 +40,10 @@ export type UserRole =
 // Named sets used by guards. Import these instead of writing inline arrays.
 
 /** Can access /admin/* routes */
-export const ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin'];
+export const ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator'];
 
 /** Can access admin API routes (apiRequireAdmin) */
-export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin'];
+export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator'];
 
 /** Can perform instructor actions (sign-offs, lesson management) */
 export const INSTRUCTOR_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'instructor'];
@@ -60,7 +62,7 @@ export const PROGRAM_HOLDER_ROLES: UserRole[] = ['super_admin', 'admin', 'progra
 
 /** Any authenticated user (all roles) */
 export const ALL_AUTHENTICATED_ROLES: UserRole[] = [
-  'super_admin', 'admin', 'staff', 'org_admin', 'instructor',
+  'super_admin', 'admin', 'staff', 'org_admin', 'platform_operator', 'instructor',
   'case_manager', 'employer', 'program_holder', 'provider_admin',
   'partner', 'delegate', 'student',
 ];
@@ -73,7 +75,7 @@ export const PERMISSIONS = {
   // Identity & access
   impersonate_users:          ['super_admin'] as UserRole[],
   manage_roles:               ['super_admin'] as UserRole[],
-  access_dev_tools:           ['super_admin'] as UserRole[],
+  access_dev_tools:           ['super_admin', 'platform_operator'] as UserRole[],
   view_audit_logs:            ['super_admin', 'admin'] as UserRole[],
 
   // Platform administration
@@ -84,8 +86,8 @@ export const PERMISSIONS = {
   manage_payments:            ['super_admin', 'admin'] as UserRole[],
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
   manage_platform_settings:   ['super_admin'] as UserRole[],
-  trigger_deployments:        ['super_admin'] as UserRole[],
-  access_devstudio:           ['super_admin'] as UserRole[],
+  trigger_deployments:        ['super_admin', 'platform_operator'] as UserRole[],
+  access_devstudio:           ['super_admin', 'platform_operator'] as UserRole[],
   provision_workspaces:       ['super_admin', 'admin', 'staff'] as UserRole[],
   manage_customer_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
   run_bulk_operations:        ['super_admin', 'admin'] as UserRole[],
