@@ -11,11 +11,35 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { resolvePortalForUser } from '@/lib/portal/router';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
+
+async function resolveLandingAfterPasswordLogin(redirectTo: string): Promise<string> {
+  const query = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : '';
+  let lastStatus = 0;
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const response = await fetch(`/api/auth/landing${query}`, {
+      cache: 'no-store',
+      credentials: 'include',
+    });
+    lastStatus = response.status;
+
+    if (response.ok) {
+      const payload = await response.json();
+      if (typeof payload.redirectTo === 'string' && payload.redirectTo) {
+        return payload.redirectTo;
+      }
+      break;
+    }
+
+    if (response.status !== 401) break;
+    await new Promise((resolve) => setTimeout(resolve, 150 * (attempt + 1)));
+  }
+
+  throw new Error(`Unable to resolve login destination (${lastStatus || 'no response'})`);
+}
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -76,60 +100,7 @@ function LoginForm() {
 
       if (!data?.user) throw new Error('Login succeeded but no user returned');
 
-      // Fetch profile — role + portal_type + onboarding status drive routing
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('role, onboarding_completed, enrollment_status, portal_type')
-        .eq('id', data.user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        // profile fetch failed — non-fatal, user still authenticated
-        setError('Unable to load your profile. Please try again or contact support.');
-        setLoading(false);
-        return;
-      }
-
-      if (!profile) {
-        // Profile row missing — send to onboarding to create one
-        window.location.href = '/onboarding/learner';
-        return;
-      }
-
-      // Explicit redirect param takes priority
-      if (next) {
-        window.location.href = next;
-        return;
-      }
-
-      const role = profile.role;
-      const onboardingDone = profile.onboarding_completed === true;
-
-      // Employer: gate on onboarding before dashboard.
-      if (role === 'employer' && !onboardingDone) {
-        window.location.href = '/onboarding/employer';
-        return;
-      }
-
-      // Students: slug-aware portal (barber, cosmetology, …) then category fallback.
-      if (role === 'student') {
-        const studentDest = await resolvePortalForUser(supabase, data.user.id);
-        const twoFARes2 = await fetch('/api/auth/2fa/status');
-        if (twoFARes2.ok) {
-          const { enabled } = await twoFARes2.json();
-          if (enabled) {
-            pendingDestRef.current = studentDest;
-            setShow2FA(true);
-            setLoading(false);
-            return;
-          }
-        }
-        window.location.href = studentDest;
-        return;
-      }
-
-      // All other roles: canonical destination from lib/auth/role-destinations.ts.
-      const dest = getRoleDestination(role);
+      const dest = await resolveLandingAfterPasswordLogin(next);
 
       // Check 2FA before navigating — if enabled, show challenge screen
       const twoFARes = await fetch('/api/auth/2fa/status');
