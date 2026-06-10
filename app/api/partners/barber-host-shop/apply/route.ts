@@ -267,11 +267,14 @@ async function _POST(req: Request) {
     }
 
     const approvalHoldReasons: string[] = [];
-    if (body.hasGeneralLiability !== 'yes') approvalHoldReasons.push('General liability not confirmed');
+    if (body.hasGeneralLiability !== 'yes')
+      approvalHoldReasons.push('General liability not confirmed');
     if (wcStatus === 'none') approvalHoldReasons.push("Workers' compensation missing");
     if (!insuranceCoiFilePath) approvalHoldReasons.push('Insurance certificate not uploaded');
     const insuranceStatus = approvalHoldReasons.length > 0 ? 'rejected' : 'pending';
-    const insuranceReasonCodes = approvalHoldReasons.map((r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`);
+    const insuranceReasonCodes = approvalHoldReasons.map(
+      (r) => `MISSING:${r.toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`,
+    );
 
     const ipRaw = getClientIp(req);
 
@@ -315,13 +318,18 @@ async function _POST(req: Request) {
         can_supervise_and_verify: body.canSuperviseAndVerify === 'yes',
         mou_acknowledged: body.mouAcknowledged,
         consent_acknowledged: body.consentAcknowledged,
-        notes: [
-          body.notes?.trim() || null,
-          shopLicenseDocumentPath ? `shop_license_document_path=${shopLicenseDocumentPath}` : null,
-          approvalHoldReasons.length ? `approval_hold_reasons=${approvalHoldReasons.join('; ')}` : null,
-        ]
-          .filter(Boolean)
-          .join('\n') || null,
+        notes:
+          [
+            body.notes?.trim() || null,
+            shopLicenseDocumentPath
+              ? `shop_license_document_path=${shopLicenseDocumentPath}`
+              : null,
+            approvalHoldReasons.length
+              ? `approval_hold_reasons=${approvalHoldReasons.join('; ')}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join('\n') || null,
         signature_data: body.signatureData || null,
         // EIN
         ein: body.ein?.trim() || null,

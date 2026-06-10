@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { requireRole } from '@/lib/auth/require-role';
 import { getAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { ChevronRight, FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
@@ -11,7 +10,9 @@ export const revalidate = 60;
 export const metadata: Metadata = { title: 'Program Holder Documents | Admin | Elevate For Humanity' };
 
 export default async function ProgramHolderDocumentsPage() {
-  await requireRole(['admin', 'super_admin', 'staff']);
+  // Auth and admin-role enforcement are handled by apps/admin/app/admin/layout.tsx.
+  // Avoid re-checking with the anon client here; RLS can block profile reads and
+  // incorrectly send valid admins to /unauthorized.
   const db = await getAdminClient();
 
   if (!db) {

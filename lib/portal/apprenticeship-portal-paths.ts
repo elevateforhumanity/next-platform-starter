@@ -1,18 +1,18 @@
 /**
- * Per-program apprenticeship portal URLs.
+ * Per-program apprenticeship home URLs.
  * Used by login, learner dashboard, and portal router — keep in sync.
  */
 
 import { APPRENTICESHIP_PORTAL_ENROLLMENT_STATES } from '@/lib/enrollment/enrollment-flow';
 
 export const APPRENTICESHIP_SLUG_TO_PORTAL_PATH: Record<string, string> = {
-  'barber-apprenticeship': '/portal/barber',
-  'cosmetology-apprenticeship': '/portal/cosmetology',
-  'esthetician-apprenticeship': '/portal/esthetician',
-  'nail-technician-apprenticeship': '/portal/nail-technician',
-  'culinary-apprenticeship': '/portal/culinary',
-  electrical: '/portal/electrical',
-  plumbing: '/portal/plumbing',
+  'barber-apprenticeship': '/apprentice',
+  'cosmetology-apprenticeship': '/apprentice',
+  'esthetician-apprenticeship': '/apprentice',
+  'nail-technician-apprenticeship': '/apprentice',
+  'culinary-apprenticeship': '/apprentice',
+  electrical: '/apprentice',
+  plumbing: '/apprentice',
 };
 
 /** program_slug → profiles.portal_type value (see migration 20260526000002) */
@@ -37,4 +37,8 @@ export function portalPathForProgramSlug(programSlug: string | null | undefined)
 export function portalTypeForProgramSlug(programSlug: string | null | undefined): string | null {
   if (!programSlug) return null;
   return APPRENTICESHIP_SLUG_TO_PORTAL_TYPE[programSlug] ?? null;
+}
+
+export function isApprenticeshipPortalType(portalType: string | null | undefined): boolean {
+  return !!portalType && Object.values(APPRENTICESHIP_SLUG_TO_PORTAL_TYPE).includes(portalType);
 }

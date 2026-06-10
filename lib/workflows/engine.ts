@@ -222,7 +222,7 @@ async function execStep(step: WorkflowStep, ctx: RunContext): Promise<{ ok: bool
     case 'ai_action':         return execAiAction(step.action_config, ctx);
     default:
       logger.warn('[workflow/engine] unknown action_type', { action_type: step.action_type, run_id: ctx.runId });
-      return { ok: true, output: { note: `action_type '${step.action_type}' not implemented` } };
+      return { ok: false, output: { error: `Unsupported workflow action_type '${step.action_type}'` } };
   }
 }
 

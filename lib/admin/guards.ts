@@ -133,6 +133,11 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
 import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES, type UserRole } from '@/lib/rbac/role-matrix';
+import {
+  API_ADMIN_ROLES,
+  INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES,
+  type UserRole,
+} from '@/lib/rbac/role-matrix';
 
 // Re-export UserRole from the canonical role matrix so all guards share one type.
 export type { UserRole } from '@/lib/rbac/role-matrix';
@@ -228,6 +233,7 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
 }
 
 const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'platform_operator'];
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 
 /**
  * Platform staff on the owner tenant — workspace provisioning, all-tenant admin.
@@ -243,7 +249,10 @@ export async function apiRequirePlatformStaff(_req?: Request): Promise<GuardedUs
 
   const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
   const ctx = await getPlatformUserContext(user.id);
-  if (!ctx || (ctx.permissionLevel !== 'platform_owner' && ctx.permissionLevel !== 'platform_admin')) {
+  if (
+    !ctx ||
+    (ctx.permissionLevel !== 'platform_owner' && ctx.permissionLevel !== 'platform_admin')
+  ) {
     return { ...user, error: forbidden('Platform staff access required') };
   }
 

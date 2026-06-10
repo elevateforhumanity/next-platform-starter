@@ -8,6 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
+import { safeError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
@@ -183,7 +185,14 @@ export async function GET(request: NextRequest) {
   const limit = Number.isFinite(parsedLimit) ? Math.min(Math.max(parsedLimit, 1), 100) : 20;
   const maxScore = Number.isFinite(parsedMaxScore) ? Math.min(Math.max(parsedMaxScore, 0), 100) : 100;
 
-  const db = await requireAdminClient();
+  const db = await getAdminClient();
+  if (!db) {
+    return NextResponse.json({
+      programs: [],
+      pending_migration: true,
+      reason: 'admin_client_unavailable',
+    });
+  }
 
   const { data, error } = await db
     .from('program_integrity')
@@ -201,6 +210,17 @@ export async function GET(request: NextRequest) {
       { programs: data ?? [], source: 'view' },
       { headers: { 'Cache-Control': 'private, max-age=300, stale-while-revalidate=60' } },
     );
+  if (error) {
+    // View may not exist yet, or may be from an older migration with different columns.
+    // Return empty rather than 500 so dashboard degrades gracefully.
+    if (['42P01', '42703', 'PGRST200', 'PGRST204', 'PGRST205'].includes(error.code ?? '')) {
+      return NextResponse.json({
+        programs: [],
+        pending_migration: true,
+        reason: error.code,
+      });
+    }
+    return safeError('Failed to load program integrity data', 500);
   }
 
   logger.warn('[program-integrity] view unavailable; using fallback audit', {

@@ -1,4 +1,3 @@
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 /**
  * Validate a redirect URL parameter to prevent open-redirect attacks.
  * Allows:
@@ -8,8 +7,10 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
  * Returns the validated URL/path or the fallback if invalid.
  */
 
+const CANONICAL_DOMAIN = process.env.NEXT_PUBLIC_CANONICAL_DOMAIN || 'www.elevateforhumanity.org';
+
 const TRUSTED_HOSTS = [
-  PLATFORM_DEFAULTS.canonicalDomain,
+  CANONICAL_DOMAIN,
   'elevateforhumanity.org',
   'admin.elevateforhumanity.org',
 ];

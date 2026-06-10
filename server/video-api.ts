@@ -9,6 +9,7 @@ import {
   VideoGenerationRequest,
   VideoGenerationResponse,
   processTimeline,
+  getJobStatus,
 } from './video-generator-v2';
 import { generateTextToSpeech } from './tts-service';
 import { defaultStorage, getVideoFileSize, VideoMetadata } from './video-storage';
@@ -110,14 +111,29 @@ router.get('/status/:jobId', async (req: Request, res: Response) => {
   try {
     const { jobId } = req.params;
 
-    // For now, return mock status
-    res.json({
+    const liveStatus = getJobStatus(jobId);
+    if (liveStatus) {
+      return res.json({
+        ...liveStatus,
+        videoUrl: liveStatus.videoPath ? `/api/video/download/${jobId}` : undefined,
+      });
+    }
+
+    const metadata = await defaultStorage.getVideoMetadata(jobId);
+    if (!metadata) {
+      return res.status(404).json({
+        error: 'Video not found',
+        message: 'No generation job or stored video exists for this job ID',
+      });
+    }
+
+    return res.json({
       jobId,
       status: 'completed',
       progress: 100,
       videoUrl: `/api/video/download/${jobId}`,
-      createdAt: new Date().toISOString(),
-      completedAt: new Date().toISOString(),
+      createdAt: metadata.createdAt,
+      completedAt: metadata.createdAt,
     });
   } catch (error) {
     res.status(500).json({

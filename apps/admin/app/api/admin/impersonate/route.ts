@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { logAuditEvent, AuditActions } from '@/lib/audit';
+import { logAuditEvent } from '@/lib/audit';
 import { checkAdminIP } from '@/lib/api/admin-ip-guard';
 import { cookies } from 'next/headers';
 
@@ -81,13 +81,14 @@ export async function POST(req: NextRequest) {
   };
 
   await logAuditEvent({
-    actor_user_id: auth.id,
-    actor_role: auth.role ?? 'admin',
-    action: AuditActions.CREATE,
-    entity: 'impersonation_session',
-    entity_id: target_user_id,
-    after: session,
-    req,
+    userId: auth.id,
+    action: 'impersonation_started',
+    resourceType: 'impersonation_session',
+    resourceId: target_user_id,
+    metadata: {
+      actorRole: auth.role ?? 'admin',
+      after: session,
+    },
   });
 
   const cookieStore = await cookies();
@@ -127,14 +128,15 @@ export async function DELETE(req: NextRequest) {
     try {
       const session = JSON.parse(raw);
       await logAuditEvent({
-        actor_user_id: auth.id,
-        actor_role: auth.role ?? 'admin',
-        action: AuditActions.DELETE,
-        entity: 'impersonation_session',
-        entity_id: session.target_user_id,
-        before: session,
-        after: { ended_at: new Date().toISOString() },
-        req,
+        userId: auth.id,
+        action: 'impersonation_ended',
+        resourceType: 'impersonation_session',
+        resourceId: session.target_user_id,
+        metadata: {
+          actorRole: auth.role ?? 'admin',
+          before: session,
+          after: { ended_at: new Date().toISOString() },
+        },
       });
     } catch {
       // malformed cookie — still clear it
