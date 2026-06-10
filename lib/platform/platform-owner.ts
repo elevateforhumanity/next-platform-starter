@@ -14,6 +14,7 @@ import {
 export type PlatformUserContext = {
   userId: string;
   profileRole: UserRole | null;
+  effectiveRoles: UserRole[];
   tenantId: string | null;
   isPlatformOwnerTenant: boolean;
   permissionLevel: PlatformPermissionLevel;
@@ -67,7 +68,7 @@ export function isUserOnPlatformOwnerTenant(
 
 async function loadProfileForPlatformContext(
   userId: string,
-): Promise<{ role: UserRole | null; tenant_id: string | null } | null> {
+): Promise<{ role: UserRole | null; effectiveRoles: UserRole[]; tenant_id: string | null } | null> {
   const adminDb = await getAdminClient();
   if (adminDb) {
     const { data, error } = await adminDb
@@ -76,8 +77,11 @@ async function loadProfileForPlatformContext(
       .eq('id', userId)
       .maybeSingle();
     if (!error && data) {
+      const role = (data.role as UserRole | null) ?? null;
+      const effectiveRoles = await loadSecondaryRoles(adminDb, userId, role);
       return {
-        role: (data.role as UserRole | null) ?? null,
+        role,
+        effectiveRoles,
         tenant_id: (data.tenant_id as string | null) ?? null,
       };
     }
@@ -90,10 +94,58 @@ async function loadProfileForPlatformContext(
     .eq('id', userId)
     .maybeSingle();
   if (error || !data) return null;
+  const role = (data.role as UserRole | null) ?? null;
+  const effectiveRoles = await loadSecondaryRoles(sessionDb, userId, role);
   return {
-    role: (data.role as UserRole | null) ?? null,
+    role,
+    effectiveRoles,
     tenant_id: (data.tenant_id as string | null) ?? null,
   };
+}
+
+
+async function loadSecondaryRoles(
+  db: Awaited<ReturnType<typeof getAdminClient>> | Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  primaryRole: UserRole | null,
+): Promise<UserRole[]> {
+  const roles = new Set<UserRole>();
+  if (primaryRole) roles.add(primaryRole);
+
+  try {
+    const { data } = await db
+      .from('user_roles')
+      .select('roles(name)')
+      .eq('user_id', userId);
+
+    for (const row of data ?? []) {
+      const rawRole = (row as { roles?: { name?: unknown } | null }).roles?.name;
+      if (typeof rawRole === 'string' && rawRole.trim()) {
+        roles.add(rawRole.trim() as UserRole);
+      }
+    }
+  } catch {
+    // Secondary roles are optional. Keep primary role behavior if the join/table is unavailable.
+  }
+
+  return Array.from(roles);
+}
+
+function resolveHighestPlatformPermissionLevel(params: {
+  effectiveRoles: UserRole[];
+  isPlatformOwnerTenant: boolean;
+}): PlatformPermissionLevel {
+  const levels = params.effectiveRoles.map((role) =>
+    resolvePermissionLevel({
+      profileRole: role,
+      isPlatformOwnerTenant: params.isPlatformOwnerTenant,
+    }),
+  );
+
+  if (levels.includes('platform_owner')) return 'platform_owner';
+  if (levels.includes('platform_admin')) return 'platform_admin';
+  if (levels.includes('organization_admin')) return 'organization_admin';
+  return 'standard_user';
 }
 
 /** Load platform permission context for the current session user. */
@@ -106,16 +158,18 @@ export async function getPlatformUserContext(userId: string): Promise<PlatformUs
   if (!profile) return null;
 
   const profileRole = profile.role;
+  const effectiveRoles = profile.effectiveRoles.length ? profile.effectiveRoles : profileRole ? [profileRole] : [];
   const tenantId = profile.tenant_id;
   const onOwnerTenant = isUserOnPlatformOwnerTenant(tenantId, ownerTenantId);
-  const permissionLevel = resolvePermissionLevel({
-    profileRole,
+  const permissionLevel = resolveHighestPlatformPermissionLevel({
+    effectiveRoles,
     isPlatformOwnerTenant: onOwnerTenant,
   });
 
   return {
     userId,
     profileRole,
+    effectiveRoles,
     tenantId,
     isPlatformOwnerTenant: onOwnerTenant,
     permissionLevel,

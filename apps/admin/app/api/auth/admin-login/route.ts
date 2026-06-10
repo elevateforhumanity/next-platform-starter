@@ -7,9 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { getServerSupabaseEnvMisconfigurationReason } from '@/lib/supabase/server-env';
 import { applyNormalizedSupabaseUrlToEnv } from '@/lib/supabase/normalize-url';
-
-// Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and apps/admin/app/admin/layout.tsx
-const ADMIN_ROLES = ['super_admin', 'admin', 'staff', 'org_admin'];
+import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -84,7 +82,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!ADMIN_ROLES.includes(profile.role)) {
+  const { data: roleRows } = await db
+    .from('user_roles')
+    .select('roles(name)')
+    .eq('user_id', authData.user.id);
+  const secondaryRoles = (roleRows ?? [])
+    .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+    .filter((role): role is string => typeof role === 'string');
+  const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
+
+  if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {
     await supabase.auth.signOut();
     return NextResponse.json(
       { error: 'You do not have permission to access the admin portal.' },
@@ -92,5 +99,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ ok: true, role: profile.role });
+  return NextResponse.json({ ok: true, role: profile.role, effectiveRoles });
 }

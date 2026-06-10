@@ -23,8 +23,6 @@ import {
   JobBoardPanelLazy,
   ProgramIntegrityPanelLazy,
   PublishWebsitePanelLazy,
-  SitePreviewPanelWrapperLazy,
-  LizzyContainerWrapperLazy,
 } from "./DashboardDeferredPanels";
 import { DashboardPanelErrorBoundary } from "./DashboardPanelErrorBoundary";
 
@@ -199,7 +197,7 @@ const ADMIN_CATEGORY_CARDS = [
     Icon: Settings,
     links: [
       { label: 'Open studio', href: '/admin/dev-studio' },
-      { label: 'Workflows', href: '/admin/workflows' },
+      { label: 'Workflows', href: '/admin/dev-studio/workflows' },
     ],
   },
 ] as const;
@@ -596,7 +594,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
               </div>
               <div className="divide-y divide-slate-100">
                 {data.topPrograms.slice(0, 6).map((p) => (
-                  <Link key={p.id} href={p.slug ? `/admin/programs/${p.slug}/manage` : '/admin/programs'}
+                  <Link key={p.id} href={`/admin/programs/${encodeURIComponent(p.slug || p.id)}/manage`}
                     className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
                     <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
                     <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.learners} enrolled</span>
@@ -617,22 +615,10 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           </DashboardPanelErrorBoundary>
         </div>
 
-        {/* ── Job board + site status + system health ──────────────────── */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* ── Job board + system health ────────────────────────────────── */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <DashboardPanelErrorBoundary name="Job board">
             <JobBoardPanelLazy />
-          </DashboardPanelErrorBoundary>
-          <DashboardPanelErrorBoundary name="Lizzy control plane">
-            <LizzyContainerWrapperLazy
-              sites={data.sitePreviewTargets ?? []}
-              isSuperAdmin={data.isSuperAdmin === true}
-              pendingApplications={data.recentApplications}
-              pendingApplicationsCount={data.counts?.pendingApplications ?? 0}
-              pendingProgramHolders={data.counts?.pendingProgramHolders ?? 0}
-            />
-          </DashboardPanelErrorBoundary>
-          <DashboardPanelErrorBoundary name="Site preview">
-            <SitePreviewPanelWrapperLazy sites={data.sitePreviewTargets ?? []} />
           </DashboardPanelErrorBoundary>
           <SystemHealthPanel health={data.systemHealth ?? { stripeWebhookOk: false, stripeIssuingOk: false, buildEnvOk: false, staleJobs: 0, degraded: true, missingDocuments: 0, missingCertifications: 0, unresolvedFlags: 0, alerts: [] }} />
         </div>

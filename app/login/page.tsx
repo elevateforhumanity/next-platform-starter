@@ -17,6 +17,32 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
 
+
+const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);
+const ADMIN_ORIGIN = (process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(/\/$/, '');
+
+function normalizePostLoginRedirect(target: string, role: string | null | undefined): string | null {
+  if (!target) return null;
+  const isAdminRole = ADMIN_LOGIN_ROLES.has(String(role ?? ''));
+
+  try {
+    if (target.startsWith('https://')) {
+      const url = new URL(target);
+      const isAdminHost = url.hostname === 'admin.elevateforhumanity.org';
+      if (isAdminHost) return isAdminRole ? url.toString() : null;
+      return target;
+    }
+
+    if (target.startsWith('/admin')) {
+      return isAdminRole ? `${ADMIN_ORIGIN}${target}` : null;
+    }
+  } catch {
+    return null;
+  }
+
+  return target;
+}
+
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -96,13 +122,18 @@ function LoginForm() {
         return;
       }
 
-      // Explicit redirect param takes priority
-      if (next) {
-        window.location.href = next;
+      const role = profile.role;
+
+      // Explicit redirect param takes priority only after role-aware admin-domain normalization.
+      // This prevents www /login?redirect=/admin/dashboard from trapping admins on the wrong host
+      // and prevents non-admin users from being sent into an admin unauthorized loop.
+      const resolvedRedirect = normalizePostLoginRedirect(next, role);
+      if (resolvedRedirect) {
+        window.location.href = resolvedRedirect;
         return;
       }
 
-      const role = profile.role;
+
       const onboardingDone = profile.onboarding_completed === true;
 
       // Employer: gate on onboarding before dashboard.
@@ -185,7 +216,9 @@ function LoginForm() {
       const redirectTo = next
         ? next.startsWith('https://')
           ? next
-          : `${window.location.origin}${next}`
+          : next.startsWith('/admin')
+            ? `${ADMIN_ORIGIN}${next}`
+            : `${window.location.origin}${next}`
         : `${window.location.origin}/learner/dashboard`;
       const res = await fetch('/api/auth/send-magic-link', {
         method: 'POST',

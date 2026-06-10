@@ -37,6 +37,29 @@ function dollarsToCents(value: unknown): number {
   return Math.round(toSafeNumber(value) * 100);
 }
 
+
+function normalizeDedupePart(value: unknown): string {
+  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function timestampBucket(value: unknown, bucketMs = 10 * 60 * 1000): string {
+  const time = new Date(String(value ?? '')).getTime();
+  if (!Number.isFinite(time)) return '';
+  return String(Math.floor(time / bucketMs));
+}
+
+function uniqueBy<T>(rows: T[], keyFor: (row: T) => string): T[] {
+  const seen = new Set<string>();
+  const unique: T[] = [];
+  for (const row of rows) {
+    const key = keyFor(row);
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    unique.push(row);
+  }
+  return unique;
+}
+
 function sumCentsFromRows<T extends Record<string, unknown>>(
   rows: T[],
   value: (row: T) => number,
@@ -254,7 +277,7 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
       .limit(10),
 
     db.from('applications')
-      .select('id, first_name, last_name, full_name, program_interest, status, created_at')
+      .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
       .order('created_at', { ascending: false })
       .limit(10),
 
@@ -1081,15 +1104,24 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
       };
     });
 
-  const recentActivityItems = [...enrollActivityItems, ...appActivityItems]
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    .slice(0, 15);
+  const recentActivityItems = uniqueBy(
+    [...enrollActivityItems, ...appActivityItems]
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
+    (item) => `${normalizeDedupePart(item.title)}|${timestampBucket(item.timestamp)}`,
+  ).slice(0, 15);
 
-  const recentApplications = (recentAppsActivityRes.data ?? [])
-    .filter((app: any) =>
+  const recentApplications = uniqueBy(
+    (recentAppsActivityRes.data ?? []).filter((app: any) =>
       !isLikelyTestOrDemoRecord(app.full_name, app.first_name, app.last_name, app.email),
-    )
-    .map((app: any) => {
+    ),
+    (app: any) => [
+      normalizeDedupePart(app.email),
+      normalizeDedupePart(app.full_name || [app.first_name, app.last_name].filter(Boolean).join(' ')),
+      normalizeDedupePart(app.program_slug ?? app.program_interest),
+      normalizeDedupePart(app.status),
+      timestampBucket(app.submitted_at || app.created_at),
+    ].join('|'),
+  ).map((app: any) => {
       const createdAt = app.created_at;
       const ageDays = Math.floor((Date.now() - new Date(createdAt).getTime()) / 86400000);
       const slug = app.program_slug ?? app.program_interest ?? null;

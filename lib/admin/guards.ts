@@ -9,7 +9,7 @@
 
 import { notFound } from 'next/navigation';
 
-export type AdminRole = 'admin' | 'super_admin' | 'staff';
+export type AdminRole = 'admin' | 'super_admin' | 'staff' | 'org_admin' | 'platform_operator';
 
 /**
  * Environment detection — container runtime (NODE_ENV driven)
@@ -29,6 +29,10 @@ export const allowDevTools = process.env.ENABLE_ADMIN_DEVTOOLS === 'true';
  */
 export function isSuperAdmin(role: string | null | undefined): boolean {
   return role === 'super_admin';
+}
+
+export function isPlatformOperatorRole(role: string | null | undefined): boolean {
+  return role === 'super_admin' || role === 'platform_operator';
 }
 
 /**
@@ -55,7 +59,7 @@ export function requireDevToolsAccess(role: string | null | undefined): void {
   }
 
   // Dev tools enabled but not super_admin
-  if (!isSuperAdmin(role)) {
+  if (!isPlatformOperatorRole(role)) {
     notFound();
   }
 }
@@ -65,11 +69,11 @@ export function requireDevToolsAccess(role: string | null | undefined): void {
  * Less restrictive than dev tools but still requires elevated access in prod
  */
 export function requireSensitiveFeatureAccess(role: string | null | undefined): void {
-  if (isProd && !isSuperAdmin(role)) {
+  if (isProd && !isPlatformOperatorRole(role)) {
     notFound();
   }
 
-  if (!['admin', 'super_admin'].includes(role || '')) {
+  if (!['admin', 'super_admin', 'platform_operator'].includes(role || '')) {
     notFound();
   }
 }
@@ -97,7 +101,7 @@ export function shouldShowDevToolsInNav(role: string | null | undefined): boolea
   }
 
   // Non-prod: require both flag and super_admin
-  return allowDevTools && isSuperAdmin(role);
+  return allowDevTools && isPlatformOperatorRole(role);
 }
 
 /**
@@ -128,7 +132,7 @@ export const SENSITIVE_ROUTES = [
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
-import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES } from '@/lib/rbac/role-matrix';
+import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES, type UserRole } from '@/lib/rbac/role-matrix';
 
 // Re-export UserRole from the canonical role matrix so all guards share one type.
 export type { UserRole } from '@/lib/rbac/role-matrix';
@@ -223,7 +227,7 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
   return user;
 }
 
-const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff'];
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'platform_operator'];
 
 /**
  * Platform staff on the owner tenant — workspace provisioning, all-tenant admin.
@@ -248,17 +252,17 @@ export async function apiRequirePlatformStaff(_req?: Request): Promise<GuardedUs
 
 /**
  * Platform operator (owner) — DevStudio, deploy, Northflank, AI autopilot.
- * Requires super_admin on the platform owner tenant.
+ * Requires super_admin or platform_operator on the platform owner tenant.
  */
 export async function apiRequirePlatformOperator(_req?: Request): Promise<GuardedUser> {
   const user = await apiAuthGuard(_req);
   if (user.error) return user;
 
-  if (user.role !== 'super_admin') {
+  if (!isPlatformOperatorRole(user.role)) {
     return { ...user, error: forbidden() };
   }
 
-  // super_admin is platform_owner by definition (see resolvePermissionLevel).
+  // super_admin/platform_operator are platform operators by definition for Dev Studio access.
   // Do not block when tenant context lookup fails — service-role hydration can lag on cold start.
   try {
     const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');

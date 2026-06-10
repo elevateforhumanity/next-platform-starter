@@ -219,9 +219,8 @@ export default function ApprenticeForm({
           source: 'barber-apply-page',
           paymentOption: isSelfPay ? paymentOption : undefined,
           turnstileToken: isSelfPay ? turnstileToken : undefined,
-          transfer_hours_claimed: transferHours > 0 ? transferHours : undefined,
           transferHours,
-          transfer_hours_claimed: transferHours,
+          transfer_hours_claimed: transferHours > 0 ? transferHours : undefined,
           support_notes: [
             formData.hasHostShop ? `Host shop: ${formData.hasHostShop}` : '',
             formData.hostShopName ? `Shop name: ${formData.hostShopName}` : '',
