@@ -160,7 +160,11 @@ export async function submitSalonHostShopApplication(
       zip: salonZip,
       partner_type: 'salon',
       program_type: cfg.programType,
-      status: 'pending',
+      status: 'active',
+      approval_status: 'approved',
+      account_status: 'conditional_access',
+      documents_verified: false,
+      onboarding_completed: false,
       license_number: indianaSalonLicenseNumber,
       supervisor_name: supervisorName,
       supervisor_license_number: supervisorLicenseNumber,
@@ -171,6 +175,8 @@ export async function submitSalonHostShopApplication(
       has_general_liability: hasGeneralLiability === 'yes',
       can_supervise_and_verify: canSuperviseAndVerify === 'yes',
       mou_acknowledged: mouAcknowledged,
+      mou_signed: false,
+      programs: [cfg.programType],
       notes: notesWithDocumentStatus || null,
       applied_at: new Date().toISOString(),
     })
@@ -308,6 +314,63 @@ export async function submitSalonHostShopApplication(
         },
         { onConflict: 'id' },
       );
+
+      await db.from('partner_users').upsert(
+        {
+          partner_id: partner.id,
+          user_id: userId,
+          role: 'partner_admin',
+          status: 'active',
+        },
+        { onConflict: 'partner_id,user_id' },
+      );
+
+      await db.from('partner_program_access').upsert(
+        {
+          partner_id: partner.id,
+          program_id: cfg.programType,
+          can_view_apprentices: true,
+          can_enter_progress: true,
+          can_view_reports: true,
+        },
+        { onConflict: 'partner_id,program_id' },
+      );
+
+      const initialDocs = [
+        licensePath
+          ? {
+              partner_id: partner.id,
+              document_type: 'salon_license',
+              program_id: cfg.programType,
+              file_name: shopLicenseFileName,
+              file_url: licensePath,
+              file_type: shopLicenseFileData?.split(';')[0]?.replace('data:', '') || 'application/octet-stream',
+              status: 'pending',
+            }
+          : null,
+        insurancePath
+          ? {
+              partner_id: partner.id,
+              document_type: 'liability_insurance',
+              program_id: cfg.programType,
+              file_name: insuranceFileName ?? 'insurance-coi.pdf',
+              file_url: insurancePath,
+              file_type: insuranceFileData?.split(';')[0]?.replace('data:', '') || 'application/octet-stream',
+              status: 'pending',
+            }
+          : null,
+      ].filter(Boolean);
+
+      if (initialDocs.length) {
+        const documentTypes = initialDocs.map((doc: any) => doc.document_type);
+        await db
+          .from('partner_documents')
+          .delete()
+          .eq('partner_id', partner.id)
+          .in('document_type', documentTypes)
+          .then(undefined, () => undefined);
+        await db.from('partner_documents').insert(initialDocs).then(undefined, () => undefined);
+      }
     }
   } catch (authErr) {
     logger.error('Failed to create/invite partner auth account:', authErr);

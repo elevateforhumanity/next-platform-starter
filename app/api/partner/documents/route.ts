@@ -5,6 +5,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import {
+  mergeHostShopDocumentRequirements,
+  resolveHostShopProgram,
+} from '@/lib/partners/host-shop-onboarding';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +31,7 @@ async function _GET(request: NextRequest) {
     // Get partner
     const { data: partnerUser } = await supabase
       .from('partner_users')
-      .select('partner_id, partners(state)')
+      .select('partner_id, partners(state, partner_type, program_type, programs)')
       .eq('user_id', user.id)
       .maybeSingle();
 
@@ -36,7 +40,9 @@ async function _GET(request: NextRequest) {
     }
 
     const partnerId = partnerUser.partner_id;
-    const partnerState = (partnerUser.partners as { state: string })?.state || 'Indiana';
+    const partner = (partnerUser.partners || {}) as Record<string, unknown>;
+    const partnerState = (partner.state as string | undefined) || 'Indiana';
+    const hostShopProgram = resolveHostShopProgram(partner);
 
     // Get partner's programs
     const { data: programAccess } = await supabase
@@ -45,14 +51,20 @@ async function _GET(request: NextRequest) {
       .eq('partner_id', partnerId)
       .is('revoked_at', null);
 
-    const programs = (programAccess || []).map((p) => p.program_id);
+    const programs = Array.from(
+      new Set([hostShopProgram, ...(programAccess || []).map((p) => p.program_id).filter(Boolean)]),
+    );
 
-    // Get document requirements for this partner's state and programs
-    const { data: requirements } = await supabase
+    // Get document requirements for this partner's state and programs. Always include
+    // code defaults so host-shop dashboards still show required uploads when the
+    // database seed rows are missing or only cover barber.
+    const { data: dbRequirements } = await supabase
       .from('partner_document_requirements')
       .select('*')
-      .or(`state.eq.${partnerState},state.eq.ALL`)
-      .or(`program_id.in.(${programs.join(',')}),program_id.eq.ALL`);
+      .in('state', [partnerState, 'ALL'])
+      .in('program_id', [...programs, 'ALL']);
+
+    const requirements = mergeHostShopDocumentRequirements(dbRequirements, hostShopProgram);
 
     // Get partner's uploaded documents
     const { data: documents } = await supabase
@@ -62,7 +74,7 @@ async function _GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     // Map requirements to documents
-    const documentStatus = (requirements || []).map((req) => {
+    const documentStatus = (requirements || []).map((req: any) => {
       const doc = (documents || []).find((d) => d.document_type === req.document_type);
       return {
         ...req,
@@ -74,8 +86,8 @@ async function _GET(request: NextRequest) {
 
     // Check if all required docs are complete
     const allComplete = documentStatus
-      .filter((d) => d.is_required)
-      .every((d) => d.status === 'accepted');
+      .filter((d: any) => d.is_required)
+      .every((d: any) => d.status === 'accepted');
 
     return NextResponse.json({
       documents: documentStatus,
@@ -192,22 +204,63 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save document' }, { status: 500 });
     }
 
-    // Check if partner should be activated — non-fatal if RPC fails
+    // Check if partner should be activated — non-fatal if RPC fails. The local
+    // fallback uses the same host-shop defaults as the dashboard, so non-barber
+    // host sites are not stuck when DB requirement seed rows are incomplete.
     let allDocsComplete = false;
     try {
       const { data: rpcResult } = await supabaseAdmin.rpc('check_partner_document_completion', {
         p_partner_id: partnerUser.partner_id,
       });
       allDocsComplete = !!rpcResult;
-
-      if (allDocsComplete) {
-        await supabaseAdmin
-          .from('partners')
-          .update({ account_status: 'active', updated_at: new Date().toISOString() })
-          .eq('id', partnerUser.partner_id);
-      }
     } catch {
-      // Non-fatal — document upload succeeded, activation check deferred
+      // Non-fatal — document upload succeeded, local completion check follows.
+    }
+
+    if (!allDocsComplete) {
+      const { data: partnerRow } = await supabaseAdmin
+        .from('partners')
+        .select('state, partner_type, program_type, programs')
+        .eq('id', partnerUser.partner_id)
+        .maybeSingle();
+      const hostShopProgram = resolveHostShopProgram(partnerRow as Record<string, unknown> | null);
+      const { data: programAccess } = await supabaseAdmin
+        .from('partner_program_access')
+        .select('program_id')
+        .eq('partner_id', partnerUser.partner_id)
+        .is('revoked_at', null);
+      const programs = Array.from(
+        new Set([hostShopProgram, ...(programAccess || []).map((p) => p.program_id).filter(Boolean)]),
+      );
+      const { data: dbRequirements } = await supabaseAdmin
+        .from('partner_document_requirements')
+        .select('*')
+        .in('state', [(partnerRow as { state?: string } | null)?.state || 'Indiana', 'ALL'])
+        .in('program_id', [...programs, 'ALL']);
+      const requirements = mergeHostShopDocumentRequirements(dbRequirements, hostShopProgram);
+      const { data: docsAfterUpload } = await supabaseAdmin
+        .from('partner_documents')
+        .select('document_type, status')
+        .eq('partner_id', partnerUser.partner_id);
+      const acceptedTypes = new Set(
+        (docsAfterUpload || [])
+          .filter((row: { status?: string }) => row.status === 'accepted')
+          .map((row: { document_type?: string }) => row.document_type),
+      );
+      allDocsComplete = requirements
+        .filter((req: any) => req.is_required)
+        .every((req: any) => acceptedTypes.has(req.document_type));
+    }
+
+    if (allDocsComplete) {
+      await supabaseAdmin
+        .from('partners')
+        .update({
+          account_status: 'active',
+          documents_verified: true,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', partnerUser.partner_id);
     }
 
     return NextResponse.json({
