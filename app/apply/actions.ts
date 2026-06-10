@@ -454,7 +454,7 @@ async function insertApplication(payload: {
     const adminHtml = [
       emailHeader,
       `<h3>New ${payload.source.replace(/-/g, ' ')}</h3>`,
-      `<p style="color:#16a34a"><strong>Status: APPROVED — applicant account created and enrolled automatically</strong></p>`,
+      `<p style="color:#1d4ed8"><strong>Status: SUBMITTED — applicant account created, pending admin review</strong></p>`,
       `<table style="border-collapse:collapse;width:100%;max-width:500px">`,
       `<tr><td style="padding:6px;font-weight:bold">Name</td><td style="padding:6px">${payload.firstName} ${payload.lastName}</td></tr>`,
       `<tr><td style="padding:6px;font-weight:bold">Email</td><td style="padding:6px"><a href="mailto:${payload.email}">${payload.email}</a></td></tr>`,
@@ -482,17 +482,9 @@ async function insertApplication(payload: {
       });
     });
 
-    // Barber Apprenticeship requires payment before onboarding.
-    // Student welcome email is sent by the Stripe webhook after checkout.session.completed.
-    // Only the admin notification fires here.
-    const isPaymentGated = payload.programInterest.toLowerCase().includes('barber');
-    if (isPaymentGated) {
-      logger.info(
-        '[Apply] Skipping student welcome email — payment-gated program, webhook will send after payment',
-        { email: payload.email },
-      );
-      return;
-    }
+    // Always send the applicant confirmation immediately after persistence.
+    // Payment-gated programs may send additional checkout/onboarding emails later,
+    // but the applicant still needs a reference number and login instructions now.
 
     // Send student confirmation email
     await sendEmailDirect(

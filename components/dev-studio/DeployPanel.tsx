@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Activity, AlertTriangle, CheckCircle2, ExternalLink, Loader2, Play, RefreshCw, Rocket, XCircle } from 'lucide-react';
+import { Activity, AlertTriangle, CheckCircle2, ExternalLink, GitBranch, Loader2, Play, RefreshCw, Rocket, XCircle } from 'lucide-react';
 import PublishWebsiteDevPanel from '@/components/dev-studio/PublishWebsiteDevPanel';
 
 type WorkflowKey = 'deploy-lms' | 'deploy-admin' | 'ci' | 'lint' | string;
@@ -32,6 +32,7 @@ interface DispatchResult {
 }
 
 const DEFAULT_WORKFLOWS: WorkflowButton[] = [
+  { key: 'deploy-all', label: 'Deploy All', description: 'Build and deploy LMS plus Admin on Northflank from main' },
   { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
   { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin dashboard service on Northflank' },
   { key: 'ci', label: 'Run CI', description: 'Run the validation pipeline before deployment' },
@@ -53,6 +54,7 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
   const [error, setError] = useState<string | null>(null);
   const [confirmKey, setConfirmKey] = useState<string | null>(null);
   const [deployAllState, setDeployAllState] = useState<'idle' | 'confirm' | 'loading'>('idle');
+  const [gitPushState, setGitPushState] = useState<'idle' | 'confirm' | 'loading'>('idle');
 
   async function dispatchWorkflow(workflow: WorkflowButton) {
     if (workflow.key.startsWith('deploy-') && confirmKey !== workflow.key) {
@@ -93,6 +95,38 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
     }
   }
 
+
+  async function pushCurrentBranchToMain() {
+    if (gitPushState !== 'confirm') {
+      setGitPushState('confirm');
+      return;
+    }
+
+    setGitPushState('loading');
+    setError(null);
+    try {
+      const res = await fetch('/api/devstudio/git', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'configure-and-push', targetBranch: 'main', confirmation: 'CONFIRM PUSH' }),
+      });
+      const data = await res.json().catch(() => ({})) as { error?: string; sourceBranch?: string; targetBranch?: string };
+      if (!res.ok || data.error) throw new Error(data.error || `Git push failed with HTTP ${res.status}`);
+      setLastResult({
+        ok: true,
+        workflow: 'git-push-main',
+        method: 'git-push',
+        runId: null,
+        runUrl: 'https://github.com/elevate-for-humanity/Elevate-lms/actions',
+        status: `pushed ${data.sourceBranch ?? 'current'} → ${data.targetBranch ?? 'main'}`,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not push current branch to main');
+    } finally {
+      setGitPushState('idle');
+    }
+  }
+
   async function deployAll() {
     if (deployAllState !== 'confirm') {
       setDeployAllState('confirm');
@@ -102,17 +136,14 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
     setDeployAllState('loading');
     setError(null);
     try {
-      const res = await fetch('/api/admin/env-vars/deploy', { method: 'POST' });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.error) throw new Error(data.error || `Deploy failed with HTTP ${res.status}`);
-      setLastResult({
-        ok: true,
-        workflow: 'Northflank LMS + Admin',
-        method: 'northflank-api',
-        runId: null,
-        runUrl: 'https://app.northflank.com',
-        status: data.triggered ? 'queued' : 'partial',
+      const res = await fetch('/api/devstudio/shell', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workflow: 'deploy-production-dispatch' }),
       });
+      const data = await res.json().catch(() => ({})) as DispatchResult;
+      if (!res.ok || data.error) throw new Error(data.error || `Deploy failed with HTTP ${res.status}`);
+      setLastResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not trigger Northflank deploy');
     } finally {
@@ -145,6 +176,17 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={pushCurrentBranchToMain}
+              disabled={gitPushState === 'loading'}
+              className="inline-flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs font-semibold text-white transition hover:border-brand-blue-400 disabled:cursor-not-allowed disabled:opacity-60"
+              style={{ borderColor: gitPushState === 'confirm' ? '#f59e0b' : '#3c3c3c', background: gitPushState === 'confirm' ? '#92400e' : '#1f2937' }}
+              title="Configure git origin and push this container branch to main using GITHUB_TOKEN/GH_TOKEN/GITHUB_PAT."
+            >
+              {gitPushState === 'loading' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <GitBranch className="h-3.5 w-3.5" />}
+              {gitPushState === 'confirm' ? 'Confirm Push Main' : 'Push Main'}
+            </button>
             <button
               type="button"
               onClick={deployAll}
