@@ -12,6 +12,7 @@ export type UserRole =
   | 'instructor'
   | 'admin'
   | 'super_admin'
+  | 'platform_operator'
   | 'staff'
   | 'program_holder'
   | 'provider_admin'

@@ -223,7 +223,7 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
   return user;
 }
 
-const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff'];
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 
 /**
  * Platform staff on the owner tenant — workspace provisioning, all-tenant admin.
@@ -254,11 +254,11 @@ export async function apiRequirePlatformOperator(_req?: Request): Promise<Guarde
   const user = await apiAuthGuard(_req);
   if (user.error) return user;
 
-  if (user.role !== 'super_admin') {
+  if (user.role !== 'super_admin' && user.role !== 'platform_operator') {
     return { ...user, error: forbidden() };
   }
 
-  // super_admin is platform_owner by definition (see resolvePermissionLevel).
+  // super_admin and platform_operator are platform_owner roles by definition (see resolvePermissionLevel).
   // Do not block when tenant context lookup fails — service-role hydration can lag on cold start.
   try {
     const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
