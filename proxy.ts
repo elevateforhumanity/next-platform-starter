@@ -507,7 +507,6 @@ export async function middleware(request: NextRequest) {
         if (
           !apiProfile?.role ||
           !['admin', 'super_admin', 'org_admin', 'staff', 'platform_operator'].includes(apiProfile.role)
-          !['admin', 'super_admin', 'platform_operator', 'org_admin', 'staff'].includes(apiProfile.role)
         ) {
           return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }

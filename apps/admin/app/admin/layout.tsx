@@ -145,7 +145,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .filter((role): role is string => typeof role === 'string');
   const effectiveRoles = Array.from(new Set([roleCheck.role, ...secondaryRoles]));
   if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {
-  if (!ADMIN_ROLES.includes(roleCheck.role as any)) {
     redirect(`/unauthorized?reason=${encodeURIComponent(String(roleCheck.role ?? 'role_denied'))}`);
   }
 

@@ -141,10 +141,6 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
       const res = await fetch('/api/devstudio/git', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'configure-and-push', targetBranch: 'main', confirmation: 'CONFIRM PUSH' }),
-      });
-      const data = await res.json().catch(() => ({})) as { error?: string; sourceBranch?: string; targetBranch?: string };
-      if (!res.ok || data.error) throw new Error(data.error || `Git push failed with HTTP ${res.status}`);
         body: JSON.stringify({
           action: 'configure-and-push',
           targetBranch: 'main',
@@ -237,17 +233,6 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
               title="Configure git origin and push this container branch to main using GITHUB_TOKEN/GH_TOKEN/GITHUB_PAT."
             >
               {gitPushState === 'loading' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <GitBranch className="h-3.5 w-3.5" />}
-              style={{
-                borderColor: gitPushState === 'confirm' ? '#f59e0b' : '#3c3c3c',
-                background: gitPushState === 'confirm' ? '#92400e' : '#1f2937',
-              }}
-              title="Configure git origin and push this container branch to main using GITHUB_TOKEN/GH_TOKEN/GITHUB_PAT."
-            >
-              {gitPushState === 'loading' ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <GitBranch className="h-3.5 w-3.5" />
-              )}
               {gitPushState === 'confirm' ? 'Confirm Push Main' : 'Push Main'}
             </button>
             <button

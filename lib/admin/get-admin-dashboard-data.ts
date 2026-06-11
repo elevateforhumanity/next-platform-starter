@@ -37,9 +37,6 @@ function dollarsToCents(value: unknown): number {
   return Math.round(toSafeNumber(value) * 100);
 }
 
-
-function normalizeDedupePart(value: unknown): string {
-  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
 function normalizeDedupePart(value: unknown): string {
   return String(value ?? '')
     .trim()
@@ -317,8 +314,6 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
       .order('created_at', { ascending: false })
       .limit(10),
 
-    db.from('applications')
-      .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
     db
       .from('applications')
       .select(
@@ -1260,9 +1255,6 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
   const recentActivityItems = uniqueBy(
     [...enrollActivityItems, ...appActivityItems]
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
-    [...enrollActivityItems, ...appActivityItems].sort(
-      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
-    ),
     (item) => `${normalizeDedupePart(item.title)}|${timestampBucket(item.timestamp)}`,
   ).slice(0, 15);
 
@@ -1297,40 +1289,6 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
         href: `/admin/applications?search=${encodeURIComponent(app.full_name || app.id)}`,
       };
     });
-    (recentAppsActivityRes.data ?? []).filter(
-      (app: any) =>
-        !isLikelyTestOrDemoRecord(app.full_name, app.first_name, app.last_name, app.email),
-    ),
-    (app: any) =>
-      [
-        normalizeDedupePart(app.email),
-        normalizeDedupePart(
-          app.full_name || [app.first_name, app.last_name].filter(Boolean).join(' '),
-        ),
-        normalizeDedupePart(app.program_slug ?? app.program_interest),
-        normalizeDedupePart(app.status),
-        timestampBucket(app.submitted_at || app.created_at),
-      ].join('|'),
-  ).map((app: any) => {
-    const createdAt = app.created_at;
-    const ageDays = Math.floor((Date.now() - new Date(createdAt).getTime()) / 86400000);
-    const slug = app.program_slug ?? app.program_interest ?? null;
-    const resolvedProgram = slug ? (slugToTitle[slug] ?? slug) : null;
-    return {
-      id: app.id,
-      first_name: app.first_name ?? null,
-      last_name: app.last_name ?? null,
-      full_name: app.full_name ?? null,
-      email: null,
-      program_interest: resolvedProgram,
-      status: app.status ?? 'submitted',
-      created_at: createdAt,
-      submitted_at: null,
-      age_days: ageDays,
-      urgent: ageDays >= 3,
-      href: `/admin/applications?search=${encodeURIComponent(app.full_name || app.id)}`,
-    };
-  });
 
   const sitePreviewTargets = [
     {

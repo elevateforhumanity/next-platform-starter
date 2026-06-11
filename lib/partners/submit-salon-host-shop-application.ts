@@ -388,9 +388,6 @@ export async function submitSalonHostShopApplication(
           .then(undefined, () => undefined);
         await db.from('partner_documents').insert(initialDocs).then(undefined, () => undefined);
       }
-        },
-        { onConflict: 'id' },
-      );
     }
   } catch (authErr) {
     logger.error('Failed to create/invite partner auth account:', authErr);

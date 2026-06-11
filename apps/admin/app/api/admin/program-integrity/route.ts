@@ -210,17 +210,6 @@ export async function GET(request: NextRequest) {
       { programs: data ?? [], source: 'view' },
       { headers: { 'Cache-Control': 'private, max-age=300, stale-while-revalidate=60' } },
     );
-  if (error) {
-    // View may not exist yet, or may be from an older migration with different columns.
-    // Return empty rather than 500 so dashboard degrades gracefully.
-    if (['42P01', '42703', 'PGRST200', 'PGRST204', 'PGRST205'].includes(error.code ?? '')) {
-      return NextResponse.json({
-        programs: [],
-        pending_migration: true,
-        reason: error.code,
-      });
-    }
-    return safeError('Failed to load program integrity data', 500);
   }
 
   logger.warn('[program-integrity] view unavailable; using fallback audit', {

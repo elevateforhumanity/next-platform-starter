@@ -39,6 +39,8 @@ function normalizePostLoginRedirect(target: string, role: string | null | undefi
   }
 
   return target;
+}
+
 async function resolveLandingAfterPasswordLogin(redirectTo: string): Promise<string> {
   const query = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : '';
   let lastStatus = 0;
@@ -182,7 +184,6 @@ function LoginForm() {
       }
 
       // All other roles: canonical destination from lib/auth/role-destinations.ts.
-      const dest = getRoleDestination(role);
       const dest = await resolveLandingAfterPasswordLogin(next);
 
       // Check 2FA before navigating — if enabled, show challenge screen
