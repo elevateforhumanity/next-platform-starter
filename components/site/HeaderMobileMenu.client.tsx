@@ -129,12 +129,12 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       ? createPortal(
           <>
             <div
-              className="fixed inset-0 bg-black/50 z-[9998]"
+              className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
               onClick={closeMenu}
               aria-hidden="true"
             />
             <div
-              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,26rem)] bg-white z-[9999] overflow-y-auto shadow-2xl"
+              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,26rem)] bg-white z-[9999] overflow-y-auto shadow-2xl lg:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Main menu"
@@ -308,15 +308,21 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
     <div className="flex flex-row flex-nowrap items-center justify-end gap-0.5 shrink-0">
       <SearchModal />
       <LanguageSwitcher compact={true} />
-      <button
-        type="button"
-        onClick={() => setIsOpen((open) => !open)}
-        className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
-      </button>
+      {/* Hamburger + side drawer are mobile/tablet only. On lg+ the horizontal
+          HeaderDesktopNav (with hover dropdowns) is the navigation. The wrapper
+          span carries lg:hidden so it doesn't collide with the button's own
+          display:flex utility. */}
+      <span className="lg:hidden">
+        <button
+          type="button"
+          onClick={() => setIsOpen((open) => !open)}
+          className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+        </button>
+      </span>
       {drawer}
     </div>
   );
