@@ -3,10 +3,8 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import {
-  ApprenticeSubNav,
-  resolveApprenticeNavConfig,
-} from '@/components/portal/ApprenticeSubNav';
+import { ApprenticeSubNav } from '@/components/portal/ApprenticeSubNav';
+import { resolveApprenticeNavConfig } from '@/lib/portal/apprentice-nav-config';
 import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
 import { canAccessApprenticeTools } from '@/lib/portal/apprentice-access';
 
