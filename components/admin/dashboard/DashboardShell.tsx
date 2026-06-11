@@ -492,9 +492,16 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
   return (
     <div className="pb-16">
       <div
-        className="relative w-full h-32 sm:h-40 overflow-hidden rounded-2xl mb-6 bg-slate-100 border border-slate-200"
-        aria-hidden="true"
-      />
+        className="relative w-full h-32 sm:h-40 overflow-hidden rounded-2xl mb-6 bg-gradient-to-r from-slate-900 via-indigo-900 to-slate-800 border border-slate-700 flex items-center px-6 sm:px-10"
+      >
+        <div className="flex items-center gap-4">
+          <img src="/logo.png" alt="" className="h-12 w-12 sm:h-14 sm:w-14 rounded-lg shadow-lg" />
+          <div>
+            <h2 className="text-white text-lg sm:text-xl font-bold tracking-tight">Elevate for Humanity</h2>
+            <p className="text-indigo-200 text-xs sm:text-sm">Career &amp; Technical Institute — Admin Portal</p>
+          </div>
+        </div>
+      </div>
 
       <div className="pt-2">
 

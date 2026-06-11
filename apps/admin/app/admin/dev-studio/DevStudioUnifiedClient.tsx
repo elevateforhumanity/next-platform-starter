@@ -395,8 +395,6 @@ export default function DevStudioUnifiedClient({
                 )}
               </div>
             )}
-            {workspace === 'environments' && <EnvironmentPanel />}
-            {workspace === 'files' && <DevStudioEditorWorkspace />}
             {workspace === 'environments' &&
               (isSuperAdmin ? (
                 <EnvironmentPanel />
