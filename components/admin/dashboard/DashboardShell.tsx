@@ -201,7 +201,10 @@ const ADMIN_CATEGORY_CARDS = [
   },
 ] as const;
 
-function AdminCategoryLanding() {
+function AdminCategoryLanding({ canAccessDevStudio = true }: { canAccessDevStudio?: boolean }) {
+  const cards = canAccessDevStudio
+    ? ADMIN_CATEGORY_CARDS
+    : ADMIN_CATEGORY_CARDS.filter((c) => c.title !== 'Dev Studio');
   return (
     <section className="mb-8">
       <div className="mb-4 flex items-end justify-between gap-4">
@@ -219,7 +222,7 @@ function AdminCategoryLanding() {
         </Link>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {ADMIN_CATEGORY_CARDS.map(({ title, eyebrow, description, href, Icon, links }) => (
+        {cards.map(({ title, eyebrow, description, href, Icon, links }) => (
           <div key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
             <Link href={href} className="group block">
               <div className="mb-4 flex items-start justify-between gap-3">
@@ -480,7 +483,7 @@ function dashboardFirstName(profile: AdminDashboardData['profile']): string {
   return raw.trim().split(/\s+/)[0] || 'Admin';
 }
 
-export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
+export function AdminDashboardContent({ data, canAccessDevStudio = true }: { data: AdminDashboardData; canAccessDevStudio?: boolean }) {
   const firstName = dashboardFirstName(data.profile);
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -517,12 +520,12 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/applications?status=submitted,pending,in_review,pending_admin_review" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
           <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
-          <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>
+          {canAccessDevStudio && <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>}
           <Link href="/admin/crm/leads" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">CRM Queue</Link>
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
-          <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
+          {canAccessDevStudio && <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>}
         </div>
 
         <DegradedBanner
@@ -530,7 +533,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           dashboardUnavailable={(data.degradedSections ?? []).includes('dashboard_data')}
         />
 
-        <AdminCategoryLanding />
+        <AdminCategoryLanding canAccessDevStudio={canAccessDevStudio} />
 
         <DashboardPanelErrorBoundary name="Publish website">
           <PublishWebsitePanelLazy />

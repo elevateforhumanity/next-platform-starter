@@ -118,7 +118,7 @@ export const PERMISSIONS = {
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
   manage_platform_settings:   ['super_admin', 'platform_operator'] as UserRole[],
   trigger_deployments:        ['super_admin', 'platform_operator'] as UserRole[],
-  access_devstudio:           ['super_admin', 'platform_operator'] as UserRole[],
+  access_devstudio:           ['super_admin', 'admin', 'platform_operator'] as UserRole[],
   provision_workspaces:       ['super_admin', 'admin', 'staff'] as UserRole[],
   manage_customer_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
   run_bulk_operations: ['super_admin', 'admin'] as UserRole[],
