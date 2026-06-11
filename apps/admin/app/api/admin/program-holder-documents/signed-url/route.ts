@@ -4,11 +4,10 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
+import { API_ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-const ADMIN_ROLES = ['admin', 'super_admin', 'staff'];
 
 /**
  * POST /api/admin/program-holder-documents/signed-url
@@ -35,7 +34,7 @@ export async function POST(req: NextRequest) {
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  if (!profile || !ADMIN_ROLES.includes(profile.role)) {
+  if (!profile || !API_ADMIN_ROLES.includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

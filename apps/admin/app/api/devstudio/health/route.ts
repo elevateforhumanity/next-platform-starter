@@ -15,6 +15,11 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { probeStudioShell } from '@/lib/devstudio/shell-probe';
 import { buildStudioRuntimeCompletion } from '@/lib/devstudio/studio-runtime';
 import { getNorthflankProjectId, getNorthflankServices, isNorthflankReady } from '@/lib/northflank/runtime';
+import {
+  getNorthflankProjectId,
+  getNorthflankServices,
+  isNorthflankReady,
+} from '@/lib/northflank/runtime';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -35,7 +40,13 @@ export async function GET(req: NextRequest) {
     const { data } = await db
       .from('platform_secrets')
       .select('key, value_enc')
-      .in('key', ['GROQ_API_KEY', 'GEMINI_API_KEY', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GITHUB_TOKEN']);
+      .in('key', [
+        'GROQ_API_KEY',
+        'GEMINI_API_KEY',
+        'OPENAI_API_KEY',
+        'ANTHROPIC_API_KEY',
+        'GITHUB_TOKEN',
+      ]);
     for (const row of data ?? []) {
       const set = !!(row.value_enc && row.value_enc.length > 10);
       if (row.key === 'GROQ_API_KEY') dbGroq = set;
@@ -73,6 +84,15 @@ export async function GET(req: NextRequest) {
   const aiConfigured = hasGroq || hasGemini || hasOpenAI || hasAnthropic;
   const northflankProjectIdPresent = !!getNorthflankProjectId();
   const northflankTokenPresent = !!(process.env.NORTHFLANK_API_TOKEN || process.env.NORTHFLANK_API_KEY || process.env.NF_API_TOKEN);
+  const hasGitHub =
+    !!process.env.GITHUB_TOKEN || !!process.env.GH_TOKEN || !!process.env.GITHUB_PAT || dbGitHub;
+  const aiConfigured = hasGroq || hasGemini || hasOpenAI || hasAnthropic;
+  const northflankProjectIdPresent = !!getNorthflankProjectId();
+  const northflankTokenPresent = !!(
+    process.env.NORTHFLANK_API_TOKEN ||
+    process.env.NORTHFLANK_API_KEY ||
+    process.env.NF_API_TOKEN
+  );
   const northflankServices = getNorthflankServices().map((service) => ({
     key: service.key,
     id: service.id,
@@ -90,7 +110,11 @@ export async function GET(req: NextRequest) {
   const supabaseServiceKeyPresent = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
   const nodeVersion = process.version;
   let nextVersion = 'unknown';
-  try { nextVersion = require('next/package.json').version; } catch { /* noop */ }
+  try {
+    nextVersion = require('next/package.json').version;
+  } catch {
+    /* noop */
+  }
 
   return NextResponse.json({
     hasGroq,

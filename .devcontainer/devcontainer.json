@@ -1,63 +1,26 @@
 {
-  "name": "Elevate Platform Control Container",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm",
-
+  "name": "Elevate LMS",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker": {}
+  },
   "mounts": [
     "source=elevate-lms-next-cache,target=${containerWorkspaceFolder}/.next/cache,type=volume"
   ],
-
-  "features": {
-    "ghcr.io/devcontainers/features/aws-cli:1": {},
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
-  },
-
-  "onCreateCommand": "bash .devcontainer/post-create.sh",
-  "postStartCommand": "bash .devcontainer/setup-env.sh 2>/dev/null || true",
-
-  "remoteEnv": {
-    "LANG": "en_US.UTF-8",
-    "LC_ALL": "en_US.UTF-8",
-    "LANGUAGE": "en_US:en",
-    "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium",
-    "CHROMIUM_PATH": "/usr/bin/chromium",
-    "NEXT_TELEMETRY_DISABLED": "1"
-  },
-
   "containerEnv": {
     "ELEVATE_DEVINT_CONTAINER": "true",
     "ELEVATE_ADMIN_URL": "http://localhost:3001",
-    "ELEVATE_LMS_URL": "http://localhost:3000"
+    "ELEVATE_LMS_URL": "http://localhost:3000",
+    "NEXT_TELEMETRY_DISABLED": "1"
   },
-
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
-        "ms-vscode.vscode-typescript-next",
-        "eamodio.gitlens",
-        "christian-kohler.path-intellisense",
-        "github.copilot",
-        "github.copilot-chat",
-        "github.vscode-pull-request-github",
-        "redhat.vscode-yaml",
-        "yzhang.markdown-all-in-one",
-        "ms-azuretools.vscode-docker",
-        "mtxr.sqltools",
-        "mtxr.sqltools-driver-pg"
-      ],
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
-        },
-        "typescript.tsdk": "node_modules/typescript/lib",
-        "typescript.enablePromptUseWorkspaceTsdk": true,
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+        "redhat.vscode-yaml"
+      ]
     }
   }
 }

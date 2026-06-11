@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { resolvePortalForUser } from '@/lib/portal/router';
+import { resolveAuthenticatedLandingDestination } from '@/lib/auth/landing-destination';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,36 +24,6 @@ export default async function DashboardRouterPage() {
     redirect('/login?redirect=/dashboard');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, onboarding_completed, enrollment_status')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  const role = profile?.role ?? 'student';
-
-  // Students who haven't completed onboarding go there first — always.
-  // Admins and staff bypass onboarding.
-  const bypassOnboarding = [
-    'admin',
-    'super_admin',
-    'org_admin',
-    'staff',
-    'instructor',
-    'mentor',
-    'case_manager',
-    'creator',
-  ].includes(role);
-
-  if (!bypassOnboarding && !profile?.onboarding_completed) {
-    redirect('/onboarding/learner');
-  }
-
-  // Students route to their industry-specific field portal
-  if (role === 'student') {
-    const portalPath = await resolvePortalForUser(supabase, user.id);
-    redirect(portalPath);
-  }
-
-  redirect(getRoleDestination(role));
+  const landing = await resolveAuthenticatedLandingDestination(supabase, user);
+  redirect(landing.redirectTo);
 }

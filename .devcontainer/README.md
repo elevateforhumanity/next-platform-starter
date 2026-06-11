@@ -1,8 +1,6 @@
 # Dev Container — Elevate LMS
 
-Standalone dev container for **VS Code Dev Containers** / GitHub Codespaces-style workflows.
-
-**Not used by Cursor Cloud Agents.** Cloud agents follow `AGENTS.md` → “Cursor Cloud specific instructions” (nvm, placeholder `.env.local`, VM update script). Editing this folder in GitHub “Unified DevContainer” UI only affects container-based local dev.
+Standalone dev container for local and Ona-based development workflows.
 
 ---
 
@@ -18,24 +16,24 @@ Standalone dev container for **VS Code Dev Containers** / GitHub Codespaces-styl
 1. Open the repo in VS Code → **F1** → **Dev Containers: Reopen in Container**
 
 The container will:
-- Install system packages (ffmpeg, chromium, python3)
-- Install pnpm dependencies
+- Provide Node.js 22 and Docker-in-Docker
+- Run the Ona `setup` task to prepare `.env.local` and install pnpm dependencies
 - Copy `.env.example` to `.env.local` if no local env file exists
 
 2. Fill any local-only secrets in `.env.local`.
 
-3. Start the dev server:
+3. Start a dev server:
+
+```bash
+gitpod automations service start lms-dev
+gitpod automations service start admin-dev
+```
+
+Or run scripts directly:
 
 ```bash
 pnpm dev          # LMS   -> http://localhost:3000
 pnpm dev:admin    # Admin -> http://localhost:3001
-```
-
-Or use Make:
-
-```bash
-make dev
-make dev-admin
 ```
 
 ---
@@ -52,7 +50,6 @@ To refresh secrets manually at any time:
 
 ```bash
 bash .devcontainer/setup-env.sh
-# or
 make env
 ```
 
@@ -66,12 +63,9 @@ secret group for deployed services.
 
 ## Container lifecycle
 
-| Hook | What it does |
-|------|-------------|
-| `onCreateCommand` | Installs system packages, pnpm deps, prepares `.env.local` |
-| `postStartCommand` | Verifies `.env.local` exists |
+Lifecycle setup is defined in `.ona/automations.yaml`.
 
-Dev servers are **not started automatically** — run `make dev` after the container starts.
+Dev servers are **not started automatically**. Start `lms-dev` or `admin-dev` when needed.
 
 ---
 
@@ -93,5 +87,6 @@ Dev servers are **not started automatically** — run `make dev` after the conta
 
 | File | Purpose |
 |------|---------|
-| `devcontainer.json` | Container definition — image, features, lifecycle hooks |
+| `devcontainer.json` | Container definition — image, features, ports, editor extensions |
 | `setup-env.sh` | Creates `.env.local` from `.env.example` when missing |
+| `.ona/automations.yaml` | Repeatable setup, build, lint, test, and dev server workflows |

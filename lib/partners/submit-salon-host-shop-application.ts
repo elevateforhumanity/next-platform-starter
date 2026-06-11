@@ -73,7 +73,9 @@ const CONFIG: Record<SalonHostShopProgramType, SalonHostShopProgramConfig> = {
   },
 };
 
-export function getSalonHostShopConfig(programType: SalonHostShopProgramType): SalonHostShopProgramConfig {
+export function getSalonHostShopConfig(
+  programType: SalonHostShopProgramType,
+): SalonHostShopProgramConfig {
   return CONFIG[programType];
 }
 
@@ -168,7 +170,9 @@ export async function submitSalonHostShopApplication(
       license_number: indianaSalonLicenseNumber,
       supervisor_name: supervisorName,
       supervisor_license_number: supervisorLicenseNumber,
-      supervisor_years_licensed: supervisorYearsLicensed ? parseInt(supervisorYearsLicensed, 10) : null,
+      supervisor_years_licensed: supervisorYearsLicensed
+        ? parseInt(supervisorYearsLicensed, 10)
+        : null,
       compensation_model: compensationModel,
       number_of_employees: numberOfEmployees ? parseInt(numberOfEmployees, 10) : null,
       workers_comp_status: workersCompStatus,
@@ -237,7 +241,7 @@ export async function submitSalonHostShopApplication(
 </table>
 </body></html>`;
 
-    const adminHtml = `<h2>New ${cfg.adminEmailSubjectTag} Application</h2>
+  const adminHtml = `<h2>New ${cfg.adminEmailSubjectTag} Application</h2>
 <table style="border-collapse:collapse;font-size:13px">
   <tr><td style="padding:6px;font-weight:bold">Business</td><td>${salonLegalName}${salonDbaName ? ` (${salonDbaName})` : ''}</td></tr>
   <tr><td style="padding:6px;font-weight:bold">Contact</td><td>${contactName} — ${contactEmail} — ${contactPhone}</td></tr>
@@ -269,6 +273,19 @@ export async function submitSalonHostShopApplication(
       logger.warn(`${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} not sent`, {
         error: result.value.error,
       });
+      logger.error(
+        `${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} send failed:`,
+        result.reason,
+      );
+      return;
+    }
+    if (!result.value.success) {
+      logger.warn(
+        `${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} not sent`,
+        {
+          error: result.value.error,
+        },
+      );
     }
   });
 
@@ -371,6 +388,9 @@ export async function submitSalonHostShopApplication(
           .then(undefined, () => undefined);
         await db.from('partner_documents').insert(initialDocs).then(undefined, () => undefined);
       }
+        },
+        { onConflict: 'id' },
+      );
     }
   } catch (authErr) {
     logger.error('Failed to create/invite partner auth account:', authErr);

@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
   if (!db) return safeError('Service unavailable', 503);
 
   const stripe = getStripe();
-  if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
+  if (!stripe)
+    return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 
   try {
     // Get the user's barber subscription
@@ -60,10 +61,9 @@ export async function POST(request: NextRequest) {
       return safeError('No Stripe customer on record', 404);
     }
 
-    const returnUrl =
-      request.headers.get('referer')?.includes('/apprentice/billing')
-        ? `${SITE_URL}/portal/barber?billing=updated`
-        : `${SITE_URL}/billing-required?updated=1`;
+    const returnUrl = request.headers.get('referer')?.includes('/apprentice/billing')
+      ? `${SITE_URL}/apprentice?billing=updated`
+      : `${SITE_URL}/billing-required?updated=1`;
 
     const session = await createPaymentMethodUpdatePortalSession(
       stripe,

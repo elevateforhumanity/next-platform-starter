@@ -44,7 +44,7 @@ export type ApiHandler = (
   context: { params: Record<string, string>; userId?: string; userRole?: string },
 ) => Promise<NextResponse> | NextResponse;
 
-const ADMIN_ROLES = new Set(['admin', 'super_admin', 'staff', 'org_admin']);
+const ADMIN_ROLES = new Set(['admin', 'super_admin', 'platform_operator', 'staff', 'org_admin']);
 const STAFF_ROLES = new Set(['staff', 'admin', 'super_admin']);
 const INSTRUCTOR_ROLES = new Set(['instructor', 'admin', 'super_admin', 'staff']);
 

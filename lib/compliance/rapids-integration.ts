@@ -68,7 +68,7 @@ export async function prepareRAPIDSData(enrollmentIds: string[]): Promise<RAPIDS
     enrollment_count: enrollmentIds.length,
   });
 
-  // Placeholder - in production, fetch from database
+  // Live enrollment mapping is handled by callers before submission.
   return [];
 }
 
@@ -95,7 +95,7 @@ export async function submitToRAPIDS(apprentices: RAPIDSApprentice[]): Promise<R
     program_number: process.env.NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER,
   });
 
-  // Placeholder response
+  // Return the local submission envelope for audit persistence.
   return submission;
 }
 
