@@ -135,9 +135,10 @@ function LoginForm() {
         .maybeSingle();
 
       if (profileError) {
-        // profile fetch failed — non-fatal, user still authenticated
-        setError('Unable to load your profile. Please try again or contact support.');
-        setLoading(false);
+        // Client-side profile fetch blocked (likely RLS) — fall through to
+        // server-side landing API which uses service-role client.
+        const dest = await resolveLandingAfterPasswordLogin(next);
+        window.location.href = dest;
         return;
       }
 

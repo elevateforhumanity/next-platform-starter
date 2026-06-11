@@ -32,7 +32,7 @@ export function isSuperAdmin(role: string | null | undefined): boolean {
 }
 
 export function isPlatformOperatorRole(role: string | null | undefined): boolean {
-  return role === 'super_admin' || role === 'platform_operator';
+  return role === 'super_admin' || role === 'admin' || role === 'platform_operator';
 }
 
 /**
