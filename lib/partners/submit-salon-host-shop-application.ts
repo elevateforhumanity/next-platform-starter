@@ -273,19 +273,7 @@ export async function submitSalonHostShopApplication(
       logger.warn(`${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} not sent`, {
         error: result.value.error,
       });
-      logger.error(
-        `${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} send failed:`,
-        result.reason,
-      );
       return;
-    }
-    if (!result.value.success) {
-      logger.warn(
-        `${cfg.adminEmailSubjectTag} email ${index === 0 ? 'applicant' : 'admin'} not sent`,
-        {
-          error: result.value.error,
-        },
-      );
     }
   });
 
@@ -388,9 +376,6 @@ export async function submitSalonHostShopApplication(
           .then(undefined, () => undefined);
         await db.from('partner_documents').insert(initialDocs).then(undefined, () => undefined);
       }
-        },
-        { onConflict: 'id' },
-      );
     }
   } catch (authErr) {
     logger.error('Failed to create/invite partner auth account:', authErr);

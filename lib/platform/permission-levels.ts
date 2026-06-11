@@ -13,7 +13,6 @@ export type PlatformPermissionLevel =
   | 'standard_user';
 
 export const PLATFORM_OWNER_ROLES: UserRole[] = ['super_admin', 'platform_operator'];
-export const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 export const PLATFORM_STAFF_ROLES: UserRole[] = [
   'super_admin',
   'platform_operator',

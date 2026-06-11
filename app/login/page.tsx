@@ -14,6 +14,7 @@ import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirec
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
+import { resolvePortalForUser } from '@/lib/portal/router';
 
 
 const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);
@@ -39,6 +40,8 @@ function normalizePostLoginRedirect(target: string, role: string | null | undefi
   }
 
   return target;
+}
+
 async function resolveLandingAfterPasswordLogin(redirectTo: string): Promise<string> {
   const query = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : '';
   let lastStatus = 0;
@@ -182,7 +185,6 @@ function LoginForm() {
       }
 
       // All other roles: canonical destination from lib/auth/role-destinations.ts.
-      const dest = getRoleDestination(role);
       const dest = await resolveLandingAfterPasswordLogin(next);
 
       // Check 2FA before navigating — if enabled, show challenge screen

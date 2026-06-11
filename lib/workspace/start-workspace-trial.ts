@@ -31,6 +31,10 @@ export type StartWorkspaceTrialResult =
     }
   | { ok: false; error: string; status?: number };
 
+function getProvisionError(result: { ok: boolean; error?: string }, fallback: string): string {
+  return result.error ?? fallback;
+}
+
 function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -99,7 +103,11 @@ export async function startWorkspaceTrial(
   });
 
   if (!provisioned.ok) {
-    return { ok: false, error: provisioned.error, status: 500 };
+    return {
+      ok: false,
+      error: getProvisionError(provisioned, 'Failed to provision workspace'),
+      status: 500,
+    };
   }
 
   const { error: licenseError } = await db.from('managed_licenses').insert({
@@ -135,12 +143,13 @@ export async function startWorkspaceTrial(
   });
 
   if (!website.ok) {
-    logger.error('[startWorkspaceTrial] website provision failed', new Error(website.error));
+    const websiteError = getProvisionError(website, 'Failed to provision trial website');
+    logger.error('[startWorkspaceTrial] website provision failed', new Error(websiteError));
     await db
       .from('customer_workspaces')
       .update({
         status: 'failed',
-        provision_error: website.error,
+        provision_error: websiteError,
         updated_at: new Date().toISOString(),
       } as Record<string, unknown>)
       .eq('id', provisioned.workspaceId);

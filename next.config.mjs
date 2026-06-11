@@ -6,6 +6,9 @@ import {
   sharedStandaloneTraceExcludes,
 } from './scripts/next-standalone-trace-excludes.mjs';
 
+const useStandaloneOutput =
+  process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable Next's built-in lint step during build — ESLint runs separately
@@ -100,8 +103,9 @@ const nextConfig = {
       return `build-${Date.now()}`;
     }
   },
-  // Standalone output for containerized Node.js runtime via Dockerfile.northflank-*.
-  output: 'standalone',
+  // Standalone output is required for Docker/Northflank runtime. GitHub Actions
+  // CI builds skip it to avoid long standalone trace collection on this large app.
+  ...(useStandaloneOutput ? { output: 'standalone' } : {}),
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // transpilePackages compiles it so webpack can parse it.
   transpilePackages: ['edge-tts'],

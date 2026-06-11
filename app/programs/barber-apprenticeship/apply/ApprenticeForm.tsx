@@ -193,54 +193,6 @@ export default function ApprenticeForm({
       let applicationId: string | undefined = initialApplicationId;
 
       if (!applicationId) {
-      // Save application — must succeed before proceeding to checkout
-      const appResponse = await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          program: 'barber-apprenticeship',
-          programSlug: 'barber-apprenticeship',
-          fundingType: isSelfPay
-            ? paymentOption === 'full'
-              ? 'self-pay-full'
-              : 'self-pay-plan'
-            : formData.fundingInterest,
-          fundingEligibilityStatus: !isSelfPay
-            ? (fundingEligibilityStatus ?? undefined)
-            : undefined,
-          source: 'barber-apply-page',
-          paymentOption: isSelfPay ? paymentOption : undefined,
-          turnstileToken: isSelfPay ? turnstileToken : undefined,
-          transferHours,
-          transfer_hours_claimed: transferHours > 0 ? transferHours : undefined,
-          support_notes: [
-            formData.hasHostShop ? `Host shop: ${formData.hasHostShop}` : '',
-            formData.hostShopName ? `Shop name: ${formData.hostShopName}` : '',
-            transferHours ? `Transfer hours: ${transferHours}` : '',
-          ].filter(Boolean).join(' | '),
-        }),
-      });
-
-      const appData = await appResponse.json();
-
-      applicationId = appData?.id;
-
-      if (!appResponse.ok) {
-        // 409 = application already submitted — look up existing ID and continue to checkout
-        if (appResponse.status === 409) {
-          const lookupRes = await fetch(
-            `/api/applications/lookup?email=${encodeURIComponent(formData.email)}&program=barber-apprenticeship`,
-          );
-          if (lookupRes.ok) {
-            const lookupData = await lookupRes.json();
-            applicationId = lookupData?.id;
-          }
-          // If we found the existing application, continue to checkout
-          if (!applicationId) {
         // Save application — must succeed before proceeding to checkout
         const appResponse = await fetch('/api/applications', {
           method: 'POST',
@@ -315,7 +267,7 @@ export default function ApprenticeForm({
             return;
           }
         }
-      } // end if (!applicationId)
+      }
 
       if (!isSelfPay) {
         const successQs = new URLSearchParams();

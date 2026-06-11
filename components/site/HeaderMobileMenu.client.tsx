@@ -129,17 +129,17 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       ? createPortal(
           <>
             <div
-              className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
+              className="fixed inset-0 bg-black/50 z-[9998]"
               onClick={closeMenu}
               aria-hidden="true"
             />
             <div
-              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,22rem)] bg-white z-[9999] lg:hidden overflow-y-auto shadow-2xl"
+              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,26rem)] bg-white z-[9999] overflow-y-auto shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label="Main menu"
             >
-              <nav className="flex flex-col p-4 pb-10" aria-label="Mobile navigation">
+              <nav className="flex flex-col p-4 pb-10" aria-label="Site menu">
                 {items.map((item) => {
                   const sectionKey = item.id ?? item.name;
                   const hasSubItems = Boolean(item.subItems?.length);
@@ -305,7 +305,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       : null;
 
   return (
-    <div className="lg:hidden flex flex-row flex-nowrap items-center justify-end gap-0.5 shrink-0">
+    <div className="flex flex-row flex-nowrap items-center justify-end gap-0.5 shrink-0">
       <SearchModal />
       <LanguageSwitcher compact={true} />
       <button
