@@ -5,24 +5,24 @@ on:
     branches:
       - main
     paths:
-      - 'apps/admin/**'
-      - 'lib/**'
-      - 'components/**'
-      - 'data/**'
-      - 'types/**'
-      - 'styles/**'
-      - 'hooks/**'
-      - 'contexts/**'
-      - 'config/**'
-      - 'content/**'
-      - 'utils/**'
-      - 'packages/**'
-      - 'Dockerfile.northflank-admin'
-      - 'scripts/northflank/**'
-      - 'pnpm-lock.yaml'
-      - 'package.json'
-      - 'pnpm-workspace.yaml'
-      - '.github/workflows/deploy-admin.yml'
+      - "apps/admin/**"
+      - "lib/**"
+      - "components/**"
+      - "data/**"
+      - "types/**"
+      - "styles/**"
+      - "hooks/**"
+      - "contexts/**"
+      - "config/**"
+      - "content/**"
+      - "utils/**"
+      - "packages/**"
+      - "Dockerfile.northflank-admin"
+      - "scripts/northflank/**"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/deploy-admin.yml"
   workflow_dispatch:
 
 permissions:
@@ -43,9 +43,7 @@ jobs:
       NORTHFLANK_ADMIN_SERVICE_ID: ${{ secrets.NORTHFLANK_ADMIN_SERVICE_ID || 'elevate-admin' }}
       NORTHFLANK_TARGET_SERVICE: admin
       DEPLOY_BRANCH: main
-      NORTHFLANK_EPHEMERAL_STORAGE_MB: '32768'
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NORTHFLANK_EPHEMERAL_STORAGE_MB: "32768"
 
     steps:
       - name: Checkout

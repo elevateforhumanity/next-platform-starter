@@ -102,7 +102,9 @@ async function verifyTurnstile(token: string, ip: string): Promise<{ ok: boolean
     logger.warn('[api/applications] Turnstile verification unavailable', {
       error: error instanceof Error ? error.message : String(error),
     });
-    return { ok: false, reason: 'verification_unavailable' };
+    return required
+      ? { ok: false, reason: 'verification_unavailable' }
+      : { ok: true, reason: 'skipped_verification_unavailable' };
   }
 }
 

@@ -72,9 +72,9 @@ export const ALL_AUTHENTICATED_ROLES: UserRole[] = [
 
 export const PERMISSIONS = {
   // Identity & access
-  impersonate_users:          ['super_admin'] as UserRole[],
-  manage_roles:               ['super_admin'] as UserRole[],
-  access_dev_tools:           ['super_admin', 'platform_operator'] as UserRole[],
+  impersonate_users:          ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_roles:               ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  access_dev_tools:           ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   view_audit_logs:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
 
   // Platform administration
@@ -84,9 +84,9 @@ export const PERMISSIONS = {
   manage_users:               ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   manage_payments:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
-  manage_platform_settings:   ['super_admin', 'platform_operator'] as UserRole[],
-  trigger_deployments:        ['super_admin', 'platform_operator'] as UserRole[],
-  access_devstudio:           ['super_admin', 'platform_operator'] as UserRole[],
+  manage_platform_settings:   ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  trigger_deployments:        ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  access_devstudio:           ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   provision_workspaces:       ['super_admin', 'admin', 'staff'] as UserRole[],
   manage_customer_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
   run_bulk_operations:        ['super_admin', 'platform_operator', 'admin'] as UserRole[],

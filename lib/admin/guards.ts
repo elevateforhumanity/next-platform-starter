@@ -28,7 +28,7 @@ export const allowDevTools = process.env.ENABLE_ADMIN_DEVTOOLS === 'true';
  * Check if user has super_admin role
  */
 export function isSuperAdmin(role: string | null | undefined): boolean {
-  return role === 'super_admin' || role === 'platform_operator';
+  return role === 'super_admin' || role === 'platform_operator' || role === 'admin';
 }
 
 /**
@@ -254,18 +254,18 @@ export async function apiRequirePlatformOperator(_req?: Request): Promise<Guarde
   const user = await apiAuthGuard(_req);
   if (user.error) return user;
 
-  if (user.role !== 'super_admin' && user.role !== 'platform_operator') {
+  if (!user.role || !['super_admin', 'platform_operator', 'admin'].includes(user.role)) {
     return { ...user, error: forbidden() };
   }
 
-  // super_admin and platform_operator are platform_owner roles by definition (see resolvePermissionLevel).
+  // super_admin, platform_operator, and admin are platform_owner roles for this single-admin installation (see resolvePermissionLevel).
   // Do not block when tenant context lookup fails — service-role hydration can lag on cold start.
   try {
     const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
     const ctx = await getPlatformUserContext(user.id);
     if (ctx?.canAccessDevStudio) return user;
   } catch {
-    // Fall through — authenticated super_admin still allowed.
+    // Fall through — authenticated platform admin still allowed.
   }
 
   return user;
