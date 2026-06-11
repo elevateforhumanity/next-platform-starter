@@ -24,7 +24,7 @@ function candidateRoots(cwd: string) {
 
 function isDirectory(dir: string) {
   try {
-    return fs.statSync(dir).isDirectory();
+    return fs.lstatSync(dir).isDirectory();
   } catch {
     return false;
   }
