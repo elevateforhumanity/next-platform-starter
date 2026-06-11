@@ -10,7 +10,6 @@ import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 
-import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { getClientIp } from '@/lib/api/get-client-ip';
@@ -55,6 +54,36 @@ function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
   } as const;
 }
 
+function slugifyProgram(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function titleizeProgram(value: string): string {
+  return value
+    .replace(/-/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function normalizeProgramPayload(body: Record<string, unknown>) {
+  const rawSlug = String(
+    body.programSlug || body.program_slug || body.preferredProgramId || '',
+  ).trim();
+  const rawProgram = String(
+    body.program || body.programName || body.programTitle || rawSlug || '',
+  ).trim();
+  const slug = rawSlug ? slugifyProgram(rawSlug) : slugifyProgram(rawProgram);
+  const displayName =
+    String(body.programName || body.programTitle || '').trim() || titleizeProgram(rawProgram || slug);
+  return { slug, displayName };
+}
+
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   // No secret configured — skip verification (dev / unconfigured environments)
@@ -94,7 +123,7 @@ async function claimIdempotencyKey(
 
   try {
     const setResult = await redis.set(key, value, { nx: true, ex: ttlSeconds });
-    const claimed = setResult === 'OK' || setResult === 1 || setResult === true;
+    const claimed = ['OK', '1', 'true'].includes(String(setResult));
     if (claimed) {
       return { duplicate: false, samePayload: false };
     }
@@ -164,9 +193,9 @@ async function _POST(req: Request) {
     // Basic required fields - core fields that all forms must have
     const coreRequired = ['firstName', 'lastName', 'phone', 'email'];
 
-    // Program is required but can come from different field names
-    const program = body.program || body.programSlug;
-    if (!program) {
+    // Program is required but can come from different field names.
+    const { slug: programSlug, displayName: program } = normalizeProgramPayload(body);
+    if (!programSlug || !program) {
       return NextResponse.json(
         { error: 'Missing required field: program' },
         { status: 400, headers: corsHeadersForOrigin(origin, allowedOrigins) },
@@ -192,7 +221,9 @@ async function _POST(req: Request) {
       );
     }
 
-    const fingerprint = `${String(body.email || '').toLowerCase().trim()}|${program}|${normalizedPhone}`;
+    const fingerprint = `${String(body.email || '')
+      .toLowerCase()
+      .trim()}|${programSlug}|${normalizedPhone}`;
     if (idempotencyKey) {
       const claim = await claimIdempotencyKey(idempotencyKey, fingerprint);
       if (claim.duplicate) {
@@ -220,13 +251,13 @@ async function _POST(req: Request) {
     }
 
     // Program state gate — reject submissions for waitlisted or closed programs
-    const enrollmentState = await getProgramEnrollmentState(supabase, program);
+    const enrollmentState = await getProgramEnrollmentState(supabase, programSlug);
     if (enrollmentState === 'waitlist') {
       return NextResponse.json(
         {
           error: 'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
           waitlisted: true,
-          waitlistUrl: `/programs/${program}`,
+          waitlistUrl: `/programs/${programSlug}`,
         },
         { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -246,7 +277,9 @@ async function _POST(req: Request) {
       .from('applications')
       .select('id')
       .eq('email', body.email.toLowerCase().trim())
-      .eq('program_interest', program)
+      .or(
+        `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
+      )
       .neq('source', 'intake-form')
       .gte('created_at', oneDayAgo)
       .limit(1)
@@ -258,7 +291,9 @@ async function _POST(req: Request) {
         .from('applications')
         .select('id')
         .eq('normalized_phone', normalizedPhone)
-        .eq('program_interest', program)
+        .or(
+          `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
+        )
         .neq('source', 'intake-form')
         .gte('created_at', oneDayAgo)
         .limit(1)
@@ -289,6 +324,7 @@ async function _POST(req: Request) {
       body.address ? `Address: ${body.address}` : '',
       body.zip ? `ZIP: ${body.zip}` : '',
       `Program Interest: ${program}`,
+      `Program Slug: ${programSlug}`,
       body.preferredContact ? `Preferred Contact: ${body.preferredContact}` : '',
       body.fundingType ? `Funding Type: ${body.fundingType}` : '',
       body.workoneIntakeCompleted
@@ -343,6 +379,13 @@ async function _POST(req: Request) {
       applicationStatus = 'submitted';
     }
 
+    const { data: programRow } = await supabase
+      .from('programs')
+      .select('id, title')
+      .eq('slug', programSlug)
+      .maybeSingle();
+    const resolvedProgramName = programRow?.title || program;
+
     // Core insert payload — columns confirmed to exist in all environments
     const corePayload: Record<string, any> = {
       first_name: body.firstName,
@@ -353,8 +396,9 @@ async function _POST(req: Request) {
       normalized_phone: body.phone.replace(/\D/g, ''),
       city: body.city || 'Not provided',
       zip: body.zip || '00000',
-      program_interest: program,
-      program_slug: body.programSlug || body.program_slug || null,
+      program_interest: resolvedProgramName,
+      program_slug: programSlug,
+      program_id: programRow?.id || null,
       support_notes: notes,
       status: applicationStatus,
       source: body.source || 'website',
@@ -425,6 +469,7 @@ async function _POST(req: Request) {
           funding_eligibility_status: undefined,
           funding_type: undefined,       // added in 20260425000001
           program_slug: undefined,       // added in 20260224000002 (applications table)
+          program_id: undefined,
           date_of_birth: undefined,      // added in 20260304120000
           type: undefined,
           status: 'submitted',
@@ -450,7 +495,7 @@ async function _POST(req: Request) {
           email: body.email,
           city: body.city || 'Not provided',
           zip: body.zip || '00000',
-          program_interest: program,
+          program_interest: resolvedProgramName,
           support_notes: notes,
           status: 'submitted',
           source: body.source || 'website',
@@ -463,7 +508,7 @@ async function _POST(req: Request) {
     }
 
     if (error || !data) {
-      logger.error('[api/applications] All insert tiers failed', {
+      logger.error('[api/applications] All insert tiers failed', undefined, {
         code: (error as any)?.code,
         message: (error as any)?.message,
         details: (error as any)?.details,
@@ -487,21 +532,11 @@ async function _POST(req: Request) {
     let passwordSetupLink: string | null = null;
 
     if (supabase) {
-      const programSlug = body.program_slug || body.preferredProgramId || '';
-      const { data: programRow } = await supabase
-        .from('programs')
-        .select('title')
-        .eq('slug', programSlug)
-        .maybeSingle();
-      const programName =
-        programRow?.title ||
-        programSlug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) ||
-        'your program';
-
+      const programName = resolvedProgramName || 'your program';
       const provision = await provisionAccount({
         db: supabase,
         email: body.email,
-        fullName: `${body.first_name || ''} ${body.last_name || ''}`.trim() || body.email,
+        fullName: `${body.firstName || ''} ${body.lastName || ''}`.trim() || body.email,
         phone: body.phone || null,
         programName,
         programSlug,
@@ -518,13 +553,17 @@ async function _POST(req: Request) {
 
       // Link provisioned userId back to the application row
       if (userId && data?.id) {
-        await supabase
+        const { error: linkError } = await supabase
           .from('applications')
-          .update({ user_id: userId })
-          .eq('id', data.id)
-          .then(undefined, (err) =>
-            logger.warn('[Applications] Failed to link user_id', { err: String(err) }),
-          );
+          .update({ user_id: userId, program_id: programRow?.id || null })
+          .eq('id', data.id);
+        if (linkError) {
+          logger.warn('[Applications] Failed to link user_id', {
+            error: linkError.message,
+            applicationId: data.id,
+            userId,
+          });
+        }
       }
     }
 
@@ -608,7 +647,7 @@ async function _POST(req: Request) {
           : `
         <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:20px;margin:20px 0;">
           <h3 style="margin-top:0;color:#14532d;">Application Received — Under Review</h3>
-          <p style="color:#166534;">Your application for <strong>${body.program}</strong> has been received. Our enrollment team will review it and reach out within 1–2 business days.</p>
+          <p style="color:#166534;">Your application for <strong>${resolvedProgramName}</strong> has been received. Our enrollment team will review it and reach out within 1–2 business days.</p>
           <ol style="color:#166534;padding-left:20px;line-height:1.8;">
             <li>Enrollment team reviews your application</li>
             <li>We confirm your payment and program details</li>
@@ -623,7 +662,7 @@ async function _POST(req: Request) {
         ? `Action Required — Complete Indiana Career Connect to Enroll [Ref: ${referenceNumber}]`
         : isFunded
           ? `Application Received — Pending Review [Ref: ${referenceNumber}]`
-          : `Welcome to ${PLATFORM_DEFAULTS.orgName} — ${body.program} [Ref: ${referenceNumber}]`;
+          : `Welcome to ${PLATFORM_DEFAULTS.orgName} — ${resolvedProgramName} [Ref: ${referenceNumber}]`;
 
       const studentEmailResult = await sendEmail({
         to: body.email,
@@ -635,7 +674,7 @@ async function _POST(req: Request) {
             </div>
             <div style="padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
               <p style="font-size: 16px;">Hi ${body.firstName},</p>
-              <p>Your application for <strong>${body.program}</strong> has been received${needsICC ? ', but there is one more step before we can enroll you.' : isFunded ? ' and is pending admin review.' : ' and your enrollment is being processed.'}</p>
+              <p>Your application for <strong>${resolvedProgramName}</strong> has been received${needsICC ? ', but there is one more step before we can enroll you.' : isFunded ? ' and is pending admin review.' : ' and your enrollment is being processed.'}</p>
 
               ${nextStepsHtml}
 
@@ -673,7 +712,7 @@ async function _POST(req: Request) {
         ? `⚠ Pending Funding [${referenceNumber}]: ${body.firstName} ${body.lastName} — Needs ICC First`
         : isFunded
           ? `🔵 Admin Review Required [${referenceNumber}]: ${body.firstName} ${body.lastName} — ${fundingName}`
-          : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`;
+          : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${resolvedProgramName}`;
 
       const staffEmailResult = await sendEmail({
         to: 'elevate4humanityedu@gmail.com',
@@ -686,7 +725,7 @@ async function _POST(req: Request) {
           <p><strong>Name:</strong> ${body.firstName} ${body.lastName}</p>
           <p><strong>Email:</strong> ${body.email}</p>
           <p><strong>Phone:</strong> ${body.phone}</p>
-          <p><strong>Program:</strong> ${body.program}</p>
+          <p><strong>Program:</strong> ${resolvedProgramName}</p>
           <p><strong>Location:</strong> ${body.city || 'N/A'}, ${body.zip || 'N/A'}</p>
           <p><strong>Preferred Contact:</strong> ${body.preferredContact || 'phone'}</p>
           <p><strong>Funding Type:</strong> ${fundingName || 'Self-pay / Not specified'}</p>
@@ -725,6 +764,7 @@ async function _POST(req: Request) {
         id: data.id,
         email: data.email,
         program: data.program_id,
+        programSlug,
         referenceNumber: referenceNumber,
         emailStatus,
       },

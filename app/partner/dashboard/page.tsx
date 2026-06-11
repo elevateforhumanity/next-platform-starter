@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
+import { getHostShopOnboardingPaths, resolveHostShopProgram } from '@/lib/partners/host-shop-onboarding';
 
 export const dynamic = 'force-dynamic';
 import type { Metadata } from 'next';
@@ -54,15 +55,17 @@ export default async function PartnerDashboardPage() {
   const { data: partnerLink } = await db
     .from('partner_users')
     .select(
-      'partner_id, status, partners(id, partner_type, approval_status, status, onboarding_completed, mou_signed, documents_verified)',
+      'partner_id, status, partners(id, partner_type, program_type, programs, approval_status, status, onboarding_completed, mou_signed, documents_verified)',
     )
     .eq('user_id', user.id)
     .eq('status', 'active')
     .maybeSingle();
 
-  const partner = partnerLink?.partners as {
+  const partner = partnerLink?.partners as unknown as {
     id: string;
     partner_type: string | null;
+    program_type?: string | null;
+    programs?: string[] | null;
     approval_status: string;
     status: string;
     onboarding_completed: boolean;
@@ -97,29 +100,16 @@ export default async function PartnerDashboardPage() {
     redirect('/partner/onboarding');
   }
 
-  // Approved barber/training-site partners: route by onboarding step.
-  const isTrainingSite =
-    partner.partner_type === 'training_site' ||
-    partner.partner_type === 'barber' ||
-    partner.partner_type === 'barbershop';
-  if (isTrainingSite || !partner.onboarding_completed) {
-    const { data: bpa } = await db
-      .from('barbershop_partner_applications')
-      .select('mou_signed_at, status')
-      .eq('contact_email', user.email!)
-      .eq('status', 'approved')
-      .not('mou_signed_at', 'is', null)
-      .maybeSingle();
+  // Approved host-site partners route through the correct program-specific onboarding steps.
+  const programType = resolveHostShopProgram(partner as unknown as Record<string, unknown>);
+  const onboardingPaths = getHostShopOnboardingPaths(programType);
 
-    const mouSigned = partner.mou_signed || !!bpa?.mou_signed_at;
-
-    if (!mouSigned) {
-      redirect('/partners/barber-host-shop/sign-mou');
-    }
-    if (!partner.onboarding_completed) {
-      redirect('/partners/barber-host-shop/forms');
-    }
+  if (!partner.mou_signed) {
+    redirect(onboardingPaths.signMou);
   }
 
-  redirect('/partner/board');
+  // Once the MOU is signed, send partners to the board even if onboarding is
+  // incomplete. The board now displays the onboarding/document alerts and links
+  // so partners do not get stuck in a loop with no dashboard context.
+  redirect(onboardingPaths.dashboard);
 }
