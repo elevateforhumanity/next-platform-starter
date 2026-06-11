@@ -9,7 +9,7 @@
 
 import { notFound } from 'next/navigation';
 
-export type AdminRole = 'admin' | 'super_admin' | 'staff';
+export type AdminRole = 'admin' | 'super_admin' | 'platform_operator' | 'staff' | 'org_admin';
 
 /**
  * Environment detection — container runtime (NODE_ENV driven)
@@ -28,7 +28,7 @@ export const allowDevTools = process.env.ENABLE_ADMIN_DEVTOOLS === 'true';
  * Check if user has super_admin role
  */
 export function isSuperAdmin(role: string | null | undefined): boolean {
-  return role === 'super_admin';
+  return role === 'super_admin' || role === 'platform_operator';
 }
 
 /**
@@ -69,7 +69,7 @@ export function requireSensitiveFeatureAccess(role: string | null | undefined): 
     notFound();
   }
 
-  if (!['admin', 'super_admin'].includes(role || '')) {
+  if (!['admin', 'super_admin', 'platform_operator', 'staff', 'org_admin'].includes(role || '')) {
     notFound();
   }
 }
