@@ -129,12 +129,12 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       ? createPortal(
           <>
             <div
-              className="fixed inset-0 bg-black/50 z-[9998]"
+              className="fixed inset-0 bg-black/50 z-[9998] lg:hidden"
               onClick={closeMenu}
               aria-hidden="true"
             />
             <div
-              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,26rem)] bg-white z-[9999] overflow-y-auto shadow-2xl"
+              className="fixed top-[60px] right-0 bottom-0 w-[min(100vw,26rem)] bg-white z-[9999] overflow-y-auto shadow-2xl lg:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Main menu"
@@ -311,7 +311,7 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+        className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center lg:hidden"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
       >
