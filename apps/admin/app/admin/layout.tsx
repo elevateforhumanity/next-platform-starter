@@ -134,7 +134,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // never blocks the server render.
   const [roleCheckRes, secondaryRoleRes, context, navSections] = await Promise.all([
     effectiveDb.from('profiles').select('role').eq('id', user.id).maybeSingle(),
-    effectiveDb.from('user_roles').select('roles(name)').eq('user_id', user.id),
+    effectiveDb.from('user_roles').select('role, roles(name)').eq('user_id', user.id),
     withTimeout(getLicenseContext(user.id, effectiveDb), 3000, 'getLicenseContext').catch(
       () => null,
     ),
@@ -146,8 +146,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const roleCheck = roleCheckRes.data;
   if (!roleCheck) redirect('/login?error=profile_missing');
   const secondaryRoles = (secondaryRoleRes.data ?? [])
-    .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
-    .filter((role): role is string => typeof role === 'string');
+    .flatMap((row) => [
+      (row as { roles?: { name?: unknown } | null }).roles?.name,
+      (row as { role?: unknown }).role,
+    ])
+    .filter((role): role is string => typeof role === 'string' && role.trim() !== '')
+    .map((r) => r.trim());
   const effectiveRoles = Array.from(new Set([roleCheck.role, ...secondaryRoles]));
   if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {
     redirect(`/unauthorized?reason=${encodeURIComponent(String(roleCheck.role ?? 'role_denied'))}`);
