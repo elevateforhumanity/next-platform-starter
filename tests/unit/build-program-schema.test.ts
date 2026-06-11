@@ -5,7 +5,7 @@ import {
   buildProgramSchemaFromPartial,
   buildProgramSchemaFromRegistry,
 } from '@/lib/programs/build-program-schema';
-import { resolveProgram } from '@/lib/program-registry';
+import { resolveProgram, resolveSlug } from '@/lib/program-registry';
 
 describe('build-program-schema', () => {
   it('builds a valid schema for registry-only programs (reentry-specialist)', () => {
@@ -26,6 +26,11 @@ describe('build-program-schema', () => {
     });
     expect(schema.sector).toBe('healthcare');
     expect(schema.programType).toBe('certification');
+  });
+
+  it('canonicalizes duplicate phlebotomy aliases', () => {
+    expect(resolveSlug('phlebotomy-technician')).toBe('phlebotomy');
+    expect(resolveSlug('nha-phlebotomy')).toBe('phlebotomy');
   });
 });
 

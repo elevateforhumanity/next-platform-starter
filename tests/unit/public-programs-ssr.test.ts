@@ -22,6 +22,14 @@ describe('public programs SSR catalog', () => {
     expect(visibleSlugs.has('hvac-technician')).toBe(true);
   });
 
+  it('suppresses duplicate program aliases from /programs', () => {
+    expect(PROGRAMS_PAGE_SUPPRESSED_SLUGS.has('nha-phlebotomy')).toBe(true);
+    expect(PROGRAMS_PAGE_SUPPRESSED_SLUGS.has('phlebotomy-technician')).toBe(true);
+    expect(PROGRAMS_PAGE_SUPPRESSED_SLUGS.has('nha-pharmacy-technician')).toBe(true);
+    expect(PROGRAMS_PAGE_SUPPRESSED_SLUGS.has('cna-cert')).toBe(true);
+    expect(PROGRAMS_PAGE_SUPPRESSED_SLUGS.has('forklift-operator')).toBe(true);
+  });
+
   it('merges static programs missing from database listing', () => {
     const merged = mergeDbListingWithStaticCatalog(
       [{ slug: 'cna', title: 'CNA', description: null, category: 'Healthcare', sectionKey: 'healthcare', duration: '4 weeks', credential: 'CNA', funding_eligible: true }],
