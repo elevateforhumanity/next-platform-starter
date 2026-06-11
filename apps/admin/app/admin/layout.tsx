@@ -12,7 +12,12 @@ import { withTimeout } from '@/lib/utils/withTimeout';
 import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { unstable_cache } from 'next/cache';
-import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
+import {
+  DEFAULT_NAV,
+  isNavSections,
+  normalizeAdminNavSections,
+  type NavSection,
+} from '@/lib/admin/nav-config';
 import { ADMIN_ROLES } from '@/lib/rbac/role-matrix';
 import { getSecuritySettings } from '@/lib/admin/security-settings';
 import { DemoTourProvider } from '@/components/demo/DemoTourProvider';
@@ -64,12 +69,12 @@ const getCachedNavSections = unstable_cache(
     if (data?.value) {
       try {
         const parsed = JSON.parse(data.value);
-        if (isNavSections(parsed)) return parsed;
+        if (isNavSections(parsed)) return normalizeAdminNavSections(parsed);
       } catch {
         /* fall through */
       }
     }
-    return DEFAULT_NAV;
+    return normalizeAdminNavSections(DEFAULT_NAV);
   },
   ['admin-nav-sections'],
   { revalidate: 60, tags: ['admin-nav-sections'] },

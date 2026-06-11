@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { DEFAULT_NAV, isNavSections } from '@/lib/admin/nav-config';
+import { DEFAULT_NAV, isNavSections, normalizeAdminNavSections } from '@/lib/admin/nav-config';
 import { safeError } from '@/lib/api/safe-error';
 
 /**
@@ -37,14 +37,14 @@ export async function GET(request: NextRequest) {
       try {
         const parsed = JSON.parse(data.value);
         if (isNavSections(parsed)) {
-          return NextResponse.json({ sections: parsed, source: 'db' });
+          return NextResponse.json({ sections: normalizeAdminNavSections(parsed), source: 'db' });
         }
       } catch {
         // fall through to default
       }
     }
 
-    return NextResponse.json({ sections: DEFAULT_NAV, source: 'default' });
+    return NextResponse.json({ sections: normalizeAdminNavSections(DEFAULT_NAV), source: 'default' });
   } catch (err) {
     return safeError('Failed to load nav config', 500);
   }
@@ -68,13 +68,14 @@ export async function PUT(request: NextRequest) {
   if (!isNavSections(sections)) {
     return safeError('sections must be NavSection[] with /admin hrefs only', 400);
   }
+  const normalizedSections = normalizeAdminNavSections(sections);
 
   try {
     const supabase = await requireAdminClient();
     const { error } = await supabase
       .from('platform_settings')
       .upsert(
-        { key: 'ADMIN_NAV_SECTIONS_JSON', value: JSON.stringify(sections) },
+        { key: 'ADMIN_NAV_SECTIONS_JSON', value: JSON.stringify(normalizedSections) },
         { onConflict: 'key' },
       );
 

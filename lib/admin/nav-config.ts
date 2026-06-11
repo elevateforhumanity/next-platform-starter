@@ -22,6 +22,44 @@ export interface NavSection {
   items: NavItem[];
 }
 
+const ADMIN_NAV_HREF_ALIASES: Record<string, string> = {
+  '/admin/analytics-dashboard': '/admin/analytics',
+  '/admin/command-center': '/admin/mission-control',
+  '/admin/dashboard?tab=environments': '/admin/integrations/env-manager',
+  '/admin/dashboard?tab=services': '/admin/dev-studio',
+  '/admin/instructors': '/admin/instructor',
+  '/admin/payments': '/admin/integrations/stripe',
+  '/admin/performance-dashboard': '/admin/reports',
+  '/admin/security': '/admin/settings/security',
+};
+
+export function normalizeAdminHref(href: string): string {
+  return ADMIN_NAV_HREF_ALIASES[href] ?? href;
+}
+
+export function normalizeAdminNavSections(sections: NavSection[]): NavSection[] {
+  return sections.map((section) => {
+    const seen = new Set<string>();
+    const items = section.items
+      .map((item) => ({
+        ...item,
+        href: normalizeAdminHref(item.href),
+      }))
+      .filter((item) => {
+        const key = `${item.label}::${item.href}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+    return {
+      ...section,
+      href: normalizeAdminHref(section.href),
+      items,
+    };
+  });
+}
+
 export const DEFAULT_NAV: NavSection[] = [
   {
     label: 'Operations',
@@ -199,7 +237,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'ETPL Dashboard', href: '/admin/dashboard/etpl' },
       { label: 'External Completions', href: '/admin/external-course-completions' },
       { label: 'External Progress', href: '/admin/external-progress' },
-      { label: 'Instructors', href: '/admin/instructors' },
+      { label: 'Instructors', href: '/admin/instructor' },
       { label: 'Instructors — Performance', href: '/admin/instructors/performance' },
       { label: 'Learning Paths', href: '/admin/learning-paths' },
       { label: 'Learning Paths — New', href: '/admin/learning-paths/new' },
