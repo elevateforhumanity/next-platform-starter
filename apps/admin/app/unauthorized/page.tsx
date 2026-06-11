@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@supabase/supabase-js';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 const WWW_ORIGIN =
@@ -14,7 +14,10 @@ export default function UnauthorizedPage() {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const sb = createClient();
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
     sb.auth.getUser().then(async ({ data }) => {
       setEmail(data.user?.email ?? null);
       if (!data.user) return;
@@ -25,15 +28,11 @@ export default function UnauthorizedPage() {
         .maybeSingle();
       const { data: roleRows } = await sb
         .from('user_roles')
-        .select('role, roles(name)')
+        .select('roles(name)')
         .eq('user_id', data.user.id);
       const secondaryRoles = (roleRows ?? [])
-        .flatMap((row) => [
-          (row as { roles?: { name?: unknown } | null }).roles?.name,
-          (row as { role?: unknown }).role,
-        ])
-        .filter((value): value is string => typeof value === 'string' && value.trim() !== '')
-        .map((v) => v.trim());
+        .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+        .filter((value): value is string => typeof value === 'string');
       const effectiveRoles = [profile?.role, ...secondaryRoles].filter(
         (value): value is string => typeof value === 'string',
       );
@@ -71,7 +70,10 @@ export default function UnauthorizedPage() {
   }, [isAdminPortalRole, role]);
 
   async function handleSignOut() {
-    const sb = createClient();
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
     await sb.auth.signOut();
     window.location.href = '/login';
   }

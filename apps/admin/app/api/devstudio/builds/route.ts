@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
-import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import {
@@ -9,53 +8,29 @@ import {
   isNorthflankReady,
   triggerNorthflankBuild,
 } from '@/lib/northflank/runtime';
-import type { BuildKind } from '@/lib/devstudio/os/types';
-import { isMissingTable, jsonOk, tableNotReadyResponse } from '@/lib/devstudio/os/api-helpers';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
 
-const BUILD_COMMANDS: Record<BuildKind, string> = {
-  lint: 'pnpm lint',
-  typecheck: 'pnpm typecheck',
-  test: 'pnpm test',
-  build: 'pnpm build',
-};
-
-export async function GET(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
-
-  const auth = await apiRequireDevStudio(request);
+export async function GET(req: NextRequest) {
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
-  try {
-    const db = await requireAdminClient();
-    const { data, error } = await db
-      .from('ai_deployments')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(20);
+  const db = await requireAdminClient();
+  const { data, error } = await db
+    .from('ai_deployments')
+    .select('*')
+    .order('started_at', { ascending: false })
+    .limit(20);
 
-    if (error) {
-      if (isMissingTable(error)) return tableNotReadyResponse();
-      throw error;
-    }
-
-    return jsonOk({ deployments: data ?? [], commands: BUILD_COMMANDS });
-  } catch (err) {
-    return safeInternalError(err, 'Failed to load builds');
-  }
+  if (error) return safeError('Failed to fetch Dev Studio builds', 500);
+  return NextResponse.json({ builds: data });
 }
 
-export async function POST(request: NextRequest) {
-  const rateLimited = await applyRateLimit(request, 'api');
-  if (rateLimited) return rateLimited;
-
-  const auth = await apiRequireDevStudio(request);
+export async function POST(req: NextRequest) {
+  const auth = await apiRequireDevStudio(req);
   if (auth.error) return auth.error;
 
-  const body = await request.json().catch(() => ({}));
+  const body = await req.json().catch(() => ({}));
   const db = await requireAdminClient();
   const service = body.service ?? 'admin';
 

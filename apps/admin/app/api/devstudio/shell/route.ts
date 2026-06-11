@@ -26,12 +26,8 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-function repo() {
-  return process.env.GITHUB_REPO ?? 'elevate-for-humanity/Elevate-lms';
-}
-function branch() {
-  return process.env.GITHUB_BRANCH ?? 'main';
-}
+function repo()   { return process.env.GITHUB_REPO   ?? 'elevate-for-humanity/Elevate-lms'; }
+function branch() { return process.env.GITHUB_BRANCH ?? 'main'; }
 const GH_API = 'https://api.github.com';
 
 function ghHeaders(): HeadersInit {
@@ -50,8 +46,8 @@ function ghHeaders(): HeadersInit {
 interface GHWorkflow {
   id: number;
   name: string;
-  path: string; // e.g. ".github/workflows/deploy-lms.yml"
-  state: string; // "active" | "disabled_manually" | etc.
+  path: string;   // e.g. ".github/workflows/deploy-lms.yml"
+  state: string;  // "active" | "disabled_manually" | etc.
 }
 
 /**
@@ -68,13 +64,13 @@ async function listDispatchableWorkflows(): Promise<GHWorkflow[]> {
       { headers: ghHeaders() },
     );
     if (!res.ok) throw new Error(`GitHub API ${res.status}: ${(await res.text()).slice(0, 200)}`);
-    const data = (await res.json()) as { workflows: GHWorkflow[]; total_count: number };
+    const data = await res.json() as { workflows: GHWorkflow[]; total_count: number };
     all.push(...data.workflows);
     if (all.length >= data.total_count) break;
     page++;
   }
   // Return only active workflows — disabled ones can't be dispatched
-  return all.filter((w) => w.state === 'active');
+  return all.filter(w => w.state === 'active');
 }
 
 /**
@@ -91,17 +87,17 @@ async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: st
   if (!token) throw new Error('GITHUB_TOKEN is not configured');
 
   const filePath = `.github/workflows/${workflowFile}`;
-  const apiBase = `${GH_API}/repos/${repo()}/contents/${filePath}`;
-  const headers = ghHeaders();
+  const apiBase  = `${GH_API}/repos/${repo()}/contents/${filePath}`;
+  const headers  = ghHeaders();
 
   const getRes = await fetch(`${apiBase}?ref=${branch()}`, { headers });
   if (!getRes.ok) throw new Error(`Could not read ${filePath}: ${getRes.status}`);
-  const { sha, content: b64 } = (await getRes.json()) as { sha: string; content: string };
+  const { sha, content: b64 } = await getRes.json() as { sha: string; content: string };
 
-  const current = Buffer.from(b64.replace(/\n/g, ''), 'base64').toString('utf8');
-  const ts = new Date().toISOString().slice(0, 16) + 'Z';
+  const current  = Buffer.from(b64.replace(/\n/g, ''), 'base64').toString('utf8');
+  const ts       = new Date().toISOString().slice(0, 16) + 'Z';
   const markerRe = /(#\s*Retry trigger marker:\s*)\S+/;
-  const updated = markerRe.test(current)
+  const updated  = markerRe.test(current)
     ? current.replace(markerRe, `$1${ts}`)
     : current + `\n# Retry trigger marker: ${ts}\n`;
 
@@ -117,7 +113,7 @@ async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: st
   });
 
   if (!putRes.ok) {
-    const err = (await putRes.json().catch(() => ({}))) as { message?: string };
+    const err = await putRes.json().catch(() => ({})) as { message?: string };
     throw new Error(`Contents API PUT failed: ${err.message ?? putRes.status}`);
   }
 
@@ -148,16 +144,14 @@ export async function POST(request: NextRequest) {
   };
 
   // Normalise to filename
-  const workflowFile =
-    workflowAliases[workflowRaw] ??
-    (workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`);
+  const workflowFile = workflowAliases[workflowRaw] ?? (workflowRaw.endsWith('.yml') ? workflowRaw : `${workflowRaw}.yml`);
 
   // Validate the workflow exists and is active in the repo
   try {
     const workflows = await listDispatchableWorkflows();
-    const match = workflows.find((w) => w.path === `.github/workflows/${workflowFile}`);
+    const match = workflows.find(w => w.path === `.github/workflows/${workflowFile}`);
     if (!match) {
-      const available = workflows.map((w) => w.path.replace('.github/workflows/', '')).join(', ');
+      const available = workflows.map(w => w.path.replace('.github/workflows/', '')).join(', ');
       return safeError(
         `Workflow "${workflowFile}" not found or not active. Available: ${available}`,
         400,
@@ -227,7 +221,7 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = request.nextUrl;
   const action = searchParams.get('action');
-  const runId = searchParams.get('run_id');
+  const runId  = searchParams.get('run_id');
 
   // ── Recent workflow runs (deploy + CI) ───────────────────────────────────
   if (action === 'recent_runs') {
@@ -238,7 +232,7 @@ export async function GET(request: NextRequest) {
         { headers: ghHeaders() },
       );
       if (!res.ok) return safeError('GitHub API error', res.status);
-      const data = (await res.json()) as {
+      const data = await res.json() as {
         workflow_runs: Array<{
           id: number;
           name: string;
@@ -270,14 +264,14 @@ export async function GET(request: NextRequest) {
     try {
       const workflows = await listDispatchableWorkflows();
       return NextResponse.json({
-        workflows: workflows.map((w) => ({
-          id: w.id,
-          name: w.name,
-          file: w.path.replace('.github/workflows/', ''),
-          path: w.path,
+        workflows: workflows.map(w => ({
+          id:    w.id,
+          name:  w.name,
+          file:  w.path.replace('.github/workflows/', ''),
+          path:  w.path,
           state: w.state,
         })),
-        repo: repo(),
+        repo:   repo(),
         branch: branch(),
       });
     } catch (err) {
@@ -299,32 +293,24 @@ export async function GET(request: NextRequest) {
       return safeError('GitHub API error', runRes.status);
     }
 
-    const run = await runRes.json();
-    const jobs = jobsRes.ok ? ((await jobsRes.json()).jobs ?? []) : [];
+    const run  = await runRes.json();
+    const jobs = jobsRes.ok ? (await jobsRes.json()).jobs ?? [] : [];
 
     return NextResponse.json({
-      id: run.id,
-      name: run.name,
-      status: run.status,
+      id:         run.id,
+      name:       run.name,
+      status:     run.status,
       conclusion: run.conclusion,
-      url: run.html_url,
-      createdAt: run.created_at,
-      updatedAt: run.updated_at,
-      jobs: jobs.map(
-        (j: {
-          id: number;
-          name: string;
-          status: string;
-          conclusion: string | null;
-          html_url: string;
-        }) => ({
-          id: j.id,
-          name: j.name,
-          status: j.status,
-          conclusion: j.conclusion,
-          url: j.html_url,
-        }),
-      ),
+      url:        run.html_url,
+      createdAt:  run.created_at,
+      updatedAt:  run.updated_at,
+      jobs: jobs.map((j: { id: number; name: string; status: string; conclusion: string | null; html_url: string }) => ({
+        id:         j.id,
+        name:       j.name,
+        status:     j.status,
+        conclusion: j.conclusion,
+        url:        j.html_url,
+      })),
     });
   } catch (err) {
     return safeInternalError(err, 'Failed to fetch run status');
