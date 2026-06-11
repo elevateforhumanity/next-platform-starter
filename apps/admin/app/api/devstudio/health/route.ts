@@ -75,10 +75,6 @@ export async function GET(req: NextRequest) {
   const hasGemini = isGeminiConfigured() || dbGemini;
   const hasOpenAI = isOpenAIConfigured() || dbOpenAI;
   const hasAnthropic = isAnthropicConfigured() || dbAnthropic;
-  const hasGitHub = !!process.env.GITHUB_TOKEN || !!process.env.GH_TOKEN || !!process.env.GITHUB_PAT || dbGitHub;
-  const aiConfigured = hasGroq || hasGemini || hasOpenAI || hasAnthropic;
-  const northflankProjectIdPresent = !!getNorthflankProjectId();
-  const northflankTokenPresent = !!(process.env.NORTHFLANK_API_TOKEN || process.env.NORTHFLANK_API_KEY || process.env.NF_API_TOKEN);
   const hasGitHub =
     !!process.env.GITHUB_TOKEN || !!process.env.GH_TOKEN || !!process.env.GITHUB_PAT || dbGitHub;
   const aiConfigured = hasGroq || hasGemini || hasOpenAI || hasAnthropic;
