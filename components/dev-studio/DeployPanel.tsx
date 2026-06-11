@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Activity, AlertTriangle, CheckCircle2, ExternalLink, GitBranch, Loader2, Play, RefreshCw, Rocket, XCircle } from 'lucide-react';
 import {
   Activity,
   AlertTriangle,
@@ -44,9 +43,6 @@ interface DispatchResult {
 }
 
 const DEFAULT_WORKFLOWS: WorkflowButton[] = [
-  { key: 'deploy-all', label: 'Deploy All', description: 'Build and deploy LMS plus Admin on Northflank from main' },
-  { key: 'deploy-lms', label: 'Deploy Website', description: 'Build and deploy the public website service on Northflank' },
-  { key: 'deploy-admin', label: 'Deploy Admin', description: 'Build and deploy the admin dashboard service on Northflank' },
   {
     key: 'deploy-all',
     label: 'Deploy All',
@@ -183,8 +179,6 @@ export default function DeployPanel({ workflowButtons }: { workflowButtons?: Wor
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ workflow: 'deploy-production-dispatch' }),
       });
-      const data = await res.json().catch(() => ({})) as DispatchResult;
-      if (!res.ok || data.error) throw new Error(data.error || `Deploy failed with HTTP ${res.status}`);
       const data = (await res.json().catch(() => ({}))) as DispatchResult;
       if (!res.ok || data.error)
         throw new Error(data.error || `Deploy failed with HTTP ${res.status}`);
