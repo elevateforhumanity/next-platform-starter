@@ -190,13 +190,13 @@ export async function hasSignedAllRequired(
  * Used by middleware to determine which routes require agreement gating.
  */
 export const PROTECTED_ROUTES: Record<string, UserRole[]> = {
-  '/lms': ['student', 'instructor', 'admin', 'staff', 'super_admin'],
+  '/lms': ['student', 'instructor', 'admin', 'staff', 'super_admin', 'platform_operator', 'org_admin'],
   '/student-portal': ['student'],
   '/learner/dashboard': ['student'],
   '/program-holder': ['program_holder'],
   '/employer': ['employer'],
-  '/admin/staff-portal': ['staff', 'admin', 'super_admin'],
-  '/admin': ['admin', 'super_admin'],
+  '/admin/staff-portal': ['staff', 'admin', 'super_admin', 'platform_operator', 'org_admin'],
+  '/admin': ['admin', 'super_admin', 'platform_operator', 'org_admin'],
   '/partner/dashboard': ['partner'],
 };
 

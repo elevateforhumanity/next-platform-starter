@@ -116,7 +116,8 @@ export type DegradedSection =
   | 'inactive_learners'
   | 'unpublished_programs'
   | 'recent_students'
-  | 'enrollments_by_program';
+  | 'enrollments_by_program'
+  | 'dashboard_data';
 
 export interface PendingSubmission {
   id: string;

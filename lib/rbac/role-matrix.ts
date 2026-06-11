@@ -23,6 +23,7 @@
 
 export type UserRole =
   | 'super_admin'
+  | 'platform_operator'
   | 'admin'
   | 'staff'
   | 'org_admin'
@@ -110,11 +111,11 @@ export const PERMISSIONS = {
   view_audit_logs:            ['super_admin', 'admin'] as UserRole[],
 
   // Platform administration
-  manage_programs:            ['super_admin', 'admin'] as UserRole[],
-  manage_courses:             ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_enrollments:         ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_users:               ['super_admin', 'admin'] as UserRole[],
-  manage_payments:            ['super_admin', 'admin'] as UserRole[],
+  manage_programs:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_courses:             ['super_admin', 'platform_operator', 'admin', 'staff'] as UserRole[],
+  manage_enrollments:         ['super_admin', 'platform_operator', 'admin', 'staff'] as UserRole[],
+  manage_users:               ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_payments:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
   manage_platform_settings:   ['super_admin', 'platform_operator'] as UserRole[],
   trigger_deployments:        ['super_admin', 'platform_operator'] as UserRole[],

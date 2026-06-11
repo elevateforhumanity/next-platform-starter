@@ -165,7 +165,7 @@ export default function ApprenticeForm({
       return;
     }
 
-    if (!turnstileToken) {
+    if (!completingExistingPayment && !turnstileToken) {
       setError('Please complete the security check above before continuing.');
       setErrorSeverity('info');
       return;
@@ -1166,7 +1166,7 @@ export default function ApprenticeForm({
                 {/* Submit — hidden while embedded checkout is open */}
                 {!embeddedClientSecret && (
                   <>
-                    {isSelfPay && (
+                    {!completingExistingPayment && (
                       <Turnstile
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken('')}
@@ -1182,7 +1182,7 @@ export default function ApprenticeForm({
                         !formData.lastName ||
                         !formData.phone ||
                         (!completingExistingPayment && !formData.fundingInterest) ||
-                        (isSelfPay && !turnstileToken) ||
+                        (!completingExistingPayment && !turnstileToken) ||
                         (!isSelfPay && !completingExistingPayment && !fundedOptionsReady)
                       }
                       className="w-full py-4 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-300 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"

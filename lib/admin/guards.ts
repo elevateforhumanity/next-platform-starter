@@ -28,7 +28,7 @@ export const allowDevTools = process.env.ENABLE_ADMIN_DEVTOOLS === 'true';
  * Check if user has super_admin role
  */
 export function isSuperAdmin(role: string | null | undefined): boolean {
-  return role === 'super_admin';
+  return role === 'super_admin' || role === 'platform_operator' || role === 'admin';
 }
 
 export function isPlatformOperatorRole(role: string | null | undefined): boolean {
@@ -311,7 +311,7 @@ export async function apiRequirePlatformOperator(_req?: Request): Promise<Guarde
     const ctx = await getPlatformUserContext(user.id);
     if (ctx?.canAccessDevStudio) return user;
   } catch {
-    // Fall through — authenticated super_admin still allowed.
+    // Fall through — authenticated platform admin still allowed.
   }
 
   return user;

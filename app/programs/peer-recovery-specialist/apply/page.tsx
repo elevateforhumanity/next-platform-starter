@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Turnstile from '@/components/Turnstile';
 import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
@@ -44,6 +45,7 @@ export default function PeerRecoveryApplyPage() {
   const [fundingType, setFundingType] = useState<FundingType>('wioa');
   const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
+  const [turnstileToken, setTurnstileToken] = useState('');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -78,6 +80,11 @@ export default function PeerRecoveryApplyPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.');
+      setLoading(false);
+      return;
+    }
     try {
       const res = await fetch('/api/applications', {
         method: 'POST',
@@ -95,6 +102,7 @@ export default function PeerRecoveryApplyPage() {
           fundingType,
           contactPreference: form.contactPreference,
           source: 'program-page',
+          turnstileToken,
         }),
       });
       const data = await res.json();
@@ -335,9 +343,15 @@ export default function PeerRecoveryApplyPage() {
             </div>
           )}
 
+          <Turnstile
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken('')}
+            formId="peer-recovery-apply"
+          />
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !turnstileToken}
             className="w-full rounded-xl bg-slate-900 px-6 py-3.5 font-semibold text-white hover:bg-slate-800 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (
