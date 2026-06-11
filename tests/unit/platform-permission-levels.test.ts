@@ -13,6 +13,18 @@ describe('platform permission levels', () => {
     ).toBe('platform_owner');
   });
 
+  it('maps super_admin to platform_owner regardless of tenant membership', () => {
+    expect(
+      resolvePermissionLevel({ profileRole: 'super_admin', isPlatformOwnerTenant: false }),
+    ).toBe('platform_owner');
+  });
+
+  it('maps platform_operator to platform_owner regardless of tenant membership', () => {
+    expect(
+      resolvePermissionLevel({ profileRole: 'platform_operator', isPlatformOwnerTenant: false }),
+    ).toBe('platform_owner');
+  });
+
   it('maps admin on owner tenant to platform_admin', () => {
     expect(
       resolvePermissionLevel({ profileRole: 'admin', isPlatformOwnerTenant: true }),

@@ -131,6 +131,7 @@ export const SENSITIVE_ROUTES = [
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
 import {
   API_ADMIN_ROLES,
@@ -169,13 +170,47 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
       return { id: '', email: null, role: null, error: unauthorized() };
     }
 
-    const { data: profile, error: profileError } = await supabase
+    // Try session client first, fall back to admin (service-role) client.
+    // RLS on profiles can block the anon/session client — the admin layout
+    // already uses the service-role client for this same read, so API guards
+    // must match to avoid "UNAUTHORIZED" on client-side fetches while the
+    // server-rendered dashboard works fine.
+    let profile: { role: string | null } | null = null;
+    const { data: sessionProfile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
 
-    if (profileError) {
+    if (!profileError && sessionProfile) {
+      profile = sessionProfile;
+    } else {
+      // Fallback: service-role client bypasses RLS
+      try {
+        const db = await getAdminClient();
+        if (db) {
+          const { data: adminProfile } = await db
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle();
+          profile = adminProfile;
+        }
+      } catch {
+        // admin client unavailable — keep profile null
+      }
+    }
+
+    if (!profile) {
+      // Neither client could read the profile — check user metadata as last resort
+      const metaRole = user.user_metadata?.role;
+      if (typeof metaRole === 'string' && metaRole) {
+        return {
+          id: user.id,
+          email: user.email ?? null,
+          role: metaRole as UserRole,
+        };
+      }
       return {
         id: user.id,
         email: user.email ?? null,
@@ -187,7 +222,7 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
     return {
       id: user.id,
       email: user.email ?? null,
-      role: (profile?.role as UserRole) ?? null,
+      role: (profile.role as UserRole) ?? null,
     };
   } catch (err) {
     return { id: '', email: null, role: null, error: unauthorized() };

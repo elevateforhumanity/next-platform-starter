@@ -78,14 +78,16 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     redirect('/onboarding/learner?reason=profile_missing');
   }
 
-  // Load secondary roles from user_roles table (multi-role users)
+  // Load secondary roles from user_roles table (multi-role users).
+  // Select both the FK-joined name and the direct `role` TEXT column as fallback.
   const { data: userRoleRows } = await supabase
     .from('user_roles')
-    .select('roles(name)')
+    .select('role, roles(name)')
     .eq('user_id', user.id);
   const secondaryRoles = (userRoleRows || [])
-    .map((r: any) => r.roles?.name)
-    .filter(Boolean) as string[];
+    .flatMap((r: any) => [r.roles?.name, r.role])
+    .filter((v): v is string => typeof v === 'string' && v.trim() !== '')
+    .map((v) => v.trim());
 
   const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
 

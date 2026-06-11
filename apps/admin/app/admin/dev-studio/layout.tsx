@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 import { requirePlatformOperatorContext } from '@/lib/platform/platform-owner';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DevStudioLayout({ children }: { children: React.ReactNode }) {
   const ctx = await requirePlatformOperatorContext();
   if (!ctx) {
