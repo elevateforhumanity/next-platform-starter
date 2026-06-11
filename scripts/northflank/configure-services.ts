@@ -65,7 +65,11 @@ const ALLOWED_EPHEMERAL_STORAGE_MB = [16384, 32768, 65536, 131072, 262144, 52428
 
 function resolveEphemeralStorageMb(): number {
   const requested = Number(process.env.NORTHFLANK_EPHEMERAL_STORAGE_MB || 32768);
-  if (ALLOWED_EPHEMERAL_STORAGE_MB.includes(requested as (typeof ALLOWED_EPHEMERAL_STORAGE_MB)[number])) {
+  if (
+    ALLOWED_EPHEMERAL_STORAGE_MB.includes(
+      requested as (typeof ALLOWED_EPHEMERAL_STORAGE_MB)[number],
+    )
+  ) {
     return requested;
   }
   const sorted = [...ALLOWED_EPHEMERAL_STORAGE_MB].sort((a, b) => a - b);
@@ -85,7 +89,10 @@ const billing = {
 
 function storageAllowanceCandidates(requestedMb: number): number[] {
   const ordered = [requestedMb, 32768, 16384].filter(
-    (size, index, arr) => ALLOWED_EPHEMERAL_STORAGE_MB.includes(size as (typeof ALLOWED_EPHEMERAL_STORAGE_MB)[number]) && arr.indexOf(size) === index,
+    (size, index, arr) =>
+      ALLOWED_EPHEMERAL_STORAGE_MB.includes(
+        size as (typeof ALLOWED_EPHEMERAL_STORAGE_MB)[number],
+      ) && arr.indexOf(size) === index,
   );
   return ordered;
 }
@@ -93,6 +100,22 @@ function storageAllowanceCandidates(requestedMb: number): number[] {
 function isStorageAllowanceError(err: unknown): boolean {
   const msg = err instanceof Error ? err.message : String(err);
   return msg.includes('build resource allowance') || msg.includes('ephemeral storage exceeds');
+}
+
+function resolvePublicSupabaseBuildArguments(): Record<string, string> {
+  const names = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'] as const;
+  const missing = names.filter((name) => !process.env[name]);
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing required Northflank Docker build arguments: ${missing.join(', ')}. ` +
+        'Set them as GitHub/Northflank secrets before running configure-services so Dockerfiles do not fall back to hardcoded public Supabase values.',
+    );
+  }
+
+  return Object.fromEntries(names.map((name) => [name, process.env[name]!])) as Record<
+    string,
+    string
+  >;
 }
 
 const healthChecks = [
@@ -155,6 +178,7 @@ async function main() {
           // Builds must roll to pods automatically; disabledCD left admin 194 commits behind main.
           disabledCD: false,
           runtimeEnvironment: service.runtimeEnvironment,
+          buildArguments: resolvePublicSupabaseBuildArguments(),
           healthChecks,
           buildSettings: {
             storage: {
@@ -194,7 +218,10 @@ async function main() {
           }
           break;
         } catch (e) {
-          if (!isStorageAllowanceError(e) || storageMb === storageAllowanceCandidates(requestedEphemeralMb).at(-1)) {
+          if (
+            !isStorageAllowanceError(e) ||
+            storageMb === storageAllowanceCandidates(requestedEphemeralMb).at(-1)
+          ) {
             throw e;
           }
           console.warn(

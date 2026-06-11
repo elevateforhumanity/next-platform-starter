@@ -2,7 +2,18 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors, AlertTriangle, CreditCard, XCircle } from 'lucide-react';
+import {
+  GraduationCap,
+  Clock,
+  FileText,
+  Award,
+  BookOpen,
+  ArrowRight,
+  Scissors,
+  AlertTriangle,
+  CreditCard,
+  XCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
 import { getApprenticeshipRequiredHours } from '@/lib/compliance/apprenticeship';
@@ -20,46 +31,13 @@ export const dynamic = 'force-dynamic';
 
 export default async function ApprenticePortalPage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/apprentice');
-  }
-
-  const { data: barberEnrollment } = await supabase
-    .from('program_enrollments')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('program_slug', 'barber-apprenticeship')
-    .limit(1)
-    .maybeSingle();
-
-  const { data: cosmetologyEnrollment } = await supabase
-    .from('program_enrollments')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('program_slug', 'cosmetology-apprenticeship')
-    .limit(1)
-    .maybeSingle();
-
-  if (cosmetologyEnrollment) {
-    redirect('/portal/cosmetology');
-  }
-
-  if (!barberEnrollment) {
-    const { data: barberSub } = await supabase
-      .from('barber_subscriptions')
-      .select('id')
-      .eq('user_id', user.id)
-      .limit(1)
-      .maybeSingle();
-    if (barberSub) {
-      redirect('/portal/barber');
-    }
-  } else {
-    redirect('/portal/barber');
   }
 
   const { data: profile } = await supabase
@@ -75,12 +53,14 @@ export default async function ApprenticePortalPage() {
   });
 
   // Get next required action based on real enrollment state
-  const nextAction = enrollment ? getNextRequiredAction({
-    status: enrollment.status,
-    orientation_completed_at: enrollment.orientationCompletedAt,
-    documents_submitted_at: enrollment.documentsSubmittedAt,
-    program_slug: enrollment.programSlug ?? undefined,
-  }) : { label: 'Apply to a Program', href: '/programs', description: 'Start your journey' };
+  const nextAction = enrollment
+    ? getNextRequiredAction({
+        status: enrollment.status,
+        orientation_completed_at: enrollment.orientationCompletedAt,
+        documents_submitted_at: enrollment.documentsSubmittedAt,
+        program_slug: enrollment.programSlug ?? undefined,
+      })
+    : { label: 'Apply to a Program', href: '/programs', description: 'Start your journey' };
 
   const enrollments = await listUnifiedEnrollments(supabase, user.id, 5);
 
@@ -91,7 +71,8 @@ export default async function ApprenticePortalPage() {
     .select('hours_logged')
     .eq('enrollment_id', enrollment?.id ?? '');
 
-  const attendanceHours = attendanceHoursData?.reduce((sum, h) => sum + (h.hours_logged || 0), 0) || 0;
+  const attendanceHours =
+    attendanceHoursData?.reduce((sum, h) => sum + (h.hours_logged || 0), 0) || 0;
 
   let totalHours = attendanceHours;
 
@@ -119,44 +100,114 @@ export default async function ApprenticePortalPage() {
 
   // --- Payment alerts ---
   // Check for open Stripe invoices / missing payment method
-  const hasSubscription = !!enrollment?.stripeSubscriptionId || !!(enrollment as any)?.stripe_subscription_id;
-  const paymentStatus = (enrollment as any)?.payment_status ?? null;
-  const amountPaidCents = (enrollment as any)?.amount_paid_cents ?? 0;
+  const hasSubscription = !!enrollment?.stripeSubscriptionId;
+  const paymentStatus = enrollment?.paymentStatus ?? null;
+  const amountPaidCents = enrollment?.amountPaidCents ?? 0;
 
   // --- Onboarding checklist ---
-  const orientationDone = !!(enrollment?.orientationCompletedAt);
-  const documentsDone = !!(enrollment?.documentsSubmittedAt);
+  const orientationDone = !!enrollment?.orientationCompletedAt;
+  const documentsDone = !!enrollment?.documentsSubmittedAt;
   const { data: rawDocs } = await supabase
     .from('documents')
     .select('id, document_type, status, verification_status')
     .eq('user_id', user.id);
   const docs = rawDocs ?? [];
-  const hasPhotoId = docs.some(d => d.document_type === 'photo_id');
-  const hasResidency = docs.some(d => d.document_type === 'other' || d.document_type === 'proof_of_residency');
-  const docsApproved = docs.length > 0 && docs.every(d => d.status === 'approved' || d.verification_status === 'verified');
+  const hasPhotoId = docs.some((d) => d.document_type === 'photo_id');
+  const hasResidency = docs.some(
+    (d) => d.document_type === 'other' || d.document_type === 'proof_of_residency',
+  );
+  const docsApproved =
+    docs.length > 0 &&
+    docs.every((d) => d.status === 'approved' || d.verification_status === 'verified');
   const onboardingItems = [
-    { label: 'Orientation completed', done: orientationDone, href: enrollment?.programSlug ? `/programs/${enrollment.programSlug}/orientation` : '/apprentice' },
+    {
+      label: 'Orientation completed',
+      done: orientationDone,
+      href: enrollment?.programSlug
+        ? `/programs/${enrollment.programSlug}/orientation`
+        : '/apprentice',
+    },
     { label: 'Photo ID uploaded', done: hasPhotoId, href: '/apprentice/documents' },
     { label: 'Proof of residency uploaded', done: hasResidency, href: '/apprentice/documents' },
     { label: 'Documents approved', done: docsApproved, href: '/apprentice/documents' },
     { label: 'Payment method on file', done: hasSubscription, href: '/apprentice/billing' },
   ];
-  const onboardingComplete = onboardingItems.every(i => i.done);
-  const onboardingPending = onboardingItems.filter(i => !i.done);
+  const onboardingComplete = onboardingItems.every((i) => i.done);
+  const onboardingPending = onboardingItems.filter((i) => !i.done);
 
   const quickLinks = [
-    { name: 'Timeclock', href: '/apprentice/timeclock', icon: Clock, description: 'Clock in / out at your work site' },
-    { name: 'Manage Payments', href: '/apprentice/billing', icon: CreditCard, description: 'Update payment method, view invoices' },
-    { name: 'Shift History', href: '/apprentice/timeclock/history', icon: Clock, description: 'View all recorded shifts' },
-    { name: 'Log Hours', href: '/apprentice/hours/log', icon: Clock, description: 'Manually record OJL & RTI hours' },
-    { name: 'Hours History', href: '/apprentice/hours', icon: Clock, description: 'Review submitted hour entries' },
-    { name: 'Competency Log', href: '/apprentice/competencies/log', icon: Scissors, description: 'Log a service for WPS credit' },
-    { name: 'Competency Progress', href: '/apprentice/competencies', icon: Scissors, description: 'Track cuts, shaves & WPS skills' },
-    { name: 'Documents', href: '/apprentice/documents', icon: FileText, description: 'View required documents' },
-    { name: 'Skills Checklist', href: '/apprentice/skills', icon: Award, description: 'Track skill competencies' },
-    { name: 'Handbook', href: '/apprentice/handbook', icon: BookOpen, description: 'Apprenticeship guidelines' },
-    { name: 'Transfer Hours', href: '/apprentice/transfer-hours', icon: ArrowRight, description: 'Request hour transfers' },
-    { name: 'State Board', href: '/apprentice/state-board', icon: GraduationCap, description: 'Exam preparation' },
+    {
+      name: 'Timeclock',
+      href: '/apprentice/timeclock',
+      icon: Clock,
+      description: 'Clock in / out at your work site',
+    },
+    {
+      name: 'Manage Payments',
+      href: '/apprentice/billing',
+      icon: CreditCard,
+      description: 'Update payment method, view invoices',
+    },
+    {
+      name: 'Shift History',
+      href: '/apprentice/timeclock/history',
+      icon: Clock,
+      description: 'View all recorded shifts',
+    },
+    {
+      name: 'Log Hours',
+      href: '/apprentice/hours/log',
+      icon: Clock,
+      description: 'Manually record OJL & RTI hours',
+    },
+    {
+      name: 'Hours History',
+      href: '/apprentice/hours',
+      icon: Clock,
+      description: 'Review submitted hour entries',
+    },
+    {
+      name: 'Competency Log',
+      href: '/apprentice/competencies/log',
+      icon: Scissors,
+      description: 'Log a service for WPS credit',
+    },
+    {
+      name: 'Competency Progress',
+      href: '/apprentice/competencies',
+      icon: Scissors,
+      description: 'Track cuts, shaves & WPS skills',
+    },
+    {
+      name: 'Documents',
+      href: '/apprentice/documents',
+      icon: FileText,
+      description: 'View required documents',
+    },
+    {
+      name: 'Skills Checklist',
+      href: '/apprentice/skills',
+      icon: Award,
+      description: 'Track skill competencies',
+    },
+    {
+      name: 'Handbook',
+      href: '/apprentice/handbook',
+      icon: BookOpen,
+      description: 'Apprenticeship guidelines',
+    },
+    {
+      name: 'Transfer Hours',
+      href: '/apprentice/transfer-hours',
+      icon: ArrowRight,
+      description: 'Request hour transfers',
+    },
+    {
+      name: 'State Board',
+      href: '/apprentice/state-board',
+      icon: GraduationCap,
+      description: 'Exam preparation',
+    },
   ];
 
   return (
@@ -169,7 +220,6 @@ export default async function ApprenticePortalPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-
         {/* ── PAYMENT ALERT ── */}
         {!hasSubscription && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-5 flex items-start gap-4">
@@ -177,7 +227,8 @@ export default async function ApprenticePortalPage() {
             <div className="flex-1">
               <p className="font-semibold text-red-800 text-sm">Payment Method Required</p>
               <p className="text-red-700 text-sm mt-1">
-                You don&apos;t have automatic weekly payments set up. Your down payment credit will cover your weekly payments, but you need a card on file before it runs out.
+                You don&apos;t have automatic weekly payments set up. Your down payment credit will
+                cover your weekly payments, but you need a card on file before it runs out.
               </p>
               <a
                 href="/apprentice/billing"
@@ -195,14 +246,18 @@ export default async function ApprenticePortalPage() {
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle className="w-5 h-5 text-amber-600" />
               <p className="font-semibold text-amber-800 text-sm">
-                {onboardingPending.length} onboarding {onboardingPending.length === 1 ? 'item' : 'items'} still needed
+                {onboardingPending.length} onboarding{' '}
+                {onboardingPending.length === 1 ? 'item' : 'items'} still needed
               </p>
             </div>
             <ul className="space-y-2">
               {onboardingItems.map((item) => (
                 <li key={item.label} className="flex items-center gap-3 text-sm">
                   {item.done ? (
-                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0 shrink-0" aria-hidden="true" />
+                    <span
+                      className="w-4 h-4 rounded-full bg-brand-green-500 inline-block flex-shrink-0 shrink-0"
+                      aria-hidden="true"
+                    />
                   ) : (
                     <XCircle className="w-4 h-4 text-red-400 shrink-0" />
                   )}
@@ -223,7 +278,9 @@ export default async function ApprenticePortalPage() {
         <div className="bg-brand-blue-700 text-white rounded-xl p-6 mb-8 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white text-sm font-medium uppercase tracking-wide mb-1">Next Required Action</p>
+              <p className="text-white text-sm font-medium uppercase tracking-wide mb-1">
+                Next Required Action
+              </p>
               <h2 className="text-2xl font-bold">{nextAction.label}</h2>
               <p className="text-white mt-1">{nextAction.description}</p>
             </div>
@@ -241,9 +298,7 @@ export default async function ApprenticePortalPage() {
           <h1 className="text-3xl font-bold text-slate-900">
             Welcome, {profile?.full_name || 'Apprentice'}
           </h1>
-          <p className="text-slate-600 mt-2">
-            Track your apprenticeship journey and progress
-          </p>
+          <p className="text-slate-600 mt-2">Track your apprenticeship journey and progress</p>
         </div>
 
         {/* Progress Overview */}
@@ -287,15 +342,21 @@ export default async function ApprenticePortalPage() {
             <h2 className="text-xl font-semibold text-slate-900 mb-4">Active Programs</h2>
             <div className="space-y-4">
               {enrollments.map((enrollment) => (
-                <div key={enrollment.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
+                <div
+                  key={enrollment.id}
+                  className="flex items-center justify-between p-4 bg-white rounded-lg"
+                >
                   <div>
                     <p className="font-medium text-slate-900">
-                      {enrollment.programTitle || (enrollment.courseId ? `Course ${enrollment.courseId}` : 'Program')}
+                      {enrollment.programTitle ||
+                        (enrollment.courseId ? `Course ${enrollment.courseId}` : 'Program')}
                     </p>
                     <p className="text-sm text-slate-600">Status: {enrollment.status}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-brand-blue-600">{enrollment.progress || 0}%</p>
+                    <p className="text-lg font-semibold text-brand-blue-600">
+                      {enrollment.progress || 0}%
+                    </p>
                     <p className="text-sm text-slate-600">Complete</p>
                   </div>
                 </div>

@@ -71,7 +71,11 @@ function titleizeProgram(value: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function normalizeProgramPayload(body: Record<string, unknown>) {
+function normalizeProgramPayload(body: Record<string, any>) {
+  const rawSlug = String(body.programSlug || body.program_slug || body.preferredProgramId || '').trim();
+  const rawProgram = String(body.program || body.programName || body.programTitle || rawSlug || '').trim();
+  const slug = rawSlug ? slugifyProgram(rawSlug) : slugifyProgram(rawProgram);
+  const displayName = String(body.programName || body.programTitle || '').trim() || titleizeProgram(rawProgram || slug);
   const rawSlug = String(
     body.programSlug || body.program_slug || body.preferredProgramId || '',
   ).trim();
@@ -80,7 +84,8 @@ function normalizeProgramPayload(body: Record<string, unknown>) {
   ).trim();
   const slug = rawSlug ? slugifyProgram(rawSlug) : slugifyProgram(rawProgram);
   const displayName =
-    String(body.programName || body.programTitle || '').trim() || titleizeProgram(rawProgram || slug);
+    String(body.programName || body.programTitle || '').trim() ||
+    titleizeProgram(rawProgram || slug);
   return { slug, displayName };
 }
 
@@ -123,6 +128,7 @@ async function claimIdempotencyKey(
 
   try {
     const setResult = await redis.set(key, value, { nx: true, ex: ttlSeconds });
+    const claimed = setResult === 'OK';
     const claimed = ['OK', '1', 'true'].includes(String(setResult));
     if (claimed) {
       return { duplicate: false, samePayload: false };
@@ -212,8 +218,9 @@ async function _POST(req: Request) {
     }
 
     const normalizedPhone = String(body.phone || '').replace(/\D/g, '');
-    const idempotencyKey =
-      (req.headers.get('x-idempotency-key') || body.idempotencyKey || '').trim().toLowerCase();
+    const idempotencyKey = (req.headers.get('x-idempotency-key') || body.idempotencyKey || '')
+      .trim()
+      .toLowerCase();
     if (idempotencyKey && idempotencyKey.length < 12) {
       return NextResponse.json(
         { error: 'Invalid idempotency key' },
@@ -221,6 +228,7 @@ async function _POST(req: Request) {
       );
     }
 
+    const fingerprint = `${String(body.email || '').toLowerCase().trim()}|${programSlug}|${normalizedPhone}`;
     const fingerprint = `${String(body.email || '')
       .toLowerCase()
       .trim()}|${programSlug}|${normalizedPhone}`;
@@ -243,8 +251,7 @@ async function _POST(req: Request) {
     if (!supabase) {
       return NextResponse.json(
         {
-          error:
-            `Service temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.`,
+          error: `Service temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.`,
         },
         { status: 503, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -255,7 +262,8 @@ async function _POST(req: Request) {
     if (enrollmentState === 'waitlist') {
       return NextResponse.json(
         {
-          error: 'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
+          error:
+            'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
           waitlisted: true,
           waitlistUrl: `/programs/${programSlug}`,
         },
@@ -277,6 +285,7 @@ async function _POST(req: Request) {
       .from('applications')
       .select('id')
       .eq('email', body.email.toLowerCase().trim())
+      .or(`program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`)
       .or(
         `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
       )
@@ -291,6 +300,7 @@ async function _POST(req: Request) {
         .from('applications')
         .select('id')
         .eq('normalized_phone', normalizedPhone)
+        .or(`program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`)
         .or(
           `program_slug.eq.${programSlug},program_interest.eq.${programSlug},program_interest.eq.${program}`,
         )
@@ -306,8 +316,7 @@ async function _POST(req: Request) {
     if (recentApp || recentByPhone) {
       return NextResponse.json(
         {
-          error:
-            `An application for this program was already submitted with this email in the last 24 hours. Please call ${PLATFORM_DEFAULTS.supportPhone} if you need to make changes.`,
+          error: `An application for this program was already submitted with this email in the last 24 hours. Please call ${PLATFORM_DEFAULTS.supportPhone} if you need to make changes.`,
         },
         { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -327,12 +336,8 @@ async function _POST(req: Request) {
       `Program Slug: ${programSlug}`,
       body.preferredContact ? `Preferred Contact: ${body.preferredContact}` : '',
       body.fundingType ? `Funding Type: ${body.fundingType}` : '',
-      body.workoneIntakeCompleted
-        ? `WorkOne Intake Completed: ${body.workoneIntakeCompleted}`
-        : '',
-      body.workoneAppointmentDate
-        ? `WorkOne Appointment Date: ${body.workoneAppointmentDate}`
-        : '',
+      body.workoneIntakeCompleted ? `WorkOne Intake Completed: ${body.workoneIntakeCompleted}` : '',
+      body.workoneAppointmentDate ? `WorkOne Appointment Date: ${body.workoneAppointmentDate}` : '',
       body.workoneCenter ? `WorkOne Center: ${body.workoneCenter}` : '',
       body.workoneChecklist && Array.isArray(body.workoneChecklist)
         ? `WorkOne Checklist: ${body.workoneChecklist.join(', ')}`
@@ -471,6 +476,10 @@ async function _POST(req: Request) {
           program_slug: undefined,       // added in 20260224000002 (applications table)
           program_id: undefined,
           date_of_birth: undefined,      // added in 20260304120000
+          funding_type: undefined, // added in 20260425000001
+          program_slug: undefined, // added in 20260224000002 (applications table)
+          program_id: undefined,
+          date_of_birth: undefined, // added in 20260304120000
           type: undefined,
           status: 'submitted',
         })
@@ -544,11 +553,17 @@ async function _POST(req: Request) {
       });
 
       if (provision.error) {
-        logger.warn('[Applications] provisionAccount non-fatal', { error: provision.error, email: body.email });
+        logger.warn('[Applications] provisionAccount non-fatal', {
+          error: provision.error,
+          email: body.email,
+        });
       } else {
         userId = provision.userId ?? null;
         passwordSetupLink = provision.passwordSetupLink ?? null;
-        logger.info('[Applications] Account provisioned', { userId, isNewUser: provision.isNewUser });
+        logger.info('[Applications] Account provisioned', {
+          userId,
+          isNewUser: provision.isNewUser,
+        });
       }
 
       // Link provisioned userId back to the application row
@@ -556,14 +571,10 @@ async function _POST(req: Request) {
         const { error: linkError } = await supabase
           .from('applications')
           .update({ user_id: userId, program_id: programRow?.id || null })
-          .eq('id', data.id);
-        if (linkError) {
-          logger.warn('[Applications] Failed to link user_id', {
-            error: linkError.message,
-            applicationId: data.id,
-            userId,
-          });
-        }
+          .eq('id', data.id)
+          .then(undefined, (err) =>
+            logger.warn('[Applications] Failed to link user_id', { err: String(err) }),
+          );
       }
     }
 
@@ -744,10 +755,14 @@ async function _POST(req: Request) {
       if (staffEmailResult.success) {
         logger.info('[Applications] Staff email sent');
       } else {
-        logger.error('[Applications] Staff email FAILED', undefined, { error: (staffEmailResult as any).error });
+        logger.error('[Applications] Staff email FAILED', undefined, {
+          error: (staffEmailResult as any).error,
+        });
       }
       emailStatus = {
-        student: studentEmailResult.success ? 'sent' : (studentEmailResult as any).error || 'failed',
+        student: studentEmailResult.success
+          ? 'sent'
+          : (studentEmailResult as any).error || 'failed',
         staff: staffEmailResult.success ? 'sent' : (staffEmailResult as any).error || 'failed',
       };
     } catch (emailError) {

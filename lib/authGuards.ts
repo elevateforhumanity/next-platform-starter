@@ -12,6 +12,7 @@ export type UserRole =
   | 'instructor'
   | 'admin'
   | 'super_admin'
+  | 'platform_operator'
   | 'staff'
   | 'program_holder'
   | 'provider_admin'
@@ -228,6 +229,7 @@ export async function getUserRole(): Promise<UserRole | null> {
 const PERMISSIONS: Record<UserRole, string[]> = {
   admin: ['*'], // All permissions
   super_admin: ['*'],
+  platform_operator: ['*'],
   staff: ['view_students', 'view_programs', 'view_analytics', 'manage_enrollments'],
   instructor: [
     'view_students',
