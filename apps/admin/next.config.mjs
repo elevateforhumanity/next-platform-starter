@@ -15,10 +15,12 @@ import { sharedStandaloneTraceExcludes } from '../../scripts/next-standalone-tra
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
+const useStandaloneOutput =
+  process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
 
 /** @type {import('next').NextConfig} */
 const adminConfig = {
-  output: 'standalone',
+  ...(useStandaloneOutput ? { output: 'standalone' } : {}),
 
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
