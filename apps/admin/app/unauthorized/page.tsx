@@ -1,10 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 const WWW_ORIGIN =
   process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const ADMIN_ORIGIN =
+  process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org';
+const ADMIN_PORTAL_ROLES = new Set(['admin', 'super_admin', 'staff', 'org_admin', 'platform_operator']);
 
 export default function UnauthorizedPage() {
   const [email, setEmail] = useState<string | null>(null);
@@ -23,16 +26,48 @@ export default function UnauthorizedPage() {
         .select('role')
         .eq('id', data.user.id)
         .maybeSingle();
-      setRole(profile?.role ?? null);
+      const { data: roleRows } = await sb
+        .from('user_roles')
+        .select('roles(name)')
+        .eq('user_id', data.user.id);
+      const secondaryRoles = (roleRows ?? [])
+        .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+        .filter((value): value is string => typeof value === 'string');
+      const effectiveRoles = [profile?.role, ...secondaryRoles].filter(
+        (value): value is string => typeof value === 'string',
+      );
+      setRole(effectiveRoles.find((value) => ADMIN_PORTAL_ROLES.has(value)) ?? profile?.role ?? null);
     });
   }, []);
 
+  const isAdminPortalRole = ADMIN_PORTAL_ROLES.has(role ?? '');
+  const adminDashboardHref = `${ADMIN_ORIGIN.replace(/\/$/, '')}/admin/dashboard`;
   const portalPath = role ? getRoleDestination(role) : null;
   const portalHref = portalPath?.startsWith('http')
     ? portalPath
     : portalPath
       ? `${WWW_ORIGIN.replace(/\/$/, '')}${portalPath}`
       : `${WWW_ORIGIN}/portals`;
+
+  useEffect(() => {
+    if (isAdminPortalRole) {
+      const timer = window.setTimeout(() => {
+        window.location.href = adminDashboardHref;
+      }, 800);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
+  }, [adminDashboardHref, isAdminPortalRole]);
+
+  const message = useMemo(() => {
+    if (isAdminPortalRole) {
+      return 'Your admin role is valid. Redirecting you back to the admin dashboard now.';
+    }
+    if (role && !ADMIN_PORTAL_ROLES.has(role)) {
+      return 'Host shops, apprentices, partners, and learners sign in on their assigned portal — not admin.';
+    }
+    return 'Contact your administrator if you believe this is an error.';
+  }, [isAdminPortalRole, role]);
 
   async function handleSignOut() {
     const sb = createClient(
@@ -53,10 +88,7 @@ export default function UnauthorizedPage() {
         </div>
         <h1 className="text-xl font-bold text-white mb-2">Access Denied</h1>
         <p className="text-slate-400 text-sm mb-4">
-          Your account does not have permission to access the admin portal.
-          {role && role !== 'admin' && role !== 'super_admin' && role !== 'staff' && role !== 'org_admin'
-            ? ' Host shops, apprentices, and partners sign in on the main site — not admin.'
-            : ' Contact your administrator if you believe this is an error.'}
+          {message}
         </p>
         {email && (
           <p className="text-slate-500 text-xs mb-4">
@@ -69,7 +101,14 @@ export default function UnauthorizedPage() {
             ) : null}
           </p>
         )}
-        {portalHref && role && !['admin', 'super_admin', 'staff', 'org_admin', 'instructor'].includes(role) ? (
+        {isAdminPortalRole ? (
+          <a
+            href={adminDashboardHref}
+            className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"
+          >
+            Return to admin dashboard
+          </a>
+        ) : portalHref && role && !['admin', 'super_admin', 'staff', 'org_admin', 'platform_operator', 'instructor'].includes(role) ? (
           <a
             href={portalHref}
             className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"

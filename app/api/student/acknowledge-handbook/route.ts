@@ -12,7 +12,7 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-  const auth = await apiAuthGuard(request);
+  const auth = await apiAuthGuard(req);
   if (auth.error) return auth.error;
 
   try {

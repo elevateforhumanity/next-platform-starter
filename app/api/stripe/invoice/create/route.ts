@@ -13,7 +13,7 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-  const auth = await apiRequireAdmin(request);
+  const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
   try {
@@ -40,7 +40,6 @@ async function _POST(req: Request) {
       );
     }
 
-    const Stripe = (await import('stripe')).default;
     const stripe = getStripe();
     if (!stripe) return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
 

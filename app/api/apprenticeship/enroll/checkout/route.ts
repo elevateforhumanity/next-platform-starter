@@ -28,10 +28,6 @@ async function _POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'contact');
   if (rateLimited) return rateLimited;
 
-  if (!stripe) {
-    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
-  }
-
   try {
     const supabase = await createClient();
 
