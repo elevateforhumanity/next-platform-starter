@@ -99,10 +99,24 @@ UPDATE public.ai_memory
 SET content = value
 WHERE content IS NULL AND value IS NOT NULL;
 
--- ─── dev_audit_logs: add column from 000005 schema ──────────────────────────
+-- ─── dev_audit_logs: add columns from 000005 schema ─────────────────────────
+-- 000001 has 'user_id', 000005 has 'actor_id'. Code uses both:
+--   builds/route.ts inserts user_id, audit.ts inserts actor_id.
+-- Add both columns so neither code path breaks.
+ALTER TABLE public.dev_audit_logs ADD COLUMN IF NOT EXISTS actor_id UUID;
+ALTER TABLE public.dev_audit_logs ADD COLUMN IF NOT EXISTS user_id UUID;
 ALTER TABLE public.dev_audit_logs ADD COLUMN IF NOT EXISTS trace_id TEXT;
 ALTER TABLE public.dev_audit_logs ADD COLUMN IF NOT EXISTS risk_level TEXT;
 ALTER TABLE public.dev_audit_logs ADD COLUMN IF NOT EXISTS ip_address TEXT;
+
+-- Backfill: copy between actor_id ↔ user_id so both columns are populated
+UPDATE public.dev_audit_logs
+SET actor_id = user_id
+WHERE actor_id IS NULL AND user_id IS NOT NULL;
+
+UPDATE public.dev_audit_logs
+SET user_id = actor_id
+WHERE user_id IS NULL AND actor_id IS NOT NULL;
 
 -- ─── Ensure RLS is enabled on all dev-studio tables ─────────────────────────
 ALTER TABLE public.ai_agents ENABLE ROW LEVEL SECURITY;
