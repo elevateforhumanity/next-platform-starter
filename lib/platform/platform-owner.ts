@@ -208,10 +208,7 @@ export async function requirePlatformOperatorContext(): Promise<PlatformUserCont
   // is false due to a tenant-membership or permission-level edge case, check
   // whether the user holds a platform-owner-level role directly and override.
   if (ctx && ctx.profileRole && PLATFORM_OWNER_ROLES.includes(ctx.profileRole)) {
-    logger.warn(
-      '[requirePlatformOperatorContext] canAccessDevStudio was false for role=%s; granting via direct role match',
-      ctx.profileRole,
-    );
+    logger.warn('[requirePlatformOperatorContext] canAccessDevStudio was false; granting via direct role match', { role: ctx.profileRole });
     return {
       ...ctx,
       permissionLevel: 'platform_owner',
@@ -237,10 +234,7 @@ export async function requirePlatformOperatorContext(): Promise<PlatformUserCont
       .maybeSingle();
 
     if (profile?.role && PLATFORM_OWNER_ROLES.includes(profile.role as UserRole)) {
-      logger.warn(
-        '[requirePlatformOperatorContext] full context was null; granting via direct profile role=%s',
-        profile.role,
-      );
+      logger.warn('[requirePlatformOperatorContext] full context was null; granting via direct profile role', { role: profile.role });
       return {
         userId: user.id,
         profileRole: profile.role as UserRole,
@@ -254,7 +248,7 @@ export async function requirePlatformOperatorContext(): Promise<PlatformUserCont
       };
     }
   } catch (err) {
-    logger.error('[requirePlatformOperatorContext] fallback check failed', err);
+    logger.error('[requirePlatformOperatorContext] fallback check failed', err instanceof Error ? err : new Error(String(err)));
   }
 
   return null;
