@@ -55,12 +55,30 @@ function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
   } as const;
 }
 
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+function isApplicationTurnstileRequired(): boolean {
+  return ['1', 'true', 'yes', 'required'].includes(
+    String(process.env.APPLICATION_TURNSTILE_REQUIRED || '').trim().toLowerCase(),
+  );
+}
+
+async function verifyTurnstile(token: string, ip: string): Promise<{ ok: boolean; reason?: string }> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  // No secret configured — skip verification (dev / unconfigured environments)
-  if (!secret) return true;
-  // No token sent — fail only when secret is configured
-  if (!token) return false;
+  const required = isApplicationTurnstileRequired();
+
+  // No secret configured — skip verification (dev / unconfigured environments).
+  if (!secret) return { ok: true };
+
+  const normalizedToken = token.trim();
+  const missingOrClientFallback =
+    !normalizedToken || normalizedToken === 'turnstile-not-configured' || normalizedToken === 'dev-mode-token';
+
+  // Backward-compatible production behavior: validate real tokens when present, but do not
+  // block older student application pages that have not rendered the widget yet unless
+  // APPLICATION_TURNSTILE_REQUIRED is explicitly enabled. Rate limiting, origin checks,
+  // and the honeypot still protect the public endpoint.
+  if (missingOrClientFallback) {
+    return required ? { ok: false, reason: 'missing_token' } : { ok: true, reason: 'skipped_missing_token' };
+  }
 
   try {
     const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -68,14 +86,23 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         secret,
-        response: token,
+        response: normalizedToken,
         remoteip: ip,
       }),
     });
-    const result = (await response.json()) as { success?: boolean };
-    return !!result.success;
-  } catch {
-    return false;
+    const result = (await response.json()) as { success?: boolean; 'error-codes'?: string[] };
+    if (!result.success) {
+      logger.warn('[api/applications] Turnstile verification failed', {
+        reason: result['error-codes']?.join(',') || 'unknown',
+      });
+      return { ok: false, reason: 'invalid_token' };
+    }
+    return { ok: true };
+  } catch (error) {
+    logger.warn('[api/applications] Turnstile verification unavailable', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return { ok: false, reason: 'verification_unavailable' };
   }
 }
 
@@ -154,9 +181,14 @@ async function _POST(req: Request) {
     const turnstileToken = body.turnstileToken || body.cfTurnstileToken || '';
     const clientIp = getClientIp(req);
     const humanVerified = await verifyTurnstile(turnstileToken, clientIp);
-    if (!humanVerified) {
+    if (!humanVerified.ok) {
       return NextResponse.json(
-        { error: 'Bot verification failed' },
+        {
+          error:
+            humanVerified.reason === 'missing_token'
+              ? 'Security check required. Please complete the verification widget and submit again.'
+              : 'Security check failed. Please refresh the page, complete the verification widget, and submit again.',
+        },
         { status: 403, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }

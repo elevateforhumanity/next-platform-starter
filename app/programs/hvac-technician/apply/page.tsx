@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
 import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import Turnstile from '@/components/Turnstile';
 import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
@@ -54,6 +55,7 @@ export default function HvacApplyPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [errorSeverity, setErrorSeverity] = useState<'info' | 'critical'>('info');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const [paymentOption, setPaymentOption] = useState<
     'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm' | 'stripe-bnpl'
@@ -107,6 +109,13 @@ export default function HvacApplyPage() {
     setError('');
     setErrorSeverity('info');
 
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.');
+      setErrorSeverity('info');
+      setLoading(false);
+      return;
+    }
+
     try {
       // Save application first
       const appResponse = await fetch('/api/applications', {
@@ -121,6 +130,7 @@ export default function HvacApplyPage() {
           fundingEligibilityStatus: fundingEligibilityStatus ?? undefined,
           source: 'program-page',
           paymentOption,
+          turnstileToken,
         }),
       });
 
@@ -893,11 +903,18 @@ export default function HvacApplyPage() {
                     </div>
                   )}
 
+                <Turnstile
+                  onVerify={setTurnstileToken}
+                  onExpire={() => setTurnstileToken('')}
+                  formId="hvac-apply"
+                />
+
                 {/* Submit Button */}
                 <button
                   onClick={handlePayNow}
                   disabled={
                     loading ||
+                    !turnstileToken ||
                     !formData.fundingInterest ||
                     ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) &&
                       !fundingEligibilityStatus)

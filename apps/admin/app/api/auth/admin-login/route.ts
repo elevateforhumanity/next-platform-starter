@@ -9,7 +9,7 @@ import { getServerSupabaseEnvMisconfigurationReason } from '@/lib/supabase/serve
 import { applyNormalizedSupabaseUrlToEnv } from '@/lib/supabase/normalize-url';
 
 // Must match ADMIN_ROLES in lib/rbac/role-matrix.ts and apps/admin/app/admin/layout.tsx
-const ADMIN_ROLES = ['super_admin', 'admin', 'staff', 'org_admin'];
+const ADMIN_ROLES = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();

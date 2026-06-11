@@ -14,6 +14,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Info, CheckCircle } from 'lucide-react';
+import Turnstile from '@/components/Turnstile';
 import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
@@ -47,6 +48,7 @@ export default function ProgramApplyPage({ program }: Props) {
   const [error, setError] = useState('');
   const [errorSeverity, setErrorSeverity] = useState<'info' | 'critical'>('info');
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const [paymentOption, setPaymentOption] = useState<
     'weekly' | 'full' | 'affirm' | 'sezzle' | 'stripe-bnpl'
@@ -146,6 +148,11 @@ export default function ProgramApplyPage({ program }: Props) {
       setErrorSeverity('info');
       return;
     }
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.');
+      setErrorSeverity('info');
+      return;
+    }
     setLoading(true);
     setError('');
 
@@ -171,6 +178,7 @@ export default function ProgramApplyPage({ program }: Props) {
               : undefined,
           source: 'program-page',
           paymentOption: formData.fundingInterest === 'self-pay' ? paymentOption : 'funded',
+          turnstileToken,
         }),
       });
 
@@ -756,10 +764,16 @@ export default function ProgramApplyPage({ program }: Props) {
                 </div>
               )}
 
+              <Turnstile
+                onVerify={setTurnstileToken}
+                onExpire={() => setTurnstileToken('')}
+                formId={`program-apply-${program.slug}`}
+              />
+
               {/* Submit */}
               <button
                 onClick={handleSubmit}
-                disabled={loading || !canSubmit}
+                disabled={loading || !canSubmit || !turnstileToken}
                 className="w-full bg-brand-blue-700 hover:bg-brand-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 px-8 rounded-xl transition-colors flex items-center justify-center gap-2"
               >
                 {loading ? (

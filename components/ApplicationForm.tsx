@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Turnstile from '@/components/Turnstile';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -54,8 +55,13 @@ export function ApplicationForm() {
   const [submitting, setSubmitting] = useState(false);
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const handleSubmit = async () => {
+    if (!turnstileToken) {
+      setSubmitError('Please complete the security check before submitting.');
+      return;
+    }
     setSubmitting(true);
     try {
       const response = await fetch('/api/applications', {
@@ -70,6 +76,7 @@ export function ApplicationForm() {
           zip: formData.zip || '00000',
           program: formData.program,
           source: 'multi-step-form',
+          turnstileToken,
         }),
       });
 
@@ -421,7 +428,12 @@ export function ApplicationForm() {
                   {submitError}
                 </div>
               )}
-              <Button variant="primary" onClick={handleSubmit} disabled={submitting}>
+              <Turnstile
+                onVerify={setTurnstileToken}
+                onExpire={() => setTurnstileToken('')}
+                formId="application-form"
+              />
+              <Button variant="primary" onClick={handleSubmit} disabled={submitting || !turnstileToken}>
                 {submitting ? 'Submitting...' : 'Submit Application'}
               </Button>
             </div>
