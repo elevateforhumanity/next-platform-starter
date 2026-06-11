@@ -15,11 +15,6 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { probeStudioShell } from '@/lib/devstudio/shell-probe';
 import { buildStudioRuntimeCompletion } from '@/lib/devstudio/studio-runtime';
 import { getNorthflankProjectId, getNorthflankServices, isNorthflankReady } from '@/lib/northflank/runtime';
-import {
-  getNorthflankProjectId,
-  getNorthflankServices,
-  isNorthflankReady,
-} from '@/lib/northflank/runtime';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

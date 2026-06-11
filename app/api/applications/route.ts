@@ -10,7 +10,6 @@ import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { provisionAccount } from '@/lib/enrollment/provision-account';
 
-import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { getClientIp } from '@/lib/api/get-client-ip';
@@ -546,7 +545,7 @@ async function _POST(req: Request) {
       const provision = await provisionAccount({
         db: supabase,
         email: body.email,
-        fullName: `${body.first_name || ''} ${body.last_name || ''}`.trim() || body.email,
+        fullName: `${body.firstName || ''} ${body.lastName || ''}`.trim() || body.email,
         phone: body.phone || null,
         programName,
         programSlug,
@@ -569,7 +568,7 @@ async function _POST(req: Request) {
 
       // Link provisioned userId back to the application row
       if (userId && data?.id) {
-        await supabase
+        const { error: linkError } = await supabase
           .from('applications')
           .update({ user_id: userId, program_id: programRow?.id || null })
           .eq('id', data.id)
