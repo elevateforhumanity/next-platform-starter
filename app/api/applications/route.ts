@@ -468,10 +468,6 @@ async function _POST(req: Request) {
           program_slug: undefined,       // added in 20260224000002 (applications table)
           program_id: undefined,
           date_of_birth: undefined,      // added in 20260304120000
-          funding_type: undefined, // added in 20260425000001
-          program_slug: undefined, // added in 20260224000002 (applications table)
-          program_id: undefined,
-          date_of_birth: undefined, // added in 20260304120000
           type: undefined,
           status: 'submitted',
         })
@@ -560,13 +556,16 @@ async function _POST(req: Request) {
 
       // Link provisioned userId back to the application row
       if (userId && data?.id) {
-        const { error: linkError } = await supabase
+        const linkResult = await supabase
           .from('applications')
           .update({ user_id: userId, program_id: programRow?.id || null })
-          .eq('id', data.id)
-          .then(undefined, (err) =>
-            logger.warn('[Applications] Failed to link user_id', { err: String(err) }),
-          );
+          .eq('id', data.id);
+        if (linkResult.error) {
+          logger.warn('[Applications] Failed to link user_id', {
+            error: linkResult.error.message,
+            applicationId: data.id,
+          });
+        }
       }
     }
 

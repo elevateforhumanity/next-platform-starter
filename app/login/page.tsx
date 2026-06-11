@@ -14,6 +14,7 @@ import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirec
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
+import { resolvePortalForUser } from '@/lib/portal/router';
 
 
 const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);

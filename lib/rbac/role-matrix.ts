@@ -23,7 +23,6 @@
 
 export type UserRole =
   | 'super_admin'
-  | 'platform_operator'
   | 'admin'
   | 'staff'
   | 'org_admin'
@@ -41,10 +40,6 @@ export type UserRole =
 // Named sets used by guards. Import these instead of writing inline arrays.
 
 /** Can access /admin/* routes */
-export const ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator'];
-
-/** Can access admin API routes (apiRequireAdmin) */
-export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator'];
 export const ADMIN_ROLES: UserRole[] = [
   'super_admin',
   'platform_operator',
@@ -121,26 +116,10 @@ export const PERMISSIONS = {
   manage_users:               ['super_admin', 'admin'] as UserRole[],
   manage_payments:            ['super_admin', 'admin'] as UserRole[],
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
-  manage_platform_settings:   ['super_admin'] as UserRole[],
+  manage_platform_settings:   ['super_admin', 'platform_operator'] as UserRole[],
   trigger_deployments:        ['super_admin', 'platform_operator'] as UserRole[],
   access_devstudio:           ['super_admin', 'platform_operator'] as UserRole[],
   provision_workspaces:       ['super_admin', 'admin', 'staff'] as UserRole[],
-  impersonate_users: ['super_admin'] as UserRole[],
-  manage_roles: ['super_admin'] as UserRole[],
-  access_dev_tools: ['super_admin', 'platform_operator'] as UserRole[],
-  view_audit_logs: ['super_admin', 'admin'] as UserRole[],
-
-  // Platform administration
-  manage_programs: ['super_admin', 'admin'] as UserRole[],
-  manage_courses: ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_enrollments: ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_users: ['super_admin', 'admin'] as UserRole[],
-  manage_payments: ['super_admin', 'admin'] as UserRole[],
-  manage_grants: ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
-  manage_platform_settings: ['super_admin', 'platform_operator'] as UserRole[],
-  trigger_deployments: ['super_admin', 'platform_operator'] as UserRole[],
-  access_devstudio: ['super_admin', 'platform_operator'] as UserRole[],
-  provision_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
   manage_customer_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
   run_bulk_operations: ['super_admin', 'admin'] as UserRole[],
 

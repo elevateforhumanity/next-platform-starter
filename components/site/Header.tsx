@@ -6,8 +6,6 @@ import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import HeaderMobileMenu from './HeaderMobileMenu.client';
 import HeaderDesktopNav from './HeaderDesktopNav';
-import SearchModal from './SearchModal.client';
-import LanguageSwitcher from './LanguageSwitcher.client';
 import { NAV_ITEMS } from '@/lib/navigation';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -41,32 +39,6 @@ export default function Header() {
         </div>
 
         <div className="flex flex-row flex-nowrap items-center justify-end gap-0.5 sm:gap-1 flex-shrink-0 min-w-0">
-          <div className="hidden lg:flex flex-row flex-nowrap items-center gap-1.5">
-            <SearchModal />
-            <LanguageSwitcher compact={true} />
-            <Link
-              href="/portals"
-              prefetch={false}
-              className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap"
-            >
-              Portals
-            </Link>
-            <Link
-              href="/login"
-              prefetch={false}
-              className="text-slate-600 font-semibold text-[13px] hover:text-slate-900 transition-colors px-2.5 py-1.5 rounded-md hover:bg-slate-50 whitespace-nowrap hidden xl:inline"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/for-students"
-              prefetch={false}
-              className="bg-brand-red-600 text-white px-3.5 py-1.5 rounded-lg font-semibold text-[13px] hover:bg-brand-red-700 transition-colors whitespace-nowrap"
-            >
-              Get Started
-            </Link>
-          </div>
-
           <HeaderMobileMenu items={NAV_ITEMS} programApplyLinks={PROGRAM_APPLY_LINKS} />
         </div>
       </div>
