@@ -25,11 +25,15 @@ export default function UnauthorizedPage() {
         .maybeSingle();
       const { data: roleRows } = await sb
         .from('user_roles')
-        .select('roles(name)')
+        .select('role, roles(name)')
         .eq('user_id', data.user.id);
       const secondaryRoles = (roleRows ?? [])
-        .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
-        .filter((value): value is string => typeof value === 'string');
+        .flatMap((row) => [
+          (row as { roles?: { name?: unknown } | null }).roles?.name,
+          (row as { role?: unknown }).role,
+        ])
+        .filter((value): value is string => typeof value === 'string' && value.trim() !== '')
+        .map((v) => v.trim());
       const effectiveRoles = [profile?.role, ...secondaryRoles].filter(
         (value): value is string => typeof value === 'string',
       );
