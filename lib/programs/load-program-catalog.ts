@@ -7,6 +7,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { logger } from '@/lib/logger';
+import { DUPLICATE_PROGRAM_ALIAS_SLUG_SET } from '@/lib/programs/duplicate-program-alias-slugs';
 import { normalizeProgramSectionKey, resolveCredentialLabel } from './category-normalize';
 
 const ELEVATE_PROVIDER_SLUG = 'elevate';
@@ -236,6 +237,10 @@ export async function loadProgramCatalog(
 
   let query = basePublishedQuery(client);
 
+  for (const slug of DUPLICATE_PROGRAM_ALIAS_SLUG_SET) {
+    query = query.neq('slug', slug);
+  }
+
   if (params.wioaOnly) {
     query = query.eq('wioa_approved', true);
   }
@@ -274,7 +279,7 @@ export async function loadProgramCatalog(
     .range(offset, offset + perPage - 1);
 
   if (error) {
-    logger.error('[loadProgramCatalog] query failed', { message: error.message });
+    logger.error('[loadProgramCatalog] query failed', undefined, { message: error.message });
     return {
       programs: [],
       total: 0,
@@ -321,7 +326,11 @@ export async function loadPublishedProgramsListing(
     error = result.error;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error('[loadPublishedProgramsListing] query threw', { message });
+    logger.error(
+      '[loadPublishedProgramsListing] query threw',
+      err instanceof Error ? err : undefined,
+      { message },
+    );
     return {
       programs: listingFromStaticCatalog(suppressed),
       error: message,
@@ -330,7 +339,9 @@ export async function loadPublishedProgramsListing(
   }
 
   if (error) {
-    logger.error('[loadPublishedProgramsListing] query failed', { message: error.message });
+    logger.error('[loadPublishedProgramsListing] query failed', undefined, {
+      message: error.message,
+    });
   }
 
   const dbPrograms = ((data ?? []) as ProgramsRow[])

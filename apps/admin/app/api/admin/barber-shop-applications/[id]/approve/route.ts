@@ -5,6 +5,7 @@ import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { provisionPartnerFromBarberApplication } from '@/lib/partners/provision-barber-partner';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   // Fetch the application
   const { data: application, error: fetchError } = await supabase
     .from('barbershop_partner_applications')
-    .select('id, status, contact_email, contact_name, owner_name, shop_legal_name')
+    .select('id, status, contact_email, contact_name, contact_phone, owner_name, shop_legal_name, shop_dba_name, shop_address_line1, shop_address_line2, shop_city, shop_state, shop_zip, shop_physical_address, indiana_shop_license_number, supervisor_name, supervisor_license_number, supervisor_years_licensed, compensation_model, workers_comp_status, can_supervise_and_verify, mou_signed_at, mou_signature_data')
     .eq('id', id)
     .maybeSingle();
 

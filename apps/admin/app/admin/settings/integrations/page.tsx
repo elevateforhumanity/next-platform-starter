@@ -24,7 +24,7 @@ export default async function IntegrationSettingsPage() {
     {
       title: 'Northflank Containers',
       description: 'Push environment variables to the LMS and admin container services',
-      href: '/admin/dashboard?tab=environments',
+      href: '/admin/integrations/env-manager',
     },
     {
       title: 'Social Media Accounts',

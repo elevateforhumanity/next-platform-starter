@@ -350,7 +350,14 @@ async function insertApplication(payload: {
   source: string;
   fundingType?: string | null;
 }): Promise<
-  | { success: true; applicationId: string; referenceNumber: string; email?: string }
+  | { success: true; status?: 'submitted'; applicationId: string; referenceNumber: string; email?: string }
+  | {
+      success: true;
+      applicationId: string;
+      referenceNumber: string;
+      email?: string;
+      status?: 'submitted';
+    }
   | { success: false; error: string }
 > {
   let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
@@ -359,7 +366,9 @@ async function insertApplication(payload: {
     supabase = await requireAdminClient();
   } catch (err) {
     persistenceFailureReason =
-      err instanceof Error ? `admin client init failed: ${err.message}` : 'admin client init failed';
+      err instanceof Error
+        ? `admin client init failed: ${err.message}`
+        : 'admin client init failed';
     logger.error('[Apply] getAdminClient failed in insertApplication', err);
   }
 
@@ -367,7 +376,7 @@ async function insertApplication(payload: {
   if (!supabase) {
     try {
       const { createClient: createServerClient } = await import('@/lib/supabase/server');
-      supabase = await createServerClient() as any;
+      supabase = (await createServerClient()) as any;
       logger.warn('[Apply] Using server client fallback for insertApplication');
     } catch (err) {
       logger.error('[Apply] Server client fallback also failed', err);
@@ -454,7 +463,7 @@ async function insertApplication(payload: {
     const adminHtml = [
       emailHeader,
       `<h3>New ${payload.source.replace(/-/g, ' ')}</h3>`,
-      `<p style="color:#16a34a"><strong>Status: APPROVED — applicant account created and enrolled automatically</strong></p>`,
+      `<p style="color:#1d4ed8"><strong>Status: SUBMITTED — applicant account created, pending admin review</strong></p>`,
       `<table style="border-collapse:collapse;width:100%;max-width:500px">`,
       `<tr><td style="padding:6px;font-weight:bold">Name</td><td style="padding:6px">${payload.firstName} ${payload.lastName}</td></tr>`,
       `<tr><td style="padding:6px;font-weight:bold">Email</td><td style="padding:6px"><a href="mailto:${payload.email}">${payload.email}</a></td></tr>`,
@@ -482,17 +491,9 @@ async function insertApplication(payload: {
       });
     });
 
-    // Barber Apprenticeship requires payment before onboarding.
-    // Student welcome email is sent by the Stripe webhook after checkout.session.completed.
-    // Only the admin notification fires here.
-    const isPaymentGated = payload.programInterest.toLowerCase().includes('barber');
-    if (isPaymentGated) {
-      logger.info(
-        '[Apply] Skipping student welcome email — payment-gated program, webhook will send after payment',
-        { email: payload.email },
-      );
-      return;
-    }
+    // Always send the applicant confirmation immediately after persistence.
+    // Payment-gated programs may send additional checkout/onboarding emails later,
+    // but the applicant still needs a reference number and login instructions now.
 
     // Send student confirmation email
     await sendEmailDirect(
@@ -623,19 +624,19 @@ async function insertApplication(payload: {
         reference_number: referenceNumber,
         status: 'submitted',
         source: payload.source,
-        type: payload.source === 'program-holder-application' ? 'program_holder'
-            : payload.source === 'employer-application' ? 'employer'
-            : payload.source === 'staff-application' ? 'staff'
-            : 'student',
+        type:
+          payload.source === 'program-holder-application'
+            ? 'program_holder'
+            : payload.source === 'employer-application'
+              ? 'employer'
+              : payload.source === 'staff-application'
+                ? 'staff'
+                : 'student',
         funding_type: payload.fundingType || null,
       };
 
       const tryInsert = async () =>
-        supabase
-          .from('applications')
-          .insert(insertPayload)
-          .select('id')
-          .maybeSingle();
+        supabase.from('applications').insert(insertPayload).select('id').maybeSingle();
 
       let { data, error } = await tryInsert();
       if (error) {
@@ -652,18 +653,14 @@ async function insertApplication(payload: {
 
       if (error) {
         persistenceFailureReason = `applications insert failed: ${error.message}`;
-        logger.error(
-          '[Application] DB insert failed',
-          new Error(error.message),
-          {
-            email: payload.email,
-            source: payload.source,
-            referenceNumber,
-            pgCode: error.code,
-            pgDetails: error.details,
-            pgHint: error.hint,
-          },
-        );
+        logger.error('[Application] DB insert failed', new Error(error.message), {
+          email: payload.email,
+          source: payload.source,
+          referenceNumber,
+          pgCode: error.code,
+          pgDetails: error.details,
+          pgHint: error.hint,
+        });
       } else {
         // Derive the profile role and onboarding destination from the application source.
         // These are passed into createStudentAccount so the profile is written correctly
@@ -709,7 +706,7 @@ async function insertApplication(payload: {
               funding_type: payload.fundingType || null,
               reference_number: referenceNumber,
             },
-          })
+          }),
         ).catch((err: unknown) => logger.warn('[Apply] Audit log failed (non-fatal)', err));
 
         // Application lands in admin queue as 'submitted' — admin reviews and approves.
@@ -731,7 +728,9 @@ async function insertApplication(payload: {
       }
     } catch (error) {
       persistenceFailureReason =
-        error instanceof Error ? `insertApplication exception: ${error.message}` : 'insertApplication exception';
+        error instanceof Error
+          ? `insertApplication exception: ${error.message}`
+          : 'insertApplication exception';
       logger.error(
         '[Application] DB error before persistence',
         error instanceof Error ? error : new Error(String(error)),
@@ -779,8 +778,7 @@ async function insertApplication(payload: {
 
   return {
     success: false,
-    error:
-      `We could not save your application right now. Please try again in a moment or call ${PLATFORM_DEFAULTS.supportPhone} so we can assist immediately.`,
+    error: `We could not save your application right now. Please try again in a moment or call ${PLATFORM_DEFAULTS.supportPhone} so we can assist immediately.`,
   };
 }
 
@@ -1095,7 +1093,7 @@ async function ensureProgramHolderAccount(
   }
 
   if (!userId) {
-    logger.error('[Apply] Unable to provision program holder auth account', {
+    logger.error('[Apply] Unable to provision program holder auth account', undefined, {
       email: normalizedEmail,
       organizationName,
     });

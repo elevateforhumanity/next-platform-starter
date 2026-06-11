@@ -23,8 +23,6 @@ import {
   JobBoardPanelLazy,
   ProgramIntegrityPanelLazy,
   PublishWebsitePanelLazy,
-  SitePreviewPanelWrapperLazy,
-  LizzyContainerWrapperLazy,
 } from "./DashboardDeferredPanels";
 import { DashboardPanelErrorBoundary } from "./DashboardPanelErrorBoundary";
 
@@ -139,7 +137,7 @@ const ADMIN_CATEGORY_CARDS = [
     Icon: BookOpen,
     links: [
       { label: 'All programs', href: '/admin/programs' },
-      { label: 'Course builder', href: '/admin/studio' },
+      { label: 'Course builder', href: '/admin/dev-studio?tab=courses' },
       { label: 'Credentials', href: '/admin/credentials' },
     ],
   },
@@ -193,18 +191,20 @@ const ADMIN_CATEGORY_CARDS = [
   },
   {
     title: 'Dev Studio',
-    eyebrow: 'Build + deploy',
-    description: 'Container, environments, deploy pipeline, secrets, and platform tooling.',
+    eyebrow: 'Build + deploy + automate',
+    description: 'Container, workflows, course builder, deploy pipeline, secrets, and platform tooling.',
     href: '/admin/dev-studio',
     Icon: Settings,
     links: [
       { label: 'Open studio', href: '/admin/dev-studio' },
-      { label: 'Workflows', href: '/admin/workflows' },
     ],
   },
 ] as const;
 
-function AdminCategoryLanding() {
+function AdminCategoryLanding({ canAccessDevStudio = true }: { canAccessDevStudio?: boolean }) {
+  const cards = canAccessDevStudio
+    ? ADMIN_CATEGORY_CARDS
+    : ADMIN_CATEGORY_CARDS.filter((c) => c.title !== 'Dev Studio');
   return (
     <section className="mb-8">
       <div className="mb-4 flex items-end justify-between gap-4">
@@ -222,7 +222,7 @@ function AdminCategoryLanding() {
         </Link>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {ADMIN_CATEGORY_CARDS.map(({ title, eyebrow, description, href, Icon, links }) => (
+        {cards.map(({ title, eyebrow, description, href, Icon, links }) => (
           <div key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
             <Link href={href} className="group block">
               <div className="mb-4 flex items-start justify-between gap-3">
@@ -483,7 +483,7 @@ function dashboardFirstName(profile: AdminDashboardData['profile']): string {
   return raw.trim().split(/\s+/)[0] || 'Admin';
 }
 
-export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
+export function AdminDashboardContent({ data, canAccessDevStudio = true }: { data: AdminDashboardData; canAccessDevStudio?: boolean }) {
   const firstName = dashboardFirstName(data.profile);
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -494,9 +494,16 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
   return (
     <div className="pb-16">
       <div
-        className="relative w-full h-32 sm:h-40 overflow-hidden rounded-2xl mb-6 bg-slate-100 border border-slate-200"
-        aria-hidden="true"
-      />
+        className="relative w-full h-32 sm:h-40 overflow-hidden rounded-2xl mb-6 bg-gradient-to-r from-slate-900 via-indigo-900 to-slate-800 border border-slate-700 flex items-center px-6 sm:px-10"
+      >
+        <div className="flex items-center gap-4">
+          <img src="/logo.png" alt="" className="h-12 w-12 sm:h-14 sm:w-14 rounded-lg shadow-lg" />
+          <div>
+            <h2 className="text-white text-lg sm:text-xl font-bold tracking-tight">Elevate for Humanity</h2>
+            <p className="text-indigo-200 text-xs sm:text-sm">Career &amp; Technical Institute — Admin Portal</p>
+          </div>
+        </div>
+      </div>
 
       <div className="pt-2">
 
@@ -513,12 +520,12 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           <Link href="/admin/applications?status=submitted,pending,in_review,pending_admin_review" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-900 text-white text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">Review Applications</Link>
           <Link href="/admin/compliance" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Compliance</Link>
           <Link href="/admin/documents/templates" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Document Templates</Link>
-          <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>
+          {canAccessDevStudio && <Link href="/admin/studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Course Templates</Link>}
           <Link href="/admin/crm/leads" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">CRM Queue</Link>
           <Link href="/admin/students" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Students</Link>
           <Link href="/admin/enrollments" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Enrollments</Link>
           <Link href="/admin/reports" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Reports</Link>
-          <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
+          {canAccessDevStudio && <Link href="/admin/dev-studio" className="flex-shrink-0 inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>}
         </div>
 
         <DegradedBanner
@@ -526,7 +533,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           dashboardUnavailable={(data.degradedSections ?? []).includes('dashboard_data')}
         />
 
-        <AdminCategoryLanding />
+        <AdminCategoryLanding canAccessDevStudio={canAccessDevStudio} />
 
         <DashboardPanelErrorBoundary name="Publish website">
           <PublishWebsitePanelLazy />
@@ -596,7 +603,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
               </div>
               <div className="divide-y divide-slate-100">
                 {data.topPrograms.slice(0, 6).map((p) => (
-                  <Link key={p.id} href={p.slug ? `/admin/programs/${p.slug}/manage` : '/admin/programs'}
+                  <Link key={p.id} href={`/admin/programs/${encodeURIComponent(p.slug || p.id)}/manage`}
                     className="flex items-center justify-between px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
                     <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
                     <span className="text-xs text-slate-500 flex-shrink-0 ml-4">{p.learners} enrolled</span>
@@ -617,22 +624,10 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
           </DashboardPanelErrorBoundary>
         </div>
 
-        {/* ── Job board + site status + system health ──────────────────── */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* ── Job board + system health ────────────────────────────────── */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <DashboardPanelErrorBoundary name="Job board">
             <JobBoardPanelLazy />
-          </DashboardPanelErrorBoundary>
-          <DashboardPanelErrorBoundary name="Lizzy control plane">
-            <LizzyContainerWrapperLazy
-              sites={data.sitePreviewTargets ?? []}
-              isSuperAdmin={data.isSuperAdmin === true}
-              pendingApplications={data.recentApplications}
-              pendingApplicationsCount={data.counts?.pendingApplications ?? 0}
-              pendingProgramHolders={data.counts?.pendingProgramHolders ?? 0}
-            />
-          </DashboardPanelErrorBoundary>
-          <DashboardPanelErrorBoundary name="Site preview">
-            <SitePreviewPanelWrapperLazy sites={data.sitePreviewTargets ?? []} />
           </DashboardPanelErrorBoundary>
           <SystemHealthPanel health={data.systemHealth ?? { stripeWebhookOk: false, stripeIssuingOk: false, buildEnvOk: false, staleJobs: 0, degraded: true, missingDocuments: 0, missingCertifications: 0, unresolvedFlags: 0, alerts: [] }} />
         </div>

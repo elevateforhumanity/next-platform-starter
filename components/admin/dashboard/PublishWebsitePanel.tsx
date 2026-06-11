@@ -28,6 +28,7 @@ type ServiceStatus = {
 
 type PublishStatus = {
   northflankReady: boolean;
+  deployRelayReady?: boolean;
   liveSiteUrl: string;
   revalidatePathCount: number;
   services: ServiceStatus[];
@@ -66,7 +67,7 @@ export function PublishWebsitePanel() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/admin/publish-website');
+      const res = await fetch('/api/admin/publish-website', { credentials: 'same-origin' });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`);
       setStatus(json);
@@ -93,8 +94,9 @@ export function PublishWebsitePanel() {
     try {
       const res = await fetch('/api/admin/publish-website', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ confirm: 'PUBLISH', revalidate: true, deploy: true }),
+        body: JSON.stringify({ confirm: 'PUBLISH', revalidate: true, deploy: status?.northflankReady === true }),
       });
       const json = await res.json();
       if (!res.ok && !json.deploy) throw new Error(json.error ?? `HTTP ${res.status}`);
@@ -130,7 +132,7 @@ export function PublishWebsitePanel() {
             <strong>{status?.liveSiteUrl ?? 'www.elevateforhumanity.org'}</strong>: refreshes{' '}
             {status?.revalidatePathCount ?? '40+'} public marketing pages (programs, funding,
             Indianapolis SEO hubs, blog) and triggers Northflank rebuilds for the main site and admin
-            dashboard.
+            dashboard when deploy credentials or the GitHub deploy relay are available.
           </p>
 
           {status?.content &&
@@ -221,7 +223,7 @@ export function PublishWebsitePanel() {
           <button
             type="button"
             onClick={() => void handlePublish()}
-            disabled={publishing || loading || !status?.northflankReady}
+            disabled={publishing || loading || !status}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-blue-700 px-5 py-3 text-sm font-bold text-white hover:bg-brand-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {publishing ? (
@@ -264,7 +266,7 @@ export function PublishWebsitePanel() {
           </button>
           {!status?.northflankReady && !loading && (
             <p className="text-[11px] text-amber-700 max-w-[220px]">
-              Northflank API token not configured — set NORTHFLANK_API_TOKEN in production secrets.
+              Direct Northflank deploy is not configured here. This button will still refresh public content; use Dev Studio Deploy All for GitHub Actions deploys.
             </p>
           )}
         </div>

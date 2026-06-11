@@ -15,10 +15,12 @@ import { sharedStandaloneTraceExcludes } from '../../scripts/next-standalone-tra
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
+const useStandaloneOutput =
+  process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
 
 /** @type {import('next').NextConfig} */
 const adminConfig = {
-  output: 'standalone',
+  ...(useStandaloneOutput ? { output: 'standalone' } : {}),
 
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
@@ -55,6 +57,12 @@ const adminConfig = {
       { source: '/admin/ai-console/:path*', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/ai-studio', destination: '/admin/dashboard', permanent: true },
       { source: '/admin/ai-studio/:path*', destination: '/admin/dashboard', permanent: true },
+      { source: '/admin/command-center', destination: '/admin/mission-control', permanent: true },
+      { source: '/admin/instructors', destination: '/admin/instructor', permanent: true },
+      { source: '/admin/performance-dashboard', destination: '/admin/reports', permanent: true },
+      { source: '/admin/analytics-dashboard', destination: '/admin/analytics', permanent: true },
+      { source: '/admin/payments', destination: '/admin/integrations/stripe', permanent: true },
+      { source: '/admin/security', destination: '/admin/settings/security', permanent: true },
       // ── Studio consolidation — all legacy course/quiz/video/AI surfaces → studio ──
       { source: '/admin/quizzes', destination: '/admin/studio', permanent: true },
       { source: '/admin/quizzes/:path*', destination: '/admin/studio', permanent: true },

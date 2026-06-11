@@ -48,11 +48,12 @@ export default function ApprenticeLoginForm({ redirectTo }: { redirectTo?: strin
         .eq('id', data.user.id)
         .maybeSingle();
 
-      const dest = redirectTo
+      const resolved = redirectTo
         ? redirectTo
         : await resolveStudentHomePath(supabase, data.user.id, profile?.portal_type);
 
-      window.location.href = dest;
+      // Apprentice login page: never fall through to generic learner dashboard
+      window.location.href = resolved === '/learner/dashboard' ? '/apprentice' : resolved;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Login failed';
       setError(mapAuthError(msg));

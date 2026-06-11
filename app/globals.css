@@ -1727,10 +1727,12 @@ header[role='banner'] nav[aria-label='Main navigation'] {
   align-items: center !important;
   justify-content: center !important;
   min-width: 0 !important;
-  overflow-x: auto !important;
-  overflow-y: visible !important;
+  /* Must stay visible on both axes so the hover mega-menu (absolutely
+     positioned below the nav) is not clipped. Note: overflow-x:auto would
+     force overflow-y to compute to auto per spec and clip the dropdown.
+     This nav only renders at lg+, where the items fit. */
+  overflow: visible !important;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
 }
 
 header[role='banner'] nav[aria-label='Main navigation'] > div {
