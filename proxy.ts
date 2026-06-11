@@ -335,6 +335,13 @@ export async function middleware(request: NextRequest) {
   let canonicalAdminHost = 'admin.elevateforhumanity.org';
   try {
     canonicalAdminHost = new URL(adminBase).host;
+    if (canonicalAdminHost === 'app.elevateforhumanity.org') {
+      console.error(
+        '[proxy] NEXT_PUBLIC_ADMIN_URL points at app.elevateforhumanity.org. Falling back to default admin host.',
+      );
+      adminBase = DEFAULT_ADMIN_URL;
+      canonicalAdminHost = new URL(DEFAULT_ADMIN_URL).host;
+    }
   } catch (error) {
     console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
     adminBase = DEFAULT_ADMIN_URL;
@@ -571,13 +578,11 @@ export async function middleware(request: NextRequest) {
     if (tenantSlug) requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
     requestHeadersWithTenant.set('x-pathname', pathname);
 
-    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
-      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
-      const rewriteUrl = request.nextUrl.clone();
-      rewriteUrl.pathname = adminPath;
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeadersWithTenant },
-      });
+    if (pathname === '/') {
+      const learnerUrl = request.nextUrl.clone();
+      learnerUrl.pathname = '/learner/dashboard';
+      learnerUrl.search = '';
+      return NextResponse.redirect(learnerUrl, { status: 307 });
     }
 
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
