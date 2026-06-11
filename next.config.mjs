@@ -994,9 +994,10 @@ const nextConfig = {
       // /programs/hvac-technician-program redirect removed — canonical routes only.
       { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
       { source: '/workforce-training-indiana', destination: '/workforce-training-indianapolis', permanent: true },
-      { source: '/wioa-training', destination: '/wioa-funded-training-indiana', permanent: true },
-      { source: '/wioa-training-indiana', destination: '/wioa-funded-training-indiana', permanent: true },
-      { source: '/wioa-funded-training', destination: '/wioa-funded-training-indiana', permanent: true },
+      // Collapsed: /wioa-funded-training-indiana itself 301s to /wioa-eligibility, so point straight there (single hop).
+      { source: '/wioa-training', destination: '/wioa-eligibility', permanent: true },
+      { source: '/wioa-training-indiana', destination: '/wioa-eligibility', permanent: true },
+      { source: '/wioa-funded-training', destination: '/wioa-eligibility', permanent: true },
       { source: '/healthcare-training', destination: '/healthcare-training-indianapolis', permanent: true },
       { source: '/skilled-trades-training', destination: '/skilled-trades-training-indiana', permanent: true },
       { source: '/it-certification-training', destination: '/it-certification-training-indianapolis', permanent: true },

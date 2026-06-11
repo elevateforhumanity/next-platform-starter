@@ -5,14 +5,19 @@
 
 import { APPRENTICESHIP_PORTAL_ENROLLMENT_STATES } from '@/lib/enrollment/enrollment-flow';
 
+// Canonical program-specific apprentice dashboards. MUST stay in sync with
+// SLUG_TO_PORTAL (derived from APPRENTICE_PORTAL_CONFIGS in ApprenticePortalShell)
+// and the ApprenticeSubNav "Dashboard" tab. Do not point these at the generic
+// /apprentice hub — that creates a parallel dashboard and diverges login routing
+// from the rest of the app (see tests/unit/portal-routing.test.ts).
 export const APPRENTICESHIP_SLUG_TO_PORTAL_PATH: Record<string, string> = {
-  'barber-apprenticeship': '/apprentice',
-  'cosmetology-apprenticeship': '/apprentice',
-  'esthetician-apprenticeship': '/apprentice',
-  'nail-technician-apprenticeship': '/apprentice',
-  'culinary-apprenticeship': '/apprentice',
-  electrical: '/apprentice',
-  plumbing: '/apprentice',
+  'barber-apprenticeship': '/portal/barber',
+  'cosmetology-apprenticeship': '/portal/cosmetology',
+  'esthetician-apprenticeship': '/portal/esthetician',
+  'nail-technician-apprenticeship': '/portal/nail-technician',
+  'culinary-apprenticeship': '/portal/culinary',
+  electrical: '/portal/electrical',
+  plumbing: '/portal/plumbing',
 };
 
 /** program_slug → profiles.portal_type value (see migration 20260526000002) */
