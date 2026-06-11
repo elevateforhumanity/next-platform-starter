@@ -137,7 +137,7 @@ const ADMIN_CATEGORY_CARDS = [
     Icon: BookOpen,
     links: [
       { label: 'All programs', href: '/admin/programs' },
-      { label: 'Course builder', href: '/admin/studio' },
+      { label: 'Course builder', href: '/admin/dev-studio?tab=courses' },
       { label: 'Credentials', href: '/admin/credentials' },
     ],
   },
@@ -191,13 +191,12 @@ const ADMIN_CATEGORY_CARDS = [
   },
   {
     title: 'Dev Studio',
-    eyebrow: 'Build + deploy',
-    description: 'Container, environments, deploy pipeline, secrets, and platform tooling.',
+    eyebrow: 'Build + deploy + automate',
+    description: 'Container, workflows, course builder, deploy pipeline, secrets, and platform tooling.',
     href: '/admin/dev-studio',
     Icon: Settings,
     links: [
       { label: 'Open studio', href: '/admin/dev-studio' },
-      { label: 'Workflows', href: '/admin/dev-studio/workflows' },
     ],
   },
 ] as const;
