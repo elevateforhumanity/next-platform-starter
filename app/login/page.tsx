@@ -111,8 +111,9 @@ function LoginForm() {
 
       if (profileError) {
         // profile fetch failed — non-fatal, user still authenticated
-        setError('Unable to load your profile. Please try again or contact support.');
-        setLoading(false);
+        // Default to student role and continue with login flow
+        const dest = getRoleDestination('student');
+        window.location.href = dest;
         return;
       }
 
