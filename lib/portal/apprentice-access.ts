@@ -22,7 +22,6 @@ export const GENERAL_PORTAL_ROLES = [
 ] as const;
 
 const APPRENTICE_PORTAL_PATH_PREFIXES = [
-  '/portal/apprentice',
   '/portal/barber',
   '/portal/cosmetology',
   '/portal/esthetician',

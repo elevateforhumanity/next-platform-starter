@@ -6,13 +6,11 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
 import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import Image from 'next/image';
 import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { resolvePortalForUser } from '@/lib/portal/router';
+import { normalizePostAuthDestination } from '@/lib/auth/role-redirects';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
@@ -35,11 +33,13 @@ function LoginForm() {
   const [useBackupCode, setUseBackupCode] = useState(false);
   // Destination stored while 2FA challenge is shown
   const pendingDestRef = React.useRef<string>('');
-  const router = useRouter();
   const searchParams = useSafeSearchParams();
-  // Support both 'next' and 'redirect' params for backward compatibility
+  // Support both 'next' and 'redirect' params for backward compatibility.
+  // The raw value is canonicalized after profile load so old /dashboard-style
+  // links go straight to the user's real destination instead of chaining through
+  // legacy dashboard router pages.
   const rawNext = readRedirectParam(searchParams) || '';
-  const next = validateRedirect(rawNext, '');
+  const requestedDestination = validateRedirect(rawNext, '');
   const reason = searchParams.get('reason');
 
   // The middleware cannot write session cookies, so it cannot call signOut().
@@ -51,6 +51,22 @@ function LoginForm() {
       supabase.auth.signOut().catch(() => {});
     }
   }, [reason]);
+
+
+  function canonicalDestinationFor(role: string | null | undefined): string {
+    return normalizePostAuthDestination(requestedDestination, role);
+  }
+
+  async function shouldShowTwoFactorChallenge(): Promise<boolean> {
+    try {
+      const response = await fetch('/api/auth/2fa/status', { cache: 'no-store' });
+      if (!response.ok) return false;
+      const body = await response.json();
+      return body?.enabled === true;
+    } catch {
+      return false;
+    }
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,51 +112,29 @@ function LoginForm() {
         return;
       }
 
-      // Explicit redirect param takes priority
-      if (next) {
-        window.location.href = next;
-        return;
-      }
-
       const role = profile.role;
       const onboardingDone = profile.onboarding_completed === true;
 
-      // Employer: gate on onboarding before dashboard.
-      if (role === 'employer' && !onboardingDone) {
+      // Employer: gate on onboarding before dashboard unless an explicit safe
+      // destination was supplied by a protected route.
+      if (!requestedDestination && role === 'employer' && !onboardingDone) {
         window.location.href = '/onboarding/employer';
         return;
       }
 
-      // Students: slug-aware portal (barber, cosmetology, …) then category fallback.
-      if (role === 'student') {
-        const studentDest = await resolvePortalForUser(supabase, data.user.id);
-        const twoFARes2 = await fetch('/api/auth/2fa/status');
-        if (twoFARes2.ok) {
-          const { enabled } = await twoFARes2.json();
-          if (enabled) {
-            pendingDestRef.current = studentDest;
-            setShow2FA(true);
-            setLoading(false);
-            return;
-          }
-        }
-        window.location.href = studentDest;
+      // Canonical post-login destination. This intentionally avoids calling
+      // destination resolver APIs during login so rate limits (429) or portal
+      // resolver failures cannot trap the user on the login form.
+      const dest = canonicalDestinationFor(role);
+
+      // Check 2FA before navigating. Status lookup is fail-open for routing: if
+      // the endpoint is rate-limited/unavailable, login still proceeds to the
+      // canonical destination instead of showing "Unable to resolve destination".
+      if (await shouldShowTwoFactorChallenge()) {
+        pendingDestRef.current = dest;
+        setShow2FA(true);
+        setLoading(false);
         return;
-      }
-
-      // All other roles: canonical destination from lib/auth/role-destinations.ts.
-      const dest = getRoleDestination(role);
-
-      // Check 2FA before navigating — if enabled, show challenge screen
-      const twoFARes = await fetch('/api/auth/2fa/status');
-      if (twoFARes.ok) {
-        const { enabled } = await twoFARes.json();
-        if (enabled) {
-          pendingDestRef.current = dest;
-          setShow2FA(true);
-          setLoading(false);
-          return;
-        }
       }
 
       // Hard navigation ensures the session cookie is committed before the
@@ -182,11 +176,10 @@ function LoginForm() {
     setLinkSending(true);
     setLinkError('');
     try {
-      const redirectTo = next
-        ? next.startsWith('https://')
-          ? next
-          : `${window.location.origin}${next}`
-        : `${window.location.origin}/learner/dashboard`;
+      const magicDestination = canonicalDestinationFor('student');
+      const redirectTo = magicDestination.startsWith('https://')
+        ? magicDestination
+        : `${window.location.origin}${magicDestination}`;
       const res = await fetch('/api/auth/send-magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -281,33 +274,33 @@ function LoginForm() {
         <div className="max-w-md mx-auto px-4">
           <div className="bg-white rounded-lg shadow-lg p-8">
             {/* Portal-specific header when redirecting to a known portal */}
-            {next?.startsWith('/portal/apprentice') && (
+            {requestedDestination?.startsWith('/portal/apprentice') && (
               <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Apprentice Portal</p>
                 <p className="text-xs text-amber-600 mt-0.5">DOL Registered Apprenticeship</p>
               </div>
             )}
-            {next?.startsWith('/portal/healthcare') && (
+            {requestedDestination?.startsWith('/portal/healthcare') && (
               <div className="mb-5 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-rose-700 uppercase tracking-widest">Healthcare Portal</p>
               </div>
             )}
-            {next?.startsWith('/portal/trades') && (
+            {requestedDestination?.startsWith('/portal/trades') && (
               <div className="mb-5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-amber-700 uppercase tracking-widest">Skilled Trades Portal</p>
               </div>
             )}
-            {next?.startsWith('/portal/technology') && (
+            {requestedDestination?.startsWith('/portal/technology') && (
               <div className="mb-5 bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest">Technology Portal</p>
               </div>
             )}
-            {next?.startsWith('/portal/beauty') && (
+            {requestedDestination?.startsWith('/portal/beauty') && (
               <div className="mb-5 bg-pink-50 border border-pink-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-pink-700 uppercase tracking-widest">Beauty & Barber Portal</p>
               </div>
             )}
-            {next?.startsWith('/portal/business') && (
+            {requestedDestination?.startsWith('/portal/business') && (
               <div className="mb-5 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3 text-center">
                 <p className="text-xs font-bold text-emerald-700 uppercase tracking-widest">Business Portal</p>
               </div>
@@ -387,7 +380,7 @@ function LoginForm() {
             <div className="mt-6 text-center text-sm text-black">
               Don't have an account?{' '}
               <Link
-                href={`/signup${next ? `?redirect=${encodeURIComponent(next)}` : ''}`}
+                href={`/signup${requestedDestination ? `?redirect=${encodeURIComponent(requestedDestination)}` : ''}`}
                 className="text-brand-blue-600 font-semibold hover:text-brand-blue-700"
               >
                 Sign up
@@ -456,7 +449,7 @@ function LoginForm() {
               <p className="text-center text-sm text-black mb-4">Quick Access:</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Apprentice Portal', dest: '/portal/apprentice', highlight: true },
+                  { label: 'Apprentice Portal', dest: '/learner/dashboard', highlight: true },
                   { label: 'Student Portal', dest: '/learner/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
                   { label: 'Instructor', dest: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },

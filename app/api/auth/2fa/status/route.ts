@@ -11,7 +11,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError } from '@/lib/api/safe-error';
 
 export async function GET(req: NextRequest) {
-  const rateLimited = await applyRateLimit(req, 'auth');
+  const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();

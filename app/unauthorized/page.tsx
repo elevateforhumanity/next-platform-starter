@@ -42,7 +42,7 @@ export default async function UnauthorizedPage() {
             Return Home
           </Link>
           <Link
-            href="/dashboard"
+            href="/learner/dashboard"
             className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-black font-semibold rounded-lg hover:border-slate-400 transition-colors"
           >
             Go to Dashboard

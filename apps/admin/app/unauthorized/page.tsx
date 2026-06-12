@@ -54,7 +54,7 @@ export default function UnauthorizedPage() {
         <h1 className="text-xl font-bold text-white mb-2">Access Denied</h1>
         <p className="text-slate-400 text-sm mb-4">
           Your account does not have permission to access the admin portal.
-          {role && role !== 'admin' && role !== 'super_admin' && role !== 'staff' && role !== 'org_admin'
+          {role && role !== 'admin' && role !== 'super_admin' && role !== 'platform_operator' && role !== 'staff' && role !== 'org_admin'
             ? ' Host shops, apprentices, and partners sign in on the main site — not admin.'
             : ' Contact your administrator if you believe this is an error.'}
         </p>
@@ -69,7 +69,7 @@ export default function UnauthorizedPage() {
             ) : null}
           </p>
         )}
-        {portalHref && role && !['admin', 'super_admin', 'staff', 'org_admin', 'instructor'].includes(role) ? (
+        {portalHref && role && !['admin', 'super_admin', 'platform_operator', 'staff', 'org_admin', 'instructor'].includes(role) ? (
           <a
             href={portalHref}
             className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"

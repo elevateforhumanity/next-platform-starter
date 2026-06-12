@@ -38,7 +38,7 @@ export type PortalKey =
 
 /** Canonical URL path for each portal. */
 export const PORTAL_PATHS: Record<PortalKey, string> = {
-  'apprentice':     '/portal/apprentice',
+  'apprentice':     '/learner/dashboard',
   'healthcare':     '/portal/healthcare',
   'technology':     '/portal/technology',
   'business':       '/portal/business',

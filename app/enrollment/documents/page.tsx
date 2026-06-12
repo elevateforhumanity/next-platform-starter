@@ -170,7 +170,7 @@ export default function DocumentsPage() {
 
       setSuccess(true);
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/learner/dashboard');
       }, 2000);
     } catch (err: any) {
       setError('An error occurred');

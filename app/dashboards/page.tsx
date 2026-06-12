@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
@@ -112,36 +110,8 @@ const portals: PortalLink[] = [
 
 export const dynamic = 'force-dynamic';
 
-const ROLE_DASHBOARD: Record<string, string> = {
-  student: '/learner/dashboard',
-  learner: '/learner/dashboard',
-  employer: '/employer/dashboard',
-  instructor: '/instructor/dashboard',
-  partner: '/partner/dashboard',
-  program_holder: '/program-holder/dashboard',
-  staff: '/admin/staff-portal/dashboard',
-  mentor: '/mentor/dashboard',
-  case_manager: '/case-manager/dashboard',
-  org_admin: '/partner/dashboard',
-  admin: '/admin/dashboard',
-  super_admin: '/admin/dashboard',
-};
 
-export default async function PortalsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-    const dest = profile?.role ? ROLE_DASHBOARD[profile.role] : null;
-    if (dest) redirect(dest);
-  }
-
+export default function PortalsPage() {
   return <PortalsDirectory />;
 }
 

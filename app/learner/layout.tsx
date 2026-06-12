@@ -47,7 +47,7 @@ export default async function LearnerLayout({ children }: { children: React.Reac
               </div>
             </div>
             <Link
-              href="/dashboard"
+              href="/learner/dashboard"
               className="text-xs font-semibold text-slate-600 hover:text-brand-blue-600 shrink-0"
             >
               ← My Dashboard

@@ -83,7 +83,7 @@ export default function ClientWidgets() {
   // Show bottom nav on authenticated app pages
   const showBottomNav =
     pathname?.startsWith('/lms') ||
-    pathname?.startsWith('/dashboard') ||
+    pathname?.startsWith('/learner/dashboard') ||
     pathname?.startsWith('/achievements') ||
     pathname?.startsWith('/leaderboard') ||
     pathname?.startsWith('/profile') ||

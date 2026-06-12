@@ -45,7 +45,7 @@ export default function CreateOrgPage() {
       }
 
       const data = await response.json();
-      router.push('/dashboard');
+      router.push('/learner/dashboard');
     } catch (err) {
       setError('An error occurred');
       setLoading(false);

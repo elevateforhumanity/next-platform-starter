@@ -108,7 +108,7 @@ export default function AcceptInvitePage({ params }: { params: { token: string }
       }
 
       // Success - redirect to organization dashboard
-      router.push('/dashboard');
+      router.push('/learner/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to accept invitation');
       setAccepting(false);

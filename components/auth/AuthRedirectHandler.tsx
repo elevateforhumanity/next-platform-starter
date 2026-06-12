@@ -12,7 +12,7 @@
  *   1. Detects the hash fragment on mount
  *   2. Waits for the Supabase client to exchange it for a session (SIGNED_IN)
  *   3. Reads the user's role from their profile
- *   4. Redirects to the canonical role destination via getRoleDestination()
+ *   4. Redirects to the canonical post-auth destination.
  *
  * It is mounted in the root layout so it fires on every page, not just the
  * homepage — Supabase can redirect to any allowed URL.
@@ -21,8 +21,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/lib/supabase/client';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { resolvePortalForUser } from '@/lib/portal/router';
+import { normalizePostAuthDestination, resolvePostLoginDestination } from '@/lib/auth/role-redirects';
 import { readRedirectParam, validateRedirect } from '@/lib/auth/validate-redirect';
 
 export default function AuthRedirectHandler() {
@@ -75,7 +74,7 @@ export default function AuthRedirectHandler() {
       // Otherwise route by role, using cached portal_type for students.
       let destination: string;
       if (next) {
-        destination = next;
+        destination = normalizePostAuthDestination(next, 'student');
       } else if (isPaymentPage) {
         // Stay on the current payment page — preserve search params, drop the hash
         destination = currentPath + (currentSearch || '');
@@ -87,11 +86,7 @@ export default function AuthRedirectHandler() {
           .maybeSingle();
         const role = profile?.role ?? user.user_metadata?.role ?? 'student';
 
-        if (role === 'student') {
-          destination = await resolvePortalForUser(supabase, user.id);
-        } else {
-          destination = getRoleDestination(role);
-        }
+        destination = resolvePostLoginDestination(null, role);
       }
 
       // Cross-origin destinations (e.g. admin subdomain) need a full navigation

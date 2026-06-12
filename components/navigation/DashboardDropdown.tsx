@@ -54,7 +54,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '0',
     name: 'My Dashboard',
-    href: '/dashboard',
+    href: '/learner/dashboard',
     icon: 'LayoutDashboard',
     description: 'Your home hub',
     color: 'text-brand-blue-600',
@@ -399,7 +399,7 @@ export function DashboardDropdown({ className }: Props) {
 
             <div className="border-t border-slate-200 p-2 bg-slate-50">
               <Link
-                href="/dashboard"
+                href="/learner/dashboard"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-brand-blue-600 hover:bg-white rounded-lg transition"
               >

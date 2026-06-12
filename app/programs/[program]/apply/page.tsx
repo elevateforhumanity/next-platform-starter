@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Turnstile from '@/components/Turnstile';
 import FundingEligibilityFlow, {
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
@@ -35,6 +36,7 @@ export default function BeautyApplyPage() {
   const [fundingType, setFundingType] = useState<FundingType>('wioa');
   const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   // Redirects must run in useEffect — router.replace during render throws on SSR (location is not defined).
   useEffect(() => {
@@ -87,6 +89,12 @@ export default function BeautyApplyPage() {
     setLoading(true);
     setError('');
 
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.');
+      setLoading(false);
+      return;
+    }
+
     const form = e.currentTarget;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
 
@@ -101,6 +109,7 @@ export default function BeautyApplyPage() {
       programName: cfg.title,
       fundingType,
       source: 'program-page',
+      turnstileToken,
     };
 
     try {
@@ -292,9 +301,15 @@ export default function BeautyApplyPage() {
               </div>
             )}
 
+            <Turnstile
+              onVerify={setTurnstileToken}
+              onExpire={() => setTurnstileToken('')}
+              formId={`beauty-apply-${cfg.slug}`}
+            />
+
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !turnstileToken}
               className={`w-full ${c.bg} ${c.hover} disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mt-2`}
             >
               {loading ? (

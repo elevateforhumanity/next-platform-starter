@@ -22,6 +22,7 @@ export type UserRole =
   | 'instructor'
   | 'admin'
   | 'super_admin'
+  | 'platform_operator'
   | 'org_admin'
   | 'staff'
   | 'program_holder'
@@ -35,7 +36,7 @@ export type UserRole =
   | 'case_manager'
   | 'provider_admin'
   | 'grant_client'
-  | 'partner_admin'
+  | 'partner_admin';
 
 /**
  * Maps every role to its canonical post-auth landing page.
@@ -49,6 +50,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Platform admins ───────────────────────────────────────────────
   // Admin roles always land on the admin app, never the LMS
   super_admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
+  platform_operator: 'https://admin.elevateforhumanity.org/admin/dev-studio',
   admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
   org_admin: 'https://admin.elevateforhumanity.org/admin/dashboard',
 
@@ -83,7 +85,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
 
 
   // ── Grant clients ─────────────────────────────────────────────────
-  grant_client: '/lms/dashboard', // grant-funded learner — lands in LMS, not public grants page
+  grant_client: '/lms/courses', // grant-funded learner — lands in LMS, not public grants page
 };
 
 /**

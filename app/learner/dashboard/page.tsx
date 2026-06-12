@@ -33,8 +33,6 @@ import heroBanners from '@/content/heroBanners';
 import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { resolveStudentHomePath } from '@/lib/portal/resolve-student-home';
-import { PORTAL_FALLBACK } from '@/lib/portal/router';
 
 export const metadata: Metadata = {
   title: 'Learner Dashboard | Elevate LMS',
@@ -53,18 +51,6 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
   const sp = await searchParams;
 
   const profileAny = profile as any;
-
-  // Apprenticeship + industry portal routing (same resolver as login / auth callback).
-  if (profile?.role === 'student') {
-    const home = await resolveStudentHomePath(
-      supabase,
-      user.id,
-      profileAny.portal_type ?? null,
-    );
-    if (home !== PORTAL_FALLBACK) {
-      redirect(home);
-    }
-  }
 
   // Check if student has completed onboarding but not yet been granted access
   if (profile?.role === 'student') {

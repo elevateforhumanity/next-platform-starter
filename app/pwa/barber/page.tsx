@@ -328,7 +328,7 @@ export default function BarberPWAHome() {
 
         {/* Full portal link */}
         <Link
-          href="/portal/apprentice"
+          href="/learner/dashboard"
           className="flex items-center justify-between bg-slate-800 rounded-xl p-4 hover:bg-slate-700 transition"
         >
           <div className="flex items-center gap-3">

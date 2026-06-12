@@ -37,7 +37,7 @@ export async function loadApprenticePortalData(programSlug: string) {
       shopLabel: 'Host Shop',
       requiredOjl: 2000,
       requiredRti: 0,
-      portalPath: '/portal/apprentice',
+      portalPath: '/learner/dashboard',
     } as ApprenticePortalConfig);
 
   const supabase = await createClient();

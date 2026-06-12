@@ -1,11 +1,9 @@
 import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { resolvePostLoginDestination } from '@/lib/auth/role-redirects';
+import { normalizePostAuthDestination, resolvePostLoginDestination } from '@/lib/auth/role-redirects';
 import { readRedirectParam, resolveRedirectLocation, validateRedirect } from '@/lib/auth/validate-redirect';
 import { reconcilePreAuthRows } from '@/lib/pre-auth-tables';
-import { resolvePortalForUser } from '@/lib/portal/router';
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -143,20 +141,12 @@ export async function GET(request: Request) {
       const hasExplicitRedirect =
         requestUrl.searchParams.has('redirect') || requestUrl.searchParams.has('next');
       if (!hasExplicitRedirect) {
-        // Students: resolve their industry portal from enrollment data.
-        // resolvePortalForUser has internal try/catch — returns /learner/dashboard on failure.
-        if (resolvedRole === 'student') {
-          const { data: { user: currentUser } } = await supabase.auth.getUser();
-          if (currentUser) {
-            const portalPath = await resolvePortalForUser(supabase, currentUser.id);
-            return NextResponse.redirect(new URL(portalPath, requestUrl.origin));
-          }
-        }
         const destination = resolvePostLoginDestination(null, resolvedRole);
         return NextResponse.redirect(new URL(destination, requestUrl.origin));
       }
 
-      return NextResponse.redirect(resolveRedirectLocation(redirectTarget, requestUrl.origin));
+      const destination = normalizePostAuthDestination(redirectTarget, resolvedRole);
+      return NextResponse.redirect(resolveRedirectLocation(destination, requestUrl.origin));
     } catch (err) {
       logger.error('Auth callback exception:', err);
       return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin));

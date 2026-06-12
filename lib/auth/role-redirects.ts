@@ -23,12 +23,37 @@ export function getDashboardForRole(role: UserRole | string | null | undefined):
  * over the role default. The redirect param must already be validated via
  * lib/auth/validate-redirect before being passed here.
  */
+export function normalizePostAuthDestination(
+  validatedRedirect: string | null | undefined,
+  role: UserRole | string | null | undefined,
+): string {
+  const roleDestination = getDashboardForRole(role);
+  const destination = validatedRedirect || roleDestination;
+
+  if (
+    destination === '/dashboard' ||
+    destination === '/dashboards' ||
+    destination === '/my-dashboard'
+  ) {
+    return roleDestination;
+  }
+
+  if (destination === '/lms/dashboard') {
+    return '/lms/courses';
+  }
+
+  if (destination === '/portal/apprentice') {
+    return '/learner/dashboard';
+  }
+
+  return destination;
+}
+
 export function resolvePostLoginDestination(
   validatedRedirect: string | null | undefined,
   role: UserRole | string | null | undefined,
 ): string {
-  if (validatedRedirect) return validatedRedirect;
-  return getDashboardForRole(role);
+  return normalizePostAuthDestination(validatedRedirect, role);
 }
 
 /**
@@ -37,6 +62,7 @@ export function resolvePostLoginDestination(
 export const ADMIN_ROLES: ReadonlyArray<string> = [
   'admin',
   'super_admin',
+  'platform_operator',
   'staff',
   'org_admin',
 ];
