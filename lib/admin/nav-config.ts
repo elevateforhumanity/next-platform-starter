@@ -31,6 +31,9 @@ const ADMIN_NAV_HREF_ALIASES: Record<string, string> = {
   '/admin/payments': '/admin/integrations/stripe',
   '/admin/performance-dashboard': '/admin/reports',
   '/admin/security': '/admin/settings/security',
+  // Legacy redirects
+  '/admin/studio': '/admin/dev-studio?tab=courses',
+  '/admin/quizzes': '/admin/dev-studio?tab=courses',
 };
 
 export function normalizeAdminHref(href: string): string {

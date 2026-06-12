@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
-import { requireRole } from '@/lib/auth/require-role';
-import { PERMISSIONS } from '@/lib/rbac/role-matrix';
 
-export default async function StudioIndexPage() {
-  await requireRole(PERMISSIONS.access_devstudio);
+// Legacy alias - redirect to dev-studio courses tab
+// No auth check needed here since /admin/dev-studio has its own auth
+export default function StudioIndexPage() {
   redirect('/admin/dev-studio?tab=courses');
 }

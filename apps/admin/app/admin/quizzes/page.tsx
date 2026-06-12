@@ -2,8 +2,7 @@ import { redirect } from 'next/navigation';
 
 export const metadata = { robots: { index: false, follow: false } };
 
-// Quiz management is now part of the Studio.
-// /admin/quizzes → /admin/studio (select a course to manage its quizzes)
+// Quiz management is now part of Dev Studio.
 export default function QuizzesPage() {
-  redirect('/admin/studio');
+  redirect('/admin/dev-studio?tab=courses');
 }
