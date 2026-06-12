@@ -38,18 +38,18 @@ async function _GET(req: NextRequest) {
   // Blacklist the IP
   await blacklistIP(ip, 'Accessed honeypot endpoint');
 
-  // Return fake data to waste bot's time
+  // Return decoy data to slow automated scraping
   const fakeData = Array(1000)
     .fill(null)
     .map((_, i) => ({
-      id: `fake-${i}`,
-      title: `Fake Course ${i}`,
-      description: 'This is fake data designed to waste scraper resources',
+      id: `decoy-${i}`,
+      title: `Decoy Course ${i}`,
+      description: 'This decoy payload is generated for scraper defense',
       price: Math.random() * 1000,
-      instructor: `Fake Instructor ${i}`,
+      instructor: `Decoy Instructor ${i}`,
       students: Math.floor(Math.random() * 10000),
       rating: Math.random() * 5,
-      url: `/fake/course/${i}`,
+      url: `/decoy/course/${i}`,
     }));
 
   // Add delay to waste bot's time

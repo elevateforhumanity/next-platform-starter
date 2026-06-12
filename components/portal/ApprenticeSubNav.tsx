@@ -2,10 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  APPRENTICE_PORTAL_CONFIGS,
-  type ApprenticePortalConfig,
-} from '@/components/portal/ApprenticePortalShell';
+import type { ApprenticePortalConfig } from '@/components/portal/ApprenticePortalShell';
 import {
   apprenticeshipDocumentsPath,
   apprenticeshipLmsCoursePath,
@@ -85,14 +82,4 @@ export function ApprenticeSubNav({
       </div>
     </nav>
   );
-}
-
-export function resolveApprenticeNavConfig(programSlug: string | null): {
-  programSlug: string;
-  config: ApprenticePortalConfig;
-} | null {
-  if (!programSlug) return null;
-  const config = APPRENTICE_PORTAL_CONFIGS[programSlug];
-  if (!config) return null;
-  return { programSlug, config };
 }

@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { randomBytes } from 'node:crypto';
@@ -45,9 +45,6 @@ async function _POST(req: NextRequest) {
 
   if (!adminDb) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
-  }
-  if (!adminDb) {
-    return new Response('Server configuration error', { status: 500 });
   }
 
   const raw = await req.text();

@@ -1,11 +1,14 @@
 import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { getRoleDestination } from '@/lib/auth/role-destinations';
 import { resolvePostLoginDestination } from '@/lib/auth/role-redirects';
-import { readRedirectParam, resolveRedirectLocation, validateRedirect } from '@/lib/auth/validate-redirect';
+import { resolveAuthenticatedLandingDestination } from '@/lib/auth/landing-destination';
+import {
+  readRedirectParam,
+  resolveRedirectLocation,
+  validateRedirect,
+} from '@/lib/auth/validate-redirect';
 import { reconcilePreAuthRows } from '@/lib/pre-auth-tables';
-import { resolvePortalForUser } from '@/lib/portal/router';
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -38,8 +41,13 @@ export async function GET(request: Request) {
         : '/auth/reset-password';
       return NextResponse.redirect(new URL(resetDest, requestUrl.origin));
     } catch (err) {
-      logger.warn('[auth/callback] Recovery exchange threw:', err instanceof Error ? err.message : err);
-      return NextResponse.redirect(new URL('/reset-password?error=link_expired', requestUrl.origin));
+      logger.warn(
+        '[auth/callback] Recovery exchange threw:',
+        err instanceof Error ? err.message : err,
+      );
+      return NextResponse.redirect(
+        new URL('/reset-password?error=link_expired', requestUrl.origin),
+      );
     }
   }
 
@@ -143,14 +151,12 @@ export async function GET(request: Request) {
       const hasExplicitRedirect =
         requestUrl.searchParams.has('redirect') || requestUrl.searchParams.has('next');
       if (!hasExplicitRedirect) {
-        // Students: resolve their industry portal from enrollment data.
-        // resolvePortalForUser has internal try/catch — returns /learner/dashboard on failure.
-        if (resolvedRole === 'student') {
-          const { data: { user: currentUser } } = await supabase.auth.getUser();
-          if (currentUser) {
-            const portalPath = await resolvePortalForUser(supabase, currentUser.id);
-            return NextResponse.redirect(new URL(portalPath, requestUrl.origin));
-          }
+        const {
+          data: { user: currentUser },
+        } = await supabase.auth.getUser();
+        if (currentUser) {
+          const landing = await resolveAuthenticatedLandingDestination(supabase, currentUser);
+          return NextResponse.redirect(new URL(landing.redirectTo, requestUrl.origin));
         }
         const destination = resolvePostLoginDestination(null, resolvedRole);
         return NextResponse.redirect(new URL(destination, requestUrl.origin));

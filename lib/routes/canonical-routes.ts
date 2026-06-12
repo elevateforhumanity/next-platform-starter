@@ -60,7 +60,7 @@ export const ADMIN = {
   SETTINGS:           '/admin/settings',
   SYSTEM_HEALTH:      '/admin/system-health',
   SNAPSHOTS:          '/admin/snapshots',
-  AUTOMATION:         '/admin/workflows',
+  AUTOMATION:         '/admin/dev-studio',
   MONITORING:         '/admin/monitoring',
 
   // ── Partners ─────────────────────────────────────────────────────────────

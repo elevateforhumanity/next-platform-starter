@@ -13,31 +13,12 @@ import {
   type ProgramsListingItem,
 } from '@/lib/programs/load-program-catalog';
 import { ARCHIVED_PROGRAM_SLUGS } from '@/lib/programs/archived-program-slugs';
+import { DUPLICATE_PROGRAM_ALIAS_SLUGS } from '@/lib/programs/duplicate-program-alias-slugs';
 
 /** Slugs hidden from the public /programs grid (legacy duplicates, drafts). */
 export const PROGRAMS_PAGE_SUPPRESSED_SLUGS = new Set([
-  'cna-training',
-  'hvac',
-  'hvac-technician-program',
-  'hvac-2024',
-  'medical-assistant-program',
-  'phlebotomy-technician',
-  'phlebotomy-technician-program',
-  'barber',
-  'barber-program',
-  'cosmetology',
-  'nail-technician',
-  'cpr-cert',
-  'health-safety',
-  'forklift-operator',
-  'tax-prep',
+  ...DUPLICATE_PROGRAM_ALIAS_SLUGS,
   ...ARCHIVED_PROGRAM_SLUGS,
-  'it-support',
-  'it-support-specialist',
-  'cybersecurity',
-  'bookkeeping-fundamentals',
-  'entrepreneurship-small-business',
-  'peer-recovery-specialist-jri',
   'ai-advanced-project-management-1774494313718',
   'ai-forklift-safety-certification-1774495387731',
   'jri-badge-1-mindsets',
@@ -49,7 +30,6 @@ export const PROGRAMS_PAGE_SUPPRESSED_SLUGS = new Set([
   'jri-introduction',
   'jri',
   'micro-programs',
-  'nha-medical-assistant',
 ]);
 
 export type ProgramsPageRow = {

@@ -1,10 +1,8 @@
 /**
  * Admin app route — JobBoardPanel on admin.elevateforhumanity.org calls this path.
- * Re-exports the LMS handler via relative path (@/ alias would recurse into this file).
+ * Delegates to the LMS handler via relative path (@/ alias would recurse into this file).
  */
-export {
-  GET,
-  POST,
-  runtime,
-  dynamic,
-} from '../../../../../../app/api/jobs/government-feed/route';
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export { GET, POST } from '../../../../../../app/api/jobs/government-feed/route';

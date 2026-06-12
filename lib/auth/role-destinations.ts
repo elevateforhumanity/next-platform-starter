@@ -37,6 +37,7 @@ export type UserRole =
   | 'provider_admin'
   | 'grant_client'
   | 'partner_admin'
+  | 'platform_operator';
 
 /**
  * Maps every role to its canonical post-auth landing page.

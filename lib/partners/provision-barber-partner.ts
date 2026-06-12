@@ -69,6 +69,8 @@ export async function provisionPartnerFromBarberApplication(
     program_type: 'barber',
     approval_status: 'approved',
     status: 'active',
+    account_status: 'conditional_access',
+    documents_verified: false,
     onboarding_completed: false,
     mou_signed: !!app.mou_signed_at,
     mou_signed_at: app.mou_signed_at ?? null,
@@ -83,7 +85,7 @@ export async function provisionPartnerFromBarberApplication(
   if (partnerId) {
     const { error } = await db.from('partners').update(partnerPayload).eq('id', partnerId);
     if (error) {
-      logger.error('[provision-barber-partner] update failed', { error: error.message, partnerId });
+      logger.error('[provision-barber-partner] update failed', undefined, { error: error.message, partnerId });
       return null;
     }
   } else {
@@ -96,7 +98,7 @@ export async function provisionPartnerFromBarberApplication(
       .select('id')
       .maybeSingle();
     if (error || !inserted) {
-      logger.error('[provision-barber-partner] insert failed', { error: error?.message });
+      logger.error('[provision-barber-partner] insert failed', undefined, { error: error?.message });
       return null;
     }
     partnerId = inserted.id;

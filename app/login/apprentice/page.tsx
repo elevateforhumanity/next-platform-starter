@@ -37,7 +37,9 @@ export default async function ApprenticeLoginPage({
       .eq('id', user.id)
       .maybeSingle();
     const home = await resolveStudentHomePath(supabase, user.id, profile?.portal_type);
-    redirect(redirectTo || home);
+    // Apprentice login page: never fall through to generic learner dashboard
+    const dest = home === '/learner/dashboard' ? '/apprentice' : home;
+    redirect(redirectTo || dest);
   }
 
   return (

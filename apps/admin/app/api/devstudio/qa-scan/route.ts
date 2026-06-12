@@ -79,7 +79,8 @@ export async function GET(req: NextRequest) {
         // ── 1. Route health ────────────────────────────────────────────────
         if (scope === 'all' || scope === 'routes') {
           head('1. Route Health');
-          const { readdirSync, statSync } = await import('fs');
+          try {
+          const { readdirSync, lstatSync } = await import('fs');
           const { join, relative } = await import('path');
           const appDirs = discoverNextAppDirs();
           let pages = 0, apis = 0;
@@ -101,9 +102,13 @@ export async function GET(req: NextRequest) {
           }
 
           function walkRoutes(rootDir: string, dir: string) {
-            for (const f of readdirSync(dir)) {
+            let entries: string[];
+            try { entries = readdirSync(dir); } catch { return; }
+            for (const f of entries) {
               const full = join(dir, f);
-              if (statSync(full).isDirectory()) { walkRoutes(rootDir, full); continue; }
+              try {
+                if (lstatSync(full).isDirectory()) { walkRoutes(rootDir, full); continue; }
+              } catch { continue; }
               if (f === 'page.tsx') {
                 pages++;
                 const route = routeFromFile(rootDir, full, 'page.tsx');
@@ -127,17 +132,21 @@ export async function GET(req: NextRequest) {
               pass('No duplicate route slugs');
             }
           }
+          } catch (err) {
+            fail(`Route health scan error: ${err instanceof Error ? err.message : 'unknown'}`);
+          }
         }
 
         // ── 2. Auth gaps ───────────────────────────────────────────────────
         if (scope === 'all' || scope === 'auth') {
           head('2. Auth Coverage');
-          const { readdirSync, statSync, readFileSync } = await import('fs');
+          try {
+          const { readdirSync, lstatSync, readFileSync } = await import('fs');
           const { join } = await import('path');
           const appDirs = discoverNextAppDirs();
           const apiDirs = appDirs.map((appDir) => join(appDir.dir, 'api')).filter((dir) => {
             try {
-              return statSync(dir).isDirectory();
+              return lstatSync(dir).isDirectory();
             } catch {
               return false;
             }
@@ -145,12 +154,17 @@ export async function GET(req: NextRequest) {
           let checked = 0, noAuth = 0, adminNoRole = 0;
 
           function walkAuth(dir: string) {
-            for (const f of readdirSync(dir)) {
+            let entries: string[];
+            try { entries = readdirSync(dir); } catch { return; }
+            for (const f of entries) {
               const full = join(dir, f);
-              if (statSync(full).isDirectory()) { walkAuth(full); continue; }
+              try {
+                if (lstatSync(full).isDirectory()) { walkAuth(full); continue; }
+              } catch { continue; }
               if (f !== 'route.ts') continue;
               checked++;
-              const src = readFileSync(full, 'utf8');
+              let src: string;
+              try { src = readFileSync(full, 'utf8'); } catch { continue; }
               const isPublic = src.includes('// PUBLIC ROUTE');
               const hasAuth = src.includes('apiAuthGuard') || src.includes('apiRequireAdmin') ||
                 src.includes('apiRequireInstructor') || src.includes('withAuth') ||
@@ -181,6 +195,9 @@ export async function GET(req: NextRequest) {
             } else {
               warn(`${adminNoRole} admin routes may lack role enforcement`);
             }
+          }
+          } catch (err) {
+            fail(`Auth coverage scan error: ${err instanceof Error ? err.message : 'unknown'}`);
           }
         }
 
@@ -213,7 +230,7 @@ export async function GET(req: NextRequest) {
           head('4. Database Integrity');
           try {
             const supabase = createAdminClient();
-            const tables = ['programs', 'profiles', 'enrollments', 'applications', 'curriculum_lessons', 'courses'];
+            const tables = ['programs', 'profiles', 'enrollments', 'applications', 'curriculum_lessons', 'courses', 'platform_secrets', 'ai_agents'];
             for (const table of tables) {
               const { count, error } = await supabase.from(table).select('id', { count: 'exact', head: true });
               if (error) fail(`${table}: ${error.message}`);
@@ -258,6 +275,7 @@ export async function GET(req: NextRequest) {
         // ── 6. Enrollment flow ─────────────────────────────────────────────
         if (scope === 'all' || scope === 'enrollment') {
           head('6. Enrollment Flow Coverage');
+          try {
           const { existsSync } = await import('fs');
           const { join } = await import('path');
           let covered = 0, missing = 0;
@@ -272,6 +290,9 @@ export async function GET(req: NextRequest) {
           }
           if (missing === 0) pass(`All ${covered} programs have apply + checkout routes`);
           else warn(`${missing} programs missing apply or checkout routes`);
+          } catch (err) {
+            fail(`Enrollment flow scan error: ${err instanceof Error ? err.message : 'unknown'}`);
+          }
         }
 
         // ── 7. Env vars ────────────────────────────────────────────────────
