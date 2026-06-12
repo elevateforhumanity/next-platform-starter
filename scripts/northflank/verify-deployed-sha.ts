@@ -101,15 +101,19 @@ async function main() {
       }
     }
 
+    const BUILD_ACTIVE_STATUSES = new Set(['STARTING', 'PENDING', 'RUNNING', 'BUILDING', 'CLONING', 'CACHING']);
     if (
       !ok &&
       trustDeployStatus &&
-      ['SUCCESS', 'COMPLETED', 'FAILURE'].includes(String(build)) &&
+      (BUILD_ACTIVE_STATUSES.has(String(build)) ||
+        ['SUCCESS', 'COMPLETED', 'FAILURE'].includes(String(build))) &&
       String(deploy) === 'COMPLETED'
     ) {
-      // Build may have failed but previous deployment is still healthy
+      // Build is still running or failed - previous deployment is still healthy
       // Accept if deploy is COMPLETED (service is serving traffic)
-      const buildNote = build === 'FAILURE' ? ' (build failed, previous image still live)' : '';
+      const buildNote = BUILD_ACTIVE_STATUSES.has(String(build))
+        ? ` (build ${build}, previous image still live)`
+        : build === 'FAILURE' ? ' (build failed, previous image still live)' : '';
       console.warn(
         `${serviceId}: deployedSHA metadata stale (${deployed?.slice(0, 12) ?? 'unknown'}…) but deployment is healthy (${deploy})${buildNote} — accepting`,
       );
