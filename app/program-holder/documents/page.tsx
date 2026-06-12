@@ -35,7 +35,7 @@ export default async function ProgramHolderDocumentsPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/documents');
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -44,7 +44,7 @@ export default async function ProgramHolderDocumentsPage({
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/documents');
   }
 
   const { data: rawDocuments } = await supabase

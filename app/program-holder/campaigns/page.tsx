@@ -25,7 +25,7 @@ export default async function Page() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/campaigns');
   }
 
   return <CampaignsClient />;

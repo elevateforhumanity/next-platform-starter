@@ -17,7 +17,7 @@ export default async function CreateCoursePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/courses/create');
 
   return (
     <div className="min-h-screen bg-white">

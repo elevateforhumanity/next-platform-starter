@@ -25,7 +25,7 @@ export default async function TrainingPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/training');
   }
 
   const { data: profile } = await supabase

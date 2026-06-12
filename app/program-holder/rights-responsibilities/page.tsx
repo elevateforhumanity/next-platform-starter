@@ -25,7 +25,7 @@ export default async function ProgramHolderRightsPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/rights-responsibilities');
   }
 
   // Check if already acknowledged

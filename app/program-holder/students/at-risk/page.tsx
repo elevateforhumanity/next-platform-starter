@@ -23,7 +23,7 @@ export default async function AtRiskStudentsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/students/at-risk');
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -32,7 +32,7 @@ export default async function AtRiskStudentsPage() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/students/at-risk');
 
   // Get program holder record via profiles.program_holder_id
   const holderId = profile.program_holder_id;

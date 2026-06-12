@@ -22,7 +22,7 @@ export default async function ProgramHolderProfilePage() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin'].includes(profile.role ?? '')) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/profile');
   }
 
   return <ProfileEditForm profile={profile} />;

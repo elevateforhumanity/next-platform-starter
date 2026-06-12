@@ -89,7 +89,7 @@ export default async function SignMOUPage() {
     .maybeSingle();
 
   if (!roleCheck || !['program_holder', 'admin', 'super_admin', 'staff'].includes(roleCheck.role)) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/sign-mou');
   }
 
   // Determine which MOU to show based on program holder's mou_type.

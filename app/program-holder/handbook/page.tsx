@@ -22,7 +22,7 @@ export default async function ProgramHolderHandbookPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/handbook');
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -31,7 +31,7 @@ export default async function ProgramHolderHandbookPage() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/handbook');
   }
 
   const { data: acknowledgement } = await supabase

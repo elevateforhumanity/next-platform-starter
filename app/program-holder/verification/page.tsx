@@ -25,7 +25,7 @@ export default async function VerificationPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/verification');
   }
 
   const { data: profile } = await supabase
@@ -35,7 +35,7 @@ export default async function VerificationPage() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/verification');
   }
 
   // Fetch program holder data via profiles.program_holder_id

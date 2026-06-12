@@ -24,7 +24,7 @@ export default async function PendingStudentsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/students/pending');
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -33,7 +33,7 @@ export default async function PendingStudentsPage() {
     .maybeSingle();
 
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
-    redirect('/login');
+    redirect('/login?redirect=/program-holder/students/pending');
 
   // Get program holder record via profiles.program_holder_id
   const holderId = profile.program_holder_id;

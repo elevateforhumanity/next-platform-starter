@@ -16,7 +16,7 @@ export default async function HowToUsePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/how-to-use');
 
   const guides = [
     {

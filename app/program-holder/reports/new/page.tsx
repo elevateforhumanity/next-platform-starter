@@ -23,7 +23,7 @@ export default async function NewReportPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  if (!user) redirect('/login?redirect=/program-holder/reports/new');
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -31,7 +31,7 @@ export default async function NewReportPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
+  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login?redirect=/program-holder/reports/new');
 
   // Get program holder record via profiles.program_holder_id
   const holderId = profile.program_holder_id;
