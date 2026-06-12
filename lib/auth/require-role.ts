@@ -13,6 +13,10 @@ function expandAllowedRoles(allowedRoles: string[]): string[] {
   if (expanded.has('admin') || expanded.has('super_admin')) {
     expanded.add(PLATFORM_OPERATOR_ROLE);
   }
+  // super_admin is the highest admin role - should also allow admin role
+  if (expanded.has('super_admin')) {
+    expanded.add('admin');
+  }
   // Routes that already allow staff/admin-level operational access should honor the
   // admin layout contract and allow org_admin unless a route intentionally omits staff.
   if (expanded.has('staff') && (expanded.has('admin') || expanded.has('super_admin'))) {
