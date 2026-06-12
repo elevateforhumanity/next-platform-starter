@@ -655,6 +655,11 @@ export async function middleware(request: NextRequest) {
   // Admin namespace (/admin/*) is canonicalized to NEXT_PUBLIC_ADMIN_URL above.
   // The LMS middleware does not own /admin route rendering.
 
+  // Bypass auth check - pages are publicly accessible, only login requires auth
+  // To re-enable auth guards, uncomment the code below and remove the next line
+  return nextWithPathname();
+
+  /* DISABLED AUTH GUARD - Uncomment to re-enable
   // Check if route requires protection (non-admin routes)
   const protectedRoute = Object.keys(PROTECTED_ROUTES).find((route) => pathname.startsWith(route));
   const authRequired = AUTH_REQUIRED_ROUTES.some((route) => pathMatchesAuthPrefix(pathname, route));
@@ -742,6 +747,7 @@ export async function middleware(request: NextRequest) {
       return idleResponse;
     }
   }
+  */
 
   // Update last activity timestamp
   response.cookies.set(ACTIVITY_COOKIE, now.toString(), {
