@@ -54,12 +54,6 @@ function corsHeadersForOrigin(origin: string, allowedOrigins: Set<string>) {
   } as const;
 }
 
-function isApplicationTurnstileRequired(): boolean {
-  return ['1', 'true', 'yes', 'required'].includes(
-    String(process.env.APPLICATION_TURNSTILE_REQUIRED || '').trim().toLowerCase(),
-  );
-}
-
 function slugifyProgram(value: string): string {
   return value
     .toLowerCase()
@@ -77,7 +71,7 @@ function titleizeProgram(value: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function normalizeProgramPayload(body: Record<string, any>) {
+function normalizeProgramPayload(body: Record<string, unknown>) {
   const rawSlug = String(
     body.programSlug || body.program_slug || body.preferredProgramId || '',
   ).trim();
@@ -86,29 +80,16 @@ function normalizeProgramPayload(body: Record<string, any>) {
   ).trim();
   const slug = rawSlug ? slugifyProgram(rawSlug) : slugifyProgram(rawProgram);
   const displayName =
-    String(body.programName || body.programTitle || '').trim() ||
-    titleizeProgram(rawProgram || slug);
+    String(body.programName || body.programTitle || '').trim() || titleizeProgram(rawProgram || slug);
   return { slug, displayName };
 }
 
-async function verifyTurnstile(token: string, ip: string): Promise<{ ok: boolean; reason?: string }> {
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  const required = isApplicationTurnstileRequired();
-
-  // No secret configured — skip verification (dev / unconfigured environments).
-  if (!secret) return { ok: true };
-
-  const normalizedToken = token.trim();
-  const missingOrClientFallback =
-    !normalizedToken || normalizedToken === 'turnstile-not-configured' || normalizedToken === 'dev-mode-token';
-
-  // Backward-compatible production behavior: validate real tokens when present, but do not
-  // block older student application pages that have not rendered the widget yet unless
-  // APPLICATION_TURNSTILE_REQUIRED is explicitly enabled. Rate limiting, origin checks,
-  // and the honeypot still protect the public endpoint.
-  if (missingOrClientFallback) {
-    return required ? { ok: false, reason: 'missing_token' } : { ok: true, reason: 'skipped_missing_token' };
-  }
+  // No secret configured — skip verification (dev / unconfigured environments)
+  if (!secret) return true;
+  // No token sent — fail only when secret is configured
+  if (!token) return false;
 
   try {
     const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -116,25 +97,14 @@ async function verifyTurnstile(token: string, ip: string): Promise<{ ok: boolean
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         secret,
-        response: normalizedToken,
+        response: token,
         remoteip: ip,
       }),
     });
-    const result = (await response.json()) as { success?: boolean; 'error-codes'?: string[] };
-    if (!result.success) {
-      logger.warn('[api/applications] Turnstile verification failed', {
-        reason: result['error-codes']?.join(',') || 'unknown',
-      });
-      return { ok: false, reason: 'invalid_token' };
-    }
-    return { ok: true };
-  } catch (error) {
-    logger.warn('[api/applications] Turnstile verification unavailable', {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return required
-      ? { ok: false, reason: 'verification_unavailable' }
-      : { ok: true, reason: 'skipped_verification_unavailable' };
+    const result = (await response.json()) as { success?: boolean };
+    return !!result.success;
+  } catch {
+    return false;
   }
 }
 
@@ -213,14 +183,9 @@ async function _POST(req: Request) {
     const turnstileToken = body.turnstileToken || body.cfTurnstileToken || '';
     const clientIp = getClientIp(req);
     const humanVerified = await verifyTurnstile(turnstileToken, clientIp);
-    if (!humanVerified.ok) {
+    if (!humanVerified) {
       return NextResponse.json(
-        {
-          error:
-            humanVerified.reason === 'missing_token'
-              ? 'Security check required. Please complete the verification widget and submit again.'
-              : 'Security check failed. Please refresh the page, complete the verification widget, and submit again.',
-        },
+        { error: 'Bot verification failed' },
         { status: 403, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
     }
@@ -247,9 +212,8 @@ async function _POST(req: Request) {
     }
 
     const normalizedPhone = String(body.phone || '').replace(/\D/g, '');
-    const idempotencyKey = (req.headers.get('x-idempotency-key') || body.idempotencyKey || '')
-      .trim()
-      .toLowerCase();
+    const idempotencyKey =
+      (req.headers.get('x-idempotency-key') || body.idempotencyKey || '').trim().toLowerCase();
     if (idempotencyKey && idempotencyKey.length < 12) {
       return NextResponse.json(
         { error: 'Invalid idempotency key' },
@@ -279,7 +243,8 @@ async function _POST(req: Request) {
     if (!supabase) {
       return NextResponse.json(
         {
-          error: `Service temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.`,
+          error:
+            `Service temporarily unavailable. Please call ${PLATFORM_DEFAULTS.supportPhone} for immediate assistance.`,
         },
         { status: 503, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -290,8 +255,7 @@ async function _POST(req: Request) {
     if (enrollmentState === 'waitlist') {
       return NextResponse.json(
         {
-          error:
-            'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
+          error: 'This program is currently waitlisted. Join the waitlist to be notified when the next cohort opens.',
           waitlisted: true,
           waitlistUrl: `/programs/${programSlug}`,
         },
@@ -342,7 +306,8 @@ async function _POST(req: Request) {
     if (recentApp || recentByPhone) {
       return NextResponse.json(
         {
-          error: `An application for this program was already submitted with this email in the last 24 hours. Please call ${PLATFORM_DEFAULTS.supportPhone} if you need to make changes.`,
+          error:
+            `An application for this program was already submitted with this email in the last 24 hours. Please call ${PLATFORM_DEFAULTS.supportPhone} if you need to make changes.`,
         },
         { status: 409, headers: corsHeadersForOrigin(origin, allowedOrigins) },
       );
@@ -362,8 +327,12 @@ async function _POST(req: Request) {
       `Program Slug: ${programSlug}`,
       body.preferredContact ? `Preferred Contact: ${body.preferredContact}` : '',
       body.fundingType ? `Funding Type: ${body.fundingType}` : '',
-      body.workoneIntakeCompleted ? `WorkOne Intake Completed: ${body.workoneIntakeCompleted}` : '',
-      body.workoneAppointmentDate ? `WorkOne Appointment Date: ${body.workoneAppointmentDate}` : '',
+      body.workoneIntakeCompleted
+        ? `WorkOne Intake Completed: ${body.workoneIntakeCompleted}`
+        : '',
+      body.workoneAppointmentDate
+        ? `WorkOne Appointment Date: ${body.workoneAppointmentDate}`
+        : '',
       body.workoneCenter ? `WorkOne Center: ${body.workoneCenter}` : '',
       body.workoneChecklist && Array.isArray(body.workoneChecklist)
         ? `WorkOne Checklist: ${body.workoneChecklist.join(', ')}`
@@ -575,29 +544,24 @@ async function _POST(req: Request) {
       });
 
       if (provision.error) {
-        logger.warn('[Applications] provisionAccount non-fatal', {
-          error: provision.error,
-          email: body.email,
-        });
+        logger.warn('[Applications] provisionAccount non-fatal', { error: provision.error, email: body.email });
       } else {
         userId = provision.userId ?? null;
         passwordSetupLink = provision.passwordSetupLink ?? null;
-        logger.info('[Applications] Account provisioned', {
-          userId,
-          isNewUser: provision.isNewUser,
-        });
+        logger.info('[Applications] Account provisioned', { userId, isNewUser: provision.isNewUser });
       }
 
       // Link provisioned userId back to the application row
       if (userId && data?.id) {
-        const linkResult = await supabase
+        const { error: linkError } = await supabase
           .from('applications')
           .update({ user_id: userId, program_id: programRow?.id || null })
           .eq('id', data.id);
-        if (linkResult.error) {
+        if (linkError) {
           logger.warn('[Applications] Failed to link user_id', {
-            error: linkResult.error.message,
+            error: linkError.message,
             applicationId: data.id,
+            userId,
           });
         }
       }
@@ -780,14 +744,10 @@ async function _POST(req: Request) {
       if (staffEmailResult.success) {
         logger.info('[Applications] Staff email sent');
       } else {
-        logger.error('[Applications] Staff email FAILED', undefined, {
-          error: (staffEmailResult as any).error,
-        });
+        logger.error('[Applications] Staff email FAILED', undefined, { error: (staffEmailResult as any).error });
       }
       emailStatus = {
-        student: studentEmailResult.success
-          ? 'sent'
-          : (studentEmailResult as any).error || 'failed',
+        student: studentEmailResult.success ? 'sent' : (studentEmailResult as any).error || 'failed',
         staff: staffEmailResult.success ? 'sent' : (staffEmailResult as any).error || 'failed',
       };
     } catch (emailError) {

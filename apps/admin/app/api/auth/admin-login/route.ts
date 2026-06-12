@@ -84,15 +84,11 @@ export async function POST(req: NextRequest) {
 
   const { data: roleRows } = await db
     .from('user_roles')
-    .select('role, roles(name)')
+    .select('roles(name)')
     .eq('user_id', authData.user.id);
   const secondaryRoles = (roleRows ?? [])
-    .flatMap((row) => [
-      (row as { roles?: { name?: unknown } | null }).roles?.name,
-      (row as { role?: unknown }).role,
-    ])
-    .filter((role): role is string => typeof role === 'string' && role.trim() !== '')
-    .map((r) => r.trim());
+    .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+    .filter((role): role is string => typeof role === 'string');
   const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
 
   if (!effectiveRoles.some((role) => ADMIN_ROLES.includes(role as any))) {

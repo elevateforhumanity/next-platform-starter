@@ -8,8 +8,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { getAdminClient } from '@/lib/supabase/admin';
-import { safeError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
@@ -185,14 +183,7 @@ export async function GET(request: NextRequest) {
   const limit = Number.isFinite(parsedLimit) ? Math.min(Math.max(parsedLimit, 1), 100) : 20;
   const maxScore = Number.isFinite(parsedMaxScore) ? Math.min(Math.max(parsedMaxScore, 0), 100) : 100;
 
-  const db = await getAdminClient();
-  if (!db) {
-    return NextResponse.json({
-      programs: [],
-      pending_migration: true,
-      reason: 'admin_client_unavailable',
-    });
-  }
+  const db = await requireAdminClient();
 
   const { data, error } = await db
     .from('program_integrity')

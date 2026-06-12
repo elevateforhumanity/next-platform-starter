@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { checkAdminIP } from '@/lib/api/admin-ip-guard';
+import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
+import { getSecuritySettings } from '@/lib/admin/security-settings';
 import { buildLoginUrl, buildReturnPath } from '@/lib/auth/validate-redirect';
 import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
 import {
@@ -335,13 +336,6 @@ export async function middleware(request: NextRequest) {
   let canonicalAdminHost = 'admin.elevateforhumanity.org';
   try {
     canonicalAdminHost = new URL(adminBase).host;
-    if (canonicalAdminHost === 'app.elevateforhumanity.org') {
-      console.error(
-        '[proxy] NEXT_PUBLIC_ADMIN_URL points at app.elevateforhumanity.org. Falling back to default admin host.',
-      );
-      adminBase = DEFAULT_ADMIN_URL;
-      canonicalAdminHost = new URL(DEFAULT_ADMIN_URL).host;
-    }
   } catch (error) {
     console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
     adminBase = DEFAULT_ADMIN_URL;
@@ -502,7 +496,7 @@ export async function middleware(request: NextRequest) {
 
       // For admin API routes, verify admin/super_admin/staff role + IP allowlist
       if (pathname.startsWith('/api/admin/')) {
-        const ipBlocked = checkAdminIP(request);
+        const ipBlocked = await checkAdminIPAsync(request);
         if (ipBlocked) return ipBlocked;
 
         const { data: apiProfile } = await apiSupabase
@@ -513,7 +507,7 @@ export async function middleware(request: NextRequest) {
 
         if (
           !apiProfile?.role ||
-          !['admin', 'super_admin', 'platform_operator', 'org_admin', 'staff'].includes(apiProfile.role)
+          !['admin', 'super_admin', 'org_admin', 'staff', 'platform_operator'].includes(apiProfile.role)
         ) {
           return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
@@ -578,11 +572,13 @@ export async function middleware(request: NextRequest) {
     if (tenantSlug) requestHeadersWithTenant.set('x-tenant-slug', tenantSlug);
     requestHeadersWithTenant.set('x-pathname', pathname);
 
-    if (pathname === '/') {
-      const learnerUrl = request.nextUrl.clone();
-      learnerUrl.pathname = '/learner/dashboard';
-      learnerUrl.search = '';
-      return NextResponse.redirect(learnerUrl, { status: 307 });
+    if (pathname === '/' || pathname === '/admin' || pathname.startsWith('/admin/')) {
+      const adminPath = pathname === '/' || pathname === '/admin' ? '/admin/dashboard' : pathname;
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = adminPath;
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeadersWithTenant },
+      });
     }
 
     return NextResponse.next({ request: { headers: requestHeadersWithTenant } });
@@ -721,14 +717,11 @@ export async function middleware(request: NextRequest) {
 
   // ============================================
   // SERVER-SIDE IDLE TIMEOUT (NIST 800-63B)
-  // Edge middleware cannot load DB-backed platform settings.
-  // Use SESSION_TIMEOUT_MINUTES with a 30-minute fallback.
+  // Timeout value read from platform_settings (session_timeout key, in minutes).
+  // Env var SESSION_TIMEOUT_MINUTES overrides the DB value.
+  // Falls back to 30 minutes if neither is set.
   // ============================================
-  const sessionTimeoutMinutes = Number.parseInt(process.env.SESSION_TIMEOUT_MINUTES ?? '', 10);
-  const IDLE_TIMEOUT_MS =
-    Number.isFinite(sessionTimeoutMinutes) && sessionTimeoutMinutes > 0
-      ? sessionTimeoutMinutes * 60 * 1000
-      : 30 * 60 * 1000;
+  const { sessionTimeoutMs: IDLE_TIMEOUT_MS } = await getSecuritySettings();
   const ACTIVITY_COOKIE = 'efh_last_activity';
   const now = Date.now();
   const lastActivity = request.cookies.get(ACTIVITY_COOKIE)?.value;
