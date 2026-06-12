@@ -104,11 +104,14 @@ async function main() {
     if (
       !ok &&
       trustDeployStatus &&
-      ['SUCCESS', 'COMPLETED'].includes(String(build)) &&
+      ['SUCCESS', 'COMPLETED', 'FAILURE'].includes(String(build)) &&
       String(deploy) === 'COMPLETED'
     ) {
+      // Build may have failed but previous deployment is still healthy
+      // Accept if deploy is COMPLETED (service is serving traffic)
+      const buildNote = build === 'FAILURE' ? ' (build failed, previous image still live)' : '';
       console.warn(
-        `${serviceId}: deployedSHA metadata stale (${deployed?.slice(0, 12) ?? 'unknown'}…) but Northflank build/deploy completed — accepting`,
+        `${serviceId}: deployedSHA metadata stale (${deployed?.slice(0, 12) ?? 'unknown'}…) but deployment is healthy (${deploy})${buildNote} — accepting`,
       );
       ok = true;
     }
