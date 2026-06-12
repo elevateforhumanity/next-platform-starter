@@ -5,6 +5,8 @@ export const STAFF_PORTAL_ROLES = [
   'staff',
   'admin',
   'super_admin',
+  'platform_operator',
+  'org_admin',
   'advisor',
 ] as const;
 
@@ -19,7 +21,7 @@ export async function requireStaffPortalAccess(): Promise<AuthResult> {
 }
 
 /** Roles that may list all portal accounts (not only learners). */
-export const STAFF_PORTAL_USER_ADMIN_ROLES = ['admin', 'super_admin'] as const;
+export const STAFF_PORTAL_USER_ADMIN_ROLES = ['admin', 'super_admin', 'platform_operator', 'org_admin'] as const;
 
 export function canManageStaffPortalUsers(role: string): boolean {
   return (STAFF_PORTAL_USER_ADMIN_ROLES as readonly string[]).includes(role);

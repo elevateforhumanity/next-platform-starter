@@ -3,6 +3,24 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
+const PLATFORM_OPERATOR_ROLE = 'platform_operator';
+const ORG_ADMIN_ROLE = 'org_admin';
+
+function expandAllowedRoles(allowedRoles: string[]): string[] {
+  const expanded = new Set(allowedRoles);
+  // Any route that allows admin/super_admin should also allow platform_operator;
+  // it is a platform-owner operating role used for Dev Studio, deploy, and admin ops.
+  if (expanded.has('admin') || expanded.has('super_admin')) {
+    expanded.add(PLATFORM_OPERATOR_ROLE);
+  }
+  // Routes that already allow staff/admin-level operational access should honor the
+  // admin layout contract and allow org_admin unless a route intentionally omits staff.
+  if (expanded.has('staff') && (expanded.has('admin') || expanded.has('super_admin'))) {
+    expanded.add(ORG_ADMIN_ROLE);
+  }
+  return Array.from(expanded);
+}
+
 export interface AuthResult {
   user: {
     id: string;
@@ -88,8 +106,9 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     .filter(Boolean) as string[];
 
   const effectiveRoles = Array.from(new Set([profile.role, ...secondaryRoles]));
+  const expandedAllowedRoles = expandAllowedRoles(allowedRoles);
 
-  const allowed = effectiveRoles.some((r) => allowedRoles.includes(r));
+  const allowed = effectiveRoles.some((r) => expandedAllowedRoles.includes(r));
 
   if (!allowed) {
     const unauthorizedPath =
@@ -126,7 +145,7 @@ export async function hasRole(requiredRole: string): Promise<boolean> {
     .eq('id', user.id)
     .maybeSingle();
 
-  return (
-    profile?.role === requiredRole || profile?.role === 'admin' || profile?.role === 'super_admin'
-  );
+  if (!profile?.role) return false;
+  const expandedAllowedRoles = expandAllowedRoles([requiredRole]);
+  return expandedAllowedRoles.includes(profile.role) || profile.role === 'admin' || profile.role === 'super_admin';
 }

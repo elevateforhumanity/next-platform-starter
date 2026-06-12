@@ -167,7 +167,7 @@ export default function ApprenticeForm({
       return;
     }
 
-    if (!turnstileToken) {
+    if (!completingExistingPayment && !turnstileToken) {
       setError('Please complete the security check above before continuing.');
       setErrorSeverity('info');
       return;
@@ -218,8 +218,7 @@ export default function ApprenticeForm({
             : undefined,
           source: 'barber-apply-page',
           paymentOption: isSelfPay ? paymentOption : undefined,
-          turnstileToken: isSelfPay ? turnstileToken : undefined,
-          transfer_hours_claimed: transferHours > 0 ? transferHours : undefined,
+          turnstileToken: turnstileToken || undefined,
           transferHours,
           transfer_hours_claimed: transferHours,
           support_notes: [
@@ -259,7 +258,7 @@ export default function ApprenticeForm({
           const isBotError = apiError.toLowerCase().includes('bot') || apiError.toLowerCase().includes('verification');
           setError(
             isBotError
-              ? `Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call {PLATFORM_DEFAULTS.supportPhone}.`
+              ? `Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call ${PLATFORM_DEFAULTS.supportPhone}.`
               : apiError || `Failed to save your application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`,
           );
           setErrorSeverity('critical');
@@ -1133,7 +1132,7 @@ export default function ApprenticeForm({
                 {/* Submit — hidden while embedded checkout is open */}
                 {!embeddedClientSecret && (
                   <>
-                    {isSelfPay && (
+                    {!completingExistingPayment && (
                       <Turnstile
                         onVerify={(token) => setTurnstileToken(token)}
                         onExpire={() => setTurnstileToken('')}
@@ -1149,7 +1148,7 @@ export default function ApprenticeForm({
                         !formData.lastName ||
                         !formData.phone ||
                         (!completingExistingPayment && !formData.fundingInterest) ||
-                        (isSelfPay && !turnstileToken) ||
+                        (!completingExistingPayment && !turnstileToken) ||
                         (!isSelfPay && !completingExistingPayment && !fundedOptionsReady)
                       }
                       className="w-full py-4 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-300 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"

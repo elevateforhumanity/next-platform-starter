@@ -9,7 +9,7 @@
 
 import { notFound } from 'next/navigation';
 
-export type AdminRole = 'admin' | 'super_admin' | 'staff';
+export type AdminRole = 'admin' | 'super_admin' | 'platform_operator' | 'staff' | 'org_admin';
 
 /**
  * Environment detection — container runtime (NODE_ENV driven)
@@ -28,7 +28,7 @@ export const allowDevTools = process.env.ENABLE_ADMIN_DEVTOOLS === 'true';
  * Check if user has super_admin role
  */
 export function isSuperAdmin(role: string | null | undefined): boolean {
-  return role === 'super_admin';
+  return role === 'super_admin' || role === 'platform_operator' || role === 'admin';
 }
 
 /**
@@ -69,7 +69,7 @@ export function requireSensitiveFeatureAccess(role: string | null | undefined): 
     notFound();
   }
 
-  if (!['admin', 'super_admin'].includes(role || '')) {
+  if (!['admin', 'super_admin', 'platform_operator', 'staff', 'org_admin'].includes(role || '')) {
     notFound();
   }
 }
@@ -223,7 +223,7 @@ export async function apiRequireInstructor(_req?: Request): Promise<GuardedUser>
   return user;
 }
 
-const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff'];
+const PLATFORM_STAFF_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff'];
 
 /**
  * Platform staff on the owner tenant — workspace provisioning, all-tenant admin.
@@ -254,18 +254,18 @@ export async function apiRequirePlatformOperator(_req?: Request): Promise<Guarde
   const user = await apiAuthGuard(_req);
   if (user.error) return user;
 
-  if (user.role !== 'super_admin') {
+  if (!user.role || !['super_admin', 'platform_operator', 'admin'].includes(user.role)) {
     return { ...user, error: forbidden() };
   }
 
-  // super_admin is platform_owner by definition (see resolvePermissionLevel).
+  // super_admin, platform_operator, and admin are platform_owner roles for this single-admin installation (see resolvePermissionLevel).
   // Do not block when tenant context lookup fails — service-role hydration can lag on cold start.
   try {
     const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
     const ctx = await getPlatformUserContext(user.id);
     if (ctx?.canAccessDevStudio) return user;
   } catch {
-    // Fall through — authenticated super_admin still allowed.
+    // Fall through — authenticated platform admin still allowed.
   }
 
   return user;

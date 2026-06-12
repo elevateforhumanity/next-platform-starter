@@ -22,6 +22,7 @@
 
 export type UserRole =
   | 'super_admin'
+  | 'platform_operator'
   | 'admin'
   | 'staff'
   | 'org_admin'
@@ -38,10 +39,10 @@ export type UserRole =
 // Named sets used by guards. Import these instead of writing inline arrays.
 
 /** Can access /admin/* routes */
-export const ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin'];
+export const ADMIN_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
 
 /** Can access admin API routes (apiRequireAdmin) */
-export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'org_admin'];
+export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
 
 /** Can perform instructor actions (sign-offs, lesson management) */
 export const INSTRUCTOR_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'instructor'];
@@ -60,7 +61,7 @@ export const PROGRAM_HOLDER_ROLES: UserRole[] = ['super_admin', 'admin', 'progra
 
 /** Any authenticated user (all roles) */
 export const ALL_AUTHENTICATED_ROLES: UserRole[] = [
-  'super_admin', 'admin', 'staff', 'org_admin', 'instructor',
+  'super_admin', 'platform_operator', 'admin', 'staff', 'org_admin', 'instructor',
   'case_manager', 'employer', 'program_holder', 'provider_admin',
   'partner', 'delegate', 'student',
 ];
@@ -71,24 +72,24 @@ export const ALL_AUTHENTICATED_ROLES: UserRole[] = [
 
 export const PERMISSIONS = {
   // Identity & access
-  impersonate_users:          ['super_admin'] as UserRole[],
-  manage_roles:               ['super_admin'] as UserRole[],
-  access_dev_tools:           ['super_admin'] as UserRole[],
-  view_audit_logs:            ['super_admin', 'admin'] as UserRole[],
+  impersonate_users:          ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_roles:               ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  access_dev_tools:           ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  view_audit_logs:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
 
   // Platform administration
-  manage_programs:            ['super_admin', 'admin'] as UserRole[],
-  manage_courses:             ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_enrollments:         ['super_admin', 'admin', 'staff'] as UserRole[],
-  manage_users:               ['super_admin', 'admin'] as UserRole[],
-  manage_payments:            ['super_admin', 'admin'] as UserRole[],
+  manage_programs:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_courses:             ['super_admin', 'platform_operator', 'admin', 'staff'] as UserRole[],
+  manage_enrollments:         ['super_admin', 'platform_operator', 'admin', 'staff'] as UserRole[],
+  manage_users:               ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  manage_payments:            ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   manage_grants:              ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
-  manage_platform_settings:   ['super_admin'] as UserRole[],
-  trigger_deployments:        ['super_admin'] as UserRole[],
-  access_devstudio:           ['super_admin'] as UserRole[],
+  manage_platform_settings:   ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  trigger_deployments:        ['super_admin', 'platform_operator', 'admin'] as UserRole[],
+  access_devstudio:           ['super_admin', 'platform_operator', 'admin'] as UserRole[],
   provision_workspaces:       ['super_admin', 'admin', 'staff'] as UserRole[],
   manage_customer_workspaces: ['super_admin', 'admin', 'staff'] as UserRole[],
-  run_bulk_operations:        ['super_admin', 'admin'] as UserRole[],
+  run_bulk_operations:        ['super_admin', 'platform_operator', 'admin'] as UserRole[],
 
   // Instructor actions
   sign_off_lab_submissions:   ['super_admin', 'admin', 'staff', 'instructor'] as UserRole[],

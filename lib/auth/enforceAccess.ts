@@ -34,7 +34,7 @@ export interface EnforceAccessOptions {
   allowedRoles?: string[];
 }
 
-const SUPER_ADMIN_ROLES = new Set(['super_admin']);
+const SUPER_ADMIN_ROLES = new Set(['super_admin', 'platform_operator', 'admin']);
 
 export function enforceAccess({
   user,

@@ -64,7 +64,7 @@ function requireCount(
 ): number {
   if (result.error) {
     logger.error('[getAdminDashboardData] ' + label + ' failed: ' + result.error.message);
-    return 0;
+    throw new Error(`Admin dashboard critical count failed: ${label}`);
   }
   return result.count ?? 0;
 }
@@ -1161,6 +1161,6 @@ async function loadAdminDashboardData(): Promise<AdminDashboardData> {
     sitePreviewTargets,
     degradedSections,
     systemHealth,
-    isSuperAdmin: adminProfile?.role === 'super_admin',
+    isSuperAdmin: ['super_admin', 'platform_operator', 'admin'].includes(adminProfile?.role ?? ''),
   };
 }
