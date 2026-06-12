@@ -10,6 +10,7 @@
  *   admin          — platform admin, cannot impersonate or access dev tools
  *   staff          — case managers, enrollment staff, limited admin access
  *   org_admin      — organization-level admin (employer orgs, partner orgs)
+ *   platform_operator — Elevate platform operator with Dev Studio/deploy access
  *   instructor     — course delivery, lesson sign-offs, student progress
  *   case_manager   — WIOA/workforce case management
  *   employer       — employer portal access, apprentice tracking
@@ -39,16 +40,34 @@ export type UserRole =
 // Named sets used by guards. Import these instead of writing inline arrays.
 
 /** Can access /admin/* routes */
-export const ADMIN_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
+export const ADMIN_ROLES: UserRole[] = [
+  'super_admin',
+  'platform_operator',
+  'admin',
+  'staff',
+  'org_admin',
+];
 
 /** Can access admin API routes (apiRequireAdmin) */
-export const API_ADMIN_ROLES: UserRole[] = ['super_admin', 'platform_operator', 'admin', 'staff', 'org_admin'];
+export const API_ADMIN_ROLES: UserRole[] = [
+  'super_admin',
+  'platform_operator',
+  'admin',
+  'staff',
+  'org_admin',
+];
 
 /** Can perform instructor actions (sign-offs, lesson management) */
 export const INSTRUCTOR_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'instructor'];
 
 /** Can access employer portal */
-export const EMPLOYER_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'employer', 'org_admin'];
+export const EMPLOYER_ROLES: UserRole[] = [
+  'super_admin',
+  'admin',
+  'staff',
+  'employer',
+  'org_admin',
+];
 
 /** Can access staff portal */
 export const STAFF_ROLES: UserRole[] = ['super_admin', 'admin', 'staff', 'case_manager'];
@@ -92,27 +111,27 @@ export const PERMISSIONS = {
   run_bulk_operations:        ['super_admin', 'platform_operator', 'admin'] as UserRole[],
 
   // Instructor actions
-  sign_off_lab_submissions:   ['super_admin', 'admin', 'staff', 'instructor'] as UserRole[],
-  view_student_progress:      ['super_admin', 'admin', 'staff', 'instructor'] as UserRole[],
-  manage_lesson_content:      ['super_admin', 'admin', 'instructor'] as UserRole[],
+  sign_off_lab_submissions: ['super_admin', 'admin', 'staff', 'instructor'] as UserRole[],
+  view_student_progress: ['super_admin', 'admin', 'staff', 'instructor'] as UserRole[],
+  manage_lesson_content: ['super_admin', 'admin', 'instructor'] as UserRole[],
 
   // Employer portal
-  view_apprentice_hours:      ['super_admin', 'admin', 'staff', 'employer', 'org_admin'] as UserRole[],
-  approve_apprentice_hours:   ['super_admin', 'admin', 'staff', 'employer'] as UserRole[],
-  post_jobs:                  ['super_admin', 'admin', 'employer', 'org_admin'] as UserRole[],
+  view_apprentice_hours: ['super_admin', 'admin', 'staff', 'employer', 'org_admin'] as UserRole[],
+  approve_apprentice_hours: ['super_admin', 'admin', 'staff', 'employer'] as UserRole[],
+  post_jobs: ['super_admin', 'admin', 'employer', 'org_admin'] as UserRole[],
 
   // Workforce / WIOA
-  manage_wioa_cases:          ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
-  authorize_funding:          ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
+  manage_wioa_cases: ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
+  authorize_funding: ['super_admin', 'admin', 'staff', 'case_manager'] as UserRole[],
 
   // Program holder
-  manage_partner_shop:        ['super_admin', 'admin', 'program_holder'] as UserRole[],
+  manage_partner_shop: ['super_admin', 'admin', 'program_holder'] as UserRole[],
   view_apprentice_compliance: ['super_admin', 'admin', 'staff', 'program_holder'] as UserRole[],
 
   // Student / learner
-  access_lms:                 ALL_AUTHENTICATED_ROLES,
-  submit_application:         ALL_AUTHENTICATED_ROLES,
-  view_own_certificates:      ALL_AUTHENTICATED_ROLES,
+  access_lms: ALL_AUTHENTICATED_ROLES,
+  submit_application: ALL_AUTHENTICATED_ROLES,
+  view_own_certificates: ALL_AUTHENTICATED_ROLES,
 } as const;
 
 export type Permission = keyof typeof PERMISSIONS;

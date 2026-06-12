@@ -91,8 +91,7 @@ export default function ApprenticeForm({
   const [embeddedClientSecret, setEmbeddedClientSecret] = useState<string | null>(null);
 
   // Transfer hours — progress credit only, does not affect price or term.
-  const [transferHoursChoice, setTransferHoursChoice] =
-    useState<TransferHoursChoice>('undecided');
+  const [transferHoursChoice, setTransferHoursChoice] = useState<TransferHoursChoice>('undecided');
   const [transferHoursStr, setTransferHoursStr] = useState('');
   const maxTransferHours = TOTAL_HOURS_REQUIRED - 100;
   const transferHours = Math.min(
@@ -157,8 +156,7 @@ export default function ApprenticeForm({
     ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) &&
       fundingEligibilityStatus !== null);
 
-  const isSelfPay =
-    completingExistingPayment || formData.fundingInterest === 'self-pay';
+  const isSelfPay = completingExistingPayment || formData.fundingInterest === 'self-pay';
 
   const handlePayNow = async () => {
     if (!formData.email || !formData.firstName || !formData.lastName || !formData.phone) {
@@ -174,9 +172,7 @@ export default function ApprenticeForm({
     }
 
     if (transferHoursChoice === 'undecided') {
-      setError(
-        'Please answer whether you have documented barber training hours to transfer.',
-      );
+      setError('Please answer whether you have documented barber training hours to transfer.');
       setErrorSeverity('info');
       return;
     }
@@ -197,76 +193,79 @@ export default function ApprenticeForm({
       let applicationId: string | undefined = initialApplicationId;
 
       if (!applicationId) {
-      // Save application — must succeed before proceeding to checkout
-      const appResponse = await fetch('/api/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          program: 'barber-apprenticeship',
-          programSlug: 'barber-apprenticeship',
-          fundingType: isSelfPay
-            ? paymentOption === 'full'
-              ? 'self-pay-full'
-              : 'self-pay-plan'
-            : formData.fundingInterest,
-          fundingEligibilityStatus: !isSelfPay
-            ? (fundingEligibilityStatus ?? undefined)
-            : undefined,
-          source: 'barber-apply-page',
-          paymentOption: isSelfPay ? paymentOption : undefined,
-          turnstileToken: turnstileToken || undefined,
-          transferHours,
-          transfer_hours_claimed: transferHours,
-          support_notes: [
-            formData.hasHostShop ? `Host shop: ${formData.hasHostShop}` : '',
-            formData.hostShopName ? `Shop name: ${formData.hostShopName}` : '',
-            transferHours ? `Transfer hours: ${transferHours}` : '',
-          ].filter(Boolean).join(' | '),
-        }),
-      });
+        // Save application — must succeed before proceeding to checkout
+        const appResponse = await fetch('/api/applications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            program: 'barber-apprenticeship',
+            programSlug: 'barber-apprenticeship',
+            fundingType: isSelfPay
+              ? paymentOption === 'full'
+                ? 'self-pay-full'
+                : 'self-pay-plan'
+              : formData.fundingInterest,
+            fundingEligibilityStatus: !isSelfPay
+              ? (fundingEligibilityStatus ?? undefined)
+              : undefined,
+            source: 'barber-apply-page',
+            paymentOption: isSelfPay ? paymentOption : undefined,
+            turnstileToken: turnstileToken || undefined,
+            transferHours,
+            transfer_hours_claimed: transferHours,
+            support_notes: [
+              formData.hasHostShop ? `Host shop: ${formData.hasHostShop}` : '',
+              formData.hostShopName ? `Shop name: ${formData.hostShopName}` : '',
+              transferHours ? `Transfer hours: ${transferHours}` : '',
+            ].filter(Boolean).join(' | '),
+          }),
+        });
 
-      const appData = await appResponse.json();
+        const appData = await appResponse.json();
 
-      applicationId = appData?.id;
+        applicationId = appData?.id;
 
-      if (!appResponse.ok) {
-        // 409 = application already submitted — look up existing ID and continue to checkout
-        if (appResponse.status === 409) {
-          const lookupRes = await fetch(
-            `/api/applications/lookup?email=${encodeURIComponent(formData.email)}&program=barber-apprenticeship`,
-          );
-          if (lookupRes.ok) {
-            const lookupData = await lookupRes.json();
-            applicationId = lookupData?.id;
-          }
-          // If we found the existing application, continue to checkout
-          if (!applicationId) {
-            setError(
-              `You already have an application on file. Please call ${PLATFORM_DEFAULTS.supportPhone} or email info@${PLATFORM_DEFAULTS.canonicalDomain} to continue.`,
+        if (!appResponse.ok) {
+          // 409 = application already submitted — look up existing ID and continue to checkout
+          if (appResponse.status === 409) {
+            const lookupRes = await fetch(
+              `/api/applications/lookup?email=${encodeURIComponent(formData.email)}&program=barber-apprenticeship`,
             );
-            setErrorSeverity('info');
+            if (lookupRes.ok) {
+              const lookupData = await lookupRes.json();
+              applicationId = lookupData?.id;
+            }
+            // If we found the existing application, continue to checkout
+            if (!applicationId) {
+              setError(
+                `You already have an application on file. Please call ${PLATFORM_DEFAULTS.supportPhone} or email info@${PLATFORM_DEFAULTS.canonicalDomain} to continue.`,
+              );
+              setErrorSeverity('info');
+              setLoading(false);
+              return;
+            }
+            // Fall through to checkout with existing applicationId
+          } else {
+            const apiError = appData?.error ?? '';
+            const isBotError =
+              apiError.toLowerCase().includes('bot') ||
+              apiError.toLowerCase().includes('verification');
+            setError(
+              isBotError
+                ? `Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call ${PLATFORM_DEFAULTS.supportPhone}.`
+                : apiError ||
+                    `Failed to save your application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`,
+            );
+            setErrorSeverity('critical');
             setLoading(false);
             return;
           }
-          // Fall through to checkout with existing applicationId
-        } else {
-          const apiError = appData?.error ?? '';
-          const isBotError = apiError.toLowerCase().includes('bot') || apiError.toLowerCase().includes('verification');
-          setError(
-            isBotError
-              ? `Security check failed. Please scroll up, complete the verification widget, and try again. Need help? Call ${PLATFORM_DEFAULTS.supportPhone}.`
-              : apiError || `Failed to save your application. Please try again or call ${PLATFORM_DEFAULTS.supportPhone}.`,
-          );
-          setErrorSeverity('critical');
-          setLoading(false);
-          return;
         }
       }
-      } // end if (!applicationId)
 
       if (!isSelfPay) {
         const successQs = new URLSearchParams();
@@ -598,13 +597,17 @@ export default function ApprenticeForm({
               {/* Pricing */}
               <div className="bg-white/10 rounded-xl p-4">
                 <div className="text-center">
-                  <div className="text-white text-xs uppercase mb-1">{isSelfPay ? 'Program Tuition' : 'Tuition'}</div>
+                  <div className="text-white text-xs uppercase mb-1">
+                    {isSelfPay ? 'Program Tuition' : 'Tuition'}
+                  </div>
                   {isSelfPay ? (
                     <div className="text-3xl font-black">${PRICING.fullPrice.toLocaleString()}</div>
                   ) : (
                     <>
                       <div className="text-2xl font-black">May be covered</div>
-                      <p className="text-xs text-white/80 mt-2">WIOA, WRG, and FSSA may cover tuition for eligible Indiana residents.</p>
+                      <p className="text-xs text-white/80 mt-2">
+                        WIOA, WRG, and FSSA may cover tuition for eligible Indiana residents.
+                      </p>
                     </>
                   )}
                 </div>
@@ -737,9 +740,9 @@ export default function ApprenticeForm({
                     className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded"
                   />
                   <label htmlFor="smsConsent" className="text-sm text-black">
-                    I agree to receive text messages from {PLATFORM_DEFAULTS.orgName} about my enrollment,
-                    program updates, and important notices. Message and data rates may apply. Reply
-                    STOP to opt out.
+                    I agree to receive text messages from {PLATFORM_DEFAULTS.orgName} about my
+                    enrollment, program updates, and important notices. Message and data rates may
+                    apply. Reply STOP to opt out.
                   </label>
                 </div>
 
@@ -826,7 +829,6 @@ export default function ApprenticeForm({
                   </div>
                 )}
 
-
                 {!completingExistingPayment && (
                   <div className="border-t border-slate-200 pt-6 mt-6">
                     <label className="block text-sm font-bold text-slate-800 mb-3">
@@ -834,12 +836,36 @@ export default function ApprenticeForm({
                     </label>
                     <div className="space-y-2">
                       {[
-                        { value: 'self-pay', label: 'Self-pay', sub: 'Card, BNPL, or weekly payment plan — pay at checkout' },
-                        { value: 'wioa', label: 'WIOA Funding', sub: 'WorkOne — no tuition if eligible' },
-                        { value: 'wrg', label: 'Workforce Ready Grant / Next Level Jobs', sub: 'Indiana state grant — no tuition if eligible' },
-                        { value: 'fssa', label: 'FSSA IMPACT', sub: 'SNAP/TANF recipients referred by your case worker' },
-                        { value: 'employer', label: 'Employer-sponsored', sub: 'Host shop or employer pays tuition' },
-                        { value: 'unsure', label: 'Not sure', sub: 'Enrollment team will help you find funding' },
+                        {
+                          value: 'self-pay',
+                          label: 'Self-pay',
+                          sub: 'Card, BNPL, or weekly payment plan — pay at checkout',
+                        },
+                        {
+                          value: 'wioa',
+                          label: 'WIOA Funding',
+                          sub: 'WorkOne — no tuition if eligible',
+                        },
+                        {
+                          value: 'wrg',
+                          label: 'Workforce Ready Grant / Next Level Jobs',
+                          sub: 'Indiana state grant — no tuition if eligible',
+                        },
+                        {
+                          value: 'fssa',
+                          label: 'FSSA IMPACT',
+                          sub: 'SNAP/TANF recipients referred by your case worker',
+                        },
+                        {
+                          value: 'employer',
+                          label: 'Employer-sponsored',
+                          sub: 'Host shop or employer pays tuition',
+                        },
+                        {
+                          value: 'unsure',
+                          label: 'Not sure',
+                          sub: 'Enrollment team will help you find funding',
+                        },
                       ].map((opt) => (
                         <label
                           key={opt.value}
@@ -864,7 +890,9 @@ export default function ApprenticeForm({
                         </label>
                       ))}
                     </div>
-                    {(formData.fundingInterest === 'wioa' || formData.fundingInterest === 'wrg' || formData.fundingInterest === 'fssa') && (
+                    {(formData.fundingInterest === 'wioa' ||
+                      formData.fundingInterest === 'wrg' ||
+                      formData.fundingInterest === 'fssa') && (
                       <div className="mt-4">
                         <FundingEligibilityFlow
                           fundingType={formData.fundingInterest as 'wioa' | 'wrg' | 'fssa'}
@@ -873,13 +901,17 @@ export default function ApprenticeForm({
                         />
                       </div>
                     )}
-                    {(formData.fundingInterest === 'employer' || formData.fundingInterest === 'unsure') && (
+                    {(formData.fundingInterest === 'employer' ||
+                      formData.fundingInterest === 'unsure') && (
                       <div className="mt-4 bg-brand-green-50 border border-brand-green-200 rounded-xl p-4 flex items-start gap-3">
                         <Shield className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm font-bold text-brand-green-800">No payment required today</p>
+                          <p className="text-sm font-bold text-brand-green-800">
+                            No payment required today
+                          </p>
                           <p className="text-sm text-brand-green-700 mt-1">
-                            Submit your application and our enrollment team will contact you within 2 business days.
+                            Submit your application and our enrollment team will contact you within
+                            2 business days.
                           </p>
                         </div>
                       </div>
@@ -888,221 +920,221 @@ export default function ApprenticeForm({
                 )}
 
                 {isSelfPay && (
-                <div className="border-t border-black pt-6 mt-6">
-                  <p className="text-lg text-black font-bold mb-4">Choose Payment Option</p>
+                  <div className="border-t border-black pt-6 mt-6">
+                    <p className="text-lg text-black font-bold mb-4">Choose Payment Option</p>
 
-                  {/* Option 1: Pay in Full */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentOption('full')}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'full'
-                        ? 'border-brand-green-600 bg-brand-green-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Pay in Full</p>
-                        <p className="text-black text-sm">One-time payment</p>
+                    {/* Option 1: Pay in Full */}
+                    <button
+                      type="button"
+                      onClick={() => setPaymentOption('full')}
+                      className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                        paymentOption === 'full'
+                          ? 'border-brand-green-600 bg-brand-green-50'
+                          : 'border-slate-300 bg-white hover:border-slate-400'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-bold text-black text-lg">Pay in Full</p>
+                          <p className="text-black text-sm">One-time payment</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-brand-green-600 text-xl">
+                            ${PRICING.fullPrice.toLocaleString('en-US')}
+                          </p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-brand-green-600 text-xl">
-                          ${PRICING.fullPrice.toLocaleString('en-US')}
-                        </p>
-                      </div>
-                    </div>
-                  </button>
+                    </button>
 
-                  {/* Option 2: Payment Plan — small down, you pick */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPaymentOption('custom');
-                    }}
-                    className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'custom' || paymentOption === 'weekly'
-                        ? 'border-brand-orange-600 bg-brand-orange-50'
-                        : 'border-slate-300 bg-white hover:border-slate-400'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold text-black text-lg">Payment Plan — You Pick</p>
-                        <p className="text-black text-sm">
-                          Small down payment, small weekly payments
-                        </p>
+                    {/* Option 2: Payment Plan — small down, you pick */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPaymentOption('custom');
+                      }}
+                      className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
+                        paymentOption === 'custom' || paymentOption === 'weekly'
+                          ? 'border-brand-orange-600 bg-brand-orange-50'
+                          : 'border-slate-300 bg-white hover:border-slate-400'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-bold text-black text-lg">Payment Plan — You Pick</p>
+                          <p className="text-black text-sm">
+                            Small down payment, small weekly payments
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-brand-orange-600 text-xl">
+                            from ${PRICING.minDownPayment.toLocaleString()}
+                          </p>
+                          <p className="text-xs text-black">down today</p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-brand-orange-600 text-xl">
-                          from ${PRICING.minDownPayment.toLocaleString()}
-                        </p>
-                        <p className="text-xs text-black">down today</p>
-                      </div>
-                    </div>
-                  </button>
+                    </button>
 
-                  {/* Live payment calculator — always visible when plan selected */}
-                  {(paymentOption === 'custom' || paymentOption === 'weekly') && (
-                    <div className="bg-brand-orange-50 rounded-xl p-5 mb-3 border-2 border-brand-orange-200">
-                      <label className="block text-sm font-bold text-black mb-1">
-                        How much can you put down today?
-                      </label>
-                      <p className="text-xs text-black mb-3">
-                        Minimum ${PRICING.minDownPayment.toLocaleString()} — the more you put down,
-                        the lower your weekly payment.
-                      </p>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-2xl font-bold text-black">$</span>
+                    {/* Live payment calculator — always visible when plan selected */}
+                    {(paymentOption === 'custom' || paymentOption === 'weekly') && (
+                      <div className="bg-brand-orange-50 rounded-xl p-5 mb-3 border-2 border-brand-orange-200">
+                        <label className="block text-sm font-bold text-black mb-1">
+                          How much can you put down today?
+                        </label>
+                        <p className="text-xs text-black mb-3">
+                          Minimum ${PRICING.minDownPayment.toLocaleString()} — the more you put
+                          down, the lower your weekly payment.
+                        </p>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl font-bold text-black">$</span>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={customAmountStr}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/[^0-9]/g, '');
+                              setCustomAmountStr(val);
+                            }}
+                            onBlur={() => {
+                              const num = parseInt(customAmountStr) || 0;
+                              const clamped = Math.max(
+                                PRICING.minDownPayment,
+                                Math.min(num, PRICING.fullPrice),
+                              );
+                              setCustomAmountStr(String(clamped));
+                            }}
+                            className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-orange-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
+                          />
+                        </div>
+                        {/* Slider — tracks the typed value; only clamps for slider position */}
                         <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={customAmountStr}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9]/g, '');
-                            setCustomAmountStr(val);
-                          }}
-                          onBlur={() => {
-                            const num = parseInt(customAmountStr) || 0;
-                            const clamped = Math.max(
-                              PRICING.minDownPayment,
-                              Math.min(num, PRICING.fullPrice),
-                            );
-                            setCustomAmountStr(String(clamped));
-                          }}
-                          className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-orange-300 rounded-lg focus:ring-2 focus:ring-brand-orange-500 focus:border-brand-orange-500"
+                          type="range"
+                          min={PRICING.minDownPayment}
+                          max={PRICING.fullPrice}
+                          step={1}
+                          value={Math.min(
+                            Math.max(customAmount, PRICING.minDownPayment),
+                            PRICING.fullPrice,
+                          )}
+                          onChange={(e) => setCustomAmountStr(e.target.value)}
+                          className="w-full accent-brand-orange-600 mb-1"
                         />
+                        <div className="flex justify-between text-xs text-black mb-4">
+                          <span>${PRICING.minDownPayment.toLocaleString()} min</span>
+                          <span>${PRICING.fullPrice.toLocaleString()} full</span>
+                        </div>
+
+                        {/* Live estimate — uses customAmount directly; shows dashes while field is empty */}
+                        {(() => {
+                          const isTyping =
+                            customAmountStr === '' || customAmount < PRICING.minDownPayment;
+                          const displayDown = isTyping ? null : customAmount;
+                          const displayRemaining =
+                            displayDown !== null
+                              ? Math.max(0, PRICING.fullPrice - displayDown)
+                              : null;
+                          const displayWeekly =
+                            displayDown !== null
+                              ? calculateWeeklyPayment(displayDown).weeklyDollars
+                              : null;
+                          return (
+                            <div className="bg-white rounded-lg p-4 border border-brand-orange-200">
+                              <p className="text-xs text-black uppercase font-semibold mb-2">
+                                Your Payment Estimate
+                              </p>
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-sm text-slate-700">Down payment today</span>
+                                <span className="font-bold text-black">
+                                  {displayDown !== null ? `$${displayDown.toLocaleString()}` : '—'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-sm text-slate-700">Remaining balance</span>
+                                <span className="font-bold text-black">
+                                  {displayRemaining !== null
+                                    ? `$${displayRemaining.toLocaleString()}`
+                                    : '—'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-sm text-slate-700">Weekly payment</span>
+                                <span className="font-bold text-brand-orange-600 text-lg">
+                                  {displayWeekly !== null ? `$${displayWeekly.toFixed(2)}/wk` : '—'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-sm text-slate-700">Term</span>
+                                <span className="font-bold text-black">
+                                  {PRICING.paymentTermWeeks} weeks
+                                </span>
+                              </div>
+                              <p className="text-xs text-black mt-2">
+                                Weekly invoices sent every Friday. Pay by link or saved card.
+                              </p>
+                            </div>
+                          );
+                        })()}
                       </div>
-                      {/* Slider — tracks the typed value; only clamps for slider position */}
-                      <input
-                        type="range"
-                        min={PRICING.minDownPayment}
-                        max={PRICING.fullPrice}
-                        step={1}
-                        value={Math.min(
-                          Math.max(customAmount, PRICING.minDownPayment),
-                          PRICING.fullPrice,
-                        )}
-                        onChange={(e) => setCustomAmountStr(e.target.value)}
-                        className="w-full accent-brand-orange-600 mb-1"
-                      />
-                      <div className="flex justify-between text-xs text-black mb-4">
-                        <span>${PRICING.minDownPayment.toLocaleString()} min</span>
-                        <span>${PRICING.fullPrice.toLocaleString()} full</span>
-                      </div>
+                    )}
 
-                      {/* Live estimate — uses customAmount directly; shows dashes while field is empty */}
-                      {(() => {
-                        const isTyping =
-                          customAmountStr === '' || customAmount < PRICING.minDownPayment;
-                        const displayDown = isTyping ? null : customAmount;
-                        const displayRemaining =
-                          displayDown !== null
-                            ? Math.max(0, PRICING.fullPrice - displayDown)
-                            : null;
-                        const displayWeekly =
-                          displayDown !== null
-                            ? calculateWeeklyPayment(displayDown).weeklyDollars
-                            : null;
-                        return (
-                          <div className="bg-white rounded-lg p-4 border border-brand-orange-200">
-                            <p className="text-xs text-black uppercase font-semibold mb-2">
-                              Your Payment Estimate
-                            </p>
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm text-slate-700">Down payment today</span>
-                              <span className="font-bold text-black">
-                                {displayDown !== null ? `$${displayDown.toLocaleString()}` : '—'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm text-slate-700">Remaining balance</span>
-                              <span className="font-bold text-black">
-                                {displayRemaining !== null
-                                  ? `$${displayRemaining.toLocaleString()}`
-                                  : '—'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm text-slate-700">Weekly payment</span>
-                              <span className="font-bold text-brand-orange-600 text-lg">
-                                {displayWeekly !== null ? `$${displayWeekly.toFixed(2)}/wk` : '—'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-slate-700">Term</span>
-                              <span className="font-bold text-black">
-                                {PRICING.paymentTermWeeks} weeks
-                              </span>
-                            </div>
-                            <p className="text-xs text-black mt-2">
-                              Weekly invoices sent every Friday. Pay by link or saved card.
-                            </p>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                  )}
+                    {/* BNPL — universal component, driven by lib/bnpl-config.ts */}
+                    <BnplOptions
+                      fullPrice={PRICING.fullPrice}
+                      selected={paymentOption}
+                      onSelect={(id) => setPaymentOption(id as typeof paymentOption)}
+                      amountStr={customAmountStr}
+                      onAmountChange={setCustomAmountStr}
+                    />
 
-                  {/* BNPL — universal component, driven by lib/bnpl-config.ts */}
-                  <BnplOptions
-                    fullPrice={PRICING.fullPrice}
-                    selected={paymentOption}
-                    onSelect={(id) => setPaymentOption(id as typeof paymentOption)}
-                    amountStr={customAmountStr}
-                    onAmountChange={setCustomAmountStr}
-                  />
-
-                  {/* Payment Methods Available */}
-                  <div className="bg-white rounded-xl p-4 mb-4">
-                    <p className="text-sm text-black font-medium mb-3">
-                      Payment methods available at checkout:
-                    </p>
-                    <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
-                        Card
-                      </span>
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
-                        Apple Pay
-                      </span>
-                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">
-                        Google Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">
-                        Samsung Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">
-                        Link
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      {ACTIVE_BNPL_PROVIDERS.map((p) => (
-                        <span
-                          key={p.id}
-                          className={`px-3 py-1 ${p.badgeBg} ${p.badgeText} rounded-full text-xs font-bold`}
-                        >
-                          {p.name}
+                    {/* Payment Methods Available */}
+                    <div className="bg-white rounded-xl p-4 mb-4">
+                      <p className="text-sm text-black font-medium mb-3">
+                        Payment methods available at checkout:
+                      </p>
+                      <div className="flex flex-wrap gap-2 justify-center mb-2">
+                        <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
+                          Card
                         </span>
-                      ))}
+                        <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
+                          Apple Pay
+                        </span>
+                        <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">
+                          Google Pay
+                        </span>
+                        <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">
+                          Samsung Pay
+                        </span>
+                        <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">
+                          Link
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 justify-center mb-2">
+                        {ACTIVE_BNPL_PROVIDERS.map((p) => (
+                          <span
+                            key={p.id}
+                            className={`px-3 py-1 ${p.badgeBg} ${p.badgeText} rounded-full text-xs font-bold`}
+                          >
+                            {p.name}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        <span className="px-3 py-1 bg-brand-green-500 text-white rounded-full text-xs font-bold">
+                          Cash App
+                        </span>
+                        <span className="px-3 py-1 bg-brand-orange-400 text-white rounded-full text-xs font-bold">
+                          Amazon Pay
+                        </span>
+                        <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">
+                          Bank (ACH)
+                        </span>
+                      </div>
+                      <p className="text-xs text-black mt-3 text-center">
+                        Payment options subject to eligibility. Terms and availability vary by
+                        provider.
+                      </p>
                     </div>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <span className="px-3 py-1 bg-brand-green-500 text-white rounded-full text-xs font-bold">
-                        Cash App
-                      </span>
-                      <span className="px-3 py-1 bg-brand-orange-400 text-white rounded-full text-xs font-bold">
-                        Amazon Pay
-                      </span>
-                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">
-                        Bank (ACH)
-                      </span>
-                    </div>
-                    <p className="text-xs text-black mt-3 text-center">
-                      Payment options subject to eligibility. Terms and availability vary by
-                      provider.
-                    </p>
                   </div>
-                </div>
                 )}
 
                 {/* Embedded Stripe Checkout — Klarna / Afterpay */}

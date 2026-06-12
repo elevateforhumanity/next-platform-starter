@@ -554,6 +554,7 @@ const SLUG_ALIASES: Record<string, string> = {
   cdl: 'cdl-training',
   'esthetician-apprenticeship': 'esthetician',
   'professional-esthetician': 'esthetician',
+  'nha-phlebotomy': 'phlebotomy',
   'phlebotomy-technician': 'phlebotomy',
   'building-maintenance': 'building-maintenance-wrg',
   'building-maintenance-tech': 'building-maintenance-wrg',

@@ -237,9 +237,13 @@ export async function GET(request: NextRequest) {
     .order('imported_at', { ascending: false })
     .limit(1);
 
-  const { count } = await db
+  const { count, error: countError } = await db
     .from('government_job_feed')
     .select('*', { count: 'exact', head: true });
+
+  if (error || countError) {
+    logger.warn('[government-feed] stats query failed', { error, countError });
+  }
 
   return NextResponse.json({
     total: count ?? 0,
@@ -247,7 +251,7 @@ export async function GET(request: NextRequest) {
     sources: ['usajobs', 'careeronestop', 'indiana_career_connect'],
     configured: {
       usajobs: !!process.env.USAJOBS_API_KEY,
-      careeronestop: !!process.env.CAREERONESTOP_TOKEN,
+      careeronestop: !!(process.env.CAREERONESTOP_TOKEN ?? process.env.CAREERONESTOP_API_KEY),
       indiana_career_connect: !!process.env.INDIANA_CAREER_CONNECT_API_KEY,
     },
   });

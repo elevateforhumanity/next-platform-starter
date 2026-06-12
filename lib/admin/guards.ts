@@ -31,6 +31,10 @@ export function isSuperAdmin(role: string | null | undefined): boolean {
   return role === 'super_admin' || role === 'platform_operator' || role === 'admin';
 }
 
+export function isPlatformOperatorRole(role: string | null | undefined): boolean {
+  return role === 'super_admin' || role === 'admin' || role === 'platform_operator';
+}
+
 /**
  * Guard for dev/test routes - STRICT
  *
@@ -55,7 +59,7 @@ export function requireDevToolsAccess(role: string | null | undefined): void {
   }
 
   // Dev tools enabled but not super_admin
-  if (!isSuperAdmin(role)) {
+  if (!isPlatformOperatorRole(role)) {
     notFound();
   }
 }
@@ -65,7 +69,7 @@ export function requireDevToolsAccess(role: string | null | undefined): void {
  * Less restrictive than dev tools but still requires elevated access in prod
  */
 export function requireSensitiveFeatureAccess(role: string | null | undefined): void {
-  if (isProd && !isSuperAdmin(role)) {
+  if (isProd && !isPlatformOperatorRole(role)) {
     notFound();
   }
 
@@ -97,7 +101,7 @@ export function shouldShowDevToolsInNav(role: string | null | undefined): boolea
   }
 
   // Non-prod: require both flag and super_admin
-  return allowDevTools && isSuperAdmin(role);
+  return allowDevTools && isPlatformOperatorRole(role);
 }
 
 /**
@@ -127,8 +131,13 @@ export const SENSITIVE_ROUTES = [
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { unauthorized, forbidden, serverError } from '@/lib/api/responses';
-import { API_ADMIN_ROLES, INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES } from '@/lib/rbac/role-matrix';
+import {
+  API_ADMIN_ROLES,
+  INSTRUCTOR_ROLES as _INSTRUCTOR_ROLES,
+  type UserRole,
+} from '@/lib/rbac/role-matrix';
 
 // Re-export UserRole from the canonical role matrix so all guards share one type.
 export type { UserRole } from '@/lib/rbac/role-matrix';
@@ -161,13 +170,47 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
       return { id: '', email: null, role: null, error: unauthorized() };
     }
 
-    const { data: profile, error: profileError } = await supabase
+    // Try session client first, fall back to admin (service-role) client.
+    // RLS on profiles can block the anon/session client — the admin layout
+    // already uses the service-role client for this same read, so API guards
+    // must match to avoid "UNAUTHORIZED" on client-side fetches while the
+    // server-rendered dashboard works fine.
+    let profile: { role: string | null } | null = null;
+    const { data: sessionProfile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
 
-    if (profileError) {
+    if (!profileError && sessionProfile) {
+      profile = sessionProfile;
+    } else {
+      // Fallback: service-role client bypasses RLS
+      try {
+        const db = await getAdminClient();
+        if (db) {
+          const { data: adminProfile } = await db
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle();
+          profile = adminProfile;
+        }
+      } catch {
+        // admin client unavailable — keep profile null
+      }
+    }
+
+    if (!profile) {
+      // Neither client could read the profile — check user metadata as last resort
+      const metaRole = user.user_metadata?.role;
+      if (typeof metaRole === 'string' && metaRole) {
+        return {
+          id: user.id,
+          email: user.email ?? null,
+          role: metaRole as UserRole,
+        };
+      }
       return {
         id: user.id,
         email: user.email ?? null,
@@ -179,7 +222,7 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
     return {
       id: user.id,
       email: user.email ?? null,
-      role: (profile?.role as UserRole) ?? null,
+      role: (profile.role as UserRole) ?? null,
     };
   } catch (err) {
     return { id: '', email: null, role: null, error: unauthorized() };
@@ -239,7 +282,10 @@ export async function apiRequirePlatformStaff(_req?: Request): Promise<GuardedUs
 
   const { getPlatformUserContext } = await import('@/lib/platform/platform-owner');
   const ctx = await getPlatformUserContext(user.id);
-  if (!ctx || (ctx.permissionLevel !== 'platform_owner' && ctx.permissionLevel !== 'platform_admin')) {
+  if (
+    !ctx ||
+    (ctx.permissionLevel !== 'platform_owner' && ctx.permissionLevel !== 'platform_admin')
+  ) {
     return { ...user, error: forbidden('Platform staff access required') };
   }
 
@@ -248,7 +294,7 @@ export async function apiRequirePlatformStaff(_req?: Request): Promise<GuardedUs
 
 /**
  * Platform operator (owner) — DevStudio, deploy, Northflank, AI autopilot.
- * Requires super_admin on the platform owner tenant.
+ * Requires super_admin or platform_operator on the platform owner tenant.
  */
 export async function apiRequirePlatformOperator(_req?: Request): Promise<GuardedUser> {
   const user = await apiAuthGuard(_req);

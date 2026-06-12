@@ -3,11 +3,12 @@
 // =====================================================
 
 import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getAdminUrl } from '@/lib/utils/siteUrl';
-import type { UserRole } from '@/types/database';
+import { ADMIN_ROLES, type UserRole } from '@/lib/rbac/role-matrix';
 import { logger } from '@/lib/logger';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
@@ -207,8 +208,7 @@ export async function requireApiAuth() {
 export async function requireAuth(redirectTo?: string, loginBase?: string) {
   const session = await getSession();
   if (!session) {
-    const base =
-      loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
+    const base = loginBase ?? process.env.NEXT_PUBLIC_SITE_URL ?? PLATFORM_DEFAULTS.siteUrl;
     const loginUrl = redirectTo
       ? `${base}/login?redirect=${encodeURIComponent(redirectTo)}`
       : `${base}/login`;
@@ -242,7 +242,7 @@ export async function requireAdmin() {
   // Admin app has its own /login page — redirect there, not the main site login.
   // Role set must match ADMIN_ROLES in lib/rbac/role-matrix.ts, admin-login route, and admin layout.
   const adminUrl = getAdminUrl();
-  return requireRole(['admin', 'super_admin', 'staff', 'org_admin'], '/admin/dashboard', adminUrl);
+  return requireRole(ADMIN_ROLES, '/admin/dashboard', adminUrl);
 }
 
 export async function requireProgramHolder() {

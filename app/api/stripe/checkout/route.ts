@@ -122,7 +122,7 @@ async function handler(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${siteUrl}/dashboard/onboarding?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${siteUrl}/onboarding/learner?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/platform/${product.slug}`,
       metadata: {
         // Standardized metadata for grant/license compliance

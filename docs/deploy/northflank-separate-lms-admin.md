@@ -28,6 +28,8 @@ pnpm tsx scripts/northflank/verify-health-checks.ts --all
 
 Or use workflow **Deploy production (both services)** (`deploy-production-dispatch.yml`).
 
+If a cloud agent/container cannot reach Northflank or GitHub, follow `docs/deploy/container-egress-deploy-blocker.md` before retrying the deploy.
+
 ## Guard
 
 `bash scripts/check-admin-lms-separation.sh` fails if `deploy-lms.yml` or `deploy-admin.yml` configure both services in one run.

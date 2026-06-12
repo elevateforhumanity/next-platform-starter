@@ -22,6 +22,44 @@ export interface NavSection {
   items: NavItem[];
 }
 
+const ADMIN_NAV_HREF_ALIASES: Record<string, string> = {
+  '/admin/analytics-dashboard': '/admin/analytics',
+  '/admin/command-center': '/admin/mission-control',
+  '/admin/dashboard?tab=environments': '/admin/integrations/env-manager',
+  '/admin/dashboard?tab=services': '/admin/dev-studio',
+  '/admin/instructors': '/admin/instructor',
+  '/admin/payments': '/admin/integrations/stripe',
+  '/admin/performance-dashboard': '/admin/reports',
+  '/admin/security': '/admin/settings/security',
+};
+
+export function normalizeAdminHref(href: string): string {
+  return ADMIN_NAV_HREF_ALIASES[href] ?? href;
+}
+
+export function normalizeAdminNavSections(sections: NavSection[]): NavSection[] {
+  return sections.map((section) => {
+    const seen = new Set<string>();
+    const items = section.items
+      .map((item) => ({
+        ...item,
+        href: normalizeAdminHref(item.href),
+      }))
+      .filter((item) => {
+        const key = `${item.label}::${item.href}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+    return {
+      ...section,
+      href: normalizeAdminHref(section.href),
+      items,
+    };
+  });
+}
+
 export const DEFAULT_NAV: NavSection[] = [
   {
     label: 'Operations',
@@ -79,20 +117,19 @@ export const DEFAULT_NAV: NavSection[] = [
   },
   {
     label: 'Automation',
-    href: '/admin/workflows',
+    href: '/admin/dev-studio',
     items: [
-      { label: 'Automation Log', href: '/admin/automation' },
       { label: 'Dev Studio', href: '/admin/dev-studio' },
-      { label: 'Dev Studio — Agents', href: '/admin/dev-studio/agents' },
-      { label: 'Dev Studio — Builds', href: '/admin/dev-studio/builds' },
-      { label: 'Dev Studio — Deployments', href: '/admin/dev-studio/deployments' },
-      { label: 'Dev Studio — Logs', href: '/admin/dev-studio/logs' },
-      { label: 'Dev Studio — Memory', href: '/admin/dev-studio/memory' },
-      { label: 'Dev Studio — Settings', href: '/admin/dev-studio/settings' },
-      { label: 'Dev Studio — Tasks', href: '/admin/dev-studio/tasks' },
-      { label: 'Dev Studio — Workflows', href: '/admin/dev-studio/workflows' },
-      { label: 'Workflows', href: '/admin/workflows' },
-      { label: 'Workflows — New', href: '/admin/workflows/new' },
+      { label: 'Workflows', href: '/admin/dev-studio/workflows' },
+      { label: 'Course Builder', href: '/admin/dev-studio/courses' },
+      { label: 'Automation Log', href: '/admin/automation' },
+      { label: 'Agents', href: '/admin/dev-studio/agents' },
+      { label: 'Builds', href: '/admin/dev-studio/builds' },
+      { label: 'Deployments', href: '/admin/dev-studio/deployments' },
+      { label: 'Logs', href: '/admin/dev-studio/logs' },
+      { label: 'Memory', href: '/admin/dev-studio/memory' },
+      { label: 'Settings', href: '/admin/dev-studio/settings' },
+      { label: 'Tasks', href: '/admin/dev-studio/tasks' },
     ],
   },
   {
@@ -199,7 +236,7 @@ export const DEFAULT_NAV: NavSection[] = [
       { label: 'ETPL Dashboard', href: '/admin/dashboard/etpl' },
       { label: 'External Completions', href: '/admin/external-course-completions' },
       { label: 'External Progress', href: '/admin/external-progress' },
-      { label: 'Instructors', href: '/admin/instructors' },
+      { label: 'Instructors', href: '/admin/instructor' },
       { label: 'Instructors — Performance', href: '/admin/instructors/performance' },
       { label: 'Learning Paths', href: '/admin/learning-paths' },
       { label: 'Learning Paths — New', href: '/admin/learning-paths/new' },

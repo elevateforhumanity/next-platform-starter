@@ -34,7 +34,7 @@ export type PortalKey =
   | 'trades'
   | 'social-services'
   | 'hospitality'
-  | 'jri'
+  | 'jri';
 
 /** Canonical URL path for each portal. */
 export const PORTAL_PATHS: Record<PortalKey, string> = {
@@ -50,7 +50,7 @@ export const PORTAL_PATHS: Record<PortalKey, string> = {
 }
 
 /** Fallback when no portal matches. */
-export const PORTAL_FALLBACK = '/learner/dashboard'
+export const PORTAL_FALLBACK = '/learner/dashboard';
 
 // ── Mapping tables ────────────────────────────────────────────────────────────
 
@@ -60,7 +60,7 @@ export const PORTAL_FALLBACK = '/learner/dashboard'
  */
 const PROGRAM_TYPE_TO_PORTAL: Record<string, PortalKey> = {
   apprenticeship: 'apprentice',
-}
+};
 
 /**
  * programs.category (normalised to lowercase) → portal key.
@@ -68,28 +68,28 @@ const PROGRAM_TYPE_TO_PORTAL: Record<string, PortalKey> = {
  */
 const CATEGORY_TO_PORTAL: Record<string, PortalKey> = {
   // beauty / barber
-  beauty:            'beauty',
+  beauty: 'beauty',
   'barber & beauty': 'beauty',
 
   // healthcare
-  healthcare:        'healthcare',
+  healthcare: 'healthcare',
   'social services': 'social-services',
 
   // technology
-  technology:        'technology',
+  technology: 'technology',
 
   // business
-  business:          'business',
+  business: 'business',
 
   // trades (non-apprenticeship)
-  trades:            'trades',
+  trades: 'trades',
 
   // hospitality
-  hospitality:       'hospitality',
+  hospitality: 'hospitality',
 
   // JRI / special workforce readiness
-  special:           'jri',
-}
+  special: 'jri',
+};
 
 // ── Core resolver ─────────────────────────────────────────────────────────────
 
@@ -138,29 +138,26 @@ export async function resolvePortalForUser(
       .limit(1)
       .maybeSingle();
 
-    if (!enrollment?.program_id) return PORTAL_FALLBACK
+    if (!enrollment?.program_id) return PORTAL_FALLBACK;
 
     const { data: program } = await supabase
       .from('programs')
       .select('program_type, category')
       .eq('id', enrollment.program_id)
-      .maybeSingle()
+      .maybeSingle();
 
-    if (!program) return PORTAL_FALLBACK
+    if (!program) return PORTAL_FALLBACK;
 
-    const portalKey = derivePortalKey(program.program_type, program.category)
-    if (!portalKey) return PORTAL_FALLBACK
+    const portalKey = derivePortalKey(program.program_type, program.category);
+    if (!portalKey) return PORTAL_FALLBACK;
 
     // ── 3. Cache the result on the profile ───────────────────────────────
-    await supabase
-      .from('profiles')
-      .update({ portal_type: portalKey })
-      .eq('id', userId)
+    await supabase.from('profiles').update({ portal_type: portalKey }).eq('id', userId);
 
-    return PORTAL_PATHS[portalKey]
+    return PORTAL_PATHS[portalKey];
   } catch {
     // Never block login on a routing error
-    return PORTAL_FALLBACK
+    return PORTAL_FALLBACK;
   }
 }
 
@@ -174,18 +171,18 @@ export function derivePortalKey(
 ): PortalKey | null {
   // program_type takes priority — apprenticeship always → apprentice portal
   if (programType) {
-    const byType = PROGRAM_TYPE_TO_PORTAL[programType]
-    if (byType) return byType
+    const byType = PROGRAM_TYPE_TO_PORTAL[programType];
+    if (byType) return byType;
   }
 
   // Fall through to category mapping
   if (category) {
-    const normalised = category.toLowerCase().trim()
-    const byCat = CATEGORY_TO_PORTAL[normalised]
-    if (byCat) return byCat
+    const normalised = category.toLowerCase().trim();
+    const byCat = CATEGORY_TO_PORTAL[normalised];
+    if (byCat) return byCat;
   }
 
-  return null
+  return null;
 }
 
 /**
@@ -203,17 +200,14 @@ export async function cachePortalTypeForEnrollment(
       .from('programs')
       .select('program_type, category, slug')
       .eq('id', programId)
-      .maybeSingle()
+      .maybeSingle();
 
-    if (!program) return
+    if (!program) return;
 
-    const portalKey = derivePortalKey(program.program_type, program.category)
-    if (!portalKey) return
+    const portalKey = derivePortalKey(program.program_type, program.category);
+    if (!portalKey) return;
 
-    await supabase
-      .from('profiles')
-      .update({ portal_type: portalKey })
-      .eq('id', userId)
+    await supabase.from('profiles').update({ portal_type: portalKey }).eq('id', userId);
   } catch {
     // Non-fatal — portal_type is a cache, not a gate
   }

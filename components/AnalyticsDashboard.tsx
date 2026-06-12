@@ -97,7 +97,7 @@ export function AnalyticsDashboard({ data, timeframe = 'month' }: AnalyticsDashb
   ];
 
   // topCourses and recentActivity must be passed as props or fetched by the parent.
-  // Hardcoded placeholder data has been removed — render empty state when not provided.
+  // Static fallback data has been removed — render empty state when not provided.
   const topCourses: { name: string; students: number; completion: number }[] = [];
   const recentActivity: { user: string; action: string; time: string }[] = [];
 

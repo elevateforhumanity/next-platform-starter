@@ -654,7 +654,7 @@ async function main() {
     console.info('Using LIVE Supabase adapter');
   } else {
     // Test adapter with sample data
-    console.info('Using TEST adapter (dummy data). Pass --live for real data.');
+    console.info('Using local sample adapter. Pass --live for Supabase data.');
     adapter = {
       async fetchParticipantsForQuarter() {
         return [

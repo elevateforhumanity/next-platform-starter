@@ -36,8 +36,13 @@ export async function GET(request: Request) {
         : '/auth/reset-password';
       return NextResponse.redirect(new URL(resetDest, requestUrl.origin));
     } catch (err) {
-      logger.warn('[auth/callback] Recovery exchange threw:', err instanceof Error ? err.message : err);
-      return NextResponse.redirect(new URL('/reset-password?error=link_expired', requestUrl.origin));
+      logger.warn(
+        '[auth/callback] Recovery exchange threw:',
+        err instanceof Error ? err.message : err,
+      );
+      return NextResponse.redirect(
+        new URL('/reset-password?error=link_expired', requestUrl.origin),
+      );
     }
   }
 

@@ -66,7 +66,9 @@ export default function BarberPWAHome() {
     // Active enrollment
     const { data: enrollment } = await supabase
       .from('program_enrollments')
-      .select('program_slug, orientation_completed_at, documents_submitted_at, stripe_subscription_id')
+      .select(
+        'program_slug, orientation_completed_at, documents_submitted_at, stripe_subscription_id',
+      )
       .eq('user_id', userId)
       .eq('enrollment_state', 'active')
       .order('created_at', { ascending: false })
@@ -195,9 +197,7 @@ export default function BarberPWAHome() {
             </div>
             <div>
               <p className="text-slate-400 text-xs">Barber Apprenticeship</p>
-              <h1 className="text-white font-bold text-lg leading-tight">
-                Hey, {firstName}
-              </h1>
+              <h1 className="text-white font-bold text-lg leading-tight">Hey, {firstName}</h1>
             </div>
           </div>
           {data.isClockedIn && (
@@ -289,9 +289,7 @@ export default function BarberPWAHome() {
           {/* RTI */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-white text-sm font-medium">
-                Related Technical (RTI)
-              </span>
+              <span className="text-white text-sm font-medium">Related Technical (RTI)</span>
               <span className="text-slate-400 text-sm tabular-nums">
                 {data.rtiHours.toLocaleString()} / {data.requiredRti.toLocaleString()}
               </span>
@@ -332,7 +330,10 @@ export default function BarberPWAHome() {
           className="flex items-center justify-between bg-slate-800 rounded-xl p-4 hover:bg-slate-700 transition"
         >
           <div className="flex items-center gap-3">
-            <span className="w-5 h-5 rounded-full bg-amber-400 inline-block flex-shrink-0" aria-hidden="true" />
+            <span
+              className="w-5 h-5 rounded-full bg-amber-400 inline-block flex-shrink-0"
+              aria-hidden="true"
+            />
             <div>
               <p className="text-white text-sm font-semibold">Full Apprentice Portal</p>
               <p className="text-slate-500 text-xs">Documents, handbook, state board & more</p>
@@ -349,15 +350,24 @@ export default function BarberPWAHome() {
             <Scissors className="w-6 h-6" />
             <span className="text-xs font-medium">Home</span>
           </button>
-          <Link href="/apprentice/timeclock" className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+          <Link
+            href="/apprentice/timeclock"
+            className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition"
+          >
             <Clock className="w-6 h-6" />
             <span className="text-xs">Clock</span>
           </Link>
-          <Link href="/pwa/barber/onboarding" className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+          <Link
+            href="/pwa/barber/onboarding"
+            className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition"
+          >
             <BookOpen className="w-6 h-6" />
             <span className="text-xs">Training</span>
           </Link>
-          <Link href="/apprentice/competencies" className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition">
+          <Link
+            href="/apprentice/competencies"
+            className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 transition"
+          >
             <TrendingUp className="w-6 h-6" />
             <span className="text-xs">Progress</span>
           </Link>

@@ -6,6 +6,9 @@ import {
   sharedStandaloneTraceExcludes,
 } from './scripts/next-standalone-trace-excludes.mjs';
 
+const useStandaloneOutput =
+  process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable Next's built-in lint step during build — ESLint runs separately
@@ -100,8 +103,9 @@ const nextConfig = {
       return `build-${Date.now()}`;
     }
   },
-  // Standalone output for containerized Node.js runtime via Dockerfile.northflank-*.
-  output: 'standalone',
+  // Standalone output is required for Docker/Northflank runtime. GitHub Actions
+  // CI builds skip it to avoid long standalone trace collection on this large app.
+  ...(useStandaloneOutput ? { output: 'standalone' } : {}),
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // transpilePackages compiles it so webpack can parse it.
   transpilePackages: ['edge-tts'],
@@ -990,9 +994,10 @@ const nextConfig = {
       // /programs/hvac-technician-program redirect removed — canonical routes only.
       { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
       { source: '/workforce-training-indiana', destination: '/workforce-training-indianapolis', permanent: true },
-      { source: '/wioa-training', destination: '/wioa-funded-training-indiana', permanent: true },
-      { source: '/wioa-training-indiana', destination: '/wioa-funded-training-indiana', permanent: true },
-      { source: '/wioa-funded-training', destination: '/wioa-funded-training-indiana', permanent: true },
+      // Collapsed: /wioa-funded-training-indiana itself 301s to /wioa-eligibility, so point straight there (single hop).
+      { source: '/wioa-training', destination: '/wioa-eligibility', permanent: true },
+      { source: '/wioa-training-indiana', destination: '/wioa-eligibility', permanent: true },
+      { source: '/wioa-funded-training', destination: '/wioa-eligibility', permanent: true },
       { source: '/healthcare-training', destination: '/healthcare-training-indianapolis', permanent: true },
       { source: '/skilled-trades-training', destination: '/skilled-trades-training-indiana', permanent: true },
       { source: '/it-certification-training', destination: '/it-certification-training-indianapolis', permanent: true },
