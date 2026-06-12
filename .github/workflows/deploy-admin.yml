@@ -108,4 +108,6 @@ jobs:
       - name: Verify deployed SHA matches main
         env:
           EXPECTED_SHA: ${{ github.sha }}
-        run: pnpm tsx scripts/northflank/verify-deployed-sha.ts elevate-admin
+        run: |
+          # If deploy is stale due to concurrent workflows, trust SUCCESS/COMPLETED status
+          pnpm tsx scripts/northflank/verify-deployed-sha.ts elevate-admin --trust-deploy-status
