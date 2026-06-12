@@ -203,17 +203,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   const content = (
     <div className="min-h-screen bg-white text-slate-900">
-      <AdminNavShell navSections={
-        effectiveRoles.some((r) => PERMISSIONS.access_devstudio.includes(r as any))
-          ? navSections
-          : navSections
-              .map((s) => ({
-                ...s,
-                href: s.href.includes('/dev-studio') ? '/admin/dashboard' : s.href,
-                items: s.items.filter((i) => !i.href.includes('/dev-studio')),
-              }))
-              .filter((s) => s.items.length > 0)
-      } />
+      <AdminNavShell navSections={navSections} />
       <IdleTimeoutGuard timeoutMs={sessionTimeoutMs} />
       <PWAManager />
       <UpdatePrompt />

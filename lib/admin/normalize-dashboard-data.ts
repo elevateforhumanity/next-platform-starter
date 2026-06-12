@@ -1,4 +1,3 @@
-import { getDegradedAdminDashboardData } from '@/lib/admin/degraded-dashboard-data';
 import type {
   AdminDashboardData,
   DashboardCounts,
@@ -33,6 +32,43 @@ const PRIORITY_SEVERITIES = new Set<PriorityItem['severity']>([
   'low',
 ]);
 
+const FALLBACK_OPERATIONAL: OperationalCounts = {
+  needsReview: 0,
+  needsReviewDetail: '',
+  atRisk: 0,
+  complianceAlerts: 0,
+  complianceAlertsSeverity: null,
+  newToday: 0,
+  newTodayDetail: '',
+  newAppsToday: 0,
+  newLeadsToday: 0,
+  newEnrollmentsToday: 0,
+  revenueThisMonthCents: 0,
+};
+
+const FALLBACK_SYSTEM_HEALTH: AdminDashboardData['systemHealth'] = {
+  stripeWebhookOk: true,
+  stripeIssuingOk: true,
+  buildEnvOk: true,
+  staleJobs: 0,
+  degraded: false,
+  missingDocuments: 0,
+  missingCertifications: 0,
+  unresolvedFlags: 0,
+  alerts: [],
+};
+
+const FALLBACK_COUNTS: DashboardCounts = {
+  pendingApplications: 0,
+  activeEnrollments: 0,
+  revenueThisMonthCents: 0,
+  certificatesIssued: 0,
+  pendingProgramHolders: 0,
+  pendingDocuments: 0,
+};
+
+const FALLBACK_SITE_PREVIEW: SitePreviewTarget[] = [];
+
 function normalizeKpis(kpis: KPICard[] | null | undefined): KPICard[] {
   return asObjectArray(kpis).map((kpi) => ({
     label: typeof kpi.label === 'string' ? kpi.label : 'Metric',
@@ -60,30 +96,28 @@ function normalizePriorities(items: PriorityItem[] | null | undefined): Priority
 function normalizeOperational(
   operational: Partial<OperationalCounts> | null | undefined,
 ): OperationalCounts {
-  const base = getDegradedAdminDashboardData().operational;
   const raw = operational ?? {};
   return {
-    needsReview: asCount(raw.needsReview, base.needsReview),
+    needsReview: asCount(raw.needsReview, FALLBACK_OPERATIONAL.needsReview),
     needsReviewDetail:
-      typeof raw.needsReviewDetail === 'string' ? raw.needsReviewDetail : base.needsReviewDetail,
-    atRisk: asCount(raw.atRisk, base.atRisk),
-    complianceAlerts: asCount(raw.complianceAlerts, base.complianceAlerts),
+      typeof raw.needsReviewDetail === 'string' ? raw.needsReviewDetail : FALLBACK_OPERATIONAL.needsReviewDetail,
+    atRisk: asCount(raw.atRisk, FALLBACK_OPERATIONAL.atRisk),
+    complianceAlerts: asCount(raw.complianceAlerts, FALLBACK_OPERATIONAL.complianceAlerts),
     complianceAlertsSeverity:
-      typeof raw.complianceAlertsSeverity === 'string' ? raw.complianceAlertsSeverity : null,
-    newToday: asCount(raw.newToday, base.newToday),
+      typeof raw.complianceAlertsSeverity === 'string' ? raw.complianceAlertsSeverity : FALLBACK_OPERATIONAL.complianceAlertsSeverity,
+    newToday: asCount(raw.newToday, FALLBACK_OPERATIONAL.newToday),
     newTodayDetail:
-      typeof raw.newTodayDetail === 'string' ? raw.newTodayDetail : base.newTodayDetail,
-    newAppsToday: asCount(raw.newAppsToday, base.newAppsToday),
-    newLeadsToday: asCount(raw.newLeadsToday, base.newLeadsToday),
-    newEnrollmentsToday: asCount(raw.newEnrollmentsToday, base.newEnrollmentsToday),
-    revenueThisMonthCents: asCount(raw.revenueThisMonthCents, base.revenueThisMonthCents),
+      typeof raw.newTodayDetail === 'string' ? raw.newTodayDetail : FALLBACK_OPERATIONAL.newTodayDetail,
+    newAppsToday: asCount(raw.newAppsToday, FALLBACK_OPERATIONAL.newAppsToday),
+    newLeadsToday: asCount(raw.newLeadsToday, FALLBACK_OPERATIONAL.newLeadsToday),
+    newEnrollmentsToday: asCount(raw.newEnrollmentsToday, FALLBACK_OPERATIONAL.newEnrollmentsToday),
+    revenueThisMonthCents: asCount(raw.revenueThisMonthCents, FALLBACK_OPERATIONAL.revenueThisMonthCents),
   };
 }
 
 function normalizeSystemHealth(
   health: Partial<AdminDashboardData['systemHealth']> | null | undefined,
 ): AdminDashboardData['systemHealth'] {
-  const base = getDegradedAdminDashboardData().systemHealth;
   const raw = health ?? {};
   const alerts = asObjectArray(raw.alerts).map((alert) => ({
     code: typeof alert.code === 'string' ? alert.code : 'unknown',
@@ -97,12 +131,12 @@ function normalizeSystemHealth(
     stripeWebhookOk: raw.stripeWebhookOk === true,
     stripeIssuingOk: raw.stripeIssuingOk === true,
     buildEnvOk: raw.buildEnvOk === true,
-    staleJobs: asCount(raw.staleJobs, base.staleJobs),
+    staleJobs: asCount(raw.staleJobs, FALLBACK_SYSTEM_HEALTH.staleJobs),
     degraded: raw.degraded === true || alerts.some((a) => a.severity === 'critical'),
-    missingDocuments: asCount(raw.missingDocuments, base.missingDocuments),
-    missingCertifications: asCount(raw.missingCertifications, base.missingCertifications),
-    unresolvedFlags: asCount(raw.unresolvedFlags, base.unresolvedFlags),
-    alerts: alerts.length ? alerts : base.alerts,
+    missingDocuments: asCount(raw.missingDocuments, FALLBACK_SYSTEM_HEALTH.missingDocuments),
+    missingCertifications: asCount(raw.missingCertifications, FALLBACK_SYSTEM_HEALTH.missingCertifications),
+    unresolvedFlags: asCount(raw.unresolvedFlags, FALLBACK_SYSTEM_HEALTH.unresolvedFlags),
+    alerts: alerts.length ? alerts : FALLBACK_SYSTEM_HEALTH.alerts,
   };
 }
 
@@ -225,15 +259,14 @@ function normalizeCounts(
   counts: Partial<DashboardCounts> | null | undefined,
   pendingApplicationsListLength: number,
 ): DashboardCounts {
-  const base = getDegradedAdminDashboardData().counts;
   const raw = counts ?? {};
   return {
     pendingApplications: asCount(raw.pendingApplications, pendingApplicationsListLength),
-    activeEnrollments: asCount(raw.activeEnrollments, base.activeEnrollments),
-    revenueThisMonthCents: asCount(raw.revenueThisMonthCents, base.revenueThisMonthCents),
-    certificatesIssued: asCount(raw.certificatesIssued, base.certificatesIssued),
-    pendingProgramHolders: asCount(raw.pendingProgramHolders, base.pendingProgramHolders),
-    pendingDocuments: asCount(raw.pendingDocuments, base.pendingDocuments),
+    activeEnrollments: asCount(raw.activeEnrollments, FALLBACK_COUNTS.activeEnrollments),
+    revenueThisMonthCents: asCount(raw.revenueThisMonthCents, FALLBACK_COUNTS.revenueThisMonthCents),
+    certificatesIssued: asCount(raw.certificatesIssued, FALLBACK_COUNTS.certificatesIssued),
+    pendingProgramHolders: asCount(raw.pendingProgramHolders, FALLBACK_COUNTS.pendingProgramHolders),
+    pendingDocuments: asCount(raw.pendingDocuments, FALLBACK_COUNTS.pendingDocuments),
   };
 }
 
@@ -241,8 +274,37 @@ function normalizeCounts(
 export function normalizeAdminDashboardData(
   input: Partial<AdminDashboardData> | null | undefined,
 ): AdminDashboardData {
-  const fallback = getDegradedAdminDashboardData();
-  if (!input) return fallback;
+  if (!input) return {
+    counts: FALLBACK_COUNTS,
+    revenueAllTimeCents: 0,
+    totalStudents: 0,
+    recentPayments: [],
+    operational: FALLBACK_OPERATIONAL,
+    priorities: [],
+    kpis: [],
+    enrollmentTrend: [],
+    studentStatuses: [],
+    topPrograms: [],
+    recentActivity: [],
+    recentStudents: [],
+    recentApplications: [],
+    pendingApplications: [],
+    blockedPrograms: [],
+    inactiveLearners: [],
+    pendingSubmissions: [],
+    complianceAlerts: [],
+    staleLeads: [],
+    pendingWioaDocs: 0,
+    stalledApplications: [],
+    noOutcomeEnrollments: [],
+    missingFundingEnrollments: [],
+    profile: null,
+    generatedAt: new Date().toISOString(),
+    sitePreviewTargets: FALLBACK_SITE_PREVIEW,
+    degradedSections: [],
+    systemHealth: FALLBACK_SYSTEM_HEALTH,
+    isSuperAdmin: false,
+  };
 
   const pendingApplications = normalizeRecentApplications(
     input.pendingApplications as RecentApplication[] | undefined,
@@ -250,11 +312,9 @@ export function normalizeAdminDashboardData(
   const recentApplications = normalizeRecentApplications(input.recentApplications);
 
   return {
-    ...fallback,
-    ...input,
     counts: normalizeCounts(input.counts, pendingApplications.length || recentApplications.length),
-    revenueAllTimeCents: asCount(input.revenueAllTimeCents, fallback.revenueAllTimeCents),
-    totalStudents: asCount(input.totalStudents, fallback.totalStudents),
+    revenueAllTimeCents: asCount(input.revenueAllTimeCents, 0),
+    totalStudents: asCount(input.totalStudents, 0),
     recentPayments: asObjectArray(input.recentPayments),
     operational: normalizeOperational(input.operational),
     priorities: normalizePriorities(input.priorities),
@@ -276,16 +336,16 @@ export function normalizeAdminDashboardData(
     pendingSubmissions: asObjectArray(input.pendingSubmissions),
     complianceAlerts: asObjectArray(input.complianceAlerts),
     staleLeads: asObjectArray(input.staleLeads),
-    pendingWioaDocs: asCount(input.pendingWioaDocs, fallback.pendingWioaDocs),
+    pendingWioaDocs: asCount(input.pendingWioaDocs, 0),
     stalledApplications: asObjectArray(input.stalledApplications),
     noOutcomeEnrollments: asObjectArray(input.noOutcomeEnrollments),
     missingFundingEnrollments: asObjectArray(input.missingFundingEnrollments),
     profile: normalizeProfile(input.profile),
     generatedAt:
-      typeof input.generatedAt === 'string' ? input.generatedAt : fallback.generatedAt,
+      typeof input.generatedAt === 'string' ? input.generatedAt : new Date().toISOString(),
     sitePreviewTargets: normalizeSitePreviewTargets(
       input.sitePreviewTargets,
-      fallback.sitePreviewTargets,
+      FALLBACK_SITE_PREVIEW,
     ),
     degradedSections: asArray(input.degradedSections).filter(
       (section): section is AdminDashboardData['degradedSections'][number] =>
