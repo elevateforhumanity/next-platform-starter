@@ -22,7 +22,7 @@ export default async function BarbershopOnboardingLayout({
   }
 
   const db = await requireAdminClient();
-  if (!db) redirect('/login');
+  if (!db) redirect('/login?redirect=/partners/barber-host-shop/onboarding');
   const { data: profile } = await db
     .from('profiles')
     .select('role')

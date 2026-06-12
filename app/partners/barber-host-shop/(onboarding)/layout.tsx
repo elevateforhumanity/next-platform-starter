@@ -19,11 +19,11 @@ export default async function BarberHostShopOnboardingLayout({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login?redirect=/partner/dashboard');
+    redirect('/login?redirect=/partners/barber-host-shop/onboarding');
   }
 
   const db = await requireAdminClient();
-  if (!db) redirect('/login');
+  if (!db) redirect('/login?redirect=/partners/barber-host-shop/onboarding');
 
   const { data: profile } = await db
     .from('profiles')

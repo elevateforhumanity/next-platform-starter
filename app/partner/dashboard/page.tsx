@@ -32,7 +32,7 @@ export default async function PartnerDashboardPage() {
   try {
     db = await requireAdminClient();
   } catch {
-    redirect('/login');
+    redirect('/login?redirect=/partner/dashboard');
   }
 
   const { data: profile } = await db
