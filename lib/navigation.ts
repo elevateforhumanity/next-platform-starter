@@ -115,45 +115,17 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       { name: '— Registered programs —', href: '/apprenticeships', isHeader: true },
       { name: 'Overview & how it works', href: '/apprenticeships' },
-      { name: 'Browse beauty apprenticeships →', href: '/beauty-apprenticeships', isSectionLink: true },
+      { name: 'Barber Apprenticeship · $4,980', href: canonicalRoutes.programs.barberApprenticeship },
+      { name: 'Cosmetology Apprenticeship', href: canonicalRoutes.programs.cosmetologyApprenticeship },
+      { name: 'Esthetician Apprenticeship', href: canonicalRoutes.programs.estheticianApprenticeship },
+      { name: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
       { name: 'Culinary Apprenticeship', href: '/programs/culinary-apprenticeship' },
       { name: 'Host shop inquiry', href: '/forms/host-shop-inquiry' },
-      { name: 'Become an apprenticeship sponsor →', href: '/apprenticeship-sponsor', isSectionLink: true },
-    
-      { name: '— Apprenticeship Resources —', href: '/apprentice/handbook', isHeader: true },
-      { name: 'Handbook', href: '/apprentice/handbook' },
-      { name: 'IPLA Exam', href: '/apprenticeships/ipla-exam' },
-      { name: 'Beauty Apprenticeships', href: '/beauty-apprenticeships' },
-      { name: 'Booth Rental', href: '/booth-rental' },
+      { name: 'Become an apprenticeship sponsor →', href: '/apprentice/sponsor', isSectionLink: true },
     ],
   },
 
-  {
-    id: 'testing',
-    name: 'Testing',
-    href: '/testing',
-    subItems: [
-      { name: '— Certification exams —', href: '/testing', isHeader: true },
-      { name: 'Testing overview', href: '/testing' },
-      { name: 'NHA Healthcare Exams', href: '/testing/nha' },
-      { name: 'EPA 608 (HVAC)', href: '/testing/esco' },
-      { name: 'Certiport (IT / Microsoft)', href: '/testing/certiport' },
-      { name: 'ACT WorkKeys', href: '/testing/workkeys' },
-
-      { name: '— Schedule & verify —', href: '/testing/book', isHeader: true },
-      { name: 'Book a testing session', href: '/testing/book' },
-      { name: 'Testing accommodations', href: '/testing/accommodations' },
-      { name: 'Verify a credential', href: '/verify' },
-    
-      { name: '— Credentials & Testing —', href: '/certificates', isHeader: true },
-      { name: 'Certificates', href: '/certificates' },
-      { name: 'Certification Testing', href: '/certification-testing' },
-      { name: 'Credentials', href: '/credentials' },
-      { name: 'Checksheets', href: '/credentials/checksheets' },
-      { name: 'HVAC Standards', href: '/credentials/hvac-standards' },
-      { name: 'Workkeys', href: '/workkeys' },
-    ],
-  },
+  // Testing tab removed - users access via /testing
 
   {
     id: 'funding',
