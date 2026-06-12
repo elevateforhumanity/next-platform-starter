@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { checkAdminIPAsync } from '@/lib/api/admin-ip-guard';
 import { getSecuritySettings } from '@/lib/admin/security-settings';
-import { buildLoginUrl, buildReturnPath } from '@/lib/auth/validate-redirect';
+import { buildLoginUrl, buildReturnPath, buildCleanReturnPath } from '@/lib/auth/validate-redirect';
 import { withSupabaseAuthCookieDomain } from '@/lib/supabase/auth-cookie-domain';
 import {
   rewriteCustomDomainRequest,
@@ -672,7 +672,7 @@ export async function middleware(request: NextRequest) {
   if (!supabaseUrl || !supabaseKey) {
     // Supabase not configured — fail closed: redirect to login rather than
     // allowing unauthenticated access to protected routes
-    const loginUrl = buildLoginUrl(request.url, buildReturnPath(pathname, search));
+    const loginUrl = buildLoginUrl(request.url, buildCleanReturnPath(pathname, search));
     return NextResponse.redirect(loginUrl, { status: 307 });
   }
 
@@ -703,7 +703,7 @@ export async function middleware(request: NextRequest) {
 
   // Not authenticated - redirect to login with return URL
   if (!user) {
-    const loginUrl = buildLoginUrl(request.url, buildReturnPath(pathname, search));
+    const loginUrl = buildLoginUrl(request.url, buildCleanReturnPath(pathname, search));
     return NextResponse.redirect(loginUrl, { status: 307 });
   }
 
@@ -735,7 +735,7 @@ export async function middleware(request: NextRequest) {
       // is a no-op and the session cookie remains valid. The login page detects
       // ?reason=idle and calls supabase.auth.signOut() client-side where the
       // cookie write actually takes effect.
-      const idleUrl = buildLoginUrl(request.url, buildReturnPath(pathname, search));
+      const idleUrl = buildLoginUrl(request.url, buildCleanReturnPath(pathname, search));
       idleUrl.searchParams.set('reason', 'idle');
       const idleResponse = NextResponse.redirect(idleUrl, { status: 307 });
       idleResponse.cookies.delete(ACTIVITY_COOKIE);
