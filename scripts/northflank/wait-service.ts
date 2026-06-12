@@ -227,14 +227,20 @@ async function main() {
       last = label;
     }
 
+    const deployReady = deploy && DEPLOY_READY_STATUSES.has(deploy);
+    const buildDone = !build || BUILD_DONE_STATUSES.has(build);
+
+    // If build failed but deployment is RUNNING/COMPLETED, the old deployment is still live
+    // Don't fail - we can still serve traffic with the previous image
     if (BUILD_FAILURE_STATUSES.has(build ?? '')) {
-      console.error(`${serviceId} build failed (${build})`);
+      if (deployReady) {
+        console.log(`${serviceId}: build failed (${build}) but deployment is healthy (${deploy}) - using previous image`);
+        return;
+      }
+      console.error(`${serviceId} build failed (${build}) and deployment not ready (${deploy})`);
       await printFailureDiagnostics(projectId, serviceId, buildId, service);
       process.exit(1);
     }
-
-    const deployReady = deploy && DEPLOY_READY_STATUSES.has(deploy);
-    const buildDone = !build || BUILD_DONE_STATUSES.has(build);
 
     if (buildDone && deployReady) {
       return;
