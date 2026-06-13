@@ -54,6 +54,7 @@ export const HOSPITALITY: ProgramSchema = {
     },
     { statement: 'Coordinate event setup and execution', assessedAt: 'Week 7' },
     { statement: 'Pass ServSafe Food Handler certification exam', assessedAt: 'Week 6' },
+    { statement: 'Maintain cleanliness and safety standards per brand guidelines', assessedAt: 'Week 3' },
   ],
   careerPathway: [
     {

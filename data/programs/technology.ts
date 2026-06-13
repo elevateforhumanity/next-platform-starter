@@ -50,6 +50,7 @@ export const TECHNOLOGY: ProgramSchema = {
     },
     { statement: 'Identify and respond to common cybersecurity threats', assessedAt: 'Week 10' },
     { statement: 'Pass CompTIA A+ Core 1 and Core 2 exams', assessedAt: 'Week 12' },
+    { statement: 'Set up and manage user accounts, permissions, and security policies', assessedAt: 'Week 7' },
   ],
   careerPathway: [
     {

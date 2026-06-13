@@ -52,6 +52,14 @@ export const COMMUNITY_HEALTH_WORKER: ProgramSchema = {
       statement: 'Complete supervised community practicum hours with competency sign-off',
       assessedAt: 'Week 9',
     },
+    {
+      statement: 'Educate individuals and families on health topics and preventive care',
+      assessedAt: 'Week 5',
+    },
+    {
+      statement: 'Demonstrate cultural competency and effective communication with diverse populations',
+      assessedAt: 'Week 8',
+    },
   ],
   careerPathway: [
     {

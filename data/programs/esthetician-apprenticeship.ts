@@ -56,6 +56,7 @@ export const ESTHETICIAN_APPRENTICESHIP: ProgramSchema = {
       assessedAt: 'After 700 hours',
     },
     { statement: 'Maintain sanitation and infection control standards', assessedAt: 'Ongoing' },
+    { statement: 'Demonstrate professional communication and client consultation skills', assessedAt: 'Month 3' },
   ],
   careerPathway: [
     {
