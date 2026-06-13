@@ -6,11 +6,6 @@
   "engines": {
     "node": ">=20.11.1"
   },
-  "pnpm": {
-    "overrides": {
-      "@playwright/test": "1.57.0"
-    }
-  },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,css,md}": [
       "prettier --write"
@@ -483,7 +478,8 @@
       "qs": "^6.15.1",
       "dompurify": "^3.4.2",
       "uuid": "^14.0.0",
-      "postcss": "^8.5.13"
+      "postcss": "^8.5.13",
+      "@playwright/test": "1.57.0"
     }
   }
 }
