@@ -19,7 +19,8 @@ module.exports = {
   create(context) {
     let hasUseSearchParams = false;
     let hasSuspenseWrapper = false;
-    let isPageFile = context.getFilename().endsWith('page.tsx');
+    const filename = context.filename || (context.sourceCode && context.sourceCode.filename) || '';
+    let isPageFile = filename.endsWith('page.tsx');
 
     return {
       // Check for useSearchParams import/usage

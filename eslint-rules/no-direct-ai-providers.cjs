@@ -71,7 +71,7 @@ module.exports = {
   },
 
   create(context) {
-    const filename = context.getFilename();
+    const filename = context.filename || (context.sourceCode && context.sourceCode.filename) || '';
     if (isAllowed(filename)) return {};
 
     return {
