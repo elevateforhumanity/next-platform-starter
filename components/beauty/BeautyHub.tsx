@@ -422,7 +422,7 @@ export default function BeautyHub() {
               <div key={program.slug} className="relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all border-2 border-transparent hover:border-amber-500">
                 {program.hot && <div className="absolute top-4 right-4 z-10"><span className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse">🔥 HOT</span></div>}
                 <div className="relative h-48 overflow-hidden">
-                  <Image src={program.image} alt={program.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <Image sizes="100vw" src={program.image} alt={program.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className={`absolute inset-0 bg-gradient-to-t ${program.color} opacity-70`} />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className={`${program.color} w-20 h-20 rounded-full flex items-center justify-center text-white shadow-2xl`}>{PROGRAM_ICONS[program.type]}</div>
@@ -471,7 +471,7 @@ export default function BeautyHub() {
                 {t.earnings && <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-3 mb-4 text-center"><p className="text-green-400 text-xs font-bold uppercase">Now Earns</p><p className="text-2xl font-black text-green-400">{t.earnings}</p></div>}
                 {t.revenue && <div className="bg-amber-500/20 border border-amber-500/50 rounded-lg p-3 mb-4 text-center"><p className="text-amber-400 text-xs font-bold uppercase">Revenue Increase</p><p className="text-2xl font-black text-amber-400">{t.revenue}</p></div>}
                 <div className="flex items-center gap-3">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-500"><Image src={t.image} alt={t.name} fill className="object-cover" /></div>
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-amber-500"><Image sizes="100vw" src={t.image} alt={t.name} fill className="object-cover" /></div>
                   <div><h4 className="font-bold">{t.name}</h4><p className="text-amber-400 text-sm">{t.role}</p><p className="text-gray-400 text-xs">{t.location}</p></div>
                 </div>
               </div>
@@ -513,7 +513,7 @@ export default function BeautyHub() {
               {filteredShops.map((shop) => (
                 <div key={shop.id} className="bg-white rounded-xl p-4 border-2 border-gray-100 hover:border-amber-200 transition-all">
                   <div className="flex gap-4">
-                    <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0"><Image src={shop.image} alt={shop.name} fill className="object-cover" /></div>
+                    <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0"><Image sizes="100vw" src={shop.image} alt={shop.name} fill className="object-cover" /></div>
                     <div className="flex-1">
                       <div className="flex items-start justify-between">
                         <div><h4 className="font-bold text-gray-900 flex items-center gap-2">{shop.name}{shop.verified && <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded-full flex items-center gap-1"><CheckCircle className="w-3 h-3" />Verified</span>}</h4><p className="text-sm text-gray-500 flex items-center gap-1"><MapPin className="w-3 h-3" />{shop.city}, {shop.state}</p></div>

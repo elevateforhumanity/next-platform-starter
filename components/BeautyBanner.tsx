@@ -136,7 +136,7 @@ export default function BeautyBanner() {
       <div 
         className={`absolute inset-0 transition-opacity duration-500 ${isAnimating ? 'opacity-80' : 'opacity-100'}`}
       >
-        <Image
+        <Image sizes="100vw"
           src={slide.image}
           alt={slide.title}
           fill

@@ -87,6 +87,7 @@ export default function ApprenticeshipsPage() {
                 className={`${card.base} group flex flex-col`}
               >
                 <div className={card.programImage}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={t.img}
                     alt={t.title}

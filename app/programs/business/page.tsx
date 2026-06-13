@@ -141,6 +141,7 @@ export default function BusinessProgramsPage() {
                     className="group block bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                   >
                     <div className="relative h-40">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                       <Image
                         src={p.image}
                         alt={p.title}
