@@ -68,20 +68,21 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && test -x /app/node_modules/next/dist/bin/next \
     && cd apps/admin \
     && node /app/node_modules/next/dist/bin/next build \
-    && cd ../.. \
+    && cd /app \
     && node scripts/prune-admin-standalone.mjs \
     && mkdir -p /export/extra-node_modules \
-    # Export only modules NOT already in standalone/node_modules
+    # Export ws (for WebSocket) from admin node_modules
     && WS_DIR="$(node -p "require('path').dirname(require.resolve('ws/package.json',{paths:[require('path').join(process.cwd(),'apps/admin')]}))")" \
     && cp -a "${WS_DIR}/." /export/extra-node_modules/ws/ \
-    && SHARP_DIR="$(node -p "require('path').dirname(require.resolve('sharp/package.json'))")" \
-    && cp -a "${SHARP_DIR}/." /export/extra-node_modules/sharp/ \
-    && for pkg in node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
-      node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
-      name="$(basename "$pkg")"; \
-      cp -a "$pkg" "/export/extra-node_modules/@img/${name}"; \
-    done \
-    && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
+    && test -f /export/extra-node_modules/ws/package.json \
+    # Export sharp + @img native binaries (direct cp, not from pnpm store)
+    && cp -a node_modules/sharp /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/@napi-rs/canvas /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/pdf-parse /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/pdfjs-dist /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 /export/extra-node_modules/@img/ 2>/dev/null || true \
+    && cp -a node_modules/.pnpm/@napi-rs+canvas-linux-x64-gnu@*/node_modules/@napi-rs/canvas-linux-x64-gnu /export/extra-node_modules/@napi-rs/ 2>/dev/null || true \
+    && test -f /export/extra-node_modules/sharp/package.json \
     && test -f /export/extra-node_modules/@napi-rs/canvas/package.json \
     && test -f /export/extra-node_modules/pdf-parse/package.json \
     && NODE_PATH=/app/node_modules:/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
