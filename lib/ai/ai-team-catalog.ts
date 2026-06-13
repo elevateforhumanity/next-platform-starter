@@ -19,6 +19,8 @@ export interface AiTeamAgent {
   /** Maps to operator_tasks.task_type */
   taskType: string;
   featureCode: string;
+  /** Agent illustration */
+  image?: string;
 }
 
 export const AI_TEAM_AGENTS: AiTeamAgent[] = [
@@ -30,6 +32,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['Write landing pages', 'Draft blog posts', 'Optimize meta descriptions'],
     taskType: 'marketing_content',
     featureCode: 'ai_content',
+    image: '/images/agents/marketing-manager.svg',
   },
   {
     id: 'sales_manager',
@@ -39,6 +42,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['Qualify leads', 'Draft outreach', 'CRM task suggestions'],
     taskType: 'sales_outreach',
     featureCode: 'crm',
+    image: '/images/agents/sales-manager.svg',
   },
   {
     id: 'enrollment_specialist',
@@ -48,6 +52,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['Build intake flows', 'Enrollment reminders', 'Document checklists'],
     taskType: 'enrollment_workflow',
     featureCode: 'student_management',
+    image: '/images/agents/enrollment-specialist.svg',
   },
   {
     id: 'course_author',
@@ -57,6 +62,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['Generate curriculum', 'Quiz questions', 'Certificate copy'],
     taskType: 'course_build',
     featureCode: 'lms',
+    image: '/images/agents/course-author.svg',
   },
   {
     id: 'developer',
@@ -66,6 +72,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['Edit site config', 'Suggest API integrations', 'Deploy checklist'],
     taskType: 'code_change',
     featureCode: 'api_access',
+    image: '/images/agents/developer.svg',
   },
   {
     id: 'compliance_officer',
@@ -75,6 +82,7 @@ export const AI_TEAM_AGENTS: AiTeamAgent[] = [
     capabilities: ['PIRL prep notes', 'Policy drafts', 'Audit reminders'],
     taskType: 'compliance_report',
     featureCode: 'workforce',
+    image: '/images/agents/compliance-officer.svg',
   },
 ];
 
