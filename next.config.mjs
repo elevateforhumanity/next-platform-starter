@@ -161,6 +161,13 @@ const nextConfig = {
   experimental: {
     workerThreads: false,
     cpus: 4,
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-'],
+    modularizeImports: {
+      'lucide-react': {
+        transform: 'lucide-react/dist/esm/icons/{{member}}',
+        skipDefaultConversion: true,
+      },
+    },
     serverActions: {
       allowedOrigins: [
         'www.elevateforhumanity.org',
