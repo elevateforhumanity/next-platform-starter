@@ -124,6 +124,9 @@ COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-run
 # Fail image build if PDF stack is missing (OCR + pdf-parse routes need canvas at runtime).
 RUN NODE_PATH=/app/node_modules node scripts/verify-pdf-runtime.mjs lms
 
+# Copy wrapper script for graceful shutdown
+COPY --from=builder /app/scripts/lms-server.js ./
+
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
     chown -R nextjs:nodejs /app
@@ -135,4 +138,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
   CMD curl -sf http://127.0.0.1:8080/api/ping || exit 1
 
-CMD ["node", "--max-http-header-size=32768", "server.js"]
+CMD ["node", "--max-http-header-size=32768", "lms-server.js"]
