@@ -84,7 +84,7 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/extra-node_modules/@napi-rs/canvas/package.json \
     && test -f /export/extra-node_modules/pdf-parse/package.json \
-    && NODE_PATH=/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
+    && NODE_PATH=/app/node_modules:/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
 
 # Drop builder-only assets before runtime COPY
 RUN node scripts/prune-admin-builder-disk.mjs

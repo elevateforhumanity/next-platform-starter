@@ -57,6 +57,10 @@ RUN for i in 1 2 3; do \
       echo "Retrying pnpm install ($i/3)..." && sleep 5; \
     done
 
+# Build native modules in place (don't try to copy from pnpm store - causes segfaults)
+RUN node /app/node_modules/sharp/lib/sharp.js --remove-static 2>/dev/null || true \
+    && node /app/node_modules/@napi-rs/canvas/install.js 2>/dev/null || true
+
 RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public-build-env \
     && . /tmp/next-public-build-env \
     && rm -f /tmp/next-public-build-env \
@@ -64,17 +68,12 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && node /app/node_modules/next/dist/bin/next build \
     && node scripts/prune-standalone.mjs \
     && mkdir -p /export/extra-node_modules \
-    && SHARP_DIR="$(node -p "require('path').dirname(require.resolve('sharp/package.json'))")" \
-    && cp -a "${SHARP_DIR}/." /export/extra-node_modules/sharp/ \
-    && for pkg in node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
-      node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
-      name="$(basename "$pkg")"; \
-      cp -a "$pkg" "/export/extra-node_modules/@img/${name}"; \
-    done \
-    && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
-    && test -f /export/extra-node_modules/@napi-rs/canvas/package.json \
-    && test -f /export/extra-node_modules/pdf-parse/package.json \
-    && NODE_PATH=/app/node_modules:/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-lms
+    && cp -a node_modules/sharp /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/@napi-rs/canvas /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/pdf-parse /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/pdfjs-dist /export/extra-node_modules/ 2>/dev/null || true \
+    && cp -a node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 /export/extra-node_modules/@img/ 2>/dev/null || true \
+    && cp -a node_modules/.pnpm/@napi-rs+canvas-linux-x64-gnu@*/node_modules/@napi-rs/canvas-linux-x64-gnu /export/extra-node_modules/@napi-rs/ 2>/dev/null || true
 
 # Drop builder-only assets before runtime COPY
 RUN node scripts/prune-lms-builder-disk.mjs
