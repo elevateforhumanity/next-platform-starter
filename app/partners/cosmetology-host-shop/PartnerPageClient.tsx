@@ -42,7 +42,7 @@ const faqs = [
 
 export default function CosmetologyPartnerPageClient({
   isApproved = false,
-  basePath = '/partners/cosmetology-apprenticeship',
+  basePath = '/partners/cosmetology-host-shop',
   breadcrumbLabel = 'Cosmetology Apprenticeship',
 }: Props) {
   const onboarding = [

@@ -27,5 +27,5 @@ export default async function NailPartnerPage() {
   } catch {
     // unauthenticated — show public page
   }
-  return <NailPartnerPageClient isApproved={isApproved} />;
+  return <NailPartnerPageClient isApproved={isApproved} basePath="/partners/nail-technician-apprenticeship" />;
 }

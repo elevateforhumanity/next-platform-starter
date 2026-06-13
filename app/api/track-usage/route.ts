@@ -65,10 +65,18 @@ const getOfficialDomains = () => {
     domain,
     // Primary domain
     PLATFORM_DEFAULTS.canonicalDomain,
-    PLATFORM_DEFAULTS.canonicalDomain,
+    'elevateforhumanity.org',
+    'www.elevateforhumanity.org',
     // Second owned domain
     'www.elevateforhumanityeducation.com',
     'elevateforhumanityeducation.com',
+    // All legitimate subdomains - NOT clones!
+    'app.elevateforhumanity.org',      // LMS portal
+    'admin.elevateforhumanity.org',     // Admin panel
+    'api.elevateforhumanity.org',      // API subdomain
+    'demo.elevateforhumanity.org',     // Demo site
+    'collab.elevateforhumanity.org',   // Collaboration tools
+    'yourorg.elevateforhumanity.org', // White-label/org subdomain
     // Dev environments — excluded in production
     ...(process.env.NODE_ENV !== 'production' ? ['localhost'] : []),
   ];

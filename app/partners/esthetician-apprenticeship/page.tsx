@@ -27,5 +27,5 @@ export default async function EstheticianPartnerPage() {
   } catch {
     // unauthenticated — show public page
   }
-  return <EstheticianPartnerPageClient isApproved={isApproved} />;
+  return <EstheticianPartnerPageClient isApproved={isApproved} basePath="/partners/esthetician-apprenticeship" />;
 }

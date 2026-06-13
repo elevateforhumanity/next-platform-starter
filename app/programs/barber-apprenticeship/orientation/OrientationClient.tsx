@@ -27,10 +27,11 @@ const HANDBOOK_SLIDES = [
     icon: Shield,
     title: 'Your Apprenticeship',
     content: [
-      'This is a U.S. Department of Labor Registered Apprenticeship — a nationally recognized credential.',
-      'You must complete 2,000 apprenticeship hours total: 1,500 on-the-job training (OJT) hours at your host barbershop and 500 related technical instruction (RTI) hours through the Prestige Elevation Barber curriculum on Elevate LMS.',
+      'This is a U.S. Department of Labor Registered Apprenticeship — RAPIDS Code 0030CB, Registration 2025-IN-132301.',
+      'This is a competency-based program. You must complete 2,000 total training hours, including 260 hours of Related Technical Instruction (RTI).',
+      'The remaining 1,740 hours are completed as on-the-job training (OJT) at your host barbershop.',
+      'You must also master all 14 competencies. Your host shop supervisor verifies competency completion.',
       'Upon completion you are eligible to sit for the Indiana Barber License exam.',
-      'Your host shop supervisor signs off on your hours weekly. Hours not signed off do not count.',
     ],
   },
   {
@@ -62,14 +63,12 @@ const HANDBOOK_SLIDES = [
     icon: BookOpen,
     title: PRESTIGE_ELEVATION_BARBER_CURRICULUM,
     content: [
-      `Your ${PRESTIGE_ELEVATION_BARBER_CURRICULUM} access on Elevate LMS is activated after enrollment and orientation.`,
+      `Your ${PRESTIGE_ELEVATION_BARBER_CURRICULUM} provides the required 260 hours of Related Technical Instruction (RTI) per DOL Standards.`,
+      'The remaining 1,740 hours are completed as on-the-job training (OJT) at your host barbershop.',
+      `RTI Curriculum includes: Barbering History (10h), Anatomy & Physiology (10h), Hair & Scalp Theory (60h), Infection Control/OSHA (60h), Hair Cutting Techniques (40h), State Board Laws (60h), Business Practices (10h), Licensing Prep (10h).`,
       'Sign in at elevateforhumanity.org and open your program from the apprentice dashboard.',
-      'RTI coursework counts toward your 2,000 hour total. You must complete all assigned modules.',
-      'Every training day: complete your assigned theory lesson and pass the daily quiz with 70% or higher before RTI/theory hours credit for that calendar day. You may retake the quiz until you pass.',
-      'If you skip daily theory or do not pass, you will not receive RTI/theory hours for that day (shop OJT may still be tracked separately).',
-      'Your host shop uses the same weekly syllabus so your supervisor coaches the same subject you study online.',
+      'You must complete all RTI coursework and all 14 competencies to be eligible for your Indiana Barber License exam.',
       'Do not share your login. Each account is tied to your enrollment record.',
-      'Course progress is reviewed monthly. Falling behind on RTI may affect your program standing.',
     ],
   },
   {

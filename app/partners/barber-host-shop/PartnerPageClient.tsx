@@ -11,9 +11,10 @@ const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly
 
 interface PartnerPageClientProps {
   isApproved?: boolean;
+  basePath?: string;
 }
 
-export default function PartnerPageClient({ isApproved = false }: PartnerPageClientProps) {
+export default function PartnerPageClient({ isApproved = false, basePath = '/partners/barber-host-shop' }: PartnerPageClientProps) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -90,7 +91,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/partners/barber-host-shop/apply"
+              href={`${basePath}/apply`}
               className="inline-flex items-center justify-center px-10 py-4 bg-brand-red-600 text-white rounded-xl font-extrabold text-lg hover:bg-brand-red-700 transition-colors"
             >
               Apply as a Partner Shop <ArrowRight className="w-5 h-5 ml-2" />
@@ -234,7 +235,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/partners/barber-host-shop/apply"
+              href={`${basePath}/apply`}
               className="inline-flex items-center justify-center px-10 py-4 bg-brand-red-600 text-white rounded-xl font-extrabold text-lg hover:bg-brand-red-700 transition-colors"
             >
               Start Your Application <ArrowRight className="w-5 h-5 ml-2" />
@@ -275,7 +276,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
-              href="/partners/barber-host-shop/handbook"
+              href={`${basePath}/handbook`}
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -291,7 +292,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
             </Link>
 
             <Link
-              href="/partners/barber-host-shop/policy-acknowledgment"
+              href={`${basePath}/policy-acknowledgment`}
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -307,7 +308,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
             </Link>
 
             <Link
-              href="/partners/barber-host-shop/forms"
+              href={`${basePath}/forms`}
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -323,7 +324,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
             </Link>
 
             <Link
-              href="/partners/barber-host-shop/sign-mou"
+              href={`${basePath}/sign-mou`}
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -339,7 +340,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
             </Link>
 
             <Link
-              href="/partners/barber-host-shop/documents"
+              href={`${basePath}/documents`}
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -356,7 +357,7 @@ export default function PartnerPageClient({ isApproved = false }: PartnerPageCli
           </div>
 
           <p className="mt-6 text-xs text-black text-center">
-            Already approved? <Link href="/login?redirect=/partners/barber-host-shop/forms" className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
+            Already approved? <Link href={`/login?redirect=${basePath}/forms`} className="underline text-brand-blue-600">Log in to your partner account</Link> to access these steps. Questions? Call <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="underline">{PLATFORM_DEFAULTS.supportPhone}</a>.
           </p>
         </div>
       </section>

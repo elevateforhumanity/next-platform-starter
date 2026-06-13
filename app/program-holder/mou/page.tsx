@@ -112,7 +112,7 @@ export default async function ProgramHolderMOUPage() {
               </p>
 
               {isCustomHvac ? (
-                /* David Nazaire First Class Training Center — HVAC Co-Delivery */
+                /* Indy On Demand Services — HVAC Co-Delivery */
                 <>
                   <h3 className="font-semibold text-slate-800 mt-5 mb-2">1. Purpose</h3>
                   <p className="mb-4">

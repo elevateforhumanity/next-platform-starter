@@ -35,8 +35,8 @@ RUN npm install -g \
     pnpm \
     yarn
 
-# Create workspace directory
-WORKDIR /workspace
+# Create workspace directory (consistent with /app used in Northflank builds)
+WORKDIR /app
 
 # Copy server code
 COPY server.js package.json ./

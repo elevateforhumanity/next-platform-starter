@@ -46,5 +46,5 @@ export default async function BarbershopPartnerPage() {
     isApproved = !!(bpa || pa);
   }
 
-  return <PartnerPageClient isApproved={isApproved} />;
+  return <PartnerPageClient isApproved={isApproved} basePath="/partners/barber-host-shop" />;
 }

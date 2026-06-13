@@ -46,7 +46,10 @@ export const MIN_SETUP_FEE_CENTS = (() => {
 /** Payment term — fixed at 29 weekly invoices. */
 export const PAYMENT_TERM_WEEKS = 29;
 
-/** Total program hours required. Used for duration display only — not pricing. */
+/** 
+ * Total training hours required per DOL Standards.
+ * 2,000 hours total (OJT + RTI) per DOL Registered Apprenticeship.
+ */
 export const TOTAL_HOURS_REQUIRED = 2000;
 
 /**

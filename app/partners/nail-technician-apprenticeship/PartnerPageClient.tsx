@@ -7,7 +7,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
-interface Props { isApproved?: boolean; }
+interface Props { isApproved?: boolean; basePath?: string; }
 
 const requirements = [
   { title: "Workers' Compensation", desc: "Required for all apprentices. If you don't carry it yet, we can help you understand your options." },
@@ -35,14 +35,14 @@ const faqs = [
   { q: 'What happens after the apprentice finishes?', a: 'They sit for the Indiana State Board nail technician license exam. Many salons hire their apprentices as licensed nail technicians.' },
 ];
 
-const onboarding = [
-  { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: '/login?redirect=/partners/nail-technician-apprenticeship/handbook' },
-  { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: '/login?redirect=/partners/nail-technician-apprenticeship/policy-acknowledgment' },
-  { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: '/login?redirect=/partners/nail-technician-apprenticeship/forms' },
-  { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: '/login?redirect=/partners/nail-technician-apprenticeship/sign-mou' },
-];
+export default function NailPartnerPageClient({ isApproved = false, basePath = '/partners/nail-technician-apprenticeship' }: Props) {
+  const onboarding = [
+    { n: '1', icon: BookOpen, label: 'Read the Partner Handbook', desc: 'Covers responsibilities, supervision requirements, hour tracking, and compensation rules.', href: `/login?redirect=${basePath}/handbook` },
+    { n: '2', icon: ClipboardList, label: 'Acknowledge Policies', desc: 'Review and acknowledge program policies, wage requirements, and supervision standards.', href: `/login?redirect=${basePath}/policy-acknowledgment` },
+    { n: '3', icon: FileText, label: 'Complete Required Forms', desc: "Submit your W-9, workers' comp certificate, and supervisor license documentation.", href: `/login?redirect=${basePath}/forms` },
+    { n: '4', icon: PenLine, label: 'Sign the MOU', desc: 'Digitally sign the Memorandum of Understanding to finalize your partnership.', href: `/login?redirect=${basePath}/sign-mou` },
+  ];
 
-export default function NailPartnerPageClient({ isApproved = false }: Props) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -61,7 +61,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 max-w-3xl">Indiana Nail Technician<br className="hidden sm:block" /> Apprenticeship</h1>
           <p className="text-white/85 text-lg sm:text-xl max-w-xl mb-8">Host an apprentice at your nail salon. Build the next generation of licensed nail technicians.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/nail-technician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Apply as a Host Salon <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">Schedule a Call</a>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function NailPartnerPageClient({ isApproved = false }: Props) {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner With Us?</h2>
           <p className="text-slate-300 text-sm mb-8">Join the Indiana Nail Technician Apprenticeship program and start developing talent for your salon.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/nail-technician-apprenticeship/apply" className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
+            <Link href={`${basePath}/apply`} className="inline-flex items-center justify-center px-8 py-4 bg-rose-600 text-white rounded-xl font-extrabold text-base hover:bg-rose-700 transition-colors">Start Your Application <ArrowRight className="w-5 h-5 ml-2" /></Link>
             <a href={`tel:${PLATFORM_DEFAULTS.supportPhone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-slate-900 rounded-xl font-extrabold text-base hover:bg-white/10 transition-colors">{PLATFORM_DEFAULTS.supportPhone}</a>
           </div>
         </div>

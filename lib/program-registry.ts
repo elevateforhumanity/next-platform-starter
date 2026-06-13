@@ -42,13 +42,6 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
   },
   {
-    slug: 'home-health-aide',
-    name: 'Home Health Aide',
-    category: 'Healthcare',
-    formType: 'apply',
-    active: true,
-  },
-  {
     slug: 'emergency-health-safety',
     name: 'Emergency Health & Safety Technician',
     category: 'Healthcare',
@@ -94,13 +87,6 @@ export const PROGRAMS: ProgramEntry[] = [
     formType: 'apply',
     active: true,
     dedicatedApplyPage: '/programs/barber-apprenticeship/apply',
-  },
-  {
-    slug: 'esthetician',
-    name: 'Esthetician & Skincare Specialist',
-    category: 'Barber & Beauty',
-    formType: 'apply',
-    active: true,
   },
 
   // Business & Financial
@@ -181,29 +167,8 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
   },
   {
-    slug: 'plumbing',
-    name: 'Plumbing Apprenticeship',
-    category: 'Skilled Trades',
-    formType: 'apply',
-    active: true,
-  },
-  {
     slug: 'forklift-operator',
     name: 'Forklift Operator Certification',
-    category: 'Skilled Trades',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'welding',
-    name: 'Welding Certification',
-    category: 'Skilled Trades',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'diesel-mechanic',
-    name: 'Diesel Mechanic',
     category: 'Skilled Trades',
     formType: 'apply',
     active: true,
@@ -226,13 +191,6 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
     dedicatedApplyPage: '/programs/nail-technician-apprenticeship/apply',
   },
-  {
-    slug: 'beauty-career-educator',
-    name: 'Beauty & Career Educator',
-    category: 'Barber & Beauty',
-    formType: 'apply',
-    active: true,
-  },
 
   // Additional Programs
   {
@@ -248,13 +206,6 @@ export const PROGRAMS: ProgramEntry[] = [
     slug: 'business-administration',
     name: 'Business Administration',
     category: 'Business & Financial',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'cad-drafting',
-    name: 'CAD / Drafting',
-    category: 'Technology',
     formType: 'apply',
     active: true,
   },
@@ -308,20 +259,6 @@ export const PROGRAMS: ProgramEntry[] = [
     active: true,
   },
   {
-    slug: 'home-health-aide',
-    name: 'Home Health Aide',
-    category: 'Healthcare',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'hospitality',
-    name: 'Hospitality & Customer Service',
-    category: 'Business & Financial',
-    formType: 'apply',
-    active: true,
-  },
-  {
     slug: 'it-help-desk',
     name: 'IT Help Desk',
     category: 'Technology',
@@ -332,20 +269,6 @@ export const PROGRAMS: ProgramEntry[] = [
     slug: 'medical-assistant',
     name: 'Medical Assistant',
     category: 'Healthcare',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'network-administration',
-    name: 'Network Administration',
-    category: 'Technology',
-    formType: 'apply',
-    active: true,
-  },
-  {
-    slug: 'network-support-technician',
-    name: 'Network Support Technician',
-    category: 'Technology',
     formType: 'apply',
     active: true,
   },

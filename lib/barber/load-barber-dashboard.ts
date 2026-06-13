@@ -7,8 +7,31 @@ import { getNextRequiredAction } from '@/lib/enrollment/gate';
 import { BARBER_COURSE_ID, BARBER_PROGRAM_SLUG } from '@/lib/barber/constants';
 import { BARBER_CURRICULUM_COVER, BARBER_LMS_COURSE_PATH } from '@/lib/barber/branding';
 
-const REQUIRED_OJL = 1500;
-const REQUIRED_RTI = 500;
+/**
+ * Barber Apprenticeship RTI (Related Technical Instruction) Configuration
+ * 
+ * DOL Registered Apprenticeship: RAPIDS Code 0030CB
+ * Registration: 2025-IN-132301
+ * 
+ * PROGRAM REQUIREMENTS (per DOL Standards):
+ *   - Total Training Hours: 2,000 hours (including RTI)
+ *   - RTI Hours: 260 hours (required Related Technical Instruction)
+ *   - OJT Hours: 1,740 hours (2,000 - 260)
+ *   - Competencies: 14
+ * 
+ * RTI Curriculum (260 hours total):
+ *   - Barbering History & Professional Development: 10 hours
+ *   - Anatomy, Physiology & Skin/Nail Disorders: 10 hours
+ *   - Hair & Scalp Theory, Disorders, and Treatments: 60 hours
+ *   - Infection Control & Bloodborne Pathogens (OSHA): 60 hours
+ *   - Hair Cutting Theory, Tool Safety, and Techniques: 40 hours
+ *   - State Board Laws, Rules, and Regulations: 60 hours
+ *   - Business Practices: 10 hours
+ *   - Preparation for State Licensing Examination: 10 hours
+ */
+
+const REQUIRED_OJL = 1740; // 2,000 total - 260 RTI = 1,740 OJT
+const REQUIRED_RTI = 260; // DOL minimum required RTI hours
 
 export type BarberDashboardData = {
   firstName: string;

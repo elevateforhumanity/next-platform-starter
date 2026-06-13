@@ -325,6 +325,14 @@ const nextConfig = {
       { source: '/admin/video-manager', destination: '/admin/studio', permanent: true },
       { source: '/admin/course-builder', destination: '/admin/studio', permanent: true },
       // ============================================
+      // UNIFIED STUDIO — new LMS-hosted studio page
+      // ============================================
+      { source: '/studio(.*)', destination: '/studio$1', permanent: false },
+      // ============================================
+      // UNIFIED ADMIN DASHBOARD — new LMS-hosted admin dashboard
+      // ============================================
+      { source: '/admin-dashboard', destination: '/admin-dashboard', permanent: false },
+      // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
       // /for-students has a dedicated public page — no redirect
@@ -891,6 +899,7 @@ const nextConfig = {
       { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
       { source: '/partners/documents', destination: '/partner/documents', permanent: true },
       { source: '/partners/students', destination: '/partner/students', permanent: true },
+      { source: '/partners/register', destination: '/partner/apply', permanent: true },
       // /partners/login → /partner/login already covered above
       // These were permanentRedirect() page files. Redirects moved here;
       // page files deleted. Run `pnpm route:audit` to verify no stubs remain.

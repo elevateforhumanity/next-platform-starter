@@ -52,10 +52,6 @@ export const PROGRAM_HEROES: Record<string, string> = {
   // Skilled Trades
   'hvac-technician': '/images/pages/hvac-technician.webp',
   hvac: '/images/pages/hvac-unit.webp',
-  electrical: '/images/pages/electrical.webp',
-  plumbing: '/images/pages/plumbing.jpg',
-  welding: '/images/pages/welding-sparks.webp',
-  'diesel-mechanic': '/images/pages/hvac-tools.webp',
   'skilled-trades': '/hero-images/skilled-trades-hero.jpg',
 
   // Transportation
@@ -106,10 +102,6 @@ export const PROGRAM_CATEGORIES: Record<string, ProgramCategory> = {
   // Skilled Trades
   'hvac-technician': 'skilled-trades',
   hvac: 'skilled-trades',
-  electrical: 'skilled-trades',
-  plumbing: 'skilled-trades',
-  welding: 'skilled-trades',
-  'diesel-mechanic': 'skilled-trades',
   'skilled-trades': 'skilled-trades',
 
   // Transportation
