@@ -119,7 +119,12 @@ jobs:
 
       - name: Install Playwright browsers
         run: |
-          pnpm exec playwright install --with-deps chromium
+          # Retry logic for flaky network issues in GitHub Actions
+          for i in 1 2 3; do
+            pnpm exec playwright install --with-deps chromium && break
+            echo "Retrying Playwright install ($i/3)..."
+            sleep 30
+          done
           # Ensure consistent @playwright/test version across all packages
           pnpm add -D @playwright/test@1.57.0 --no-frozen-lockfile
 
