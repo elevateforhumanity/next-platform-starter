@@ -126,7 +126,7 @@ jobs:
             sleep 30
           done
           # Ensure consistent @playwright/test version across all packages
-          pnpm add -D @playwright/test@1.57.0 --no-frozen-lockfile
+          pnpm add -D @playwright/test@1.57.0 --no-save
 
       - name: Browser E2E (CI-safe)
         shell: bash
