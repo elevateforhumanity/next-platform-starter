@@ -59,7 +59,11 @@ ENV HUSKY=0
 ENV CI=true
 
 # Install on /app builder ephemeral disk (32GB). No BuildKit cache mount (ENOSPC on shared store).
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Retry logic for transient network/registry issues
+RUN for i in 1 2 3; do \
+      pnpm install --frozen-lockfile --ignore-scripts && break || \
+      echo "Retrying pnpm install ($i/3)..." && sleep 5; \
+    done
 
 RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public-build-env \
     && . /tmp/next-public-build-env \
