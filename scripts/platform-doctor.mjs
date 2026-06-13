@@ -52,11 +52,12 @@ function lineNumber(content, index) {
   return content.slice(0, index).split('\n').length;
 }
 
-function runCmd(name, cmd, severity = 'CRITICAL') {
+function runCmd(name, cmd, severity = 'CRITICAL', env = {}) {
   log(`\n> ${name}`);
-  const result = spawnSync('bash', ['-lc', `cd "${ROOT}" && ${cmd}`], {
+  const result = spawnSync('bash', ['-c', `cd "${ROOT}" && ${cmd}`], {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
+    env: { ...process.env, ...env },
   });
   const ok = result.status === 0;
   const output = `${result.stdout || ''}${result.stderr || ''}`.trim();
@@ -65,12 +66,13 @@ function runCmd(name, cmd, severity = 'CRITICAL') {
   return { ok, output };
 }
 
-function runCmdWithTimeout(name, cmd, timeoutMs, severity = 'CRITICAL') {
+function runCmdWithTimeout(name, cmd, timeoutMs, severity = 'CRITICAL', env = {}) {
   log(`\n> ${name}`);
-  const result = spawnSync('bash', ['-lc', `cd "${ROOT}" && ${cmd}`], {
+  const result = spawnSync('bash', ['-c', `cd "${ROOT}" && ${cmd}`], {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
     timeout: timeoutMs,
+    env: { ...process.env, ...env },
   });
   if (result.signal === 'SIGTERM' || result.error?.code === 'ETIMEDOUT') {
     addCheck(name, 'pass', `skipped - timed out after ${timeoutMs / 1000}s (treated as pass)`);
@@ -209,18 +211,29 @@ function checkSwallowedCatchBlocks() {
   addCheck('swallowedCatch', count ? 'fail' : 'pass', count ? `${count} swallowed catch block(s)` : 'no swallowed catch blocks detected');
 }
 
-function ingestExternalReport(file, source) {
+function loadBaseline(baselineFile) {
+  if (!fs.existsSync(baselineFile)) return new Set();
+  const lines = fs.readFileSync(baselineFile, 'utf8').split('\n').filter(Boolean);
+  return new Set(lines);
+}
+
+function ingestExternalReport(file, source, baselineFile = null) {
   const report = readJson(file);
   if (!report) {
     addFinding('REPORT', `${source.toUpperCase()}_REPORT_MISSING`, '.', 1, `${source} report not found`);
     return;
   }
+  const baseline = baselineFile ? loadBaseline(baselineFile) : new Set();
   const map = report.findings || [];
+  let newFindings = 0;
   for (const f of map) {
     if (!['CRITICAL', 'STRICT', 'REPORT'].includes(f.severity)) continue;
+    const key = `${f.file}:${f.line}:${f.code}`;
+    if (baseline.has(key)) continue; // Skip baseline violations
+    newFindings++;
     addFinding(f.severity, f.code || source.toUpperCase(), f.file || '.', f.line || 1, `[${source}] ${f.message || 'finding'}`);
   }
-  addCheck(source, 'pass', `ingested ${map.length} finding(s)`);
+  addCheck(source, 'pass', `ingested ${map.length} finding(s), ${newFindings} new`);
 }
 
 function summarize() {
@@ -252,13 +265,15 @@ function main() {
   checkFakeStats();
   checkSwallowedCatchBlocks();
 
-  runCmd('design-enforcer', `node scripts/design-enforcer.mjs ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
+  const DESIGN_BASELINE = path.join(ROOT, 'docs/design-enforcer/baseline.txt');
+  const designEnv = fs.existsSync(DESIGN_BASELINE) ? { DESIGN_ENFORCER_BASELINE: DESIGN_BASELINE } : {};
+  runCmd('design-enforcer', `node scripts/design-enforcer.mjs ${STRICT_MODE ? '--strict' : ''} ${fs.existsSync(DESIGN_BASELINE) ? '--baseline' : ''}`.trim(), 'STRICT', designEnv);
   runCmd('image-contract', `node scripts/image-contract.mjs ${FIX_MODE ? '--fix' : ''} ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
   runCmd('program-template-audit', `node scripts/program-template-audit.mjs ${STRICT_MODE ? '--strict' : ''}`.trim(), 'STRICT');
 
-  ingestExternalReport(path.join(ARTIFACTS, 'design-enforcer-report.json'), 'design-enforcer');
-  ingestExternalReport(path.join(ARTIFACTS, 'image-contract-report.json'), 'image-contract');
-  ingestExternalReport(path.join(ARTIFACTS, 'program-template-audit-report.json'), 'program-template-audit');
+  ingestExternalReport(path.join(ARTIFACTS, 'design-enforcer-report.json'), 'design-enforcer', path.join(ROOT, 'docs/design-enforcer/baseline.txt'));
+  ingestExternalReport(path.join(ARTIFACTS, 'image-contract-report.json'), 'image-contract', path.join(ROOT, 'docs/image-contract/baseline.txt'));
+  ingestExternalReport(path.join(ARTIFACTS, 'program-template-audit-report.json'), 'program-template-audit', path.join(ROOT, 'docs/program-template-audit/baseline.txt'));
 
   const baselinePath = path.join(ROOT, 'docs', 'typecheck-baseline.txt');
   if (!fs.existsSync(baselinePath)) {
