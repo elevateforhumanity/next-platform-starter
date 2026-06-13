@@ -2,7 +2,7 @@
 # Dockerfile.northflank-admin
 #
 # Builds apps/admin on Northflank (combined CI/CD).
-# Optimized: avoids duplicate module copies by only adding missing deps to standalone.
+# Runtime layout matches Dockerfile.admin (custom server.js, ws, public assets).
 
 FROM node:20-bookworm AS builder
 
@@ -38,9 +38,13 @@ RUN rm -rf /app/.pnpm-store /app/.pnpm-home /app/node_modules
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# Northflank nf-compute-400 builders are ~4GB RAM; 8192 heap OOM-kills `next build` in ~1m
 ENV NODE_OPTIONS=--max-old-space-size=4096
 ENV BUILD_SCOPE=1
 ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
+# Required at `next build` because NEXT_PUBLIC_* values are inlined into the
+# admin client bundle. Northflank must provide the real anon key as a build arg
+# or build-time secret; otherwise /api/health reports a placeholder config.
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_ADMIN_URL=https://admin.elevateforhumanity.org
@@ -56,11 +60,9 @@ ENV SKIP_ENV_VALIDATION=true
 ENV HUSKY=0
 ENV CI=true
 
-# Install on /app builder ephemeral disk (32GB via patch-ephemeral-storage).
-RUN for i in 1 2 3; do \
-      pnpm install --frozen-lockfile --ignore-scripts && break || \
-      echo "Retrying pnpm install ($i/3)..." && sleep 5; \
-    done
+# Install on /app builder ephemeral disk (32GB via patch-ephemeral-storage). No BuildKit
+# cache mount — shared store cache was exhausting disk (ERR_PNPM_ENOSPC) on nf builders.
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public-build-env \
     && . /tmp/next-public-build-env \
@@ -68,38 +70,32 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && test -x /app/node_modules/next/dist/bin/next \
     && cd apps/admin \
     && node /app/node_modules/next/dist/bin/next build \
-    && cd /app \
+    && cd ../.. \
     && node scripts/prune-admin-standalone.mjs \
-    # Export ws
     && mkdir -p /export/ws \
     && WS_DIR="$(node -p "require('path').dirname(require.resolve('ws/package.json',{paths:[require('path').join(process.cwd(),'apps/admin')]}))")" \
     && cp -a "${WS_DIR}/." /export/ws/ \
     && test -f /export/ws/package.json \
-    # Export sharp + @img
     && mkdir -p /export/sharp-node_modules/@img \
     && SHARP_DIR="$(node -p "require('path').dirname(require.resolve('sharp/package.json'))")" \
     && cp -a "${SHARP_DIR}/." /export/sharp-node_modules/sharp/ \
-    && for pkg in \
-         node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
-         node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
-       name="$(basename "$pkg")"; \
-       cp -a "$pkg" "/export/sharp-node_modules/@img/${name}"; \
-     done \
+    && for pkg in node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
+      node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
+      name="$(basename "$pkg")"; \
+      cp -a "$pkg" "/export/sharp-node_modules/@img/${name}"; \
+    done \
     && test -f /export/sharp-node_modules/sharp/package.json \
     && test -d /export/sharp-node_modules/@img/sharp-linux-x64 \
-    # Export PDF / canvas deps
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
     && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
     && test -f /export/pdf-node_modules/pdf-parse/package.json \
-    # IMPORTANT: keep NODE_PATH including /app/node_modules to avoid segfaults
-    && NODE_PATH=/app/node_modules:/export/pdf-node_modules \
-       node scripts/verify-pdf-runtime.mjs builder-admin
+    && NODE_PATH=/export/pdf-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
 
-# Drop builder-only assets before runtime COPY
+# Drop node_modules + marketing-only assets before runtime COPY (BuildKit ENOSPC).
 RUN node scripts/prune-admin-builder-disk.mjs
 
-# --- runtime ---
+# --- runtime (same as Dockerfile.admin) ---
 FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -117,13 +113,17 @@ ENV COMMIT_REF=$COMMIT_REF
 
 WORKDIR /app
 
-# Next.js standalone output
 COPY --from=builder /app/apps/admin/.next/standalone ./
+RUN mkdir -p node_modules
+COPY --from=builder /export/sharp-node_modules/sharp ./node_modules/sharp
+COPY --from=builder /export/sharp-node_modules/@img ./node_modules/@img
+COPY --from=builder /export/pdf-node_modules/@napi-rs ./node_modules/@napi-rs
+COPY --from=builder /export/pdf-node_modules/pdfjs-dist ./node_modules/pdfjs-dist
+COPY --from=builder /export/pdf-node_modules/pdf-parse ./node_modules/pdf-parse
 COPY --from=builder /app/apps/admin/.next/server ./apps/admin/.next/server
 COPY --from=builder /app/apps/admin/.next/static ./apps/admin/.next/static
 COPY --from=builder /app/apps/admin/.next/required-server-files.json ./apps/admin/.next/required-server-files.json
-
-# Public assets
+# Slim public assets - skip large marketing-only trees (audio, generated, etc.)
 COPY --from=builder /app/public/fonts ./apps/admin/public/fonts
 COPY --from=builder /app/public/icons ./apps/admin/public/icons
 COPY --from=builder /app/public/forms ./apps/admin/public/forms
@@ -131,39 +131,26 @@ COPY --from=builder /app/public/data ./apps/admin/public/data
 COPY --from=builder /app/public/images ./apps/admin/public/images
 COPY --from=builder /app/public/hero-images ./apps/admin/public/hero-images
 COPY --from=builder /app/public/downloads ./apps/admin/public/downloads
-COPY --from=builder /app/public/apple-touch-icon.png ./apps/admin/public/
-COPY --from=builder /app/public/favicon.ico ./apps/admin/public/
-COPY --from=builder /app/public/favicon.png ./apps/admin/public/
-COPY --from=builder /app/public/logo-dark.svg ./apps/admin/public/
-COPY --from=builder /app/public/logo.svg ./apps/admin/public/
-COPY --from=builder /app/public/logo.png ./apps/admin/public/
-COPY --from=builder /app/public/logo-small.png ./apps/admin/public/
-COPY --from=builder /app/public/logo.webp ./apps/admin/public/
-COPY --from=builder /app/public/manifest.webmanifest ./apps/admin/public/
-
-# Remotion / misc
+# Copy root-level public assets (favicon, logos, manifest, etc.)
+COPY --from=builder /app/apps/admin/public/*.png ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/*.ico ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/*.svg ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/*.webp ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/*.css ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/*.json ./apps/admin/public/
+COPY --from=builder /app/apps/admin/public/manifest.webmanifest ./apps/admin/public/
 COPY --from=builder /app/remotion-src ./remotion-src
+# DevContainer config for Dev Studio local-fallback when GitHub API is unavailable
 COPY --from=builder /app/.devcontainer/devcontainer.json ./.devcontainer/devcontainer.json
 COPY --from=builder /app/apps/admin/server.js ./apps/admin/server.js
 COPY --from=builder /app/lib/server/register-connection-guards.cjs ./lib/server/register-connection-guards.cjs
-
-RUN mkdir -p node_modules apps/admin/node_modules
-
-# ws for standalone
+RUN mkdir -p apps/admin/node_modules
 COPY --from=builder /export/ws ./apps/admin/node_modules/ws
 RUN test -f apps/admin/node_modules/ws/package.json
 
-# sharp + @img
-COPY --from=builder /export/sharp-node_modules/sharp ./node_modules/sharp
-COPY --from=builder /export/sharp-node_modules/@img ./node_modules/@img
-
-# PDF / canvas deps
-COPY --from=builder /export/pdf-node_modules/@napi-rs ./node_modules/@napi-rs
-COPY --from=builder /export/pdf-node_modules/pdfjs-dist ./node_modules/pdfjs-dist
-COPY --from=builder /export/pdf-node_modules/pdf-parse ./node_modules/pdf-parse
-
-# Verify PDF runtime in the final image
 COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-runtime.mjs
+
+# Fail image build if PDF stack is missing (prevents silent canvas warnings in prod)
 RUN NODE_PATH=/app/node_modules:./apps/admin/node_modules node scripts/verify-pdf-runtime.mjs admin
 
 RUN addgroup --gid 1001 nodejs && \
@@ -174,6 +161,7 @@ USER nextjs
 
 EXPOSE 8080
 
+# Admin cold start (instrumentation + large standalone) can exceed 60s on nf-compute-400.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
   CMD curl -sf http://127.0.0.1:8080/api/ping || exit 1
 
