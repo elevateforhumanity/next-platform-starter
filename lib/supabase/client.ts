@@ -126,7 +126,26 @@ export function createBrowserClient(): SupabaseClient<any> {
         // Refresh succeeded but returned no session — sign out to clear cookies
         client.auth.signOut().catch(() => {});
       }
+      // Handle case where refresh token was already used (parallel requests)
+      if (event === 'TOKEN_REFRESHED' && session === null) {
+        client.auth.signOut().catch(() => {});
+      }
     });
+
+    // Also wrap getUser for consistency
+    const originalGetUser = client.auth.getUser.bind(client.auth);
+    client.auth.getUser = async () => {
+      const result = await originalGetUser();
+      if (
+        result.error &&
+        (result.error.message?.includes('refresh_token_already_used') ||
+          result.error.code === 'refresh_token_already_used')
+      ) {
+        await client.auth.signOut().catch(() => {});
+        return { data: { user: null }, error: null };
+      }
+      return result;
+    };
 
     // Intercept token refresh errors by wrapping getSession — Supabase fires
     // these synchronously on client init when the stored refresh token is stale.
@@ -137,7 +156,9 @@ export function createBrowserClient(): SupabaseClient<any> {
         result.error &&
         (result.error.message?.includes('Refresh Token Not Found') ||
           result.error.message?.includes('Invalid Refresh Token') ||
-          result.error.message?.includes('refresh_token_not_found'))
+          result.error.message?.includes('refresh_token_not_found') ||
+          result.error.message?.includes('refresh_token_already_used') ||
+          result.error.code === 'refresh_token_already_used')
       ) {
         // Stale cookie — clear it silently so the user gets a clean anonymous state
         await client.auth.signOut().catch(() => {});
