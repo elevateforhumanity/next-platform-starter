@@ -3,7 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
-export const runtime = 'edge';
+// Use nodejs runtime since this route uses server-side features
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 async function handler(req: Request) {
