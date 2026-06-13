@@ -70,22 +70,31 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && node /app/node_modules/next/dist/bin/next build \
     && cd /app \
     && node scripts/prune-admin-standalone.mjs \
-    && mkdir -p /export/extra-node_modules \
-    # Export ws (for WebSocket) from admin node_modules
+    # Export ws
+    && mkdir -p /export/ws \
     && WS_DIR="$(node -p "require('path').dirname(require.resolve('ws/package.json',{paths:[require('path').join(process.cwd(),'apps/admin')]}))")" \
-    && cp -a "${WS_DIR}/." /export/extra-node_modules/ws/ \
-    && test -f /export/extra-node_modules/ws/package.json \
-    # Export sharp + @img native binaries (direct cp, not from pnpm store)
-    && cp -a node_modules/sharp /export/extra-node_modules/ 2>/dev/null || true \
-    && cp -a node_modules/@napi-rs/canvas /export/extra-node_modules/ 2>/dev/null || true \
-    && cp -a node_modules/pdf-parse /export/extra-node_modules/ 2>/dev/null || true \
-    && cp -a node_modules/pdfjs-dist /export/extra-node_modules/ 2>/dev/null || true \
-    && cp -a node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 /export/extra-node_modules/@img/ 2>/dev/null || true \
-    && cp -a node_modules/.pnpm/@napi-rs+canvas-linux-x64-gnu@*/node_modules/@napi-rs/canvas-linux-x64-gnu /export/extra-node_modules/@napi-rs/ 2>/dev/null || true \
-    && test -f /export/extra-node_modules/sharp/package.json \
-    && test -f /export/extra-node_modules/@napi-rs/canvas/package.json \
-    && test -f /export/extra-node_modules/pdf-parse/package.json \
-    && NODE_PATH=/app/node_modules:/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-admin
+    && cp -a "${WS_DIR}/." /export/ws/ \
+    && test -f /export/ws/package.json \
+    # Export sharp + @img
+    && mkdir -p /export/sharp-node_modules/@img \
+    && SHARP_DIR="$(node -p "require('path').dirname(require.resolve('sharp/package.json'))")" \
+    && cp -a "${SHARP_DIR}/." /export/sharp-node_modules/sharp/ \
+    && for pkg in \
+         node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
+         node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
+       name="$(basename "$pkg")"; \
+       cp -a "$pkg" "/export/sharp-node_modules/@img/${name}"; \
+     done \
+    && test -f /export/sharp-node_modules/sharp/package.json \
+    && test -d /export/sharp-node_modules/@img/sharp-linux-x64 \
+    # Export PDF / canvas deps
+    && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
+    && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
+    && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
+    && test -f /export/pdf-node_modules/pdf-parse/package.json \
+    # IMPORTANT: keep NODE_PATH including /app/node_modules to avoid segfaults
+    && NODE_PATH=/app/node_modules:/export/pdf-node_modules \
+       node scripts/verify-pdf-runtime.mjs builder-admin
 
 # Drop builder-only assets before runtime COPY
 RUN node scripts/prune-admin-builder-disk.mjs
@@ -108,13 +117,13 @@ ENV COMMIT_REF=$COMMIT_REF
 
 WORKDIR /app
 
-# Copy standalone output (includes Next.js server + most node_modules)
+# Next.js standalone output
 COPY --from=builder /app/apps/admin/.next/standalone ./
+COPY --from=builder /app/apps/admin/.next/server ./apps/admin/.next/server
+COPY --from=builder /app/apps/admin/.next/static ./apps/admin/.next/static
+COPY --from=builder /app/apps/admin/.next/required-server-files.json ./apps/admin/.next/required-server-files.json
 
-# Add only the extra modules not in standalone (ws, sharp, pdf deps)
-COPY --from=builder /export/extra-node_modules ./node_modules/
-
-# Add static assets that Next.js standalone doesn't include
+# Public assets
 COPY --from=builder /app/public/fonts ./apps/admin/public/fonts
 COPY --from=builder /app/public/icons ./apps/admin/public/icons
 COPY --from=builder /app/public/forms ./apps/admin/public/forms
@@ -132,14 +141,30 @@ COPY --from=builder /app/public/logo-small.png ./apps/admin/public/
 COPY --from=builder /app/public/logo.webp ./apps/admin/public/
 COPY --from=builder /app/public/manifest.webmanifest ./apps/admin/public/
 
-# Add build-time only files needed for runtime
+# Remotion / misc
 COPY --from=builder /app/remotion-src ./remotion-src
 COPY --from=builder /app/.devcontainer/devcontainer.json ./.devcontainer/devcontainer.json
-COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-runtime.mjs
+COPY --from=builder /app/apps/admin/server.js ./apps/admin/server.js
 COPY --from=builder /app/lib/server/register-connection-guards.cjs ./lib/server/register-connection-guards.cjs
 
-# Verify PDF stack exists at build time
-RUN NODE_PATH=/app/node_modules node scripts/verify-pdf-runtime.mjs admin
+RUN mkdir -p node_modules apps/admin/node_modules
+
+# ws for standalone
+COPY --from=builder /export/ws ./apps/admin/node_modules/ws
+RUN test -f apps/admin/node_modules/ws/package.json
+
+# sharp + @img
+COPY --from=builder /export/sharp-node_modules/sharp ./node_modules/sharp
+COPY --from=builder /export/sharp-node_modules/@img ./node_modules/@img
+
+# PDF / canvas deps
+COPY --from=builder /export/pdf-node_modules/@napi-rs ./node_modules/@napi-rs
+COPY --from=builder /export/pdf-node_modules/pdfjs-dist ./node_modules/pdfjs-dist
+COPY --from=builder /export/pdf-node_modules/pdf-parse ./node_modules/pdf-parse
+
+# Verify PDF runtime in the final image
+COPY --from=builder /app/scripts/verify-pdf-runtime.mjs ./scripts/verify-pdf-runtime.mjs
+RUN NODE_PATH=/app/node_modules:./apps/admin/node_modules node scripts/verify-pdf-runtime.mjs admin
 
 RUN addgroup --gid 1001 nodejs && \
     adduser --uid 1001 --ingroup nodejs --disabled-password --gecos "" nextjs && \
