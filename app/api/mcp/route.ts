@@ -6,6 +6,7 @@
  * 
  * @see https://modelcontextprotocol.io
  */
+// pre-auth-registry: exempt - MCP server is internal API; auth handled via Supabase JWT in createClient()
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
