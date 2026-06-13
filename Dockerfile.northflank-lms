@@ -73,7 +73,11 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && cp -a node_modules/pdf-parse /export/extra-node_modules/ 2>/dev/null || true \
     && cp -a node_modules/pdfjs-dist /export/extra-node_modules/ 2>/dev/null || true \
     && cp -a node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 /export/extra-node_modules/@img/ 2>/dev/null || true \
-    && cp -a node_modules/.pnpm/@napi-rs+canvas-linux-x64-gnu@*/node_modules/@napi-rs/canvas-linux-x64-gnu /export/extra-node_modules/@napi-rs/ 2>/dev/null || true
+    && cp -a node_modules/.pnpm/@napi-rs+canvas-linux-x64-gnu@*/node_modules/@napi-rs/canvas-linux-x64-gnu /export/extra-node_modules/@napi-rs/ 2>/dev/null || true \
+    && test -f /export/extra-node_modules/sharp/package.json \
+    && test -f /export/extra-node_modules/@napi-rs/canvas/package.json \
+    && test -f /export/extra-node_modules/pdf-parse/package.json \
+    && NODE_PATH=/app/node_modules:/export/extra-node_modules node scripts/verify-pdf-runtime.mjs builder-lms
 
 # Drop builder-only assets before runtime COPY
 RUN node scripts/prune-lms-builder-disk.mjs
