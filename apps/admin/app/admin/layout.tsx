@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { unstable_cache } from 'next/cache';
 import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
