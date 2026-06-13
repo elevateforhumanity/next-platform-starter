@@ -81,7 +81,7 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
     && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
     && test -f /export/pdf-node_modules/pdf-parse/package.json \
-    && NODE_PATH=/export/pdf-node_modules node scripts/verify-pdf-runtime.mjs builder-lms
+    && NODE_PATH=/app/node_modules:/export/pdf-node_modules node scripts/verify-pdf-runtime.mjs builder-lms
 
 RUN node scripts/prune-lms-builder-disk.mjs
 
