@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     // Check if SENDGRID_API_KEY is configured
     if (!process.env.SENDGRID_API_KEY) {
-      console.log('SendGrid not configured. Would send to:', email);
+      console.info('SendGrid not configured. Would send to:', email);
       return NextResponse.json({
         success: true,
         message: 'Email would be sent (SendGrid not configured in development)',

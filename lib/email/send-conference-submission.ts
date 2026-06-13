@@ -33,13 +33,13 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
 
   try {
     if (!process.env.SENDGRID_API_KEY) {
-      console.log('SendGrid API key not configured. Email would be sent to:', to);
-      console.log('Subject:', subject);
+      console.info('SendGrid API key not configured. Email would be sent to:', to);
+      console.info('Subject:', subject);
       return true; // Return true for development without API key
     }
 
     await sgMail.send(msg);
-    console.log(`Email sent successfully to ${to}`);
+    console.info(`Email sent successfully to ${to}`);
     return true;
   } catch (error) {
     console.error('SendGrid error:', error);
