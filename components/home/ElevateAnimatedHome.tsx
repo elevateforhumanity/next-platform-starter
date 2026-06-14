@@ -12,10 +12,10 @@ const BANNER_MESSAGES = [
 ];
 
 const PROGRAMS = [
-  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Professional cuts & styling', price: 4980 },
-  { slug: 'cosmetology-apprenticeship', title: 'Cosmetology', desc: 'Beauty & makeup artistry', price: 4980 },
-  { slug: 'hvac-technician', title: 'HVAC Tech', desc: 'Heating & cooling systems', price: 4980 },
-  { slug: 'cna-medication-aide', title: 'Healthcare', desc: 'Patient care certification', price: 4980 },
+  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Professional cuts & styling', price: 4980, image: '/images/pages/barber-hero-main.webp' },
+  { slug: 'cosmetology-apprenticeship', title: 'Cosmetology', desc: 'Beauty & makeup artistry', price: 4980, image: '/images/pages/cosmetology-hero.webp' },
+  { slug: 'hvac-technician', title: 'HVAC Tech', desc: 'Heating & cooling systems', price: 4980, image: '/images/pages/card-hvac.webp' },
+  { slug: 'cna-medication-aide', title: 'Healthcare', desc: 'Patient care certification', price: 4980, image: '/images/pages/card-cna.webp' },
 ];
 
 const STATS = [
@@ -26,9 +26,9 @@ const STATS = [
 ];
 
 const STEPS = [
-  { num: '01', title: 'Apply Online', desc: 'Submit your application in minutes. Our team will guide you through funding options.' },
-  { num: '02', title: 'Campus Visit', desc: 'Schedule a visit to meet our instructors and explore your career path.' },
-  { num: '03', title: 'Start Learning', desc: 'Begin your paid apprenticeship and work toward your professional license.' },
+  { num: '01', title: 'Apply Online', desc: 'Submit your application in minutes. Our team will guide you through funding options.', image: '/images/pages/step-apply.webp' },
+  { num: '02', title: 'Get Matched', desc: 'We connect you with approved host locations and employers in your area.', image: '/images/pages/step-match.webp' },
+  { num: '03', title: 'Start Earning', desc: 'Begin your paid apprenticeship while completing classroom hours.', image: '/images/pages/step-earn.webp' },
 ];
 
 const FUNDING = [
@@ -225,12 +225,16 @@ export default function ElevateAnimatedHome() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {PROGRAMS.map((p, i) => (
               <motion.div key={p.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <button onClick={() => setSelectedProgram(p)} className={`w-full text-left bg-white rounded-2xl p-6 border-2 transition-all ${selectedProgram.slug === p.slug ? 'border-[#dc2626] shadow-xl' : 'border-slate-200 hover:border-[#dc2626]/50'}`}>
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#dc2626] to-[#ea580c] rounded-xl flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg">E</div>
-                  <h3 className="text-xl font-bold text-[#0f172a] mb-2">{p.title}</h3>
-                  <p className="text-slate-600 text-sm mb-4">{p.desc}</p>
-                  <div className="text-2xl font-bold text-[#dc2626]">${p.price.toLocaleString()}</div>
-                  <div className="text-xs text-slate-500">Total Tuition</div>
+                <button onClick={() => setSelectedProgram(p)} className={`w-full text-left bg-white rounded-2xl overflow-hidden border-2 transition-all ${selectedProgram.slug === p.slug ? 'border-[#dc2626] shadow-xl' : 'border-slate-200 hover:border-[#dc2626]/50'}`}>
+                  <div className="aspect-video bg-slate-100 relative overflow-hidden">
+                    <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-xl font-bold text-[#0f172a] mb-1">{p.title}</h3>
+                    <p className="text-slate-600 text-sm mb-3">{p.desc}</p>
+                    <div className="text-2xl font-bold text-[#dc2626]">${p.price.toLocaleString()}</div>
+                    <div className="text-xs text-slate-500">Total Tuition</div>
+                  </div>
                 </button>
               </motion.div>
             ))}
@@ -246,10 +250,13 @@ export default function ElevateAnimatedHome() {
           <div className="grid md:grid-cols-3 gap-8">
             {STEPS.map((step, i) => (
               <motion.div key={i} className="text-center relative" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-                <div className="w-20 h-20 bg-[#dc2626] rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-lg">{step.num}</div>
+                <div className="aspect-square bg-slate-100 rounded-2xl overflow-hidden mb-6 relative">
+                  <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+                  <div className="absolute top-4 left-4 w-10 h-10 bg-[#dc2626] rounded-full flex items-center justify-center text-white font-bold shadow-lg">{step.num}</div>
+                </div>
                 <h3 className="text-xl font-bold text-[#0f172a] mb-3">{step.title}</h3>
                 <p className="text-slate-600">{step.desc}</p>
-                {i < 2 && <div className="hidden md:block absolute top-10 -right-4 text-3xl text-slate-300">→</div>}
+                {i < 2 && <div className="hidden md:block absolute top-1/2 -right-4 text-3xl text-slate-300">→</div>}
               </motion.div>
             ))}
           </div>
