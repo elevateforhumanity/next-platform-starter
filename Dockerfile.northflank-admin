@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 ENV PNPM_HOME="/app/.pnpm-home"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -86,13 +86,6 @@ RUN node scripts/validate-next-public-build-env.mjs --write-env=/tmp/next-public
     done \
     && test -f /export/sharp-node_modules/sharp/package.json \
     && test -d /export/sharp-node_modules/@img/sharp-linux-x64 \
-    # Copy sharp runtime dependencies (detect-libc, semver, @img/colour)
-    && cp -a node_modules/.pnpm/detect-libc@*/node_modules/detect-libc /export/sharp-node_modules/ \
-    && test -f /export/sharp-node_modules/detect-libc/package.json \
-    && cp -a node_modules/.pnpm/semver@7*/node_modules/semver /export/sharp-node_modules/ \
-    && test -f /export/sharp-node_modules/semver/package.json \
-    && cp -a node_modules/.pnpm/@img+colour@*/node_modules/@img/colour /export/sharp-node_modules/@img/ \
-    && test -d /export/sharp-node_modules/@img/colour \
     && EXPORT_ROOT=/export node scripts/export-admin-pdf-deps.mjs \
     && test -f /export/pdf-node_modules/@napi-rs/canvas/package.json \
     && test -f /export/pdf-node_modules/@napi-rs/canvas-linux-x64-gnu/skia.linux-x64-gnu.node \
@@ -124,8 +117,6 @@ COPY --from=builder /app/apps/admin/.next/standalone ./
 RUN mkdir -p node_modules
 COPY --from=builder /export/sharp-node_modules/sharp ./node_modules/sharp
 COPY --from=builder /export/sharp-node_modules/@img ./node_modules/@img
-COPY --from=builder /export/sharp-node_modules/detect-libc ./node_modules/detect-libc
-COPY --from=builder /export/sharp-node_modules/semver ./node_modules/semver
 COPY --from=builder /export/pdf-node_modules/@napi-rs ./node_modules/@napi-rs
 COPY --from=builder /export/pdf-node_modules/pdfjs-dist ./node_modules/pdfjs-dist
 COPY --from=builder /export/pdf-node_modules/pdf-parse ./node_modules/pdf-parse
