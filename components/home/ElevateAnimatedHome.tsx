@@ -2,20 +2,27 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const BANNER_MESSAGES = [
+  'Summer 2026 Enrollment Now Open — Limited Spots',
+  'WIOA Funding Available — Train at No Cost',
+  'Earn While You Learn — Get Paid from Day One',
+  '98% Exam Pass Rate — Industry Leading',
+];
 
 const PROGRAMS = [
-  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Launch your career in professional barbering', icon: '✂️', price: 4980 },
-  { slug: 'cosmetology-apprenticeship', title: 'Cosmetology', desc: 'Master beauty techniques and styles', icon: '💇', price: 4980 },
-  { slug: 'hvac-technician', title: 'HVAC/Refrigeration', desc: 'Earn while you learn refrigeration', icon: '❄️', price: 4980 },
-  { slug: 'cna-medication-aide', title: 'Healthcare', desc: 'Start your healthcare career', icon: '🏥', price: 4980 },
+  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Professional cuts & styling', price: 4980 },
+  { slug: 'cosmetology-apprenticeship', title: 'Cosmetology', desc: 'Beauty & makeup artistry', price: 4980 },
+  { slug: 'hvac-technician', title: 'HVAC Tech', desc: 'Heating & cooling systems', price: 4980 },
+  { slug: 'cna-medication-aide', title: 'Healthcare', desc: 'Patient care certification', price: 4980 },
 ];
 
 const STATS = [
   { value: '2,000+', label: 'Graduates Placed' },
-  { value: '98%', label: 'License Pass Rate' },
+  { value: '98%', label: 'Pass Rate' },
+  { value: '40+', label: 'Years Combined Exp' },
   { value: '4', label: 'Campus Locations' },
-  { value: '40+', label: 'Years Experience' },
 ];
 
 const STEPS = [
@@ -91,6 +98,7 @@ function BNPLCalculator({ tuition }: { tuition: number }) {
 export default function ElevateAnimatedHome() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState(PROGRAMS[0]);
+  const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
@@ -98,24 +106,51 @@ export default function ElevateAnimatedHome() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentBanner((prev) => (prev + 1) % BANNER_MESSAGES.length), 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="bg-white min-h-screen">
+      {/* Animated Announcement Banner */}
+      <div className="bg-gradient-to-r from-[#dc2626] via-[#ea580c] to-[#dc2626] bg-[length:200%_100%] text-white py-3 px-4 relative z-50 animate-gradient-x">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-4">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={currentBanner}
+              initial={{ opacity: 0, y: -20, rotateX: -90 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
+              exit={{ opacity: 0, y: 20, rotateX: 90 }}
+              transition={{ duration: 0.5, ease: 'backOut' }}
+              className="font-semibold"
+            >
+              {BANNER_MESSAGES[currentBanner]}
+            </motion.p>
+          </AnimatePresence>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link href="/apply" className="bg-white text-[#dc2626] px-5 py-1.5 rounded-full font-bold text-sm hover:bg-red-50 shadow-lg">
+              Apply Now
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0f172a] shadow-xl py-3' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed top-12 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-[#0f172a]/95 backdrop-blur-xl shadow-2xl py-3' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-[#dc2626] rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-lg">E</div>
-            <span className="text-white font-bold text-lg">Elevate <span className="text-[#dc2626] font-light">for Humanity</span></span>
+            <div className="w-12 h-12 bg-gradient-to-br from-[#dc2626] to-[#b91c1c] rounded-xl flex items-center justify-center font-black text-white text-xl shadow-lg shadow-red-500/30">E</div>
+            <span className="text-white font-black text-lg">Elevate <span className="text-[#dc2626]">for Humanity</span></span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/programs" className="text-white/80 hover:text-white transition">Programs</Link>
-            <Link href="/host-shop" className="text-white/80 hover:text-white transition">Host Shops</Link>
-            <Link href="/funding" className="text-white/80 hover:text-white transition">Funding</Link>
-            <Link href="/about" className="text-white/80 hover:text-white transition">About</Link>
+            <Link href="/programs" className="text-white/80 hover:text-[#dc2626] font-semibold transition">Programs</Link>
+            <Link href="/host-shop" className="text-white/80 hover:text-[#dc2626] font-semibold transition">Host Shops</Link>
+            <Link href="/funding" className="text-white/80 hover:text-[#dc2626] font-semibold transition">Funding</Link>
+            <Link href="/about" className="text-white/80 hover:text-[#dc2626] font-semibold transition">About</Link>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-white/80 hover:text-white transition hidden sm:block">Sign In</Link>
-            <Link href="/programs/barber-apprenticeship/apply" className="px-6 py-2.5 bg-[#dc2626] text-white rounded-lg font-semibold hover:bg-[#b91c1c] transition shadow-lg">
+            <Link href="/apply" className="px-6 py-2.5 bg-gradient-to-r from-[#dc2626] to-[#ea580c] text-white rounded-lg font-bold hover:shadow-xl hover:shadow-red-500/30 transition shadow-lg">
               Apply Now
             </Link>
           </div>
@@ -123,7 +158,7 @@ export default function ElevateAnimatedHome() {
       </nav>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-[#0f172a] overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-[#0f172a] overflow-hidden pt-8">
         <div className="absolute inset-0 overflow-hidden">
           {[200, 350, 500, 650, 800].map((size, i) => (
             <motion.div
@@ -134,6 +169,8 @@ export default function ElevateAnimatedHome() {
               transition={{ duration: 30 + i * 10, repeat: Infinity, ease: 'linear' }}
             />
           ))}
+          <motion.div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-[#dc2626]/20 to-transparent rounded-full blur-3xl" animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity }} />
+          <motion.div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full blur-3xl" animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity }} />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center px-6 py-32">
@@ -189,7 +226,7 @@ export default function ElevateAnimatedHome() {
             {PROGRAMS.map((p, i) => (
               <motion.div key={p.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                 <button onClick={() => setSelectedProgram(p)} className={`w-full text-left bg-white rounded-2xl p-6 border-2 transition-all ${selectedProgram.slug === p.slug ? 'border-[#dc2626] shadow-xl' : 'border-slate-200 hover:border-[#dc2626]/50'}`}>
-                  <div className="text-4xl mb-4">{p.icon}</div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#dc2626] to-[#ea580c] rounded-xl flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg">E</div>
                   <h3 className="text-xl font-bold text-[#0f172a] mb-2">{p.title}</h3>
                   <p className="text-slate-600 text-sm mb-4">{p.desc}</p>
                   <div className="text-2xl font-bold text-[#dc2626]">${p.price.toLocaleString()}</div>
