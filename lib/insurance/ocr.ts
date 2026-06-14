@@ -47,7 +47,6 @@ export async function ocrPdfFirstPages(pdfBuffer: Buffer, pages = 2): Promise<Oc
     return { text: '', confidence: 0, pagesProcessed: 0 };
   }
 
-  let text: string;
   let totalConfidence = 0;
   let pagesProcessed = 0;
   const textParts: string[] = [];
@@ -66,12 +65,11 @@ export async function ocrPdfFirstPages(pdfBuffer: Buffer, pages = 2): Promise<Oc
       // Page doesn't exist or OCR failed — skip
     }
   }
-  text = textParts.join('\n');
 
   await cleanupDir(dir);
 
   return {
-    text: text.trim(),
+    text: textParts.join('\n').trim(),
     confidence: pagesProcessed > 0 ? totalConfidence / pagesProcessed : 0,
     pagesProcessed,
   };
