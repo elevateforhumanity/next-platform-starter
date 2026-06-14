@@ -36,9 +36,10 @@ ENV NODE_OPTIONS=--max-old-space-size=4096
 ENV BUILD_SCOPE=1
 ENV NEXT_STANDALONE_OUTPUT=1
 ENV CI=true
+ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Build Admin Next.js
 ARG NEXT_PUBLIC_SUPABASE_URL
@@ -55,6 +56,27 @@ ENV NEXT_PUBLIC_PUBLIC_SITE_URL=$NEXT_PUBLIC_PUBLIC_SITE_URL
 WORKDIR /app/apps/admin
 RUN pnpm next build
 WORKDIR /app
+
+# Export native modules for runtime
+RUN mkdir -p /export/sharp-node-modules/@img \
+    && SHARP_DIR="$(node -p "require('path').dirname(require.resolve('sharp/package.json'))")" \
+    && cp -a "${SHARP_DIR}/." /export/sharp-node-modules/sharp/ \
+    && for pkg in node_modules/.pnpm/@img+sharp-linux-x64@*/node_modules/@img/sharp-linux-x64 \
+      node_modules/.pnpm/@img+sharp-libvips-linux-x64@*/node_modules/@img/sharp-libvips-linux-x64; do \
+      cp -a "$pkg" "/export/sharp-node-modules/@img/$(basename $pkg)" 2>/dev/null || true; \
+    done \
+    && cp -a node_modules/.pnpm/pdf-parse@*/node_modules/pdf-parse /export/ 2>/dev/null || \
+       cp -a node_modules/pdf-parse /export/ 2>/dev/null || true \
+    && cp -a node_modules/.pnpm/pdfjs-dist@*/node_modules/pdfjs-dist /export/ 2>/dev/null || \
+       cp -a node_modules/pdfjs-dist /export/ 2>/dev/null || true \
+    && cp -a node_modules/@napi-rs /export/ 2>/dev/null || true
+
+# Copy ws module
+RUN WS_DIR="$(node -p "require('path').dirname(require.resolve('ws/package.json',{paths:[require('path').join(process.cwd(),'apps/admin')]}))")" \
+    && cp -a "${WS_DIR}" /export/ws/
+
+# Prune admin standalone
+RUN node scripts/prune-admin-standalone.mjs
 
 # --- runtime stage ---
 FROM node:22-bookworm-slim
@@ -76,16 +98,16 @@ WORKDIR /app
 COPY --from=builder /app/apps/admin/.next/standalone ./
 COPY --from=builder /app/apps/admin/.next/static ./apps/admin/.next/static
 COPY --from=builder /app/apps/admin/.next/server ./apps/admin/.next/server
-COPY --from=builder /app/apps/admin/public ./apps/admin/public
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/apps/admin/public ./apps/admin/public
 
 # Copy required node_modules for native deps
-COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
-COPY --from=builder /app/node_modules/@img ./node_modules/@img
-COPY --from=builder /app/node_modules/@napi-rs ./node_modules/@napi-rs
-COPY --from=builder /app/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
-COPY --from=builder /app/node_modules/pdf-parse ./node_modules/pdf-parse
-COPY --from=builder /app/node_modules/ws ./node_modules/ws
+COPY --from=builder /export/sharp-node-modules/sharp ./node_modules/sharp
+COPY --from=builder /export/sharp-node-modules/@img ./node_modules/@img
+COPY --from=builder /export/pdf-parse ./node_modules/pdf-parse
+COPY --from=builder /export/pdfjs-dist ./node_modules/pdfjs-dist
+COPY --from=builder /export/@napi-rs ./node_modules/@napi-rs
+COPY --from=builder /export/ws ./node_modules/ws
 
 COPY --from=builder /app/apps/admin/server.js ./apps/admin/server.js
 
