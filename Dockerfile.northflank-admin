@@ -96,7 +96,6 @@ COPY --from=builder /export/node_modules/sharp ./node_modules/sharp
 COPY --from=builder /export/node_modules/@napi-rs ./node_modules/@napi-rs
 COPY --from=builder /export/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
 COPY --from=builder /export/node_modules/pdf-parse ./node_modules/pdf-parse
-COPY --from=builder /export/node_modules/ws ./node_modules/ws
 
 COPY --from=builder /app/apps/admin/server.js ./apps/admin/server.js
 
