@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import CosmetologyApprenticeshipClient from './CosmetologyApprenticeshipClient';
+import BeautyProgramPage from '@/components/beauty/BeautyProgramPage';
 import { COSMETOLOGY } from '@/data/programs/cosmetology-apprenticeship';
 import { validateProgram } from '@/lib/programs/program-schema';
 
@@ -21,10 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default async function CosmetologyApprenticeshipPage() {
-  return (
-    <CosmetologyApprenticeshipClient
-      program={p}
-      enrollmentCount={0}
-    />
-  );
+  return <BeautyProgramPage program={p} />;
 }
