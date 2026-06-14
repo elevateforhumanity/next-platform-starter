@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { getAdminDashboardData } from '@/lib/admin/get-admin-dashboard-data';
 import { normalizeAdminDashboardData } from '@/lib/admin/normalize-dashboard-data';
 import { AdminDashboardContent } from '@/components/admin/dashboard/DashboardShell';
-// DashboardPageGuard removed - open access from '@/components/admin/dashboard/DashboardPageGuard';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +16,6 @@ export default async function AdminDashboardPage() {
   return (
     <>
       <AdminDashboardContent data={data} canAccessDevStudio={true} />
-    </DashboardPageGuard>
+    </>
   );
 }
