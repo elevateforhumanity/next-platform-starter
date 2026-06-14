@@ -489,7 +489,7 @@ export default function AnimatedHomePage() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Join thousands of graduates who have launched successful careers through our programs.
+            Join our community of graduates who have launched successful careers in healthcare, hospitality, and skilled trades.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"

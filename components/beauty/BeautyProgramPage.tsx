@@ -354,7 +354,7 @@ export default function BeautyProgramPage({ program, campuses = DEFAULT_CAMPUSES
             </div>
             <div className="footer-links">
               <Link href="/about">About</Link>
-              <Link href="/admissions">Admissions</Link>
+              <Link href="/apply" className="text-brand-red-600 hover:text-brand-red-700">Admissions</Link>
               <Link href="/programs">Programs</Link>
               <Link href="/contact">Contact</Link>
             </div>
