@@ -123,17 +123,11 @@ async function createAlertsFromVerdicts(supabase: any, periodStart: string, peri
       const enrollment = item.enrollments;
       const studentName = enrollment?.profiles?.full_name || 'Student';
 
-      let message = '';
-      let severity = 'medium';
-
-      if (item.status === 'NO_ACTIVITY') {
-        message = `${studentName} has no activity this week (0 of ${item.required_hours || 0} hours required).`;
-        severity = 'high';
-      } else {
-        const hoursMissing = (item.required_hours || 0) - (item.logged_hours || 0);
-        message = `${studentName} is behind this week (${item.logged_hours || 0} of ${item.required_hours || 0} hours). Missing: ${hoursMissing.toFixed(1)} hours.`;
-        severity = 'medium';
-      }
+      const isNoActivity = item.status === 'NO_ACTIVITY';
+      const message = isNoActivity
+        ? `${studentName} has no activity this week (0 of ${item.required_hours || 0} hours required).`
+        : `${studentName} is behind this week (${item.logged_hours || 0} of ${item.required_hours || 0} hours). Missing: ${((item.required_hours || 0) - (item.logged_hours || 0)).toFixed(1)} hours.`;
+      const severity = isNoActivity ? 'high' : 'medium';
 
       return {
         alert_type: 'weekly_hours_check',

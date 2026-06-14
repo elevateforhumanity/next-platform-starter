@@ -188,13 +188,13 @@ export default function WorkflowDetailClient({
 
   async function handleAddTrigger(e: React.FormEvent) {
     e.preventDefault();
-    let filter: Record<string, unknown> = {};
-    try { filter = JSON.parse(triggerFilter); } catch { return; }
+    let parsedFilter: Record<string, unknown>;
+    try { parsedFilter = JSON.parse(triggerFilter); } catch { return; }
     setAddingTrigger(true);
     await fetch(`/api/admin/workflows/${workflow.id}/triggers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ trigger_type: triggerType, event_filter: filter, cron_expr: cronExpr || null }),
+      body: JSON.stringify({ trigger_type: triggerType, event_filter: parsedFilter, cron_expr: cronExpr || null }),
     });
     setAddingTrigger(false);
     setShowTriggerForm(false);

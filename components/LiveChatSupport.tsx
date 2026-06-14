@@ -11,17 +11,19 @@ interface Message {
   timestamp: string;
 }
 
+const INITIAL_MESSAGES: Message[] = [
+  {
+    id: '1',
+    sender: 'agent',
+    text: 'Hello! How can I help you today?',
+    timestamp: new Date().toLocaleTimeString(),
+  },
+];
+
 export function LiveChatSupport() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>(() => [
-    {
-      id: '1',
-      sender: 'agent',
-      text: 'Hello! How can I help you today?',
-      timestamp: new Date().toLocaleTimeString(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   const initSession = useCallback(async () => {

@@ -58,7 +58,6 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
   // Fetch related data based on subject_type
   let subject: any = null;
   let extraction: any = null;
-  let decisions: any[];
   let document: any = null;
   let transferHours: any = null;
   let routingScores: any[] = [];
@@ -142,7 +141,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
     .eq('subject_id', item.subject_id)
     .order('created_at', { ascending: false })
     .limit(10);
-  decisions = decisionHistory || [];
+  const decisions = decisionHistory || [];
 
   const queueTypeLabels: Record<string, string> = {
     document_review: 'Document Review',
