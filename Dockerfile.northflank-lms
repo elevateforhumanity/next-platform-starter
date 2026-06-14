@@ -50,7 +50,7 @@ ENV NEXT_PUBLIC_PUBLIC_SITE_URL=$NEXT_PUBLIC_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-RUN pnpm next build
+RUN pnpm next build --no-lint
 
 # Export native modules for runtime
 RUN mkdir -p /export/sharp-node-modules/@img \

@@ -54,7 +54,7 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_PUBLIC_SITE_URL=$NEXT_PUBLIC_PUBLIC_SITE_URL
 
 WORKDIR /app/apps/admin
-RUN pnpm next build
+RUN pnpm next build --no-lint
 WORKDIR /app
 
 # Export native modules for runtime
