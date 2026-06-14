@@ -61,8 +61,8 @@ WORKDIR /app
 RUN mkdir -p /export/node_modules \
     && cp -a node_modules/sharp /export/node_modules/ \
     && cp -a node_modules/@napi-rs /export/node_modules/ \
-    && ls node_modules/.pnpm/ | grep pdf-parse | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdf-parse /export/node_modules/ \
-    && ls node_modules/.pnpm/ | grep pdfjs-dist | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdfjs-dist /export/node_modules/ \
+    && ls node_modules/.pnpm/ | grep '^pdf-parse@' | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdf-parse /export/node_modules/ \
+    && ls node_modules/.pnpm/ | grep '^pdfjs-dist@' | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdfjs-dist /export/node_modules/ \
     && cp -a node_modules/ws /export/node_modules/
 
 # Prune admin standalone
