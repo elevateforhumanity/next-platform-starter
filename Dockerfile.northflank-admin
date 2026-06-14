@@ -60,10 +60,9 @@ WORKDIR /app
 # Export native modules for runtime
 RUN mkdir -p /export/node_modules \
     && cp -a node_modules/sharp /export/node_modules/ \
-    && cp -a node_modules/@img /export/node_modules/ \
     && cp -a node_modules/@napi-rs /export/node_modules/ \
-    && cp -a node_modules/pdfjs-dist /export/node_modules/ \
     && ls node_modules/.pnpm/ | grep pdf-parse | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdf-parse /export/node_modules/ \
+    && ls node_modules/.pnpm/ | grep pdfjs-dist | head -1 | xargs -I{} cp -a node_modules/.pnpm/{}/node_modules/pdfjs-dist /export/node_modules/ \
     && cp -a node_modules/ws /export/node_modules/
 
 # Prune admin standalone
@@ -94,7 +93,6 @@ COPY --from=builder /app/apps/admin/public ./apps/admin/public
 
 # Copy required node_modules for native deps
 COPY --from=builder /export/node_modules/sharp ./node_modules/sharp
-COPY --from=builder /export/node_modules/@img ./node_modules/@img
 COPY --from=builder /export/node_modules/@napi-rs ./node_modules/@napi-rs
 COPY --from=builder /export/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
 COPY --from=builder /export/node_modules/pdf-parse ./node_modules/pdf-parse
