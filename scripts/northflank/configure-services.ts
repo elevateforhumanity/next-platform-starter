@@ -181,9 +181,13 @@ async function main() {
               },
             },
             dockerfile: {
-              buildEngine: 'docker',
+              buildEngine: 'buildkit',
               dockerFilePath: service.dockerfile,
               dockerWorkDir: '/',
+              buildkit: {
+                useCache: false,
+                cacheStorageSize: 0,
+              },
             },
           },
           buildConfiguration: {
