@@ -64,7 +64,7 @@ async function _POST(req: NextRequest) {
   //   { settings: Record<string, string> }  — canonical (used by SettingsFormClient)
   //   { entries: {key,value}[] }            — legacy (used by GeneralSettingsClient)
   //   flat object                           — legacy fallback
-  let rawPairs: [string, string][] = [];
+  let rawPairs: [string, string][];
   if (body.settings && typeof body.settings === 'object') {
     rawPairs = Object.entries(body.settings).map(([k, v]) => [k, String(v)]);
   } else if (Array.isArray(body.entries)) {

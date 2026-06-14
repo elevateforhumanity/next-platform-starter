@@ -25,10 +25,10 @@ export default async function MentorDashboardPage() {
 
   const supabase = await createClient();
 
-  let menteeCount = 0;
-  let sessionCount = 0;
-  let upcomingSessions: any[] = [];
-  let recentMentees: any[] = [];
+  let menteeCount: number;
+  let sessionCount: number;
+  let upcomingSessions: any[];
+  let recentMentees: any[];
 
   // Get mentor's mentees
   const { data: mentorships, count } = await supabase
@@ -58,6 +58,9 @@ export default async function MentorDashboardPage() {
         'Program',
       progress: m.enrollments?.[0]?.progress || 0,
     }));
+  } else {
+    menteeCount = 0;
+    recentMentees = [];
   }
 
   // Get upcoming sessions
@@ -90,6 +93,8 @@ export default async function MentorDashboardPage() {
         topic: s.topic || 'Mentoring Session',
       };
     });
+  } else {
+    upcomingSessions = [];
   }
 
   // Session count this month

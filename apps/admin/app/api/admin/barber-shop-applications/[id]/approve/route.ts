@@ -115,7 +115,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   //   onboarding email link. The verify-rep route falls back to email matching
   //   until user_id is populated.
   // =========================================================================
-  let provisionedShopId: string | null = null;
+  let provisionedShopId: string | null;
 
   try {
     // Upsert shop — idempotent on re-approval

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WioaComplianceHubPage() {
-  let programs: { slug: string; title: string }[] = [];
+  let programs: { slug: string; title: string }[];
   try {
     const supabase = createPublicClient();
     const { data } = await supabase

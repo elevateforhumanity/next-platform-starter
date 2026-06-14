@@ -53,7 +53,7 @@ export default async function CourseContentPage({
       : null;
 
   // Lessons: try curriculum_lessons (canonical) first, fall back to training_lessons (legacy)
-  let lessons: unknown[] = [];
+  let lessons: unknown[];
   const { data: curriculumLessons } = await supabase
     .from('curriculum_lessons')
     .select('id, title, slug, lesson_order, step_type, status, module_id')

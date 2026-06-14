@@ -34,7 +34,7 @@ export default async function PartnerInquiriesAdminPage() {
     );
   }
 
-  let rows: any[] = [];
+  let rows: any[];
   try {
     const { data } = await supabase
       .from('partner_inquiries')

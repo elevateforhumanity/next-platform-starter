@@ -96,7 +96,7 @@ async function fallbackProgramIntegrity(
   });
   const certificateCounts = await groupedCount(db, 'program_completion_certificates', 'program_id');
 
-  let courseRows: unknown[] | null = null;
+  let courseRows: unknown[] | null;
   try {
     const { data } = await db.from('courses').select('program_id, id');
     courseRows = data ?? null;
@@ -105,7 +105,7 @@ async function fallbackProgramIntegrity(
   }
   const courseCounts = asNumberMap(courseRows, 'program_id', 'id');
 
-  let completionRuleRows: unknown[] | null = null;
+  let completionRuleRows: unknown[] | null;
   try {
     const { data } = await db
       .from('completion_rules')

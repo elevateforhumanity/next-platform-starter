@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  let body: { revalidate?: boolean; deploy?: boolean; confirm?: string } = {};
+  let body: { revalidate?: boolean; deploy?: boolean; confirm?: string };
   try {
     body = await request.json();
   } catch {

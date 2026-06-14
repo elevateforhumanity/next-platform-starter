@@ -167,7 +167,7 @@ export default function WorkflowDetailClient({
 
   async function handleAddStep(e: React.FormEvent) {
     e.preventDefault();
-    let config: Record<string, unknown> = {};
+    let config: Record<string, unknown>;
     try { config = JSON.parse(stepConfig); } catch { return; }
     setAddingStep(true);
     await fetch(`/api/admin/workflows/${workflow.id}/steps`, {

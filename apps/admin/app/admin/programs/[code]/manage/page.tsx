@@ -41,7 +41,7 @@ export default async function ManageProgramPage({ params }: { params: Promise<{ 
   }
 
   // Load program — try code first, then slug
-  let program: any = null;
+  let program: any;
   const { data: byCode } = await supabase
     .from('programs')
     .select('id, title, code, slug')

@@ -119,7 +119,7 @@ export default async function MentorApprovalsPage({
 
   // Use absolute URL for server-side fetch
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || PLATFORM_DEFAULTS.siteUrl;
-  let entries: Entry[] = [];
+  let entries: Entry[];
   try {
     const result = await fetchJSON<{ entries: Entry[] }>(
       `${baseUrl}/api/time/approve?${qs.toString()}`,

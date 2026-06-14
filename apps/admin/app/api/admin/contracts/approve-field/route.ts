@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   const newApproved = { ...approved };
   const newMissing = { ...missing };
   const newMetadata = { ...metadata };
-  let humanizedValue: string | null = null;
+  let humanizedValue: string;
 
   if (action === 'approve') {
     const val = matched[field_key] ?? approved[field_key];

@@ -58,7 +58,7 @@ export default async function ReviewDetailPage({ params }: { params: Promise<{ i
   // Fetch related data based on subject_type
   let subject: any = null;
   let extraction: any = null;
-  let decisions: any[] = [];
+  let decisions: any[];
   let document: any = null;
   let transferHours: any = null;
   let routingScores: any[] = [];

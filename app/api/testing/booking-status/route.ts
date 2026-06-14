@@ -32,11 +32,6 @@ export const GET = withRuntime(
     const sessionId = req.nextUrl.searchParams.get('session_id');
     if (!sessionId) return safeError('session_id is required', 400);
 
-    // Resolve the Stripe session to a payment_intent_id, then look up the booking.
-    // We never store the raw session_id — only the payment_intent_id — so we need
-    // to call Stripe to get the mapping.
-    const stripeKey = ctx.env.STRIPE_SECRET_KEY;
-
     let paymentIntentId: string | null = null;
     try {
       const stripe = await getStripeServer();
