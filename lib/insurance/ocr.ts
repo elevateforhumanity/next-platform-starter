@@ -47,9 +47,10 @@ export async function ocrPdfFirstPages(pdfBuffer: Buffer, pages = 2): Promise<Oc
     return { text: '', confidence: 0, pagesProcessed: 0 };
   }
 
-  let text = '';
+  let text: string;
   let totalConfidence = 0;
   let pagesProcessed = 0;
+  const textParts: string[] = [];
 
   for (let i = 1; i <= pages; i++) {
     const imgPath = `${outPrefix}-${i}.png`;
@@ -58,13 +59,14 @@ export async function ocrPdfFirstPages(pdfBuffer: Buffer, pages = 2): Promise<Oc
       const Tesseract = (await import(/* webpackIgnore: true */ 'tesseract.js'))
         .default as TesseractStatic;
       const { data } = await Tesseract.recognize(imgPath, 'eng');
-      text += '\n' + (data.text || '');
+      textParts.push(data.text || '');
       totalConfidence += data.confidence ?? 0;
       pagesProcessed++;
     } catch {
       // Page doesn't exist or OCR failed — skip
     }
   }
+  text = textParts.join('\n');
 
   await cleanupDir(dir);
 

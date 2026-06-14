@@ -266,8 +266,8 @@ export function validateCoiText(
     /general liability|commercial general liability|cgl/.test(t) ||
     (acordFormDetected && /commercial general/.test(t));
 
-  let glPerOccurrence: number | null = null;
-  let glAggregate: number | null = null;
+  let glPerOccurrence: number | null;
+  let glAggregate: number | null;
 
   // Extract the GL section of the document to scope limit parsing.
   // This prevents grabbing umbrella/auto/WC limits.

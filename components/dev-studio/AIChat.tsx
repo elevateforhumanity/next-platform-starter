@@ -555,7 +555,8 @@ export default function AIChat({ fileContext, onApplyCode, ellieMode = false }: 
 
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
-      let buffer = '';
+      let buffer: string;
+      buffer = '';
 
       if (reader) {
         while (true) {
