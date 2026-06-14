@@ -23,6 +23,15 @@ export const HOSPITALITY: ProgramSchema = {
     'WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   selfPayCost: 'See individual courses',
   fundingOptions: ['wioa', 'wrg', 'impact', 'self_pay'],
+
+  // Individual course pricing
+  coursePricing: [
+    { slug: 'start-hospitality', name: 'Start in Hospitality', price: 89, credentials: ['Hospitality Certificate'] },
+    { slug: 'servsafe-food-handler', name: 'ServSafe Food Handler', price: 29, credentials: ['ServSafe Food Handler'] },
+    { slug: 'servsafe-manager', name: 'ServSafe Manager', price: 199, credentials: ['ServSafe Manager Certification'] },
+    { slug: 'servsuccess', name: 'ServSuccess Professional', price: 129, credentials: ['ServSuccess Certificate'] },
+    { slug: 'guest-service-gold', name: 'Guest Service Gold', price: 0, credentials: ['Guest Service Gold Certification'] },
+  ],
   badge: 'In Demand',
   badgeColor: 'blue',
   credentials: [
