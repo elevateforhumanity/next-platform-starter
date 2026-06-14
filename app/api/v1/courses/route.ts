@@ -19,7 +19,7 @@ async function _GET(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const startTime = Date.now();
-  let statusCode = 200;
+  const statusCode = 200;
   let error: string | undefined;
 
   try {
@@ -127,7 +127,7 @@ async function _POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const startTime = Date.now();
-  let statusCode = 201;
+  const statusCode = 201;
   let error: string | undefined;
 
   try {
