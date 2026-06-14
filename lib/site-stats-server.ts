@@ -47,10 +47,10 @@ export async function loadVerifiedPublicStats(): Promise<VerifiedPublicStats> {
     programsDisplay: formatProgramsDisplay(programsOffered),
     studentsDisplay: SITE_STATS.studentsDisplayVerified
       ? SITE_STATS.studentsDisplay
-      : 'Data upon request',
+      : '—',
     placementDisplay: SITE_STATS.careerServicesSupportRate != null
       ? `${SITE_STATS.careerServicesSupportRate}%`
-      : 'Data upon request',
+      : '—',
     placementRate: SITE_STATS.careerServicesSupportRate,
     dataAvailable: catalogVerified,
   };
