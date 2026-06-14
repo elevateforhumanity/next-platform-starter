@@ -12,7 +12,7 @@ const BANNER_MESSAGES = [
 ];
 
 const PROGRAMS = [
-  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Professional cuts & styling', price: 4980, image: '/images/pages/barber-hero-main.webp' },
+  { slug: 'barber-apprenticeship', title: 'Barbering', desc: 'Professional cuts & styling', price: 4980, image: '/images/pages/barber-apprenticeship-hero.jpg' },
   { slug: 'cosmetology-apprenticeship', title: 'Cosmetology', desc: 'Beauty & makeup artistry', price: 4980, image: '/images/pages/cosmetology-hero.webp' },
   { slug: 'hvac-technician', title: 'HVAC Tech', desc: 'Heating & cooling systems', price: 4980, image: '/images/pages/card-hvac.webp' },
   { slug: 'cna-medication-aide', title: 'Healthcare', desc: 'Patient care certification', price: 4980, image: '/images/pages/card-cna.webp' },
@@ -26,9 +26,9 @@ const STATS = [
 ];
 
 const STEPS = [
-  { num: '01', title: 'Apply Online', desc: 'Submit your application in minutes. Our team will guide you through funding options.', image: '/images/pages/step-apply.webp' },
-  { num: '02', title: 'Get Matched', desc: 'We connect you with approved host locations and employers in your area.', image: '/images/pages/step-match.webp' },
-  { num: '03', title: 'Start Earning', desc: 'Begin your paid apprenticeship while completing classroom hours.', image: '/images/pages/step-earn.webp' },
+  { num: '01', title: 'Apply Online', desc: 'Submit your application in minutes. Our team will guide you through funding options.', image: '/images/pages/apply-hero.webp' },
+  { num: '02', title: 'Get Matched', desc: 'We connect you with approved host locations and employers in your area.', image: '/images/pages/adult-learner.webp' },
+  { num: '03', title: 'Start Earning', desc: 'Begin your paid apprenticeship while completing classroom hours.', image: '/images/pages/barber-apprentice-learning.webp' },
 ];
 
 const FUNDING = [
