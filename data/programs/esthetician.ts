@@ -22,7 +22,7 @@ export const ESTHETICIAN: ProgramSchema = {
   cohortSize: '8–12 participants per cohort',
   fundingStatement:
     '$0 with WIOA or Workforce Ready Grant. Self-pay starts at a $600 deposit, then weekly or BNPL options.',
-  selfPayCost: '$4,575',
+  selfPayCost: '$2,500',
   fundingOptions: ['wioa', 'wrg', 'self_pay'],
   badge: 'ETPL Approved',
   badgeColor: 'green',

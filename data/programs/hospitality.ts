@@ -20,8 +20,8 @@ export const HOSPITALITY: ProgramSchema = {
   schedule: 'Flexible — evenings and weekends available',
   cohortSize: '10–15 participants per cohort',
   fundingStatement:
-    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Self-pay options available.',
-  selfPayCost: '$1,800',
+    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+  selfPayCost: 'See individual courses',
   fundingOptions: ['wioa', 'wrg', 'impact', 'self_pay'],
   badge: 'In Demand',
   badgeColor: 'blue',

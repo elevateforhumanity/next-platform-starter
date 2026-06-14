@@ -20,7 +20,7 @@ export const NAIL_TECH: ProgramSchema = {
   cohortSize: '1–3 apprentices per salon',
   fundingStatement:
     'Paid apprenticeship track available. For self-pay enrollment, BNPL starts at a $600 deposit with weekly payment options.',
-  selfPayCost: '$4,980',
+  selfPayCost: '$2,500',
   fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   badge: 'Earn & Learn',
   badgeColor: 'purple',
