@@ -147,7 +147,7 @@ export default async function ImpactPage() {
       value:
         stats && SITE_STATS.careerServicesSupportRate != null
           ? `${SITE_STATS.careerServicesSupportRate}%`
-          : '—',
+          : 'Data upon request',
       label: 'Credential attainment rate',
       sublabel: 'among completers',
       color: 'text-red-600',
