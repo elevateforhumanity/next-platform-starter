@@ -27,7 +27,7 @@ async function _GET(request: NextRequest) {
     const apiKey = await authenticateAPI(request);
 
     if (!apiKey) {
-      statusCode = 401;
+      
       return NextResponse.json(apiResponse(false, null, 'Invalid or missing API credentials'), {
         status: 401,
       });
@@ -35,7 +35,7 @@ async function _GET(request: NextRequest) {
 
     // Check scope
     if (!hasScope(apiKey, 'courses:read')) {
-      statusCode = 403;
+      
       return NextResponse.json(apiResponse(false, null, 'Insufficient permissions'), {
         status: 403,
       });
@@ -115,7 +115,7 @@ async function _GET(request: NextRequest) {
     );
   } catch (err: any) {
     error = 'Internal server error';
-    statusCode = 500;
+    
     logger.error('API Error:', err instanceof Error ? err : new Error(String(err)));
     return NextResponse.json(apiResponse(false, null, error), { status: 500 });
   }
@@ -134,14 +134,14 @@ async function _POST(request: NextRequest) {
     const apiKey = await authenticateAPI(request);
 
     if (!apiKey) {
-      statusCode = 401;
+      
       return NextResponse.json(apiResponse(false, null, 'Invalid or missing API credentials'), {
         status: 401,
       });
     }
 
     if (!hasScope(apiKey, 'courses:write')) {
-      statusCode = 403;
+      
       return NextResponse.json(apiResponse(false, null, 'Insufficient permissions'), {
         status: 403,
       });
@@ -184,7 +184,7 @@ async function _POST(request: NextRequest) {
     return NextResponse.json(apiResponse(true, course), { status: 201 });
   } catch (err: any) {
     error = 'Internal server error';
-    statusCode = 500;
+    
     logger.error('API Error:', err instanceof Error ? err : new Error(String(err)));
     return NextResponse.json(apiResponse(false, null, error), { status: 500 });
   }
