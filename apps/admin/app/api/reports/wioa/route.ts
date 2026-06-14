@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
   const defaultFrom = new Date(Date.now() - 90 * 86400000).toISOString();
   const defaultTo = new Date().toISOString();
 
-  let from = defaultFrom;
-  let to = defaultTo;
+  let from: string;
+  let to: string;
   try {
     from = parseIsoDate(searchParams.get('from'), defaultFrom);
     to = parseIsoDate(searchParams.get('to'), defaultTo);

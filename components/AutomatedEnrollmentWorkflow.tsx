@@ -130,7 +130,7 @@ export default function AutomatedEnrollmentWorkflow({
 
   const deriveWorkflowFromStatus = useCallback((status: string): WorkflowStep[] => {
     return DEFAULT_WORKFLOW_STEPS.map((step, index) => {
-      let derivedStatus: WorkflowStep['status'] = 'pending';
+      let derivedStatus: WorkflowStep['status'];
 
       switch (status) {
         case 'completed':

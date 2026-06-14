@@ -22,9 +22,6 @@ export default function DataExportDialog({
   const [isExporting, setIsExporting] = useState(false);
   const [exportComplete, setExportComplete] = useState(false);
 
-  if (!isOpen) return null;
-  return null;
-
   const handleExport = async () => {
     setIsExporting(true);
     setExportComplete(false);
@@ -71,6 +68,8 @@ export default function DataExportDialog({
       setIsExporting(false);
     }
   };
+
+  if (!isOpen) return null;
 
   const exportTypeLabels = {
     students: 'Students',

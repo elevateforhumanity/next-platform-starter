@@ -32,7 +32,7 @@ export const GET = withRuntime(
     const sessionId = req.nextUrl.searchParams.get('session_id');
     if (!sessionId) return safeError('session_id is required', 400);
 
-    let paymentIntentId: string | null = null;
+    let paymentIntentId: string | null;
     try {
       const stripe = await getStripeServer();
       const session = await stripe.checkout.sessions.retrieve(sessionId, {

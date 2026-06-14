@@ -14,7 +14,7 @@ interface Message {
 export function LiveChatSupport() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<Message[]>(() => [
     {
       id: '1',
       sender: 'agent',
