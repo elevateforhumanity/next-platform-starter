@@ -135,7 +135,7 @@ export async function approveApplication(
   // Step 1: Find or create user
   let userId: string | null = null;
   let isNewUser = false;
-  let _tempPassword: string | null = null;
+  let _tempPassword: string | null;
   let passwordSetupLink: string | null = null;
 
   // Check profiles first (fast, indexed)

@@ -155,7 +155,7 @@ export async function runAutomations(db: SupabaseClient): Promise<AutomationRunR
       })
       .eq('id', action.id);
 
-    let outcome: 'success' | 'failure' | 'skipped' = 'skipped';
+    let outcome: 'success' | 'failure' | 'skipped';
     let detail: string;
 
     try {
