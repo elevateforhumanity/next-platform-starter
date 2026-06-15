@@ -302,6 +302,13 @@ export default async function HostShopDashboardPage() {
             <p className="font-medium text-amber-700">Progress Reports</p>
           </a>
         </div>
+
+        {/* DOL Competency Tracker */}
+        <DOLCompetencyTracker 
+          userId={user.id}
+          organizationId={profile.organization_id}
+          apprenticeshipProgram="barber"
+        />
       </div>
     </div>
   );
