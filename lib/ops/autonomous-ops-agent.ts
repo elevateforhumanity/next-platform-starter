@@ -3,6 +3,7 @@
  * 
  * Scans, detects, reports, and safely fixes problems across:
  * marketing site, LMS, enrollment, onboarding, payments,
+import { setAuditContext } from '@/lib/audit-context';
  * documents, dashboards, email, login, payroll, Cloudflare, Supabase.
  */
 
@@ -213,9 +214,11 @@ export async function autoFixIssue(issueId: string): Promise<{ success: boolean;
 
   try {
     if (issue.title === 'Missing User Role' && issue.affected_record) {
+      await setAuditContext(supabase, { systemActor: 'autonomous-ops-agent' });
       await supabase.from('profiles').update({ role: 'student' }).eq('id', issue.affected_record);
     }
     if (issue.title === 'Missing Tenant Assignment' && issue.affected_record) {
+      await setAuditContext(supabase, { systemActor: 'autonomous-ops-agent' });
       await supabase.from('profiles').update({ tenant_id: 'default' }).eq('id', issue.affected_record);
     }
     if (issue.title === 'Missing Welcome Email' && issue.affected_record) {
@@ -234,7 +237,9 @@ export async function provisionStudentDashboard(userId: string): Promise<{ succe
     const { data: profile } = await supabase.from('profiles').select('id, role, tenant_id').eq('id', userId).single();
     if (!profile) return { success: false, message: 'User profile not found' };
 
+    await setAuditContext(supabase, { systemActor: 'autonomous-ops-agent' });
     if (!profile.role) await supabase.from('profiles').update({ role: 'student' }).eq('id', userId);
+    await setAuditContext(supabase, { systemActor: 'autonomous-ops-agent' });
     if (!profile.tenant_id) await supabase.from('profiles').update({ tenant_id: 'default' }).eq('id', userId);
 
     const { data: enrollment } = await supabase.from('program_enrollments').select('id').eq('user_id', userId).eq('status', 'enrolled').limit(1).single();

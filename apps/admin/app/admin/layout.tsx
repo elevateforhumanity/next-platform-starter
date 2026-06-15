@@ -35,19 +35,19 @@ const getCachedNavSections = unstable_cache(
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   // Check authentication - redirect to login if not authenticated
   let isAuthenticated = false;
-  
+
   try {
     const supabase = createServerClient();
     const { data: { user } } = await supabase.auth.getUser();
     isAuthenticated = !!user;
-  } catch (err) {
+  } catch (_err) {
     // If Supabase client creation fails (e.g., missing env vars), redirect to login
-    isAuthenticated = false;
   }
 
   if (!isAuthenticated) {
     redirect('/login');
   }
+
 
   const navSections = await getCachedNavSections(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').catch(() => DEFAULT_NAV);
   const content = (

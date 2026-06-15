@@ -319,7 +319,7 @@ export function DOLCompetencyTracker({
   const ojtCompletedCount = ojtCompetencies.filter(c => completedCompetencies[c.id]?.completed).length;
   const ojtProgress = Math.round((ojtCompletedCount / ojtCompetencies.length) * 100);
 
-  const rtiProgress = rtiCourses ? Math.round((rtiProgress / rtiCourses.totalHours) * 100) : 0;
+  const rtiProgressValue = rtiCourses ? Math.round((rtiCourses.completedHours / rtiCourses.totalHours) * 100) : 0;
 
   return (
     <div className="bg-white rounded-xl border overflow-hidden">
