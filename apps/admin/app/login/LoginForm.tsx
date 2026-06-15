@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
@@ -22,6 +22,19 @@ export default function AdminLoginForm({ redirectTo, initialError }: { redirectT
   const [forgotError, setForgotError] = useState('');
 
   const next = getSafeRedirect(redirectTo ?? null);
+
+  // Check if already logged in on mount
+  useEffect(() => {
+    async function checkSession() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        // Already logged in - redirect to admin dashboard
+        window.location.href = next;
+      }
+    }
+    checkSession();
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -76,6 +76,25 @@ function LoginForm() {
       const supabase = createClient();
       supabase.auth.signOut().catch(() => {});
     }
+    // Check if already logged in and redirect away
+    async function checkSession() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
+        const role = profile?.role || 'student';
+        if (role === 'student') {
+          window.location.href = '/learner/dashboard';
+        } else {
+          window.location.href = getRoleDestination(role);
+        }
+      }
+    }
+    checkSession();
   }, [reason]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -84,14 +103,32 @@ function LoginForm() {
     setError('');
 
     try {
+      // Check if already logged in - redirect to dashboard
+      const supabase = createClient();
+      const { data: { user: existingUser } } = await supabase.auth.getUser();
+      if (existingUser) {
+        // Already logged in - fetch profile and redirect
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role, onboarding_completed, portal_type')
+          .eq('id', existingUser.id)
+          .maybeSingle();
+        
+        const role = profile?.role || 'student';
+        if (role === 'student') {
+          window.location.href = await resolvePortalForUser(supabase, existingUser.id);
+        } else {
+          window.location.href = getRoleDestination(role);
+        }
+        return;
+      }
+
       const hydrated = await hydrateBrowserSupabaseConfig();
       if (!hydrated) {
         setError(mapAuthError('site configuration'));
         setLoading(false);
         return;
       }
-
-      const supabase = createClient();
 
       const { data, error }: any = await supabase.auth.signInWithPassword({
         email: email.trim(),
