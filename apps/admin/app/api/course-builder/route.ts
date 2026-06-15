@@ -43,6 +43,15 @@ export async function GET() {
         requiresKey: false,
         fields: ['healthcare', 'trades', 'technology', 'transportation'],
       },
+      credentialing: {
+        name: 'Credential Engine (State Workforce)',
+        endpoint: '/api/credentialing',
+        provides: ['credential frameworks', 'industry credentials', 'competency publishing'],
+        requiresKey: false,
+        status: 'pending_approval',
+        organization: 'Elevate for Humanity',
+        ctid: 'ce-6e3defc7-c349-4d16-aadb-35f02c998758',
+      },
     },
     usage: {
       courseGeneration: [
