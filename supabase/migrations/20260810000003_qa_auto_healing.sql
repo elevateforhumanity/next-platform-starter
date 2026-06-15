@@ -211,7 +211,6 @@ CREATE TABLE IF NOT EXISTS qa_auto_fix_rules (
 
 -- Seed default auto-fix rules
 INSERT INTO qa_auto_fix_rules (issue_pattern, issue_type, fix_template, requires_approval, priority) VALUES
-  -- Safe auto-fixes (no approval needed)
   ('unused.*import', 'lint_error', 'Remove unused import', false, 10),
   ('missing.*alt.*text', 'accessibility', 'Add alt text placeholder', false, 20),
   ('missing.*loading', 'component', 'Add loading state', false, 15),
@@ -221,9 +220,11 @@ INSERT INTO qa_auto_fix_rules (issue_pattern, issue_type, fix_template, requires
   ('404.*link.*broken', 'broken_link', 'Fix or remove broken link', false, 20),
   ('missing.*metadata', 'seo', 'Add page metadata', false, 10),
   ('TypeScript.*import.*error', 'type_error', 'Fix import path', false, 25),
-  ('unused.*variable', 'lint_error', 'Remove unused variable', false, 10),
-  
-  -- Requires approval
+  ('unused.*variable', 'lint_error', 'Remove unused variable', false, 10)
+ON CONFLICT DO NOTHING;
+
+-- Seed approval-required rules
+INSERT INTO qa_auto_fix_rules (issue_pattern, issue_type, fix_template, requires_approval, approval_reason, priority) VALUES
   ('auth.*guard', 'auth_issue', 'Requires admin review of auth changes', true, 'auth_change', 50),
   ('role.*permission', 'auth_issue', 'Requires admin review of RBAC changes', true, 'auth_change', 50),
   ('database.*schema', 'schema_error', 'Requires admin approval for schema changes', true, 'schema_change', 100),

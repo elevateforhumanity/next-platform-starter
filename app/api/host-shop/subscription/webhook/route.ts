@@ -7,7 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
-import { constructWebhookEvent } from '@/lib/stripe/construct-webhook-event';
+import { constructStripeEventWithAnySecret } from '@/lib/stripe/construct-webhook-event';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -31,7 +31,7 @@ async function _POST(request: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = constructWebhookEvent(payload, sig);
+    event = constructStripeEventWithAnySecret(payload, sig);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Host shop subscription webhook: signature verification failed', undefined, { error: msg });
