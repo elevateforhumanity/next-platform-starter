@@ -58,7 +58,7 @@ export default function SuccessStoryCards() {
                   alt={story.name}
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
+                  sizes="100vw" placeholder="empty"
                 />
               </div>
               <div className="p-6">

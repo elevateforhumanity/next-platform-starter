@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
-import { constructStripeEventWithAnySecret } from '@/lib/stripe/construct-webhook-event';
+import { constructWebhookEvent } from '@/lib/stripe/construct-webhook-event';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -34,7 +34,7 @@ async function _POST(request: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = constructStripeEventWithAnySecret(payload, sig);
+    event = constructWebhookEvent(payload, sig);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Application fee webhook: signature verification failed', undefined, { error: msg });

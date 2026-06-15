@@ -81,7 +81,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
           className="object-cover"
           priority
           quality={90}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
         />
 
         <div className="relative h-full flex items-center">
@@ -351,7 +351,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
                 fill
                 className="object-cover"
                 quality={90}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
               />
             </div>
             <div className="text-white">
