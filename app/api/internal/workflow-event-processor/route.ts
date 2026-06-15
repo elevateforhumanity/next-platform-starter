@@ -11,7 +11,7 @@
  *   3. Mark the event processed_at = now() so it is not re-dispatched.
  *
  * Processes up to BATCH_SIZE events per run to bound execution time.
- * Gated by CRON_SECRET header via withRuntime({ cron: true }).
+ * Gated by CRON_SECRET header via withRuntime({ cron: "x-header" }).
  */
 
 import { NextResponse } from 'next/server';
@@ -41,7 +41,7 @@ function eventMatchesFilter(
   return true;
 }
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // Load unprocessed events oldest-first, bounded by BATCH_SIZE

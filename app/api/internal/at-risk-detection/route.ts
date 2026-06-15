@@ -11,7 +11,7 @@
  *   L3 (72h+)     — admin notified, platform event severity=critical
  *
  * Idempotent: uses idempotency_key on notifications to avoid duplicate sends.
- * Gated by CRON_SECRET header via withRuntime({ cron: true }).
+ * Gated by CRON_SECRET header via withRuntime({ cron: "x-header" }).
  */
 
 import { NextResponse } from 'next/server';
@@ -30,7 +30,7 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 const L2_HOURS = 24;
 const L3_HOURS = 72;
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // ── Load at-risk students from the view ───────────────────────────────────

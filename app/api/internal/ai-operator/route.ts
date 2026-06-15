@@ -11,7 +11,7 @@
  *   3. Emits a single ai.operator_triage event summarising the batch
  *
  * Processes up to 20 events per run to stay within AI token limits.
- * Gated by CRON_SECRET via withRuntime({ cron: true }).
+ * Gated by CRON_SECRET via withRuntime({ cron: "x-header" }).
  */
 
 import { NextResponse } from 'next/server';
@@ -29,7 +29,7 @@ const BATCH_SIZE = 20;
 // Only triage events that are at least 2 minutes old (avoid racing with the emitter)
 const MIN_AGE_MINUTES = 2;
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   const ageCutoff = new Date(Date.now() - MIN_AGE_MINUTES * 60 * 1000).toISOString();

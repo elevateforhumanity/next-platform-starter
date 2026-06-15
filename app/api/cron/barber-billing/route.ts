@@ -67,7 +67,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
       }).catch((e: unknown) => logger.warn('[cron/barber-billing] Email failed', { sub_id: sub.id, error: String(e) }));
     }
 
-    await emitEvent('billing.barber_cycle_processed', 'billing', {
+    await emitEvent('payment.barber_cycle_processed', 'payment', {
       actor_type: 'cron',
       subject_id: sub.student_id,
       subject_type: 'student',

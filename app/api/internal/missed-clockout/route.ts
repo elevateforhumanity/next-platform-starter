@@ -35,7 +35,7 @@ const MAX_AUTO_CLOSE_HOURS = 8;
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   const cutoff = new Date(Date.now() - AUTO_CLOSE_HOURS * 60 * 60 * 1000).toISOString();

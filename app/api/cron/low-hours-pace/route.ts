@@ -41,7 +41,7 @@ const PROGRAM_REQUIREMENTS: Record<string, { ojl: number; rti: number; totalWeek
   'hvac-technician':                { ojl: 2000, rti: 500,  totalWeeks: 104 },
 };
 
-export const GET = withRuntime({ cron: true }, async () => {
+export const GET = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // Load all active enrollments with start date

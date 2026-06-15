@@ -77,7 +77,7 @@ function cronDueInWindow(expr: string, windowMinutes = 5): boolean {
   return false;
 }
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // Load all enabled schedule triggers

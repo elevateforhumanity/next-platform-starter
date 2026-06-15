@@ -41,7 +41,7 @@ const FALLBACK_REQUIRED_OJL_HOURS = 2000; // Indiana barber DOL baseline
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // Load all active apprenticeship enrollments with start date and required hours.

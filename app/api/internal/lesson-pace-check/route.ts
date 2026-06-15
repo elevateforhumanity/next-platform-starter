@@ -14,7 +14,7 @@
  *   2. student_risk_status updated (status escalated if already watch/at_risk)
  *   3. Platform event emitted
  *
- * Gated by CRON_SECRET via withRuntime({ cron: true }).
+ * Gated by CRON_SECRET via withRuntime({ cron: "x-header" }).
  */
 
 import { NextResponse } from 'next/server';
@@ -32,7 +32,7 @@ const LESSON_DEFICIT_THRESHOLD = 2;
 // Default program duration when not set on the program row.
 const DEFAULT_PROGRAM_DAYS = 180; // 6-month program
 
-export const POST = withRuntime({ cron: true }, async () => {
+export const POST = withRuntime({ cron: "x-header" }, async () => {
   const db = await requireAdminClient();
 
   // Load active enrollments with program info and lesson counts

@@ -44,9 +44,9 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
       severity: daysOver > 3 ? 'critical' : 'high',
       message: `Funding SLA breach: ${profile?.full_name ?? breach.student_id} — ${source?.name ?? 'unknown'} — ${daysOver} days over SLA`,
       metadata: { assignment_id: breach.id, student_id: breach.student_id, days_over_sla: daysOver },
-    }).onConflict('id').ignore().catch(() => {});
+    }).then(() => {}).catch(() => {});
 
-    await emitEvent('funding.sla_breach', 'funding', {
+    await emitEvent('funding.sla_breach', 'payment', {
       severity: daysOver > 3 ? 'error' : 'warning',
       actor_type: 'cron',
       subject_id: breach.student_id,
