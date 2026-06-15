@@ -347,7 +347,7 @@ async function runQAScan(): Promise<Record<string, unknown>> {
     
     return { scan_id: scan?.id, status: 'completed' };
   } catch (error) {
-    throw new Error(`QA scan failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    throw new Error(`QA scan failed: ${error instanceof Error ? error.message : 'Unknown'}`, { cause: error });
   }
 }
 
@@ -357,7 +357,7 @@ async function runGapScan(): Promise<Record<string, unknown>> {
     const result = await scanAllGaps();
     return { total_gaps: result.total_gaps, critical: result.critical_gaps };
   } catch (error) {
-    throw new Error(`Gap scan failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    throw new Error(`Gap scan failed: ${error instanceof Error ? error.message : 'Unknown'}`, { cause: error });
   }
 }
 
@@ -384,29 +384,36 @@ async function clearCloudflareCache(): Promise<Record<string, unknown>> {
 
     return { status: 'success', message: 'Cache cleared' };
   } catch (error) {
-    throw new Error(`Cloudflare cache clear failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    throw new Error(`Cloudflare cache clear failed: ${error instanceof Error ? error.message : 'Unknown'}`, { cause: error });
   }
 }
 
 async function createGitHubPR(parameters: Record<string, unknown>): Promise<Record<string, unknown>> {
-  const branch = parameters.branch as string || `fix/${Date.now()}`;
-  const title = parameters.title as string || 'Control Plane Fix';
-  const description = parameters.description as string || '';
+  // Sanitize inputs to prevent command injection
+  const sanitizedBranch = (parameters.branch as string || `fix/${Date.now()}`)
+    .replace(/[^a-zA-Z0-9/_-]/g, '-')
+    .substring(0, 100);
+  const title = (parameters.title as string || 'Control Plane Fix')
+    .replace(/"/g, '\\"')
+    .substring(0, 200);
+  const description = ((parameters.description as string) || '')
+    .replace(/"/g, '\\"')
+    .substring(0, 5000);
 
   try {
-    await execAsync(`git checkout -b ${branch}`);
+    await execAsync(`git checkout -b ${sanitizedBranch}`);
     await execAsync('git add -A');
     await execAsync(`git commit -m "${title}"`);
-    await execAsync(`git push origin ${branch}`);
+    await execAsync(`git push origin ${sanitizedBranch}`);
     
     // Create PR via gh cli
     const { stdout } = await execAsync(
       `gh pr create --title "${title}" --body "${description}" --draft`
     );
 
-    return { branch, pr_url: stdout, status: 'created' };
+    return { branch: sanitizedBranch, pr_url: stdout, status: 'created' };
   } catch (error) {
-    throw new Error(`PR creation failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    throw new Error(`PR creation failed: ${error instanceof Error ? error.message : 'Unknown'}`, { cause: error });
   }
 }
 
@@ -420,7 +427,7 @@ export async function getPlatformLogs(
     offset?: number;
   } = {}
 ): Promise<{ logs: unknown[]; total: number }> {
-  let query = supabase
+  let query = getSupabaseClient()
     .from('platform_event_logs')
     .select('*', { count: 'exact' })
     .eq('tenant_id', tenantId)

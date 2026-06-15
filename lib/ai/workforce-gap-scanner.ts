@@ -69,7 +69,7 @@ export interface WorkforceScanResult {
 async function searchONetOccupations(keyword?: string): Promise<unknown[]> {
   const apiKey = process.env.ONET_API_KEY;
   if (!apiKey) {
-    console.log('O*NET API not configured');
+    console.info('O*NET API not configured');
     return [];
   }
 
@@ -445,7 +445,7 @@ async function discoverNewOpportunities(): Promise<WorkforceGap[]> {
 
 // Main workforce scan function
 export async function runWorkforceGapScan(): Promise<WorkforceScanResult> {
-  console.log('Starting workforce gap scan...');
+  console.info('Starting workforce gap scan...');
 
   // Get completion scores for all current programs
   const { data: programs } = await supabase
@@ -495,7 +495,7 @@ export async function runWorkforceGapScan(): Promise<WorkforceScanResult> {
     recommendations,
   };
 
-  console.log(`Workforce scan complete:`, {
+  console.info('Workforce scan complete:', {
     new_opportunities: newOpportunities.length,
     completion_scores: completionScores.length,
     recommendations: recommendations.length,

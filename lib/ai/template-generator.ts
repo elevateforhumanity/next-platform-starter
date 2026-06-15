@@ -253,7 +253,7 @@ export async function generateTemplate(
       },
     };
   } catch (error) {
-    throw new Error(`Template generation failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    throw new Error(`Template generation failed: ${error instanceof Error ? error.message : 'Unknown'}`, { cause: error });
   }
 }
 

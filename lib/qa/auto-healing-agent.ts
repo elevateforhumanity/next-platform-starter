@@ -118,7 +118,7 @@ async function scanMissingAssets(): Promise<QAIssue[]> {
   const publicDir = join(process.cwd(), 'public');
   try {
     const { stdout } = await execAsync(
-      `grep -rh "src=\"/images" --include="*.tsx" --include="*.ts" src/ 2>/dev/null | grep -oE 'src="[^"]+' | sed 's/src="//' | sort -u`,
+      `grep -rh 'src="/images' --include="*.tsx" --include="*.ts" src/ 2>/dev/null | grep -oE 'src="[^"]+' | sed 's/src="//' | sort -u`,
       { cwd: process.cwd() }
     );
     for (const asset of stdout.split('\n')) {
