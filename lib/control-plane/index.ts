@@ -6,16 +6,25 @@
  * Supabase, Cloudflare, GitHub, deployments, AI agents, and workflows.
  */
 
-import { createClient } from '@supabase/supabase-js';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { logger } from '@/lib/logger';
 
 const execAsync = promisify(exec);
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+
+// Lazy-initialized Supabase client
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _supabase: any = null;
+
+function getSupabaseClient() {
+  if (!_supabase) {
+    const { createClient } = require('@supabase/supabase-js');
+    _supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+  }
+  return _supabase;
+}
 
 // Platform Map - All connected systems
 export interface PlatformService {
@@ -56,7 +65,7 @@ export async function getPlatformMap(tenantId: string): Promise<{
   degraded: number;
   down: number;
 }> {
-  const { data: services } = await supabase
+  const { data: services } = await getSupabaseClient()
     .from('platform_services')
     .select('*')
     .eq('tenant_id', tenantId)
@@ -89,7 +98,7 @@ export async function checkAllHealth(tenantId: string): Promise<{
   checks: HealthCheck[];
   overall_status: 'healthy' | 'degraded' | 'down';
 }> {
-  const { data: services } = await supabase
+  const { data: services } = await getSupabaseClient()
     .from('platform_services')
     .select('*')
     .eq('tenant_id', tenantId);
@@ -117,7 +126,7 @@ export async function checkAllHealth(tenantId: string): Promise<{
       });
 
       // Update service status
-      await supabase
+      await getSupabaseClient()
         .from('platform_services')
         .update({ 
           status: status === 'pass' ? 'healthy' : status === 'warning' ? 'degraded' : 'down',
@@ -126,7 +135,7 @@ export async function checkAllHealth(tenantId: string): Promise<{
         .eq('id', service.id);
 
       // Log health check
-      await supabase.from('platform_health_checks').insert({
+      await getSupabaseClient().from('platform_health_checks').insert({
         tenant_id: tenantId,
         service_id: service.id,
         check_type: 'uptime',
@@ -145,7 +154,7 @@ export async function checkAllHealth(tenantId: string): Promise<{
         checked_at: now,
       });
 
-      await supabase
+      await getSupabaseClient()
         .from('platform_services')
         .update({ status: 'down', last_health_check: now })
         .eq('id', service.id);
@@ -238,7 +247,7 @@ export async function executeControlAction(
   }
 
   // Create action record
-  const { data: actionRecord, error } = await supabase
+  const { data: actionRecord, error } = await getSupabaseClient()
     .from('platform_control_actions')
     .insert({
       tenant_id: tenantId,
@@ -258,7 +267,7 @@ export async function executeControlAction(
   }
 
   // Log event
-  await supabase.from('platform_event_logs').insert({
+  await getSupabaseClient().from('platform_event_logs').insert({
     tenant_id: tenantId,
     event_type: 'control_action',
     event_category: actionType,
@@ -283,7 +292,7 @@ export async function executeControlAction(
   try {
     const result = await executeAction(actionType, parameters);
     
-    await supabase
+    await getSupabaseClient()
       .from('platform_control_actions')
       .update({
         status: 'completed',
@@ -294,7 +303,7 @@ export async function executeControlAction(
 
     return { success: true, action_id: actionRecord.id, message: 'Action completed successfully' };
   } catch (error) {
-    await supabase
+    await getSupabaseClient()
       .from('platform_control_actions')
       .update({
         status: 'failed',
@@ -326,7 +335,7 @@ async function executeAction(actionType: string, parameters: Record<string, unkn
 async function runQAScan(): Promise<Record<string, unknown>> {
   try {
     const { runFullScan } = await import('@/lib/qa/auto-healing-agent');
-    const { data: scan } = await supabase.from('qa_scans').insert({
+    const { data: scan } = await getSupabaseClient().from('qa_scans').insert({
       tenant_id: 'default',
       scan_type: 'manual',
       triggered_by: 'control_plane',
@@ -436,7 +445,7 @@ export async function getIntegrations(tenantId: string): Promise<{
   connected: number;
   disconnected: number;
 }> {
-  const { data } = await supabase
+  const { data } = await getSupabaseClient()
     .from('platform_integrations')
     .select('*')
     .eq('tenant_id', tenantId);
@@ -455,7 +464,7 @@ export async function approveAction(
   approverId: string,
   reason?: string
 ): Promise<{ success: boolean; message: string }> {
-  const { data: action } = await supabase
+  const { data: action } = await getSupabaseClient()
     .from('platform_control_actions')
     .select('*')
     .eq('id', actionId)
@@ -469,7 +478,7 @@ export async function approveAction(
     return { success: false, message: 'Action already approved' };
   }
 
-  await supabase
+  await getSupabaseClient()
     .from('platform_control_actions')
     .update({
       approval_status: 'approved',
@@ -482,14 +491,14 @@ export async function approveAction(
   // Execute the action
   try {
     const result = await executeAction(action.action_type, action.parameters || {});
-    await supabase
+    await getSupabaseClient()
       .from('platform_control_actions')
       .update({ status: 'completed', completed_at: new Date().toISOString(), result })
       .eq('id', actionId);
 
     return { success: true, message: 'Action approved and executed' };
   } catch (error) {
-    await supabase
+    await getSupabaseClient()
       .from('platform_control_actions')
       .update({ status: 'failed', completed_at: new Date().toISOString(), error_message: error instanceof Error ? error.message : 'Unknown' })
       .eq('id', actionId);
