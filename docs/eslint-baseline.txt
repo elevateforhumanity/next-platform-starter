@@ -150,3 +150,4 @@ lib/governance/guardrail-engine.ts
 lib/partners/index.ts
 lib/schema.ts
 lib/services/credential-pipeline.ts
+lib/control-plane/index.ts
