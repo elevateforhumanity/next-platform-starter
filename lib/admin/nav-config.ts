@@ -119,6 +119,16 @@ export const DEFAULT_NAV: NavSection[] = [
     ],
   },
   {
+    label: 'LMS',
+    href: '/lms',
+    items: [
+      { label: 'LMS Portal', href: '/lms' },
+      { label: 'LMS Dashboard', href: '/learner/dashboard' },
+      { label: 'Courses', href: '/lms/courses' },
+      { label: 'My Progress', href: '/learner/progress' },
+    ],
+  },
+  {
     label: 'Automation',
     href: '/admin/dev-studio',
     items: [

@@ -27,7 +27,15 @@ import {
   Upload,
   Briefcase,
   Plug,
+  Brain,
 } from 'lucide-react';
+import { getSkillsLoader, type Skill } from '@/lib/dev-studio/skills-loader';
+
+// Import OpenHands-style components
+const WebContainerSandbox = dynamic(
+  () => import('@/components/dev-studio/WebContainerSandbox'),
+  { ssr: false }
+);
 
 interface WorkflowButton {
   key: string;
