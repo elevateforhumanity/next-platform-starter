@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     // Supabase Status
     const supabaseStart = Date.now();
-    let supabaseStatus = {
+    const supabaseStatus = {
       status: 'connected' as const,
       latency_ms: 0,
       region: 'us-east-1',

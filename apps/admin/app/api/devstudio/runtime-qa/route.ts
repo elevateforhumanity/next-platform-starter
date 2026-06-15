@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     // Check API health
     const apiStart = Date.now();
-    let apiHealth = { status: 'healthy' as const, latency_ms: 0, endpoints_tested: 0, failures: 0 };
+    const apiHealth = { status: 'healthy' as const, latency_ms: 0, endpoints_tested: 0, failures: 0 };
     try {
       await supabase.from('profiles').select('id').limit(1);
       apiHealth.latency_ms = Date.now() - apiStart;
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
 
     // Check Supabase connection
     const supabaseStart = Date.now();
-    let supabaseHealth = { status: 'connected' as const, latency_ms: 0 };
+    const supabaseHealth = { status: 'connected' as const, latency_ms: 0 };
     try {
       await supabase.auth.getSession();
       supabaseHealth.latency_ms = Date.now() - supabaseStart;
@@ -121,6 +121,6 @@ function calculateScore(errors: RuntimeError[]): number {
   const warnings = errors.filter(e => e.level === 'warning').length;
   
   // Base score 100, deduct for errors
-  let score = 100 - (critical * 10) - (warnings * 2);
+  const score = 100 - (critical * 10) - (warnings * 2);
   return Math.max(0, Math.min(100, score));
 }
