@@ -1,6 +1,7 @@
 // components/marketing/PhotoCTA.tsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { BLUR_PLACEHOLDERS } from '@/lib/images/blur-placeholder';
 
 export function PhotoCTA() {
   return (
@@ -10,13 +11,14 @@ export function PhotoCTA() {
           {/* Photo collage */}
           <div className="grid grid-cols-2 gap-3">
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
               <Image
                 src="/images/pages/comp-photo-cta-1.webp"
                 alt="Barber apprenticeship in action"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
+                sizes="(max-width: 768px) 48px, 64px"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDERS.default}
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -25,7 +27,9 @@ export function PhotoCTA() {
                 alt="Healthcare student in lab coat"
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDERS.default}
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -34,7 +38,9 @@ export function PhotoCTA() {
                 alt="HVAC technician training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
+                sizes="(max-width: 768px) 48px, 64px"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDERS.default}
               />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
@@ -43,7 +49,9 @@ export function PhotoCTA() {
                 alt="Classroom and coaching"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 64px" placeholder="empty"
+                sizes="(max-width: 768px) 48px, 64px"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDERS.default}
               />
             </div>
           </div>

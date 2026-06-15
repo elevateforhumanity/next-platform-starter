@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { BLUR_PLACEHOLDERS } from '@/lib/images/blur-placeholder';
 
 export default function PartnerLogos() {
   return (
@@ -13,13 +14,14 @@ export default function PartnerLogos() {
         </p>
         <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
           <div className="flex items-center justify-center h-16 w-32">
-        {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
             <Image sizes="100vw"
               src="/images/partners/dwd.webp"
               alt="Indiana Department of Workforce Development"
               width={120}
               height={60}
-              className="object-contain" placeholder="empty"
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDERS.partner}
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -28,7 +30,9 @@ export default function PartnerLogos() {
               alt="WorkOne Indiana"
               width={120}
               height={60}
-              className="object-contain" placeholder="empty"
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDERS.partner}
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -37,7 +41,9 @@ export default function PartnerLogos() {
               alt="US Department of Labor"
               width={120}
               height={60}
-              className="object-contain" placeholder="empty"
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDERS.partner}
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -46,7 +52,9 @@ export default function PartnerLogos() {
               alt="OSHA Authorized"
               width={120}
               height={60}
-              className="object-contain" placeholder="empty"
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDERS.partner}
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
@@ -55,7 +63,9 @@ export default function PartnerLogos() {
               alt="Next Level Jobs"
               width={120}
               height={60}
-              className="object-contain" placeholder="empty"
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDERS.partner}
             />
           </div>
         </div>
