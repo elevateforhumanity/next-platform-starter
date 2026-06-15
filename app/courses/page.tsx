@@ -132,7 +132,7 @@ export default async function CoursesPage() {
       .order('display_order', { ascending: true })
       .order('title', { ascending: true });
     if (data && data.length > 0) {
-      courses = data as CourseRow[];
+      courses = (data as unknown as CourseRow[]) ?? [];
     }
   }
   if (courses.length === 0) {
