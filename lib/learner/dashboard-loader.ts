@@ -46,6 +46,7 @@ export interface EnrollmentDTO {
     title: string;
     description: string | null;
     duration_hours: number | null;
+    image: string | null;
   } | null;
   _isApprenticeship?: boolean;
 }
@@ -219,7 +220,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
     enrollmentCourseIds.length > 0
       ? await supabase
           .from('courses')
-          .select('id, title, description, duration_hours')
+          .select('id, title, description, duration_hours, image')
           .in('id', enrollmentCourseIds)
       : { data: [], error: null };
 
@@ -278,6 +279,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
           title: course.title ?? course.course_name ?? 'Course',
           description: course.description ?? null,
           duration_hours: course.duration_hours ?? null,
+          image: course.image ?? null,
         };
       }
     } else if (e.program_id && apMap.has(e.program_id)) {
@@ -287,6 +289,7 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
         title: ap.name ?? 'Apprenticeship Program',
         description: ap.description ?? null,
         duration_hours: null,
+        image: null,
       };
       return { ...e, courses, _isApprenticeship: true } as EnrollmentDTO;
     }

@@ -491,13 +491,22 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     const course = Array.isArray(enrollment.courses)
                       ? enrollment.courses[0]
                       : enrollment.courses;
+                    const courseImage = course?.image || (enrollment._isApprenticeship ? '/images/pages/barber-apprenticeship-hero.jpg' : null);
                     return (
                       <div key={enrollment.id} className="p-6">
                         <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0">
-                            <div className="w-full h-full flex items-center justify-center">
-                              <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-slate-700" />
-                            </div>
+                          <div className="w-24 h-20 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
+                            {courseImage ? (
+                              <img
+                                src={courseImage}
+                                alt={course?.title || 'Course image'}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <GraduationCap aria-label="graduationcap" className="w-8 h-8 text-slate-400" />
+                              </div>
+                            )}
                           </div>
                           <div className="flex-1">
                             <h3 className="font-semibold text-slate-900 mb-1">

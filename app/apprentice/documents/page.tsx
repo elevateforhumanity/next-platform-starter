@@ -126,6 +126,35 @@ export default async function ApprenticeDocumentsPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Required Documents Instructions */}
+            <div className="bg-blue-50 rounded-xl border border-blue-100 p-6">
+              <h3 className="font-semibold text-blue-900 mb-3">Required Documents</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex items-start gap-2">
+                  <span className="w-5 h-5 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                  <div>
+                    <p className="font-medium text-blue-900">Photo ID</p>
+                    <p className="text-blue-700 text-xs mt-0.5">Drivers license, state ID, or passport</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="w-5 h-5 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                  <div>
+                    <p className="font-medium text-blue-900">Proof of Residency</p>
+                    <p className="text-blue-700 text-xs mt-0.5">Recent utility bill or lease (within 60 days)</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="w-5 h-5 bg-blue-200 text-blue-800 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                  <div>
+                    <p className="font-medium text-blue-900">High School Diploma/GED</p>
+                    <p className="text-blue-700 text-xs mt-0.5">Copy of diploma, transcript, or GED</p>
+                  </div>
+                </div>
+                <p className="text-blue-600 text-xs mt-2 pt-2 border-t border-blue-100">Accepted: PDF, JPG, PNG (max 10MB)</p>
+              </div>
+            </div>
+
             {/* Required Forms */}
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <h3 className="font-semibold mb-4">Required Forms</h3>
