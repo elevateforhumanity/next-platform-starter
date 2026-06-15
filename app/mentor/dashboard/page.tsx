@@ -26,7 +26,6 @@ export default async function MentorDashboardPage() {
   const supabase = await createClient();
 
   let menteeCount: number;
-  let sessionCount: number;
   let upcomingSessions: any[];
   let recentMentees: any[];
 
@@ -108,7 +107,7 @@ export default async function MentorDashboardPage() {
     .eq('mentor_id', user.id)
     .gte('scheduled_at', startOfMonth.toISOString());
 
-  sessionCount = monthSessions || 0;
+  const sessionCount = monthSessions || 0;
 
   // Total completed sessions (all time)
   const { count: totalCompletedSessions } = await supabase

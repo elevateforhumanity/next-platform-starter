@@ -735,7 +735,7 @@ export async function POST(request: NextRequest) {
     { role: 'user' as const, content: userMessage },
   ];
 
-  let reply = '';
+  let reply: string;
 
   try {
     // Primary: gpt-4o-mini (widely available, fast)
