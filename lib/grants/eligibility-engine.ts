@@ -325,9 +325,10 @@ export async function batchCheckEligibility(): Promise<{
   eligible: number;
   ineligible: number;
 }> {
-  const { data: entities } = await (await getDb()).from('entities').select('id');
+  const db = await getDb();
+  const { data: entities } = await db.from('entities').select('id');
 
-  const { data: grants } = await getDb()
+  const { data: grants } = await db
     .from('grant_opportunities')
     .select('id')
     .gte('due_date', new Date().toISOString().slice(0, 10));

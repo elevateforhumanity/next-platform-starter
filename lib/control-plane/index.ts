@@ -15,7 +15,7 @@ const execAsync = promisify(exec);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _supabase: any = null;
 
-async function getSupabaseClient() {
+async function getSupabaseClient(): Promise<any> {
   if (!_supabase) {
     const { createClient } = await import('@supabase/supabase-js');
     _supabase = createClient(

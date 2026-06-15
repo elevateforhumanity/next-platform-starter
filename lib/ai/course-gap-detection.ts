@@ -60,13 +60,13 @@ async function scanProgramsWithoutCourses(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
   // Get all programs
-  const { data: programs } = await supabase
+  const { data: programs } = await getGapSupabase()
     .from('programs')
     .select('id, title, slug, occupation, soc_code, credential_type, category')
     .eq('is_active', true);
 
   // Get all courses
-  const { data: courses } = await supabase
+  const { data: courses } = await getGapSupabase()
     .from('career_courses')
     .select('id, title, program_id, status')
     .eq('status', 'published');
@@ -116,13 +116,13 @@ async function scanProgramsWithoutCourses(): Promise<CourseGap[]> {
 async function scanCoursesWithoutModules(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
-  const { data: courses } = await supabase
+  const { data: courses } = await getGapSupabase()
     .from('career_courses')
     .select('id, title, program_id, status')
     .eq('status', 'published');
 
   for (const course of courses || []) {
-    const { data: modules } = await supabase
+    const { data: modules } = await getGapSupabase()
       .from('course_modules')
       .select('id, title')
       .eq('course_id', course.id)
@@ -150,13 +150,13 @@ async function scanCoursesWithoutModules(): Promise<CourseGap[]> {
 async function scanModulesWithoutLessons(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
-  const { data: modules } = await supabase
+  const { data: modules } = await getGapSupabase()
     .from('course_modules')
     .select('id, title, course_id')
     .eq('is_draft', false);
 
   for (const module of modules || []) {
-    const { data: lessons } = await supabase
+    const { data: lessons } = await getGapSupabase()
       .from('course_lessons')
       .select('id')
       .eq('module_id', module.id);
@@ -184,13 +184,13 @@ async function scanModulesWithoutLessons(): Promise<CourseGap[]> {
 async function scanLessonsWithoutQuizzes(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
-  const { data: lessons } = await supabase
+  const { data: lessons } = await getGapSupabase()
     .from('course_lessons')
     .select('id, title, module_id')
     .eq('has_quiz', false);
 
   for (const lesson of lessons || []) {
-    const { data: quizzes } = await supabase
+    const { data: quizzes } = await getGapSupabase()
       .from('course_quizzes')
       .select('id')
       .eq('lesson_id', lesson.id);
@@ -217,7 +217,7 @@ async function scanLessonsWithoutQuizzes(): Promise<CourseGap[]> {
 async function scanCoursesWithoutAssessments(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
-  const { data: courses } = await supabase
+  const { data: courses } = await getGapSupabase()
     .from('career_courses')
     .select('id, title, has_final_exam, has_practical_assessment')
     .eq('status', 'published');
@@ -246,7 +246,7 @@ async function scanApprenticeshipContentGaps(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
   // Get apprenticeship programs
-  const { data: programs } = await supabase
+  const { data: programs } = await getGapSupabase()
     .from('programs')
     .select('id, title, category, apprenticeship_hours_required')
     .eq('is_active', true)
@@ -254,7 +254,7 @@ async function scanApprenticeshipContentGaps(): Promise<CourseGap[]> {
 
   for (const program of programs || []) {
     // Check if related instruction content exists
-    const { data: content } = await supabase
+    const { data: content } = await getGapSupabase()
       .from('course_content')
       .select('id')
       .eq('program_id', program.id)
@@ -282,7 +282,7 @@ async function scanApprenticeshipContentGaps(): Promise<CourseGap[]> {
 async function scanMissingExternalData(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
-  const { data: programs } = await supabase
+  const { data: programs } = await getGapSupabase()
     .from('programs')
     .select('id, title, occupation, soc_code')
     .eq('is_active', true);
@@ -314,7 +314,7 @@ async function scanInactiveDrafts(): Promise<CourseGap[]> {
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-  const { data: drafts } = await supabase
+  const { data: drafts } = await getGapSupabase()
     .from('career_courses')
     .select('id, title, updated_at')
     .eq('status', 'draft')
@@ -401,7 +401,7 @@ export async function createDraftJobsFromGaps(gaps: CourseGap[]): Promise<string
   for (const gap of gaps) {
     if (gap.gap_type === 'no_course' && gap.program_id) {
       // Create a course generation job
-      const { data: job, error } = await supabase
+      const { data: job, error } = await getGapSupabase()
         .from('course_generation_jobs')
         .insert({
           title: `Generate course for: ${gap.program_name}`,

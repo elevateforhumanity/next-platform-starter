@@ -130,11 +130,6 @@ export const PAGE_SCRIPTS: Record<
     nextAction: `Open Requirements/Documents and complete the first incomplete item.`,
   },
 
-  '/learner/dashboard': {
-    opening: `This dashboard shows your status and next required action. Most delays are missing documents or unsigned agreements.`,
-    nextAction: `Check your status card and complete any pending items.`,
-  },
-
   // === LEARNING ===
   '/lms': {
     opening: `This is your learning system. Access enrolled courses, track progress, complete assessments. Progress saves automatically.`,

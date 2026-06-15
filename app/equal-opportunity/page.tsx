@@ -84,7 +84,6 @@ const colorClasses: Record<string, { bg: string; border: string; icon: string }>
     border: 'border-brand-green-200',
     icon: 'text-brand-green-600',
   },
-  blue: { bg: 'bg-brand-blue-50', border: 'border-brand-blue-200', icon: 'text-brand-blue-600' },
   orange: {
     bg: 'bg-brand-orange-50',
     border: 'border-brand-orange-200',
