@@ -10,7 +10,6 @@ type FeedStats = {
   configured: {
     usajobs: boolean;
     careeronestop: boolean;
-    indiana_career_connect: boolean;
   };
 };
 
@@ -51,9 +50,8 @@ export function JobBoardPanel() {
   }
 
   const sources = [
-    { key: 'usajobs' as const, label: 'USAJobs.gov', href: 'https://developer.usajobs.gov', note: 'Register at developer.usajobs.gov' },
-    { key: 'careeronestop' as const, label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/technical-information.aspx', note: 'Request jobsearch access — email api@careeronestop.org with user ID xmXrnhnrnn4DZNX' },
-    { key: 'indiana_career_connect' as const, label: 'Indiana Career Connect', href: 'https://www.indianacareerconnect.com', note: '' },
+    { key: 'usajobs' as const, label: 'USAJobs.gov', href: 'https://developer.usajobs.gov', note: 'Federal jobs API' },
+    { key: 'careeronestop' as const, label: 'CareerOneStop', href: 'https://www.careeronestop.org/Developers/WebAPI/', note: 'DOL-funded job listings' },
   ];
 
   return (

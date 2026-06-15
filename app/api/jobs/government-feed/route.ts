@@ -151,22 +151,6 @@ async function fetchCareerOneStop(keyword: string, location = 'Indianapolis, IN'
   }));
 }
 
-// ── Indiana Career Connect (public RSS/JSON) ──────────────────────────────────
-async function fetchIndianaCareerConnect(keyword: string): Promise<any[]> {
-  // Indiana Career Connect does not have a public API key endpoint.
-  // We use their public job search URL as a discoverable link — actual
-  // scraping requires a partnership agreement with Indiana DWD.
-  // Return empty until API credentials are configured.
-  const apiKey = process.env.INDIANA_CAREER_CONNECT_API_KEY;
-  if (!apiKey) {
-    logger.info('[government-feed] INDIANA_CAREER_CONNECT_API_KEY not set — skipping (link-out only)');
-    return [];
-  }
-
-  // Placeholder for future DWD API integration
-  return [];
-}
-
 // ── Main handler ──────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'strict');
@@ -248,11 +232,10 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     total: count ?? 0,
     lastImport: data?.[0]?.imported_at ?? null,
-    sources: ['usajobs', 'careeronestop', 'indiana_career_connect'],
+    sources: ['usajobs', 'careeronestop'],
     configured: {
       usajobs: !!process.env.USAJOBS_API_KEY,
       careeronestop: !!(process.env.CAREERONESTOP_TOKEN ?? process.env.CAREERONESTOP_API_KEY),
-      indiana_career_connect: !!process.env.INDIANA_CAREER_CONNECT_API_KEY,
     },
   });
 }
