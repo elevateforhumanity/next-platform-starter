@@ -2,6 +2,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import DevStudioUnifiedClient from './DevStudioUnifiedClient';
+import ReplitWorkspace from '@/components/dev-studio/replit/ReplitWorkspace';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 export default async function DevStudioPage() {
   return (
     <Suspense fallback={null}>
-      <DevStudioUnifiedClient isSuperAdmin={true} />
+      {/* Replit-style IDE workspace */}
+      <ReplitWorkspace />
     </Suspense>
   );
 }
