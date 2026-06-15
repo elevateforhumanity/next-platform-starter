@@ -112,6 +112,7 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
     return { workspace: 'environments', mode: 'ask' };
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
+  if (tab === 'integrations') return { workspace: 'integrations', mode: 'ask' };
   if (tab === 'command-center' || tab === 'os') return { workspace: 'command', mode: 'ask' };
   if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
