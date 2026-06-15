@@ -82,7 +82,7 @@ async function _POST(request: NextRequest) {
   try {
     event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
   } catch (err) {
-    logger.error('[cosmetology/webhook] Signature verification failed:', err);
+    logger.error("[cosmetology/webhook] Signature verification failed: " + String(err));
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
@@ -137,7 +137,7 @@ async function _POST(request: NextRequest) {
             created_at: new Date().toISOString(),
           });
           if (subRecordError) {
-            logger.error('[cosmetology/webhook] cosmetology_subscriptions insert error:', subRecordError);
+            logger.error("[cosmetology/webhook] cosmetology_subscriptions insert error: " + String(subRecordError));
           }
 
           if (!fullyPaidEnrollment && weeklyPaymentCents > 0 && weeksRemaining > 0) {
@@ -209,7 +209,7 @@ async function _POST(request: NextRequest) {
           });
 
           if (enrollResult.error) {
-            logger.error('[cosmetology/webhook] program_enrollments write failed:', enrollResult.error);
+            logger.error("[cosmetology/webhook] program_enrollments write failed: " + String(enrollResult.error));
           } else {
             logger.info(`[cosmetology/webhook] program_enrollments ${enrollResult.action}: ${enrollResult.id}`);
           }

@@ -93,7 +93,6 @@ export async function GET(request: NextRequest) {
             amountDueCents: i.amount_due,
             amountPaidFormatted: formatCents(i.amount_paid),
             status: i.status,
-            paid: i.paid,
             created: new Date(i.created * 1000).toISOString(),
             description: i.description,
             hostedInvoiceUrl: i.hosted_invoice_url,

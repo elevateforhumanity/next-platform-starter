@@ -73,6 +73,19 @@ const BARBER_FALLBACK_SHOPS: HostShop[] = [
     programs: [PROGRAM_SLUGS.barber],
     badge: 'partner',
   },
+  {
+    id: 'fallback-razors-image',
+    name: 'Razors Image Barbershop',
+    address: '155 S Kingston Dr',
+    city: 'Bloomington',
+    state: 'IN',
+    zip: '47408',
+    phone: '(812) 606-7858',
+    email: 'razorsimage11@gmail.com',
+    supervisor: 'Aaron Brown',
+    programs: [PROGRAM_SLUGS.barber],
+    badge: 'partner',
+  },
 ];
 
 function parseAddress(raw: string): { address: string; city: string; state: string; zip: string } {

@@ -115,7 +115,7 @@ async function _POST(request: NextRequest) {
         // Get program details
         const { data: program } = await supabase
           .from('programs')
-          .select('id, title, slug, total_cost')
+          .select('id, title, name, slug, total_cost')
           .eq('id', programId)
           .maybeSingle();
 

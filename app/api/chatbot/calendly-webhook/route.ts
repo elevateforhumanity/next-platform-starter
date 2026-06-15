@@ -261,7 +261,7 @@ export async function POST(request: NextRequest) {
 
     const event: CalendlyEvent = JSON.parse(rawBody);
 
-    logger.info('[Calendly Webhook] Received event:', event.event);
+    logger.info('[Calendly Webhook] Received event: ' + event.event);
 
     if (!process.env.RESEND_API_KEY) {
       logger.warn('[Calendly Webhook] RESEND_API_KEY not configured');

@@ -6,7 +6,8 @@ import { safeInternalError } from '@/lib/api/safe-error';
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { withErrorHandling, APIErrors, ErrorCode } from '@/lib/api';
+import { withErrorHandling, APIErrors } from '@/lib/api';
+import { ErrorCode } from '@/lib/api/error-codes';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { APIError } from '@/lib/api/api-error';
