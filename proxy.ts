@@ -52,6 +52,10 @@ const PROTECTED_ROUTES: Record<string, string[]> = {
   '/employer/apprenticeships': ['employer', 'sponsor', 'admin', 'super_admin'],
   '/employer/documents':       ['employer', 'sponsor', 'admin', 'super_admin'],
   '/employer/analytics':       ['employer', 'sponsor', 'admin', 'super_admin'],
+
+  // ── Host Shop ─────────────────────────────────────────────────────
+  '/admin/host-shop/':         ['host_shop', 'admin', 'super_admin', 'staff'],
+
   '/program-holder/dashboard': ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
   '/program-holder/programs':  ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
   '/program-holder/students':  ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],

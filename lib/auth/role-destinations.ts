@@ -29,6 +29,7 @@ export type UserRole =
   | 'partner'
   | 'sponsor'
   | 'employer'
+  | 'host_shop'
   | 'mentor'
   | 'creator'
   | 'workforce_board'
@@ -73,6 +74,7 @@ export const ROLE_DESTINATIONS: Record<string, string> = {
 
   // ── Employer & industry partners ─────────────────────────────────
   employer: '/employer/dashboard',
+  host_shop: '/admin/host-shop/dashboard', // Host shop portal - track apprentices, OJT, WOTC
   partner: '/partner/dashboard', // smart-routes to /partner/attendance
   partner_admin: '/partner/dashboard',
 
