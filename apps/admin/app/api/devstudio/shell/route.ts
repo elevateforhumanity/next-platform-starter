@@ -22,6 +22,7 @@ import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -30,9 +31,30 @@ function repo()   { return process.env.GITHUB_REPO   ?? 'elevate-for-humanity/El
 function branch() { return process.env.GITHUB_BRANCH ?? 'main'; }
 const GH_API = 'https://api.github.com';
 
-function ghHeaders(): HeadersInit {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error('GITHUB_TOKEN is not configured');
+/**
+ * Resolve a secret: env var first, then platform_secrets table fallback.
+ * This loads credentials pre-configured in the platform, not from user input.
+ */
+async function resolveSecret(key: string): Promise<string | null> {
+  const envVal = process.env[key];
+  if (envVal && envVal.trim()) return envVal.trim();
+  try {
+    const db = await requireAdminClient();
+    const { data } = await db
+      .from('platform_secrets')
+      .select('value_enc')
+      .eq('key', key)
+      .maybeSingle();
+    const val = data?.value_enc;
+    return val && val.trim() ? val.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+async function ghHeaders(): Promise<HeadersInit> {
+  const token = await resolveSecret('GITHUB_TOKEN');
+  if (!token) throw new Error('GITHUB_TOKEN is not configured in platform_secrets');
   return {
     Authorization: `Bearer ${token}`,
     Accept: 'application/vnd.github+json',
@@ -61,7 +83,7 @@ async function listDispatchableWorkflows(): Promise<GHWorkflow[]> {
   while (true) {
     const res = await fetch(
       `${GH_API}/repos/${repo()}/actions/workflows?per_page=100&page=${page}`,
-      { headers: ghHeaders() },
+      { headers: await ghHeaders() },
     );
     if (!res.ok) throw new Error(`GitHub API ${res.status}: ${(await res.text()).slice(0, 200)}`);
     const data = await res.json() as { workflows: GHWorkflow[]; total_count: number };
@@ -83,12 +105,12 @@ async function listDispatchableWorkflows(): Promise<GHWorkflow[]> {
  * which fires the deploy job exactly as a normal push would.
  */
 async function triggerViaContentsApi(workflowFile: string): Promise<{ runUrl: string }> {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error('GITHUB_TOKEN is not configured');
+  const token = await resolveSecret('GITHUB_TOKEN');
+  if (!token) throw new Error('GITHUB_TOKEN is not configured in platform_secrets');
 
   const filePath = `.github/workflows/${workflowFile}`;
   const apiBase  = `${GH_API}/repos/${repo()}/contents/${filePath}`;
-  const headers  = ghHeaders();
+  const headers = await ghHeaders();
 
   const getRes = await fetch(`${apiBase}?ref=${branch()}`, { headers });
   if (!getRes.ok) throw new Error(`Could not read ${filePath}: ${getRes.status}`);
@@ -170,7 +192,7 @@ export async function POST(request: NextRequest) {
       `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/dispatches`,
       {
         method: 'POST',
-        headers: ghHeaders(),
+        headers: await ghHeaders(),
         body: JSON.stringify({ ref: branch(), inputs }),
       },
     );
@@ -179,7 +201,7 @@ export async function POST(request: NextRequest) {
       await new Promise((r) => setTimeout(r, 1500));
       const runsRes = await fetch(
         `${GH_API}/repos/${repo()}/actions/workflows/${workflowFile}/runs?per_page=1&branch=${branch()}`,
-        { headers: ghHeaders() },
+        { headers: await ghHeaders() },
       );
       const runsData = runsRes.ok ? await runsRes.json() : null;
       const latestRun = runsData?.workflow_runs?.[0];
@@ -229,7 +251,7 @@ export async function GET(request: NextRequest) {
     try {
       const res = await fetch(
         `${GH_API}/repos/${repo()}/actions/runs?per_page=${perPage}&branch=${branch()}`,
-        { headers: ghHeaders() },
+        { headers: await ghHeaders() },
       );
       if (!res.ok) return safeError('GitHub API error', res.status);
       const data = await res.json() as {
@@ -284,8 +306,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const [runRes, jobsRes] = await Promise.all([
-      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}`, { headers: ghHeaders() }),
-      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}/jobs`, { headers: ghHeaders() }),
+      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}`, { headers: await ghHeaders() }),
+      fetch(`${GH_API}/repos/${repo()}/actions/runs/${runId}/jobs`, { headers: await ghHeaders() }),
     ]);
 
     if (!runRes.ok) {

@@ -17,9 +17,30 @@ import { apiRequireDevStudio } from '@/lib/devstudio/api-auth';
 import { logger } from '@/lib/logger';
 import { requireTypedConfirmation } from '@/lib/security/require-confirmation';
 import { hydrateProcessEnv } from '@/lib/secrets';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+/**
+ * Resolve a secret: env var first, then platform_secrets table fallback.
+ */
+async function resolveSecret(key: string): Promise<string | null> {
+  const envVal = process.env[key];
+  if (envVal && envVal.trim()) return envVal.trim();
+  try {
+    const db = await requireAdminClient();
+    const { data } = await db
+      .from('platform_secrets')
+      .select('value_enc')
+      .eq('key', key)
+      .maybeSingle();
+    const val = data?.value_enc;
+    return val && val.trim() ? val.trim() : null;
+  } catch {
+    return null;
+  }
+}
 
 type GitActionBody = {
   action: string;
@@ -92,16 +113,19 @@ function encodePath(filePath: string): string {
   return encodeURIComponent(filePath).replace(/%2F/g, '/');
 }
 
-function getGithubToken(request?: NextRequest, body?: { githubToken?: string }): string {
-  return (
-    body?.githubToken ||
+async function getGithubToken(request?: NextRequest, body?: { githubToken?: string }): Promise<string> {
+  const fromRequest = body?.githubToken ||
     request?.headers.get('x-gh-token') ||
-    request?.headers.get('x-github-token') ||
-    process.env.GITHUB_TOKEN ||
-    process.env.GH_TOKEN ||
-    process.env.GITHUB_PAT ||
-    ''
-  ).trim();
+    request?.headers.get('x-github-token');
+  if (fromRequest) return fromRequest.trim();
+  
+  // Check env vars first
+  const fromEnv = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.GITHUB_PAT;
+  if (fromEnv) return fromEnv.trim();
+  
+  // Fall back to platform_secrets
+  const fromDb = await resolveSecret('GITHUB_TOKEN');
+  return fromDb?.trim() ?? '';
 }
 
 function git(args: string[], opts?: { timeout?: number; token?: string }): string {
@@ -351,7 +375,7 @@ export async function GET(request: NextRequest) {
   const file = request.nextUrl.searchParams.get('file') ?? '';
   const repo = getRepo();
   const branchRef = getBranch();
-  const token = getGithubToken(request);
+  const token = await getGithubToken(request);
 
   try {
     if (action === 'status') {
@@ -541,7 +565,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const token = getGithubToken(request, body);
+      const token = await getGithubToken(request, body);
       if (!token) {
         return safeError(
           'GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to update GitHub refs from production.',
@@ -569,7 +593,7 @@ export async function POST(request: NextRequest) {
         return safeError('path, content, and message required in GitHub API mode', 400);
       }
 
-      const token = getGithubToken(request, body);
+      const token = await getGithubToken(request, body);
       if (!token) {
         return safeError(
           'GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to commit through GitHub API mode.',
@@ -632,7 +656,7 @@ export async function POST(request: NextRequest) {
       const remoteUrl = (body.remoteUrl ?? process.env.GITHUB_REMOTE_URL ?? DEFAULT_REMOTE_URL).trim();
       const userName = (body.userName ?? process.env.GIT_AUTHOR_NAME ?? DEFAULT_USER_NAME).trim();
       const userEmail = (body.userEmail ?? process.env.GIT_AUTHOR_EMAIL ?? DEFAULT_USER_EMAIL).trim();
-      const token = getGithubToken(request, body);
+      const token = await getGithubToken(request, body);
       if (!token) {
         return safeError(
           'GITHUB_TOKEN, GH_TOKEN, GITHUB_PAT, or x-gh-token is required to push from the admin container.',
@@ -783,7 +807,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const ghToken = getGithubToken(request, body);
+      const ghToken = await getGithubToken(request, body);
       const pushOut = ghToken
         ? git(
             [

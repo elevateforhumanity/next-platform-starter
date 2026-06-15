@@ -25,6 +25,8 @@ import {
   Server,
   Sparkles,
   Upload,
+  Briefcase,
+  Plug,
 } from 'lucide-react';
 
 interface WorkflowButton {
@@ -51,7 +53,7 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets';
+type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations';
 type StudioMode = 'ask' | 'run' | 'courses';
 
 const UnifiedEllieChat = dynamic(() => import('@/components/dev-studio/UnifiedEllieChat'), {
@@ -77,6 +79,10 @@ const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   () => import('../courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
 );
+const IntegrationsPanel = dynamic(
+  () => import('@/components/dev-studio/IntegrationsPanel'),
+  { ssr: false },
+);
 
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
   { id: 'studio', label: 'Studio', Icon: Bot },
@@ -86,6 +92,7 @@ const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?
   { id: 'environments', label: 'Container', Icon: Box },
   { id: 'health', label: 'Health', Icon: Activity },
   { id: 'secrets', label: 'Secrets', Icon: Key },
+  { id: 'integrations', label: 'Integrations', Icon: Plug },
 ];
 
 const QUICK_ACTIONS = [
@@ -161,7 +168,7 @@ export default function DevStudioUnifiedClient({
 
   useEffect(() => {
     setProgramsLoading(true);
-    fetch('/api/admin/programs?status=active')
+    fetch('/api/devstudio/programs')
       .then((r) => (r.ok ? r.json() : { data: [] }))
       .then((payload) => {
         const rows = Array.isArray(payload?.data) ? payload.data : [];
@@ -410,6 +417,7 @@ export default function DevStudioUnifiedClient({
               ) : (
                 <HealthPanel health={health} onRefresh={() => window.location.reload()} />
               ))}
+            {workspace === 'integrations' && <IntegrationsPanel />}
           </main>
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
