@@ -184,7 +184,7 @@ export function HeroCarousel() {
                     fill
                     priority
                     className="object-cover"
-                    sizes="100vw" placeholder="empty"
+                    sizes="100vw" placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
                   />
                 </motion.div>
               </AnimatePresence>

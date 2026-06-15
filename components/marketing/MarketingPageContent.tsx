@@ -24,7 +24,7 @@ export function MarketingPageContent({ page }: MarketingPageContentProps) {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
         />
 
         <div className="relative max-w-7xl mx-auto px-6 text-white">

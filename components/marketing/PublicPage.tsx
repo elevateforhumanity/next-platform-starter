@@ -54,7 +54,7 @@ export default function PublicPage({
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder="blur" blurDataURL={BLUR_PLACEHOLDERS.default}
         />
       </section>
 
