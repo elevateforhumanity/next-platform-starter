@@ -524,13 +524,15 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                               <Link
                                 href={
                                   enrollment._isApprenticeship
-                                    ? (enrollment.program_slug ? `/programs/${enrollment.program_slug}` : '/learner/dashboard')
+                                    ? (enrollment.program_slug
+                                        ? `/portal/${enrollment.program_slug.replace(/-apprenticeship$/, '')}`
+                                        : '/learner/dashboard')
                                     : `/lms/courses/${enrollment.course_id}`
                                 }
                                 className="px-4 py-2 bg-brand-orange-600 text-white text-sm font-medium rounded-lg hover:bg-brand-orange-700 transition flex items-center gap-2"
                               >
                                 <Play className="w-4 h-4" />
-                                {enrollment._isApprenticeship ? 'View Program' : 'Continue'}
+                                {enrollment._isApprenticeship ? 'Go to Portal' : 'Continue'}
                               </Link>
                             </div>
                           </div>
