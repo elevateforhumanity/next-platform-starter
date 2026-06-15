@@ -11,13 +11,13 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Lazy-initialized Supabase client
+// Lazy-initialized Supabase client - initialized on first use, not at module load
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _supabase: any = null;
 
-function getSupabaseClient() {
+async function getSupabaseClient() {
   if (!_supabase) {
-    const { createClient } = require('@supabase/supabase-js');
+    const { createClient } = await import('@supabase/supabase-js');
     _supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -427,7 +427,7 @@ export async function getPlatformLogs(
     offset?: number;
   } = {}
 ): Promise<{ logs: unknown[]; total: number }> {
-  let query = getSupabaseClient()
+  let query = await getSupabaseClient()
     .from('platform_event_logs')
     .select('*', { count: 'exact' })
     .eq('tenant_id', tenantId)
