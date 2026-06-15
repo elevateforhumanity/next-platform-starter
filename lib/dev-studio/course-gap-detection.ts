@@ -120,11 +120,11 @@ export async function detectCourseGaps(
         byType.missing_module = (byType.missing_module || 0) + 1;
       } else {
         // 3. Check each module for lessons
-        for (const module of modules) {
+        for (const mod of modules) {
           const { data: lessons } = await supabase
             .from('course_lessons')
             .select('id, title')
-            .eq('module_id', module.id)
+            .eq('module_id', mod.id)
             .limit(1);
 
           if (!lessons || lessons.length === 0) {
@@ -135,10 +135,10 @@ export async function detectCourseGaps(
               program_slug: null,
               course_id: course.id,
               course_title: course.title,
-              module_id: module.id,
-              module_title: module.title,
+              module_id: mod.id,
+              module_title: mod.title,
               severity: 'high',
-              description: `Module "${module.title}" in "${course.title}" has no lessons`,
+              description: `Module "${mod.title}" in "${course.title}" has no lessons`,
               recommendation: 'Add at least one lesson to this module',
               created_at: new Date().toISOString(),
               status: 'open',
@@ -151,7 +151,7 @@ export async function detectCourseGaps(
           const { data: quizzes } = await supabase
             .from('course_quizzes')
             .select('id')
-            .eq('module_id', module.id)
+            .eq('module_id', mod.id)
             .limit(1);
 
           if (!quizzes || quizzes.length === 0) {
@@ -162,10 +162,10 @@ export async function detectCourseGaps(
               program_slug: null,
               course_id: course.id,
               course_title: course.title,
-              module_id: module.id,
-              module_title: module.title,
+              module_id: mod.id,
+              module_title: mod.title,
               severity: 'medium',
-              description: `Module "${module.title}" has no quiz`,
+              description: `Module "${mod.title}" has no quiz`,
               recommendation: 'Consider adding a quiz to assess student understanding',
               created_at: new Date().toISOString(),
               status: 'open',
