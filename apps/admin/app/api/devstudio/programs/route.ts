@@ -39,7 +39,7 @@ export async function GET() {
 
     // Get enrollment counts per program
     const programIds = programs?.map((p) => p.id) ?? [];
-    let enrollmentCounts: Record<string, number> = {};
+    const enrollmentCounts: Record<string, number> = {};
     
     if (programIds.length > 0) {
       const { data: enrollments } = await db
