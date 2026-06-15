@@ -38,6 +38,8 @@ export interface AuthResult {
     first_name?: string;
     last_name?: string;
     full_name?: string;
+    avatar_url?: string | null;
+    onboarding_completed?: boolean | null;
   };
   /** All roles this user holds (profile.role + any user_roles entries). Use this for inline role checks instead of profile.role to support multi-role users. */
   effectiveRoles: string[];

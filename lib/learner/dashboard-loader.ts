@@ -630,7 +630,14 @@ export async function loadLearnerDashboard(): Promise<LearnerDashboardData> {
 
   return {
     user: { id: user.id, email: user.email },
-    profile,
+    profile: {
+      id: profile.id,
+      first_name: profile.first_name ?? null,
+      last_name: profile.last_name ?? null,
+      role: profile.role,
+      avatar_url: profile.avatar_url ?? null,
+      onboarding_completed: profile.onboarding_completed ?? null,
+    },
     enrollments,
     activeEnrollments,
     completedEnrollments,

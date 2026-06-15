@@ -33,6 +33,9 @@ ${AVATAR_INSTRUCTIONS}
 
 Routing logic: Classify the page into one intent using route keywords, then output the matching Opening Script and next action.`;
 
+// Global system rules for buildSystemPrompt
+export const GLOBAL_SYSTEM_RULES = AVATAR_INSTRUCTIONS;
+
 // =============================================================================
 // ROUTE-TO-SCRIPT MAP (3 sentences max for spoken avatar)
 // =============================================================================
@@ -42,6 +45,7 @@ export const PAGE_SCRIPTS: Record<
   {
     opening: string;
     nextAction: string;
+    followUp?: string;
   }
 > = {
   // === MARKETING / ORIENTATION ===
@@ -134,11 +138,6 @@ export const PAGE_SCRIPTS: Record<
   '/lms': {
     opening: `This is your learning system. Access enrolled courses, track progress, complete assessments. Progress saves automatically.`,
     nextAction: `Click a course to continue learning.`,
-  },
-
-  '/learner/dashboard': {
-    opening: `Your enrolled courses, completion percentage, and deadlines are shown here. For funded programs, progress is reported to oversight partners.`,
-    nextAction: `Click 'Continue' on your active course.`,
   },
 
   '/lms/courses': {

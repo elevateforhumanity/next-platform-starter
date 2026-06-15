@@ -678,11 +678,10 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             />
 
             {/* DOL Competency Tracker — for apprenticeship students */}
-            {enrollment && (
+            {enrollments && enrollments.length > 0 && (
               <DOLCompetencyTracker
+                programSlug={enrollments[0].program_slug || 'barber'}
                 userId={user.id}
-                organizationId={null}
-                apprenticeshipProgram={enrollment.program_slug || 'barber'}
               />
             )}
 

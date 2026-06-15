@@ -16,7 +16,8 @@ export function getGapSupabase() {
     }
     _supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      { auth: { persistSession: false } }
     );
   }
   return _supabase;
@@ -33,6 +34,7 @@ export interface CourseGap {
   course_title?: string;
   module_id?: string;
   module_title?: string;
+  lesson_id?: string;
   occupation?: string;
   soc_code?: string;
   credential_type?: string;
@@ -60,19 +62,20 @@ async function scanProgramsWithoutCourses(): Promise<CourseGap[]> {
   const gaps: CourseGap[] = [];
 
   // Get all programs
-  const { data: programs } = await getGapSupabase()
+  const db = getGapSupabase();
+  const { data: programs } = await db
     .from('programs')
     .select('id, title, slug, occupation, soc_code, credential_type, category')
     .eq('is_active', true);
 
   // Get all courses
-  const { data: courses } = await getGapSupabase()
+  const { data: courses } = await db
     .from('career_courses')
     .select('id, title, program_id, status')
     .eq('status', 'published');
 
-  const courseProgramIds = new Set(courses?.map(c => c.program_id) || []);
-  const programCourseMap = new Map(courses?.map(c => [c.program_id, c]) || []);
+  const courseProgramIds = new Set(courses?.map((c: any) => c.program_id) || []);
+  const programCourseMap = new Map(courses?.map((c: any) => [c.program_id, c]) || []);
 
   for (const program of programs || []) {
     if (!courseProgramIds.has(program.id)) {
@@ -155,20 +158,20 @@ async function scanModulesWithoutLessons(): Promise<CourseGap[]> {
     .select('id, title, course_id')
     .eq('is_draft', false);
 
-  for (const module of modules || []) {
+  for (const mod of modules || []) {
     const { data: lessons } = await getGapSupabase()
       .from('course_lessons')
       .select('id')
-      .eq('module_id', module.id);
+      .eq('module_id', mod.id);
 
     if (!lessons || lessons.length === 0) {
       gaps.push({
         gap_type: 'no_lessons',
         severity: 'high',
-        module_id: module.id,
-        module_title: module.title,
-        course_id: module.course_id,
-        description: `Module "${module.title}" has no lessons`,
+        module_id: mod.id,
+        module_title: mod.title,
+        course_id: mod.course_id,
+        description: `Module "${mod.title}" has no lessons`,
         recommendation: 'Add lessons to this module',
         suggested_action: 'generate_lesson',
       });
@@ -396,12 +399,13 @@ export async function scanAllGaps(): Promise<GapScanResult> {
  * Create draft course generation jobs from gaps
  */
 export async function createDraftJobsFromGaps(gaps: CourseGap[]): Promise<string[]> {
+  const db = getGapSupabase() as any;
   const jobIds: string[] = [];
 
   for (const gap of gaps) {
     if (gap.gap_type === 'no_course' && gap.program_id) {
       // Create a course generation job
-      const { data: job, error } = await getGapSupabase()
+      const { data: job, error } = await db
         .from('course_generation_jobs')
         .insert({
           title: `Generate course for: ${gap.program_name}`,
@@ -419,8 +423,8 @@ export async function createDraftJobsFromGaps(gaps: CourseGap[]): Promise<string
         .select('id')
         .single();
 
-      if (!error && job) {
-        jobIds.push(job.id);
+      if (!error && job && (job as any).id) {
+        jobIds.push((job as any).id);
       }
     }
   }

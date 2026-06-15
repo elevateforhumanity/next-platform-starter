@@ -183,7 +183,7 @@ async function _GET(request: NextRequest) {
 
     const allowedSites = (sites || []).map((site) => ({
       id: site.id,
-      name: site.name || (site.shops as { name: string } | null)?.name || 'Unknown Site',
+      name: site.name || (Array.isArray(site.shops) ? site.shops[0]?.name : (site.shops as { id: string; name: string } | null)?.name) || 'Unknown Site',
       lat: site.latitude,
       lng: site.longitude,
       radius_m: site.radius_meters || 100,
