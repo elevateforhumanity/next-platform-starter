@@ -52,7 +52,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
       link: '/onboarding',
       read: false,
       idempotency_key: `onboarding-followup-${row.user_id}-${today}`,
-    }).then(() => {}).catch(() => {});
+    })
 
     await sendEmail({
       to: profile.email,

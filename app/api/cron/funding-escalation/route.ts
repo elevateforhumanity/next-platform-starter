@@ -44,7 +44,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
       severity: 'critical',
       message: `Funding assignment for ${profile?.full_name ?? row.student_id} (${source?.name ?? 'unknown source'}) has been pending ${daysWaiting} days — ESCALATED`,
       metadata: { assignment_id: row.id, student_id: row.student_id, days_waiting: daysWaiting },
-    }).then(() => {}).catch(() => {});
+    })
 
     await emitEvent('funding.escalated', 'payment', {
       severity: 'error',
@@ -53,7 +53,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
       subject_type: 'student',
       payload: { assignment_id: row.id, days_waiting: daysWaiting },
       message: `Funding escalated: ${profile?.full_name ?? row.student_id} — ${daysWaiting} days pending`,
-    }).catch(() => {});
+    })
   }
 
   await sendEmail({

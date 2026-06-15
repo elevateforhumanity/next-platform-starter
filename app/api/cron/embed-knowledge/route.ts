@@ -35,8 +35,7 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
 
   for (const doc of rows) {
     await emitEvent('knowledge.embed_requested', 'ai', {
-      document_id: doc.id,
-      content_hash: doc.content_hash,
+      payload: { document_id: doc.id, content_hash: doc.content_hash },
     }).catch((err) =>
       logger.error('[cron/embed-knowledge] Failed to emit embed event', { docId: doc.id, error: String(err) }),
     );

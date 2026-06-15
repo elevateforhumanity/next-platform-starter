@@ -43,14 +43,21 @@ export const GET = withRuntime({ cron: 'bearer' }, async () => {
     const email = profile?.email;
     const daysPending = Math.floor((Date.now() - new Date(row.created_at).getTime()) / 86400000);
 
-    await db.from('notifications').insert({
-      user_id: row.student_id,
-      type: 'system',
-      title: 'Funding approval pending',
-      message: `Your ${source?.name ?? 'funding'} application has been pending for ${daysPending} days. Our team is following up.`,
-      read: false,
-      idempotency_key: `funding-followup-${row.id}-${new Date().toISOString().split('T')[0]}`,
-    }).then(() => {}).catch((e: unknown) => logger.warn('[cron/funding-followup] Notification insert failed', { error: String(e) }));
+    const insertNotification = async () => {
+      try {
+        await db.from('notifications').insert({
+          user_id: row.student_id,
+          type: 'system',
+          title: 'Funding approval pending',
+          message: `Your ${source?.name ?? 'funding'} application has been pending for ${daysPending} days. Our team is following up.`,
+          read: false,
+          idempotency_key: `funding-followup-${row.id}-${new Date().toISOString().split('T')[0]}`,
+        });
+      } catch (e: unknown) {
+        logger.warn('[cron/funding-followup] Notification insert failed', { error: String(e) });
+      }
+    };
+    await insertNotification();
 
     if (email) {
       await sendEmail({
