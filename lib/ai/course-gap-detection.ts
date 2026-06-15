@@ -7,11 +7,20 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { requireAdminClient } from '@/lib/supabase/admin';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Lazy initialization to prevent build-time execution
+let _supabase: ReturnType<typeof createClient> | null = null;
+export function getGapSupabase() {
+  if (!_supabase) {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error('Missing Supabase environment variables');
+    }
+    _supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+  }
+  return _supabase;
+}
 
 export interface CourseGap {
   gap_type: 'no_course' | 'no_modules' | 'no_lessons' | 'no_quiz' | 'no_assessment' | 
