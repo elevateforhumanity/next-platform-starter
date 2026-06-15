@@ -25,7 +25,7 @@ const modelRouter = new ModelRouter();
 async function fetchONetData(socCode: string) {
   const apiKey = process.env.ONET_API_KEY;
   if (!apiKey) {
-    console.log('O*NET API key not configured, using fallback data');
+    console.info('O*NET API key not configured, using fallback data');
     return null;
   }
 
@@ -47,7 +47,7 @@ async function fetchONetData(socCode: string) {
 async function fetchBLSData(socCode: string) {
   const apiKey = process.env.BLS_API_KEY;
   if (!apiKey) {
-    console.log('BLS API key not configured, using fallback data');
+    console.info('BLS API key not configured, using fallback data');
     return null;
   }
 
@@ -72,7 +72,7 @@ async function fetchBLSData(socCode: string) {
 async function fetchCareerOneStopData(keyword: string) {
   const apiKey = process.env.CAREERONESTOP_API_KEY;
   if (!apiKey) {
-    console.log('CareerOneStop API key not configured');
+    console.info('CareerOneStop API key not configured');
     return null;
   }
 
@@ -253,7 +253,7 @@ Delivery Mode: ${job.delivery_mode || 'online'}`;
 }
 
 export async function processCourseGenerationJob(jobId: string): Promise<void> {
-  console.log(`Processing course generation job: ${jobId}`);
+  console.info(`Processing course generation job: ${jobId}`);
 
   // Fetch job details
   const { data: job, error: jobError } = await supabase
@@ -268,7 +268,7 @@ export async function processCourseGenerationJob(jobId: string): Promise<void> {
   }
 
   if (job.status !== 'queued') {
-    console.log(`Job ${jobId} is not queued, skipping`);
+    console.info(`Job ${jobId} is not queued, skipping`);
     return;
   }
 
@@ -402,7 +402,7 @@ export async function processCourseGenerationJob(jobId: string): Promise<void> {
       })
       .eq('id', jobId);
 
-    console.log(`Course generation job ${jobId} completed successfully`);
+    console.info(`Course generation job ${jobId} completed successfully`);
 
   } catch (error) {
     console.error(`Error processing job ${jobId}:`, error);
@@ -421,7 +421,7 @@ export async function processCourseGenerationJob(jobId: string): Promise<void> {
 
 // Main worker loop
 export async function startCourseGenerationWorker() {
-  console.log('Starting course generation worker...');
+  console.info('Starting course generation worker...');
 
   // Poll for queued jobs every 10 seconds
   setInterval(async () => {

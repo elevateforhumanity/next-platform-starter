@@ -330,7 +330,7 @@ async function scanInactiveDrafts(): Promise<CourseGap[]> {
  * Main scan function - runs all gap detection checks
  */
 export async function scanAllGaps(): Promise<GapScanResult> {
-  console.log('Starting course gap detection scan...');
+  console.info('Starting course gap detection scan...');
 
   const [
     programGaps,
@@ -373,7 +373,7 @@ export async function scanAllGaps(): Promise<GapScanResult> {
     scanned_at: new Date().toISOString(),
   };
 
-  console.log(`Gap scan complete: ${result.total_gaps} gaps found`, {
+  console.info(`Gap scan complete: ${result.total_gaps} gaps found`, {
     critical: result.critical_gaps,
     high: result.high_gaps,
     medium: result.medium_gaps,
