@@ -119,7 +119,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 export default async function CoursesPage() {
   // Try to load from DB; fall back to static list
   let courses: CourseRow[] = [];
-  const admin = getAdminClient();
+  const admin = await getAdminClient();
   if (admin) {
     const { data } = await admin
       .from('partner_courses')

@@ -24,7 +24,7 @@ export default async function ApprenticeDocumentsPage() {
   }
 
   // Use admin client for all data reads to bypass RLS
-  const admin = requireAdminClient();
+  const admin = await requireAdminClient();
 
   // Get apprentice profile
   const { data: apprentice } = await admin
@@ -64,6 +64,27 @@ export default async function ApprenticeDocumentsPage() {
             <Upload className="w-5 h-5" />
             Upload Document
           </button>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+          <h2 className="text-lg font-semibold text-blue-900 mb-3">📋 Document Upload Instructions</h2>
+          <div className="space-y-2 text-sm text-blue-800">
+            <p><strong>Required Documents:</strong></p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li>Government-issued ID (driver's license, passport, or state ID)</li>
+              <li>Social Security Card or official SSN document</li>
+              <li>High school diploma or GED certificate</li>
+              <li>Employment verification letter from host shop</li>
+              <li> Signed apprenticeship agreement</li>
+            </ul>
+            <p className="mt-3"><strong>Upload Tips:</strong></p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li>Accepted formats: PDF, JPG, PNG (max 10MB per file)</li>
+              <li>Ensure documents are clear and readable</li>
+              <li>Documents will be verified within 3-5 business days</li>
+              <li>Click "Upload Document" to add new files</li>
+            </ul>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">

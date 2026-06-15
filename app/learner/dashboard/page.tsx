@@ -491,7 +491,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     const course = Array.isArray(enrollment.courses)
                       ? enrollment.courses[0]
                       : enrollment.courses;
-                    const courseImage = course?.image || (enrollment._isApprenticeship ? '/images/pages/barber-apprenticeship-hero.jpg' : null);
+                    // Use hero_image for apprenticeship programs, fallback to course image or default
+                    const courseImage = course?.hero_image || course?.image || (enrollment._isApprenticeship ? '/images/pages/barber-apprenticeship-hero.jpg' : null);
                     return (
                       <div key={enrollment.id} className="p-6">
                         <div className="flex gap-4">
