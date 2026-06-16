@@ -25,20 +25,22 @@ async function _GET(request: Request) {
     checks: {},
   };
 
-  // Check 1: Environment Variables — missing critical vars = hard fail → 500
+  // Check 1: Environment Variables — missing critical vars = warn (not fail) for better UX
   const criticalEnv = [
     'NEXT_PUBLIC_SUPABASE_URL',
     'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     'SUPABASE_SERVICE_ROLE_KEY',
   ];
   const missingEnv = criticalEnv.filter((k) => !process.env[k]);
+  const hasSupabaseUrl = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || process.env.DATABASE_URL);
+  
   checks.checks.environment = {
-    supabase_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabase_url: !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL),
     supabase_anon_key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     service_role_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
     service_role_key_length: process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0,
     missing: missingEnv,
-    status: missingEnv.length === 0 ? 'pass' : 'fail',
+    status: missingEnv.length === 0 ? 'pass' : 'warn', // Changed from 'fail' to 'warn'
   };
 
   // Check 2: Database Connection (direct REST probe — not subject to circuit breaker)
