@@ -7,7 +7,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import BillingCard, { type BillingSummary } from '@/components/learner/BillingCard';
 import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
 import { APPRENTICE_PORTAL_CONFIGS } from '@/components/portal/ApprenticePortalShell';
-import { AlertTriangle, ArrowLeft } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CreditCard, DollarSign, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Billing | Apprentice Portal',
@@ -120,25 +120,152 @@ export default async function ApprenticeBillingPage() {
     );
   }
 
-  return (
-    <BillingFallback
-      portalPath={portalPath}
-      message="Billing for your program is managed through your enrollment advisor. Contact support for payment questions."
-    />
-  );
-}
+  // Check for other subscriptions (cosmetology, etc.)
+  const { data: cosmoSub } = programSlug === 'cosmetology-apprenticeship' && db
+    ? await db
+        .from('cosmetology_subscriptions')
+        .select(
+          'payment_status, weekly_payment_cents, remaining_balance, full_tuition_amount, amount_paid_at_checkout, next_payment_date, fully_paid, setup_fee_paid, stripe_customer_id, stripe_subscription_id',
+        )
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    : { data: null };
 
-function BillingFallback({ portalPath, message }: { portalPath: string; message: string }) {
+  if (cosmoSub) {
+    const billing: BillingSummary = {
+      program: 'cosmetology',
+      paymentStatus: cosmoSub.payment_status ?? 'pending_payment_method',
+      weeklyPaymentCents: cosmoSub.weekly_payment_cents,
+      remainingBalance: cosmoSub.remaining_balance,
+      fullTuitionAmount: cosmoSub.full_tuition_amount,
+      amountPaidAtCheckout: cosmoSub.amount_paid_at_checkout,
+      nextPaymentDate: cosmoSub.next_payment_date,
+      fullyPaid: cosmoSub.fully_paid ?? false,
+      setupFeePaid: cosmoSub.setup_fee_paid ?? false,
+    };
+
+    const needsPaymentMethod =
+      !cosmoSub.fully_paid &&
+      !cosmoSub.stripe_subscription_id &&
+      !cosmoSub.setup_fee_paid;
+
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+        <Link
+          href={portalPath}
+          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to dashboard
+        </Link>
+
+        {needsPaymentMethod && (
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 flex gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+            <div className="text-sm text-red-800">
+              <p className="font-semibold mb-1">Payment method required</p>
+              <p>
+                Add a debit or credit card below to stay enrolled. Without a card on file, your
+                apprenticeship access will pause and OJT hours will stop counting.
+              </p>
+            </div>
+          </div>
+        )}
+
+        <BillingCard billing={billing} />
+      </div>
+    );
+  }
+
+  // For programs without subscription management, show student payment portal
   return (
-    <div className="max-w-lg mx-auto px-4 py-16 text-center">
-      <p className="text-slate-600 mb-6">{message}</p>
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
       <Link
         href={portalPath}
-        className="inline-flex items-center gap-2 text-brand-blue-600 font-semibold hover:underline"
+        className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to dashboard
       </Link>
+
+      <StudentPaymentCard programSlug={programSlug} portalPath={portalPath} />
+    </div>
+  );
+}
+
+function StudentPaymentCard({ programSlug, portalPath }: { programSlug: string | null; portalPath: string }) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="p-5 border-b border-slate-200 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <CreditCard className="w-5 h-5 text-brand-blue-600" />
+          <h2 className="text-base font-semibold text-slate-900">Payment & Billing</h2>
+        </div>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+          Student Portal
+        </span>
+      </div>
+
+      <div className="p-5 space-y-4">
+        <p className="text-sm text-slate-600">
+          Manage your tuition payments and view your billing history.
+        </p>
+
+        <div className="grid gap-3">
+          <Link
+            href="/student-portal/billing"
+            className="flex items-center justify-between p-4 bg-brand-blue-50 rounded-lg hover:bg-brand-blue-100 transition"
+          >
+            <div className="flex items-center gap-3">
+              <CreditCard className="w-5 h-5 text-brand-blue-600" />
+              <div>
+                <p className="font-medium text-slate-900">Manage Payment Method</p>
+                <p className="text-xs text-slate-600">Add or update your card on file</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-slate-400" />
+          </Link>
+
+          <Link
+            href="/student-portal/billing/history"
+            className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
+          >
+            <div className="flex items-center gap-3">
+              <DollarSign className="w-5 h-5 text-slate-600" />
+              <div>
+                <p className="font-medium text-slate-900">Payment History</p>
+                <p className="text-xs text-slate-600">View past payments and receipts</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-slate-400" />
+          </Link>
+
+          <Link
+            href="/student-portal/billing/make-payment"
+            className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
+          >
+            <div className="flex items-center gap-3">
+              <DollarSign className="w-5 h-5 text-slate-600" />
+              <div>
+                <p className="font-medium text-slate-900">Make a Payment</p>
+                <p className="text-xs text-slate-600">Pay your tuition balance</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-slate-400" />
+          </Link>
+        </div>
+
+        <div className="pt-4 border-t">
+          <p className="text-xs text-slate-500">
+            Need help with billing?{' '}
+            <Link href="/contact" className="text-brand-blue-600 hover:underline">
+              Contact support
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
