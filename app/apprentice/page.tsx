@@ -156,7 +156,7 @@ export default async function ApprenticePortalPage() {
     },
     {
       name: 'Log Hours',
-      href: '/apprentice/hours/log',
+      href: '/apprentice/timeclock',
       icon: Clock,
       description: 'Manually record OJL & RTI hours',
     },

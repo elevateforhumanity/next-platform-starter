@@ -79,7 +79,7 @@ export default async function HoursHistoryPage() {
             )}
           </div>
           <Link
-            href="/apprentice/hours/log"
+            href="/apprentice/timeclock"
             className="flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
           >
             <Plus className="w-4 h-4" /> Log Hours
@@ -183,7 +183,7 @@ export default async function HoursHistoryPage() {
                       Start logging your apprenticeship hours
                     </p>
                     <Link
-                      href="/apprentice/hours/log"
+                      href="/apprentice/timeclock"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
                     >
                       <Plus className="w-4 h-4" /> Log Hours
