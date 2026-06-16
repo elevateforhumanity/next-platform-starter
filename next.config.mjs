@@ -295,6 +295,21 @@ const nextConfig = {
         permanent: false, // 307 so we can swap the asset later without cache lock-in
       },
       // ============================================
+      // LEGACY PREVIEW/COURSE PATHS — redirect to canonical program pages
+      // ============================================
+      { source: '/preview/business-program', destination: '/programs/business', permanent: true },
+      { source: '/preview/esthetician-orientation', destination: '/programs/esthetician-apprenticeship/orientation', permanent: true },
+      { source: '/preview/curriculum', destination: '/programs/hvac-technician/curriculum', permanent: true },
+      { source: '/preview/study-guide', destination: '/programs/hvac-technician/study-guide', permanent: true },
+      { source: '/course-preview/hvac-technician', destination: '/programs/hvac-technician', permanent: true },
+      { source: '/preview/barber-studio', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/preview/barber-videos', destination: '/programs/barber-apprenticeship', permanent: true },
+      { source: '/courses', destination: '/programs', permanent: true },
+      { source: '/partners/esthetician-host-shop', destination: '/programs/esthetician-apprenticeship/host-shops', permanent: true },
+      { source: '/partners/nail-host-shop', destination: '/programs/nail-technician-apprenticeship/host-shops', permanent: true },
+      { source: '/schools/mesmerized-by-beauty', destination: '/programs', permanent: true },
+
+      // ============================================
       // LEGACY ADMIN PATH CONSOLIDATION (moved from proxy.ts)
       // Case-insensitive matching handled by Next.js redirect engine.
       // ============================================

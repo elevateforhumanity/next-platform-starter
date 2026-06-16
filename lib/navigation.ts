@@ -72,9 +72,11 @@ export const NAV_ITEMS: NavItem[] = [
 
       { name: '— Esthetician host shops —', href: '/programs/esthetician-apprenticeship/host-shops', isHeader: true },
       { name: 'Find an esthetician host shop', href: '/programs/esthetician-apprenticeship/host-shops' },
+      { name: 'Enroll your esthetician spa', href: '/partners/esthetician-host-shop' },
 
       { name: '— Nail technician host shops —', href: '/programs/nail-technician-apprenticeship/host-shops', isHeader: true },
       { name: 'Find a nail host shop', href: '/programs/nail-technician-apprenticeship/host-shops' },
+      { name: 'Enroll your nail salon', href: '/partners/nail-host-shop' },
 
       { name: '— Technology —', href: '/programs/technology', isHeader: true },
       { name: 'IT Help Desk', href: '/programs/it-help-desk' },
@@ -95,10 +97,9 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Federal-Funded Programs', href: '/programs/federal-funded' },
       { name: 'All Programs →', href: '/programs', isSectionLink: true },
     
-      { name: '— More Programs & Previews —', href: '/course-preview/hvac-technician', isHeader: true },
-      { name: 'HVAC Technician', href: '/course-preview/hvac-technician' },
-      { name: 'Barber Studio', href: '/preview/barber-studio' },
-      { name: 'Barber Videos', href: '/preview/barber-videos' },
+      { name: '— More Programs & Previews —', href: '/programs/micro-programs', isHeader: true },
+      { name: 'HVAC Technician', href: '/programs/hvac-technician' },
+      { name: 'Barber Studio', href: '/programs/barber-apprenticeship' },
       { name: 'Business Program', href: '/programs/business' },
       { name: 'Esthetician Orientation', href: '/programs/esthetician-apprenticeship/orientation' },
       { name: 'Curriculum', href: '/programs/hvac-technician/curriculum' },
