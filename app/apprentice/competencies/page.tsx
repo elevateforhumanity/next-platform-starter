@@ -85,12 +85,6 @@ function StatusPill({ verified, pending }: { verified: number; pending: number }
 
 export default async function ApprenticeCompetenciesPage() {
   const supabase = await createClient();
-  let _admin: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
-  try { _admin = await requireAdminClient(); } catch { /* logged below */ }
-  const db = _admin;
-  if (!db) redirect('/lms/dashboard');
-
-  if (!supabase) redirect('/login?redirect=/apprentice/competencies');
 
   const {
     data: { user },
@@ -98,7 +92,28 @@ export default async function ApprenticeCompetenciesPage() {
   if (!user) redirect('/login?redirect=/apprentice/competencies');
 
   // Resolve the learner's active program
-  const { programId } = await resolveApprenticeProgram(db, user.id);
+  const { programId } = await resolveApprenticeProgram(supabase, user.id);
+
+  // If no apprenticeship found, show message
+  if (!programId) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <div className="w-20 h-20 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <AlertTriangle className="w-10 h-10 text-amber-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">No Active Apprenticeship</h1>
+          <p className="text-slate-600 mb-8">
+            No apprenticeship record was found for this account. If you believe this is an error, 
+            contact your program coordinator.
+          </p>
+          <Link href="/apprentice" className="text-brand-blue-600 hover:underline">
+            ← Back to Dashboard
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   // Load skill categories for barber program
   const { data: rawCategories } = await db
