@@ -65,10 +65,12 @@ export const NAV_ITEMS: NavItem[] = [
       { name: '— Barber host shops —', href: '/programs/barber-apprenticeship/host-shops', isHeader: true },
       { name: 'Find a barber host shop', href: '/programs/barber-apprenticeship/host-shops' },
       { name: 'Enroll your barbershop', href: '/partners/barber-host-shop' },
+      { name: 'Barber Host Portal', href: '/host-shop/dashboard' },
 
       { name: '— Cosmetology host shops —', href: '/programs/cosmetology-apprenticeship/host-shops', isHeader: true },
       { name: 'Find a cosmetology host shop', href: '/programs/cosmetology-apprenticeship/host-shops' },
       { name: 'Enroll your salon', href: '/partners/cosmetology-host-shop' },
+      { name: 'Cosmetology Host Portal', href: '/cosmetology-host-shop/dashboard' },
 
       { name: '— Esthetician host shops —', href: '/programs/esthetician-apprenticeship/host-shops', isHeader: true },
       { name: 'Find an esthetician host shop', href: '/programs/esthetician-apprenticeship/host-shops' },
