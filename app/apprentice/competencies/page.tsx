@@ -116,21 +116,21 @@ export default async function ApprenticeCompetenciesPage() {
   }
 
   // Load skill categories for barber program
-  const { data: rawCategories } = await db
+  const { data: rawCategories } = await supabase
     .from('skill_categories')
     .select('id, name, description, order')
     .eq('program_id', programId)
     .order('order', { ascending: true });
 
   // Load skills for barber program
-  const { data: rawSkills } = await db
+  const { data: rawSkills } = await supabase
     .from('apprentice_skills')
     .select('id, category_id, name, description, order')
     .eq('program_id', programId)
     .order('order', { ascending: true });
 
   // Load this apprentice's competency log entries
-  const { data: logEntries } = await db
+  const { data: logEntries } = await supabase
     .from('competency_log')
     .select('id, skill_id, service_count, hours_credited, status, work_date, supervisor_verified')
     .eq('apprentice_id', user.id)
