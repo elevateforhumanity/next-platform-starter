@@ -5,7 +5,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
   title: 'Application Submitted | Peer Recovery Specialist',
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export default function PeerRecoveryApplySuccessPage() {

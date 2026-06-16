@@ -5,7 +5,7 @@ import BarberApplySuccessClient from './BarberApplySuccessClient';
 export const metadata: Metadata = {
   title: 'Application Received | Barber Apprenticeship',
   description: 'Your barber apprenticeship application has been received. Check your email for next steps.',
-  robots: { index: false },
+  robots: { index: true, follow: true },
 };
 
 export default function BarberApplySuccessPage() {

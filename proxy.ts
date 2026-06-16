@@ -29,92 +29,56 @@ const WEBHOOK_PATHS = [
 ];
 
 // Role-gated routes: key = path prefix, value = allowed roles.
+// Consolidated - use wildcard /prefix/ for group routes instead of individual paths.
 const PROTECTED_ROUTES: Record<string, string[]> = {
-  '/case-manager/':            ['case_manager', 'admin', 'super_admin', 'staff'],
+  // ── Employer Portal ───────────────────────────────────────────────
+  '/employer/':               ['employer', 'sponsor', 'admin', 'super_admin'],
 
-  '/partner/dashboard':        ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/documents':        ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/reports':          ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/settings':         ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/hours':            ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/attendance':       ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/courses/':         ['partner', 'partner_admin', 'admin', 'super_admin'],
-  '/partner/programs/':        ['partner', 'partner_admin', 'admin', 'super_admin'],
+  // ── Partner Portal ───────────────────────────────────────────────
+  '/partner/':                ['partner', 'partner_admin', 'admin', 'super_admin'],
 
-  '/employer/dashboard':       ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/candidates':      ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/jobs':            ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/placements':      ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/hours':           ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/reports':         ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/settings':        ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/compliance':      ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/apprenticeships': ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/documents':       ['employer', 'sponsor', 'admin', 'super_admin'],
-  '/employer/analytics':       ['employer', 'sponsor', 'admin', 'super_admin'],
+  // ── Program Holder Portal ─────────────────────────────────────────
+  '/program-holder/':         ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
 
-  // ── Host Shop ─────────────────────────────────────────────────────
-  '/admin/host-shop/':         ['host_shop', 'admin', 'super_admin', 'staff'],
-
-  '/program-holder/dashboard': ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/programs':  ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/students':  ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/documents': ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/reports':   ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/settings':  ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/compliance':['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/grades':    ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/mou':       ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/analytics': ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/onboarding':['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  '/program-holder/verification':['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-  // ── Program holders ───────────────────────────────────────────────────────
-  '/program-holder/':          ['program_holder', 'admin', 'super_admin', 'staff', 'org_admin'],
-
-  // ── Grant clients ─────────────────────────────────────────────────────────
+  // ── LMS / Student Portal ─────────────────────────────────────────
   '/lms/':                     ['student', 'grant_client', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
+  '/learner/':                 ['student', 'delegate', 'grant_client', 'admin', 'super_admin', 'staff', 'instructor'],
 
-  // ── Sponsor (DOL apprenticeship) ──────────────────────────────────────────
-  // sponsor shares /employer/* — listed on employer routes above
-
-  '/mentor/dashboard':         ['mentor', 'admin', 'super_admin'],
-  '/mentor/sessions':          ['mentor', 'admin', 'super_admin'],
-  '/mentor/mentees':           ['mentor', 'admin', 'super_admin'],
-  '/mentor/settings':          ['mentor', 'admin', 'super_admin'],
+  // ── Mentor Portal ─────────────────────────────────────────────────
   '/mentor/':                  ['mentor', 'admin', 'super_admin'],
 
-  // ── Workforce / case management ───────────────────────────────────────────
+  // ── Workforce / Case Management ──────────────────────────────────
   '/workforce-board/':         ['workforce_board', 'admin', 'super_admin', 'staff'],
   '/case-manager/':            ['case_manager', 'admin', 'super_admin', 'staff'],
 
-  // ── Provider / creator ────────────────────────────────────────────────────
+  // ── Provider / Creator ───────────────────────────────────────────
   '/provider/':                ['provider_admin', 'admin', 'super_admin'],
   '/creator/':                 ['creator', 'admin', 'super_admin'],
 
-  // ── Instructor (LMS host redirects /instructor/* to admin in production) ───
+  // ── Instructor ────────────────────────────────────────────────────
   '/instructor/':              ['instructor', 'admin', 'super_admin', 'staff'],
 
-  // ── Learner portals ───────────────────────────────────────────────────────
-  '/learner/':                 ['student', 'delegate', 'grant_client', 'admin', 'super_admin', 'staff', 'instructor'],
-
-  // ── Field portals — all require student role (or admin/staff oversight) ───
-  '/portal/apprentice':        ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/barber':            ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/cosmetology':       ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/esthetician':       ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/nail-technician':   ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/culinary':          ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/electrical':        ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/plumbing':          ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
+  // ── Field Portals ─────────────────────────────────────────────────
+  '/portal/':                  ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
   '/apprentice/':              ['student', 'partner', 'program_holder', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/healthcare':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/technology':        ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/business':          ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/beauty':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/trades':            ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/social-services':   ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/hospitality':       ['student', 'admin', 'super_admin', 'staff', 'instructor'],
-  '/portal/jri':               ['student', 'admin', 'super_admin', 'staff', 'instructor'],
+
+  // ── Host Shop ────────────────────────────────────────────────────
+  '/admin/host-shop/':         ['host_shop', 'admin', 'super_admin', 'staff'],
+
+  // ── Orphaned routes needing protection ───────────────────────────
+  '/verify-identity':          ['student', 'admin', 'super_admin', 'staff'],
+  '/cm/':                      ['case_manager', 'admin', 'super_admin', 'staff'],
+  '/card':                     ['student', 'admin', 'super_admin', 'staff'],
+  '/career-services/':         ['student', 'admin', 'super_admin', 'staff'],
+  '/funding/confirm':          ['student', 'admin', 'super_admin', 'staff'],
+  '/ferpa/':                   ['student', 'admin', 'super_admin', 'staff'],
+  '/account/':                 ['student', 'admin', 'super_admin', 'staff'],
+  '/shop/':                    ['employer', 'admin', 'super_admin', 'staff'],
+  '/host-shop/':               ['host_shop', 'admin', 'super_admin', 'staff'],
+  '/file-manager/':            ['student', 'admin', 'super_admin', 'staff'],
+  '/parent-portal/':           ['parent', 'admin', 'super_admin', 'staff'],
+  '/billing':                  ['student', 'admin', 'super_admin', 'staff'],
+  '/license':                  ['student', 'admin', 'super_admin', 'staff'],
 };
 
 /**

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!cfg) return { robots: { index: false, follow: false } };
   return {
     title: `Application Submitted | ${cfg.title}`,
-    robots: { index: false, follow: false },
+    robots: { index: true, follow: true },
   };
 }
 

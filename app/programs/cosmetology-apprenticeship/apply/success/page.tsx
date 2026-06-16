@@ -7,7 +7,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const metadata: Metadata = {
   title: 'Application Received | Cosmetology Apprenticeship',
   description: 'Your cosmetology apprenticeship application has been received. Check your email for next steps.',
-  robots: { index: false },
+  robots: { index: true, follow: true },
 };
 
 export default function CosmetologyApplySuccessPage() {
