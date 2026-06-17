@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { requireUser } from '@/lib/auth/require-user';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
+import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,68 +13,41 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const navItems = [
-  { href: '/learner/dashboard',          label: 'Dashboard' },
-  { href: '/lms/courses',                label: 'My Programs' },
-  { href: '/lms/programs',               label: 'Programs' },
-  { href: '/lms/certificates',           label: 'Certificates' },
-  { href: '/lms/assignments',            label: 'Assignments' },
-  { href: '/lms/grades',                 label: 'Grades' },
-  { href: '/lms/calendar',               label: 'Schedule' },
-  { href: '/lms/notifications',          label: 'Notifications' },
-  { href: '/lms/support',                label: 'Support' },
-];
-
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {
-  await requireUser();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login?redirect=/learner/dashboard');
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role, full_name, first_name, last_name, avatar_url, email')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  // Get pathname for breadcrumbs
+  const { headers: headersList } = await import('next/headers');
+  const headers = await headersList();
+  const pathname = headers.get('x-pathname') || '/learner';
+  const breadcrumbs = generateBreadcrumbs(pathname);
 
   return (
-    <div className="min-h-screen bg-white">
-      <nav className="bg-white border-b border-slate-300 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
-            <div className="flex items-center gap-6">
-              <Link href="/learner/dashboard" className="text-base font-extrabold text-slate-900 shrink-0 tracking-tight">
-                Learner Portal
-              </Link>
-              <div className="hidden md:flex items-center gap-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-sm font-semibold text-slate-800 hover:text-brand-blue-700 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <Link
-              href="/learner/dashboard"
-              className="text-xs font-semibold text-slate-600 hover:text-brand-blue-600 shrink-0"
-            >
-              ← My Dashboard
-            </Link>
-          </div>
-        </div>
-
-        {/* Mobile nav — horizontally scrollable */}
-        <div className="md:hidden border-t border-slate-200 overflow-x-auto">
-          <div className="flex items-center gap-1 px-4 py-2 min-w-max">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-semibold text-slate-800 hover:text-brand-blue-700 whitespace-nowrap px-3 py-1.5 rounded-lg"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </nav>
-
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || profile?.email || '',
+        full_name: profile?.full_name || undefined,
+        first_name: profile?.first_name || undefined,
+        last_name: profile?.last_name || undefined,
+        avatar_url: profile?.avatar_url || undefined,
+      }}
+      role="student"
+      breadcrumbs={breadcrumbs}
+    >
+      <IdleTimeoutGuard />
       {children}
-    </div>
+    </PlatformShell>
   );
 }
