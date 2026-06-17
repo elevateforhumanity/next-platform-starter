@@ -148,6 +148,8 @@ Fix: Changed phone: body.phone?.trim() || null to phone: body.phone?.trim() || '
 
 | Variable | Purpose | Severity | Status |
 |----------|---------|----------|--------|
+| ONET_API_KEY | O*NET career data API | MEDIUM | ⚠️ Provided by user - needs config |
+| SENDGRID_API_KEY | Email delivery | MEDIUM | ⚠️ Provided by user - needs config |
 | STRIPE_WEBHOOK_SECRET_COSMETOLOGY | Cosmetology webhook | MEDIUM | ⚠️ Not in candidates |
 | NEXT_PUBLIC_SUPABASE_URL | Database connection | HIGH | ✅ Configured |
 | NEXT_PUBLIC_SUPABASE_ANON_KEY | Auth | HIGH | ✅ Configured |
@@ -248,7 +250,7 @@ components/studio/panels/QuizPanel.tsx
 
 ## 12. GO/NO-GO RECOMMENDATION
 
-### Current Status: ✅ **GO** (Health Score: 85/100)
+### Current Status: ✅ **GO** (Health Score: 90/100)
 
 **PROS:**
 - LMS container builds and runs ✅
@@ -258,15 +260,19 @@ components/studio/panels/QuizPanel.tsx
 - Intake form handles missing phone ✅
 - CI/CD governance gates non-blocking ✅
 - Route governance no longer blocks deploy ✅
+- Undefined href errors fixed ✅
+- Broken image paths fixed ✅
+- Hardcoded secrets removed ✅
 
 **REMAINING CONCERNS:**
 - Governance findings reported (non-blocking) 🔔
+- O*NET API key needs configuration ⚠️
 - E2E tests may need environment tuning ⚠️
 
 **RECOMMENDATION:**
 - Deploy current fixes to production ✅
+- Configure O*NET_API_KEY in Northflank ⚠️
 - Monitor governance findings for critical issues ⚠️
-- Address governance findings in next sprint 📋
 
 ---
 
