@@ -7,7 +7,7 @@ Go to Northflank dashboard → Your project → **Config** or **Environment Vari
 Add these variables:
 
 ```
-SENDGRID_API_KEY=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
+SENDGRID_API_KEY=SG.your_api_key_here
 SENDGRID_FROM_EMAIL=payments@elevatelms.com
 SENDGRID_FROM_NAME=Elevate for Humanity
 ```

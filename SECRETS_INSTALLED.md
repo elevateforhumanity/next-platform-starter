@@ -2,7 +2,7 @@
 
 ## SendGrid Email API Key
 
-**API Key:** `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`
+**API Key:** `SG.your_api_key_here`
 
 **Installed in:** Northflank environment variables as `SENDGRID_API_KEY`
 
@@ -17,7 +17,7 @@
 Add to Northflank:
 1. Go to your Northflank dashboard
 2. Find the elevate-lms service
-3. Add environment variable: `SENDGRID_API_KEY=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`
+3. Add environment variable: `SENDGRID_API_KEY=SG.your_api_key_here
 4. Redeploy
 
 ---

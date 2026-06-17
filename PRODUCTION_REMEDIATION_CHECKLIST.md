@@ -5,9 +5,6 @@
 ### ✅ Provided by Elizabeth Powell (Mrs Greene)
 | Key | Value | Status |
 |-----|-------|--------|
-| `STRIPE_SECRET_KEY` | `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` | ✅ Verified - Production |
-| `GROQ_API_KEY` | `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` | ✅ Ready to configure |
-| `SENDGRID_API_KEY` | `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` | ✅ Ready to configure |
 
 ### ⚠️ Still Needed
 | Variable | Purpose | Action |
@@ -21,9 +18,6 @@
 ### Northflank Secrets to Configure
 
 ```bash
-STRIPE_SECRET_KEY=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
-GROQ_API_KEY=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
-SENDGRID_API_KEY=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
 ```
 
 ### Stripe Dashboard Settings
@@ -91,12 +85,10 @@ SENDGRID_API_KEY=SG.WtvZmW4ERkiNlDT4FX0cHQ.5Tn2Ng6BpBCVrED4Dpf_LgYCdeY7b2UsZi6qL
 
 ### 1. Add GROQ_API_KEY to Northflank
 ```
-GROQ_API_KEY=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
 ```
 
 ### 2. Verify SENDGRID_API_KEY in Northflank
 ```
-SENDGRID_API_KEY=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
 ```
 
 ### 3. Verify STRIPE_WEBHOOK_SECRET
