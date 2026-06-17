@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
+import { PUBLIC_FORMS } from '@/lib/forms/public-forms';
 
 interface DocSlot {
   id: string;
