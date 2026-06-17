@@ -456,6 +456,91 @@ export default function ProgramDetailPage({
         </div>
       </section>
 
+      {/* TECHNOLOGY ETPL SECTIONS - Only show for tech programs */}
+      {p.technologyCareerPathways && p.technologyCareerPathways.length > 0 && (
+        <>
+          {/* Technology Career Pathways */}
+          <section className="py-12 bg-slate-50 border-y border-slate-100">
+            <div className="max-w-6xl mx-auto px-4">
+              <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Technology Career Pathways</h2>
+              <p className="text-slate-500 text-sm mb-6">
+                This program prepares you for multiple entry points into the technology industry.
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {p.technologyCareerPathways.map((career, i) => (
+                  <div key={i} className="flex items-center gap-3 bg-white rounded-lg border border-slate-200 p-3">
+                    <div className="w-8 h-8 rounded-full bg-brand-blue-100 flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="w-4 h-4 text-brand-blue-600" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-700">{career}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Additional Technology Certifications */}
+          {p.additionalCertifications && p.additionalCertifications.length > 0 && (
+            <section className="py-12">
+              <div className="max-w-6xl mx-auto px-4">
+                <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Additional Technology Certifications Supported</h2>
+                <p className="text-slate-500 text-sm mb-6">
+                  Beyond the primary credentials, this program prepares you for additional industry certifications.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {p.additionalCertifications.map((cert, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 bg-brand-blue-50 text-brand-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-blue-200">
+                      <Award className="w-3.5 h-3.5" />
+                      {cert}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Technology Skills */}
+          {p.technologySkills && p.technologySkills.length > 0 && (
+            <section className="py-12 bg-slate-900 text-white">
+              <div className="max-w-6xl mx-auto px-4">
+                <h2 className="text-2xl font-extrabold mb-2">Technology Skills You&apos;ll Learn</h2>
+                <p className="text-slate-300 text-sm mb-6">
+                  Core competencies developed throughout this program align with industry standards.
+                </p>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {p.technologySkills.map((skill, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 rounded-full bg-brand-red-500 flex-shrink-0" />
+                      <span className="text-slate-100">{skill}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* WIOA Eligible Technology Pathway */}
+          {p.etplProgramId && (
+            <section className="py-8 bg-brand-green-50 border-y-2 border-brand-green-500">
+              <div className="max-w-6xl mx-auto px-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-brand-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-extrabold text-slate-900 mb-1">WIOA Eligible Technology Pathway</h2>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      This program is approved on Indiana ETPL (Program ID {p.etplProgramId}) and may qualify for{' '}
+                      <strong>WIOA, WorkOne, Workforce Ready Grant, SNAP E&T, JRI, Vocational Rehabilitation,</strong> and approved workforce funding sources.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+        </>
+      )}
+
       {/* WHAT'S INCLUDED */}
       {((p.partnerCourses && p.partnerCourses.length > 0) ||
         (p.microCourses && p.microCourses.length > 0) ||

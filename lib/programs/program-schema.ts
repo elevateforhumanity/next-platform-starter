@@ -243,6 +243,16 @@ export interface ProgramSchema {
   badge?: string;
   badgeColor?: 'red' | 'green' | 'blue' | 'orange' | 'purple';
 
+  // ─── ETPL / Technology Program Fields ──────────────────────────
+  /** Indiana ETPL Program ID for compliance disclosure */
+  etplProgramId?: string;
+  /** Technology career pathways for ETPL-aligned programs */
+  technologyCareerPathways?: string[];
+  /** Additional certifications supported beyond primary credentials */
+  additionalCertifications?: string[];
+  /** Technology-specific skills covered in the curriculum */
+  technologySkills?: string[];
+
   // ─── Enrollment Tracks ───────────────────────────────────────────
   /** Two-track enrollment: funded (Indiana) vs self-pay (national) */
   enrollmentTracks?: {
